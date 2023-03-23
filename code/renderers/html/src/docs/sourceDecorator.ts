@@ -37,16 +37,17 @@ function applyTransformSource(source: string, context: StoryContext): string {
 }
 
 export function sourceDecorator(storyFn: PartialStoryFn<HtmlRenderer>, context: StoryContext) {
-  const story = context?.parameters.docs?.source?.excludeDecorators
+  const story = storyFn();
+  const renderedForSource = context?.parameters.docs?.source?.excludeDecorators
     ? (context.originalStoryFn as StoryFn)(context.args, context)
-    : storyFn();
+    : story;
 
   let source: string | undefined;
   if (!skipSourceRender(context)) {
-    if (typeof story === 'string') {
-      source = story;
-    } else if (story instanceof Element) {
-      source = story.outerHTML;
+    if (typeof renderedForSource === 'string') {
+      source = renderedForSource;
+    } else if (renderedForSource instanceof Element) {
+      source = renderedForSource.outerHTML;
     }
 
     if (source) {
