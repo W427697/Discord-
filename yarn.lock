@@ -7592,7 +7592,7 @@ __metadata:
     "@babel/preset-typescript": ^7.12.7
     "@babel/register": ^7.12.1
     "@storybook/node-logger": 6.5.16
-    "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
+    "@storybook/react-docgen-typescript-plugin": 1.0.6--canary.9.630821.0
     "@storybook/semver": ^7.3.2
     "@types/compression": ^1.7.0
     "@types/interpret": ^1.1.1
@@ -8314,21 +8314,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0":
-  version: 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
-  resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0"
+"@storybook/react-docgen-typescript-plugin@npm:1.0.6--canary.9.630821.0":
+  version: 1.0.6--canary.9.630821.0
+  resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.6--canary.9.630821.0"
   dependencies:
     debug: ^4.1.1
     endent: ^2.0.1
     find-cache-dir: ^3.3.1
     flat-cache: ^3.0.4
     micromatch: ^4.0.2
-    react-docgen-typescript: ^2.1.1
+    react-docgen-typescript: ^2.2.2
     tslib: ^2.0.0
   peerDependencies:
-    typescript: ">= 3.x"
+    typescript: ">= 4.x"
     webpack: ">= 4"
-  checksum: 2d3ab49e4858d5f28f36b5bd0e30f3d3450bc7d9865cd4fbe65a35085ae63feff9556a3265b594a2c84b03c66f009dc8b057802f3ca0f76b961d51536835cb8f
+  checksum: e444a6f2ef67a631ebd35f78a1637c2adbb964d5063a4a088ccf3027c65ca2430826906c70e4972049ef1603aa01ce9c38393704fc2d6de293a627cc40ddc3b2
   languageName: node
   linkType: hard
 
@@ -8346,7 +8346,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/docs-tools": 6.5.16
     "@storybook/node-logger": 6.5.16
-    "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
+    "@storybook/react-docgen-typescript-plugin": 1.0.6--canary.9.630821.0
     "@storybook/semver": ^7.3.2
     "@storybook/store": 6.5.16
     "@types/estree": ^0.0.51
@@ -37950,7 +37950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen-typescript@npm:^2.1.1":
+"react-docgen-typescript@npm:^2.2.2":
   version: 2.2.2
   resolution: "react-docgen-typescript@npm:2.2.2"
   peerDependencies:
