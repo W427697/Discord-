@@ -36,8 +36,10 @@ export const Custom = {
 export const Transform = {
   parameters: {
     docs: {
-      transformSource(src: string) {
-        return `// We transformed this!\nconst example = (\n${src}\n);`;
+      source: {
+        transform(src: string) {
+          return `// We transformed this!\nconst example = (\n${src}\n);`;
+        },
       },
     },
   },
