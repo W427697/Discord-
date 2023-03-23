@@ -1191,6 +1191,8 @@ The source block now references a single story, the component, or a CSF file its
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
 
+The parameter to transform the source has been moved from `parameters.docs.transformSource` (and `parameters.docs.source.transformSource`) to `parameters.docs.source.transform`, but it behaves the same way.
+
 ##### Canvas block
 
 The Canvas block follows the same changes as [the Story block described above](#story-block).

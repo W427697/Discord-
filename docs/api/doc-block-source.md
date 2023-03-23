@@ -102,7 +102,16 @@ Type: `boolean | 'dedent' | BuiltInParserName`
 
 Default: `parameters.docs.source.format` or `true`
 
-Specifies the formatting used on source code. Supports all valid [prettier parser names](https://prettier.io/docs/en/configuration.html#setting-the-parserdocsenoptionshtmlparser-option).
+Specifies the formatting used on source code. `true` and `dedent` both does the same thing, removing any extraonous indentation. Supports all valid [prettier parser names](https://prettier.io/docs/en/configuration.html#setting-the-parserdocsenoptionshtmlparser-option).
+
+### `transform`
+
+Type: `(code: string, story: PreparedStory) => string`
+
+Default: `parameters.docs.source.transform`
+
+A function to dynamically transform the source before being rendered, based on the original source and any story context necessary. The returned string is displayed as is.
+If both [`code`](#code) and `transform` is specified, `transform` will be ignored.
 
 ### `language`
 
