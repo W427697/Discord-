@@ -440,7 +440,7 @@ jobs:
         type: integer
         default: 2
     executor:
-      class: medium
+      class: large
       name: sb_playwright
     parallelism: << parameters.parallelism >>
     steps:
