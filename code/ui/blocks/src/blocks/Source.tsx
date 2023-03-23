@@ -28,15 +28,21 @@ type SourceParameters = SourceCodeProps & {
   type?: SourceType;
   /**
    * Transform the detected source for display
+   *
+   * @deprecated use `transform` prop instead
    */
   transformSource?: (code: string, story: PreparedStory) => string;
+  /**
+   * Transform the detected source for display
+   */
+  transform?: (code: string, story: PreparedStory) => string;
   /**
    * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
    */
   originalSource?: string;
 };
 
-export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
+export type SourceProps = SourceParameters & {
   /**
    * Pass the export defining a story to render its source
    *
@@ -86,11 +92,17 @@ const getStorySource = (
   return source || { code: '' };
 };
 
-const getSnippet = (
-  snippet: string,
-  story: PreparedStory<any>,
-  typeFromProps: SourceType
-): string => {
+const getSnippet = ({
+  snippet,
+  story,
+  typeFromProps,
+  transformFromProps,
+}: {
+  snippet: string;
+  story: PreparedStory<any>;
+  typeFromProps: SourceType;
+  transformFromProps?: SourceProps['transform'];
+}): string => {
   const { __isArgsStory: isArgsStory } = story.parameters;
   const sourceParameters = (story.parameters.docs?.source || {}) as SourceParameters;
 
@@ -109,7 +121,26 @@ const getSnippet = (
 
   const code = useSnippet ? snippet : sourceParameters.originalSource || '';
 
-  return sourceParameters.transformSource?.(code, story) || code;
+  if (sourceParameters.transformSource) {
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.source.transformSource\` is deprecated, please use the \`parameters.docs.source.transform\` instead. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
+  if (story.parameters.docs?.transformSource) {
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.transformSource\` is deprecated, please use the \`parameters.docs.source.transform\` instead. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
+
+  const transformer =
+    transformFromProps ??
+    sourceParameters.transform ??
+    sourceParameters.transformSource ?? // deprecated
+    story.parameters.docs?.transformSource; // deprecated
+
+  return transformer?.(code, story) || code;
 };
 
 // state is used by the Canvas block, which also calls useSourceProps
@@ -173,7 +204,12 @@ export const useSourceProps = (
           // Take the format from the first story
           format = source.format ?? story.parameters.docs?.source?.format ?? false;
         }
-        return getSnippet(source.code, story, props.type);
+        return getSnippet({
+          snippet: source.code,
+          story,
+          typeFromProps: props.type,
+          transformFromProps: props.transform,
+        });
       })
       .join('\n\n');
   }
@@ -206,6 +242,12 @@ export const Source: FC<SourceProps> = (props) => {
   }
   if (props.ids) {
     deprecate(dedent`The \`ids\` prop on Source is deprecated, please use the \`of\` prop instead to reference a story. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
+  if (props.transformSource) {
+    deprecate(dedent`The \`transformSource\` prop on Source is deprecated and renamed, please use the \`transform\` prop instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);

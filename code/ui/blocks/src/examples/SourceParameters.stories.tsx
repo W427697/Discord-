@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SourceType } from '@storybook/docs-tools';
 
+import type { PreparedStory } from '@storybook/types';
+
+import dedent from 'ts-dedent';
 import { EmptyExample } from './EmptyExample';
 
 const code = `query HeroNameAndFriends($episode: Episode) {
@@ -29,8 +32,49 @@ export const TypeCode: Story = {
   parameters: { docs: { source: { type: SourceType.CODE } } },
 };
 
-export const TransformSource = {
-  parameters: { docs: { source: { transformSource: () => `const transformed = "source";` } } },
+export const Transform = {
+  parameters: {
+    docs: {
+      source: {
+        transform: (
+          src: string,
+          story: PreparedStory
+        ) => dedent`// this comment has been added via parameters.docs.source.transform!
+    // this is the story id: ${story.id}
+    ${src}`,
+      },
+    },
+  },
+};
+
+// deprecated
+export const SourceTransformSource = {
+  parameters: {
+    docs: {
+      source: {
+        transformSource: (
+          src: string,
+          story: PreparedStory
+        ) => dedent`// this comment has been added via parameters.docs.source.transformSource!
+    // this is the story id: ${story.id}
+    ${src}`,
+      },
+    },
+  },
+};
+
+// deprecated
+export const DocsTransformSource = {
+  parameters: {
+    docs: {
+      transformSource: (
+        src: string,
+        story: PreparedStory
+      ) => dedent`// this comment has been added via parameters.docs.transformSource!
+  // this is the story id: ${story.id}
+  ${src}`,
+    },
+  },
 };
 
 export const Code = {
