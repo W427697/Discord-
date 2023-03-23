@@ -2,7 +2,7 @@ import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
 import { importProvidersFrom } from '@angular/core';
 import { ChipsModule } from './angular-src/chips.module';
 import { ChipsGroupComponent } from './angular-src/chips-group.component';
-import { CHIP_COLOR } from './angular-src/chip-color.token';
+import { SingletonService } from './angular-src/singleton.service';
 
 export default {
   // title: 'Basics / NgModule / forRoot() pattern',
@@ -10,7 +10,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ChipsModule],
-      singletons: [importProvidersFrom(ChipsModule.forRoot())],
     }),
   ],
   args: {
@@ -35,18 +34,16 @@ const Template = (): StoryFn => (args) => ({
   props: args,
 });
 
-export const Base = Template();
-Base.storyName = 'Chips group';
-
-export const WithCustomProvider = Template();
-WithCustomProvider.decorators = [
+export const SingletonsPattern = Template();
+SingletonsPattern.decorators = [
   moduleMetadata({
-    providers: [
-      {
-        provide: CHIP_COLOR,
-        useValue: 'yellow',
-      },
-    ],
+    singletons: [importProvidersFrom(SingletonService.forRoot())],
   }),
 ];
-WithCustomProvider.storyName = 'Chips group with overridden provider';
+
+export const ImportsPattern = Template();
+ImportsPattern.decorators = [
+  moduleMetadata({
+    imports: [SingletonService.forRoot()],
+  }),
+];

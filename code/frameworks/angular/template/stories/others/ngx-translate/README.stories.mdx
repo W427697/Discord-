@@ -24,18 +24,19 @@ function createTranslateLoader(http: HttpClient) {
 const TranslateModuleDecorator = (storyFunc, context) => {
   const { locale } = context.globals;
 
+  const translateModule = TranslateModule.forRoot({
+    defaultLanguage: locale,
+    loader: {
+      provide: TranslateLoader,
+      useFactory: createTranslateLoader,
+      deps: [HttpClient],
+    },
+  })
+
   return moduleMetadata({
-    imports: [
-      HttpClientModule,
-      TranslateModule.forRoot({
-        defaultLanguage: locale,
-        loader: {
-          provide: TranslateLoader,
-          useFactory: createTranslateLoader,
-          deps: [HttpClient],
-        },
-      }),
-    ],
+    singletons: [
+      importProvidersFrom(HttpClientModule, translateModule)
+    ]
   })(storyFunc, context);
 };
 

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   Directive,
+  importProvidersFrom,
   Injectable,
   InjectionToken,
   Input,
@@ -18,6 +19,7 @@ import {
   provideAnimations,
   provideNoopAnimations,
 } from '@angular/platform-browser/animations';
+import dedent from 'ts-dedent';
 import { NgModuleMetadata } from '../../types';
 import { isComponentAlreadyDeclared } from './NgModulesAnalyzer';
 
@@ -35,11 +37,35 @@ export class PropertyExtractor implements NgModuleMetadata {
   declarations?: any[] = [];
   imports?: any[];
   providers?: Provider[];
-  singletons?: Provider[];
+  singletons?: Array<Provider | ReturnType<typeof importProvidersFrom>>;
   /* eslint-enable @typescript-eslint/lines-between-class-members */
 
   constructor(private metadata: NgModuleMetadata, private component?: any) {
     this.init();
+  }
+
+  // ModuleWithProviders are not a valid import for Standalone components.
+  // With the new way of mounting standalone components to the DOM via bootstrapApplication API,
+  // we should now pass ModuleWithProviders to the providers array of the bootstrapApplication function.
+  static warnImportsModuleWithProviders(propertyExtractor: PropertyExtractor) {
+    const hasModuleWithProvidersImport = propertyExtractor.imports.some(
+      (importedModule) => 'ngModule' in importedModule
+    );
+
+    if (hasModuleWithProvidersImport) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        dedent(
+          `
+          Storybook Warning: 
+          moduleMetadata property 'imports' contains one or more ModuleWithProviders value, likely the result of a 'Module.forRoot()'-style call.
+          In Storybook 7.0 we use Angular's new 'bootstrapApplication' API to mount the component to the DOM. 
+          The bootstrap function accepts a list of providers that should be available in the application injector, which is where you should pass your ModuleWithProviders.
+          To pass ModuleWithProviders to the providers array of the bootstrapApplication function, please use the 'singletons' property instead of the 'imports' in moduleMetadata.
+          `
+        )
+      );
+    }
   }
 
   private init() {
@@ -78,7 +104,7 @@ export class PropertyExtractor implements NgModuleMetadata {
   private analyzeMetadata = (metadata: NgModuleMetadata) => {
     const declarations = [...(metadata?.declarations || [])];
     const providers = [...(metadata?.providers || [])];
-    const singletons: any[] = [...(metadata?.singletons || [])];
+    const singletons = [...(metadata?.singletons || [])];
     const imports = [...(metadata?.imports || [])].reduce((acc, imported) => {
       // remove ngModule and use only its providers if it is restricted
       // (e.g. BrowserModule, BrowserAnimationsModule, NoopAnimationsModule, ...etc)
@@ -96,7 +122,7 @@ export class PropertyExtractor implements NgModuleMetadata {
     return { ...metadata, imports, providers, singletons, declarations };
   };
 
-  static analyzeRestricted = (ngModule: NgModule) => {
+  static analyzeRestricted = (ngModule: NgModule): [boolean] | [boolean, Provider] => {
     /**
      * BrowserModule is restricted,
      * because bootstrapApplication API, which mounts the component to the DOM,

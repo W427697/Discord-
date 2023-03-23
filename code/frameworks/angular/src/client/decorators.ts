@@ -22,6 +22,7 @@ export const moduleMetadata =
           ...(metadata.entryComponents || []),
           ...(storyMetadata.entryComponents || []),
         ],
+        singletons: [...(metadata.singletons || []), ...(storyMetadata.singletons || [])],
         imports: [...(metadata.imports || []), ...(storyMetadata.imports || [])],
         schemas: [...(metadata.schemas || []), ...(storyMetadata.schemas || [])],
         providers: [...(metadata.providers || []), ...(storyMetadata.providers || [])],

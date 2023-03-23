@@ -2,6 +2,7 @@ import { Meta, StoryFn } from '@storybook/angular';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { within, userEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { importProvidersFrom } from '@angular/core';
 import { OpenCloseComponent } from './angular-src/open-close-component/open-close.component';
 
 export default {
@@ -12,7 +13,8 @@ export const WithNoopBrowserAnimations: StoryFn = () => ({
   template: `<app-open-close></app-open-close>`,
   moduleMetadata: {
     declarations: [OpenCloseComponent],
-    imports: [NoopAnimationsModule],
+    // TODO: Use provideNoopAnimations after we only support Angular 14.1.0+
+    singletons: [importProvidersFrom(NoopAnimationsModule)],
   },
 });
 

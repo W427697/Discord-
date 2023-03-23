@@ -40,6 +40,7 @@
   - [7.0 Framework-specific changes](#70-framework-specific-changes)
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
+    - [Angular: Use singletons pattern for application providers](#angular-use-singletons-pattern-for-application-providers)
     - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
     - [Next.js: use the `@storybook/nextjs` framework](#nextjs-use-the-storybooknextjs-framework)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
@@ -925,6 +926,45 @@ Starting in 7.0, we drop support for Angular < 14
 #### Angular: Drop support for calling Storybook directly
 
 In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+
+#### Angular: Use singletons pattern for application providers
+
+In Storybook 7.0 we use the new bootstrapApplication API to bootstrap a middleman Storybook Standalone Module to the DOM. The module is configured in a way to respect your configured imports, providers, and declarations. This means also, that there is no root ngModule anymore. Previously you were able to add ModuleWithProviders, likely the result of a 'Module.forRoot()'-style call, to your 'imports' array of the moduleMetadata definition. This is now discouraged. Instead, you should use the new 'singletons' array of the moduleMetadata definition to add your application-wide providers.
+
+For example, if you want to configure BrowserAnimationModule in your stories, please do the following:
+
+```js
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { importProvidersFrom } from '@angular/core';
+import { moduleMetadata } from '@storybook/angular';
+
+export default {
+  title: 'Example',
+  decorators: [
+    moduleMetadata({
+      singletons: [importProvidersFrom(BrowserAnimationsModule)],
+    }),
+  ],
+};
+```
+
+You can also use the `provide-style` decorator to provide an application-wide service:
+
+```js
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { moduleMetadata } from '@storybook/angular';
+
+export default {
+  title: 'Example',
+  decorators: [
+    moduleMetadata({
+      singletons: [provideAnimations()],
+    }),
+  ],
+};
+```
+
+Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information.
 
 #### Angular: Removed legacy renderer
 

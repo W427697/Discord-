@@ -7,6 +7,7 @@
   - [Setup Compodoc](#setup-compodoc)
     - [Automatic setup](#automatic-setup)
     - [Manual setup](#manual-setup)
+  - [Module Metadata helper](#module-metadata-helper)
   - [FAQ](#faq)
     - [How do I migrate to a Angular Storybook builder?](#how-do-i-migrate-to-a-angular-storybook-builder)
       - [Do you have only one Angular project in your workspace?](#do-you-have-only-one-angular-project-in-your-workspace)
@@ -163,6 +164,54 @@ const preview: Preview = {
 };
 
 export default preview;
+```
+
+## Module Metadata helper
+
+If your component has dependencies on other Angular directives and modules, these can be supplied using the moduleMetadata property on an individual story:
+
+```js
+import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
+import { importProvidersFrom } from '@angular/core';
+import { ChipsModule } from './angular-src/chips.module';
+import { ChipsGroupComponent } from './angular-src/chips-group.component';
+import { CHIP_COLOR } from './angular-src/chip-color.token';
+
+export default {
+  component: ChipsGroupComponent,
+  decorators: [
+    // Apply metadata to all stories
+    moduleMetadata({
+      // import necessary ngModules or standalone components
+      imports: [...],
+      // declare components that are used in the template
+      declarations: [...],
+      // provide services that are used in the template
+      providers: [...],
+      // provide application-wide services like BrowserAnimationModule with the `importProvidersFrom` helper function from `@angular/core` or provider-style functions,
+      // which are passed to the `providers` array of the bootstrapApplication function call, which is used to bootstrap the Angular application to the DOM
+      // Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information
+      singletons: [...],
+    }),
+  ],
+} as Meta;
+
+const Template = (): StoryFn => (args) => ({
+  props: args,
+});
+
+export const Base = Template();
+
+export const WithCustomProvider = Template();
+WithCustomProvider.decorators = [
+  // Apply metadata to a specific story
+  moduleMetadata({
+    imports: [...],
+    declarations: [...],
+    providers: [...],
+    singletons: [...],
+  }),
+];
 ```
 
 ## FAQ

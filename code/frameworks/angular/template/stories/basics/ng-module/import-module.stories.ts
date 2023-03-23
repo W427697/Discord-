@@ -1,6 +1,7 @@
 import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
 import { ChipsModule } from './angular-src/chips.module';
 import { ChipsGroupComponent } from './angular-src/chips-group.component';
+import { CHIP_COLOR } from './angular-src/chip-color.token';
 
 export default {
   // title: 'Basics / NgModule / Module with multiple component',
@@ -8,6 +9,12 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ChipsModule],
+      providers: [
+        {
+          provide: CHIP_COLOR,
+          useValue: '#eeeeee',
+        },
+      ],
     }),
   ],
 } as Meta;
