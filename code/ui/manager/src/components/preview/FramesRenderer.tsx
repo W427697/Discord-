@@ -65,6 +65,10 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
   });
   const active = getActive(refId, refs);
 
+  const autoInjectedRefs = Object.values(refs).filter((ref) => {
+    return ref.type === 'auto-inject';
+  }, {});
+
   const selectedRef = refs[refId];
   const [frames, setFrames] = useState<Record<string, string>>({
     'storybook-preview-iframe': getStoryHref(baseUrl, storyId, {
@@ -77,6 +81,12 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
           [`storybook-ref-${selectedRef.id}`]: `${selectedRef.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${selectedRef.id}${stringifiedQueryParams}`,
         }
       : {}),
+    ...autoInjectedRefs.reduce((acc, ref) => {
+      return {
+        ...acc,
+        [`storybook-ref-${ref.id}`]: `${ref.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${ref.id}${stringifiedQueryParams}`,
+      };
+    }, {}),
   });
 
   const refExists = !!frames[`storybook-ref-${selectedRef?.id}`];
