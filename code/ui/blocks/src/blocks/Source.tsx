@@ -253,12 +253,6 @@ export const Source: FC<SourceProps> = (props) => {
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);
   }
-  if (props.transformSource) {
-    deprecate(dedent`The \`transformSource\` prop on Source is deprecated and renamed, please use the \`transform\` prop instead. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
-  `);
-  }
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
   const { state, ...sourceProps } = useSourceProps(props, docsContext, sourceContext);
