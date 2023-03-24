@@ -358,7 +358,7 @@ export interface StorybookConfig {
   /**
    * Modify or return env config.
    */
-  env?: (envs: Record<string, string>) => Record<string, string>;
+  env?: PresetValue<Record<string, string>>;
   /**
    * Modify or return babel config.
    */
