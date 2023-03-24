@@ -1,3 +1,44 @@
+## 7.0.0-rc.7 (March 23, 2023)
+
+#### Bug Fixes
+
+-   Svelte: Remount when resetting args in controls [#21659](https://github.com/storybooks/storybook/pull/21659)
+-   CLI: Fix support for env vars when running `dev`/`build` commands [#21152](https://github.com/storybooks/storybook/pull/21152)
+
+#### Maintenance
+
+-   Core: upgrade esbuild, remove watch option from options [#21727](https://github.com/storybooks/storybook/pull/21727)
+
+## 7.0.0-rc.6 (March 23, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix sb add / mdx-gfm for addons with non-serializable values [#21731](https://github.com/storybooks/storybook/pull/21731)
+-   CSF-plugin: Fix sourcemaps [#21704](https://github.com/storybooks/storybook/pull/21704)
+-   React: Fix TS docgen for Functional Components [#21693](https://github.com/storybooks/storybook/pull/21693)
+-   TypeScript: Add previewMainTemplate option to StorybookConfig [#21620](https://github.com/storybooks/storybook/pull/21620)
+-   UI: Fix titles for addons/controls/panel tabs to support render fns and JSX elements [#21650](https://github.com/storybooks/storybook/pull/21650)
+-   UI: Fix active state for menu iconbutton [#21666](https://github.com/storybooks/storybook/pull/21666)
+-   CLI: Update renderer templates to provide correct typescript examples [#21647](https://github.com/storybooks/storybook/pull/21647)
+-   Composition: Fix various CORS issues [#21682](https://github.com/storybooks/storybook/pull/21682)
+-   Composition: Fix version switcher [#21621](https://github.com/storybooks/storybook/pull/21621)
+
+#### Dependency Upgrades
+
+-   Pin rollup version to 3.19.1 [#21723](https://github.com/storybooks/storybook/pull/21723)
+
+## 7.0.0-rc.5 (March 20, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix IconButton to be in active state when corresponding menu is open [#21622](https://github.com/storybooks/storybook/pull/21622)
+-   Angular:  Fix `sb init` library support [#21675](https://github.com/storybooks/storybook/pull/21675)
+-   CLI: Fix Vue3 template CSS [#21674](https://github.com/storybooks/storybook/pull/21674)
+-   Core: fix storySort not reading from `.mjs` & `.cjs` files [#21637](https://github.com/storybooks/storybook/pull/21637)
+-   Core: Fix cts/mts file extensions for config files [#21465](https://github.com/storybooks/storybook/pull/21465)
+-   Core: Fix conflicting staticDirs case when -s flag is used [#21591](https://github.com/storybooks/storybook/pull/21591)
+-   Angular: Fix source preview for angular stories [#21609](https://github.com/storybooks/storybook/pull/21609)
+
 ## 7.0.0-rc.4 (March 17, 2023)
 
 #### Features

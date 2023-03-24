@@ -168,7 +168,6 @@ export interface BuilderOptions {
   cache?: FileSystemCache;
   configDir: string;
   docsMode?: boolean;
-  env?: (envs: Record<string, string>) => Record<string, string>;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;
@@ -358,6 +357,11 @@ export interface StorybookConfig {
   ) => TransformOptions | Promise<TransformOptions>;
 
   /**
+   * Modify or return env config.
+   */
+  env?: PresetValue<Record<string, string>>;
+
+  /**
    * Modify or return babel config.
    */
   babelDefault?: (
@@ -395,6 +399,15 @@ export interface StorybookConfig {
   previewHead?: PresetValue<string>;
 
   previewBody?: PresetValue<string>;
+
+  /**
+   * Programatically override the preview's main page template.
+   * This should return a reference to a file containing an `.ejs` template
+   * that will be interpolated with environment variables.
+   *
+   * @example '.storybook/index.ejs'
+   */
+  previewMainTemplate?: string;
 }
 
 export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);
