@@ -87,7 +87,7 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
     'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
     'solid/storybook-preview-with-styled-components-decorator.js.mdx',
-    'solid/storybook-preview-with-styled-components-decorator.story-function.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 
