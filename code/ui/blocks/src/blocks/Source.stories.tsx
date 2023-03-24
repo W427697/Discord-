@@ -85,8 +85,9 @@ export const OfTypeParameter: Story = {
 export const OfTransformProp: Story = {
   args: {
     of: ParametersStories.NoParameters,
-    transform: (src, story) => dedent`// this comment has been added via the transform prop!
-    // this is the story id: ${story.id}
+    transform: (src, storyContext) => dedent`// this comment has been added via the transform prop!
+    // this is the story id: ${storyContext.id}
+    // these are the current args: ${JSON.stringify(storyContext.args)}
     ${src}`,
   },
 };

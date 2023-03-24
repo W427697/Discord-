@@ -1,6 +1,12 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useContext } from 'react';
-import type { StoryId, PreparedStory, ModuleExport, Args } from '@storybook/types';
+import type {
+  StoryId,
+  PreparedStory,
+  ModuleExport,
+  Args,
+  StoryContextForLoaders,
+} from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
 import { deprecate } from '@storybook/client-logger';
@@ -31,11 +37,11 @@ type SourceParameters = SourceCodeProps & {
    *
    * @deprecated use `transform` prop instead
    */
-  transformSource?: (code: string, story: PreparedStory) => string;
+  transformSource?: (code: string, storyContext: StoryContextForLoaders) => string;
   /**
    * Transform the detected source for display
    */
-  transform?: (code: string, story: PreparedStory) => string;
+  transform?: (code: string, storyContext: StoryContextForLoaders) => string;
   /**
    * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
    */
@@ -94,17 +100,17 @@ const getStorySource = (
 
 const getSnippet = ({
   snippet,
-  story,
+  storyContext,
   typeFromProps,
   transformFromProps,
 }: {
   snippet: string;
-  story: PreparedStory<any>;
+  storyContext: StoryContextForLoaders;
   typeFromProps: SourceType;
   transformFromProps?: SourceProps['transform'];
 }): string => {
-  const { __isArgsStory: isArgsStory } = story.parameters;
-  const sourceParameters = (story.parameters.docs?.source || {}) as SourceParameters;
+  const { __isArgsStory: isArgsStory } = storyContext.parameters;
+  const sourceParameters = (storyContext.parameters.docs?.source || {}) as SourceParameters;
 
   const type = typeFromProps || sourceParameters.type || SourceType.AUTO;
 
@@ -127,13 +133,13 @@ const getSnippet = ({
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);
   }
-  if (story.parameters.docs?.transformSource) {
+  if (storyContext.parameters.docs?.transformSource) {
     deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);
   }
-  if (story.parameters.jsx?.transformSource) {
+  if (storyContext.parameters.jsx?.transformSource) {
     deprecate(dedent`The \`transformSource\` parameter at \`parameters.jsx.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
@@ -144,10 +150,10 @@ const getSnippet = ({
     transformFromProps ??
     sourceParameters.transform ??
     sourceParameters.transformSource ?? // deprecated
-    story.parameters.docs?.transformSource ?? // deprecated
-    story.parameters.jsx?.transformSource; // deprecated - used to be implemented in the React renderer's jsxDecorator
+    storyContext.parameters.docs?.transformSource ?? // deprecated
+    storyContext.parameters.jsx?.transformSource; // deprecated - used to be implemented in the React renderer's jsxDecorator
 
-  return transformer?.(code, story) || code;
+  return transformer?.(code, storyContext) || code;
 };
 
 // state is used by the Canvas block, which also calls useSourceProps
@@ -200,11 +206,10 @@ export const useSourceProps = (
 
         // NOTE: args *does* have to be defined here due to the null check on story above
         const [args] = argsFromStories[index] || [];
+        const storyContext = docsContext.getStoryContext(story);
 
         // eslint-disable-next-line no-underscore-dangle
-        const argsForSource = props.__forceInitialArgs
-          ? docsContext.getStoryContext(story).initialArgs
-          : args;
+        const argsForSource = props.__forceInitialArgs ? storyContext.initialArgs : args;
 
         const source = getStorySource(story.id, argsForSource, sourceContext);
         if (index === 0) {
@@ -213,7 +218,7 @@ export const useSourceProps = (
         }
         return getSnippet({
           snippet: source.code,
-          story,
+          storyContext: { ...storyContext, args: argsForSource },
           typeFromProps: props.type,
           transformFromProps: props.transform,
         });
