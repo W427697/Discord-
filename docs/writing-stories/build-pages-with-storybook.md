@@ -386,9 +386,10 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
 
 <CodeSnippets
   paths={[
-    'react/mock-context-container-global.js.mdx',
-    'solid/mock-context-container-global.js.mdx',
+    'react/mock-context-container-global.js.mdx',    
     'react/mock-context-container-global.ts.mdx',
+    'solid/mock-context-container-global.js.mdx',
+    'solid/mock-context-container-global.ts.mdx',
   ]}
 />
 

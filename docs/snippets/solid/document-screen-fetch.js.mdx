@@ -1,7 +1,7 @@
 ```js
 // YourPage.js|jsx|ts|tsx
 
-import { createSignal } from 'solid-js';
+import { createSignal, Match, Switch } from 'solid-js';
 
 import { PageLayout } from './PageLayout';
 import { DocumentHeader } from './DocumentHeader';
@@ -35,8 +35,7 @@ function useFetchData() {
   };
 }
 export function DocumentScreen() {
-  const { status, data } = useFetchData();
-  const { user, document, subdocuments } = data();
+  const { status, data } = useFetchData()
 
   return (
     <Switch>
@@ -47,9 +46,9 @@ export function DocumentScreen() {
         <p>There was an error fetching the data!</p>
       </Match>
       <Match when={user} keyed>
-        <PageLayout user={user}>
-          <DocumentHeader document={document} />
-          <DocumentList documents={subdocuments} />
+        <PageLayout user={data().user}>
+          <DocumentHeader document={data().document} />
+          <DocumentList documents={data().subdocuments} />
         </PageLayout>
       </Match>
     </Switch>
