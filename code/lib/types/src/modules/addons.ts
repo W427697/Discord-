@@ -271,8 +271,6 @@ export interface Addon_BaseMeta<ComponentType> {
    * }
    *
    * By defining them each component will have its tab in the args table.
-   *
-   * @deprecated
    */
   subcomponents?: Record<string, ComponentType>;
 }
@@ -297,8 +295,14 @@ export interface Addon_RenderOptions {
   key?: string;
 }
 
+export type ReactJSXElement = {
+  type: any;
+  props: any;
+  key: any;
+};
+
 export interface Addon_Type {
-  title: (() => string) | string;
+  title: (() => string) | string | ReactJSXElement;
   type?: Addon_Types;
   id?: string;
   route?: (routeOptions: RouterData) => string;
