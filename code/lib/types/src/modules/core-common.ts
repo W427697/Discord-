@@ -355,10 +355,12 @@ export interface StorybookConfig {
     config: TransformOptions,
     options: Options
   ) => TransformOptions | Promise<TransformOptions>;
+
   /**
    * Modify or return env config.
    */
   env?: PresetValue<Record<string, string>>;
+
   /**
    * Modify or return babel config.
    */
