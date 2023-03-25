@@ -24,13 +24,13 @@ git checkout -b code-snippets-for-framework
 
 Before adding your snippets, open the `docs` folder with your editor of choice. Get familiarized with the documentation, including how the snippets are organized and their contents.
 
-Then change your current directory path to the docs folder. Synchronize the documentation file changes with the Storybook website by running the script `sync.js`.
+Then inside the root folder of the Storybook monorepo, run the following command:
 
 ```shell
-cd docs && node sync.js
+yarn task
 ```
 
-It will prompt to type the absolute path of your `frontpage` project folder, like this `/absolute/path/to/frontpage`.
+Select the option `Synchronize documentation (sync-docs)` and type the path of your `frontpage` project folder. Now every file change inside the monorepo `docs` folder will be reflected in the frontpage repo at `src/content/docs`.
 
 ### Add your first snippet
 
@@ -112,6 +112,10 @@ Next, you'll need a way to extract the monorepo docs to the website. Execute the
 ```shell
 yarn extract-monorepo-docs $branch
 ```
+
+<div class="aside">
+💡 We recommend extracting documentation from the website before adding code snippets. If you've already added multiple snippets, simply copy the <code>docs</code> folder from the Storybook monorepo and paste it into the frontpage repo at <code>src/content</code> (if the <code>docs</code> folder exists, replace it) to keep your most recent changes.
+</div>
 
 And run the Storybook website with the following command:
 
