@@ -9,7 +9,7 @@
   
 </p>
 
-<p align="center">Build bulletproof UI components faster</p>
+<p align="center">Build bulletproof UI components faster and Test them!</p>
 
 <br/>
 
