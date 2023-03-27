@@ -208,8 +208,6 @@ describe('csf-2-to-3', () => {
       ).toMatchInlineSnapshot(`
         export default { title: 'Cat', component: Cat };
 
-        const Template = (args) => <Cat {...args} />;
-
         export const A = {
           args: { isPrimary: false },
         };

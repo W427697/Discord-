@@ -88,6 +88,28 @@ const isReactGlobalRenderFn = (csf: CsfFile, storyFn: t.Expression) => {
 const isSimpleCSFStory = (init: t.Expression, annotations: t.ObjectProperty[]) =>
   annotations.length === 0 && t.isArrowFunctionExpression(init) && init.params.length === 0;
 
+function removeUnusedTemplates(csf: CsfFile) {
+  Object.entries(csf._templates).forEach(([template, templateExpression]) => {
+    const references: NodePath[] = [];
+    babel.traverse(csf._ast, {
+      Identifier: (path) => {
+        if (path.node.name === template) references.push(path);
+      },
+    });
+    // if there is only one reference and this reference is the variable declaration initializing the template
+    // then we are sure the template is unused
+    if (references.length === 1) {
+      const reference = references[0];
+      if (
+        reference.parentPath.isVariableDeclarator() &&
+        reference.parentPath.node.init === templateExpression
+      ) {
+        reference.parentPath.remove();
+      }
+    }
+  });
+}
+
 export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
   const makeTitle = (userTitle?: string) => {
     return userTitle || 'FIXME';
@@ -179,6 +201,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
   }, []);
 
   upgradeDeprecatedTypes(file);
+  removeUnusedTemplates(csf);
 
   let output = recast.print(csf._ast, {}).code;
 
