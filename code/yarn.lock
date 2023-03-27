@@ -5688,7 +5688,7 @@ __metadata:
     find-cache-dir: ^3.0.0
     fs-extra: ^11.1.0
     process: ^0.11.10
-    slash: ^3.0.0
+    slash: ^5.0.0
     typescript: ~4.9.3
     util: ^0.12.4
   languageName: unknown
@@ -5719,7 +5719,7 @@ __metadata:
     glob-promise: ^6.0.2
     magic-string: ^0.27.0
     rollup: 3.19.1
-    slash: ^3.0.0
+    slash: ^5.0.0
     typescript: ~4.9.3
     vite: ^4.0.4
   peerDependencies:
@@ -5784,7 +5784,7 @@ __metadata:
     pretty-hrtime: ^1.0.3
     process: ^0.11.10
     semver: ^7.3.7
-    slash: ^3.0.0
+    slash: ^5.0.0
     style-loader: ^3.3.1
     terser-webpack-plugin: ^5.3.1
     ts-dedent: ^2.0.0
@@ -6041,7 +6041,7 @@ __metadata:
     pkg-dir: ^5.0.0
     pretty-hrtime: ^1.0.3
     resolve-from: ^5.0.0
-    slash: ^3.0.0
+    slash: ^5.0.0
     ts-dedent: ^2.0.0
     type-fest: ^2.19.0
     typescript: ~4.9.3
@@ -6110,7 +6110,7 @@ __metadata:
     read-pkg-up: ^7.0.1
     semver: ^7.3.7
     serve-favicon: ^2.5.0
-    slash: ^3.0.0
+    slash: ^5.0.0
     telejson: ^7.0.3
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
@@ -6826,7 +6826,7 @@ __metadata:
     memoizerific: ^1.11.3
     qs: ^6.10.0
     react: ^16.14.0
-    slash: ^3.0.0
+    slash: ^5.0.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
