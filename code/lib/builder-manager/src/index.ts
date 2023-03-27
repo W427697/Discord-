@@ -48,6 +48,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     write: false,
+    ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
     outExtension: { '.js': '.mjs' },
     loader: {
@@ -146,7 +147,6 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   compilation = await instance({
     ...config,
-    watch: true,
   });
 
   yield;
@@ -222,11 +222,11 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
   const coreDirTarget = join(options.outputDir, `sb-manager`);
 
+  // TODO: this doesn't watch, we should change this to use the esbuild watch API: https://esbuild.github.io/api/#watch
   compilation = await instance({
     ...config,
 
     minify: true,
-    watch: false,
   });
 
   yield;
@@ -278,15 +278,6 @@ export const bail: ManagerBuilder['bail'] = async () => {
       await asyncIterator.throw(new Error());
     } catch (e) {
       //
-    }
-  }
-
-  if (compilation && compilation.stop) {
-    try {
-      compilation.stop();
-      logger.warn('Force closed manager build');
-    } catch (err) {
-      logger.warn('Unable to close manager build!');
     }
   }
 };
