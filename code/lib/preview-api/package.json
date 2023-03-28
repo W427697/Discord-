@@ -79,7 +79,6 @@
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
-    "slash": "^3.0.0",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
@@ -88,7 +87,8 @@
     "@jest/globals": "^26.6.2",
     "@storybook/core-common": "7.0.0-rc.8",
     "ansi-to-html": "^0.6.11",
-    "react": "^16.14.0"
+    "react": "^16.14.0",
+    "slash": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
