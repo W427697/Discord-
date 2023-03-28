@@ -408,7 +408,7 @@ describe('csf-2-to-3', () => {
       `);
     });
 
-    it('should keep Story type when used', () => {
+    it('migrate Story type to StoryFn when used in an not exported Template function', () => {
       expect(
         tsTransform(dedent`
           import { Story, Meta } from '@storybook/react'
