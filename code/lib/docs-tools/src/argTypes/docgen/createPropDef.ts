@@ -96,7 +96,6 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult: JsDocParsingResu
         name: x.getPrettyName(),
         description: x.description,
       })),
-      returns: extractedTags.returns,
     };
 
     if (Object.values(value).filter(Boolean).length > 0) {
