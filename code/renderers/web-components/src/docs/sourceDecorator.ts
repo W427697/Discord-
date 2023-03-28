@@ -23,15 +23,6 @@ function skipSourceRender(context: StoryContext<WebComponentsRenderer>) {
   return !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE;
 }
 
-function applyTransformSource(
-  source: string,
-  context: StoryContext<WebComponentsRenderer>
-): string {
-  const { transformSource } = context.parameters.docs ?? {};
-  if (typeof transformSource !== 'function') return source;
-  return transformSource(source, context);
-}
-
 export function sourceDecorator(
   storyFn: PartialStoryFn<WebComponentsRenderer>,
   context: StoryContext<WebComponentsRenderer>
@@ -50,10 +41,7 @@ export function sourceDecorator(
   if (!skipSourceRender(context)) {
     const container = window.document.createElement('div');
     render(renderedForSource, container);
-    source = applyTransformSource(
-      container.innerHTML.replace(LIT_EXPRESSION_COMMENTS, ''),
-      context
-    );
+    source = container.innerHTML.replace(LIT_EXPRESSION_COMMENTS, '');
   }
 
   return story;

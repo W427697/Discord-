@@ -3,7 +3,6 @@
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/preview-api';
 import type { PartialStoryFn } from '@storybook/types';
-import { dedent } from 'ts-dedent';
 
 import type { HtmlRenderer, StoryContext } from '../types';
 
@@ -23,19 +22,6 @@ function skipSourceRender(context: StoryContext) {
   return !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE;
 }
 
-// By default, just remove indentation
-function defaultTransformSource(source: string) {
-  // Have to wrap dedent so it doesn't serialize the context
-  return dedent(source);
-}
-
-function applyTransformSource(source: string, context: StoryContext): string {
-  const docs = context.parameters.docs ?? {};
-  const transformSource = docs.transformSource ?? defaultTransformSource;
-  // @ts-expect-error (Converted from ts-ignore)
-  return transformSource(source, context);
-}
-
 export function sourceDecorator(storyFn: PartialStoryFn<HtmlRenderer>, context: StoryContext) {
   const story = storyFn();
   const renderedForSource = context?.parameters.docs?.source?.excludeDecorators
@@ -48,10 +34,6 @@ export function sourceDecorator(storyFn: PartialStoryFn<HtmlRenderer>, context: 
       source = renderedForSource;
     } else if (renderedForSource instanceof Element) {
       source = renderedForSource.outerHTML;
-    }
-
-    if (source) {
-      source = applyTransformSource(source, context);
     }
   }
   useEffect(() => {
