@@ -1,3 +1,93 @@
+## 7.0.0-rc.8 (March 25, 2023)
+
+#### Bug Fixes
+
+-   TypeScript: Fix missing env in StorybookConfig [#21732](https://github.com/storybooks/storybook/pull/21732)
+-   Composition: Fix src of iframe unless the version changes [#21713](https://github.com/storybooks/storybook/pull/21713)
+-   Composition: Fix the ref loading state showing up as empty instead [#21690](https://github.com/storybooks/storybook/pull/21690)
+
+#### Build
+
+-   Build: Add e2e-tests-dev task [#21546](https://github.com/storybooks/storybook/pull/21546)
+-   Build: Fix CI after github.com SSH change [#21764](https://github.com/storybooks/storybook/pull/21764)
+
+## 7.0.0-rc.7 (March 23, 2023)
+
+#### Bug Fixes
+
+-   Svelte: Remount when resetting args in controls [#21659](https://github.com/storybooks/storybook/pull/21659)
+-   CLI: Fix support for env vars when running `dev`/`build` commands [#21152](https://github.com/storybooks/storybook/pull/21152)
+
+#### Maintenance
+
+-   Core: upgrade esbuild, remove watch option from options [#21727](https://github.com/storybooks/storybook/pull/21727)
+
+## 7.0.0-rc.6 (March 23, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix sb add / mdx-gfm for addons with non-serializable values [#21731](https://github.com/storybooks/storybook/pull/21731)
+-   CSF-plugin: Fix sourcemaps [#21704](https://github.com/storybooks/storybook/pull/21704)
+-   React: Fix TS docgen for Functional Components [#21693](https://github.com/storybooks/storybook/pull/21693)
+-   TypeScript: Add previewMainTemplate option to StorybookConfig [#21620](https://github.com/storybooks/storybook/pull/21620)
+-   UI: Fix titles for addons/controls/panel tabs to support render fns and JSX elements [#21650](https://github.com/storybooks/storybook/pull/21650)
+-   UI: Fix active state for menu iconbutton [#21666](https://github.com/storybooks/storybook/pull/21666)
+-   CLI: Update renderer templates to provide correct typescript examples [#21647](https://github.com/storybooks/storybook/pull/21647)
+-   Composition: Fix various CORS issues [#21682](https://github.com/storybooks/storybook/pull/21682)
+-   Composition: Fix version switcher [#21621](https://github.com/storybooks/storybook/pull/21621)
+
+#### Dependency Upgrades
+
+-   Pin rollup version to 3.19.1 [#21723](https://github.com/storybooks/storybook/pull/21723)
+
+## 7.0.0-rc.5 (March 20, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix IconButton to be in active state when corresponding menu is open [#21622](https://github.com/storybooks/storybook/pull/21622)
+-   Angular:  Fix `sb init` library support [#21675](https://github.com/storybooks/storybook/pull/21675)
+-   CLI: Fix Vue3 template CSS [#21674](https://github.com/storybooks/storybook/pull/21674)
+-   Core: fix storySort not reading from `.mjs` & `.cjs` files [#21637](https://github.com/storybooks/storybook/pull/21637)
+-   Core: Fix cts/mts file extensions for config files [#21465](https://github.com/storybooks/storybook/pull/21465)
+-   Core: Fix conflicting staticDirs case when -s flag is used [#21591](https://github.com/storybooks/storybook/pull/21591)
+-   Angular: Fix source preview for angular stories [#21609](https://github.com/storybooks/storybook/pull/21609)
+
+## 7.0.0-rc.4 (March 17, 2023)
+
+#### Features
+
+-   Angular: Add "assets" build option [#21116](https://github.com/storybooks/storybook/pull/21116)
+
+#### Bug Fixes
+
+-   React: Fix missing framework options in shim [#21644](https://github.com/storybooks/storybook/pull/21644)
+-   Docs: Update MDX `Link` component to be more user friendly [#21570](https://github.com/storybooks/storybook/pull/21570)
+-   Links: Update LinkTo component [#21569](https://github.com/storybooks/storybook/pull/21569)
+-   Vite: Allow vue files in importfn [#21550](https://github.com/storybooks/storybook/pull/21550)
+-   Controls: Fix glitchy range control [#21459](https://github.com/storybooks/storybook/pull/21459)
+-   CLI: Fix styling regression on CLI starter Introduction.mdx file [#21466](https://github.com/storybooks/storybook/pull/21466)
+-   Addon-docs: Fix csf-plugin for Angular [#21629](https://github.com/storybooks/storybook/pull/21629)
+-   Vite: Fix alias array converted incorrectly to an object [#21480](https://github.com/storybooks/storybook/pull/21480)
+-   UI: Default white preview background [#21593](https://github.com/storybooks/storybook/pull/21593)
+-   Vite: Fix dev and yarn pnp by adding lodash files to optimizeDeps.include [#21535](https://github.com/storybooks/storybook/pull/21535)
+-   Composition: Fix blank page when ref is missing but specified in url [#21598](https://github.com/storybooks/storybook/pull/21598)
+-   Core: Disable cache in dev-mode [#21574](https://github.com/storybooks/storybook/pull/21574)
+-   Vite: Fix react-vite and projects with absolute path preview entries on Windows [#21545](https://github.com/storybooks/storybook/pull/21545)
+-   UI: Change the way of preloading fonts [#21599](https://github.com/storybooks/storybook/pull/21599)
+-   Core: Add preload and prefetch links for runtime.mjs and related files [#21594](https://github.com/storybooks/storybook/pull/21594)
+-   React: Fix type inconsistencies in composeStories [#21575](https://github.com/storybooks/storybook/pull/21575)
+-   UI: Fix WithTooltip to use visible prop instead of defaultVisible [#21589](https://github.com/storybooks/storybook/pull/21589)
+
+#### Maintenance
+
+-   Blocks: Iprove error messages [#21615](https://github.com/storybooks/storybook/pull/21615)
+
+#### Build
+
+-   Build: Regen lockfiles [#21576](https://github.com/storybooks/storybook/pull/21576)
+-   Build: Fix coverage job in CircleCI [#21633](https://github.com/storybooks/storybook/pull/21633)
+-   Vite: Update sandbox template for vue2 script [#20750](https://github.com/storybooks/storybook/pull/20750)
+
 ## 7.0.0-rc.3 (March 14, 2023)
 
 #### Bug Fixes
