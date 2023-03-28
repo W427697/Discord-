@@ -7,7 +7,7 @@ import fs from 'fs';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
-import type { InstallationMetadata } from './parsePackageInfo';
+import type { InstallationMetadata } from './types';
 
 const logger = console;
 
