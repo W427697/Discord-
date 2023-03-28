@@ -7,17 +7,20 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { join } from 'path';
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
-import semver from 'semver';
 import {
-  JsPackageManagerFactory,
-  useNpmWarning,
-  type PackageManagerName,
-} from '../js-package-manager';
+  frameworkPackages,
+  getStorybookInfo,
+  loadMainConfig,
+  rendererPackages,
+} from '@storybook/core-common';
+import semver from 'semver';
+import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
+import type { PackageManagerName } from '../js-package-manager';
 
 import type { Fix } from './fixes';
 import { allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
+import type { InstallationMetadata } from '../js-package-manager/parsePackageInfo';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -300,8 +303,15 @@ export const automigrate = async ({
     await remove(TEMP_LOG_FILE_PATH);
   }
 
+  const installationMetadata = await packageManager.findInstallations([
+    '@storybook/*',
+    'storybook',
+  ]);
+
   logger.info();
-  logger.info(getMigrationSummary(fixResults, fixSummary, LOG_FILE_PATH));
+  logger.info(
+    getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
+  );
   logger.info();
 
   cleanup();
@@ -309,11 +319,17 @@ export const automigrate = async ({
   return fixResults;
 };
 
-function getMigrationSummary(
-  fixResults: Record<string, FixStatus>,
-  fixSummary: FixSummary,
-  logFile?: string
-) {
+function getMigrationSummary({
+  fixResults,
+  fixSummary,
+  logFile,
+  installationMetadata: repoMetadata,
+}: {
+  fixResults: Record<string, FixStatus>;
+  fixSummary: FixSummary;
+  installationMetadata: InstallationMetadata;
+  logFile?: string;
+}) {
   const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
   const hasFailures = Object.values(fixResults).some(
     (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
@@ -366,10 +382,12 @@ function getMigrationSummary(
     `
       : '';
 
-  const divider = hasNoFixes ? '' : '\n─────────────────────────────────────────────────\n\n';
+  const divider = '\n─────────────────────────────────────────────────\n\n';
 
-  const summaryMessage = dedent`
-    ${successfulFixesMessage}${manualFixesMessage}${failedFixesMessage}${skippedFixesMessage}${divider}If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
+  let summaryMessage = dedent`
+    ${successfulFixesMessage}${manualFixesMessage}${failedFixesMessage}${skippedFixesMessage}${
+    hasNoFixes ? '' : divider
+  }If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
     'npx storybook@next automigrate'
   )}'
     
@@ -381,10 +399,103 @@ function getMigrationSummary(
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `;
 
+  // these packages are aliased by Storybook, so it doesn't matter if they're duplicated
+  const allowList = [
+    '@storybook/csf',
+    // see this file for more info: code/lib/preview/src/globals/types.ts
+    '@storybook/addons',
+    '@storybook/channel-postmessage',
+    '@storybook/channel-websocket',
+    '@storybook/channels',
+    '@storybook/client-api',
+    '@storybook/client-logger',
+    '@storybook/core-client',
+    '@storybook/core-events',
+    '@storybook/preview-web',
+    '@storybook/preview-api',
+    '@storybook/store',
+
+    // see this file for more info: code/ui/manager/src/globals/types.ts
+    '@storybook/components',
+    '@storybook/router',
+    '@storybook/theming',
+    '@storybook/api',
+    '@storybook/manager-api',
+  ];
+
+  const disallowList = [
+    Object.keys(rendererPackages),
+    Object.keys(frameworkPackages),
+    '@storybook/instrumenter',
+  ];
+
+  if (
+    repoMetadata?.duplicatedDependencies &&
+    Object.keys(repoMetadata.duplicatedDependencies).length > 0
+  ) {
+    let majorVersionClashMessage = '';
+    const duplicatedDependenciesMessage = Object.entries(
+      repoMetadata.duplicatedDependencies
+    ).reduce((acc, [dep, versions]) => {
+      if (allowList.includes(dep)) {
+        return acc;
+      }
+
+      const hasMultipleMajorVersions = hasMultipleVersions(versions);
+
+      if (hasMultipleMajorVersions && majorVersionClashMessage === '') {
+        majorVersionClashMessage = chalk.bold(
+          ' Given that some of these versions differ in the major range, there is a higher chance that Storybook will break.'
+        );
+      }
+
+      if (hasMultipleMajorVersions || disallowList.includes(dep)) {
+        return `${acc}\n${chalk.redBright(dep)}:\n${versions.join(', ')}\n`;
+      }
+      return acc;
+    }, '');
+
+    summaryMessage = dedent`
+     ${summaryMessage}
+     ${divider}${chalk.bold(
+      'Attention:'
+    )} You have duplicated dependencies in your project, which can cause unexpected behavior when using Storybook.${majorVersionClashMessage}
+     ${duplicatedDependenciesMessage}
+     
+     You can find more information for a given dependency by running '${chalk.cyan(
+       `${repoMetadata.infoCommand} <package-name>`
+     )}'
+    `;
+  }
+
   return boxen(summaryMessage, {
     borderStyle: 'round',
     padding: 1,
     title,
     borderColor: hasFailures ? 'red' : 'green',
+  });
+}
+
+function hasMultipleVersions(versions: string[]) {
+  return versions.find((v) => {
+    const major = semver.major(v);
+    // If major version === 0, treat minor or patch as major
+    if (major === 0) {
+      const minor = semver.minor(v);
+      if (minor === 0) {
+        const patch = semver.patch(v);
+        return versions.some((v2) => {
+          return semver.patch(v2) !== patch;
+        });
+      }
+
+      return versions.some((v2) => {
+        return semver.minor(v2) !== minor;
+      });
+    }
+
+    return versions.some((v2) => {
+      return semver.major(v2) !== major;
+    });
   });
 }

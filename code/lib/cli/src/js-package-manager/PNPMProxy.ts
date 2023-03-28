@@ -1,6 +1,7 @@
 import { pathExistsSync } from 'fs-extra';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
+import { mapDependenciesPnpm } from './parsePackageInfo';
 
 export class PNPMProxy extends JsPackageManager {
   readonly type = 'pnpm';
@@ -43,6 +44,22 @@ export class PNPMProxy extends JsPackageManager {
 
   runPackageCommand(command: string, args: string[], cwd?: string): string {
     return this.executeCommand(`pnpm`, ['exec', command, ...args], undefined, cwd);
+  }
+
+  public findInstallations(pattern: string[]) {
+    const commandResult = this.executeCommand('pnpm', [
+      'list',
+      pattern.map((p) => `"${p}"`).join(' '),
+      '--json',
+      '--depth=99',
+    ]);
+
+    try {
+      const parsedOutput = JSON.parse(commandResult);
+      return mapDependenciesPnpm(parsedOutput);
+    } catch (e) {
+      return undefined;
+    }
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

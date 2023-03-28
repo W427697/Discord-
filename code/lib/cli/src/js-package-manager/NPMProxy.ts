@@ -1,5 +1,6 @@
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
+import { mapDependenciesNpm } from './parsePackageInfo';
 
 export class NPMProxy extends JsPackageManager {
   readonly type = 'npm';
@@ -31,6 +32,17 @@ export class NPMProxy extends JsPackageManager {
 
   public runPackageCommand(command: string, args: string[], cwd?: string): string {
     return this.executeCommand(`npm`, ['exec', '--', command, ...args], undefined, cwd);
+  }
+
+  public findInstallations() {
+    const commandResult = this.executeCommand('npm', ['ls', '--json', '--depth=99']);
+
+    try {
+      const parsedOutput = JSON.parse(commandResult);
+      return mapDependenciesNpm(parsedOutput);
+    } catch (e) {
+      return undefined;
+    }
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

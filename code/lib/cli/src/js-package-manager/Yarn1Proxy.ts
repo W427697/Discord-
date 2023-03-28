@@ -1,5 +1,6 @@
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
+import { mapDependenciesYarn1 } from './parsePackageInfo';
 
 export class Yarn1Proxy extends JsPackageManager {
   readonly type = 'yarn1';
@@ -27,6 +28,23 @@ export class Yarn1Proxy extends JsPackageManager {
 
   runPackageCommand(command: string, args: string[], cwd?: string): string {
     return this.executeCommand(`yarn`, [command, ...args], undefined, cwd);
+  }
+
+  public findInstallations(pattern: string[]) {
+    const commandResult = this.executeCommand('yarn', [
+      'list',
+      '--pattern',
+      pattern.map((p) => `"${p}"`).join(' '),
+      '--recursive',
+      '--json',
+    ]);
+
+    try {
+      const parsedOutput = JSON.parse(commandResult);
+      return mapDependenciesYarn1(parsedOutput);
+    } catch (e) {
+      return undefined;
+    }
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

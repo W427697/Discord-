@@ -1,5 +1,6 @@
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
+import { mapDependenciesYarn2 } from './parsePackageInfo';
 
 // This encompasses both yarn 2 and yarn 3
 export class Yarn2Proxy extends JsPackageManager {
@@ -28,6 +29,22 @@ export class Yarn2Proxy extends JsPackageManager {
 
   runPackageCommand(command: string, args: string[], cwd?: string): string {
     return this.executeCommand(`yarn`, [command, ...args], undefined, cwd);
+  }
+
+  public findInstallations(pattern: string[]) {
+    const commandResult = this.executeCommand('yarn', [
+      'info',
+      '--name-only',
+      '--recursive',
+      pattern.map((p) => `"${p}"`).join(' '),
+      `"${pattern}"`,
+    ]);
+
+    try {
+      return mapDependenciesYarn2(commandResult);
+    } catch (e) {
+      return undefined;
+    }
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
