@@ -407,5 +407,55 @@ describe('csf-2-to-3', () => {
         };
       `);
     });
+
+    it('should keep Story type when used', () => {
+      expect(
+        tsTransform(dedent`
+          import { Story, Meta } from '@storybook/react'
+          
+          export default {
+            component: Cat,
+          } satisfies Meta
+          
+          const Template: Story = () => <div>Hello World</div>;
+          
+          export const Default = Template.bind({})
+        `)
+      ).toMatchInlineSnapshot(`
+        import { Story, Meta } from '@storybook/react';
+
+        export default {
+          component: Cat,
+        } satisfies Meta;
+
+        const Template: Story = () => <div>Hello World</div>;
+
+        export const Default = {
+          render: Template,
+        };
+      `);
+    });
+
+    it('should update types correctly', () => {
+      expect(
+        tsTransform(dedent`
+          import { ComponentStory, ComponentMeta } from '@storybook/react'
+
+          export default {
+            component: Cat,
+          } as ComponentMeta<typeof Cat>
+
+          export const Default: ComponentStory<typeof Cat> = (args) => <Cat {...args} />
+        `)
+      ).toMatchInlineSnapshot(`
+        import { StoryObj, Meta } from '@storybook/react';
+
+        export default {
+          component: Cat,
+        } as Meta<typeof Cat>;
+
+        export const Default: StoryObj<typeof Cat> = {};
+      `);
+    });
   });
 });
