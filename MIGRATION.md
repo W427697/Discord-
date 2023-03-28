@@ -46,6 +46,7 @@
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
     - [Create React App: dropped CRA4 support](#create-react-app-dropped-cra4-support)
+    - [HTML: No longer auto-dedents source code](#html-no-longer-auto-dedents-source-code)
   - [7.0 Addon authors changes](#70-addon-authors-changes)
     - [register.js removed](#registerjs-removed)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -76,6 +77,7 @@
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
     - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [parameters.docs.source.excludeDecorators defaults to true](#parametersdocssourceexcludedecorators-defaults-to-true)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -981,6 +983,12 @@ In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2
 
 Since v7 [drops webpack4 support](#webpack4-support-discontinued), it longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
 
+#### HTML: No longer auto-dedents source code
+
+The `@storybook/html` renderer doesn't dedent the source code when displayed in the "Show Code" source viewer any more.
+
+You can get the same result by setting [the parameter `parameters.docs.source.format = "dedent"`](https://storybook.js.org/docs/7.0/html/api/doc-block-source#format) either on a story level or globally in `preview.js`.
+
 ### 7.0 Addon authors changes
 
 #### register.js removed
@@ -1191,6 +1199,8 @@ The source block now references a single story, the component, or a CSF file its
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
 
+The parameter to transform the source has been consolidated from the multiple parameters of `parameters.docs.transformSource`, `parameters.docs.source.transformSource`, and `parameters.jsx.transformSource` to the single `parameters.docs.source.transform`. The behavior is otherwise unchanged.
+
 ##### Canvas block
 
 The Canvas block follows the same changes as [the Story block described above](#story-block).
@@ -1232,7 +1242,7 @@ import * as ComponentStories from './some-component.stories';
 
 The `ArgsTable` block is now deprecated, and two new blocks: `ArgTypes` and `Controls` should be preferred.
 
-- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` ommitted and the MDX file is attached it will render the arg types defined at the CSF file level.
+- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` omitted and the MDX file is attached it will render the arg types defined at the CSF file level.
 
 - `<Controls of={storyExports} />` will render the controls for a story (or the primary story if `of` is omitted and the MDX file is attached).
 
@@ -1415,6 +1425,11 @@ If your story depends on a play function to render correctly, _and_ you are conf
 #### Removed STORYBOOK_REACT_CLASSES global
 
 This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+
+#### parameters.docs.source.excludeDecorators defaults to true
+
+By default we don't render decorators in the Source/Canvas blocks. If you want to render decorators, you can set the parameter to `false`.
+
 
 ### 7.0 Deprecations and default changes
 
