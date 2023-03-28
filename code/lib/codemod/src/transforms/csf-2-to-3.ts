@@ -179,8 +179,6 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
     }
   });
 
-  importHelper.removeDeprecatedStoryImport();
-
   csf._ast.program.body = csf._ast.program.body.reduce((acc, stmt) => {
     const statement = stmt as t.Statement;
     // remove story annotations & template declarations
@@ -201,6 +199,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
   }, []);
 
   upgradeDeprecatedTypes(file);
+  importHelper.removeDeprecatedStoryImport();
   removeUnusedTemplates(csf);
 
   let output = recast.print(csf._ast, {}).code;
