@@ -64,12 +64,6 @@ export const automigrate = async ({
     return null;
   }
 
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
-  }
-
   const selectedFixes = inputFixes || allFixes;
   const fixes = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
 
@@ -80,6 +74,71 @@ export const automigrate = async ({
   }
 
   augmentLogsToFile();
+
+  logger.info('🔎 checking possible migrations..');
+
+  const { fixResults, fixSummary } = await runFixes({
+    fixes,
+    useNpm,
+    pkgMgr,
+    userSpecifiedConfigDir,
+    rendererPackage,
+    skipInstall,
+    dryRun,
+    yes,
+  });
+
+  const hasFailures = Object.values(fixResults).some(
+    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
+  );
+
+  // if migration failed, display a log file in the users cwd
+  if (hasFailures) {
+    await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
+  } else {
+    await remove(TEMP_LOG_FILE_PATH);
+  }
+
+  const installationMetadata = await packageManager.findInstallations([
+    '@storybook/*',
+    'storybook',
+  ]);
+
+  logger.info();
+  logger.info(
+    getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
+  );
+  logger.info();
+
+  cleanup();
+
+  return fixResults;
+};
+
+export async function runFixes({
+  fixes,
+  dryRun,
+  yes,
+  useNpm,
+  pkgMgr,
+  userSpecifiedConfigDir,
+  rendererPackage,
+  skipInstall,
+}: {
+  fixes: Fix[];
+  yes?: boolean;
+  dryRun?: boolean;
+  useNpm?: boolean;
+  pkgMgr?: PackageManagerName;
+  userSpecifiedConfigDir?: string;
+  rendererPackage?: string;
+  skipInstall?: boolean;
+}) {
+  if (useNpm) {
+    useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
+  }
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
@@ -126,7 +185,6 @@ export const automigrate = async ({
     };
   }
 
-  logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;
   const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
 
@@ -248,29 +306,5 @@ export const automigrate = async ({
     }
   }
 
-  const hasFailures = Object.values(fixResults).some(
-    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
-  );
-
-  // if migration failed, display a log file in the users cwd
-  if (hasFailures) {
-    await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
-  } else {
-    await remove(TEMP_LOG_FILE_PATH);
-  }
-
-  const installationMetadata = await packageManager.findInstallations([
-    '@storybook/*',
-    'storybook',
-  ]);
-
-  logger.info();
-  logger.info(
-    getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
-  );
-  logger.info();
-
-  cleanup();
-
-  return fixResults;
-};
+  return { fixResults, fixSummary };
+}
