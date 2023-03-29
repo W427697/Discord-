@@ -10,6 +10,7 @@ import { join } from 'path';
 import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
 import semver from 'semver';
 import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
+import type { PackageManagerName } from '../js-package-manager';
 
 import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
 import { FixStatus, PreCheckFailure, allFixes } from './fixes';
@@ -99,6 +100,7 @@ export const automigrate = async ({
     await remove(TEMP_LOG_FILE_PATH);
   }
 
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const installationMetadata = await packageManager.findInstallations([
     '@storybook/*',
     'storybook',
