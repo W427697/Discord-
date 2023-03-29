@@ -27,14 +27,14 @@ jobs:
       - name: Compile Storybook libraries
         run: yarn task --task publish --start-from=auto --no-link
       - name: Running local registry
-        run: ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts --open &
+        run: yarn local-registry --publish --open &
         working-directory: ./code
       - name: Wait for registry
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
       - name: Generate
-        run: ts-node --swc ../scripts/sandbox/generate.ts --local-registry
+        run: yarn generate-sandboxes --local-registry
         working-directory: ./code
       - name: Publish
-        run: ts-node --swc ../scripts/sandbox/publish.ts --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=main
+        run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=main
         working-directory: ./code

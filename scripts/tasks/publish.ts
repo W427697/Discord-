@@ -14,7 +14,7 @@ export const publish: Task = {
   },
   async run({ codeDir }, { dryRun, debug }) {
     return exec(
-      'ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts',
+      'yarn local-registry --publish',
       { cwd: codeDir },
       {
         startMessage: '📕 Publishing packages',

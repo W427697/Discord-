@@ -8,7 +8,7 @@ export async function runRegistry({ dryRun, debug }: { dryRun?: boolean; debug?:
   const controller = new AbortController();
 
   exec(
-    'ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts --open',
+    'yarn local-registry --publish',
     { cwd: CODE_DIRECTORY, env: { CI: 'true' } },
     { dryRun, debug, signal: controller.signal }
   ).catch((err) => {
