@@ -21,7 +21,13 @@ import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import type { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
 import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
-import { BEFORE_DIR_NAME, AFTER_DIR_NAME, SCRIPT_TIMEOUT, REPROS_DIRECTORY, LOCAL_REGISTRY_URL } from './utils/constants';
+import {
+  BEFORE_DIR_NAME,
+  AFTER_DIR_NAME,
+  SCRIPT_TIMEOUT,
+  REPROS_DIRECTORY,
+  LOCAL_REGISTRY_URL,
+} from '../utils/constants';
 
 const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
@@ -84,7 +90,7 @@ const addStorybook = async ({
   await rename(tmpDir, afterDir);
 };
 
-export const runCommand = async (script: string, options: ExecaOptions, debug: boolean = false) => {
+export const runCommand = async (script: string, options: ExecaOptions, debug = false) => {
   if (debug) {
     console.log(`Running command: ${script}`);
   }

@@ -1,6 +1,6 @@
 import { pathExists, remove } from 'fs-extra';
 import { join } from 'path';
-import { REPROS_DIRECTORY } from '../sandbox/utils/constants';
+import { REPROS_DIRECTORY } from '../utils/constants';
 
 import type { Task } from '../task';
 

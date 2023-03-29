@@ -8,7 +8,7 @@ import { execaCommand } from '../utils/exec';
 import { getTemplatesData, renderTemplate } from './utils/template';
 // eslint-disable-next-line import/no-cycle
 import { commitAllToGit } from './utils/git';
-import { REPROS_DIRECTORY } from './utils/constants';
+import { REPROS_DIRECTORY } from '../utils/constants';
 
 export const logger = console;
 

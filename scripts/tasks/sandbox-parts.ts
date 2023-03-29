@@ -29,9 +29,8 @@ import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
-import { REPROS_DIRECTORY } from '../sandbox/utils/constants';
+import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
 
-const codeDir = resolve(__dirname, '../../code');
 const logger = console;
 
 export const essentialsAddons = [
@@ -77,7 +76,7 @@ export const install: Task['run'] = async (
   if (link) {
     await executeCLIStep(steps.link, {
       argument: sandboxDir,
-      cwd: codeDir,
+      cwd: CODE_DIRECTORY,
       optionValues: { local: true, start: false },
       dryRun,
       debug,
@@ -295,7 +294,7 @@ async function linkPackageStories(
   frameworkVariant?: string
 ) {
   const storiesFolderName = frameworkVariant ? addVariantToFolder(frameworkVariant) : 'stories';
-  const source = join(codeDir, packageDir, 'template', storiesFolderName);
+  const source = join(CODE_DIRECTORY, packageDir, 'template', storiesFolderName);
   // By default we link `stories` directories
   //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
   // if the directory <code>/lib/store/template/stories exists
@@ -321,7 +320,13 @@ async function linkPackageStories(
   await Promise.all(
     ['js', 'ts'].map(async (ext) => {
       const previewFile = `preview.${ext}`;
-      const previewPath = join(codeDir, packageDir, 'template', storiesFolderName, previewFile);
+      const previewPath = join(
+        CODE_DIRECTORY,
+        packageDir,
+        'template',
+        storiesFolderName,
+        previewFile
+      );
       if (await pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
@@ -376,7 +381,7 @@ export const addStories: Task['run'] = async (
     // Link in the template/components/index.js from store, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
     await ensureSymlink(
-      join(codeDir, rendererPath, 'template', 'components'),
+      join(CODE_DIRECTORY, rendererPath, 'template', 'components'),
       resolve(cwd, storiesPath, 'components')
     );
     addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
@@ -395,7 +400,7 @@ export const addStories: Task['run'] = async (
     const frameworkPath = await workspacePath('frameworks', template.expected.framework);
 
     // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
-    if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
+    if (await pathExists(resolve(CODE_DIRECTORY, frameworkPath, join('template', 'stories')))) {
       await linkPackageStories(frameworkPath, {
         mainConfig,
         cwd,
@@ -406,7 +411,11 @@ export const addStories: Task['run'] = async (
     const frameworkVariant = key.split('/')[1];
     const storiesVariantFolder = addVariantToFolder(frameworkVariant);
 
-    if (await pathExists(resolve(codeDir, frameworkPath, join('template', storiesVariantFolder)))) {
+    if (
+      await pathExists(
+        resolve(CODE_DIRECTORY, frameworkPath, join('template', storiesVariantFolder))
+      )
+    ) {
       await linkPackageStories(
         frameworkPath,
         {
