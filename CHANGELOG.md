@@ -1,3 +1,18 @@
+## 7.0.0-rc.10 (March 29, 2023)
+
+#### Features
+
+-   CLI: Warn the user for duplicated versions after automigrate [#21791](https://github.com/storybooks/storybook/pull/21791)
+
+#### Bug Fixes
+
+-   Addon-docs: Add `remark-slug` and `remark-external-links` to Vite builder [#21796](https://github.com/storybooks/storybook/pull/21796)
+-   Blocks: Add children prop types [#21803](https://github.com/storybooks/storybook/pull/21803)
+
+#### Maintenance
+
+-   CLI: Upgrade to latest storybook/react-native version [#21811](https://github.com/storybooks/storybook/pull/21811)
+
 ## 7.0.0-rc.9 (March 29, 2023)
 
 #### Bug Fixes
