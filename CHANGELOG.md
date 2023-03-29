@@ -1,3 +1,26 @@
+## 7.0.0-rc.9 (March 29, 2023)
+
+#### Bug Fixes
+
+-   CLI: Don't inline template functions in CSF2 to 3 codemod [#21539](https://github.com/storybooks/storybook/pull/21539)
+-   ArgTypes: Fix JSdoc missing deprecated tag [#21794](https://github.com/storybooks/storybook/pull/21794)
+-   UI: Scroll to highlighted search result [#21692](https://github.com/storybooks/storybook/pull/21692)
+-   Actions: Fix clearing number of actions [#21760](https://github.com/storybooks/storybook/pull/21760)
+-   UI: Fix cannot read properties of undefined at SearchResults [#21728](https://github.com/storybooks/storybook/pull/21728)
+-   CLI: Fix an issue where port can be NaN [#21785](https://github.com/storybooks/storybook/pull/21785)
+-   Docs: Exclude decorators by default from source [#21722](https://github.com/storybooks/storybook/pull/21722)
+-   Docs: Fix ArgsTable crashing on subcomponents [#21769](https://github.com/storybooks/storybook/pull/21769)
+-   Docs: Make Source `transform` API consistent [#21749](https://github.com/storybooks/storybook/pull/21749)
+
+#### Maintenance
+
+-   Telemetry: Count components [#21774](https://github.com/storybooks/storybook/pull/21774)
+
+#### Dependency Upgrades
+
+-   Vite: Unpin rollup version [#21748](https://github.com/storybooks/storybook/pull/21748)
+-   Upgrade slash package to v5.x [#21786](https://github.com/storybooks/storybook/pull/21786)
+
 ## 7.0.0-rc.8 (March 25, 2023)
 
 #### Bug Fixes

@@ -9,15 +9,12 @@ import dedent from 'ts-dedent';
 import { join } from 'path';
 import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
 import semver from 'semver';
-import {
-  JsPackageManagerFactory,
-  useNpmWarning,
-  type PackageManagerName,
-} from '../js-package-manager';
+import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
 
-import type { Fix } from './fixes';
-import { allFixes } from './fixes';
+import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
+import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
+import { getMigrationSummary } from './helpers/getMigrationSummary';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -43,44 +40,6 @@ const augmentLogsToFile = () => {
 const cleanup = () => {
   process.stdout.write = originalStdOutWrite;
   process.stderr.write = originalStdErrWrite;
-};
-
-type FixId = string;
-
-interface FixOptions {
-  fixId?: FixId;
-  list?: boolean;
-  fixes?: Fix[];
-  yes?: boolean;
-  dryRun?: boolean;
-  useNpm?: boolean;
-  packageManager?: PackageManagerName;
-  configDir?: string;
-  renderer?: string;
-  skipInstall?: boolean;
-}
-
-enum PreCheckFailure {
-  UNDETECTED_SB_VERSION = 'undetected_sb_version',
-  MAINJS_NOT_FOUND = 'mainjs_not_found',
-  MAINJS_EVALUATION = 'mainjs_evaluation_error',
-}
-
-enum FixStatus {
-  CHECK_FAILED = 'check_failed',
-  UNNECESSARY = 'unnecessary',
-  MANUAL_SUCCEEDED = 'manual_succeeded',
-  MANUAL_SKIPPED = 'manual_skipped',
-  SKIPPED = 'skipped',
-  SUCCEEDED = 'succeeded',
-  FAILED = 'failed',
-}
-
-type FixSummary = {
-  skipped: FixId[];
-  manual: FixId[];
-  succeeded: FixId[];
-  failed: Record<FixId, string>;
 };
 
 const logAvailableMigrations = () => {
@@ -300,91 +259,18 @@ export const automigrate = async ({
     await remove(TEMP_LOG_FILE_PATH);
   }
 
+  const installationMetadata = await packageManager.findInstallations([
+    '@storybook/*',
+    'storybook',
+  ]);
+
   logger.info();
-  logger.info(getMigrationSummary(fixResults, fixSummary, LOG_FILE_PATH));
+  logger.info(
+    getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
+  );
   logger.info();
 
   cleanup();
 
   return fixResults;
 };
-
-function getMigrationSummary(
-  fixResults: Record<string, FixStatus>,
-  fixSummary: FixSummary,
-  logFile?: string
-) {
-  const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
-  const hasFailures = Object.values(fixResults).some(
-    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
-  );
-  // eslint-disable-next-line no-nested-ternary
-  const title = hasNoFixes
-    ? 'No migrations were applicable to your project'
-    : hasFailures
-    ? 'Migration check ran with failures'
-    : 'Migration check ran successfully';
-
-  const successfulFixesMessage =
-    fixSummary.succeeded.length > 0
-      ? `
-      ${chalk.bold('Successful migrations:')}\n\n ${fixSummary.succeeded
-          .map((m) => chalk.green(m))
-          .join(', ')}
-    `
-      : '';
-
-  const failedFixesMessage =
-    Object.keys(fixSummary.failed).length > 0
-      ? `
-    ${chalk.bold('Failed migrations:')}\n ${Object.entries(fixSummary.failed).reduce(
-          (acc, [id, error]) => {
-            return `${acc}\n${chalk.redBright(id)}:\n${error}\n`;
-          },
-          ''
-        )}
-    \nYou can find the full logs in ${chalk.cyan(logFile)}\n`
-      : '';
-
-  const manualFixesMessage =
-    fixSummary.manual.length > 0
-      ? `
-      ${chalk.bold('Manual migrations:')}\n\n ${fixSummary.manual
-          .map((m) =>
-            fixResults[m] === FixStatus.MANUAL_SUCCEEDED ? chalk.green(m) : chalk.blue(m)
-          )
-          .join(', ')}
-    `
-      : '';
-
-  const skippedFixesMessage =
-    fixSummary.skipped.length > 0
-      ? `
-      ${chalk.bold('Skipped migrations:')}\n\n ${fixSummary.skipped
-          .map((m) => chalk.cyan(m))
-          .join(', ')}
-    `
-      : '';
-
-  const divider = hasNoFixes ? '' : '\n─────────────────────────────────────────────────\n\n';
-
-  const summaryMessage = dedent`
-    ${successfulFixesMessage}${manualFixesMessage}${failedFixesMessage}${skippedFixesMessage}${divider}If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
-    'npx storybook@next automigrate'
-  )}'
-    
-    The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
-    
-    Please check the changelog and migration guide for manual migrations and more information: ${chalk.yellow(
-      'https://storybook.js.org/migration-guides/7.0'
-    )}
-    And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
-  `;
-
-  return boxen(summaryMessage, {
-    borderStyle: 'round',
-    padding: 1,
-    title,
-    borderColor: hasFailures ? 'red' : 'green',
-  });
-}
