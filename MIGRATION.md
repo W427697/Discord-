@@ -291,7 +291,7 @@
 
 ## From version 6.5.x to 7.0.0
 
-A number of these changes can be made automatically by the Storybook CLI. To take advantage of these "automigrations", run `npx storybook@next upgrade --prerelease` or `pnpx storybook@next upgrade --prerelease`.
+A number of these changes can be made automatically by the Storybook CLI. To take advantage of these "automigrations", run `npx storybook@next upgrade --prerelease` or `pnpm exec storybook@next upgrade --prerelease`.
 
 ### 7.0 breaking changes
 
