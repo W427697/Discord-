@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Type } from '@angular/core';
+import { ApplicationConfig } from '@angular/platform-browser';
 import { DecoratorFunction, StoryContext } from '@storybook/types';
 import { computesTemplateFromComponent } from './angular-beta/ComputesTemplateFromComponent';
 import { isComponent } from './angular-beta/utils/NgComponentAnalyzer';
@@ -26,6 +27,26 @@ export const moduleMetadata =
         schemas: [...(metadata.schemas || []), ...(storyMetadata.schemas || [])],
         providers: [...(metadata.providers || []), ...(storyMetadata.providers || [])],
       },
+    };
+  };
+
+/**
+ * Decorator to set the config options which are available during the application bootstrap operation
+ */
+export const applicationConfig =
+  <TArgs = any>(
+    /**
+     * Set of config options available during the application bootstrap operation.
+     */
+    config: ApplicationConfig
+  ): DecoratorFunction<AngularRenderer, TArgs> =>
+  (storyFn) => {
+    const story = storyFn();
+    const storyConfig = story.applicationConfig;
+
+    return {
+      ...story,
+      applicationConfig: storyConfig ?? config,
     };
   };
 
