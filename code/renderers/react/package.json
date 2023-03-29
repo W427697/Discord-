@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-rc.8",
+  "version": "7.0.0-rc.9",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -53,13 +53,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-rc.8",
-    "@storybook/core-client": "7.0.0-rc.8",
-    "@storybook/docs-tools": "7.0.0-rc.8",
+    "@storybook/client-logger": "7.0.0-rc.9",
+    "@storybook/core-client": "7.0.0-rc.9",
+    "@storybook/docs-tools": "7.0.0-rc.9",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.0.0-rc.8",
-    "@storybook/react-dom-shim": "7.0.0-rc.8",
-    "@storybook/types": "7.0.0-rc.8",
+    "@storybook/preview-api": "7.0.0-rc.9",
+    "@storybook/react-dom-shim": "7.0.0-rc.9",
+    "@storybook/types": "7.0.0-rc.9",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
