@@ -29,7 +29,7 @@ import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
-import { REPROS_DIRECTORY } from '../sandbox-generators/utils/constants';
+import { REPROS_DIRECTORY } from '../sandbox/utils/constants';
 
 const codeDir = resolve(__dirname, '../../code');
 const logger = console;
@@ -231,7 +231,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   })`;
   mainConfig.setFieldNode(
     ['webpackFinal'],
-    // @ts-expect-error (not sure why TS complains here, it does exist)
     babelParse(webpackFinalCode).program.body[0].expression
   );
 }
@@ -255,11 +254,7 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
       },
     },
   })`;
-  mainConfig.setFieldNode(
-    ['viteFinal'],
-    // @ts-expect-error (not sure why TS complains here, it does exist)
-    babelParse(viteFinalCode).program.body[0].expression
-  );
+  mainConfig.setFieldNode(['viteFinal'], babelParse(viteFinalCode).program.body[0].expression);
 }
 
 // Update the stories field to ensure that no TS files

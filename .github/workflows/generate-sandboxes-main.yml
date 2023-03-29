@@ -33,8 +33,8 @@ jobs:
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
       - name: Generate
-        run: ts-node --swc ../scripts/sandbox-generators/generate.ts --local-registry
+        run: ts-node --swc ../scripts/sandbox/generate.ts --local-registry
         working-directory: ./code
       - name: Publish
-        run: ts-node --swc ../scripts/sandbox-generators/publish.ts --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=main
+        run: ts-node --swc ../scripts/sandbox/publish.ts --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=main
         working-directory: ./code

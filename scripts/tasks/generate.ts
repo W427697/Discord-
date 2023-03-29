@@ -1,6 +1,6 @@
 import { pathExists, remove } from 'fs-extra';
 import { join } from 'path';
-import { REPROS_DIRECTORY } from '../sandbox-generators/utils/constants';
+import { REPROS_DIRECTORY } from '../sandbox/utils/constants';
 
 import type { Task } from '../task';
 
@@ -27,7 +27,7 @@ export const generate: Task = {
     }
 
     // This uses an async import as it depends on `lib/cli` which requires `code` to be installed.
-    const { generate: generateRepro } = await import('../sandbox-generators/generate');
+    const { generate: generateRepro } = await import('../sandbox/generate');
 
     await generateRepro({
       template: details.key,
