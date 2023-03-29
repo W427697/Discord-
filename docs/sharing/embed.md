@@ -79,7 +79,7 @@ https://5ccbc373887ca40020446347-wtuhidckxo.chromatic.com/iframe.html?id=shadowb
 
 ## Embed stories on other platforms
 
-Every platform has different levels of embedded support. Check the documentation of your service to see how they recommend embedding external content.
+Every platform has different levels of embed support. Check the documentation of your service to see how they recommend embedding external content.
 
 <details>
 
