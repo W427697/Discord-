@@ -38,6 +38,7 @@
     - [Postcss removed](#postcss-removed)
     - [Removed DLL flags](#removed-dll-flags)
   - [7.0 Framework-specific changes](#70-framework-specific-changes)
+    - [Angular: Removed deprecated `component` and `propsMeta` field](#angular-removed-deprecated-component-and-propsmeta-field)
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
     - [Angular: Application providers and ModuleWithProviders](#angular-application-providers-and-modulewithproviders)
@@ -920,6 +921,10 @@ Storybook 6.x installed postcss by default. In 7.0 built-in support has been rem
 Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
 
 ### 7.0 Framework-specific changes
+
+#### Angular: Removed deprecated `component` and `propsMeta` field
+
+The deprecated fields `component` and `propsMeta` on the NgStory type have been removed.
 
 #### Angular: Drop support for Angular < 14
 
