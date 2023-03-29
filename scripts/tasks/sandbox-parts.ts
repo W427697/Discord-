@@ -29,8 +29,8 @@ import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
+import { REPROS_DIRECTORY } from '../sandbox-generators/utils/constants';
 
-const reprosDir = resolve(__dirname, '../../repros');
 const codeDir = resolve(__dirname, '../../code');
 const logger = console;
 
@@ -51,7 +51,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   await ensureDir(parentDir);
 
   if ('inDevelopment' in template && template.inDevelopment) {
-    const srcDir = join(reprosDir, key, 'after-storybook');
+    const srcDir = join(REPROS_DIRECTORY, key, 'after-storybook');
     if (!existsSync(srcDir)) {
       throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }

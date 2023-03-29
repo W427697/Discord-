@@ -10,7 +10,7 @@ export async function runRegistry({ dryRun, debug }: { dryRun?: boolean; debug?:
   const controller = new AbortController();
 
   exec(
-    'CI=true yarn local-registry --open',
+    'CI=true ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts --open',
     { cwd: codeDir },
     { dryRun, debug, signal: controller.signal }
   ).catch((err) => {

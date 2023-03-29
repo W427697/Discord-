@@ -29,7 +29,7 @@
     "check": "NODE_ENV=production node ../scripts/check-package.js",
     "ci-tests": "yarn task --task check --no-link --start-from=install && yarn lint && yarn test && cd ../scripts && yarn test",
     "danger": "danger",
-    "generate-sandboxes": "ts-node --swc ../scripts/sandbox-generators/generate-sandboxes.ts",
+    "generate-sandboxes": "ts-node --swc ../scripts/sandbox-generators/generate.ts",
     "github-release": "github-release-from-changelog",
     "linear-export": "ts-node --swc --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
     "lint": "yarn lint:js && yarn lint:md",
