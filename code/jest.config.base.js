@@ -41,6 +41,7 @@ const modulesToTransform = [
   'character-entities',
   'zwitch',
   'stringify-entities',
+  'slash',
 ];
 
 /** @type { import('jest').Config } */
