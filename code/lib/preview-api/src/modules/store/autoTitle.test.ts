@@ -187,6 +187,16 @@ describe('userOrAutoTitleFromSpecifier', () => {
         ).toMatchInlineSnapshot(`to/button`);
       });
 
+      it('match with dotted component', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/button.group.stories.js',
+            normalizeStoriesEntry({ directory: './path' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/button/button.group`);
+      });
+
       it('match with hyphen path', () => {
         expect(
           userOrAuto(

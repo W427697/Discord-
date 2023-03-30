@@ -6,31 +6,16 @@ import type { NormalizedStoriesSpecifier } from '@storybook/types';
 // FIXME: types duplicated type from `core-common', to be
 // removed when we remove v6 back-compat.
 
-const stripExtension = (path: string[]) => {
-  let parts = [...path];
-  const last = parts[parts.length - 1];
-  const dotIndex = last.indexOf('.');
-  const stripped = dotIndex > 0 ? last.substr(0, dotIndex) : last;
-  parts[parts.length - 1] = stripped;
-  const [first, ...rest] = parts;
-  if (first === '') {
-    parts = rest;
-  }
-  return parts;
+const stripExtension = (parts: string[]) => {
+  const last = parts[parts.length - 1]?.replace(/(?:[.](?:story|stories))?([.][^.]+)$/i, '');
+  return last ? [...parts.slice(0, -1), last] : parts;
 };
 
-const indexRe = /^index$/i;
-
 // deal with files like "atoms/button/{button,index}.stories.js"
-const removeRedundantFilename = (paths: string[]) => {
-  let prevVal: string;
-  return paths.filter((val, index) => {
-    if (index === paths.length - 1 && (val === prevVal || indexRe.test(val))) {
-      return false;
-    }
-    prevVal = val;
-    return true;
-  });
+const removeRedundantFilename = (parts: string[]) => {
+  const last = parts[parts.length - 1];
+  const nextToLast = parts[parts.length - 2];
+  return last && (last === nextToLast || /^index$/i.test(last)) ? parts.slice(0, -1) : parts;
 };
 
 /**
@@ -41,8 +26,10 @@ const removeRedundantFilename = (paths: string[]) => {
  * @returns joined path string, with single '/' between parts
  */
 function pathJoin(paths: string[]): string {
-  const slashes = new RegExp('/{1,}', 'g');
-  return paths.join('/').replace(slashes, '/');
+  return paths
+    .flatMap((p) => p.split('/'))
+    .filter(Boolean)
+    .join('/');
 }
 
 export const userOrAutoTitleFromSpecifier = (
@@ -67,18 +54,17 @@ export const userOrAutoTitleFromSpecifier = (
   if (importPathMatcher.exec(normalizedFileName)) {
     if (!userTitle) {
       const suffix = normalizedFileName.replace(directory, '');
-      const titleAndSuffix = slash(pathJoin([titlePrefix, suffix]));
-      let path = titleAndSuffix.split('/');
-      path = stripExtension(path);
-      path = removeRedundantFilename(path);
-      return path.join('/');
+      let parts = pathJoin([titlePrefix, suffix]).split('/');
+      parts = stripExtension(parts);
+      parts = removeRedundantFilename(parts);
+      return parts.join('/');
     }
 
     if (!titlePrefix) {
       return userTitle;
     }
 
-    return slash(pathJoin([titlePrefix, userTitle]));
+    return pathJoin([titlePrefix, userTitle]);
   }
 
   return undefined;
