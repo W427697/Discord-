@@ -187,6 +187,29 @@ describe('userOrAutoTitleFromSpecifier', () => {
         ).toMatchInlineSnapshot(`to/button`);
       });
 
+      it('match with trailing stories', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/stories.js',
+            normalizeStoriesEntry({ directory: './path', files: '**/?(*.)stories.*' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/button`);
+      });
+
+      it('match with trailing stories (windows path)', () => {
+        expect(
+          userOrAuto(
+            './path/to/button/stories.js',
+            normalizeStoriesEntry(
+              { directory: '.\\path\\', files: '**/?(*.)stories.*' },
+              winOptions
+            ),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`to/button`);
+      });
+
       it('match with dotted component', () => {
         expect(
           userOrAuto(
