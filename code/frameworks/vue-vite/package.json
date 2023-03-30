@@ -53,6 +53,7 @@
     "@storybook/core-server": "7.0.0-rc.8",
     "@storybook/vue": "7.0.0-rc.8",
     "magic-string": "^0.27.0",
+    "vue-component-meta": "next",
     "vue-docgen-api": "^4.40.0"
   },
   "devDependencies": {

@@ -2119,7 +2119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.12.7, @babel/types@npm:^7.18.6, @babel/types@npm:^7.18.8, @babel/types@npm:^7.18.9, @babel/types@npm:^7.19.3, @babel/types@npm:^7.2.0, @babel/types@npm:^7.20.0, @babel/types@npm:^7.20.2, @babel/types@npm:^7.20.5, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.0, @babel/types@npm:^7.21.2, @babel/types@npm:^7.21.3, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6, @babel/types@npm:~7.21.2":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.12.7, @babel/types@npm:^7.18.6, @babel/types@npm:^7.18.8, @babel/types@npm:^7.18.9, @babel/types@npm:^7.19.0, @babel/types@npm:^7.19.3, @babel/types@npm:^7.2.0, @babel/types@npm:^7.20.0, @babel/types@npm:^7.20.2, @babel/types@npm:^7.20.5, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.0, @babel/types@npm:^7.21.2, @babel/types@npm:^7.21.3, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6, @babel/types@npm:~7.21.2":
   version: 7.21.3
   resolution: "@babel/types@npm:7.21.3"
   dependencies:
@@ -6750,6 +6750,7 @@ __metadata:
     ts-loader: ^9.2.8
     typescript: ~4.9.3
     vue: ^2.6.12
+    vue-component-meta: next
     vue-docgen-api: ^4.44.23
     vue-docgen-loader: ^1.5.1
     vue-loader: ^15.7.0
@@ -6776,6 +6777,7 @@ __metadata:
     ts-loader: ^9.2.8
     typescript: ~4.9.3
     vue: ^3.2.33
+    vue-component-meta: next
     vue-docgen-api: ^4.46.0
     vue-docgen-loader: ^1.5.1
     vue-loader: ^16.0.0
@@ -7435,6 +7437,7 @@ __metadata:
     typescript: ~4.9.3
     vite: ^4.0.0
     vue: ^2.7.10
+    vue-component-meta: next
     vue-docgen-api: ^4.40.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7481,6 +7484,8 @@ __metadata:
     magic-string: ^0.27.0
     typescript: ~4.9.3
     vite: ^4.0.0
+    vite-plugin-vue-type-imports: ^0.2.4
+    vue-component-meta: next
     vue-docgen-api: ^4.40.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7529,7 +7534,7 @@ __metadata:
     vue: ^3.2.47
     vue-tsc: ^1.2.0
   peerDependencies:
-    vue: ^3.0.0
+    vue: ^3.2.47
   languageName: unknown
   linkType: soft
 
@@ -9148,12 +9153,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@volar/language-core@npm:1.4.0-alpha.5":
+  version: 1.4.0-alpha.5
+  resolution: "@volar/language-core@npm:1.4.0-alpha.5"
+  dependencies:
+    "@volar/source-map": 1.4.0-alpha.5
+  checksum: d0af8ea899989661c58fac0e959847c074f7de3409e9c262bc700766aa3e00f0b32e9c47726866009d20710c9d38a1e322b0cd205433b755ee5576f890c550a6
+  languageName: node
+  linkType: hard
+
 "@volar/source-map@npm:1.4.0-alpha.4":
   version: 1.4.0-alpha.4
   resolution: "@volar/source-map@npm:1.4.0-alpha.4"
   dependencies:
     muggle-string: ^0.2.2
   checksum: 0c0bbd8a6b5108526b30ffcb3c833a61cd35124275e892427d526610c5deea637c72e5c364b8c478f5d89da495065f3ac3637450966ec09ac7f4fa4ee83fa449
+  languageName: node
+  linkType: hard
+
+"@volar/source-map@npm:1.4.0-alpha.5":
+  version: 1.4.0-alpha.5
+  resolution: "@volar/source-map@npm:1.4.0-alpha.5"
+  dependencies:
+    muggle-string: ^0.2.2
+  checksum: 534fd4991be7067e81238d8cb222111786b5353891c395723f8815b767ed2ea0b001de10176479823ce19703ce0825dca8ccc7e762815be23aef5ac7e4e20191
   languageName: node
   linkType: hard
 
@@ -9180,6 +9203,23 @@ __metadata:
     muggle-string: ^0.2.2
     vue-template-compiler: ^2.7.14
   checksum: d134d8f663c12b084d041cb6bc790f25ce8ec9b5187479a363c71462eedc2d541be05e05b8ec8d1bd5990bbf14bcbc99843a33dcc5aebbf849fca826e3336ec5
+  languageName: node
+  linkType: hard
+
+"@volar/vue-language-core@npm:1.3.8":
+  version: 1.3.8
+  resolution: "@volar/vue-language-core@npm:1.3.8"
+  dependencies:
+    "@volar/language-core": 1.4.0-alpha.5
+    "@volar/source-map": 1.4.0-alpha.5
+    "@vue/compiler-dom": ^3.2.47
+    "@vue/compiler-sfc": ^3.2.47
+    "@vue/reactivity": ^3.2.47
+    "@vue/shared": ^3.2.47
+    minimatch: ^6.1.6
+    muggle-string: ^0.2.2
+    vue-template-compiler: ^2.7.14
+  checksum: 39fcd9695123c3c26c4ea1b5cfa404701764ff8f82ac5d96a1199fffab6a4c3c6fae34a1caf062a4a90ecd7256ebd84696f87094f4b56f65406f78ba16843c9c
   languageName: node
   linkType: hard
 
@@ -9275,7 +9315,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-sfc@npm:3.2.47, @vue/compiler-sfc@npm:^3.2.0, @vue/compiler-sfc@npm:^3.2.33, @vue/compiler-sfc@npm:^3.2.47":
+"@vue/compiler-sfc@npm:3.2.47, @vue/compiler-sfc@npm:^3.2.0, @vue/compiler-sfc@npm:^3.2.24, @vue/compiler-sfc@npm:^3.2.33, @vue/compiler-sfc@npm:^3.2.47":
   version: 3.2.47
   resolution: "@vue/compiler-sfc@npm:3.2.47"
   dependencies:
@@ -15445,7 +15485,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.0.3, fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.2, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.0.3, fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.2, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
   version: 3.2.12
   resolution: "fast-glob@npm:3.2.12"
   dependencies:
@@ -20487,6 +20527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"local-pkg@npm:^0.4.2":
+  version: 0.4.3
+  resolution: "local-pkg@npm:0.4.3"
+  checksum: 361c77d7873a629f09c9e86128926227171ee0fe3435d282fb80303ff255bb4d3c053b555d47e953b4f41d2561f2a7bc0e53e9ca5c9bc9607226a77c91ea4994
+  languageName: node
+  linkType: hard
+
 "locate-path@npm:^2.0.0":
   version: 2.0.0
   resolution: "locate-path@npm:2.0.0"
@@ -20882,7 +20929,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.26.7":
+"magic-string@npm:^0.26.4, magic-string@npm:^0.26.7":
   version: 0.26.7
   resolution: "magic-string@npm:0.26.7"
   dependencies:
@@ -29265,6 +29312,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typesafe-path@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "typesafe-path@npm:0.2.2"
+  checksum: 05027ea6a52a1e879da39c53fae7f5059e50cf578d586cc6c7741c3eca0b37ee2da4ef16d35ecf9f60cd0e8ca5aca98ea47902672907a19470f2260e8769b933
+  languageName: node
+  linkType: hard
+
 "typescript@npm:*":
   version: 5.0.2
   resolution: "typescript@npm:5.0.2"
@@ -30208,6 +30262,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vite-plugin-vue-type-imports@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "vite-plugin-vue-type-imports@npm:0.2.4"
+  dependencies:
+    "@babel/types": ^7.19.0
+    "@vue/compiler-sfc": ^3.2.24
+    debug: ^4.3.4
+    fast-glob: ^3.2.12
+    local-pkg: ^0.4.2
+    magic-string: ^0.26.4
+    picocolors: ^1.0.0
+  peerDependencies:
+    vite: ^3.0.0
+    vue: ^2.7.0 || ^3.2.24
+  checksum: 45276cdb79e96e4e42e75edb2bc3af988a77a8659fdb7b27293ad5d8138c664e338b429da0979e08ef7e1f29ce1464f78e32e17186c9f7a8f348c564e733fc63
+  languageName: node
+  linkType: hard
+
 "vite@npm:^4.0.0, vite@npm:^4.0.4":
   version: 4.2.1
   resolution: "vite@npm:4.2.1"
@@ -30312,6 +30384,19 @@ __metadata:
   peerDependencies:
     vue: ^2.0.0
   checksum: 2c187815e3569b4836929dc45ace5715398c4037312ef5fc27da9cb12fbbc21cabbdfc5fb678451ad45321ffabacbd184907e33db2539c13963c00883a6645c1
+  languageName: node
+  linkType: hard
+
+"vue-component-meta@npm:next":
+  version: 1.3.8
+  resolution: "vue-component-meta@npm:1.3.8"
+  dependencies:
+    "@volar/language-core": 1.4.0-alpha.5
+    "@volar/vue-language-core": 1.3.8
+    typesafe-path: ^0.2.2
+  peerDependencies:
+    typescript: "*"
+  checksum: 9f6155feb909f7680d4c03a67ceea69892df7fcf3e1a5ba16ffc648524cf5a53704130d6612e3fa9bf8c2b9963c97f63cbb2aeaa93d2df2c2975157b8bd2dcfa
   languageName: node
   linkType: hard
 

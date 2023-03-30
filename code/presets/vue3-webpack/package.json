@@ -62,6 +62,7 @@
     "@storybook/docs-tools": "7.0.0-rc.8",
     "@types/node": "^16.0.0",
     "ts-loader": "^9.2.8",
+    "vue-component-meta": "next",
     "vue-docgen-api": "^4.46.0",
     "vue-docgen-loader": "^1.5.1",
     "vue-loader": "^16.0.0",

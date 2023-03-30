@@ -1,0 +1,652 @@
+{
+  "exportName": "default",
+  "displayName": "component",
+  "props": [
+    {
+      "name": "bar",
+      "global": false,
+      "description": "optional number bar",
+      "tags": [],
+      "required": false,
+      "type": "number | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "number | undefined",
+        "schema": ["undefined", "number"]
+      },
+      "default": "1"
+    },
+    {
+      "name": "baz",
+      "global": false,
+      "description": "string array baz",
+      "tags": [],
+      "required": false,
+      "type": "string[] | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "string[] | undefined",
+        "schema": [
+          "undefined",
+          {
+            "kind": "array",
+            "type": "string[]",
+            "schema": ["string"]
+          }
+        ]
+      },
+      "default": "[\"foo\", \"bar\"]"
+    },
+    {
+      "name": "foo",
+      "global": false,
+      "description": "string foo",
+      "tags": [
+        {
+          "name": "default",
+          "text": "\"rounded\""
+        },
+        {
+          "name": "since",
+          "text": "v1.0.0"
+        },
+        {
+          "name": "see",
+          "text": "https://vuejs.org/"
+        },
+        {
+          "name": "example",
+          "text": "```vue\n<template>\n  <component foo=\"straight\" />\n</template>\n```"
+        }
+      ],
+      "required": true,
+      "type": "string",
+      "schema": "string"
+    },
+    {
+      "name": "key",
+      "global": true,
+      "description": "",
+      "tags": [],
+      "required": false,
+      "type": "string | number | symbol | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "string | number | symbol | undefined",
+        "schema": ["undefined", "string", "number", "symbol"]
+      }
+    },
+    {
+      "name": "ref",
+      "global": true,
+      "description": "",
+      "tags": [],
+      "required": false,
+      "type": "VNodeRef | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "VNodeRef | undefined",
+        "schema": [
+          "undefined",
+          "string",
+          "Ref<any>",
+          {
+            "kind": "event",
+            "type": "(ref: Element | ComponentPublicInstance<{}, {}, {}, {}, {}, {}, {}, {}, false, ComponentOptionsBase<any, any, any, any, any, any, any, any, any, {}, {}, string>, {}> | null, refs: Record<...>): void",
+            "schema": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "ref_for",
+      "global": true,
+      "description": "",
+      "tags": [],
+      "required": false,
+      "type": "boolean | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "boolean | undefined",
+        "schema": ["undefined", "false", "true"]
+      }
+    },
+    {
+      "name": "ref_key",
+      "global": true,
+      "description": "",
+      "tags": [],
+      "required": false,
+      "type": "string | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "string | undefined",
+        "schema": ["undefined", "string"]
+      }
+    },
+    {
+      "name": "class",
+      "global": true,
+      "description": "",
+      "tags": [],
+      "required": false,
+      "type": "unknown",
+      "schema": "unknown"
+    },
+    {
+      "name": "style",
+      "global": true,
+      "description": "",
+      "tags": [],
+      "required": false,
+      "type": "unknown",
+      "schema": "unknown"
+    },
+    {
+      "name": "union",
+      "global": false,
+      "description": "required union type",
+      "tags": [],
+      "required": true,
+      "type": "string | number",
+      "schema": {
+        "kind": "enum",
+        "type": "string | number",
+        "schema": ["string", "number"]
+      }
+    },
+    {
+      "name": "unionOptional",
+      "global": false,
+      "description": "optional union type",
+      "tags": [],
+      "required": false,
+      "type": "string | number | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "string | number | undefined",
+        "schema": ["undefined", "string", "number"]
+      }
+    },
+    {
+      "name": "nested",
+      "global": false,
+      "description": "required nested object",
+      "tags": [],
+      "required": true,
+      "type": "MyNestedProps",
+      "schema": {
+        "kind": "object",
+        "type": "MyNestedProps",
+        "schema": {
+          "nestedProp": {
+            "name": "nestedProp",
+            "global": false,
+            "description": "nested prop documentation",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "nestedIntersection",
+      "global": false,
+      "description": "required nested object with intersection",
+      "tags": [],
+      "required": true,
+      "type": "MyNestedProps & { additionalProp: string; }",
+      "schema": {
+        "kind": "object",
+        "type": "MyNestedProps & { additionalProp: string; }",
+        "schema": {
+          "nestedProp": {
+            "name": "nestedProp",
+            "global": false,
+            "description": "nested prop documentation",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          },
+          "additionalProp": {
+            "name": "additionalProp",
+            "global": false,
+            "description": "required additional property",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "nestedOptional",
+      "global": false,
+      "description": "optional nested object",
+      "tags": [],
+      "required": false,
+      "type": "MyNestedProps | MyIgnoredNestedProps | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "MyNestedProps | MyIgnoredNestedProps | undefined",
+        "schema": [
+          "undefined",
+          {
+            "kind": "object",
+            "type": "MyNestedProps",
+            "schema": {
+              "nestedProp": {
+                "name": "nestedProp",
+                "global": false,
+                "description": "nested prop documentation",
+                "tags": [],
+                "required": true,
+                "type": "string",
+                "schema": "string"
+              }
+            }
+          },
+          "MyIgnoredNestedProps"
+        ]
+      }
+    },
+    {
+      "name": "array",
+      "global": false,
+      "description": "required array object",
+      "tags": [],
+      "required": true,
+      "type": "MyNestedProps[]",
+      "schema": {
+        "kind": "array",
+        "type": "MyNestedProps[]",
+        "schema": [
+          {
+            "kind": "object",
+            "type": "MyNestedProps",
+            "schema": {
+              "nestedProp": {
+                "name": "nestedProp",
+                "global": false,
+                "description": "nested prop documentation",
+                "tags": [],
+                "required": true,
+                "type": "string",
+                "schema": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "arrayOptional",
+      "global": false,
+      "description": "optional array object",
+      "tags": [],
+      "required": false,
+      "type": "MyNestedProps[] | undefined",
+      "schema": {
+        "kind": "enum",
+        "type": "MyNestedProps[] | undefined",
+        "schema": [
+          "undefined",
+          {
+            "kind": "array",
+            "type": "MyNestedProps[]",
+            "schema": [
+              {
+                "kind": "object",
+                "type": "MyNestedProps",
+                "schema": {
+                  "nestedProp": {
+                    "name": "nestedProp",
+                    "global": false,
+                    "description": "nested prop documentation",
+                    "tags": [],
+                    "required": true,
+                    "type": "string",
+                    "schema": "string"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "enumValue",
+      "global": false,
+      "description": "enum value",
+      "tags": [],
+      "required": true,
+      "type": "MyEnum",
+      "schema": {
+        "kind": "enum",
+        "type": "MyEnum",
+        "schema": ["MyEnum.Small", "MyEnum.Medium", "MyEnum.Large"]
+      }
+    },
+    {
+      "name": "literalFromContext",
+      "global": false,
+      "description": "literal type alias that require context",
+      "tags": [],
+      "required": true,
+      "type": "\"Uncategorized\" | \"Content\" | \"Interaction\" | \"Display\" | \"Forms\" | \"Addons\"",
+      "schema": {
+        "kind": "enum",
+        "type": "\"Uncategorized\" | \"Content\" | \"Interaction\" | \"Display\" | \"Forms\" | \"Addons\"",
+        "schema": [
+          "\"Uncategorized\"",
+          "\"Content\"",
+          "\"Interaction\"",
+          "\"Display\"",
+          "\"Forms\"",
+          "\"Addons\""
+        ]
+      }
+    },
+    {
+      "name": "inlined",
+      "global": false,
+      "description": "",
+      "tags": [],
+      "required": true,
+      "type": "{ foo: string; }",
+      "schema": {
+        "kind": "object",
+        "type": "{ foo: string; }",
+        "schema": {
+          "foo": {
+            "name": "foo",
+            "global": false,
+            "description": "",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "recursive",
+      "global": false,
+      "description": "",
+      "tags": [],
+      "required": true,
+      "type": "MyNestedRecursiveProps",
+      "schema": {
+        "kind": "object",
+        "type": "MyNestedRecursiveProps",
+        "schema": {
+          "recursive": {
+            "name": "recursive",
+            "global": false,
+            "description": "",
+            "tags": [],
+            "required": true,
+            "type": "MyNestedRecursiveProps",
+            "schema": "MyNestedRecursiveProps"
+          }
+        }
+      }
+    }
+  ],
+  "events": [],
+  "slots": [],
+  "exposed": [
+    {
+      "name": "foo",
+      "type": "string",
+      "description": "string foo",
+      "schema": "string"
+    },
+    {
+      "name": "bar",
+      "type": "number",
+      "description": "optional number bar",
+      "schema": "number"
+    },
+    {
+      "name": "baz",
+      "type": "string[]",
+      "description": "string array baz",
+      "schema": {
+        "kind": "array",
+        "type": "string[]",
+        "schema": ["string"]
+      }
+    },
+    {
+      "name": "union",
+      "type": "string | number",
+      "description": "required union type",
+      "schema": {
+        "kind": "enum",
+        "type": "string | number",
+        "schema": ["string", "number"]
+      }
+    },
+    {
+      "name": "nested",
+      "type": "MyNestedProps",
+      "description": "required nested object",
+      "schema": {
+        "kind": "object",
+        "type": "MyNestedProps",
+        "schema": {
+          "nestedProp": {
+            "name": "nestedProp",
+            "global": false,
+            "description": "nested prop documentation",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "nestedIntersection",
+      "type": "MyNestedProps & { additionalProp: string; }",
+      "description": "required nested object with intersection",
+      "schema": {
+        "kind": "object",
+        "type": "MyNestedProps & { additionalProp: string; }",
+        "schema": {
+          "nestedProp": {
+            "name": "nestedProp",
+            "global": false,
+            "description": "nested prop documentation",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          },
+          "additionalProp": {
+            "name": "additionalProp",
+            "global": false,
+            "description": "required additional property",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "array",
+      "type": "MyNestedProps[]",
+      "description": "required array object",
+      "schema": {
+        "kind": "array",
+        "type": "MyNestedProps[]",
+        "schema": [
+          {
+            "kind": "object",
+            "type": "MyNestedProps",
+            "schema": {
+              "nestedProp": {
+                "name": "nestedProp",
+                "global": false,
+                "description": "nested prop documentation",
+                "tags": [],
+                "required": true,
+                "type": "string",
+                "schema": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "enumValue",
+      "type": "MyEnum",
+      "description": "enum value",
+      "schema": {
+        "kind": "enum",
+        "type": "MyEnum",
+        "schema": ["MyEnum.Small", "MyEnum.Medium", "MyEnum.Large"]
+      }
+    },
+    {
+      "name": "literalFromContext",
+      "type": "\"Uncategorized\" | \"Content\" | \"Interaction\" | \"Display\" | \"Forms\" | \"Addons\"",
+      "description": "literal type alias that require context",
+      "schema": {
+        "kind": "enum",
+        "type": "\"Uncategorized\" | \"Content\" | \"Interaction\" | \"Display\" | \"Forms\" | \"Addons\"",
+        "schema": [
+          "\"Uncategorized\"",
+          "\"Content\"",
+          "\"Interaction\"",
+          "\"Display\"",
+          "\"Forms\"",
+          "\"Addons\""
+        ]
+      }
+    },
+    {
+      "name": "inlined",
+      "type": "{ foo: string; }",
+      "description": "",
+      "schema": {
+        "kind": "object",
+        "type": "{ foo: string; }",
+        "schema": {
+          "foo": {
+            "name": "foo",
+            "global": false,
+            "description": "",
+            "tags": [],
+            "required": true,
+            "type": "string",
+            "schema": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "recursive",
+      "type": "MyNestedRecursiveProps",
+      "description": "",
+      "schema": {
+        "kind": "object",
+        "type": "MyNestedRecursiveProps",
+        "schema": {
+          "recursive": {
+            "name": "recursive",
+            "global": false,
+            "description": "",
+            "tags": [],
+            "required": true,
+            "type": "MyNestedRecursiveProps",
+            "schema": "MyNestedRecursiveProps"
+          }
+        }
+      }
+    },
+    {
+      "name": "unionOptional",
+      "type": "string | number | undefined",
+      "description": "optional union type",
+      "schema": {
+        "kind": "enum",
+        "type": "string | number | undefined",
+        "schema": ["undefined", "string", "number"]
+      }
+    },
+    {
+      "name": "nestedOptional",
+      "type": "MyNestedProps | MyIgnoredNestedProps | undefined",
+      "description": "optional nested object",
+      "schema": {
+        "kind": "enum",
+        "type": "MyNestedProps | MyIgnoredNestedProps | undefined",
+        "schema": [
+          "undefined",
+          {
+            "kind": "object",
+            "type": "MyNestedProps",
+            "schema": {
+              "nestedProp": {
+                "name": "nestedProp",
+                "global": false,
+                "description": "nested prop documentation",
+                "tags": [],
+                "required": true,
+                "type": "string",
+                "schema": "string"
+              }
+            }
+          },
+          "MyIgnoredNestedProps"
+        ]
+      }
+    },
+    {
+      "name": "arrayOptional",
+      "type": "MyNestedProps[] | undefined",
+      "description": "optional array object",
+      "schema": {
+        "kind": "enum",
+        "type": "MyNestedProps[] | undefined",
+        "schema": [
+          "undefined",
+          {
+            "kind": "array",
+            "type": "MyNestedProps[]",
+            "schema": [
+              {
+                "kind": "object",
+                "type": "MyNestedProps",
+                "schema": {
+                  "nestedProp": {
+                    "name": "nestedProp",
+                    "global": false,
+                    "description": "nested prop documentation",
+                    "tags": [],
+                    "required": true,
+                    "type": "string",
+                    "schema": "string"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "sourceFiles": "/Users/abdulrehman/devs/remote-sb/new-sb/storybook.worktrees/chaks/vue3-source-fix/sandbox/vue3-vite-default-ts/src/stories/renderers/vue3/reference-type-props/component.vue"
+}
