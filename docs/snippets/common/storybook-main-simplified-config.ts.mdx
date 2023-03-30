@@ -4,8 +4,6 @@
 // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
 import type { StorybookConfig } from '@storybook/your-framework';
 
-import custom from '../webpack.config.js'; // 👈 Custom Webpack configuration being imported.
-
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -13,11 +11,9 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
-  webpackFinal: async (config) => {
-    return {
-      ...config,
-      module: { ...config.module, rules: [...config.module.rules, ...custom.module.rules] },
-    };
+   webpackFinal: async (config) => {
+    config.plugins.push(...);
+    return config;
   },
 };
 
