@@ -6166,6 +6166,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/csf@npm:0.0.2--canary.65.ef100c4.0":
+  version: 0.0.2--canary.65.ef100c4.0
+  resolution: "@storybook/csf@npm:0.0.2--canary.65.ef100c4.0"
+  dependencies:
+    type-fest: ^2.19.0
+  checksum: cb275451d548286937b56cac48696784e17676d3ef00d4051e94cd26110537181094e872f80ca82ecdcd334f8292513663df924361f1936dc944fed43cebabc8
+  languageName: node
+  linkType: hard
+
 "@storybook/csf@npm:^0.0.1":
   version: 0.0.1
   resolution: "@storybook/csf@npm:0.0.1"
@@ -7404,7 +7413,7 @@ __metadata:
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:
     "@storybook/channels": 7.0.0-rc.10
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.65.ef100c4.0
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     "@types/node": ^16.0.0
