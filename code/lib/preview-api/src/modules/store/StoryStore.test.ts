@@ -1,5 +1,4 @@
 import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
-import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
 
 import { prepareStory } from './csf/prepareStory';
