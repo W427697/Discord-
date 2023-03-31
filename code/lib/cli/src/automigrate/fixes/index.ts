@@ -18,6 +18,7 @@ import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
 import { angularBuilders } from './angular-builders';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
+import { deprecatedFeatures } from './deprecated-features';
 
 export * from '../types';
 
@@ -40,6 +41,7 @@ export const allFixes: Fix[] = [
   missingBabelRc,
   angularBuildersMultiproject,
   angularBuilders,
+  deprecatedFeatures,
 ];
 
 export const initFixes: Fix[] = [missingBabelRc, eslintPlugin];
