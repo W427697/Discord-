@@ -162,7 +162,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       ...directories,
       storyIndexers,
       docs: docsOptions,
-      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
     });
 

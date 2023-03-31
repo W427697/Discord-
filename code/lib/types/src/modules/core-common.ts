@@ -293,11 +293,6 @@ export interface StorybookConfig {
     storyStoreV7MdxErrors?: boolean;
 
     /**
-     * Enable a set of planned breaking changes for SB7.0
-     */
-    breakingChangesV7?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
