@@ -513,7 +513,7 @@ addons.addPanel('my-panel', {
 });
 ```
 
-Not that this before would import `addons` from `@storybook/addons`, but now it imports `{ addons }` from `@storybook/manager-api`.
+Note that this before would import `addons` from `@storybook/addons`, but now it imports `{ addons }` from `@storybook/manager-api`.
 The `addons` export is now a named export only, there's no default export anymore, so make sure to update this usage.
 
 The package `@storybook/addons` is still available, but it's only for backwards compatibility. It's not recommended to use it anymore.
@@ -523,9 +523,9 @@ These APIs are now available in `@storybook/preview-api`.
 
 Storybook users have had access to a few storybook-lifecycle hooks such as `useChannel`, `useParameter`, `useStorybookState`;
 when these hooks are used in panels, they should be imported from `@storybook/manger-api`.
-when these hooks are used in decorators/stories, they should be imported from `@storybook/preview-api`.
+When these hooks are used in decorators/stories, they should be imported from `@storybook/preview-api`.
 
-Storybook will automatically detect if you're using the old API, and will convert it to the new API for you.
+Storybook 7 includes `@storybook/addons` shim package that provides the old API and calls the new API under the hood.
 This backwards compatibility will be removed in a future release of storybook.
 
 Here's an example of using the new API:
@@ -556,13 +556,11 @@ It should no longer depend on `@storybook/addons`, but instead on `@storybook/pr
 You might also depend (and use) these packages in your addon's decorators: `@storybook/store`, `@storybook/preview-web`, `@storybook/core-client`, `@storybook/client-api`; these have all been consolidated into `@storybook/preview-api`.
 So if you use any of these packages, please import what you need from `@storybook/preview-api` instead.
 
-If your addon is adding panels/etc. into storybook's manager UI, please be aware that storybook will optimize this to ensure no duplicate packages are loaded.
 
 Storybook 7 will prepare manager-code for the browser using ESbuild (before it was using a combination of webpack + babel).
 This is a very important change, though it will not affect most addons.
 It means that when creating custom addons, particularly custom addons within the repo in which they are consumed,
 you will need to be aware that this code is not passed though babel, and thus will not use your babel config.
-
 This can result in errors if you are using experimental JS features in your addon code, not supported yet by ESbuild,
 or using babel dependent features such as Component selectors in Emotion.
 
@@ -579,7 +577,7 @@ In both the preview and manager code it's good to remember [Storybook now target
 
 The package `@storybook/components` contain a lot of components useful for building addons.
 Some of these addons have been moved to a new package `@storybook/blocks`.
-These components were moved: `ColorControl`, `ColorPalette`, `ArgsTable`, `ArgRow`, `TabbedArgsTable`, `SectionRow`, `Source`, `Code` to `@storybook/blocks`.
+These components were moved: `ColorControl`, `ColorPalette`, `ArgsTable`, `ArgRow`, `TabbedArgsTable`, `SectionRow`, `Source`, `Code`.
 
 ##### Specific instructions for addon users
 
