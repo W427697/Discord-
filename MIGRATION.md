@@ -593,8 +593,8 @@ When this happens to you please open an issue on the addon's repo, and ask the a
 It's also useful for the storybook team to know which addons are not yet compatible, so please open an issue on the storybook repo as well; particularly if the addon is popular and causes a critical failure.
 
 Here's a list of popular addons that are known not to be compatible with Storybook 7 yet:
-- [ ] [storybook-addon-jsx](https://example.com)
-- [ ] [storybook-addon-dark-mode](https://example.com)
+- [ ] [storybook-addon-jsx](https://github.com/storybookjs/addon-jsx)
+- [ ] [storybook-addon-dark-mode](https://github.com/hipstersmoothie/storybook-dark-mode)
 
 Though storybook should de-duplicate storybook packages, storybook CLI's `upgrade` command will warn you when you have multiple storybook-dependencies, because it is a possibility that this causes addons/storybook to not work, so when running into issues, please run this:
 ```
