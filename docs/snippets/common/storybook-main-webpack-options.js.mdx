@@ -8,9 +8,17 @@ export default {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
-  webpackFinal: async (config) => {
-    config.plugins.push(...);
-    return config;
+  features: {
+    storyStoreV7: false,
   },
-}
+  core: {
+    builder: {
+      name: '@storybook/builder-webpack5',
+      options: {
+        fsCache: true,
+        lazyCompilation: true,
+      },
+    },
+  },
+};
 ```

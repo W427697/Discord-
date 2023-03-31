@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { within, userEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
@@ -7,6 +7,11 @@ import { OpenCloseComponent } from '../moduleMetadata/angular-src/open-close-com
 
 const meta: Meta = {
   component: OpenCloseComponent,
+  decorators: [
+    applicationConfig({
+      providers: [importProvidersFrom(BrowserAnimationsModule)],
+    }),
+  ],
   parameters: {
     chromatic: { delay: 100 },
   },
@@ -19,9 +24,6 @@ type Story = StoryObj<typeof OpenCloseComponent>;
 export const WithBrowserAnimations: Story = {
   render: () => ({
     template: `<app-open-close></app-open-close>`,
-    applicationConfig: {
-      providers: [importProvidersFrom(BrowserAnimationsModule)],
-    },
     moduleMetadata: {
       declarations: [OpenCloseComponent],
     },

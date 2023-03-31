@@ -29,9 +29,10 @@
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
+    - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -77,7 +78,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [parameters.docs.source.excludeDecorators defaults to true](#parametersdocssourceexcludedecorators-defaults-to-true)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
@@ -863,6 +864,21 @@ Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.ce
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
 
+#### Addon-interactions: Interactions debugger is now default
+
+The interactions debugger in the panel is now displayed by default. The feature flag is now removed.
+
+```js
+// .storybook/main.js
+
+const config = {
+  features: {
+    interactionsDebugger: true, // This should be removed!
+  },
+};
+export default config;
+```
+
 ### 7.0 Vite changes
 
 #### Vite builder uses Vite config automatically
@@ -940,15 +956,35 @@ For example, if you want to configure BrowserAnimationModule in your stories, pl
 ```js
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
-import { applicationConfig } from '@storybook/angular';
+import { applicationConfig, Meta, StoryObj } from '@storybook/angular';
+import {ExampleComponent} from './example.component';
 
-export default {
+const meta: Meta = {
   title: 'Example',
+  component: ExampleComponent,
   decorators: [
+    // Define application-wide providers with the applicationConfig decorator
     applicationConfig({
-      providers: [importProvidersFrom(BrowserAnimationsModule)],
+      providers: [
+        importProvidersFrom(BrowserAnimationsModule),
+        // Extract all providers (and nested ones) from a ModuleWithProviders
+        importProvidersFrom(SomeOtherModule.forRoot()),
+      ],
     }
   ],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof ExampleComponent>
+
+export const Default: Story = {
+  render: () => ({
+    // Define application-wide providers directly in the render function
+    applicationConfig: {
+      providers: [importProvidersFrom(BrowserAnimationsModule)],
+    }
+  }),
 };
 ```
 

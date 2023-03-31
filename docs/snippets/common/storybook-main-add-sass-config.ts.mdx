@@ -1,10 +1,13 @@
-```js
-// .storybook/main.js
+```ts
+// .storybook/main.ts
 
-import * as path from 'path';
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+import type { StorybookConfig } from '@storybook/your-framework';
 
-// Export a function. Accept the base config as the only param.
-export default {
+// your app's webpack.config.js
+import custom from '../webpack.config.js';
+
+const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
@@ -27,4 +30,6 @@ export default {
     return config;
   },
 };
+
+export default config;
 ```

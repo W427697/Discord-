@@ -209,16 +209,16 @@ WithCustomProvider.decorators = [
 
 ## applicationConfig decorator
 
-If your component relies on application-wide providers, like the ones defined by BrowserAnimationsModule or any other modules which use the forRoot pattern to provide a ModuleWithProviders, you can use the applicationConfig decorator to provide them to the [bootstrapApplication function](https://angular.io/guide/standalone-components#configuring-dependency-injection), which we use to bootstrap the component in Storybook.
+If your component relies on application-wide providers, like the ones defined by BrowserAnimationsModule or any other modules which use the forRoot pattern to provide a ModuleWithProviders, you can use the applicationConfig decorator on the meta default export to provide them to the [bootstrapApplication function](https://angular.io/guide/standalone-components#configuring-dependency-injection), which we use to bootstrap the component in Storybook.
 
 ```js
 
-import { StoryFn, Meta, applicationConfig } from '@storybook/angular';
+import { StoryObj, Meta, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
 import { ChipsModule } from './angular-src/chips.module';
 
-export default {
+const meta: Meta = {
   component: ChipsGroupComponent,
   decorators: [
     // Apply application config to all stories
@@ -233,23 +233,21 @@ export default {
       ],
     }),
   ],
-} as Meta;
+};
 
-const Template = (): StoryFn => (args) => ({
-  props: args,
-});
+export default meta;
 
-export const Base = Template();
+type Story = StoryObj<typeof ChipsGroupComponent>;
 
-export const WithCustomApplicationProvider = Template();
-
-WithCustomApplicationProvider.decorators = [
-  // Apply application config to a specific story
-  // The configuration will not be merged with the global configuration defined in the export default block
-  applicationConfig({
-    providers: [...]
-  }),
-];
+export const WithCustomApplicationProvider: Story = {
+  render: () => ({
+    // Apply application config to a specific story
+    applicationConfig: {
+      // The providers will be merged with the ones defined in the applicationConfig decorators providers array of the global meta object
+      providers: [...]
+    }
+  })
+}
 ```
 
 ## FAQ
