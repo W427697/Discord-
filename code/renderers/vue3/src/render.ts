@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { createApp, h, isReactive, reactive, watch } from 'vue';
+import { createApp, h, isReactive, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { Globals, Args, StoryContext } from '@storybook/csf';
+import type { Args, StoryContext } from '@storybook/csf';
 
 import type { VueRenderer } from './types';
 
@@ -28,9 +28,7 @@ const map = new Map<
     reactiveArgs: Args;
   }
 >();
-let reactiveState: {
-  globals: Globals;
-};
+
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
@@ -42,7 +40,7 @@ export function renderToCanvas(
     // we need to call here to run the decorators again
     // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
     const element = storyFn(); // TODO:  find better solution however it is not causing any harm for now
-
+    // reactiveState.globals = storyContext.globals;
     updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
@@ -53,22 +51,13 @@ export function renderToCanvas(
   // create vue app for the story
   const vueApp = createApp({
     setup() {
-      reactiveState = reactive({ globals: storyContext.globals });
       storyContext.args = reactive(storyContext.args);
-      let rootElement = storyFn();
+      const rootElement = storyFn();
       const appState = {
         vueApp,
         reactiveArgs: reactive(rootElement.props ?? storyContext.args),
       };
       map.set(canvasElement, appState);
-
-      watch(
-        () => reactiveState.globals,
-        () => {
-          storyContext.globals = reactiveState.globals;
-          rootElement = storyFn();
-        }
-      );
 
       return () => {
         return h(rootElement, appState.reactiveArgs);
