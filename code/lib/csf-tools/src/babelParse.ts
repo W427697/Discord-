@@ -2,16 +2,19 @@ import * as babelParser from '@babel/parser';
 import * as recast from 'recast';
 import type { ParserOptions } from '@babel/parser';
 
-function parseWithFlowOrTypescript(source) {
+function parseWithFlowOrTypescript(source, parserOptions) {
   const flowCommentPattern = /^\s*\/\/\s*@flow/;
   const useFlowPlugin = flowCommentPattern.test(source);
 
   const parserPlugins = useFlowPlugin ? ['flow'] : ['typescript'];
 
-  return babelParser.parse(source, {
-    sourceType: 'module',
-    plugins: parserPlugins,
-  });
+  // Merge the provided parserOptions with the custom parser plugins
+  const mergedParserOptions = {
+    ...parserOptions,
+    plugins: [...parserOptions.plugins, ...parserPlugins],
+  };
+
+  return babelParser.parse(source, mergedParserOptions);
 }
 
 export const parserOptions: ParserOptions = {
@@ -25,7 +28,7 @@ export const babelParse = (code: string) => {
   return recast.parse(code, {
     parser: {
       parse(source: string) {
-        return parseWithFlowOrTypescript(source); // Use the custom parser function here
+        return parseWithFlowOrTypescript(source, parserOptions); 
       },
     },
   });
