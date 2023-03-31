@@ -38,3 +38,4 @@ export const { esbuild } = unplugin;
 export const { webpack } = unplugin;
 export const { rollup } = unplugin;
 export const { vite } = unplugin;
+export const { rspack } = unplugin;

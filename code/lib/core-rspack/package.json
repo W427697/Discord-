@@ -1,25 +1,24 @@
 {
-  "name": "@storybook/csf-plugin",
-  "version": "7.0.0",
-  "description": "Enrich CSF files via static analysis",
+  "name": "@storybook/core-rspack",
+  "version": "7.0.0-rc.11",
+  "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/csf-plugin",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/csf-plugin"
+    "directory": "lib/core-webpack"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "sideEffects": false,
   "exports": {
     ".": {
       "node": "./dist/index.js",
@@ -34,6 +33,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "templates/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -43,10 +43,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/csf-tools": "7.0.0",
-    "unplugin": "1.3.1"
+    "@storybook/core-common": "7.0.0-rc.11",
+    "@storybook/node-logger": "7.0.0-rc.11",
+    "@storybook/types": "7.0.0-rc.11",
+    "@types/node": "^16.0.0",
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@rspack/core": "0.1.1",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
@@ -56,13 +60,7 @@
     "entries": [
       "./src/index.ts"
     ],
-    "externals": [
-      "webpack",
-      "vite",
-      "rollup",
-      "esbuild"
-    ],
     "platform": "node"
   },
-  "gitHead": "4f2afa644d7f2833181fc03187f5597d442285a6"
+  "gitHead": "94e99533b214c24691cc9edb3a026d04f20154b6"
 }

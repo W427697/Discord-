@@ -17,8 +17,9 @@ import { loadCsf } from '@storybook/csf-tools';
 import { logger } from '@storybook/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
-async function webpack(
-  webpackConfig: any = {},
+async function applyConfig(
+  bundler: 'webpack' | 'rspack',
+  config: any,
   options: Options & {
     /**
      * @deprecated
@@ -35,11 +36,9 @@ async function webpack(
     csfPluginOptions: CsfPluginOptions | null;
     jsxOptions?: JSXOptions;
     mdxPluginOptions?: CompileOptions;
-  } /* & Parameters<
-      typeof createCompiler
-    >[0] */
+  }
 ) {
-  const { module = {} } = webpackConfig;
+  const { module = {} } = config;
 
   // it will reuse babel options that are already in use in storybook
   // also, these babel options are chained with other presets.
@@ -93,12 +92,12 @@ async function webpack(
     : require.resolve('@storybook/mdx2-csf/loader');
 
   const result = {
-    ...webpackConfig,
+    ...config,
     plugins: [
-      ...(webpackConfig.plugins || []),
+      ...(config.plugins || []),
 
       ...(csfPluginOptions
-        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
+        ? [(await import('@storybook/csf-plugin'))[bundler](csfPluginOptions)]
         : []),
     ],
 
@@ -133,6 +132,54 @@ async function webpack(
   };
 
   return result;
+}
+
+async function rspack(
+  rspackConfig: any = {},
+  options: Options & {
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    configureJsx: boolean;
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    mdxBabelOptions?: any;
+    /** @deprecated */
+    sourceLoaderOptions: any;
+    csfPluginOptions: CsfPluginOptions | null;
+    jsxOptions?: JSXOptions;
+    mdxPluginOptions?: CompileOptions;
+  }
+) {
+  return applyConfig('rspack', rspackConfig, options);
+}
+
+async function webpack(
+  webpackConfig: any = {},
+  options: Options & {
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    configureJsx: boolean;
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    mdxBabelOptions?: any;
+    /** @deprecated */
+    sourceLoaderOptions: any;
+    csfPluginOptions: CsfPluginOptions | null;
+    jsxOptions?: JSXOptions;
+    mdxPluginOptions?: CompileOptions;
+  } /* & Parameters<
+      typeof createCompiler
+    >[0] */
+) {
+  return applyConfig('webpack', webpackConfig, options);
 }
 
 const storyIndexers = (indexers: StoryIndexer[] | null) => {
@@ -175,4 +222,4 @@ const docsX = docs as any;
 
 ensureReactPeerDeps();
 
-export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };
+export { webpackX as webpack, rspack, storyIndexersX as storyIndexers, docsX as docs };

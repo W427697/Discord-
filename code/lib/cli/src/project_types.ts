@@ -80,6 +80,7 @@ export enum ProjectType {
   REACT_NATIVE = 'REACT_NATIVE',
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
+  RSPACK_REACT = 'RSPACK_REACT',
   NEXTJS = 'NEXTJS',
   VUE = 'VUE',
   VUE3 = 'VUE3',
@@ -106,6 +107,7 @@ export enum ProjectType {
 export enum CoreBuilder {
   Webpack5 = 'webpack5',
   Vite = 'vite',
+  Rspack = 'rspack',
 }
 
 // The `& {}` bit allows for auto-complete, see: https://github.com/microsoft/TypeScript/issues/29729

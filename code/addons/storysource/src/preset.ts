@@ -28,4 +28,4 @@ function webpack(
   };
 }
 
-export { webpack };
+export { webpack, webpack as rspack };

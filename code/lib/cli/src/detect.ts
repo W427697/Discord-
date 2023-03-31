@@ -20,6 +20,8 @@ import { detectWebpack } from './detect-webpack';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
+const rspackConfigFiles = ['rspack.config.ts', 'rspack.config.js'];
+
 const hasDependency = (
   packageJson: PackageJsonWithMaybeDeps,
   name: string,
@@ -114,6 +116,12 @@ export function detectBuilder(packageManager: JsPackageManager, projectType: Pro
   if (viteConfig) {
     paddedLog('Detected Vite project. Setting builder to Vite');
     return CoreBuilder.Vite;
+  }
+
+  const rspackConfig = findUp.sync(rspackConfigFiles);
+  if (rspackConfig) {
+    paddedLog('Detected Rspack project. Setting builder to rspack');
+    return CoreBuilder.Rspack;
   }
 
   if (detectWebpack(packageManager)) {
