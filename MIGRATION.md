@@ -522,7 +522,7 @@ It's also been used by addon creators to gain access to a few APIs like `makeDec
 These APIs are now available in `@storybook/preview-api`.
 
 Storybook users have had access to a few storybook-lifecycle hooks such as `useChannel`, `useParameter`, `useStorybookState`;
-when these hooks are used in panels, they should be imported from `@storybook/manger-api`.
+when these hooks are used in panels, they should be imported from `@storybook/manager-api`.
 When these hooks are used in decorators/stories, they should be imported from `@storybook/preview-api`.
 
 Storybook 7 includes `@storybook/addons` shim package that provides the old API and calls the new API under the hood.
