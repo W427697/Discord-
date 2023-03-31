@@ -8,7 +8,6 @@ import { router } from './router';
 export async function getStoryIndexGenerator(
   features: {
     buildStoriesJson?: boolean;
-    previewCsfV3?: boolean;
     storyStoreV7?: boolean;
     breakingChangesV7?: boolean;
     argTypeTargetsV7?: boolean;
