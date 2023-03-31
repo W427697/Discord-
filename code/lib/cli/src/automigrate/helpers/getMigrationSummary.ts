@@ -147,7 +147,7 @@ function getWarnings(installationMetadata: InstallationMetadata) {
 
       const hasMultipleMajorVersions = hasMultipleVersions(versions);
 
-      if (hasMultipleMajorVersions || disallowList.includes(dep)) {
+      if (disallowList.includes(dep) && hasMultipleMajorVersions) {
         acc.critical.push(`${chalk.redBright(dep)}:\n${versions.join(', ')}`);
       } else {
         acc.trivial.push(`${chalk.hex('#ff9800')(dep)}:\n${versions.join(', ')}`);
