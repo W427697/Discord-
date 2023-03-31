@@ -205,7 +205,7 @@ interface HeaderMdxProps {
 export const HeaderMdx: FC<PropsWithChildren<HeaderMdxProps>> = (props) => {
   const { as, id, children, ...rest } = props;
 
-  // An id should have been added on every header by the "remark-slug" plugin.
+  // An id should have been added on every header by the "rehype-slug" plugin.
   if (id) {
     return (
       <HeaderWithOcticonAnchor as={as} id={id} {...rest}>
@@ -213,7 +213,7 @@ export const HeaderMdx: FC<PropsWithChildren<HeaderMdxProps>> = (props) => {
       </HeaderWithOcticonAnchor>
     );
   }
-  // Make sure it still work if "remark-slug" plugin is not present.
+  // Make sure it still work if "rehype-slug" plugin is not present.
   const Component = as as React.ElementType;
   const { as: omittedAs, ...withoutAs } = props;
   return <Component {...nameSpaceClassNames(withoutAs, as)} />;

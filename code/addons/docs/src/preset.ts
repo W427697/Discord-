@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
-import remarkSlug from 'remark-slug';
-import remarkExternalLinks from 'remark-external-links';
+import rehypeSlug from 'rehype-slug';
+import rehypeExternalLinks from 'rehype-external-links';
 import { dedent } from 'ts-dedent';
 
 import type {
@@ -58,7 +58,7 @@ async function webpack(
     mdxCompileOptions: {
       providerImportSource: '@storybook/addon-docs/mdx-react-shim',
       ...mdxPluginOptions.mdxCompileOptions,
-      remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
+      remarkPlugins: [rehypeSlug, rehypeExternalLinks].concat(
         mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
       ),
     },
