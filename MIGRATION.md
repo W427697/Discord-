@@ -29,6 +29,7 @@
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
+    - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
@@ -862,6 +863,21 @@ Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.ce
 #### Addon-a11y: Removed deprecated withA11y decorator
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
+
+#### Addon-interactions: Interactions debugger is now default
+
+The interactions debugger in the panel is now displayed by default. The feature flag is now removed.
+
+```js
+// .storybook/main.js
+
+const config = {
+  features: {
+    interactionsDebugger: true, // This should be removed!
+  },
+};
+export default config;
+```
 
 ### 7.0 Vite changes
 
