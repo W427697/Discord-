@@ -1,3 +1,27 @@
+## 7.0.0-rc.11 (March 31, 2023)
+
+#### Features
+
+-   CLI: Update stories glob in mdx codemod and not in mdx automigration [#21809](https://github.com/storybooks/storybook/pull/21809)
+
+#### Bug Fixes
+
+-   TS: Make sure components with interfaces or no props don't raise decorator assignability issues [#21833](https://github.com/storybooks/storybook/pull/21833)
+-   Angular: Export applicationConfig decorator and adjust documentation for usage [#21851](https://github.com/storybooks/storybook/pull/21851)
+-   Vite: Polyfill global by default [#21832](https://github.com/storybooks/storybook/pull/21832)
+-   NextJS: Add explicit require.resolve calls to nextjs webpack loader config [#21834](https://github.com/storybooks/storybook/pull/21834)
+-   Angular: Fix support on Windows when Storystore v7 is disabled [#21830](https://github.com/storybooks/storybook/pull/21830)
+-   Angular: Fix module imported twice [#21770](https://github.com/storybooks/storybook/pull/21770)
+
+#### Maintenance
+
+-   CLI: Fix duplicated dependency warning for major version differences [#21850](https://github.com/storybooks/storybook/pull/21850)
+-   Vite: downgrade remark related dependencies [#21836](https://github.com/storybooks/storybook/pull/21836)
+
+#### Build
+
+-   Build: Remove workflow we no longer use [#21829](https://github.com/storybooks/storybook/pull/21829)
+
 ## 7.0.0-rc.10 (March 29, 2023)
 
 #### Features
