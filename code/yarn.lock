@@ -6176,11 +6176,11 @@ __metadata:
   linkType: hard
 
 "@storybook/csf@npm:next":
-  version: 0.0.2-next.10
-  resolution: "@storybook/csf@npm:0.0.2-next.10"
+  version: 0.0.2-next.11
+  resolution: "@storybook/csf@npm:0.0.2-next.11"
   dependencies:
     type-fest: ^2.19.0
-  checksum: a46deb02d9899b1d85e8fed3bfcdde4368fb8220fd8d78e090046e891241cfa0f294c91687d0ac592c7d8036f1294be8874fab14f11ecabe255659272047c961
+  checksum: fa4025ff520fcfc6eaf9bb9cabbf11d5c06d6ae7ec91bd8102f8f32505ca9149b305e55cd151789a18c1ddee69fe6997293aeff20dcc8c28b6f09833c98a8831
   languageName: node
   linkType: hard
 
