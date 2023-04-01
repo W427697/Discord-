@@ -35,8 +35,8 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
         mdxCompileOptions: {
           providerImportSource: '@storybook/addon-docs/mdx-react-shim',
           ...mdxPluginOptions?.mdxCompileOptions,
-          remarkPlugins: [rehypeSlug, rehypeExternalLinks].concat(
-            mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
+          rehypePlugins: [rehypeSlug, rehypeExternalLinks].concat(
+            mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []
           ),
         },
         jsxOptions,
