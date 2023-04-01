@@ -34,6 +34,7 @@ const modulesToTransform = [
   'micromark',
   'nanoid',
   'remark',
+  'rehype-slug',
   'rxjs',
   'slash',
   'space-separated-tokens',
