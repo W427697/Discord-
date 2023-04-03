@@ -9,7 +9,7 @@ export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
     '@storybook/addon-knobs': '6.4.0',
     '@storybook/addon-postcss': '2.0.0',
     'storybook-addon-next-router': '4.0.2',
-    'storybook-addon-outline': '1.0.0', // (deprecated)
+    'storybook-addon-outline': '1.4.2', // (deprecated)
     '@storybook/addon-info': '5.3.21',
     'storybook-addon-designs': '6.3.1',
     'storybook-addon-next': '1.7.0', // (deprecated)'
