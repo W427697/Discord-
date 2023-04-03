@@ -2,6 +2,7 @@
   "name": "@storybook/root",
   "version": "7.0.2",
   "private": true,
+  "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
   "repository": {
     "type": "git",
