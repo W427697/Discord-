@@ -35,6 +35,7 @@ import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
 import { defaultStaticDirs } from './utils/constants';
+import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
   LoadOptions &
@@ -65,7 +66,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   await emptyDir(options.outputDir);
   await ensureDir(options.outputDir);
 
-  const { framework } = await loadMainConfig(options);
+  const { framework, addons } = await loadMainConfig(options);
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
@@ -74,6 +75,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   } else {
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
+
+  warnOnIncompatibleAddons(addons);
 
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
