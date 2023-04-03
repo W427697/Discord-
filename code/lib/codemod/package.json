@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@babel/core": "~7.21.0",
-    "@babel/preset-env": "~7.20.2",
+    "@babel/preset-env": "~7.21.0",
     "@babel/types": "~7.21.2",
     "@storybook/csf": "next",
     "@storybook/csf-tools": "7.0.0",
