@@ -5179,7 +5179,7 @@ __metadata:
     "@storybook/jest": next
     "@storybook/manager-api": 7.0.0
     "@storybook/preview-api": 7.0.0
-    "@storybook/testing-library": next
+    "@storybook/testing-library": ^0.1.0
     "@storybook/theming": 7.0.0
     "@storybook/types": 7.0.0
     "@types/node": ^16.0.0
@@ -5925,7 +5925,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@7.0.0, @storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
+"@storybook/client-logger@7.0.0, @storybook/client-logger@^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0, @storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
   version: 0.0.0-use.local
   resolution: "@storybook/client-logger@workspace:lib/client-logger"
   dependencies:
@@ -5934,7 +5934,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@npm:7.0.0-rc.5, @storybook/client-logger@npm:next":
+"@storybook/client-logger@npm:7.0.0-rc.5":
   version: 7.0.0-rc.5
   resolution: "@storybook/client-logger@npm:7.0.0-rc.5"
   dependencies:
@@ -6319,7 +6319,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/instrumenter@7.0.0, @storybook/instrumenter@workspace:*, @storybook/instrumenter@workspace:lib/instrumenter":
+"@storybook/instrumenter@7.0.0, @storybook/instrumenter@^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0, @storybook/instrumenter@workspace:*, @storybook/instrumenter@workspace:lib/instrumenter":
   version: 0.0.0-use.local
   resolution: "@storybook/instrumenter@workspace:lib/instrumenter"
   dependencies:
@@ -7105,7 +7105,7 @@ __metadata:
     "@storybook/svelte": "workspace:*"
     "@storybook/svelte-webpack5": "workspace:*"
     "@storybook/telemetry": "workspace:*"
-    "@storybook/testing-library": next
+    "@storybook/testing-library": ^0.1.0
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@storybook/vue": "workspace:*"
@@ -7370,16 +7370,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/testing-library@npm:next":
-  version: 0.0.14-next.1
-  resolution: "@storybook/testing-library@npm:0.0.14-next.1"
+"@storybook/testing-library@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@storybook/testing-library@npm:0.1.0"
   dependencies:
-    "@storybook/client-logger": next
-    "@storybook/instrumenter": next
+    "@storybook/client-logger": ^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0
+    "@storybook/instrumenter": ^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0
     "@testing-library/dom": ^8.3.0
     "@testing-library/user-event": ^13.2.1
     ts-dedent: ^2.2.0
-  checksum: 0d386dd136c5f6a5e695247eb7c7fa10182cb73150aae9744d6b7197c6cd049dfeffbbe192c06131858a346726b80e6fa28e8ac7a0f0012759f6f092b219cd61
+  checksum: 182c5ed9f79b9108f79fb668b780530c85a1515830efb3b156cb4802ae9dd5aca357f28a472ebf9e513b1f3996335a21f7e1646cece1110bac9adf7f6b6a4770
   languageName: node
   linkType: hard
 

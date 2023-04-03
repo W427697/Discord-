@@ -183,7 +183,7 @@
     "@storybook/svelte": "workspace:*",
     "@storybook/svelte-webpack5": "workspace:*",
     "@storybook/telemetry": "workspace:*",
-    "@storybook/testing-library": "next",
+    "@storybook/testing-library": "^0.1.0",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "@storybook/vue": "workspace:*",
