@@ -153,7 +153,7 @@ export async function runFixes({
   const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
   if (!sbVersionCoerced) {
     logger.info(dedent`
-      [Storybook automigrate] ❌ Unable to determine storybook version  so the automigrations will be skipped.
+      [Storybook automigrate] ❌ Unable to determine storybook version so the automigrations will be skipped.
         🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
       `);
     return {
