@@ -58,6 +58,12 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
   ? StoryAnnotations<SvelteRenderer<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
   : StoryAnnotations<SvelteRenderer, MetaOrCmpOrArgs>;
 
+export type ComponentTypeFromComponent<
+  Component extends SvelteComponentTyped = SvelteComponentTyped
+> = ComponentType<
+  Component extends SvelteComponentTyped<infer Props> ? Props : Record<string, any>
+>;
+
 export type { SvelteRenderer };
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<SvelteRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<SvelteRenderer, TArgs>;

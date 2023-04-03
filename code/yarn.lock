@@ -7363,7 +7363,7 @@ __metadata:
     "@storybook/preview-api": 7.0.1
     "@storybook/types": 7.0.1
     expect-type: ^0.14.2
-    svelte: ^3.31.2
+    svelte: 3.57.0
     svelte-check: ^2.9.2
     sveltedoc-parser: ^4.2.1
     type-fest: 2.19.0
@@ -28423,7 +28423,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^3.0.0, svelte@npm:^3.31.2, svelte@npm:^3.48.0":
+"svelte@npm:3.57.0, svelte@npm:^3.0.0, svelte@npm:^3.31.2, svelte@npm:^3.48.0":
   version: 3.57.0
   resolution: "svelte@npm:3.57.0"
   checksum: da16d7d867b61134b824764d7fb28760edc9a51ea9e4675fcd84df0ef3e7bb0af913b6853f24eea1dd5a07d3a574c5c99549320c6b8b66690d1394e9a79175c7
