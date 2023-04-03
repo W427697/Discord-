@@ -916,6 +916,7 @@ In 7.0 we've removed the following feature flags:
 | ------------------- | ----------------------------------------------------------- |
 | `emotionAlias`      | This flag is no longer needed and should be deleted.        |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted.        |
+| `previewCsfV3`      | This flag is no longer needed and should be deleted.        |
 | `babelModeV7`       | See [Babel mode v7 exclusively](#babel-mode-v7-exclusively) |
 
 #### Story context is prepared before for supporting fine grained updates
