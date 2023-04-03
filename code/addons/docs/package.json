@@ -109,7 +109,7 @@
     "@storybook/csf-plugin": "7.0.0",
     "@storybook/csf-tools": "7.0.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/mdx2-csf": "next",
+    "@storybook/mdx2-csf": "^1.0.0",
     "@storybook/node-logger": "7.0.0",
     "@storybook/postinstall": "7.0.0",
     "@storybook/preview-api": "7.0.0",
