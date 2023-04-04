@@ -8,6 +8,7 @@ export const applyDecorators = (
   storyFn: LegacyStoryFn<ReactRenderer>,
   decorators: DecoratorFunction<ReactRenderer>[]
 ): LegacyStoryFn<ReactRenderer> => {
+  // @ts-ignore
   const jsxIndex = decorators.findIndex((d) => d.originalFn === jsxDecorator);
 
   const reorderedDecorators =
