@@ -23,8 +23,8 @@ To upgrade your Storybook:
 
 <CodeSnippets
   paths={[
-    'common/storybook-upgrade-prerelease.npm.js.mdx',
-    'common/storybook-upgrade-prerelease.pnpm.js.mdx'
+    'common/storybook-upgrade.npm.js.mdx',
+    'common/storybook-upgrade.pnpm.js.mdx'
   ]}
 />
 
@@ -32,7 +32,7 @@ To upgrade your Storybook:
 
 This will:
 
-1. Upgrade your Storybook dependencies to the latest prerelease version
+1. Upgrade your Storybook dependencies to the latest version
 2. Run a collection of _automigrations_, which will:
    - Check for common upgrade tasks
    - Explain the necessary changes with links to more information
