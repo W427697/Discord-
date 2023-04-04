@@ -61,6 +61,9 @@
       "manager": [
         "dist/manager.d.ts"
       ],
+      "decorator": [
+        "dist/decorator.d.ts"
+      ],
       "preview": [
         "dist/preview.d.ts"
       ]
