@@ -26,7 +26,7 @@ describe('getMigrationSummary', () => {
   const installationMetadata: InstallationMetadata = {
     duplicatedDependencies: {
       '@storybook/core-client': ['7.0.0', '7.1.0'],
-      '@storybook/instrumenter': ['7.0.0', '7.1.0'],
+      '@storybook/instrumenter': ['6.0.0', '7.1.0'],
       '@storybook/core-common': ['6.0.0', '7.1.0'],
       '@storybook/addon-essentials': ['7.0.0', '7.1.0'],
     },
@@ -136,17 +136,37 @@ describe('getMigrationSummary', () => {
       Critical: The following dependencies are duplicated and WILL cause unexpected behavior:
 
       @storybook/instrumenter:
-      7.0.0, 7.1.0
-
-      @storybook/core-common:
       6.0.0, 7.1.0
 
       Attention: The following dependencies are duplicated which might cause unexpected behavior:
+
+      @storybook/core-common:
+      6.0.0, 7.1.0
 
       @storybook/addon-essentials:
       7.0.0, 7.1.0
 
       You can find more information for a given dependency by running yarn why <package-name>"
+    `);
+  });
+
+  test('renders a basic summary if there are no duplicated dependencies or migrations', () => {
+    const summary = getMigrationSummary({
+      fixResults: {},
+      fixSummary: { succeeded: [], failed: {}, manual: [], skipped: [] },
+      installationMetadata: undefined,
+      logFile,
+    });
+
+    expect(summary).toMatchInlineSnapshot(`
+      "No migrations were applicable to your project
+
+      If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'
+
+      The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
+
+      Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0
+      And reach out on Discord if you need help: https://discord.gg/storybook"
     `);
   });
 });
