@@ -44,8 +44,8 @@ To add Storybook to a project that isn’t currently using Storybook:
 
 <CodeSnippets
   paths={[
-    'common/init-command.npx.js.mdx',
-    'common/init-command.pnpm.js.mdx'
+    'common/init-command.npx.mdx',
+    'common/init-command.pnpm.mdx'
   ]}
 />
 
