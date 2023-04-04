@@ -112,6 +112,8 @@ export abstract class AbstractRenderer {
       return;
     }
 
+    await this.beforeFullRender();
+
     // Complete last BehaviorSubject and set a new one for the current module
     if (this.storyProps$) {
       this.storyProps$.complete();
@@ -122,22 +124,21 @@ export abstract class AbstractRenderer {
 
     const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
 
-    const providers = [
-      // Providers for BrowserAnimations & NoopAnimationsModule
-      analyzedMetadata.singletons,
-      importProvidersFrom(
-        ...analyzedMetadata.imports.filter((imported) => {
-          const { isStandalone } = PropertyExtractor.analyzeDecorators(imported);
-          return !isStandalone;
-        })
-      ),
-      analyzedMetadata.providers,
-      storyPropsProvider(newStoryProps$),
-    ].filter(Boolean);
+    const application = getApplication({
+      storyFnAngular,
+      component,
+      targetSelector,
+      analyzedMetadata,
+    });
 
-    const application = getApplication({ storyFnAngular, component, targetSelector });
-
-    const applicationRef = await bootstrapApplication(application, { providers });
+    const applicationRef = await bootstrapApplication(application, {
+      ...storyFnAngular.applicationConfig,
+      providers: [
+        storyPropsProvider(newStoryProps$),
+        ...analyzedMetadata.applicationProviders,
+        ...(storyFnAngular.applicationConfig?.providers ?? []),
+      ],
+    });
 
     applicationRefs.add(applicationRef);
 

@@ -36,6 +36,8 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 import type { CommandOptions } from './generators/types';
+import { initFixes } from './automigrate/fixes';
+import { HandledError } from './HandledError';
 
 const logger = console;
 
@@ -225,10 +227,12 @@ const installStorybook = <Project extends ProjectType>(
     }
   };
 
-  return runGenerator().catch((ex) => {
-    logger.error(`\n     ${chalk.red(ex.stack)}`);
-    process.exit(1);
-  });
+  try {
+    return runGenerator();
+  } catch (err) {
+    logger.error(`\n     ${chalk.red(err.stack)}`);
+    throw new HandledError(err);
+  }
 };
 
 const projectTypeInquirer = async (
@@ -289,23 +293,23 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   const packageJson = packageManager.retrievePackageJson();
 
-  try {
-    if (projectTypeProvided) {
-      if (installableProjectTypes.includes(projectTypeProvided)) {
-        projectType = projectTypeProvided.toUpperCase();
-      } else {
-        done(`The provided project type was not recognized by Storybook: ${projectTypeProvided}`);
-        logger.log(`\nThe project types currently supported by Storybook are:\n`);
-        installableProjectTypes.sort().forEach((framework) => paddedLog(`- ${framework}`));
-        logger.log();
-        process.exit(1);
-      }
+  if (projectTypeProvided) {
+    if (installableProjectTypes.includes(projectTypeProvided)) {
+      projectType = projectTypeProvided.toUpperCase();
     } else {
-      projectType = detect(packageJson, options);
+      done(`The provided project type was not recognized by Storybook: ${projectTypeProvided}`);
+      logger.log(`\nThe project types currently supported by Storybook are:\n`);
+      installableProjectTypes.sort().forEach((framework) => paddedLog(`- ${framework}`));
+      logger.log();
+      throw new HandledError(`Unknown project type supplied: ${projectTypeProvided}`);
     }
-  } catch (ex) {
-    done(ex.message);
-    process.exit(1);
+  } else {
+    try {
+      projectType = detect(packageJson, options);
+    } catch (err) {
+      done(err.message);
+      throw new HandledError(err);
+    }
   }
   done();
 
@@ -319,16 +323,10 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
     // Add a new line for the clear visibility.
     logger.log();
-    return;
+    throw new HandledError(`Angular project already installed`);
   }
 
-  const installResult = await installStorybook(
-    projectType as ProjectType,
-    packageManager,
-    options
-  ).catch((e) => {
-    process.exit();
-  });
+  const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
 
   if (!options.skipInstall && !storybookInstalled) {
     packageManager.installDependencies();
@@ -339,7 +337,12 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
 
   if (projectType !== ProjectType.REACT_NATIVE) {
-    await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
+    await automigrate({
+      yes: options.yes || process.env.CI === 'true',
+      packageManager: pkgMgr,
+      fixes: initFixes,
+      configDir: installResult?.configDir,
+    });
   }
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
@@ -367,5 +370,12 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
-  await withTelemetry('init', { cliOptions: options }, () => doInitiate(options, pkg));
+  await withTelemetry(
+    'init',
+    {
+      cliOptions: options,
+      printError: (err) => !err.handled && logger.error(err),
+    },
+    () => doInitiate(options, pkg)
+  );
 }

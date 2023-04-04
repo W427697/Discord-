@@ -3,10 +3,14 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
+    - [Default export in Preview.js](#default-export-in-previewjs)
     - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
+    - [New Addons API](#new-addons-api)
+      - [Specific instructions for addon creators](#specific-instructions-for-addon-creators)
+      - [Specific instructions for addon users](#specific-instructions-for-addon-users)
     - [New Framework API](#new-framework-api)
       - [Available framework packages](#available-framework-packages)
       - [Framework field mandatory](#framework-field-mandatory)
@@ -18,30 +22,37 @@
     - [Change of root html IDs](#change-of-root-html-ids)
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
-    - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
+    - [Stories field in .storybook/main.js is mandatory](#stories-field-in-storybookmainjs-is-mandatory)
+  - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
+    - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
+    - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
+    - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [Postcss removed](#postcss-removed)
     - [Removed DLL flags](#removed-dll-flags)
   - [7.0 Framework-specific changes](#70-framework-specific-changes)
+    - [Angular: Removed deprecated `component` and `propsMeta` field](#angular-removed-deprecated-component-and-propsmeta-field)
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
+    - [Angular: Application providers and ModuleWithProviders](#angular-application-providers-and-modulewithproviders)
     - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
     - [Next.js: use the `@storybook/nextjs` framework](#nextjs-use-the-storybooknextjs-framework)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
     - [Create React App: dropped CRA4 support](#create-react-app-dropped-cra4-support)
+    - [HTML: No longer auto-dedents source code](#html-no-longer-auto-dedents-source-code)
   - [7.0 Addon authors changes](#70-addon-authors-changes)
     - [register.js removed](#registerjs-removed)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -72,6 +83,7 @@
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
     - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [parameters.docs.source.excludeDecorators defaults to true](#parametersdocssourceexcludedecorators-defaults-to-true)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -293,9 +305,59 @@ A number of these changes can be made automatically by the Storybook CLI. To tak
 
 Storybook 7.0 requires **Node 16** or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
 
+#### Default export in Preview.js
+
+Storybook 7.0 supports a default export in `.storybook/preview.js` that should contain all of its annotations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
+
+If your `preview.js` file looks like this:
+
+```js
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};
+```
+
+Please migrate it to use a default export instead:
+
+```js
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
+Additionally, we introduced typings for that default export (Preview), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `preview.ts`.
+
+The `Preview` type will come from the Storybook package for the **renderer** you are using. For example, if you are using Angular, you will import it from `@storybook/angular`, or if you're using Vue3, you will import it from `@storybook/vue3`:
+
+```ts
+import { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
+In JavaScript projects using `preview.js`, it's also possible to use the `Preview` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```js
+/** @type { import('@storybook/react').Preview } */
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
 #### ESM format in Main.js
 
-Storybook 7.0 supports ESM in `.storybook/main.js`, and the configurations can be part of a default export. The default export will be the recommended way going forward.
+It's now possible to use ESM in `.storybook/main.js` out of the box. Storybook 7.0 supports a default export in `.storybook/main.js` that should contain all of its configurations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
 
 If your main.js file looks like this:
 
@@ -313,7 +375,7 @@ export const stories = ['../stories/**/*.stories.mdx', '../stories/**/*.stories.
 export const framework = { name: '@storybook/react-vite' };
 ```
 
-Please migrate them to be default exported instead:
+Please migrate it to use a default export instead:
 
 ```js
 const config = {
@@ -323,12 +385,25 @@ const config = {
 export default config;
 ```
 
-For Typescript users, we introduced types for that default export, so you can import it in your main.ts file. The `StorybookConfig` type will come from the Storybook package for the framework you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
+Additionally, we introduced typings for that default export (StorybookConfig), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `main.ts`.
+
+The `StorybookConfig` type will come from the Storybook package for the **framework** you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
 
 ```ts
 import { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+export default config;
+```
+
+In JavaScript projects using `main.js`, it's also possible to use the `StorybookConfig` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```ts
+/** @type { import('@storybook/react-vite').StorybookConfig } */
+const config = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   framework: { name: '@storybook/react-vite' },
 };
@@ -424,6 +499,110 @@ The new CLI commands remove the following flags:
 | -------- | --------------------------------------------------------------------------------------------- |
 | --modern | No migration needed. [All ESM code is modern in SB7](#modern-esm--ie11-support-discontinued). |
 
+#### New Addons API
+
+Storybook 7 adds 2 new packages for addon authors to use: `@storybook/preview-api` and `@storybook/manager-api`.
+These 2 packages replace `@storybook/addons`.
+
+When adding addons to storybook, you can (for example) add panels:
+  
+```js
+import { addons } from '@storybook/manager-api';
+
+addons.addPanel('my-panel', {
+  title: 'My Panel',
+  render: ({ active, key }) => <div>My Panel</div>,
+});
+```
+
+Note that this before would import `addons` from `@storybook/addons`, but now it imports `{ addons }` from `@storybook/manager-api`.
+The `addons` export is now a named export only, there's no default export anymore, so make sure to update this usage.
+
+The package `@storybook/addons` is still available, but it's only for backwards compatibility. It's not recommended to use it anymore.
+
+It's also been used by addon creators to gain access to a few APIs like `makeDecorator`. 
+These APIs are now available in `@storybook/preview-api`.
+
+Storybook users have had access to a few storybook-lifecycle hooks such as `useChannel`, `useParameter`, `useStorybookState`;
+when these hooks are used in panels, they should be imported from `@storybook/manager-api`.
+When these hooks are used in decorators/stories, they should be imported from `@storybook/preview-api`.
+
+Storybook 7 includes `@storybook/addons` shim package that provides the old API and calls the new API under the hood.
+This backwards compatibility will be removed in a future release of storybook.
+
+Here's an example of using the new API:
+The `@storybook/preview-api` is used here, because the `useEffect` hook is used in a decorator.
+
+```js
+import { useEffect, makeDecorator } from '@storybook/preview-api';
+
+export const withMyAddon = makeDecorator({
+  name: 'withMyAddon',
+  parameterName: 'myAddon',
+  wrapper: (getStory) => {
+    useEffect(() => {
+      // do something with the options
+    }, []);
+    return getStory(context);
+  },
+});
+```
+
+##### Specific instructions for addon creators
+
+If you're an addon creator, you'll have to update your addon to use the new APIs.
+
+That means you'll have to release a breaking release of your addon to make it compatible with Storybook 7.
+It should no longer depend on `@storybook/addons`, but instead on `@storybook/preview-api` and/or `@storybook/manager-api`.
+
+You might also depend (and use) these packages in your addon's decorators: `@storybook/store`, `@storybook/preview-web`, `@storybook/core-client`, `@storybook/client-api`; these have all been consolidated into `@storybook/preview-api`.
+So if you use any of these packages, please import what you need from `@storybook/preview-api` instead.
+
+
+Storybook 7 will prepare manager-code for the browser using ESbuild (before it was using a combination of webpack + babel).
+This is a very important change, though it will not affect most addons.
+It means that when creating custom addons, particularly custom addons within the repo in which they are consumed,
+you will need to be aware that this code is not passed though babel, and thus will not use your babel config.
+This can result in errors if you are using experimental JS features in your addon code, not supported yet by ESbuild,
+or using babel dependent features such as Component selectors in Emotion.
+
+ESbuild also places some constraints on things you can import into your addon's manager code: only woff2 files are supported, and not all image file types are supported.
+Here's the list of supported file types:
+https://github.com/storybookjs/storybook/blob/4a37372f649e85e7a0c35b0493da016dbb5dee17/code/lib/builder-manager/src/index.ts#L54-L64
+This is not configurable.
+
+If this is a problem for your addon, you need to pre-compile your addon's manager code to ensure it works.
+
+If you addon also introduces preview code (such a decorators) it will be passed though whatever builder + config the user has configured for their project; this hasn't changed.
+
+In both the preview and manager code it's good to remember [Storybook now targets modern browser only](#modern-browser-support).
+
+The package `@storybook/components` contain a lot of components useful for building addons.
+Some of these addons have been moved to a new package `@storybook/blocks`.
+These components were moved: `ColorControl`, `ColorPalette`, `ArgsTable`, `ArgRow`, `TabbedArgsTable`, `SectionRow`, `Source`, `Code`.
+
+##### Specific instructions for addon users
+
+All of storybook's core addons have been updated and are ready to use with Storybook 7.
+
+We're working with the community to update the most popular addons.
+But if you're using an addon that hasn't been updated yet, it might not work.
+
+It's possible for example for older addons to use APIs that are no longer available in Storybook 7. 
+Your addon might not show upside of the storybook (manager) UI, or storybook might fail to start entirely.
+
+When this happens to you please open an issue on the addon's repo, and ask the addon author to update their addon to be compatible with Storybook 7.
+It's also useful for the storybook team to know which addons are not yet compatible, so please open an issue on the storybook repo as well; particularly if the addon is popular and causes a critical failure.
+
+Here's a list of popular addons that are known not to be compatible with Storybook 7 yet:
+- [ ] [storybook-addon-jsx](https://github.com/storybookjs/addon-jsx)
+- [ ] [storybook-addon-dark-mode](https://github.com/hipstersmoothie/storybook-dark-mode)
+
+Though storybook should de-duplicate storybook packages, storybook CLI's `upgrade` command will warn you when you have multiple storybook-dependencies, because it is a possibility that this causes addons/storybook to not work, so when running into issues, please run this:
+```
+npx sb upgrade
+```
+
 #### New Framework API
 
 _Has automigration_
@@ -432,6 +611,7 @@ Storybook 7 introduces the concept of `frameworks`, which abstracts configuratio
 
 > Note:
 > All of the following changes can be done automatically either via `npx storybook@next upgrade --prerelease` or via the `npx storybook@next automigrate` command. It's highly recommended to use these commands, which will tell you exactly what to do.
+
 
 ##### Available framework packages
 
@@ -695,20 +875,6 @@ Starting in 7.0, Storybook's build tools add [`"use strict"`](https://developer.
 
 If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated. As a workaround, it is sometimes possible to move the sloppy mode code inside a script tag in `.storybook/preview-head.html`.
 
-#### Babel mode v7 exclusively
-
-_Has automigration_
-
-Storybook now uses [Babel mode v7](#babel-mode-v7) exclusively. In 6.x, Storybook provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (`.babelrc`, `babel.config.js`, etc.) instead.
-
-In the new mode, Storybook expects you to provide a configuration file. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
-
-```sh
-npx sb@next babelrc
-```
-
-This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
-
 #### Importing plain markdown files with `transcludeMarkdown` has changed
 
 The `transcludeMarkdown` option in `addon-docs` have been removed, and the automatic handling of `.md` files in Vite projects have also been disabled.
@@ -724,6 +890,13 @@ import ReadMe from './README.md?raw';
 <Markdown>{ReadMe}</Markdown>
 
 ```
+
+#### Stories field in .storybook/main.js is mandatory
+
+In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
+Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+
+### 7.0 Core changes
 
 #### 7.0 feature flags removed
 
@@ -743,6 +916,7 @@ In 7.0 we've removed the following feature flags:
 | ------------------- | ----------------------------------------------------------- |
 | `emotionAlias`      | This flag is no longer needed and should be deleted.        |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted.        |
+| `previewCsfV3`      | This flag is no longer needed and should be deleted.        |
 | `babelModeV7`       | See [Babel mode v7 exclusively](#babel-mode-v7-exclusively) |
 
 #### Story context is prepared before for supporting fine grained updates
@@ -750,6 +924,19 @@ In 7.0 we've removed the following feature flags:
 This change modifies the way Storybook prepares stories to avoid reactive args to get lost for fine-grained updates JS frameworks as `SolidJS` or `Vue`. That's because those frameworks handle args/props as proxies behind the scenes to make reactivity work. So when `argType` mapping was done in `prepareStory` the Proxies were destroyed and args becomes a plain object again, losing the reactivity.
 
 For avoiding that, this change passes the mapped args instead of raw args at `renderToCanvas` so that the proxies stay intact. Also decorators will benefit from this as well by receiving mapped args instead of raw args.
+
+#### Changed decorator order between preview.js and addons/frameworks
+
+In Storybook 7.0 we have changed the order of decorators being applied to allow you to access context information added by decorators defined in addons/frameworks from decorators defined in `preview.js`. To revert the order to the previous behavior, you can set the `features.legacyDecoratorFileOrder` flag to `true` in your `main.js` file:
+
+```js
+// main.js
+export default {
+  features: {
+    legacyDecoratorFileOrder: true,
+  },
+};
+```
 
 ### 7.0 core addons changes
 
@@ -787,6 +974,21 @@ Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.ce
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
 
+#### Addon-interactions: Interactions debugger is now default
+
+The interactions debugger in the panel is now displayed by default. The feature flag is now removed.
+
+```js
+// .storybook/main.js
+
+const config = {
+  features: {
+    interactionsDebugger: true, // This should be removed!
+  },
+};
+export default config;
+```
+
 ### 7.0 Vite changes
 
 #### Vite builder uses Vite config automatically
@@ -795,7 +997,7 @@ When using a [Vite-based framework](#framework-field-mandatory), Storybook will 
 Some settings will be overridden by Storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard Vite config, you can now remove it.
 
-For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
+For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`.
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
@@ -818,6 +1020,23 @@ To upgrade:
 
 During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
 
+#### Babel mode v7 exclusively
+
+_Has automigration_
+
+Storybook now uses [Babel mode v7](#babel-mode-v7) exclusively. In 6.x, Storybook provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (`.babelrc`, `babel.config.js`, etc.) instead.
+
+> Note:
+> If you are using @storybook/react-webpack5 with the @storybook/preset-create-react-app package, you don't need to do anything. The preset already provides the babel configuration you need.
+
+In the new mode, Storybook expects you to provide a configuration file. Depending on the complexity your project, Storybook will fail to run without a babel configuration. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
+
+```sh
+npx storybook@next babelrc
+```
+
+This command will create a `.babelrc.json` file in your project, containing a few babel plugins which will be installed as dev dependencies.
+
 #### Postcss removed
 
 Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed for Webpack-based frameworks. If you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
@@ -828,6 +1047,10 @@ Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1,
 
 ### 7.0 Framework-specific changes
 
+#### Angular: Removed deprecated `component` and `propsMeta` field
+
+The deprecated fields `component` and `propsMeta` on the NgStory type have been removed.
+
 #### Angular: Drop support for Angular < 14
 
 Starting in 7.0, we drop support for Angular < 14
@@ -835,6 +1058,67 @@ Starting in 7.0, we drop support for Angular < 14
 #### Angular: Drop support for calling Storybook directly
 
 In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+
+#### Angular: Application providers and ModuleWithProviders
+
+In Storybook 7.0 we use the new bootstrapApplication API to bootstrap a standalone component to the DOM. The component is configured in a way to respect your configured imports, declarations and schemas, which you can define via the `moduleMetadata` decorator imported from `@storybook/angular`.
+
+This means also, that there is no root ngModule anymore. Previously you were able to add ModuleWithProviders, likely the result of a 'Module.forRoot()'-style call, to your 'imports' array of the moduleMetadata definition. This is now discouraged. Instead, you should use the `applicationConfig` decorator to add your application-wide providers. These providers will be passed to the bootstrapApplication function.
+
+For example, if you want to configure BrowserAnimationModule in your stories, please extract the necessary providers the following way and provide them via the `applicationConfig` decorator:
+
+```js
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { importProvidersFrom } from '@angular/core';
+import { applicationConfig, Meta, StoryObj } from '@storybook/angular';
+import {ExampleComponent} from './example.component';
+
+const meta: Meta = {
+  title: 'Example',
+  component: ExampleComponent,
+  decorators: [
+    // Define application-wide providers with the applicationConfig decorator
+    applicationConfig({
+      providers: [
+        importProvidersFrom(BrowserAnimationsModule),
+        // Extract all providers (and nested ones) from a ModuleWithProviders
+        importProvidersFrom(SomeOtherModule.forRoot()),
+      ],
+    }
+  ],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof ExampleComponent>
+
+export const Default: Story = {
+  render: () => ({
+    // Define application-wide providers directly in the render function
+    applicationConfig: {
+      providers: [importProvidersFrom(BrowserAnimationsModule)],
+    }
+  }),
+};
+```
+
+You can also use the `provide-style` decorator to provide an application-wide service:
+
+```js
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { moduleMetadata } from '@storybook/angular';
+
+export default {
+  title: 'Example',
+  decorators: [
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
+  ],
+};
+```
+
+Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information.
 
 #### Angular: Removed legacy renderer
 
@@ -890,6 +1174,12 @@ In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2
 #### Create React App: dropped CRA4 support
 
 Since v7 [drops webpack4 support](#webpack4-support-discontinued), it longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
+
+#### HTML: No longer auto-dedents source code
+
+The `@storybook/html` renderer doesn't dedent the source code when displayed in the "Show Code" source viewer any more.
+
+You can get the same result by setting [the parameter `parameters.docs.source.format = "dedent"`](https://storybook.js.org/docs/7.0/html/api/doc-block-source#format) either on a story level or globally in `preview.js`.
 
 ### 7.0 Addon authors changes
 
@@ -952,7 +1242,7 @@ Instead, use `export const parameters = {};` and `export const decorators = [];`
 
 #### framework parameter renamed to renderer
 
-All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running. 
+All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running.
 For example, the framework value of `@storybook/react` would be `react`, `@storybook/vue` would be `vue`, etc.
 Now those packages are called renderers in SB7, so the renderer information is now available in the `renderer`
 parameter.
@@ -1013,6 +1303,8 @@ import * as ComponentStories from './some-component.stories';
 <Story of={ComponentStories.Primary} />
 ```
 
+(Note the `of` prop is only supported if you change your MDX files to plain `.mdx`, it's not supported in `.stories.mdx` files)
+
 You can create as many docs entries as you like for a given component. By default the docs entry will be named the same as the `.mdx` file (e.g. `Introduction.mdx` becomes `Introduction`). If the docs file is named the same as the component (e.g. `Button.mdx`, it will use the default autodocs name (`"Docs"`) and override autodocs).
 
 By default docs entries are listed first for the component. You can sort them using story sorting.
@@ -1035,7 +1327,7 @@ Additionally to changing the docs information architecture, we've updated the AP
 
 **General changes**
 
-- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_.
+- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_. The `of` prop is only supported in plain `.mdx` files and not `.stories.mdx` files.
 
 - When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
 
@@ -1099,6 +1391,8 @@ The source block now references a single story, the component, or a CSF file its
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
 
+The parameter to transform the source has been consolidated from the multiple parameters of `parameters.docs.transformSource`, `parameters.docs.source.transformSource`, and `parameters.jsx.transformSource` to the single `parameters.docs.source.transform`. The behavior is otherwise unchanged.
+
 ##### Canvas block
 
 The Canvas block follows the same changes as [the Story block described above](#story-block).
@@ -1140,7 +1434,7 @@ import * as ComponentStories from './some-component.stories';
 
 The `ArgsTable` block is now deprecated, and two new blocks: `ArgTypes` and `Controls` should be preferred.
 
-- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` ommitted and the MDX file is attached it will render the arg types defined at the CSF file level.
+- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` omitted and the MDX file is attached it will render the arg types defined at the CSF file level.
 
 - `<Controls of={storyExports} />` will render the controls for a story (or the primary story if `of` is omitted and the MDX file is attached).
 
@@ -1323,6 +1617,10 @@ If your story depends on a play function to render correctly, _and_ you are conf
 #### Removed STORYBOOK_REACT_CLASSES global
 
 This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+
+#### parameters.docs.source.excludeDecorators defaults to true
+
+By default we don't render decorators in the Source/Canvas blocks. If you want to render decorators, you can set the parameter to `false`.
 
 ### 7.0 Deprecations and default changes
 

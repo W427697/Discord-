@@ -12,7 +12,9 @@ import type {
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 
+import dedent from 'ts-dedent';
 import type { StoryStore } from '../../store';
+import { prepareMeta } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
@@ -84,7 +86,9 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   referenceMeta(metaExports: ModuleExports, attach: boolean) {
     const resolved = this.resolveModuleExport(metaExports);
     if (resolved.type !== 'meta')
-      throw new Error('Cannot reference a non-meta or module export in <Meta of={} />');
+      throw new Error(
+        '<Meta of={} /> must reference a CSF file module export or meta export. Did you mistakenly reference your component instead of your CSF file?'
+      );
 
     if (attach) this.attachCSFFile(resolved.csfFile);
   }
@@ -159,13 +163,36 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
 
     if (validTypes.length && !validTypes.includes(resolved.type as TType)) {
       const prettyType = resolved.type === 'component' ? 'component or unknown' : resolved.type;
-      throw new Error(
-        `Invalid value passed to the 'of' prop. The value was resolved to a '${prettyType}' type but the only types for this block are: ${validTypes.join(
-          ', '
-        )}`
-      );
+      throw new Error(dedent`Invalid value passed to the 'of' prop. The value was resolved to a '${prettyType}' type but the only types for this block are: ${validTypes.join(
+        ', '
+      )}.
+        - Did you pass a component to the 'of' prop when the block only supports a story or a meta?
+        - ... or vice versa?
+        - Did you pass a story, CSF file or meta to the 'of' prop that is not indexed, ie. is not targeted by the 'stories' globs in the main configuration?`);
     }
-    return resolved;
+
+    switch (resolved.type) {
+      case 'component': {
+        return {
+          ...resolved,
+          projectAnnotations: this.projectAnnotations,
+        };
+      }
+      case 'meta': {
+        return {
+          ...resolved,
+          preparedMeta: prepareMeta(
+            resolved.csfFile.meta,
+            this.projectAnnotations,
+            resolved.csfFile.moduleExports.default
+          ),
+        };
+      }
+      case 'story':
+      default: {
+        return resolved;
+      }
+    }
   }
 
   storyIdByName = (storyName: StoryName) => {

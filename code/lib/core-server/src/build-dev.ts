@@ -19,7 +19,6 @@ import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
-import { logger } from '@storybook/node-logger';
 import { storybookDevServer } from './dev-server';
 import { getReleaseNotesData, getReleaseNotesFailedState } from './utils/release-notes';
 import { outputStats } from './utils/output-stats';
@@ -27,6 +26,7 @@ import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
+import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
 
 export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
@@ -67,17 +67,16 @@ export async function buildDevStandalone(
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
-  const { framework } = await loadMainConfig(options);
+  const config = await loadMainConfig(options);
+  const { framework } = config;
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
   validateFrameworkName(frameworkName);
 
-  if (frameworkName) {
-    corePresets.push(join(frameworkName, 'preset'));
-  } else {
-    logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
-  }
+  corePresets.push(join(frameworkName, 'preset'));
+
+  await warnOnIncompatibleAddons(config);
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account

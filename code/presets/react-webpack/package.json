@@ -1,7 +1,7 @@
 {
   "name": "@storybook/preset-react-webpack",
-  "version": "7.0.0-beta.53",
-  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
+  "version": "7.0.2",
+  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading",
   "keywords": [
     "storybook"
   ],
@@ -42,11 +42,6 @@
       "import": "./dist/framework-preset-react-docs.mjs",
       "types": "./dist/framework-preset-react-docs.d.ts"
     },
-    "./dist/framework-preset-react-dom-hack": {
-      "require": "./dist/framework-preset-react-dom-hack.js",
-      "import": "./dist/framework-preset-react-dom-hack.mjs",
-      "types": "./dist/framework-preset-react-dom-hack.d.ts"
-    },
     "./dist/framework-preset-react": {
       "require": "./dist/framework-preset-react.js",
       "import": "./dist/framework-preset-react.mjs",
@@ -71,18 +66,19 @@
     "@babel/preset-flow": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "@storybook/core-webpack": "7.0.0-beta.53",
-    "@storybook/docs-tools": "7.0.0-beta.53",
-    "@storybook/node-logger": "7.0.0-beta.53",
-    "@storybook/react": "7.0.0-beta.53",
-    "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
+    "@storybook/core-webpack": "7.0.2",
+    "@storybook/docs-tools": "7.0.2",
+    "@storybook/node-logger": "7.0.2",
+    "@storybook/react": "7.0.2",
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.630821.0",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-react-docgen": "^4.2.1",
     "fs-extra": "^11.1.0",
     "react-refresh": "^0.11.0",
-    "semver": "^7.3.7"
+    "semver": "^7.3.7",
+    "webpack": "5"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
@@ -90,8 +86,7 @@
   "peerDependencies": {
     "@babel/core": "^7.11.5",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "webpack": "5"
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "@babel/core": {
@@ -112,10 +107,9 @@
       "./src/index.ts",
       "./src/framework-preset-cra.ts",
       "./src/framework-preset-react-docs.ts",
-      "./src/framework-preset-react-dom-hack.ts",
       "./src/framework-preset-react.ts"
     ],
     "platform": "node"
   },
-  "gitHead": "b1da06450dc3e4124a935785a2041b18204533ae"
+  "gitHead": "96b498debee8b89d0c4050c13172a5a818c9997a"
 }

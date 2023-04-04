@@ -175,8 +175,8 @@ export const features = async (
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
-  breakingChangesV7: true,
   argTypeTargetsV7: true,
+  legacyDecoratorFileOrder: false,
 });
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {

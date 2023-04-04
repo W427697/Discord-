@@ -4,9 +4,6 @@ const path = require('path');
 
 const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
 
-// This is needed for proper jest mocking, see https://github.com/swc-project/swc/discussions/5151#discussioncomment-3149154
-((swcrc.jsc ??= {}).experimental ??= {}).plugins = [['jest_workaround', {}]];
-
 /**
  * TODO: Some windows related tasks are still commented out, because they are behaving differently on
  * a local Windows machine compared to the Windows Server 2022 machine running in GitHub Actions.
@@ -24,26 +21,29 @@ const skipOnWindows = [
 
 const modulesToTransform = [
   '@angular',
-  'ccount',
-  'rxjs',
-  'nanoid',
-  'uuid',
-  'lit-html',
-  'lit',
   '@lit',
   '@mdx-js',
-  'remark',
-  'unified',
-  'vfile',
-  'vfile-message',
+  'ccount',
+  'character-entities',
+  'decode-named-character-reference',
+  'estree',
+  'is-absolute-url',
+  'lit',
+  'lit-html',
   'mdast',
   'micromark',
-  'unist',
-  'estree',
-  'decode-named-character-reference',
-  'character-entities',
-  'zwitch',
+  'nanoid',
+  'remark',
+  'rxjs',
+  'slash',
+  'space-separated-tokens',
   'stringify-entities',
+  'unified',
+  'unist',
+  'uuid',
+  'vfile',
+  'vfile-message',
+  'zwitch',
 ];
 
 /** @type { import('jest').Config } */

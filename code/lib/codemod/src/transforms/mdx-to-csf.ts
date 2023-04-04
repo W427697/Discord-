@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign,@typescript-eslint/no-shadow,consistent-return */
+/* eslint-disable no-param-reassign,@typescript-eslint/no-shadow */
 import type { FileInfo } from 'jscodeshift';
 import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
@@ -40,14 +40,11 @@ export default function jscodeshift(info: FileInfo) {
 
   const result = transform(info.source, path.basename(baseName));
 
-  if (result == null) {
-    // We can not make a valid migration.
-    return;
-  }
-
   const [mdx, csf] = result;
 
-  fs.writeFileSync(`${baseName}.stories.js`, csf);
+  if (csf != null) {
+    fs.writeFileSync(`${baseName}.stories.js`, csf);
+  }
 
   return mdx;
 }
@@ -56,7 +53,6 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   const root = mdxProcessor.parse(source);
   const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
-  let containsMeta = false;
   const metaAttributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute> = [];
   const storiesMap = new Map<
     string,
@@ -76,16 +72,17 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   // rewrite addon docs import
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     node.value = node.value
-      .replaceAll('@storybook/addon-docs', '@storybook/blocks')
-      .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks');
+      .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks')
+      .replaceAll('@storybook/addon-docs', '@storybook/blocks');
   });
+
+  const file = getEsmAst(root);
 
   visit(
     root,
     ['mdxJsxFlowElement', 'mdxJsxTextElement'],
     (node: MdxJsxFlowElement | MdxJsxTextElement, index, parent) => {
       if (is(node, { name: 'Meta' })) {
-        containsMeta = true;
         metaAttributes.push(...node.attributes);
         node.attributes = [
           {
@@ -109,7 +106,9 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           (it) => it.type === 'mdxJsxAttribute' && it.name === 'story'
         );
         if (typeof nameAttribute?.value === 'string') {
-          const name = nameToValidExport(nameAttribute.value);
+          let name = nameToValidExport(nameAttribute.value);
+          while (variableNameExists(name)) name += '_';
+
           storiesMap.set(name, {
             type: 'value',
             attributes: node.attributes,
@@ -132,7 +131,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           const nodeString = mdxProcessor.stringify({ type: 'root', children: [node] }).trim();
           const newNode: MdxFlowExpression = {
             type: 'mdxFlowExpression',
-            value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> */`,
+            value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
           parent.children.splice(index, 0, newNode);
@@ -176,17 +175,14 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         return [t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value))];
       }
       return [
-        t.objectProperty(t.identifier(attribute.name), babelParseExpression(attribute.value.value)),
+        t.objectProperty(
+          t.identifier(attribute.name),
+          babelParseExpression(attribute.value.value) as any as t.Expression
+        ),
       ];
     }
     return [];
   });
-
-  const file = getEsmAst(root);
-
-  if (containsMeta || storiesMap.size > 0) {
-    addStoriesImport(root, baseName, storyNamespaceName);
-  }
 
   file.path.traverse({
     // remove mdx imports from csf
@@ -201,10 +197,12 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     },
   });
 
-  if (storiesMap.size === 0) {
+  if (storiesMap.size === 0 && metaAttributes.length === 0) {
     // A CSF file must have at least one story, so skip migrating if this is the case.
-    return null;
+    return [mdxProcessor.stringify(root), null];
   }
+
+  addStoriesImport(root, baseName, storyNamespaceName);
 
   const newStatements: t.Statement[] = [
     t.exportDefaultDeclaration(t.objectExpression(metaProperties)),
@@ -219,7 +217,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       return t.arrowFunctionExpression([], t.stringLiteral(child.value));
     }
     if (child.type === 'mdxFlowExpression' || child.type === 'mdxTextExpression') {
-      const expression = babelParseExpression(child.value);
+      const expression = babelParseExpression(child.value) as any as t.Expression;
 
       // Recreating those lines: https://github.com/storybookjs/mdx1-csf/blob/f408fc97e9a63097ca1ee577df9315a3cccca975/src/sb-mdx-plugin.ts#L185-L198
       const BIND_REGEX = /\.bind\(.*\)/;
@@ -237,7 +235,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
 
     const expression = babelParseExpression(
       mdxProcessor.stringify({ type: 'root', children: [child] })
-    );
+    ) as any as t.Expression;
     return t.arrowFunctionExpression([], expression);
   }
 
@@ -275,7 +273,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             return [
               t.objectProperty(
                 t.identifier(attribute.name),
-                babelParseExpression(attribute.value.value)
+                babelParseExpression(attribute.value.value) as any as t.Expression
               ),
             ];
           }
@@ -283,16 +281,9 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         }),
       ]);
 
-      let newExportName = key;
-      while (variableNameExists(newExportName)) {
-        newExportName += '_';
-      }
-
       return [
         t.exportNamedDeclaration(
-          t.variableDeclaration('const', [
-            t.variableDeclarator(t.identifier(newExportName), newObject),
-          ])
+          t.variableDeclaration('const', [t.variableDeclarator(t.identifier(key), newObject)])
         ),
       ];
     })

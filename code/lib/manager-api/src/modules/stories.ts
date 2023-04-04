@@ -1,5 +1,21 @@
 import { global } from '@storybook/global';
 import { toId, sanitize } from '@storybook/csf';
+import type {
+  StoryKind,
+  ComponentTitle,
+  StoryName,
+  StoryId,
+  Args,
+  API_ComposedRef,
+  API_HashEntry,
+  API_LeafEntry,
+  API_PreparedStoryIndex,
+  SetStoriesPayload,
+  API_StoryEntry,
+  StoryIndex,
+  API_LoadedRefData,
+  API_IndexHash,
+} from '@storybook/types';
 import {
   PRELOAD_ENTRIES,
   STORY_PREPARED,
@@ -16,21 +32,8 @@ import {
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
 } from '@storybook/core-events';
-import { deprecate, logger } from '@storybook/client-logger';
+import { logger } from '@storybook/client-logger';
 
-import type {
-  StoryId,
-  Args,
-  API_ComposedRef,
-  API_HashEntry,
-  API_LeafEntry,
-  API_PreparedStoryIndex,
-  SetStoriesPayload,
-  API_StoryEntry,
-  StoryIndex,
-  API_LoadedRefData,
-  API_IndexHash,
-} from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
 
@@ -56,19 +59,6 @@ type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
-
-  /**
-   * @deprecated use index
-   */
-  storiesHash: API_IndexHash;
-  /**
-   * @deprecated use previewInitialized
-   */
-  storiesConfigured: boolean;
-  /**
-   * @deprecated use indexError
-   */
-  storiesFailed?: Error;
 }
 
 export interface SubAPI {
@@ -147,6 +137,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     resolveStory: (storyId, refId) => {
       const { refs, index } = store.getState();
+      if (refId && !refs[refId]) {
+        return null;
+      }
       if (refId) {
         return refs[refId].index ? refs[refId].index[storyId] : undefined;
       }
@@ -493,21 +486,25 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       SELECT_STORY,
       function handler({
         kind,
+        title = kind,
         story,
+        name = story,
         storyId,
         ...rest
       }: {
-        kind: string;
-        story: string;
+        kind?: StoryKind;
+        title?: ComponentTitle;
+        story?: StoryName;
+        name?: StoryName;
         storyId: string;
         viewMode: ViewMode;
       }) {
         const { ref } = getEventMetadata(this, fullAPI);
 
         if (!ref) {
-          fullAPI.selectStory(storyId || kind, story, rest);
+          fullAPI.selectStory(storyId || title, name, rest);
         } else {
-          fullAPI.selectStory(storyId || kind, story, { ...rest, ref: ref.id });
+          fullAPI.selectStory(storyId || title, name, { ...rest, ref: ref.id });
         }
       }
     );
@@ -544,20 +541,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       viewMode: initialViewMode,
       hasCalledSetOptions: false,
       previewInitialized: false,
-
-      // deprecated fields for back-compat
-      get storiesHash() {
-        deprecate('state.storiesHash is deprecated, please use state.index');
-        return this.index || {};
-      },
-      get storiesConfigured() {
-        deprecate('state.storiesConfigured is deprecated, please use state.previewInitialized');
-        return this.previewInitialized;
-      },
-      get storiesFailed() {
-        deprecate('state.storiesFailed is deprecated, please use state.indexError');
-        return this.indexError;
-      },
     },
     init: initModule,
   };

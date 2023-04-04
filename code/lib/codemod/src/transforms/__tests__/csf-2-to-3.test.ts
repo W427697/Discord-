@@ -136,10 +136,56 @@ describe('csf-2-to-3', () => {
         `)
       ).toMatchInlineSnapshot(`
         export default { title: 'Cat' };
+        const Template = (args) => <Cat {...args} />;
 
         export const A = {
-          render: (args) => <Cat {...args} />,
+          render: Template,
           args: { isPrimary: false },
+        };
+      `);
+    });
+
+    it('should reuse the template when there are multiple Template.bind references but no component defined', () => {
+      expect(
+        jsTransform(dedent`
+          export default { title: 'Cat' };
+          const Template = (args) => <Cat {...args} />;
+
+          export const A = Template.bind({});
+          A.args = { isPrimary: false };
+          
+          export const B = Template.bind({});
+          B.args = { isPrimary: true };
+          
+                    
+          export const C = Template.bind({});
+          C.args = { bla: true };
+          
+          export const D = Template.bind({});
+          D.args = { bla: false };
+        `)
+      ).toMatchInlineSnapshot(`
+        export default { title: 'Cat' };
+        const Template = (args) => <Cat {...args} />;
+
+        export const A = {
+          render: Template,
+          args: { isPrimary: false },
+        };
+
+        export const B = {
+          render: Template,
+          args: { isPrimary: true },
+        };
+
+        export const C = {
+          render: Template,
+          args: { bla: true },
+        };
+
+        export const D = {
+          render: Template,
+          args: { bla: false },
         };
       `);
     });
@@ -166,8 +212,10 @@ describe('csf-2-to-3', () => {
           args: { isPrimary: false },
         };
 
+        const Template2 = (args) => <Banana {...args} />;
+
         export const B = {
-          render: (args) => <Banana {...args} />,
+          render: Template2,
           args: { isPrimary: true },
         };
       `);
@@ -235,11 +283,6 @@ describe('csf-2-to-3', () => {
       ).toThrowErrorMatchingInlineSnapshot(`
         This codemod does not support namespace imports for a @storybook/react package.
         Replace the namespace import with named imports and try again.
-        > 1 | import * as SB from '@storybook/react';
-            | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-          2 | import { CatProps } from './Cat';
-          3 |
-          4 | const meta = { title: 'Cat', component: Cat } as Meta<CatProps>
       `);
     });
     it('should keep local names', () => {
@@ -361,6 +404,34 @@ describe('csf-2-to-3', () => {
           args: {
             name: 'Fluffy',
           },
+        };
+      `);
+    });
+
+    it('migrate Story type to StoryFn when used in an not exported Template function', () => {
+      expect(
+        tsTransform(dedent`
+          import { Story, Meta } from '@storybook/react'
+          
+          export default {
+            component: Cat,
+          } satisfies Meta
+          
+          const Template: Story = () => <div>Hello World</div>;
+          
+          export const Default = Template.bind({})
+        `)
+      ).toMatchInlineSnapshot(`
+        import { StoryFn, Meta } from '@storybook/react';
+
+        export default {
+          component: Cat,
+        } satisfies Meta;
+
+        const Template: StoryFn = () => <div>Hello World</div>;
+
+        export const Default = {
+          render: Template,
         };
       `);
     });
