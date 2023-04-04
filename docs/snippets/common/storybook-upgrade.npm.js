@@ -1,3 +1,3 @@
 ```shell
-npx storybook@next upgrade
+npx storybook upgrade
 ```
