@@ -4,9 +4,20 @@ body:
   - type: markdown
     attributes:
       value: |
-        # RFC
+        # Request For Comments
+        Welcome! 👋
+
+        If you are interested in proposing a new feature or improvement to Storybook, then you are in the right place! 
         This template is designed to help users and contributors propose a solution to a problem, receive feedback, and finally gain alignment.
         Thank you for taking the time to improve Storybook.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: |
+        A brief, 1-5 sentences explanation of the RFC.
+    validations:
+      required: true
   - type: markdown
     attributes:
       value: |
@@ -16,9 +27,9 @@ body:
     attributes:
       label: Problem Statement
       description: |
-        A few sentence summarizing the problem we are trying to solve. Non-core members should be able to read this and understand why we are doing this.
+        A few sentences or bullets summarizing the problem we are trying to solve. Non-core members should be able to read this and understand why we are doing this.
       placeholder: |
-        Doing X is hard because combining Y and Z makes Storybook go 💥
+        Doing X is hard because combining Y and Z makes Storybook go 💥...
     validations:
       required: true
   - type: textarea
@@ -26,7 +37,7 @@ body:
     attributes:
       label: Non-goals
       description: |
-        Explicitly outline what is not in-scope.
+        Key bullets explicitly outlining what is not in-scope.
       placeholder: |
         Making Y work with W is not part of this proposal because...
   - type: markdown
@@ -53,7 +64,7 @@ body:
       description: |
         Has this been done before, maybe in the broader ecosystem?
       placeholder: |
-        Project A has done something similar for years, and the B addon supports this by...
+        Project A has done something similar for a long time, and the B addon supports this by...
   - type: textarea
     id: deliverables
     attributes:
