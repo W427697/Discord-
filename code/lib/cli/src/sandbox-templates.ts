@@ -442,13 +442,13 @@ const internalTemplates = {
       },
     },
   },
-  'internal/pnp': {
-    ...baseTemplates['cra/default-ts'],
-    name: 'PNP (cra/default-ts)',
-    script: 'yarn create react-app . --use-pnp',
-    isInternal: true,
-    inDevelopment: true,
-  },
+  // 'internal/pnp': {
+  //   ...baseTemplates['cra/default-ts'],
+  //   name: 'PNP (cra/default-ts)',
+  //   script: 'yarn create react-app . --use-pnp',
+  //   isInternal: true,
+  //   inDevelopment: true,
+  // },
 } satisfies Record<`internal/${string}`, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {
