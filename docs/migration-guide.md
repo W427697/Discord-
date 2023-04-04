@@ -24,7 +24,8 @@ To upgrade your Storybook:
 <CodeSnippets
   paths={[
     'common/storybook-upgrade.npm.js.mdx',
-    'common/storybook-upgrade.pnpm.js.mdx'
+    'common/storybook-upgrade.pnpm.js.mdx',
+    'common/storybook-upgrade-prerelease.yarn.js.mdx'
   ]}
 />
 
@@ -44,8 +45,9 @@ To add Storybook to a project that isn’t currently using Storybook:
 
 <CodeSnippets
   paths={[
-    'common/init-command.npx.js.mdx',
-    'common/init-command.pnpm.js.mdx'
+    'common/init-command.npx.mdx',
+    'common/init-command.pnpm.mdx',
+    'common/init-command.yarn.mdx'
   ]}
 />
 
