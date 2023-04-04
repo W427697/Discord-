@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: '2 2 */1 * *'
   workflow_dispatch:
-  push:
-    branches:
-      - norbert/fix-sandbox-generate-workflow
 
 jobs:
   generate:
