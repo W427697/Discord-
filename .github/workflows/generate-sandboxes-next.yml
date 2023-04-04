@@ -31,6 +31,7 @@ jobs:
         run: yarn task --task compile --start-from=auto --no-link
       - name: Publishing to local registry
         run: yarn local-registry --publish
+        working-directory: ./code
       - name: Running local registry
         run: yarn local-registry --open &
         working-directory: ./code
