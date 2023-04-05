@@ -67,7 +67,8 @@ export async function buildDevStandalone(
   options.serverChannelUrl = getServerChannelUrl(port, options);
   /* eslint-enable no-param-reassign */
 
-  const { framework, addons } = await loadMainConfig(options);
+  const config = await loadMainConfig(options);
+  const { framework } = config;
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
@@ -75,7 +76,7 @@ export async function buildDevStandalone(
 
   corePresets.push(join(frameworkName, 'preset'));
 
-  warnOnIncompatibleAddons(addons);
+  await warnOnIncompatibleAddons(config);
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account

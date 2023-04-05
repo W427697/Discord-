@@ -66,7 +66,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   await emptyDir(options.outputDir);
   await ensureDir(options.outputDir);
 
-  const { framework, addons } = await loadMainConfig(options);
+  const config = await loadMainConfig(options);
+  const { framework } = config;
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
@@ -76,7 +77,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  warnOnIncompatibleAddons(addons);
+  await warnOnIncompatibleAddons(config);
 
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
