@@ -2373,16 +2373,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/cache@npm:^11.10.3, @emotion/cache@npm:^11.10.5":
-  version: 11.10.5
-  resolution: "@emotion/cache@npm:11.10.5"
+"@emotion/cache@npm:^11.10.5, @emotion/cache@npm:^11.10.7":
+  version: 11.10.7
+  resolution: "@emotion/cache@npm:11.10.7"
   dependencies:
     "@emotion/memoize": ^0.8.0
     "@emotion/sheet": ^1.2.1
     "@emotion/utils": ^1.2.0
     "@emotion/weak-memoize": ^0.3.0
     stylis: 4.1.3
-  checksum: eeb6891ab04cf17ace0e175742550b97c30df777d6c5b145e91c4c9fbd783c29b4dabe12a8c786b78f37176313a8295c9b90c69d875e6caab5f7e4677a18be91
+  checksum: 0175b8be5117342e76e100fca92932a34c3641160c733a34534153eab7f1c1b2cecafee6d9a7a0646acf7be3c52b0654dc34900439316ae473b59a9eb1a1c8f3
   languageName: node
   linkType: hard
 
@@ -5353,7 +5353,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-mdx-gfm@workspace:addons/gfm"
   dependencies:
-    "@storybook/node-logger": 7.0.0-beta.52
+    "@storybook/node-logger": 7.0.2
     remark-gfm: ^3.0.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
@@ -6595,18 +6595,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/node-logger@npm:7.0.0-beta.52":
-  version: 7.0.0-beta.52
-  resolution: "@storybook/node-logger@npm:7.0.0-beta.52"
-  dependencies:
-    "@types/npmlog": ^4.1.2
-    chalk: ^4.1.0
-    npmlog: ^5.0.1
-    pretty-hrtime: ^1.0.3
-  checksum: 7a35297fb274bc104c3bc14d798c1d30efad95d4a0bf425958e7497ce6f81a14f3750119ab004fbe2f318071bae19bc2c1ad605612535f02c3c3aacc2b987db6
-  languageName: node
-  linkType: hard
-
 "@storybook/postinstall@7.0.2, @storybook/postinstall@workspace:*, @storybook/postinstall@workspace:lib/postinstall":
   version: 0.0.0-use.local
   resolution: "@storybook/postinstall@workspace:lib/postinstall"
@@ -7402,7 +7390,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/theming@workspace:lib/theming"
   dependencies:
-    "@emotion/cache": ^11.10.3
+    "@emotion/cache": ^11.10.7
     "@emotion/is-prop-valid": ^1.2.0
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
