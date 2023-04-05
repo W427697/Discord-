@@ -152,7 +152,7 @@ export const TableWrapper = styled.table<{
                     : lighten(0.05, theme.background.content),
               }
             : {
-                [`&:not(:first-child${ignoreSsrWarning})`]: {
+                [`&:not(:first-child)${ignoreSsrWarning}`]: {
                   borderTopWidth: 1,
                   borderTopStyle: 'solid',
                   borderTopColor:
