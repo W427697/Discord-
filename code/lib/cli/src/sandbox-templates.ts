@@ -166,7 +166,8 @@ const baseTemplates = {
       renderer: 'storybook-solidjs',
       builder: '@storybook/builder-vite',
     },
-    skipTasks: ['e2e-tests-dev'],
+    // The community SolidJS framework isn't feature complete, so it fails some e2e tests.
+    skipTasks: ['e2e-tests', 'e2e-tests-dev'],
   },
   'solid-vite/default-ts': {
     name: 'SolidJS Vite (TS)',
@@ -176,7 +177,8 @@ const baseTemplates = {
       renderer: 'storybook-solidjs',
       builder: '@storybook/builder-vite',
     },
-    skipTasks: ['e2e-tests-dev'],
+    // The community SolidJS framework isn't feature complete, so it fails some e2e tests.
+    skipTasks: ['e2e-tests', 'e2e-tests-dev'],
   },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
