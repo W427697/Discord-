@@ -90,48 +90,24 @@ export const updateMainConfig = async (
 export const getAddonNames = (mainConfig: StorybookConfig): string[] => {
   const addons = mainConfig.addons || [];
   const addonList = addons.map((addon) => {
+    let name = '';
     if (typeof addon === 'string') {
-      return addon;
-    }
-    if (typeof addon === 'object') {
-      return addon.name;
+      name = addon;
+    } else if (typeof addon === 'object') {
+      name = addon.name;
     }
 
-    return undefined;
+    if (name.startsWith('.')) {
+      return undefined;
+    }
+
+    return name
+      .replace(/\/dist\/.*/, '')
+      .replace(/\.[mc]?[tj]?s[x]?$/, '')
+      .replace(/\/register$/, '')
+      .replace(/\/manager$/, '')
+      .replace(/\/preset$/, '');
   });
 
   return addonList.filter(Boolean);
-};
-
-export const getIncompatibleAddons = (mainConfig: StorybookConfig) => {
-  // TODO: Keep this up to date with https://github.com/storybookjs/storybook/issues/20529
-
-  const incompatibleList = [
-    '@storybook/addon-knobs',
-    '@storybook/addon-postcss',
-    'storybook-addon-next-router',
-    'storybook-addon-outline',
-    '@storybook/addon-info',
-    'storybook-addon-next',
-    'storybook-docs-toc',
-    '@storybook/addon-google-analytics',
-    'storybook-addon-pseudo-states',
-    'storybook-dark-mode',
-    'storybook-addon-gatsby',
-    '@etchteam/storybook-addon-css-variables-theme',
-    '@storybook/addon-cssresources',
-    'storybook-addon-grid',
-    'storybook-multilevel-sort',
-    'storybook-addon-i18next',
-    'storybook-source-link',
-    'babel-plugin-storybook-csf-title',
-    '@urql/storybook-addon',
-    'storybook-addon-intl',
-    'storybook-addon-mock',
-    '@chakra-ui/storybook-addon',
-    'storybook-mobile-addon',
-  ];
-
-  const addons = getAddonNames(mainConfig);
-  return addons.filter((addon) => incompatibleList.includes(addon));
 };

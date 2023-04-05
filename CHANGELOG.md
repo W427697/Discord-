@@ -1,3 +1,73 @@
+## 7.1.0-alpha.0 (April 5, 2023)
+
+#### Bug Fixes
+
+-   Angular: Fix components disappearing on docs page on property change [#21944](https://github.com/storybooks/storybook/pull/21944)
+-   React: Don't show decorators in JSX snippets [#21907](https://github.com/storybooks/storybook/pull/21907)
+-   Docs: Include decorators by default in source decorators [#21902](https://github.com/storybooks/storybook/pull/21902)
+-   CLI: Fix npm list command [#21947](https://github.com/storybooks/storybook/pull/21947)
+-   Core: Revert Emotion `:first-child` (etc) workarounds [#21213](https://github.com/storybooks/storybook/pull/21213)
+-   Addon-actions: Fix non-included type file [#21922](https://github.com/storybooks/storybook/pull/21922)
+-   Addon GFM: Fix node-logger dependency [#21938](https://github.com/storybooks/storybook/pull/21938)
+
+#### Build
+
+-   Build: Update trigger circle ci workflow to include main [#21888](https://github.com/storybooks/storybook/pull/21888)
+-   Build: Update dangerfile temporarily to check for patch label [#21945](https://github.com/storybooks/storybook/pull/21945)
+-   Build: Re-enable Vue2 Vite sandbox [#21940](https://github.com/storybooks/storybook/pull/21940)
+-   Build: Fix release badge on repros [#21923](https://github.com/storybooks/storybook/pull/21923)
+-   Build: fix the workflows to generate sandboxes [#21912](https://github.com/storybooks/storybook/pull/21912)
+-   Build: bump the node version in CI [#21917](https://github.com/storybooks/storybook/pull/21917)
+-   Build: no `pnp.cjs` in the root, regen lockfiles [#21908](https://github.com/storybooks/storybook/pull/21908)
+-   Build: remove pnp sandbox template [#21913](https://github.com/storybooks/storybook/pull/21913)
+-   Build: make the CI config ready for 7.0 release [#21808](https://github.com/storybooks/storybook/pull/21808)
+
+#### Dependency Upgrades
+
+-   Update `@emotion/cache` version [#21941](https://github.com/storybooks/storybook/pull/21941)
+
+## 7.0.2 (April 3, 2023)
+
+Storybook 7.0 is here! 🎉
+
+- ⚡️ [First-class Vite](https://storybook.js.org/blog/first-class-vite-support-in-storybook/)
+- 🔼 [Zero-config NextJS](https://storybook.js.org/blog/integrate-nextjs-and-storybook-automatically/)
+- 🇸 [Zero-config SvelteKit](https://storybook.js.org/blog/storybook-for-sveltekit/)
+- 🏗️ [Frameworks API](https://storybook.js.org/blog/framework-api/)
+- 3️⃣ [Component Story Format v3](https://storybook.js.org/blog/storybook-csf3-is-here/)
+- 🛡️ [Improved type safety](https://storybook.js.org/blog/improved-type-safety-in-storybook-7/)
+- 📚 [Docs overhaul with MDx2 support](https://storybook.js.org/blog/storybook-7-docs/)
+- ☂️ [Code coverage for interaction testing](https://storybook.js.org/blog/code-coverage-with-the-storybook-test-runner/)
+- 🖼️ [UI design refresh](https://storybook.js.org/blog/7-0-design-alpha/)
+- 🏛️ [Improved stability](https://storybook.js.org/blog/storybook-ecosystem-ci/)
+
+7.0 contains hundreds more fixes, features, and tweaks. Browse the changelogs matching `7.0.0-alpha.*`, `7.0.0-beta.*`, and `7.0.0-rc.*` for the full list of changes.
+
+See our [Migration guide](https://storybook.js.org/migration-guides/7.0) to upgrade from earlier versions of Storybook.
+
+#### Bug Fixes
+
+-   CLI: Improve incompatible addons logic [#21883](https://github.com/storybooks/storybook/pull/21883)
+
+## 7.0.1 (April 3, 2023)
+
+#### Bug Fixes
+
+-   CLI: Always send error events if init doesn't succeed [#21879](https://github.com/storybooks/storybook/pull/21879)
+-   CLI: Warn when community addons are incompatible with Storybook 7 [#21863](https://github.com/storybooks/storybook/pull/21863)
+-   CLI: Fix migration summary message [#21862](https://github.com/storybooks/storybook/pull/21862)
+-   CLI: Fix link to new framework API migrations [#21875](https://github.com/storybooks/storybook/pull/21875)
+
+#### Maintenance
+
+-   Angular: Remove deprecated `component`/`propsMeta` from story [#21807](https://github.com/storybooks/storybook/pull/21807)
+-   Remove deprecated flags and properties [#21852](https://github.com/storybooks/storybook/pull/21852)
+
+#### Dependencies
+
+-   Fix codemod dependency conflict [#21876](https://github.com/storybooks/storybook/pull/21876)
+-   Upgrade satellite repos for 7.0 [#21881](https://github.com/storybooks/storybook/pull/21881)
+
 ## 7.0.0 (March 31, 2023)
 
 Storybook 7.0 is here! 🎉

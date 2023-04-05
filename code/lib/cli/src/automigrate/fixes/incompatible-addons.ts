@@ -1,10 +1,11 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import type { Fix } from '../types';
-import { getStorybookData, getIncompatibleAddons } from '../helpers/mainConfigFile';
+import { getStorybookData } from '../helpers/mainConfigFile';
+import { getIncompatibleAddons } from '../helpers/getIncompatibleAddons';
 
 interface IncompatibleAddonsOptions {
-  incompatibleAddonList: string[];
+  incompatibleAddonList: { name: string; version: string }[];
 }
 
 export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
@@ -17,7 +18,7 @@ export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
       configDir,
     });
 
-    const incompatibleAddonList = getIncompatibleAddons(mainConfig);
+    const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
 
     return incompatibleAddonList.length > 0 ? { incompatibleAddonList } : null;
   },
@@ -25,11 +26,13 @@ export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
     return dedent`
       ${chalk.bold(
         chalk.red('Attention')
-      )}: We've detected that you're using the following addons which are known to be incompatible with Storybook 7:
+      )}: We've detected that you're using the following addons in versions which are known to be incompatible with Storybook 7:
 
-      ${incompatibleAddonList.map((addon) => `- ${chalk.cyan(addon)}`).join('\n')}
+      ${incompatibleAddonList
+        .map(({ name, version }) => `- ${chalk.cyan(`${name}@${version}`)}`)
+        .join('\n')}
 
-      Please upgrade at your own risk, and check the following Github issue for more information:
+      Please be aware they might not work in Storybook 7. Reach out to their maintainers for updates and check the following Github issue for more information:
       ${chalk.yellow('https://github.com/storybookjs/storybook/issues/20529')}
     `;
   },
