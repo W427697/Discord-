@@ -40,7 +40,7 @@ export const Context: StoryObj<typeof Component> = {
       </TestContext.Provider>
     ),
   ],
-  render: (args, context) => {
+  render: function Render(args, context) {
     const arg = useContext(TestContext);
     if (!arg) throw new Error('Arg not set');
     return <p>Story</p>;
