@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
 import pickBy from 'lodash/pickBy.js';
-import { styled, ignoreSsrWarning } from '@storybook/theming';
-import { transparentize, darken, lighten } from 'polished';
+import { styled } from '@storybook/theming';
+import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
@@ -107,24 +107,6 @@ export const TableWrapper = styled.table<{
       marginLeft: inAddonPanel ? 0 : 1,
       marginRight: inAddonPanel ? 0 : 1,
 
-      [`tr:first-child${ignoreSsrWarning}`]: {
-        [`td:first-child${ignoreSsrWarning}, th:first-child${ignoreSsrWarning}`]: {
-          borderTopLeftRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-        [`td:last-child${ignoreSsrWarning}, th:last-child${ignoreSsrWarning}`]: {
-          borderTopRightRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-      },
-
-      [`tr:last-child${ignoreSsrWarning}`]: {
-        [`td:first-child${ignoreSsrWarning}, th:first-child${ignoreSsrWarning}`]: {
-          borderBottomLeftRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-        [`td:last-child${ignoreSsrWarning}, th:last-child${ignoreSsrWarning}`]: {
-          borderBottomRightRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-      },
-
       tbody: {
         // Safari doesn't love shadows on tbody so we need to use a shadow filter. In order to do this,
         // the table cells all need to be solid so they have a background color applied.
@@ -139,31 +121,8 @@ export const TableWrapper = styled.table<{
                   : `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.20))`,
             }),
 
-        tr: {
-          background: 'transparent',
-          overflow: 'hidden',
-          ...(inAddonPanel
-            ? {
-                borderTopWidth: 1,
-                borderTopStyle: 'solid',
-                borderTopColor:
-                  theme.base === 'light'
-                    ? darken(0.1, theme.background.content)
-                    : lighten(0.05, theme.background.content),
-              }
-            : {
-                [`&:not(:first-child)${ignoreSsrWarning}`]: {
-                  borderTopWidth: 1,
-                  borderTopStyle: 'solid',
-                  borderTopColor:
-                    theme.base === 'light'
-                      ? darken(0.1, theme.background.content)
-                      : lighten(0.05, theme.background.content),
-                },
-              }),
-        },
-
-        td: {
+        '> tr > *': {
+          // For filter to work properly, the table cells all need to be opaque.
           background: theme.background.content,
           borderTop: `1px solid ${theme.appBorderColor}`,
         },
