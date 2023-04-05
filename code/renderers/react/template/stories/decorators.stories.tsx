@@ -41,8 +41,8 @@ export const Context: StoryObj<typeof Component> = {
     ),
   ],
   render: function Render(args, context) {
-    const arg = useContext(TestContext);
-    if (!arg) throw new Error('Arg not set');
+    const value = useContext(TestContext);
+    if (!value) throw new Error('TestContext not set, decorator did not run!');
     return <p>Story</p>;
   },
 };
