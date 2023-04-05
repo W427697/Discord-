@@ -46,7 +46,7 @@ Or use a version specifier:
 
 ### `@storybook/addons` has been split into `@storybook/manager-api` and `@storybook/preview-api`
 
-The default export from ``@storybook/addons` can now be used via named imports from `@storybook/manager-api` and `@storybook/preview-api`, depending on which environment you need the API from. The manager is the Storybook UI and includes your addon's Addon Panel. While the preview is used to render stories and includes your addon's decorators.
+The default export from `@storybook/addons` can now be used via named imports from `@storybook/manager-api` and `@storybook/preview-api`, depending on which environment you need the API from. The manager is the Storybook UI and includes your addon's Addon Panel. While the preview is used to render stories and includes your addon's decorators.
 
 You might also depend (and use) these packages in your addon's decorators: `@storybook/store`, `@storybook/preview-web`, `@storybook/core-client`, `@storybook/client-api`. These have all been consolidated into `@storybook/preview-api`. If you use any of these packages, please import what you need from `@storybook/preview-api` instead.
 
