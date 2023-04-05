@@ -43,7 +43,7 @@ export const VueWrapper = {
       const story = storyFn();
       // Vue 3 "Functional" component as decorator
       return () => {
-        return h('div', { style: 'border: 2px solid blue' }, h(story));
+        return h('div', { style: 'border: 5px solid blue' }, h(story));
       };
     },
   ],
