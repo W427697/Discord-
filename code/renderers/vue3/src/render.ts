@@ -40,7 +40,6 @@ export function renderToCanvas(
     // we need to call here to run the decorators again
     // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
     const element = storyFn(); // TODO:  find better solution however it is not causing any harm for now
-    // reactiveState.globals = storyContext.globals;
     updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
