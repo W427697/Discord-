@@ -166,8 +166,6 @@ const baseTemplates = {
       renderer: 'storybook-solidjs',
       builder: '@storybook/builder-vite',
     },
-    // TODO: remove this once solid-vite framework is released
-    inDevelopment: true,
     skipTasks: ['e2e-tests-dev'],
   },
   'solid-vite/default-ts': {
@@ -178,8 +176,6 @@ const baseTemplates = {
       renderer: 'storybook-solidjs',
       builder: '@storybook/builder-vite',
     },
-    // TODO: remove this once solid-vite framework is released
-    inDevelopment: true,
     skipTasks: ['e2e-tests-dev'],
   },
   'vue3-vite/default-js': {
@@ -398,15 +394,13 @@ const baseTemplates = {
   'qwik-vite/default-ts': {
     name: 'Qwik CLI (Default TS)',
     script: 'yarn create qwik basic {{beforeDir}} --no-install',
-    // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
-    inDevelopment: true,
     expected: {
       framework: 'storybook-framework-qwik',
       renderer: 'storybook-framework-qwik',
       builder: 'storybook-framework-qwik',
     },
     // TODO: The community template does not provide standard stories, which is required for e2e tests.
-    skipTasks: ['e2e-tests', 'e2e-tests-dev'],
+    skipTasks: ['e2e-tests-dev'],
   },
 } satisfies Record<string, Template>;
 
@@ -492,6 +486,8 @@ export const daily: TemplateKey[] = [
   'nextjs/12-js',
   'nextjs/default-js',
   'qwik-vite/default-ts',
+  'solid-vite/default-ts',
+  'solid-vite/default-js',
   'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
