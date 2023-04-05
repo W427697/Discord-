@@ -2,21 +2,23 @@ import type { PackageJson, StorybookConfig } from '@storybook/types';
 import { getActualPackageJson } from './package-json';
 
 const knownRenderers = [
-  'html',
-  'react',
-  'svelte',
-  'vue3',
-  'preact',
-  'server',
-  'vue',
-  'web-components',
-  'angular',
-  'ember',
+  '@storybook/html',
+  '@storybook/react',
+  '@storybook/svelte',
+  '@storybook/vue3',
+  '@storybook/preact',
+  '@storybook/server',
+  '@storybook/vue',
+  '@storybook/web-components',
+  '@storybook/angular',
+  '@storybook/ember',
+  'storybook-solidjs',
+  '@builder.io/qwik', // The Qwik framework is a renderer too, so the best we can do here is to detect the actual Qwik package
 ];
 
-const knownBuilders = ['builder-webpack5', 'builder-vite'];
+const knownBuilders = ['@storybook/builder-webpack5', '@storybook/builder-vite'];
 
-function findMatchingPackage(packageJson: PackageJson, suffixes: string[]) {
+function findMatchingPackage(packageJson: PackageJson, packages: string[]) {
   const { name = '', version, dependencies, devDependencies, peerDependencies } = packageJson;
 
   const allDependencies = {
@@ -27,7 +29,7 @@ function findMatchingPackage(packageJson: PackageJson, suffixes: string[]) {
     ...peerDependencies,
   };
 
-  return suffixes.map((suffix) => `@storybook/${suffix}`).find((pkg) => allDependencies[pkg]);
+  return packages.find((pkg) => allDependencies[pkg]);
 }
 
 export async function getFrameworkInfo(mainConfig: StorybookConfig) {
