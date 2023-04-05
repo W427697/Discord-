@@ -205,8 +205,6 @@ const baseTemplates = {
   'vue2-vite/2.7-js': {
     name: 'Vue2 Vite (vue 2.7 JS)',
     script: 'npx create-vue@2 {{beforeDir}} --default',
-    // TODO: reenable this once sandbox is available
-    inDevelopment: true,
     expected: {
       framework: '@storybook/vue-vite',
       renderer: '@storybook/vue',
