@@ -1618,10 +1618,6 @@ If your story depends on a play function to render correctly, _and_ you are conf
 
 This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
 
-#### parameters.docs.source.excludeDecorators defaults to true
-
-By default we don't render decorators in the Source/Canvas blocks. If you want to render decorators, you can set the parameter to `false`.
-
 ### 7.0 Deprecations and default changes
 
 #### storyStoreV7 enabled by default
