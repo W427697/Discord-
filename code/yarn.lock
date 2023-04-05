@@ -5353,7 +5353,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-mdx-gfm@workspace:addons/gfm"
   dependencies:
-    "@storybook/node-logger": 7.0.0-beta.52
+    "@storybook/node-logger": 7.0.2
     remark-gfm: ^3.0.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
@@ -6594,18 +6594,6 @@ __metadata:
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
-
-"@storybook/node-logger@npm:7.0.0-beta.52":
-  version: 7.0.0-beta.52
-  resolution: "@storybook/node-logger@npm:7.0.0-beta.52"
-  dependencies:
-    "@types/npmlog": ^4.1.2
-    chalk: ^4.1.0
-    npmlog: ^5.0.1
-    pretty-hrtime: ^1.0.3
-  checksum: 7a35297fb274bc104c3bc14d798c1d30efad95d4a0bf425958e7497ce6f81a14f3750119ab004fbe2f318071bae19bc2c1ad605612535f02c3c3aacc2b987db6
-  languageName: node
-  linkType: hard
 
 "@storybook/postinstall@7.0.2, @storybook/postinstall@workspace:*, @storybook/postinstall@workspace:lib/postinstall":
   version: 0.0.0-use.local
