@@ -11,7 +11,6 @@ const omitEvent = (args: Args): Args =>
     : {};
 
 const displayObject = (obj: any): string | boolean | number => {
-  console.log(obj);
   if (obj && typeof obj === 'object') {
     return `{${Object.keys(obj)
       .map((key) => `${key}:${displayObject(obj[key])}`)
