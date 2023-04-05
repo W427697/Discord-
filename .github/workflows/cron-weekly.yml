@@ -25,8 +25,3 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           message: "Markdown Links Check failed for branch ${{ github.event.pull_request.head.ref }}"
-      
-      
-          
-          
-
