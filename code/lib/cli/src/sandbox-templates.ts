@@ -397,7 +397,8 @@ const baseTemplates = {
       renderer: 'storybook-framework-qwik',
       builder: 'storybook-framework-qwik',
     },
-    // TODO: The community template does not provide standard stories, which is required for e2e tests.
+    // TODO: The community template does not provide standard stories, which is required for building and e2e tests.
+    inDevelopment: true,
     skipTasks: ['e2e-tests-dev'],
   },
 } satisfies Record<string, Template>;
