@@ -49,6 +49,18 @@ const evalExp = (argExpValue: any, args: Args): any => {
   return evalVal;
 };
 
+const replaceValueWithRef = (source: string, args: Args, ref: string) => {
+  const value = ref ? args[ref] : 'args';
+
+  const bindValue = () => {
+    const argsRef = Object.fromEntries(Object.entries(args).map(([key]) => [key, key]));
+    return (displayObject(argsRef) as string).replace(/'/g, '');
+  };
+
+  const regexMatch = new RegExp(`="${value}"`, 'g');
+  return source.replace(regexMatch, `="${ref ?? bindValue()}"`);
+};
+
 /**
  *
  * replace function curly brackets and return with empty string ex: () => { return `${text} , ${year}` } => `${text} , ${year}`
@@ -72,5 +84,6 @@ export {
   directiveSource,
   attributeSource,
   evalExp,
+  replaceValueWithRef,
   generateExpression,
 };
