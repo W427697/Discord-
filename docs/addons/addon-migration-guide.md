@@ -75,4 +75,4 @@ We also recommend releasing your own addon using the `next` tag to test it out i
 
 ## Support
 
-If you’ve followed this guide and your addon is still not working, please reach out on the [Storybook Discord](https://discord.gg/storybook) in the `#prerelease` channel and we’ll help you get to the bottom of it and upgrade the guide accordingly.
+If you’ve followed this guide and your addon is still not working, please reach out on the [Storybook Discord](https://discord.gg/storybook) in the `#addons` channel and we’ll help you get to the bottom of it and upgrade the guide accordingly.
