@@ -17,3 +17,16 @@ jobs:
           # output full HTTP info for broken links
           use-verbose-mode: 'yes'
           config-file: '.github/workflows/markdown-link-check-config.json'
+          
+      # Notify to Discord channel on failure
+      - name: Send Discord message
+        uses: DiscordBotName/SendMessageAction@v1
+        if: failure()
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          message: "Markdown Links Check failed for branch ${{ github.event.pull_request.head.ref }}"
+      
+      
+          
+          
+
