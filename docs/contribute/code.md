@@ -33,7 +33,6 @@ If all goes well, you should see the sandbox running.
 
 ![Storybook sandbox running](../get-started/example-welcome.png)
 
-
 ## Running a different sandbox template
 
 By default, the `start` command is configured to initialize a Vite-based React template. If you're planning on working on a different renderer instead, you can do so as well. Start by running the `task` command as follows:
@@ -176,7 +175,7 @@ We encourage bug reports to include reproductions. In the same way that it's pos
 To do so, run the following command in the root of the monorepo:
 
 ```shell
-npx storybook@next link https://github.com/your-username/your-project.git
+npx storybook@latest link https://github.com/your-username/your-project.git
 ```
 
 This command creates a project `../storybook-repros/your-project`, and automatically links it to your local Storybook code. After connecting it, you should be able to run Storybook and develop as mentioned [above](#start-developing).
@@ -184,7 +183,7 @@ This command creates a project `../storybook-repros/your-project`, and automatic
 If you already have a reproduction on your local machine, you can similarly link it to your monorepo dev setup with the `--local` flag:
 
 ```shell
-npx storybook@next link --local /path/to/local-repro-directory
+npx storybook@latest link --local /path/to/local-repro-directory
 ```
 
 <div class="aside">

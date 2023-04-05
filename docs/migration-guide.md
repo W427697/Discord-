@@ -96,8 +96,8 @@ If, for some reason, you are unable to get MDX2 working, we’ve implemented leg
 
 To use MDX1:
 
-1. Install `@storybook/mdx1-csf@next` as a dev dependency
-2. Add the `legacyMdx1` feature flag to your `.storybook/main.js`:
+1. Install `@storybook/mdx1-csf@latest` as a dev dependency
+2. Add the `legacyMdx1` feature flag to your Storybook configuration file (i.e., `.storybook/main.js|ts`):
 
 <!-- prettier-ignore-start -->
 
@@ -166,7 +166,7 @@ We published a [detailed post about CSF3](https://storybook.js.org/blog/storyboo
 If you want to just skip to the migration, we provide a codemod for your convenience which should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 ```sh
-npx storybook@next migrate csf-2-to-3 --glob="src/**/*.stories.js"
+npx storybook@latest migrate csf-2-to-3 --glob="src/**/*.stories.js"
 ```
 
 ### storiesOf to CSF
@@ -174,7 +174,7 @@ npx storybook@next migrate csf-2-to-3 --glob="src/**/*.stories.js"
 Storybook 7's architecture is focused on performance and needs code that is statically analyzable. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 ```sh
-npx storybook@next migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
+npx storybook@latest migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
 ```
 
 ### .stories.mdx to MDX+CSF
@@ -182,7 +182,7 @@ npx storybook@next migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
 Storybook 7 provides a cleaner [docs](./writing-docs/introduction.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
 ```sh
-npx storybook@next migrate mdx-to-csf --glob "src/**/*.stories.mdx"
+npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
 ```
 
 You’ll also need to update your `stories` glob in `.storybook/main.js` to include the newly created `.mdx` and `.stories.js` files if it doesn’t already.
