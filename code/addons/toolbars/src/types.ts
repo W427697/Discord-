@@ -40,8 +40,6 @@ interface NormalizedToolbarConfigItems extends NormalizedToolbarConfigBase {
 }
 
 interface NormalizedToolbarConfigText extends NormalizedToolbarConfigBase {
-  /** Default value */
-  defaultValue: string;
   /** Mask the value of the input like a password */
   isSecret: boolean;
 }
