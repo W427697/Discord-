@@ -21,7 +21,7 @@ export const ToolbarTextInput: FC<ToolbarTextInputProps> = ({
       const value = e?.target?.value;
       if (value != null) updateGlobals({ [id]: value });
     },
-    [updateGlobals, id]
+    [currentValue, updateGlobals]
   ) as ChangeEventHandler<HTMLInputElement>;
 
   return (
