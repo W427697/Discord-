@@ -14,12 +14,12 @@ export const globalTypes = {
     },
   },
   userName: {
-    name: 'Your name',
+    name: 'User name',
     description: 'What is your name?',
-    defaultValue: '',
-    isSecret: false,
     toolbar: {
+      title: 'Name',
       icon: 'user',
+      isSecret: false,
     },
   },
   locale: {
