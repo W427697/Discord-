@@ -44,9 +44,15 @@ interface NormalizedToolbarConfigText extends NormalizedToolbarConfigBase {
 
 export type NormalizedToolbarConfig = NormalizedToolbarConfigItems | NormalizedToolbarConfigText;
 
-export type NormalizedToolbarArgType = InputType & {
-  toolbar: NormalizedToolbarConfig;
+export type NormalizedToolbarArgTypeItems = InputType & {
+  toolbar: NormalizedToolbarConfigItems;
 };
+
+export type NormalizedToolbarArgTypeText = InputType & {
+  toolbar: NormalizedToolbarConfigText;
+};
+
+export type NormalizedToolbarArgType = NormalizedToolbarArgTypeItems | NormalizedToolbarArgTypeText;
 
 type ToolbarConfigItems = NormalizedToolbarConfigItems & {
   items: string[] | ToolbarItem[];
