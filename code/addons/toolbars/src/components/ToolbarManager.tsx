@@ -45,8 +45,8 @@ export const ToolbarManager: FC = () => {
 
 const isNormalizedToolbarArgTypeItems = (
   arg: NormalizedToolbarArgType
-): arg is NormalizedToolbarArgTypeItems => arg.items != null;
+): arg is NormalizedToolbarArgTypeItems => arg.toolbar.items != null;
 
 const isNormalizedToolbarArgTypeText = (
   arg: NormalizedToolbarArgType
-): arg is NormalizedToolbarArgTypeText => arg.items == null;
+): arg is NormalizedToolbarArgTypeText => arg.toolbar.items == null;

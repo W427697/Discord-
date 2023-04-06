@@ -13,6 +13,13 @@ export const globalTypes = {
       ],
     },
   },
+  name: {
+    name: 'Your name',
+    description: 'What is your name?',
+    toolbar: {
+      icon: 'user',
+    },
+  },
   locale: {
     name: 'Locale',
     description: 'Internationalization locale',
