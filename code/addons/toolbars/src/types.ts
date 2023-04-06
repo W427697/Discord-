@@ -22,29 +22,48 @@ export interface ToolbarItem {
   type?: ToolbarItemType;
 }
 
-export interface NormalizedToolbarConfig {
+interface NormalizedToolbarConfigBase {
   /** The label to show for this toolbar item */
   title?: string;
   /** Choose an icon to show for this toolbar item */
   icon: IconsProps['icon'];
   /** Set to true to prevent default update of icon to match any present selected items icon */
   preventDynamicIcon?: boolean;
-  items: ToolbarItem[];
-  shortcuts?: ToolbarShortcuts;
   /** Change title based on selected value */
   dynamicTitle?: boolean;
 }
+
+interface NormalizedToolbarConfigItems extends NormalizedToolbarConfigBase {
+  items: ToolbarItem[];
+  shortcuts?: ToolbarShortcuts;
+}
+
+interface NormalizedToolbarConfigText extends NormalizedToolbarConfigBase {
+  isSecret?: boolean;
+}
+
+export type NormalizedToolbarConfig = NormalizedToolbarConfigItems | NormalizedToolbarConfigText;
 
 export type NormalizedToolbarArgType = InputType & {
   toolbar: NormalizedToolbarConfig;
 };
 
-export type ToolbarConfig = NormalizedToolbarConfig & {
+type ToolbarConfigItems = NormalizedToolbarConfigItems & {
   items: string[] | ToolbarItem[];
 };
 
-export type ToolbarArgType = InputType & {
-  toolbar: ToolbarConfig;
+type ToolbarConfigText = NormalizedToolbarConfigText;
+
+export type ToolbarConfig = ToolbarConfigItems | ToolbarConfigText;
+
+export type ToolbarArgTypeItems = InputType & {
+  toolbar: ToolbarConfigText;
 };
 
-export type ToolbarMenuProps = NormalizedToolbarArgType & { id: string };
+export type ToolbarArgTypeText = InputType & {
+  toolbar: ToolbarConfigItems;
+};
+
+export type ToolbarArgType = ToolbarConfigItems | ToolbarConfigText;
+
+export type ToolbarMenuProps = NormalizedToolbarConfigItems & { id: string };
