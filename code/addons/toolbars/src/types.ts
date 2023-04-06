@@ -40,8 +40,10 @@ interface NormalizedToolbarConfigItems extends NormalizedToolbarConfigBase {
 }
 
 interface NormalizedToolbarConfigText extends NormalizedToolbarConfigBase {
+  /** Default value */
+  defaultValue: string;
   /** Mask the value of the input like a password */
-  isSecret?: boolean;
+  isSecret: boolean;
 }
 
 export type NormalizedToolbarConfig = NormalizedToolbarConfigItems | NormalizedToolbarConfigText;
@@ -60,7 +62,10 @@ type ToolbarConfigItems = NormalizedToolbarConfigItems & {
   items: string[] | ToolbarItem[];
 };
 
-type ToolbarConfigText = NormalizedToolbarConfigText;
+type ToolbarConfigText = NormalizedToolbarConfigText & {
+  isSecret?: boolean;
+  defaultValue?: null | undefined | string;
+};
 
 export type ToolbarConfig = ToolbarConfigItems | ToolbarConfigText;
 

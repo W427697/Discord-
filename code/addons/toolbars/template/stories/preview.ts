@@ -13,9 +13,11 @@ export const globalTypes = {
       ],
     },
   },
-  name: {
+  userName: {
     name: 'Your name',
     description: 'What is your name?',
+    defaultValue: '',
+    isSecret: false,
     toolbar: {
       icon: 'user',
     },

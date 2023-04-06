@@ -18,7 +18,15 @@ export const normalizeArgType = (
     },
   };
 
-  if (base.items == null) return base;
+  if (base.items == null)
+    return {
+      ...base,
+      toolbar: {
+        ...base.toolbar,
+        isSecret: base.toolbar.isSecret ?? false,
+        defaultValue: base.toolbar.defaultValue ?? '',
+      },
+    };
 
   return {
     ...base,
