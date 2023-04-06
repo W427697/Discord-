@@ -9,12 +9,17 @@ type ToolbarTextInputProps = NormalizedToolbarArgTypeText;
 export const ToolbarTextInput: FC<ToolbarTextInputProps> = ({
   id,
   description,
+  defaultValue,
   toolbar: { icon, title, isSecret },
 }) => {
   const [globals, updateGlobals] = useGlobals();
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const currentValue = globals[id];
   const hasGlobalValue = Boolean(currentValue);
+
+  useEffect(() => {
+    if (currentValue == null) updateGlobals({ [id]: defaultValue });
+  });
 
   const handleInputChange = useCallback(
     (e) => {
