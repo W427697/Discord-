@@ -8,12 +8,21 @@ const defaultItemValues: ToolbarItem = {
 export const normalizeArgType = (
   key: string,
   argType: ToolbarArgType
-): NormalizedToolbarArgType => ({
-  ...argType,
-  name: argType.name || key,
-  description: argType.description || key,
-  toolbar: {
-    ...argType.toolbar,
+): NormalizedToolbarArgType => {
+  const base = {
+    ...argType,
+    name: argType.name || key,
+    description: argType.description || key,
+    toolbar: {
+      ...argType.toolbar,
+      items,
+    },
+  };
+
+  if (base.items == null) return base;
+
+  return {
+    ...base,
     items: argType.toolbar.items.map((_item) => {
       const item = typeof _item === 'string' ? { value: _item, title: _item } : _item;
 
@@ -26,5 +35,5 @@ export const normalizeArgType = (
 
       return { ...defaultItemValues, ...item };
     }),
-  },
-});
+  };
+};
