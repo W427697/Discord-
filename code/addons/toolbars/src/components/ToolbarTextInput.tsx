@@ -1,18 +1,20 @@
-import React, { type FC, useEffect, useCallback, type ChangeEventHandler } from 'react';
+import React, { type FC, useEffect, useCallback, type ChangeEventHandler, useState } from 'react';
 import { useGlobals } from '@storybook/manager-api';
-import { Icons, TooltipMessage, WithTooltip } from '@storybook/components';
+import { TooltipMessage, WithTooltip } from '@storybook/components';
+import { ToolbarMenuButton } from './ToolbarMenuButton';
 import type { NormalizedToolbarArgTypeText } from '../types';
 
 type ToolbarTextInputProps = NormalizedToolbarArgTypeText;
 
 export const ToolbarTextInput: FC<ToolbarTextInputProps> = ({
   id,
-  name,
   description,
   toolbar: { icon, title, defaultValue, isSecret },
 }) => {
   const [globals, updateGlobals] = useGlobals();
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const currentValue = globals[id];
+  const hasGlobalValue = Boolean(currentValue);
   useEffect(() => {
     if (currentValue == null) updateGlobals({ [id]: defaultValue });
   });
@@ -22,13 +24,21 @@ export const ToolbarTextInput: FC<ToolbarTextInputProps> = ({
       const value = e?.target?.value;
       if (value != null) updateGlobals({ [id]: value });
     },
-    [updateGlobals]
+    [updateGlobals, id]
   ) as ChangeEventHandler<HTMLInputElement>;
 
   return (
-    <WithTooltip tooltip={<TooltipMessage title={title} desc={description} />}>
-      {icon && <Icons icon={icon} />}
-      {title ? `\xa0${title}` : `\xa0${name}`}
+    <WithTooltip
+      closeOnOutsideClick
+      onVisibleChange={setIsTooltipVisible}
+      tooltip={<TooltipMessage title={title} desc={description} />}
+    >
+      <ToolbarMenuButton
+        active={isTooltipVisible || hasGlobalValue}
+        description={description ?? ''}
+        icon={icon}
+        title={title ?? ''}
+      />
       <input
         type={isSecret ? 'password' : 'text'}
         value={currentValue}
