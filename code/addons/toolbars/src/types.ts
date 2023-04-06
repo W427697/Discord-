@@ -27,18 +27,20 @@ interface NormalizedToolbarConfigBase {
   title?: string;
   /** Choose an icon to show for this toolbar item */
   icon: IconsProps['icon'];
+}
+
+interface NormalizedToolbarConfigItems extends NormalizedToolbarConfigBase {
+  items: ToolbarItem[];
+  /** Bind keyboard shortcuts to navigate items */
+  shortcuts?: ToolbarShortcuts;
   /** Set to true to prevent default update of icon to match any present selected items icon */
   preventDynamicIcon?: boolean;
   /** Change title based on selected value */
   dynamicTitle?: boolean;
 }
 
-interface NormalizedToolbarConfigItems extends NormalizedToolbarConfigBase {
-  items: ToolbarItem[];
-  shortcuts?: ToolbarShortcuts;
-}
-
 interface NormalizedToolbarConfigText extends NormalizedToolbarConfigBase {
+  /** Mask the value of the input like a password */
   isSecret?: boolean;
 }
 
