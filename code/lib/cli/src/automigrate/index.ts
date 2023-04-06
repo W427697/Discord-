@@ -101,10 +101,11 @@ export const automigrate = async ({
   }
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const installationMetadata = await packageManager.findInstallations([
-    '@storybook/*',
-    'storybook',
-  ]);
+  const installationMetadata = null;
+  // const installationMetadata = await packageManager.findInstallations([
+  //   '@storybook/*',
+  //   'storybook',
+  // ]);
 
   logger.info();
   logger.info(
