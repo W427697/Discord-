@@ -30,11 +30,11 @@ export const ToolbarManager: FC = () => {
         const normalizedArgType = normalizeArgType(id, globalTypes[id] as ToolbarArgType);
 
         if (isNormalizedToolbarArgTypeItems(normalizedArgType)) {
-          return <ToolbarTextInput key={id} id={id} {...normalizeArgType} />;
+          return <ToolbarMenuList key={id} id={id} {...normalizedArgType} />;
         }
 
         if (isNormalizedToolbarArgTypeText(normalizedArgType)) {
-          return <ToolbarMenuList key={id} id={id} {...normalizedArgType} />;
+          return <ToolbarTextInput key={id} id={id} {...normalizedArgType} />;
         }
 
         return null;
