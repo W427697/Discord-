@@ -4,7 +4,13 @@ import { useGlobalTypes } from '@storybook/manager-api';
 import { Separator } from '@storybook/components';
 import { ToolbarMenuList } from './ToolbarMenuList';
 import { normalizeArgType } from '../utils/normalize-toolbar-arg-type';
-import type { ToolbarArgType } from '../types';
+import type {
+  NormalizedToolbarArgType,
+  NormalizedToolbarArgTypeItems,
+  NormalizedToolbarArgTypeText,
+  ToolbarArgType,
+} from '../types';
+import { ToolbarTextInput } from './ToolbarTextInput';
 
 /**
  * A smart component for handling manager-preview interactions.
@@ -23,8 +29,24 @@ export const ToolbarManager: FC = () => {
       {globalIds.map((id) => {
         const normalizedArgType = normalizeArgType(id, globalTypes[id] as ToolbarArgType);
 
-        return <ToolbarMenuList key={id} id={id} {...normalizedArgType} />;
+        if (isNormalizedToolbarArgTypeItems(normalizedArgType)) {
+          return <ToolbarTextInput key={id} id={id} {...normalizeArgType} />;
+        }
+
+        if (isNormalizedToolbarArgTypeText(normalizedArgType)) {
+          return <ToolbarMenuList key={id} id={id} {...normalizedArgType} />;
+        }
+
+        return null;
       })}
     </>
   );
 };
+
+const isNormalizedToolbarArgTypeItems = (
+  arg: NormalizedToolbarArgType
+): arg is NormalizedToolbarArgTypeItems => arg.items != null;
+
+const isNormalizedToolbarArgTypeText = (
+  arg: NormalizedToolbarArgType
+): arg is NormalizedToolbarArgTypeText => arg.items == null;
