@@ -7,10 +7,10 @@ import { ToolbarMenuButton } from './ToolbarMenuButton';
 import type { WithKeyboardCycleProps } from '../hoc/withKeyboardCycle';
 import { withKeyboardCycle } from '../hoc/withKeyboardCycle';
 import { getSelectedIcon, getSelectedTitle } from '../utils/get-selected';
-import type { ToolbarMenuProps } from '../types';
+import type { ToolbarMenuListPropsBase, ToolbarItem } from '../types';
 import { ToolbarMenuListItem } from './ToolbarMenuListItem';
 
-type ToolbarMenuListProps = ToolbarMenuProps & WithKeyboardCycleProps;
+type ToolbarMenuListProps = ToolbarMenuListPropsBase & WithKeyboardCycleProps;
 
 export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
   ({
@@ -61,7 +61,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
         tooltip={({ onHide }) => {
           const links = items
             // Special case handling for various "type" variants
-            .filter(({ type }) => {
+            .filter(({ type }: ToolbarItem) => {
               let shouldReturn = true;
 
               if (type === 'reset' && !currentValue) {
@@ -70,7 +70,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
 
               return shouldReturn;
             })
-            .map((item) => {
+            .map((item: ToolbarItem) => {
               const listItem = ToolbarMenuListItem({
                 ...item,
                 currentValue,

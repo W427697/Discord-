@@ -1,4 +1,4 @@
-import React, { type FC, useEffect, useCallback, type ChangeEventHandler, useState } from 'react';
+import React, { type FC, useCallback, type ChangeEventHandler, useState } from 'react';
 import { useGlobals } from '@storybook/manager-api';
 import { TooltipMessage, WithTooltip } from '@storybook/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';

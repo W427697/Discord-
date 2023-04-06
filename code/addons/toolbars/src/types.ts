@@ -62,19 +62,18 @@ type ToolbarConfigItems = NormalizedToolbarConfigItems & {
 
 type ToolbarConfigText = NormalizedToolbarConfigText & {
   isSecret?: boolean;
-  defaultValue?: null | undefined | string;
 };
 
 export type ToolbarConfig = ToolbarConfigItems | ToolbarConfigText;
 
 export type ToolbarArgTypeItems = InputType & {
-  toolbar: ToolbarConfigText;
-};
-
-export type ToolbarArgTypeText = InputType & {
   toolbar: ToolbarConfigItems;
 };
 
-export type ToolbarArgType = ToolbarConfigItems | ToolbarConfigText;
+export type ToolbarArgTypeText = InputType & {
+  toolbar: ToolbarConfigText;
+};
 
-export type ToolbarMenuProps = NormalizedToolbarConfigItems & { id: string };
+export type ToolbarArgType = ToolbarArgTypeItems | ToolbarArgTypeText;
+
+export type ToolbarMenuListPropsBase = NormalizedToolbarArgTypeItems & { id: string };

@@ -2,14 +2,14 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 import { createCycleValueArray } from '../utils/create-cycle-value-array';
 import { registerShortcuts } from '../utils/register-shortcuts';
-import type { ToolbarMenuProps } from '../types';
+import type { ToolbarMenuListPropsBase } from '../types';
 
 export type WithKeyboardCycleProps = {
   cycleValues?: string[];
 };
 
-export const withKeyboardCycle = (Component: React.ComponentType<ToolbarMenuProps>) => {
-  const WithKeyboardCycle = (props: ToolbarMenuProps) => {
+export const withKeyboardCycle = (Component: React.ComponentType<ToolbarMenuListPropsBase>) => {
+  const WithKeyboardCycle = (props: ToolbarMenuListPropsBase) => {
     const {
       id,
       toolbar: { items, shortcuts },
