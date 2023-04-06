@@ -44,7 +44,6 @@ export const ToolbarTextInput: FC<ToolbarTextInputProps> = ({
       <input
         type={isSecret ? 'password' : 'text'}
         value={currentValue}
-        autocomplete={isSecret ? 'off' : 'on'}
         onChange={handleInputChange}
       />
     </WithTooltip>
