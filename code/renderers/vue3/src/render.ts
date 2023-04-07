@@ -1,8 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { createApp, h, reactive } from 'vue';
+import type { App } from 'vue';
+import { createApp, h, reactive, isReactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
-import type { StoryFnVueReturnType, VueRenderer } from './types';
+
+import type { VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -12,75 +14,92 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return h(Component, props, getSlots(props, context));
+  return h(Component, props, generateSlots(context));
 };
 
-let setupFunction = (_app: any) => {};
-export const setup = (fn: (app: any) => void) => {
-  setupFunction = fn;
+// set of setup functions that will be called when story is created
+const setupFunctions = new Set<(app: App, storyContext?: StoryContext<VueRenderer>) => void>();
+/** add a setup function to set that will be call when story is created a d
+ *
+ * @param fn
+ */
+export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => void) => {
+  setupFunctions.add(fn);
+};
+
+const runSetupFunctions = (app: App, storyContext: StoryContext<VueRenderer>) => {
+  setupFunctions.forEach((fn) => fn(app, storyContext));
 };
 
 const map = new Map<
   VueRenderer['canvasElement'],
-  { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }
+  {
+    vueApp: ReturnType<typeof createApp>;
+    reactiveArgs: Args;
+  }
 >();
 
-const elementMap = new Map<VueRenderer['canvasElement'], StoryFnVueReturnType>();
-
 export function renderToCanvas(
-  { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
+  { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  // fetch the story with the updated context (with reactive args)
-  storyContext.args = reactive(storyContext.args);
-  const element: StoryFnVueReturnType = storyFn();
-  elementMap.set(canvasElement, element);
-
-  const props = (element as any).render?.().props;
-  const reactiveArgs = props ? reactive(props) : storyContext.args;
-
   const existingApp = map.get(canvasElement);
+  // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
-    updateArgs(existingApp.reactiveArgs, reactiveArgs);
+    // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
+    // we need to call here to run the decorators again
+    // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
+    const element = storyFn(); // TODO:  find better solution however it is not causing any harm for now
+    // reactiveState.globals = storyContext.globals;
+    updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
   }
-
   if (existingApp && forceRemount) teardown(existingApp.vueApp, canvasElement);
 
-  const storybookApp = createApp({
-    render() {
-      const renderedElement: any = elementMap.get(canvasElement);
-      const current = renderedElement && renderedElement.template ? renderedElement : element;
-      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
-      return h(current, reactiveArgs);
+  // create vue app for the story
+  const vueApp = createApp({
+    setup() {
+      storyContext.args = reactive(storyContext.args);
+      const rootElement = storyFn();
+      const appState = {
+        vueApp,
+        reactiveArgs: reactive(rootElement.props ?? storyContext.args),
+      };
+      map.set(canvasElement, appState);
+
+      return () => {
+        return h(rootElement, appState.reactiveArgs);
+      };
     },
   });
 
-  storybookApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  setupFunction(storybookApp);
-  storybookApp.mount(canvasElement);
+  vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
+  runSetupFunctions(vueApp, storyContext);
+  vueApp.mount(canvasElement);
 
   showMain();
   return () => {
-    teardown(storybookApp, canvasElement);
+    teardown(vueApp, canvasElement);
   };
 }
 
 /**
- * get the slots as functions to be rendered
- * @param props
+ * generate slots for default story without render function template
  * @param context
  */
 
-function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
+function generateSlots(context: StoryContext<VueRenderer, Args>) {
   const { argTypes } = context;
-  const slots = Object.entries(props)
+  const slots = Object.entries(argTypes)
     .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
-    .map(([key, value]) => [key, typeof value === 'function' ? value : () => value]);
+    .map(([key, value]) => {
+      const slotValue = context.args[key];
+      return [key, typeof slotValue === 'function' ? slotValue : () => slotValue];
+    });
 
-  return Object.fromEntries(slots);
+  return reactive(Object.fromEntries(slots));
 }
 
 /**
@@ -89,13 +108,26 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  * @param nextArgs
  * @returns
  */
-function updateArgs(reactiveArgs: Args, nextArgs: Args) {
-  if (!nextArgs) return;
-  Object.keys(reactiveArgs).forEach((key) => {
-    delete reactiveArgs[key];
+export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
+  if (Object.keys(nextArgs).length === 0) return;
+  const currentArgs = isReactive(reactiveArgs) ? reactiveArgs : reactive(reactiveArgs);
+  // delete all args in currentArgs that are not in nextArgs
+  Object.keys(currentArgs).forEach((key) => {
+    if (!(key in nextArgs)) {
+      delete currentArgs[key];
+    }
   });
-  Object.assign(reactiveArgs, nextArgs);
+  // update currentArgs with nextArgs
+  Object.assign(currentArgs, nextArgs);
 }
+
+/**
+ * unmount the vue app
+ * @param storybookApp
+ * @param canvasElement
+ * @returns void
+ * @private
+ * */
 
 function teardown(
   storybookApp: ReturnType<typeof createApp>,
