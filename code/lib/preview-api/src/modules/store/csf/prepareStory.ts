@@ -124,6 +124,11 @@ export function prepareStory<TRenderer extends Renderer>(
   const playFunction =
     play &&
     (async (storyContext: StoryContext<TRenderer>) => {
+      // When lazy loaded, or under other conditions perhaps like stories with excessive Context providers in React
+      // the canvasElement may be defined, but empty for a varying amount of time. We will provide an automatic
+      // backoff delay (with limits) to allow the story time to render before play can be initiated.
+      await delayForCanvas(storyContext.canvasElement);
+
       const playFunctionContext: PlayFunctionContext<TRenderer> = {
         ...storyContext,
         // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -148,6 +153,25 @@ export function prepareStory<TRenderer extends Renderer>(
     prepareContext,
   };
 }
+
+export const getTriangularNumber = (seed: number) => (seed * (seed + 1)) / 2;
+
+export const delayForCanvas = async (canvasElement: HTMLElement) => {
+  let backOff = 0;
+  while (!canvasElement.innerHTML) {
+    backOff += 1;
+    if (backOff > 100) {
+      throw new Error(
+        "canvasElement.innerHTML did not populate after 100 increasing delays"
+      );
+    }
+    // eslint-disable-next-line no-loop-func
+    await new Promise((resolve) =>
+      setTimeout(resolve, getTriangularNumber(backOff))
+    );
+  }
+};
+
 
 export function prepareMeta<TRenderer extends Renderer>(
   componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
