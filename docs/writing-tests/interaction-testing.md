@@ -42,12 +42,6 @@ Run the following command to install the interactions addon and related dependen
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
-
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
 <!-- prettier-ignore-start -->
@@ -183,6 +177,19 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
 ## Automate
 
 Once you're ready to push your code into a pull request, you'll want to automatically run all your checks using a Continuous Integration (CI) service before merging it. Read our [documentation](./test-runner.md#set-up-ci-to-run-tests) for a detailed guide on setting up a CI environment to run tests.
+
+## Troubleshooting
+
+### The TypeScript types aren't recognized
+
+If you're writing interaction tests with TypeScript, you may run into a situation where the TypeScript types aren't recognized in your IDE. This a known issue with newer package managers (e.g., pnpm, Yarn) and how they hoist dependencies. If you're working with Yarn the process happens automatically and the types should be recognized. However, if you're working with pnpm, you'll need to create a `.npmrc` file in the root of your project and add the following:
+
+```text
+// .npmrc
+public-hoist-pattern[]=@types*
+```
+
+If you're still encountering issues, you can always add the [`@types/testing-library__jest-dom`](https://www.npmjs.com/package/@types/testing-library__jest-dom) package to your project.
 
 ---
 

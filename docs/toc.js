@@ -1,6 +1,5 @@
 module.exports = {
   toc: [
-    
     {
       title: '🚀 Get started',
       pathSegment: 'get-started',
@@ -303,6 +302,11 @@ module.exports = {
         {
           pathSegment: 'addons-api',
           title: 'Addon API',
+          type: 'link',
+        },
+        {
+          pathSegment: 'addon-migration-guide',
+          title: 'Migrate addons to 7.0',
           type: 'link',
         },
       ],
@@ -608,6 +612,11 @@ module.exports = {
     {
       title: '❓ FAQ',
       pathSegment: 'faq',
+      type: 'link',
+    },
+    {
+      title: '↗️ Migrate to 7.0',
+      pathSegment: 'migration-guide',
       type: 'link',
     },
   ],
