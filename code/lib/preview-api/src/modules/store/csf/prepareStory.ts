@@ -127,7 +127,7 @@ export function prepareStory<TRenderer extends Renderer>(
       // When lazy loaded, or under other conditions perhaps like stories with excessive Context providers in React
       // the canvasElement may be defined, but empty for a varying amount of time. We will provide an automatic
       // backoff delay (with limits) to allow the story time to render before play can be initiated.
-      await delayForCanvas(storyContext.canvasElement);
+      await delayForCanvas<TRenderer>(storyContext.canvasElement);
 
       const playFunctionContext: PlayFunctionContext<TRenderer> = {
         ...storyContext,
@@ -156,22 +156,20 @@ export function prepareStory<TRenderer extends Renderer>(
 
 export const getTriangularNumber = (seed: number) => (seed * (seed + 1)) / 2;
 
-export const delayForCanvas = async (canvasElement: HTMLElement) => {
+export const delayForCanvas = async <TRenderer extends Renderer>(
+  canvasElement: TRenderer['canvasElement']
+) => {
   let backOff = 0;
+  // @ts-expect-error Renderer uses canvasElement: unknown, but we know it's a div.
   while (!canvasElement.innerHTML) {
     backOff += 1;
     if (backOff > 100) {
-      throw new Error(
-        "canvasElement.innerHTML did not populate after 100 increasing delays"
-      );
+      throw new Error('canvasElement.innerHTML did not populate after 100 increasing delays');
     }
-    // eslint-disable-next-line no-loop-func
-    await new Promise((resolve) =>
-      setTimeout(resolve, getTriangularNumber(backOff))
-    );
+    // eslint-disable-next-line no-await-in-loop,@typescript-eslint/no-loop-func
+    await new Promise((resolve) => setTimeout(resolve, getTriangularNumber(backOff)));
   }
 };
-
 
 export function prepareMeta<TRenderer extends Renderer>(
   componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
