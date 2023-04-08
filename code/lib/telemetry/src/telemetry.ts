@@ -19,7 +19,10 @@ const sessionId = nanoid();
 // context info sent with all events, provided
 // by the app. currently:
 // - cliVersion
-export const globalContext = {} as Record<string, any>;
+export const globalContext = {
+  inCI: Boolean(process.env.CI),
+  isTTY: process.stdout.isTTY,
+} as Record<string, any>;
 
 export async function sendTelemetry(
   data: TelemetryData,
@@ -36,8 +39,6 @@ export async function sendTelemetry(
     : {
         ...globalContext,
         anonymousId: getAnonymousProjectId(),
-        inCI: Boolean(process.env.CI),
-        isTTY: process.stdout.isTTY,
       };
   const eventId = nanoid();
   const body = { ...rest, eventType, eventId, sessionId, metadata, payload, context };
