@@ -15,7 +15,7 @@ export { getStorybookCoreVersion } from './package-json';
 
 export { getPrecedingUpgrade } from './event-cache';
 
-export { globalContext } from './telemetry';
+export { addToGlobalContext } from './telemetry';
 
 export const telemetry = async (
   eventType: EventType,

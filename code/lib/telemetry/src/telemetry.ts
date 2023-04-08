@@ -16,10 +16,14 @@ let tasks: Promise<any>[] = [];
 // send telemetry
 const sessionId = nanoid();
 
+export const addToGlobalContext = (key: string, value: any) => {
+  globalContext[key] = value;
+};
+
 // context info sent with all events, provided
 // by the app. currently:
 // - cliVersion
-export const globalContext = {
+const globalContext = {
   inCI: Boolean(process.env.CI),
   isTTY: process.stdout.isTTY,
 } as Record<string, any>;
