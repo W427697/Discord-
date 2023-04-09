@@ -1,9 +1,10 @@
 import type { ComponentProps } from 'react';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { IconButton, Icons } from '@storybook/components';
 import { Consumer } from '@storybook/manager-api';
 import type { Addon, Combo } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
+import { FORCE_REMOUNT } from '@storybook/core-events';
 
 interface AnimatedButtonProps {
   animating?: boolean;
@@ -19,13 +20,11 @@ const StyledAnimatedIconButton = styled(IconButton)<
 }));
 
 const menuMapper = ({ api, state }: Combo) => {
-  const { storyId, remount } = state;
-  const { isAnimating } = remount;
+  const { storyId } = state;
   return {
     storyId,
-    remount: () => api.remount(),
-    remountEnd: () => api.remountEnd(),
-    isAnimating,
+    remount: () => api.emit(FORCE_REMOUNT, { storyId: state.storyId }),
+    api,
   };
 };
 
@@ -35,13 +34,23 @@ export const remountTool: Addon = {
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>
-      {({ remount, storyId, remountEnd, isAnimating }) => {
+      {({ remount, storyId, api }) => {
+        const [isAnimating, setIsAnimating] = useState(false);
+        const remountComponent = () => {
+          if (!storyId) return;
+          remount();
+        };
+
+        api.on(FORCE_REMOUNT, () => {
+          setIsAnimating(true);
+        });
+
         return (
           <StyledAnimatedIconButton
             key="remount"
             title="Remount component"
-            onClick={remount}
-            onAnimationEnd={remountEnd}
+            onClick={remountComponent}
+            onAnimationEnd={() => setIsAnimating(false)}
             animating={isAnimating}
             disabled={!storyId}
           >

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { global } from '@storybook/global';
-import { PREVIEW_KEYDOWN } from '@storybook/core-events';
+import { FORCE_REMOUNT, PREVIEW_KEYDOWN } from '@storybook/core-events';
 
 import type { ModuleFn } from '../index';
 
@@ -179,6 +179,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
       const {
         layout: { isFullscreen, showNav, showPanel },
         ui: { enableShortcuts },
+        storyId,
       } = store.getState();
       if (!enableShortcuts) {
         return;
@@ -323,7 +324,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
           break;
         }
         case 'remount': {
-          fullAPI.remount();
+          fullAPI.emit(FORCE_REMOUNT, { storyId });
           break;
         }
         default:
