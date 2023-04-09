@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { IconButton, Icons } from '@storybook/components';
 import { Consumer } from '@storybook/manager-api';
 import type { Addon, Combo } from '@storybook/manager-api';
