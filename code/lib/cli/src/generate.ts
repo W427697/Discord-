@@ -134,10 +134,10 @@ command('extract [location] [output]')
   );
 
 command('sandbox [filterValue]')
-  .alias('repro') // for retrocompatibility purposes
+  .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
+  .option('-b --branch <branch>', 'Define the branch to download from', 'main')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
     sandbox({ filterValue, ...options }).catch((e) => {
@@ -226,8 +226,10 @@ command('dev')
       ci: 'CI',
     });
 
-    // eslint-disable-next-line no-param-reassign
-    options.port = parseInt(`${options.port}`, 10);
+    if (parseInt(`${options.port}`, 10)) {
+      // eslint-disable-next-line no-param-reassign
+      options.port = parseInt(`${options.port}`, 10);
+    }
 
     await dev({ ...options, packageJson: pkg }).catch(() => process.exit(1));
   });

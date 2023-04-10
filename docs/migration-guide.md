@@ -11,6 +11,7 @@ The rest of this guide will help you upgrade successfully, either automatically 
 - [Webpack4 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued)
 - [IE11 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#modern-browser-support)
 - [Minimum supported version of node is 16](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-support-for-node-15-and-below)
+- [Some community addons might not work yet](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-users)
 
 If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before continuing. If these are hard requirements, you should probably stick with Storybook 6.x.
 
@@ -22,8 +23,8 @@ To upgrade your Storybook:
 
 <CodeSnippets
   paths={[
-    'common/storybook-upgrade-prerelease.npm.js.mdx',
-    'common/storybook-upgrade-prerelease.pnpm.js.mdx'
+    'common/storybook-upgrade.npm.js.mdx',
+    'common/storybook-upgrade.pnpm.js.mdx'
   ]}
 />
 
@@ -31,7 +32,7 @@ To upgrade your Storybook:
 
 This will:
 
-1. Upgrade your Storybook dependencies to the latest prerelease version
+1. Upgrade your Storybook dependencies to the latest version
 2. Run a collection of _automigrations_, which will:
    - Check for common upgrade tasks
    - Explain the necessary changes with links to more information
@@ -95,7 +96,7 @@ If, for some reason, you are unable to get MDX2 working, we’ve implemented leg
 
 To use MDX1:
 
-1. Install `@storybook/mdx1-csf@next` as a dev dependency
+1. Install `@storybook/mdx1-csf` as a dev dependency
 2. Add the `legacyMdx1` feature flag to your `.storybook/main.js`:
 
 <!-- prettier-ignore-start -->
@@ -165,7 +166,7 @@ We published a [detailed post about CSF3](https://storybook.js.org/blog/storyboo
 If you want to just skip to the migration, we provide a codemod for your convenience which should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 ```sh
-npx storybook@next migrate csf-2-to-3 --glob="src/**/*.stories.js"
+npx storybook@latest migrate csf-2-to-3 --glob="src/**/*.stories.js"
 ```
 
 ### storiesOf to CSF
@@ -173,7 +174,7 @@ npx storybook@next migrate csf-2-to-3 --glob="src/**/*.stories.js"
 Storybook 7's architecture is focused on performance and needs code that is statically analyzable. For that reason, it does not work with `storiesOf`. We provide a codemod which, in most cases, should automatically make the code changes for you (make sure to update the glob to fit your files):
 
 ```sh
-npx storybook@next migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
+npx storybook@latest migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
 ```
 
 ### .stories.mdx to MDX+CSF
@@ -181,7 +182,7 @@ npx storybook@next migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
 Storybook 7 provides a cleaner [docs](./writing-docs/introduction.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
 ```sh
-npx storybook@next migrate mdx-to-csf --glob "src/**/*.stories.mdx"
+npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
 ```
 
 You’ll also need to update your `stories` glob in `.storybook/main.js` to include the newly created `.mdx` and `.stories.js` files if it doesn’t already.
