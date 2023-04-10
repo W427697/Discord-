@@ -38,12 +38,12 @@ export const SimpleTemplate = {
 export const VueWrapper = {
   args: { label: 'With Vue wrapper' },
   decorators: [
-    (storyFn) => {
+    (storyFn, context) => {
       // Call the `storyFn` to receive a component that Vue can render
       const story = storyFn();
       // Vue 3 "Functional" component as decorator
       return () => {
-        return h('div', { style: 'border: 2px solid blue' }, h(story));
+        return h('div', { style: 'border: 5px solid blue' }, h(story, context.args));
       };
     },
   ],
