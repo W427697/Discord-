@@ -37,6 +37,6 @@ setup((app: App, context?: StoryContext<VueRenderer>) => {
 });
 
 // additonal setup to provide selected language to the app
-setup((app: App, _context) => {
+setup((app: App) => {
   app.provide(themeColor, 'green');
 });
