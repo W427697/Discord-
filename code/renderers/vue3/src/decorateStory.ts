@@ -20,13 +20,13 @@ function prepare(
   rawStory: VueRenderer['storyResult'],
   innerStory?: ConcreteComponent
 ): Component | null {
-  const story = normalizeFunctionalComponent(rawStory as ComponentOptions);
-
+  const story = rawStory as ComponentOptions;
   if (story == null) {
     return null;
   }
 
   if (innerStory) {
+    if (typeof story === 'function') return story; // we don't need to wrap a functional component nor to convert it to a component options
     return {
       // Normalize so we can always spread an object
       ...normalizeFunctionalComponent(story),
@@ -69,6 +69,7 @@ export function decorateStory(
       if (decoratedStory === story) {
         return story;
       }
+      console.log('decoratedStory', decoratedStory);
       const props = story.props ?? context.args;
       const innerStory = () => h(story, props);
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
