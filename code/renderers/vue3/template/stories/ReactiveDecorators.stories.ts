@@ -14,20 +14,20 @@ const meta = {
 
     const canvas = within(canvasElement);
 
-    channel.emit(RESET_STORY_ARGS, { storyId: id });
+    await channel.emit(RESET_STORY_ARGS, { storyId: id });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
 
     const input = await canvas.findByLabelText<HTMLInputElement>('Some input:');
     await userEvent.type(input, 'value');
 
-    channel.emit(UPDATE_STORY_ARGS, {
+    await channel.emit(UPDATE_STORY_ARGS, {
       storyId: id,
       updatedArgs: { label: 'updated label' },
     });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
 
+    await expect(canvas.getByRole('button')).toHaveTextContent('updated label'); // if this passes story args are reactive
     await expect(input).toHaveValue('value'); // if this passes story is not remounted
-    await expect(canvas.findByText('updated label')).resolves.toBeInTheDocument(); // if this passes story args are reactive
   },
 } satisfies Meta<typeof Reactivity>;
 
