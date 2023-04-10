@@ -69,7 +69,7 @@ export function decorateStory(
       if (decoratedStory === story) {
         return story;
       }
-      console.log('decoratedStory', decoratedStory);
+
       const props = story.props ?? context.args;
       const innerStory = () => h(story, props);
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
