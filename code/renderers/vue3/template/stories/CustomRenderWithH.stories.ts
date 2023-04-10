@@ -1,13 +1,10 @@
 import type { Meta } from '@storybook/vue3';
-import { h } from 'vue';
-import Reactivity from './Reactivity.vue';
+import type Reactivity from './Reactivity.vue';
 import * as DefaultRenderStory from './DefaultRender.stories';
 
 const meta = {
   ...DefaultRenderStory.default,
-  render: (args) => {
-    return h('div', ['Just wrapping something around the default render', h(Reactivity, args)]);
-  },
+  title: 'Example/Reactivity',
 } satisfies Meta<typeof Reactivity>;
 
 export {
