@@ -2017,6 +2017,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jest/types@npm:^27.5.1":
+  version: 27.5.1
+  resolution: "@jest/types@npm:27.5.1"
+  dependencies:
+    "@types/istanbul-lib-coverage": ^2.0.0
+    "@types/istanbul-reports": ^3.0.0
+    "@types/node": "*"
+    "@types/yargs": ^16.0.0
+    chalk: ^4.0.0
+  checksum: 4598b302398db0eb77168b75a6c58148ea02cc9b9f21c5d1bbe985c1c9257110a5653cf7b901c3cab87fba231e3fed83633687f1c0903b4bc6939ab2a8452504
+  languageName: node
+  linkType: hard
+
 "@jest/types@npm:^29.5.0":
   version: 29.5.0
   resolution: "@jest/types@npm:29.5.0"
@@ -2702,6 +2715,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/expect@npm:storybook-jest":
+  version: 27.5.2-0
+  resolution: "@storybook/expect@npm:27.5.2-0"
+  dependencies:
+    "@types/jest": ">=26.0.0"
+  checksum: 068d07334d2dc26bdd8ddf2a2d6f98ed06536a64232c3cdf035240c4d70fdff3a4aecc33e9b012dc3d01236834116a078ef17a59d4aea90eabbe67ba60d26307
+  languageName: node
+  linkType: hard
+
 "@storybook/global@npm:^5.0.0":
   version: 5.0.0
   resolution: "@storybook/global@npm:5.0.0"
@@ -2719,6 +2741,18 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.0.2
   checksum: 32d50b35ba1225a210c981e74f35e8c285066d8282218ef3fbfc1b3c39de9902c842029aeceb5df0507805de6b416f2d2610096e74e35fc6e8ff204a85db1a34
+  languageName: node
+  linkType: hard
+
+"@storybook/jest@npm:future":
+  version: 0.1.1-future.0
+  resolution: "@storybook/jest@npm:0.1.1-future.0"
+  dependencies:
+    "@storybook/expect": storybook-jest
+    "@storybook/instrumenter": future
+    "@testing-library/jest-dom": ^5.16.2
+    jest-mock: ^27.3.0
+  checksum: f180fbd2e0751ee4abd58017bea8ea4594d75cf9949f0fb97b30f2a1669b35a4fe7824258ce6fff7b4de9f834fa1bc6b7be208534cf3f12d0ba3c34e5755a973
   languageName: node
   linkType: hard
 
@@ -2794,6 +2828,7 @@ __metadata:
     "@nrwl/nx-cloud": ^15.0.2
     "@nrwl/workspace": ^15.4.5
     "@storybook/eslint-config-storybook": ^3.1.2
+    "@storybook/jest": future
     "@storybook/linter-config": ^3.1.2
     "@storybook/testing-library": future
     "@swc/core": ^1.3.23
@@ -3079,7 +3114,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.11.9":
+"@testing-library/jest-dom@npm:^5.11.9, @testing-library/jest-dom@npm:^5.16.2":
   version: 5.16.5
   resolution: "@testing-library/jest-dom@npm:5.16.5"
   dependencies:
@@ -3353,7 +3388,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*":
+"@types/jest@npm:*, @types/jest@npm:>=26.0.0":
   version: 29.5.0
   resolution: "@types/jest@npm:29.5.0"
   dependencies:
@@ -3620,6 +3655,15 @@ __metadata:
   dependencies:
     "@types/yargs-parser": "*"
   checksum: b52519ba68a8d90996b54143ff74fcd8ac1722a1ef4a50ed8c3dbc1f7a76d14210f0262f8b91eabcdab202ff4babdd92ce7332ab1cdd6af4eae7c9fc81c83797
+  languageName: node
+  linkType: hard
+
+"@types/yargs@npm:^16.0.0":
+  version: 16.0.5
+  resolution: "@types/yargs@npm:16.0.5"
+  dependencies:
+    "@types/yargs-parser": "*"
+  checksum: 7b2824c749b6e28f5ee3248d13b244eaf7d3c5bb96089add774997572b5a10f1a0826d29a7bc797d64d29ca504b0b0d6ba2e74931b3fabae78ccbbcf07282f0c
   languageName: node
   linkType: hard
 
@@ -9545,6 +9589,16 @@ __metadata:
     slash: ^3.0.0
     stack-utils: ^2.0.3
   checksum: 706e89cacc89c090af584f4687c4e7f0616706481e468ec7c88270e07ae7458a829e477b7b3dff56b75d801f799d65eb2c28d6453c25dd02bea0fd98f0809dbb
+  languageName: node
+  linkType: hard
+
+"jest-mock@npm:^27.3.0":
+  version: 27.5.1
+  resolution: "jest-mock@npm:27.5.1"
+  dependencies:
+    "@jest/types": ^27.5.1
+    "@types/node": "*"
+  checksum: 6ad58454b37ee3f726930b07efbf40a7c79d2d2d9c7b226708b4b550bc0904de93bcacf714105d11952a5c0bc855e5d59145c8c9dbbb4e69b46e7367abf53b52
   languageName: node
   linkType: hard
 
