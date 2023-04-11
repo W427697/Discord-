@@ -2,6 +2,7 @@
 
 #### Bug Fixes
 
+-   React: Fix default export docgen for React.FC and forwardRef [#22024](https://github.com/storybooks/storybook/pull/22024)
 -   Viewport: Remove transitions when switching viewports [#21963](https://github.com/storybooks/storybook/pull/21963)
 -   CLI: Fix JsPackageManager typo [#22006](https://github.com/storybooks/storybook/pull/22006)
 -   Viewport: Fix the `defaultOrientation` config option [#21962](https://github.com/storybooks/storybook/pull/21962)
@@ -14,6 +15,7 @@
 #### Dependency Upgrades
 
 -   React-vite: Fix perf regression by pinning vite-plugin-react-docgen-ts [#22013](https://github.com/storybooks/storybook/pull/22013)
+-   Use future version of satellite repo dependencies [#22026](https://github.com/storybooks/storybook/pull/22026)
 
 ## 7.1.0-alpha.0 (April 5, 2023)
 
