@@ -49,6 +49,7 @@
     "@storybook/manager-api": "7.0.2",
     "@storybook/node-logger": "7.0.2",
     "@storybook/preview-api": "7.0.2",
+    "@storybook/telemetry": "7.0.2",
     "@storybook/types": "7.0.2",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
