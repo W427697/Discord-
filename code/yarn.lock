@@ -5636,6 +5636,7 @@ __metadata:
     "@storybook/manager-api": 7.1.0-alpha.1
     "@storybook/node-logger": 7.1.0-alpha.1
     "@storybook/preview-api": 7.1.0-alpha.1
+    "@storybook/telemetry": 7.1.0-alpha.1
     "@storybook/types": 7.1.0-alpha.1
     "@types/node": ^16.0.0
     "@types/react": ^16.14.34
