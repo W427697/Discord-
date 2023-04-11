@@ -1,3 +1,20 @@
+## 7.1.0-alpha.1 (April 11, 2023)
+
+#### Bug Fixes
+
+-   Viewport: Remove transitions when switching viewports [#21963](https://github.com/storybooks/storybook/pull/21963)
+-   CLI: Fix JsPackageManager typo [#22006](https://github.com/storybooks/storybook/pull/22006)
+-   Viewport: Fix the `defaultOrientation` config option [#21962](https://github.com/storybooks/storybook/pull/21962)
+-   UI: Fix story data access for broken About page [#21951](https://github.com/storybooks/storybook/pull/21951)
+
+#### Maintenance
+
+-   CLI: Update template code references to 7.0 [#21845](https://github.com/storybooks/storybook/pull/21845)
+
+#### Dependency Upgrades
+
+-   React-vite: Fix perf regression by pinning vite-plugin-react-docgen-ts [#22013](https://github.com/storybooks/storybook/pull/22013)
+
 ## 7.1.0-alpha.0 (April 5, 2023)
 
 #### Bug Fixes

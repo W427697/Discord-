@@ -5274,10 +5274,10 @@ __metadata:
     "@storybook/core-events": 7.1.0-alpha.0
     "@storybook/global": ^5.0.0
     "@storybook/instrumenter": 7.1.0-alpha.0
-    "@storybook/jest": ^0.1.0
+    "@storybook/jest": future
     "@storybook/manager-api": 7.1.0-alpha.0
     "@storybook/preview-api": 7.1.0-alpha.0
-    "@storybook/testing-library": ^0.1.0
+    "@storybook/testing-library": future
     "@storybook/theming": 7.1.0-alpha.0
     "@storybook/types": 7.1.0-alpha.0
     "@types/node": ^16.0.0
@@ -6032,7 +6032,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@npm:7.0.2, @storybook/client-logger@npm:^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0":
+"@storybook/client-logger@npm:7.0.2, @storybook/client-logger@npm:future":
   version: 7.0.2
   resolution: "@storybook/client-logger@npm:7.0.2"
   dependencies:
@@ -6421,7 +6421,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/instrumenter@npm:^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0":
+"@storybook/instrumenter@npm:future":
   version: 7.0.2
   resolution: "@storybook/instrumenter@npm:7.0.2"
   dependencies:
@@ -6434,15 +6434,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/jest@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@storybook/jest@npm:0.1.0"
+"@storybook/jest@npm:future":
+  version: 0.1.1-future.0
+  resolution: "@storybook/jest@npm:0.1.1-future.0"
   dependencies:
     "@storybook/expect": storybook-jest
-    "@storybook/instrumenter": ^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0
+    "@storybook/instrumenter": future
     "@testing-library/jest-dom": ^5.16.2
     jest-mock: ^27.3.0
-  checksum: 0385f189d283468b980512d972b6223cf4848b304746f750ac501fb9d2eb7d99ad911d26f2fb072e639de0084b197de729f652a327caff8705c9d3d8c7043943
+  checksum: f180fbd2e0751ee4abd58017bea8ea4594d75cf9949f0fb97b30f2a1669b35a4fe7824258ce6fff7b4de9f834fa1bc6b7be208534cf3f12d0ba3c34e5755a973
   languageName: node
   linkType: hard
 
@@ -7147,7 +7147,7 @@ __metadata:
     "@storybook/html-vite": "workspace:*"
     "@storybook/html-webpack5": "workspace:*"
     "@storybook/instrumenter": "workspace:*"
-    "@storybook/jest": ^0.1.0
+    "@storybook/jest": future
     "@storybook/linter-config": ^3.1.2
     "@storybook/manager": "workspace:*"
     "@storybook/manager-api": "workspace:*"
@@ -7180,7 +7180,7 @@ __metadata:
     "@storybook/svelte": "workspace:*"
     "@storybook/svelte-webpack5": "workspace:*"
     "@storybook/telemetry": "workspace:*"
-    "@storybook/testing-library": ^0.1.0
+    "@storybook/testing-library": future
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@storybook/vue": "workspace:*"
@@ -7445,16 +7445,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/testing-library@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@storybook/testing-library@npm:0.1.0"
+"@storybook/testing-library@npm:future":
+  version: 0.1.1-future.0
+  resolution: "@storybook/testing-library@npm:0.1.1-future.0"
   dependencies:
-    "@storybook/client-logger": ^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0
-    "@storybook/instrumenter": ^7.0.0-beta.0 || ^7.0.0-rc.0 || ^7.0.0
+    "@storybook/client-logger": future
+    "@storybook/instrumenter": future
     "@testing-library/dom": ^8.3.0
     "@testing-library/user-event": ^13.2.1
     ts-dedent: ^2.2.0
-  checksum: 182c5ed9f79b9108f79fb668b780530c85a1515830efb3b156cb4802ae9dd5aca357f28a472ebf9e513b1f3996335a21f7e1646cece1110bac9adf7f6b6a4770
+  checksum: 5347e2ba663f26eb6a7b00a3a802c36368fcbcd686108d534d07824ca03f8f51bd75d15502217f1a9706728964bd35974cd2e0b6e176a3bf5784132274102111
   languageName: node
   linkType: hard
 
