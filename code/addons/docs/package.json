@@ -26,43 +26,26 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "node": "./dist/index.js",
-      "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preview": {
-      "require": "./dist/preview.js",
       "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
     "./preset": {
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
     "./blocks": {
-      "require": "./dist/blocks.js",
       "import": "./dist/blocks.mjs",
       "types": "./dist/blocks.d.ts"
     },
-    "./dist/preview": {
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
-    },
-    "./dist/preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
-    },
     "./dist/shims/mdx-react-shim": {
-      "require": "./dist/shims/mdx-react-shim.js",
       "import": "./dist/shims/mdx-react-shim.mjs",
       "types": "./dist/shims/mdx-react-shim.d.ts"
     },
     "./mdx-react-shim": {
-      "require": "./dist/shims/mdx-react-shim.js",
       "import": "./dist/shims/mdx-react-shim.mjs",
       "types": "./dist/shims/mdx-react-shim.d.ts"
     },
@@ -75,9 +58,24 @@
     "./jest-transform-mdx": "./jest-transform-mdx.js",
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preset": [
+        "dist/preset.d.ts"
+      ],
+      "blocks": [
+        "dist/blocks.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "angular/**/*",
@@ -135,11 +133,15 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/preset.ts",
+      "./src/index.ts"
+    ],
+    "browserEntries": [
       "./src/preview.ts",
       "./src/blocks.ts",
       "./src/shims/mdx-react-shim.ts"
+    ],
+    "nodeEntries": [
+      "./src/preset.ts"
     ],
     "externals": [
       "@storybook/mdx1-csf"

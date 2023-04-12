@@ -1,5 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
+
 import type {
   BuilderOptions,
   CLIOptions,
@@ -10,9 +11,8 @@ import type {
   PresetConfig,
   Presets,
 } from '@storybook/types';
-import { join, parse } from 'path';
 import { loadCustomPresets } from './utils/load-custom-presets';
-import { safeResolve, safeResolveFrom } from './utils/safeResolve';
+import { safeResolveAll } from './utils/safeResolveAll';
 import { interopRequireDefault } from './utils/interpret-require';
 import { stripAbsNodeModulesPath } from './utils/strip-abs-node-modules-path';
 
@@ -25,15 +25,6 @@ export function filterPresetsConfig(presetsConfig: PresetConfig[]): PresetConfig
     const presetName = typeof preset === 'string' ? preset : preset.name;
     return !/@storybook[\\\\/]preset-typescript/.test(presetName);
   });
-}
-
-function resolvePathToMjs(filePath: string): string {
-  const { dir, name } = parse(filePath);
-  const mjsPath = join(dir, `${name}.mjs`);
-  if (safeResolve(mjsPath)) {
-    return mjsPath;
-  }
-  return filePath;
 }
 
 function resolvePresetFunction<T = any>(
@@ -73,63 +64,13 @@ export const resolveAddonName = (
   name: string,
   options: any
 ): CoreCommon_ResolvedAddonPreset | CoreCommon_ResolvedAddonVirtual | undefined => {
-  const resolve = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
-  const resolved = resolve(name);
+  const resolved = safeResolveAll(name, configDir);
 
-  if (resolved) {
-    const { dir: fdir, name: fname } = parse(resolved);
-
-    if (name.match(/\/(manager|register(-panel)?)(\.(js|mjs|ts|tsx|jsx))?$/)) {
-      return {
-        type: 'virtual',
-        name,
-        // we remove the extension
-        // this is a bit of a hack to try to find .mjs files
-        // node can only ever resolve .js files; it does not look at the exports field in package.json
-        managerEntries: [resolvePathToMjs(join(fdir, fname))],
-      };
-    }
-    if (name.match(/\/(preset)(\.(js|mjs|ts|tsx|jsx))?$/)) {
-      return {
-        type: 'presets',
-        name: resolved,
-      };
-    }
+  if (!resolved) {
+    return undefined;
   }
 
-  const checkExists = (exportName: string) => {
-    if (resolve(`${name}${exportName}`)) return `${name}${exportName}`;
-    return undefined;
-  };
-
-  // This is used to maintain back-compat with community addons that do not
-  // re-export their sub-addons but reference the sub-addon name directly.
-  //  We need to turn it into an absolute path so that webpack can
-  // serve it up correctly  when yarn pnp or pnpm is being used.
-  // Vite will be broken in such cases, because it does not process absolute paths,
-  // and it will try to import from the bare import, breaking in pnp/pnpm.
-  const absolutizeExport = (exportName: string, preferMJS: boolean) => {
-    const found = resolve(`${name}${exportName}`);
-
-    if (found) {
-      return preferMJS ? resolvePathToMjs(found) : found;
-    }
-    return undefined;
-  };
-
-  const managerFile = absolutizeExport(`/manager`, true);
-  const registerFile =
-    absolutizeExport(`/register`, true) || absolutizeExport(`/register-panel`, true);
-  const previewFile = checkExists(`/preview`);
-  const previewFileAbsolute = absolutizeExport('/preview', true);
-  const presetFile = absolutizeExport(`/preset`, false);
-
-  if (!(managerFile || previewFile) && presetFile) {
-    return {
-      type: 'presets',
-      name: presetFile,
-    };
-  }
+  const { managerFile, registerFile, previewFile, previewFileAbsolute, presetFile } = resolved;
 
   if (managerFile || registerFile || previewFile || presetFile) {
     const managerEntries = [];
@@ -165,10 +106,10 @@ export const resolveAddonName = (
     };
   }
 
-  if (resolved) {
+  if (resolved.fallback) {
     return {
       type: 'presets',
-      name: resolved,
+      name: resolved.fallback,
     };
   }
 

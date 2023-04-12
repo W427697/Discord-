@@ -33,12 +33,6 @@
       "types": "./dist/index.d.ts"
     },
     "./manager": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
-    },
-    "./register": {
-      "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
@@ -94,10 +88,11 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/manager.tsx"
+      "./src/index.ts"
     ],
-    "platform": "browser"
+    "browserEntries": [
+      "./src/manager.tsx"
+    ]
   },
   "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572",
   "storybook": {

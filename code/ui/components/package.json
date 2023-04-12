@@ -28,6 +28,7 @@
       "types": "./dist/index.d.ts"
     },
     "./html": {
+      "node": "./dist/html.js",
       "require": "./dist/html.js",
       "import": "./dist/html.mjs",
       "types": "./dist/html.d.ts"
@@ -82,8 +83,7 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
-    ],
-    "platform": "neutral"
+    ]
   },
   "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572"
 }

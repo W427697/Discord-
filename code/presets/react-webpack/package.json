@@ -103,13 +103,12 @@
     "access": "public"
   },
   "bundler": {
-    "entries": [
+    "nodeEntries": [
       "./src/index.ts",
       "./src/framework-preset-cra.ts",
       "./src/framework-preset-react-docs.ts",
       "./src/framework-preset-react.ts"
-    ],
-    "platform": "node"
+    ]
   },
   "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572"
 }

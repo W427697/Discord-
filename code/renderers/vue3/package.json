@@ -36,6 +36,16 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "template/**/*",
@@ -75,10 +85,11 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/config.ts"
+      "./src/index.ts"
     ],
-    "platform": "browser"
+    "browserEntries": [
+      "./src/config.ts"
+    ]
   },
   "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572"
 }

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 import path from 'path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';

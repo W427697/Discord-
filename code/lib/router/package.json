@@ -68,7 +68,6 @@
     "access": "public"
   },
   "bundler": {
-    "platform": "browser",
     "entries": [
       "./src/index.ts",
       "./src/utils.ts"

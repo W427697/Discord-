@@ -15,8 +15,9 @@ import { exec } from '../utils/exec';
 type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
   entries: string[];
+  nodeEntries: string[];
+  browserEntries: string[];
   externals: string[];
-  platform: Options['platform'];
   pre: string;
   post: string;
   formats: Formats[];
@@ -35,8 +36,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     peerDependencies,
     bundler: {
       entries = [],
+      nodeEntries = [],
+      browserEntries = [],
       externals: extraExternals = [],
-      platform,
       pre,
       post,
       formats = ['esm', 'cjs'],
@@ -64,26 +66,32 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
-  const allEntries = entries.map((e: string) => slash(join(cwd, e)));
+
+  const uniqueEntries = [...new Set([...entries, ...browserEntries, ...nodeEntries])];
+  const emsEntries = [...new Set([...entries, ...browserEntries])];
+  const cjsEntries = [...new Set([...entries, ...nodeEntries])];
+  const dtsFormat: Formats = emsEntries.length > 0 ? 'esm' : 'cjs';
 
   const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
-    formats,
-    entries,
+    formats: dtsFormat,
+    entries: uniqueEntries,
     optimized,
   });
 
-  if (formats.includes('esm')) {
+  if (formats.includes('esm') && emsEntries.length > 0) {
     tasks.push(
       build({
+        sourcemap: false,
+        treeshake: true,
         silent: true,
-        entry: allEntries,
+        entry: emsEntries.map((e: string) => slash(join(cwd, e))),
         watch,
         outDir,
         format: ['esm'],
         target: 'chrome100',
         clean: !watch,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
-        platform: platform || 'browser',
+        platform: 'browser',
         esbuildPlugins: [
           aliasPlugin({
             process: path.resolve('../node_modules/process/browser.js'),
@@ -95,7 +103,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
           c.conditions = ['module'];
-          c.platform = platform || 'browser';
+          c.platform = 'browser';
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
@@ -103,11 +111,13 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  if (formats.includes('cjs')) {
+  if (formats.includes('cjs') && cjsEntries.length > 0) {
     tasks.push(
       build({
+        sourcemap: false,
+        treeshake: true,
         silent: true,
-        entry: allEntries,
+        entry: cjsEntries.map((e: string) => slash(join(cwd, e))),
         watch,
         outDir,
         format: ['cjs'],
@@ -130,7 +140,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   await Promise.all(tasks);
 
   if (tsConfigExists && !optimized) {
-    await Promise.all(entries.map(generateDTSMapperFile));
+    await Promise.all(uniqueEntries.map(generateDTSMapperFile));
   }
 
   if (post) {
@@ -151,14 +161,14 @@ async function getDTSConfigs({
   entries,
   optimized,
 }: {
-  formats: Formats[];
+  formats: Formats;
   entries: string[];
   optimized: boolean;
 }) {
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
 
-  const dtsBuild = optimized && formats[0] && tsConfigExists ? formats[0] : undefined;
+  const dtsBuild = optimized && formats && tsConfigExists ? formats : undefined;
 
   const dtsConfig: DtsConfigSection = {
     tsconfig: tsConfigPath,

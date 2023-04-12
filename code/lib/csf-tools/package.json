@@ -61,11 +61,8 @@
     "access": "public"
   },
   "bundler": {
-    "entries": [
+    "nodeEntries": [
       "./src/index.ts"
-    ],
-    "formats": [
-      "cjs"
     ]
   },
   "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572"

@@ -27,13 +27,12 @@
       "types": "./dist/index.d.ts"
     },
     "./preview": {
-      "require": "./dist/config.js",
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./dist/preset": {
+    "./dist/config.mjs": "./dist/config.mjs",
+    "./preset": {
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
     "./package.json": "./package.json"
@@ -41,6 +40,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preset": [
+        "dist/preset.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "template/**/*",
@@ -100,11 +112,14 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/config.ts",
-      "./src/preset.ts"
+      "./src/index.ts"
     ],
-    "platform": "browser"
+    "browserEntries": [
+      "./src/config.ts"
+    ],
+    "nodeEntries": [
+      "./src/preset.ts"
+    ]
   },
   "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572"
 }
