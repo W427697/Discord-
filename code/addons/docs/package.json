@@ -127,14 +127,8 @@
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "@storybook/mdx1-csf": ">=1.0.0-0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@storybook/mdx1-csf": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"
@@ -146,6 +140,9 @@
       "./src/preview.ts",
       "./src/blocks.ts",
       "./src/shims/mdx-react-shim.ts"
+    ],
+    "externals": [
+      "@storybook/mdx1-csf"
     ]
   },
   "gitHead": "48a1df25493b1cc26a405096e723301f4bb04b4e",
