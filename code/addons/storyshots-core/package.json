@@ -142,7 +142,7 @@
     "access": "public"
   },
   "bundler": {},
-  "gitHead": "71877c1f4ba6b2d8829adc200a9c4bb09f7bfc37",
+  "gitHead": "98ddf58dba5ec35963e94a6f01f5043b2c866470",
   "storybook": {
     "displayName": "Storyshots",
     "icon": "https://user-images.githubusercontent.com/263385/101991676-48cdf300-3c7c-11eb-8aa1-944dab6ab29b.png",
