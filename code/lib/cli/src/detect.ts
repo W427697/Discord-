@@ -123,14 +123,12 @@ export function detectBuilder(packageManager: JsPackageManager, projectType: Pro
 
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
-    case ProjectType.SVELTE:
-    case ProjectType.SVELTEKIT:
-    case ProjectType.VUE:
-    case ProjectType.VUE3:
-    case ProjectType.SFC_VUE:
-      return CoreBuilder.Vite;
-    default:
+    case ProjectType.NEXTJS:
+    case ProjectType.REACT_SCRIPTS:
+    case ProjectType.WEBPACK_REACT:
       return CoreBuilder.Webpack5;
+    default:
+      return CoreBuilder.Vite;
   }
 }
 
