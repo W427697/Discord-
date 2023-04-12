@@ -5216,12 +5216,8 @@ __metadata:
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   peerDependencies:
-    "@storybook/mdx1-csf": ">=1.0.0-0"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@storybook/mdx1-csf":
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5825,14 +5821,11 @@ __metadata:
     vite: ^4.0.4
   peerDependencies:
     "@preact/preset-vite": "*"
-    "@storybook/mdx1-csf": ">=1.0.0-next.1"
     typescript: ">= 4.3.x"
     vite: ^3.0.0 || ^4.0.0
     vite-plugin-glimmerx: "*"
   peerDependenciesMeta:
     "@preact/preset-vite":
-      optional: true
-    "@storybook/mdx1-csf":
       optional: true
     typescript:
       optional: true
