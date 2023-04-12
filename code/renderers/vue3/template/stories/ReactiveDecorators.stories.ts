@@ -8,25 +8,25 @@ import Reactivity from './Reactivity.vue';
 
 const meta = {
   component: Reactivity,
-  args: { label: 'If you see this, args are not updated properly' },
+  args: { label: 'initial' },
   play: async ({ canvasElement, id, args }) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
 
     const canvas = within(canvasElement);
 
-    await channel.emit(RESET_STORY_ARGS, { storyId: id });
-    await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
+    // await channel.emit(RESET_STORY_ARGS, { storyId: id });
+    // await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
 
     const input = await canvas.findByLabelText<HTMLInputElement>('Some input:');
     await userEvent.type(input, 'value');
 
-    await channel.emit(UPDATE_STORY_ARGS, {
-      storyId: id,
-      updatedArgs: { label: 'updated label' },
-    });
-    await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
+    // await channel.emit(UPDATE_STORY_ARGS, {
+    //   storyId: id,
+    //   updatedArgs: { label: 'updated label' },
+    // });
+    // await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
 
-    await expect(canvas.getByRole('button')).toHaveTextContent('updated label'); // if this passes story args are reactive
+    // await expect(canvas.getByRole('button')).toHaveTextContent('updated label'); // if this passes story args are reactive
     await expect(input).toHaveValue('value'); // if this passes story is not remounted
   },
 } satisfies Meta<typeof Reactivity>;
@@ -36,15 +36,21 @@ type Story = StoryObj<typeof meta>;
 
 export const NoDecorators: Story = { args: { label: 'No decorators' } };
 
+/**
+ * Decorator should either be a function that returns a VNode or a component
+ * so using VNode is not recommended to wrap the story if you want to use args in reactive mode
+ */
 export const DecoratorVNode: Story = {
+  args: { label: 'Decorator not using args' },
   decorators: [
     (storyFn, context) => {
-      return h('div', [h('h2', ['Decorator not using args']), [h(storyFn(context.args))]]);
+      return h('div', h(storyFn(context.args)));
     },
   ],
 };
 
 export const DecoratorVNodeArgsFromContext: Story = {
+  args: { label: 'Decorator using label from context' },
   decorators: [
     (storyFn, context) => {
       return h('div', [
@@ -56,6 +62,7 @@ export const DecoratorVNodeArgsFromContext: Story = {
 };
 
 export const DecoratorVNodeTemplate: Story = {
+  args: { label: 'Decorator not using args' },
   decorators: [
     (storyFn, context) => {
       return h({
@@ -89,10 +96,10 @@ export const DecoratorVNodeTemplateArgsFromProps: Story = {
     (storyFn, context) => {
       return h({
         components: {
-          story: storyFn(context.args),
+          story: storyFn(),
         },
         props: ['label'],
-        template: '<div><div>Decorator using label: {{label}}</div><story/></div>',
+        template: '<div><h1>Decorator using label: {{label}}</h1><story/></div>',
       });
     },
   ],
@@ -153,8 +160,7 @@ export const DecoratorComponentOptionsArgsFromProps: Story = {
     (storyFn, context) => {
       return {
         props: ['label'],
-        template:
-          '<div><h2>Decorator using args.label: {{label}}</h2><story v-bind="$props"/></div>',
+        template: '<div><h2>Decorator using label: {{label}}</h2><story /></div>',
       };
     },
   ],

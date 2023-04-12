@@ -34,13 +34,17 @@ export function renderToCanvas(
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
+
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
     // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
     // we need to call here to run the decorators again
     // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
     const element = storyFn(); // TODO:  find better solution however it is not causing any harm for now
-    updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
+    updateArgs(
+      existingApp.reactiveArgs,
+      element.props && !Array.isArray(element.props) ? element.props : storyContext.args
+    );
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -54,7 +58,7 @@ export function renderToCanvas(
       const rootElement = storyFn();
       const appState = {
         vueApp,
-        reactiveArgs: reactive(rootElement.props ?? storyContext.args),
+        reactiveArgs: storyContext.args,
       };
       map.set(canvasElement, appState);
 

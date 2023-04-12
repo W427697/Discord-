@@ -14,7 +14,8 @@ defineProps<{ label: string }>();
         <input style='width: 400px' placeholder='If you see this, an args update caused the input field to loose state' />
       </label>
       <hr>
-      <global-button :label="label" primary></global-button>
+      <button class="storybook-button storybook-button--primary storybook-button--medium"> {{ label
+      }}</button>
     </div>
 
     <main data-testid="default-slot">
