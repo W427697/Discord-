@@ -140,6 +140,9 @@
       "./src/preview.ts",
       "./src/blocks.ts",
       "./src/shims/mdx-react-shim.ts"
+    ],
+    "externals": [
+      "@storybook/mdx1-csf"
     ]
   },
   "gitHead": "48a1df25493b1cc26a405096e723301f4bb04b4e",
