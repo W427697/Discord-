@@ -312,7 +312,10 @@ const LoadingMessage: FC<{ url: string }> = ({ url }) => (
 );
 
 const PerformanceDegradedMessage: FC = () => (
-  <Message href="https://storybook.js.org/docs/react/sharing/storybook-composition#improve-your-storybook-composition" target="_blank">
+  <Message
+    href="https://storybook.js.org/docs/react/sharing/storybook-composition#improve-your-storybook-composition"
+    target="_blank"
+  >
     <YellowIcon icon="lightning" />
     <div>
       <MessageTitle>Reduce lag</MessageTitle>
