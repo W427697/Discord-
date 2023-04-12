@@ -8,11 +8,13 @@ import {
 import { JsonObject } from '@angular-devkit/core';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 import { from, Observable, of } from 'rxjs';
-import { CLIOptions } from '@storybook/types';
 import { map, switchMap, mapTo } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
+import { CLIOptions } from '@storybook/types';
+import { getEnvConfig, versions } from '@storybook/cli';
+import { addToGlobalContext } from '@storybook/telemetry';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
@@ -21,6 +23,8 @@ import {
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { printErrorDetails, errorSummary } from '../utils/error-handler';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
@@ -66,6 +70,16 @@ function commandBuilder(
       return runCompodoc$.pipe(mapTo({ tsConfig }));
     }),
     map(({ tsConfig }) => {
+      getEnvConfig(options, {
+        port: 'SBCONFIG_PORT',
+        host: 'SBCONFIG_HOSTNAME',
+        staticDir: 'SBCONFIG_STATIC_DIR',
+        configDir: 'SBCONFIG_CONFIG_DIR',
+        ci: 'CI',
+      });
+      // eslint-disable-next-line no-param-reassign
+      options.port = parseInt(`${options.port}`, 10);
+
       const {
         browserTarget,
         stylePreprocessorOptions,

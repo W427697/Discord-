@@ -4,7 +4,7 @@ title: 'Setup Storybook'
 
 Now that you’ve learned what stories are and how to browse them, let’s demo working on one of your components.
 
-Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.mdx` file to go along with it. It might look something like this:
+Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.ts` file to go along with it. It might look something like this:
 
 <!-- prettier-ignore-start -->
 
@@ -111,7 +111,7 @@ If you are using CSS-in-JS, chances are your styles are working because they’r
 <details>
   <summary>@import CSS into components</summary>
 
-Storybook allows you to import CSS files in your components directly. But in some cases you may need to [tweak its Webpack configuration](../builders/webpack.md#extendingstorybooks-webpack-config). Angular components require [a special import](../configure/styling-and-css.md#importing-css-files).
+Storybook allows you to import CSS files in your components directly. But in some cases you may need to [tweak its Webpack configuration](../builders/webpack.md#override-the-default-configuration). Angular components require [a special import](../configure/styling-and-css.md#importing-css-files).
 
 </details>
 
