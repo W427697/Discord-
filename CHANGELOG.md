@@ -1,3 +1,31 @@
+## 7.0.3 (April 12, 2023)
+
+#### Bug Fixes
+
+-   React: Fix default export docgen for React.FC and forwardRef [#22024](https://github.com/storybooks/storybook/pull/22024)
+-   Viewport: Remove transitions when switching viewports [#21963](https://github.com/storybooks/storybook/pull/21963)
+-   CLI: Fix JsPackageManager typo [#22006](https://github.com/storybooks/storybook/pull/22006)
+-   Viewport: Fix the `defaultOrientation` config option [#21962](https://github.com/storybooks/storybook/pull/21962)
+-   UI: Fix story data access for broken About page [#21951](https://github.com/storybooks/storybook/pull/21951)
+-   Angular: Fix components disappearing on docs page on property change [#21944](https://github.com/storybooks/storybook/pull/21944)
+-   React: Don't show decorators in JSX snippets [#21907](https://github.com/storybooks/storybook/pull/21907)
+-   Addon-docs: Include decorators by default in source decorators [#21902](https://github.com/storybooks/storybook/pull/21902)
+-   CLI: Fix npm list command [#21947](https://github.com/storybooks/storybook/pull/21947)
+-   Core: Revert Emotion `:first-child` (etc) workarounds [#21213](https://github.com/storybooks/storybook/pull/21213)
+
+#### Maintenance
+
+-   UI: Add remount story shortcut [#21401](https://github.com/storybooks/storybook/pull/21401)
+-   Telemetry: Add CLI version to context [#21999](https://github.com/storybooks/storybook/pull/21999)
+-   CLI: Update template code references to 7.0 [#21845](https://github.com/storybooks/storybook/pull/21845)
+-   Addon-actions: Fix non-included type file [#21922](https://github.com/storybooks/storybook/pull/21922)
+-   Addon GFM: Fix node-logger dependency [#21938](https://github.com/storybooks/storybook/pull/21938)
+
+#### Dependency Upgrades
+
+-   React-vite: Fix perf regression by pinning vite-plugin-react-docgen-ts [#22013](https://github.com/storybooks/storybook/pull/22013)
+-   Update `@emotion/cache` version [#21941](https://github.com/storybooks/storybook/pull/21941)
+
 ## 7.0.2 (April 3, 2023)
 
 Storybook 7.0 is here! 🎉
