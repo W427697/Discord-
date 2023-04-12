@@ -21,7 +21,7 @@ function prepare(
   innerStory?: ConcreteComponent
 ): Component | null {
   const story = rawStory as ComponentOptions;
-  if (story == null) {
+  if (story === null) {
     return null;
   }
 
