@@ -1,3 +1,24 @@
+## 7.1.0-alpha.2 (April 12, 2023)
+
+#### Features
+
+-   UI: Add remount story shortcut [#21401](https://github.com/storybooks/storybook/pull/21401)
+
+#### Bug Fixes
+
+-   CLI: Catch errors thrown on sanity check of SB installs [#22039](https://github.com/storybooks/storybook/pull/22039)
+
+#### Maintenance
+
+-   Addon-docs: Remove mdx1-csf as optional peer dep [#22038](https://github.com/storybooks/storybook/pull/22038)
+-   Telemetry: Add CLI version to context [#21999](https://github.com/storybooks/storybook/pull/21999)
+
+#### Build
+
+-   Build: Use vite@beta on sandboxes [#22030](https://github.com/storybooks/storybook/pull/22030)
+-   Fix e2e tests failing in Firefox [#22022](https://github.com/storybooks/storybook/pull/22022)
+-   Vite: Use vite 4.3 beta in sandboxes [#21986](https://github.com/storybooks/storybook/pull/21986)
+
 ## 7.1.0-alpha.1 (April 11, 2023)
 
 #### Bug Fixes
