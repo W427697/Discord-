@@ -13,7 +13,7 @@ const knownRenderers = [
   '@storybook/angular',
   '@storybook/ember',
   'storybook-solidjs',
-  '@builder.io/qwik', // The Qwik framework is a renderer too, so the best we can do here is to detect the actual Qwik package
+  'storybook-framework-qwik', // The Qwik framework is a renderer too
 ];
 
 const knownBuilders = ['@storybook/builder-webpack5', '@storybook/builder-vite'];
