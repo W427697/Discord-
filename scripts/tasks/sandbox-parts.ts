@@ -1,7 +1,7 @@
 // This file requires many imports from `../code`, which requires both an install and bootstrap of
 // the repo to work properly. So we load it async in the task runner *after* those steps.
 
-/* eslint-disable no-restricted-syntax, no-await-in-loop, no-param-reassign */
+/* eslint-disable no-restricted-syntax, no-await-in-loop */
 import {
   copy,
   ensureSymlink,
@@ -350,7 +350,11 @@ function addExtraDependencies({
   debug: boolean;
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
-  const extraDeps = ['@storybook/jest', '@storybook/testing-library', '@storybook/test-runner'];
+  const extraDeps = [
+    '@storybook/jest@future',
+    '@storybook/testing-library@future',
+    '@storybook/test-runner@future',
+  ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);

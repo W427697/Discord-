@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channels",
-  "version": "7.1.0-alpha.0",
+  "version": "7.1.0-alpha.2",
   "description": "",
   "keywords": [
     "storybook"
@@ -53,5 +53,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572"
 }
