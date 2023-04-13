@@ -1,5 +1,7 @@
 import { getProjectRoot } from '@storybook/core-common';
 import type { Options } from '@swc/core';
+import { dedent } from 'ts-dedent';
+import { logger } from '@storybook/node-logger';
 import type { TypescriptOptions } from '../types';
 
 export const createBabelLoader = (options: any, typescriptOptions: TypescriptOptions) => {
@@ -17,6 +19,10 @@ export const createBabelLoader = (options: any, typescriptOptions: TypescriptOpt
 };
 
 export const createSWCLoader = (options: any) => {
+  logger.warn(dedent`
+    The SWC loader is an experimental feature and may change or even be removed at any time.
+  `);
+
   const config: Options = {
     jsc: {
       parser: {
