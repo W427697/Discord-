@@ -3,7 +3,7 @@ import { createApp, h, isReactive, isVNode, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
-import type { VueRenderer } from './types';
+import type { VueRenderer, StoryFnVueReturnType } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -99,7 +99,7 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
  * @param storyContext is the story context
  */
 
-function getArgs(element: VueRenderer, storyContext: StoryContext<VueRenderer, Args>) {
+function getArgs(element: StoryFnVueReturnType, storyContext: StoryContext<VueRenderer, Args>) {
   return element.props && isVNode(element) ? element.props : storyContext.args;
 }
 
