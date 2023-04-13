@@ -10,6 +10,7 @@ import type {
   StoryId,
   StoryRenderOptions,
   ViewMode,
+  CSFFile,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
@@ -44,7 +45,11 @@ function serializeError(error: any) {
 }
 
 export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer> {
-  public type: RenderType = 'story';
+  public readonly type: RenderType = 'story';
+
+  // The CSF file the story came from. Note that this can remain null if the
+  // story was provided when the StoryRender was created (i.e it was never prepared)
+  public csfFile?: CSFFile<TRenderer>;
 
   public story?: PreparedStory<TRenderer>;
 
@@ -97,7 +102,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
 
   async prepare() {
     await this.runPhase((this.abortController as AbortController).signal, 'preparing', async () => {
-      this.story = await this.store.loadStory({ storyId: this.id });
+      this.csfFile = await this.store.loadCSFFileByStoryId(this.id);
+      this.story = await this.store.storyFromCSFFile({ storyId: this.id, csfFile: this.csfFile });
     });
 
     if ((this.abortController as AbortController).signal.aborted) {

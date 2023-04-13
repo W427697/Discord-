@@ -29,6 +29,7 @@ import {
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
   PROJECT_PREPARED,
+  COMPONENT_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
@@ -432,6 +433,23 @@ describe('PreviewWeb', () => {
         );
       });
 
+      it('emits COMPONENT_PREPARED', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(COMPONENT_PREPARED, {
+          id: 'component-one',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+          argTypes: {
+            foo: { name: 'foo', type: { name: 'string' } },
+            one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
+          },
+        });
+      });
+
       it('emits STORY_PREPARED', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -710,6 +728,23 @@ describe('PreviewWeb', () => {
         ]);
       });
 
+      it('emits COMPONENT_PREPARED', async () => {
+        document.location.search = '?id=component-one--docs&viewMode=docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(COMPONENT_PREPARED, {
+          id: 'component-one',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+          argTypes: {
+            foo: { name: 'foo', type: { name: 'string' } },
+            one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
+          },
+        });
+      });
+
       it('emits DOCS_RENDERED', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
 
@@ -753,6 +788,13 @@ describe('PreviewWeb', () => {
         await createAndRenderPreview();
 
         expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
+      });
+
+      it('DOES NOT emit COMPONENT_PREPARED', async () => {
+        document.location.search = '?id=introduction--docs&viewMode=docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(COMPONENT_PREPARED, expect.any(Object));
       });
 
       it('emits DOCS_RENDERED', async () => {
@@ -1866,6 +1908,31 @@ describe('PreviewWeb', () => {
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
       });
 
+      it('emits COMPONENT_PREPARED', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--b',
+          viewMode: 'story',
+        });
+        await waitForSetCurrentStory();
+
+        await waitForEvents([COMPONENT_PREPARED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(COMPONENT_PREPARED, {
+          id: 'component-one',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+          argTypes: {
+            foo: { name: 'foo', type: { name: 'string' } },
+            one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
+          },
+        });
+      });
+
       it('emits STORY_PREPARED', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -2362,6 +2429,31 @@ describe('PreviewWeb', () => {
         });
       });
 
+      it('emits COMPONENT_PREPARED', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--docs',
+          viewMode: 'docs',
+        });
+        await waitForSetCurrentStory();
+        await waitForRender();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(COMPONENT_PREPARED, {
+          id: 'component-one',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+          argTypes: {
+            foo: { name: 'foo', type: { name: 'string' } },
+            one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
+          },
+        });
+      });
+
       it('emits DOCS_RENDERED', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -2444,6 +2536,31 @@ describe('PreviewWeb', () => {
             id: 'component-one--a',
           })
         );
+      });
+
+      it('emits COMPONENT_PREPARED', async () => {
+        document.location.search = '?id=component-one--docs&viewMode=docs';
+        await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--a',
+          viewMode: 'story',
+        });
+        await waitForSetCurrentStory();
+
+        await waitForEvents([COMPONENT_PREPARED]);
+        expect(mockChannel.emit).toHaveBeenCalledWith(COMPONENT_PREPARED, {
+          id: 'component-one',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+          argTypes: {
+            foo: { name: 'foo', type: { name: 'string' } },
+            one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
+          },
+        });
       });
 
       it('emits STORY_PREPARED', async () => {
@@ -2692,7 +2809,7 @@ describe('PreviewWeb', () => {
           : componentTwoExports;
       });
 
-      it('calls renderToCanvass teardown', async () => {
+      it('calls renderToCanvas teardown', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
         mockChannel.emit.mockClear();
@@ -2723,6 +2840,27 @@ describe('PreviewWeb', () => {
         await waitForRender();
 
         expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_CHANGED, 'component-one--a');
+      });
+
+      it('emits COMPONENT_PREPARED', async () => {
+        document.location.search = '?id=component-one--a';
+        const preview = await createAndRenderPreview();
+        mockChannel.emit.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForRender();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(COMPONENT_PREPARED, {
+          id: 'component-one',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+          argTypes: {
+            foo: { name: 'foo', type: { name: 'string' } },
+            one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
+          },
+        });
       });
 
       it('emits STORY_PREPARED with new annotations', async () => {

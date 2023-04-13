@@ -29,6 +29,8 @@ import { DocsContext } from '../docs-context/DocsContext';
 export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
+  public readonly subtype = 'mdx';
+
   public readonly id: StoryId;
 
   private exports?: ModuleExports;

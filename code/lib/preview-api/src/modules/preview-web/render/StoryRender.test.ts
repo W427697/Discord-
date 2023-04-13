@@ -25,10 +25,11 @@ describe('StoryRender', () => {
   it('throws PREPARE_ABORTED if torndown during prepare', async () => {
     const [importGate, openImportGate] = createGate();
     const mockStore = {
-      loadStory: jest.fn(async () => {
+      loadCSFFileByStoryId: jest.fn(async () => {
         await importGate;
         return {};
       }),
+      storyFromCSFFile: () => ({}),
       cleanupStory: jest.fn(),
     };
 

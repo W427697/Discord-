@@ -162,7 +162,7 @@ export class Preview<TRenderer extends Renderer> {
 
   setProjectAnnotations(projectAnnotations: ProjectAnnotations<TRenderer>) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
-    const { parameters, argTypes } = projectAnnotations;
+    const { parameters = {}, argTypes = {} } = projectAnnotations;
     this.channel.emit(PROJECT_PREPARED, { parameters, argTypes });
   }
 

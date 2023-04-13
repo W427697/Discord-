@@ -1,6 +1,7 @@
 import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
 import {
+  COMPONENT_PREPARED,
   CURRENT_STORY_WAS_SET,
   PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
@@ -28,6 +29,8 @@ import type {
   StoryId,
   ViewMode,
   DocsIndexEntry,
+  ComponentId,
+  CSFFile,
 } from '@storybook/types';
 
 import type { MaybePromise } from './Preview';
@@ -65,6 +68,22 @@ function isStoryRender<TFramework extends Renderer>(
   r: PossibleRender<TFramework>
 ): r is StoryRender<TFramework> {
   return r.type === 'story';
+}
+
+function isDocsRender<TFramework extends Renderer>(
+  r: PossibleRender<TFramework>
+): r is CsfDocsRender<TFramework> | MdxDocsRender<TFramework> {
+  return r.type === 'docs';
+}
+
+function isCsfDocsRender<TFramework extends Renderer>(
+  r: PossibleRender<TFramework>
+): r is CsfDocsRender<TFramework> {
+  return isDocsRender(r) && r.subtype === 'csf';
+}
+
+function componentId(storyId: StoryId): ComponentId {
+  return storyId.split('--')[0];
 }
 
 export class PreviewWithSelection<TFramework extends Renderer> extends Preview<TFramework> {
@@ -362,6 +381,24 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     // If we are rendering something new (as opposed to re-rendering the same or first story), emit
     if (lastSelection && (storyIdChanged || viewModeChanged)) {
       this.channel.emit(STORY_CHANGED, storyId);
+    }
+
+    if (isStoryRender(render) || isCsfDocsRender(render)) {
+      let csfFile: CSFFile<TFramework>;
+      if (isStoryRender(render)) {
+        if (!render.csfFile) throw new Error('StoryRender not prepared somehow');
+        ({ csfFile } = render);
+      } else {
+        if (!render.csfFiles) throw new Error('CsfDocsRender not prepared somehow');
+        [csfFile] = render.csfFiles;
+      }
+
+      const { parameters, argTypes } = this.storyStore.preparedMetaFromCSFFile({ csfFile });
+      this.channel.emit(COMPONENT_PREPARED, {
+        id: componentId(storyId),
+        parameters,
+        argTypes,
+      });
     }
 
     if (isStoryRender(render)) {
