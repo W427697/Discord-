@@ -116,6 +116,7 @@ export default {
   '@storybook/channels': ['Channel'],
   '@storybook/core-events': [
     'CHANNEL_CREATED',
+    'COMPONENT_PREPARED',
     'CONFIG_ERROR',
     'CURRENT_STORY_WAS_SET',
     'DOCS_RENDERED',
@@ -128,6 +129,7 @@ export default {
     'PRELOAD_ENTRIES',
     'PREVIEW_BUILDER_PROGRESS',
     'PREVIEW_KEYDOWN',
+    'PROJECT_PREPARED',
     'REGISTER_SUBSCRIPTION',
     'RESET_STORY_ARGS',
     'SELECT_STORY',

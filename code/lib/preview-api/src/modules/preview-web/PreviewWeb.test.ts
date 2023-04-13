@@ -28,6 +28,7 @@ import {
   STORY_UNCHANGED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
+  PROJECT_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
@@ -178,6 +179,15 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       expect(preview.storyStore.globals!.get()).toEqual({ a: 'c' });
+    });
+
+    it('emits the PROJECT_PREPARED event', async () => {
+      await createAndRenderPreview();
+
+      expect(mockChannel.emit).toHaveBeenCalledWith(PROJECT_PREPARED, {
+        argTypes: {},
+        parameters: { docs: expect.any(Object) },
+      });
     });
 
     it('emits the SET_GLOBALS event', async () => {
@@ -3304,6 +3314,21 @@ describe('PreviewWeb', () => {
       await waitForRender();
 
       expect(preview.storyStore.globals!.get()).toEqual({ a: 'edited' });
+    });
+
+    it('emits PROJECT_PREPARED with new values', async () => {
+      document.location.search = '?id=component-one--a';
+      const preview = await createAndRenderPreview();
+
+      mockChannel.emit.mockClear();
+      preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
+      await waitForRender();
+
+      await waitForEvents([PROJECT_PREPARED]);
+      expect(mockChannel.emit).toHaveBeenCalledWith(PROJECT_PREPARED, {
+        argTypes: {},
+        parameters: { docs: expect.any(Object) },
+      });
     });
 
     it('emits SET_GLOBALS with new values', async () => {

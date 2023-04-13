@@ -23,7 +23,11 @@ enum events {
   FORCE_REMOUNT = 'forceRemount',
   // Request the story has been loaded into the store, ahead of time, before it's actually
   PRELOAD_ENTRIES = 'preloadStories',
-  // The story has been loaded into the store, we have parameters/args/etc
+  // The project has been loaded into the store, we have dynamic annotations (parameters, argTypes)
+  PROJECT_PREPARED = 'projectPrepared',
+  // The component has been loaded into the store, we have dynamic annotations (parameters, argTypes)
+  COMPONENT_PREPARED = 'componentPrepared',
+  // The story has been loaded into the store, we have dynamic annotations (parameters, argTypes, args)
   STORY_PREPARED = 'storyPrepared',
   // The next 6 events are emitted by the StoryRenderer when rendering the current story
   STORY_CHANGED = 'storyChanged',
@@ -42,7 +46,7 @@ enum events {
   STORY_ARGS_UPDATED = 'storyArgsUpdated',
   // Reset either a single arg of a story all args of a story
   RESET_STORY_ARGS = 'resetStoryArgs',
-  // Emitted by the preview at startup once it knows the initial set of globals+globalTypes
+  // Emitted by the preview at startup (and on HMR) once it knows the initial set of globals+globalTypes
   SET_GLOBALS = 'setGlobals',
   // Tell the preview to update the value of a global
   UPDATE_GLOBALS = 'updateGlobals',
@@ -99,6 +103,8 @@ export const {
   STORY_ERRORED,
   STORY_INDEX_INVALIDATED,
   STORY_MISSING,
+  PROJECT_PREPARED,
+  COMPONENT_PREPARED,
   STORY_PREPARED,
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,

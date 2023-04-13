@@ -6,6 +6,7 @@ import {
   FORCE_REMOUNT,
   FORCE_RE_RENDER,
   GLOBALS_UPDATED,
+  PROJECT_PREPARED,
   RESET_STORY_ARGS,
   SET_GLOBALS,
   STORY_ARGS_UPDATED,
@@ -136,8 +137,9 @@ export class Preview<TRenderer extends Renderer> {
 
   // If initialization gets as far as project annotations, this function runs.
   initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TRenderer>) {
-    this.storyStore.setProjectAnnotations(projectAnnotations);
+    this.setProjectAnnotations(projectAnnotations);
 
+    // Set initial
     this.setInitialGlobals();
 
     let storyIndexPromise: Promise<StoryIndex>;
@@ -156,6 +158,12 @@ export class Preview<TRenderer extends Renderer> {
         this.renderPreviewEntryError('Error loading story index:', err);
         throw err;
       });
+  }
+
+  setProjectAnnotations(projectAnnotations: ProjectAnnotations<TRenderer>) {
+    this.storyStore.setProjectAnnotations(projectAnnotations);
+    const { parameters, argTypes } = projectAnnotations;
+    this.channel.emit(PROJECT_PREPARED, { parameters, argTypes });
   }
 
   async setInitialGlobals() {
@@ -210,7 +218,7 @@ export class Preview<TRenderer extends Renderer> {
       return;
     }
 
-    await this.storyStore.setProjectAnnotations(projectAnnotations);
+    this.setProjectAnnotations(projectAnnotations);
     this.emitGlobals();
   }
 
