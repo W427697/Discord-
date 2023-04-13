@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createApp, h, isReactive, reactive } from 'vue';
+import { createApp, h, isReactive, isVNode, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
@@ -40,11 +40,10 @@ export function renderToCanvas(
     // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
     // we need to call here to run the decorators again
     // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
-    const element = storyFn(); // TODO:  find better solution however it is not causing any harm for now
-    updateArgs(
-      existingApp.reactiveArgs,
-      element.props && !Array.isArray(element.props) ? element.props : storyContext.args
-    );
+    const element = storyFn(); // call the story function to get the root element with all the decorators
+    const args = getArgs(element, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
+
+    updateArgs(existingApp.reactiveArgs, args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -55,10 +54,11 @@ export function renderToCanvas(
   const vueApp = createApp({
     setup() {
       storyContext.args = reactive(storyContext.args);
-      const rootElement = storyFn();
+      const rootElement = storyFn(); // call the story function to get the root element with all the decorators
+      const args = getArgs(rootElement, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
       const appState = {
         vueApp,
-        reactiveArgs: storyContext.args,
+        reactiveArgs: reactive(args),
       };
       map.set(canvasElement, appState);
 
@@ -92,6 +92,15 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
     });
 
   return reactive(Object.fromEntries(slots));
+}
+/**
+ * get the args from the root element props if it is a vnode otherwise from the context
+ * @param element is the root element of the story
+ * @param storyContext is the story context
+ */
+
+function getArgs(element: VueRenderer, storyContext: StoryContext<VueRenderer, Args>) {
+  return element.props && isVNode(element) ? element.props : storyContext.args;
 }
 
 /**
