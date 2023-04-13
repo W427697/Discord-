@@ -1,3 +1,10 @@
+## 7.1.0-alpha.3 (April 13, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix upgrade command in about page [#22056](https://github.com/storybooks/storybook/pull/22056)
+-   CLI: Fix sandbox command [#21977](https://github.com/storybooks/storybook/pull/21977)
+
 ## 7.1.0-alpha.2 (April 12, 2023)
 
 #### Features
