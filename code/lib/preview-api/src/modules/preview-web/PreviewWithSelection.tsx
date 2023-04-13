@@ -89,12 +89,6 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     this.channel.on(PRELOAD_ENTRIES, this.onPreloadStories.bind(this));
   }
 
-  initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
-    return super
-      .initializeWithProjectAnnotations(projectAnnotations)
-      .then(() => this.setInitialGlobals());
-  }
-
   async setInitialGlobals() {
     if (!this.storyStore.globals)
       throw new Error(`Cannot call setInitialGlobals before initialization`);
