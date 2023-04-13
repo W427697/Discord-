@@ -82,7 +82,7 @@ function isCsfDocsRender<TFramework extends Renderer>(
   return isDocsRender(r) && r.subtype === 'csf';
 }
 
-function componentId(storyId: StoryId): ComponentId {
+function toComponentId(storyId: StoryId): ComponentId {
   return storyId.split('--')[0];
 }
 
@@ -395,7 +395,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
       const { parameters, argTypes } = this.storyStore.preparedMetaFromCSFFile({ csfFile });
       this.channel.emit(COMPONENT_PREPARED, {
-        id: componentId(storyId),
+        id: toComponentId(storyId),
         parameters,
         argTypes,
       });
