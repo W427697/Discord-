@@ -5,7 +5,7 @@
   </button>
 </template>
 
-<script lang="typescript">
+<script lang="ts">
 import { h, computed, reactive } from 'vue';
 
 export default {

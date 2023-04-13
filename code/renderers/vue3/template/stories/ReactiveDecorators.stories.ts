@@ -9,7 +9,7 @@ const meta = {
   component: Reactivity,
   args: { label: 'initial' },
   play: async ({ canvasElement, id, args }) => {
-    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+    const channel = (globalThis as any).__STORYBOOK_ADDONS_CHANNEL__;
 
     const canvas = within(canvasElement);
 

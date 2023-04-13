@@ -1,11 +1,17 @@
+import type { DecoratorFunction } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
+import type { Meta, StoryObj, VueRenderer } from '@storybook/vue3';
 import { h } from 'vue';
 
-const { Button, Pre } = globalThis.Components;
+const { Button, Pre } = (globalThis as any).Components;
 
-export default {
+const meta = {
   component: Button,
-};
+} satisfies Meta<typeof Button>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 const ComponentTemplateWrapper = () => ({
   components: {
@@ -25,7 +31,7 @@ const SimpleTemplateWrapper = () => ({
     `,
 });
 
-const VueWrapperWrapper = (storyFn, context) => {
+const VueWrapperWrapper: DecoratorFunction<VueRenderer> = (storyFn, context) => {
   // Call the `storyFn` to receive a component that Vue can render
   const story = storyFn();
   // Vue 3 "Functional" component as decorator
@@ -34,27 +40,27 @@ const VueWrapperWrapper = (storyFn, context) => {
   };
 };
 
-const DynamicWrapperWrapper = (storyFn, { args }) => ({
+const DynamicWrapperWrapper: DecoratorFunction<VueRenderer> = (storyFn, { args }) => ({
   template: `<div :style="{ borderWidth: level, borderColor: 'green', borderStyle: 'solid' }"><story /></div>`,
   computed: { level: () => `${args.level}px` },
 });
 
-export const ComponentTemplate = {
+export const ComponentTemplate: Story = {
   args: { label: 'With component' },
   decorators: [ComponentTemplateWrapper],
 };
 
-export const SimpleTemplate = {
+export const SimpleTemplate: Story = {
   args: { label: 'With border' },
   decorators: [SimpleTemplateWrapper],
 };
 
-export const VueWrapper = {
+export const VueWrapper: Story = {
   args: { label: 'With Vue wrapper' },
   decorators: [VueWrapperWrapper],
 };
 
-export const DynamicWrapper = {
+export const DynamicWrapper: Story = {
   args: { label: 'With dynamic wrapper', primary: true },
   argTypes: {
     // Number type is detected, but we still want to constrain the range from 1-6
