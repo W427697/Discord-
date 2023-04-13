@@ -442,6 +442,24 @@ const internalTemplates = {
       },
     },
   },
+  'internal/swc-webpack': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'SWC (react-webpack/18-ts)',
+    isInternal: true,
+    inDevelopment: true,
+    modifications: {
+      mainConfig: {
+        framework: {
+          name: '@storybook/react-webpack5',
+          options: {
+            builder: {
+              useSWC: true,
+            },
+          },
+        },
+      },
+    },
+  },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
   //   name: 'PNP (cra/default-ts)',
