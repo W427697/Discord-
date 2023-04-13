@@ -14,3 +14,17 @@ export const createBabelLoader = (options: any, typescriptOptions: TypescriptOpt
     exclude: /node_modules/,
   };
 };
+
+export const createSWCLoader = (options: any) => {
+  return {
+    test: /\.(mjs|cjs|tsx?|jsx?)$/,
+    use: [
+      {
+        loader: require.resolve('swc-loader'),
+        options,
+      },
+    ],
+    include: [getProjectRoot()],
+    exclude: /node_modules/,
+  };
+};
