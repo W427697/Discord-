@@ -64,6 +64,7 @@ import * as shortcuts from './modules/shortcuts';
 import * as url from './modules/url';
 import * as version from './modules/versions';
 
+import * as projectAnnotations from './modules/projectAnnotations';
 import * as globals from './modules/globals';
 
 export * from './lib/shortcut';
@@ -93,6 +94,7 @@ export type State = layout.SubState &
   shortcuts.SubState &
   releaseNotes.SubState &
   settings.SubState &
+  projectAnnotations.SubState &
   globals.SubState &
   RouterData &
   API_OptionsData &
@@ -104,6 +106,7 @@ export type API = addons.SubAPI &
   provider.SubAPI &
   stories.SubAPI &
   refs.SubAPI &
+  projectAnnotations.SubAPI &
   globals.SubAPI &
   layout.SubAPI &
   notifications.SubAPI &
@@ -217,6 +220,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       shortcuts,
       stories,
       refs,
+      projectAnnotations,
       globals,
       url,
       version,

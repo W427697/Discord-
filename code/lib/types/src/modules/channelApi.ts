@@ -55,3 +55,22 @@ export interface SetGlobalsPayload {
   globals: Globals;
   globalTypes: GlobalTypes;
 }
+
+export interface ProjectPreparedPayload {
+  argTypes: ArgTypes;
+  parameters: Parameters;
+}
+
+export interface ComponentPreparedPayload {
+  id: ComponentId;
+  argTypes: ArgTypes;
+  parameters: Parameters;
+}
+
+export interface StoryPreparedPayload {
+  id: StoryId;
+  args: Args;
+  initialArgs: Args;
+  argTypes: ArgTypes;
+  parameters: Parameters;
+}

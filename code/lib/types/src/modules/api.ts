@@ -3,7 +3,7 @@
 import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
-import type { ViewMode } from './csf';
+import type { ArgTypes, Parameters, ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
 import type { API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
@@ -134,10 +134,16 @@ export type API_SetRefData = Partial<
 
 export type API_StoryMapper = (ref: API_ComposedRef, story: SetStoriesStory) => SetStoriesStory;
 
+export type API_ProjectAnnotations = {
+  argTypes: ArgTypes;
+  parameters: Parameters;
+};
+
 export interface API_LoadedRefData {
   index?: API_IndexHash;
   indexError?: Error;
   previewInitialized: boolean;
+  projectAnnotations?: API_ProjectAnnotations;
 }
 
 export interface API_ComposedRef extends API_LoadedRefData {
@@ -163,6 +169,7 @@ export type API_ComposedRefUpdate = Partial<
     | 'version'
     | 'indexError'
     | 'previewInitialized'
+    | 'projectAnnotations'
   >
 >;
 
