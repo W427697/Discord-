@@ -1,4 +1,5 @@
 import { getProjectRoot } from '@storybook/core-common';
+import type { Options } from '@swc/core';
 import type { TypescriptOptions } from '../types';
 
 export const createBabelLoader = (options: any, typescriptOptions: TypescriptOptions) => {
@@ -16,12 +17,24 @@ export const createBabelLoader = (options: any, typescriptOptions: TypescriptOpt
 };
 
 export const createSWCLoader = (options: any) => {
+  const config: Options = {
+    jsc: {
+      parser: {
+        syntax: 'typescript',
+        tsx: true,
+        dynamicImport: true,
+      },
+    },
+  };
   return {
     test: /\.(mjs|cjs|tsx?|jsx?)$/,
     use: [
       {
         loader: require.resolve('swc-loader'),
-        options,
+        options: {
+          ...config,
+          ...options,
+        },
       },
     ],
     include: [getProjectRoot()],
