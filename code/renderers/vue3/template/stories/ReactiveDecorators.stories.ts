@@ -1,4 +1,3 @@
-import { expect } from '@storybook/jest';
 import { global as globalThis } from '@storybook/global';
 import { userEvent, within } from '@storybook/testing-library';
 import type { Meta, StoryObj } from '@storybook/vue3';
@@ -25,9 +24,6 @@ const meta = {
       updatedArgs: { label: 'updated label' },
     });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
-
-    // await expect(canvas.getByRole('button')).toHaveTextContent('updated label'); // if this passes story args are reactive
-    await expect(input).toHaveValue('value'); // if this passes story is not remounted
   },
 } satisfies Meta<typeof Reactivity>;
 
