@@ -49,6 +49,9 @@ export interface API_ComponentEntry extends API_BaseEntry {
   parent?: StoryId;
   children: StoryId[];
 
+  prepared: boolean;
+  parameters?: Parameters;
+
   /** @deprecated */
   isRoot: false;
   /** @deprecated */
@@ -82,9 +85,7 @@ export interface API_StoryEntry extends API_BaseEntry {
   importPath: Path;
   tags: Tag[];
   prepared: boolean;
-  parameters?: {
-    [parameterName: string]: any;
-  };
+  parameters?: Parameters;
   args?: Args;
   argTypes?: ArgTypes;
   initialArgs?: Args;

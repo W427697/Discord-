@@ -2,6 +2,7 @@ import { global } from '@storybook/global';
 import { toId, sanitize } from '@storybook/csf';
 import type {
   StoryKind,
+  ComponentId,
   ComponentTitle,
   StoryName,
   StoryId,
@@ -15,10 +16,13 @@ import type {
   StoryIndex,
   API_LoadedRefData,
   API_IndexHash,
+  ComponentPreparedPayload,
+  StoryPreparedPayload,
 } from '@storybook/types';
 import {
   PRELOAD_ENTRIES,
   STORY_PREPARED,
+  COMPONENT_PREPARED,
   UPDATE_STORY_ARGS,
   RESET_STORY_ARGS,
   STORY_ARGS_UPDATED,
@@ -54,7 +58,9 @@ type Direction = -1 | 1;
 type ParameterName = string;
 
 type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
-type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
+type StoryUpdate = Partial<
+  Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
+>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
@@ -428,7 +434,12 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     });
 
-    fullAPI.on(STORY_PREPARED, function handler({ id, ...update }) {
+    fullAPI.on(COMPONENT_PREPARED, function handler({ id, ...update }: ComponentPreparedPayload) {
+      const { ref } = getEventMetadata(this, fullAPI);
+      fullAPI.updateStory(id, { ...update, prepared: true }, ref);
+    });
+
+    fullAPI.on(STORY_PREPARED, function handler({ id, ...update }: StoryPreparedPayload) {
       const { ref, sourceType } = getEventMetadata(this, fullAPI);
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
 

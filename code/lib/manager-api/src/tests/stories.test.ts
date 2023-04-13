@@ -11,6 +11,7 @@ import {
   SET_INDEX,
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
+  COMPONENT_PREPARED,
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
@@ -532,7 +533,7 @@ describe('stories API', () => {
 
   describe('SET_INDEX event', () => {
     it('calls setIndex w/ the data', () => {
-      const fullAPI = Object.assign(new EventEmitter());
+      const fullAPI = Object.assign(new EventEmitter(), { getProjectAnnotations: jest.fn() });
       const navigate = jest.fn();
       const store = createMockStore();
 
@@ -545,6 +546,7 @@ describe('stories API', () => {
 
       fullAPI.emit(SET_INDEX, { v: 4, entries: mockEntries });
 
+      // @ts-expect-error dodgy code
       expect(fullAPI.setIndex).toHaveBeenCalled();
     });
 
@@ -1359,6 +1361,36 @@ describe('stories API', () => {
 
         selectStory('b/e');
         expect(navigate).toHaveBeenCalledWith('/story/custom-id--1');
+      });
+    });
+  });
+
+  describe('COMPONENT_PREPARED', () => {
+    it('prepares the component', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setStories: jest.fn(),
+        setOptions: jest.fn(),
+      });
+
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+      fullAPI.emit(COMPONENT_PREPARED, {
+        id: 'component-a',
+        parameters: { a: 'b' },
+        argTypes: { a: { type: { name: 'string' } } },
+      });
+
+      const { index } = store.getState();
+      expect(index['component-a']).toMatchObject({
+        type: 'component',
+        id: 'component-a',
+        prepared: true,
+        parameters: { a: 'b' },
+        argTypes: { a: { type: { name: 'string' } } },
       });
     });
   });
