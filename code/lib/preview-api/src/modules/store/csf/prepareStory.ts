@@ -190,7 +190,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
     componentAnnotations.render ||
     projectAnnotations.render;
 
-  if (!render) throw new Error(`No render function available for id '${id}'`);
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
@@ -199,7 +198,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
 
   const { passArgsFirst = true } = parameters;
   // eslint-disable-next-line no-underscore-dangle
-  parameters.__isArgsStory = passArgsFirst && render.length > 0;
+  parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
 
   // Pull out args[X] into initialArgs for argTypes enhancers
   const passedArgs: Args = {
