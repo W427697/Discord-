@@ -25,7 +25,7 @@ import {
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
-import { createBabelLoader, createSWCLoader } from './babel-loader-preview';
+import { createBabelLoader, createSWCLoader } from './loaders';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
