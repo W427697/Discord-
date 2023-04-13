@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider } from '@storybook/manager-api';
+import { Provider as ManagerProvider, useParameter } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 
@@ -45,6 +45,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           docsOptions={global?.DOCS_OPTIONS || {}}
         >
           {({ state, api }: Combo) => {
+            console.log(useParameter('backgrounds'));
             const panelCount = Object.keys(api.getPanels()).length;
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story

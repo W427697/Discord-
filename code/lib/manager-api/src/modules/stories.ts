@@ -119,6 +119,10 @@ function removeRemovedOptions<T extends Record<string, any> = Record<string, any
   return result;
 }
 
+function toComponentId(storyId: StoryId): ComponentId {
+  return storyId.split('--')[0];
+}
+
 export const init: ModuleFn<SubAPI, SubState, true> = ({
   fullAPI,
   store,
@@ -161,14 +165,36 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         typeof storyIdOrCombo === 'string'
           ? { storyId: storyIdOrCombo, refId: undefined }
           : storyIdOrCombo;
+
       const data = api.getData(storyId, refId);
 
-      if (data?.type === 'story') {
-        const { parameters } = data;
+      let parameters;
 
-        if (parameters) {
-          return parameterName ? parameters[parameterName] : parameters;
+      // First try and get the story's parameters
+      if (data?.type === 'story') {
+        ({ parameters } = data);
+      }
+
+      // If not prepared, or a docs entry, get the component's parameters
+      if (!parameters && ['docs', 'story'].includes(data?.type)) {
+        const componentId = toComponentId(storyId);
+        const componentData = api.resolveStory(componentId, refId);
+
+        if (componentData?.type === 'component') {
+          ({ parameters } = componentData);
         }
+      }
+
+      // If not prepared, or a unattached doc, get the project's parameters
+      if (!parameters) {
+        const projectAnnotations = refId
+          ? fullAPI.getRefs()[refId].projectAnnotations
+          : fullAPI.getProjectAnnotations();
+        if (projectAnnotations) ({ parameters } = projectAnnotations);
+      }
+
+      if (parameters) {
+        return parameterName ? parameters[parameterName] : parameters;
       }
 
       return null;
