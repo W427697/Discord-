@@ -54,7 +54,7 @@ test.describe('addon-docs', () => {
     // Click on the third button which has the text "Show code"
     const showCodeButton = (await root.locator('button', { hasText: 'Show Code' }).all())[2];
     await showCodeButton.click();
-    const sourceCode = root.locator('.language-jsx');
+    const sourceCode = root.locator('pre.prismjs');
     const expectedSource = dedent`{
       args: {
         label: 'Another'
