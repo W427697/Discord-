@@ -43,9 +43,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-common": "7.1.0-alpha.0",
-    "@storybook/preview-api": "7.1.0-alpha.0",
-    "@storybook/types": "7.1.0-alpha.0",
+    "@storybook/core-common": "7.1.0-alpha.3",
+    "@storybook/preview-api": "7.1.0-alpha.3",
+    "@storybook/types": "7.1.0-alpha.3",
     "@types/doctrine": "^0.0.3",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21"
