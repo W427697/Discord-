@@ -78,7 +78,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "d0acd16fdf394463add948bac3f226b93f92c235",
+  "gitHead": "18dcfa6073157150da60c328f6f64abd477ddcad",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Highlight",

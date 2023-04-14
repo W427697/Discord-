@@ -102,7 +102,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "d0acd16fdf394463add948bac3f226b93f92c235",
+  "gitHead": "18dcfa6073157150da60c328f6f64abd477ddcad",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",
