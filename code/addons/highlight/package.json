@@ -8,14 +8,14 @@
     "style",
     "appearance"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/highlight",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/highlight",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/highlight"
+    "directory": "code/addons/highlight"
   },
   "funding": {
     "type": "opencollective",

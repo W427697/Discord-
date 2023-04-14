@@ -7,14 +7,14 @@
     "essentials",
     "data-state"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/actions",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/actions",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/actions"
+    "directory": "code/addons/actions"
   },
   "funding": {
     "type": "opencollective",

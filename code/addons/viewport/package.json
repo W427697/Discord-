@@ -8,14 +8,14 @@
     "style",
     "essentials"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/viewport",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/viewport",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/viewport"
+    "directory": "code/addons/viewport"
   },
   "funding": {
     "type": "opencollective",

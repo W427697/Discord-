@@ -7,14 +7,14 @@
     "storybook",
     "test"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/storyshots-core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/storyshots-core",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/storyshots-core"
+    "directory": "code/addons/storyshots-core"
   },
   "funding": {
     "type": "opencollective",

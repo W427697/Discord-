@@ -9,14 +9,14 @@
     "CSS",
     "design"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/measure",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/measure",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/measure"
+    "directory": "code/addons/measure"
   },
   "funding": {
     "type": "opencollective",

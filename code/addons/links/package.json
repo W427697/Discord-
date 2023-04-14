@@ -7,14 +7,14 @@
     "storybook",
     "organize"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/links",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/links",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/links"
+    "directory": "code/addons/links"
   },
   "funding": {
     "type": "opencollective",

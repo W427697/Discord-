@@ -10,14 +10,14 @@
     "essentials",
     "organize"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/docs",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/docs",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/docs"
+    "directory": "code/addons/docs"
   },
   "funding": {
     "type": "opencollective",

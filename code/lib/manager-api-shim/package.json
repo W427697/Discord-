@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/api",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/manager-api-shim"
+    "directory": "code/code/lib/manager-api-shim"
   },
   "funding": {
     "type": "opencollective",

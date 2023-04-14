@@ -7,14 +7,14 @@
     "data-state",
     "test"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/interactions",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/interactions",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/interactions"
+    "directory": "code/addons/interactions"
   },
   "funding": {
     "type": "opencollective",

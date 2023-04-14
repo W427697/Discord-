@@ -10,14 +10,14 @@
     "tables",
     "links"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/gfm",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/gfm",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/gfm"
+    "directory": "code/addons/gfm"
   },
   "funding": {
     "type": "opencollective",

@@ -10,14 +10,14 @@
     "essentials",
     "design"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/backgrounds",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/backgrounds",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/backgrounds"
+    "directory": "code/addons/backgrounds"
   },
   "funding": {
     "type": "opencollective",

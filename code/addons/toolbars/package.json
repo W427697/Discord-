@@ -11,14 +11,14 @@
     "test",
     "essentials"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/toolbars",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/toolbars",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/toolbars"
+    "directory": "code/addons/toolbars"
   },
   "funding": {
     "type": "opencollective",
