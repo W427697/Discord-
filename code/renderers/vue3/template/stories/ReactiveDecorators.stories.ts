@@ -30,7 +30,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const NoDecorators: Story = { args: { label: 'No decorators' } };
+export const NoDecorators: Story = {
+  args: { label: 'No decorators' },
+  render: (args) => h(Reactivity, args),
+};
 
 /**
  * Decorator should either be a function that returns a VNode or a component
