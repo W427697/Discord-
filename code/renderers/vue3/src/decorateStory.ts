@@ -34,6 +34,7 @@ function prepare(
     };
   }
 
+  if (typeof story === 'function') return story;
   return {
     render() {
       return h(story);
