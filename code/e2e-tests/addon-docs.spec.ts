@@ -3,6 +3,7 @@
 /* eslint-disable no-await-in-loop */
 import { test, expect } from '@playwright/test';
 import process from 'process';
+import dedent from 'ts-dedent';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
@@ -54,7 +55,22 @@ test.describe('addon-docs', () => {
     const showCodeButton = (await root.locator('button', { hasText: 'Show Code' }).all())[2];
     await showCodeButton.click();
     const sourceCode = root.locator('.language-jsx');
-    await expect(sourceCode.textContent()).resolves.toMatchSnapshot();
+    const expectedSource = dedent`{
+      args: {
+        label: 'Another'
+      },
+      parameters: {
+        docs: {
+          source: {
+            type: 'code'
+          }
+        }
+      },
+      play: async () => {
+        await new Promise(resolve => resolve('Play function'));
+      }
+    }`;
+    await expect(sourceCode.textContent()).resolves.toContain(expectedSource);
   });
 
   test('should render errors', async ({ page }) => {
