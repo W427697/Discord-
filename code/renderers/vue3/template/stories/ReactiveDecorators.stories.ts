@@ -40,7 +40,7 @@ export const DecoratorVNode: Story = {
   args: { label: 'Decorator not using args' },
   decorators: [
     (storyFn, context) => {
-      return h('div', h(storyFn(context.args)));
+      return h('div', h(storyFn()));
     },
   ],
 };
@@ -49,9 +49,10 @@ export const DecoratorVNodeArgsFromContext: Story = {
   args: { label: 'Decorator using label from context' },
   decorators: [
     (storyFn, context) => {
+      console.log(' context.args.label: ', context.args.label);
       return h('div', [
-        h('h2', `Decorator use args: ${context.args.label}`),
-        [h(storyFn(context.args))],
+        h('h2', `Decorator use args from context : ${context.args.label}`),
+        [h(storyFn())],
       ]);
     },
   ],
@@ -63,7 +64,7 @@ export const DecoratorVNodeTemplate: Story = {
     (storyFn, context) => {
       return h({
         components: {
-          story: storyFn(context.args),
+          story: storyFn(),
         },
         template: '<div><h2>Decorator not using args</h2><story/></div>',
       });
@@ -76,7 +77,7 @@ export const DecoratorVNodeTemplateArgsFromData: Story = {
     (storyFn, context) => {
       return h({
         components: {
-          story: storyFn(context.args),
+          story: storyFn(),
         },
         data() {
           return { args: context.args };
@@ -95,7 +96,7 @@ export const DecoratorVNodeTemplateArgsFromProps: Story = {
           story: storyFn(),
         },
         props: ['label'],
-        template: '<div><h1>Decorator using label: {{label}}</h1><story/></div>',
+        template: '<div><story/></div>',
       });
     },
   ],
