@@ -21,23 +21,6 @@ const Versions = {
 const branchVersion = Versions.MINOR;
 
 const checkRequiredLabels = (labels: string[]) => {
-  if (!labels.includes('patch')) {
-    fail(dedent`
-      A 'patch' label is required to merge during stabilization.
-
-      Patch PRs are small bug fixes, build updates, and documentation changes.
-      They do not include new features or more disruptive bugfixes.
-      
-      These changes will be first released on 7.1-alpha, then patched back to 'main'
-      after they have been verified to be correct and released as 7.0.x patch releases.
-
-      After the stabilization period ends (ETA 2023-04-12), the 'patch' label
-      will no longer be required to merge into next, and we will merge ALL accepted
-      PRs to 'next' and release them on 7.1-alpha. Patch PRs will be
-      patched back to 'main' and released in 7.0.x patch releases.
-    `);
-  }
-
   const forbiddenLabels = flatten([
     'ci: do not merge',
     'in progress',
