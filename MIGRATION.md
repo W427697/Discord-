@@ -774,7 +774,10 @@ For example:
 ```ts
 import type { StorybookConfig } from '@storybook/react-vite';
 const config: StorybookConfig = {
-  framework: '@storybook/react-vite',
+  framework: {
+    name: '@storybook/react-vite',
+    options: {}
+  },
   // ... your configuration
 };
 export default config;
