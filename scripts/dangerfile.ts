@@ -2,12 +2,11 @@
 import { fail, danger } from 'danger';
 import { execSync } from 'child_process';
 
-execSync('npm install lodash ts-dedent');
+execSync('npm install lodash');
 
 const flatten = require('lodash/flatten.js');
 const intersection = require('lodash/intersection.js');
 const isEmpty = require('lodash/isEmpty.js');
-const { dedent } = require('ts-dedent');
 
 const pkg = require('../code/package.json'); // eslint-disable-line import/newline-after-import
 const prLogConfig = pkg['pr-log'];
