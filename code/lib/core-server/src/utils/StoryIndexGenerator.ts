@@ -118,10 +118,8 @@ export class StoryIndexGenerator {
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
-        const fullGlob = slash(
-          path.join(this.options.workingDir, specifier.directory, specifier.files)
-        );
-        const files = await glob(fullGlob);
+        const fullGlob = slash(path.join(specifier.directory, specifier.files));
+        const files = await glob(fullGlob, { cwd: this.options.workingDir });
 
         if (files.length === 0) {
           once.warn(
