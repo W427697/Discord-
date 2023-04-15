@@ -342,6 +342,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
       packageManager: pkgMgr,
       fixes: initFixes,
       configDir: installResult?.configDir,
+      hideMigrationSummary: true,
     });
   }
 
