@@ -2,6 +2,7 @@ import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import glob from 'globby';
+import fastGlob from 'fast-glob';
 import slash from 'slash';
 
 import type {
@@ -118,9 +119,15 @@ export class StoryIndexGenerator {
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
-        const fullGlob = slash(path.join(specifier.directory, specifier.files));
-        // Do not treat the working dir as a glob.
-        const files = await glob(fullGlob, { cwd: this.options.workingDir });
+        const fullGlob = slash(
+          path.join(
+            // Do not treat the working dir as a glob.
+            fastGlob.escapePath(this.options.workingDir),
+            specifier.directory,
+            specifier.files
+          )
+        );
+        const files = await glob(fullGlob);
 
         if (files.length === 0) {
           once.warn(
