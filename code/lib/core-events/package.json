@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-events",
-  "version": "7.1.0-alpha.3",
+  "version": "7.1.0-alpha.5",
   "description": "Event names used in storybook core",
   "keywords": [
     "storybook"
@@ -53,5 +53,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "d0acd16fdf394463add948bac3f226b93f92c235"
+  "gitHead": "8e835df7a5e177b96e4e55c2fc8d4a3ac4d47ec1"
 }
