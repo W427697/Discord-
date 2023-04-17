@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React, { Component } from 'react';
 import { styled } from '@storybook/theming';
 import type { Addon_Collection } from '@storybook/types';
@@ -80,7 +80,7 @@ const PlaceholderBlock = styled.div(({ color }) => ({
   overflow: 'hidden',
 }));
 
-class PlaceholderClock extends Component<{ color: string }, { count: number }> {
+class PlaceholderClock extends Component<PropsWithChildren<{ color: string }>, { count: number }> {
   state = {
     count: 1,
   };

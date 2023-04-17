@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React, { useMemo } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
@@ -47,7 +47,7 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
             <Route path="/settings/" startsWith>
               {children}
             </Route>
-          )) as FC,
+          )) as FC<PropsWithChildren>,
         },
       ],
     }),

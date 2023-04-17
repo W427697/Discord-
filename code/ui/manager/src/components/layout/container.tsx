@@ -1,4 +1,4 @@
-import type { FC, CSSProperties, ReactNode } from 'react';
+import type { FC, CSSProperties, ReactNode, PropsWithChildren } from 'react';
 import React, { Component, Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
@@ -110,7 +110,7 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
         }
 );
 
-export const Sidebar: FC<{ hidden: boolean; position: CSSProperties }> = ({
+export const Sidebar: FC<PropsWithChildren<{ hidden: boolean; position: CSSProperties }>> = ({
   hidden = false,
   children,
   position = undefined,
@@ -122,7 +122,7 @@ export const Sidebar: FC<{ hidden: boolean; position: CSSProperties }> = ({
     </Pane>
   );
 
-export const Main: FC<{ isFullscreen: boolean; position: CSSProperties }> = ({
+export const Main: FC<PropsWithChildren<{ isFullscreen: boolean; position: CSSProperties }>> = ({
   isFullscreen = false,
   children,
   position = undefined,
@@ -133,7 +133,7 @@ export const Main: FC<{ isFullscreen: boolean; position: CSSProperties }> = ({
   </Pane>
 );
 
-export const Preview: FC<{ hidden: boolean; position: CSSProperties }> = ({
+export const Preview: FC<PropsWithChildren<{ hidden: boolean; position: CSSProperties }>> = ({
   hidden = false,
   children,
   position = undefined,
@@ -144,11 +144,13 @@ export const Preview: FC<{ hidden: boolean; position: CSSProperties }> = ({
   </Pane>
 );
 
-export const Panel: FC<{
-  hidden: boolean;
-  position: CSSProperties;
-  align: 'bottom' | 'right';
-}> = ({ hidden = false, children, position = undefined, align = 'right', ...props }) => (
+export const Panel: FC<
+  PropsWithChildren<{
+    hidden: boolean;
+    position: CSSProperties;
+    align: 'bottom' | 'right';
+  }>
+> = ({ hidden = false, children, position = undefined, align = 'right', ...props }) => (
   <Pane style={position} hidden={hidden} {...props} border={align === 'bottom' ? 'top' : 'left'}>
     {children}
   </Pane>

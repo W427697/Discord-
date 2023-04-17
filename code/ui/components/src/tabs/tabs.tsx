@@ -1,4 +1,4 @@
-import type { FC, MouseEvent, ReactNode } from 'react';
+import type { FC, MouseEvent, PropsWithChildren, ReactNode } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
@@ -201,8 +201,7 @@ Tabs.defaultProps = {
 
 type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
 
-export interface TabsStateProps {
-  children: FuncChildren[] | ReactNode;
+export interface TabsStateProps extends PropsWithChildren {
   initial: string;
   absolute: boolean;
   bordered: boolean;
