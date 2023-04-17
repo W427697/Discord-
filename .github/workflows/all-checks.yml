@@ -4,14 +4,16 @@ on:
 
 name: All Checks
 jobs:
-  install:
+  build:
     name: Insall dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Get the Yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        run: |
+          yarn config get cacheFolder
+          echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
         shell: bash
 
       - uses: actions/cache@v3
@@ -28,5 +30,14 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          yarn task --task install --start-from install --no-link --debug
+          yarn task --task install --start-from install --debug
+          git diff --exit-code
+
+      - name: Debug
+        run: |
+          ls ${{steps.yarn-cache-dir-path.outputs.dir}}}
+
+      - name: compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
           git diff --exit-code
