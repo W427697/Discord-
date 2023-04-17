@@ -111,7 +111,7 @@ describe('renderJsx', () => {
   });
 
   it('forwardRef component', () => {
-    const MyExoticComponent = React.forwardRef<PropsWithChildren>(function MyExoticComponent(
+    const MyExoticComponent = React.forwardRef<FC, PropsWithChildren>(function MyExoticComponent(
       props,
       _ref
     ) {
