@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { describe, test } from '@jest/globals';
 
 import { satisfies } from '@storybook/core-common';
@@ -203,25 +204,19 @@ describe('Story args can be inferred', () => {
 
 test('StoryObj<typeof meta> is allowed when meta is upcasted to Meta<Props>', () => {
   expectTypeOf<StoryObj<Meta<ButtonProps>>>().toEqualTypeOf<
-    ReactStory<
-      ButtonProps & { children?: ReactNode },
-      Partial<ButtonProps & { children?: ReactNode }>
-    >
+    ReactStory<ButtonProps, Partial<ButtonProps>>
   >();
 });
 
 test('StoryObj<typeof meta> is allowed when meta is upcasted to Meta<typeof Cmp>', () => {
   expectTypeOf<StoryObj<Meta<typeof Button>>>().toEqualTypeOf<
-    ReactStory<
-      ButtonProps & { children?: ReactNode },
-      Partial<ButtonProps & { children?: ReactNode }>
-    >
+    ReactStory<ButtonProps, Partial<ButtonProps>>
   >();
 });
 
 test('StoryObj<typeof meta> is allowed when all arguments are optional', () => {
   expectTypeOf<StoryObj<Meta<{ label?: string }>>>().toEqualTypeOf<
-    ReactStory<{ label?: string; children?: ReactNode }, { label?: string; children?: ReactNode }>
+    ReactStory<{ label?: string }, { label?: string }>
   >();
 });
 
