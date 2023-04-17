@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache Yarn cache
+      - name: Cache Yarn
         uses: actions/cache@v3
         with:
           path: ~/.yarn/berry/cache
@@ -34,3 +34,13 @@ jobs:
         run: |
           yarn task --task compile --start-from=compile --no-link --debug
           git diff --exit-code
+
+      - name: Cache Verdacio
+        uses: actions/cache@v3
+        with:
+          path: .verdaccio-cache
+          key: ${{ runner.os }}-verdaccio-v1
+
+      - name: Publish to Verdaccio
+        working-directory: code
+        run: yarn local-registry --publish
