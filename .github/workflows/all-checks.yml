@@ -4,19 +4,23 @@ on:
 
 name: All Checks
 jobs:
-  build:
-    name: Insall dependencies
+  compile:
+    name: Prepare dependencies and compile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Get the Yarn cache directory path
         id: yarn-cache-dir-path
         run: |
+          yarn --version
           yarn config get cacheFolder
           echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
         shell: bash
 
-      - uses: actions/cache@v3
+      - name: Cache Yarn cache
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
@@ -24,7 +28,8 @@ jobs:
             ${{ runner.os }}-yarn-v1-
             ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
@@ -37,7 +42,7 @@ jobs:
         run: |
           ls ${{ steps.yarn-cache-dir-path.outputs.dir }}
 
-      - name: compile
+      - name: Compile
         run: |
           yarn task --task compile --start-from=compile --no-link --debug
           git diff --exit-code
