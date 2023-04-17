@@ -50,6 +50,18 @@ By default, Storybook offers zero-config support for documentation and automatic
 | `autodocs`    | Configures auto-generated documentation pages. Available options: `true`, `false`,`tag` (default) <br/> `docs: { autodocs: false }` |
 | `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`                                         |
 
+#### Disabling autodocs when `docs.autodocs = true`
+
+When setting `docs.autodocs: true`, you can disable the autodocs generation on a per story basis by adding a`no-autodocs` to your story. For example:
+
+<CodeSnippets
+  paths={[
+    'common/sstorybook-autodocs-true-disable-per-story.js.mdx',
+    'common/sstorybook-autodocs-true-disable-per-story.ts.mdx',
+  ]}
+/>
+
+
 ### Write a custom template
 
 To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
