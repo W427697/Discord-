@@ -144,10 +144,9 @@ jobs:
           fail-on-cache-miss: true
 
       - name: Build sandbox ${{ matrix.template }}
+        working-directory: scripts
         run: |
-          cd scripts &&
           yarn ts-node ./event-log-collector.ts &
-          cd .. &&
           yarn task --task build --template ${{ matrix.template }} --no-link --start-from never --junit
 
       - name: Verify telemetry
