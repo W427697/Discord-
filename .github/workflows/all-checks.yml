@@ -44,3 +44,46 @@ jobs:
       - name: Publish to Verdaccio
         working-directory: code
         run: yarn local-registry --publish
+
+  create-sandboxes:
+    name: Create Sandboxes
+    runs-on: ubuntu-latest
+    needs: compile
+    strategy:
+      matrix:
+        template: [react-vite/default-ts, angular-cli/default-ts]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Restore Yarn cache
+        uses: actions/cache/restore@v3
+        with:
+          path: ~/.yarn/berry/cache
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          fail-on-cache-miss: true
+
+      - name: Install Dependencies
+        run: |
+          yarn task --task install --start-from install --debug
+          git diff --exit-code
+
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+          git diff --exit-code
+
+      - name: Restore Verdaccio cache
+        uses: actions/cache/restore@v3
+        with:
+          path: .verdaccio-cache
+          key: ${{ runner.os }}-verdaccio-v1
+          fail-on-cache-miss: true
+
+      - name: 'Create Sandbox: ${{ matrix.template }}'
+        run: yarn task --task sandbox --template ${{ matrix.template }} --no-link --start-from=never --junit
