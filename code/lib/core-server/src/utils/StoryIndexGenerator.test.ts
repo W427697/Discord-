@@ -924,6 +924,62 @@ describe('StoryIndexGenerator', () => {
           }
         `);
       });
+
+      it('pulls the attached story file to the front of the list', async () => {
+        const generator = new StoryIndexGenerator(
+          [
+            normalizeStoriesEntry('./src/A.stories.js', options),
+            normalizeStoriesEntry('./src/B.stories.ts', options),
+            normalizeStoriesEntry('./complex/TwoStoryReferences.mdx', options),
+          ],
+          options
+        );
+        await generator.initialize();
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+              "b--story-one": Object {
+                "id": "b--story-one",
+                "importPath": "./src/B.stories.ts",
+                "name": "Story One",
+                "tags": Array [
+                  "autodocs",
+                  "story",
+                ],
+                "title": "B",
+                "type": "story",
+              },
+              "b--twostoryreferences": Object {
+                "id": "b--twostoryreferences",
+                "importPath": "./complex/TwoStoryReferences.mdx",
+                "name": "TwoStoryReferences",
+                "storiesImports": Array [
+                  "./src/B.stories.ts",
+                  "./src/A.stories.js",
+                ],
+                "tags": Array [
+                  "attached-mdx",
+                  "docs",
+                ],
+                "title": "B",
+                "type": "docs",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
     });
 
     describe('errors', () => {

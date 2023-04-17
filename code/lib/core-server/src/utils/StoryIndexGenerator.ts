@@ -378,7 +378,7 @@ export class StoryIndexGenerator {
         title,
         name,
         importPath,
-        storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
+        storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
         tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
       };
