@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-rc.8",
+  "version": "7.1.0-alpha.5",
   "description": "Parse and manipulate CSF and Storybook config files",
   "keywords": [
     "storybook"
@@ -45,8 +45,8 @@
     "@babel/parser": "~7.21.2",
     "@babel/traverse": "~7.21.2",
     "@babel/types": "~7.21.2",
-    "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-rc.8",
+    "@storybook/csf": "^0.1.0",
+    "@storybook/types": "7.1.0-alpha.5",
     "fs-extra": "^11.1.0",
     "recast": "^0.23.1",
     "ts-dedent": "^2.0.0"
@@ -68,5 +68,5 @@
       "cjs"
     ]
   },
-  "gitHead": "42cc9d76db87614261e067f49b0123db30365233"
+  "gitHead": "8e835df7a5e177b96e4e55c2fc8d4a3ac4d47ec1"
 }
