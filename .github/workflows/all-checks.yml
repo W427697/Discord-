@@ -16,20 +16,35 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache Yarn
+      - name: Cache Yarn and Playwright
+        id: dependency-cache
         uses: actions/cache@v3
         with:
-          path: ~/.yarn/berry/cache
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          path: |
+            ~/.yarn/berry/cache
+            ~/.cache/ms-playwright
+            code/node_modules
+            scripts/node_modules
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-yarn-v1-
             ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-
+            ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-
 
       - name: Install Dependencies
         run: |
           yarn task --task install --start-from install --debug
           git diff --exit-code
 
+      # TODO: See if playwright container is faster than this
+      - name: Install Playwright Browsers
+        if: steps.dependency-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      - name: Install Playwright Dependencies
+        if: steps.dependency-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
+  
       - name: Compile
         run: |
           yarn task --task compile --start-from=compile --no-link --debug
@@ -61,17 +76,16 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Restore Yarn cache
+      - name: Restore dependnecy cache
         uses: actions/cache/restore@v3
         with:
-          path: ~/.yarn/berry/cache
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          path: |
+            ~/.yarn/berry/cache
+            ~/.cache/ms-playwright
+            code/node_modules
+            scripts/node_modules
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
-
-      - name: Install Dependencies
-        run: |
-          yarn task --task install --start-from install --debug
-          git diff --exit-code
 
       - name: Compile
         run: |
