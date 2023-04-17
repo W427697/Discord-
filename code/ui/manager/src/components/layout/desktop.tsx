@@ -1,4 +1,4 @@
-import type { ComponentType, FC } from 'react';
+import type { ComponentType, FC, PropsWithChildren } from 'react';
 import React, { Fragment } from 'react';
 
 import type { State } from '@storybook/manager-api';
@@ -14,7 +14,7 @@ export interface DesktopProps {
   Notifications: ComponentType<any>;
   pages: {
     key: string;
-    route: FC;
+    route: FC<PropsWithChildren>;
     render: ComponentType;
   }[];
   options: State['layout'];

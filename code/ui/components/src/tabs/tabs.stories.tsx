@@ -1,5 +1,5 @@
 import { expect } from '@storybook/jest';
-import type { Key } from 'react';
+import type { ComponentType, Key } from 'react';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
@@ -45,7 +45,7 @@ interface Panels {
   [key: string]: {
     title: string;
     color?: string;
-    render: ({ active, key }: { active: boolean; key: Key }) => JSX.Element;
+    render: ComponentType<{ active: boolean; key: Key }>;
   };
 }
 

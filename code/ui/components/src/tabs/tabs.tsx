@@ -1,4 +1,4 @@
-import type { FC, MouseEvent, PropsWithChildren, ReactNode } from 'react';
+import type { FC, MouseEvent, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
@@ -102,7 +102,7 @@ const Content = styled.div<ContentProps>(
 
 export interface TabWrapperProps {
   active: boolean;
-  render?: () => JSX.Element;
+  render?: () => ReactElement;
   children?: ReactNode;
 }
 
@@ -199,7 +199,7 @@ Tabs.defaultProps = {
   menuName: 'Tabs',
 };
 
-type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
+type FuncChildren = ({ active }: { active: boolean }) => ReactElement;
 
 export interface TabsStateProps extends PropsWithChildren {
   initial: string;

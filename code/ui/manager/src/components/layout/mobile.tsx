@@ -1,4 +1,4 @@
-import type { ComponentType, FC, ReactNode } from 'react';
+import type { ComponentType, FC, PropsWithChildren, ReactNode } from 'react';
 import React, { Component, Children } from 'react';
 import { type State, ActiveTabs } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
@@ -129,8 +129,8 @@ const Bar = styled.nav(
 
 export interface Page {
   key: string;
-  route: FC;
-  render: FC;
+  route: FC<PropsWithChildren>;
+  render: FC<PropsWithChildren>;
 }
 
 export interface MobileProps {
