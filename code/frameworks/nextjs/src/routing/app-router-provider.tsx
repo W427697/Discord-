@@ -7,6 +7,7 @@ import type {
   PathnameContext as TPathnameContext,
   SearchParamsContext as TSearchParamsContext,
 } from 'next/dist/shared/lib/hooks-client-context';
+// @ts-expect-error (might not exists in never version of Next.js)
 import type { FlightRouterState } from 'next/dist/server/app-render';
 import type { RouteParams } from './types';
 
