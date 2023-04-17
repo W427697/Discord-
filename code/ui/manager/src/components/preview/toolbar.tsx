@@ -104,7 +104,7 @@ export const createTabsTool = (tabs: Addon[]): Addon => ({
                 return (
                   <S.UnstyledLink key={t.id || `l${index}`} to={to}>
                     <TabButton disabled={t.disabled} active={isActive}>
-                      {t.title}
+                      {t.title as any}
                     </TabButton>
                   </S.UnstyledLink>
                 );

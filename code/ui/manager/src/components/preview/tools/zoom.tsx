@@ -1,4 +1,4 @@
-import type { SyntheticEvent, MouseEventHandler } from 'react';
+import type { SyntheticEvent, MouseEventHandler, PropsWithChildren } from 'react';
 import React, { Component, useCallback } from 'react';
 
 import { Icons, IconButton, Separator } from '@storybook/components';
@@ -8,7 +8,10 @@ const initialZoom = 1 as const;
 
 const Context = React.createContext({ value: initialZoom, set: (v: number) => {} });
 
-class ZoomProvider extends Component<{ shouldScale: boolean }, { value: number }> {
+class ZoomProvider extends Component<
+  PropsWithChildren<{ shouldScale: boolean }>,
+  { value: number }
+> {
   state = {
     value: initialZoom,
   };

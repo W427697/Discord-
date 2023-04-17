@@ -1,5 +1,5 @@
 import { expect } from '@storybook/jest';
-import type { ComponentType, Key } from 'react';
+import type { FC, Key, ReactElement } from 'react';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
@@ -45,7 +45,7 @@ interface Panels {
   [key: string]: {
     title: string;
     color?: string;
-    render: ComponentType<{ active: boolean; key: Key }>;
+    render: FC<{ active: boolean; key: Key }>;
   };
 }
 
@@ -120,9 +120,9 @@ const panels: Panels = {
 
 const onSelect = action('onSelect');
 
-const content = Object.entries(panels).map(([k, v]) => (
+const content: ReactElement[] = Object.entries(panels).map(([k, v]) => (
   <div key={k} id={k} title={v.title}>
-    {v.render}
+    {v.render as any}
   </div>
 ));
 
@@ -153,8 +153,9 @@ export const StatefulStatic = {
   render: (args) => (
     <TabsState initial="test2" {...args}>
       <div id="test1" title="With a function">
-        {({ active, selected }: { active: boolean; selected: string }) =>
-          active ? <div>{selected} is selected</div> : null
+        {
+          (({ active, selected }: { active: boolean; selected: string }) =>
+            active ? <div>{selected} is selected</div> : null) as any
         }
       </div>
       <div id="test2" title="With markup">
@@ -169,8 +170,9 @@ export const StatefulStaticWithSetButtonTextColors = {
     <div>
       <TabsState initial="test2" {...args}>
         <div id="test1" title="With a function" color="#e00000">
-          {({ active, selected }: { active: boolean; selected: string }) =>
-            active ? <div>{selected} is selected</div> : null
+          {
+            (({ active, selected }: { active: boolean; selected: string }) =>
+              active ? <div>{selected} is selected</div> : null) as any
           }
         </div>
         <div id="test2" title="With markup" color="green">
@@ -186,8 +188,9 @@ export const StatefulStaticWithSetBackgroundColor = {
     <div>
       <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)" {...args}>
         <div id="test1" title="With a function" color="#e00000">
-          {({ active, selected }: { active: boolean; selected: string }) =>
-            active ? <div>{selected} is selected</div> : null
+          {
+            (({ active, selected }: { active: boolean; selected: string }) =>
+              active ? <div>{selected} is selected</div> : null) as any
           }
         </div>
         <div id="test2" title="With markup" color="green">
@@ -244,7 +247,7 @@ export const StatefulDynamicWithOpenTooltip = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title}>
-          {v.render}
+          {v.render as any}
         </div>
       ))}
     </TabsState>
@@ -274,7 +277,7 @@ export const StatefulDynamicWithSelectedAddon = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title}>
-          {v.render}
+          {v.render as any}
         </div>
       ))}
     </TabsState>
