@@ -8,7 +8,7 @@ addons.register(ADDON_ID, () =>
     title: ADDON_ID,
     id: 'toolbar',
     type: types.TOOL,
-    match: () => true,
+    match: ({ viewMode }) => viewMode === 'story',
     render: () => <ToolbarManager />,
   })
 );
