@@ -8,15 +8,25 @@ jobs:
     name: Insall dependencies
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - name: Get the Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{steps.yarn-cache-dir-path.outputs.dir}}
+          key: ${{runner.os}}-yarn-v1-${{hashFiles('scripts/yarn.lock')}}-${{hashFiles('code/yarn.lock')}}
+          restore-keys: |
+            ${{runner.os}}-yarn-v1-
+            ${{runner.os}}-yarn-v1-${{hashFiles('scripts/yarn.lock')}}-
+
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'yarn'
-          cache-dependency-path: |
-            scripts/yarn.lock
-            code/yarn.lock
-      - uses: actions/checkout@v3
+
       - name: Install Dependencies
         run: |
-          yarn task --task install --start-from=never --no-link --debug
+          yarn task --task install --start-from install --no-link --debug
           git diff --exit-code
