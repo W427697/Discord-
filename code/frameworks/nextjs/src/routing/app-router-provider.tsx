@@ -49,7 +49,11 @@ const getParallelRoutes = (segmentsList: Array<string>): FlightRouterState => {
   return [] as any;
 };
 
-const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action, routeParams }) => {
+const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProviderProps>> = ({
+  children,
+  action,
+  routeParams,
+}) => {
   const { pathname, query, segments = [], ...restRouteParams } = routeParams;
 
   return (
@@ -82,6 +86,7 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
             childNodes: new Map(),
             tree: [pathname, { children: getParallelRoutes([...segments]) }],
             url: pathname,
+            // @ts-expect-error (might not exists in never version of Next.js)
             headRenderedAboveThisLevel: true,
           }}
         >

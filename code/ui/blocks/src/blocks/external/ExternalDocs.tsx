@@ -1,4 +1,4 @@
-import type { FunctionComponent } from 'react';
+import type { FunctionComponent, PropsWithChildren } from 'react';
 import React, { useRef } from 'react';
 import type { Renderer, ProjectAnnotations } from '@storybook/types';
 import { composeConfigs } from '@storybook/preview-api';
@@ -18,7 +18,7 @@ function usePreview<TFramework extends Renderer = Renderer>(
   return previewRef.current;
 }
 
-export const ExternalDocs: FunctionComponent<ExternalDocsProps> = ({
+export const ExternalDocs: FunctionComponent<PropsWithChildren<ExternalDocsProps>> = ({
   projectAnnotationsList,
   children,
 }) => {

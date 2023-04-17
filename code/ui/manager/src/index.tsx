@@ -1,7 +1,7 @@
 import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React from 'react';
-import { createRoot } from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
 import { Provider as ManagerProvider } from '@storybook/manager-api';
@@ -73,7 +73,7 @@ export function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
     throw new Error('provider is not extended from the base Provider');
   }
 
-  const root = createRoot(domNode);
+  const root = ReactDOM.createRoot(domNode);
   root.render(<Root key="root" provider={provider} />);
 }
 
