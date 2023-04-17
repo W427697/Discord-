@@ -1,9 +1,9 @@
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React, { Fragment } from 'react';
 import type { ApplyWrappersProps, Wrapper } from './utils/types';
 import { IframeWrapper } from './utils/components';
 
-export const ApplyWrappers: FC<ApplyWrappersProps> = ({
+export const ApplyWrappers: FC<PropsWithChildren<ApplyWrappersProps>> = ({
   wrappers,
   id,
   storyId,

@@ -39,7 +39,7 @@ export const useHighlighted = ({
   const api = useStorybookApi();
 
   const updateHighlighted = useCallback(
-    (highlight) => {
+    (highlight: Highlight) => {
       highlightedRef.current = highlight;
       setHighlighted(highlight);
     },

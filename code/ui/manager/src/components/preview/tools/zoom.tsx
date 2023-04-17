@@ -68,7 +68,7 @@ const ZoomWrapper = React.memo<{ set: (zoomLevel: number) => void; value: number
       [set, value]
     );
     const reset = useCallback(
-      (e) => {
+      (e: SyntheticEvent) => {
         e.preventDefault();
         set(initialZoom);
       },
