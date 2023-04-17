@@ -7,7 +7,10 @@ import Reactivity from './Reactivity.vue';
 
 const meta = {
   component: Reactivity,
-  args: { label: 'If you see this then the label arg was not reactive.' },
+  args: {
+    label: 'If you see this then the label arg was not reactive.',
+    header: 'If you see this, the header slot was not reactive.',
+  },
   play: async ({ canvasElement, id, args }) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
 
@@ -21,7 +24,10 @@ const meta = {
 
     await channel.emit(UPDATE_STORY_ARGS, {
       storyId: id,
-      updatedArgs: { label: 'updated label' },
+      updatedArgs: {
+        label: 'updated label',
+        header: 'updated slot',
+      },
     });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
   },
