@@ -184,7 +184,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
-                  "autodocs",
+                  "no-autodocs",
                   "story",
                 ],
                 "title": "D",
@@ -324,24 +324,12 @@ describe('StoryIndexGenerator', () => {
                 "title": "B",
                 "type": "story",
               },
-              "d--docs": Object {
-                "id": "d--docs",
-                "importPath": "./src/D.stories.jsx",
-                "name": "docs",
-                "storiesImports": Array [],
-                "tags": Array [
-                  "autodocs",
-                  "docs",
-                ],
-                "title": "D",
-                "type": "docs",
-              },
               "d--story-one": Object {
                 "id": "d--story-one",
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
-                  "autodocs",
+                  "no-autodocs",
                   "story",
                 ],
                 "title": "D",
@@ -406,7 +394,6 @@ describe('StoryIndexGenerator', () => {
             "a--story-one",
             "b--docs",
             "b--story-one",
-            "d--docs",
             "d--story-one",
             "first-nested-deeply-f--docs",
             "first-nested-deeply-f--story-one",
@@ -432,7 +419,6 @@ describe('StoryIndexGenerator', () => {
           expect.arrayContaining(['autodocs'])
         );
       });
-
       it('throws an error if you attach a named MetaOf entry which clashes with a tagged autodocs entry', async () => {
         const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/B.stories.ts',

@@ -45,6 +45,7 @@ type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry | ErrorEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
 export const AUTODOCS_TAG = 'autodocs';
+export const NO_AUTODOCS_TAG = 'no-autodocs';
 export const STORIES_MDX_TAG = 'stories-mdx';
 export const PLAY_FN_TAG = 'play-fn';
 
@@ -266,7 +267,9 @@ export class StoryIndexGenerator {
     if (csf.stories.length) {
       const { autodocs } = this.options.docs;
       const componentAutodocs = componentTags.includes(AUTODOCS_TAG);
-      const autodocsOptedIn = autodocs === true || (autodocs === 'tag' && componentAutodocs);
+      const autodocsOptedIn =
+        !componentTags.includes(NO_AUTODOCS_TAG) &&
+        (autodocs === true || (autodocs === 'tag' && componentAutodocs));
       // We need a docs entry attached to the CSF file if either:
       //  a) it is a stories.mdx transpiled to CSF, OR
       //  b) we have docs page enabled for this file

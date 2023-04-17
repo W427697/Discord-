@@ -1336,7 +1336,7 @@ describe('start', () => {
         global.DOCS_OPTIONS = { autodocs: true, defaultName: 'Docs' };
       });
 
-      it('adds stories for each component with autodocs tag', async () => {
+      it('adds stories for each component with autodocs tag & not no-autodocs tag', async () => {
         const renderToDOM = jest.fn();
 
         const { configure, clientApi } = start(renderToDOM);
@@ -1354,6 +1354,11 @@ describe('start', () => {
             .addParameters({ tags: ['autodocs'] })
             .add('Story Three', jest.fn());
 
+          clientApi
+            .storiesOf('Component D', { id: 'file2' } as NodeModule)
+            .addParameters({ tags: ['no-autodocs'] })
+            .add('Story Three', jest.fn());
+
           return [componentCExports];
         });
 
@@ -1366,6 +1371,7 @@ describe('start', () => {
             "component-a--story-two",
             "component-b--docs",
             "component-b--story-three",
+            "component-d--story-three",
             "component-c--docs",
             "component-c--story-one",
             "component-c--story-two",

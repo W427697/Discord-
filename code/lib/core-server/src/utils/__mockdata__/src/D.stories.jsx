@@ -1,7 +1,7 @@
 const component = {};
 export default {
   component,
-  tags: ['autodocs'],
+  tags: ['no-autodocs'],
 };
 
 export const StoryOne = {};

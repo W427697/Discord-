@@ -22,6 +22,7 @@ import type { StoryStore } from '../../store';
 import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
 export const AUTODOCS_TAG = 'autodocs';
+export const NO_AUTODOCS_TAG = 'no-autodocs';
 export const STORIES_MDX_TAG = 'stories-mdx';
 
 export class StoryStoreFacade<TRenderer extends Renderer> {
@@ -210,7 +211,9 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
     const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
     const { autodocs } = docsOptions;
     const componentAutodocs = componentTags.includes(AUTODOCS_TAG);
-    const autodocsOptedIn = autodocs === true || (autodocs === 'tag' && componentAutodocs);
+    const autodocsOptedIn =
+      !componentTags.includes(NO_AUTODOCS_TAG) &&
+      (autodocs === true || (autodocs === 'tag' && componentAutodocs));
     if (storyExports.length) {
       if (componentTags.includes(STORIES_MDX_TAG) || autodocsOptedIn) {
         const name = docsOptions.defaultName;

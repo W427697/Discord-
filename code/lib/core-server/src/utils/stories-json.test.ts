@@ -171,7 +171,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/D.stories.jsx",
               "name": "Story One",
               "tags": Array [
-                "autodocs",
+                "no-autodocs",
                 "story",
               ],
               "title": "D",
@@ -373,7 +373,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "autodocs",
+                "no-autodocs",
                 "story",
               ],
               "title": "D",
@@ -586,7 +586,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "autodocs",
+                "no-autodocs",
                 "story",
               ],
               "title": "D",
@@ -760,7 +760,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "autodocs",
+                "no-autodocs",
                 "story",
               ],
               "title": "D",

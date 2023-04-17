@@ -9,6 +9,7 @@ export default {
     storyshots: { disable: true },
     chromatic: { disable: true },
   },
+  tags: ['no-autodocs'],
   decorators: [
     // Skip errors if we are running in the test runner
     (storyFn: any) => window?.navigator?.userAgent?.match(/StorybookTestRunner/) || storyFn(),
