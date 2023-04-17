@@ -35,11 +35,11 @@ jobs:
           yarn task --task compile --start-from=compile --no-link --debug
           git diff --exit-code
 
-      - name: Cache Verdacio
-        uses: actions/cache@v3
-        with:
-          path: .verdaccio-cache
-          key: ${{ runner.os }}-verdaccio-v1
+      # - name: Cache Verdacio
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: .verdaccio-cache
+      #     key: ${{ runner.os }}-verdaccio-v1
 
       - name: Publish to Verdaccio
         working-directory: code
