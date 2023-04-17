@@ -508,6 +508,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/B.stories.ts",
                 ],
                 "tags": Array [
+                  "attached-mdx",
                   "docs",
                 ],
                 "title": "B",
@@ -566,6 +567,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/B.stories.ts",
                 ],
                 "tags": Array [
+                  "attached-mdx",
                   "docs",
                 ],
                 "title": "B",
@@ -616,6 +618,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "attached-mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -727,6 +730,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "attached-mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -740,6 +744,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "attached-mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -762,6 +767,7 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "storiesImports": Array [],
                 "tags": Array [
+                  "unattached-mdx",
                   "docs",
                 ],
                 "title": "ComponentReference",
@@ -773,6 +779,7 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "storiesImports": Array [],
                 "tags": Array [
+                  "unattached-mdx",
                   "docs",
                 ],
                 "title": "docs2/Yabbadabbadooo",
@@ -784,6 +791,7 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "storiesImports": Array [],
                 "tags": Array [
+                  "unattached-mdx",
                   "docs",
                 ],
                 "title": "NoTitle",
@@ -844,6 +852,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "attached-mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -857,6 +866,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "attached-mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -879,6 +889,7 @@ describe('StoryIndexGenerator', () => {
                 "name": "Info",
                 "storiesImports": Array [],
                 "tags": Array [
+                  "unattached-mdx",
                   "docs",
                 ],
                 "title": "ComponentReference",
@@ -890,6 +901,7 @@ describe('StoryIndexGenerator', () => {
                 "name": "Info",
                 "storiesImports": Array [],
                 "tags": Array [
+                  "unattached-mdx",
                   "docs",
                 ],
                 "title": "docs2/Yabbadabbadooo",
@@ -901,6 +913,7 @@ describe('StoryIndexGenerator', () => {
                 "name": "Info",
                 "storiesImports": Array [],
                 "tags": Array [
+                  "unattached-mdx",
                   "docs",
                 ],
                 "title": "NoTitle",
