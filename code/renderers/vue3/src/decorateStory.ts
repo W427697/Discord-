@@ -2,7 +2,7 @@ import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
 import { h } from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn, Args } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { looseEqual } from '@vue/shared';
 import type { VueRenderer } from './types';
 
