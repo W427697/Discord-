@@ -1,3 +1,13 @@
+## 7.1.0-alpha.5 (April 17, 2023)
+
+#### Maintenance
+
+-   CLI: Mark qwik as using addon-interactions [#22000](https://github.com/storybooks/storybook/pull/22000)
+
+#### Build
+
+-   Revert "Build: Update dangerfile temporarily to check for patch label" [#22108](https://github.com/storybooks/storybook/pull/22108)
+
 ## 7.1.0-alpha.4 (April 15, 2023)
 
 #### Bug Fixes
