@@ -61,7 +61,7 @@ Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./
 <CodeSnippets
   paths={[
     'common/storybook-preview-docs-dark-theme.js.mdx',
-    'common/storybook-preview-docs-dark-theme.js.mdx',
+    'common/storybook-preview-docs-dark-theme.ts.mdx',
   ]}
 />
 
