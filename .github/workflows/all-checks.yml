@@ -105,7 +105,9 @@ jobs:
       - name: Save sandbox ${{ matrix.template }}
         uses: actions/cache/save@v3
         with:
-          path: sandbox
+          path: |
+            sandbox
+            ~/.yarn/berry/cache
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
 
   build-sandboxes:
@@ -147,7 +149,7 @@ jobs:
         working-directory: scripts
         run: |
           yarn ts-node ./event-log-collector.ts &
-          yarn task --task build --template ${{ matrix.template }} --no-link --start-from never --junit
+          yarn task --task build --template ${{ matrix.template }} --no-link --start-from build --junit
 
       - name: Verify telemetry
         working-directory: scripts
