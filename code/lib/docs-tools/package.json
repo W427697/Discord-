@@ -43,7 +43,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.12.10",
     "@storybook/core-common": "7.1.0-alpha.5",
     "@storybook/preview-api": "7.1.0-alpha.5",
     "@storybook/types": "7.1.0-alpha.5",
@@ -52,6 +51,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
     "jest-specific-snapshot": "^7.0.0",
     "require-from-string": "^2.0.2",
     "typescript": "~4.9.3"
