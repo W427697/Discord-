@@ -18,11 +18,11 @@ jobs:
 
       - uses: actions/cache@v3
         with:
-          path: ${{steps.yarn-cache-dir-path.outputs.dir}}
-          key: ${{runner.os}}-yarn-v1-${{hashFiles('scripts/yarn.lock')}}-${{hashFiles('code/yarn.lock')}}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
           restore-keys: |
-            ${{runner.os}}-yarn-v1-
-            ${{runner.os}}-yarn-v1-${{hashFiles('scripts/yarn.lock')}}-
+            ${{ runner.os }}-yarn-v1-
+            ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-
 
       - uses: actions/setup-node@v3
         with:
@@ -35,7 +35,7 @@ jobs:
 
       - name: Debug
         run: |
-          ls ${{steps.yarn-cache-dir-path.outputs.dir}}}
+          ls ${{ steps.yarn-cache-dir-path.outputs.dir }}
 
       - name: compile
         run: |
