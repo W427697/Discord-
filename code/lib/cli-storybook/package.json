@@ -1,6 +1,6 @@
 {
   "name": "storybook",
-  "version": "7.1.0-alpha.2",
+  "version": "7.1.0-alpha.5",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -24,10 +24,10 @@
     "storybook": "./index.js"
   },
   "dependencies": {
-    "@storybook/cli": "7.1.0-alpha.2"
+    "@storybook/cli": "7.1.0-alpha.5"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "3f0c9a6636b9e69006ffb841234cf785598e0572"
+  "gitHead": "8e835df7a5e177b96e4e55c2fc8d4a3ac4d47ec1"
 }
