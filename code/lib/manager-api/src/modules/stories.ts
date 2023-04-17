@@ -165,7 +165,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           : storyIdOrCombo;
       const data = api.getData(storyId, refId);
 
-      if (data?.type === 'story') {
+      if (['story', 'docs'].includes(data?.type)) {
         const { parameters } = data;
 
         if (parameters) {
