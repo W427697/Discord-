@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache Yarn and Playwright
+      - name: Cache Yarn
         id: dependency-cache
         uses: actions/cache@v3
         with:
@@ -24,11 +24,11 @@ jobs:
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           restore-keys: |
-            ${{ runner.os }}-yarn-v1-
-            ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-
-            ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-
+            yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-
+            yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-
+            yarn-v1-${{ runner.os }}-
 
       - name: Install Dependencies
         run: |
@@ -71,14 +71,14 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Restore dependency cache
+      - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
           path: |
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
-          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Compile
@@ -94,13 +94,13 @@ jobs:
           fail-on-cache-miss: true
 
       - name: Create sandbox ${{ matrix.template }}
-        run: yarn task --task sandbox --template ${{ matrix.template }} --no-link --start-from=never --junit
+        run: yarn task --task sandbox --template ${{ matrix.template }} --no-link --start-from never --junit
 
       - name: Save sandbox ${{ matrix.template }}
         uses: actions/cache/save@v3
         with:
           path: sandbox
-          key: ${{ runner.os }}-sandbox-v1-${{ matrix.template }}v1-${{ github.run_id }}
+          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
 
   build-sandboxes:
     name: Build Sandbox
@@ -122,15 +122,15 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: sandbox
-          key: ${{ runner.os }}-sandbox-v1-${{ matrix.template }}v1-${{ github.run_id }}
+          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
+
       - name: Build sandbox ${{ matrix.template }}
-        working-directory: scripts
         run: |
           cd scripts &&
           yarn ts-node ./event-log-collector.ts &
           cd .. &&
-          yarn task --task build --template ${{ matrix.template }} --no-link --start-from=never --junit
+          yarn task --task build --template ${{ matrix.template }} --no-link --start-from never --junit
 
       - name: Verify Telemetry
         working-directory: scripts
@@ -140,4 +140,88 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: sandbox/*/storybook-static
-          key: ${{ runner.os }}-sandbox-v1-${{ matrix.template }}v1-${{ github.run_id }}
+          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
+
+  test-runner-production:
+    name: Test Runner Production
+    runs-on: ubuntu-latest
+    needs: build-sandboxes
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
+    strategy:
+      matrix:
+        template: [react-vite/default-ts, angular-cli/default-ts]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Restore dependencies
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ~/.yarn/berry/cache
+            code/node_modules
+            scripts/node_modules
+          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+          git diff --exit-code
+
+      - name: Restore sandbox ${{ matrix.template }}
+        uses: actions/cache/restore@v3
+        with:
+          path: sandbox
+          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Run Test Runner for production built ${{ matrix.template }}
+        run: yarn task --task test-runner --template ${{ matrix.template }} --no-link --start-from never --junit
+
+  test-runner-development:
+    name: Test Runner Development
+    runs-on: ubuntu-latest
+    needs: create-sandboxes
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
+    strategy:
+      matrix:
+        template: [react-vite/default-ts, angular-cli/default-ts]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Restore dependencies
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ~/.yarn/berry/cache
+            code/node_modules
+            scripts/node_modules
+          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+          git diff --exit-code
+
+      - name: Restore sandbox ${{ matrix.template }}
+        uses: actions/cache/restore@v3
+        with:
+          path: sandbox
+          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Run Test Runner for development ${{ matrix.template }}
+        run: yarn task --task test-runner-dev --template ${{ matrix.template }} --no-link --start-from never --junit
