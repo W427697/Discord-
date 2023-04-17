@@ -42,7 +42,7 @@ Object.defineProperty(NextImage, 'default', {
     const imageParameters = React.useContext(ImageContext);
 
     return (
-      <OriginalNextImage {...props} loader={props.loader ?? defaultLoader} {...imageParameters} />
+      <OriginalNextImage {...imageParameters} {...props} loader={props.loader ?? defaultLoader} />
     );
   },
 });
@@ -58,9 +58,9 @@ if (semver.satisfies(process.env.__NEXT_VERSION!, '^13.0.0')) {
 
       return (
         <OriginalNextLegacyImage
+          {...imageParameters}
           {...props}
           loader={props.loader ?? defaultLoader}
-          {...imageParameters}
         />
       );
     },
@@ -78,9 +78,9 @@ if (semver.satisfies(process.env.__NEXT_VERSION!, '^12.2.0')) {
 
       return (
         <OriginalNextFutureImage
+          {...imageParameters}
           {...props}
           loader={props.loader ?? defaultLoader}
-          {...imageParameters}
         />
       );
     },
