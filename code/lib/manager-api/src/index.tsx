@@ -140,7 +140,7 @@ export interface Combo {
 
 export type ManagerProviderProps = RouterData &
   API_ProviderData<API> & {
-    children: ReactNode | ((props: Combo) => ReactNode);
+    children: ReactNode | FC<Combo>;
   };
 
 // This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
