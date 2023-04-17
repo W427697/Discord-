@@ -1,3 +1,27 @@
+## 7.1.0-alpha.5 (April 17, 2023)
+
+#### Maintenance
+
+-   CLI: Mark qwik as using addon-interactions [#22000](https://github.com/storybooks/storybook/pull/22000)
+
+#### Build
+
+-   Revert "Build: Update dangerfile temporarily to check for patch label" [#22108](https://github.com/storybooks/storybook/pull/22108)
+
+## 7.1.0-alpha.4 (April 15, 2023)
+
+#### Bug Fixes
+
+-   Docs: Fix source snippets when parameters.docs.source.type = 'code' [#22048](https://github.com/storybooks/storybook/pull/22048)
+-   CLI: Mention how to setup a monorepo manually in babelrc automigration [#22052](https://github.com/storybooks/storybook/pull/22052)
+
+## 7.1.0-alpha.3 (April 13, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix upgrade command in about page [#22056](https://github.com/storybooks/storybook/pull/22056)
+-   CLI: Fix sandbox command [#21977](https://github.com/storybooks/storybook/pull/21977)
+
 ## 7.1.0-alpha.2 (April 12, 2023)
 
 #### Features

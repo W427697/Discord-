@@ -1,8 +1,9 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
-import { isVNode, h } from 'vue';
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
+import { h } from 'vue';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn, Args } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { looseEqual } from '@vue/shared';
 import type { VueRenderer } from './types';
 
 /*
@@ -24,9 +25,9 @@ function prepare(
   if (story === null) {
     return null;
   }
-
+  if (typeof story === 'function') return story;
   if (innerStory) {
-    if (typeof story === 'function') return story; // we don't need to wrap a functional component nor to convert it to a component options
+    // we don't need to wrap a functional component nor to convert it to a component options
     return {
       // Normalize so we can always spread an object
       ...normalizeFunctionalComponent(story),
@@ -45,33 +46,30 @@ export function decorateStory(
   storyFn: LegacyStoryFn<VueRenderer>,
   decorators: DecoratorFunction<VueRenderer>[]
 ): LegacyStoryFn<VueRenderer> {
+  let updatedArgs: Args;
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
-      let story: VueRenderer['storyResult'] = { isNull: true };
+      let story: VueRenderer['storyResult'] | undefined;
+
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
         story = decorated({
           ...context,
           ...sanitizeStoryContextUpdate(update),
         });
-        const argsChanged =
-          update && update.args && Object.keys(update).length === 1 && !isVNode(story);
-        // TODO: this is a hack to avoid re-rendering the story when the args are not changed
-        // we should find a better way to do this
-        // i should get only update = { args: { ...context.args, text:... } } from the decorator and not the whole context
-        if (argsChanged) {
-          story = h(story, update.args);
-        }
+
+        if (update && update.args && !looseEqual(update.args, context.args))
+          updatedArgs ??= update.args;
         return story;
       }, context);
 
-      if (story.isNull) story = decorated(context);
+      context.args = updatedArgs ?? context.args;
+      if (!story) story = decorated(context);
 
       if (decoratedStory === story) {
         return story;
       }
 
-      const props = story.props ?? context.args;
-      const innerStory = () => h(story, props);
+      const innerStory = () => h(story!, context.args);
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
