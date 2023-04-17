@@ -26,7 +26,7 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   return mergeConfig(config, {
-    plugins: [vueDocgen()],
+    plugins: [vueDocgen(config)],
     resolve: {
       alias: {
         vue: 'vue/dist/vue.esm.js',

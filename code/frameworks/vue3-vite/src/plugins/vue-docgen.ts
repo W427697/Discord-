@@ -1,9 +1,10 @@
 import { parse } from 'vue-docgen-api';
-import type { PluginOption } from 'vite';
+import type { PluginOption, InlineConfig } from 'vite';
 import { createFilter } from 'vite';
 import MagicString from 'magic-string';
+import { resolveAlias } from '@storybook/builder-vite';
 
-export function vueDocgen(): PluginOption {
+export function vueDocgen(config: InlineConfig): PluginOption {
   const include = /\.(vue)$/;
   const filter = createFilter(include);
 
@@ -13,7 +14,10 @@ export function vueDocgen(): PluginOption {
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;
 
-      const metaData = await parse(id);
+      const alias = resolveAlias(config);
+      const metaData = await parse(id, {
+        alias,
+      });
       const metaSource = JSON.stringify(metaData);
       const s = new MagicString(src);
       s.append(`;_sfc_main.__docgenInfo = ${metaSource}`);

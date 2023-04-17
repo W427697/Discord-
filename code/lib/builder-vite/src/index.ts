@@ -13,6 +13,7 @@ import type { ViteBuilder, StorybookConfigVite } from './types';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
 export { hasVitePlugins } from './utils/has-vite-plugins';
+export { resolveAlias } from './utils/resolve-alias';
 
 export * from './types';
 
