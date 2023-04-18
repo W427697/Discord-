@@ -43,9 +43,7 @@ One way we improve that situation is by pulling the rendered subcomponent out in
 <CodeSnippets
   paths={[
     'react/list-story-with-unchecked-children.js.mdx',
-    'react/list-story-with-unchecked-children.ts.mdx',
-    'solid/list-story-with-unchecked-children.js.mdx',
-    'solid/list-story-with-unchecked-children.ts.mdx',
+    'react/list-story-with-unchecked-children.ts.mdx',    
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-unchecked-children"
