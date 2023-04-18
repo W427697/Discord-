@@ -831,7 +831,7 @@ In 7.0 the location of the standalone node API has moved to `@storybook/core-ser
 If you used the React standalone API, for example, you might have written:
 
 ```js
-const { buildStandalone } = require('@storybook/react/standalone');
+const buildStandalone = require('@storybook/react/standalone');
 const options = {};
 buildStandalone(options).then(() => console.log('done'));
 ```
@@ -839,7 +839,7 @@ buildStandalone(options).then(() => console.log('done'));
 In 7.0, you would now use:
 
 ```js
-const build = require('@storybook/core-server/standalone');
+const { build } = require('@storybook/core-server');
 const options = {};
 build(options).then(() => console.log('done'));
 ```
