@@ -9,7 +9,7 @@ const meta = {
   component: Reactivity,
   args: {
     label: 'If you see this then the label arg was not reactive.',
-    header: 'If you see this, the header slot was not reactive.',
+    header: 'If you see this, the header slot was not reactive.', // this can be useless if you have custom render function that overrides the slot
   },
   play: async ({ canvasElement, id, args }) => {
     const channel = (globalThis as any).__STORYBOOK_ADDONS_CHANNEL__;
@@ -26,7 +26,7 @@ const meta = {
       storyId: id,
       updatedArgs: {
         label: 'updated label',
-        header: 'updated slot',
+        header: 'updated slot', // this can be useless if you have custom render function that overrides the slot which the case here
       },
     });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));

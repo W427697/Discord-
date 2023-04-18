@@ -1,19 +1,27 @@
 import type { Meta } from '@storybook/vue3';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Reactivity from './Reactivity.vue';
 import * as ReactiveDecorators from './ReactiveDecorators.stories';
+
+// when use custom render, you can use any vue api to create your story and garanti reactivity, otherwise i can ease kill the reactivity.
+const headerRef = ref(''); // or reactive
 
 const meta = {
   ...ReactiveDecorators.default,
   component: Reactivity,
+  argTypes: { header: { control: { type: 'text' } } },
   render: (args, { argTypes }) => {
+    headerRef.value = args.header;
     return defineComponent({
-      data: () => ({ args }),
+      data: () => ({ args, header: headerRef }),
       components: {
         Reactivity,
       },
-      template:
-        '<div>Custom render uses options api and binds args to data: <Reactivity v-bind="args"/></div>',
+      template: `<div>Custom render uses options api and binds args to data: 
+                    <Reactivity v-bind="args">
+                      <template #header="{title}">{{ header }} - Title: {{ title }}</template>
+                    </Reactivity>
+                  </div>`,
     });
   },
 } satisfies Meta<typeof Reactivity>;

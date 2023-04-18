@@ -6,8 +6,13 @@ import * as ReactiveDecorators from './ReactiveDecorators.stories';
 const meta = {
   ...ReactiveDecorators.default,
   component: Reactivity,
+  // storybook render function is not a functional component. it returns a functional component or a component options
   render: (args) => {
-    return h('div', ['Custom render is a functional component', h(Reactivity, args)]);
+    // create header slot content as a functional component
+    const header = () => h('h2', `${args.header}`);
+    // vue render function is a functional components
+    return () =>
+      h('div', [`Custom render is a functional component`, h(Reactivity, args, { header })]);
   },
 } satisfies Meta<typeof Reactivity>;
 
