@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { h, computed, reactive } from 'vue';
+import { computed } from 'vue';
 
 export default {
   name: 'override-args',
@@ -22,7 +22,7 @@ export default {
     },
   },
 
-  // @ts-expect-error (Converted from ts-ignore)
+
   setup(props, { emit }) {
     const classes = {
       'storybook-button': true,
