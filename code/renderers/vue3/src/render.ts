@@ -21,8 +21,8 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-  const slots = createOrUpdateSlots(context);
-  return h(Component, props, slots);
+
+  return h(Component, props, createOrUpdateSlots(context));
 };
 
 let setupFunction = (_app: any) => {};
@@ -100,7 +100,7 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
       const slotValue = context.args[key];
       return [key, typeof slotValue === 'function' ? slotValue : () => slotValue];
     });
-  console.log('\n\nslots', slots);
+
   return reactive(Object.fromEntries(slots));
 }
 /**
