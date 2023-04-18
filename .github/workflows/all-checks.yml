@@ -2,13 +2,14 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled, ready_for_review]
 
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
 name: All Checks
 jobs:
   compile:
     name: Prepare dependencies and compile
     runs-on: ubuntu-latest
-    env:
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,10 +39,17 @@ jobs:
           yarn task --task install --start-from install --debug
           git diff --exit-code
 
+      - name: Cache Playwright
+        id: playwright-cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
+
       # TODO: See if playwright container is faster than this
-      # - name: Install Playwright Browsers
-      #   working-directory: code
-      #   run: npx playwright ${{ steps.dependency-cache.outputs.cache-hit && 'install-deps' || 'install --with-deps' }}
+      - name: Install Playwright Browsers
+        working-directory: code
+        run: npx playwright ${{ steps.playwright-cache.outputs.cache-hit && 'install-deps' || 'install --with-deps' }}
 
       - name: Compile
         run: |
@@ -53,7 +61,7 @@ jobs:
         run: yarn local-registry --publish
 
       - name: Save Verdacio cache
-        uses: actions/cache@v3
+        uses: actions/cache/save@v3
         with:
           path: .verdaccio-cache
           key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
@@ -61,8 +69,6 @@ jobs:
   create-sandboxes:
     name: Create Sandbox
     runs-on: ubuntu-latest
-    env:
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
     needs: compile
     continue-on-error: true
     strategy:
@@ -172,7 +178,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-sandboxes
     continue-on-error: true
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     strategy:
       fail-fast: false
       matrix:
@@ -186,11 +191,6 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Zstd
-        run: |
-          apt-get update
-          apt-get install -y zstd=1.5.5
-
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -201,6 +201,12 @@ jobs:
           enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
+
+      - name: Restore Playwright
+        uses: actions/cache/restore@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
 
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
@@ -234,11 +240,6 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Zstd
-        run: |
-          apt-get update
-          apt-get install -y zstd=1.5.5
-
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -249,6 +250,12 @@ jobs:
           enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
+
+      - name: Restore Playwright
+        uses: actions/cache/restore@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
 
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
@@ -268,7 +275,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-sandboxes
     continue-on-error: true
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     strategy:
       fail-fast: false
       matrix:
@@ -282,10 +288,11 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Zstd
-        run: |
-          apt-get update
-          apt-get install -y zstd=1.5.5
+      - name: Restore Playwright
+        uses: actions/cache/restore@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
 
       - name: Restore dependencies
         uses: actions/cache/restore@v3
@@ -316,7 +323,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: create-sandboxes
     continue-on-error: true
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     strategy:
       fail-fast: false
       matrix:
@@ -330,11 +336,6 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Zstd
-        run: |
-          apt-get update
-          apt-get install -y zstd=1.5.5
-
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -345,6 +346,12 @@ jobs:
           enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
+
+      - name: Restore Playwright
+        uses: actions/cache/restore@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
 
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
