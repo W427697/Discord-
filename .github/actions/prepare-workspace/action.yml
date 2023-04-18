@@ -58,6 +58,12 @@ runs:
         path: ~/.cache/ms-playwright
         key: playwright-v1-${{ runner.os }}-v${{ steps.playwright-version.outputs.version }}
 
+    - name: Install Playwright Browsers
+      if: inputs.template
+      working-directory: code
+      shell: bash
+      run: npx playwright install-deps
+
     - name: Restore sandbox ${{ inputs.template }}
       if: inputs.sandbox == 'true'
       uses: actions/cache/restore@v3

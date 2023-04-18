@@ -51,8 +51,9 @@ jobs:
           key: playwright-v1-${{ runner.os }}-v${{ steps.playwright-version.outputs.version }}
 
       - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         working-directory: code
-        run: npx playwright ${{ steps.playwright-cache.outputs.cache-hit && 'install-deps' || 'install --with-deps' }}
+        run: npx playwright install
 
       - name: Compile
         run: |
@@ -120,7 +121,7 @@ jobs:
       - name: Build sandbox ${{ matrix.template }}
         run: |
           cd scripts && yarn ts-node event-log-collector.ts &
-          cd sandbox/react-vite-default-ts && yarn build-storybook
+          yarn task --task build --template react-vite-default-ts --no-link --start-from build --junit
 
       - name: Verify telemetry
         working-directory: scripts
