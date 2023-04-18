@@ -115,6 +115,7 @@ jobs:
         uses: ./.github/actions/prepare-workspace
         with:
           template: ${{ matrix.template }}
+          sandbox: true
 
       - name: Build sandbox ${{ matrix.template }}
         run: |
@@ -148,6 +149,7 @@ jobs:
         uses: ./.github/actions/prepare-workspace
         with:
           template: ${{ matrix.template }}
+          sandbox: true
           built-sandbox: true
 
       - name: Run Test Runner for production built ${{ matrix.template }}
@@ -170,6 +172,7 @@ jobs:
         uses: ./.github/actions/prepare-workspace
         with:
           template: ${{ matrix.template }}
+          sandbox: true
 
       - name: Run Test Runner for development ${{ matrix.template }}
         run: yarn task --task test-runner-dev --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -191,6 +194,7 @@ jobs:
         uses: ./.github/actions/prepare-workspace
         with:
           template: ${{ matrix.template }}
+          sandbox: true
           built-sandbox: true
 
       - name: Run E2E tests for production built ${{ matrix.template }}
@@ -213,6 +217,7 @@ jobs:
         uses: ./.github/actions/prepare-workspace
         with:
           template: ${{ matrix.template }}
+          sandbox: true
 
       - name: Run E2E tests for development ${{ matrix.template }}
         run: yarn task --task e2e-tests-dev --template ${{ matrix.template }} --no-link --start-from never --junit
