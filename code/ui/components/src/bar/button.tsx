@@ -15,24 +15,29 @@ interface BarLinkProps
   href: string;
 }
 
-const ButtonOrLink = React.forwardRef<
-  HTMLAnchorElement | HTMLButtonElement,
-  BarLinkProps | BarButtonProps
->(({ children, ...restProps }, ref) => {
-  return restProps.href != null ? (
-    <a ref={ref as React.ForwardedRef<HTMLAnchorElement>} {...(restProps as BarLinkProps)}>
-      {children}
-    </a>
-  ) : (
-    <button
-      ref={ref as React.ForwardedRef<HTMLButtonElement>}
-      type="button"
-      {...(restProps as BarButtonProps)}
+const ButtonOrLink:
+  | React.ForwardRefExoticComponent<
+      Omit<BarLinkProps, 'ref'> & React.RefAttributes<HTMLAnchorElement>
     >
-      {children}
-    </button>
-  );
-});
+  | React.ForwardRefExoticComponent<
+      Omit<BarButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>
+    > = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, BarLinkProps | BarButtonProps>(
+  ({ children, ...restProps }, ref) => {
+    return restProps.href != null ? (
+      <a ref={ref as React.ForwardedRef<HTMLAnchorElement>} {...(restProps as BarLinkProps)}>
+        {children}
+      </a>
+    ) : (
+      <button
+        ref={ref as React.ForwardedRef<HTMLButtonElement>}
+        type="button"
+        {...(restProps as BarButtonProps)}
+      >
+        {children}
+      </button>
+    );
+  }
+) as any;
 
 ButtonOrLink.displayName = 'ButtonOrLink';
 
