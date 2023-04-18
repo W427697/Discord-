@@ -5,7 +5,7 @@ defineProps<{ label: string }>();
   <div style="padding: 20px;background-color: pink;">
     <header data-testid="header-slot">
       <slot name="header" title="Header title from the slot">
-        Header slot placeholder
+        If you see this, the header slot was not reactive.
       </slot>
     </header>
     <div id="content">

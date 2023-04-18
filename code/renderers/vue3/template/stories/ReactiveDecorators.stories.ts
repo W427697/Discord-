@@ -7,7 +7,10 @@ import Reactivity from './Reactivity.vue';
 
 const meta = {
   component: Reactivity,
-  args: { label: 'initial' },
+  args: {
+    label: 'If you see this then the label arg was not reactive.',
+    header: 'If you see this, the header slot was not reactive.',
+  },
   play: async ({ canvasElement, id, args }) => {
     const channel = (globalThis as any).__STORYBOOK_ADDONS_CHANNEL__;
 
@@ -21,7 +24,10 @@ const meta = {
 
     await channel.emit(UPDATE_STORY_ARGS, {
       storyId: id,
-      updatedArgs: { label: 'updated label' },
+      updatedArgs: {
+        label: 'updated label',
+        header: 'updated slot',
+      },
     });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
   },
@@ -30,86 +36,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const NoDecorators: Story = {
-  args: { label: 'No decorators' },
-  render: (args) => {
-    return h('div', ['Custom render is a functional component:.', h(Reactivity, args)]);
-  },
-};
-
-/**
- * Decorator should either be a function that returns a VNode or a component
- * so using VNode is not recommended to wrap the story if you want to use args in reactive mode
- */
-export const DecoratorVNode: Story = {
-  args: { label: 'Decorator not using args' },
-  decorators: [
-    (storyFn, context) => {
-      return h('div', h(storyFn(context.args)));
-    },
-  ],
-};
-
-export const DecoratorVNodeArgsFromContext: Story = {
-  args: { label: 'Decorator using label from context' },
-  decorators: [
-    (storyFn, context) => {
-      return h('div', [
-        h('h2', `Decorator use args: ${context.args.label}`),
-        [h(storyFn(context.args))],
-      ]);
-    },
-  ],
-};
-
-export const DecoratorVNodeTemplate: Story = {
-  args: { label: 'Decorator not using args' },
-  decorators: [
-    (storyFn, context) => {
-      return h({
-        components: {
-          story: storyFn(context.args),
-        },
-        template: '<div><h2>Decorator not using args</h2><story/></div>',
-      });
-    },
-  ],
-};
-
-export const DecoratorVNodeTemplateArgsFromData: Story = {
-  decorators: [
-    (storyFn, context) => {
-      return h({
-        components: {
-          story: storyFn(context.args),
-        },
-        data() {
-          return { args: context.args };
-        },
-        template: '<div><h2>Decorator using label: {{args.label}}</h2><story/></div>',
-      });
-    },
-  ],
-};
-
-export const DecoratorVNodeTemplateArgsFromProps: Story = {
-  decorators: [
-    (storyFn, context) => {
-      return h({
-        components: {
-          story: storyFn(),
-        },
-        props: ['label'],
-        template: '<div><h1>Decorator using label: {{label}}</h1><story/></div>',
-      });
-    },
-  ],
-};
+export const NoDecorators: Story = {};
 
 export const DecoratorFunctionalComponent: Story = {
   decorators: [
     (storyFn, context) => {
-      return () => h('div', [h('h2', ['Decorator not using args']), [h(storyFn())]]);
+      const story = storyFn();
+      return () => h('div', [h('h2', ['Decorator not using args']), [h(story, context.args)]]);
     },
   ],
 };
@@ -117,8 +50,12 @@ export const DecoratorFunctionalComponent: Story = {
 export const DecoratorFunctionalComponentArgsFromContext: Story = {
   decorators: [
     (storyFn, context) => {
+      const story = storyFn();
       return () =>
-        h('div', [h('h2', ['Decorator using args.label: ', context.args.label]), [h(storyFn())]]);
+        h('div', [
+          h('h2', ['Decorator using args.label: ', context.args.label]),
+          [h(story, context.args)],
+        ]);
     },
   ],
 };
@@ -126,9 +63,9 @@ export const DecoratorFunctionalComponentArgsFromContext: Story = {
 export const DecoratorFunctionalComponentArgsFromProps: Story = {
   decorators: [
     (storyFn, context) => {
-      return (args) => {
-        return h('div', [h('h2', `Decorator using args.label: ${args.label}`), h(storyFn())]);
-      };
+      const story = storyFn();
+      return (args) =>
+        h('div', [h('h2', `Decorator using args.label: ${args.label}`), h(story, context.args)]);
     },
   ],
 };
@@ -147,9 +84,7 @@ export const DecoratorComponentOptionsArgsFromData: Story = {
   decorators: [
     (storyFn, context) => {
       return {
-        data: () => ({
-          args: context.args,
-        }),
+        data: () => ({ args: context.args }),
         template: '<div><h2>Decorator using args.label: {{args.label}}</h2><story/></div>',
       };
     },
