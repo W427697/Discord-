@@ -13,7 +13,6 @@ const state = shallowReactive<{ header: any; default: any; footer: any }>({
 const meta = {
   ...ReactiveDecorators.default,
   component: Reactivity,
-  argTypes: { header: { control: { type: 'text' } } },
   render: (args, { argTypes }) => {
     state.header = args.header;
     state.default = args.default;
@@ -27,8 +26,8 @@ const meta = {
       template: `<div>Custom render uses options api and binds args to data: 
                     <Reactivity v-bind="args">
                       <template #header="{title}">{{ header }} - Title: {{ title }}</template>
-                      <template #default="{title}">{{ default }} - Title: {{ title }}</template>
-                      <template #footer="{title}">{{ footer }} - Title: {{ title }}</template>
+                      <template #default>{{ args.default }}</template>
+                      <template #footer>{{ footer }} </template>
                     </Reactivity>
                   </div>`,
     });
