@@ -25,10 +25,12 @@ runs:
       with:
         path: |
           ~/.yarn/berry/cache
-          code/node_modules
-          scripts/node_modules
         key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
         fail-on-cache-miss: true
+
+    - name: Install Dependencies
+      run: |
+        yarn task --task install --start-from install --debug
 
     - name: Compile
       shell: bash

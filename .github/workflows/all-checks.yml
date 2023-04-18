@@ -27,8 +27,6 @@ jobs:
         with:
           path: |
             ~/.yarn/berry/cache
-            code/node_modules
-            scripts/node_modules
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           restore-keys: |
             yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-
@@ -75,7 +73,7 @@ jobs:
       - name: Generate sandbox matrix for Creation
         id: create-sandbox-matrix
         run: |
-          echo "matrix=$(cd scripts && yarn ts-node generate-sandbox-matrix.ts)"
+          echo "matrix=$(cd scripts && yarn ts-node generate-sandbox-matrix.ts)" >> $GITHUB_OUTPUT
 
   create-sandboxes:
     name: Create Sandbox
