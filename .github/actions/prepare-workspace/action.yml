@@ -5,12 +5,6 @@ inputs:
   template:
     description: 'Which sandbox template to prepare, if any.'
     required: false
-  sandbox:
-    description: 'Set to `true` to restore a created sandbox'
-    required: false
-  built-sandbox:
-    description: 'Set to `true` to restore the build output of the sandbox'
-    required: false
   playwright:
     description: 'Set to `true` to install Playwright browsers'
     required: false
@@ -69,21 +63,3 @@ runs:
       working-directory: code
       shell: bash
       run: npx playwright install-deps
-
-    - name: Restore sandbox ${{ inputs.template }}
-      if: inputs.sandbox == 'true'
-      uses: actions/cache/restore@v3
-      with:
-        path: |
-          sandbox
-          ~/.yarn/berry/cache
-        key: sandbox-v1-${{ inputs.template }}-${{ github.run_id }}
-        fail-on-cache-miss: true
-
-    - name: Restore built sandbox ${{ inputs.template }}
-      if: inputs.built-sandbox == 'true'
-      uses: actions/cache/restore@v3
-      with:
-        path: sandbox/*/storybook-static
-        key: sandbox-built-v1-${{ matrix.template }}-${{ github.run_id }}
-        fail-on-cache-miss: true
