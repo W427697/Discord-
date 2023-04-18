@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache dependencies
+      - name: Restore dependencies
         id: dependency-cache
         uses: actions/cache@v3
         with:
@@ -41,9 +41,9 @@ jobs:
         id: playwright-version
         working-directory: code
         run: |
-          echo "version=$(yarn info playwright --json | jq ".children.Version")" >> $GITHUB_OUTPUT
+          echo "version=$(yarn info playwright --json | jq --raw-output ".children.Version")" >> $GITHUB_OUTPUT
 
-      - name: Cache Playwright
+      - name: Restore Playwright v${{ steps.playwright-version.outputs.version }}
         id: playwright-cache
         uses: actions/cache@v3
         with:

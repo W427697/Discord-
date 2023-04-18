@@ -28,6 +28,7 @@ runs:
         fail-on-cache-miss: true
 
     - name: Compile
+      shell: bash
       run: |
         yarn task --task compile --start-from=compile --no-link --debug
         git diff --exit-code
@@ -43,10 +44,11 @@ runs:
       if: inputs.template
       id: playwright-version
       working-directory: code
+      shell: bash
       run: |
-        echo "version=$(yarn info playwright --json | jq ".children.Version")" >> $GITHUB_OUTPUT
+        echo "version=$(yarn info playwright --json | jq --raw-output ".children.Version")" >> $GITHUB_OUTPUT
 
-    - name: Restore Playwright
+    - name: Restore Playwright v${{ steps.playwright-version.outputs.version }}
       if: inputs.template
       uses: actions/cache/restore@v3
       with:
