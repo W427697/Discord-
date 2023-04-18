@@ -48,15 +48,15 @@ jobs:
           yarn task --task compile --start-from=compile --no-link --debug
           git diff --exit-code
 
-      # - name: Cache Verdacio
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: .verdaccio-cache
-      #     key: ${{ runner.os }}-verdaccio-v1
-
       - name: Publish to Verdaccio
         working-directory: code
         run: yarn local-registry --publish
+
+      - name: Save Verdacio cache
+        uses: actions/cache@v3
+        with:
+          path: .verdaccio-cache
+          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
 
   create-sandboxes:
     name: Create Sandbox
@@ -98,7 +98,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: .verdaccio-cache
-          key: ${{ runner.os }}-verdaccio-v1
+          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Create sandbox ${{ matrix.template }}
@@ -145,7 +145,9 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           enableCrossOsArchive: true
-          path: sandbox
+          path: |
+            sandbox
+            ~/.yarn/berry/cache
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -184,6 +186,11 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install Zstd
+        run: |
+          apt-get update
+          apt-get install -y zstd=1.5.5
+
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -198,7 +205,9 @@ jobs:
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
         with:
-          path: sandbox
+          path: |
+            sandbox
+            ~/.yarn/berry/cache
           enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
@@ -225,6 +234,11 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install Zstd
+        run: |
+          apt-get update
+          apt-get install -y zstd=1.5.5
+
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -239,7 +253,9 @@ jobs:
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
         with:
-          path: sandbox
+          path: |
+            sandbox
+            ~/.yarn/berry/cache
           enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
@@ -266,6 +282,11 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install Zstd
+        run: |
+          apt-get update
+          apt-get install -y zstd=1.5.5
+
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -280,7 +301,9 @@ jobs:
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
         with:
-          path: sandbox
+          path: |
+            sandbox
+            ~/.yarn/berry/cache
           enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
@@ -307,6 +330,11 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install Zstd
+        run: |
+          apt-get update
+          apt-get install -y zstd=1.5.5
+
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -321,7 +349,9 @@ jobs:
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
         with:
-          path: sandbox
+          path: |
+            sandbox
+            ~/.yarn/berry/cache
           enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
