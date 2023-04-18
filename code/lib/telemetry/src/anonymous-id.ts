@@ -13,12 +13,14 @@ export function normalizeGitUrl(rawUrl: string) {
 
   // Now strip off scheme
   const urlWithoutScheme = urlWithoutUser.replace(/^.*\/\//, '');
+  console.warn({ rawUrl, urlWithoutHash, urlWithoutUser, urlWithoutScheme })
 
   return urlWithoutScheme.replace(':', '/');
 }
 
 let anonymousProjectId: string;
 export const getAnonymousProjectId = () => {
+  console.warn({ anonymousProjectId });
   if (anonymousProjectId) {
     return anonymousProjectId;
   }
@@ -28,6 +30,7 @@ export const getAnonymousProjectId = () => {
     const projectRoot = getProjectRoot();
 
     const projectRootPath = path.relative(projectRoot, process.cwd());
+    console.warn({ projectRoot, projectRootPath, cwd: process.cwd() });
 
     const originBuffer = execSync(`git config --local --get remote.origin.url`, {
       timeout: 1000,
@@ -38,7 +41,10 @@ export const getAnonymousProjectId = () => {
     // to separate multiple storybooks from the same project (e.g. monorepo)
     unhashedProjectId = `${normalizeGitUrl(String(originBuffer))}${projectRootPath}`;
 
+    console.warn({unhashedProjectId});
+
     anonymousProjectId = oneWayHash(unhashedProjectId);
+    console.warn({anonymousProjectId});
   } catch (_) {
     //
   }

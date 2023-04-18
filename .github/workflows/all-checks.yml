@@ -10,6 +10,8 @@ jobs:
   compile:
     name: Prepare dependencies and compile
     runs-on: ubuntu-latest
+    outputs:
+      create-sandbox-matrix: ${{ steps.create-sandbox-matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -70,6 +72,11 @@ jobs:
           path: .verdaccio-cache
           key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
 
+      - name: Generate sandbox matrix for Creation
+        id: create-sandbox-matrix
+        run: |
+          echo "matrix=$(cd scripts && yarn ts-node generate-sandbox-matrix.ts)"
+
   create-sandboxes:
     name: Create Sandbox
     runs-on: ubuntu-latest
@@ -77,8 +84,7 @@ jobs:
     continue-on-error: true
     strategy:
       fail-fast: false
-      matrix:
-        template: [react-vite/default-ts]
+      matrix: ${{ fromJSON(needs.compile.outputs.create-sandbox-matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
