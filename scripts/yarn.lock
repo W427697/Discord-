@@ -2849,7 +2849,7 @@ __metadata:
     "@types/node": ^16.0.0
     "@types/node-fetch": ^2.5.7
     "@types/prompts": 2.0.11
-    "@types/react": ^18.0.28
+    "@types/react": ^18.0.37
     "@types/react-dom": ^18.0.11
     "@types/semver": ^7.3.4
     "@types/serve-static": ^1.13.8
@@ -3559,14 +3559,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.28":
-  version: 18.0.35
-  resolution: "@types/react@npm:18.0.35"
+"@types/react@npm:*, @types/react@npm:^18.0.37":
+  version: 18.0.37
+  resolution: "@types/react@npm:18.0.37"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 0a7aff2a500bf3d9f7b467f1125d8e83922f39635442b8c0f227fc4b08f2960c4d95457ac248d3b98f64632b0b38a845dcd0ec364300decd70b7239222a96ac7
+  checksum: 1919fb9fb48d574fafeb196aced7ea1ee345525597afa6ad01049c7ce090a732bc500c4a392deb0a5fb9165d5ae5fe720b795e3023bb5a9b2b2a0fae059b4407
   languageName: node
   linkType: hard
 
