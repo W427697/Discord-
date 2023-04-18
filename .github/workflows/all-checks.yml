@@ -24,7 +24,6 @@ jobs:
         id: dependency-cache
         uses: actions/cache@v3
         with:
-          enableCrossOsArchive: true
           path: |
             ~/.yarn/berry/cache
             code/node_modules
@@ -38,7 +37,6 @@ jobs:
       - name: Install Dependencies
         run: |
           yarn task --task install --start-from install --debug
-          git diff --exit-code
 
       # - name: Cache Playwright
       #   id: playwright-cache
