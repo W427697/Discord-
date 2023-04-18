@@ -1,43 +1,74 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
-import React from 'react';
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  DetailedHTMLProps,
+  ForwardedRef,
+  ForwardRefExoticComponent,
+  ReactElement,
+  RefAttributes,
+} from 'react';
+import React, { forwardRef } from 'react';
 import { styled, isPropValid } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { auto } from '@popperjs/core';
 
-interface BarButtonProps
+interface ButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-  href?: void;
-  target?: void;
+  href?: never;
+  target?: never;
 }
-interface BarLinkProps
+interface LinkProps
   extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
   disabled?: void;
   href: string;
 }
 
-const ButtonOrLink:
-  | React.ForwardRefExoticComponent<
-      Omit<BarLinkProps, 'ref'> & React.RefAttributes<HTMLAnchorElement>
-    >
-  | React.ForwardRefExoticComponent<
-      Omit<BarButtonProps, 'ref'> & React.RefAttributes<HTMLButtonElement>
-    > = React.forwardRef<HTMLAnchorElement | HTMLButtonElement, BarLinkProps | BarButtonProps>(
-  ({ children, ...restProps }, ref) => {
-    return restProps.href != null ? (
-      <a ref={ref as React.ForwardedRef<HTMLAnchorElement>} {...(restProps as BarLinkProps)}>
+const isLink = (obj: {
+  props: ButtonProps | LinkProps;
+  ref: ForwardedRef<HTMLButtonElement> | ForwardedRef<HTMLAnchorElement>;
+}): obj is { props: LinkProps; ref: ForwardedRef<HTMLAnchorElement> } => {
+  return typeof obj.props.href === 'string';
+};
+
+const isButton = (obj: {
+  props: ButtonProps | LinkProps;
+  ref: ForwardedRef<HTMLButtonElement> | ForwardedRef<HTMLAnchorElement>;
+}): obj is { props: ButtonProps; ref: ForwardedRef<HTMLButtonElement> } => {
+  return typeof obj.props.href !== 'string';
+};
+
+function ForwardRefFunction(p: LinkProps, r: ForwardedRef<HTMLAnchorElement>): ReactElement;
+function ForwardRefFunction(p: ButtonProps, r: ForwardedRef<HTMLButtonElement>): ReactElement;
+function ForwardRefFunction(
+  { children, ...rest }: ButtonProps | LinkProps,
+  ref: ForwardedRef<HTMLButtonElement> | ForwardedRef<HTMLAnchorElement>
+) {
+  const o = { props: rest, ref };
+  if (isLink(o)) {
+    return (
+      <a ref={o.ref} {...o.props}>
         {children}
       </a>
-    ) : (
-      <button
-        ref={ref as React.ForwardedRef<HTMLButtonElement>}
-        type="button"
-        {...(restProps as BarButtonProps)}
-      >
+    );
+  }
+  if (isButton(o)) {
+    return (
+      <button ref={o.ref} type="button" {...o.props}>
         {children}
       </button>
     );
   }
-) as any;
+  throw new Error('invalid props');
+}
+type ButtonLike = ForwardRefExoticComponent<
+  Omit<ButtonProps, 'ref'> & RefAttributes<HTMLButtonElement>
+>;
+
+type LinkLike = ForwardRefExoticComponent<
+  Omit<LinkProps, 'ref'> & RefAttributes<HTMLAnchorElement>
+>;
+
+const ButtonOrLink: ButtonLike | LinkLike = forwardRef(ForwardRefFunction) as ButtonLike | LinkLike;
 
 ButtonOrLink.displayName = 'ButtonOrLink';
 

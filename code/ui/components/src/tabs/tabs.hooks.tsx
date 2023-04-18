@@ -106,7 +106,7 @@ export function useList(list: ChildrenList) {
                 style={{ visibility: 'hidden' }}
                 aria-hidden
                 tabIndex={-1}
-                ref={(ref: HTMLButtonElement) => {
+                ref={(ref) => {
                   tabRefs.current.set(id, ref);
                 }}
                 className="tabbutton"

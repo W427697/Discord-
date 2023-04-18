@@ -1,4 +1,4 @@
-import type { FC, MouseEvent, PropsWithChildren, ReactElement, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactElement, ReactNode, SyntheticEvent } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
@@ -163,7 +163,7 @@ export const Tabs: FC<TabsProps> = memo(
                   key={id}
                   active={active}
                   textColor={color}
-                  onClick={(e: MouseEvent) => {
+                  onClick={(e: SyntheticEvent) => {
                     e.preventDefault();
                     actions.onSelect(id);
                   }}
