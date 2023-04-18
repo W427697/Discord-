@@ -1,9 +1,18 @@
 /* eslint-disable no-param-reassign */
+import type { ConcreteComponent } from 'vue';
 import { createApp, h, isReactive, isVNode, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
-import type { VueRenderer, StoryFnVueReturnType } from './types';
+import type { VueRenderer, StoryFnVueReturnType, StoryID } from './types';
+
+const slotsMap = new Map<
+  StoryID,
+  {
+    component?: Omit<ConcreteComponent<any>, 'props'>;
+    reactiveSlots?: Args;
+  }
+>();
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -12,8 +21,8 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-
-  return h(Component, props, generateSlots(context));
+  const slots = createOrUpdateSlots(context);
+  return h(Component, props, slots);
 };
 
 let setupFunction = (_app: any) => {};
@@ -22,10 +31,11 @@ export const setup = (fn: (app: any) => void) => {
 };
 
 const map = new Map<
-  VueRenderer['canvasElement'],
+  VueRenderer['canvasElement'] | StoryID,
   {
     vueApp: ReturnType<typeof createApp>;
     reactiveArgs: Args;
+    reactiveSlots?: Args;
   }
 >();
 
@@ -90,7 +100,7 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
       const slotValue = context.args[key];
       return [key, typeof slotValue === 'function' ? slotValue : () => slotValue];
     });
-
+  console.log('\n\nslots', slots);
   return reactive(Object.fromEntries(slots));
 }
 /**
@@ -136,4 +146,16 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
+}
+
+function createOrUpdateSlots(context: StoryContext<VueRenderer, Args>) {
+  const { id: storyID, component } = context;
+  const slots = generateSlots(context);
+  if (slotsMap.has(storyID)) {
+    const app = slotsMap.get(storyID);
+    if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
+    return app?.reactiveSlots;
+  }
+  slotsMap.set(storyID, { component, reactiveSlots: slots });
+  return slots;
 }
