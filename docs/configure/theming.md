@@ -79,7 +79,7 @@ Inside your `.storybook` directory, create a new file called `YourTheme.js` and 
 
 <CodeSnippets
   paths={[
-    'common/storybook-theme-example-variables.ts.mdx',
+    'common/storybook-theme-example-variables.js.mdx',
   ]}
 />
 
