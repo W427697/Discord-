@@ -60,12 +60,12 @@ function ForwardRefFunction(
   }
   throw new Error('invalid props');
 }
-type ButtonLike = ForwardRefExoticComponent<
-  Omit<ButtonProps, 'ref'> & RefAttributes<HTMLButtonElement>
+type ButtonLike<P = {}> = ForwardRefExoticComponent<
+  Omit<ButtonProps, 'ref'> & RefAttributes<HTMLButtonElement> & P
 >;
 
-type LinkLike = ForwardRefExoticComponent<
-  Omit<LinkProps, 'ref'> & RefAttributes<HTMLAnchorElement>
+type LinkLike<P = {}> = ForwardRefExoticComponent<
+  Omit<LinkProps, 'ref'> & RefAttributes<HTMLAnchorElement> & P
 >;
 
 const ButtonOrLink: ButtonLike | LinkLike = forwardRef(ForwardRefFunction) as ButtonLike | LinkLike;

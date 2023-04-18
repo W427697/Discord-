@@ -97,7 +97,7 @@ const ItemContent: FC<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
   </>
 );
 
-const DismissButtonWrapper = styled(IconButton)(({ theme }) => ({
+const DismissButtonWrapper: typeof IconButton = styled(IconButton)(({ theme }) => ({
   alignSelf: 'center',
   marginTop: 0,
   color: theme.base === 'light' ? 'rgba(255,255,255,0.7)' : ' #999999',
