@@ -121,7 +121,7 @@ jobs:
       - name: Build sandbox ${{ matrix.template }}
         run: |
           cd scripts && yarn ts-node event-log-collector.ts &
-          yarn task --task build --template react-vite-default-ts --no-link --start-from build --junit
+          yarn task --task build --template react-vite/default-ts --no-link --start-from build --junit
 
       - name: Verify telemetry
         working-directory: scripts
