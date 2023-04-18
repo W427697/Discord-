@@ -10,8 +10,12 @@ const meta = {
     return defineComponent({
       props: Object.keys(argTypes),
       components: { Reactivity },
-      template:
-        '<div>Custom render uses options api and binds args to props: <Reactivity v-bind="$props"/></div>',
+      template: `<div>Custom render uses options api and binds args to props: <Reactivity v-bind="$props">
+         <template #header="{title}">{{ header }} - Title: {{ title }}</template>
+         {{ $props.default }}
+         <template #footer>{{ footer }}</template>
+         </Reactivity>
+        </div>`,
     });
   },
 } satisfies Meta<typeof Reactivity>;

@@ -4,7 +4,11 @@ import Reactivity from './Reactivity.vue';
 import * as ReactiveDecorators from './ReactiveDecorators.stories';
 
 // when you use custom render, you can use any vue api to create your story and garanti reactivity, otherwise i can ease kill the reactivity.
-const state = shallowReactive<{ header: any }>({ header: '' }); // or reactive
+const state = shallowReactive<{ header: any; default: any; footer: any }>({
+  header: '',
+  default: '',
+  footer: '',
+}); // or reactive
 
 const meta = {
   ...ReactiveDecorators.default,
@@ -12,14 +16,19 @@ const meta = {
   argTypes: { header: { control: { type: 'text' } } },
   render: (args, { argTypes }) => {
     state.header = args.header;
+    state.default = args.default;
+    state.footer = args.footer;
+    // return a component options
     return defineComponent({
-      data: () => ({ args, header: state.header }),
+      data: () => ({ args, header: state.header, default: state.default, footer: state.footer }),
       components: {
         Reactivity,
       },
       template: `<div>Custom render uses options api and binds args to data: 
                     <Reactivity v-bind="args">
                       <template #header="{title}">{{ header }} - Title: {{ title }}</template>
+                      <template #default="{title}">{{ default }} - Title: {{ title }}</template>
+                      <template #footer="{title}">{{ footer }} - Title: {{ title }}</template>
                     </Reactivity>
                   </div>`,
     });
