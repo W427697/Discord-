@@ -156,6 +156,7 @@ jobs:
           template: ${{ matrix.template }}
           sandbox: true
           built-sandbox: true
+          playwright: true
 
       - name: Run Test Runner for production built ${{ matrix.template }}
         run: yarn task --task test-runner --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -178,6 +179,7 @@ jobs:
         with:
           template: ${{ matrix.template }}
           sandbox: true
+          playwright: true
 
       - name: Run Test Runner for development ${{ matrix.template }}
         run: yarn task --task test-runner-dev --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -201,6 +203,7 @@ jobs:
           template: ${{ matrix.template }}
           sandbox: true
           built-sandbox: true
+          playwright: true
 
       - name: Run E2E tests for production built ${{ matrix.template }}
         run: yarn task --task e2e-tests --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -223,6 +226,7 @@ jobs:
         with:
           template: ${{ matrix.template }}
           sandbox: true
+          playwright: true
 
       - name: Run E2E tests for development ${{ matrix.template }}
         run: yarn task --task e2e-tests-dev --template ${{ matrix.template }} --no-link --start-from never --junit

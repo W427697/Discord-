@@ -11,6 +11,9 @@ inputs:
   built-sandbox:
     description: 'Set to `true` to restore the build output of the sandbox'
     required: false
+  playwright:
+    description: 'Set to `true` to install Playwright browsers'
+    required: false
 
 runs:
   using: 'composite'
@@ -47,7 +50,7 @@ runs:
         fail-on-cache-miss: true
 
     - name: Get Playwright version
-      if: inputs.template
+      if: inputs.playwright
       id: playwright-version
       working-directory: code
       shell: bash
@@ -55,14 +58,14 @@ runs:
         echo "version=$(yarn info playwright --json | jq --raw-output ".children.Version")" >> $GITHUB_OUTPUT
 
     - name: Restore Playwright v${{ steps.playwright-version.outputs.version }}
-      if: inputs.template
+      if: inputs.playwright
       uses: actions/cache/restore@v3
       with:
         path: ~/.cache/ms-playwright
         key: playwright-v1-${{ runner.os }}-v${{ steps.playwright-version.outputs.version }}
 
     - name: Install Playwright Browsers
-      if: inputs.template
+      if: inputs.playwright
       working-directory: code
       shell: bash
       run: npx playwright install-deps

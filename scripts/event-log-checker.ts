@@ -87,7 +87,7 @@ async function run() {
 
     test(`main event should contain anonymousId properly hashed`, () => {
       const templateDir = `sandbox/${templateName.replace('/', '-')}`;
-      const unhashedId = `github.com/storybookjs/storybook.git${templateDir}`;
+      const unhashedId = `github.com/storybookjs/storybook${templateDir}`;
       assert.equal(mainEvent.context.anonymousId, oneWayHash(unhashedId));
     });
 
