@@ -10,6 +10,7 @@ jobs:
   compile:
     name: Prepare dependencies and compile
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,17 +40,17 @@ jobs:
           yarn task --task install --start-from install --debug
           git diff --exit-code
 
-      - name: Cache Playwright
-        id: playwright-cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
+      # - name: Cache Playwright
+      #   id: playwright-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.cache/ms-playwright
+      #     key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
 
       # TODO: See if playwright container is faster than this
-      - name: Install Playwright Browsers
-        working-directory: code
-        run: npx playwright ${{ steps.playwright-cache.outputs.cache-hit && 'install-deps' || 'install --with-deps' }}
+      # - name: Install Playwright Browsers
+      #   working-directory: code
+      #   run: npx playwright ${{ steps.playwright-cache.outputs.cache-hit && 'install-deps' || 'install --with-deps' }}
 
       - name: Compile
         run: |
@@ -69,6 +70,7 @@ jobs:
   create-sandboxes:
     name: Create Sandbox
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: compile
     continue-on-error: true
     strategy:
@@ -121,6 +123,7 @@ jobs:
   build-sandboxes:
     name: Build Sandbox
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: create-sandboxes
     continue-on-error: true
     strategy:
@@ -139,12 +142,23 @@ jobs:
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
-          enableCrossOsArchive: true
           path: |
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+          git diff --exit-code
+
+      - name: Restore Verdaccio cache
+        uses: actions/cache/restore@v3
+        with:
+          path: .verdaccio-cache
+          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Restore sandbox ${{ matrix.template }}
@@ -175,6 +189,7 @@ jobs:
   test-runner-production:
     name: Test Runner Production
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: build-sandboxes
     continue-on-error: true
     strategy:
@@ -223,6 +238,7 @@ jobs:
   test-runner-development:
     name: Test Runner Development
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: create-sandboxes
     continue-on-error: true
     strategy:
@@ -249,11 +265,17 @@ jobs:
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
-      - name: Restore Playwright
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+          git diff --exit-code
+
+      - name: Restore Verdaccio cache
         uses: actions/cache/restore@v3
         with:
-          path: ~/.cache/ms-playwright
-          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
+          path: .verdaccio-cache
+          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
+          fail-on-cache-miss: true
 
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
@@ -261,7 +283,6 @@ jobs:
           path: |
             sandbox
             ~/.yarn/berry/cache
-          enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -271,6 +292,7 @@ jobs:
   e2e-production:
     name: E2E Production
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: build-sandboxes
     continue-on-error: true
     strategy:
@@ -286,12 +308,6 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Restore Playwright
-        uses: actions/cache/restore@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
-
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
@@ -301,6 +317,18 @@ jobs:
             scripts/node_modules
           enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+          git diff --exit-code
+
+      - name: Restore Verdaccio cache
+        uses: actions/cache/restore@v3
+        with:
+          path: .verdaccio-cache
+          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Restore sandbox ${{ matrix.template }}
@@ -319,6 +347,7 @@ jobs:
   e2e-development:
     name: E2E Development
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: create-sandboxes
     continue-on-error: true
     strategy:
@@ -345,11 +374,17 @@ jobs:
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
-      - name: Restore Playwright
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+          git diff --exit-code
+
+      - name: Restore Verdaccio cache
         uses: actions/cache/restore@v3
         with:
-          path: ~/.cache/ms-playwright
-          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
+          path: .verdaccio-cache
+          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
+          fail-on-cache-miss: true
 
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
