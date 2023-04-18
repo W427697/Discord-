@@ -29,6 +29,7 @@ runs:
         fail-on-cache-miss: true
 
     - name: Install Dependencies
+      shell: bash
       run: |
         yarn task --task install --start-from install --debug
 
