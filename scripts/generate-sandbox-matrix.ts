@@ -1,7 +1,7 @@
 import { templatesByCadence } from '../code/lib/cli/src/sandbox-templates';
 
 async function run() {
-  console.log(JSON.stringify({ template: templatesByCadence.ci }, null, 2));
+  console.log(JSON.stringify({ template: templatesByCadence.ci }));
 }
 
 if (require.main === module) {
