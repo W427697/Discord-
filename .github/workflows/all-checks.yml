@@ -10,12 +10,9 @@ jobs:
   compile:
     name: Prepare dependencies and compile
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -40,17 +37,22 @@ jobs:
         run: |
           yarn task --task install --start-from install --debug
 
-      # - name: Cache Playwright
-      #   id: playwright-cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.cache/ms-playwright
-      #     key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
+      - name: Get Playwight version
+        id: playwright-version
+        working-directory: code
+        run: |
+          echo "version=$(yarn info playwright --json | jq ".children.Version")" >> $GITHUB_OUTPUT
 
-      # TODO: See if playwright container is faster than this
-      # - name: Install Playwright Browsers
-      #   working-directory: code
-      #   run: npx playwright ${{ steps.playwright-cache.outputs.cache-hit && 'install-deps' || 'install --with-deps' }}
+      - name: Cache Playwright
+        id: playwright-cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-v1-${{ runner.os }}-v${{ steps.playwright-version.outputs.version }}
+
+      - name: Install Playwright Browsers
+        working-directory: code
+        run: npx playwright ${{ steps.playwright-cache.outputs.cache-hit && 'install-deps' || 'install --with-deps' }}
 
       - name: Compile
         run: |
@@ -70,7 +72,6 @@ jobs:
   create-sandboxes:
     name: Create Sandbox
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: compile
     continue-on-error: true
     strategy:
@@ -81,33 +82,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Prepare workspace
+        uses: ./.github/actions/prepare-workspace
         with:
-          node-version: '16'
-
-      - name: Restore dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            ~/.yarn/berry/cache
-            code/node_modules
-            scripts/node_modules
-          enableCrossOsArchive: true
-          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Compile
-        run: |
-          yarn task --task compile --start-from=compile --no-link --debug
-          git diff --exit-code
-
-      - name: Restore Verdaccio cache
-        uses: actions/cache/restore@v3
-        with:
-          path: .verdaccio-cache
-          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
-          fail-on-cache-miss: true
+          template: ${{ matrix.template }}
 
       - name: Create sandbox ${{ matrix.template }}
         run: yarn task --task sandbox --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -123,7 +101,6 @@ jobs:
   build-sandboxes:
     name: Build Sandbox
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: create-sandboxes
     continue-on-error: true
     strategy:
@@ -134,42 +111,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Prepare workspace
+        uses: ./.github/actions/prepare-workspace
         with:
-          node-version: '16'
-
-      - name: Restore dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            ~/.yarn/berry/cache
-            code/node_modules
-            scripts/node_modules
-          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Compile
-        run: |
-          yarn task --task compile --start-from=compile --no-link --debug
-          git diff --exit-code
-
-      - name: Restore Verdaccio cache
-        uses: actions/cache/restore@v3
-        with:
-          path: .verdaccio-cache
-          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Restore sandbox ${{ matrix.template }}
-        uses: actions/cache/restore@v3
-        with:
-          enableCrossOsArchive: true
-          path: |
-            sandbox
-            ~/.yarn/berry/cache
-          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
-          fail-on-cache-miss: true
+          template: ${{ matrix.template }}
 
       - name: Build sandbox ${{ matrix.template }}
         run: |
@@ -184,12 +129,11 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: sandbox/*/storybook-static
-          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
+          key: sandbox-built-v1-${{ matrix.template }}-${{ github.run_id }}
 
   test-runner-production:
     name: Test Runner Production
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: build-sandboxes
     continue-on-error: true
     strategy:
@@ -200,37 +144,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Prepare workspace
+        uses: ./.github/actions/prepare-workspace
         with:
-          node-version: '16'
-
-      - name: Restore dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            ~/.yarn/berry/cache
-            code/node_modules
-            scripts/node_modules
-          enableCrossOsArchive: true
-          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Restore Playwright
-        uses: actions/cache/restore@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-v1-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}
-
-      - name: Restore sandbox ${{ matrix.template }}
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            sandbox
-            ~/.yarn/berry/cache
-          enableCrossOsArchive: true
-          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
-          fail-on-cache-miss: true
+          template: ${{ matrix.template }}
+          built-sandbox: true
 
       - name: Run Test Runner for production built ${{ matrix.template }}
         run: yarn task --task test-runner --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -238,7 +156,6 @@ jobs:
   test-runner-development:
     name: Test Runner Development
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: create-sandboxes
     continue-on-error: true
     strategy:
@@ -249,42 +166,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Prepare workspace
+        uses: ./.github/actions/prepare-workspace
         with:
-          node-version: '16'
-
-      - name: Restore dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            ~/.yarn/berry/cache
-            code/node_modules
-            scripts/node_modules
-          enableCrossOsArchive: true
-          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Compile
-        run: |
-          yarn task --task compile --start-from=compile --no-link --debug
-          git diff --exit-code
-
-      - name: Restore Verdaccio cache
-        uses: actions/cache/restore@v3
-        with:
-          path: .verdaccio-cache
-          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Restore sandbox ${{ matrix.template }}
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            sandbox
-            ~/.yarn/berry/cache
-          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
-          fail-on-cache-miss: true
+          template: ${{ matrix.template }}
 
       - name: Run Test Runner for development ${{ matrix.template }}
         run: yarn task --task test-runner-dev --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -292,7 +177,6 @@ jobs:
   e2e-production:
     name: E2E Production
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: build-sandboxes
     continue-on-error: true
     strategy:
@@ -303,43 +187,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Prepare workspace
+        uses: ./.github/actions/prepare-workspace
         with:
-          node-version: '16'
-
-      - name: Restore dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            ~/.yarn/berry/cache
-            code/node_modules
-            scripts/node_modules
-          enableCrossOsArchive: true
-          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Compile
-        run: |
-          yarn task --task compile --start-from=compile --no-link --debug
-          git diff --exit-code
-
-      - name: Restore Verdaccio cache
-        uses: actions/cache/restore@v3
-        with:
-          path: .verdaccio-cache
-          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Restore sandbox ${{ matrix.template }}
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            sandbox
-            ~/.yarn/berry/cache
-          enableCrossOsArchive: true
-          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
-          fail-on-cache-miss: true
+          template: ${{ matrix.template }}
+          built-sandbox: true
 
       - name: Run E2E tests for production built ${{ matrix.template }}
         run: yarn task --task e2e-tests --template ${{ matrix.template }} --no-link --start-from never --junit
@@ -347,7 +199,6 @@ jobs:
   e2e-development:
     name: E2E Development
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.31.1-focal
     needs: create-sandboxes
     continue-on-error: true
     strategy:
@@ -358,43 +209,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Prepare workspace
+        uses: ./.github/actions/prepare-workspace
         with:
-          node-version: '16'
-
-      - name: Restore dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            ~/.yarn/berry/cache
-            code/node_modules
-            scripts/node_modules
-          enableCrossOsArchive: true
-          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Compile
-        run: |
-          yarn task --task compile --start-from=compile --no-link --debug
-          git diff --exit-code
-
-      - name: Restore Verdaccio cache
-        uses: actions/cache/restore@v3
-        with:
-          path: .verdaccio-cache
-          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
-          fail-on-cache-miss: true
-
-      - name: Restore sandbox ${{ matrix.template }}
-        uses: actions/cache/restore@v3
-        with:
-          path: |
-            sandbox
-            ~/.yarn/berry/cache
-          enableCrossOsArchive: true
-          key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
-          fail-on-cache-miss: true
+          template: ${{ matrix.template }}
 
       - name: Run E2E tests for development ${{ matrix.template }}
         run: yarn task --task e2e-tests-dev --template ${{ matrix.template }} --no-link --start-from never --junit

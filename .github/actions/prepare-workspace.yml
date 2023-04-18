@@ -1,0 +1,73 @@
+name: 'Prepare workspace'
+description: 'Prepares a workspace by restoring the necessary caches'
+
+inputs:
+  template:
+    description: 'Which sandbox template to prepare, if any.'
+    required: false
+  built-sandbox:
+    description: 'Set to `true` to restore the build output of the sandbox'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Restore dependencies
+      uses: actions/cache/restore@v3
+      with:
+        path: |
+          ~/.yarn/berry/cache
+          code/node_modules
+          scripts/node_modules
+        key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+        fail-on-cache-miss: true
+
+    - name: Compile
+      run: |
+        yarn task --task compile --start-from=compile --no-link --debug
+        git diff --exit-code
+
+    - name: Restore Verdaccio cache
+      uses: actions/cache/restore@v3
+      with:
+        path: .verdaccio-cache
+        key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
+        fail-on-cache-miss: true
+
+    - name: Get Playwright version
+      if: inputs.template
+      id: playwright-version
+      working-directory: code
+      run: |
+        echo "version=$(yarn info playwright --json | jq ".children.Version")" >> $GITHUB_OUTPUT
+
+    - name: Restore Playwright
+      if: inputs.template
+      uses: actions/cache/restore@v3
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-v1-${{ runner.os }}-v${{ steps.playwright-version.outputs.version }}
+
+    - name: Restore sandbox ${{ inputs.template }}
+      if: inputs.template
+      uses: actions/cache/restore@v3
+      with:
+        path: |
+          sandbox
+          ~/.yarn/berry/cache
+        enableCrossOsArchive: true
+        key: sandbox-v1-${{ inputs.template }}-${{ github.run_id }}
+        fail-on-cache-miss: true
+
+    - name: Restore built sandbox ${{ inputs.template }}
+      if: inputs.built-sandbox == 'true'
+      uses: actions/cache/restore@v3
+      with:
+        path: sandbox/*/storybook-static
+        key: sandbox-built-v1-${{ matrix.template }}-${{ github.run_id }}
+        fail-on-cache-miss: true
