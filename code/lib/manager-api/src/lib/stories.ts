@@ -261,7 +261,7 @@ export const transformStoryIndexToStoriesHash = (
       depth: paths.length,
       parent: paths[paths.length - 1],
       renderLabel,
-      prepared: !!item.parameters,
+      ...(item.type !== 'docs' && { prepared: !!item.parameters }),
 
       // deprecated fields
       kind: item.title,

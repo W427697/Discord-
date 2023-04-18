@@ -31,8 +31,6 @@ import { DocsContext } from '../docs-context/DocsContext';
 export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
-  public readonly subtype = 'csf';
-
   public readonly id: StoryId;
 
   public story?: PreparedStory<TRenderer>;
@@ -47,7 +45,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   public preparing = false;
 
-  public csfFiles?: CSFFile<TRenderer>[];
+  private csfFiles?: CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,

@@ -14,6 +14,7 @@ import type { Channel } from '@storybook/channels';
 
 import dedent from 'ts-dedent';
 import type { StoryStore } from '../../store';
+import { prepareMeta } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
@@ -180,7 +181,11 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
       case 'meta': {
         return {
           ...resolved,
-          preparedMeta: this.store.preparedMetaFromCSFFile({ csfFile: resolved.csfFile }),
+          preparedMeta: prepareMeta(
+            resolved.csfFile.meta,
+            this.projectAnnotations,
+            resolved.csfFile.moduleExports.default
+          ),
         };
       }
       case 'story':
