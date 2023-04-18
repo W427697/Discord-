@@ -22,6 +22,7 @@ jobs:
         id: dependency-cache
         uses: actions/cache@v3
         with:
+          enableCrossOsArchive: true
           path: |
             ~/.yarn/berry/cache
             code/node_modules
@@ -84,6 +85,7 @@ jobs:
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
+          enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -131,6 +133,7 @@ jobs:
       - name: Restore dependencies
         uses: actions/cache/restore@v3
         with:
+          enableCrossOsArchive: true
           path: |
             ~/.yarn/berry/cache
             code/node_modules
@@ -141,6 +144,7 @@ jobs:
       - name: Restore sandbox ${{ matrix.template }}
         uses: actions/cache/restore@v3
         with:
+          enableCrossOsArchive: true
           path: sandbox
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
@@ -187,6 +191,7 @@ jobs:
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
+          enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -194,6 +199,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: sandbox
+          enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -226,6 +232,7 @@ jobs:
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
+          enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -233,6 +240,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: sandbox
+          enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -265,6 +273,7 @@ jobs:
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
+          enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -272,6 +281,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: sandbox
+          enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -304,6 +314,7 @@ jobs:
             ~/.yarn/berry/cache
             code/node_modules
             scripts/node_modules
+          enableCrossOsArchive: true
           key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
@@ -311,6 +322,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: sandbox
+          enableCrossOsArchive: true
           key: sandbox-v1-${{ matrix.template }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
