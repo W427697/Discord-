@@ -11,7 +11,7 @@ const meta = {
       props: Object.keys(argTypes),
       components: { Reactivity },
       template: `<div>Custom render uses options api and binds args to props: <Reactivity v-bind="$props">
-         <template #header="{title}">{{ header }} - Title: {{ title }}</template>
+         <template #header="{title}"><h3>{{ header }} - Title: {{ title }}</h3></template>
          {{ $props.default }}
          <template #footer>{{ footer }}</template>
          </Reactivity>

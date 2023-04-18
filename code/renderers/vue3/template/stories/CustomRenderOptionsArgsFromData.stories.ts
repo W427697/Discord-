@@ -25,9 +25,9 @@ const meta = {
       },
       template: `<div>Custom render uses options api and binds args to data: 
                     <Reactivity v-bind="args">
-                      <template #header="{title}">{{ header }} - Title: {{ title }}</template>
+                      <template #header="{title}"><h3>{{ args.header }} - Title: {{ title }}</h3></template>
                       <template #default>{{ args.default }}</template>
-                      <template #footer>{{ footer }} </template>
+                      <template #footer>{{ args.footer }} </template>
                     </Reactivity>
                   </div>`,
     });
