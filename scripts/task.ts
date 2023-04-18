@@ -374,6 +374,7 @@ async function run() {
       .forEach(setUnready);
   }
 
+  let startFromIndex = 0;
   // NOTE: we don't include services in the first unready task. We only need to rewind back to a
   // service if the user explicitly asks. It's expected that a service is no longer running.
   const firstUnready = sortedTasks.find((task) => statuses.get(task) === 'unready');
@@ -386,11 +387,14 @@ async function run() {
   } else if (startFrom) {
     // set to reset back to a specific task
     if (firstUnready && sortedTasks.indexOf(tasks[startFrom]) > sortedTasks.indexOf(firstUnready)) {
-      throw new Error(
-        `Task ${getTaskKey(firstUnready)} was not ready, earlier than your request ${startFrom}.`
+      logger.log(
+        `Starting from ${startFrom} even though ${getTaskKey(
+          firstUnready
+        )} is not ready. This might not be what you want.`
       );
     }
     setUnready(tasks[startFrom]);
+    startFromIndex = sortedTasks.indexOf(tasks[startFrom]);
   } else if (firstUnready === sortedTasks[0]) {
     // We need to do everything, no need to change anything
   } else if (sortedTasks.length === 1) {
@@ -424,7 +428,7 @@ async function run() {
     setUnready(startFromTask);
   }
 
-  for (let i = 0; i < sortedTasks.length; i += 1) {
+  for (let i = startFromIndex; i < sortedTasks.length; i += 1) {
     const task = sortedTasks[i];
     const status = statuses.get(task);
 
