@@ -1,10 +1,18 @@
 /* eslint-disable no-param-reassign */
-import type { App } from 'vue';
-import { createApp, h, reactive, isReactive } from 'vue';
+import type { App, ConcreteComponent } from 'vue';
+import { createApp, h, reactive, isVNode, isReactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
-import type { VueRenderer } from './types';
+import type { VueRenderer, StoryFnVueReturnType, StoryID } from './types';
+
+const slotsMap = new Map<
+  StoryID,
+  {
+    component?: Omit<ConcreteComponent<any>, 'props'>;
+    reactiveSlots?: Args;
+  }
+>();
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -14,7 +22,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return h(Component, props, generateSlots(context));
+  return h(Component, props, createOrUpdateSlots(context));
 };
 
 // set of setup functions that will be called when story is created
@@ -32,10 +40,11 @@ const runSetupFunctions = (app: App, storyContext: StoryContext<VueRenderer>) =>
 };
 
 const map = new Map<
-  VueRenderer['canvasElement'],
+  VueRenderer['canvasElement'] | StoryID,
   {
     vueApp: ReturnType<typeof createApp>;
     reactiveArgs: Args;
+    reactiveSlots?: Args;
   }
 >();
 
@@ -44,14 +53,16 @@ export function renderToCanvas(
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
+
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
     // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
     // we need to call here to run the decorators again
     // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
-    const element = storyFn(); // TODO:  find better solution however it is not causing any harm for now
-    // reactiveState.globals = storyContext.globals;
-    updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
+    const element = storyFn(); // call the story function to get the root element with all the decorators
+    const args = getArgs(element, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
+
+    updateArgs(existingApp.reactiveArgs, args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -62,10 +73,11 @@ export function renderToCanvas(
   const vueApp = createApp({
     setup() {
       storyContext.args = reactive(storyContext.args);
-      const rootElement = storyFn();
+      const rootElement = storyFn(); // call the story function to get the root element with all the decorators
+      const args = getArgs(rootElement, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
       const appState = {
         vueApp,
-        reactiveArgs: reactive(rootElement.props ?? storyContext.args),
+        reactiveArgs: reactive(args),
       };
       map.set(canvasElement, appState);
 
@@ -101,6 +113,15 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
 
   return reactive(Object.fromEntries(slots));
 }
+/**
+ * get the args from the root element props if it is a vnode otherwise from the context
+ * @param element is the root element of the story
+ * @param storyContext is the story context
+ */
+
+function getArgs(element: StoryFnVueReturnType, storyContext: StoryContext<VueRenderer, Args>) {
+  return element.props && isVNode(element) ? element.props : storyContext.args;
+}
 
 /**
  *  update the reactive args
@@ -135,4 +156,16 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
+}
+
+function createOrUpdateSlots(context: StoryContext<VueRenderer, Args>) {
+  const { id: storyID, component } = context;
+  const slots = generateSlots(context);
+  if (slotsMap.has(storyID)) {
+    const app = slotsMap.get(storyID);
+    if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
+    return app?.reactiveSlots;
+  }
+  slotsMap.set(storyID, { component, reactiveSlots: slots });
+  return slots;
 }

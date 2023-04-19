@@ -1,6 +1,6 @@
 {
   "name": "@storybook/node-logger",
-  "version": "7.1.0-alpha.3",
+  "version": "7.1.0-alpha.6",
   "description": "",
   "keywords": [
     "storybook"
@@ -60,5 +60,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "d0acd16fdf394463add948bac3f226b93f92c235"
+  "gitHead": "df316720cecd41d64fd95720fd5435150e00c12e"
 }

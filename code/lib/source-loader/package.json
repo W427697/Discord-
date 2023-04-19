@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.1.0-alpha.3",
+  "version": "7.1.0-alpha.6",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@storybook/csf": "^0.1.0",
-    "@storybook/types": "7.1.0-alpha.3",
+    "@storybook/types": "7.1.0-alpha.6",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
     "prettier": "^2.8.0"
@@ -67,5 +67,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "d0acd16fdf394463add948bac3f226b93f92c235"
+  "gitHead": "df316720cecd41d64fd95720fd5435150e00c12e"
 }

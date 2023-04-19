@@ -1,7 +1,7 @@
 // This file requires many imports from `../code`, which requires both an install and bootstrap of
 // the repo to work properly. So we load it async in the task runner *after* those steps.
 
-/* eslint-disable no-restricted-syntax, no-await-in-loop, no-param-reassign */
+/* eslint-disable no-restricted-syntax, no-await-in-loop */
 import {
   copy,
   ensureSymlink,
@@ -167,11 +167,6 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
         {
           test: [/\\/template-stories\\//],
           exclude: [/\\.mdx$/],
-          /**
-           * We need to run esbuild-loader after the csf-plugin loader, so we use the "enforce: 'post'" option.
-           * Otherwise, the csf-plugin loader does not have any effect.
-           */
-          enforce: 'post',
           loader: '${esbuildLoaderPath}',
           options: {
             loader: 'tsx',
