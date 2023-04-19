@@ -1,3 +1,13 @@
+## 7.1.0-alpha.7 (April 19, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive decorators [#21954](https://github.com/storybooks/storybook/pull/21954)
+
+#### Build
+
+-   Build: Improve sandboxes commit message [#22136](https://github.com/storybooks/storybook/pull/22136)
+
 ## 7.1.0-alpha.6 (April 18, 2023)
 
 #### Bug Fixes
