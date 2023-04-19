@@ -143,7 +143,7 @@
       "@storybook/mdx1-csf"
     ]
   },
-  "gitHead": "df316720cecd41d64fd95720fd5435150e00c12e",
+  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",
