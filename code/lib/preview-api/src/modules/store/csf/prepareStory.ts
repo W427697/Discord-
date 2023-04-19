@@ -105,8 +105,19 @@ export function prepareStory<TRenderer extends Renderer>(
     }
 
     const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
-      const mapping = finalContext.argTypes[key]?.mapping;
-      acc[key] = mapping && val in mapping ? mapping[val] : val;
+      const mappingFn = finalContext.argTypes[key]?.mapping
+        ? (ele: any) =>
+            ele in finalContext.argTypes[key].mapping
+              ? finalContext.argTypes[key].mapping[ele]
+              : ele
+        : null;
+
+      if (mappingFn) {
+        acc[key] = Array.isArray(val) ? val.map(mappingFn) : mappingFn(val);
+      } else {
+        acc[key] = val;
+      }
+
       return acc;
     }, {} as Args);
 
