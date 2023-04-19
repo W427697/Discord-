@@ -11,7 +11,7 @@ jobs:
     name: Prepare dependencies and compile
     runs-on: ubuntu-latest
     outputs:
-      create-sandbox-matrix: ${{ steps.create-sandbox-matrix.outputs.matrix }}
+      sandbox-matrix: ${{ steps.sandbox-matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -20,14 +20,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-
-      - name: Generate sandbox matrix
-        id: create-sandbox-matrix
-        working-directory: scripts
-        run: |
-          MATRIX=$(yarn ts-node generate-sandbox-matrix.ts '${{ toJSON(github.event.pull_request.labels.*.name) }}' ${{ github.event.pull_request.draft }})
-          echo $MATRIX
-          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
 
       - name: Restore dependencies
         id: dependency-cache
@@ -44,6 +36,14 @@ jobs:
       - name: Install Dependencies
         run: |
           yarn task --task install --start-from install --debug
+
+      - name: Generate sandbox matrix
+        id: sandbox-matrix
+        working-directory: scripts
+        run: |
+          MATRIX=$(yarn ts-node generate-sandbox-matrix.ts '${{ toJSON(github.event.pull_request.labels.*.name) }}' ${{ github.event.pull_request.draft }})
+          echo $MATRIX | jq .
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
 
       - name: Get Playwight version
         id: playwright-version
@@ -85,7 +85,7 @@ jobs:
     continue-on-error: true
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.compile.outputs.create-sandbox-matrix) }}
+      matrix: ${{ fromJSON(needs.compile.outputs.sandbox-matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
