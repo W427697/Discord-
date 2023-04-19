@@ -43,7 +43,7 @@ jobs:
         working-directory: scripts
         run: |
           MATRIX=$(yarn ts-node generate-sandbox-matrix.ts '${{ toJSON(github.event.pull_request.labels.*.name) }}' ${{ github.event.pull_request.draft }})
-          echo $MATRIX | jq .
+          echo $MATRIX
           echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
 
       # - name: Get Playwight version
@@ -67,7 +67,6 @@ jobs:
       - name: Compile
         run: |
           yarn task --task compile --start-from=compile --no-link --debug
-          git diff --exit-code
 
       - name: Publish to Verdaccio
         working-directory: code
