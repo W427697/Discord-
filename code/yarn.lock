@@ -5106,7 +5106,7 @@ __metadata:
     "@storybook/types": 7.1.0-alpha.7
     fs-extra: ^11.1.0
     react: ^18.2.0
-    react-dom: ^16.8.0
+    react-dom: ^18.2.0
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
@@ -24691,7 +24691,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -25184,20 +25184,6 @@ __metadata:
   bin:
     react-docgen: bin/react-docgen.js
   checksum: c920e9611e08317f8fdae707114cf02baaa18e2f1bd23ed18f57e66b9e1042e51dc98cc9de828b03d018ccc4e26300c9a6c4f74e862fc94dc64029267c801a01
-  languageName: node
-  linkType: hard
-
-"react-dom@npm:^16.8.0":
-  version: 16.14.0
-  resolution: "react-dom@npm:16.14.0"
-  dependencies:
-    loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-    prop-types: ^15.6.2
-    scheduler: ^0.19.1
-  peerDependencies:
-    react: ^16.14.0
-  checksum: ca146e780631672a2d57c8d77775d38f394a6cd67db30c6af7964d0b3574ef7edccb1de8d592e990b98f4f5f8d1c8460b0691f04e7a45799962a51dcbaaa1371
   languageName: node
   linkType: hard
 
@@ -26782,16 +26768,6 @@ __metadata:
     sb: ./index.js
   languageName: unknown
   linkType: soft
-
-"scheduler@npm:^0.19.1":
-  version: 0.19.1
-  resolution: "scheduler@npm:0.19.1"
-  dependencies:
-    loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: 9658932a73148a93d791c064b331d9690ddfecc4de25bcd6c9b89f5f1166e3d23d9c31c1595d66565e5ffbb34d47035cb14841aba6444bc266bfcd215cefe9c0
-  languageName: node
-  linkType: hard
 
 "scheduler@npm:^0.23.0":
   version: 0.23.0
