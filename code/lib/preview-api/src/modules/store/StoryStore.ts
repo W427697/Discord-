@@ -388,6 +388,9 @@ export class StoryStore<TRenderer extends Renderer> {
 
   getSetIndexPayload(): API_PreparedStoryIndex {
     if (!this.storyIndex) throw new Error('getSetIndexPayload called before initialization');
+    if (!this.cachedCSFFiles)
+      throw new Error('Cannot call getSetIndexPayload() unless you call cacheAllCSFFiles() first');
+    const { cachedCSFFiles } = this;
 
     const stories = this.extract({ includeDocsOnly: true });
 
@@ -404,7 +407,12 @@ export class StoryStore<TRenderer extends Renderer> {
                 argTypes: stories[id].argTypes,
                 parameters: stories[id].parameters,
               }
-            : entry,
+            : {
+                ...entry,
+                parameters: this.preparedMetaFromCSFFile({
+                  csfFile: cachedCSFFiles[entry.importPath],
+                }).parameters,
+              },
         ])
       ),
     };
