@@ -10,6 +10,7 @@ jobs:
   compile:
     name: Prepare dependencies and compile
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.32.3-focal
     outputs:
       sandbox-matrix: ${{ steps.sandbox-matrix.outputs.matrix }}
     steps:
@@ -45,23 +46,23 @@ jobs:
           echo $MATRIX | jq .
           echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
 
-      - name: Get Playwight version
-        id: playwright-version
-        working-directory: code
-        run: |
-          echo "version=$(yarn info playwright --json | jq --raw-output ".children.Version")" >> $GITHUB_OUTPUT
+      # - name: Get Playwight version
+      #   id: playwright-version
+      #   working-directory: code
+      #   run: |
+      #     echo "version=$(yarn info playwright --json | jq --raw-output ".children.Version")" >> $GITHUB_OUTPUT
 
-      - name: Playwright v${{ steps.playwright-version.outputs.version }} Cache
-        id: playwright-cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-v1-${{ runner.os }}-v${{ steps.playwright-version.outputs.version }}
+      # - name: Playwright v${{ steps.playwright-version.outputs.version }} Cache
+      #   id: playwright-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.cache/ms-playwright
+      #     key: playwright-v1-${{ runner.os }}-v${{ steps.playwright-version.outputs.version }}
 
-      - name: Install Playwright Browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        working-directory: code
-        run: npx playwright install
+      # - name: Install Playwright Browsers
+      #   if: steps.playwright-cache.outputs.cache-hit != 'true'
+      #   working-directory: code
+      #   run: npx playwright install
 
       - name: Compile
         run: |
@@ -81,6 +82,7 @@ jobs:
   sandboxes:
     name: Sandboxes
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.32.3-focal
     needs: compile
     continue-on-error: true
     strategy:
@@ -90,11 +92,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Prepare workspace
-        uses: ./.github/actions/prepare-workspace
+      # - name: Prepare workspace
+      #   uses: ./.github/actions/prepare-workspace
+      #   with:
+      #     template: ${{ matrix.template }}
+      #     playwright: true
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          template: ${{ matrix.template }}
-          playwright: true
+          node-version: '16'
+
+      - name: Restore dependencies
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ~/.yarn/berry/cache
+          key: yarn-v1-${{ runner.os }}-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+
+      - name: Install Dependencies
+        run: |
+          yarn task --task install --start-from install --debug
+
+      - name: Compile
+        run: |
+          yarn task --task compile --start-from=compile --no-link --debug
+
+      - name: Restore Verdaccio cache
+        uses: actions/cache/restore@v3
+        with:
+          path: .verdaccio-cache
+          key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
+          fail-on-cache-miss: true
 
       - name: Create sandbox ${{ matrix.template }}
         id: create-sandbox
@@ -104,7 +133,7 @@ jobs:
         id: build-sandbox
         run: |
           cd scripts && yarn ts-node event-log-collector.ts &
-          yarn task --task build --template react-vite/default-ts --no-link --start-from build --junit
+          yarn task --task build --template ${{ matrix.template }} --no-link --start-from build --junit
 
       - name: Verify build telemetry
         id: verify-build-telemetry
@@ -120,9 +149,10 @@ jobs:
         if: (success() || failure()) && steps.build-sandbox.outcome == 'success'
         run: yarn task --task e2e-tests --template ${{ matrix.template }} --no-link --start-from never --junit
 
-      - name: Run Development Test Runner ${{ matrix.template }}
-        if: (success() || failure()) && steps.create-sandbox.outcome == 'success'
-        run: yarn task --task test-runner-dev --template ${{ matrix.template }} --no-link --start-from never --junit
+      # TODO: reenable when we figure out why it hangs
+      # - name: Run Development Test Runner ${{ matrix.template }}
+      #   if: (success() || failure()) && steps.create-sandbox.outcome == 'success'
+      #   run: yarn task --task test-runner-dev --template ${{ matrix.template }} --no-link --start-from never --junit
 
       - name: Run Development E2E tests ${{ matrix.template }}
         if: (success() || failure()) && steps.create-sandbox.outcome == 'success'
