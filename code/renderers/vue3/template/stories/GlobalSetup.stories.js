@@ -31,8 +31,8 @@ export const Primary = {
     const canvas = within(canvasElement);
 
     const button = await canvas.getByRole('button');
-    console.log('button', button);
     await expect(button).toHaveStyle('background-color: rgb(0, 128, 0)'); // <-- this provide themeColor = green from .storybook/preview.ts
+
     const h4 = await canvas.getByRole('heading', { level: 4 });
     await expect(h4).toHaveTextContent('Bonjour! from plugin your name is Primary!');
   },
