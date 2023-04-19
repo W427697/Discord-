@@ -6,13 +6,9 @@ There are many ways to include CSS in a web application, and correspondingly the
 
 ## Importing CSS files
 
-Storybook is pre-configured to recognize imports for css files. To add global CSS for all of your stories, import it in [`.storybook/preview.js`](./overview.md#configure-story-rendering).
+Storybook is pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.js`](./overview.md#configure-story-rendering).
 
-```js
-// .storybook/preview.js
-
-import '../src/styles/global.css';
-```
+<FeatureSnippets paths={['configure/import-css/import-css.js.mdx', 'configure/import-css/import-css.ts.mdx']} />
 
 If your component files import their CSS files, this will work too. The noticeable exception to this is if you're using CSS processor tools like Sass or Postcss.
 
@@ -22,7 +18,7 @@ If your component files import their CSS files, this will work too. The noticeab
 
 If you're using Vite as your builder, you're covered! Vite supports Sass and PostCSS out-of-the-box 🎉
 
-However, if you're using Webpack and want to use Sass and PostCss, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling`](https://github.com/storybookjs/addon-styling#storybookaddon-styling) to help you configure these tools. Or if you'd prefer, you can customize [Storybook's webpack configuration yourself](../builders/webpack.md#extending-storybooks-webpack-config) to include the appropriate loader(s).
+However, if you're using Webpack and want to use Sass and PostCss, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling`](https://github.com/storybookjs/addon-styling#storybookaddon-styling) to help you configure these tools. Or if you'd prefer, you can customize [Storybook's webpack configuration yourself](../builders/webpack.md#override-the-default-configuration) to include the appropriate loader(s).
 
 ## CSS-in-JS
 
