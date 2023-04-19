@@ -1,11 +1,17 @@
-import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import React, { Children, Component, Fragment, memo } from 'react';
+import type { FC, MouseEvent, ReactNode } from 'react';
+import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
 
 import { Placeholder } from '../placeholder/placeholder';
-import { FlexBar } from '../bar/bar';
 import { TabButton } from '../bar/button';
+import { FlexBar } from '../bar/bar';
+import type { ChildrenList } from './tabs.helpers';
+import { childrenToList, VisuallyHidden } from './tabs.helpers';
+import { useList } from './tabs.hooks';
+
+const ignoreSsrWarning =
+  '/* emotion-disable-server-rendering-unsafe-selector-warning-please-do-not-use-this-the-warning-exists-for-a-reason */';
 
 export interface WrapperProps {
   bordered?: boolean;
@@ -43,7 +49,12 @@ export const TabBar = styled.div({
   '&:first-of-type': {
     marginLeft: -3,
   },
+
+  whiteSpace: 'nowrap',
+  flexGrow: 1,
 });
+
+TabBar.displayName = 'TabBar';
 
 export interface ContentProps {
   absolute?: boolean;
@@ -76,7 +87,7 @@ const Content = styled.div<ContentProps>(
           bottom: 0 + (bordered ? 1 : 0),
           top: 40 + (bordered ? 1 : 0),
           overflow: 'auto',
-          [`& > *:first-child`]: {
+          [`& > *:first-child${ignoreSsrWarning}`]: {
             position: 'absolute',
             left: 0 + (bordered ? 1 : 0),
             right: 0 + (bordered ? 1 : 0),
@@ -87,14 +98,6 @@ const Content = styled.div<ContentProps>(
           },
         }
       : {}
-);
-
-export interface VisuallyHiddenProps {
-  active?: boolean;
-}
-
-const VisuallyHidden = styled.div<VisuallyHiddenProps>(({ active }) =>
-  active ? { display: 'block' } : { display: 'none' }
 );
 
 export interface TabWrapperProps {
@@ -109,27 +112,6 @@ export const TabWrapper: FC<TabWrapperProps> = ({ active, render, children }) =>
 
 export const panelProps = {};
 
-const childrenToList = (children: any, selected: string) =>
-  Children.toArray(children).map(
-    ({ props: { title, id, color, children: childrenOfChild } }: ReactElement, index) => {
-      const content = Array.isArray(childrenOfChild) ? childrenOfChild[0] : childrenOfChild;
-      return {
-        active: selected ? id === selected : index === 0,
-        title,
-        id,
-        color,
-        render:
-          typeof content === 'function'
-            ? content
-            : ({ active, key }: any) => (
-                <VisuallyHidden key={key} active={active} role="tabpanel">
-                  {content}
-                </VisuallyHidden>
-              ),
-      };
-    }
-  );
-
 export interface TabsProps {
   children?: FuncChildren[] | ReactNode;
   id?: string;
@@ -141,21 +123,41 @@ export interface TabsProps {
   backgroundColor?: string;
   absolute?: boolean;
   bordered?: boolean;
+  menuName?: string;
 }
 
 export const Tabs: FC<TabsProps> = memo(
-  ({ children, selected, actions, absolute, bordered, tools, backgroundColor, id: htmlId }) => {
-    const list = childrenToList(children, selected);
+  ({
+    children,
+    selected,
+    actions,
+    absolute,
+    bordered,
+    tools,
+    backgroundColor,
+    id: htmlId,
+    menuName,
+  }) => {
+    const list = useMemo<ChildrenList>(
+      () => childrenToList(children, selected),
+      [children, selected]
+    );
+
+    const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);
 
     return list.length ? (
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
-        <FlexBar border backgroundColor={backgroundColor}>
-          <TabBar role="tablist">
-            {list.map(({ title, id, active, color }) => {
-              const tabTitle = typeof title === 'function' ? title() : title;
+        <FlexBar scrollable={false} border backgroundColor={backgroundColor}>
+          <TabBar style={{ whiteSpace: 'normal' }} ref={tabBarRef} role="tablist">
+            {visibleList.map(({ title, id, active, color }, index) => {
+              const indexId = `index-${index}`;
+
               return (
                 <TabButton
-                  id={`tabbutton-${sanitize(tabTitle)}`}
+                  id={`tabbutton-${sanitize(id) ?? indexId}`}
+                  ref={(ref: HTMLButtonElement) => {
+                    tabRefs.current.set(id, ref);
+                  }}
                   className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
                   type="button"
                   key={id}
@@ -167,12 +169,13 @@ export const Tabs: FC<TabsProps> = memo(
                   }}
                   role="tab"
                 >
-                  {tabTitle}
+                  {title}
                 </TabButton>
               );
             })}
+            <AddonTab menuName={menuName} actions={actions} />
           </TabBar>
-          {tools ? <Fragment>{tools}</Fragment> : null}
+          {tools}
         </FlexBar>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
           {list.map(({ id, active, render }) => render({ key: id, active }))}
@@ -186,13 +189,14 @@ export const Tabs: FC<TabsProps> = memo(
   }
 );
 Tabs.displayName = 'Tabs';
-(Tabs as any).defaultProps = {
+Tabs.defaultProps = {
   id: null,
   children: null,
   tools: null,
   selected: null,
   absolute: false,
   bordered: false,
+  menuName: 'Tabs',
 };
 
 type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
@@ -203,6 +207,7 @@ export interface TabsStateProps {
   absolute: boolean;
   bordered: boolean;
   backgroundColor: string;
+  menuName: string;
 }
 
 export interface TabsStateState {
@@ -216,6 +221,7 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
     absolute: false,
     bordered: false,
     backgroundColor: '',
+    menuName: undefined,
   };
 
   constructor(props: TabsStateProps) {
@@ -231,7 +237,7 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
   };
 
   render() {
-    const { bordered = false, absolute = false, children, backgroundColor } = this.props;
+    const { bordered = false, absolute = false, children, backgroundColor, menuName } = this.props;
     const { selected } = this.state;
     return (
       <Tabs
@@ -239,6 +245,7 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
         absolute={absolute}
         selected={selected}
         backgroundColor={backgroundColor}
+        menuName={menuName}
         actions={this.handlers}
       >
         {children}

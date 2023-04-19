@@ -1,6 +1,6 @@
-# Storybook for Vue
+# Storybook for Vue 3 and Webpack
 
-Storybook for Vue is a UI development environment for your Vue components.
+Storybook for Vue 3 is a UI development environment for your Vue 3 components.
 With it, you can visualize different states of your UI components and develop them interactively.
 
 ![Storybook Screenshot](https://github.com/storybookjs/storybook/blob/main/media/storybook-intro.gif)
@@ -12,7 +12,7 @@ So you can develop UI components in isolation without worrying about app specifi
 
 ```sh
 cd my-vue-app
-npx storybook init
+npx storybook@latest init
 ```
 
 For more information visit: [storybook.js.org](https://storybook.js.org)

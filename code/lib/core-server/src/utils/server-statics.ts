@@ -6,16 +6,16 @@ import express from 'express';
 import { pathExists } from 'fs-extra';
 import path from 'path';
 import favicon from 'serve-favicon';
+import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
-
-const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.svg');
+import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: any, options: Options) {
-  let hasCustomFavicon = false;
   const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const faviconPath = await options.presets.apply<string>('favicon');
 
-  if (staticDirs && options.staticDir) {
+  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
     throw new Error(dedent`
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
@@ -25,9 +25,10 @@ export async function useStatics(router: any, options: Options) {
     `);
   }
 
-  const statics = staticDirs
-    ? staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+  const statics = [
+    ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
+    ...(options.staticDir || []),
+  ];
 
   if (statics && statics.length > 0) {
     await Promise.all(
@@ -41,18 +42,15 @@ export async function useStatics(router: any, options: Options) {
               })
             : dir;
           const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
-          logger.info(
-            chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
-          );
-          router.use(targetEndpoint, express.static(staticPath, { index: false }));
 
-          if (!hasCustomFavicon && targetEndpoint === '/') {
-            const faviconPath = path.join(staticPath, 'favicon.svg');
-            if (await pathExists(faviconPath)) {
-              hasCustomFavicon = true;
-              router.use(favicon(faviconPath));
-            }
+          // Don't log for the internal static dir
+          if (!targetEndpoint.startsWith('/sb-')) {
+            logger.info(
+              chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
+            );
           }
+
+          router.use(targetEndpoint, express.static(staticPath, { index: false }));
         } catch (e) {
           logger.warn(e.message);
         }
@@ -60,9 +58,7 @@ export async function useStatics(router: any, options: Options) {
     );
   }
 
-  if (!hasCustomFavicon) {
-    router.use(favicon(defaultFavIcon));
-  }
+  router.use(favicon(faviconPath));
 }
 
 export const parseStaticDir = async (arg: string) => {

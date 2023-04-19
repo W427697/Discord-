@@ -26,6 +26,9 @@ Then when adding a story, you can pass a disabled parameter.
 
 <CodeSnippets
   paths={[
+    'angular/button-story-disable-addon.ts.mdx',
+    'web-components/button-story-disable-addon.js.mdx',
+    'web-components/button-story-disable-addon.ts.mdx',
     'common/button-story-disable-addon.js.mdx',
     'common/button-story-disable-addon.ts.mdx',
   ]}
@@ -114,8 +117,6 @@ If you're developing a standalone addon, add a new script to `package.json` with
 #### Local Storybook addons
 
 If you're developing a local Storybook addon built on top of an existing Storybook installation, HMR (hot module replacement) is available out of the box.
-
-If you don't see the changes being reflected, add the flag `--no-manager-cache` to the `storybook` script and restart Storybook.
 
 ### Composing addons in presets
 

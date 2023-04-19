@@ -5,10 +5,6 @@ import type { A11yParameters } from './params';
 
 const { document, window: globalWindow } = global;
 
-if (module && module.hot && module.hot.decline) {
-  module.hot.decline();
-}
-
 const channel = addons.getChannel();
 // Holds axe core running state
 let active = false;

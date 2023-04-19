@@ -23,7 +23,7 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   }
   if (t.isObjectExpression(node)) {
     const [first, ...rest] = path;
-    const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
+    const field = (node.properties as t.ObjectProperty[]).find((p) => propKey(p) === first);
     if (field) {
       return _getPath(rest, (field as t.ObjectProperty).value);
     }
@@ -41,7 +41,7 @@ const _getPathProperties = (path: string[], node: t.Node): t.ObjectProperty[] | 
   }
   if (t.isObjectExpression(node)) {
     const [first, ...rest] = path;
-    const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
+    const field = (node.properties as t.ObjectProperty[]).find((p) => propKey(p) === first);
     if (field) {
       // FXIME handle spread etc.
       if (rest.length === 0) return node.properties as t.ObjectProperty[];
@@ -92,8 +92,8 @@ const _makeObjectExpression = (path: string[], value: t.Expression): t.Expressio
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const _updateExportNode = (path: string[], expr: t.Expression, existing: t.ObjectExpression) => {
   const [first, ...rest] = path;
-  const existingField = existing.properties.find(
-    (p: t.ObjectProperty) => propKey(p) === first
+  const existingField = (existing.properties as t.ObjectProperty[]).find(
+    (p) => propKey(p) === first
   ) as t.ObjectProperty;
   if (!existingField) {
     existing.properties.push(
@@ -113,11 +113,18 @@ export class ConfigFile {
 
   _exports: Record<string, t.Expression> = {};
 
-  _exportsObject: t.ObjectExpression;
+  // FIXME: this is a hack. this is only used in the case where the user is
+  // modifying a named export that's a scalar. The _exports map is not suitable
+  // for that. But rather than refactor the whole thing, we just use this as a stopgap.
+  _exportDecls: Record<string, t.VariableDeclarator> = {};
+
+  _exportsObject: t.ObjectExpression | undefined;
 
   _quotes: 'single' | 'double' | undefined;
 
   fileName?: string;
+
+  hasDefaultExport = false;
 
   constructor(ast: t.File, code: string, fileName?: string) {
     this._ast = ast;
@@ -131,19 +138,24 @@ export class ConfigFile {
     traverse.default(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
-          const decl =
+          self.hasDefaultExport = true;
+          let decl =
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)
               : node.declaration;
 
+          if (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) {
+            decl = decl.expression;
+          }
+
           if (t.isObjectExpression(decl)) {
             self._exportsObject = decl;
-            decl.properties.forEach((p: t.ObjectProperty) => {
+            (decl.properties as t.ObjectProperty[]).forEach((p) => {
               const exportName = propKey(p);
               if (exportName) {
                 let exportVal = p.value;
                 if (t.isIdentifier(exportVal)) {
-                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program) as any;
                 }
                 self._exports[exportName] = exportVal as t.Expression;
               }
@@ -160,11 +172,12 @@ export class ConfigFile {
             node.declaration.declarations.forEach((decl) => {
               if (t.isVariableDeclarator(decl) && t.isIdentifier(decl.id)) {
                 const { name: exportName } = decl.id;
-                let exportVal = decl.init;
+                let exportVal = decl.init as t.Expression;
                 if (t.isIdentifier(exportVal)) {
-                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program) as any;
                 }
                 self._exports[exportName] = exportVal;
+                self._exportDecls[exportName] = decl;
               }
             });
           } else {
@@ -185,16 +198,24 @@ export class ConfigFile {
             ) {
               let exportObject = right;
               if (t.isIdentifier(right)) {
-                exportObject = _findVarInitialization(right.name, parent as t.Program);
+                exportObject = _findVarInitialization(right.name, parent as t.Program) as any;
               }
+
+              if (t.isTSAsExpression(exportObject) || t.isTSSatisfiesExpression(exportObject)) {
+                exportObject = exportObject.expression;
+              }
+
               if (t.isObjectExpression(exportObject)) {
                 self._exportsObject = exportObject;
-                exportObject.properties.forEach((p: t.ObjectProperty) => {
+                (exportObject.properties as t.ObjectProperty[]).forEach((p) => {
                   const exportName = propKey(p);
                   if (exportName) {
-                    let exportVal = p.value;
+                    let exportVal = p.value as t.Expression;
                     if (t.isIdentifier(exportVal)) {
-                      exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                      exportVal = _findVarInitialization(
+                        exportVal.name,
+                        parent as t.Program
+                      ) as any;
                     }
                     self._exports[exportName] = exportVal as t.Expression;
                   }
@@ -228,9 +249,19 @@ export class ConfigFile {
     const node = this.getFieldNode(path);
     if (node) {
       const { code } = generate.default(node, {});
+
       // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
+    }
+    return undefined;
+  }
+
+  getSafeFieldValue(path: string[]) {
+    try {
+      return this.getFieldValue(path);
+    } catch (e) {
+      //
     }
     return undefined;
   }
@@ -243,6 +274,16 @@ export class ConfigFile {
       this._exports[path[0]] = expr;
     } else if (exportNode && t.isObjectExpression(exportNode) && rest.length > 0) {
       _updateExportNode(rest, expr, exportNode);
+    } else if (exportNode && rest.length === 0 && this._exportDecls[path[0]]) {
+      const decl = this._exportDecls[path[0]];
+      decl.init = _makeObjectExpression([], expr);
+    } else if (this.hasDefaultExport) {
+      // This means the main.js of the user has a default export that is not an object expression, therefore we can't change the AST.
+      throw new Error(
+        `Could not set the "${path.join(
+          '.'
+        )}" field as the default export is not an object in this file.`
+      );
     } else {
       // create a new named export and add it to the top level
       const exportObj = _makeObjectExpression(rest, expr);
@@ -252,6 +293,99 @@ export class ConfigFile {
       this._exports[first] = exportObj;
       this._ast.program.body.push(newExport);
     }
+  }
+
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * 1. { framework: 'value' }
+   * 2. { framework: { name: 'value', options: {} } }
+   */
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * @example
+   * // 1. { framework: 'framework-name' }
+   * // 2. { framework: { name: 'framework-name', options: {} }
+   * getNameFromPath(['framework']) // => 'framework-name'
+   */
+  getNameFromPath(path: string[]): string | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    return this._getPresetValue(node, 'name');
+  }
+
+  /**
+   * Returns an array of names of a node in a given path, supporting the following formats:
+   * @example
+   * const config = {
+   *   addons: [
+   *     'first-addon',
+   *     { name: 'second-addon', options: {} }
+   *   ]
+   * }
+   * // => ['first-addon', 'second-addon']
+   * getNamesFromPath(['addons'])
+   *
+   */
+  getNamesFromPath(path: string[]): string[] | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    const pathNames: string[] = [];
+    if (t.isArrayExpression(node)) {
+      (node.elements as t.Expression[]).forEach((element) => {
+        pathNames.push(this._getPresetValue(element, 'name'));
+      });
+    }
+
+    return pathNames;
+  }
+
+  /**
+   * Given a node and a fallback property, returns a **non-evaluated** string value of the node.
+   * 1. { node: 'value' }
+   * 2. { node: { fallbackProperty: 'value' } }
+   */
+  _getPresetValue(node: t.Node, fallbackProperty: string) {
+    let value;
+    if (t.isStringLiteral(node)) {
+      value = node.value;
+    } else if (t.isObjectExpression(node)) {
+      node.properties.forEach((prop) => {
+        // { framework: { name: 'value' } }
+        if (
+          t.isObjectProperty(prop) &&
+          t.isIdentifier(prop.key) &&
+          prop.key.name === fallbackProperty
+        ) {
+          if (t.isStringLiteral(prop.value)) {
+            value = prop.value.value;
+          }
+        }
+
+        // { "framework": { "name": "value" } }
+        if (
+          t.isObjectProperty(prop) &&
+          t.isStringLiteral(prop.key) &&
+          prop.key.value === 'name' &&
+          t.isStringLiteral(prop.value)
+        ) {
+          value = prop.value.value;
+        }
+      });
+    }
+
+    if (!value) {
+      throw new Error(
+        `The given node must be a string literal or an object expression with a "${fallbackProperty}" property that is a string literal.`
+      );
+    }
+
+    return value;
   }
 
   removeField(path: string[]) {
@@ -306,8 +440,24 @@ export class ConfigFile {
 
     const properties = this.getFieldProperties(path) as t.ObjectProperty[];
     if (properties) {
-      const lastPath = path.at(-1);
+      const lastPath = path.at(-1) as string;
       removeProperty(properties, lastPath);
+    }
+  }
+
+  appendValueToArray(path: string[], value: any) {
+    const node = this.valueToNode(value);
+    this.appendNodeToArray(path, node);
+  }
+
+  appendNodeToArray(path: string[], node: t.Expression) {
+    const current = this.getFieldNode(path);
+    if (!current) {
+      this.setFieldNode(path, t.arrayExpression([node]));
+    } else if (t.isArrayExpression(current)) {
+      current.elements.push(node);
+    } else {
+      throw new Error(`Expected array at '${path.join('.')}', got '${current.type}'`);
     }
   }
 
@@ -328,7 +478,7 @@ export class ConfigFile {
     return this._quotes;
   }
 
-  setFieldValue(path: string[], value: any) {
+  valueToNode(value: any) {
     const quotes = this._inferQuotes();
     let valueNode;
     // we do this rather than t.valueToNode because apparently
@@ -354,6 +504,11 @@ export class ConfigFile {
       // double quotes is the default so we can skip all that
       valueNode = t.valueToNode(value);
     }
+    return valueNode;
+  }
+
+  setFieldValue(path: string[], value: any) {
+    const valueNode = this.valueToNode(value);
     if (!valueNode) {
       throw new Error(`Unexpected value ${JSON.stringify(value)}`);
     }

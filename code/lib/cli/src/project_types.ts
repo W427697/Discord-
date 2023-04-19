@@ -15,8 +15,21 @@ function eqMajor(versionRange: string, major: number) {
   return validRange(versionRange) && minVersion(versionRange).major === major;
 }
 
+/** A list of all frameworks that are supported, but use a package outside the storybook monorepo */
+export type ExternalFramework = {
+  name: SupportedFrameworks;
+  packageName?: string;
+  frameworks?: string[];
+  renderer?: string;
+};
+
+export const externalFrameworks: ExternalFramework[] = [
+  { name: 'qwik', packageName: 'storybook-framework-qwik' },
+  { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
+];
+
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -32,11 +45,13 @@ export type SupportedRenderers =
   | 'marko'
   | 'preact'
   | 'svelte'
+  | 'qwik'
   | 'rax'
   | 'aurelia'
   | 'html'
   | 'web-components'
-  | 'server';
+  | 'server'
+  | 'solid';
 
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
@@ -51,8 +66,10 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'marko',
   'preact',
   'svelte',
+  'qwik',
   'rax',
   'aurelia',
+  'solid',
 ];
 
 export enum ProjectType {
@@ -69,12 +86,12 @@ export enum ProjectType {
   SFC_VUE = 'SFC_VUE',
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
-  ALREADY_HAS_STORYBOOK = 'ALREADY_HAS_STORYBOOK',
   WEB_COMPONENTS = 'WEB_COMPONENTS',
   MITHRIL = 'MITHRIL',
   MARIONETTE = 'MARIONETTE',
   MARKO = 'MARKO',
   HTML = 'HTML',
+  QWIK = 'QWIK',
   RIOT = 'RIOT',
   PREACT = 'PREACT',
   SVELTE = 'SVELTE',
@@ -82,6 +99,8 @@ export enum ProjectType {
   RAX = 'RAX',
   AURELIA = 'AURELIA',
   SERVER = 'SERVER',
+  NX = 'NX',
+  SOLID = 'SOLID',
 }
 
 export enum CoreBuilder {
@@ -94,8 +113,8 @@ export type Builder = CoreBuilder | (string & {});
 
 export enum SupportedLanguage {
   JAVASCRIPT = 'javascript',
-  TYPESCRIPT_LEGACY = 'typescript-legacy',
-  TYPESCRIPT = 'typescript',
+  TYPESCRIPT_3_8 = 'typescript-3-8',
+  TYPESCRIPT_4_9 = 'typescript-4-9',
 }
 
 export type TemplateMatcher = {
@@ -169,6 +188,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
     },
   },
   {
+    preset: ProjectType.QWIK,
+    dependencies: ['@builder.io/qwik'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  {
     preset: ProjectType.REACT_PROJECT,
     peerDependencies: ['react'],
     matcherFunction: ({ peerDependencies }) => {
@@ -190,20 +216,6 @@ export const supportedTemplates: TemplateConfiguration[] = [
     dependencies: ['react-scripts'],
     matcherFunction: ({ dependencies, files }) => {
       return dependencies.every(Boolean) || files.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.WEBPACK_REACT,
-    dependencies: ['react', 'webpack'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.REACT,
-    dependencies: ['react'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
     },
   },
   {
@@ -284,6 +296,29 @@ export const supportedTemplates: TemplateConfiguration[] = [
       return dependencies.every(Boolean);
     },
   },
+  {
+    preset: ProjectType.SOLID,
+    dependencies: ['solid-js'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  // DO NOT MOVE ANY TEMPLATES BELOW THIS LINE
+  // React is part of every Template, after Storybook is initialized once
+  {
+    preset: ProjectType.WEBPACK_REACT,
+    dependencies: ['react', 'webpack'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.REACT,
+    dependencies: ['react'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
 ];
 
 // A TemplateConfiguration that matches unsupported frameworks
@@ -300,11 +335,7 @@ export const unsupportedTemplate: TemplateConfiguration = {
   },
 };
 
-const notInstallableProjectTypes: ProjectType[] = [
-  ProjectType.UNDETECTED,
-  ProjectType.UNSUPPORTED,
-  ProjectType.ALREADY_HAS_STORYBOOK,
-];
+const notInstallableProjectTypes: ProjectType[] = [ProjectType.UNDETECTED, ProjectType.UNSUPPORTED];
 
 export const installableProjectTypes = Object.values(ProjectType)
   .filter((type) => !notInstallableProjectTypes.includes(type))

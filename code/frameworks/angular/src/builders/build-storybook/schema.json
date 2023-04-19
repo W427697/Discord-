@@ -34,7 +34,7 @@
       "description": "Suppress verbose build output.",
       "default": false
     },
-    "docsMode": {
+    "docs": {
       "type": "boolean",
       "description": "Starts Storybook in documentation mode. Learn more about it : https://storybook.js.org/docs/react/writing-docs/build-documentation#preview-storybooks-documentation.",
       "default": false
@@ -61,7 +61,7 @@
       "type": "array",
       "description": "Global styles to be included in the build.",
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "$ref": "#/definitions/styleElement"
       },
       "default": ""
     },
@@ -79,11 +79,57 @@
       },
       "additionalProperties": false,
       "default": ""
+    },
+    "assets": {
+      "type": "array",
+      "description": "List of static application assets.",
+      "default": [],
+      "items": {
+        "$ref": "#/definitions/assetPattern"
+      }
     }
   },
   "additionalProperties": false,
   "definitions": {
-    "extraEntryPoint": {
+    "assetPattern": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "followSymlinks": {
+              "type": "boolean",
+              "default": false,
+              "description": "Allow glob patterns to follow symlink directories. This allows subdirectories of the symlink to be searched."
+            },
+            "glob": {
+              "type": "string",
+              "description": "The pattern to match."
+            },
+            "input": {
+              "type": "string",
+              "description": "The input directory path in which to apply 'glob'. Defaults to the project root."
+            },
+            "ignore": {
+              "description": "An array of globs to ignore.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "output": {
+              "type": "string",
+              "description": "Absolute path within the output."
+            }
+          },
+          "additionalProperties": false,
+          "required": ["glob", "input", "output"]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "styleElement": {
       "oneOf": [
         {
           "type": "object",

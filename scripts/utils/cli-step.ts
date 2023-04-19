@@ -15,14 +15,14 @@ export type CLIStep<TOptions extends OptionSpecifier> = {
 
 export const steps = {
   repro: {
-    command: 'repro-next',
+    command: 'repro',
     description: 'Bootstrapping Template',
     icon: '👷',
     hasArgument: true,
     options: createOptions({
       output: { type: 'string' },
       // TODO allow default values for strings
-      branch: { type: 'string', values: ['next'] },
+      branch: { type: 'string', values: ['main', 'next'] },
       init: { type: 'boolean', inverse: true },
       debug: { type: 'boolean' },
     }),

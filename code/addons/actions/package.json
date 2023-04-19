@@ -1,13 +1,13 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.0.0-beta.26",
+  "version": "7.1.0-alpha.7",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
     "essentials",
     "data-state"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/actions",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/actions",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -61,6 +61,9 @@
       "manager": [
         "dist/manager.d.ts"
       ],
+      "decorator": [
+        "dist/decorator.d.ts"
+      ],
       "preview": [
         "dist/preview.d.ts"
       ]
@@ -77,14 +80,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.26",
-    "@storybook/components": "7.0.0-beta.26",
-    "@storybook/core-events": "7.0.0-beta.26",
+    "@storybook/client-logger": "7.1.0-alpha.7",
+    "@storybook/components": "7.1.0-alpha.7",
+    "@storybook/core-events": "7.1.0-alpha.7",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.26",
-    "@storybook/preview-api": "7.0.0-beta.26",
-    "@storybook/theming": "7.0.0-beta.26",
-    "@storybook/types": "7.0.0-beta.26",
+    "@storybook/manager-api": "7.1.0-alpha.7",
+    "@storybook/preview-api": "7.1.0-alpha.7",
+    "@storybook/theming": "7.1.0-alpha.7",
+    "@storybook/types": "7.1.0-alpha.7",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "polished": "^4.2.2",
@@ -121,7 +124,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1",
+  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc",
   "storybook": {
     "displayName": "Actions",
     "unsupportedFrameworks": [

@@ -2,13 +2,13 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
-import { Source, ArgsTable, Description } from '.';
+import { Source, ArgsTable } from '.';
 import { Title, Subtitle, DocsPageWrapper } from './DocsPage';
-import * as Story from './Story.stories';
+import { Markdown as MarkdownComponent } from '../blocks/Markdown';
 import * as Preview from './Preview.stories';
 import * as argsTable from './ArgsTable/ArgsTable.stories';
 import * as source from './Source.stories';
-import * as description from './Description.stories';
+import * as markdown from '../blocks/Markdown.stories';
 import { Unstyled } from '../blocks/Unstyled';
 
 export default {
@@ -41,7 +41,7 @@ export const Loading = () => (
     <Subtitle>
       What the DocsPage looks like. Meant to be QAed in Canvas tab not in Docs tab.
     </Subtitle>
-    <Description {...description.Text.args} />
+    <MarkdownComponent {...markdown.Text.args} />
     <Preview.Loading />
     <ArgsTable {...(argsTable.Loading.args as ComponentProps<typeof ArgsTable>)} />
     <Source {...source.Loading.args} />
@@ -54,18 +54,10 @@ export const WithSubtitle = () => (
     <Subtitle>
       What the DocsPage looks like. Meant to be QAed in Canvas tab not in Docs tab.
     </Subtitle>
-    <Description {...description.Text.args} />
+    <MarkdownComponent {...markdown.Text.args} />
     <Preview.Single />
     <ArgsTable {...argsTable.Normal.args} />
     <Source {...source.JSX.args} />
-  </DocsPageWrapper>
-);
-
-export const Empty = () => (
-  <DocsPageWrapper>
-    <Story.Error />
-    <ArgsTable {...argsTable.Error.args} />
-    <Source {...source.SourceUnavailable.args} />
   </DocsPageWrapper>
 );
 
@@ -81,7 +73,7 @@ export const NoText = () => (
 export const Text = () => (
   <DocsPageWrapper>
     <Title>Sensorium</Title>
-    <Description {...description.Text.args} />
+    <MarkdownComponent {...markdown.Text.args} />
     <Preview.Single />
     <ArgsTable {...argsTable.Normal.args} />
     <Source {...source.JSX.args} />
@@ -91,7 +83,7 @@ export const Text = () => (
 export const Markdown = () => (
   <DocsPageWrapper>
     <Title>markdown</Title>
-    <Description {...description.Markdown.args} />
+    <MarkdownComponent {...markdown.Markdown.args} />
     <Preview.Single />
     <ArgsTable {...argsTable.Normal.args} />
     <Source {...source.JSX.args} />

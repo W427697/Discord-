@@ -18,13 +18,13 @@ import type {
   API_DocsEntry,
   API_GroupEntry,
   API_HashEntry,
+  API_IndexHash,
   API_LeafEntry,
   API_OptionsData,
   API_ProviderData,
   API_Refs,
   API_RootEntry,
   API_StateMerger,
-  API_StoriesHash,
   API_StoryEntry,
   Parameters,
   StoryId,
@@ -38,6 +38,7 @@ import {
 } from '@storybook/core-events';
 import type { RouterData } from '@storybook/router';
 import type { Listener } from '@storybook/channels';
+import { deprecate } from '@storybook/client-logger';
 
 import { createContext } from './context';
 import type { Options } from './store';
@@ -55,14 +56,14 @@ import * as settings from './modules/settings';
 import * as releaseNotes from './modules/release-notes';
 // eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
-// eslint-disable-next-line import/no-cycle
+
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
 
 import * as url from './modules/url';
 import * as version from './modules/versions';
-// eslint-disable-next-line import/no-cycle
+
 import * as globals from './modules/globals';
 
 export * from './lib/shortcut';
@@ -95,6 +96,7 @@ export type State = layout.SubState &
   globals.SubState &
   RouterData &
   API_OptionsData &
+  DeprecatedState &
   Other;
 
 export type API = addons.SubAPI &
@@ -111,6 +113,21 @@ export type API = addons.SubAPI &
   version.SubAPI &
   url.SubAPI &
   Other;
+
+interface DeprecatedState {
+  /**
+   * @deprecated use index
+   */
+  storiesHash: API_IndexHash;
+  /**
+   * @deprecated use previewInitialized
+   */
+  storiesConfigured: boolean;
+  /**
+   * @deprecated use indexError
+   */
+  storiesFailed?: Error;
+}
 
 interface Other {
   [key: string]: any;
@@ -147,7 +164,8 @@ type ModuleWithoutInit<APIType = unknown, StateType = unknown> = Omit<
 >;
 
 export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
-  m: ModuleArgs
+  m: ModuleArgs,
+  options?: any
 ) => HasInit extends true
   ? ModuleWithInit<APIType, StateType>
   : ModuleWithoutInit<APIType, StateType>;
@@ -318,7 +336,23 @@ function ManagerConsumer<P = Combo>({
 
 export function useStorybookState(): State {
   const { state } = useContext(ManagerContext);
-  return state;
+  return {
+    ...state,
+
+    // deprecated fields for back-compat
+    get storiesHash() {
+      deprecate('state.storiesHash is deprecated, please use state.index');
+      return this.index || {};
+    },
+    get storiesConfigured() {
+      deprecate('state.storiesConfigured is deprecated, please use state.previewInitialized');
+      return this.previewInitialized;
+    },
+    get storiesFailed() {
+      deprecate('state.storiesFailed is deprecated, please use state.indexError');
+      return this.indexError;
+    },
+  };
 }
 export function useStorybookApi(): API {
   const { api } = useContext(ManagerContext);
@@ -326,7 +360,9 @@ export function useStorybookApi(): API {
 }
 
 export type {
-  API_StoriesHash as StoriesHash,
+  /** @deprecated now IndexHash */
+  API_IndexHash as StoriesHash,
+  API_IndexHash as IndexHash,
   API_RootEntry as RootEntry,
   API_GroupEntry as GroupEntry,
   API_ComponentEntry as ComponentEntry,
@@ -450,7 +486,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
-  const args = data.type === 'story' ? data.args : {};
+  const args = data?.type === 'story' ? data.args : {};
   const updateArgs = useCallback(
     (newArgs: Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]

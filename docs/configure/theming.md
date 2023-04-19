@@ -10,11 +10,19 @@ It's possible to theme Storybook globally.
 
 Storybook includes two themes that look good out of the box: "light" and "dark". Unless you've set your preferred color scheme as dark, Storybook will use the light theme as default.
 
-Make sure you have installed [`@storybook/addons`](https://www.npmjs.com/package/@storybook/addons) and [`@storybook/theming`](https://www.npmjs.com/package/@storybook/theming) packages.
+Make sure you have installed [`@storybook/manager-api`](https://www.npmjs.com/package/@storybook/manager-api) and [`@storybook/theming`](https://www.npmjs.com/package/@storybook/theming) packages.
 
-```sh
-yarn add --dev @storybook/addons @storybook/theming
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-theming-packages-install.yarn.js.mdx',
+    'common/storybook-theming-packages-install.npm.js.mdx',
+    'common/storybook-theming-packages-install.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./overview.md#configure-story-rendering):
 
@@ -53,6 +61,7 @@ Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./
 <CodeSnippets
   paths={[
     'common/storybook-preview-docs-dark-theme.js.mdx',
+    'common/storybook-preview-docs-dark-theme.ts.mdx',
   ]}
 />
 
@@ -70,7 +79,7 @@ Inside your `.storybook` directory, create a new file called `YourTheme.js` and 
 
 <CodeSnippets
   paths={[
-    'common/storybook-theme-example-variables.ts.mdx',
+    'common/storybook-theme-example-variables.js.mdx',
   ]}
 />
 
@@ -156,6 +165,7 @@ Here's how you might insert a custom code renderer for `code` blocks on the page
 <CodeSnippets
   paths={[
     'common/storybook-preview-custom-code-renderer.js.mdx',
+    'common/storybook-preview-custom-code-renderer.ts.mdx',
   ]}
 />
 
@@ -170,6 +180,7 @@ Here's how you might insert a custom `<Canvas />` block:
 <CodeSnippets
   paths={[
     'common/storybook-preview-custom-canvas.js.mdx',
+    'common/storybook-preview-custom-canvas.ts.mdx',
   ]}
 />
 

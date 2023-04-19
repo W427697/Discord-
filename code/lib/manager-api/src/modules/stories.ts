@@ -1,5 +1,24 @@
 import { global } from '@storybook/global';
 import { toId, sanitize } from '@storybook/csf';
+import type {
+  StoryKind,
+  ComponentTitle,
+  StoryName,
+  StoryId,
+  Args,
+  API_ComposedRef,
+  API_HashEntry,
+  API_LeafEntry,
+  API_PreparedStoryIndex,
+  SetStoriesPayload,
+  API_StoryEntry,
+  StoryIndex,
+  API_LoadedRefData,
+  API_IndexHash,
+  StoryPreparedPayload,
+  DocsPreparedPayload,
+  API_DocsEntry,
+} from '@storybook/types';
 import {
   PRELOAD_ENTRIES,
   STORY_PREPARED,
@@ -13,24 +32,15 @@ import {
   STORY_SPECIFIED,
   STORY_INDEX_INVALIDATED,
   CONFIG_ERROR,
+  CURRENT_STORY_WAS_SET,
+  STORY_MISSING,
+  DOCS_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
-import type {
-  StoryId,
-  Args,
-  API_ComposedRef,
-  API_HashEntry,
-  API_LeafEntry,
-  API_PreparedStoryIndex,
-  SetStoriesPayload,
-  API_StoriesHash,
-  API_StoryEntry,
-  StoryIndex,
-} from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
-// eslint-disable-next-line import/no-cycle
+
 import {
   denormalizeStoryParameters,
   transformStoryIndexToStoriesHash,
@@ -39,7 +49,7 @@ import {
   addPreparedStories,
 } from '../lib/stories';
 
-import type { ModuleFn } from '../index';
+import type { ComposedRef, ModuleFn } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -48,14 +58,14 @@ type Direction = -1 | 1;
 type ParameterName = string;
 
 type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
-type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
+type StoryUpdate = Partial<
+  Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
+>;
+type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
-export interface SubState {
-  storiesHash: API_StoriesHash;
+export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
-  storiesConfigured: boolean;
-  storiesFailed?: Error;
 }
 
 export interface SubAPI {
@@ -80,16 +90,18 @@ export interface SubAPI {
   getCurrentParameter<S>(parameterName?: ParameterName): S;
   updateStoryArgs(story: API_StoryEntry, newArgs: Args): void;
   resetStoryArgs: (story: API_StoryEntry, argNames?: string[]) => void;
-  findLeafEntry(StoriesHash: API_StoriesHash, storyId: StoryId): API_LeafEntry;
-  findLeafStoryId(StoriesHash: API_StoriesHash, storyId: StoryId): StoryId;
+  findLeafEntry(index: API_IndexHash, storyId: StoryId): API_LeafEntry;
+  findLeafStoryId(index: API_IndexHash, storyId: StoryId): StoryId;
   findSiblingStoryId(
     storyId: StoryId,
-    hash: API_StoriesHash,
+    index: API_IndexHash,
     direction: Direction,
     toSiblingGroup: boolean // when true, skip over leafs within the same group
   ): StoryId;
   fetchIndex: () => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
+  updateDocs: (storyId: StoryId, update: DocsUpdate, ref?: API_ComposedRef) => Promise<void>;
+  setPreviewInitialized: (ref?: ComposedRef) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
@@ -132,11 +144,14 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       return data.type === 'story' ? data.prepared : true;
     },
     resolveStory: (storyId, refId) => {
-      const { refs, storiesHash } = store.getState();
-      if (refId) {
-        return refs[refId].stories ? refs[refId].stories[storyId] : undefined;
+      const { refs, index } = store.getState();
+      if (refId && !refs[refId]) {
+        return null;
       }
-      return storiesHash ? storiesHash[storyId] : undefined;
+      if (refId) {
+        return refs[refId].index ? refs[refId].index[storyId] : undefined;
+      }
+      return index ? index[storyId] : undefined;
     },
     getCurrentStoryData: () => {
       const { storyId, refId } = store.getState();
@@ -150,7 +165,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           : storyIdOrCombo;
       const data = api.getData(storyId, refId);
 
-      if (data?.type === 'story') {
+      if (['story', 'docs'].includes(data?.type)) {
         const { parameters } = data;
 
         if (parameters) {
@@ -168,7 +183,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       return parameters || undefined;
     },
     jumpToComponent: (direction) => {
-      const { storiesHash, storyId, refs, refId } = store.getState();
+      const { index, storyId, refs, refId } = store.getState();
       const story = api.getData(storyId, refId);
 
       // cannot navigate when there's no current selection
@@ -176,7 +191,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         return;
       }
 
-      const hash = refId ? refs[refId].stories || {} : storiesHash;
+      const hash = refId ? refs[refId].index || {} : index;
       const result = api.findSiblingStoryId(storyId, hash, direction, true);
 
       if (result) {
@@ -184,7 +199,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     },
     jumpToStory: (direction) => {
-      const { storiesHash, storyId, refs, refId } = store.getState();
+      const { index, storyId, refs, refId } = store.getState();
       const story = api.getData(storyId, refId);
 
       // cannot navigate when there's no current selection
@@ -192,7 +207,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         return;
       }
 
-      const hash = story.refId ? refs[story.refId].stories : storiesHash;
+      const hash = story.refId ? refs[story.refId].index : index;
       const result = api.findSiblingStoryId(storyId, hash, direction, false);
 
       if (result) {
@@ -200,8 +215,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     },
     selectFirstStory: () => {
-      const { storiesHash } = store.getState();
-      const firstStory = Object.keys(storiesHash).find((id) => storiesHash[id].type === 'story');
+      const { index } = store.getState();
+      const firstStory = Object.keys(index).find((id) => index[id].type === 'story');
 
       if (firstStory) {
         api.selectStory(firstStory);
@@ -212,9 +227,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     selectStory: (titleOrId = undefined, name = undefined, options = {}) => {
       const { ref } = options;
-      const { storyId, storiesHash, refs } = store.getState();
+      const { storyId, index, refs } = store.getState();
 
-      const hash = ref ? refs[ref].stories : storiesHash;
+      const hash = ref ? refs[ref].index : index;
 
       const kindSlug = storyId?.split('--', 2)[0];
 
@@ -249,50 +264,50 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         }
       }
     },
-    findLeafEntry(storiesHash, storyId) {
-      const entry = storiesHash[storyId];
+    findLeafEntry(index, storyId) {
+      const entry = index[storyId];
       if (entry.type === 'docs' || entry.type === 'story') {
         return entry;
       }
 
       const childStoryId = entry.children[0];
-      return api.findLeafEntry(storiesHash, childStoryId);
+      return api.findLeafEntry(index, childStoryId);
     },
-    findLeafStoryId(storiesHash, storyId) {
-      return api.findLeafEntry(storiesHash, storyId)?.id;
+    findLeafStoryId(index, storyId) {
+      return api.findLeafEntry(index, storyId)?.id;
     },
-    findSiblingStoryId(storyId, hash, direction, toSiblingGroup) {
+    findSiblingStoryId(storyId, index, direction, toSiblingGroup) {
       if (toSiblingGroup) {
-        const lookupList = getComponentLookupList(hash);
-        const index = lookupList.findIndex((i) => i.includes(storyId));
+        const lookupList = getComponentLookupList(index);
+        const position = lookupList.findIndex((i) => i.includes(storyId));
 
         // cannot navigate beyond fist or last
-        if (index === lookupList.length - 1 && direction > 0) {
+        if (position === lookupList.length - 1 && direction > 0) {
           return;
         }
-        if (index === 0 && direction < 0) {
+        if (position === 0 && direction < 0) {
           return;
         }
 
-        if (lookupList[index + direction]) {
+        if (lookupList[position + direction]) {
           // eslint-disable-next-line consistent-return
-          return lookupList[index + direction][0];
+          return lookupList[position + direction][0];
         }
         return;
       }
-      const lookupList = getStoriesLookupList(hash);
-      const index = lookupList.indexOf(storyId);
+      const lookupList = getStoriesLookupList(index);
+      const position = lookupList.indexOf(storyId);
 
       // cannot navigate beyond fist or last
-      if (index === lookupList.length - 1 && direction > 0) {
+      if (position === lookupList.length - 1 && direction > 0) {
         return;
       }
-      if (index === 0 && direction < 0) {
+      if (position === 0 && direction < 0) {
         return;
       }
 
       // eslint-disable-next-line consistent-return
-      return lookupList[index + direction];
+      return lookupList[position + direction];
     },
     updateStoryArgs: (story, updatedArgs) => {
       const { id: storyId, refId } = story;
@@ -325,10 +340,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         await fullAPI.setIndex(storyIndex);
       } catch (err) {
-        store.setState({
-          storiesConfigured: true,
-          storiesFailed: err,
-        });
+        await store.setState({ indexError: err });
       }
     },
     // The story index we receive on SET_INDEX is "prepared" in that it has parameters
@@ -341,13 +353,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       });
 
       // Now we need to patch in the existing prepared stories
-      const oldHash = store.getState().storiesHash;
+      const oldHash = store.getState().index;
 
-      await store.setState({
-        storiesHash: addPreparedStories(newHash, oldHash),
-        storiesConfigured: true,
-        storiesFailed: null,
-      });
+      await store.setState({ index: addPreparedStories(newHash, oldHash), indexError: undefined });
     },
     updateStory: async (
       storyId: StoryId,
@@ -355,19 +363,47 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       ref?: API_ComposedRef
     ): Promise<void> => {
       if (!ref) {
-        const { storiesHash } = store.getState();
-        storiesHash[storyId] = {
-          ...storiesHash[storyId],
+        const { index } = store.getState();
+        index[storyId] = {
+          ...index[storyId],
           ...update,
         } as API_StoryEntry;
-        await store.setState({ storiesHash });
+        await store.setState({ index });
       } else {
-        const { id: refId, stories } = ref;
-        stories[storyId] = {
-          ...stories[storyId],
+        const { id: refId, index } = ref;
+        index[storyId] = {
+          ...index[storyId],
           ...update,
         } as API_StoryEntry;
-        await fullAPI.updateRef(refId, { stories });
+        await fullAPI.updateRef(refId, { index });
+      }
+    },
+    updateDocs: async (
+      docsId: StoryId,
+      update: DocsUpdate,
+      ref?: API_ComposedRef
+    ): Promise<void> => {
+      if (!ref) {
+        const { index } = store.getState();
+        index[docsId] = {
+          ...index[docsId],
+          ...update,
+        } as API_DocsEntry;
+        await store.setState({ index });
+      } else {
+        const { id: refId, index } = ref;
+        index[docsId] = {
+          ...index[docsId],
+          ...update,
+        } as API_DocsEntry;
+        await fullAPI.updateRef(refId, { index });
+      }
+    },
+    setPreviewInitialized: async (ref?: ComposedRef): Promise<void> => {
+      if (!ref) {
+        store.setState({ previewInitialized: true });
+      } else {
+        fullAPI.updateRef(ref.id, { previewInitialized: true });
       }
     },
   };
@@ -387,9 +423,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }) {
         const { sourceType } = getEventMetadata(this, fullAPI);
 
-        if (fullAPI.isSettingsScreenActive()) return;
-
         if (sourceType === 'local') {
+          if (fullAPI.isSettingsScreenActive()) return;
+
           // Special case -- if we are already at the story being specified (i.e. the user started at a given story),
           // we don't need to change URL. See https://github.com/storybookjs/storybook/issues/11677
           const state = store.getState();
@@ -399,6 +435,15 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         }
       }
     );
+
+    // The CURRENT_STORY_WAS_SET event is the best event to use to tell if a ref is ready.
+    // Until the ref has a selection, it will not render anything (e.g. while waiting for
+    // the preview.js file or the index to load). Once it has a selection, it will render its own
+    // preparing spinner.
+    fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
+      const { ref } = getEventMetadata(this, fullAPI);
+      fullAPI.setPreviewInitialized(ref);
+    });
 
     fullAPI.on(STORY_CHANGED, function handler() {
       const { sourceType } = getEventMetadata(this, fullAPI);
@@ -412,7 +457,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     });
 
-    fullAPI.on(STORY_PREPARED, function handler({ id, ...update }) {
+    fullAPI.on(STORY_PREPARED, function handler({ id, ...update }: StoryPreparedPayload) {
       const { ref, sourceType } = getEventMetadata(this, fullAPI);
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
 
@@ -422,18 +467,16 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           fullAPI.setOptions(removeRemovedOptions(options));
           store.setState({ hasCalledSetOptions: true });
         }
-      } else {
-        fullAPI.updateRef(ref.id, { ready: true });
       }
 
       if (sourceType === 'local') {
-        const { storyId, storiesHash, refId } = store.getState();
+        const { storyId, index, refId } = store.getState();
 
         // create a list of related stories to be preloaded
         const toBePreloaded = Array.from(
           new Set([
-            api.findSiblingStoryId(storyId, storiesHash, 1, true),
-            api.findSiblingStoryId(storyId, storiesHash, -1, true),
+            api.findSiblingStoryId(storyId, index, 1, true),
+            api.findSiblingStoryId(storyId, index, -1, true),
           ])
         ).filter(Boolean);
 
@@ -442,6 +485,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           options: { target: refId },
         });
       }
+    });
+
+    fullAPI.on(DOCS_PREPARED, function handler({ id, ...update }: DocsPreparedPayload) {
+      const { ref } = getEventMetadata(this, fullAPI);
+      fullAPI.updateStory(id, { ...update, prepared: true }, ref);
     });
 
     fullAPI.on(SET_INDEX, function handler(index: API_PreparedStoryIndex) {
@@ -472,21 +520,25 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       SELECT_STORY,
       function handler({
         kind,
+        title = kind,
         story,
+        name = story,
         storyId,
         ...rest
       }: {
-        kind: string;
-        story: string;
+        kind?: StoryKind;
+        title?: ComponentTitle;
+        story?: StoryName;
+        name?: StoryName;
         storyId: string;
         viewMode: ViewMode;
       }) {
         const { ref } = getEventMetadata(this, fullAPI);
 
         if (!ref) {
-          fullAPI.selectStory(storyId || kind, story, rest);
+          fullAPI.selectStory(storyId || title, name, rest);
         } else {
-          fullAPI.selectStory(storyId || kind, story, { ...rest, ref: ref.id });
+          fullAPI.selectStory(storyId || title, name, { ...rest, ref: ref.id });
         }
       }
     );
@@ -499,11 +551,15 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     );
 
+    // When there's a preview error, we don't show it in the manager, but simply
     fullAPI.on(CONFIG_ERROR, function handleConfigError(err) {
-      store.setState({
-        storiesConfigured: true,
-        storiesFailed: err,
-      });
+      const { ref } = getEventMetadata(this, fullAPI);
+      fullAPI.setPreviewInitialized(ref);
+    });
+
+    fullAPI.on(STORY_MISSING, function handleConfigError(err) {
+      const { ref } = getEventMetadata(this, fullAPI);
+      fullAPI.setPreviewInitialized(ref);
     });
 
     if (FEATURES?.storyStoreV7) {
@@ -515,11 +571,10 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
   return {
     api,
     state: {
-      storiesHash: {},
       storyId: initialStoryId,
       viewMode: initialViewMode,
-      storiesConfigured: false,
       hasCalledSetOptions: false,
+      previewInitialized: false,
     },
     init: initModule,
   };

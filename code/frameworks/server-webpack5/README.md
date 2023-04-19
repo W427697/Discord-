@@ -14,7 +14,7 @@ So you can develop UI components in isolation without worrying about app specifi
 
 ```sh
 cd my-app
-npx storybook init -t server
+npx storybook@latest init -t server
 ```
 
 To configure the server that Storybook will connect to, export a global parameter `parameters.server.url` in `.storybook/preview.js`:
@@ -55,7 +55,7 @@ To write a story, use whatever API is natural for your server-side rendering fra
 In your `.storybook/main.js` you simply provide a glob specifying the location of those JSON files, e.g.
 
 ```js
-module.exports = {
+export default {
   stories: ['../stories/**/*.stories.json'],
 };
 ```

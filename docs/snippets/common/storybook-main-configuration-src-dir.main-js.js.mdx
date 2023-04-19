@@ -1,15 +1,16 @@
 ```js
 // ./storybook/main.js
 
-module.exports = {
+export default {
   stories: ['../src'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
-  core: {
-    builder: '@storybook/builder-webpack5',
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
   },
 };
 ```

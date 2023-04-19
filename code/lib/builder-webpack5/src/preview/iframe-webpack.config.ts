@@ -1,4 +1,4 @@
-import { dirname, join, resolve } from 'path';
+import { dirname, isAbsolute, join, resolve } from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -12,6 +12,7 @@ import slash from 'slash';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globals } from '@storybook/preview/globals';
 import {
+  getBuilderOptions,
   getRendererName,
   stringifyProcessEnvs,
   handlebars,
@@ -22,11 +23,14 @@ import {
   isPreservingSymlinks,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
+const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+
 const storybookPaths: Record<string, string> = {
-  global: dirname(require.resolve('@storybook/global/package.json')),
+  global: wrapForPnP('@storybook/global'),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
@@ -38,12 +42,12 @@ const storybookPaths: Record<string, string> = {
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [`@storybook/${sbPackage}`]: dirname(require.resolve(`@storybook/${sbPackage}/package.json`)),
+      [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
     }),
     {}
   ),
   // deprecated, remove in 8.0
-  [`@storybook/api`]: dirname(require.resolve(`@storybook/manager-api/package.json`)),
+  [`@storybook/api`]: wrapForPnP(`@storybook/manager-api`),
 };
 
 export default async (
@@ -76,6 +80,7 @@ export default async (
     docsOptions,
     entries,
     nonNormalizedStories,
+    modulesCount = 1000,
   ] = await Promise.all([
     presets.apply<CoreConfig>('core'),
     presets.apply('frameworkOptions'),
@@ -85,8 +90,9 @@ export default async (
     presets.apply('previewBody'),
     presets.apply<string>('previewMainTemplate'),
     presets.apply<DocsOptions>('docs'),
-    presets.apply<string[]>('entries', [], options),
-    presets.apply('stories', [], options),
+    presets.apply<string[]>('entries', []),
+    presets.apply('stories', []),
+    options.cache?.get('modulesCount').catch(() => {}),
   ]);
 
   const stories = normalizeStories(nonNormalizedStories, {
@@ -94,10 +100,7 @@ export default async (
     workingDir,
   });
 
-  const builderOptions: BuilderOptions =
-    typeof coreOptions.builder === 'string'
-      ? {}
-      : coreOptions.builder?.options || ({} as BuilderOptions);
+  const builderOptions = await getBuilderOptions<BuilderOptions>(options);
 
   const previewAnnotations = [
     ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
@@ -109,6 +112,12 @@ export default async (
         if (typeof entry === 'object') {
           return entry.absolute;
         }
+
+        // TODO: Remove as soon as we drop support for disabled StoryStoreV7
+        if (isAbsolute(entry)) {
+          return entry;
+        }
+
         return slash(entry);
       }
     ),
@@ -190,6 +199,15 @@ export default async (
         }
       : {};
 
+  if (!template) {
+    throw new Error(dedent`
+      Storybook's Webpack5 builder requires a template to be specified.
+      Somehow you've ended up with a falsy value for the template option.
+
+      Please file an issue at https://github.com/storybookjs/storybook with a reproduction.
+    `);
+  }
+
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
@@ -263,7 +281,7 @@ export default async (
       new ProvidePlugin({ process: require.resolve('process/browser.js') }),
       isProd ? null : new HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
-      quiet ? null : new ProgressPlugin({}),
+      quiet ? null : new ProgressPlugin({ modulesCount }),
       shouldCheckTs ? new ForkTsCheckerWebpackPlugin(tsCheckOptions) : null,
     ].filter(Boolean),
     module: {

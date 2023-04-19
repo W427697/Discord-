@@ -7,6 +7,8 @@ import fs from 'fs';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
+import type { InstallationMetadata } from './types';
+import { HandledError } from '../HandledError';
 
 const logger = console;
 
@@ -78,7 +80,7 @@ export abstract class JsPackageManager {
       this.runInstall();
     } catch (e) {
       done('An error occurred while installing dependencies.');
-      process.exit(1);
+      throw new HandledError(e);
     }
     done();
   }
@@ -98,7 +100,28 @@ export abstract class JsPackageManager {
   }
 
   writePackageJson(packageJson: PackageJson) {
-    const content = `${JSON.stringify(packageJson, null, 2)}\n`;
+    const packageJsonToWrite = { ...packageJson };
+    // make sure to not accidentally add empty fields
+    if (
+      packageJsonToWrite.dependencies &&
+      Object.keys(packageJsonToWrite.dependencies).length === 0
+    ) {
+      delete packageJsonToWrite.dependencies;
+    }
+    if (
+      packageJsonToWrite.devDependencies &&
+      Object.keys(packageJsonToWrite.devDependencies).length === 0
+    ) {
+      delete packageJsonToWrite.devDependencies;
+    }
+    if (
+      packageJsonToWrite.peerDependencies &&
+      Object.keys(packageJsonToWrite.peerDependencies).length === 0
+    ) {
+      delete packageJsonToWrite.peerDependencies;
+    }
+
+    const content = `${JSON.stringify(packageJsonToWrite, null, 2)}\n`;
     fs.writeFileSync(this.packageJsonPath(), content, 'utf8');
   }
 
@@ -119,6 +142,17 @@ export abstract class JsPackageManager {
       ...packageJson,
       dependencies: { ...packageJson.dependencies },
       devDependencies: { ...packageJson.devDependencies },
+      peerDependencies: { ...packageJson.peerDependencies },
+    };
+  }
+
+  public getAllDependencies(): Record<string, string> {
+    const { dependencies, devDependencies, peerDependencies } = this.retrievePackageJson();
+
+    return {
+      ...dependencies,
+      ...devDependencies,
+      ...peerDependencies,
     };
   }
 
@@ -164,7 +198,6 @@ export abstract class JsPackageManager {
           ...dependenciesMap,
         };
       }
-
       this.writePackageJson(packageJson);
     } else {
       try {
@@ -172,7 +205,7 @@ export abstract class JsPackageManager {
       } catch (e) {
         logger.error('An error occurred while installing dependencies.');
         logger.log(e.message);
-        process.exit(1);
+        throw new HandledError(e);
       }
     }
   }
@@ -216,7 +249,7 @@ export abstract class JsPackageManager {
       } catch (e) {
         logger.error('An error occurred while removing dependencies.');
         logger.log(e.message);
-        process.exit(1);
+        throw new HandledError(e);
       }
     }
   }
@@ -276,7 +309,7 @@ export abstract class JsPackageManager {
       }
 
       logger.error(`\n     ${chalk.red(e.message)}`);
-      process.exit(1);
+      throw new HandledError(e);
     }
 
     const versionToUse =
@@ -376,15 +409,24 @@ export abstract class JsPackageManager {
   ): // Use generic and conditional type to force `string[]` if fetchAllVersions is true and `string` if false
   Promise<T extends true ? string[] : string>;
 
-  public executeCommand(command: string, args: string[], stdio?: 'pipe' | 'inherit'): string {
+  public abstract runPackageCommand(command: string, args: string[], cwd?: string): string;
+  public abstract findInstallations(pattern?: string[]): InstallationMetadata | undefined;
+
+  public executeCommand(
+    command: string,
+    args: string[],
+    stdio?: 'pipe' | 'inherit',
+    cwd?: string,
+    ignoreError?: boolean
+  ): string {
     const commandResult = spawnSync(command, args, {
-      cwd: this.cwd,
+      cwd: cwd ?? this.cwd,
       stdio: stdio ?? 'pipe',
       encoding: 'utf-8',
       shell: true,
     });
 
-    if (commandResult.status !== 0) {
+    if (commandResult.status !== 0 && ignoreError !== true) {
       throw new Error(commandResult.stderr ?? '');
     }
 

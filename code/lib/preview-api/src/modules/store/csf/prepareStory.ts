@@ -1,5 +1,3 @@
-import { dedent } from 'ts-dedent';
-import deprecate from 'util-deprecate';
 import { global } from '@storybook/global';
 
 import type {
@@ -27,16 +25,7 @@ import { includeConditionalArg } from '@storybook/csf';
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
 import { defaultDecorateStory } from '../decorators';
-import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
-import { getValuesFromArgTypes } from './getValuesFromArgTypes';
-
-const argTypeDefaultValueWarning = deprecate(
-  () => {},
-  dedent`
-  \`argType.defaultValue\` is deprecated and will be removed in Storybook 7.0.
-
-  https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#no-longer-inferring-default-values-of-args`
-);
+import { groupArgsByTarget, UNTARGETED } from '../args';
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
 // into a "renderable" story function, with all decorators applied, parameters passed as context etc
@@ -71,23 +60,10 @@ export function prepareStory<TRenderer extends Renderer>(
   };
 
   const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
-    const mappedArgs = Object.entries(context.args).reduce((acc, [key, val]) => {
-      const mapping = context.argTypes[key]?.mapping;
-      acc[key] = mapping && val in mapping ? mapping[val] : val;
-      return acc;
-    }, {} as Args);
-
-    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-      const argType = context.argTypes[key] || {};
-      if (includeConditionalArg(argType, mappedArgs, context.globals)) acc[key] = val;
-      return acc;
-    }, {} as Args);
-
-    const includedContext = { ...context, args: includedArgs };
     const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
     return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TRenderer>)(includedContext.args, includedContext)
-      : (render as LegacyStoryFn<TRenderer>)(includedContext);
+      ? (render as ArgsStoryFn<TRenderer>)(context.args, context)
+      : (render as LegacyStoryFn<TRenderer>)(context);
   };
 
   // Currently it is only possible to set these globally
@@ -109,19 +85,38 @@ export function prepareStory<TRenderer extends Renderer>(
   if (!render) throw new Error(`No render function available for storyId '${id}'`);
 
   const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
-  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
+  const unboundStoryFn = (context: StoryContext<TRenderer>) => decoratedStoryFn(context);
+
+  // prepareContext is invoked at StoryRender.render()
+  // the context is prepared before invoking the render function, instead of here directly
+  // to ensure args don't loose there special properties set by the renderer
+  // eg. reactive proxies set by frameworks like SolidJS or Vue
+  const prepareContext = (context: StoryContext<TRenderer>) => {
     let finalContext: StoryContext<TRenderer> = context;
+
     if (global.FEATURES?.argTypeTargetsV7) {
       const argsByTarget = groupArgsByTarget(context);
       finalContext = {
         ...context,
         allArgs: context.args,
         argsByTarget,
-        args: argsByTarget[NO_TARGET_NAME] || {},
+        args: argsByTarget[UNTARGETED] || {},
       };
     }
 
-    return decoratedStoryFn(finalContext);
+    const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
+      const mapping = finalContext.argTypes[key]?.mapping;
+      acc[key] = mapping && val in mapping ? mapping[val] : val;
+      return acc;
+    }, {} as Args);
+
+    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
+      const argType = finalContext.argTypes[key] || {};
+      if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
+      return acc;
+    }, {} as Args);
+
+    return { ...finalContext, args: includedArgs };
   };
 
   const play = storyAnnotations?.play || componentAnnotations.play;
@@ -150,6 +145,7 @@ export function prepareStory<TRenderer extends Renderer>(
     unboundStoryFn,
     applyLoaders,
     playFunction,
+    prepareContext,
   };
 }
 
@@ -173,8 +169,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const id = storyAnnotations?.id || componentAnnotations.id;
-
   const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
 
   const parameters: Parameters = combineParameters(
@@ -186,24 +180,26 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // Currently it is only possible to set these globally
   const { argTypesEnhancers = [], argsEnhancers = [] } = projectAnnotations;
 
-  // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
-  // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
-  const render =
-    storyAnnotations?.userStoryFn ||
-    storyAnnotations?.render ||
-    componentAnnotations.render ||
-    projectAnnotations.render;
-
-  if (!render) throw new Error(`No render function available for id '${id}'`);
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
     storyAnnotations?.argTypes
   ) as StrictArgTypes;
 
-  const { passArgsFirst = true } = parameters;
-  // eslint-disable-next-line no-underscore-dangle
-  parameters.__isArgsStory = passArgsFirst && render.length > 0;
+  if (storyAnnotations) {
+    // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
+    // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
+    const render =
+      storyAnnotations?.userStoryFn ||
+      storyAnnotations?.render ||
+      componentAnnotations.render ||
+      projectAnnotations.render;
+
+    const { passArgsFirst = true } = parameters;
+
+    // eslint-disable-next-line no-underscore-dangle
+    parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
+  }
 
   // Pull out args[X] into initialArgs for argTypes enhancers
   const passedArgs: Args = {
@@ -234,15 +230,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
     contextForEnhancers.argTypes
   );
 
-  // Add argTypes[X].defaultValue to initial args (note this deprecated)
-  // We need to do this *after* the argTypesEnhancers as they may add defaultValues
-  const defaultArgs = getValuesFromArgTypes(contextForEnhancers.argTypes);
-
-  if (Object.keys(defaultArgs).length > 0) {
-    argTypeDefaultValueWarning();
-  }
-
-  const initialArgsBeforeEnhancers = { ...defaultArgs, ...passedArgs };
+  const initialArgsBeforeEnhancers = { ...passedArgs };
 
   contextForEnhancers.initialArgs = argsEnhancers.reduce(
     (accumulatedArgs: Args, enhancer) => ({
@@ -254,19 +242,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
     }),
     initialArgsBeforeEnhancers
   );
-
-  // Add some of our metadata into parameters as we used to do this in 6.x and users may be relying on it
-
-  if (!global.FEATURES?.breakingChangesV7) {
-    contextForEnhancers.parameters = {
-      ...contextForEnhancers.parameters,
-      __id: id,
-      globals: projectAnnotations.globals,
-      globalTypes: projectAnnotations.globalTypes,
-      args: contextForEnhancers.initialArgs,
-      argTypes: contextForEnhancers.argTypes,
-    };
-  }
 
   const { name, story, ...withoutStoryIdentifiers } = contextForEnhancers;
 

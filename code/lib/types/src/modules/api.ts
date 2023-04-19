@@ -5,9 +5,9 @@ import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
 import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
-import type { API_HashEntry, API_StoriesHash } from './api-stories';
+import type { API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_Types } from './addons';
+import type { Addon_Type } from './addons';
 import type { StoryIndex } from './storyIndex';
 
 export type API_ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
@@ -30,17 +30,8 @@ export interface API_MatchOptions {
   path: string;
 }
 
-export interface API_Addon {
-  title: string;
-  type?: Addon_Types;
-  id?: string;
-  route?: (routeOptions: API_RouteOptions) => string;
-  match?: (matchOptions: API_MatchOptions) => boolean;
-  render: (renderOptions: API_RenderOptions) => any;
-  paramKey?: string;
-  disabled?: boolean;
-  hidden?: boolean;
-}
+export type API_Addon = Addon_Type;
+
 export interface API_Collection<T = API_Addon> {
   [key: string]: T;
 }
@@ -142,18 +133,22 @@ export type API_SetRefData = Partial<
 >;
 
 export type API_StoryMapper = (ref: API_ComposedRef, story: SetStoriesStory) => SetStoriesStory;
-export interface API_ComposedRef {
+
+export interface API_LoadedRefData {
+  index?: API_IndexHash;
+  indexError?: Error;
+  previewInitialized: boolean;
+}
+
+export interface API_ComposedRef extends API_LoadedRefData {
   id: string;
   title?: string;
   url: string;
   type?: 'auto-inject' | 'unknown' | 'lazy' | 'server-checked';
   expanded?: boolean;
-  stories: API_StoriesHash;
   versions?: API_Versions;
   loginUrl?: string;
   version?: string;
-  ready?: boolean;
-  error?: any;
 }
 
 export type API_ComposedRefUpdate = Partial<
@@ -162,12 +157,12 @@ export type API_ComposedRefUpdate = Partial<
     | 'title'
     | 'type'
     | 'expanded'
-    | 'stories'
+    | 'index'
     | 'versions'
     | 'loginUrl'
     | 'version'
-    | 'ready'
-    | 'error'
+    | 'indexError'
+    | 'previewInitialized'
   >
 >;
 

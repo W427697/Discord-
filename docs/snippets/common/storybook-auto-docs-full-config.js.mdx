@@ -1,7 +1,7 @@
 ```js
 // .storybook/main.js
 
-module.exports = {
+export default {
   stories: ['../src/**/*.stories.@(js|ts)'],
   addons: [
     '@storybook/addon-links',
@@ -14,11 +14,9 @@ module.exports = {
     options: {},
   },
   docs: {
-    enabled: false,
-    defaultName: 'Documentation',
-    //👇 Use only one of the following options to auto-generate documentation
-    autodocs: true,
+    //👇 See the table below for the list of supported options
     autodocs: 'tag',
+    defaultName: 'Documentation',
   },
 };
 ```

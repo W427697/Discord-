@@ -15,11 +15,12 @@ import type {
   API_RootEntry,
   API_GroupEntry,
   API_ComponentEntry,
-  API_StoriesHash,
+  API_IndexHash,
   API_DocsEntry,
   API_StoryEntry,
   API_HashEntry,
   SetStoriesPayload,
+  StoryIndexV2,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters } from '../index';
@@ -91,7 +92,23 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
   return { v: 4, entries };
 };
 
-const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStoryIndex => {
+export const transformStoryIndexV2toV3 = (index: StoryIndexV2): StoryIndexV3 => {
+  return {
+    v: 3,
+    stories: Object.values(index.stories).reduce((acc, entry) => {
+      acc[entry.id] = {
+        ...entry,
+        title: entry.kind,
+        name: entry.name || entry.story,
+        importPath: entry.parameters.fileName || '',
+      };
+
+      return acc;
+    }, {} as StoryIndexV3['stories']),
+  };
+};
+
+export const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStoryIndex => {
   const countByTitle = countBy(Object.values(index.stories), 'title');
   return {
     v: 4,
@@ -108,13 +125,19 @@ const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStoryIndex 
         ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
         ...entry,
       };
+
+      // @ts-expect-error (we're removing something that should not be there)
+      delete acc[entry.id].story;
+      // @ts-expect-error (we're removing something that should not be there)
+      delete acc[entry.id].kind;
+
       return acc;
     }, {} as API_PreparedStoryIndex['entries']),
   };
 };
 
 export const transformStoryIndexToStoriesHash = (
-  index: API_PreparedStoryIndex,
+  input: API_PreparedStoryIndex | StoryIndexV2 | StoryIndexV3,
   {
     provider,
     docsOptions,
@@ -122,19 +145,26 @@ export const transformStoryIndexToStoriesHash = (
     provider: API_Provider<API>;
     docsOptions: DocsOptions;
   }
-): API_StoriesHash => {
-  if (!index.v) throw new Error('Composition: Missing stories.json version');
+): API_IndexHash => {
+  if (!input.v) {
+    throw new Error('Composition: Missing stories.json version');
+  }
 
-  const v4Index = index.v === 4 ? index : transformStoryIndexV3toV4(index as any);
+  let index = input;
+  index = index.v === 2 ? transformStoryIndexV2toV3(index as any) : index;
+  index = index.v === 3 ? transformStoryIndexV3toV4(index as any) : index;
+  index = index as API_PreparedStoryIndex;
 
-  const entryValues = Object.values(v4Index.entries);
+  const entryValues = Object.values(index.entries);
   const { sidebar = {} } = provider.getConfig();
   const { showRoots, collapsedRoots = [], renderLabel } = sidebar;
 
   const setShowRoots = typeof showRoots !== 'undefined';
 
   const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
-    if (docsOptions.docsMode && item.type !== 'docs') return acc;
+    if (docsOptions.docsMode && item.type !== 'docs') {
+      return acc;
+    }
 
     // First, split the title into a set of names, separated by '/' and trimmed.
     const { title } = item;
@@ -231,7 +261,7 @@ export const transformStoryIndexToStoriesHash = (
       depth: paths.length,
       parent: paths[paths.length - 1],
       renderLabel,
-      ...(item.type !== 'docs' && { prepared: !!item.parameters }),
+      prepared: !!item.parameters,
 
       // deprecated fields
       kind: item.title,
@@ -241,10 +271,10 @@ export const transformStoryIndexToStoriesHash = (
     } as API_DocsEntry | API_StoryEntry;
 
     return acc;
-  }, {} as API_StoriesHash);
+  }, {} as API_IndexHash);
 
   // This function adds a "root" or "orphan" and all of its descendents to the hash.
-  function addItem(acc: API_StoriesHash, item: API_HashEntry) {
+  function addItem(acc: API_IndexHash, item: API_HashEntry) {
     // If we were already inserted as part of a group, that's great.
     if (acc[item.id]) {
       return acc;
@@ -268,7 +298,7 @@ export const transformStoryIndexToStoriesHash = (
     .reduce(addItem, orphanHash);
 };
 
-export const addPreparedStories = (newHash: API_StoriesHash, oldHash?: API_StoriesHash) => {
+export const addPreparedStories = (newHash: API_IndexHash, oldHash?: API_IndexHash) => {
   if (!oldHash) return newHash;
 
   return Object.fromEntries(
@@ -283,7 +313,7 @@ export const addPreparedStories = (newHash: API_StoriesHash, oldHash?: API_Stori
   );
 };
 
-export const getComponentLookupList = memoize(1)((hash: API_StoriesHash) => {
+export const getComponentLookupList = memoize(1)((hash: API_IndexHash) => {
   return Object.entries(hash).reduce((acc, i) => {
     const value = i[1];
     if (value.type === 'component') {
@@ -293,6 +323,6 @@ export const getComponentLookupList = memoize(1)((hash: API_StoriesHash) => {
   }, [] as StoryId[][]);
 });
 
-export const getStoriesLookupList = memoize(1)((hash: API_StoriesHash) => {
+export const getStoriesLookupList = memoize(1)((hash: API_IndexHash) => {
   return Object.keys(hash).filter((k) => ['story', 'docs'].includes(hash[k].type));
 });

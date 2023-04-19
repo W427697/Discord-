@@ -15,25 +15,12 @@ yarn add -D @storybook/addon-interactions @storybook/jest @storybook/testing-lib
 within `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-interactions'],
 };
 ```
 
 Note that `@storybook/addon-interactions` must be listed **after** `@storybook/addon-actions` or `@storybook/addon-essentials`.
-
-## Experimental step debugging
-
-Step debugging features are experimental and disabled by default. To enable them:
-
-```js
-// main.js
-module.exports = {
-  features: {
-    interactionsDebugger: true,
-  },
-};
-```
 
 ## Usage
 

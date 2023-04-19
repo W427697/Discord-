@@ -1,0 +1,26 @@
+```ts
+// YourComponent.stories.ts|tsx
+
+import type { Meta } from '@storybook/react';
+
+import { YourComponent } from './YourComponent';
+
+const meta = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'YourComponent',
+  component: YourComponent,
+  decorators: [
+    (Story) => (
+      <div style={{ margin: '3em' }}>
+        {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof YourComponent>;
+
+export default meta;
+```

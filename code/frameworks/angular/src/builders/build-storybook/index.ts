@@ -7,35 +7,44 @@ import {
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 import { Observable, from, of, throwError } from 'rxjs';
-import { CLIOptions } from '@storybook/types';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
-import {
-  BrowserBuilderOptions,
-  ExtraEntryPoint,
-  StylePreprocessorOptions,
-} from '@angular-devkit/build-angular';
+import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
-import { buildStaticStandalone } from '@storybook/core-server';
+import { CLIOptions } from '@storybook/types';
+import { getEnvConfig, versions } from '@storybook/cli';
+import { addToGlobalContext } from '@storybook/telemetry';
+
+import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
+import {
+  AssetPattern,
+  StyleElement,
+} from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
-import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-handler';
+import { errorSummary, printErrorDetails } from '../utils/error-handler';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
+  docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
-  styles?: ExtraEntryPoint[];
+  styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
+  assets?: AssetPattern[];
 } & Pick<
     // makes sure the option exists
     CLIOptions,
-    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'docs' | 'webpackStatsJson'
+    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
+
+type StandaloneBuildOptions = StandaloneOptions & { outputDir: string };
 
 export default createBuilder<any, any>(commandBuilder);
 
@@ -54,6 +63,12 @@ function commandBuilder(
       return runCompodoc$.pipe(mapTo({ tsConfig }));
     }),
     map(({ tsConfig }) => {
+      getEnvConfig(options, {
+        staticDir: 'SBCONFIG_STATIC_DIR',
+        outputDir: 'SBCONFIG_OUTPUT_DIR',
+        configDir: 'SBCONFIG_CONFIG_DIR',
+      });
+
       const {
         browserTarget,
         stylePreprocessorOptions,
@@ -64,24 +79,29 @@ function commandBuilder(
         outputDir,
         quiet,
         webpackStatsJson,
+        disableTelemetry,
+        assets,
       } = options;
 
-      const standaloneOptions: StandaloneOptions = {
+      const standaloneOptions: StandaloneBuildOptions = {
         packageJson: readUpSync({ cwd: __dirname }).packageJson,
         configDir,
-        docs,
+        ...(docs ? { docs } : {}),
         loglevel,
         outputDir,
         quiet,
+        disableTelemetry,
         angularBrowserTarget: browserTarget,
         angularBuilderContext: context,
         angularBuilderOptions: {
           ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
           ...(styles ? { styles } : {}),
+          ...(assets ? { assets } : {}),
         },
         tsConfig,
         webpackStatsJson,
       };
+
       return standaloneOptions;
     }),
     switchMap((standaloneOptions) => runInstance({ ...standaloneOptions, mode: 'static' })),
@@ -111,8 +131,16 @@ async function setup(options: StorybookBuilderOptions, context: BuilderContext) 
   };
 }
 
-function runInstance(options: StandaloneOptions) {
-  return from(buildStaticStandalone(options as any)).pipe(
-    catchError((error: any) => throwError(buildStandaloneErrorHandler(error)))
-  );
+function runInstance(options: StandaloneBuildOptions) {
+  return from(
+    withTelemetry(
+      'build',
+      {
+        cliOptions: options,
+        presetOptions: { ...options, corePresets: [], overridePresets: [] },
+        printError: printErrorDetails,
+      },
+      () => buildStaticStandalone(options)
+    )
+  ).pipe(catchError((error: any) => throwError(errorSummary(error))));
 }

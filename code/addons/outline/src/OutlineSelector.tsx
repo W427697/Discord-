@@ -7,7 +7,7 @@ export const OutlineSelector = memo(function OutlineSelector() {
   const [globals, updateGlobals] = useGlobals();
   const api = useStorybookApi();
 
-  const isActive = globals[PARAM_KEY] || false;
+  const isActive = [true, 'true'].includes(globals[PARAM_KEY]);
 
   const toggleOutline = useCallback(
     () =>
@@ -19,7 +19,7 @@ export const OutlineSelector = memo(function OutlineSelector() {
 
   useEffect(() => {
     api.setAddonShortcut(ADDON_ID, {
-      label: 'Toggle Measure [O]',
+      label: 'Toggle Outline [O]',
       defaultShortcut: ['O'],
       actionName: 'outline',
       showInMenu: false,

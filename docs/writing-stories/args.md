@@ -2,6 +2,8 @@
 title: 'Args'
 ---
 
+<YouTubeCallout id="0gOfS6K0x0E" title="Build better UIs with Storybook Args" />
+
 A story is a component with a set of arguments that define how the component should render. “Args” are Storybook’s mechanism for defining those arguments in a single JavaScript object. Args can be used to dynamically change props, slots, styles, inputs, etc. It allows Storybook and its addons to live edit components. You _do not_ need to modify your underlying component code to use args.
 
 When an arg’s value changes, the component re-renders, allowing you to interact with components in Storybook’s UI via addons that affect args.
@@ -23,9 +25,9 @@ To define the args of a single story, use the `args` CSF story key:
     'react/button-story-with-args.js.mdx',
     'react/button-story-with-args.ts.mdx',
     'vue/button-story-with-args.2.js.mdx',
-    'vue/button-story-with-args.ts-2.ts.mdx',
+    'vue/button-story-with-args.2.ts.mdx',
     'vue/button-story-with-args.3.js.mdx',
-    'vue/button-story-with-args.ts-3.ts.mdx',
+    'vue/button-story-with-args.3.ts.mdx',
     'angular/button-story-with-args.ts.mdx',
     'web-components/button-story-with-args.js.mdx',
     'web-components/button-story-with-args.ts.mdx',
@@ -46,10 +48,11 @@ These args will only apply to the story for which they are attached, although yo
 
 <CodeSnippets
   paths={[
-    'common/button-story-primary-long-name.js.mdx',
-    'common/button-story-primary-long-name.ts.mdx',
+    'angular/button-story-primary-long-name.ts.mdx',
     'web-components/button-story-primary-long-name.js.mdx',
     'web-components/button-story-primary-long-name.ts.mdx',
+    'common/button-story-primary-long-name.js.mdx',
+    'common/button-story-primary-long-name.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-button-story-primary-long-name"
@@ -70,8 +73,7 @@ You can also define args at the component level; they will apply to all the comp
     'react/button-story-component-args-primary.js.mdx',
     'react/button-story-component-args-primary.ts.mdx',
     'vue/button-story-component-args-primary.js.mdx',
-    'vue/button-story-component-args-primary.ts-2.ts.mdx',
-    'vue/button-story-component-args-primary.ts-3.ts.mdx',
+    'vue/button-story-component-args-primary.ts.mdx',
     'angular/button-story-component-args-primary.ts.mdx',
     'web-components/button-story-component-args-primary.js.mdx',
     'web-components/button-story-component-args-primary.ts.mdx',
@@ -92,6 +94,7 @@ You can also define args at the global level; they will apply to every component
 <CodeSnippets
   paths={[
     'common/button-story-project-args-theme.js.mdx',
+    'common/button-story-project-args-theme.ts.mdx',
   ]}
 />
 
@@ -105,10 +108,11 @@ You can separate the arguments to a story to compose in other stories. Here's ho
 
 <CodeSnippets
   paths={[
-    'common/button-story-primary-composition.js.mdx',
-    'common/button-story-primary-composition.ts.mdx',
+    'angular/button-story-primary-composition.ts.mdx',
     'web-components/button-story-primary-composition.js.mdx',
     'web-components/button-story-primary-composition.ts.mdx',
+    'common/button-story-primary-composition.js.mdx',
+    'common/button-story-primary-composition.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-button-story-primary-composition"
@@ -132,9 +136,9 @@ Args are useful when writing stories for composite components that are assembled
     'react/page-story.ts.mdx',
     'angular/page-story.ts.mdx',
     'vue/page-story.2.js.mdx',
-    'vue/page-story.ts-2.ts.mdx',
+    'vue/page-story.2.ts.mdx',
     'vue/page-story.3.js.mdx',
-    'vue/page-story.ts-3.ts.mdx',
+    'vue/page-story.3.ts.mdx',
     'web-components/page-story.js.mdx',
     'web-components/page-story.ts.mdx',
     'svelte/page-story.js.mdx',
@@ -156,9 +160,9 @@ You can use args in your stories to configure the component's appearance, simila
     'react/page-story-slots.js.mdx',
     'react/page-story-slots.ts.mdx',
     'vue/page-story-slots.2.js.mdx',
-    'vue/page-story-slots.ts-2.ts.mdx',
+    'vue/page-story-slots.2.ts.mdx',
     'vue/page-story-slots.3.js.mdx',
-    'vue/page-story-slots.ts-3.ts.mdx',
+    'vue/page-story-slots.3.ts.mdx',
     'angular/page-story-slots.ts.mdx',
     'web-components/page-story-slots.js.mdx',
     'web-components/page-story-slots.ts.mdx',
@@ -203,10 +207,11 @@ Complex values such as JSX elements cannot be serialized to the manager (e.g., t
 
 <CodeSnippets
   paths={[
-    'common/my-component-argtypes-with-mapping.js.mdx',
-    'common/my-component-argtypes-with-mapping.ts.mdx',
+    'angular/my-component-argtypes-with-mapping.ts.mdx',
     'web-components/my-component-argtypes-with-mapping.js.mdx',
     'web-components/my-component-argtypes-with-mapping.ts.mdx',
+    'common/my-component-argtypes-with-mapping.js.mdx',
+    'common/my-component-argtypes-with-mapping.ts.mdx',
   ]}
 />
 
@@ -242,7 +247,8 @@ In Storybook 5 and before we passed the context as the first argument. If you’
 
 <CodeSnippets
   paths={[
-    'common/storybook-preview-parameters-old-format.js.mdx'
+    'common/storybook-preview-parameters-old-format.js.mdx',
+    'common/storybook-preview-parameters-old-format.ts.mdx',
   ]}
 />
 

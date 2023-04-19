@@ -1,10 +1,9 @@
 import { getRendererName } from '@storybook/core-common';
-import type { PreviewAnnotation } from '@storybook/types';
+import type { Options, PreviewAnnotation } from '@storybook/types';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
-import type { ExtendedOptions } from './types';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
-export async function generateIframeScriptCode(options: ExtendedOptions) {
+export async function generateIframeScriptCode(options: Options, projectRoot: string) {
   const { presets } = options;
   const rendererName = await getRendererName(options);
 
@@ -13,7 +12,9 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
     [],
     options
   );
-  const configEntries = [...previewAnnotations].filter(Boolean).map(processPreviewAnnotation);
+  const configEntries = [...previewAnnotations]
+    .filter(Boolean)
+    .map((path) => processPreviewAnnotation(path, projectRoot));
 
   const filesToImport = (files: string[], name: string) =>
     files.map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${el}'`).join('\n');
@@ -52,7 +53,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       .concat('preview.default')
       .join(',')}].filter(Boolean)
 
-    configs.forEach(config => {
+    configs.map(config => config.default ? config.default : config).forEach(config => {
       Object.keys(config).forEach((key) => {
         const value = config[key];
         switch (key) {

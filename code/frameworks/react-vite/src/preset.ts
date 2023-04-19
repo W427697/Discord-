@@ -1,10 +1,14 @@
 /* eslint-disable global-require */
-import type { StorybookConfig } from '@storybook/builder-vite';
+import type { PresetProperty } from '@storybook/types';
 import { hasVitePlugins } from '@storybook/builder-vite';
+import { dirname, join } from 'path';
+import type { StorybookConfig } from './types';
 
-export const core: StorybookConfig['core'] = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/react',
+const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+
+export const core: PresetProperty<'core', StorybookConfig> = {
+  builder: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
+  renderer: wrapForPnP('@storybook/react'),
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

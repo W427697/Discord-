@@ -6,8 +6,7 @@ export const decorators = [sourceDecorator];
 
 export const parameters = {
   docs: {
-    inlineStories: true,
-    transformSource: undefined as unknown,
+    story: { inline: true },
     source: {
       type: SourceType.DYNAMIC,
       language: 'html',

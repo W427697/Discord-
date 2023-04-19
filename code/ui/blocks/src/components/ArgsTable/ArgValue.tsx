@@ -160,11 +160,10 @@ const ArgSummary: FC<ArgSummaryProps> = ({ value, initialExpandedArgs }) => {
 
   return (
     <WithTooltipPure
-      closeOnClick
-      trigger="click"
+      closeOnOutsideClick
       placement="bottom"
-      tooltipShown={isOpen}
-      onVisibilityChange={(isVisible) => {
+      visible={isOpen}
+      onVisibleChange={(isVisible) => {
         setIsOpen(isVisible);
       }}
       tooltip={

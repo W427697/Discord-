@@ -8,6 +8,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
+import { stringifyProcessEnvs } from '@storybook/core-common';
 import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import { wrapManagerEntries } from './utils/managerEntries';
@@ -29,10 +30,11 @@ let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
-  const [addonsEntryPoints, customManagerEntryPoint, tsconfigPath] = await Promise.all([
+  const [addonsEntryPoints, customManagerEntryPoint, tsconfigPath, envs] = await Promise.all([
     options.presets.apply('managerEntries', []),
     safeResolve(join(options.configDir, 'manager')),
     getTemplatePath('addon.tsconfig.json'),
+    options.presets.apply<Record<string, string>>('env'),
   ]);
 
   const entryPoints = customManagerEntryPoint
@@ -46,6 +48,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     write: false,
+    ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
     outExtension: { '.js': '.mjs' },
     loader: {
@@ -57,6 +60,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       '.svg': 'dataurl',
       '.webp': 'dataurl',
       '.webm': 'dataurl',
+      '.woff2': 'dataurl',
     },
     target: ['chrome100'],
     platform: 'browser',
@@ -91,8 +95,8 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     },
 
     define: {
-      'process.env.NODE_ENV': "'production'",
-      'process.env': '{}',
+      'process.env': JSON.stringify(envs),
+      ...stringifyProcessEnvs(envs),
       global: 'window',
       module: '{}',
     },
@@ -119,8 +123,18 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 }) {
   logger.info('=> Starting manager..');
 
-  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
-    await getData(options);
+  const {
+    config,
+    favicon,
+    customHead,
+    features,
+    instance,
+    refs,
+    template,
+    title,
+    logLevel,
+    docsOptions,
+  } = await getData(options);
 
   yield;
 
@@ -133,7 +147,6 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   compilation = await instance({
     ...config,
-    watch: true,
   });
 
   yield;
@@ -150,6 +163,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const html = await renderHTML(
     template,
     title,
+    favicon,
     customHead,
     cssFiles,
     jsFiles,
@@ -190,19 +204,29 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     throw new Error('outputDir is required');
   }
   logger.info('=> Building manager..');
-  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
-    await getData(options);
+  const {
+    config,
+    customHead,
+    favicon,
+    features,
+    instance,
+    refs,
+    template,
+    title,
+    logLevel,
+    docsOptions,
+  } = await getData(options);
   yield;
 
   const addonsDir = config.outdir;
   const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
   const coreDirTarget = join(options.outputDir, `sb-manager`);
 
+  // TODO: this doesn't watch, we should change this to use the esbuild watch API: https://esbuild.github.io/api/#watch
   compilation = await instance({
     ...config,
 
     minify: true,
-    watch: false,
   });
 
   yield;
@@ -223,6 +247,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const html = await renderHTML(
     template,
     title,
+    favicon,
     customHead,
     cssFiles,
     jsFiles,
@@ -253,15 +278,6 @@ export const bail: ManagerBuilder['bail'] = async () => {
       await asyncIterator.throw(new Error());
     } catch (e) {
       //
-    }
-  }
-
-  if (compilation && compilation.stop) {
-    try {
-      compilation.stop();
-      logger.warn('Force closed manager build');
-    } catch (err) {
-      logger.warn('Unable to close manager build!');
     }
   }
 };

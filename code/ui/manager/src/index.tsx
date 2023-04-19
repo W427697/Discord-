@@ -6,20 +6,13 @@ import ReactDOM from 'react-dom';
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
 import { Provider as ManagerProvider } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import {
-  ThemeProvider,
-  ensure as ensureTheme,
-  CacheProvider,
-  createCache,
-} from '@storybook/theming';
+import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
+
 import { HelmetProvider } from 'react-helmet-async';
 
 import App from './app';
 
 import Provider from './provider';
-
-const emotionCache = createCache({ key: 'sto' });
-emotionCache.compat = true;
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -55,20 +48,18 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
             const panelCount = Object.keys(api.getPanels()).length;
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story
-              ? !!state.refs[state.refId] && !state.refs[state.refId].ready
-              : !state.storiesFailed && !state.storiesConfigured;
+              ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
+              : !state.previewInitialized;
 
             return (
-              <CacheProvider value={emotionCache}>
-                <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                  <App
-                    key="app"
-                    viewMode={state.viewMode}
-                    layout={isLoading ? { ...state.layout, showPanel: false } : state.layout}
-                    panelCount={panelCount}
-                  />
-                </ThemeProvider>
-              </CacheProvider>
+              <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
+                <App
+                  key="app"
+                  viewMode={state.viewMode}
+                  layout={isLoading ? { ...state.layout, showPanel: false } : state.layout}
+                  panelCount={panelCount}
+                />
+              </ThemeProvider>
             );
           }}
         </ManagerProvider>

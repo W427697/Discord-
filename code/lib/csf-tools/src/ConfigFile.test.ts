@@ -19,6 +19,12 @@ const setField = (path: string[], value: any, source: string) => {
   return formatConfig(config);
 };
 
+const appendToArray = (path: string[], value: any, source: string) => {
+  const config = loadConfig(source).parse();
+  config.appendValueToArray(path, value);
+  return formatConfig(config);
+};
+
 const removeField = (path: string[], source: string) => {
   const config = loadConfig(source).parse();
   config.removeField(path);
@@ -262,6 +268,17 @@ describe('ConfigFile', () => {
           };
         `);
       });
+      it('found top-level scalar', () => {
+        expect(
+          setField(
+            ['foo'],
+            'baz',
+            dedent`
+              export const foo = 'bar';
+            `
+          )
+        ).toMatchInlineSnapshot(`export const foo = 'baz';`);
+      });
       it('found object', () => {
         expect(
           setField(
@@ -436,6 +453,69 @@ describe('ConfigFile', () => {
           };
         `);
       });
+    });
+  });
+
+  describe('appendToArray', () => {
+    it('missing export', () => {
+      expect(
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { core: { builder: 'webpack5' } };
+            `
+        )
+      ).toMatchInlineSnapshot(`
+        export default {
+          core: {
+            builder: 'webpack5'
+          },
+          addons: ['docs']
+        };
+      `);
+    });
+    it('found scalar', () => {
+      expect(() =>
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { addons: 5 };
+            `
+        )
+      ).toThrowErrorMatchingInlineSnapshot(`Expected array at 'addons', got 'NumericLiteral'`);
+    });
+    it('array of simple values', () => {
+      expect(
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { addons: ['a11y', 'viewport'] };
+            `
+        )
+      ).toMatchInlineSnapshot(`
+        export default {
+          addons: ['a11y', 'viewport', 'docs']
+        };
+      `);
+    });
+
+    it('array of complex values', () => {
+      expect(
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { addons: [require.resolve('a11y'), someVariable] };
+            `
+        )
+      ).toMatchInlineSnapshot(`
+        export default {
+          addons: [require.resolve('a11y'), someVariable, 'docs']
+        };
+      `);
     });
   });
 
@@ -745,6 +825,228 @@ describe('ConfigFile', () => {
           };
         `);
       });
+    });
+  });
+
+  describe('config helpers', () => {
+    describe('getNameFromPath', () => {
+      it(`supports string literal node`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: 'foo',
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      describe('satisfies', () => {
+        it(`supports string literal node`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            const config = {
+              framework: 'foo',
+            } satisfies StorybookConfig
+            export default config;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        });
+
+        it(`supports string literal node without variables`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            export default {
+              framework: 'foo',
+            } satisfies StorybookConfig;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        });
+
+        it(`supports object expression node with name property`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            const config = {
+              framework: { name: 'foo', options: { bar: require('baz') } },
+              "otherField": { "name": 'foo', options: { bar: require('baz') } },
+            } satisfies StorybookConfig
+            export default config;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+          expect(config.getNameFromPath(['otherField'])).toEqual('foo');
+        });
+      });
+
+      it(`supports object expression node with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: { name: 'foo', options: { bar: require('baz') } },
+            "otherField": { "name": 'foo', options: { bar: require('baz') } },
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        expect(config.getNameFromPath(['otherField'])).toEqual('foo');
+      });
+
+      it(`returns undefined when accessing a field that does not exist`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = { }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toBeUndefined();
+      });
+
+      it(`throws an error when node is of unexpected type`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: makesNoSense(),
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(() => config.getNameFromPath(['framework'])).toThrowError(
+          `The given node must be a string literal or an object expression with a "name" property that is a string literal.`
+        );
+      });
+    });
+
+    describe('getNamesFromPath', () => {
+      it(`supports an array with string literal and object expression with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            addons: [
+              'foo',
+              { name: 'bar', options: {} },
+            ],
+            "otherField": [
+              "foo",
+              { "name": 'bar', options: {} },
+            ],
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+        expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+      });
+
+      describe('satisfies', () => {
+        describe('default export', () => {
+          it(`supports an array with string literal and object expression with name property`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              const config = {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig
+              export default config;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+
+          it(`supports an array with string literal and object expression with name property without variable`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              export default {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+        });
+
+        describe('module exports', () => {
+          it(`supports an array with string literal and object expression with name property`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              const config = {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig
+              module.exports = config;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+
+          it(`supports an array with string literal and object expression with name property without variable`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              module.exports = {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+        });
+      });
+    });
+
+    it(`returns undefined when accessing a field that does not exist`, () => {
+      const source = dedent`
+        import type { StorybookConfig } from '@storybook/react-webpack5';
+
+        const config: StorybookConfig = { }
+        export default config;
+      `;
+      const config = loadConfig(source).parse();
+      expect(config.getNamesFromPath(['addons'])).toBeUndefined();
     });
   });
 });

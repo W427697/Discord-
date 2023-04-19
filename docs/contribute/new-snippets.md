@@ -6,17 +6,13 @@ Add or update the code snippets in the documentation. This page outlines how the
 
 ## Documented frameworks
 
-Storybook maintains code snippets for a [variety of frameworks](./../api/frameworks-feature-support.md). We try to keep them up to date as framework APIs evolve. But it's tricky to keep track of every API change in every framework.
+Storybook maintains code snippets for a [variety of frameworks](../configure/frameworks-feature-support.md). We try to keep them up to date as framework APIs evolve. But it's tricky to keep track of every API change in every framework.
 
 We welcome community contributions to the code snippets. Here's a matrix of the frameworks we have snippets for. Help us add snippets for your favorite framework.
 
-| React                                                                        | Vue                                                                        | Angular                                                                        | Web Components                                                                                    | Svelte                                                                        | Ember | HTML | Preact |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----- | ---- | ------ |
-| [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/react) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/vue) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/angular) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/web-components) (See below) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/svelte) | ❌    | ❌   | ❌     |
-
-<div class="aside">
-💡 The <code>Web Components</code> snippets are present but not fully documented. If you're willing to help, submit a pull request.
-</div>
+| React                                                                        | Vue                                                                        | Angular                                                                        | Web Components                                                                        | Svelte                                                                        | Ember | HTML | Preact |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----- | ---- | ------ |
+| [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/react) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/vue) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/angular) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/web-components) | [✅](https://github.com/storybookjs/storybook/tree/next/docs/snippets/svelte) | ❌    | ❌   | ❌     |
 
 ## Setup
 

@@ -3,10 +3,18 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storybook/types';
+import type {
+  IndexerOptions,
+  StoryIndexer,
+  DocsOptions,
+  Options,
+  StorybookConfig,
+} from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
-import type { JSXOptions } from '@storybook/mdx2-csf';
+import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
+import { global } from '@storybook/global';
 import { loadCsf } from '@storybook/csf-tools';
+import { logger } from '@storybook/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 async function webpack(
@@ -25,8 +33,8 @@ async function webpack(
     /** @deprecated */
     sourceLoaderOptions: any;
     csfPluginOptions: CsfPluginOptions | null;
-    transcludeMarkdown: boolean;
     jsxOptions?: JSXOptions;
+    mdxPluginOptions?: CompileOptions;
   } /* & Parameters<
       typeof createCompiler
     >[0] */
@@ -38,17 +46,21 @@ async function webpack(
   const {
     csfPluginOptions = {},
     jsxOptions = {},
-    transcludeMarkdown = false,
     sourceLoaderOptions = null,
     configureJsx,
     mdxBabelOptions,
+    mdxPluginOptions = {},
   } = options;
 
-  const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
+  const mdxLoaderOptions: CompileOptions = await options.presets.apply('mdxLoaderOptions', {
     skipCsf: true,
+    ...mdxPluginOptions,
     mdxCompileOptions: {
       providerImportSource: '@storybook/addon-docs/mdx-react-shim',
-      remarkPlugins: [remarkSlug, remarkExternalLinks],
+      ...mdxPluginOptions.mdxCompileOptions,
+      remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
+        mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
+      ),
     },
     jsxOptions,
   });
@@ -73,36 +85,27 @@ async function webpack(
     `);
   }
 
-  const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
+  const mdxVersion = global.FEATURES?.legacyMdx1 ? 'MDX1' : 'MDX2';
+  logger.info(`Addon-docs: using ${mdxVersion}`);
 
-  let rules = module.rules || [];
-  if (transcludeMarkdown) {
-    rules = [
-      ...rules.filter((rule: any) => rule.test?.toString() !== '/\\.md$/'),
-      {
-        test: /\.md$/,
-        use: [
-          {
-            loader: mdxLoader,
-            options: mdxLoaderOptions,
-          },
-        ],
-      },
-    ];
-  }
+  const mdxLoader = global.FEATURES?.legacyMdx1
+    ? require.resolve('@storybook/mdx1-csf/loader')
+    : require.resolve('@storybook/mdx2-csf/loader');
 
   const result = {
     ...webpackConfig,
     plugins: [
       ...(webpackConfig.plugins || []),
-      // eslint-disable-next-line global-require
-      ...(csfPluginOptions ? [require('@storybook/csf-plugin').webpack(csfPluginOptions)] : []),
+
+      ...(csfPluginOptions
+        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
+        : []),
     ],
 
     module: {
       ...module,
       rules: [
-        ...rules,
+        ...module.rules,
         {
           test: /(stories|story)\.mdx$/,
           use: [
@@ -135,7 +138,9 @@ async function webpack(
 const storyIndexers = (indexers: StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    const { compile } = await import('@storybook/mdx2-csf');
+    const { compile } = global.FEATURES?.legacyMdx1
+      ? await import('@storybook/mdx1-csf')
+      : await import('@storybook/mdx2-csf');
     code = await compile(code, {});
     return loadCsf(code, { ...opts, fileName }).parse();
   };
@@ -151,11 +156,14 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
 const docs = (docsOptions: DocsOptions) => {
   return {
     ...docsOptions,
-    disable: false,
     defaultName: 'Docs',
     autodocs: 'tag',
   };
 };
+
+export const addons: StorybookConfig['addons'] = [
+  require.resolve('@storybook/react-dom-shim/dist/preset'),
+];
 
 /*
  * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162

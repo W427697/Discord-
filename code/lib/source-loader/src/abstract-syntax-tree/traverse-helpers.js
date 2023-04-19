@@ -28,9 +28,12 @@ function isFunctionVariable(declarations, includeExclude) {
     declarations[0].id &&
     declarations[0].id.name &&
     declarations[0].init &&
-    ['CallExpression', 'ArrowFunctionExpression', 'FunctionExpression'].includes(
-      declarations[0].init.type
-    ) &&
+    [
+      'CallExpression',
+      'ArrowFunctionExpression',
+      'FunctionExpression',
+      'ObjectExpression', // CSF3
+    ].includes(declarations[0].init.type) &&
     isExportStory(declarations[0].id.name, includeExclude)
   );
 }
@@ -171,9 +174,12 @@ export function findExportsMap(ast) {
         node.declaration.declarations[0].id &&
         node.declaration.declarations[0].id.name &&
         node.declaration.declarations[0].init &&
-        ['CallExpression', 'ArrowFunctionExpression', 'FunctionExpression'].includes(
-          node.declaration.declarations[0].init.type
-        );
+        [
+          'CallExpression',
+          'ArrowFunctionExpression',
+          'FunctionExpression',
+          'ObjectExpression', // CSF3
+        ].includes(node.declaration.declarations[0].init.type);
 
       const isFunctionDeclarationExport =
         isNamedExport &&
@@ -208,10 +214,24 @@ export function popParametersObjectFromDefaultExport(source, ast) {
       patchNode(node);
 
       const isDefaultExport = node.type === 'ExportDefaultDeclaration';
-      const isObjectExpression = node.declaration?.type === 'ObjectExpression';
-      const isTsAsExpression = node.declaration?.type === 'TSAsExpression';
+      let decl = node.declaration;
 
-      const targetNode = isObjectExpression ? node.declaration : node.declaration?.expression;
+      // handle `const meta = { }; export default meta;`
+      if (isDefaultExport && decl?.type === 'Identifier') {
+        ast.body.forEach((n) => {
+          if (n.type === 'VariableDeclaration') {
+            n.declarations.forEach((d) => {
+              if (d.id.name === decl.name) {
+                decl = d.init;
+              }
+            });
+          }
+        });
+      }
+
+      const isObjectExpression = decl?.type === 'ObjectExpression';
+      const isTsAsExpression = decl?.type === 'TSAsExpression';
+      const targetNode = isObjectExpression ? decl : decl?.expression;
 
       if (
         isDefaultExport &&

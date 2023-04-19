@@ -1,6 +1,13 @@
 import { expect } from '@jest/globals';
+import { global } from '@storybook/global';
 
 import { composeConfigs } from './composeConfigs';
+
+jest.mock('@storybook/global', () => ({
+  global: {
+    FEATURES: {},
+  },
+}));
 
 describe('composeConfigs', () => {
   it('sets default (empty) values for fields', () => {
@@ -42,20 +49,89 @@ describe('composeConfigs', () => {
     });
   });
 
+  it('composes export defaults', () => {
+    expect(
+      composeConfigs([
+        {
+          default: {
+            parameters: { obj: { a: '1', b: '1' } },
+          },
+        },
+        {
+          default: {
+            parameters: { obj: { a: '2', c: '2' } },
+          },
+        },
+      ])
+    ).toEqual({
+      parameters: { obj: { a: '2', b: '1', c: '2' } },
+      decorators: [],
+      args: {},
+      argsEnhancers: [],
+      argTypes: {},
+      argTypesEnhancers: [],
+      globals: {},
+      globalTypes: {},
+      loaders: [],
+      runStep: expect.any(Function),
+    });
+  });
+
   it('overrides object fields by key', () => {
     expect(
       composeConfigs([
         {
-          args: { x: '1', y: '1', obj: { a: '1', b: '1' } },
-          argTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
-          globals: { x: '1', y: '1', obj: { a: '1', b: '1' } },
-          globalTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+          default: {
+            args: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            argTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globals: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globalTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+          },
+        },
+        {
+          default: {
+            args: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+            argTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+            globals: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+            globalTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+          },
+        },
+      ])
+    ).toEqual({
+      parameters: {},
+      decorators: [],
+      args: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      argsEnhancers: [],
+      argTypes: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      argTypesEnhancers: [],
+      globals: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      globalTypes: { x: '2', y: '1', z: '2', obj: { a: '2', c: '2' } },
+      loaders: [],
+      runStep: expect.any(Function),
+    });
+  });
+
+  it('overrides object fields by key with mixed named and default exports', () => {
+    expect(
+      // configs could come from user, addons, presets, frameworks.. so they will likely be mixed in format
+      composeConfigs([
+        {
+          default: {
+            args: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            argTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globals: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+            globalTypes: { x: '1', y: '1', obj: { a: '1', b: '1' } },
+          },
         },
         {
           args: { x: '2', z: '2', obj: { a: '2', c: '2' } },
           argTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
           globals: { x: '2', z: '2', obj: { a: '2', c: '2' } },
-          globalTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+        },
+        {
+          default: {
+            globalTypes: { x: '2', z: '2', obj: { a: '2', c: '2' } },
+          },
         },
       ])
     ).toEqual({
@@ -76,13 +152,11 @@ describe('composeConfigs', () => {
     expect(
       composeConfigs([
         {
-          decorators: ['1', '2'],
           argsEnhancers: ['1', '2'],
           argTypesEnhancers: ['1', '2'],
           loaders: ['1', '2'],
         },
         {
-          decorators: ['3', '4'],
           argsEnhancers: ['3', '4'],
           argTypesEnhancers: ['3', '4'],
           loaders: ['3', '4'],
@@ -90,7 +164,7 @@ describe('composeConfigs', () => {
       ])
     ).toEqual({
       parameters: {},
-      decorators: ['1', '2', '3', '4'],
+      decorators: [],
       args: {},
       argsEnhancers: ['1', '2', '3', '4'],
       argTypes: {},
@@ -98,6 +172,30 @@ describe('composeConfigs', () => {
       globals: {},
       globalTypes: {},
       loaders: ['1', '2', '3', '4'],
+      runStep: expect.any(Function),
+    });
+  });
+
+  it('combines decorators in reverse file order', () => {
+    expect(
+      composeConfigs([
+        {
+          decorators: ['1', '2'],
+        },
+        {
+          decorators: ['3', '4'],
+        },
+      ])
+    ).toEqual({
+      parameters: {},
+      decorators: ['3', '4', '1', '2'],
+      args: {},
+      argsEnhancers: [],
+      argTypes: {},
+      argTypesEnhancers: [],
+      globals: {},
+      globalTypes: {},
+      loaders: [],
       runStep: expect.any(Function),
     });
   });
@@ -177,5 +275,30 @@ describe('composeConfigs', () => {
     expect(fn).toHaveBeenNthCalledWith(1, 'Label3', expect.anything());
     expect(fn).toHaveBeenNthCalledWith(2, 'Label2', expect.anything());
     expect(fn).toHaveBeenNthCalledWith(3, 'Label1', expect.anything());
+  });
+
+  describe('FEATURES.legacyDecoratorFileOrder set to true', () => {
+    beforeEach(() => {
+      global.FEATURES!.legacyDecoratorFileOrder = true;
+    });
+
+    afterEach(() => {
+      global.FEATURES!.legacyDecoratorFileOrder = false;
+    });
+
+    it('should merge decorators in the order they are defined file-wise', () => {
+      expect(
+        composeConfigs([
+          {
+            decorators: ['1', '2'],
+          },
+          {
+            decorators: ['3', '4'],
+          },
+        ])
+      ).toMatchObject({
+        decorators: ['1', '2', '3', '4'],
+      });
+    });
   });
 });

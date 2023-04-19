@@ -1,8 +1,8 @@
 ```js
 // .storybook/main.js
 
-module.exports = {
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+export default {
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-actions',
@@ -10,9 +10,13 @@ module.exports = {
     {
       name: '@storybook/addon-docs',
       options: {
-        configureJSX: true,
-        babelOptions: {},
-        transcludeMarkdown: true,
+        csfPluginOptions: null,
+        jsxOptions: {},
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [],
+          },
+        },
       },
     },
     '@storybook/addon-controls',

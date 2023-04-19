@@ -1,15 +1,15 @@
 import { readdir } from 'fs/promises';
 import { pathExists } from 'fs-extra';
-import { resolve } from 'path';
 import {
   allTemplates,
   templatesByCadence,
   type Cadence,
   type Template as TTemplate,
   type SkippableTask,
-} from '../code/lib/cli/src/repro-templates';
+} from '../code/lib/cli/src/sandbox-templates';
+import { SANDBOX_DIRECTORY } from './utils/constants';
 
-const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
+const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 
 type Template = Pick<TTemplate, 'inDevelopment' | 'skipTasks'>;
 export type TemplateKey = keyof typeof allTemplates;

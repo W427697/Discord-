@@ -1,6 +1,7 @@
 import path from 'path';
 import type { PresetProperty } from '@storybook/types';
-import type { StorybookConfig } from '@storybook/builder-vite';
+import { mergeConfig } from 'vite';
+import type { StorybookConfig } from './types';
 import { vueDocgen } from './plugins/vue-docgen';
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
@@ -11,7 +12,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
     builder: {
       name: path.dirname(
         require.resolve(path.join('@storybook/builder-vite', 'package.json'))
-      ) as '@storybook/builder-webpack5',
+      ) as '@storybook/builder-vite',
       options: typeof framework === 'string' ? {} : framework?.options.builder || {},
     },
     renderer: '@storybook/vue',
@@ -24,20 +25,12 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
 });
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
-  const { plugins = [] } = config;
-
-  plugins.push(vueDocgen());
-
-  const updated = {
-    ...config,
-    plugins,
+  return mergeConfig(config, {
+    plugins: [vueDocgen()],
     resolve: {
-      ...config.resolve,
       alias: {
-        ...config.resolve?.alias,
         vue: 'vue/dist/vue.esm.js',
       },
     },
-  };
-  return updated;
+  });
 };

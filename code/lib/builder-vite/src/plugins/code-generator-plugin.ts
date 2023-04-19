@@ -1,16 +1,14 @@
 /* eslint-disable no-param-reassign */
 
 import * as fs from 'fs';
-import { mergeConfig } from 'vite';
 import type { Plugin } from 'vite';
+import type { Options } from '@storybook/types';
 import { transformIframeHtml } from '../transform-iframe-html';
 import { generateIframeScriptCode } from '../codegen-iframe-script';
 import { generateModernIframeScriptCode } from '../codegen-modern-iframe-script';
 import { generateImportFnScriptCode } from '../codegen-importfn-script';
 import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from '../codegen-entries';
 import { generateAddonSetupCode } from '../codegen-set-addon-channel';
-
-import type { ExtendedOptions } from '../types';
 
 import {
   virtualAddonSetupFile,
@@ -19,9 +17,10 @@ import {
   virtualStoriesFile,
 } from '../virtual-file-names';
 
-export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
+export function codeGeneratorPlugin(options: Options): Plugin {
   const iframePath = require.resolve('@storybook/builder-vite/input/iframe.html');
   let iframeId: string;
+  let projectRoot: string;
 
   // noinspection JSUnusedGlobalSymbols
   return {
@@ -46,7 +45,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
 
       server.watcher.on('add', (path) => {
         // TODO maybe use the stories declaration in main
-        if (/\.stories\.([tj])sx?$/.test(path) || /\.(story|stories).mdx$/.test(path)) {
+        if (/\.stories\.([tj])sx?$/.test(path) || /\.mdx$/.test(path)) {
           // We need to emit a change event to trigger HMR
           server.watcher.emit('change', virtualStoriesFile);
         }
@@ -66,23 +65,9 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
           input: iframePath,
         };
       }
-
-      // Detect if react 18 is installed.  If not, alias it to a virtual placeholder file.
-      try {
-        require.resolve('react-dom/client', { paths: [config.root || process.cwd()] });
-      } catch (e) {
-        if (isNodeError(e) && e.code === 'MODULE_NOT_FOUND') {
-          config.resolve = mergeConfig(config.resolve ?? {}, {
-            alias: {
-              'react-dom/client': require.resolve(
-                '@storybook/builder-vite/input/react-dom-client-placeholder.js'
-              ),
-            },
-          });
-        }
-      }
     },
     configResolved(config) {
+      projectRoot = config.root;
       iframeId = `${config.root}/iframe.html`;
     },
     resolveId(source) {
@@ -104,7 +89,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
 
       return undefined;
     },
-    async load(id) {
+    async load(id, config) {
       const storyStoreV7 = options.features?.storyStoreV7;
       if (id === virtualStoriesFile) {
         if (storyStoreV7) {
@@ -123,9 +108,9 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
 
       if (id === virtualFileId) {
         if (storyStoreV7) {
-          return generateModernIframeScriptCode(options);
+          return generateModernIframeScriptCode(options, projectRoot);
         }
-        return generateIframeScriptCode(options);
+        return generateIframeScriptCode(options, projectRoot);
       }
 
       if (id === iframeId) {
@@ -145,6 +130,3 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
     },
   };
 }
-
-// Refines an error received from 'catch' to be a NodeJS exception
-const isNodeError = (error: unknown): error is NodeJS.ErrnoException => error instanceof Error;

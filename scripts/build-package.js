@@ -1,15 +1,21 @@
 #!/usr/bin/env node
 
 /* eslint-disable global-require */
-const { resolve } = require('path');
+const { resolve, join, posix, sep } = require('path');
 const { readJSON } = require('fs-extra');
 
 const getStorybookPackages = async () => {
-  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'code', 'workspace.json'));
-  return Object.entries(workspaceJSON.projects).map(([k, v]) => ({
-    location: v.root,
-    name: k,
-  }));
+  const process = require('util').promisify(require('child_process').exec);
+  const contents = await process('lerna ls --json', { cwd: join(__dirname, '..', 'code') });
+
+  const projects = JSON.parse(contents.stdout);
+  return projects.reduce((acc, project) => {
+    acc.push({
+      name: project.name,
+      location: project.location,
+    });
+    return acc;
+  }, []);
 };
 
 async function run() {
@@ -113,11 +119,15 @@ async function run() {
   }
 
   selection?.filter(Boolean).forEach(async (v) => {
-    const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.prep;
+    const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.prep
+      .split(posix.sep)
+      .join(sep);
+
     const cwd = resolve(__dirname, '..', 'code', v.location);
     const { execaCommand } = await import('execa');
+    const tsNode = require.resolve('ts-node/dist/bin');
     const sub = execaCommand(
-      `${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
+      `node ${tsNode} ${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
       {
         cwd,
         buffer: false,
