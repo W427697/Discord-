@@ -21,6 +21,14 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Generate sandbox matrix
+        id: create-sandbox-matrix
+        working-directory: scripts
+        run: |
+          MATRIX=$(yarn ts-node generate-sandbox-matrix.ts '${{ toJSON(github.event.pull_request.labels.*.name) }}' ${{ github.event.pull_request.draft }})
+          echo $MATRIX
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+
       - name: Restore dependencies
         id: dependency-cache
         uses: actions/cache@v3
@@ -69,11 +77,6 @@ jobs:
         with:
           path: .verdaccio-cache
           key: verdaccio-v1-${{ runner.os }}-${{ github.run_id }}
-
-      - name: Generate sandbox matrix for Creation
-        id: create-sandbox-matrix
-        run: |
-          echo "matrix=$(cd scripts && yarn ts-node generate-sandbox-matrix.ts)" >> $GITHUB_OUTPUT
 
   sandboxes:
     name: Sandboxes

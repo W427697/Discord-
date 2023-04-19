@@ -1,5 +1,14 @@
 import type { StorybookConfig } from '@storybook/types';
 
+export const skippableTasks = [
+  'smoke-test',
+  'test-runner',
+  'test-runner-dev',
+  'chromatic',
+  'e2e-tests',
+  'e2e-tests-dev',
+] as const;
+
 export type SkippableTask =
   | 'smoke-test'
   | 'test-runner'
