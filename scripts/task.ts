@@ -25,6 +25,8 @@ import { testRunnerDev } from './tasks/test-runner-dev';
 import { chromatic } from './tasks/chromatic';
 import { e2eTestsBuild } from './tasks/e2e-tests-build';
 import { e2eTestsDev } from './tasks/e2e-tests-dev';
+import { benchBuild } from './tasks/bench-build';
+import { benchDev } from './tasks/bench-dev';
 
 import {
   allTemplates as TEMPLATES,
@@ -105,6 +107,8 @@ export const tasks = {
   chromatic,
   'e2e-tests': e2eTestsBuild,
   'e2e-tests-dev': e2eTestsDev,
+  'bench-build': benchBuild,
+  'bench-dev': benchDev,
 };
 type TaskKey = keyof typeof tasks;
 
