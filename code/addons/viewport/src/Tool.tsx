@@ -82,19 +82,62 @@ const ActiveViewportSize = styled.div(() => ({
   display: 'inline-flex',
 }));
 
-const ActiveViewportLabel = styled.div(({ theme }) => ({
+const ActiveViewportInput = styled.input(({ theme }) => ({
   display: 'inline-block',
   textDecoration: 'none',
-  padding: 10,
+  padding: 0,
+  paddingLeft: 28,
   fontWeight: theme.typography.weight.bold,
   fontSize: theme.typography.size.s2 - 1,
   lineHeight: '1',
-  height: 40,
-  border: 'none',
-  borderTop: '3px solid transparent',
-  borderBottom: '3px solid transparent',
+  height: 28,
+  border: `1px solid ${theme.color.border}`,
+  borderRadius: 5,
   background: 'transparent',
 }));
+
+const DimensionResize = styled.div(({ theme }) => ({
+  position: 'absolute',
+  left: 8,
+  color: theme.color.mediumdark,
+  // on hover, change cursor
+  ':hover': {
+    cursor: 'ew-resize',
+  },
+}));
+
+const ActiveViewportLabelWrapper = styled.div(({ theme }) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  position: 'relative',
+  fontSize: theme.typography.size.s2 - 1,
+}));
+
+const ActiveViewportLabel = ({
+  isHorizontal,
+  title,
+  value,
+  onResize,
+}: {
+  isHorizontal?: boolean;
+  title: string;
+  value: string;
+  onResize: (dimension: string) => void;
+}) => {
+  const [dimension, setDimension] = React.useState<string>(value);
+
+  return (
+    <ActiveViewportLabelWrapper>
+      <DimensionResize>{isHorizontal ? 'W' : 'H'}</DimensionResize>
+      <ActiveViewportInput
+        title={title}
+        value={dimension}
+        onChange={(evt) => setDimension(evt.target.value)}
+        onSubmit={(evt) => onResize(evt.target.value)}
+      />
+    </ActiveViewportLabelWrapper>
+  );
+};
 
 const IconButtonWithLabel = styled(IconButton)(() => ({
   display: 'inline-flex',
@@ -232,9 +275,12 @@ export const ViewportTool: FC = memo(
                 },
               }}
             />
-            <ActiveViewportLabel title="Viewport width">
-              {styles.width.replace('px', '')}
-            </ActiveViewportLabel>
+            <ActiveViewportLabel
+              title="Viewport width"
+              isHorizontal
+              value={styles.width.replace('px', '')}
+              onResize={(dimension) => alert(dimension)}
+            />
             <IconButton
               key="viewport-rotate"
               title="Rotate viewport"
@@ -244,9 +290,11 @@ export const ViewportTool: FC = memo(
             >
               <Icons icon="transfer" />
             </IconButton>
-            <ActiveViewportLabel title="Viewport height">
-              {styles.height.replace('px', '')}
-            </ActiveViewportLabel>
+            <ActiveViewportLabel
+              title="Viewport height"
+              value={styles.height.replace('px', '')}
+              onResize={(dimension) => alert(dimension)}
+            />
           </ActiveViewportSize>
         ) : null}
       </Fragment>
