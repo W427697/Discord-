@@ -20,6 +20,7 @@ import type {
   PreparedMeta,
   ModuleExport,
 } from '@storybook/types';
+import type { StoryContextUpdate } from '@storybook/csf';
 import { includeConditionalArg } from '@storybook/csf';
 
 import { applyHooks } from '../../addons';
@@ -87,38 +88,6 @@ export function prepareStory<TRenderer extends Renderer>(
   const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
   const unboundStoryFn = (context: StoryContext<TRenderer>) => decoratedStoryFn(context);
 
-  // prepareContext is invoked at StoryRender.render()
-  // the context is prepared before invoking the render function, instead of here directly
-  // to ensure args don't loose there special properties set by the renderer
-  // eg. reactive proxies set by frameworks like SolidJS or Vue
-  const prepareContext = (context: StoryContext<TRenderer>) => {
-    let finalContext: StoryContext<TRenderer> = context;
-
-    if (global.FEATURES?.argTypeTargetsV7) {
-      const argsByTarget = groupArgsByTarget(context);
-      finalContext = {
-        ...context,
-        allArgs: context.args,
-        argsByTarget,
-        args: argsByTarget[UNTARGETED] || {},
-      };
-    }
-
-    const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
-      const mapping = finalContext.argTypes[key]?.mapping;
-      acc[key] = mapping && val in mapping ? mapping[val] : val;
-      return acc;
-    }, {} as Args);
-
-    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-      const argType = finalContext.argTypes[key] || {};
-      if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
-      return acc;
-    }, {} as Args);
-
-    return { ...finalContext, args: includedArgs };
-  };
-
   const play = storyAnnotations?.play || componentAnnotations.play;
 
   const playFunction =
@@ -145,7 +114,6 @@ export function prepareStory<TRenderer extends Renderer>(
     unboundStoryFn,
     applyLoaders,
     playFunction,
-    prepareContext,
   };
 }
 
@@ -246,4 +214,39 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   const { name, story, ...withoutStoryIdentifiers } = contextForEnhancers;
 
   return withoutStoryIdentifiers;
+}
+
+// the context is prepared before invoking the render function, instead of here directly
+// to ensure args don't loose there special properties set by the renderer
+// eg. reactive proxies set by frameworks like SolidJS or Vue
+export function prepareContext<TRenderer extends Renderer>(
+  // We use this slightly weird type because `Omit<..., 'viewMode'>` breaks the type somehow
+  context: StoryContextForEnhancers<TRenderer> & Required<StoryContextUpdate>
+): Omit<StoryContextForLoaders<TRenderer>, 'viewMode'> {
+  let finalContext = context;
+  const { args: unmappedArgs } = context;
+
+  if (global.FEATURES?.argTypeTargetsV7) {
+    const argsByTarget = groupArgsByTarget(context);
+    finalContext = {
+      ...context,
+      allArgs: context.args,
+      argsByTarget,
+      args: argsByTarget[UNTARGETED] || {},
+    };
+  }
+
+  const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
+    const mapping = finalContext.argTypes[key]?.mapping;
+    acc[key] = mapping && val in mapping ? mapping[val] : val;
+    return acc;
+  }, {} as Args);
+
+  const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
+    const argType = finalContext.argTypes[key] || {};
+    if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
+    return acc;
+  }, {} as Args);
+
+  return { ...finalContext, unmappedArgs, args: includedArgs };
 }

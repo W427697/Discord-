@@ -148,7 +148,10 @@ export const UNTARGETED = 'UNTARGETED';
 export function groupArgsByTarget<TArgs extends Args = Args>({
   args,
   argTypes,
-}: StoryContext<Renderer, TArgs>) {
+}: {
+  args: TArgs;
+  argTypes: ArgTypes<TArgs>;
+}) {
   const groupedArgs: Record<string, Partial<TArgs>> = {};
   (Object.entries(args) as [keyof TArgs, any][]).forEach(([name, value]) => {
     const { target = UNTARGETED } = (argTypes[name] || {}) as { target?: string };
