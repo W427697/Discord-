@@ -121,7 +121,7 @@ const baseTemplates = {
   },
   'react-vite/default-js': {
     name: 'React Vite (JS)',
-    script: 'yarn create vite@beta . --template react',
+    script: 'npm create vite@beta --yes . -- --template react',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -131,7 +131,7 @@ const baseTemplates = {
   },
   'react-vite/default-ts': {
     name: 'React Vite (TS)',
-    script: 'yarn create vite@beta . --template react-ts',
+    script: 'npm create vite@beta --yes . -- --template react-ts',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -184,7 +184,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
-    script: 'yarn create vite@beta . --template vue',
+    script: 'npm create vite@beta --yes . -- --template vue',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -194,7 +194,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-ts': {
     name: 'Vue3 Vite (TS)',
-    script: 'yarn create vite@beta . --template vue-ts',
+    script: 'npm create vite@beta --yes . -- --template vue-ts',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -226,7 +226,7 @@ const baseTemplates = {
   'html-vite/default-js': {
     name: 'HTML Vite JS',
     script:
-      'yarn create vite@beta . --template vanilla && echo "export default {}" > vite.config.js',
+      'npm create vite@beta --yes . -- --template vanilla && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -237,7 +237,7 @@ const baseTemplates = {
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
     script:
-      'yarn create vite@beta . --template vanilla-ts && echo "export default {}" > vite.config.js',
+      'npm create vite@beta --yes . -- --template vanilla-ts && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -247,7 +247,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
-    script: 'yarn create vite@beta . --template svelte',
+    script: 'npm create vite@beta --yes . -- --template svelte',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -257,7 +257,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-ts': {
     name: 'Svelte Vite (TS)',
-    script: 'yarn create vite@beta . --template svelte-ts',
+    script: 'npm create vite@beta --yes . -- --template svelte-ts',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -312,7 +312,7 @@ const baseTemplates = {
   },
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
-    script: 'yarn create vite@beta . --template lit',
+    script: 'npm create vite@beta --yes . -- --template lit',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -323,7 +323,7 @@ const baseTemplates = {
   },
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
-    script: 'yarn create vite@beta . --template lit-ts',
+    script: 'npm create vite@beta --yes . -- --template lit-ts',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -377,7 +377,7 @@ const baseTemplates = {
   },
   'preact-vite/default-js': {
     name: 'Preact Vite (JS)',
-    script: 'yarn create vite@beta . --template preact',
+    script: 'npm create vite@beta --yes . -- --template preact',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -387,7 +387,7 @@ const baseTemplates = {
   },
   'preact-vite/default-ts': {
     name: 'Preact Vite (TS)',
-    script: 'yarn create vite@beta . --template preact-ts',
+    script: 'npm create vite@beta --yes . -- --template preact-ts',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
