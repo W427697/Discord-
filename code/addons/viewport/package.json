@@ -81,7 +81,8 @@
     "@storybook/preview-api": "7.1.0-alpha.8",
     "@storybook/theming": "7.1.0-alpha.8",
     "memoizerific": "^1.11.3",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "use-debounce": "^9.0.4"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

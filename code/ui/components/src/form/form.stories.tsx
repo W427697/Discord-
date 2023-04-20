@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import { action } from '@storybook/addon-actions';
 
 import * as InputComponents from './input/input';
 import { Field as FieldComponent } from './field/field';
+import { Spaced } from '../spaced/Spaced';
 
 const Flexed = styled(FieldComponent)({ display: 'flex' });
 
@@ -128,5 +129,82 @@ export const Input = {
       },
       defaultValue: 'Placeholder',
     },
+  },
+};
+
+export const NumericInputSizes = {
+  render: () => {
+    const [auto, setAuto] = useState(0);
+    const [flex, setFlex] = useState(0);
+    const [full, setFull] = useState(0);
+    const [content, setContent] = useState(0);
+    return (
+      <Spaced>
+        {[
+          { size: 'auto', value: auto, onChange: setAuto },
+          { size: 'flex', value: flex, onChange: setFlex },
+          { size: '100%', value: full, onChange: setFull },
+          { size: 'content', value: content, onChange: setContent },
+        ].map(({ size, value, onChange }) => (
+          <Flexed key={size} label={size}>
+            <InputComponents.NumericInput value={value} onChange={onChange} size={size} />
+          </Flexed>
+        ))}
+      </Spaced>
+    );
+  },
+};
+
+export const NumericInputValidations = {
+  render: () => {
+    const [error, setError] = useState(0);
+    const [warn, setWarn] = useState(0);
+    const [validity, setValidity] = useState(0);
+    const [nullState, setNull] = useState(0);
+    return (
+      <Spaced>
+        {[
+          { valid: 'error', value: error, onChange: setError },
+          { valid: 'warn', value: warn, onChange: setWarn },
+          { valid: 'valid', value: validity, onChange: setValidity },
+          { valid: null, value: nullState, onChange: setNull },
+        ].map(({ valid, value, onChange }) => (
+          <Flexed key={valid} label={String(valid)}>
+            <InputComponents.NumericInput
+              value={value}
+              onChange={onChange}
+              size="100%"
+              valid={valid}
+            />
+          </Flexed>
+        ))}
+      </Spaced>
+    );
+  },
+};
+
+export const NumericInputAlignment = {
+  render: () => {
+    const [end, setEnd] = useState(0);
+    const [center, setCenter] = useState(0);
+    const [start, setStart] = useState(0);
+    return (
+      <Spaced>
+        {[
+          { align: 'end', value: end, onChange: setEnd },
+          { align: 'center', value: center, onChange: setCenter },
+          { align: 'start', value: start, onChange: setStart },
+        ].map(({ align, value, onChange }) => (
+          <Flexed key={align} label={align}>
+            <InputComponents.NumericInput
+              value={value}
+              onChange={onChange}
+              size="100%"
+              align={align}
+            />
+          </Flexed>
+        ))}
+      </Spaced>
+    );
   },
 };

@@ -5480,6 +5480,7 @@ __metadata:
     memoizerific: ^1.11.3
     prop-types: ^15.7.2
     typescript: ~4.9.3
+    use-debounce: ^9.0.4
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -29626,6 +29627,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: e64ce52f4b18c020407636784192726807404a2552609acf7497b66a2b7070674fb5d2b950d426c4aa85f353e2bbecb02ebf9c5b865cd06797938c70bcbf5d26
+  languageName: node
+  linkType: hard
+
+"use-debounce@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "use-debounce@npm:9.0.4"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 97096fd3a0987beef190978c05affacb63c04ffd2d2132340bd2d161edf4f1695d9077c71ad5845b0e86b6cfec994ba141af0b62985a4e793166cac5a5c7d116
   languageName: node
   linkType: hard
 

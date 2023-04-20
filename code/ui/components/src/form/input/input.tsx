@@ -1,4 +1,5 @@
-import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
+/* eslint-disable react/display-name */
+import type { FC, HTMLProps, SelectHTMLAttributes, ChangeEvent, KeyboardEvent } from 'react';
 import React, { forwardRef } from 'react';
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
@@ -21,7 +22,7 @@ const styleResets: CSSObject = {
   position: 'relative',
 };
 
-const styles = ({ theme }: { theme: Theme }): CSSObject => ({
+const styles = ({ theme, hideArrows }: { theme: Theme; hideArrows?: boolean }): CSSObject => ({
   ...styleResets,
 
   transition: 'box-shadow 200ms ease-out, opacity 200ms ease-out',
@@ -48,6 +49,16 @@ const styles = ({ theme }: { theme: Theme }): CSSObject => ({
     color: theme.textMutedColor,
     opacity: 1,
   },
+  // only apply styles if hideArrow is true
+  ...(hideArrows
+    ? {
+        MozAppearance: 'textfield',
+        '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+          WebkitAppearance: 'none',
+          display: 'none',
+        },
+      }
+    : {}),
 });
 
 export type Sizes = '100%' | 'flex' | 'auto';
@@ -89,6 +100,7 @@ const alignment = ({
     }
   }
 };
+
 const validation = ({ valid, theme }: { valid: ValidationStates; theme: Theme }): CSSObject => {
   switch (valid) {
     case 'valid': {
@@ -235,5 +247,84 @@ export const Button: FC<any> = Object.assign(
   }),
   {
     displayName: 'Button',
+  }
+);
+
+export const parse = (value: string) => {
+  const result = parseFloat(value);
+  return Number.isNaN(result) ? '' : result;
+};
+
+type NumericSizes = Sizes | 'content';
+
+const numericSizes = ({ value, size }: { value?: number; size?: NumericSizes }): CSSObject => {
+  switch (size) {
+    case 'content': {
+      return {
+        width: `calc(${value ? value.toString().length : 1}ch + 10px)`,
+        boxSizing: 'content-box',
+        padding: '6px 10px',
+        // Override the default 32 as we are using content-box.
+        minHeight: 20,
+      };
+    }
+    default: {
+      return sizes({ size });
+    }
+  }
+};
+
+type NumericInputStyleProps = {
+  size?: NumericSizes;
+  valid?: ValidationStates;
+  align?: Alignments;
+  hideArrows?: boolean;
+};
+
+type NumericInputOwnProps = {
+  value?: number;
+  defaultValue?: number;
+  onChange?: (value: number | '') => number | void;
+} & NumericInputStyleProps;
+type NumericInputProps = Omit<HTMLProps<HTMLInputElement>, keyof NumericInputOwnProps> &
+  NumericInputOwnProps;
+
+export const NumericInput = Object.assign(
+  styled(
+    forwardRef<any, NumericInputProps>(
+      ({ size, valid, align, onChange, onKeyDown, ...props }, ref) => {
+        const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+          onChange(parse(event.target.value));
+        };
+        const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+          if (event.keyCode === 27) {
+            event.currentTarget.blur();
+          }
+          if (onKeyDown) {
+            onKeyDown(event);
+          }
+        };
+        return (
+          <input
+            type="number"
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            {...props}
+            ref={ref}
+          />
+        );
+      }
+    )
+  )<NumericInputStyleProps>(
+    styles,
+    alignment,
+    validation,
+    {
+      minHeight: 32,
+    },
+    numericSizes
+  ),
+  {
+    displayName: 'NumericInput',
   }
 );
