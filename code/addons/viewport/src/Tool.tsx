@@ -338,7 +338,7 @@ export const ViewportTool: FC = memo(
     );
 
     const updateHeight = React.useCallback(
-      (value: number) => setState({ ...state, width: value, selected: responsiveViewport.id }),
+      (value: number) => setState({ ...state, height: value, selected: responsiveViewport.id }),
       []
     );
 
