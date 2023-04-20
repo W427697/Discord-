@@ -13,8 +13,8 @@ export default {
     components: { GlobalSetup },
     // The story's `args` need to be mapped into the template through the `setup()` method
     setup() {
-      const themeColor = inject('themeColor', 'red'); // <-- this is the global setup from .storybook/preview.ts
-      return { args: { ...args, backgroundColor: themeColor } };
+      const color = inject('primaryColor', 'red'); // <-- this is the global setup from .storybook/preview.ts
+      return { args: { ...args, backgroundColor: color } };
     },
     // And then the `args` are bound to your component with `v-bind="args"`
     template: `<global-setup v-bind="args" />`,
@@ -24,17 +24,16 @@ export default {
 export const Primary = {
   args: {
     primary: true,
-    label: 'Global Setup Injected themeColor',
+    label: 'Injected primaryColor from .storybook/preview.ts',
   },
   play: async ({ canvasElement, id }) => {
-    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
 
     const button = await canvas.getByRole('button');
     await expect(button).toHaveStyle('background-color: rgb(0, 128, 0)'); // <-- this provide themeColor = green from .storybook/preview.ts
 
     const h4 = await canvas.getByRole('heading', { level: 4 });
-    await expect(h4).toHaveTextContent('Bonjour! from plugin your name is Primary!');
+    await expect(h4).toHaveTextContent('Hello Story! from some plugin your name is Primary!');
   },
 };
 

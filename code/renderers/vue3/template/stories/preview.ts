@@ -16,7 +16,7 @@ declare global {
   var Components: Record<string, any>;
 }
 
-const i18nPlugin: Plugin = {
+const somePlugin: Plugin = {
   install: (app: App, options) => {
     // inject a globally available $translate() method
     // eslint-disable-next-line no-param-reassign
@@ -30,7 +30,7 @@ const i18nPlugin: Plugin = {
     };
   },
 };
-const themeColor = 'themeColor';
+const someColor = 'primaryColor';
 
 // add components to global scope
 setup((app: App) => {
@@ -40,14 +40,14 @@ setup((app: App) => {
 
 // this adds a plugin to vue app
 setup((app: App, context?: StoryContext<VueRenderer>) => {
-  app.use(i18nPlugin, {
+  app.use(somePlugin, {
     greetings: {
-      hello: `Bonjour! from plugin your name is ${context?.name}!`,
+      hello: `Hello Story! from some plugin your name is ${context?.name}!`,
     },
   });
 });
 
 // additonal setup to provide selected language to the app
 setup((app: App, context) => {
-  app.provide(themeColor, 'green');
+  app.provide(someColor, 'green');
 });
