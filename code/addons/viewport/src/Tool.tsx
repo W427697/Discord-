@@ -92,14 +92,12 @@ const ActiveViewportSize = styled.div(() => ({
   display: 'inline-flex',
 }));
 
-const ActiveViewportNumericInput = styled(Form.NumericInput)(({ theme }) => ({
+const ActiveViewportNumericInput = styled(Form.NumericInput)(() => ({
   flexGrow: 0,
   alignSelf: 'center',
   padding: 0,
   paddingLeft: 26,
   height: 26,
-  border: `1px solid ${theme.color.border}`,
-  borderRadius: 5,
 }));
 
 const ActiveViewportIconButton = styled(IconButton)(() => ({
