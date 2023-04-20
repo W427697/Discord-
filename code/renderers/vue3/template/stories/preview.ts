@@ -5,6 +5,17 @@ import { setup } from '@storybook/vue3';
 import type { VueRenderer } from 'renderers/vue3/src/types';
 import type { App, Plugin } from 'vue';
 
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    $translate: (key: string) => string;
+  }
+}
+
+declare global {
+  // eslint-disable-next-line no-var,vars-on-top
+  var Components: Record<string, any>;
+}
+
 const i18nPlugin: Plugin = {
   install: (app: App, options) => {
     // inject a globally available $translate() method
@@ -13,7 +24,7 @@ const i18nPlugin: Plugin = {
       // retrieve a nested property in `options`
       // using `key` as the path
       // eslint-disable-next-line array-callback-return, consistent-return
-      return key.split('.').reduce((o: { [x: string]: any }, i: string | number) => {
+      return key.split('.').reduce((o, i) => {
         if (o) return o[i];
       }, options);
     };
@@ -37,6 +48,6 @@ setup((app: App, context?: StoryContext<VueRenderer>) => {
 });
 
 // additonal setup to provide selected language to the app
-setup((app: App) => {
+setup((app: App, context) => {
   app.provide(themeColor, 'green');
 });
