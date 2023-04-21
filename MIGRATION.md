@@ -24,6 +24,7 @@
     - [Add strict mode](#add-strict-mode)
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [Stories field in .storybook/main.js is mandatory](#stories-field-in-storybookmainjs-is-mandatory)
+    - [Stricter global types](#stricter-global-types)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -898,6 +899,10 @@ import ReadMe from './README.md?raw';
 
 In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
 Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+
+#### Stricter global types
+
+In 6.x, you could declare and use [`globals`](https://storybook.js.org/docs/react/essentials/toolbars-and-globals) without declaring their corresponding `globalTypes`. We've made this more strict in 7.0, so that the `globalTypes` declaration is now mandatory.
 
 ### 7.0 Core changes
 
