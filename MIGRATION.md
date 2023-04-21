@@ -2144,6 +2144,8 @@ function storySort(a, b) {
 },
 ```
 
+> NOTE: v7-style sorting must be specified in the user's `.storybook/preview.js`. It cannot be specified by an addon or preset.
+
 #### v7 Store API changes for addon authors
 
 The Story Store in v7 mode is async, so synchronous story loading APIs no longer work. In particular:
