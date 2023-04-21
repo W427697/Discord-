@@ -59,24 +59,23 @@ export const webpack = async (webpackConfig: Configuration, options: PresetOptio
     return webpackConfig;
   }
 
+  let extraMainFields: string[] = [];
+
   if (angularOptions.enableNgcc !== false && !isAngular16OrNewer) {
     // TODO: Drop if Angular 14 and 15 are not supported anymore
     runNgcc();
+    extraMainFields = ['es2015_ivy_ngcc', 'module_ivy_ngcc', 'main_ivy_ngcc'];
+  }
+
+  if (!isAngular16OrNewer) {
+    extraMainFields.push('es2015');
   }
 
   return {
     ...webpackConfig,
     resolve: {
       ...webpackConfig.resolve,
-      mainFields: [
-        'es2015_ivy_ngcc',
-        'module_ivy_ngcc',
-        'main_ivy_ngcc',
-        'es2015',
-        'browser',
-        'module',
-        'main',
-      ],
+      mainFields: [...extraMainFields, 'browser', 'module', 'main'],
     },
   };
 };
