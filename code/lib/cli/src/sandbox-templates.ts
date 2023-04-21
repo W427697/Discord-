@@ -310,7 +310,8 @@ const baseTemplates = {
   },
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
-    script: 'yarn create vite . --template lit',
+    script:
+      'npm create vite@latest --yes . -- --template lit && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -321,7 +322,8 @@ const baseTemplates = {
   },
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
-    script: 'yarn create vite . --template lit-ts',
+    script:
+      'npm create vite@latest --yes . -- --template lit-ts && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
