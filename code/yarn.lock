@@ -5017,6 +5017,7 @@ __metadata:
     "@storybook/theming": 7.1.0-alpha.7
     "@storybook/types": 7.1.0-alpha.7
     "@types/lodash": ^4.14.167
+    "@types/uuid": ^9.0.1
     dequal: ^2.0.2
     lodash: ^4.17.21
     polished: ^4.2.2
@@ -5025,7 +5026,7 @@ __metadata:
     telejson: ^7.0.3
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
-    uuid-browser: ^3.1.0
+    uuid: ^9.0.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8805,6 +8806,13 @@ __metadata:
   version: 1.0.0
   resolution: "@types/util-deprecate@npm:1.0.0"
   checksum: 3f5e23aad8c9427db0ca2ef0c5b05377c11f62ad5710d2b0daf75b55339d7b646007090d5d21f007bdcb32cc62f52d918f977129639686e1856248217bb73663
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "@types/uuid@npm:9.0.1"
+  checksum: 234e14e053504a98532bb5d1490c8d649fe24ae04a94ba042b09b380a900094df1032aa7c3864b74b7a85a0a5e97530b2d1340048ed9d07855140cb99b2cefc8
   languageName: node
   linkType: hard
 
@@ -29716,19 +29724,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid-browser@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "uuid-browser@npm:3.1.0"
-  checksum: bfb6bcc8cc75c1adf776370c4f86d00ee5682f7315c8bccb99938e53dafae189ef6a4dc125e67abd2a2cdfaad6020690fe4cb67dbd5b39f32d3ba75fb713d807
-  languageName: node
-  linkType: hard
-
 "uuid@npm:8.3.2, uuid@npm:^8.0.0, uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
     uuid: dist/bin/uuid
   checksum: bcbb807a917d374a49f475fae2e87fdca7da5e5530820ef53f65ba1d12131bd81a92ecf259cc7ce317cbe0f289e7d79fdfebcef9bfa3087c8c8a2fa304c9be54
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8867e438990d1d33ac61093e2e4e3477a2148b844e4fa9e3c2360fa4399292429c4b6ec64537eb1659c97b2d10db349c673ad58b50e2824a11e0d3630de3c056
   languageName: node
   linkType: hard
 
