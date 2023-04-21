@@ -2,7 +2,7 @@ import { getInterpretedFileWithExt } from './interpret-files';
 
 let registered = false;
 
-export function interopRequireDefault(filePath: string) {
+export function interopRequireDefault(filePath: string, cwd?: string) {
   // eslint-disable-next-line no-underscore-dangle, global-require
   const hasEsbuildBeenRegistered = !!require('module')._extensions['.ts'];
 
@@ -24,7 +24,7 @@ export function interopRequireDefault(filePath: string) {
   }
 
   // eslint-disable-next-line import/no-dynamic-require,global-require
-  const result = require(filePath);
+  const result = require(require.resolve(filePath, cwd ? { paths: [cwd] } : {}));
 
   const isES6DefaultExported =
     typeof result === 'object' && result !== null && typeof result.default !== 'undefined';
