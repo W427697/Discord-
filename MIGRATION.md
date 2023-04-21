@@ -903,7 +903,7 @@ Please follow up the [Configure your Storybook project](https://storybook.js.org
 
 #### Stricter global types
 
-In 6.x, you could declare and use [`globals`](https://storybook.js.org/docs/react/essentials/toolbars-and-globals) without declaring their corresponding `globalTypes`. We've made this more strict in 7.0, so that the `globalTypes` declaration is now mandatory.
+In 6.x, you could declare and use [`globals`](https://storybook.js.org/docs/react/essentials/toolbars-and-globals) without declaring their corresponding `globalTypes`. We've made this more strict in 7.0, so that the `globalTypes` declaration is required, and undeclared globals will be ignored.
 
 #### Dropped support for file URLs
 
