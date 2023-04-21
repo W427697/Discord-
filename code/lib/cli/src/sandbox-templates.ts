@@ -276,16 +276,6 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
-    modifications: {
-      mainConfig: {
-        framework: {
-          name: '@storybook/angular',
-          options: {
-            enableNgcc: false,
-          },
-        },
-      },
-    },
     inDevelopment: true,
   },
   'angular-cli/default-ts': {
