@@ -25,9 +25,9 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   return h(Component, props, createOrUpdateSlots(context));
 };
 
-let setupFunction = (_app: any) => {};
+const setupFunctions: Array<(app: any) => void> = [];
 export const setup = (fn: (app: any) => void) => {
-  setupFunction = fn;
+  setupFunctions.push(fn);
 };
 
 const map = new Map<
@@ -78,7 +78,7 @@ export function renderToCanvas(
     },
   });
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  setupFunction(vueApp);
+  setupFunctions.forEach((setupFunction) => setupFunction(vueApp));
   vueApp.mount(canvasElement);
 
   showMain();
