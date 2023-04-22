@@ -84,7 +84,7 @@ export const getStorybookData = async ({
   configDir: userDefinedConfigDir,
 }: {
   packageManager: JsPackageManager;
-  configDir: string;
+  configDir?: string;
 }) => {
   const packageJson = await packageManager.retrievePackageJson();
   const {
