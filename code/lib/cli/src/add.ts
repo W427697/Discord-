@@ -57,7 +57,10 @@ const postinstallAddon = async (addonName: string, isOfficialAddon: boolean) => 
 
 const getVersionSpecifier = (addon: string) => {
   const groups = /^(...*)@(.*)$/.exec(addon);
-  return groups ? [groups[1], groups[2]] : [addon, undefined];
+  if (groups) {
+    return [groups[0], groups[2]] as const;
+  }
+  return [addon, undefined] as const;
 };
 
 /**
