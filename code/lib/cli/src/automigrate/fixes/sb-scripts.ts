@@ -18,10 +18,16 @@ const logger = console;
  * that do contain the actual sb binary, and not something like "npm run start-storybook"
  * which could actually be a custom script even though the name matches the legacy binary name
  */
-export const getStorybookScripts = (allScripts: Record<string, string>) => {
+export const getStorybookScripts = (
+  allScripts: NonNullable<PackageJsonWithDepsAndDevDeps['scripts']>
+) => {
   return Object.keys(allScripts).reduce((acc, key) => {
+    const currentScript = allScripts[key];
+    if (currentScript == null) {
+      return acc;
+    }
     let isStorybookScript = false;
-    const allWordsFromScript = allScripts[key].split(' ');
+    const allWordsFromScript = currentScript.split(' ');
     const newScript = allWordsFromScript
       .map((currentWord, index) => {
         const previousWord = allWordsFromScript[index - 1];
@@ -51,7 +57,7 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
 
     if (isStorybookScript) {
       acc[key] = {
-        before: allScripts[key],
+        before: currentScript,
         after: newScript,
       };
     }
@@ -90,7 +96,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
   prompt({ storybookVersion, storybookScripts }) {
     const sbFormatted = chalk.cyan(`Storybook ${storybookVersion}`);
 
-    const newScriptsMessage = Object.keys(storybookScripts).reduce((acc, scriptKey) => {
+    const newScriptsMessage = Object.keys(storybookScripts).reduce((acc: string[], scriptKey) => {
       acc.push(
         [
           chalk.bold(scriptKey),
