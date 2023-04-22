@@ -42,10 +42,7 @@ export function ZoomElement({ scale, children }: ZoomProps) {
 
   return (
     <ZoomElementWrapper scale={scale} elementHeight={elementHeight}>
-      <div
-        ref={hasBrowserSupportForCssZoom ? null : componentWrapperRef}
-        className="innerZoomElementWrapper"
-      >
+      <div ref={componentWrapperRef} className="innerZoomElementWrapper">
         {children}
       </div>
     </ZoomElementWrapper>
