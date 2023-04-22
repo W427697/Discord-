@@ -34,7 +34,7 @@ setup((app: App) => {
   app.component('GlobalButton', globalThis.Components.Button);
 });
 
-// this adds a plugin to vue app
+// this adds a plugin to vue app that can be used globally in stories
 setup((app: App, context?: StoryContext<VueRenderer>) => {
   app.use(somePlugin, {
     greetings: {
