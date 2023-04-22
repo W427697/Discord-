@@ -453,7 +453,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+    await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
       logger.info(`✅ Updating main.js`);
 
       logger.info(`✅ Updating "framework" field`);
