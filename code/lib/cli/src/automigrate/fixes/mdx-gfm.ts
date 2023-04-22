@@ -89,7 +89,7 @@ export const mdxgfm: Fix<Options> = {
         [`@storybook/addon-mdx-gfm@${versionToInstall}`]
       );
 
-      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+      await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         logger.info(`✅ Adding "@storybook/addon-mdx-gfm" addon`);
         if (!dryRun) {
           main.appendValueToArray(['addons'], '@storybook/addon-mdx-gfm');
