@@ -22,7 +22,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return h(Component, props, createOrUpdateSlots(context));
+  return () => h(Component, props, createOrUpdateSlots(context));
 };
 
 let setupFunction = (_app: any) => {};
@@ -73,7 +73,9 @@ export function renderToCanvas(
       map.set(canvasElement, appState);
 
       return () => {
-        return h(rootElement, appState.reactiveArgs);
+        // not passing args here as props
+        // treat the rootElement as a component without props
+        return h(rootElement);
       };
     },
   });
