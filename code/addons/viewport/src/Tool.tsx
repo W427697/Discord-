@@ -4,15 +4,22 @@ import React, { useState, Fragment, useEffect, useRef, memo } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import memoize from 'memoizerific';
 
-import { styled, Global, type Theme, withTheme } from '@storybook/theming';
+import { Global, type Theme, withTheme } from '@storybook/theming';
 
-import { Icons, IconButton, WithTooltip, TooltipLinkList, Form } from '@storybook/components';
+import { Icons, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
 import type { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
+import {
+  ActiveViewportIconButton,
+  ActiveViewportLabel,
+  ActiveViewportSize,
+  IconButtonLabel,
+  IconButtonWithLabel,
+} from './components';
 
 interface ViewportItem {
   id: string;
@@ -88,92 +95,6 @@ const flip = ({ width, height, ...styles }: ViewportStyles) => ({
   width: height,
 });
 
-const ActiveViewportSize = styled.div(() => ({
-  display: 'inline-flex',
-}));
-
-const ActiveViewportNumericInput = styled(Form.NumericInput)(() => ({
-  flexGrow: 0,
-  alignSelf: 'center',
-  padding: 0,
-  paddingLeft: 26,
-  height: 26,
-}));
-
-const ActiveViewportIconButton = styled(IconButton)(() => ({
-  marginRight: 4,
-  marginLeft: 4,
-}));
-
-const DimensionResize = styled.div(({ theme }) => ({
-  position: 'absolute',
-  zIndex: 1,
-  left: 8,
-  color: theme.color.mediumdark,
-  // on hover, change cursor
-  ':hover': {
-    cursor: 'ew-resize',
-  },
-}));
-
-const ActiveViewportLabelWrapper = styled.div(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  position: 'relative',
-  fontSize: theme.typography.size.s2 - 1,
-}));
-
-const ActiveViewportLabel = React.memo(
-  ({
-    isHorizontal,
-    title,
-    value,
-    onResize,
-    ...props
-  }: Omit<React.ComponentProps<typeof ActiveViewportNumericInput>, 'onChange'> & {
-    onResize: (value: number) => void;
-    isHorizontal?: boolean;
-  }) => {
-    const [dimension, setDimension] = React.useState<number>(value);
-
-    useEffect(() => {
-      setDimension(value);
-    }, [value]);
-
-    return (
-      <ActiveViewportLabelWrapper>
-        <DimensionResize>{isHorizontal ? 'W' : 'H'}</DimensionResize>
-        <ActiveViewportNumericInput
-          title={title}
-          value={dimension}
-          hideArrows
-          onChange={setDimension}
-          onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
-            e.target.select();
-          }}
-          onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === 'Enter') {
-              onResize(dimension);
-            }
-          }}
-          {...props}
-        />
-      </ActiveViewportLabelWrapper>
-    );
-  }
-);
-ActiveViewportLabel.displayName = 'ActiveViewportLabel';
-
-const IconButtonWithLabel = styled(IconButton)(() => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-}));
-
-const IconButtonLabel = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
-  marginLeft: 10,
-}));
-
 interface ViewportToolState {
   isRotated: boolean;
   selected: string | null;
@@ -217,7 +138,14 @@ const getStyles = (
     result.width = state.width > 0 ? `${state.width}px` : '100%';
     result.height = state.height > 0 ? `${state.height}px` : '100%';
   }
-  return state.isRotated ? flip(result) : result;
+  const final = state.isRotated ? flip(result) : result;
+  console.log(
+    'getStyles',
+    { rotated: state.isRotated },
+    { width: final.width, height: final.height }
+  );
+  // return state.isRotated ? flip(result) : result;
+  return final;
 };
 
 const getItem = (list: ViewportItem[], selected: string, defaultViewport: string) => {
@@ -237,14 +165,17 @@ const getSize = (
 ): { width: number; height: number } => {
   const item = getItem(list, state.selected, defaultViewport);
   const styles = getStyles(prevStyles, item.styles, state);
+  console.log({ styles });
   if (item.id === responsiveViewport.id) {
     const result = {
       width: state.width,
       height: state.height,
     };
+    console.log('getSize', { rotated: state.isRotated }, state.isRotated ? flip(result) : result);
     // @ts-expect-error TODO: fix the typings error here
     return state.isRotated ? flip(result) : result;
   }
+
   return getSizeFromStyles(styles, state);
 };
 
@@ -262,7 +193,8 @@ export const ViewportTool: FC = memo(
       width: 320,
       height: 568,
     });
-    const setStateDebounced = useDebouncedCallback(setStateRaw, 100);
+    // debounce resize events to avoid performance issues when dragging the dimension inputs
+    const setStateDebounced = useDebouncedCallback(setStateRaw, 10);
 
     // Store width/height locally so we can debounce the main state, but still
     // have responsive inputs.
@@ -277,20 +209,21 @@ export const ViewportTool: FC = memo(
     if (!list.find((i) => i.id === defaultViewport)) {
       // eslint-disable-next-line no-console
       console.warn(
-        `Cannot find "defaultViewport" of "${defaultViewport}" in addon-viewport configs, please check the "viewports" setting in the configuration.`
+        `Cannot find "defaultViewport" of "${defaultViewport}" in addon-viewport configs, please check the "viewports" parameter.`
       );
     }
 
     const setState = (newState: ViewportToolState) => {
       const { width, height } = getSize(list, defaultViewport, newState, ref.current);
-      const updatedState = {
+      setLocalWidth(width);
+      setLocalHeight(height);
+      console.log('setting local width and height to:', { width, height });
+
+      setStateDebounced({
         ...newState,
         width,
         height,
-      };
-      setLocalWidth(width);
-      setLocalHeight(height);
-      setStateDebounced(updatedState);
+      });
     };
 
     useEffect(() => {
@@ -310,11 +243,12 @@ export const ViewportTool: FC = memo(
     const { selected, isRotated } = state;
     const item = getItem(list, selected, defaultViewport);
 
+    console.log('gonna call getStyles with ', ref.current, item, state);
     const styles = getStyles(ref.current, item.styles, state);
 
     useEffect(() => {
       ref.current = styles;
-    }, [item]);
+    }, [item, styles]);
 
     if (disable || Object.entries(viewports).length === 0) {
       return null;
@@ -332,14 +266,15 @@ export const ViewportTool: FC = memo(
 
     const updateWidth = React.useCallback(
       (value: number) => setState({ ...state, width: value, selected: responsiveViewport.id }),
-      []
+      [state]
     );
 
     const updateHeight = React.useCallback(
       (value: number) => setState({ ...state, height: value, selected: responsiveViewport.id }),
-      []
+      [state]
     );
 
+    console.log('rendering with ', { width: localWidth, height: localHeight });
     return (
       <Fragment>
         <WithTooltip
