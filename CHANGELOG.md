@@ -1,3 +1,24 @@
+## 7.0.7 (April 24, 2023)
+
+#### Bug Fixes
+
+-   Core: Pass parameters in `SET_INDEX` for docs entries [#22154](https://github.com/storybooks/storybook/pull/22154)
+-   Addon-actions: Fix ESM by upgrading from uuid-browser to uuid [#22037](https://github.com/storybooks/storybook/pull/22037)
+-   Addon-actions: Fix decorator type [#22175](https://github.com/storybooks/storybook/pull/22175)
+-   Core: Add new tags to distinguish docs attachment [#22120](https://github.com/storybooks/storybook/pull/22120)
+-   Core: Restore Docs `useParameter` using `DOCS_PREPARED` [#22118](https://github.com/storybooks/storybook/pull/22118)
+
+#### Maintenance
+
+-   CSF: Improve error message for bad default export [#22190](https://github.com/storybooks/storybook/pull/22190)
+-   CLI: Add addon query-params to list of SB7 incompatible addons [#22095](https://github.com/storybooks/storybook/pull/22095)
+-   UI: Add remount story shortcut [#21401](https://github.com/storybooks/storybook/pull/21401)
+
+#### Build
+
+-   Build: Fix lit sandboxes [#22201](https://github.com/storybooks/storybook/pull/22201)
+-   Build: Fix sandbox publish script [#22206](https://github.com/storybooks/storybook/pull/22206)
+
 ## 7.0.6 (April 19, 2023)
 
 #### Bug Fixes
