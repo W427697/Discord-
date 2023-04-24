@@ -30,6 +30,15 @@ const stringType: SBScalarType = { name: 'string' };
 const numberType: SBScalarType = { name: 'number' };
 const booleanType: SBScalarType = { name: 'boolean' };
 
+// Extra fields that must be added to the story context after enhancers
+const storyContextExtras = () => ({
+  hooks: new HooksContext(),
+  viewMode: 'story' as const,
+  loaded: {},
+  abortSignal: new AbortController().signal,
+  canvasElement: {},
+});
+
 describe('prepareStory', () => {
   describe('tags', () => {
     it('story tags override component', () => {
@@ -409,8 +418,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = prepareContext({ args: story.initialArgs, ...story } as any);
-      story.undecoratedStoryFn(context as any);
+      const context = prepareContext({ args: story.initialArgs, globals: {}, ...story });
+      story.undecoratedStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { one: 'mapped', two: 2, three: 3 },
         expect.objectContaining({ args: { one: 'mapped', two: 2, three: 3 } })
@@ -505,8 +514,8 @@ describe('prepareStory', () => {
       );
 
       const hooks = new HooksContext();
-      const context = prepareContext({ args: story.initialArgs, hooks, ...story } as any);
-      story.unboundStoryFn(context as any);
+      const context = prepareContext({ args: story.initialArgs, globals: {}, ...story });
+      story.unboundStoryFn({ ...context, ...storyContextExtras, hooks });
 
       expect(ctx1).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
       expect(ctx2).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
@@ -534,12 +543,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context as any);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -560,12 +565,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context as any);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ args: { a: 1 }, allArgs: { a: 1, b: 2 } })
@@ -586,12 +587,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context as any);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
         expect.objectContaining({ argsByTarget: { [UNTARGETED]: { a: 1 }, foo: { b: 2 } } })
@@ -612,12 +609,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context as any);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith(
         {},
         expect.objectContaining({ argsByTarget: { foo: { b: 2 } } })
@@ -636,12 +629,8 @@ describe('prepareStory', () => {
         { render: renderMock }
       );
 
-      const context = prepareContext({
-        args: firstStory.initialArgs,
-        hooks: new HooksContext(),
-        ...firstStory,
-      } as any);
-      firstStory.unboundStoryFn(context as any);
+      const context = prepareContext({ args: firstStory.initialArgs, globals: {}, ...firstStory });
+      firstStory.unboundStoryFn({ ...context, ...storyContextExtras() });
       expect(renderMock).toHaveBeenCalledWith({}, expect.objectContaining({ argsByTarget: {} }));
     });
   });

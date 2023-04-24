@@ -284,7 +284,7 @@ export class StoryStore<TRenderer extends Renderer> {
   getStoryContext(
     story: PreparedStory<TRenderer>,
     { forceInitialArgs = false } = {}
-  ): Omit<StoryContextForLoaders<TRenderer>, 'viewMode'> {
+  ): Omit<StoryContextForLoaders, 'viewMode'> {
     if (!this.globals) throw new Error(`getStoryContext called before initialization`);
 
     return prepareContext({

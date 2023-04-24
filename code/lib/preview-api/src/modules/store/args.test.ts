@@ -277,7 +277,7 @@ describe('groupArgsByTarget', () => {
     const groups = groupArgsByTarget({
       args: { a: 1, b: 2, c: 3 },
       argTypes: { a: { target: 'group1' }, b: { target: 'group2' }, c: { target: 'group2' } },
-    } as any);
+    });
     expect(groups).toEqual({
       group1: {
         a: 1,
@@ -293,7 +293,7 @@ describe('groupArgsByTarget', () => {
     const groups = groupArgsByTarget({
       args: { a: 1, b: 2, c: 3 },
       argTypes: { b: { name: 'b', target: 'group2' }, c: {} },
-    } as any);
+    });
     expect(groups).toEqual({
       [UNTARGETED]: {
         a: 1,

@@ -20,7 +20,6 @@ import type {
   PreparedMeta,
   ModuleExport,
 } from '@storybook/types';
-import type { StoryContextUpdate } from '@storybook/csf';
 import { includeConditionalArg } from '@storybook/csf';
 
 import { applyHooks } from '../../addons';
@@ -219,16 +218,23 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
 // the context is prepared before invoking the render function, instead of here directly
 // to ensure args don't loose there special properties set by the renderer
 // eg. reactive proxies set by frameworks like SolidJS or Vue
-export function prepareContext<TRenderer extends Renderer>(
-  // We use this slightly weird type because `Omit<..., 'viewMode'>` breaks the type somehow
-  context: StoryContextForEnhancers<TRenderer> & Required<StoryContextUpdate>
-): Omit<StoryContextForLoaders<TRenderer>, 'viewMode'> {
-  let finalContext = context;
+export function prepareContext<
+  TRenderer extends Renderer,
+  TContext extends Pick<StoryContextForLoaders<TRenderer>, 'args' | 'argTypes' | 'globals'>
+>(
+  context: TContext
+): TContext & Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget' | 'unmappedArgs'> {
   const { args: unmappedArgs } = context;
 
+  let targetedContext: TContext &
+    Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget'> = {
+    ...context,
+    allArgs: undefined,
+    argsByTarget: undefined,
+  };
   if (global.FEATURES?.argTypeTargetsV7) {
     const argsByTarget = groupArgsByTarget(context);
-    finalContext = {
+    targetedContext = {
       ...context,
       allArgs: context.args,
       argsByTarget,
@@ -236,17 +242,17 @@ export function prepareContext<TRenderer extends Renderer>(
     };
   }
 
-  const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
-    const mapping = finalContext.argTypes[key]?.mapping;
+  const mappedArgs = Object.entries(targetedContext.args).reduce((acc, [key, val]) => {
+    const mapping = targetedContext.argTypes[key]?.mapping;
     acc[key] = mapping && val in mapping ? mapping[val] : val;
     return acc;
   }, {} as Args);
 
   const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-    const argType = finalContext.argTypes[key] || {};
-    if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
+    const argType = targetedContext.argTypes[key] || {};
+    if (includeConditionalArg(argType, mappedArgs, targetedContext.globals)) acc[key] = val;
     return acc;
   }, {} as Args);
 
-  return { ...finalContext, unmappedArgs, args: includedArgs };
+  return { ...targetedContext, unmappedArgs, args: includedArgs };
 }
