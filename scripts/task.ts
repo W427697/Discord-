@@ -302,7 +302,11 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   const { junitFilename } = details;
   const startTime = new Date();
   try {
-    const controller = await task.run(details, optionValues);
+    let updatedOptions = optionValues;
+    if (details.template?.modifications?.skipTemplateStories) {
+      updatedOptions = { ...optionValues, skipTemplateStories: true };
+    }
+    const controller = await task.run(details, updatedOptions);
 
     if (junitFilename && !task.junit) await writeJunitXml(getTaskKey(task), details.key, startTime);
 

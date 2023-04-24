@@ -1,3 +1,4 @@
+
 {
   "name": "@storybook/scripts",
   "version": "7.0.0-alpha.16",
@@ -14,7 +15,8 @@
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
     "task": "ts-node --swc ./task.ts",
     "test": "jest --config ./jest.config.js",
-    "upgrade": "ts-node --swc ./task.ts"
+    "upgrade": "ts-node --swc ./task.ts",
+    "upload-bench": "ts-node ./upload-bench.ts"
   },
   "husky": {
     "hooks": {

@@ -523,6 +523,38 @@ jobs:
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
           destination: playwright
+  bench:
+    parameters:
+      parallelism:
+        type: integer
+        default: 2
+    executor:
+      class: medium
+      name: sb_playwright
+    parallelism: << parameters.parallelism >>
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          # NOTE: this assumes that the bench-dev key represents BOTH tasks since they are run at the same time.
+          # Update if we ever run these separately!
+          name: Running Dev Bench
+          command: yarn task --task bench-dev --template $(yarn get-template << pipeline.parameters.workflow >> bench-dev) --no-link --start-from=never --junit
+      - run:
+          name: Running Prod Bench
+          command: yarn task --task bench-build --template $(yarn get-template << pipeline.parameters.workflow >> bench-dev) --no-link --start-from=never --junit
+      - run:
+          name: Uploading results
+          command: yarn upload-bench
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> bench-dev)
+      - store_test_results:
+          path: test-results
+      - store_artifacts: # this is where playwright puts more complex stuff
+          path: code/bench-results/
+          destination: bench-results
 
 workflows:
   ci:
@@ -601,26 +633,30 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build
       - build-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build-sandboxes
       - e2e-dev:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 9
+          parallelism: 11
+          requires:
+            - build-sandboxes
+      - bench:
+          parallelism: 2
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -658,19 +694,19 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 18
+          parallelism: 20
           requires:
             - build
       - build-sandboxes:
-          parallelism: 18
+          parallelism: 20
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 18
+          parallelism: 20
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 18
+          parallelism: 20
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -678,7 +714,11 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 18
+          parallelism: 20
+          requires:
+            - build-sandboxes
+      - bench:
+          parallelism: 2
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
