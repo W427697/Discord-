@@ -107,17 +107,7 @@ Navigate to the `frontpage` directory and install the required dependencies with
 yarn
 ```
 
-Next, you'll need a way to extract the monorepo docs to the website. Execute the following:
-
-```shell
-yarn extract-monorepo-docs $branch
-```
-
-<div class="aside">
-💡 We recommend extracting documentation from the website before adding code snippets. If you've already added multiple snippets, simply copy the <code>docs</code> folder from the Storybook monorepo and paste it into the frontpage repo at <code>src/content</code> (if the <code>docs</code> folder exists, replace it) to keep your most recent changes.
-</div>
-
-And run the Storybook website with the following command:
+Next, make sure that you have running the `Synchronize documentation (sync-docs)` task from Storybook monorepo. Then, execute the following command to launch the Storybook website.
 
 ```shell
 yarn start:docs-only
