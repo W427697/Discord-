@@ -11,7 +11,6 @@ const meta = {
    * to learn how to generate automatic titles
    */
   title: 'Examples/Loader',
-
   component: TodoItem,
   render: (args, { loaded: { todo } }) => <TodoItem {...args} {...todo} />,
 } satisfies Meta<typeof TodoItem>;

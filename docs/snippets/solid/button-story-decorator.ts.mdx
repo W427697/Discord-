@@ -1,11 +1,11 @@
-```js
+```ts
 // Button.stories.ts|tsx
 
-import type { StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from 'storybook-solidjs';
 
 import { Button } from './Button';
 
-export default {
+const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/solid/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -14,9 +14,10 @@ export default {
   component: Button,
 };
 
+export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Primary = {
+export const Primary: Story = {
   decorators: [
     (Story) => (
       <div style={{ margin: '3em' }}>

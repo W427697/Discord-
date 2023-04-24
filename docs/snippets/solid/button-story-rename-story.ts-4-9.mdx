@@ -1,6 +1,7 @@
 ```tsx
 // Button.stories.ts|tsx
-import { Meta, StoryObj } from 'storybook-solidjs';
+
+import type { Meta, StoryObj } from 'storybook-solidjs';
 
 import { Button } from './Button';
 
@@ -10,7 +11,6 @@ const meta = {
    * to learn how to generate automatic titles
    */
   title: 'Button',
-
   component: Button,
 } satisfies Meta<typeof Button>;
 
