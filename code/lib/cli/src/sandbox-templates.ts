@@ -144,6 +144,7 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-vite',
     },
+    skipTasks: ['bench-dev', 'bench-build'],
   },
   'react-webpack/18-ts': {
     name: 'React 18 Webpack5 (TS)',
