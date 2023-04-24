@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { PORT } from './serve';
 import type { Task } from '../task';
 import { browse, saveBench, storybookConfig } from '../bench';
