@@ -153,11 +153,12 @@ function teardown(
 function createOrUpdateSlots(context: StoryContext<VueRenderer, Args>) {
   const { id: storyID, component } = context;
   const slots = generateSlots(context);
-  if (slotsMap.has(storyID)) {
-    const app = slotsMap.get(storyID);
-    if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
-    return app?.reactiveSlots;
-  }
+  // this seem to cause recursive updates, and vue errors
+  // if (slotsMap.has(storyID)) {
+  //   const app = slotsMap.get(storyID);
+  //   if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
+  //   return app?.reactiveSlots;
+  // }
   slotsMap.set(storyID, { component, reactiveSlots: slots });
   return slots;
 }
