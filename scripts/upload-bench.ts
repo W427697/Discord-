@@ -1,3 +1,4 @@
+import { CODE_DIRECTORY } from './utils/constants';
 import { loadBench } from './bench';
 import type { SaveBenchOptions } from './bench';
 
@@ -6,7 +7,7 @@ const uploadBench = async () => {
   // const data = {} as Record<string, any>;
   await Promise.all(
     keys.map(async (key) => {
-      const val = await loadBench({ key, rootDir: 'code' });
+      const val = await loadBench({ key, rootDir: CODE_DIRECTORY });
       console.log({ key, val });
     })
   );
