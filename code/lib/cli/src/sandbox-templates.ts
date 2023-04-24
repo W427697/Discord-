@@ -510,8 +510,6 @@ export const merged: TemplateKey[] = [
   'html-vite/default-ts',
   'internal/ssv6-vite',
   'internal/ssv6-webpack',
-  'bench/react-vite-default-ts',
-  'bench/react-webpack-18-ts',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
