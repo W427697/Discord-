@@ -1,6 +1,7 @@
+import { join } from 'path';
 import { PORT } from './serve';
 import type { Task } from '../task';
-import { browse, storybookConfig } from '../bench';
+import { browse, saveBench, storybookConfig } from '../bench';
 
 export const benchBuild: Task & { port: number } = {
   description: 'Run benchmarks against a sandbox in prod mode',
@@ -9,10 +10,13 @@ export const benchBuild: Task & { port: number } = {
   async ready() {
     return false;
   },
-  async run() {
+  async run({ codeDir, selectedTask }) {
     const url = `http://localhost:${this.port}?path=/story/example-button--primary`;
-    console.log({ url });
     const result = await browse(url, storybookConfig);
-    console.log({ result });
+
+    await saveBench(result, {
+      key: selectedTask as 'bench-build' | 'bench-dev',
+      rootDir: codeDir,
+    });
   },
 };

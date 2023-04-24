@@ -1,4 +1,5 @@
 import detectFreePort from 'detect-port';
+import waitOn from 'wait-on';
 
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
@@ -23,7 +24,7 @@ export const serve: Task = {
       // If aborted, we want to make sure the rejection is handled.
       if (!err.killed) throw err;
     });
-    await exec(`yarn wait-on http://localhost:${PORT}`, { cwd: codeDir }, { dryRun, debug });
+    await waitOn({ resources: [`http://localhost:${PORT}`], interval: 50 });
 
     return controller;
   },
