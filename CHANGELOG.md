@@ -1,3 +1,17 @@
+## 7.0.6 (April 19, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix `module` guard in non-webpack environments [#22085](https://github.com/storybooks/storybook/pull/22085)
+
+#### Maintenance
+
+-   CLI: Mark qwik as using addon-interactions [#22000](https://github.com/storybooks/storybook/pull/22000)
+
+#### Build
+
+-   Build: Upgrade Playwright to 1.32.3 [#22087](https://github.com/storybooks/storybook/pull/22087)
+
 ## 7.0.5 (April 15, 2023)
 
 #### Bug Fixes
