@@ -633,26 +633,26 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 11
+          parallelism: 9
           requires:
             - build
       - build-sandboxes:
-          parallelism: 11
+          parallelism: 9
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 11
+          parallelism: 9
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 11
+          parallelism: 9
           requires:
             - build-sandboxes
       - e2e-dev:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 11
+          parallelism: 9
           requires:
             - build-sandboxes
       - bench:
@@ -694,19 +694,19 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 20
+          parallelism: 18
           requires:
             - build
       - build-sandboxes:
-          parallelism: 20
+          parallelism: 18
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 20
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 20
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -714,7 +714,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 20
+          parallelism: 18
           requires:
             - build-sandboxes
       - bench:
