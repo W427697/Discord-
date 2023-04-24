@@ -336,7 +336,9 @@ const baseTemplates = {
   },
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
-    script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
+    script:
+      // eslint-disable-next-line prettier/prettier, no-useless-escape
+      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge && cd {{beforeDir}} && yarn add typescript && echo "{ \"include\": [\"src/**/*.ts\"] }" > tsconfig.json && git add . && git commit --amend --no-edit && cd ..',
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
