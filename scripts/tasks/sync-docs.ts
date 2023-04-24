@@ -20,9 +20,13 @@ export const syncDocs: Task = {
     frontpageDocsPath = path.join(rootDir, frontpagePath, frontpageDocsPath);
 
     if (!fs.existsSync(frontpageDocsPath)) {
-      logger.info(`The directory ${frontpageDocsPath} doesn't exists`);
-      process.exit(1);
+      fs.mkdirSync(frontpageDocsPath);
     }
+
+    logger.info(`Rebuilding docs at ${frontpageDocsPath}`);
+
+    fs.rmSync(frontpageDocsPath, { recursive: true });
+    fs.cpSync(docsDir, frontpageDocsPath, { recursive: true });
 
     logger.info(`Synchronizing files from: \n${docsDir} \nto: \n${frontpageDocsPath}`);
 
