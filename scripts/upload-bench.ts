@@ -14,8 +14,12 @@ const uploadBench = async () => {
   // const data = {} as Record<string, any>;
   await Promise.all(
     keys.map(async (key) => {
-      const val = await loadBench({ key, rootDir: templateSandboxDir });
-      console.log({ key, val });
+      try {
+        const val = await loadBench({ key, rootDir: templateSandboxDir });
+        console.log({ key, val });
+      } catch (err) {
+        console.log(`Failed to load bench for the key ${key}:`, err);
+      }
     })
   );
 
