@@ -79,7 +79,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           js: '.js',
         }),
         target: 'chrome100',
-        clean: !watch,
+        clean: false,
         ...(dtsBuild ? dtsConfig : {}),
         platform: 'browser',
         esbuildPlugins: [
@@ -103,7 +103,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   if (nodeEntries.length > 0) {
     const allEntries = nodeEntries.map((e: string) => slash(join(cwd, e)));
-
+    console.log({ allEntries });
     const { dtsBuild, dtsConfig } = await getDTSConfigs({
       entries: allEntries,
       optimized,
@@ -120,7 +120,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           js: '.js',
         }),
         target: 'node16',
-        clean: !watch,
+        clean: false,
         ...(dtsBuild ? dtsConfig : {}),
         platform: 'node',
         esbuildPlugins: [
@@ -141,11 +141,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  await Promise.all(tasks);
-
   if (tsConfigExists && !optimized) {
-    await Promise.all([...browserEntries, ...nodeEntries].map(generateDTSMapperFile));
+    tasks.push(...[...browserEntries, ...nodeEntries].map(generateDTSMapperFile));
   }
+
+  await Promise.all(tasks);
 
   if (post) {
     await exec(
