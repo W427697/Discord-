@@ -2,6 +2,7 @@ import { expect } from '@storybook/jest';
 import { within } from '@storybook/testing-library';
 import type { Meta, StoryObj } from 'renderers/vue3/src';
 import InheritAttrs from './InheritAttrs.vue';
+import TestBtn from './TestBtn.vue';
 
 const meta: Meta = {
   component: InheritAttrs,
@@ -56,4 +57,21 @@ export const InheritAttrsFalse: Story = {
       'storybook-button--large'
     ); // if inheritAttrs is false, then the style is not applied
   },
+};
+
+export const TooManyActionsFixed = {
+  argTypes: {
+    onClick: { action: 'clicked' },
+  },
+  render: (args) => ({
+    components: { TestBtn },
+
+    setup() {
+      return { args };
+    },
+    template: `
+    <div>
+      <TestBtn v-bind="args"></TestBtn>
+    </div>`,
+  }),
 };

@@ -8,7 +8,7 @@ import { setup } from '@storybook/vue3';
 // };
 const preview = {
   parameters: {
-    inheritAttrs: false, // disable global inheritAttrs for all stories
+    // inheritAttrs: false, // enable global inheritAttrs for all stories to get vue3 default behavior
   },
 };
 
