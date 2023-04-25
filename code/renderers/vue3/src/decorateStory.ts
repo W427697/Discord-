@@ -73,7 +73,7 @@ export function decorateStory(
     },
     (context) => {
       const story = storyFn(context);
-      story.inheritAttrs = context.parameters.inheritAttrs;
+      story.inheritAttrs ??= context.parameters.inheritAttrs;
       return prepare(story) as LegacyStoryFn<VueRenderer>;
     }
   );

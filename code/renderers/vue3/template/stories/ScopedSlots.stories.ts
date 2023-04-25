@@ -60,6 +60,8 @@ export const CustomRender: Story = {
     setup() {
       return { args };
     },
+    // we need explicity to pass label and year as props to the component
+    // because we disabled inheritAttrs globally in .storybook/preview.js
     template: `<MySlotComponent :label="args.label" :year="args.year" v-slot="slotProps">
   	              {{ slotProps.text }}, {{ slotProps.year }}
               </MySlotComponent>`,
@@ -70,10 +72,12 @@ export const CustomRender: Story = {
 export const CustomRenderUsingFunctionSlot: Story = {
   render: (args: any) => ({
     components: { MySlotComponent },
+    inheritAttrs: true, // by setting this to true, we can pass the args to the component as attributes
     setup() {
       return { args };
     },
-    template: `<MySlotComponent :label="args.label" :year="args.year" v-slot="slotProps">
+    // we don't need to pass label and year as props to the component because we enabled inheritAttrs in this component
+    template: `<MySlotComponent v-slot="slotProps">
   	            {{args.default(slotProps)}}
               </MySlotComponent>`,
   }),
