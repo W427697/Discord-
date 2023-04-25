@@ -1,5 +1,4 @@
 import detectFreePort from 'detect-port';
-import { join } from 'path';
 import waitOn from 'wait-on';
 
 import type { Task } from '../task';
@@ -17,7 +16,7 @@ export const dev: Task = {
   async ready() {
     return (await detectFreePort(PORT)) !== PORT;
   },
-  async run({ sandboxDir, codeDir, selectedTask }, { dryRun, debug }) {
+  async run({ sandboxDir, selectedTask }, { dryRun, debug }) {
     const controller = new AbortController();
     const devCommand = `yarn storybook --port ${PORT}${selectedTask === 'dev' ? '' : ' --ci'}`;
     const start = now();
@@ -33,7 +32,7 @@ export const dev: Task = {
     await waitOn({ resources: [`http://localhost:${PORT}/iframe.html`], interval: 50 });
 
     const time = now() - start;
-    await saveBench({ time }, { key: 'dev', rootDir: codeDir });
+    await saveBench({ time }, { key: 'dev', rootDir: sandboxDir });
 
     return controller;
   },

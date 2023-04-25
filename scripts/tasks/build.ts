@@ -1,5 +1,4 @@
 import { pathExists } from 'fs-extra';
-import { join } from 'path';
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
 import { now, saveBench } from '../bench';
@@ -10,7 +9,7 @@ export const build: Task = {
   async ready({ builtSandboxDir }) {
     return pathExists(builtSandboxDir);
   },
-  async run({ sandboxDir, codeDir }, { dryRun, debug }) {
+  async run({ sandboxDir }, { dryRun, debug }) {
     const start = now();
     const result = await exec(
       `yarn build-storybook --quiet`,
@@ -19,7 +18,7 @@ export const build: Task = {
     );
 
     const time = now() - start;
-    await saveBench({ time }, { key: 'build', rootDir: codeDir });
+    await saveBench({ time }, { key: 'build', rootDir: sandboxDir });
 
     return result;
   },

@@ -544,10 +544,10 @@ jobs:
           command: yarn task --task bench-dev --template $(yarn get-template << pipeline.parameters.workflow >> bench-dev) --no-link --start-from=never --junit
       - run:
           name: Running Prod Bench
-          command: yarn task --task bench-build --template $(yarn get-template << pipeline.parameters.workflow >> bench-build) --no-link --start-from=never --junit
+          command: yarn task --task bench-build --template $(yarn get-template << pipeline.parameters.workflow >> bench-dev) --no-link --start-from=never --junit
       - run:
           name: Uploading results
-          command: yarn upload-bench
+          command: yarn upload-bench $(yarn get-template << pipeline.parameters.workflow >> bench-dev)
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> bench-dev)
       - store_artifacts: # this is where playwright puts more complex stuff

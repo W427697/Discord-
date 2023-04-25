@@ -10,13 +10,13 @@ export const benchBuild: Task & { port: number } = {
   async ready() {
     return false;
   },
-  async run({ codeDir, selectedTask }) {
+  async run({ sandboxDir, selectedTask }) {
     const url = `http://localhost:${this.port}?path=/story/example-button--primary`;
     const result = await browse(url, storybookConfig);
 
     await saveBench(result, {
       key: selectedTask as 'bench-build' | 'bench-dev',
-      rootDir: codeDir,
+      rootDir: sandboxDir,
     });
   },
 };
