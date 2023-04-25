@@ -1,3 +1,118 @@
+## 7.1.0-alpha.8 (April 24, 2023)
+
+#### Features
+
+-   Core: Support custom hosts using window.location server channel URL [#22055](https://github.com/storybooks/storybook/pull/22055)
+
+#### Bug Fixes
+
+-   Addon-actions: Fix ESM by upgrading from uuid-browser to uuid [#22037](https://github.com/storybooks/storybook/pull/22037)
+-   Addon-actions: Fix decorator type [#22175](https://github.com/storybooks/storybook/pull/22175)
+-   NextJS: Fix tsconfig resolution [#22160](https://github.com/storybooks/storybook/pull/22160)
+-   Core: Pass parameters in `SET_INDEX` for docs entries [#22154](https://github.com/storybooks/storybook/pull/22154)
+
+#### Maintenance
+
+-   CSF: Improve error message for bad default export [#22190](https://github.com/storybooks/storybook/pull/22190)
+-   CLI: Add addon query-params to list of SB7 incompatible addons [#22095](https://github.com/storybooks/storybook/pull/22095)
+
+#### Build
+
+-   Build: Fix sandbox publish script [#22206](https://github.com/storybooks/storybook/pull/22206)
+-   Build: Fix lit sandboxes [#22201](https://github.com/storybooks/storybook/pull/22201)
+-   Vite sandboxes: use stable Vite 4.3 [#22183](https://github.com/storybooks/storybook/pull/22183)
+
+## 7.1.0-alpha.7 (April 19, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive decorators [#21954](https://github.com/storybooks/storybook/pull/21954)
+
+#### Build
+
+-   Build: Improve sandboxes commit message [#22136](https://github.com/storybooks/storybook/pull/22136)
+
+## 7.1.0-alpha.6 (April 18, 2023)
+
+#### Bug Fixes
+
+-   Core: Restore Docs `useParameter` using `DOCS_PREPARED` [#22118](https://github.com/storybooks/storybook/pull/22118)
+-   Core: Add new tags to distinguish docs attachment [#22120](https://github.com/storybooks/storybook/pull/22120)
+-   Core: Fix `module` guard in non-webpack environments [#22085](https://github.com/storybooks/storybook/pull/22085)
+
+#### Build
+
+-   Build: Skip docs pages e2e tests for ssv6 examples [#22141](https://github.com/storybooks/storybook/pull/22141)
+-   Build: Upgrade Playwright to 1.32.3 [#22087](https://github.com/storybooks/storybook/pull/22087)
+
+#### Dependency Upgrades
+
+-   Remove unused babel dependencies [#21984](https://github.com/storybooks/storybook/pull/21984)
+
+## 7.1.0-alpha.5 (April 17, 2023)
+
+#### Maintenance
+
+-   CLI: Mark qwik as using addon-interactions [#22000](https://github.com/storybooks/storybook/pull/22000)
+
+#### Build
+
+-   Revert "Build: Update dangerfile temporarily to check for patch label" [#22108](https://github.com/storybooks/storybook/pull/22108)
+
+## 7.1.0-alpha.4 (April 15, 2023)
+
+#### Bug Fixes
+
+-   Docs: Fix source snippets when parameters.docs.source.type = 'code' [#22048](https://github.com/storybooks/storybook/pull/22048)
+-   CLI: Mention how to setup a monorepo manually in babelrc automigration [#22052](https://github.com/storybooks/storybook/pull/22052)
+
+## 7.1.0-alpha.3 (April 13, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix upgrade command in about page [#22056](https://github.com/storybooks/storybook/pull/22056)
+-   CLI: Fix sandbox command [#21977](https://github.com/storybooks/storybook/pull/21977)
+
+## 7.1.0-alpha.2 (April 12, 2023)
+
+#### Features
+
+-   UI: Add remount story shortcut [#21401](https://github.com/storybooks/storybook/pull/21401)
+
+#### Bug Fixes
+
+-   CLI: Catch errors thrown on sanity check of SB installs [#22039](https://github.com/storybooks/storybook/pull/22039)
+
+#### Maintenance
+
+-   Addon-docs: Remove mdx1-csf as optional peer dep [#22038](https://github.com/storybooks/storybook/pull/22038)
+-   Telemetry: Add CLI version to context [#21999](https://github.com/storybooks/storybook/pull/21999)
+
+#### Build
+
+-   Build: Use vite@beta on sandboxes [#22030](https://github.com/storybooks/storybook/pull/22030)
+-   Fix e2e tests failing in Firefox [#22022](https://github.com/storybooks/storybook/pull/22022)
+-   Vite: Use vite 4.3 beta in sandboxes [#21986](https://github.com/storybooks/storybook/pull/21986)
+
+## 7.1.0-alpha.1 (April 11, 2023)
+
+#### Bug Fixes
+
+-   React: Fix default export docgen for React.FC and forwardRef [#22024](https://github.com/storybooks/storybook/pull/22024)
+-   Viewport: Remove transitions when switching viewports [#21963](https://github.com/storybooks/storybook/pull/21963)
+-   CLI: Fix JsPackageManager typo [#22006](https://github.com/storybooks/storybook/pull/22006)
+-   Viewport: Fix the `defaultOrientation` config option [#21962](https://github.com/storybooks/storybook/pull/21962)
+-   UI: Fix story data access for broken About page [#21951](https://github.com/storybooks/storybook/pull/21951)
+
+#### Maintenance
+
+-   CLI: Update template code references to 7.0 [#21845](https://github.com/storybooks/storybook/pull/21845)
+
+#### Dependency Upgrades
+
+-   React-vite: Fix perf regression by pinning vite-plugin-react-docgen-ts [#22013](https://github.com/storybooks/storybook/pull/22013)
+-   Use future version of satellite repo dependencies [#22026](https://github.com/storybooks/storybook/pull/22026)
+
 ## 7.1.0-alpha.0 (April 5, 2023)
 
 #### Bug Fixes
