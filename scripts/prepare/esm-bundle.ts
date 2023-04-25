@@ -103,7 +103,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   if (nodeEntries.length > 0) {
     const allEntries = nodeEntries.map((e: string) => slash(join(cwd, e)));
-    console.log({ allEntries });
+
     const { dtsBuild, dtsConfig } = await getDTSConfigs({
       entries: allEntries,
       optimized,
