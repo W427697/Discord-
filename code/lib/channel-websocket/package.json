@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/channel-websocket",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/channel-websocket",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

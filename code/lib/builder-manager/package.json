@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-manager",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-manager",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

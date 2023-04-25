@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-webpack5",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

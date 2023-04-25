@@ -10,7 +10,7 @@
     "tables",
     "links"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/addons/gfm",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/gfm",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

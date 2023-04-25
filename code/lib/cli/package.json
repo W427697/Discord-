@@ -7,7 +7,7 @@
     "generator",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/cli",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/cli",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

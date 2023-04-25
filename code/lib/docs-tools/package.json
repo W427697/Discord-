@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/docs-tools",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/docs-tools",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

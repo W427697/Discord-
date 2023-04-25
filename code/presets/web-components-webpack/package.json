@@ -8,7 +8,7 @@
     "storybook",
     "web-components"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/presets/web-components-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/web-components-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

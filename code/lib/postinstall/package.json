@@ -6,7 +6,7 @@
     "api",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/postinstall",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/postinstall",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

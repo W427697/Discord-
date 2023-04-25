@@ -6,7 +6,7 @@
     "storybook",
     "nextjs"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/frameworks/nextjs",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/nextjs",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

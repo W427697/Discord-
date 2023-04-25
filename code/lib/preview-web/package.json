@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/preview-web",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview-web",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

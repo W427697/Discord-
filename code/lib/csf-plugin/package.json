@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/csf-plugin",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/csf-plugin",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
