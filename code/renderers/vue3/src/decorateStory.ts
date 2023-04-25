@@ -22,6 +22,7 @@ function prepare(
   innerStory?: ConcreteComponent
 ): Component | null {
   const story = rawStory as ComponentOptions;
+
   if (story === null) {
     return null;
   }
@@ -33,7 +34,6 @@ function prepare(
       components: { ...(story.components || {}), story: innerStory },
     };
   }
-
   return {
     render() {
       return h(story);
@@ -71,6 +71,10 @@ export function decorateStory(
       const innerStory = () => h(story!, context.args);
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
     },
-    (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
+    (context) => {
+      const story = storyFn(context);
+      story.inheritAttrs = context.parameters.inheritAttrs;
+      return prepare(story) as LegacyStoryFn<VueRenderer>;
+    }
   );
 }

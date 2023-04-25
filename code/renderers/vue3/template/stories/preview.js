@@ -6,8 +6,15 @@ import { setup } from '@storybook/vue3';
 // export const setup = (app) => {
 //   app.component('GlobalButton', Button);
 // };
+const preview = {
+  parameters: {
+    inheritAttrs: false, // disable global inheritAttrs for all stories
+  },
+};
 
 setup((app) => {
   // This adds a component that can be used globally in stories
   app.component('GlobalButton', globalThis.Components.Button);
 });
+
+export default preview;
