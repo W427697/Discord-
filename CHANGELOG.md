@@ -1,3 +1,27 @@
+## 7.1.0-alpha.8 (April 24, 2023)
+
+#### Features
+
+-   Core: Support custom hosts using window.location server channel URL [#22055](https://github.com/storybooks/storybook/pull/22055)
+
+#### Bug Fixes
+
+-   Addon-actions: Fix ESM by upgrading from uuid-browser to uuid [#22037](https://github.com/storybooks/storybook/pull/22037)
+-   Addon-actions: Fix decorator type [#22175](https://github.com/storybooks/storybook/pull/22175)
+-   NextJS: Fix tsconfig resolution [#22160](https://github.com/storybooks/storybook/pull/22160)
+-   Core: Pass parameters in `SET_INDEX` for docs entries [#22154](https://github.com/storybooks/storybook/pull/22154)
+
+#### Maintenance
+
+-   CSF: Improve error message for bad default export [#22190](https://github.com/storybooks/storybook/pull/22190)
+-   CLI: Add addon query-params to list of SB7 incompatible addons [#22095](https://github.com/storybooks/storybook/pull/22095)
+
+#### Build
+
+-   Build: Fix sandbox publish script [#22206](https://github.com/storybooks/storybook/pull/22206)
+-   Build: Fix lit sandboxes [#22201](https://github.com/storybooks/storybook/pull/22201)
+-   Vite sandboxes: use stable Vite 4.3 [#22183](https://github.com/storybooks/storybook/pull/22183)
+
 ## 7.1.0-alpha.7 (April 19, 2023)
 
 #### Bug Fixes
