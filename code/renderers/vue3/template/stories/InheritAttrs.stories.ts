@@ -63,7 +63,7 @@ export const TooManyActionsFixed = {
   argTypes: {
     onClick: { action: 'clicked' },
   },
-  render: (args) => ({
+  render: (args: any) => ({
     components: { TestBtn },
 
     setup() {
