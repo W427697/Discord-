@@ -12,14 +12,11 @@ import { exec } from '../utils/exec';
 
 /* TYPES */
 
-type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
   entries: string[];
   externals: string[];
-  platform: Options['platform'];
   pre: string;
   post: string;
-  formats: Formats[];
 };
 type PackageJsonWithBundlerConfig = PackageJson & {
   bundler: BundlerConfig;
@@ -33,14 +30,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: {
-      entries = [],
-      externals: extraExternals = [],
-      platform,
-      pre,
-      post,
-      formats = ['esm', 'cjs'],
-    },
+    bundler: { browserEntries = [], nodeEntries = [], externals: extraExternals = [], pre, post },
   } = (await fs.readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
 
   if (pre) {
@@ -65,34 +55,33 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(peerDependencies || {}),
   ];
 
-  const allEntries = entries.map((e: string) => slash(join(cwd, e)));
-
-  const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
-    formats,
-    entries,
+  const { tsConfigExists } = await getDTSConfigs({
+    entries: [],
     optimized,
   });
 
-  /* preset files are always CJS only.
-   * Generating an ESM file for them anyway is problematic because they often have a reference to `require`.
-   * TSUP generated code will then have a `require` polyfill/guard in the ESM files, which causes issues for webpack.
-   */
-  const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
+  if (browserEntries.length > 0) {
+    const allEntries = browserEntries.map((e: string) => slash(join(cwd, e)));
 
-  if (formats.includes('esm')) {
+    const { dtsBuild, dtsConfig } = await getDTSConfigs({
+      entries: allEntries,
+      optimized,
+    });
+
     tasks.push(
       build({
         silent: true,
-        treeshake: true,
-        entry: nonPresetEntries,
-        shims: false,
+        entry: allEntries,
         watch,
         outDir,
         format: ['esm'],
+        outExtension: () => ({
+          js: '.js',
+        }),
         target: 'chrome100',
         clean: false,
-        ...(dtsBuild === 'esm' ? dtsConfig : {}),
-        platform: platform || 'browser',
+        ...(dtsBuild ? dtsConfig : {}),
+        platform: 'browser',
         esbuildPlugins: [
           aliasPlugin({
             process: path.resolve('../node_modules/process/browser.js'),
@@ -104,7 +93,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
           c.conditions = ['module'];
-          c.platform = platform || 'browser';
+          c.platform = 'browser';
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
@@ -112,7 +101,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  if (formats.includes('cjs')) {
+  if (nodeEntries.length > 0) {
+    const allEntries = nodeEntries.map((e: string) => slash(join(cwd, e)));
+
+    const { dtsBuild, dtsConfig } = await getDTSConfigs({
+      entries: allEntries,
+      optimized,
+    });
+
     tasks.push(
       build({
         silent: true,
@@ -120,10 +116,19 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         watch,
         outDir,
         format: ['cjs'],
+        outExtension: () => ({
+          js: '.js',
+        }),
         target: 'node16',
-        ...(dtsBuild === 'cjs' ? dtsConfig : {}),
-        platform: 'node',
         clean: false,
+        ...(dtsBuild ? dtsConfig : {}),
+        platform: 'node',
+        esbuildPlugins: [
+          aliasPlugin({
+            process: path.resolve('../node_modules/process/browser.js'),
+            util: path.resolve('../node_modules/util/util.js'),
+          }),
+        ],
         external: externals,
 
         esbuildOptions: (c) => {
@@ -137,7 +142,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   }
 
   if (tsConfigExists && !optimized) {
-    tasks.push(...entries.map(generateDTSMapperFile));
+    tasks.push(...[...browserEntries, ...nodeEntries].map(generateDTSMapperFile));
   }
 
   await Promise.all(tasks);
@@ -155,19 +160,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
 /* UTILS */
 
-async function getDTSConfigs({
-  formats,
-  entries,
-  optimized,
-}: {
-  formats: Formats[];
-  entries: string[];
-  optimized: boolean;
-}) {
+async function getDTSConfigs({ entries, optimized }: { entries: string[]; optimized: boolean }) {
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
 
-  const dtsBuild = optimized && formats[0] && tsConfigExists ? formats[0] : undefined;
+  const dtsBuild = optimized && tsConfigExists;
 
   const dtsConfig: DtsConfigSection = {
     tsconfig: tsConfigPath,
