@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.1.0-alpha.8",
+  "version": "7.1.0-alpha.9",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -21,26 +21,22 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./dist/runtime": {
-      "require": "./dist/runtime.js",
-      "import": "./dist/runtime.mjs",
+      "import": "./dist/runtime.js",
       "types": "./dist/runtime.d.ts"
     },
     "./dist/globals": {
       "require": "./dist/globals.js",
-      "import": "./dist/globals.mjs",
       "types": "./dist/globals.d.ts"
     },
     "./paths": "./paths.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -51,23 +47,23 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.1.0-alpha.8",
-    "@storybook/api": "7.1.0-alpha.8",
-    "@storybook/channel-postmessage": "7.1.0-alpha.8",
-    "@storybook/channel-websocket": "7.1.0-alpha.8",
-    "@storybook/channels": "7.1.0-alpha.8",
-    "@storybook/client-logger": "7.1.0-alpha.8",
-    "@storybook/components": "7.1.0-alpha.8",
-    "@storybook/core-events": "7.1.0-alpha.8",
+    "@storybook/addons": "7.1.0-alpha.9",
+    "@storybook/api": "7.1.0-alpha.9",
+    "@storybook/channel-postmessage": "7.1.0-alpha.9",
+    "@storybook/channel-websocket": "7.1.0-alpha.9",
+    "@storybook/channels": "7.1.0-alpha.9",
+    "@storybook/client-logger": "7.1.0-alpha.9",
+    "@storybook/components": "7.1.0-alpha.9",
+    "@storybook/core-events": "7.1.0-alpha.9",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.8",
-    "@storybook/router": "7.1.0-alpha.8",
-    "@storybook/theming": "7.1.0-alpha.8",
-    "@storybook/types": "7.1.0-alpha.8",
+    "@storybook/manager-api": "7.1.0-alpha.9",
+    "@storybook/router": "7.1.0-alpha.9",
+    "@storybook/theming": "7.1.0-alpha.9",
+    "@storybook/types": "7.1.0-alpha.9",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
@@ -95,11 +91,13 @@
   },
   "bundler": {
     "pre": "./scripts/generate-exports-file.ts",
-    "entries": [
+    "browserEntries": [
       "./src/index.tsx",
-      "./src/globals.ts",
       "./src/runtime.ts"
+    ],
+    "nodeEntries": [
+      "./src/globals.ts"
     ]
   },
-  "gitHead": "ae73d1c8065f7d614cfe6f3462ae7ca55a0c4e6b"
+  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
 }
