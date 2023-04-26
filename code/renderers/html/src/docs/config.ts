@@ -1,9 +1,12 @@
+import type { Addon_DecoratorFunction, ArgTypesEnhancer } from '@storybook/types';
 import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
 
 import { sourceDecorator } from './sourceDecorator';
-import type { Parameters } from '../types';
+import type { Parameters, StoryFnHtmlReturnType } from '../types';
 
-export const decorators = [sourceDecorator];
+export const decorators: Addon_DecoratorFunction<StoryFnHtmlReturnType>[] = [
+  sourceDecorator as Addon_DecoratorFunction<StoryFnHtmlReturnType>,
+];
 
 export const parameters: Partial<Parameters> = {
   docs: {
@@ -17,4 +20,4 @@ export const parameters: Partial<Parameters> = {
   },
 };
 
-export const argTypesEnhancers = [enhanceArgTypes];
+export const argTypesEnhancers: ArgTypesEnhancer[] = [enhanceArgTypes];
