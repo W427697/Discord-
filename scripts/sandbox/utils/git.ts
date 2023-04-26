@@ -3,6 +3,8 @@ import { execaCommand } from '../../utils/exec';
 // eslint-disable-next-line import/no-cycle
 import { logger } from '../publish';
 
+const { version: storybookVersion } = require('../../../code/package.json');
+
 const getTheLastCommitHashThatUpdatedTheSandboxRepo = async (branch: string) => {
   const owner = 'storybookjs';
   const repo = 'sandboxes';
@@ -16,16 +18,23 @@ const getTheLastCommitHashThatUpdatedTheSandboxRepo = async (branch: string) => 
       await fetch(`https://api.github.com/repos/${owner}/${repo}/commits/${latestCommitSha}`)
     ).json();
     const latestCommitMessage = commitData.commit.message;
-    logger.log(
-      `Latest commit message of ${owner}/${repo} on branch ${branch}: ${latestCommitMessage}`
-    );
-    // The commit message will look like this: Update examples - Thu Apr 13 2023 - 97dbc82537c3
+
+    // The commit message will look like this: 7.0.5 - Thu Apr 13 2023 - 97dbc82537c3
     // the hash at the end relates to the monorepo commit that updated the sandboxes
-    return latestCommitMessage.split('\n')[0].split(' - ')[2];
+    const lastCommitHash = latestCommitMessage.split('\n')[0].split(' - ')[2];
+    if (!lastCommitHash) {
+      throw new Error(
+        `Could not find the last commit hash in the following commit message: "${latestCommitMessage}".\nDid someone manually push to the sandboxes repo?`
+      );
+    }
+
+    return lastCommitHash;
   } catch (error) {
-    logger.error(
-      `Error getting latest commit message of ${owner}/${repo} on branch ${branch}: ${error.message}`
-    );
+    if (!error.message.includes('Did someone manually push to the sandboxes repo')) {
+      logger.error(
+        `⚠️  Error getting latest commit message of ${owner}/${repo} on branch ${branch}: ${error.message}`
+      );
+    }
 
     throw error;
   }
@@ -47,6 +56,7 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
 
     let gitCommitCommand;
 
+    logger.log('🔍 Determining commit message');
     try {
       const previousCommitHash = await getTheLastCommitHashThatUpdatedTheSandboxRepo(branch);
       const mergeCommits = (
@@ -66,11 +76,18 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
 
       const diffLink = `https://github.com/storybookjs/storybook/compare/${previousCommitHash}...${currentCommitHash}`;
 
-      const commitTitle = `Update sandboxes - ${new Date().toDateString()} - ${previousCommitHash}`;
-      const commitBody = [...prLinks, `\nCheck the diff here: ${diffLink}`].join('\n');
+      const commitTitle = `${storybookVersion} - ${new Date().toDateString()} - ${previousCommitHash}`;
+      const commitBody = [
+        `\nCheck the diff here: ${diffLink}`,
+        '\nList of included PRs since previous version:',
+        ...prLinks,
+      ].join('\n');
       gitCommitCommand = `git commit -m "${commitTitle}" -m "${commitBody}"`;
     } catch (err) {
-      gitCommitCommand = `git commit -m "Update sandboxes - ${new Date().toDateString()} - ${currentCommitHash}`;
+      logger.log(
+        `⚠️  Falling back to a simpler commit message because of an error while trying to get the previous commit hash: ${err.message}`
+      );
+      gitCommitCommand = `git commit -m "${storybookVersion} - ${new Date().toDateString()} - ${currentCommitHash}"`;
     }
 
     await execaCommand(gitCommitCommand, {
@@ -78,8 +95,12 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
       cwd,
     });
   } catch (e) {
-    logger.log(
-      `🤷 Git found no changes between previous versions so there is nothing to commit. Skipping publish!`
-    );
+    if (e.message.includes('nothing to commit')) {
+      logger.log(
+        `🤷 Git found no changes between previous versions so there is nothing to commit. Skipping publish!`
+      );
+    } else {
+      logger.error(`🤯 Something went wrong while committing to git: ${e.message}`);
+    }
   }
 }
