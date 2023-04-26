@@ -1,3 +1,52 @@
+## 7.1.0-alpha.9 (April 26, 2023)
+
+#### Features
+
+-   NextJS: Allow disabling next/image lazy loading [#21909](https://github.com/storybooks/storybook/pull/21909)
+-   Core: Allow Flow syntax in stories [#21859](https://github.com/storybooks/storybook/pull/21859)
+
+#### Bug Fixes
+
+-   Vue3: Support multiple setup functions [#22170](https://github.com/storybooks/storybook/pull/22170)
+-   UI: Fix shift + 7 shortcut to focus search field [#22073](https://github.com/storybooks/storybook/pull/22073)
+-   UI: Fix controls missing when navigating from story [#21967](https://github.com/storybooks/storybook/pull/21967)
+
+#### Maintenance
+
+-   Core: Rename manager UI mjs to js [#22247](https://github.com/storybooks/storybook/pull/22247)
+-   Remove dead code [#22019](https://github.com/storybooks/storybook/pull/22019)
+-   Vue3: Move TS stories into a separate folder [#22235](https://github.com/storybooks/storybook/pull/22235)
+
+#### Build
+
+-   Build: Migrate @storybook/addon-docs to strict-ts [#22180](https://github.com/storybooks/storybook/pull/22180)
+-   Build: Migrate @storybook/highlight to strict TS [#22181](https://github.com/storybooks/storybook/pull/22181)
+-   Build: Enable strict TS by default [#22143](https://github.com/storybooks/storybook/pull/22143)
+
+## 7.1.0-alpha.8 (April 24, 2023)
+
+#### Features
+
+-   Core: Support custom hosts using window.location server channel URL [#22055](https://github.com/storybooks/storybook/pull/22055)
+
+#### Bug Fixes
+
+-   Addon-actions: Fix ESM by upgrading from uuid-browser to uuid [#22037](https://github.com/storybooks/storybook/pull/22037)
+-   Addon-actions: Fix decorator type [#22175](https://github.com/storybooks/storybook/pull/22175)
+-   NextJS: Fix tsconfig resolution [#22160](https://github.com/storybooks/storybook/pull/22160)
+-   Core: Pass parameters in `SET_INDEX` for docs entries [#22154](https://github.com/storybooks/storybook/pull/22154)
+
+#### Maintenance
+
+-   CSF: Improve error message for bad default export [#22190](https://github.com/storybooks/storybook/pull/22190)
+-   CLI: Add addon query-params to list of SB7 incompatible addons [#22095](https://github.com/storybooks/storybook/pull/22095)
+
+#### Build
+
+-   Build: Fix sandbox publish script [#22206](https://github.com/storybooks/storybook/pull/22206)
+-   Build: Fix lit sandboxes [#22201](https://github.com/storybooks/storybook/pull/22201)
+-   Vite sandboxes: use stable Vite 4.3 [#22183](https://github.com/storybooks/storybook/pull/22183)
+
 ## 7.1.0-alpha.7 (April 19, 2023)
 
 #### Bug Fixes

@@ -64,7 +64,7 @@ export class DocsRenderer<TRenderer extends Renderer> {
               element
             )
           )
-          .then(resolve);
+          .then(() => resolve());
       });
     };
 
