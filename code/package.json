@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.1.0-alpha.8",
+  "version": "7.1.0-alpha.9",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
@@ -259,8 +259,7 @@
     "util": "^0.12.4",
     "vite": "^4.0.0",
     "vite-plugin-turbosnap": "^1.0.1",
-    "wait-on": "^5.2.1",
-    "zx": "^7.0.3"
+    "wait-on": "^5.2.1"
   },
   "dependenciesMeta": {
     "ejs": {
