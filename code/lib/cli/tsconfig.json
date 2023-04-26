@@ -2,9 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "types": ["node", "jest"],
+    "strict": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": true
   },
   "include": ["src/**/*"]
 }
