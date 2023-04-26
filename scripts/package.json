@@ -14,7 +14,8 @@
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
     "task": "ts-node --swc ./task.ts",
     "test": "jest --config ./jest.config.js",
-    "upgrade": "ts-node --swc ./task.ts"
+    "upgrade": "ts-node --swc ./task.ts",
+    "strict-ts": "node --require esbuild-register ./strict-ts.ts"
   },
   "husky": {
     "hooks": {
