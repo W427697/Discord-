@@ -1,4 +1,4 @@
-import { dirname, join, resolve } from 'path';
+import { dirname, isAbsolute, join, resolve } from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -63,7 +63,6 @@ export default async (
     babelOptions,
     typescriptOptions,
     features,
-    serverChannelUrl,
   } = options;
 
   const isProd = configType === 'PRODUCTION';
@@ -112,6 +111,12 @@ export default async (
         if (typeof entry === 'object') {
           return entry.absolute;
         }
+
+        // TODO: Remove as soon as we drop support for disabled StoryStoreV7
+        if (isAbsolute(entry)) {
+          return entry;
+        }
+
         return slash(entry);
       }
     ),
@@ -254,7 +259,6 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
-            SERVER_CHANNEL_URL: serverChannelUrl,
           },
           headHtmlSnippet,
           bodyHtmlSnippet,

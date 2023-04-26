@@ -6,6 +6,7 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
+import { addToGlobalContext } from '@storybook/telemetry';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
@@ -20,6 +21,9 @@ import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
+import versions from './versions';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
@@ -134,10 +138,10 @@ command('extract [location] [output]')
   );
 
 command('sandbox [filterValue]')
-  .alias('repro') // for retrocompatibility purposes
+  .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
+  .option('-b --branch <branch>', 'Define the branch to download from', 'main')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
     sandbox({ filterValue, ...options }).catch((e) => {
