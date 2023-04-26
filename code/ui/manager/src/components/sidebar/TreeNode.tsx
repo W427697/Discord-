@@ -92,7 +92,7 @@ const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   background: 'transparent',
   '&:hover, &:focus': {
     outline: 'none',
-    background: theme.background.hoverable,
+    background: transparentize(0.93, theme.color.secondary),
   },
   '&[data-selected="true"]': {
     color: theme.color.lightest,
