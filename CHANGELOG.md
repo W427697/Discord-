@@ -1,3 +1,28 @@
+## 7.1.0-alpha.9 (April 26, 2023)
+
+#### Features
+
+-   NextJS: Allow disabling next/image lazy loading [#21909](https://github.com/storybooks/storybook/pull/21909)
+-   Core: Allow Flow syntax in stories [#21859](https://github.com/storybooks/storybook/pull/21859)
+
+#### Bug Fixes
+
+-   Vue3: Support multiple setup functions [#22170](https://github.com/storybooks/storybook/pull/22170)
+-   UI: Fix shift + 7 shortcut to focus search field [#22073](https://github.com/storybooks/storybook/pull/22073)
+-   UI: Fix controls missing when navigating from story [#21967](https://github.com/storybooks/storybook/pull/21967)
+
+#### Maintenance
+
+-   Core: Rename manager UI mjs to js [#22247](https://github.com/storybooks/storybook/pull/22247)
+-   Remove dead code [#22019](https://github.com/storybooks/storybook/pull/22019)
+-   Vue3: Move TS stories into a separate folder [#22235](https://github.com/storybooks/storybook/pull/22235)
+
+#### Build
+
+-   Build: Migrate @storybook/addon-docs to strict-ts [#22180](https://github.com/storybooks/storybook/pull/22180)
+-   Build: Migrate @storybook/highlight to strict TS [#22181](https://github.com/storybooks/storybook/pull/22181)
+-   Build: Enable strict TS by default [#22143](https://github.com/storybooks/storybook/pull/22143)
+
 ## 7.1.0-alpha.8 (April 24, 2023)
 
 #### Features
