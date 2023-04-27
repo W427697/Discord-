@@ -63,7 +63,6 @@
     "@types/node": "^16.0.0",
     "ts-loader": "^9.2.8",
     "vue-component-meta": "1.6",
-    "vue-docgen-loader": "^1.5.1",
     "webpack": "5"
   },
   "devDependencies": {
