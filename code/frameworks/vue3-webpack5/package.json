@@ -52,7 +52,8 @@
     "@storybook/core-common": "7.1.0-alpha.8",
     "@storybook/preset-vue3-webpack": "7.1.0-alpha.8",
     "@storybook/vue3": "7.1.0-alpha.8",
-    "@types/node": "^16.0.0"
+    "@types/node": "^16.0.0",
+    "vue-component-meta": "1.5.4"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "3.0.0",
