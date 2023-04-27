@@ -322,11 +322,11 @@ async function linkPackageStories(
       if (await pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
-          storiesDir = (await pathExists(join(cwd, `src/${storiesFolderName}`)))
-            ? `src/${storiesFolderName}`
-            : storiesFolderName;
+          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
         }
-        addPreviewAnnotations(mainConfig, [`./${join(storiesDir, packageDir, previewFile)}`]);
+        addPreviewAnnotations(mainConfig, [
+          `./${join(storiesDir, variant ? `${packageDir}_${variant}` : packageDir, previewFile)}`,
+        ]);
       }
     })
   );
