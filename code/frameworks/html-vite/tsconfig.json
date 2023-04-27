@@ -2,10 +2,17 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "resolveJsonModule": true,
-    "strict": false
+    "strict": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*", "src/**/__testfixtures__/**"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.test.*",
+    "src/**/__testfixtures__/**"
+  ]
 }
