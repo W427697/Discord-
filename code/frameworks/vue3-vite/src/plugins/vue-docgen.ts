@@ -39,8 +39,9 @@ export function vueDocgen(): PluginOption {
       } catch (e) {
         console.log(' checker error = ', e);
       }
+
       metaSource = JSON.stringify(metaSource);
-      console.log(' metaSource = ', metaSource);
+
       const s = new MagicString(src);
       s.append(`;_sfc_main.__docgenInfo = ${metaSource}`);
 
