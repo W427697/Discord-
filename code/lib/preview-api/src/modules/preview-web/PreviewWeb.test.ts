@@ -28,6 +28,7 @@ import {
   STORY_UNCHANGED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
+  DOCS_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
@@ -70,7 +71,6 @@ jest.mock('@storybook/global', () => ({
     },
     FEATURES: {
       storyStoreV7: true,
-      breakingChangesV7: true,
       // xxx
     },
     fetch: async () => mockFetchResult,
@@ -653,6 +653,19 @@ describe('PreviewWeb', () => {
     });
 
     describe('CSF docs entries', () => {
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=component-one--docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'component-one--docs',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+        });
+      });
+
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=component-one--docs';
         await createAndRenderPreview();
@@ -677,8 +690,7 @@ describe('PreviewWeb', () => {
             page: componentOneExports.default.parameters.docs.page,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 
@@ -711,12 +723,39 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('mdx docs entries', () => {
+    describe('MDX docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=introduction--docs';
         await createAndRenderPreview();
 
         expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'introduction--docs');
+      });
+
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=introduction--docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'introduction--docs',
+          parameters: {
+            docs: expect.any(Object),
+          },
+        });
+      });
+
+      describe('attached', () => {
+        it('emits DOCS_PREPARED with component parameters', async () => {
+          document.location.search = '?id=component-one--attached-docs';
+          await createAndRenderPreview();
+
+          expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+            id: 'component-one--attached-docs',
+            parameters: {
+              docs: expect.any(Object),
+              fileName: './src/ComponentOne.stories.js',
+            },
+          });
+        });
       });
 
       it('calls view.prepareForDocs', async () => {
@@ -736,8 +775,7 @@ describe('PreviewWeb', () => {
             page: unattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 
@@ -1105,6 +1143,7 @@ describe('PreviewWeb', () => {
       });
 
       describe('when renderStoryToElement was called', () => {
+        const callbacks = { showMain: jest.fn(), showError: jest.fn(), showException: jest.fn() };
         it('re-renders the story', async () => {
           document.location.search = '?id=component-one--docs&viewMode=docs';
 
@@ -1113,7 +1152,7 @@ describe('PreviewWeb', () => {
 
           mockChannel.emit.mockClear();
           const story = await preview.storyStore.loadStory({ storyId: 'component-one--a' });
-          preview.renderStoryToElement(story, 'story-element' as any, {});
+          preview.renderStoryToElement(story, 'story-element' as any, callbacks, {});
           await waitForRender();
 
           expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
@@ -1151,7 +1190,9 @@ describe('PreviewWeb', () => {
 
           mockChannel.emit.mockClear();
           const story = await preview.storyStore.loadStory({ storyId: 'component-one--a' });
-          preview.renderStoryToElement(story, 'story-element' as any, { forceInitialArgs: true });
+          preview.renderStoryToElement(story, 'story-element' as any, callbacks, {
+            forceInitialArgs: true,
+          });
           await waitForRender();
 
           expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
@@ -2261,6 +2302,26 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing from story viewMode to docs', () => {
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--docs',
+          viewMode: 'docs',
+        });
+        await waitForSetCurrentStory();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'component-one--docs',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+        });
+      });
+
       it('calls renderToCanvass teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -3182,6 +3243,24 @@ describe('PreviewWeb', () => {
         return path === './src/Introduction.mdx' ? newUnattachedDocsExports : importFn(path);
       });
 
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=introduction--docs';
+        const preview = await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        docsRenderer.render.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForRender();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'introduction--docs',
+          parameters: {
+            docs: expect.any(Object),
+          },
+        });
+      });
+
       it('renders with the generated docs parameters', async () => {
         document.location.search = '?id=introduction--docs&viewMode=docs';
         const preview = await createAndRenderPreview();
@@ -3197,8 +3276,7 @@ describe('PreviewWeb', () => {
             page: newUnattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 

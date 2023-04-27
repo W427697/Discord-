@@ -98,10 +98,11 @@ export function useList(list: ChildrenList) {
               />
             </AddonButton>
           </WithTooltip>
-          {invisibleList.map(({ title, id, color }) => {
+          {invisibleList.map(({ title, id, color }, index) => {
+            const indexId = `index-${index}`;
             return (
               <TabButton
-                id={`tabbutton-${sanitize(title)}`}
+                id={`tabbutton-${sanitize(id) ?? indexId}`}
                 style={{ visibility: 'hidden' }}
                 aria-hidden
                 tabIndex={-1}
@@ -140,11 +141,7 @@ export function useList(list: ChildrenList) {
     const newInvisibleList = list.filter((item) => {
       const { id } = item;
       const tabButton = tabRefs.current.get(id);
-
-      if (!tabButton) {
-        return false;
-      }
-      const { width: tabWidth } = tabButton.getBoundingClientRect();
+      const { width: tabWidth = 0 } = tabButton?.getBoundingClientRect() || {};
 
       const crossBorder = x + widthSum + tabWidth > rightBorder;
 

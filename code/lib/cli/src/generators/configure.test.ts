@@ -27,22 +27,20 @@ describe('configureMain', () => {
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "/** @type { import('@storybook/react-vite').StorybookConfig } */
       const config = {
-        \\"stories\\": [
-          \\"../stories/**/*.mdx\\",
-          \\"../stories/**/*.stories.@(js|jsx|ts|tsx)\\"
-        ],
-        \\"addons\\": [],
-        \\"framework\\": {
-          \\"name\\": \\"@storybook/react-vite\\"
-        }
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        addons: [],
+        framework: {
+          name: '@storybook/react-vite',
+        },
       };
-      export default config;"
+      export default config;
+      "
     `);
   });
 
   test('should generate main.ts', async () => {
     await configureMain({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       addons: [],
       storybookConfigFolder: '.storybook',
       framework: {
@@ -56,18 +54,15 @@ describe('configureMain', () => {
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "import type { StorybookConfig } from '@storybook/react-vite';
-
       const config: StorybookConfig = {
-        \\"stories\\": [
-          \\"../stories/**/*.mdx\\",
-          \\"../stories/**/*.stories.@(js|jsx|ts|tsx)\\"
-        ],
-        \\"addons\\": [],
-        \\"framework\\": {
-          \\"name\\": \\"@storybook/react-vite\\"
-        }
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        addons: [],
+        framework: {
+          name: '@storybook/react-vite',
+        },
       };
-      export default config;"
+      export default config;
+      "
     `);
   });
 
@@ -91,23 +86,23 @@ describe('configureMain', () => {
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
     expect(mainConfigContent).toMatchInlineSnapshot(`
-      "/** @type { import('@storybook/react-webpack5').StorybookConfig } */
+      "import path from 'path';
+
+      /** @type { import('@storybook/react-webpack5').StorybookConfig } */
       const config = {
-        \\"stories\\": [
-          \\"../stories/**/*.mdx\\",
-          \\"../stories/**/*.stories.@(js|jsx|ts|tsx)\\"
-        ],
-        \\"addons\\": [
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        addons: [
           path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json'))),
           path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json'))),
           path.dirname(require.resolve(path.join('@storybook/preset-create-react-app', 'package.json'))),
-          path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json')))
+          path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json'))),
         ],
-        \\"framework\\": {
-          \\"name\\": path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))
-        }
+        framework: {
+          name: path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json'))),
+        },
       };
-      export default config;"
+      export default config;
+      "
     `);
   });
 });
@@ -117,6 +112,7 @@ describe('configurePreview', () => {
     await configurePreview({
       language: SupportedLanguage.JAVASCRIPT,
       storybookConfigFolder: '.storybook',
+      rendererId: 'react',
     });
 
     const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
@@ -124,25 +120,29 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "export const parameters = {
-        backgrounds: {
-          default: 'light',
-        },
-        actions: { argTypesRegex: \\"^on[A-Z].*\\" },
-        controls: {
-          matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
+      "/** @type { import('@storybook/react').Preview } */
+      const preview = {
+        parameters: {
+          actions: { argTypesRegex: '^on[A-Z].*' },
+          controls: {
+            matchers: {
+              color: /(background|color)$/i,
+              date: /Date$/,
+            },
           },
         },
-      }"
+      };
+
+      export default preview;
+      "
     `);
   });
 
   test('should generate preview.ts', async () => {
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
+      rendererId: 'react',
     });
 
     const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
@@ -150,34 +150,40 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "export const parameters = {
-        backgrounds: {
-          default: 'light',
-        },
-        actions: { argTypesRegex: \\"^on[A-Z].*\\" },
-        controls: {
-          matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
+      "import type { Preview } from '@storybook/react';
+
+      const preview: Preview = {
+        parameters: {
+          actions: { argTypesRegex: '^on[A-Z].*' },
+          controls: {
+            matchers: {
+              color: /(background|color)$/i,
+              date: /Date$/,
+            },
           },
         },
-      }"
+      };
+
+      export default preview;
+      "
     `);
   });
 
   test('should not do anything if the framework template already included a preview', async () => {
     (fse.pathExists as unknown as jest.Mock).mockReturnValueOnce(true);
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
+      rendererId: 'react',
     });
     expect(fse.writeFile).not.toHaveBeenCalled();
   });
 
   test('should add prefix if frameworkParts are passed', async () => {
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
+      rendererId: 'angular',
       frameworkPreviewParts: {
         prefix: dedent`
         import { setCompodocJson } from "@storybook/addon-docs/angular";
@@ -192,21 +198,25 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "import { setCompodocJson } from \\"@storybook/addon-docs/angular\\";
-      import docJson from \\"../documentation.json\\";
+      "import type { Preview } from '@storybook/angular';
+      import { setCompodocJson } from '@storybook/addon-docs/angular';
+      import docJson from '../documentation.json';
       setCompodocJson(docJson);
-      export const parameters = {
-        backgrounds: {
-          default: 'light',
-        },
-        actions: { argTypesRegex: \\"^on[A-Z].*\\" },
-        controls: {
-          matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
+
+      const preview: Preview = {
+        parameters: {
+          actions: { argTypesRegex: '^on[A-Z].*' },
+          controls: {
+            matchers: {
+              color: /(background|color)$/i,
+              date: /Date$/,
+            },
           },
         },
-      }"
+      };
+
+      export default preview;
+      "
     `);
   });
 });

@@ -6,6 +6,7 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
+import { addToGlobalContext } from '@storybook/telemetry';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
@@ -20,6 +21,9 @@ import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
+import versions from './versions';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
@@ -49,10 +53,7 @@ command('init')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
   .action((options: CommandOptions) => {
-    initiate(options, pkg).catch((err) => {
-      logger.error(err);
-      process.exit(1);
-    });
+    initiate(options, pkg).catch(() => process.exit(1));
   });
 
 command('add <addon>')
@@ -81,7 +82,8 @@ command('upgrade')
   .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
-  .action((options: UpgradeOptions) => upgrade(options));
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
+  .action(async (options: UpgradeOptions) => upgrade(options).catch(() => process.exit(1)));
 
 command('info')
   .description('Prints debugging information about the local environment')
@@ -136,10 +138,10 @@ command('extract [location] [output]')
   );
 
 command('sandbox [filterValue]')
-  .alias('repro') // for retrocompatibility purposes
+  .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
+  .option('-b --branch <branch>', 'Define the branch to download from', 'main')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
     sandbox({ filterValue, ...options }).catch((e) => {
@@ -166,6 +168,12 @@ command('automigrate [fixId]')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
   .option('-N --use-npm', 'Use npm as package manager (deprecated)')
   .option('-l --list', 'List available migrations')
+  .option('-c, --config-dir <dir-name>', 'Directory of Storybook configurations to migrate')
+  .option('-s --skip-install', 'Skip installing deps')
+  .option(
+    '--renderer <renderer-pkg-name>',
+    'The renderer package for the framework Storybook is using.'
+  )
   .action(async (fixId, options) => {
     await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
@@ -208,13 +216,13 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .action((options) => {
+  .action(async (options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
 
-    // The key is the field created in `program` variable for
+    // The key is the field created in `options` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(options, {
       port: 'SBCONFIG_PORT',
       host: 'SBCONFIG_HOSTNAME',
       staticDir: 'SBCONFIG_STATIC_DIR',
@@ -222,11 +230,12 @@ command('dev')
       ci: 'CI',
     });
 
-    if (typeof program.port === 'string' && program.port.length > 0) {
-      program.port = parseInt(program.port, 10);
+    if (parseInt(`${options.port}`, 10)) {
+      // eslint-disable-next-line no-param-reassign
+      options.port = parseInt(`${options.port}`, 10);
     }
 
-    dev({ ...options, packageJson: pkg });
+    await dev({ ...options, packageJson: pkg }).catch(() => process.exit(1));
   });
 
 command('build')
@@ -243,20 +252,20 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .action((options) => {
+  .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
 
-    // The key is the field created in `program` variable for
+    // The key is the field created in `options` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(options, {
       staticDir: 'SBCONFIG_STATIC_DIR',
       outputDir: 'SBCONFIG_OUTPUT_DIR',
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    build({ ...options, packageJson: pkg });
+    await build({ ...options, packageJson: pkg }).catch(() => process.exit(1));
   });
 
 program.on('command:*', ([invalidCmd]) => {

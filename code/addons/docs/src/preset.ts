@@ -3,7 +3,13 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storybook/types';
+import type {
+  IndexerOptions,
+  StoryIndexer,
+  DocsOptions,
+  Options,
+  StorybookConfig,
+} from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
@@ -90,8 +96,10 @@ async function webpack(
     ...webpackConfig,
     plugins: [
       ...(webpackConfig.plugins || []),
-      // eslint-disable-next-line global-require
-      ...(csfPluginOptions ? [require('@storybook/csf-plugin').webpack(csfPluginOptions)] : []),
+
+      ...(csfPluginOptions
+        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
+        : []),
     ],
 
     module: {
@@ -148,11 +156,14 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
 const docs = (docsOptions: DocsOptions) => {
   return {
     ...docsOptions,
-    disable: false,
     defaultName: 'Docs',
     autodocs: 'tag',
   };
 };
+
+export const addons: StorybookConfig['addons'] = [
+  require.resolve('@storybook/react-dom-shim/dist/preset'),
+];
 
 /*
  * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162

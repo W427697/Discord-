@@ -1,6 +1,6 @@
 #!/usr/bin/env ../../node_modules/.bin/ts-node
 
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 import path, { dirname, join, relative } from 'path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
@@ -64,6 +64,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
+
   const allEntries = entries.map((e: string) => slash(join(cwd, e)));
 
   const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
@@ -81,7 +82,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         outDir,
         format: ['esm'],
         target: 'chrome100',
-        clean: !watch,
+        clean: false,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
         esbuildPlugins: [
@@ -114,7 +115,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         target: 'node16',
         ...(dtsBuild === 'cjs' ? dtsConfig : {}),
         platform: 'node',
-        clean: !watch,
+        clean: false,
         external: externals,
 
         esbuildOptions: (c) => {
@@ -186,7 +187,6 @@ async function generateDTSMapperFile(file: string) {
 
   const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
   const srcName = join(process.cwd(), file);
-
   const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
 
   await fs.ensureFile(pathName);
@@ -195,7 +195,8 @@ async function generateDTSMapperFile(file: string) {
     dedent`
       // dev-mode
       export * from '${rel}/${entryName}';
-    `
+    `,
+    { encoding: 'utf-8' }
   );
 }
 

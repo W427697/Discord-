@@ -6,7 +6,7 @@ Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com
 
 ## Prerequisites
 
-- Ensure you have node version 14 installed (suggestion: v14.18.1).
+- Ensure you have node version 16 installed (suggestion: v16.17.1).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
 
 ## Initial setup
@@ -31,7 +31,7 @@ It will install the required prerequisites, build the code, create and link a st
 
 If all goes well, you should see the sandbox running.
 
-![Storybook Sandbox Running](./storybook-sandbox.png)
+![Storybook sandbox running](../get-started/example-welcome.png)
 
 ## Running a different sandbox template
 
@@ -89,7 +89,7 @@ If the work you'll be doing affects the `Preview` (the innermost Storybook `ifra
 
 Otherwise, if it affects the `Manager` (the outermost Storybook `iframe` where the addons are displayed), you'll need to refresh manually after saving.
 
-![Storybook UI](./storybook-manager-preview.jpg)
+![Storybook manager preview](../addons/manager-preview.png)
 
 ## Check your work
 
@@ -121,6 +121,12 @@ To run an e2e test against a sandbox, you can use the `e2e-tests` task:
 
 ```shell
 yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
+```
+
+If there are issues and you'd like to debug them, you can pass a `DEBUG=1` environment variable, and Playwright will run in watch mode.
+
+```shell
+DEBUG=1 yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
 ```
 
 ## Submit a pull request

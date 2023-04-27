@@ -6,7 +6,8 @@ import { ADDON_ID, PANEL_ID } from './index';
 
 addons.register(ADDON_ID, (api) => {
   addons.addPanel(PANEL_ID, {
-    title: 'Story',
+    title: 'Code',
+    id: 'code',
     render: ({ active, key }) => (active ? <StoryPanel key={key} api={api} /> : null),
     paramKey: 'storysource',
   });

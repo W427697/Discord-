@@ -11,6 +11,7 @@ import {
   SET_INDEX,
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
+  DOCS_PREPARED,
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
@@ -48,6 +49,14 @@ jest.mock('@storybook/global', () => ({
 const getEventMetadataMock = getEventMetadata as ReturnType<typeof jest.fn>;
 
 const mockEntries: StoryIndex['entries'] = {
+  'component-a--docs': {
+    type: 'docs',
+    id: 'component-a--docs',
+    title: 'Component A',
+    name: 'Docs',
+    importPath: './path/to/component-a.ts',
+    storiesImports: [],
+  },
   'component-a--story-1': {
     type: 'story',
     id: 'component-a--story-1',
@@ -85,10 +94,6 @@ function createMockStore(initialState = {}) {
 function initStoriesAndSetState({ store, ...options }: any) {
   const { state, ...result } = initStories({ store, ...options } as any);
 
-  // Remove deprecated fields (which would trigger warnings)
-  delete state.storiesHash;
-  delete state.storiesConfigured;
-  delete state.storiesFailed;
   store?.setState(state);
 
   return { state, ...result };
@@ -120,11 +125,6 @@ describe('stories API', () => {
       viewMode: 'story',
     } as ModuleArgs);
 
-    // Remove deprecated fields (which would trigger warnings)
-    delete state.storiesHash;
-    delete state.storiesConfigured;
-    delete state.storiesFailed;
-
     expect(state).toEqual({
       previewInitialized: false,
       storyId: 'id',
@@ -148,6 +148,7 @@ describe('stories API', () => {
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index)).toEqual([
         'component-a',
+        'component-a--docs',
         'component-a--story-1',
         'component-a--story-2',
         'component-b',
@@ -156,7 +157,17 @@ describe('stories API', () => {
       expect(index['component-a']).toMatchObject({
         type: 'component',
         id: 'component-a',
-        children: ['component-a--story-1', 'component-a--story-2'],
+        children: ['component-a--docs', 'component-a--story-1', 'component-a--story-2'],
+      });
+
+      expect(index['component-a--docs']).toMatchObject({
+        type: 'docs',
+        id: 'component-a--docs',
+        parent: 'component-a',
+        title: 'Component A',
+        name: 'Docs',
+        storiesImports: [],
+        prepared: false,
       });
 
       expect(index['component-a--story-1']).toMatchObject({
@@ -241,6 +252,7 @@ describe('stories API', () => {
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index)).toEqual([
         'component-a',
+        'component-a--docs',
         'component-a--story-1',
         'component-a--story-2',
         'component-b',
@@ -627,6 +639,48 @@ describe('stories API', () => {
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
       const { index } = store.getState();
+
+      expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
+    });
+
+    it('clears 500 errors when invalidated', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setIndex: jest.fn(),
+      });
+
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReturnValueOnce(
+        Promise.resolve({
+          status: 500,
+          text: async () => new Error('sorting error'),
+        } as any as Response)
+      );
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+
+      const { indexError } = store.getState();
+      expect(indexError).toBeDefined();
+
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockClear();
+      mockGetEntries.mockReturnValueOnce({
+        'component-a--story-1': {
+          type: 'story',
+          id: 'component-a--story-1',
+          title: 'Component A',
+          name: 'Story 1',
+          importPath: './path/to/component-a.ts',
+        },
+      });
+      provider.serverChannel.emit(STORY_INDEX_INVALIDATED);
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+
+      // Let the promise/await chain resolve
+      await new Promise((r) => setTimeout(r, 0));
+      const { index, indexError: newIndexError } = store.getState();
+      expect(newIndexError).not.toBeDefined();
 
       expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
     });
@@ -1388,6 +1442,37 @@ describe('stories API', () => {
       });
 
       expect(fullAPI.setOptions).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('DOCS_PREPARED', () => {
+    it('prepares the docs entry', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setStories: jest.fn(),
+        setOptions: jest.fn(),
+      });
+
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+      fullAPI.emit(DOCS_PREPARED, {
+        id: 'component-a--docs',
+        parameters: { a: 'b' },
+      });
+
+      const { index } = store.getState();
+      expect(index['component-a--docs']).toMatchObject({
+        type: 'docs',
+        id: 'component-a--docs',
+        parent: 'component-a',
+        title: 'Component A',
+        name: 'Docs',
+        prepared: true,
+        parameters: { a: 'b' },
+      });
     });
   });
 

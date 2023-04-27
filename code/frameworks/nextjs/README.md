@@ -16,9 +16,9 @@
     - [Remote Images](#remote-images)
     - [AVIF](#avif)
   - [Next.js Font Optimization](#nextjs-font-optimization)
-    - [@next/font/google](#nextfontgoogle)
-    - [@next/font/local](#nextfontlocal)
-    - [Not supported features of @next/font](#not-supported-features-of-nextfont)
+    - [next/font/google](#nextfontgoogle)
+    - [next/font/local](#nextfontlocal)
+    - [Not supported features of next/font](#not-supported-features-of-nextfont)
   - [Next.js Routing](#nextjs-routing)
     - [Overriding defaults](#overriding-defaults)
     - [Global Defaults](#global-defaults)
@@ -45,6 +45,7 @@
     - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
     - [Module not found: Error: Can't resolve \[package name\]](#module-not-found-error-cant-resolve-package-name)
+    - [What if I'm using the Vite builder?](#what-if-im-using-the-vite-builder)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported Features
@@ -87,7 +88,7 @@
 Follow the prompts after running this command in your Next.js project's root directory:
 
 ```bash
-npx storybook@next init
+npx storybook@latest init
 ```
 
 [More on getting started with Storybook](https://storybook.js.org/docs/react/get-started/install)
@@ -97,7 +98,7 @@ npx storybook@next init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@next upgrade --prerelease
+npx storybook@latest upgrade --prerelease
 ```
 
 #### Automatic migration
@@ -109,7 +110,7 @@ When running the `upgrade` command above, you should get a prompt asking you to 
 Install the framework:
 
 ```bash
-yarn add --dev @storybook/nextjs@next
+yarn add --dev @storybook/nextjs
 ```
 
 Update your `main.js` to change the framework property:
@@ -158,12 +159,16 @@ export default {
   framework: {
     name: '@storybook/nextjs',
     options: {
+      image: {
+        loading: 'eager',
+      },
       nextConfigPath: path.resolve(__dirname, '../next.config.js'),
     },
   },
 };
 ```
 
+- `image`: Props to pass to every instance of `next/image`
 - `nextConfigPath`: The absolute path to the `next.config.js`
 
 ### Next.js's Image Component
@@ -220,13 +225,13 @@ This format is not supported by this framework yet. Feel free to [open up an iss
 
 ### Next.js Font Optimization
 
-[@next/font](https://nextjs.org/docs/basic-features/font-optimization) is partially supported in Storybook. The packages `@next/font/google` and `@next/font/local` are supported.
+[next/font](https://nextjs.org/docs/basic-features/font-optimization) is partially supported in Storybook. The packages `next/font/google` and `next/font/local` are supported.
 
-#### @next/font/google
+#### next/font/google
 
-You don't have to do anything. `@next/font/google` is supported out of the box.
+You don't have to do anything. `next/font/google` is supported out of the box.
 
-#### @next/font/local
+#### next/font/local
 
 For local fonts you have to define the [src](https://nextjs.org/docs/api-reference/next/font#src) property.
 The path is relative to the directory where the font loader function is called.
@@ -235,7 +240,7 @@ If the following component defines your localFont like this:
 
 ```js
 // src/components/MyComponent.js
-import localFont from '@next/font/local';
+import localFont from 'next/font/local';
 
 const localRubikStorm = localFont({ src: './fonts/RubikStorm-Regular.ttf' });
 ```
@@ -255,7 +260,7 @@ export default {
 }
 ```
 
-#### Not supported features of @next/font
+#### Not supported features of next/font
 
 The following features are not supported (yet). Support for these features might be planned for the future:
 
@@ -928,6 +933,10 @@ See [local images](https://nextjs.org/docs/basic-features/image-optimization#loc
 #### Module not found: Error: Can't resolve [package name]
 
 You might get this if you're using Yarn v2 or v3. See [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users) for more details.
+
+#### What if I'm using the Vite builder?
+
+The `@storybook/nextjs` package abstracts the Webpack 5 builder and provides all the necessary Webpack configuration needed (and used internally) by Next.js. Webpack is currently the official builder in Next.js, and Next.js does not support Vite, therefore it is not possible to use Vite with `@storybook/nextjs`. You can use `@storybook/react-vite` framework instead, but at the cost of having a degraded experience, and we won't be able to provide you official support.
 
 ## Acknowledgements
 

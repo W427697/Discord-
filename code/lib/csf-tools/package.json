@@ -1,7 +1,7 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-beta.46",
-  "description": "",
+  "version": "7.1.0-alpha.9",
+  "description": "Parse and manipulate CSF and Storybook config files",
   "keywords": [
     "storybook"
   ],
@@ -24,13 +24,11 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -43,17 +41,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/types": "^7.20.2",
-    "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-beta.46",
+    "@babel/generator": "~7.21.1",
+    "@babel/parser": "~7.21.2",
+    "@babel/traverse": "~7.21.2",
+    "@babel/types": "~7.21.2",
+    "@storybook/csf": "^0.1.0",
+    "@storybook/types": "7.1.0-alpha.9",
     "fs-extra": "^11.1.0",
     "recast": "^0.23.1",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/generator": "^7.20.4",
-    "@babel/parser": "^7.20.3",
-    "@babel/traverse": "^7.20.1",
     "@types/fs-extra": "^11.0.1",
     "@types/js-yaml": "^3.12.6",
     "js-yaml": "^3.14.1",
@@ -65,7 +63,10 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
-  "gitHead": "ddbb9cfded3d2e6374a9abc9a6e8990a2f0052ed"
+  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
 }

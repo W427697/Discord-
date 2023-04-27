@@ -1,6 +1,18 @@
+/* eslint-disable no-console */
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
-import { InjectionToken, NgModule, Provider } from '@angular/core';
+import {
+  Component,
+  Directive,
+  importProvidersFrom,
+  Injectable,
+  InjectionToken,
+  Input,
+  NgModule,
+  Output,
+  Pipe,
+  Provider,
+  ɵReflectionCapabilities as ReflectionCapabilities,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
@@ -8,174 +20,188 @@ import {
   provideAnimations,
   provideNoopAnimations,
 } from '@angular/platform-browser/animations';
+import dedent from 'ts-dedent';
 import { NgModuleMetadata } from '../../types';
-import { isDeclarable, isStandaloneComponent } from './NgComponentAnalyzer';
 import { isComponentAlreadyDeclared } from './NgModulesAnalyzer';
 
-const uniqueArray = (arr: any[]) => {
-  return arr.flat(Number.MAX_VALUE).filter((value, index, self) => self.indexOf(value) === index);
-};
-
-const analyzeRestricted = (ngModule: NgModule) => {
-  /**
-   * BrowserModule is restricted,
-   * because bootstrapApplication API, which mounts the component to the DOM,
-   * automatically imports BrowserModule
-   */
-  if (ngModule === BrowserModule) {
-    return [true];
-  }
-  /**
-   * BrowserAnimationsModule imports BrowserModule, which is restricted,
-   * because bootstrapApplication API, which mounts the component to the DOM,
-   * automatically imports BrowserModule
-   */
-  if (ngModule === BrowserAnimationsModule) {
-    return [true, provideAnimations()];
-  }
-  /**
-   * NoopAnimationsModule imports BrowserModule, which is restricted,
-   * because bootstrapApplication API, which mounts the component to the DOM,
-   * automatically imports BrowserModule
-   */
-  if (ngModule === NoopAnimationsModule) {
-    return [true, provideNoopAnimations()];
-  }
-
-  /**
-   * HttpClient has to be provided manually as a singleton
-   */
-  if (ngModule === HttpClientModule) {
-    return [true, provideHttpClient()];
-  }
-
-  return [false];
-};
-
+export const reflectionCapabilities = new ReflectionCapabilities();
 export const REMOVED_MODULES = new InjectionToken('REMOVED_MODULES');
-
-/**
- * Analyze NgModule Metadata
- *
- * - Removes Restricted Imports
- * - Extracts providers from ModuleWithProviders
- * - Flattens imports
- * - Returns a new NgModuleMetadata object
- *
- *
- */
-export const analyzeMetadata = (metadata: NgModuleMetadata) => {
-  const declarations = [...(metadata?.declarations || [])];
-  const providers = [...(metadata?.providers || [])];
-  const singletons: any[] = [];
-  const imports = [...(metadata?.imports || [])]
-    .reduce((acc, ngModule) => {
-      // remove ngModule and use only its providers if it is restricted
-      // (e.g. BrowserModule, BrowserAnimationsModule, NoopAnimationsModule, ...etc)
-      const [isRestricted, restrictedProviders] = analyzeRestricted(ngModule);
-      if (isRestricted) {
-        singletons.unshift(restrictedProviders || []);
-        return acc;
-      }
-
-      // destructure into ngModule & providers if it is a ModuleWithProviders
-      if (ngModule?.providers) {
-        providers.unshift(ngModule.providers || []);
-        // eslint-disable-next-line no-param-reassign
-        ngModule = ngModule.ngModule;
-      }
-
-      // extract providers, declarations, singletons from ngModule
-      // eslint-disable-next-line no-underscore-dangle
-      const ngMetadata = ngModule?.__annotations__?.[0];
-      if (ngMetadata) {
-        const newMetadata = analyzeMetadata(ngMetadata);
-        acc.unshift(...newMetadata.imports);
-        providers.unshift(...newMetadata.providers);
-        singletons.unshift(...newMetadata.singletons);
-        declarations.unshift(...newMetadata.declarations);
-
-        if (ngMetadata.standalone === true) {
-          acc.push(ngModule);
-        }
-        // keeping a copy of the removed module
-        providers.push({ provide: REMOVED_MODULES, useValue: ngModule, multi: true });
-        return acc;
-      }
-
-      // include Angular official modules as-is
-      if (ngModule.ɵmod) {
-        acc.push(ngModule);
-        return acc;
-      }
-
-      return acc;
-    }, [])
-    .flat(Number.MAX_VALUE);
-
-  return { ...metadata, imports, providers, singletons, declarations };
+export const uniqueArray = (arr: any[]) => {
+  return arr
+    .flat(Number.MAX_VALUE)
+    .filter(Boolean)
+    .filter((value, index, self) => self.indexOf(value) === index);
 };
 
-/**
- * Extract Imports from NgModule
- *
- * CommonModule is always imported
- * Only standalone components are imported
- *
- */
-export const extractImports = (metadata: NgModuleMetadata, storyComponent?: any) => {
-  const { imports } = analyzeMetadata(metadata);
+export class PropertyExtractor implements NgModuleMetadata {
+  /* eslint-disable @typescript-eslint/lines-between-class-members */
+  declarations?: any[] = [];
+  imports?: any[];
+  providers?: Provider[];
+  applicationProviders?: Array<Provider | ReturnType<typeof importProvidersFrom>>;
+  /* eslint-enable @typescript-eslint/lines-between-class-members */
 
-  if (isStandaloneComponent(storyComponent)) {
-    imports.push(storyComponent);
+  constructor(private metadata: NgModuleMetadata, private component?: any) {
+    this.init();
   }
 
-  return uniqueArray([CommonModule, imports]);
-};
+  // With the new way of mounting standalone components to the DOM via bootstrapApplication API,
+  // we should now pass ModuleWithProviders to the providers array of the bootstrapApplication function.
+  static warnImportsModuleWithProviders(propertyExtractor: PropertyExtractor) {
+    const hasModuleWithProvidersImport = propertyExtractor.imports.some(
+      (importedModule) => 'ngModule' in importedModule
+    );
 
-/**
- * Extract providers from NgModule
- *
- * - A new array is returned with:
- *   - metadata.providers
- *   - providers from each **ModuleWithProviders** (e.g. forRoot() & forChild() )
- *
- *
- */
-export const extractProviders = (metadata: NgModuleMetadata): Provider[] => {
-  const { providers } = analyzeMetadata(metadata);
-
-  return uniqueArray(providers);
-};
-
-export const extractSingletons = (metadata: NgModuleMetadata): Provider[] => {
-  const { singletons } = analyzeMetadata(metadata);
-
-  return uniqueArray(singletons);
-};
-
-/**
- * Extract declarations from NgModule
- *
- * - If a story component is provided, it will be added to the declarations array if:
- *    - It is a component or directive or pipe
- *    - It is not already declared
- *    - It is not a standalone component
- *
- */
-export const extractDeclarations = (metadata: NgModuleMetadata, storyComponent?: any) => {
-  const { declarations } = analyzeMetadata(metadata);
-
-  if (storyComponent) {
-    const isStandalone = isStandaloneComponent(storyComponent);
-    const isDeclared = isComponentAlreadyDeclared(storyComponent, declarations, metadata.imports);
-
-    const requiresDeclaration = isDeclarable(storyComponent) && !isDeclared && !isStandalone;
-
-    if (requiresDeclaration) {
-      declarations.push(storyComponent);
+    if (hasModuleWithProvidersImport) {
+      console.warn(
+        dedent(
+          `
+          Storybook Warning: 
+          moduleMetadata property 'imports' contains one or more ModuleWithProviders, likely the result of a 'Module.forRoot()'-style call.
+          In Storybook 7.0 we use Angular's new 'bootstrapApplication' API to mount the component to the DOM, which accepts a list of providers to set up application-wide providers.
+          Use the 'applicationConfig' decorator from '@storybook/angular' to pass your ModuleWithProviders to the 'providers' property in combination with the importProvidersFrom helper function from '@angular/core' to extract all the necessary providers.
+          Visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information
+          `
+        )
+      );
     }
   }
 
-  return uniqueArray(declarations);
-};
+  private init() {
+    const analyzed = this.analyzeMetadata(this.metadata);
+    this.imports = uniqueArray([CommonModule, analyzed.imports]);
+    this.providers = uniqueArray(analyzed.providers);
+    this.applicationProviders = uniqueArray(analyzed.applicationProviders);
+    this.declarations = uniqueArray(analyzed.declarations);
+
+    if (this.component) {
+      const { isDeclarable, isStandalone } = PropertyExtractor.analyzeDecorators(this.component);
+      const isDeclared = isComponentAlreadyDeclared(
+        this.component,
+        analyzed.declarations,
+        this.imports
+      );
+
+      if (isStandalone) {
+        this.imports.push(this.component);
+      } else if (isDeclarable && !isDeclared) {
+        this.declarations.push(this.component);
+      }
+    }
+  }
+
+  /**
+   * Analyze NgModule Metadata
+   *
+   * - Removes Restricted Imports
+   * - Extracts providers from ModuleWithProviders
+   * - Returns a new NgModuleMetadata object
+   *
+   *
+   */
+  private analyzeMetadata = (metadata: NgModuleMetadata) => {
+    const declarations = [...(metadata?.declarations || [])];
+    const providers = [...(metadata?.providers || [])];
+    const applicationProviders: Provider[] = [];
+    const imports = [...(metadata?.imports || [])].reduce((acc, imported) => {
+      // remove ngModule and use only its providers if it is restricted
+      // (e.g. BrowserModule, BrowserAnimationsModule, NoopAnimationsModule, ...etc)
+      const [isRestricted, restrictedProviders] = PropertyExtractor.analyzeRestricted(imported);
+      if (isRestricted) {
+        applicationProviders.unshift(restrictedProviders || []);
+        return acc;
+      }
+
+      acc.push(imported);
+
+      return acc;
+    }, []);
+
+    return { ...metadata, imports, providers, applicationProviders, declarations };
+  };
+
+  static analyzeRestricted = (ngModule: NgModule): [boolean] | [boolean, Provider] => {
+    if (ngModule === BrowserModule) {
+      console.warn(
+        dedent`
+          Storybook Warning:
+          You have imported the "BrowserModule", which is not necessary anymore. 
+          In Storybook v7.0 we are using Angular's new bootstrapApplication API to mount an Angular application to the DOM.
+          Note that the BrowserModule providers are automatically included when starting an application with bootstrapApplication()
+          Please remove the "BrowserModule" from the list of imports in your moduleMetadata definition to remove this warning.
+        `
+      );
+      return [true];
+    }
+
+    if (ngModule === BrowserAnimationsModule) {
+      console.warn(
+        dedent`
+          Storybook Warning:
+          You have added the "BrowserAnimationsModule" to the list of "imports" in your moduleMetadata definition of your Story.
+          In Storybook 7.0 we use Angular's new 'bootstrapApplication' API to mount the component to the DOM, which accepts a list of providers to set up application-wide providers.
+          Use the 'applicationConfig' decorator from '@storybook/angular' and add the "provideAnimations" function to the list of "providers".
+          If your Angular version does not support "provide-like" functions, use the helper function importProvidersFrom instead to set up animations. For this case, please add "importProvidersFrom(BrowserAnimationsModule)" to the list of providers of your applicationConfig definition.
+          Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information.
+        `
+      );
+      return [true, provideAnimations()];
+    }
+
+    if (ngModule === NoopAnimationsModule) {
+      console.warn(
+        dedent`
+          Storybook Warning:
+          You have added the "NoopAnimationsModule" to the list of "imports" in your moduleMetadata definition of your Story.
+          In Storybook v7.0 we are using Angular's new bootstrapApplication API to mount an Angular application to the DOM, which accepts a list of providers to set up application-wide providers.
+          Use the 'applicationConfig' decorator from '@storybook/angular' and add the "provideNoopAnimations" function to the list of "providers".
+          If your Angular version does not support "provide-like" functions, use the helper function importProvidersFrom instead to set up noop animations and to extract all necessary providers from NoopAnimationsModule. For this case, please add "importProvidersFrom(NoopAnimationsModule)" to the list of providers of your applicationConfig definition.
+          Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information.
+        `
+      );
+      return [true, provideNoopAnimations()];
+    }
+
+    return [false];
+  };
+
+  static analyzeDecorators = (component: any) => {
+    const decorators = reflectionCapabilities.annotations(component);
+
+    const isComponent = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Component'));
+    const isDirective = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Directive'));
+    const isPipe = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Pipe'));
+
+    const isDeclarable = isComponent || isDirective || isPipe;
+    const isStandalone = isComponent && decorators.some((d) => d.standalone);
+
+    return { isDeclarable, isStandalone };
+  };
+
+  static isDecoratorInstanceOf = (decorator: any, name: string) => {
+    let factory;
+    switch (name) {
+      case 'Component':
+        factory = Component;
+        break;
+      case 'Directive':
+        factory = Directive;
+        break;
+      case 'Pipe':
+        factory = Pipe;
+        break;
+      case 'Injectable':
+        factory = Injectable;
+        break;
+      case 'Input':
+        factory = Input;
+        break;
+      case 'Output':
+        factory = Output;
+        break;
+      default:
+        throw new Error(`Unknown decorator type: ${name}`);
+    }
+    return decorator instanceof factory || decorator.ngMetadataName === name;
+  };
+}

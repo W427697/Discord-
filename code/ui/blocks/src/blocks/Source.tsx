@@ -1,6 +1,12 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useContext } from 'react';
-import type { StoryId, PreparedStory, ModuleExport } from '@storybook/types';
+import type {
+  StoryId,
+  PreparedStory,
+  ModuleExport,
+  Args,
+  StoryContextForLoaders,
+} from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
 import { deprecate } from '@storybook/client-logger';
@@ -10,9 +16,10 @@ import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
-import { SourceContext } from './SourceContainer';
+import { UNKNOWN_ARGS_HASH, argsHash, SourceContext } from './SourceContainer';
 
 import { useStories } from './useStory';
+import { useArgsList } from './useArgs';
 
 export enum SourceState {
   OPEN = 'open',
@@ -27,15 +34,21 @@ type SourceParameters = SourceCodeProps & {
   type?: SourceType;
   /**
    * Transform the detected source for display
+   *
+   * @deprecated use `transform` prop instead
    */
-  transformSource?: (code: string, story: PreparedStory) => string;
+  transformSource?: (code: string, storyContext: StoryContextForLoaders) => string;
+  /**
+   * Transform the detected source for display
+   */
+  transform?: (code: string, storyContext: StoryContextForLoaders) => string;
   /**
    * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
    */
   originalSource?: string;
 };
 
-export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
+export type SourceProps = SourceParameters & {
   /**
    * Pass the export defining a story to render its source
    *
@@ -53,6 +66,11 @@ export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySourc
 
   /** @deprecated use of={storyExport} instead */
   ids?: string[];
+
+  /**
+   * Internal prop to control if a story re-renders on args updates
+   */
+  __forceInitialArgs?: boolean;
 };
 
 const getSourceState = (stories: PreparedStory[]) => {
@@ -62,20 +80,37 @@ const getSourceState = (stories: PreparedStory[]) => {
   return states[0];
 };
 
-const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): SourceItem => {
+const getStorySource = (
+  storyId: StoryId,
+  args: Args,
+  sourceContext: SourceContextProps
+): SourceItem => {
   const { sources } = sourceContext;
+
+  const sourceMap = sources?.[storyId];
+  // If the source decorator hasn't provided args, we fallback to the "unknown args"
+  // version of the source (which means if you render a story >1 time with different args
+  // you'll get the same source value both times).
+  const source = sourceMap?.[argsHash(args)] || sourceMap?.[UNKNOWN_ARGS_HASH];
+
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
-  return sources?.[storyId] || { code: '' };
+  return source || { code: '' };
 };
 
-const getSnippet = (
-  snippet: string,
-  story: PreparedStory<any>,
-  typeFromProps: SourceType
-): string => {
-  const { __isArgsStory: isArgsStory } = story.parameters;
-  const sourceParameters = (story.parameters.docs?.source || {}) as SourceParameters;
+const getSnippet = ({
+  snippet,
+  storyContext,
+  typeFromProps,
+  transformFromProps,
+}: {
+  snippet: string;
+  storyContext: StoryContextForLoaders;
+  typeFromProps: SourceType;
+  transformFromProps?: SourceProps['transform'];
+}): string => {
+  const { __isArgsStory: isArgsStory } = storyContext.parameters;
+  const sourceParameters = (storyContext.parameters.docs?.source || {}) as SourceParameters;
 
   const type = typeFromProps || sourceParameters.type || SourceType.AUTO;
 
@@ -92,7 +127,33 @@ const getSnippet = (
 
   const code = useSnippet ? snippet : sourceParameters.originalSource || '';
 
-  return sourceParameters.transformSource?.(code, story) || code;
+  if (sourceParameters.transformSource) {
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.source.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
+  if (storyContext.parameters.docs?.transformSource) {
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
+  if (storyContext.parameters.jsx?.transformSource) {
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.jsx.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
+
+  const transformer =
+    transformFromProps ??
+    sourceParameters.transform ??
+    sourceParameters.transformSource ?? // deprecated
+    storyContext.parameters.docs?.transformSource ?? // deprecated
+    storyContext.parameters.jsx?.transformSource; // deprecated - used to be implemented in the React renderer's jsxDecorator
+
+  return transformer?.(code, storyContext) || code;
 };
 
 // state is used by the Canvas block, which also calls useSourceProps
@@ -106,14 +167,16 @@ export const useSourceProps = (
 ): PureSourceProps & SourceStateProps => {
   const storyIds = props.ids || (props.id ? [props.id] : []);
   const storiesFromIds = useStories(storyIds, docsContext);
-  if (!storiesFromIds.every(Boolean)) {
-    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
-  }
 
   // The check didn't actually change the type.
   let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
-  if (props.of) {
-    const resolved = docsContext.resolveOf(props.of, ['story']);
+  const { of } = props;
+  if ('of' in props && of === undefined) {
+    throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
+  }
+
+  if (of) {
+    const resolved = docsContext.resolveOf(of, ['story']);
     stories = [resolved.story];
   } else if (stories.length === 0) {
     try {
@@ -122,6 +185,11 @@ export const useSourceProps = (
     } catch (err) {
       // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
+  }
+  const argsFromStories = useArgsList(stories, docsContext);
+
+  if (!storiesFromIds.every(Boolean)) {
+    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
   }
 
   const sourceParameters = (stories[0]?.parameters?.docs?.source || {}) as SourceParameters;
@@ -133,12 +201,27 @@ export const useSourceProps = (
   if (!code) {
     code = stories
       .map((story, index) => {
-        const source = getStorySource(story.id, sourceContext);
+        // In theory you can use a storyId from a different CSF file that hasn't loaded yet.
+        if (!story) return '';
+
+        // NOTE: args *does* have to be defined here due to the null check on story above
+        const [args] = argsFromStories[index] || [];
+        const storyContext = docsContext.getStoryContext(story);
+
+        // eslint-disable-next-line no-underscore-dangle
+        const argsForSource = props.__forceInitialArgs ? storyContext.initialArgs : args;
+
+        const source = getStorySource(story.id, argsForSource, sourceContext);
         if (index === 0) {
           // Take the format from the first story
           format = source.format ?? story.parameters.docs?.source?.format ?? false;
         }
-        return getSnippet(source.code, story, props.type);
+        return getSnippet({
+          snippet: source.code,
+          storyContext: { ...storyContext, args: argsForSource },
+          typeFromProps: props.type,
+          transformFromProps: props.transform,
+        });
       })
       .join('\n\n');
   }

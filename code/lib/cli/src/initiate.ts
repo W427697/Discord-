@@ -5,7 +5,7 @@ import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
 import { installableProjectTypes, ProjectType } from './project_types';
-import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
+import { detect, isStorybookInstalled, detectLanguage, detectBuilder, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import aureliaGenerator from './generators/AURELIA';
@@ -36,6 +36,8 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 import type { CommandOptions } from './generators/types';
+import { initFixes } from './automigrate/fixes';
+import { HandledError } from './HandledError';
 
 const logger = console;
 
@@ -57,12 +59,13 @@ const installStorybook = <Project extends ProjectType>(
   }
 
   const language = detectLanguage(packageJson);
+  const pnp = detectPnp();
 
   const generatorOptions = {
     language,
-    builder: options.builder || detectBuilder(packageManager),
+    builder: options.builder || detectBuilder(packageManager, projectType),
     linkable: !!options.linkable,
-    pnp: options.usePnp,
+    pnp: pnp || options.usePnp,
   };
 
   const runGenerator: () => Promise<any> = async () => {
@@ -78,21 +81,9 @@ const installStorybook = <Project extends ProjectType>(
         );
 
       case ProjectType.REACT_NATIVE: {
-        return (
-          options.yes
-            ? Promise.resolve({ server: true })
-            : (prompts([
-                {
-                  type: 'confirm',
-                  name: 'server',
-                  message:
-                    'Do you want to install dependencies necessary to run Storybook server? You can manually do it later by install @storybook/react-native-server',
-                  initial: false,
-                },
-              ]) as Promise<{ server: boolean }>)
-        )
-          .then(({ server }) => reactNativeGenerator(packageManager, npmOptions, server))
-          .then(commandLog('Adding Storybook support to your "React Native" app\n'));
+        return reactNativeGenerator(packageManager, npmOptions).then(
+          commandLog('Adding Storybook support to your "React Native" app\n')
+        );
       }
 
       case ProjectType.QWIK: {
@@ -236,10 +227,12 @@ const installStorybook = <Project extends ProjectType>(
     }
   };
 
-  return runGenerator().catch((ex) => {
-    logger.error(`\n     ${chalk.red(ex.stack)}`);
-    process.exit(1);
-  });
+  try {
+    return runGenerator();
+  } catch (err) {
+    logger.error(`\n     ${chalk.red(err.stack)}`);
+    throw new HandledError(err);
+  }
 };
 
 const projectTypeInquirer = async (
@@ -300,23 +293,23 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   const packageJson = packageManager.retrievePackageJson();
 
-  try {
-    if (projectTypeProvided) {
-      if (installableProjectTypes.includes(projectTypeProvided)) {
-        projectType = projectTypeProvided.toUpperCase();
-      } else {
-        done(`The provided project type was not recognized by Storybook: ${projectTypeProvided}`);
-        logger.log(`\nThe project types currently supported by Storybook are:\n`);
-        installableProjectTypes.sort().forEach((framework) => paddedLog(`- ${framework}`));
-        logger.log();
-        process.exit(1);
-      }
+  if (projectTypeProvided) {
+    if (installableProjectTypes.includes(projectTypeProvided)) {
+      projectType = projectTypeProvided.toUpperCase();
     } else {
-      projectType = detect(packageJson, options);
+      done(`The provided project type was not recognized by Storybook: ${projectTypeProvided}`);
+      logger.log(`\nThe project types currently supported by Storybook are:\n`);
+      installableProjectTypes.sort().forEach((framework) => paddedLog(`- ${framework}`));
+      logger.log();
+      throw new HandledError(`Unknown project type supplied: ${projectTypeProvided}`);
     }
-  } catch (ex) {
-    done(ex.message);
-    process.exit(1);
+  } else {
+    try {
+      projectType = detect(packageJson, options);
+    } catch (err) {
+      done(err.message);
+      throw new HandledError(err);
+    }
   }
   done();
 
@@ -330,16 +323,10 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
     // Add a new line for the clear visibility.
     logger.log();
-    return;
+    throw new HandledError(`Angular project already installed`);
   }
 
-  const installResult = await installStorybook(
-    projectType as ProjectType,
-    packageManager,
-    options
-  ).catch((e) => {
-    process.exit();
-  });
+  const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
 
   if (!options.skipInstall && !storybookInstalled) {
     packageManager.installDependencies();
@@ -349,28 +336,33 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     telemetry('init', { projectType });
   }
 
-  await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
-
-  logger.log('\nTo run your Storybook, type:\n');
-
-  if (projectType === ProjectType.ANGULAR) {
-    codeLog([`ng run ${installResult.projectName}:storybook`]);
-  } else {
-    codeLog([packageManager.getRunStorybookCommand()]);
+  if (projectType !== ProjectType.REACT_NATIVE) {
+    await automigrate({
+      yes: options.yes || process.env.CI === 'true',
+      packageManager: pkgMgr,
+      fixes: initFixes,
+      configDir: installResult?.configDir,
+    });
   }
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
 
-  if (projectType === ProjectType.REACT_NATIVE) {
-    const REACT_NATIVE_REPO = 'https://github.com/storybookjs/react-native';
-
+  if (projectType === ProjectType.ANGULAR) {
+    logger.log('\nTo run your Storybook, type:\n');
+    codeLog([`ng run ${installResult.projectName}:storybook`]);
+  } else if (projectType === ProjectType.REACT_NATIVE) {
     logger.log();
-    logger.log(chalk.red('NOTE: installation is not 100% automated.'));
+    logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
     logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
-    codeLog(["export {default} from './storybook';"]);
+    codeLog(["export {default} from './.storybook';"]);
+    logger.log('\n Then to run your Storybook, type:\n');
+    codeLog([packageManager.getRunCommand('start')]);
     logger.log('\n For more in information, see the github readme:\n');
-    logger.log(chalk.cyan(REACT_NATIVE_REPO));
+    logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
     logger.log();
+  } else {
+    logger.log('\nTo run your Storybook, type:\n');
+    codeLog([packageManager.getRunStorybookCommand()]);
   }
 
   // Add a new line for the clear visibility.
@@ -378,5 +370,12 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
-  await withTelemetry('init', { cliOptions: options }, () => doInitiate(options, pkg));
+  await withTelemetry(
+    'init',
+    {
+      cliOptions: options,
+      printError: (err) => !err.handled && logger.error(err),
+    },
+    () => doInitiate(options, pkg)
+  );
 }

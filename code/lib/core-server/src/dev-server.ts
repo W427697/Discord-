@@ -18,6 +18,7 @@ import { getStoryIndexGenerator } from './utils/getStoryIndexGenerator';
 import { doTelemetry } from './utils/doTelemetry';
 import { router } from './utils/router';
 import { getAccessControlMiddleware } from './utils/getAccessControlMiddleware';
+import { getCachingMiddleware } from './utils/get-caching-middleware';
 
 export async function storybookDevServer(options: Options) {
   const app = express();
@@ -48,9 +49,7 @@ export async function storybookDevServer(options: Options) {
   }
 
   app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
-
-  // User's own static files
-  const usingStatics = useStatics(router, options);
+  app.use(getCachingMiddleware());
 
   getMiddleware(options.configDir)(router);
 
@@ -70,6 +69,7 @@ export async function storybookDevServer(options: Options) {
   const [previewBuilder, managerBuilder] = await Promise.all([
     getPreviewBuilder(builderName, options.configDir),
     getManagerBuilder(),
+    useStatics(router, options),
   ]);
 
   if (options.debugWebpack) {
@@ -116,13 +116,11 @@ export async function storybookDevServer(options: Options) {
     previewStarted.catch(() => {}).then(() => next());
   });
 
-  await Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(
-    async ([indexGenerator]) => {
-      if (indexGenerator && !options.ci && !options.smokeTest && options.open) {
-        openInBrowser(host ? networkAddress : address);
-      }
+  await Promise.all([initializedStoryIndexGenerator, listening]).then(async ([indexGenerator]) => {
+    if (indexGenerator && !options.ci && !options.smokeTest && options.open) {
+      openInBrowser(host ? networkAddress : address);
     }
-  );
+  });
   if (indexError) {
     await managerBuilder?.bail().catch();
     await previewBuilder?.bail().catch();

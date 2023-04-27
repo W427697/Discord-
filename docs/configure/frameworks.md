@@ -17,6 +17,10 @@ Storybook provides support for the leading industry builders and frameworks. How
 | Webpack | React, Angular, Vue, Web Components, NextJS, HTML, Ember, Preact, Svelte |
 | Vite    | React, Vue, Web Components, HTML, Svelte, SvelteKit, Qwik                |
 
+### What about feature support?
+
+In addition to supporting the most popular frameworks in the industry, Storybook also tries to retain the same level of feature support for each framework, including the addon ecosystem. For more information, see [Framework support](./frameworks-feature-support.md) for a comprehensive list of which features and addons are currently maintained with the community's help.
+
 ## Configure
 
 Every modern web application has unique requirements and relies on various tools and frameworks. By default, with Storybook, you get an out-of-the-box configuration generated to work with most frameworks. However, you can extend your existing configuration file (i.e., `./storybook/main.js|ts|cjs`) and provide additional options. Below is an abridged table with available options and examples of configuring Storybook for your framework.
@@ -35,7 +39,7 @@ Every modern web application has unique requirements and relies on various tools
 | Option           | Description                                                                                                                                                                                                                                                 | Framework |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | `nextConfigPath` | Sets the default path for the NextJS configuration file<br/>`framework: { name: '@storybook/nextjs', options: { nextConfigPath: '../next.config.js'} }`                                                                                                     | NextJS    |
-| `builder`        | Configures [Webpack 5](../builders/webpack.md#webpack-5) builder options for NextJS<br/> `core: { builder: { name:'webpack5', options: { lazyCompilation: true} }}`                                                                                         | NextJS    |
+| `builder`        | Configures [Webpack 5](../builders/webpack.md) builder options for NextJS<br/> `core: { builder: { name:'webpack5', options: { lazyCompilation: true} }}`                                                                                                   | NextJS    |
 | `fastRefresh`    | Enables [fast refresh mode](https://www.npmjs.com/package/react-refresh) for React<br/>`framework: { name: '@storybook/react-webpack5', options: { fastRefresh: false } }`                                                                                  | React     |
 | `strictMode`     | Enables React's [strict mode](https://reactjs.org/docs/strict-mode.html)<br/>`framework: { name: '@storybook/react-webpack5', options: { strictMode: false } }`                                                                                             | React     |
 | `legacyRootApi`  | Requires React 18. Toggles support for React's [legacy root API](https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#updates-to-client-rendering-apis)<br/>`framework: { name: '@storybook/react-webpack5', options: { legacyRootApi: true } }` | React     |

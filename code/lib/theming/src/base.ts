@@ -27,7 +27,7 @@ export const color = {
   darkest: '#2E3438',
 
   // For borders
-  border: 'hsla(203, 50%, 30%, 0.2)',
+  border: 'hsla(203, 50%, 30%, 0.15)',
 
   // Status
   positive: '#66BF3C',
@@ -44,7 +44,7 @@ export const color = {
 };
 
 export const background = {
-  app: '#F5FBFF',
+  app: '#F6F9FC',
   bar: color.lightest,
   content: color.lightest,
   gridCellSize: 10,
