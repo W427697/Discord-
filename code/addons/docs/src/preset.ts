@@ -1,20 +1,20 @@
 import fs from 'fs-extra';
-import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
+import remarkSlug from 'remark-slug';
 import { dedent } from 'ts-dedent';
 
+import type { CsfPluginOptions } from '@storybook/csf-plugin';
+import { loadCsf, loadCsfFromJson } from '@storybook/csf-tools';
+import { global } from '@storybook/global';
+import type { CompileOptions, JSXOptions } from '@storybook/mdx2-csf';
+import { logger } from '@storybook/node-logger';
 import type {
-  IndexerOptions,
-  StoryIndexer,
   DocsOptions,
+  IndexerOptions,
   Options,
   StorybookConfig,
+  StoryIndexer,
 } from '@storybook/types';
-import type { CsfPluginOptions } from '@storybook/csf-plugin';
-import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
-import { global } from '@storybook/global';
-import { loadCsf } from '@storybook/csf-tools';
-import { logger } from '@storybook/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 async function webpack(
@@ -148,6 +148,13 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
     {
       test: /(stories|story)\.mdx$/,
       indexer: mdxIndexer,
+    },
+    {
+      test: /(stories|story)\.json$/,
+      indexer: async (fileName: string, opts: IndexerOptions) => {
+        const code = (await fs.readFile(fileName, 'utf-8')).toString();
+        return loadCsfFromJson(code, { ...opts, fileName });
+      },
     },
     ...(indexers || []),
   ];

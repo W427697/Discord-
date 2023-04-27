@@ -7,8 +7,14 @@ import * as t from '@babel/types';
 import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
-import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
+import { isExportStory, storyNameFromExport, toId } from '@storybook/csf';
+import type {
+  ComponentAnnotations,
+  IndexedCSFFile,
+  IndexedStory,
+  StoryAnnotations,
+  Tag,
+} from '@storybook/types';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 
@@ -523,6 +529,37 @@ export class CsfFile {
 export const loadCsf = (code: string, options: CsfOptions) => {
   const ast = babelParse(code);
   return new CsfFile(ast, options);
+};
+
+/**
+ * loadCsfFromJson reads a JSON string and returns an IndexedCSFFile
+ * @param jsonString the JSON string to parse
+ * @param options the CsfOptions to use when creating the IndexedCSFFile
+ * @returns an IndexedCSFFile
+ */
+export const loadCsfFromJson = (jsonString: string, options: CsfOptions): IndexedCSFFile => {
+  const json = JSON.parse(jsonString);
+  const meta: StaticMeta = {
+    title: json.title,
+    // TODO: meta tags?
+  };
+  // TODO: title format helpers?
+  const metaTitle = meta.title + ''.replace(/\/|\\/g, '-').toLowerCase();
+  const stories: IndexedStory[] = json.stories.map((story: any) => {
+    const id = `${metaTitle}--${story.name.toLowerCase().replace(/ /g, '-')}`;
+    const { name } = story;
+    // TODO: how to extract / load parameters?
+    // TODO: how to extract / load tags?
+    return {
+      id,
+      name,
+      // TODO: add parameters, tags?
+    } as IndexedStory;
+  });
+  return {
+    meta,
+    stories,
+  };
 };
 
 interface FormatOptions {
