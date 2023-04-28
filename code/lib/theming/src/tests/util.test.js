@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { lightenColor as lighten, darkenColor as darken, getPreferredColorScheme } from '../utils';
 
 const { window: globalWindow } = global;
@@ -80,7 +80,7 @@ describe('utils', () => {
 
   describe('getPreferredColorScheme', () => {
     it('should return "light" if "window" is unavailable', () => {
-      jest.mock('@storybook/global', () => ({ global: { window: undefined } }));
+      jest.mock('@junk-temporary-prototypes/global', () => ({ global: { window: undefined } }));
 
       const colorScheme = getPreferredColorScheme();
       expect(colorScheme).toBe('light');

@@ -203,7 +203,7 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import type { Meta, StoryFn } from '@storybook/react';
+          import type { Meta, StoryFn } from '@junk-temporary-prototypes/react';
           type PropTypes = {};
           export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
           export const A: StoryFn<PropTypes> = () => <>A</>;
@@ -225,7 +225,7 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import type { Meta, StoryFn } from '@storybook/react';
+          import type { Meta, StoryFn } from '@junk-temporary-prototypes/react';
           type PropTypes = {};
           export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
           export const A: StoryFn<PropTypes> = () => <>A</>;
@@ -247,7 +247,7 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import type { Meta, StoryFn } from '@storybook/react';
+          import type { Meta, StoryFn } from '@junk-temporary-prototypes/react';
           type PropTypes = {};
           const meta = { title: 'foo/bar/baz' } as Meta<PropTypes>;
           export default meta;
@@ -270,7 +270,7 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import type { Meta, StoryFn } from '@storybook/react';
+          import type { Meta, StoryFn } from '@junk-temporary-prototypes/react';
           type PropTypes = {};
           const meta = { title: 'foo/bar/baz' } satisfies Meta<PropTypes>;
           export default meta;
@@ -589,7 +589,7 @@ describe('CsfFile', () => {
       expect(() =>
         parse(
           dedent`
-            import { storiesOf } from '@storybook/react';
+            import { storiesOf } from '@junk-temporary-prototypes/react';
             export default { title: 'foo/bar' };
             export const A = () => {};
             storiesOf('foo').add('bar', () => <baz />);

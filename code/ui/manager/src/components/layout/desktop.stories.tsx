@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import type { DecoratorFn } from '@storybook/react';
+import type { DecoratorFn } from '@junk-temporary-prototypes/react';
 
 import isChromatic from 'chromatic/isChromatic';
 

@@ -2,8 +2,8 @@
 import React from 'react';
 import Button from './Button';
 
-import { storiesOf, configure } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import { storiesOf, configure } from '@junk-temporary-prototypes/react';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 
 storiesOf('Button', module)
   .add('story1', () => <Button label="Story 1" />)

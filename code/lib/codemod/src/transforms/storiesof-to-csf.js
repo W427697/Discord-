@@ -1,6 +1,6 @@
 import prettier from 'prettier';
-import { logger } from '@storybook/node-logger';
-import { storyNameFromExport } from '@storybook/csf';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import { storyNameFromExport } from '@junk-temporary-prototypes/csf';
 import { sanitizeName, jscodeshiftToPrettierParser } from '../lib/utils';
 
 /**
@@ -247,7 +247,7 @@ export default function transformer(file, api, options) {
     .filter(
       (spec) =>
         spec.node.imported.name === 'storiesOf' &&
-        spec.parent.node.source.value.startsWith('@storybook/')
+        spec.parent.node.source.value.startsWith('@junk-temporary-prototypes/')
     )
     .forEach((spec) => {
       const toRemove = spec.parent.node.specifiers.length > 1 ? spec : spec.parent;

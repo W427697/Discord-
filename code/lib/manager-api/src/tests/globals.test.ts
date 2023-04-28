@@ -1,14 +1,14 @@
 import { EventEmitter } from 'events';
-import { SET_STORIES, SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
+import { SET_STORIES, SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@junk-temporary-prototypes/core-events';
 
 import type { ModuleArgs, API } from '../index';
 import type { SubAPI } from '../modules/globals';
 import { init as initModule } from '../modules/globals';
 
-const { logger } = require('@storybook/client-logger');
+const { logger } = require('@junk-temporary-prototypes/client-logger');
 const { getEventMetadata } = require('../lib/events');
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 jest.mock('../lib/events');
 beforeEach(() => {
   getEventMetadata.mockReset().mockReturnValue({ sourceType: 'local' });

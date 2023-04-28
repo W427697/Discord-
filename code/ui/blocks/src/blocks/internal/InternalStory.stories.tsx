@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 
 import { Story as StoryBlock } from '../Story';
 import * as ButtonStories from '../../examples/Button.stories';

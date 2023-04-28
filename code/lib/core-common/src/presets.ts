@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -9,7 +9,7 @@ import type {
   LoadOptions,
   PresetConfig,
   Presets,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import { join, parse } from 'path';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
@@ -23,7 +23,7 @@ const isFunction = (val: unknown): val is Function => typeof val === 'function';
 export function filterPresetsConfig(presetsConfig: PresetConfig[]): PresetConfig[] {
   return presetsConfig.filter((preset) => {
     const presetName = typeof preset === 'string' ? preset : preset.name;
-    return !/@storybook[\\\\/]preset-typescript/.test(presetName);
+    return !/@junk-temporary-prototypes[\\\\/]preset-typescript/.test(presetName);
   });
 }
 
@@ -55,17 +55,17 @@ function resolvePresetFunction<T = any>(
  * Parse an addon into either a managerEntries or a preset. Throw on invalid input.
  *
  * Valid inputs:
- * - '@storybook/addon-actions/manager'
+ * - '@junk-temporary-prototypes/addon-actions/manager'
  *   =>  { type: 'virtual', item }
  *
- * - '@storybook/addon-docs/preset'
+ * - '@junk-temporary-prototypes/addon-docs/preset'
  *   =>  { type: 'presets', item }
  *
- * - '@storybook/addon-docs'
- *   =>  { type: 'presets', item: '@storybook/addon-docs/preset' }
+ * - '@junk-temporary-prototypes/addon-docs'
+ *   =>  { type: 'presets', item: '@junk-temporary-prototypes/addon-docs/preset' }
  *
- * - { name: '@storybook/addon-docs(/preset)?', options: { ... } }
- *   =>  { type: 'presets', item: { name: '@storybook/addon-docs/preset', options } }
+ * - { name: '@junk-temporary-prototypes/addon-docs(/preset)?', options: { ... } }
+ *   =>  { type: 'presets', item: { name: '@junk-temporary-prototypes/addon-docs/preset', options } }
  */
 
 export const resolveAddonName = (
@@ -375,11 +375,11 @@ export async function loadAllPresets(
     ...overridePresets,
   ];
 
-  // Remove `@storybook/preset-typescript` and add a warning if in use.
+  // Remove `@junk-temporary-prototypes/preset-typescript` and add a warning if in use.
   const filteredPresetConfig = filterPresetsConfig(presetsConfig);
   if (filteredPresetConfig.length < presetsConfig.length) {
     logger.warn(
-      'Storybook now supports TypeScript natively. You can safely remove `@storybook/preset-typescript`.'
+      'Storybook now supports TypeScript natively. You can safely remove `@junk-temporary-prototypes/preset-typescript`.'
     );
   }
 

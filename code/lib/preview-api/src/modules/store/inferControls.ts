@@ -1,6 +1,6 @@
 import mapValues from 'lodash/mapValues.js';
-import { logger } from '@storybook/client-logger';
-import type { Renderer, ArgTypesEnhancer, SBEnumType, StrictInputType } from '@storybook/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import type { Renderer, ArgTypesEnhancer, SBEnumType, StrictInputType } from '@junk-temporary-prototypes/types';
 import { filterArgTypes } from './filterArgTypes';
 import { combineParameters } from './parameters';
 

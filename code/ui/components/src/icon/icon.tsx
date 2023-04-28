@@ -1,6 +1,6 @@
 import type { FunctionComponent, ComponentProps } from 'react';
 import React, { memo } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import type { IconKey } from './icons';
 import { icons } from './icons';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 
 import { Controls } from './Controls';
 import * as ExampleStories from '../examples/ControlsParameters.stories';

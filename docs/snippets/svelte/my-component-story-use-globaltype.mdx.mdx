@@ -1,7 +1,7 @@
 ```md
 <!-- MyComponent.stories.mdx -->
 
-import { Meta, Story } from '@storybook/addon-docs';
+import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
 import MyComponent from './MyComponent.svelte';
 
@@ -24,7 +24,7 @@ export const getCaptionForLocale = (locale) => {
   to learn how to use render functions.
 -->
 
-<Story 
+<Story
   name="StoryWithLocale"
   render={(args, { globals: { locale } }) => {
     const caption = getCaptionForLocale(locale);

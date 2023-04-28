@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { dedent } from 'ts-dedent';
 import type {
   API_ComposedRef,
@@ -8,7 +8,7 @@ import type {
   SetStoriesStoryData,
   API_IndexHash,
   API_StoryMapper,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 // eslint-disable-next-line import/no-cycle
 import {
   transformSetStoriesStoryDataToStoriesHash,

@@ -272,7 +272,7 @@ describe('csf-2-to-3', () => {
       });
       expect(() =>
         tsTransform(dedent`
-          import * as SB from '@storybook/react';
+          import * as SB from '@junk-temporary-prototypes/react';
           import { CatProps } from './Cat';
 
           const meta = { title: 'Cat', component: Cat } as Meta<CatProps>
@@ -281,14 +281,14 @@ describe('csf-2-to-3', () => {
           export const A: SB.StoryFn<CatProps> = () => <Cat />;
         `)
       ).toThrowErrorMatchingInlineSnapshot(`
-        This codemod does not support namespace imports for a @storybook/react package.
+        This codemod does not support namespace imports for a @junk-temporary-prototypes/react package.
         Replace the namespace import with named imports and try again.
       `);
     });
     it('should keep local names', () => {
       expect(
         tsTransform(dedent`
-          import { Meta, StoryObj as CSF3, StoryFn as CSF2 } from '@storybook/react';
+          import { Meta, StoryObj as CSF3, StoryFn as CSF2 } from '@junk-temporary-prototypes/react';
           import { CatProps } from './Cat';
 
           const meta = { title: 'Cat', component: Cat } satisfies Meta<CatProps>
@@ -306,7 +306,7 @@ describe('csf-2-to-3', () => {
           };
         `)
       ).toMatchInlineSnapshot(`
-        import { Meta, StoryObj as CSF3, StoryFn as CSF2 } from '@storybook/react';
+        import { Meta, StoryObj as CSF3, StoryFn as CSF2 } from '@junk-temporary-prototypes/react';
         import { CatProps } from './Cat';
 
         const meta = { title: 'Cat', component: Cat } satisfies Meta<CatProps>;
@@ -329,7 +329,7 @@ describe('csf-2-to-3', () => {
     it('should replace function exports with objects and update type', () => {
       expect(
         tsTransform(dedent`
-          import { Story, StoryFn, ComponentStory, ComponentStoryObj } from '@storybook/react';
+          import { Story, StoryFn, ComponentStory, ComponentStoryObj } from '@junk-temporary-prototypes/react';
 
           // some extra whitespace to test
 
@@ -365,7 +365,7 @@ describe('csf-2-to-3', () => {
           };
         `)
       ).toMatchInlineSnapshot(`
-        import { StoryObj, StoryFn } from '@storybook/react';
+        import { StoryObj, StoryFn } from '@junk-temporary-prototypes/react';
 
         // some extra whitespace to test
 
@@ -411,7 +411,7 @@ describe('csf-2-to-3', () => {
     it('migrate Story type to StoryFn when used in an not exported Template function', () => {
       expect(
         tsTransform(dedent`
-          import { Story, Meta } from '@storybook/react'
+          import { Story, Meta } from '@junk-temporary-prototypes/react'
           
           export default {
             component: Cat,
@@ -422,7 +422,7 @@ describe('csf-2-to-3', () => {
           export const Default = Template.bind({})
         `)
       ).toMatchInlineSnapshot(`
-        import { StoryFn, Meta } from '@storybook/react';
+        import { StoryFn, Meta } from '@junk-temporary-prototypes/react';
 
         export default {
           component: Cat,

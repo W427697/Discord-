@@ -2,7 +2,7 @@
 
 import * as fs from 'fs';
 import type { Plugin } from 'vite';
-import type { Options } from '@storybook/types';
+import type { Options } from '@junk-temporary-prototypes/types';
 import { transformIframeHtml } from '../transform-iframe-html';
 import { generateIframeScriptCode } from '../codegen-iframe-script';
 import { generateModernIframeScriptCode } from '../codegen-modern-iframe-script';
@@ -18,7 +18,7 @@ import {
 } from '../virtual-file-names';
 
 export function codeGeneratorPlugin(options: Options): Plugin {
-  const iframePath = require.resolve('@storybook/builder-vite/input/iframe.html');
+  const iframePath = require.resolve('@junk-temporary-prototypes/builder-vite/input/iframe.html');
   let iframeId: string;
   let projectRoot: string;
 
@@ -115,7 +115,7 @@ export function codeGeneratorPlugin(options: Options): Plugin {
 
       if (id === iframeId) {
         return fs.readFileSync(
-          require.resolve('@storybook/builder-vite/input/iframe.html'),
+          require.resolve('@junk-temporary-prototypes/builder-vite/input/iframe.html'),
           'utf-8'
         );
       }

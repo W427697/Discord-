@@ -1,8 +1,8 @@
-import { global } from '@storybook/global';
-import * as EVENTS from '@storybook/core-events';
-import { Channel } from '@storybook/channels';
-import type { ChannelHandler, ChannelEvent } from '@storybook/channels';
-import { logger, pretty } from '@storybook/client-logger';
+import { global } from '@junk-temporary-prototypes/global';
+import * as EVENTS from '@junk-temporary-prototypes/core-events';
+import { Channel } from '@junk-temporary-prototypes/channels';
+import type { ChannelHandler, ChannelEvent } from '@junk-temporary-prototypes/channels';
+import { logger, pretty } from '@junk-temporary-prototypes/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
 

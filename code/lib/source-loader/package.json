@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/source-loader",
+  "name": "@junk-temporary-prototypes/source-loader",
   "version": "7.0.7",
   "description": "Source loader",
   "keywords": [
@@ -44,8 +44,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/csf": "^0.1.0",
-    "@storybook/types": "7.0.7",
+    "@junk-temporary-prototypes/csf": "^0.1.0",
+    "@junk-temporary-prototypes/types": "7.0.7",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
     "prettier": "^2.8.0"

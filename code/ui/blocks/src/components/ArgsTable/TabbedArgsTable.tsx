@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { TabsState } from '@storybook/components';
+import { TabsState } from '@junk-temporary-prototypes/components';
 
 import type { ArgsTableProps, SortType } from './ArgsTable';
 // eslint-disable-next-line import/no-cycle

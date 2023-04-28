@@ -1,4 +1,4 @@
-import { global as globalThis } from '@storybook/global';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
 import { html, LitElement } from 'lit';
 
 import { styleMap } from 'lit/directives/style-map.js';

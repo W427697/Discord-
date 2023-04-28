@@ -24,7 +24,7 @@ class WithStoreComponent {
  I'm not sure it's possible.
 */
 
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
 /* eslint-disable-line */ const x = 0;
 

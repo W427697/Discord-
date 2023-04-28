@@ -1,5 +1,5 @@
-import type { InputType, ArgTypes } from '@storybook/types';
-import { logger } from '@storybook/client-logger';
+import type { InputType, ArgTypes } from '@junk-temporary-prototypes/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';
 
 interface TagItem {

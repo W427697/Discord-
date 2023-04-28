@@ -1,1 +1,1 @@
-export * from '@storybook/addon-toolbars/manager';
+export * from '@junk-temporary-prototypes/addon-toolbars/manager';

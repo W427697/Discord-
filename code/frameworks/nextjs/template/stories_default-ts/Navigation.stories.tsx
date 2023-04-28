@@ -1,7 +1,7 @@
 // usePathname and useSearchParams are only usable if experimental: {appDir: true} is set in next.config.js
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 
 function Component() {
   const router = useRouter();

@@ -1,7 +1,7 @@
 import type { FC, MouseEvent, ReactNode } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
-import { styled } from '@storybook/theming';
-import { sanitize } from '@storybook/csf';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { sanitize } from '@junk-temporary-prototypes/csf';
 
 import { Placeholder } from '../placeholder/placeholder';
 import { TabButton } from '../bar/button';

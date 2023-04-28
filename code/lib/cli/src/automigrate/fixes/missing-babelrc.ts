@@ -13,10 +13,10 @@ interface MissingBabelRcOptions {
 const logger = console;
 
 const frameworksThatNeedBabelConfig = [
-  '@storybook/react-webpack5',
-  '@storybook/vue-webpack5',
-  '@storybook/vue3-webpack5',
-  '@storybook/html-webpack5',
+  '@junk-temporary-prototypes/react-webpack5',
+  '@junk-temporary-prototypes/vue-webpack5',
+  '@junk-temporary-prototypes/vue3-webpack5',
+  '@junk-temporary-prototypes/html-webpack5',
 ];
 
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {
@@ -35,7 +35,7 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
     const frameworkPackage = typeof framework === 'string' ? framework : framework.name;
 
     const hasCraPreset =
-      addons && addons.find((addon) => addon === '@storybook/preset-create-react-app');
+      addons && addons.find((addon) => addon === '@junk-temporary-prototypes/preset-create-react-app');
 
     if (
       frameworkPackage &&

@@ -1,6 +1,6 @@
 import React from 'react';
-import type { TooltipLinkListLink } from '@storybook/components';
-import { Icons } from '@storybook/components';
+import type { TooltipLinkListLink } from '@junk-temporary-prototypes/components';
+import { Icons } from '@junk-temporary-prototypes/components';
 import type { ToolbarItem } from '../types';
 
 export type ToolbarMenuListItemProps = {

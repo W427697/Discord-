@@ -1,4 +1,4 @@
-import { isExportStory } from '@storybook/csf';
+import { isExportStory } from '@junk-temporary-prototypes/csf';
 import type {
   Renderer,
   Args,
@@ -11,7 +11,7 @@ import type {
   StoryContext,
   Parameters,
   PreparedStoryFn,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 
 import { HooksContext } from '../../../addons';
 import { composeConfigs } from '../composeConfigs';

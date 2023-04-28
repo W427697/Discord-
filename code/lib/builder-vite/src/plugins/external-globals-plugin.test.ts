@@ -1,6 +1,6 @@
 import { rewriteImport } from './external-globals-plugin';
 
-const packageName = '@storybook/package';
+const packageName = '@junk-temporary-prototypes/package';
 const globals = { [packageName]: '_STORYBOOK_PACKAGE_' };
 
 const cases = [

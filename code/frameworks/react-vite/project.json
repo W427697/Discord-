@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/react-vite",
+  "name": "@junk-temporary-prototypes/react-vite",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

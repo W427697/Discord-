@@ -1,9 +1,9 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
-import type { Options, PresetProperty } from '@storybook/types';
+import type { Options, PresetProperty } from '@junk-temporary-prototypes/types';
 import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot } from '@junk-temporary-prototypes/core-common';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
@@ -18,8 +18,8 @@ import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
-  dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
-  dirname(require.resolve(join('@storybook/builder-webpack5', 'package.json'))),
+  dirname(require.resolve(join('@junk-temporary-prototypes/preset-react-webpack', 'package.json'))),
+  dirname(require.resolve(join('@junk-temporary-prototypes/builder-webpack5', 'package.json'))),
 ];
 
 const defaultFrameworkOptions: FrameworkOptions = {};
@@ -38,7 +38,7 @@ export const frameworkOptions = async (
   }
   if (typeof config === 'undefined') {
     return {
-      name: require.resolve('@storybook/nextjs') as '@storybook/nextjs',
+      name: require.resolve('@junk-temporary-prototypes/nextjs') as '@junk-temporary-prototypes/nextjs',
       options: defaultFrameworkOptions,
     };
   }
@@ -59,17 +59,17 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
     ...config,
     builder: {
       name: dirname(
-        require.resolve(join('@storybook/builder-webpack5', 'package.json'))
-      ) as '@storybook/builder-webpack5',
+        require.resolve(join('@junk-temporary-prototypes/builder-webpack5', 'package.json'))
+      ) as '@junk-temporary-prototypes/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
-    renderer: dirname(require.resolve(join('@storybook/react', 'package.json'))),
+    renderer: dirname(require.resolve(join('@junk-temporary-prototypes/react', 'package.json'))),
   };
 };
 
 export const config: StorybookConfig['previewAnnotations'] = (entry = []) => [
   ...entry,
-  require.resolve('@storybook/nextjs/preview.js'),
+  require.resolve('@junk-temporary-prototypes/nextjs/preview.js'),
 ];
 
 // Not even sb init - automigrate - running dev

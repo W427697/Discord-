@@ -21,7 +21,7 @@ import type {
   StoryContextForLoaders,
   StoryId,
   PreparedMeta,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
 import { SynchronousPromise } from 'synchronous-promise';

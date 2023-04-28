@@ -1,8 +1,8 @@
 import type { FunctionComponent } from 'react';
 import React from 'react';
 import { transparentize } from 'polished';
-import { styled } from '@storybook/theming';
-import { ResetWrapper } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { ResetWrapper } from '@junk-temporary-prototypes/components';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /// <reference types="@types/jest" />;
 
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { missingBabelRc } from './missing-babelrc';
@@ -57,8 +57,8 @@ describe('missing-babelrc fix', () => {
   it('skips when babelrc config is present', async () => {
     const packageJson = {
       devDependencies: {
-        '@storybook/react': '^7.0.0',
-        '@storybook/react-webpack5': '^7.0.0',
+        '@junk-temporary-prototypes/react': '^7.0.0',
+        '@junk-temporary-prototypes/react-webpack5': '^7.0.0',
       },
     };
 
@@ -67,21 +67,21 @@ describe('missing-babelrc fix', () => {
       check({
         extraFiles: { '.babelrc': babelContent },
         packageJson,
-        main: { framework: '@storybook/react' },
+        main: { framework: '@junk-temporary-prototypes/react' },
       })
     ).resolves.toBeNull();
     await expect(
       check({
         extraFiles: { '.babelrc.json': babelContent },
         packageJson,
-        main: { framework: '@storybook/react' },
+        main: { framework: '@junk-temporary-prototypes/react' },
       })
     ).resolves.toBeNull();
     await expect(
       check({
         extraFiles: { 'babel.config.json': babelContent },
         packageJson,
-        main: { framework: '@storybook/react' },
+        main: { framework: '@junk-temporary-prototypes/react' },
       })
     ).resolves.toBeNull();
 
@@ -89,7 +89,7 @@ describe('missing-babelrc fix', () => {
     await expect(
       check({
         packageJson: { ...packageJson, babel: babelContent },
-        main: { framework: '@storybook/react' },
+        main: { framework: '@junk-temporary-prototypes/react' },
       })
     ).resolves.toBeNull();
   });
@@ -97,28 +97,28 @@ describe('missing-babelrc fix', () => {
   it('skips when using a framework that provides babel config', async () => {
     const packageJson = {
       devDependencies: {
-        '@storybook/react': '^7.0.0',
-        '@storybook/nextjs': '^7.0.0',
+        '@junk-temporary-prototypes/react': '^7.0.0',
+        '@junk-temporary-prototypes/nextjs': '^7.0.0',
       },
     };
 
     await expect(
-      check({ packageJson, main: { framework: '@storybook/nextjs' } })
+      check({ packageJson, main: { framework: '@junk-temporary-prototypes/nextjs' } })
     ).resolves.toBeNull();
   });
 
   it('skips when using CRA preset', async () => {
     const packageJson = {
       devDependencies: {
-        '@storybook/react': '^7.0.0',
-        '@storybook/react-webpack5': '^7.0.0',
+        '@junk-temporary-prototypes/react': '^7.0.0',
+        '@junk-temporary-prototypes/react-webpack5': '^7.0.0',
       },
     };
 
     await expect(
       check({
         packageJson,
-        main: { framework: '@storybook/react', addons: ['@storybook/preset-create-react-app'] },
+        main: { framework: '@junk-temporary-prototypes/react', addons: ['@junk-temporary-prototypes/preset-create-react-app'] },
       })
     ).resolves.toBeNull();
   });
@@ -126,13 +126,13 @@ describe('missing-babelrc fix', () => {
   it('prompts when babelrc file is missing and framework does not provide babel config', async () => {
     const packageJson = {
       devDependencies: {
-        '@storybook/react': '^7.0.0',
-        '@storybook/react-webpack5': '^7.0.0',
+        '@junk-temporary-prototypes/react': '^7.0.0',
+        '@junk-temporary-prototypes/react-webpack5': '^7.0.0',
       },
     };
 
     await expect(
-      check({ main: { framework: '@storybook/react-webpack5' }, packageJson })
+      check({ main: { framework: '@junk-temporary-prototypes/react-webpack5' }, packageJson })
     ).resolves.toEqual({
       needsBabelRc: true,
     });

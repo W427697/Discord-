@@ -1,1 +1,1 @@
-export * from '@storybook/addon-measure/manager';
+export * from '@junk-temporary-prototypes/addon-measure/manager';

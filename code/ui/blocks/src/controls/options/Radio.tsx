@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
-import { logger } from '@storybook/client-logger';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 
 import type { ControlProps, OptionsSingleSelection, NormalizedOptionsConfig } from '../types';
 

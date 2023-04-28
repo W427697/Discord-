@@ -1,4 +1,4 @@
-import { themes } from '@storybook/theming';
+import { themes } from '@junk-temporary-prototypes/theming';
 import { init as initLayout } from '../modules/layout';
 
 let layoutApi;

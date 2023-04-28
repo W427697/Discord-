@@ -32,7 +32,7 @@ Additionally, if you need Storybook specific styles that are separate from your 
 ```json
 {
   "storybook": {
-    "builder": "@storybook/angular:start-storybook",
+    "builder": "@junk-temporary-prototypes/angular:start-storybook",
     "options": {
       "browserTarget": "my-default-project:build",
       "styles": [".storybook/custom-styles.scss"]
@@ -53,7 +53,7 @@ For earlier Nx versions (prior to `14.1.8`), your configuration would look like 
     "executor": "@nrwl/storybook:build",
     "outputs": ["{options.outputPath}"],
     "options": {
-      "uiFramework": "@storybook/angular",
+      "uiFramework": "@junk-temporary-prototypes/angular",
       "outputPath": "dist/storybook/example-lib",
       "config": {
         "configFolder": "libs/example-lib/storybook/.storybook"
@@ -68,14 +68,14 @@ Starting with version `14.1.8`, Nx uses the Storybook builder directly, which me
 
 ```json
     "storybook": {
-      "executor": "@storybook/angular:start-storybook",
+      "executor": "@junk-temporary-prototypes/angular:start-storybook",
       "options": {
         "configDir": "apps/example-lib/.storybook",
         "browserTarget": "example-lib:build-storybook",
       },
     },
     "build-storybook": {
-      "executor": "@storybook/angular:build-storybook",
+      "executor": "@junk-temporary-prototypes/angular:build-storybook",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputDir": "dist/storybook/example-lib",

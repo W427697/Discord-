@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/nextjs",
+  "name": "@junk-temporary-prototypes/nextjs",
   "version": "7.0.7",
   "description": "Storybook for Next.js",
   "keywords": [
@@ -71,13 +71,13 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/runtime": "^7.21.0",
-    "@storybook/addon-actions": "7.0.7",
-    "@storybook/builder-webpack5": "7.0.7",
-    "@storybook/core-common": "7.0.7",
-    "@storybook/node-logger": "7.0.7",
-    "@storybook/preset-react-webpack": "7.0.7",
-    "@storybook/preview-api": "7.0.7",
-    "@storybook/react": "7.0.7",
+    "@junk-temporary-prototypes/addon-actions": "7.0.7",
+    "@junk-temporary-prototypes/builder-webpack5": "7.0.7",
+    "@junk-temporary-prototypes/core-common": "7.0.7",
+    "@junk-temporary-prototypes/node-logger": "7.0.7",
+    "@junk-temporary-prototypes/preset-react-webpack": "7.0.7",
+    "@junk-temporary-prototypes/preview-api": "7.0.7",
+    "@junk-temporary-prototypes/react": "7.0.7",
     "@types/node": "^16.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
@@ -121,7 +121,7 @@
     "@next/font": {
       "optional": true
     },
-    "@storybook/addon-actions": {
+    "@junk-temporary-prototypes/addon-actions": {
       "optional": true
     },
     "typescript": {

@@ -1,15 +1,15 @@
 import {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
-} from '@storybook/core-webpack';
+} from '@junk-temporary-prototypes/core-webpack';
 import {
   StorybookConfigWebpack,
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
-} from '@storybook/builder-webpack5';
+} from '@junk-temporary-prototypes/builder-webpack5';
 
-type FrameworkName = '@storybook/angular';
-type BuilderName = '@storybook/builder-webpack5';
+type FrameworkName = '@junk-temporary-prototypes/angular';
+type BuilderName = '@junk-temporary-prototypes/builder-webpack5';
 
 export type FrameworkOptions = AngularOptions & {
   builder?: BuilderOptions;

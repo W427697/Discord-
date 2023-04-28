@@ -50,7 +50,7 @@ export const webpack5: Fix<Webpack5RunOptions> = {
       Your Storybook's main.js files specifies webpack4, which is incompatible.
       
       To run Storybook in webpack5-mode, we can install Storybook's ${chalk.cyan(
-        '@storybook/builder-webpack5'
+        '@junk-temporary-prototypes/builder-webpack5'
       )} for you.
 
       More info: ${chalk.yellow(
@@ -65,7 +65,7 @@ export const webpack5: Fix<Webpack5RunOptions> = {
     dryRun,
     mainConfigPath,
   }) {
-    const deps = [`@storybook/builder-webpack5@${storybookVersion}`];
+    const deps = [`@junk-temporary-prototypes/builder-webpack5@${storybookVersion}`];
     // this also gets called by 'cra5' fix so we need to add
     // webpack5 at the project root so that it gets hoisted
     if (!webpackVersion) {
@@ -74,10 +74,10 @@ export const webpack5: Fix<Webpack5RunOptions> = {
     logger.info(`✅ Adding dependencies: ${deps}`);
     if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
 
-    logger.info('✅ Setting `core.builder` to `@storybook/builder-webpack5` in main.js');
+    logger.info('✅ Setting `core.builder` to `@junk-temporary-prototypes/builder-webpack5` in main.js');
     if (!dryRun) {
       await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
-        main.setFieldValue(['core', 'builder'], '@storybook/builder-webpack5');
+        main.setFieldValue(['core', 'builder'], '@junk-temporary-prototypes/builder-webpack5');
       });
     }
   },

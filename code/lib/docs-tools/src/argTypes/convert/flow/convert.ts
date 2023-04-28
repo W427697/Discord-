@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import type { SBType } from '@storybook/types';
+import type { SBType } from '@junk-temporary-prototypes/types';
 import type { FlowType, FlowSigType, FlowLiteralType } from './types';
 
 const isLiteral = (type: FlowType) => type.name === 'literal';

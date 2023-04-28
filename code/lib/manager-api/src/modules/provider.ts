@@ -1,4 +1,4 @@
-import type { API_Provider } from '@storybook/types';
+import type { API_Provider } from '@junk-temporary-prototypes/types';
 import type { API, ModuleFn } from '../index';
 
 export interface SubAPI {

@@ -1,6 +1,6 @@
 import path from 'path';
-import { logger } from '@storybook/node-logger';
-import { serverRequire } from '@storybook/core-common';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import { serverRequire } from '@junk-temporary-prototypes/core-common';
 
 interface PresetOptions {
   configDir: string;
@@ -25,7 +25,7 @@ const requireMain = (configDir: string) => {
 
 export function addons(options: PresetOptions) {
   const checkInstalled = (addonName: string, main: any) => {
-    const addon = `@storybook/addon-${addonName}`;
+    const addon = `@junk-temporary-prototypes/addon-${addonName}`;
     const existingAddon = main.addons?.find((entry: string | { name: string }) => {
       const name = typeof entry === 'string' ? entry : entry.name;
       return name?.startsWith(addon);
@@ -52,6 +52,6 @@ export function addons(options: PresetOptions) {
     .filter((addon) => !checkInstalled(addon, main))
     .map((addon) => {
       // We point to the re-export from addon-essentials to support yarn pnp and pnpm.
-      return `@storybook/addon-essentials/${addon}`;
+      return `@junk-temporary-prototypes/addon-essentials/${addon}`;
     });
 }

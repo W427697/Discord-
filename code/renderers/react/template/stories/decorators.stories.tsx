@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useContext, createContext } from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta } from '@junk-temporary-prototypes/react';
 
 const Component: FC = () => <p>Story</p>;
 

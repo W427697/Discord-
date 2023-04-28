@@ -1,11 +1,11 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import pick from 'lodash/pick.js';
 import { dequal as deepEqual } from 'dequal';
-import { create } from '@storybook/theming/create';
-import { SET_CONFIG } from '@storybook/core-events';
-import type { ThemeVars } from '@storybook/theming';
+import { create } from '@junk-temporary-prototypes/theming/create';
+import { SET_CONFIG } from '@junk-temporary-prototypes/core-events';
+import type { ThemeVars } from '@junk-temporary-prototypes/theming';
 
-import type { API_Layout, API_PanelPositions, API_UI } from '@storybook/types';
+import type { API_Layout, API_PanelPositions, API_UI } from '@junk-temporary-prototypes/types';
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';
 

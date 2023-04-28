@@ -46,7 +46,7 @@ export default {
     'unstable_renderSubtreeIntoContainer',
     'version',
   ],
-  '@storybook/components': [
+  '@junk-temporary-prototypes/components': [
     'A',
     'ActionBar',
     'AddonPanel',
@@ -113,8 +113,8 @@ export default {
     'resetComponents',
     'withReset',
   ],
-  '@storybook/channels': ['Channel'],
-  '@storybook/core-events': [
+  '@junk-temporary-prototypes/channels': ['Channel'],
+  '@junk-temporary-prototypes/core-events': [
     'CHANNEL_CREATED',
     'CONFIG_ERROR',
     'CURRENT_STORY_WAS_SET',
@@ -156,7 +156,7 @@ export default {
     'UPDATE_QUERY_PARAMS',
     'UPDATE_STORY_ARGS',
   ],
-  '@storybook/router': [
+  '@junk-temporary-prototypes/router': [
     'BaseLocationProvider',
     'DEEPLY_EQUAL',
     'Link',
@@ -173,7 +173,7 @@ export default {
     'stringifyQuery',
     'useNavigate',
   ],
-  '@storybook/theming': [
+  '@junk-temporary-prototypes/theming': [
     'CacheProvider',
     'ClassNames',
     'Global',
@@ -199,7 +199,7 @@ export default {
     'useTheme',
     'withTheme',
   ],
-  '@storybook/api': [
+  '@junk-temporary-prototypes/api': [
     'ActiveTabs',
     'Consumer',
     'ManagerContext',
@@ -231,7 +231,7 @@ export default {
     'useStorybookApi',
     'useStorybookState',
   ],
-  '@storybook/manager-api': [
+  '@junk-temporary-prototypes/manager-api': [
     'ActiveTabs',
     'Consumer',
     'ManagerContext',
@@ -263,6 +263,6 @@ export default {
     'useStorybookApi',
     'useStorybookState',
   ],
-  '@storybook/addons': ['addons', 'types', 'mockChannel'],
-  '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
+  '@junk-temporary-prototypes/addons': ['addons', 'types', 'mockChannel'],
+  '@junk-temporary-prototypes/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
 } as const;

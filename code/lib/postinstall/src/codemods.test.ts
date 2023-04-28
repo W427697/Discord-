@@ -4,7 +4,7 @@ import 'jest-specific-snapshot';
 // @ts-expect-error (broken types)
 import { applyTransform } from 'jscodeshift/dist/testUtils';
 
-jest.mock('@storybook/node-logger');
+jest.mock('@junk-temporary-prototypes/node-logger');
 
 const inputRegExp = /\.input\.js$/;
 

@@ -1,9 +1,9 @@
-import { global as globalThis } from '@storybook/global';
-import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
+import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@junk-temporary-prototypes/types';
+import { within } from '@junk-temporary-prototypes/testing-library';
+import { expect } from '@junk-temporary-prototypes/jest';
 import { pick } from 'lodash';
-import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
+import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@junk-temporary-prototypes/core-events';
 
 export default {
   component: globalThis.Components.Pre,

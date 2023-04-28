@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { withReset } from '../lib/common';
 
 export const Span = styled.span(withReset, ({ theme }) => ({

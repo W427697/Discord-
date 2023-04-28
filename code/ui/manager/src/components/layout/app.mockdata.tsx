@@ -1,9 +1,9 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC } from 'react';
 import React, { Component } from 'react';
-import { styled } from '@storybook/theming';
-import type { Addon_Collection } from '@storybook/types';
-import type { State } from '@storybook/manager-api';
+import { styled } from '@junk-temporary-prototypes/theming';
+import type { Addon_Collection } from '@junk-temporary-prototypes/types';
+import type { State } from '@junk-temporary-prototypes/manager-api';
 import type { SidebarProps } from '../sidebar/Sidebar';
 import { Sidebar } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';

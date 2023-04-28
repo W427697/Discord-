@@ -26,13 +26,13 @@ export const mdxgfm: Fix<Options> = {
     const skip =
       usesMDX1 ||
       !!mainConfig.addons?.find((item) => {
-        if (item === '@storybook/addon-mdx-gfm') {
+        if (item === '@junk-temporary-prototypes/addon-mdx-gfm') {
           return true;
         }
         if (typeof item === 'string') {
           return false;
         }
-        if (item.name === '@storybook/addon-docs') {
+        if (item.name === '@junk-temporary-prototypes/addon-docs') {
           return item.options?.mdxPluginOptions?.mdxCompileOptions?.remarkPlugins?.length > 0;
         }
         return false;
@@ -64,13 +64,13 @@ export const mdxgfm: Fix<Options> = {
       const versionToInstall = getStorybookVersionSpecifier(packageManager.retrievePackageJson());
       await packageManager.addDependencies(
         { installAsDevDependencies: true, skipInstall, packageJson },
-        [`@storybook/addon-mdx-gfm@${versionToInstall}`]
+        [`@junk-temporary-prototypes/addon-mdx-gfm@${versionToInstall}`]
       );
 
       await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
-        logger.info(`✅ Adding "@storybook/addon-mdx-gfm" addon`);
+        logger.info(`✅ Adding "@junk-temporary-prototypes/addon-mdx-gfm" addon`);
         if (!dryRun) {
-          main.appendValueToArray(['addons'], '@storybook/addon-mdx-gfm');
+          main.appendValueToArray(['addons'], '@junk-temporary-prototypes/addon-mdx-gfm');
         }
       });
     }

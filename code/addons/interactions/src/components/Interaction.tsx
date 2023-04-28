@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { IconButton, Icons, TooltipNote, WithTooltip } from '@storybook/components';
-import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
-import { styled, typography } from '@storybook/theming';
+import { IconButton, Icons, TooltipNote, WithTooltip } from '@junk-temporary-prototypes/components';
+import { type Call, CallStates, type ControlStates } from '@junk-temporary-prototypes/instrumenter';
+import { styled, typography } from '@junk-temporary-prototypes/theming';
 import { transparentize } from 'polished';
 
 import { MatcherResult } from './MatcherResult';

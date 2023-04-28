@@ -1,4 +1,4 @@
-import { normalizeStoriesEntry } from '@storybook/core-common';
+import { normalizeStoriesEntry } from '@junk-temporary-prototypes/core-common';
 
 import { webpackIncludeRegexp } from './to-importFn';
 

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 const Note = styled.div(({ theme }) => ({
   padding: '2px 6px',

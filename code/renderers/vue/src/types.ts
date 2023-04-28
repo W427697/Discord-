@@ -1,7 +1,7 @@
-import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
+import type { StoryContext as StoryContextBase, WebRenderer } from '@junk-temporary-prototypes/types';
 import type { Component, AsyncComponent } from 'vue';
 
-export type { RenderContext } from '@storybook/types';
+export type { RenderContext } from '@junk-temporary-prototypes/types';
 
 export interface ShowErrorArgs {
   title: string;

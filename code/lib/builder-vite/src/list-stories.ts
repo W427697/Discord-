@@ -1,9 +1,9 @@
 import * as path from 'path';
 import slash from 'slash';
 import { promise as glob } from 'glob-promise';
-import { normalizeStories } from '@storybook/core-common';
+import { normalizeStories } from '@junk-temporary-prototypes/core-common';
 
-import type { Options } from '@storybook/types';
+import type { Options } from '@junk-temporary-prototypes/types';
 
 export async function listStories(options: Options) {
   return (

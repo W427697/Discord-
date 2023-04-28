@@ -1,7 +1,7 @@
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
-import { expect } from '@storybook/jest';
-import { CallStates } from '@storybook/instrumenter';
-import { userEvent, within } from '@storybook/testing-library';
+import type { ComponentStoryObj, ComponentMeta } from '@junk-temporary-prototypes/react';
+import { expect } from '@junk-temporary-prototypes/jest';
+import { CallStates } from '@junk-temporary-prototypes/instrumenter';
+import { userEvent, within } from '@junk-temporary-prototypes/testing-library';
 import { getCalls } from '../mocks';
 
 import { Interaction } from './Interaction';

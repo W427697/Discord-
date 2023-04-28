@@ -4,11 +4,11 @@ import 'jest-os-detection';
 describe('processPreviewAnnotation()', () => {
   it('should pull the `bare` value from an object', () => {
     const annotation = {
-      bare: '@storybook/addon-links/preview',
-      absolute: '/Users/foo/storybook/node_modules/@storybook/addon-links/dist/preview.mjs',
+      bare: '@junk-temporary-prototypes/addon-links/preview',
+      absolute: '/Users/foo/storybook/node_modules/@junk-temporary-prototypes/addon-links/dist/preview.mjs',
     };
     const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
-    expect(url).toBe('@storybook/addon-links/preview');
+    expect(url).toBe('@junk-temporary-prototypes/addon-links/preview');
   });
 
   it.skipWindows(

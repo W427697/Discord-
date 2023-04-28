@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
-import { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
-import { start } from '@storybook/core-client';
+import { Addon_ClientStoryApi, Addon_Loadable } from '@junk-temporary-prototypes/types';
+import { start } from '@junk-temporary-prototypes/core-client';
 import { renderToCanvas, render } from './render';
 import decorateStory from './decorateStory';
 import { AngularRenderer } from './types';

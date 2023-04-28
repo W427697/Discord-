@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@junk-temporary-prototypes/preview-api';
 import { EVENT_ID } from '../constants';
 import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';

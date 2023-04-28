@@ -1,4 +1,4 @@
-import type { ComponentTitle } from '@storybook/types';
+import type { ComponentTitle } from '@junk-temporary-prototypes/types';
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useContext } from 'react';
 import { Title as PureTitle } from '../components';

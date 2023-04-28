@@ -1,4 +1,4 @@
-import { Addon_TypesEnum as types } from '@storybook/types';
+import { Addon_TypesEnum as types } from '@junk-temporary-prototypes/types';
 import { init as initAddons } from '../modules/addons';
 
 const PANELS = {

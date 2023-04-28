@@ -36,12 +36,12 @@ const logger = console;
 
 /**
  * We need to clean up the paths in case of pnp
- * input: "path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))"
- * output: "@storybook/react-webpack5"
+ * input: "path.dirname(require.resolve(path.join('@junk-temporary-prototypes/react-webpack5', 'package.json')))"
+ * output: "@junk-temporary-prototypes/react-webpack5"
  * */
 const sanitizeFramework = (framework: string) => {
-  // extract either @storybook/<framework> or storybook-<framework>
-  const matches = framework.match(/(@storybook\/\w+(?:-\w+)*)|(storybook-(\w+(?:-\w+)*))/g);
+  // extract either @junk-temporary-prototypes/<framework> or storybook-<framework>
+  const matches = framework.match(/(@junk-temporary-prototypes\/\w+(?:-\w+)*)|(storybook-(\w+(?:-\w+)*))/g);
   if (!matches) {
     return undefined;
   }
@@ -119,7 +119,7 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
   const rendererPackage =
     options.rendererId &&
     !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
-      ? `@storybook/${options.rendererId}`
+      ? `@junk-temporary-prototypes/${options.rendererId}`
       : null;
 
   const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;

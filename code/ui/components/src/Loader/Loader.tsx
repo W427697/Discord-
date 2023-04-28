@@ -1,7 +1,7 @@
 import { transparentize } from 'polished';
 import type { ComponentProps, FC } from 'react';
 import React from 'react';
-import { styled, keyframes } from '@storybook/theming';
+import { styled, keyframes } from '@junk-temporary-prototypes/theming';
 import { Icons } from '../icon/icon';
 import { rotate360 } from '../shared/animation';
 

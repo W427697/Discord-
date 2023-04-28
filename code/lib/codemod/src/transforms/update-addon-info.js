@@ -75,13 +75,13 @@ export default function transformer(file, api) {
   };
 
   /**
-   * Checks for - import { withInfo } from "@storybook/addon-info";
+   * Checks for - import { withInfo } from "@junk-temporary-prototypes/addon-info";
    * Adds the import if necessary.
    */
   const checkWithInfoImport = () => {
     const importExists = root
       .find(j.ImportDeclaration)
-      .filter((imp) => imp.node.source.value === '@storybook/addon-info')
+      .filter((imp) => imp.node.source.value === '@junk-temporary-prototypes/addon-info')
       .size();
 
     if (importExists) return;
@@ -92,7 +92,7 @@ export default function transformer(file, api) {
       .insertAfter(
         j.importDeclaration(
           [j.importSpecifier(j.identifier('withInfo'))],
-          j.literal('@storybook/addon-info')
+          j.literal('@junk-temporary-prototypes/addon-info')
         )
       );
   };

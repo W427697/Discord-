@@ -1,9 +1,9 @@
 import { expect } from '@jest/globals';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 import { composeConfigs } from './composeConfigs';
 
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
     FEATURES: {},
   },

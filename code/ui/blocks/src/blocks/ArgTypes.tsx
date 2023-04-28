@@ -1,10 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
-import type { Parameters, Renderer, StrictArgTypes } from '@storybook/csf';
-import type { ModuleExports } from '@storybook/types';
+import type { Parameters, Renderer, StrictArgTypes } from '@junk-temporary-prototypes/csf';
+import type { ModuleExports } from '@junk-temporary-prototypes/types';
 import type { FC } from 'react';
-import type { PropDescriptor } from '@storybook/preview-api';
-import { filterArgTypes } from '@storybook/preview-api';
-import type { ArgTypesExtractor } from '@storybook/docs-tools';
+import type { PropDescriptor } from '@junk-temporary-prototypes/preview-api';
+import { filterArgTypes } from '@junk-temporary-prototypes/preview-api';
+import type { ArgTypesExtractor } from '@junk-temporary-prototypes/docs-tools';
 import React from 'react';
 
 import type { SortType } from '../components';

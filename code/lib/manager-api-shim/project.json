@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/api",
+  "name": "@junk-temporary-prototypes/api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

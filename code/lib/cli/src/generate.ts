@@ -5,8 +5,8 @@ import envinfo from 'envinfo';
 import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
-import { logger } from '@storybook/node-logger';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import { addToGlobalContext } from '@junk-temporary-prototypes/telemetry';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
@@ -94,8 +94,8 @@ command('info')
         System: ['OS', 'CPU'],
         Binaries: ['Node', 'Yarn', 'npm'],
         Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-        npmPackages: '@storybook/*',
-        npmGlobalPackages: '@storybook/*',
+        npmPackages: '@junk-temporary-prototypes/*',
+        npmGlobalPackages: '@junk-temporary-prototypes/*',
       })
       .then(consoleLogger.log);
   });

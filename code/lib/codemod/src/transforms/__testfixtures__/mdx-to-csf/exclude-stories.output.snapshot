@@ -3,7 +3,7 @@
 exports[`mdx-to-csf transforms correctly using "exclude-stories.input.js" data 1`] = `
 "import React from 'react';
 import Button from './Button';
-import { action } from '@storybook/addon-actions';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 export const rowData = {
   col1: 'a',
   col2: 2,

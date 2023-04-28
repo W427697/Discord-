@@ -1,11 +1,11 @@
 import React from 'react';
-import type { Meta, ReactRenderer, StoryObj } from '@storybook/react';
-import { within } from '@storybook/testing-library';
-import type { PlayFunctionContext } from '@storybook/csf';
-import type { WebRenderer, ModuleExport } from '@storybook/types';
-import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
-import type { PreviewWeb } from '@storybook/preview-api';
-import type { Channel } from '@storybook/channels';
+import type { Meta, ReactRenderer, StoryObj } from '@junk-temporary-prototypes/react';
+import { within } from '@junk-temporary-prototypes/testing-library';
+import type { PlayFunctionContext } from '@junk-temporary-prototypes/csf';
+import type { WebRenderer, ModuleExport } from '@junk-temporary-prototypes/types';
+import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@junk-temporary-prototypes/core-events';
+import type { PreviewWeb } from '@junk-temporary-prototypes/preview-api';
+import type { Channel } from '@junk-temporary-prototypes/channels';
 
 import type { StoryProps } from './Story';
 import { Story as StoryComponent, StorySkeleton } from './Story';

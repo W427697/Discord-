@@ -1,9 +1,9 @@
-import { expect } from '@storybook/jest';
+import { expect } from '@junk-temporary-prototypes/jest';
 import type { Key } from 'react';
 import React, { Fragment } from 'react';
-import { action } from '@storybook/addon-actions';
-import { logger } from '@storybook/client-logger';
-import type { Meta, StoryObj } from '@storybook/react';
+import { action } from '@junk-temporary-prototypes/addon-actions';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 import {
   within,
   fireEvent,
@@ -11,7 +11,7 @@ import {
   screen,
   getByText,
   userEvent,
-} from '@storybook/testing-library';
+} from '@junk-temporary-prototypes/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>

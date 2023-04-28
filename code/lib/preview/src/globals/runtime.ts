@@ -1,32 +1,32 @@
-import * as CHANNEL_POSTMESSAGE from '@storybook/channel-postmessage';
-import * as CHANNEL_WEBSOCKET from '@storybook/channel-websocket';
-import * as CHANNELS from '@storybook/channels';
-import * as CLIENT_LOGGER from '@storybook/client-logger';
-import * as CORE_EVENTS from '@storybook/core-events';
-import * as PREVIEW_API from '@storybook/preview-api';
+import * as CHANNEL_POSTMESSAGE from '@junk-temporary-prototypes/channel-postmessage';
+import * as CHANNEL_WEBSOCKET from '@junk-temporary-prototypes/channel-websocket';
+import * as CHANNELS from '@junk-temporary-prototypes/channels';
+import * as CLIENT_LOGGER from '@junk-temporary-prototypes/client-logger';
+import * as CORE_EVENTS from '@junk-temporary-prototypes/core-events';
+import * as PREVIEW_API from '@junk-temporary-prototypes/preview-api';
 
 // DEPRECATED, remove in 8.0
-import * as ADDONS from '@storybook/preview-api/dist/addons';
-import * as CLIENT_API from '@storybook/preview-api/dist/client-api';
-import * as CORE_CLIENT from '@storybook/preview-api/dist/core-client';
-import * as PREVIEW_WEB from '@storybook/preview-api/dist/preview-web';
-import * as STORE from '@storybook/preview-api/dist/store';
+import * as ADDONS from '@junk-temporary-prototypes/preview-api/dist/addons';
+import * as CLIENT_API from '@junk-temporary-prototypes/preview-api/dist/client-api';
+import * as CORE_CLIENT from '@junk-temporary-prototypes/preview-api/dist/core-client';
+import * as PREVIEW_WEB from '@junk-temporary-prototypes/preview-api/dist/preview-web';
+import * as STORE from '@junk-temporary-prototypes/preview-api/dist/store';
 
 import type { globals } from './types';
 
 // Here we map the name of a module to their VALUE in the global scope.
 export const values: Required<Record<keyof typeof globals, any>> = {
-  '@storybook/channel-postmessage': CHANNEL_POSTMESSAGE,
-  '@storybook/channel-websocket': CHANNEL_WEBSOCKET,
-  '@storybook/channels': CHANNELS,
-  '@storybook/client-logger': CLIENT_LOGGER,
-  '@storybook/core-events': CORE_EVENTS,
-  '@storybook/preview-api': PREVIEW_API,
+  '@junk-temporary-prototypes/channel-postmessage': CHANNEL_POSTMESSAGE,
+  '@junk-temporary-prototypes/channel-websocket': CHANNEL_WEBSOCKET,
+  '@junk-temporary-prototypes/channels': CHANNELS,
+  '@junk-temporary-prototypes/client-logger': CLIENT_LOGGER,
+  '@junk-temporary-prototypes/core-events': CORE_EVENTS,
+  '@junk-temporary-prototypes/preview-api': PREVIEW_API,
 
   // DEPRECATED, remove in 8.0
-  '@storybook/addons': ADDONS,
-  '@storybook/client-api': CLIENT_API,
-  '@storybook/core-client': CORE_CLIENT,
-  '@storybook/preview-web': PREVIEW_WEB,
-  '@storybook/store': STORE,
+  '@junk-temporary-prototypes/addons': ADDONS,
+  '@junk-temporary-prototypes/client-api': CLIENT_API,
+  '@junk-temporary-prototypes/core-client': CORE_CLIENT,
+  '@junk-temporary-prototypes/preview-web': PREVIEW_WEB,
+  '@junk-temporary-prototypes/store': STORE,
 };

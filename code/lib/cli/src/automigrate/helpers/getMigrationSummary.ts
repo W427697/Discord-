@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import { frameworkPackages, rendererPackages } from '@junk-temporary-prototypes/core-common';
 import dedent from 'ts-dedent';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
@@ -105,33 +105,33 @@ export function getMigrationSummary({
 
 // These packages are aliased by Storybook, so it doesn't matter if they're duplicated
 const allowList = [
-  '@storybook/csf',
+  '@junk-temporary-prototypes/csf',
   // see this file for more info: code/lib/preview/src/globals/types.ts
-  '@storybook/addons',
-  '@storybook/channel-postmessage',
-  '@storybook/channel-websocket',
-  '@storybook/channels',
-  '@storybook/client-api',
-  '@storybook/client-logger',
-  '@storybook/core-client',
-  '@storybook/core-events',
-  '@storybook/preview-web',
-  '@storybook/preview-api',
-  '@storybook/store',
+  '@junk-temporary-prototypes/addons',
+  '@junk-temporary-prototypes/channel-postmessage',
+  '@junk-temporary-prototypes/channel-websocket',
+  '@junk-temporary-prototypes/channels',
+  '@junk-temporary-prototypes/client-api',
+  '@junk-temporary-prototypes/client-logger',
+  '@junk-temporary-prototypes/core-client',
+  '@junk-temporary-prototypes/core-events',
+  '@junk-temporary-prototypes/preview-web',
+  '@junk-temporary-prototypes/preview-api',
+  '@junk-temporary-prototypes/store',
 
   // see this file for more info: code/ui/manager/src/globals/types.ts
-  '@storybook/components',
-  '@storybook/router',
-  '@storybook/theming',
-  '@storybook/api',
-  '@storybook/manager-api',
+  '@junk-temporary-prototypes/components',
+  '@junk-temporary-prototypes/router',
+  '@junk-temporary-prototypes/theming',
+  '@junk-temporary-prototypes/api',
+  '@junk-temporary-prototypes/manager-api',
 ];
 
 // These packages definitely will cause issues if they're duplicated
 const disallowList = [
   Object.keys(rendererPackages),
   Object.keys(frameworkPackages),
-  '@storybook/instrumenter',
+  '@junk-temporary-prototypes/instrumenter',
 ];
 
 function getWarnings(installationMetadata: InstallationMetadata) {

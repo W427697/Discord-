@@ -3,7 +3,7 @@ import { writeFile, stat } from 'fs-extra';
 import puppeteerCore from 'puppeteer-core';
 import express from 'express';
 import getPort from 'get-port';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 const read = async (url: string) => {
   const browser = await usePuppeteerBrowser();

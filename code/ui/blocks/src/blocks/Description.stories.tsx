@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 import { Description } from './Description';
 import { Button as ButtonComponent } from '../examples/Button';
 import * as DefaultButtonStories from '../examples/Button.stories';

@@ -1,10 +1,10 @@
 import * as webpackReal from 'webpack';
-import { logger } from '@storybook/node-logger';
-import type { Options, CoreConfig } from '@storybook/types';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import type { Options, CoreConfig } from '@junk-temporary-prototypes/types';
 import type { Configuration } from 'webpack';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
-import { loadCustomWebpackConfig } from '@storybook/core-webpack';
+import { loadCustomWebpackConfig } from '@junk-temporary-prototypes/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {

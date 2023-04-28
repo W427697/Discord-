@@ -1,9 +1,9 @@
 import React from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
-import { CallStates } from '@storybook/instrumenter';
-import { styled } from '@storybook/theming';
-import { userEvent, within, waitFor } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import type { StoryObj, Meta } from '@junk-temporary-prototypes/react';
+import { CallStates } from '@junk-temporary-prototypes/instrumenter';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { userEvent, within, waitFor } from '@junk-temporary-prototypes/testing-library';
+import { expect } from '@junk-temporary-prototypes/jest';
 import isChromatic from 'chromatic/isChromatic';
 
 import { getCalls, getInteractions } from '../mocks';

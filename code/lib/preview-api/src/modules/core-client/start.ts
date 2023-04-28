@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
-import { global } from '@storybook/global';
-import type { Renderer, ArgsStoryFn, Path, ProjectAnnotations } from '@storybook/types';
-import { createChannel } from '@storybook/channel-postmessage';
-import { FORCE_RE_RENDER } from '@storybook/core-events';
+import { global } from '@junk-temporary-prototypes/global';
+import type { Renderer, ArgsStoryFn, Path, ProjectAnnotations } from '@junk-temporary-prototypes/types';
+import { createChannel } from '@junk-temporary-prototypes/channel-postmessage';
+import { FORCE_RE_RENDER } from '@junk-temporary-prototypes/core-events';
 import { addons } from '../../addons';
 import { PreviewWeb } from '../../preview-web';
 import { ClientApi } from '../../client-api';
@@ -13,7 +13,7 @@ import type { Loadable } from './executeLoadable';
 const { FEATURES } = global;
 
 const removedApi = (name: string) => () => {
-  throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
+  throw new Error(`@junk-temporary-prototypes/client-api:${name} was removed in storyStoreV7.`);
 };
 
 interface CoreClient_RendererImplementation<TRenderer extends Renderer> {

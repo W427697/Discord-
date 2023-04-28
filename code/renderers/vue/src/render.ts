@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@junk-temporary-prototypes/types';
 import type { CombinedVueInstance } from 'vue/types/vue';
 import type { VueRenderer } from './types';
 

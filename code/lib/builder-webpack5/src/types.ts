@@ -3,7 +3,7 @@ import type {
   Options,
   BuilderResult as BuilderResultBase,
   StorybookConfig,
-} from '@storybook/core-webpack';
+} from '@junk-temporary-prototypes/core-webpack';
 
 import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 

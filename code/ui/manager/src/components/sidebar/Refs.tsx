@@ -1,7 +1,7 @@
 import type { FC, MutableRefObject } from 'react';
 import React, { useMemo, useState, useRef, useCallback } from 'react';
-import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
+import { useStorybookApi, useStorybookState } from '@junk-temporary-prototypes/manager-api';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { transparentize } from 'polished';
 
 import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';

@@ -1,4 +1,4 @@
-import { keyframes } from '@storybook/theming';
+import { keyframes } from '@junk-temporary-prototypes/theming';
 
 export const rotate360 = keyframes`
 	from {

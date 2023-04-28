@@ -17,7 +17,7 @@ describe('addReact fix', () => {
     await expect(
       checkAddReact({
         dependencies: { react: '*' },
-        devDependencies: { '@storybook/addon-docs': '*', 'react-dom': '*' },
+        devDependencies: { '@junk-temporary-prototypes/addon-docs': '*', 'react-dom': '*' },
       })
     ).resolves.toBeFalsy();
   });
@@ -26,7 +26,7 @@ describe('addReact fix', () => {
     await expect(
       checkAddReact({
         dependencies: {},
-        devDependencies: { '@storybook/addon-docs': '*', 'react-dom': '*' },
+        devDependencies: { '@junk-temporary-prototypes/addon-docs': '*', 'react-dom': '*' },
       })
     ).resolves.toMatchInlineSnapshot(`
       Object {
@@ -34,7 +34,7 @@ describe('addReact fix', () => {
           "react",
         ],
         "dependents": Array [
-          "@storybook/addon-docs",
+          "@junk-temporary-prototypes/addon-docs",
         ],
       }
     `);
@@ -44,7 +44,7 @@ describe('addReact fix', () => {
     await expect(
       checkAddReact({
         dependencies: {},
-        devDependencies: { '@storybook/addon-essentials': '*', react: '*' },
+        devDependencies: { '@junk-temporary-prototypes/addon-essentials': '*', react: '*' },
       })
     ).resolves.toMatchInlineSnapshot(`
       Object {
@@ -52,7 +52,7 @@ describe('addReact fix', () => {
           "react-dom",
         ],
         "dependents": Array [
-          "@storybook/addon-essentials",
+          "@junk-temporary-prototypes/addon-essentials",
         ],
       }
     `);

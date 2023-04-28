@@ -1,9 +1,9 @@
 import prompts from 'prompts';
-import type { CLIOptions, CoreConfig } from '@storybook/types';
-import { loadAllPresets, cache } from '@storybook/core-common';
-import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
-import type { EventType } from '@storybook/telemetry';
-import { logger } from '@storybook/node-logger';
+import type { CLIOptions, CoreConfig } from '@junk-temporary-prototypes/types';
+import { loadAllPresets, cache } from '@junk-temporary-prototypes/core-common';
+import { telemetry, getPrecedingUpgrade, oneWayHash } from '@junk-temporary-prototypes/telemetry';
+import type { EventType } from '@junk-temporary-prototypes/telemetry';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 type TelemetryOptions = {
   cliOptions: CLIOptions;
@@ -38,7 +38,7 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
 
   // should we load the preset?
   const presets = await loadAllPresets({
-    corePresets: [require.resolve('@storybook/core-server/dist/presets/common-preset')],
+    corePresets: [require.resolve('@junk-temporary-prototypes/core-server/dist/presets/common-preset')],
     overridePresets: [],
     ...presetOptions,
   });

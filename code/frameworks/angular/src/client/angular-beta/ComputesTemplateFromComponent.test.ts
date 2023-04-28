@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ArgTypes } from '@storybook/types';
+import { ArgTypes } from '@junk-temporary-prototypes/types';
 import { computesTemplateSourceFromComponent } from './ComputesTemplateFromComponent';
 import { ISomeInterface, ButtonAccent, InputComponent } from './__testfixtures__/input.component';
 

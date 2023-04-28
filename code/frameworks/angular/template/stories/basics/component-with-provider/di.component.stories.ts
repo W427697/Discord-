@@ -1,4 +1,4 @@
-import { Args } from '@storybook/angular';
+import { Args } from '@junk-temporary-prototypes/angular';
 import { DiComponent } from './di.component';
 
 export default {

@@ -9,15 +9,15 @@ const allStories = [
   '../../lib/cli/rendererAssets/common/Introduction.stories.mdx',
   {
     directory: '../manager/src',
-    titlePrefix: '@storybook-manager',
+    titlePrefix: '@junk-temporary-prototypes-manager',
   },
   {
     directory: '../components/src',
-    titlePrefix: '@storybook-components',
+    titlePrefix: '@junk-temporary-prototypes-components',
   },
   {
     directory: '../blocks/src',
-    titlePrefix: '@storybook-blocks',
+    titlePrefix: '@junk-temporary-prototypes-blocks',
   },
 ];
 
@@ -47,13 +47,13 @@ const blocksOnlyStories = [
 const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
   addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    '@storybook/addon-storysource',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-essentials',
+    '@junk-temporary-prototypes/addon-interactions',
+    '@junk-temporary-prototypes/addon-storysource',
   ],
   framework: {
-    name: '@storybook/react-vite',
+    name: '@junk-temporary-prototypes/react-vite',
     options: {},
   },
   core: {
@@ -64,7 +64,7 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           ...(configType === 'DEVELOPMENT'
-            ? { '@storybook/components': path.resolve(__dirname, '../components/src') }
+            ? { '@junk-temporary-prototypes/components': path.resolve(__dirname, '../components/src') }
             : {}),
         },
       },

@@ -1,6 +1,6 @@
 import React from "react";
-import { action } from "@storybook/addon-actions";
-import { Button } from "@storybook/react/demo";
+import { action } from "@junk-temporary-prototypes/addon-actions";
+import { Button } from "@junk-temporary-prototypes/react/demo";
 
 const meta = {
   title: "Button",

@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { Field } from './field/field';
 import { Input, Select, Textarea, Button } from './input/input';
 

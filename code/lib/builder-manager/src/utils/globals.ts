@@ -1,1 +1,1 @@
-export { definitions } from '@storybook/manager/dist/globals';
+export { definitions } from '@junk-temporary-prototypes/manager/dist/globals';

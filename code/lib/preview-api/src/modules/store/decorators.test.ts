@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import type { Renderer, StoryContext } from '@storybook/types';
+import type { Renderer, StoryContext } from '@junk-temporary-prototypes/types';
 
 import { defaultDecorateStory } from './decorators';
 

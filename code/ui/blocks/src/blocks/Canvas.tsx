@@ -1,8 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { ModuleExport, ModuleExports, PreparedStory, Renderer } from '@storybook/types';
-import { deprecate } from '@storybook/client-logger';
+import type { ModuleExport, ModuleExports, PreparedStory, Renderer } from '@junk-temporary-prototypes/types';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 import dedent from 'ts-dedent';
 import type { Layout, PreviewProps as PurePreviewProps } from '../components';
 import { Preview as PurePreview, PreviewSkeleton } from '../components';
@@ -47,7 +47,7 @@ type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 
    * Pass the export defining a story to render that story
    *
    * ```jsx
-   * import { Meta, Canvas } from '@storybook/blocks';
+   * import { Meta, Canvas } from '@junk-temporary-prototypes/blocks';
    * import * as ButtonStories from './Button.stories';
    *
    * <Meta of={ButtonStories} />
@@ -59,7 +59,7 @@ type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 
    * Pass all exports of the CSF file if this MDX file is unattached
    *
    * ```jsx
-   * import { Canvas } from '@storybook/blocks';
+   * import { Canvas } from '@junk-temporary-prototypes/blocks';
    * import * as ButtonStories from './Button.stories';
    *
    * <Canvas of={ButtonStories.Primary} meta={ButtonStories} />

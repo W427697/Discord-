@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-declare module '@storybook/components/src/treeview/utils';
+declare module '@junk-temporary-prototypes/components/src/treeview/utils';
 
 declare var FEATURES:
   | {

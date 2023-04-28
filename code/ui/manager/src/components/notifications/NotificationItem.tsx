@@ -1,9 +1,9 @@
 import type { FC, SyntheticEvent } from 'react';
 import React from 'react';
-import { type State } from '@storybook/manager-api';
-import { Link } from '@storybook/router';
-import { styled } from '@storybook/theming';
-import { Icons, IconButton, type IconsProps } from '@storybook/components';
+import { type State } from '@junk-temporary-prototypes/manager-api';
+import { Link } from '@junk-temporary-prototypes/router';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Icons, IconButton, type IconsProps } from '@junk-temporary-prototypes/components';
 import { transparentize } from 'polished';
 
 const DEFAULT_ICON_COLOUR = '#66BF3C' as const;

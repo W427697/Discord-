@@ -3,7 +3,7 @@ import prettier from 'prettier';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
-import { loadCsf } from '@storybook/csf-tools';
+import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
 import * as recast from 'recast';
 import * as t from '@babel/types';
 
@@ -74,7 +74,7 @@ export function upgradeDeprecatedTypes(file: BabelFile) {
       );
 
       const source = path.node.source.value;
-      if (!source.startsWith('@storybook')) return;
+      if (!source.startsWith('@junk-temporary-prototypes')) return;
 
       path.get('specifiers').forEach((specifier) => {
         if (specifier.isImportNamespaceSpecifier()) {

@@ -1,8 +1,8 @@
-import { expect } from '@storybook/jest';
-import type { Meta, StoryObj } from '@storybook/react';
-import { within, fireEvent } from '@storybook/testing-library';
-import { addons } from '@storybook/preview-api';
-import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { expect } from '@junk-temporary-prototypes/jest';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
+import { within, fireEvent } from '@junk-temporary-prototypes/testing-library';
+import { addons } from '@junk-temporary-prototypes/preview-api';
+import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@junk-temporary-prototypes/core-events';
 import React from 'react';
 import { Button } from './Button';
 

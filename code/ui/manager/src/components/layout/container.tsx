@@ -1,8 +1,8 @@
 import type { FC, CSSProperties, ReactNode } from 'react';
 import React, { Component, Fragment } from 'react';
-import { styled, withTheme } from '@storybook/theming';
-import type { Theme } from '@storybook/theming';
-import type { State } from '@storybook/manager-api';
+import { styled, withTheme } from '@junk-temporary-prototypes/theming';
+import type { Theme } from '@junk-temporary-prototypes/theming';
+import type { State } from '@junk-temporary-prototypes/manager-api';
 import * as persistence from './persist';
 
 import type { DraggableData, DraggableEvent } from './draggers';

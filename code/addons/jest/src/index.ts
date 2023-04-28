@@ -1,4 +1,4 @@
-import { addons } from '@storybook/preview-api';
+import { addons } from '@junk-temporary-prototypes/preview-api';
 import { normalize, sep } from 'upath';
 import { ADD_TESTS, defineJestParameter } from './shared';
 

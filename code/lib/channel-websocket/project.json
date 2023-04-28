@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/channel-websocket",
+  "name": "@junk-temporary-prototypes/channel-websocket",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

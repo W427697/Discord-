@@ -28,7 +28,7 @@ async function run() {
     .map((package) => {
       return {
         ...package,
-        suffix: package.name.replace('@storybook/', ''),
+        suffix: package.name.replace('@junk-temporary-prototypes/', ''),
         defaultValue: false,
         helpText: `build only the ${package.name} package`,
       };
@@ -61,7 +61,7 @@ async function run() {
     .parse(process.argv);
 
   Object.keys(tasks).forEach((key) => {
-    // checks if a flag is passed e.g. yarn build --@storybook/addon-docs --watch
+    // checks if a flag is passed e.g. yarn build --@junk-temporary-prototypes/addon-docs --watch
     const containsFlag = program.rawArgs.includes(tasks[key].suffix);
     tasks[key].value = containsFlag || program.all;
   });

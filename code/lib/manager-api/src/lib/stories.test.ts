@@ -1,4 +1,4 @@
-import type { StoryIndexV2, StoryIndexV3 } from '@storybook/types';
+import type { StoryIndexV2, StoryIndexV3 } from '@junk-temporary-prototypes/types';
 import { transformStoryIndexV2toV3, transformStoryIndexV3toV4 } from './stories';
 
 const baseV2: StoryIndexV2['stories'][0] = {

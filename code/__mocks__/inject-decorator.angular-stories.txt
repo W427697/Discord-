@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { storiesOf } from '@storybook/angular';
+import { storiesOf } from '@junk-temporary-prototypes/angular';
 
 @Component({
   selector: 'storybook-with-ng-content',

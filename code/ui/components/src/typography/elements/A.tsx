@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { withReset } from '../lib/common';
 import { Link } from './Link';
 

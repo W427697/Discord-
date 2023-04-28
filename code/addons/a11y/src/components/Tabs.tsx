@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import type { NodeResult, Result } from 'axe-core';
 import { useResizeDetector } from 'react-resize-detector';
 import HighlightToggle from './Report/HighlightToggle';
@@ -8,7 +8,7 @@ import HighlightToggle from './Report/HighlightToggle';
 import type { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
 
-// TODO: reuse the Tabs component from @storybook/theming instead of re-building identical functionality
+// TODO: reuse the Tabs component from @junk-temporary-prototypes/theming instead of re-building identical functionality
 
 const Container = styled.div({
   width: '100%',

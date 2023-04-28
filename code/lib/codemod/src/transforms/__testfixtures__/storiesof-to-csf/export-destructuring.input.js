@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 import ComponentRow from './ComponentRow';
 import * as SpecRowStories from './SpecRow.stories';
 

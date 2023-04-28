@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { autodocsTrue } from './autodocs-true';

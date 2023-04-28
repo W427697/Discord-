@@ -1,6 +1,6 @@
 import ip from 'ip';
 
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import detectFreePort from 'detect-port';
 
 export function getServerAddresses(port: number, host: string, proto: string) {

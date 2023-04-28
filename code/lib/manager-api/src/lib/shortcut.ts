@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import type { API_KeyCollection } from '../modules/shortcuts';
 
 const { navigator } = global;

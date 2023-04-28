@@ -1,11 +1,11 @@
 ```md
 <!-- LoginForm.stories.mdx -->
 
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@junk-temporary-prototypes/testing-library';
 
-import { expect } from '@storybook/jest';
+import { expect } from '@junk-temporary-prototypes/jest';
 
 import LoginForm from './LoginForm.svelte';
 
@@ -18,7 +18,7 @@ import LoginForm from './LoginForm.svelte';
 -->
 
 <Canvas>
-  <Story 
+  <Story
   name="Empty Form"
   render={(args) => ({
     Component: LoginForm,
@@ -29,14 +29,14 @@ import LoginForm from './LoginForm.svelte';
     render={(args) => ({
       Component: LoginForm,
       props: args,
-    })} 
+    })}
     play={ async ({ canvasElement }) => {
       // Starts querying the component from its root element
       const canvas = within(canvasElement);
 
       // 👇 Simulate interactions
       await userEvent.type(canvas.getByTestId('email'), 'email@provider.com');
-      
+
       await userEvent.type(canvas.getByTestId('password'), 'a-random-password');
 
       // See https://storybook.js.org/docs/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel

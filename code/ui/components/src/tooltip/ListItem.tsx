@@ -1,6 +1,6 @@
 import type { FC, ReactNode, ComponentProps, ReactElement } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';
 import { Icons } from '../icon/icon';

@@ -23,7 +23,7 @@ const replacementMap = new Map([
  * For instance:
  *
  * ```js
- * import { useMemo as useMemo2, useEffect as useEffect2 } from "@storybook/preview-api";
+ * import { useMemo as useMemo2, useEffect as useEffect2 } from "@junk-temporary-prototypes/preview-api";
  * ```
  *
  * becomes

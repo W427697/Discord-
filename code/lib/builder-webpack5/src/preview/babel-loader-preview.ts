@@ -1,4 +1,4 @@
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot } from '@junk-temporary-prototypes/core-common';
 import type { TypescriptOptions } from '../types';
 
 export const createBabelLoader = (options: any, typescriptOptions: TypescriptOptions) => {

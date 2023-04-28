@@ -5,7 +5,7 @@ import type {
   LoadOptions,
   Options,
   StorybookConfig,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import {
   cache,
   loadAllPresets,
@@ -13,10 +13,10 @@ import {
   resolveAddonName,
   resolvePathInStorybookCache,
   validateFrameworkName,
-} from '@storybook/core-common';
+} from '@junk-temporary-prototypes/core-common';
 import prompts from 'prompts';
-import { global } from '@storybook/global';
-import { telemetry } from '@storybook/telemetry';
+import { global } from '@junk-temporary-prototypes/global';
+import { telemetry } from '@junk-temporary-prototypes/telemetry';
 
 import { join, resolve } from 'path';
 import { storybookDevServer } from './dev-server';
@@ -104,12 +104,12 @@ export async function buildDevStandalone(
   // Load second pass: all presets are applied in order
   presets = await loadAllPresets({
     corePresets: [
-      require.resolve('@storybook/core-server/dist/presets/common-preset'),
+      require.resolve('@junk-temporary-prototypes/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
       ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
-      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
+      require.resolve('@junk-temporary-prototypes/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets,
     ...options,
@@ -156,8 +156,8 @@ export async function buildDevStandalone(
     process.exit(problems.length > 0 ? 1 : 0);
   } else {
     const name =
-      frameworkName.split('@storybook/').length > 1
-        ? frameworkName.split('@storybook/')[1]
+      frameworkName.split('@junk-temporary-prototypes/').length > 1
+        ? frameworkName.split('@junk-temporary-prototypes/')[1]
         : frameworkName;
 
     outputStartupInformation({

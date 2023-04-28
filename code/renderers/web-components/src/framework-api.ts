@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 export function isValidComponent(tagName: string) {
   if (!tagName) {

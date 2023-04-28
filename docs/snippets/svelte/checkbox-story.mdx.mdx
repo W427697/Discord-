@@ -1,7 +1,7 @@
 ```md
 <!-- Checkbox.stories.mdx -->
 
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
 import Checkbox from './Checkbox.svelte';
 
@@ -19,9 +19,9 @@ With `MDX`, we can define a story for `Checkbox` right in the middle of our
 Markdown documentation.
 
 <Canvas>
-  <Story 
+  <Story
     name="Unchecked"
-    args={{ 
+    args={{
       label: 'Unchecked',
     }}
     render={(args) => ({
@@ -29,10 +29,10 @@ Markdown documentation.
       props: args
     })} />
 
-  <Story 
+  <Story
     name="Checked"
-    args={{ 
-      label: 'Unchecked', 
+    args={{
+      label: 'Unchecked',
       checked: true,
     }}
     render={(args) => ({
@@ -40,11 +40,11 @@ Markdown documentation.
       props: args
     })} />
 
-  <Story 
+  <Story
     name="Secondary"
     args={{
-      label: 'Secondary', 
-      checked: true, 
+      label: 'Secondary',
+      checked: true,
       appearance: 'secondary',
     }}
     render={(args) => ({

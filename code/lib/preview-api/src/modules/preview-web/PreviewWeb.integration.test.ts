@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import { global } from '@storybook/global';
-import type { RenderContext } from '@storybook/types';
+import { global } from '@junk-temporary-prototypes/global';
+import type { RenderContext } from '@junk-temporary-prototypes/types';
 import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
@@ -24,13 +24,13 @@ import {
 //   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/channel-postmessage', () => ({ createChannel: () => mockChannel }));
+jest.mock('@junk-temporary-prototypes/client-logger');
 
 jest.mock('./WebView');
 
 const { document } = global;
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
     ...globalThis,
     history: { replaceState: jest.fn() },
@@ -73,7 +73,7 @@ beforeEach(() => {
 describe('PreviewWeb', () => {
   describe('initial render', () => {
     it('renders story mode through the stack', async () => {
-      const { DocsRenderer } = await import('@storybook/addon-docs');
+      const { DocsRenderer } = await import('@junk-temporary-prototypes/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
@@ -89,7 +89,7 @@ describe('PreviewWeb', () => {
     });
 
     it('renders docs mode through docs page', async () => {
-      const { DocsRenderer } = await import('@storybook/addon-docs');
+      const { DocsRenderer } = await import('@junk-temporary-prototypes/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--docs&viewMode=docs';
@@ -116,7 +116,7 @@ describe('PreviewWeb', () => {
     });
 
     it('sends docs rendering exceptions to showException', async () => {
-      const { DocsRenderer } = await import('@storybook/addon-docs');
+      const { DocsRenderer } = await import('@junk-temporary-prototypes/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--docs&viewMode=docs';
@@ -152,7 +152,7 @@ describe('PreviewWeb', () => {
     };
 
     it('renders story mode through the updated stack', async () => {
-      const { DocsRenderer } = await import('@storybook/addon-docs');
+      const { DocsRenderer } = await import('@junk-temporary-prototypes/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--a';

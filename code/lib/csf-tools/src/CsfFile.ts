@@ -7,8 +7,8 @@ import * as t from '@babel/types';
 import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
-import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
+import { toId, isExportStory, storyNameFromExport } from '@junk-temporary-prototypes/csf';
+import type { Tag, StoryAnnotations, ComponentAnnotations } from '@junk-temporary-prototypes/types';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 

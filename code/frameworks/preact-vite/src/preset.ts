@@ -1,11 +1,11 @@
-import { hasVitePlugins } from '@storybook/builder-vite';
-import type { PresetProperty } from '@storybook/types';
+import { hasVitePlugins } from '@junk-temporary-prototypes/builder-vite';
+import type { PresetProperty } from '@junk-temporary-prototypes/types';
 import preact from '@preact/preset-vite';
 import type { StorybookConfig } from './types';
 
 export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/preact',
+  builder: '@junk-temporary-prototypes/builder-vite',
+  renderer: '@junk-temporary-prototypes/preact',
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {

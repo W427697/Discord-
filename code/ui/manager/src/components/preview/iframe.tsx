@@ -1,7 +1,7 @@
 import type { IframeHTMLAttributes } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
-import { Zoom } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Zoom } from '@junk-temporary-prototypes/components';
 
 const StyledIframe = styled.iframe({
   backgroundColor: 'white',

@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import { styled, themes, convert } from '@storybook/theming';
-import { Icons, type IconsProps } from '@storybook/components';
+import { styled, themes, convert } from '@junk-temporary-prototypes/theming';
+import { Icons, type IconsProps } from '@junk-temporary-prototypes/components';
 
 const ListWrapper = styled.ul({
   listStyle: 'none',

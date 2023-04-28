@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 
 import { dedent } from 'ts-dedent';
-import { global } from '@storybook/global';
-import { logger } from '@storybook/client-logger';
-import { toId, sanitize } from '@storybook/csf';
+import { global } from '@junk-temporary-prototypes/global';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import { toId, sanitize } from '@junk-temporary-prototypes/csf';
 import type {
   Args,
   StepRunner,
@@ -23,7 +23,7 @@ import type {
   Path,
   ModuleImportFn,
   ModuleExports,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import type { StoryStore } from '../../store';
 import { combineParameters, composeStepRunners, normalizeInputTypes } from '../../store';
 

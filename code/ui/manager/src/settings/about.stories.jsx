@@ -1,5 +1,5 @@
 import React from 'react';
-import { actions as createActions } from '@storybook/addon-actions';
+import { actions as createActions } from '@junk-temporary-prototypes/addon-actions';
 
 import { AboutScreen } from './about';
 

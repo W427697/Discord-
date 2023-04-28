@@ -1,6 +1,6 @@
 import { dequal as deepEqual } from 'dequal';
-import type { Renderer, Args, ArgTypes, InputType, SBType, StoryContext } from '@storybook/types';
-import { once } from '@storybook/client-logger';
+import type { Renderer, Args, ArgTypes, InputType, SBType, StoryContext } from '@junk-temporary-prototypes/types';
+import { once } from '@junk-temporary-prototypes/client-logger';
 import isPlainObject from 'lodash/isPlainObject.js';
 import { dedent } from 'ts-dedent';
 

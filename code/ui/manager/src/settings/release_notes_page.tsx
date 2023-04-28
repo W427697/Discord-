@@ -1,4 +1,4 @@
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi } from '@junk-temporary-prototypes/manager-api';
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
 

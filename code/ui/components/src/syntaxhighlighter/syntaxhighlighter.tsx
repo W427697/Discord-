@@ -1,8 +1,8 @@
 import type { ComponentProps, FC, MouseEvent } from 'react';
 import React, { useCallback, useState } from 'react';
-import { logger } from '@storybook/client-logger';
-import { styled } from '@storybook/theming';
-import { global } from '@storybook/global';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { global } from '@junk-temporary-prototypes/global';
 import memoize from 'memoizerific';
 
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';

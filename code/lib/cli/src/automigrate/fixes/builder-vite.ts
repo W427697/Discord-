@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import { writeConfig } from '@storybook/csf-tools';
+import { writeConfig } from '@junk-temporary-prototypes/csf-tools';
 
 import type { Fix } from '../types';
 import type { PackageJson } from '../../js-package-manager';
@@ -17,11 +17,11 @@ interface BuilderViteOptions {
 /**
  * Is the user using 'storybook-builder-vite' in their project?
  *
- * If so, prompt them to upgrade to '@storybook/builder-vite'.
+ * If so, prompt them to upgrade to '@junk-temporary-prototypes/builder-vite'.
  *
- * - Add '@storybook/builder-vite' as dev dependency
+ * - Add '@junk-temporary-prototypes/builder-vite' as dev dependency
  * - Remove 'storybook-builder-vite' dependency
- * - Add core.builder = '@storybook/builder-vite' to main.js
+ * - Add core.builder = '@junk-temporary-prototypes/builder-vite' to main.js
  */
 export const builderVite: Fix<BuilderViteOptions> = {
   id: 'builder-vite',
@@ -46,7 +46,7 @@ export const builderVite: Fix<BuilderViteOptions> = {
       We've detected you're using the community vite builder: ${builderFormatted}
       
       'storybook-builder-vite' is deprecated and now located at ${chalk.cyan(
-        '@storybook/builder-vite'
+        '@junk-temporary-prototypes/builder-vite'
       )}.
 
       We can upgrade your project to use the new builder automatically.
@@ -67,10 +67,10 @@ export const builderVite: Fix<BuilderViteOptions> = {
       packageManager.writePackageJson(packageJson);
     }
 
-    logger.info(`✅ Adding '@storybook/builder-vite' as dev dependency`);
+    logger.info(`✅ Adding '@junk-temporary-prototypes/builder-vite' as dev dependency`);
     if (!dryRun) {
       packageManager.addDependencies({ installAsDevDependencies: true }, [
-        '@storybook/builder-vite',
+        '@junk-temporary-prototypes/builder-vite',
       ]);
     }
 
@@ -79,8 +79,8 @@ export const builderVite: Fix<BuilderViteOptions> = {
       await updateMainConfig({ dryRun, mainConfigPath }, async (main) => {
         const updatedBuilder =
           typeof builder === 'string'
-            ? '@storybook/builder-vite'
-            : { name: '@storybook/builder-vite', options: builder.options };
+            ? '@junk-temporary-prototypes/builder-vite'
+            : { name: '@junk-temporary-prototypes/builder-vite', options: builder.options };
         main.setFieldValue(['core', 'builder'], updatedBuilder);
         await writeConfig(main);
       });

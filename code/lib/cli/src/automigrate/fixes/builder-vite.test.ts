@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import type { PackageJson } from '../../js-package-manager';
 import { builderVite } from './builder-vite';
@@ -40,8 +40,8 @@ describe('builder-vite fix', () => {
     });
   });
   describe('other builders', () => {
-    it('using @storybook/builder-vite', async () => {
-      const main = { core: { builder: { name: '@storybook/builder-vite', options: {} } } };
+    it('using @junk-temporary-prototypes/builder-vite', async () => {
+      const main = { core: { builder: { name: '@junk-temporary-prototypes/builder-vite', options: {} } } };
       await expect(checkBuilderVite({ main })).resolves.toBeFalsy();
     });
     it('using webpack5', async () => {

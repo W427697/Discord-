@@ -9,7 +9,7 @@ const buildMock = {
   buildDevStandalone: buildDevStandaloneMock,
   buildStaticStandalone: buildStaticStandaloneMock,
 };
-jest.doMock('@storybook/core-server', () => buildMock);
+jest.doMock('@junk-temporary-prototypes/core-server', () => buildMock);
 jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
 const cpSpawnMock = {
@@ -68,7 +68,7 @@ describe('Build Storybook Builder', () => {
   });
 
   it('should start storybook with angularBrowserTarget', async () => {
-    const run = await architect.scheduleBuilder('@storybook/angular:build-storybook', {
+    const run = await architect.scheduleBuilder('@junk-temporary-prototypes/angular:build-storybook', {
       browserTarget: 'angular-cli:build-2',
       compodoc: false,
     });
@@ -96,7 +96,7 @@ describe('Build Storybook Builder', () => {
   });
 
   it('should start storybook with tsConfig', async () => {
-    const run = await architect.scheduleBuilder('@storybook/angular:build-storybook', {
+    const run = await architect.scheduleBuilder('@junk-temporary-prototypes/angular:build-storybook', {
       tsConfig: 'path/to/tsConfig.json',
       compodoc: false,
     });
@@ -124,7 +124,7 @@ describe('Build Storybook Builder', () => {
   });
 
   it('should build storybook with webpack stats.json', async () => {
-    const run = await architect.scheduleBuilder('@storybook/angular:build-storybook', {
+    const run = await architect.scheduleBuilder('@junk-temporary-prototypes/angular:build-storybook', {
       tsConfig: 'path/to/tsConfig.json',
       compodoc: false,
       webpackStatsJson: true,
@@ -155,7 +155,7 @@ describe('Build Storybook Builder', () => {
   it('should throw error', async () => {
     buildStaticStandaloneMock.mockRejectedValue(true);
 
-    const run = await architect.scheduleBuilder('@storybook/angular:start-storybook', {
+    const run = await architect.scheduleBuilder('@junk-temporary-prototypes/angular:start-storybook', {
       browserTarget: 'angular-cli:build-2',
       port: 4400,
       compodoc: false,
@@ -174,7 +174,7 @@ describe('Build Storybook Builder', () => {
   });
 
   it('should run compodoc', async () => {
-    const run = await architect.scheduleBuilder('@storybook/angular:build-storybook', {
+    const run = await architect.scheduleBuilder('@junk-temporary-prototypes/angular:build-storybook', {
       browserTarget: 'angular-cli:build-2',
     });
 
@@ -208,7 +208,7 @@ describe('Build Storybook Builder', () => {
   });
 
   it('should start storybook with styles options', async () => {
-    const run = await architect.scheduleBuilder('@storybook/angular:build-storybook', {
+    const run = await architect.scheduleBuilder('@junk-temporary-prototypes/angular:build-storybook', {
       tsConfig: 'path/to/tsConfig.json',
       compodoc: false,
       styles: ['style.scss'],

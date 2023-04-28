@@ -1,8 +1,8 @@
-import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
-import type { StorybookConfigVite, BuilderOptions } from '@storybook/builder-vite';
+import type { StorybookConfig as StorybookConfigBase } from '@junk-temporary-prototypes/types';
+import type { StorybookConfigVite, BuilderOptions } from '@junk-temporary-prototypes/builder-vite';
 
-type FrameworkName = '@storybook/preact-vite';
-type BuilderName = '@storybook/builder-vite';
+type FrameworkName = '@junk-temporary-prototypes/preact-vite';
+type BuilderName = '@junk-temporary-prototypes/builder-vite';
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;

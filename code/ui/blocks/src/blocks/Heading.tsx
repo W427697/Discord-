@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import React from 'react';
-import { H2 } from '@storybook/components';
+import { H2 } from '@junk-temporary-prototypes/components';
 import { HeaderMdx } from './mdx';
 
 export interface HeadingProps {

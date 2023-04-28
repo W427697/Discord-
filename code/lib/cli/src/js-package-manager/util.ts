@@ -1,5 +1,5 @@
-// input: @storybook/addon-essentials@npm:7.0.0
-// output: { name: '@storybook/addon-essentials', value: { version : '7.0.0', location: '' } }
+// input: @junk-temporary-prototypes/addon-essentials@npm:7.0.0
+// output: { name: '@junk-temporary-prototypes/addon-essentials', value: { version : '7.0.0', location: '' } }
 export const parsePackageData = (packageName = '') => {
   const [first, second, third] = packageName.trim().split('@');
   const version = (third || second).replace('npm:', '');

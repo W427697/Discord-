@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/addon-backgrounds",
+  "name": "@junk-temporary-prototypes/addon-backgrounds",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

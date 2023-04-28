@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { PresetProperty } from '@storybook/types';
+import { PresetProperty } from '@junk-temporary-prototypes/types';
 import { StorybookConfig } from './types';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
@@ -21,7 +21,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-webpack5') as '@storybook/builder-webpack5',
+      name: wrapForPnP('@junk-temporary-prototypes/builder-webpack5') as '@junk-temporary-prototypes/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
   };

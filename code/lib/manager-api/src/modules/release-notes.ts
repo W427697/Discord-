@@ -1,5 +1,5 @@
-import { global } from '@storybook/global';
-import type { API_ReleaseNotes } from '@storybook/types';
+import { global } from '@junk-temporary-prototypes/global';
+import type { API_ReleaseNotes } from '@junk-temporary-prototypes/types';
 import memoize from 'memoizerific';
 
 import type { ModuleFn } from '../index';

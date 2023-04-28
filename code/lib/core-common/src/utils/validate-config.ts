@@ -4,7 +4,7 @@ import { frameworkPackages } from './get-storybook-info';
 
 const renderers = ['html', 'preact', 'react', 'server', 'svelte', 'vue', 'vue3', 'web-components'];
 
-const rendererNames = [...renderers, ...renderers.map((renderer) => `@storybook/${renderer}`)];
+const rendererNames = [...renderers, ...renderers.map((renderer) => `@junk-temporary-prototypes/${renderer}`)];
 
 export function validateFrameworkName(frameworkName: string | undefined) {
   const automigrateMessage = `Please run 'npx storybook@next automigrate' to automatically fix your config.

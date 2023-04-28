@@ -1,11 +1,11 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { getSourceType, init as initRefs } from '../modules/refs';
 
 const { fetch } = global;
 
 const fetchMock = jest.mocked(fetch);
 
-jest.mock('@storybook/global', () => {
+jest.mock('@junk-temporary-prototypes/global', () => {
   const globalMock = {
     fetch: jest.fn(() => Promise.resolve({})),
     REFS: {

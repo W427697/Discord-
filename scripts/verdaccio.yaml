@@ -17,89 +17,89 @@ uplinks:
 
 packages:
   # storybook's 'legacy' packages
-  '@storybook/react-simple-di':
+  '@junk-temporary-prototypes/react-simple-di':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/react-stubber':
+  '@junk-temporary-prototypes/react-stubber':
     access: $all
     publish: $all
     proxy: npmjs
 
   # storybook's packages not hosted in this monorepo
-  '@storybook/csf':
+  '@junk-temporary-prototypes/csf':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/global':
+  '@junk-temporary-prototypes/global':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/design-system':
+  '@junk-temporary-prototypes/design-system':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/preset-ie11':
+  '@junk-temporary-prototypes/preset-ie11':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/preset-scss':
+  '@junk-temporary-prototypes/preset-scss':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/bench':
+  '@junk-temporary-prototypes/bench':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/addon-bench':
+  '@junk-temporary-prototypes/addon-bench':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/addon-svelte-csf':
+  '@junk-temporary-prototypes/addon-svelte-csf':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/create-svelte-with-args':
+  '@junk-temporary-prototypes/create-svelte-with-args':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/react-docgen-typescript-plugin':
+  '@junk-temporary-prototypes/react-docgen-typescript-plugin':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/testing-library':
+  '@junk-temporary-prototypes/testing-library':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/test-runner':
+  '@junk-temporary-prototypes/test-runner':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/mdx1-csf':
+  '@junk-temporary-prototypes/mdx1-csf':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/mdx2-csf':
+  '@junk-temporary-prototypes/mdx2-csf':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/expect':
+  '@junk-temporary-prototypes/expect':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/jest':
+  '@junk-temporary-prototypes/jest':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/docs-mdx':
+  '@junk-temporary-prototypes/docs-mdx':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/babel-plugin-require-context-hook':
+  '@junk-temporary-prototypes/babel-plugin-require-context-hook':
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/semver':
+  '@junk-temporary-prototypes/semver':
     # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
     access: $all
     publish: $all
@@ -107,7 +107,7 @@ packages:
 
   # storybook packages are NOT proxied to global registry
   # allowing us to republish any version during tests
-  '@storybook/*':
+  '@junk-temporary-prototypes/*':
     access: $all
     publish: $all
 

@@ -17,7 +17,7 @@ export type PackageManagerName = 'npm' | 'yarn1' | 'yarn2' | 'pnpm';
 /**
  * Extract package name and version from input
  *
- * @param pkg A string like `@storybook/cli`, `react` or `react@^16`
+ * @param pkg A string like `@junk-temporary-prototypes/cli`, `react` or `react@^16`
  * @return A tuple of 2 elements: [packageName, packageVersion]
  */
 export function getPackageDetails(pkg: string): [string, string?] {
@@ -163,10 +163,10 @@ export abstract class JsPackageManager {
    * @param {Array} dependencies contains a list of packages to add.
    * @example
    * addDependencies(options, [
-   *   `@storybook/react@${storybookVersion}`,
-   *   `@storybook/addon-actions@${actionsVersion}`,
-   *   `@storybook/addon-links@${linksVersion}`,
-   *   `@storybook/preview-api@${addonsVersion}`,
+   *   `@junk-temporary-prototypes/react@${storybookVersion}`,
+   *   `@junk-temporary-prototypes/addon-actions@${actionsVersion}`,
+   *   `@junk-temporary-prototypes/addon-links@${linksVersion}`,
+   *   `@junk-temporary-prototypes/preview-api@${addonsVersion}`,
    * ]);
    */
   public addDependencies(
@@ -217,8 +217,8 @@ export abstract class JsPackageManager {
    * @param {Array} dependencies contains a list of packages to remove.
    * @example
    * removeDependencies(options, [
-   *   `@storybook/react`,
-   *   `@storybook/addon-actions`,
+   *   `@junk-temporary-prototypes/react`,
+   *   `@junk-temporary-prototypes/addon-actions`,
    * ]);
    */
   public removeDependencies(
@@ -286,7 +286,7 @@ export abstract class JsPackageManager {
    * Return the latest version of the input package available on npmjs registry.
    * If constraint are provided it return the latest version matching the constraints.
    *
-   * For `@storybook/*` packages the latest version is retrieved from `cli/src/versions.json` file directly
+   * For `@junk-temporary-prototypes/*` packages the latest version is retrieved from `cli/src/versions.json` file directly
    *
    * @param packageName The name of the package
    * @param constraint A valid semver constraint, example: '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
@@ -294,7 +294,7 @@ export abstract class JsPackageManager {
   public async getVersion(packageName: string, constraint?: string): Promise<string> {
     let current: string;
 
-    if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
+    if (/(@junk-temporary-prototypes|^sb$|^storybook$)/.test(packageName)) {
       // @ts-expect-error (Converted from ts-ignore)
       current = storybookPackagesVersions[packageName];
     }

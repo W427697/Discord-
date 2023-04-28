@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { lazy, Suspense } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 const GlobalScrollAreaStyles = lazy(() => import('./GlobalScrollAreaStyles'));
 const OverlayScrollbars = lazy(() => import('./OverlayScrollbars'));

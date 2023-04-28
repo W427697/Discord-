@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues.js';
-import { PureArgsTable as ArgsTable } from '@storybook/blocks';
-import { inferControls } from '@storybook/preview-api';
-import { ThemeProvider, themes, convert } from '@storybook/theming';
+import { PureArgsTable as ArgsTable } from '@junk-temporary-prototypes/blocks';
+import { inferControls } from '@junk-temporary-prototypes/preview-api';
+import { ThemeProvider, themes, convert } from '@junk-temporary-prototypes/theming';
 
 import { component as JsClassComponentComponent } from './docgen-components/js-class-component/input.jsx';
 import { component as JsFunctionComponentComponent } from './docgen-components/js-function-component/input.jsx';

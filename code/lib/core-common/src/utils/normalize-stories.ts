@@ -3,7 +3,7 @@ import path from 'path';
 import * as pico from 'picomatch';
 import slash from 'slash';
 
-import type { StoriesEntry, NormalizedStoriesSpecifier } from '@storybook/types';
+import type { StoriesEntry, NormalizedStoriesSpecifier } from '@junk-temporary-prototypes/types';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 

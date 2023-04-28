@@ -1,6 +1,6 @@
 import type { DraggableEvent, DraggableData } from 'react-draggable';
 import Draggable from 'react-draggable';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 export type Axis = 'x' | 'y';
 

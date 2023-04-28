@@ -1,5 +1,5 @@
 import semver from 'semver';
-import type { ReleaseNotesData } from '@storybook/types';
+import type { ReleaseNotesData } from '@junk-temporary-prototypes/types';
 
 // We only expect to have release notes available for major and minor releases.
 // For this reason, we convert the actual version of the build here so that

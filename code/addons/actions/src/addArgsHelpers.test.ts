@@ -1,4 +1,4 @@
-import type { StoryContext } from '@storybook/types';
+import type { StoryContext } from '@junk-temporary-prototypes/types';
 import { inferActionsFromArgTypesRegex, addActionsFromArgTypes } from './addArgsHelpers';
 
 describe('actions parameter enhancers', () => {

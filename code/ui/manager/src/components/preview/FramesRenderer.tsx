@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import React, { useRef, Fragment } from 'react';
-import type { Combo } from '@storybook/manager-api';
-import { Consumer } from '@storybook/manager-api';
-import { Button, getStoryHref } from '@storybook/components';
-import { Global, styled } from '@storybook/theming';
-import type { CSSObject } from '@storybook/theming';
+import type { Combo } from '@junk-temporary-prototypes/manager-api';
+import { Consumer } from '@junk-temporary-prototypes/manager-api';
+import { Button, getStoryHref } from '@junk-temporary-prototypes/components';
+import { Global, styled } from '@junk-temporary-prototypes/theming';
+import type { CSSObject } from '@junk-temporary-prototypes/theming';
 import { IFrame } from './iframe';
 import type { FramesRendererProps } from './utils/types';
 import { stringifyQueryParams } from './utils/stringifyQueryParams';

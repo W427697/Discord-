@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import { styled, themes, convert } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { styled, themes, convert } from '@junk-temporary-prototypes/theming';
+import { Icons } from '@junk-temporary-prototypes/components';
 import Message from './Message';
 
 const Wrapper = styled.div<{ status: string }>(({ theme, status }) => ({

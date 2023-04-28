@@ -1,7 +1,7 @@
 import type { ComponentProps, FunctionComponent } from 'react';
 import React from 'react';
-import { styled, ThemeProvider, convert, themes, ignoreSsrWarning } from '@storybook/theming';
-import { SyntaxHighlighter } from '@storybook/components';
+import { styled, ThemeProvider, convert, themes, ignoreSsrWarning } from '@junk-temporary-prototypes/theming';
+import { SyntaxHighlighter } from '@junk-temporary-prototypes/components';
 
 import { EmptyBlock } from './EmptyBlock';
 

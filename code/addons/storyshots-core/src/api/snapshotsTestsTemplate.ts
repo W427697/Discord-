@@ -1,6 +1,6 @@
 /* eslint-disable jest/no-export */
 /* eslint-disable jest/expect-expect */
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { addSerializer } from 'jest-specific-snapshot';
 
 const { describe, it } = global;

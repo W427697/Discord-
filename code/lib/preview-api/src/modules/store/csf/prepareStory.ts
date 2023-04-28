@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 import type {
   Renderer,
@@ -19,8 +19,8 @@ import type {
   StrictArgTypes,
   PreparedMeta,
   ModuleExport,
-} from '@storybook/types';
-import { includeConditionalArg } from '@storybook/csf';
+} from '@junk-temporary-prototypes/types';
+import { includeConditionalArg } from '@junk-temporary-prototypes/csf';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';

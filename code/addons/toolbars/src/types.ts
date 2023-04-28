@@ -1,5 +1,5 @@
-import type { IconsProps } from '@storybook/components';
-import type { InputType } from '@storybook/types';
+import type { IconsProps } from '@junk-temporary-prototypes/components';
+import type { InputType } from '@junk-temporary-prototypes/types';
 
 export type ToolbarShortcutType = 'next' | 'previous' | 'reset';
 

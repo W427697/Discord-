@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
-import { ActionBar, Icons, ScrollArea } from '@storybook/components';
+import { ActionBar, Icons, ScrollArea } from '@junk-temporary-prototypes/components';
 
 import type { AxeResults } from 'axe-core';
-import { useChannel, useParameter, useStorybookState } from '@storybook/manager-api';
+import { useChannel, useParameter, useStorybookState } from '@junk-temporary-prototypes/manager-api';
 
 import { Report } from './Report';
 

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 import Canvas from './Canvas';
 
 const CHROMATIC_DELAY = { chromatic: { delay: 500 } };

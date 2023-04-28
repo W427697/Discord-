@@ -1,7 +1,7 @@
 import type { FC, MouseEvent } from 'react';
 import React, { Fragment } from 'react';
-import { styled } from '@storybook/theming';
-import { FlexBar, Icons, IconButton, IconButtonSkeleton } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { FlexBar, Icons, IconButton, IconButtonSkeleton } from '@junk-temporary-prototypes/components';
 
 interface ZoomProps {
   zoom: (val: number) => void;

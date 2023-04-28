@@ -1,5 +1,5 @@
 import type { Browser, Page } from 'puppeteer';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import { constructUrl } from './url';
 import type { PuppeteerTestConfig } from './config';
 import { defaultPuppeteerTestConfig } from './config';

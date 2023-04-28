@@ -132,7 +132,7 @@ const runGenerators = async (
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
       limit(async () => {
-        const flags = expected.renderer === '@storybook/html' ? ['--type html'] : [];
+        const flags = expected.renderer === '@junk-temporary-prototypes/html' ? ['--type html'] : [];
 
         const time = process.hrtime();
         console.log(`🧬 generating ${name}`);

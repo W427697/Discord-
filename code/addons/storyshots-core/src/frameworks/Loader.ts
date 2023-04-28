@@ -1,5 +1,5 @@
-import type { Renderer, Addon_Loadable } from '@storybook/types';
-import type { ClientApi as ClientApiClass } from '@storybook/preview-api';
+import type { Renderer, Addon_Loadable } from '@junk-temporary-prototypes/types';
+import type { ClientApi as ClientApiClass } from '@junk-temporary-prototypes/preview-api';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';
 import type { SupportedFramework } from './SupportedFramework';
 

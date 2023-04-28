@@ -1,1 +1,1 @@
-export type { DocsRenderFunction } from '@storybook/types';
+export type { DocsRenderFunction } from '@junk-temporary-prototypes/types';

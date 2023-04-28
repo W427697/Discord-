@@ -1,5 +1,5 @@
-import { global } from '@storybook/global';
-import { logger } from '@storybook/client-logger';
+import { global } from '@junk-temporary-prototypes/global';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import type {
   Renderer,
   Args,
@@ -8,14 +8,14 @@ import type {
   LegacyStoryFn,
   StoryContext,
   StoryId,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,
   UPDATE_STORY_ARGS,
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
-} from '@storybook/core-events';
+} from '@junk-temporary-prototypes/core-events';
 import { addons } from './main';
 
 interface Hook {

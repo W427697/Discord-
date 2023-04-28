@@ -1,9 +1,9 @@
 import express from 'express';
 import compression from 'compression';
 
-import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
+import type { CoreConfig, Options, StorybookConfig } from '@junk-temporary-prototypes/types';
 
-import { logConfig } from '@storybook/core-common';
+import { logConfig } from '@junk-temporary-prototypes/core-common';
 
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';

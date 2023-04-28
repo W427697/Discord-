@@ -1,9 +1,9 @@
-import { logger } from '@storybook/client-logger';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import { expect } from '@jest/globals';
 
 import { inferArgTypes } from './inferArgTypes';
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 
 describe('inferArgTypes', () => {
   it('infers scalar types', () => {

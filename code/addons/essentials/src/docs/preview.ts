@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/export
-export * from '@storybook/addon-docs/dist/preview';
+export * from '@junk-temporary-prototypes/addon-docs/dist/preview';

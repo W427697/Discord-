@@ -4,7 +4,7 @@ exports[`storiesof-to-csf transforms correctly using "module.input.js" data 1`] 
 "/* eslint-disable */
 import React from 'react';
 import Button from './Button';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
 export default {
   title: 'foo',

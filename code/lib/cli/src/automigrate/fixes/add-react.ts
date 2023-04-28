@@ -19,7 +19,7 @@ export const addReact: Fix<AddReactOptions> = {
       Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
     );
 
-    const dependents = ['@storybook/addon-essentials', '@storybook/addon-docs'].filter((pkg) =>
+    const dependents = ['@junk-temporary-prototypes/addon-essentials', '@junk-temporary-prototypes/addon-docs'].filter((pkg) =>
       installedDependencies.has(pkg)
     );
     const additionalDependencies = [];

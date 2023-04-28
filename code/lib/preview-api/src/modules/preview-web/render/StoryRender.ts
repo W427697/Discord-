@@ -10,14 +10,14 @@ import type {
   StoryId,
   StoryRenderOptions,
   ViewMode,
-} from '@storybook/types';
-import type { Channel } from '@storybook/channels';
-import { logger } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/types';
+import type { Channel } from '@junk-temporary-prototypes/channels';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
-} from '@storybook/core-events';
+} from '@junk-temporary-prototypes/core-events';
 import type { StoryStore } from '../../store';
 import type { Render, RenderType } from './Render';
 import { PREPARE_ABORTED } from './Render';

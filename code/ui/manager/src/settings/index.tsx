@@ -1,8 +1,8 @@
-import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
-import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
-import { Location, Route } from '@storybook/router';
-import { styled } from '@storybook/theming';
-import { global } from '@storybook/global';
+import { useStorybookApi, useStorybookState } from '@junk-temporary-prototypes/manager-api';
+import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@junk-temporary-prototypes/components';
+import { Location, Route } from '@junk-temporary-prototypes/router';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
 

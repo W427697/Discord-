@@ -1,8 +1,8 @@
 import { dedent } from 'ts-dedent';
 import { sync as readUpSync } from 'read-pkg-up';
-import { logger, instance as npmLog } from '@storybook/node-logger';
-import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
-import { cache } from '@storybook/core-common';
+import { logger, instance as npmLog } from '@junk-temporary-prototypes/node-logger';
+import { buildDevStandalone, withTelemetry } from '@junk-temporary-prototypes/core-server';
+import { cache } from '@junk-temporary-prototypes/core-common';
 
 function printError(error: any) {
   // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header

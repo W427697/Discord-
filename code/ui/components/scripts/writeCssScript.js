@@ -6,7 +6,7 @@
 
 const fs = require('fs');
 const { parse } = require('css');
-const { isNaN } = require('@storybook/global');
+const { isNaN } = require('@junk-temporary-prototypes/global');
 
 const INPUT = require.resolve('overlayscrollbars/css/OverlayScrollbars.min.css');
 const OUTPUT = `${__dirname}/../src/ScrollArea/ScrollAreaStyles.ts`;
@@ -125,7 +125,7 @@ const stringifiedStylesWithReplacedKeyframes = Object.keys(__keyframes)
   });
 
 const result = `
-  import { Theme, CSSObject, keyframes } from '@storybook/theming';
+  import { Theme, CSSObject, keyframes } from '@junk-temporary-prototypes/theming';
 
   ${stringifiedKeyFrames}
 

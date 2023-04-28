@@ -5,9 +5,9 @@ import type {
   PreparedStory,
   StoryId,
   RenderContextCallbacks,
-} from '@storybook/types';
-import type { Channel } from '@storybook/channels';
-import { DOCS_RENDERED } from '@storybook/core-events';
+} from '@junk-temporary-prototypes/types';
+import type { Channel } from '@junk-temporary-prototypes/channels';
+import { DOCS_RENDERED } from '@junk-temporary-prototypes/core-events';
 import type { StoryStore } from '../../../store';
 
 import type { Render, RenderType } from './Render';
@@ -122,7 +122,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
 
     if (!docsParameter)
       throw new Error(
-        `Cannot render a story in viewMode=docs if \`@storybook/addon-docs\` is not installed`
+        `Cannot render a story in viewMode=docs if \`@junk-temporary-prototypes/addon-docs\` is not installed`
       );
 
     const renderer = await docsParameter.renderer();

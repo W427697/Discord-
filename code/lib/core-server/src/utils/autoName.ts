@@ -1,4 +1,4 @@
-import type { Path } from '@storybook/types';
+import type { Path } from '@junk-temporary-prototypes/types';
 import { basename } from 'path';
 
 /**

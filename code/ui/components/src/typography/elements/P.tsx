@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { withReset, withMargin, codeCommon } from '../lib/common';
 
 export const P = styled.p(withReset, withMargin, ({ theme }) => ({

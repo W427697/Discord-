@@ -1,12 +1,12 @@
 import React from 'react';
-import { addons } from '@storybook/preview-api';
+import { addons } from '@junk-temporary-prototypes/preview-api';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SELECT_STORY } from '@storybook/core-events';
+import { SELECT_STORY } from '@junk-temporary-prototypes/core-events';
 import LinkTo from './link';
 
-jest.mock('@storybook/preview-api');
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/preview-api');
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
     document: {
       location: {

@@ -1,12 +1,12 @@
-import { expect } from '@storybook/jest';
-import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { expect } from '@junk-temporary-prototypes/jest';
+import { within, userEvent, waitFor } from '@junk-temporary-prototypes/testing-library';
 import {
   UPDATE_STORY_ARGS,
   STORY_ARGS_UPDATED,
   RESET_STORY_ARGS,
   STORY_RENDERED,
-} from '@storybook/core-events';
-import { addons } from '@storybook/preview-api';
+} from '@junk-temporary-prototypes/core-events';
+import { addons } from '@junk-temporary-prototypes/preview-api';
 import ButtonView from './views/ButtonView.svelte';
 
 export default {

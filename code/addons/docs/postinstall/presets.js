@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { presetsAddPreset, getFrameworks } from '@storybook/postinstall';
-import { logger } from '@storybook/node-logger';
+import { presetsAddPreset, getFrameworks } from '@junk-temporary-prototypes/postinstall';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 export default function transformer(file, api) {
   const packageJson = JSON.parse(fs.readFileSync('./package.json'));
@@ -11,7 +11,7 @@ export default function transformer(file, api) {
   let presetOptions = null;
   if (frameworks.length !== 1) {
     err = `${frameworks.length === 0 ? 'No' : 'Multiple'} frameworks found: ${frameworks}`;
-    logger.error(`${err}, please configure '@storybook/addon-docs' manually.`);
+    logger.error(`${err}, please configure '@junk-temporary-prototypes/addon-docs' manually.`);
     return file.source;
   }
 
@@ -30,7 +30,7 @@ export default function transformer(file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  presetsAddPreset(`@storybook/addon-docs/preset`, presetOptions, { root, api });
+  presetsAddPreset(`@junk-temporary-prototypes/addon-docs/preset`, presetOptions, { root, api });
 
   return root.toSource({ quote: 'single' });
 }

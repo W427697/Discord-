@@ -16,7 +16,7 @@ const checkStorybookBinary = async ({
 describe('storybook-binary fix', () => {
   describe('sb < 7.0', () => {
     describe('does nothing', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0' } };
+      const packageJson = { dependencies: { '@junk-temporary-prototypes/react': '^6.2.0' } };
       it('should no-op', async () => {
         await expect(
           checkStorybookBinary({
@@ -31,7 +31,7 @@ describe('storybook-binary fix', () => {
   describe('sb >= 7.0', () => {
     it('should no-op in NX projects', async () => {
       const packageJson = {
-        dependencies: { '@storybook/react': '^7.0.0', '@nrwl/storybook': '^15.7.1' },
+        dependencies: { '@junk-temporary-prototypes/react': '^7.0.0', '@nrwl/storybook': '^15.7.1' },
       };
       await expect(
         checkStorybookBinary({
@@ -43,7 +43,7 @@ describe('storybook-binary fix', () => {
     it('should add storybook dependency if not present', async () => {
       const packageJson = {
         dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+          '@junk-temporary-prototypes/react': '^7.0.0-alpha.0',
         },
       };
       await expect(
@@ -61,7 +61,7 @@ describe('storybook-binary fix', () => {
     it('should remove sb dependency if it is present', async () => {
       const packageJson = {
         dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+          '@junk-temporary-prototypes/react': '^7.0.0-alpha.0',
           sb: '6.5.0',
         },
       };
@@ -80,7 +80,7 @@ describe('storybook-binary fix', () => {
     it('should no op if storybook is present and sb is not present', async () => {
       const packageJson = {
         dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+          '@junk-temporary-prototypes/react': '^7.0.0-alpha.0',
           storybook: '^7.0.0-alpha.0',
         },
       };

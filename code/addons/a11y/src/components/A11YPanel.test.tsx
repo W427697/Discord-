@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, waitFor, fireEvent, act } from '@testing-library/react';
 
-import { ThemeProvider, themes, convert } from '@storybook/theming';
-import * as api from '@storybook/manager-api';
+import { ThemeProvider, themes, convert } from '@junk-temporary-prototypes/theming';
+import * as api from '@junk-temporary-prototypes/manager-api';
 
 import { A11YPanel } from './A11YPanel';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/manager-api');
+jest.mock('@junk-temporary-prototypes/manager-api');
 
 global.ResizeObserver = require('resize-observer-polyfill');
 

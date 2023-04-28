@@ -16,7 +16,7 @@ describe('configureMain', () => {
       addons: [],
       storybookConfigFolder: '.storybook',
       framework: {
-        name: '@storybook/react-vite',
+        name: '@junk-temporary-prototypes/react-vite',
       },
     });
 
@@ -25,12 +25,12 @@ describe('configureMain', () => {
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
     expect(mainConfigContent).toMatchInlineSnapshot(`
-      "/** @type { import('@storybook/react-vite').StorybookConfig } */
+      "/** @type { import('@junk-temporary-prototypes/react-vite').StorybookConfig } */
       const config = {
         stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
         addons: [],
         framework: {
-          name: '@storybook/react-vite',
+          name: '@junk-temporary-prototypes/react-vite',
         },
       };
       export default config;
@@ -44,7 +44,7 @@ describe('configureMain', () => {
       addons: [],
       storybookConfigFolder: '.storybook',
       framework: {
-        name: '@storybook/react-vite',
+        name: '@junk-temporary-prototypes/react-vite',
       },
     });
 
@@ -53,12 +53,12 @@ describe('configureMain', () => {
 
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
     expect(mainConfigContent).toMatchInlineSnapshot(`
-      "import type { StorybookConfig } from '@storybook/react-vite';
+      "import type { StorybookConfig } from '@junk-temporary-prototypes/react-vite';
       const config: StorybookConfig = {
         stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
         addons: [],
         framework: {
-          name: '@storybook/react-vite',
+          name: '@junk-temporary-prototypes/react-vite',
         },
       };
       export default config;
@@ -70,14 +70,14 @@ describe('configureMain', () => {
     await configureMain({
       language: SupportedLanguage.JAVASCRIPT,
       addons: [
-        "%%path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json')))%%",
-        "%%path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json')))%%",
-        "%%path.dirname(require.resolve(path.join('@storybook/preset-create-react-app', 'package.json')))%%",
-        "%%path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@junk-temporary-prototypes/addon-links', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@junk-temporary-prototypes/addon-essentials', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@junk-temporary-prototypes/preset-create-react-app', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@junk-temporary-prototypes/addon-interactions', 'package.json')))%%",
       ],
       storybookConfigFolder: '.storybook',
       framework: {
-        name: "%%path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))%%",
+        name: "%%path.dirname(require.resolve(path.join('@junk-temporary-prototypes/react-webpack5', 'package.json')))%%",
       },
     });
 
@@ -88,17 +88,17 @@ describe('configureMain', () => {
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "import path from 'path';
 
-      /** @type { import('@storybook/react-webpack5').StorybookConfig } */
+      /** @type { import('@junk-temporary-prototypes/react-webpack5').StorybookConfig } */
       const config = {
         stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
         addons: [
-          path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json'))),
-          path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json'))),
-          path.dirname(require.resolve(path.join('@storybook/preset-create-react-app', 'package.json'))),
-          path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json'))),
+          path.dirname(require.resolve(path.join('@junk-temporary-prototypes/addon-links', 'package.json'))),
+          path.dirname(require.resolve(path.join('@junk-temporary-prototypes/addon-essentials', 'package.json'))),
+          path.dirname(require.resolve(path.join('@junk-temporary-prototypes/preset-create-react-app', 'package.json'))),
+          path.dirname(require.resolve(path.join('@junk-temporary-prototypes/addon-interactions', 'package.json'))),
         ],
         framework: {
-          name: path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json'))),
+          name: path.dirname(require.resolve(path.join('@junk-temporary-prototypes/react-webpack5', 'package.json'))),
         },
       };
       export default config;
@@ -120,7 +120,7 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "/** @type { import('@storybook/react').Preview } */
+      "/** @type { import('@junk-temporary-prototypes/react').Preview } */
       const preview = {
         parameters: {
           actions: { argTypesRegex: '^on[A-Z].*' },
@@ -150,7 +150,7 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "import type { Preview } from '@storybook/react';
+      "import type { Preview } from '@junk-temporary-prototypes/react';
 
       const preview: Preview = {
         parameters: {
@@ -186,7 +186,7 @@ describe('configurePreview', () => {
       rendererId: 'angular',
       frameworkPreviewParts: {
         prefix: dedent`
-        import { setCompodocJson } from "@storybook/addon-docs/angular";
+        import { setCompodocJson } from "@junk-temporary-prototypes/addon-docs/angular";
         import docJson from "../documentation.json";
         setCompodocJson(docJson);
       `,
@@ -198,8 +198,8 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "import type { Preview } from '@storybook/angular';
-      import { setCompodocJson } from '@storybook/addon-docs/angular';
+      "import type { Preview } from '@junk-temporary-prototypes/angular';
+      import { setCompodocJson } from '@junk-temporary-prototypes/addon-docs/angular';
       import docJson from '../documentation.json';
       setCompodocJson(docJson);
 

@@ -1,4 +1,4 @@
-import type { PackageJson, StorybookConfig } from '@storybook/types';
+import type { PackageJson, StorybookConfig } from '@junk-temporary-prototypes/types';
 import { getActualPackageJson } from './package-json';
 
 const knownRenderers = [
@@ -27,7 +27,7 @@ function findMatchingPackage(packageJson: PackageJson, suffixes: string[]) {
     ...peerDependencies,
   };
 
-  return suffixes.map((suffix) => `@storybook/${suffix}`).find((pkg) => allDependencies[pkg]);
+  return suffixes.map((suffix) => `@junk-temporary-prototypes/${suffix}`).find((pkg) => allDependencies[pkg]);
 }
 
 export async function getFrameworkInfo(mainConfig: StorybookConfig) {

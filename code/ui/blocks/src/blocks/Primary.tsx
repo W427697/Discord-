@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
 import dedent from 'ts-dedent';
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 import { DocsContext } from './DocsContext';
 import { DocsStory } from './DocsStory';

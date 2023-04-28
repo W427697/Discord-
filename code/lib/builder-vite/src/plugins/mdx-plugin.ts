@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/types';
+import type { Options } from '@junk-temporary-prototypes/types';
 import type { Plugin } from 'vite';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
@@ -27,13 +27,13 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
       if (!filter(id)) return undefined;
 
       const { compile } = features?.legacyMdx1
-        ? await import('@storybook/mdx1-csf')
-        : await import('@storybook/mdx2-csf');
+        ? await import('@junk-temporary-prototypes/mdx1-csf')
+        : await import('@junk-temporary-prototypes/mdx2-csf');
 
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
         ...mdxPluginOptions,
         mdxCompileOptions: {
-          providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+          providerImportSource: '@junk-temporary-prototypes/addon-docs/mdx-react-shim',
           ...mdxPluginOptions?.mdxCompileOptions,
           remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
             mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []

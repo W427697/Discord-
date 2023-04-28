@@ -1,6 +1,6 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { dedent } from 'ts-dedent';
-import type { RenderContext } from '@storybook/types';
+import type { RenderContext } from '@junk-temporary-prototypes/types';
 // @ts-expect-error (Converted from ts-ignore)
 import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
 import type { OptionsArgs, EmberRenderer } from './types';

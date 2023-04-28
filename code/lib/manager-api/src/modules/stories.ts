@@ -1,5 +1,5 @@
-import { global } from '@storybook/global';
-import { toId, sanitize } from '@storybook/csf';
+import { global } from '@junk-temporary-prototypes/global';
+import { toId, sanitize } from '@junk-temporary-prototypes/csf';
 import type {
   StoryKind,
   ComponentTitle,
@@ -18,7 +18,7 @@ import type {
   StoryPreparedPayload,
   DocsPreparedPayload,
   API_DocsEntry,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import {
   PRELOAD_ENTRIES,
   STORY_PREPARED,
@@ -35,8 +35,8 @@ import {
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
   DOCS_PREPARED,
-} from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/core-events';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';

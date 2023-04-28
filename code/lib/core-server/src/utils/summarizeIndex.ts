@@ -1,4 +1,4 @@
-import type { IndexEntry, StoryIndex } from '@storybook/types';
+import type { IndexEntry, StoryIndex } from '@junk-temporary-prototypes/types';
 
 import { STORIES_MDX_TAG, isMdxEntry, AUTODOCS_TAG, PLAY_FN_TAG } from './StoryIndexGenerator';
 

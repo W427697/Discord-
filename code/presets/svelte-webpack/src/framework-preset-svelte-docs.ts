@@ -1,4 +1,4 @@
-import type { Preset } from '@storybook/core-webpack';
+import type { Preset } from '@junk-temporary-prototypes/core-webpack';
 import type { StorybookConfig, SvelteOptions } from './types';
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, { presets }) => {
@@ -9,7 +9,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, { pr
     ...(config.module?.rules || []),
     {
       test: /\.svelte$/,
-      loader: require.resolve(`@storybook/preset-svelte-webpack/dist/svelte-docgen-loader`),
+      loader: require.resolve(`@junk-temporary-prototypes/preset-svelte-webpack/dist/svelte-docgen-loader`),
       enforce: 'post',
       options: svelteOptions,
     },

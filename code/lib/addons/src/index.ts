@@ -1,8 +1,8 @@
-import { type Addon_Type, Addon_TypesEnum } from '@storybook/types';
+import { type Addon_Type, Addon_TypesEnum } from '@junk-temporary-prototypes/types';
 
 export { type Addon_Type as Addon, Addon_TypesEnum as types };
 
-export { addons, type AddonStore, mockChannel } from '@storybook/manager-api';
+export { addons, type AddonStore, mockChannel } from '@junk-temporary-prototypes/manager-api';
 
 export {
   type EventMap,
@@ -23,4 +23,4 @@ export {
   useRef,
   useState,
   useStoryContext,
-} from '@storybook/preview-api/dist/addons';
+} from '@junk-temporary-prototypes/preview-api/dist/addons';

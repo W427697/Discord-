@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/addon-toolbars",
+  "name": "@junk-temporary-prototypes/addon-toolbars",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

@@ -7,9 +7,9 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
-import { globals } from '@storybook/preview/globals';
-import type { Options } from '@storybook/types';
+import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@junk-temporary-prototypes/core-common';
+import { globals } from '@junk-temporary-prototypes/preview/globals';
+import type { Options } from '@junk-temporary-prototypes/types';
 import {
   codeGeneratorPlugin,
   csfPlugin,
@@ -98,7 +98,7 @@ export async function pluginConfig(options: Options) {
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
-  if (frameworkName === '@storybook/glimmerx-vite') {
+  if (frameworkName === '@junk-temporary-prototypes/glimmerx-vite') {
     // eslint-disable-next-line global-require
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());

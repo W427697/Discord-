@@ -1,7 +1,7 @@
 import React from 'react';
-import { Icons, type IconsProps } from '@storybook/components';
-import { type Call, CallStates } from '@storybook/instrumenter';
-import { styled } from '@storybook/theming';
+import { Icons, type IconsProps } from '@junk-temporary-prototypes/components';
+import { type Call, CallStates } from '@junk-temporary-prototypes/instrumenter';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 import { transparentize } from 'polished';
 import localTheme from '../theme';

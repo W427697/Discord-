@@ -2,16 +2,16 @@
 // .storybook/main.ts
 
 // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
-import type { StorybookConfig } from '@storybook/your-framework';
+import type { StorybookConfig } from '@junk-temporary-prototypes/your-framework';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-actions',
-    '@storybook/addon-viewport',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-actions',
+    '@junk-temporary-prototypes/addon-viewport',
     {
-      name: '@storybook/addon-docs',
+      name: '@junk-temporary-prototypes/addon-docs',
       options: {
         csfPluginOptions: null,
         jsxOptions: {},
@@ -22,11 +22,11 @@ const config: StorybookConfig = {
         },
       },
     },
-    '@storybook/addon-controls',
-    '@storybook/addon-backgrounds',
-    '@storybook/addon-toolbars',
-    '@storybook/addon-measure',
-    '@storybook/addon-outline',
+    '@junk-temporary-prototypes/addon-controls',
+    '@junk-temporary-prototypes/addon-backgrounds',
+    '@junk-temporary-prototypes/addon-toolbars',
+    '@junk-temporary-prototypes/addon-measure',
+    '@junk-temporary-prototypes/addon-outline',
   ],
 };
 

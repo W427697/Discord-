@@ -1,5 +1,5 @@
-import { types } from '@storybook/manager-api';
-import type { API, State, Addon } from '@storybook/manager-api';
+import { types } from '@junk-temporary-prototypes/manager-api';
+import type { API, State, Addon } from '@junk-temporary-prototypes/manager-api';
 import type { PreviewProps } from './utils/types';
 
 export const previewProps: PreviewProps = {

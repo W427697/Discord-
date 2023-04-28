@@ -5,7 +5,7 @@ declare module 'preact-render-to-string/jsx';
 declare module 'react-test-renderer*';
 declare module 'rax-test-renderer*';
 
-declare module '@storybook/babel-plugin-require-context-hook/register';
+declare module '@junk-temporary-prototypes/babel-plugin-require-context-hook/register';
 
 declare var STORYBOOK_ENV: any;
 declare var STORIES: any;

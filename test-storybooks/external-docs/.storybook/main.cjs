@@ -8,7 +8,7 @@ const config = {
     },
   ],
   logLevel: 'debug',
-  addons: ['@storybook/addon-essentials'],
+  addons: ['@junk-temporary-prototypes/addon-essentials'],
   typescript: {
     check: true,
     checkOptions: {},
@@ -25,6 +25,6 @@ const config = {
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
   },
-  framework: '@storybook/react-webpack5',
+  framework: '@junk-temporary-prototypes/react-webpack5',
 };
 module.exports = config;

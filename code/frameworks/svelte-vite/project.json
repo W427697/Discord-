@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/svelte-vite",
+  "name": "@junk-temporary-prototypes/svelte-vite",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

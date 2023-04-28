@@ -1,6 +1,6 @@
 import { sync as readUpSync } from 'read-pkg-up';
-import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
-import { cache } from '@storybook/core-common';
+import { buildStaticStandalone, withTelemetry } from '@junk-temporary-prototypes/core-server';
+import { cache } from '@junk-temporary-prototypes/core-common';
 
 export const build = async (cliOptions: any) => {
   const options = {

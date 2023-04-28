@@ -1,4 +1,4 @@
-import type { PlayFunctionContext, StepRunner } from '@storybook/types';
+import type { PlayFunctionContext, StepRunner } from '@junk-temporary-prototypes/types';
 import { composeStepRunners } from './stepRunners';
 
 describe('stepRunners', () => {

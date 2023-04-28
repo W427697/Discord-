@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/web-components-vite",
+  "name": "@junk-temporary-prototypes/web-components-vite",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

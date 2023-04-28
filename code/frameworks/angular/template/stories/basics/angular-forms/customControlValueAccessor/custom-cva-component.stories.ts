@@ -1,5 +1,5 @@
 import { FormsModule } from '@angular/forms';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@junk-temporary-prototypes/angular';
 import { CustomCvaComponent } from './custom-cva.component';
 
 export default {

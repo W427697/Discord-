@@ -2,7 +2,7 @@ import {
   createSummaryValue,
   isTooLongForDefaultValueSummary,
   type PropDefaultValue,
-} from '@storybook/docs-tools';
+} from '@junk-temporary-prototypes/docs-tools';
 
 import { FUNCTION_CAPTION, ELEMENT_CAPTION } from '../captions';
 import type {

@@ -35,7 +35,7 @@ const getBuilderDetails = (builder: string) => {
     return builder;
   }
 
-  const builderPackage = `@storybook/${builder}`;
+  const builderPackage = `@junk-temporary-prototypes/${builder}`;
   if (map[builderPackage]) {
     return builderPackage;
   }
@@ -56,7 +56,7 @@ const getFrameworkPackage = (framework: string, renderer: string, builder: strin
   const externalFramework = getExternalFramework(framework);
 
   if (externalFramework === undefined) {
-    return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
+    return framework ? `@junk-temporary-prototypes/${framework}` : `@junk-temporary-prototypes/${renderer}-${builder}`;
   }
 
   if (externalFramework.frameworks !== undefined) {
@@ -71,7 +71,7 @@ const getRendererPackage = (framework: string, renderer: string) => {
   if (externalFramework !== undefined)
     return externalFramework.renderer || externalFramework.packageName;
 
-  return `@storybook/${renderer}`;
+  return `@junk-temporary-prototypes/${renderer}`;
 };
 
 const wrapForPnp = (packageName: string) =>
@@ -175,23 +175,23 @@ export async function baseGenerator(
 
   // added to main.js
   const addons = [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-essentials',
     ...stripVersions(extraAddonPackages),
   ];
   // added to package.json
   const addonPackages = [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/blocks',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-essentials',
+    '@junk-temporary-prototypes/blocks',
     ...extraAddonPackages,
   ];
 
   if (hasInteractiveStories(rendererId)) {
-    addons.push('@storybook/addon-interactions');
+    addons.push('@junk-temporary-prototypes/addon-interactions');
     addonPackages.push(
-      '@storybook/addon-interactions',
-      '@storybook/testing-library@^0.0.14-next.1'
+      '@junk-temporary-prototypes/addon-interactions',
+      '@junk-temporary-prototypes/testing-library@^0.0.14-next.1'
     );
   }
 
@@ -215,7 +215,7 @@ export async function baseGenerator(
   if (type === 'renderer') {
     throw new Error(
       dedent`
-        Sorry, for now, you can not do this, please use a framework such as @storybook/react-webpack5
+        Sorry, for now, you can not do this, please use a framework such as @junk-temporary-prototypes/react-webpack5
 
         https://github.com/storybookjs/storybook/issues/18360
       `
@@ -224,7 +224,7 @@ export async function baseGenerator(
 
   const packages = [
     'storybook',
-    getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
+    getExternalFramework(rendererId) ? undefined : `@junk-temporary-prototypes/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,

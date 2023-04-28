@@ -1,7 +1,7 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { dedent } from 'ts-dedent';
 
-import { logger } from '@storybook/client-logger';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 
 import type { Background } from '../types';
 

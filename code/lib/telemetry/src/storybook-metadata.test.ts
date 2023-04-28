@@ -1,4 +1,4 @@
-import type { PackageJson, StorybookConfig } from '@storybook/types';
+import type { PackageJson, StorybookConfig } from '@junk-temporary-prototypes/types';
 
 import path from 'path';
 import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';
@@ -26,8 +26,8 @@ jest.mock('./package-json', () => {
 
   const getActualPackageJson = jest.fn((name) => ({
     dependencies: {
-      '@storybook/react': 'x.x.x',
-      '@storybook/builder-vite': 'x.x.x',
+      '@junk-temporary-prototypes/react': 'x.x.x',
+      '@junk-temporary-prototypes/builder-vite': 'x.x.x',
     },
   }));
 
@@ -56,23 +56,23 @@ describe('sanitizeAddonName', () => {
 
   test('special addon names', () => {
     const addonNames = [
-      '@storybook/preset-create-react-app',
+      '@junk-temporary-prototypes/preset-create-react-app',
       'storybook-addon-deprecated/register',
       'storybook-addon-ends-with-js/register.js',
-      '@storybook/addon-knobs/preset',
-      '@storybook/addon-ends-with-js/preset.js',
-      '@storybook/addon-postcss/dist/index.js',
+      '@junk-temporary-prototypes/addon-knobs/preset',
+      '@junk-temporary-prototypes/addon-ends-with-js/preset.js',
+      '@junk-temporary-prototypes/addon-postcss/dist/index.js',
       '../local-addon/register.js',
       '../../',
     ].map(sanitizeAddonName);
 
     expect(addonNames).toEqual([
-      '@storybook/preset-create-react-app',
+      '@junk-temporary-prototypes/preset-create-react-app',
       'storybook-addon-deprecated',
       'storybook-addon-ends-with-js',
-      '@storybook/addon-knobs',
-      '@storybook/addon-ends-with-js',
-      '@storybook/addon-postcss',
+      '@junk-temporary-prototypes/addon-knobs',
+      '@junk-temporary-prototypes/addon-ends-with-js',
+      '@junk-temporary-prototypes/addon-postcss',
       '../local-addon',
       '../../',
     ]);
@@ -108,7 +108,7 @@ describe('await computeStorybookMetadata', () => {
       mainConfig: {
         ...mainJsMock,
         framework: {
-          name: '@storybook/react-vite',
+          name: '@junk-temporary-prototypes/react-vite',
           options: {
             fastRefresh: false,
           },
@@ -117,7 +117,7 @@ describe('await computeStorybookMetadata', () => {
     });
 
     expect(reactResult.framework).toEqual({
-      name: '@storybook/react-vite',
+      name: '@junk-temporary-prototypes/react-vite',
       options: { fastRefresh: false },
     });
 
@@ -126,7 +126,7 @@ describe('await computeStorybookMetadata', () => {
       mainConfig: {
         ...mainJsMock,
         framework: {
-          name: '@storybook/angular',
+          name: '@junk-temporary-prototypes/angular',
           options: {
             enableIvy: true,
             enableNgcc: true,
@@ -136,7 +136,7 @@ describe('await computeStorybookMetadata', () => {
     });
 
     expect(angularResult.framework).toEqual({
-      name: '@storybook/angular',
+      name: '@junk-temporary-prototypes/angular',
       options: { enableIvy: true, enableNgcc: true },
     });
   });
@@ -146,29 +146,29 @@ describe('await computeStorybookMetadata', () => {
       packageJson: {
         ...packageJsonMock,
         devDependencies: {
-          '@storybook/react': 'x.y.z',
-          '@storybook/addon-essentials': 'x.x.x',
-          '@storybook/addon-knobs': 'x.x.y',
+          '@junk-temporary-prototypes/react': 'x.y.z',
+          '@junk-temporary-prototypes/addon-essentials': 'x.x.x',
+          '@junk-temporary-prototypes/addon-knobs': 'x.x.y',
           'storybook-addon-deprecated': 'x.x.z',
         },
       },
       mainConfig: {
         ...mainJsMock,
         addons: [
-          '@storybook/addon-essentials',
+          '@junk-temporary-prototypes/addon-essentials',
           'storybook-addon-deprecated/register',
-          '@storybook/addon-knobs/preset',
+          '@junk-temporary-prototypes/addon-knobs/preset',
         ],
       },
     });
 
     expect(result.addons).toMatchInlineSnapshot(`
       Object {
-        "@storybook/addon-essentials": Object {
+        "@junk-temporary-prototypes/addon-essentials": Object {
           "options": undefined,
           "version": "x.x.x",
         },
-        "@storybook/addon-knobs": Object {
+        "@junk-temporary-prototypes/addon-knobs": Object {
           "options": undefined,
           "version": "x.x.x",
         },
@@ -180,7 +180,7 @@ describe('await computeStorybookMetadata', () => {
     `);
     expect(result.storybookPackages).toMatchInlineSnapshot(`
       Object {
-        "@storybook/react": Object {
+        "@junk-temporary-prototypes/react": Object {
           "version": "x.x.x",
         },
       }
@@ -209,13 +209,13 @@ describe('await computeStorybookMetadata', () => {
         packageJson: packageJsonMock,
         mainConfig: {
           ...mainJsMock,
-          framework: '@storybook/react-vite',
+          framework: '@junk-temporary-prototypes/react-vite',
         },
       })
     ).toMatchObject({
-      framework: { name: '@storybook/react-vite' },
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-vite',
+      framework: { name: '@junk-temporary-prototypes/react-vite' },
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-vite',
     });
   });
 

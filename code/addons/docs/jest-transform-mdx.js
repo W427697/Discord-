@@ -2,7 +2,7 @@ const path = require('path');
 const { ScriptTransformer } = require('@jest/transform');
 const { dedent } = require('ts-dedent');
 
-const { compile } = require('@storybook/mdx2-csf');
+const { compile } = require('@junk-temporary-prototypes/mdx2-csf');
 
 module.exports = {
   async processAsync(src, filename, config, { instrument }) {

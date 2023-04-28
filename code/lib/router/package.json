@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/router",
+  "name": "@junk-temporary-prototypes/router",
   "version": "7.0.7",
   "description": "Core Storybook Router",
   "keywords": [
@@ -48,12 +48,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.7",
+    "@junk-temporary-prototypes/client-logger": "7.0.7",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0"
   },
   "devDependencies": {
-    "@storybook/global": "^5.0.0",
+    "@junk-temporary-prototypes/global": "^5.0.0",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "react-router-dom": "6.0.2",

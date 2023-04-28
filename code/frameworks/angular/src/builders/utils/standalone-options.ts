@@ -4,7 +4,7 @@ import {
   StyleElement,
   StylePreprocessorOptions,
 } from '@angular-devkit/build-angular/src/builders/browser/schema';
-import { LoadOptions, CLIOptions, BuilderOptions } from '@storybook/types';
+import { LoadOptions, CLIOptions, BuilderOptions } from '@junk-temporary-prototypes/types';
 
 export type StandaloneOptions = CLIOptions &
   LoadOptions &

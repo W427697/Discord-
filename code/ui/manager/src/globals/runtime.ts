@@ -1,13 +1,13 @@
 import * as REACT from 'react';
 import * as REACTDOM from 'react-dom';
 
-import * as STORYBOOKCOMPONENTS from '@storybook/components';
-import * as STORYBOOKCHANNELS from '@storybook/channels';
-import * as STORYBOOKEVENTS from '@storybook/core-events';
-import * as STORYBOOKROUTER from '@storybook/router';
-import * as STORYBOOKTHEMING from '@storybook/theming';
-import * as STORYBOOKMANAGERAPI from '@storybook/manager-api';
-import * as STORYBOOKCLIENTLOGGER from '@storybook/client-logger';
+import * as STORYBOOKCOMPONENTS from '@junk-temporary-prototypes/components';
+import * as STORYBOOKCHANNELS from '@junk-temporary-prototypes/channels';
+import * as STORYBOOKEVENTS from '@junk-temporary-prototypes/core-events';
+import * as STORYBOOKROUTER from '@junk-temporary-prototypes/router';
+import * as STORYBOOKTHEMING from '@junk-temporary-prototypes/theming';
+import * as STORYBOOKMANAGERAPI from '@junk-temporary-prototypes/manager-api';
+import * as STORYBOOKCLIENTLOGGER from '@junk-temporary-prototypes/client-logger';
 
 import type { Keys } from './types';
 
@@ -15,18 +15,18 @@ import type { Keys } from './types';
 export const values: Required<Record<keyof typeof Keys, any>> = {
   react: REACT as any,
   'react-dom': REACTDOM,
-  '@storybook/components': STORYBOOKCOMPONENTS,
-  '@storybook/channels': STORYBOOKCHANNELS,
-  '@storybook/core-events': STORYBOOKEVENTS,
-  '@storybook/router': STORYBOOKROUTER,
-  '@storybook/theming': STORYBOOKTHEMING,
-  '@storybook/api': STORYBOOKMANAGERAPI, // deprecated, remove in 8.0
-  '@storybook/manager-api': STORYBOOKMANAGERAPI,
+  '@junk-temporary-prototypes/components': STORYBOOKCOMPONENTS,
+  '@junk-temporary-prototypes/channels': STORYBOOKCHANNELS,
+  '@junk-temporary-prototypes/core-events': STORYBOOKEVENTS,
+  '@junk-temporary-prototypes/router': STORYBOOKROUTER,
+  '@junk-temporary-prototypes/theming': STORYBOOKTHEMING,
+  '@junk-temporary-prototypes/api': STORYBOOKMANAGERAPI, // deprecated, remove in 8.0
+  '@junk-temporary-prototypes/manager-api': STORYBOOKMANAGERAPI,
   // backwards compatibility
-  '@storybook/addons': {
+  '@junk-temporary-prototypes/addons': {
     addons: STORYBOOKMANAGERAPI.addons,
     types: STORYBOOKMANAGERAPI.types,
     mockChannel: STORYBOOKMANAGERAPI.mockChannel,
   },
-  '@storybook/client-logger': STORYBOOKCLIENTLOGGER,
+  '@junk-temporary-prototypes/client-logger': STORYBOOKCLIENTLOGGER,
 };

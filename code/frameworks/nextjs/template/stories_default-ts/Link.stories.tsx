@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 
 import style from './Link.stories.module.css';
 

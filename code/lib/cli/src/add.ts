@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { sync as spawnSync } from 'cross-spawn';
 
-import { getStorybookInfo } from '@storybook/core-common';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { getStorybookInfo } from '@junk-temporary-prototypes/core-common';
+import { readConfig, writeConfig } from '@junk-temporary-prototypes/csf-tools';
 
 import { commandLog } from './helpers';
 import {
@@ -63,8 +63,8 @@ const getVersionSpecifier = (addon: string) => {
  * Install the given addon package and add it to main.js
  *
  * Usage:
- * - sb add @storybook/addon-docs
- * - sb add @storybook/addon-interactions@7.0.1
+ * - sb add @junk-temporary-prototypes/addon-docs
+ * - sb add @junk-temporary-prototypes/addon-interactions@7.0.1
  *
  * If there is no version specifier and it's a storybook addon,
  * it will try to use the version specifier matching your current
@@ -96,7 +96,7 @@ export async function add(
   }
 
   // add to package.json
-  const isStorybookAddon = addonName.startsWith('@storybook/');
+  const isStorybookAddon = addonName.startsWith('@junk-temporary-prototypes/');
   const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
   const addonWithVersion = `${addonName}@${version}`;
   logger.log(`Installing ${addonWithVersion}`);

@@ -1,4 +1,4 @@
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
 const foo = 'some|generated/path';
 

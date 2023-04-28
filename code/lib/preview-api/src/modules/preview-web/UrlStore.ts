@@ -1,6 +1,6 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import qs from 'qs';
-import type { ViewMode } from '@storybook/types';
+import type { ViewMode } from '@junk-temporary-prototypes/types';
 
 import { parseArgsParam } from './parseArgsParam';
 import type { SelectionSpecifier, SelectionStore, Selection } from './SelectionStore';

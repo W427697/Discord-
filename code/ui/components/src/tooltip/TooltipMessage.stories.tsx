@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@junk-temporary-prototypes/react';
 import { WithTooltip } from './WithTooltip';
 import { TooltipMessage } from './TooltipMessage';
 

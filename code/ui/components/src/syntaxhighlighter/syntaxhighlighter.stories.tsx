@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { ThemeProvider, themes, ensure } from '@storybook/theming';
+import { ThemeProvider, themes, ensure } from '@junk-temporary-prototypes/theming';
 import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
 
 export default {
@@ -161,8 +161,8 @@ export const Story = {
   args: {
     language: 'jsx',
     children: `import React from 'react';
-    import { storiesOf } from '@storybook/react';
-    import { styled } from '@storybook/theming';
+    import { storiesOf } from '@junk-temporary-prototypes/react';
+    import { styled } from '@junk-temporary-prototypes/theming';
 
     import Heading from './heading';
 

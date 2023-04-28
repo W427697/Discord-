@@ -12,11 +12,11 @@ import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
-import { CLIOptions } from '@storybook/types';
-import { getEnvConfig, versions } from '@storybook/cli';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { CLIOptions } from '@junk-temporary-prototypes/types';
+import { getEnvConfig, versions } from '@junk-temporary-prototypes/cli';
+import { addToGlobalContext } from '@junk-temporary-prototypes/telemetry';
 
-import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
+import { buildStaticStandalone, withTelemetry } from '@junk-temporary-prototypes/core-server';
 import {
   AssetPattern,
   StyleElement,

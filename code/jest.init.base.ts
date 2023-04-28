@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 // setup file
-import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
+import registerRequireContextHook from '@junk-temporary-prototypes/babel-plugin-require-context-hook/register';
 
 registerRequireContextHook();
 

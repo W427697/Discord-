@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { Icons, IconButton, type IconsProps } from '@storybook/components';
+import { Icons, IconButton, type IconsProps } from '@junk-temporary-prototypes/components';
 
 interface ToolbarMenuButtonProps {
   active: boolean;

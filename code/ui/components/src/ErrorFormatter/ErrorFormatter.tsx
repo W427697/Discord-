@@ -1,7 +1,7 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC } from 'react';
 import React, { Fragment } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 const { document } = global;
 

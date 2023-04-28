@@ -1,6 +1,6 @@
 import React from 'react';
-import { addons, types, type API, useArgTypes } from '@storybook/manager-api';
-import { AddonPanel } from '@storybook/components';
+import { addons, types, type API, useArgTypes } from '@junk-temporary-prototypes/manager-api';
+import { AddonPanel } from '@junk-temporary-prototypes/components';
 import { ControlsPanel } from './ControlsPanel';
 import { ADDON_ID, PARAM_KEY } from './constants';
 

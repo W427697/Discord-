@@ -2,22 +2,22 @@
 
 exports[`update-organisation-name transforms correctly using "update-organisation-name.input.js" data 1`] = `
 "/* eslint-disable */
-import '@storybook/preview-api';
-import '@storybook/addon-comments';
-import '@storybook/addon-centered';
-import '@storybook/addon-graphql';
-import '@storybook/addon-info';
-import '@storybook/addon-knobs';
-import '@storybook/addon-links';
-import '@storybook/addon-notes';
-import '@storybook/addon-options';
-import '@storybook/addon-storyshots';
-import '@storybook/channels';
-import '@storybook/channel-postmessage';
-import '@storybook/channel-websocket';
-import '@storybook/cli';
-import '@storybook/react';
-import '@storybook/react-native';
-import '@storybook/manager';
-import { storiesOf } from '@storybook/react';"
+import '@junk-temporary-prototypes/preview-api';
+import '@junk-temporary-prototypes/addon-comments';
+import '@junk-temporary-prototypes/addon-centered';
+import '@junk-temporary-prototypes/addon-graphql';
+import '@junk-temporary-prototypes/addon-info';
+import '@junk-temporary-prototypes/addon-knobs';
+import '@junk-temporary-prototypes/addon-links';
+import '@junk-temporary-prototypes/addon-notes';
+import '@junk-temporary-prototypes/addon-options';
+import '@junk-temporary-prototypes/addon-storyshots';
+import '@junk-temporary-prototypes/channels';
+import '@junk-temporary-prototypes/channel-postmessage';
+import '@junk-temporary-prototypes/channel-websocket';
+import '@junk-temporary-prototypes/cli';
+import '@junk-temporary-prototypes/react';
+import '@junk-temporary-prototypes/react-native';
+import '@junk-temporary-prototypes/manager';
+import { storiesOf } from '@junk-temporary-prototypes/react';"
 `;

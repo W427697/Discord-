@@ -1,5 +1,5 @@
-import { global as globalThis } from '@storybook/global';
-import { withLinks } from '@storybook/addon-links';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { withLinks } from '@junk-temporary-prototypes/addon-links';
 
 export default {
   component: globalThis.Components.Html,

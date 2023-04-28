@@ -6,10 +6,10 @@ import type {
   ModuleExport,
   Args,
   StoryContextForLoaders,
-} from '@storybook/types';
-import { SourceType } from '@storybook/docs-tools';
+} from '@junk-temporary-prototypes/types';
+import { SourceType } from '@junk-temporary-prototypes/docs-tools';
 
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 import dedent from 'ts-dedent';
 import type { SourceCodeProps } from '../components/Source';
 import { Source as PureSource, SourceError } from '../components/Source';
@@ -43,7 +43,7 @@ type SourceParameters = SourceCodeProps & {
    */
   transform?: (code: string, storyContext: StoryContextForLoaders) => string;
   /**
-   * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
+   * Internal: set by our CSF loader (`enrichCsf` in `@junk-temporary-prototypes/csf-tools`).
    */
   originalSource?: string;
 };
@@ -53,7 +53,7 @@ export type SourceProps = SourceParameters & {
    * Pass the export defining a story to render its source
    *
    * ```jsx
-   * import { Source } from '@storybook/blocks';
+   * import { Source } from '@junk-temporary-prototypes/blocks';
    * import * as ButtonStories from './Button.stories';
    *
    * <Source of={ButtonStories.Primary} />

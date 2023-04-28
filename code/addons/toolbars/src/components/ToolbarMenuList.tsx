@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import React, { useState, useCallback } from 'react';
-import { useGlobals } from '@storybook/manager-api';
-import { deprecate } from '@storybook/client-logger';
-import { WithTooltip, TooltipLinkList } from '@storybook/components';
+import { useGlobals } from '@junk-temporary-prototypes/manager-api';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
+import { WithTooltip, TooltipLinkList } from '@junk-temporary-prototypes/components';
 import { ToolbarMenuButton } from './ToolbarMenuButton';
 import type { WithKeyboardCycleProps } from '../hoc/withKeyboardCycle';
 import { withKeyboardCycle } from '../hoc/withKeyboardCycle';

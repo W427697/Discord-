@@ -1,8 +1,8 @@
 import { sync as spawnSync } from 'cross-spawn';
-import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
+import { telemetry, getStorybookCoreVersion } from '@junk-temporary-prototypes/telemetry';
 import semver from 'semver';
-import { logger } from '@storybook/node-logger';
-import { withTelemetry } from '@storybook/core-server';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import { withTelemetry } from '@junk-temporary-prototypes/core-server';
 
 import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
 import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
@@ -14,7 +14,7 @@ type Package = {
   version: string;
 };
 
-const versionRegex = /(@storybook\/[^@]+)@(\S+)/;
+const versionRegex = /(@junk-temporary-prototypes\/[^@]+)@(\S+)/;
 export const getStorybookVersion = (line: string) => {
   if (line.startsWith('npm ')) return null;
   const match = versionRegex.exec(line);
@@ -26,30 +26,30 @@ export const getStorybookVersion = (line: string) => {
 };
 
 const excludeList = [
-  '@storybook/addon-bench',
-  '@storybook/addon-console',
-  '@storybook/addon-postcss',
-  '@storybook/babel-plugin-require-context-hook',
-  '@storybook/bench',
-  '@storybook/builder-vite',
-  '@storybook/csf',
-  '@storybook/design-system',
-  '@storybook/ember-cli-storybook',
-  '@storybook/eslint-config-storybook',
-  '@storybook/expect',
-  '@storybook/jest',
-  '@storybook/linter-config',
-  '@storybook/mdx1-csf',
-  '@storybook/mdx2-csf',
-  '@storybook/react-docgen-typescript-plugin',
-  '@storybook/storybook-deployer',
-  '@storybook/test-runner',
-  '@storybook/testing-library',
-  '@storybook/testing-react',
+  '@junk-temporary-prototypes/addon-bench',
+  '@junk-temporary-prototypes/addon-console',
+  '@junk-temporary-prototypes/addon-postcss',
+  '@junk-temporary-prototypes/babel-plugin-require-context-hook',
+  '@junk-temporary-prototypes/bench',
+  '@junk-temporary-prototypes/builder-vite',
+  '@junk-temporary-prototypes/csf',
+  '@junk-temporary-prototypes/design-system',
+  '@junk-temporary-prototypes/ember-cli-storybook',
+  '@junk-temporary-prototypes/eslint-config-storybook',
+  '@junk-temporary-prototypes/expect',
+  '@junk-temporary-prototypes/jest',
+  '@junk-temporary-prototypes/linter-config',
+  '@junk-temporary-prototypes/mdx1-csf',
+  '@junk-temporary-prototypes/mdx2-csf',
+  '@junk-temporary-prototypes/react-docgen-typescript-plugin',
+  '@junk-temporary-prototypes/storybook-deployer',
+  '@junk-temporary-prototypes/test-runner',
+  '@junk-temporary-prototypes/testing-library',
+  '@junk-temporary-prototypes/testing-react',
 ];
 export const isCorePackage = (pkg: string) =>
-  pkg.startsWith('@storybook/') &&
-  !pkg.startsWith('@storybook/preset-') &&
+  pkg.startsWith('@junk-temporary-prototypes/') &&
+  !pkg.startsWith('@junk-temporary-prototypes/preset-') &&
   !excludeList.includes(pkg);
 
 const deprecatedPackages = [
@@ -57,11 +57,11 @@ const deprecatedPackages = [
     minVersion: '6.0.0-alpha.0',
     url: 'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#60-deprecations',
     deprecations: [
-      '@storybook/addon-notes',
-      '@storybook/addon-info',
-      '@storybook/addon-contexts',
-      '@storybook/addon-options',
-      '@storybook/addon-centered',
+      '@junk-temporary-prototypes/addon-notes',
+      '@junk-temporary-prototypes/addon-info',
+      '@junk-temporary-prototypes/addon-contexts',
+      '@junk-temporary-prototypes/addon-options',
+      '@junk-temporary-prototypes/addon-centered',
     ],
   },
 ];
@@ -167,7 +167,7 @@ export const doUpgrade = async ({
 
   const beforeVersion = await getStorybookCoreVersion();
 
-  commandLog(`Checking for latest versions of '@storybook/*' packages`);
+  commandLog(`Checking for latest versions of '@junk-temporary-prototypes/*' packages`);
 
   if (tag && prerelease) {
     throw new Error(

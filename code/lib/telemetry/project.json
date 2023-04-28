@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/telemetry",
+  "name": "@junk-temporary-prototypes/telemetry",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

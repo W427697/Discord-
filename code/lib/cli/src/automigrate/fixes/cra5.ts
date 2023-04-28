@@ -41,7 +41,7 @@ export const cra5: Fix<CRA5RunOptions> = {
       Your Storybook's main.js files specifies webpack4, which is incompatible.
 
       In order to work with your version of CRA, we need to install Storybook's ${chalk.cyan(
-        '@storybook/builder-webpack5'
+        '@junk-temporary-prototypes/builder-webpack5'
       )}.
 
       More info: ${chalk.yellow(

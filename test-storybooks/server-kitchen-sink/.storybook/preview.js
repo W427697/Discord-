@@ -1,4 +1,4 @@
-import { withLinks } from '@storybook/addon-links';
+import { withLinks } from '@junk-temporary-prototypes/addon-links';
 
 export const decorators = [withLinks];
 

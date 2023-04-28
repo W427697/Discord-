@@ -1,6 +1,6 @@
-import { global as globalThis } from '@storybook/global';
-import { expect } from '@storybook/jest';
-import { within } from '@storybook/testing-library';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { expect } from '@junk-temporary-prototypes/jest';
+import { within } from '@junk-temporary-prototypes/testing-library';
 
 export default {
   component: globalThis.Components.Pre,

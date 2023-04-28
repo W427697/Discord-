@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@junk-temporary-prototypes/types';
 import type { SvelteComponentTyped } from 'svelte';
-import { RESET_STORY_ARGS } from '@storybook/core-events';
+import { RESET_STORY_ARGS } from '@junk-temporary-prototypes/core-events';
 // ! DO NOT change this PreviewRender import to a relative path, it will break it.
 // ! A relative import will be compiled at build time, and Svelte will be unable to
 // ! render the component together with the user's Svelte components
-// ! importing from @storybook/svelte will make sure that it is compiled at runtime
+// ! importing from @junk-temporary-prototypes/svelte will make sure that it is compiled at runtime
 // ! with the same bundle as the user's Svelte components
 // eslint-disable-next-line import/no-extraneous-dependencies
-import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
-import { addons } from '@storybook/preview-api';
+import PreviewRender from '@junk-temporary-prototypes/svelte/templates/PreviewRender.svelte';
+import { addons } from '@junk-temporary-prototypes/preview-api';
 
 import type { SvelteRenderer } from './types';
 

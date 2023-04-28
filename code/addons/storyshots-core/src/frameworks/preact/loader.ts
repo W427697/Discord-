@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx h */
 
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
 import type { Loader } from '../Loader';
@@ -9,7 +9,7 @@ import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return (
-    options.framework === 'preact' || (!options.framework && hasDependency('@storybook/preact'))
+    options.framework === 'preact' || (!options.framework && hasDependency('@junk-temporary-prototypes/preact'))
   );
 }
 
@@ -18,8 +18,8 @@ function load(options: StoryshotsOptions) {
 
   let mockStartedAPI: any;
 
-  jest.mock('@storybook/preview-api', () => {
-    const previewAPI = jest.requireActual('@storybook/preview-api');
+  jest.mock('@junk-temporary-prototypes/preview-api', () => {
+    const previewAPI = jest.requireActual('@junk-temporary-prototypes/preview-api');
 
     return {
       ...previewAPI,
@@ -30,8 +30,8 @@ function load(options: StoryshotsOptions) {
     };
   });
 
-  jest.mock('@storybook/preact', () => {
-    const renderAPI = jest.requireActual('@storybook/preact');
+  jest.mock('@junk-temporary-prototypes/preact', () => {
+    const renderAPI = jest.requireActual('@junk-temporary-prototypes/preact');
 
     renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
     renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
@@ -40,7 +40,7 @@ function load(options: StoryshotsOptions) {
   });
 
   // eslint-disable-next-line global-require
-  const storybook = require('@storybook/preact');
+  const storybook = require('@junk-temporary-prototypes/preact');
 
   configure({
     ...options,

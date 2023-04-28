@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icons as ExampleIcon } from '@storybook/components';
+import { Icons as ExampleIcon } from '@junk-temporary-prototypes/components';
 import { IconItem, IconGallery } from './IconGallery';
 
 export default {

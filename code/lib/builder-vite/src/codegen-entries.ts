@@ -1,5 +1,5 @@
-import { loadPreviewOrConfigFile } from '@storybook/core-common';
-import type { Options } from '@storybook/types';
+import { loadPreviewOrConfigFile } from '@junk-temporary-prototypes/core-common';
+import type { Options } from '@junk-temporary-prototypes/types';
 import slash from 'slash';
 import { normalizePath } from 'vite';
 import { listStories } from './list-stories';

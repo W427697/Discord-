@@ -24,7 +24,7 @@
     "storybook": "./index.js"
   },
   "dependencies": {
-    "@storybook/cli": "7.0.7"
+    "@junk-temporary-prototypes/cli": "7.0.7"
   },
   "publishConfig": {
     "access": "public"

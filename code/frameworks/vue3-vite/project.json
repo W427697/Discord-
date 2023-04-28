@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/vue3-vite",
+  "name": "@junk-temporary-prototypes/vue3-vite",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

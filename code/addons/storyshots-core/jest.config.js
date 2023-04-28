@@ -6,7 +6,7 @@ module.exports = {
   snapshotSerializers: [...baseConfig.snapshotSerializers, 'enzyme-to-json/serializer'],
   transform: {
     ...baseConfig.transform,
-    '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
+    '^.+\\.stories\\.[jt]sx?$': '@junk-temporary-prototypes/addon-storyshots/injectFileName',
   },
   displayName: __dirname.split(path.sep).slice(-2).join(path.posix.sep),
 };

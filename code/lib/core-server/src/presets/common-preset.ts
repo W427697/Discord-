@@ -1,11 +1,11 @@
 import { pathExists, readFile } from 'fs-extra';
-import { deprecate, logger } from '@storybook/node-logger';
+import { deprecate, logger } from '@junk-temporary-prototypes/node-logger';
 import {
   getDirectoryFromWorkingDir,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   loadEnvs,
-} from '@storybook/core-common';
+} from '@junk-temporary-prototypes/core-common';
 import type {
   CLIOptions,
   IndexerOptions,
@@ -14,14 +14,14 @@ import type {
   Options,
   StorybookConfig,
   PresetPropertyFn,
-} from '@storybook/types';
-import { loadCsf } from '@storybook/csf-tools';
+} from '@junk-temporary-prototypes/types';
+import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 
-const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
+const defaultFavicon = require.resolve('@junk-temporary-prototypes/core-server/public/favicon.svg');
 
 export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) => [
   ...defaultStaticDirs,

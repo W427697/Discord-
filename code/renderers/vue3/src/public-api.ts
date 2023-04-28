@@ -1,6 +1,6 @@
-import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
+import type { Addon_ClientStoryApi, Addon_Loadable } from '@junk-temporary-prototypes/types';
 import type { App } from 'vue';
-import { start } from '@storybook/preview-api';
+import { start } from '@junk-temporary-prototypes/preview-api';
 
 import type { VueRenderer } from './types';
 import { decorateStory } from './decorateStory';

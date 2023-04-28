@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { parsePath, createPath } from 'history';
-import type { Combo, StoryEntry } from '@storybook/manager-api';
-import { Provider as ManagerProvider, Consumer } from '@storybook/manager-api';
-import { Location, BaseLocationProvider } from '@storybook/router';
+import type { Combo, StoryEntry } from '@junk-temporary-prototypes/manager-api';
+import { Provider as ManagerProvider, Consumer } from '@junk-temporary-prototypes/manager-api';
+import { Location, BaseLocationProvider } from '@junk-temporary-prototypes/router';
 
-import { ThemeProvider, ensure as ensureTheme, themes } from '@storybook/theming';
+import { ThemeProvider, ensure as ensureTheme, themes } from '@junk-temporary-prototypes/theming';
 
-import type { DecoratorFn } from '@storybook/react';
+import type { DecoratorFn } from '@junk-temporary-prototypes/react';
 import { Preview } from './preview';
 
 import { PrettyFakeProvider } from '../../FakeProvider';

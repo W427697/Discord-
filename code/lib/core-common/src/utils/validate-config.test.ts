@@ -8,11 +8,11 @@ describe('validateFrameworkName', () => {
 
   it('should throw if name is a renderer', () => {
     expect(() => validateFrameworkName('react')).toThrow();
-    expect(() => validateFrameworkName('@storybook/react')).toThrow();
+    expect(() => validateFrameworkName('@junk-temporary-prototypes/react')).toThrow();
   });
 
   it('should not throw if framework is a known framework', () => {
-    expect(() => validateFrameworkName('@storybook/react-vite')).not.toThrow();
+    expect(() => validateFrameworkName('@junk-temporary-prototypes/react-vite')).not.toThrow();
   });
 
   it('should not throw if framework is unknown (community) but can be resolved', () => {

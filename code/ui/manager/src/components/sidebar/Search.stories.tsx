@@ -1,5 +1,5 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 
 import { index } from './mockdata.large';
 import { Search } from './Search';

@@ -1,8 +1,8 @@
 import type { FunctionComponent, MouseEvent, ReactElement } from 'react';
 import React, { Children, cloneElement } from 'react';
-import { action } from '@storybook/addon-actions';
-import type { Meta, StoryObj } from '@storybook/react';
-import { TooltipLinkList, WithTooltip } from '@storybook/components';
+import { action } from '@junk-temporary-prototypes/addon-actions';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
+import { TooltipLinkList, WithTooltip } from '@junk-temporary-prototypes/components';
 import { Shortcut } from './menu';
 
 const onLinkClick = action('onLinkClick');

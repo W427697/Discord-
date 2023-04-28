@@ -1,7 +1,7 @@
 import type { FunctionComponent, MouseEvent, ReactElement } from 'react';
 import React, { Children, cloneElement } from 'react';
-import { action } from '@storybook/addon-actions';
-import type { Meta, StoryObj } from '@storybook/react';
+import { action } from '@junk-temporary-prototypes/addon-actions';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 import { WithTooltip } from './WithTooltip';
 import { TooltipLinkList } from './TooltipLinkList';
 import { Icons } from '../icon/icon';

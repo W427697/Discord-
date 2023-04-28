@@ -1,4 +1,4 @@
-import type { PartialStoryFn, StoryContext } from '@storybook/types';
+import type { PartialStoryFn, StoryContext } from '@junk-temporary-prototypes/types';
 
 export const parameters = {
   projectParameter: 'projectParameter',

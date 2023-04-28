@@ -1,7 +1,7 @@
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 deprecate(
-  'importing from @storybook/api is deprecated and will be removed in 8.0, please import manager related modules from @storybook/manager-api'
+  'importing from @junk-temporary-prototypes/api is deprecated and will be removed in 8.0, please import manager related modules from @junk-temporary-prototypes/manager-api'
 );
 
-export * from '@storybook/manager-api';
+export * from '@junk-temporary-prototypes/manager-api';

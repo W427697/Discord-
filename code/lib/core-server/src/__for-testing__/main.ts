@@ -1,7 +1,7 @@
 /// <reference types="node" />
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import type { StorybookConfig } from '@storybook/react-webpack5';
+import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
 const config: StorybookConfig = {
   stories: [
@@ -12,17 +12,17 @@ const config: StorybookConfig = {
   ],
   addons: [
     {
-      name: '@storybook/addon-docs',
+      name: '@junk-temporary-prototypes/addon-docs',
       options: {
         sourceLoaderOptions: null,
       },
     },
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    '@storybook/addon-storysource',
-    '@storybook/addon-links',
-    '@storybook/addon-jest',
-    '@storybook/addon-a11y',
+    '@junk-temporary-prototypes/addon-essentials',
+    '@junk-temporary-prototypes/addon-interactions',
+    '@junk-temporary-prototypes/addon-storysource',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-jest',
+    '@junk-temporary-prototypes/addon-a11y',
   ],
   core: {
     channelOptions: { allowFunction: false, maxDepth: 10 },
@@ -33,7 +33,7 @@ const config: StorybookConfig = {
     storyStoreV7: false,
   },
   framework: {
-    name: '@storybook/react-webpack5',
+    name: '@junk-temporary-prototypes/react-webpack5',
     options: {
       fastRefresh: true,
       strictMode: true,

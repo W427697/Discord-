@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { ActiveTabs } from '@storybook/manager-api';
-import type { DecoratorFn } from '@storybook/react';
+import { ActiveTabs } from '@junk-temporary-prototypes/manager-api';
+import type { DecoratorFn } from '@junk-temporary-prototypes/react';
 
 import type { MobileProps } from './mobile';
 import { Mobile } from './mobile';

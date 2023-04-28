@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/source-loader",
+  "name": "@junk-temporary-prototypes/source-loader",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

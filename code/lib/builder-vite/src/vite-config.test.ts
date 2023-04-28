@@ -1,4 +1,4 @@
-import type { Options, Presets } from '@storybook/types';
+import type { Options, Presets } from '@junk-temporary-prototypes/types';
 import { loadConfigFromFile } from 'vite';
 import { commonConfig } from './vite-config';
 

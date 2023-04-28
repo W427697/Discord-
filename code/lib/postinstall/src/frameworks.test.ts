@@ -1,15 +1,15 @@
 import { getFrameworks } from './frameworks';
 
 const REACT = {
-  '@storybook/react': '5.2.5',
+  '@junk-temporary-prototypes/react': '5.2.5',
 };
 
 const VUE = {
-  '@storybook/vue': '5.2.5',
+  '@junk-temporary-prototypes/vue': '5.2.5',
 };
 
 const NONE = {
-  '@storybook/preview-api': '5.2.5',
+  '@junk-temporary-prototypes/preview-api': '5.2.5',
   lodash: '^4.17.15',
 };
 

@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/addon-viewport",
+  "name": "@junk-temporary-prototypes/addon-viewport",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

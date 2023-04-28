@@ -5,8 +5,8 @@ import {
   getStorybookInfo,
   getStorybookConfiguration,
   getProjectRoot,
-} from '@storybook/core-common';
-import type { StorybookConfig, PackageJson } from '@storybook/types';
+} from '@junk-temporary-prototypes/core-common';
+import type { StorybookConfig, PackageJson } from '@junk-temporary-prototypes/types';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-json';

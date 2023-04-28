@@ -14,7 +14,7 @@ function setupAngularJestPreset() {
 
 function test(options: StoryshotsOptions): boolean {
   return (
-    options.framework === 'angular' || (!options.framework && hasDependency('@storybook/angular'))
+    options.framework === 'angular' || (!options.framework && hasDependency('@junk-temporary-prototypes/angular'))
   );
 }
 
@@ -23,8 +23,8 @@ function load(options: StoryshotsOptions) {
 
   let mockStartedAPI: any;
 
-  jest.mock('@storybook/preview-api', () => {
-    const previewAPI = jest.requireActual('@storybook/preview-api');
+  jest.mock('@junk-temporary-prototypes/preview-api', () => {
+    const previewAPI = jest.requireActual('@junk-temporary-prototypes/preview-api');
 
     return {
       ...previewAPI,
@@ -35,8 +35,8 @@ function load(options: StoryshotsOptions) {
     };
   });
 
-  jest.mock('@storybook/angular', () => {
-    const renderAPI = jest.requireActual('@storybook/angular');
+  jest.mock('@junk-temporary-prototypes/angular', () => {
+    const renderAPI = jest.requireActual('@junk-temporary-prototypes/angular');
 
     renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
     renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
@@ -45,7 +45,7 @@ function load(options: StoryshotsOptions) {
   });
 
   // eslint-disable-next-line global-require
-  const storybook = require('@storybook/angular');
+  const storybook = require('@junk-temporary-prototypes/angular');
 
   configure({
     ...options,

@@ -1,5 +1,5 @@
-import { normalizeStories } from '@storybook/core-common';
-import type { CoreConfig, DocsOptions, Options } from '@storybook/types';
+import { normalizeStories } from '@junk-temporary-prototypes/core-common';
+import type { CoreConfig, DocsOptions, Options } from '@junk-temporary-prototypes/types';
 
 export type PreviewHtml = string | undefined;
 

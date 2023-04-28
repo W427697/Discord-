@@ -1,5 +1,5 @@
-import type { StrictArgTypes } from '@storybook/types';
-import type { PropDef, ArgTypesExtractor } from '@storybook/docs-tools';
+import type { StrictArgTypes } from '@junk-temporary-prototypes/types';
+import type { PropDef, ArgTypesExtractor } from '@junk-temporary-prototypes/docs-tools';
 import { extractProps } from './extractProps';
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {

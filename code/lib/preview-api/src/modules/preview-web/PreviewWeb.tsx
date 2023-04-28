@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { global } from '@storybook/global';
-import type { Renderer } from '@storybook/types';
+import { global } from '@junk-temporary-prototypes/global';
+import type { Renderer } from '@junk-temporary-prototypes/types';
 
 import { PreviewWithSelection } from './PreviewWithSelection';
 import { UrlStore } from './UrlStore';

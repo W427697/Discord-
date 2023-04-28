@@ -2,15 +2,15 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-} from '@storybook/preview-api';
+} from '@junk-temporary-prototypes/preview-api';
 import type {
   Args,
   ProjectAnnotations,
   ComposedStory,
   Store_CSFExports,
   StoriesWithPartialProps,
-} from '@storybook/types';
-import { deprecate } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/types';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 import { render } from './render';
 import type { Meta } from './public-types';
@@ -23,7 +23,7 @@ import type { ReactRenderer } from './types';
  * Example:
  *```jsx
  * // setup.js (for jest)
- * import { setProjectAnnotations } from '@storybook/react';
+ * import { setProjectAnnotations } from '@junk-temporary-prototypes/react';
  * import * as projectAnnotations from './.storybook/preview';
  *
  * setProjectAnnotations(projectAnnotations);
@@ -37,7 +37,7 @@ export function setProjectAnnotations(
   originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
 }
 
-/** Preserved for users migrating from `@storybook/testing-react`.
+/** Preserved for users migrating from `@junk-temporary-prototypes/testing-react`.
  *
  * @deprecated Use setProjectAnnotations instead
  */
@@ -64,7 +64,7 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
  * Example:
  *```jsx
  * import { render } from '@testing-library/react';
- * import { composeStory } from '@storybook/react';
+ * import { composeStory } from '@junk-temporary-prototypes/react';
  * import Meta, { Primary as PrimaryStory } from './Button.stories';
  *
  * const Primary = composeStory(PrimaryStory, Meta);
@@ -106,7 +106,7 @@ export function composeStory<TArgs extends Args = Args>(
  * Example:
  *```jsx
  * import { render } from '@testing-library/react';
- * import { composeStories } from '@storybook/react';
+ * import { composeStories } from '@junk-temporary-prototypes/react';
  * import * as stories from './Button.stories';
  *
  * const { Primary, Secondary } = composeStories(stories);

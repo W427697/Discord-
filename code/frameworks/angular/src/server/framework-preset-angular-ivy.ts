@@ -1,6 +1,6 @@
 import { Configuration } from 'webpack';
 import * as path from 'path';
-import { Preset } from '@storybook/types';
+import { Preset } from '@junk-temporary-prototypes/types';
 
 import { PresetOptions } from './preset-options';
 import { AngularOptions } from '../types';

@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import configure from '../configure';
 import type { Loader } from '../Loader';
 import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
@@ -12,8 +12,8 @@ function load(options: StoryshotsOptions) {
 
   let mockStartedAPI: any;
 
-  jest.mock('@storybook/preview-api', () => {
-    const previewAPI = jest.requireActual('@storybook/preview-api');
+  jest.mock('@junk-temporary-prototypes/preview-api', () => {
+    const previewAPI = jest.requireActual('@junk-temporary-prototypes/preview-api');
 
     return {
       ...previewAPI,
@@ -24,8 +24,8 @@ function load(options: StoryshotsOptions) {
     };
   });
 
-  jest.mock('@storybook/html', () => {
-    const renderAPI = jest.requireActual('@storybook/html');
+  jest.mock('@junk-temporary-prototypes/html', () => {
+    const renderAPI = jest.requireActual('@junk-temporary-prototypes/html');
 
     renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
     renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
@@ -34,7 +34,7 @@ function load(options: StoryshotsOptions) {
   });
 
   // eslint-disable-next-line global-require
-  const storybook = require('@storybook/html');
+  const storybook = require('@junk-temporary-prototypes/html');
 
   configure({
     ...options,

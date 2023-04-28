@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import path from 'path';
 import { sync as spawnSync } from 'cross-spawn';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import shell from 'shelljs';
 import chalk from 'chalk';
 import type { ExecOptions } from 'shelljs';
@@ -59,7 +59,7 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   const storybookDir = process.cwd();
   try {
     const packageJson = await fse.readJSON('package.json');
-    if (packageJson.name !== '@storybook/root') {
+    if (packageJson.name !== '@junk-temporary-prototypes/root') {
       throw new Error();
     }
   } catch {

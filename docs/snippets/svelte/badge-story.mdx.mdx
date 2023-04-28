@@ -1,7 +1,7 @@
 ```md
 <!-- Badge.stories.mdx -->
 
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
 import Badge from './Badge.svelte';
 
@@ -16,7 +16,7 @@ Let's define a story for our `Badge` component:
   args={{
     status: 'positive',
     label: 'Positive'
-  }} 
+  }}
   render={(args) => ({
     Component: Badge,
     props: args,
@@ -25,10 +25,10 @@ Let's define a story for our `Badge` component:
 We can drop it in a `Canvas` to get a code snippet:
 
 <Canvas>
-  <Story 
+  <Story
     name="negative"
     args={{
-      status: 'negative', 
+      status: 'negative',
       label: 'Negative'
     }}
     render={(args) => ({
@@ -42,31 +42,31 @@ gets rendered as a group but defines individual stories
 with unique URLs, which is great for review and testing.
 
 <Canvas>
-  <Story 
+  <Story
     name="warning"
     args={{
       status: 'warning',
-      label: 'Warning' 
-    }} 
+      label: 'Warning'
+    }}
     render={(args) => ({
       Component: Badge,
       props: args,
     })} />
-  <Story 
-    name="neutral" 
+  <Story
+    name="neutral"
     args={{
-      status: 'neutral', 
-      label: 'Neutral' 
-    }} 
+      status: 'neutral',
+      label: 'Neutral'
+    }}
     render={(args) => ({
       Component: Badge,
       props: args,
     })} />
-  <Story 
+  <Story
     name="error"
     args={{
-      status: 'error', 
-      label: 'Error' 
+      status: 'error',
+      label: 'Error'
     }}
     render={(args) => ({
       Component: Badge,

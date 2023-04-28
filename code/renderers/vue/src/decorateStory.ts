@@ -1,7 +1,7 @@
 import type { VueConstructor, ComponentOptions } from 'vue';
 import Vue from 'vue';
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
-import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@junk-temporary-prototypes/types';
+import { sanitizeStoryContextUpdate } from '@junk-temporary-prototypes/preview-api';
 
 import type { StoryFnVueReturnType, VueRenderer } from './types';
 import { extractProps } from './util';

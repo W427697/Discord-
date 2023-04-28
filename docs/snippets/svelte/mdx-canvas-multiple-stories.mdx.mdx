@@ -1,7 +1,7 @@
 ```md
 <!-- Badge.stories.mdx -->
 
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
 import Badge from './Badge.svelte';
 
@@ -14,7 +14,7 @@ import Badge from './Badge.svelte';
 -->
 
 <Canvas>
-  <Story 
+  <Story
     name="warning"
     args={{
       status: 'warning',
@@ -24,7 +24,7 @@ import Badge from './Badge.svelte';
       Component: Badge,
       props: args,
     })} />
-  <Story 
+  <Story
     name="neutral"
     args={{
       status: 'neutral',
@@ -34,7 +34,7 @@ import Badge from './Badge.svelte';
       Component: Badge,
       props: args,
     })} />
-  <Story 
+  <Story
     name="error"
     args={{
       status: 'error',

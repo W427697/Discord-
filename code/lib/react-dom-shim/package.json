@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/react-dom-shim",
+  "name": "@junk-temporary-prototypes/react-dom-shim",
   "version": "7.0.7",
   "description": "",
   "keywords": [
@@ -54,7 +54,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@storybook/types": "7.0.7",
+    "@junk-temporary-prototypes/types": "7.0.7",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {

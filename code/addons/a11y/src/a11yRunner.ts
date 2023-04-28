@@ -1,5 +1,5 @@
-import { global } from '@storybook/global';
-import { addons } from '@storybook/preview-api';
+import { global } from '@junk-temporary-prototypes/global';
+import { addons } from '@junk-temporary-prototypes/preview-api';
 import { EVENTS } from './constants';
 import type { A11yParameters } from './params';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { actions as makeActions } from '@storybook/addon-actions';
+import { actions as makeActions } from '@junk-temporary-prototypes/addon-actions';
 
 import { PureReleaseNotesScreen } from './release_notes';
 

@@ -4,7 +4,7 @@ jest.mock('../version', () => ({
   version: '3.0.0',
 }));
 
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
     VERSIONCHECK: JSON.stringify({
       success: true,
@@ -21,7 +21,7 @@ jest.mock('@storybook/global', () => ({
   },
 }));
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 
 function createMockStore() {
   let state = {
@@ -42,7 +42,7 @@ function createMockStore() {
   };
 }
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 
 describe('versions API', () => {
   it('sets initial state with current version', async () => {

@@ -2,13 +2,13 @@ import type { Stats, Configuration, StatsOptions } from 'webpack';
 import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import { logger } from '@storybook/node-logger';
-import type { Builder, Options } from '@storybook/types';
-import { checkWebpackVersion } from '@storybook/core-webpack';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import type { Builder, Options } from '@junk-temporary-prototypes/types';
+import { checkWebpackVersion } from '@junk-temporary-prototypes/core-webpack';
 import { dirname, join, parse } from 'path';
 import express from 'express';
 import fs from 'fs-extra';
-import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
+import { PREVIEW_BUILDER_PROGRESS } from '@junk-temporary-prototypes/core-events';
 
 import prettyTime from 'pretty-hrtime';
 
@@ -175,7 +175,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   compilation = webpackDevMiddleware(compiler, middlewareOptions);
 
-  const previewResolvedDir = wrapForPnP('@storybook/preview');
+  const previewResolvedDir = wrapForPnP('@junk-temporary-prototypes/preview');
   const previewDirOrigin = join(previewResolvedDir, 'dist');
 
   router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
@@ -288,7 +288,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     });
   });
 
-  const previewResolvedDir = wrapForPnP('@storybook/preview');
+  const previewResolvedDir = wrapForPnP('@junk-temporary-prototypes/preview');
   const previewDirOrigin = join(previewResolvedDir, 'dist');
   const previewDirTarget = join(options.outputDir || '', `sb-preview`);
 

@@ -1,12 +1,12 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import type { Channel } from '@storybook/channels';
-import type { AddonStore } from '@storybook/manager-api';
-import { addons } from '@storybook/manager-api';
-import type { Addon_Types, Addon_Config } from '@storybook/types';
-import * as postMessage from '@storybook/channel-postmessage';
-import * as webSocket from '@storybook/channel-websocket';
-import { CHANNEL_CREATED } from '@storybook/core-events';
+import type { Channel } from '@junk-temporary-prototypes/channels';
+import type { AddonStore } from '@junk-temporary-prototypes/manager-api';
+import { addons } from '@junk-temporary-prototypes/manager-api';
+import type { Addon_Types, Addon_Config } from '@junk-temporary-prototypes/types';
+import * as postMessage from '@junk-temporary-prototypes/channel-postmessage';
+import * as webSocket from '@junk-temporary-prototypes/channel-websocket';
+import { CHANNEL_CREATED } from '@junk-temporary-prototypes/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 

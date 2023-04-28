@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { themes, convert } from '@storybook/theming';
+import { themes, convert } from '@junk-temporary-prototypes/theming';
 import type { Result } from 'axe-core';
-import { useChannel, useAddonState, useStorybookApi } from '@storybook/manager-api';
-import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
-import { HIGHLIGHT } from '@storybook/addon-highlight';
+import { useChannel, useAddonState, useStorybookApi } from '@junk-temporary-prototypes/manager-api';
+import { STORY_CHANGED, STORY_RENDERED } from '@junk-temporary-prototypes/core-events';
+import { HIGHLIGHT } from '@junk-temporary-prototypes/addon-highlight';
 import { ADDON_ID, EVENTS } from '../constants';
 
 export interface Results {

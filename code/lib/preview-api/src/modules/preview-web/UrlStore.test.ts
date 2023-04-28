@@ -1,10 +1,10 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 import { pathToId, setPath, getSelectionSpecifierFromPath } from './UrlStore';
 
 const { history, document } = global;
 
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
     history: { replaceState: jest.fn() },
     document: {

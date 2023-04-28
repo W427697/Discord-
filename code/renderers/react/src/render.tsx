@@ -1,9 +1,9 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC } from 'react';
 import React, { Component as ReactComponent, StrictMode, Fragment } from 'react';
-import { renderElement, unmountElement } from '@storybook/react-dom-shim';
+import { renderElement, unmountElement } from '@junk-temporary-prototypes/react-dom-shim';
 
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@junk-temporary-prototypes/types';
 
 import type { ReactRenderer, StoryContext } from './types';
 

@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import type { Channel } from '@storybook/channels';
-import { addons } from '@storybook/preview-api';
-import type { StoryId } from '@storybook/types';
-import { once, logger } from '@storybook/client-logger';
+import type { Channel } from '@junk-temporary-prototypes/channels';
+import { addons } from '@junk-temporary-prototypes/preview-api';
+import type { StoryId } from '@junk-temporary-prototypes/types';
+import { once, logger } from '@junk-temporary-prototypes/client-logger';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
-} from '@storybook/core-events';
-import { global } from '@storybook/global';
+} from '@junk-temporary-prototypes/core-events';
+import { global } from '@junk-temporary-prototypes/global';
 
 import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
 import { CallStates } from './types';

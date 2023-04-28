@@ -1,16 +1,16 @@
 /// <reference types="node" />
 
-import { addons } from '@storybook/preview-api';
-import { global } from '@storybook/global';
-import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
+import { addons } from '@junk-temporary-prototypes/preview-api';
+import { global } from '@junk-temporary-prototypes/global';
+import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@junk-temporary-prototypes/core-events';
 import type {
   Renderer,
   ArgsEnhancer,
   PlayFunction,
   PlayFunctionContext,
   StepLabel,
-} from '@storybook/types';
-import { instrument } from '@storybook/instrumenter';
+} from '@junk-temporary-prototypes/types';
+import { instrument } from '@junk-temporary-prototypes/instrumenter';
 import { ModuleMocker } from 'jest-mock';
 
 const JestMock = new ModuleMocker(global);

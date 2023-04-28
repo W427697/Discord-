@@ -1,12 +1,12 @@
 import type {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsBase,
-} from '@storybook/types';
-import type { StorybookConfigVite, BuilderOptions } from '@storybook/builder-vite';
+} from '@junk-temporary-prototypes/types';
+import type { StorybookConfigVite, BuilderOptions } from '@junk-temporary-prototypes/builder-vite';
 import type docgenTypescript from '@joshwooding/vite-plugin-react-docgen-typescript';
 
-type FrameworkName = '@storybook/react-vite';
-type BuilderName = '@storybook/builder-vite';
+type FrameworkName = '@junk-temporary-prototypes/react-vite';
+type BuilderName = '@junk-temporary-prototypes/builder-vite';
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;

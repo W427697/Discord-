@@ -1,7 +1,7 @@
 import React from 'react';
 import type { FunctionComponent, ComponentType } from 'react';
-import type { Renderer, Parameters } from '@storybook/types';
-import type { Theme } from '@storybook/theming';
+import type { Renderer, Parameters } from '@junk-temporary-prototypes/types';
+import type { Theme } from '@junk-temporary-prototypes/theming';
 
 import type { DocsContextProps } from './DocsContext';
 import { DocsContainer } from './DocsContainer';

@@ -7,7 +7,7 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { join } from 'path';
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
+import { getStorybookInfo, loadMainConfig } from '@junk-temporary-prototypes/core-common';
 import semver from 'semver';
 import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
 import type { PackageManagerName } from '../js-package-manager';
@@ -102,7 +102,7 @@ export const automigrate = async ({
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const installationMetadata = await packageManager.findInstallations([
-    '@storybook/*',
+    '@junk-temporary-prototypes/*',
     'storybook',
   ]);
 

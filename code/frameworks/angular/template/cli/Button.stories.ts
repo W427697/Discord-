@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/angular';
 import Button from './button.component';
 
 // More on how to set up stories at: https://storybook.js.org/docs/angular/writing-stories/introduction

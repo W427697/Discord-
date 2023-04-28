@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/types';
+import type { Options } from '@junk-temporary-prototypes/types';
 import { getFrameworkName } from './get-framework-name';
 
 /**

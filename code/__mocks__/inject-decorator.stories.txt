@@ -1,6 +1,6 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import { storiesOf } from '@junk-temporary-prototypes/react';
+import { withInfo } from '@junk-temporary-prototypes/addon-info';
 
 import { DocgenButton } from '../components/DocgenButton';
 import FlowTypeButton from '../components/FlowTypeButton';

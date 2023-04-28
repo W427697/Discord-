@@ -1,5 +1,5 @@
-import { logger } from '@storybook/node-logger';
-import type { Options } from '@storybook/types';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import type { Options } from '@junk-temporary-prototypes/types';
 import type { Configuration } from 'webpack';
 
 export async function createDefaultWebpackConfig(
@@ -8,7 +8,7 @@ export async function createDefaultWebpackConfig(
 ): Promise<Configuration> {
   if (
     options.presetsList?.some((preset) =>
-      /@storybook(\/|\\)preset-create-react-app/.test(
+      /@junk-temporary-prototypes(\/|\\)preset-create-react-app/.test(
         typeof preset === 'string' ? preset : preset.name
       )
     )
@@ -17,7 +17,7 @@ export async function createDefaultWebpackConfig(
   }
 
   const hasPostcssAddon = options.presetsList?.some((preset) =>
-    /@storybook(\/|\\)addon-postcss/.test(typeof preset === 'string' ? preset : preset.name)
+    /@junk-temporary-prototypes(\/|\\)addon-postcss/.test(typeof preset === 'string' ? preset : preset.name)
   );
 
   let cssLoaders = {};

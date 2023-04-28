@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createApp, h, reactive } from 'vue';
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { Args, StoryContext } from '@storybook/csf';
+import type { RenderContext, ArgsStoryFn } from '@junk-temporary-prototypes/types';
+import type { Args, StoryContext } from '@junk-temporary-prototypes/csf';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {

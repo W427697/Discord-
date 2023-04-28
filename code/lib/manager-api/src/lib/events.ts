@@ -1,6 +1,6 @@
-import { logger } from '@storybook/client-logger';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 
-import type { API_ComposedRef } from '@storybook/types';
+import type { API_ComposedRef } from '@junk-temporary-prototypes/types';
 // eslint-disable-next-line import/no-cycle
 import { getSourceType } from '../modules/refs';
 import type { API } from '../index';

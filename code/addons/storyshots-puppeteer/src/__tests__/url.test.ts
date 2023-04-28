@@ -1,8 +1,8 @@
-import { toId } from '@storybook/csf';
+import { toId } from '@junk-temporary-prototypes/csf';
 
 import { constructUrl } from '../url';
 
-jest.mock('@storybook/node-logger');
+jest.mock('@junk-temporary-prototypes/node-logger');
 
 const id = toId('someKind', 'someStory');
 

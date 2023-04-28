@@ -131,7 +131,7 @@ Object {
             },
           },
           Object {
-            "loader": "NODE_MODULES/@storybook/mdx1-csf/loader.js",
+            "loader": "NODE_MODULES/@junk-temporary-prototypes/mdx1-csf/loader.js",
             "options": Object {
               "remarkPlugins": Array [
                 [Function],
@@ -172,7 +172,7 @@ Object {
             },
           },
           Object {
-            "loader": "NODE_MODULES/@storybook/mdx1-csf/loader.js",
+            "loader": "NODE_MODULES/@junk-temporary-prototypes/mdx1-csf/loader.js",
             "options": Object {
               "remarkPlugins": Array [
                 [Function],

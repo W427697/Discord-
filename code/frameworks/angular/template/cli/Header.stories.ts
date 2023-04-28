@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
-import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@junk-temporary-prototypes/angular';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/angular';
 import { CommonModule } from '@angular/common';
 
 import Button from './button.component';

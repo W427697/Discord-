@@ -1,4 +1,4 @@
-import type { Addon_Types } from '@storybook/types';
+import type { Addon_Types } from '@junk-temporary-prototypes/types';
 
 export default class Provider {
   getElements(_type: Addon_Types) {

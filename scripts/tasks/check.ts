@@ -4,7 +4,7 @@ import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
 const parallel = process.env.CI ? 8 : maxConcurrentTasks;
 
-const command = `nx run-many --target="check" --all --parallel=${parallel} --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer`;
+const command = `nx run-many --target="check" --all --parallel=${parallel} --exclude=@junk-temporary-prototypes/addon-storyshots,@junk-temporary-prototypes/addon-storyshots-puppeteer`;
 
 export const check: Task = {
   description: 'Typecheck the source code of the monorepo',

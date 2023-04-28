@@ -7,7 +7,7 @@ import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 function test(options: StoryshotsOptions): boolean {
   return (
     options.framework === 'react-native' ||
-    (!options.framework && hasDependency('@storybook/react-native'))
+    (!options.framework && hasDependency('@junk-temporary-prototypes/react-native'))
   );
 }
 
@@ -24,7 +24,7 @@ function configure(options: StoryshotsOptions, storybook: any) {
 }
 
 function load(options: StoryshotsOptions) {
-  const storybook = jest.requireActual('@storybook/react-native');
+  const storybook = jest.requireActual('@junk-temporary-prototypes/react-native');
 
   configure(options, storybook);
 

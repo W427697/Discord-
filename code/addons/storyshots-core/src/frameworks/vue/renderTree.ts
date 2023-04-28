@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Vue from 'vue';
 
-// this is defined in @storybook/vue but not exported,
+// this is defined in @junk-temporary-prototypes/vue but not exported,
 // and we need it to inject args into the story component's props
 const VALUES = 'STORYBOOK_VALUES';
 

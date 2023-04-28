@@ -3,16 +3,16 @@ import { addExtraFlags, getStorybookVersion, isCorePackage } from './upgrade';
 describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
   [
-    '│ ├── @storybook/theming@6.0.0-beta.37 extraneous',
-    { package: '@storybook/theming', version: '6.0.0-beta.37' },
+    '│ ├── @junk-temporary-prototypes/theming@6.0.0-beta.37 extraneous',
+    { package: '@junk-temporary-prototypes/theming', version: '6.0.0-beta.37' },
   ],
   [
-    '├─┬ @storybook/preset-create-react-app@3.1.2',
-    { package: '@storybook/preset-create-react-app', version: '3.1.2' },
+    '├─┬ @junk-temporary-prototypes/preset-create-react-app@3.1.2',
+    { package: '@junk-temporary-prototypes/preset-create-react-app', version: '3.1.2' },
   ],
-  ['│ ├─┬ @storybook/node-logger@5.3.19', { package: '@storybook/node-logger', version: '5.3.19' }],
+  ['│ ├─┬ @junk-temporary-prototypes/node-logger@5.3.19', { package: '@junk-temporary-prototypes/node-logger', version: '5.3.19' }],
   [
-    'npm ERR! peer dep missing: @storybook/react@>=5.2, required by @storybook/preset-create-react-app@3.1.2',
+    'npm ERR! peer dep missing: @junk-temporary-prototypes/react@>=5.2, required by @junk-temporary-prototypes/preset-create-react-app@3.1.2',
     null,
   ],
 ])('getStorybookVersion', (input, output) => {
@@ -22,13 +22,13 @@ describe.each([
 });
 
 describe.each([
-  ['@storybook/react', true],
-  ['@storybook/node-logger', true],
-  ['@storybook/addon-info', true],
-  ['@storybook/something-random', true],
-  ['@storybook/preset-create-react-app', false],
-  ['@storybook/linter-config', false],
-  ['@storybook/design-system', false],
+  ['@junk-temporary-prototypes/react', true],
+  ['@junk-temporary-prototypes/node-logger', true],
+  ['@junk-temporary-prototypes/addon-info', true],
+  ['@junk-temporary-prototypes/something-random', true],
+  ['@junk-temporary-prototypes/preset-create-react-app', false],
+  ['@junk-temporary-prototypes/linter-config', false],
+  ['@junk-temporary-prototypes/design-system', false],
 ])('isCorePackage', (input, output) => {
   it(`${input}`, () => {
     expect(isCorePackage(input)).toEqual(output);

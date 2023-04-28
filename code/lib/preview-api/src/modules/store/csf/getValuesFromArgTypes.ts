@@ -1,4 +1,4 @@
-import type { ArgTypes } from '@storybook/types';
+import type { ArgTypes } from '@junk-temporary-prototypes/types';
 
 export const getValuesFromArgTypes = (argTypes: ArgTypes = {}) =>
   Object.entries(argTypes).reduce((acc, [arg, { defaultValue }]) => {

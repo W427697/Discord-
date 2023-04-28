@@ -1,4 +1,4 @@
-import { start } from '@storybook/preview-api';
+import { start } from '@junk-temporary-prototypes/preview-api';
 import { decorateStory } from './decorators';
 
 import type { SvelteRenderer } from './types';

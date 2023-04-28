@@ -6,15 +6,15 @@ import {
   useArgTypes,
   useParameter,
   useStorybookState,
-} from '@storybook/manager-api';
+} from '@junk-temporary-prototypes/manager-api';
 import {
   PureArgsTable as ArgsTable,
   NoControlsWarning,
   type PresetColor,
   type SortType,
-} from '@storybook/blocks';
+} from '@junk-temporary-prototypes/blocks';
 
-import type { ArgTypes } from '@storybook/types';
+import type { ArgTypes } from '@junk-temporary-prototypes/types';
 import { PARAM_KEY } from './constants';
 
 interface ControlsParameters {

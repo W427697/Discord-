@@ -2,12 +2,12 @@
 // .storybook/main.ts
 
 // For Vite support add the following import
-// import type { AddonOptionsVite } from '@storybook/addon-coverage';
+// import type { AddonOptionsVite } from '@junk-temporary-prototypes/addon-coverage';
 
-import type { AddonOptionsBabel } from '@storybook/addon-coverage';
+import type { AddonOptionsBabel } from '@junk-temporary-prototypes/addon-coverage';
 
 // Replace your-framework with the framework and builder you are using (e.g., react-webpack5, vue3-webpack5)
-import type { StorybookConfig } from '@storybook/your-framework';
+import type { StorybookConfig } from '@junk-temporary-prototypes/your-framework';
 
 const coverageConfig: AddonOptionsBabel = {
   include: ['**/stories/**'],
@@ -20,7 +20,7 @@ const config: StorybookConfig = {
   addons: [
     // Other Storybook addons
     {
-      name: '@storybook/addon-coverage',
+      name: '@junk-temporary-prototypes/addon-coverage',
       options: {
         istanbul: {
           ...coverageConfig,

@@ -1,4 +1,4 @@
-import { SHARED_STATE_CHANGED, SHARED_STATE_SET } from '@storybook/core-events';
+import { SHARED_STATE_CHANGED, SHARED_STATE_SET } from '@junk-temporary-prototypes/core-events';
 
 import {
   addons,

@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { parse } from 'qs';
 
 export const getQueryParams = () => {

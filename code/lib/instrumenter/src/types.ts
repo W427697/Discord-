@@ -1,4 +1,4 @@
-import type { StoryId } from '@storybook/types';
+import type { StoryId } from '@junk-temporary-prototypes/types';
 
 export interface Call {
   id: string;

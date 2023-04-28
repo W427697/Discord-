@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import Button from './Button';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
 export default {
   title: 'foo',

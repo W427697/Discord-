@@ -1,5 +1,5 @@
 import path from 'path';
-import type { PresetProperty } from '@storybook/types';
+import type { PresetProperty } from '@junk-temporary-prototypes/types';
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from './types';
 import { vueDocgen } from './plugins/vue-docgen';
@@ -11,11 +11,11 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
     ...config,
     builder: {
       name: path.dirname(
-        require.resolve(path.join('@storybook/builder-vite', 'package.json'))
-      ) as '@storybook/builder-vite',
+        require.resolve(path.join('@junk-temporary-prototypes/builder-vite', 'package.json'))
+      ) as '@junk-temporary-prototypes/builder-vite',
       options: typeof framework === 'string' ? {} : framework?.options.builder || {},
     },
-    renderer: '@storybook/vue',
+    renderer: '@junk-temporary-prototypes/vue',
   };
 };
 

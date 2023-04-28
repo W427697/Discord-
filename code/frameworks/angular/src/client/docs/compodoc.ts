@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import { InputType, ArgTypes, SBType } from '@storybook/types';
-import { logger } from '@storybook/client-logger';
+import { InputType, ArgTypes, SBType } from '@junk-temporary-prototypes/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import {
   Argument,
   Class,

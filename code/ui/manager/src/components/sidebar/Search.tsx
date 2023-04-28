@@ -1,12 +1,12 @@
 /* eslint-disable import/no-cycle */
-import { useStorybookApi } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { useStorybookApi } from '@junk-temporary-prototypes/manager-api';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Icons } from '@junk-temporary-prototypes/components';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
 import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
 import { DEFAULT_REF_ID } from './Sidebar';

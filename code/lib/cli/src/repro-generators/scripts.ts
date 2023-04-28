@@ -213,7 +213,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
     command,
     { cwd },
     {
-      startMessage: `🎨 Initializing Storybook with @storybook/cli`,
+      startMessage: `🎨 Initializing Storybook with @junk-temporary-prototypes/cli`,
       errorMessage: `🚨 Storybook initialization failed`,
     }
   );

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { dedent } from 'ts-dedent';
-import { deprecate } from '@storybook/node-logger';
+import { deprecate } from '@junk-temporary-prototypes/node-logger';
 
 import remarkGfm from 'remark-gfm';
 
@@ -11,7 +11,7 @@ export const mdxLoaderOptions = async (config: any) => {
 };
 
 deprecate(dedent`
-  The "@storybook/addon-mdx-gfm" addon is meant as a migration assistant for Storybook 7.0; and will likely be removed in a future version.
+  The "@junk-temporary-prototypes/addon-mdx-gfm" addon is meant as a migration assistant for Storybook 7.0; and will likely be removed in a future version.
   It's recommended you read this document:
   https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm
 

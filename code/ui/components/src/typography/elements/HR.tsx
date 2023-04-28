@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 export const HR = styled.hr(({ theme }) => ({
   border: '0 none',

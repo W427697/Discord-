@@ -5,10 +5,10 @@ import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
-import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { StoryIndex, StoryIndexer } from '@storybook/types';
-import { loadCsf } from '@storybook/csf-tools';
-import { normalizeStoriesEntry } from '@storybook/core-common';
+import { STORY_INDEX_INVALIDATED } from '@junk-temporary-prototypes/core-events';
+import type { StoryIndex, StoryIndexer } from '@junk-temporary-prototypes/types';
+import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
+import { normalizeStoriesEntry } from '@junk-temporary-prototypes/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import type { ServerChannel } from './get-server-channel';
@@ -16,7 +16,7 @@ import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
-jest.mock('@storybook/node-logger');
+jest.mock('@junk-temporary-prototypes/node-logger');
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
@@ -45,7 +45,7 @@ const csfIndexer = async (fileName: string, opts: any) => {
 
 const storiesMdxIndexer = async (fileName: string, opts: any) => {
   let code = (await fs.readFile(fileName, 'utf-8')).toString();
-  const { compile } = await import('@storybook/mdx2-csf');
+  const { compile } = await import('@junk-temporary-prototypes/mdx2-csf');
   code = await compile(code, {});
   return loadCsf(code, { ...opts, fileName }).parse();
 };

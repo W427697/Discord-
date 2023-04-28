@@ -1,13 +1,13 @@
 ```md
 <!-- Button.stories.mdx -->
 
-import { Meta, Story } from '@storybook/addon-docs';
+import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
 import Button from './Button.svelte';
 
-<Meta 
-  title="Accessibility testing" 
-  component={Button} 
+<Meta
+  title="Accessibility testing"
+  component={Button}
   argTypes={{
     backgroundColor: {
       control: {
@@ -27,14 +27,14 @@ import Button from './Button.svelte';
 <Story
   name="Accessible"
   args={{
-    primary: false, 
+    primary: false,
     label: 'Button'
   }}
   render={(args) => ({
     Component: Button,
     props: args,
   })} />
- 
+
 ## This is not
 
 <Story

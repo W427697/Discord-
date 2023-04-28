@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import merge from 'lodash/merge.js';
 import {
   CONFIG_ERROR,
@@ -29,9 +29,9 @@ import {
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
   DOCS_PREPARED,
-} from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
-import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+} from '@junk-temporary-prototypes/core-events';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@junk-temporary-prototypes/types';
 import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
@@ -59,9 +59,9 @@ const { history, document } = global;
 const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
-    ...(jest.requireActual('@storybook/global') as any),
+    ...(jest.requireActual('@junk-temporary-prototypes/global') as any),
     history: { replaceState: jest.fn() },
     document: {
       location: {
@@ -77,7 +77,7 @@ jest.mock('@storybook/global', () => ({
   },
 }));
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 jest.mock('react-dom');
 jest.mock('./WebView');
 

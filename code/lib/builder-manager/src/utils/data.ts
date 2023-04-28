@@ -1,6 +1,6 @@
 import { basename, join } from 'path';
-import type { DocsOptions, Options } from '@storybook/types';
-import { getRefs } from '@storybook/core-common';
+import type { DocsOptions, Options } from '@junk-temporary-prototypes/types';
+import { getRefs } from '@junk-temporary-prototypes/core-common';
 
 import { readTemplate } from './template';
 // eslint-disable-next-line import/no-cycle

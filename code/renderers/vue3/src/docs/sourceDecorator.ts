@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, useEffect } from '@storybook/preview-api';
-import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
+import { addons, useEffect } from '@junk-temporary-prototypes/preview-api';
+import type { ArgTypes, Args, StoryContext, Renderer } from '@junk-temporary-prototypes/types';
 
-import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SourceType, SNIPPET_RENDERED } from '@junk-temporary-prototypes/docs-tools';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import parserHTML from 'prettier/parser-html';

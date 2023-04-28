@@ -1,8 +1,8 @@
 import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { telemetry } from '@storybook/telemetry';
-import { withTelemetry } from '@storybook/core-server';
+import { telemetry } from '@junk-temporary-prototypes/telemetry';
+import { withTelemetry } from '@junk-temporary-prototypes/core-server';
 
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder, detectPnp } from './detect';

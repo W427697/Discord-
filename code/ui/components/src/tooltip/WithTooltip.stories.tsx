@@ -1,7 +1,7 @@
 import type { FunctionComponent, ComponentProps } from 'react';
 import React from 'react';
-import type { StoryObj } from '@storybook/react';
-import { styled } from '@storybook/theming';
+import type { StoryObj } from '@junk-temporary-prototypes/react';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { TooltipMessage } from './TooltipMessage';
 import { WithToolTipState as WithTooltip } from './WithTooltip';
 

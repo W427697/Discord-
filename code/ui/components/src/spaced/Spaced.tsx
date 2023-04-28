@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled, ignoreSsrWarning } from '@storybook/theming';
+import { styled, ignoreSsrWarning } from '@junk-temporary-prototypes/theming';
 
 const toNumber = (input: any) => (typeof input === 'number' ? input : Number(input));
 

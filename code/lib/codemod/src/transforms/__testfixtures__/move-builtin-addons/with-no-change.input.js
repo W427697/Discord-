@@ -1,3 +1,3 @@
 /* eslint-disable */
 import { action } from '@kadira/storybook-addons';
-import { storyOf } from '@storybook/react';
+import { storyOf } from '@junk-temporary-prototypes/react';

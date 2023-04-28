@@ -1,6 +1,6 @@
-import { global } from '@storybook/global';
-import { useEffect, makeDecorator } from '@storybook/preview-api';
-import type { Addon_DecoratorFunction } from '@storybook/types';
+import { global } from '@junk-temporary-prototypes/global';
+import { useEffect, makeDecorator } from '@junk-temporary-prototypes/preview-api';
+import type { Addon_DecoratorFunction } from '@junk-temporary-prototypes/types';
 import { actions } from './runtime/actions';
 
 import { PARAM_KEY } from './constants';

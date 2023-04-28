@@ -1,5 +1,5 @@
-import type { CoreConfig, Options, StoryIndex } from '@storybook/types';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import type { CoreConfig, Options, StoryIndex } from '@junk-temporary-prototypes/types';
+import { telemetry, getPrecedingUpgrade } from '@junk-temporary-prototypes/telemetry';
 import { useStorybookMetadata } from './metadata';
 import type { StoryIndexGenerator } from './StoryIndexGenerator';
 import { summarizeIndex } from './summarizeIndex';

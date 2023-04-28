@@ -1,2 +1,2 @@
 /* eslint-disable */
-import { storyOf, action, linkTo } from '@storybook/react';
+import { storyOf, action, linkTo } from '@junk-temporary-prototypes/react';

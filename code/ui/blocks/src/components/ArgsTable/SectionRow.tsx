@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import { transparentize, lighten } from 'polished';
-import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Icons } from '@junk-temporary-prototypes/components';
 
 type Level = 'section' | 'subsection';
 

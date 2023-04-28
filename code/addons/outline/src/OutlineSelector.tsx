@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect } from 'react';
-import { useGlobals, useStorybookApi } from '@storybook/manager-api';
-import { Icons, IconButton } from '@storybook/components';
+import { useGlobals, useStorybookApi } from '@junk-temporary-prototypes/manager-api';
+import { Icons, IconButton } from '@junk-temporary-prototypes/components';
 import { ADDON_ID, PARAM_KEY } from './constants';
 
 export const OutlineSelector = memo(function OutlineSelector() {

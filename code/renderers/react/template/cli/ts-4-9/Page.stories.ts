@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
+import { within, userEvent } from '@junk-temporary-prototypes/testing-library';
 
 import { Page } from './Page';
 

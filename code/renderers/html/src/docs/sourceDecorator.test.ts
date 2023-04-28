@@ -1,9 +1,9 @@
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
-import { addons, useEffect } from '@storybook/preview-api';
+import { SNIPPET_RENDERED } from '@junk-temporary-prototypes/docs-tools';
+import { addons, useEffect } from '@junk-temporary-prototypes/preview-api';
 import { sourceDecorator } from './sourceDecorator';
 import type { StoryContext } from '../types';
 
-jest.mock('@storybook/preview-api');
+jest.mock('@junk-temporary-prototypes/preview-api');
 const mockedAddons = addons as jest.Mocked<typeof addons>;
 const mockedUseEffect = useEffect as jest.Mocked<typeof useEffect>;
 

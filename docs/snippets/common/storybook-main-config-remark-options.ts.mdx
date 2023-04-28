@@ -4,14 +4,14 @@
 import remarkGfm from 'remark-gfm';
 
 // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
-import type { StorybookConfig } from '@storybook/your-framework';
+import type { StorybookConfig } from '@junk-temporary-prototypes/your-framework';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|ts)'],
   addons: [
     // Other addons go here
     {
-      name: '@storybook/addon-docs',
+      name: '@junk-temporary-prototypes/addon-docs',
       options: {
         mdxPluginOptions: {
           mdxCompileOptions: {
@@ -23,7 +23,7 @@ const config: StorybookConfig = {
   ],
   framework: {
     // The name of the framework you want to use goes here
-    name: '@storybook/your-framework',
+    name: '@junk-temporary-prototypes/your-framework',
     options: {},
   },
   docs: {

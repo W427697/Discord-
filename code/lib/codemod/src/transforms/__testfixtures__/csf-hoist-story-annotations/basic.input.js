@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from './Button';
-import { action } from '@storybook/addon-actions';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 
 export default {
   title: 'Button',

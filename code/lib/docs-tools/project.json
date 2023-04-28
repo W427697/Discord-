@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/docs-tools",
+  "name": "@junk-temporary-prototypes/docs-tools",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

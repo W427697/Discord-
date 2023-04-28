@@ -1,6 +1,6 @@
-import { global as globalThis } from '@storybook/global';
-import { expect } from '@storybook/jest';
-import type { PlayFunctionContext } from '@storybook/types';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { expect } from '@junk-temporary-prototypes/jest';
+import type { PlayFunctionContext } from '@junk-temporary-prototypes/types';
 
 export default {
   component: globalThis.Components.Pre,

@@ -1,7 +1,7 @@
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 deprecate(
-  'importing from @storybook/preview is deprecated and will be removed in 8.0, please import canvas related modules from @storybook/preview-api'
+  'importing from @junk-temporary-prototypes/preview is deprecated and will be removed in 8.0, please import canvas related modules from @junk-temporary-prototypes/preview-api'
 );
 
-export * from '@storybook/preview-api/dist/preview-web';
+export * from '@junk-temporary-prototypes/preview-api/dist/preview-web';

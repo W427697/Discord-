@@ -2,7 +2,7 @@
 
 exports[`inject-decorator injectDecorator option is false - angular does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "import { Component } from '@angular/core';
-import { storiesOf } from '@storybook/angular';
+import { storiesOf } from '@junk-temporary-prototypes/angular';
 
 @Component({
   selector: 'storybook-with-ng-content',
@@ -22,8 +22,8 @@ storiesOf('Custom|ng-content', module).add('Default', () => ({
 exports[`inject-decorator injectDecorator option is false - flow does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "// @flow
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import { storiesOf } from '@junk-temporary-prototypes/react';
+import { withInfo } from '@junk-temporary-prototypes/addon-info';
 
 import TableComponent from '../components/TableComponent';
 
@@ -61,7 +61,7 @@ stories.add('Flow Class', withInfo('Lorum Ipsum Nem')(() => <Table />));
 exports[`inject-decorator injectDecorator option is false - ts does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "import { Component } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
-import { storiesOf, moduleMetadata } from '@storybook/angular';
+import { storiesOf, moduleMetadata } from '@junk-temporary-prototypes/angular';
 
 @Component({
   selector: 'storybook-comp-with-store',
@@ -95,8 +95,8 @@ storiesOf('ngrx|Store', module)
 
 exports[`inject-decorator injectDecorator option is false does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import { storiesOf } from '@junk-temporary-prototypes/react';
+import { withInfo } from '@junk-temporary-prototypes/addon-info';
 
 import { DocgenButton } from '../components/DocgenButton';
 import FlowTypeButton from '../components/FlowTypeButton';
@@ -274,7 +274,7 @@ Object {
 
 exports[`inject-decorator positive - angular injects stories decorator after the all "storiesOf" functions 1`] = `
 "import { Component } from '@angular/core';
-import { storiesOf } from '@storybook/angular';
+import { storiesOf } from '@junk-temporary-prototypes/angular';
 
 @Component({
   selector: 'storybook-with-ng-content',
@@ -317,8 +317,8 @@ Object {
 exports[`inject-decorator positive - flow injects stories decorator after the all "storiesOf" functions 1`] = `
 "// @flow
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import { storiesOf } from '@junk-temporary-prototypes/react';
+import { withInfo } from '@junk-temporary-prototypes/addon-info';
 
 import TableComponent from '../components/TableComponent';
 
@@ -379,7 +379,7 @@ Object {
 exports[`inject-decorator positive - ts injects stories decorator after the all "storiesOf" functions 1`] = `
 "import { Component } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
-import { storiesOf, moduleMetadata } from '@storybook/angular';
+import { storiesOf, moduleMetadata } from '@junk-temporary-prototypes/angular';
 
 @Component({
   selector: 'storybook-comp-with-store',
@@ -670,8 +670,8 @@ Object {
 
 exports[`inject-decorator positive injects stories decorator after the all "storiesOf" functions 1`] = `
 "import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
+import { storiesOf } from '@junk-temporary-prototypes/react';
+import { withInfo } from '@junk-temporary-prototypes/addon-info';
 
 import { DocgenButton } from '../components/DocgenButton';
 import FlowTypeButton from '../components/FlowTypeButton';
@@ -847,7 +847,7 @@ class WithStoreComponent {
 
 
 
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
  const x = 0;
 
@@ -868,7 +868,7 @@ import React from 'react';
 
 
 
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
  const x = 0;
 

@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
-import { start } from '@storybook/preview-api';
-import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
+import { start } from '@junk-temporary-prototypes/preview-api';
+import type { Addon_ClientStoryApi, Addon_Loadable } from '@junk-temporary-prototypes/types';
 
 import { render, renderToCanvas } from './render';
 import type { ReactRenderer } from './types';

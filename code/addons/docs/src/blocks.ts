@@ -1,7 +1,7 @@
-import { deprecate } from '@storybook/client-logger';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 deprecate(
-  "Import from '@storybook/addon-docs/blocks' is deprecated. Please import from '@storybook/blocks' instead."
+  "Import from '@junk-temporary-prototypes/addon-docs/blocks' is deprecated. Please import from '@junk-temporary-prototypes/blocks' instead."
 );
 
-export * from '@storybook/blocks';
+export * from '@junk-temporary-prototypes/blocks';

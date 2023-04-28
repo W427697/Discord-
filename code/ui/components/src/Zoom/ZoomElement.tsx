@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import useResizeObserver from 'use-resize-observer';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
 const hasBrowserSupportForCssZoom = browserSupportsCssZoom();

@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/channel-websocket",
+  "name": "@junk-temporary-prototypes/channel-websocket",
   "version": "7.0.7",
   "description": "",
   "keywords": [
@@ -43,9 +43,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.7",
-    "@storybook/client-logger": "7.0.7",
-    "@storybook/global": "^5.0.0",
+    "@junk-temporary-prototypes/channels": "7.0.7",
+    "@junk-temporary-prototypes/client-logger": "7.0.7",
+    "@junk-temporary-prototypes/global": "^5.0.0",
     "telejson": "^7.0.3"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
+import type { Renderer, ProjectAnnotations, StoryIndex } from '@junk-temporary-prototypes/types';
 import { expect } from '@jest/globals';
 
 import { prepareStory } from './csf/prepareStory';
@@ -14,9 +14,9 @@ jest.mock('./csf/processCSFFile', () => ({
   processCSFFile: jest.fn(jest.requireActual('./csf/processCSFFile').processCSFFile),
 }));
 
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
-    ...(jest.requireActual('@storybook/global') as any),
+    ...(jest.requireActual('@junk-temporary-prototypes/global') as any),
   },
 }));
 

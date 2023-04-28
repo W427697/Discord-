@@ -1,4 +1,4 @@
-import type { Addon_StoryWrapper, Addon_LegacyStoryFn, Addon_StoryContext } from '@storybook/types';
+import type { Addon_StoryWrapper, Addon_LegacyStoryFn, Addon_StoryContext } from '@junk-temporary-prototypes/types';
 
 export type MakeDecoratorResult = (...args: any) => any;
 

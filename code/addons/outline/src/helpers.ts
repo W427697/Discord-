@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 export const clearStyles = (selector: string | string[]) => {
   const selectors = Array.isArray(selector) ? selector : [selector];

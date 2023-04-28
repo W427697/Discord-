@@ -40,8 +40,8 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     extraPackages.push('prop-types');
   }
 
-  const version = versions['@storybook/preset-create-react-app'];
-  const extraAddons = [`@storybook/preset-create-react-app@${version}`];
+  const version = versions['@junk-temporary-prototypes/preset-create-react-app'];
+  const extraAddons = [`@junk-temporary-prototypes/preset-create-react-app@${version}`];
 
   if (!isCra5OrHigher) {
     throw new Error(dedent`

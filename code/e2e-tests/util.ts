@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-standalone-expect, no-await-in-loop */
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
-import { toId } from '@storybook/csf';
+import { toId } from '@junk-temporary-prototypes/csf';
 
 export class SbPage {
   readonly page: Page;

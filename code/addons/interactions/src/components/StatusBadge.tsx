@@ -1,6 +1,6 @@
 import React from 'react';
-import { type Call, CallStates } from '@storybook/instrumenter';
-import { styled, typography } from '@storybook/theming';
+import { type Call, CallStates } from '@junk-temporary-prototypes/instrumenter';
+import { styled, typography } from '@junk-temporary-prototypes/theming';
 
 export interface StatusBadgeProps {
   status: Call['status'];

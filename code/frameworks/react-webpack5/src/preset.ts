@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
 
 import { dirname, join } from 'path';
-import type { PresetProperty, Options } from '@storybook/types';
+import type { PresetProperty, Options } from '@junk-temporary-prototypes/types';
 import type { FrameworkOptions, StorybookConfig } from './types';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
-  wrapForPnP('@storybook/preset-react-webpack'),
+  wrapForPnP('@junk-temporary-prototypes/preset-react-webpack'),
 ];
 
 const defaultFrameworkOptions: FrameworkOptions = {
@@ -28,7 +28,7 @@ export const frameworkOptions = async (
   }
   if (typeof config === 'undefined') {
     return {
-      name: wrapForPnP('@storybook/react-webpack5') as '@storybook/react-webpack5',
+      name: wrapForPnP('@junk-temporary-prototypes/react-webpack5') as '@junk-temporary-prototypes/react-webpack5',
       options: defaultFrameworkOptions,
     };
   }
@@ -48,10 +48,10 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-webpack5') as '@storybook/builder-webpack5',
+      name: wrapForPnP('@junk-temporary-prototypes/builder-webpack5') as '@junk-temporary-prototypes/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
-    renderer: wrapForPnP('@storybook/react'),
+    renderer: wrapForPnP('@junk-temporary-prototypes/react'),
   };
 };
 
@@ -60,7 +60,7 @@ export const webpack: StorybookConfig['webpack'] = async (config) => {
 
   config.resolve.alias = {
     ...config.resolve?.alias,
-    '@storybook/react': wrapForPnP('@storybook/react'),
+    '@junk-temporary-prototypes/react': wrapForPnP('@junk-temporary-prototypes/react'),
   };
   return config;
 };

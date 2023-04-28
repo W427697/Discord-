@@ -9,8 +9,8 @@ import type {
   StoryName,
   ResolvedModuleExportType,
   ResolvedModuleExportFromType,
-} from '@storybook/types';
-import type { Channel } from '@storybook/channels';
+} from '@junk-temporary-prototypes/types';
+import type { Channel } from '@junk-temporary-prototypes/channels';
 
 import dedent from 'ts-dedent';
 import type { StoryStore } from '../../store';

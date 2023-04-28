@@ -1,7 +1,7 @@
 import mergeWith from 'lodash/mergeWith.js';
 import isEqual from 'lodash/isEqual.js';
 
-import { logger } from '@storybook/client-logger';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 
 export default <TObj = any>(a: TObj, b: Partial<TObj>) =>
   mergeWith({}, a, b, (objValue: TObj, srcValue: Partial<TObj>) => {

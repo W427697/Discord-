@@ -1,7 +1,7 @@
 import * as React from 'react';
 // this will be aliased by webpack at runtime (this is just for typing)
-import type { action as originalAction } from '@storybook/addon-actions';
-import type { Addon_StoryContext } from '@storybook/types';
+import type { action as originalAction } from '@junk-temporary-prototypes/addon-actions';
+import type { Addon_StoryContext } from '@junk-temporary-prototypes/types';
 import AppRouterProvider from './app-router-provider';
 
 import PageRouterProvider from './page-router-provider';
@@ -10,7 +10,7 @@ import type { RouteParams, NextAppDirectory } from './types';
 let action: typeof originalAction;
 
 try {
-  action = require('@storybook/addon-actions').action;
+  action = require('@junk-temporary-prototypes/addon-actions').action;
 } catch {
   action = () => () => {};
 }

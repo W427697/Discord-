@@ -1,4 +1,4 @@
-import type { API } from '@storybook/manager-api';
+import type { API } from '@junk-temporary-prototypes/manager-api';
 import { ADDON_ID } from './constants';
 
 type State = {

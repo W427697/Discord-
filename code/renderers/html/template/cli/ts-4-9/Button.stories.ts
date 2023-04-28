@@ -1,4 +1,4 @@
-import type { StoryObj, Meta } from '@storybook/html';
+import type { StoryObj, Meta } from '@junk-temporary-prototypes/html';
 import type { ButtonProps } from './Button';
 import { createButton } from './Button';
 

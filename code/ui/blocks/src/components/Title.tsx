@@ -1,6 +1,6 @@
-import type { Theme } from '@storybook/theming';
-import { styled } from '@storybook/theming';
-import { withReset } from '@storybook/components';
+import type { Theme } from '@junk-temporary-prototypes/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { withReset } from '@junk-temporary-prototypes/components';
 
 const breakpoint = 600;
 

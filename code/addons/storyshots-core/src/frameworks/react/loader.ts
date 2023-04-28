@@ -4,14 +4,14 @@ import type { Loader } from '../Loader';
 import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
-  return options.framework === 'react' || (!options.framework && hasDependency('@storybook/react'));
+  return options.framework === 'react' || (!options.framework && hasDependency('@junk-temporary-prototypes/react'));
 }
 
 function load(options: StoryshotsOptions) {
   let mockStartedAPI: any;
 
-  jest.mock('@storybook/preview-api', () => {
-    const previewAPI = jest.requireActual('@storybook/preview-api');
+  jest.mock('@junk-temporary-prototypes/preview-api', () => {
+    const previewAPI = jest.requireActual('@junk-temporary-prototypes/preview-api');
 
     return {
       ...previewAPI,
@@ -22,8 +22,8 @@ function load(options: StoryshotsOptions) {
     };
   });
 
-  jest.mock('@storybook/react', () => {
-    const renderAPI = jest.requireActual('@storybook/react');
+  jest.mock('@junk-temporary-prototypes/react', () => {
+    const renderAPI = jest.requireActual('@junk-temporary-prototypes/react');
 
     renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
     renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
@@ -32,7 +32,7 @@ function load(options: StoryshotsOptions) {
   });
 
   // eslint-disable-next-line global-require
-  const storybook = require('@storybook/react');
+  const storybook = require('@junk-temporary-prototypes/react');
 
   configure({
     ...options,

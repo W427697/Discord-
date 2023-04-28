@@ -1,5 +1,5 @@
-import type { StorybookConfig } from '@storybook/types';
-import { logger } from '@storybook/client-logger';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 

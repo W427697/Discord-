@@ -28,7 +28,7 @@ const configureStaticImageImport = (baseConfig: WebpackConfig): void => {
     issuer: { not: /\.(css|scss|sass)$/ },
     use: [
       {
-        loader: require.resolve('@storybook/nextjs/next-image-loader-stub.js'),
+        loader: require.resolve('@junk-temporary-prototypes/nextjs/next-image-loader-stub.js'),
         options: {
           filename: assetRule.generator?.filename,
         },

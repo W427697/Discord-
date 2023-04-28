@@ -100,7 +100,7 @@ export const install: Task['run'] = async (
     );
   }
 
-  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+  const extra = template.expected.renderer === '@junk-temporary-prototypes/html' ? { type: 'html' } : {};
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -131,7 +131,7 @@ export const install: Task['run'] = async (
   });
 
   switch (template.expected.framework) {
-    case '@storybook/angular':
+    case '@junk-temporary-prototypes/angular':
       await prepareAngularSandbox(cwd);
       break;
     default:
@@ -139,7 +139,7 @@ export const install: Task['run'] = async (
 
   if (!skipTemplateStories) {
     for (const addon of addons) {
-      const addonName = `@storybook/addon-${addon}`;
+      const addonName = `@junk-temporary-prototypes/addon-${addon}`;
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
   }
@@ -153,7 +153,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
   const storiesMdxLoaderPath = require.resolve(
-    '../../code/node_modules/@storybook/mdx2-csf/loader'
+    '../../code/node_modules/@junk-temporary-prototypes/mdx2-csf/loader'
   );
   const babelLoaderPath = require.resolve('babel-loader');
   const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
@@ -230,7 +230,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
 }
 
 /*
-  Recompile optimized deps on each startup, so you can change @storybook/* packages and not
+  Recompile optimized deps on each startup, so you can change @junk-temporary-prototypes/* packages and not
   have to clear caches.
   And allow source directories to complement any existing allow patterns
   (".storybook" is already being allowed by builder-vite)
@@ -344,8 +344,8 @@ function addExtraDependencies({
   dryRun: boolean;
   debug: boolean;
 }) {
-  // web-components doesn't install '@storybook/testing-library' by default
-  const extraDeps = ['@storybook/jest', '@storybook/testing-library', '@storybook/test-runner'];
+  // web-components doesn't install '@junk-temporary-prototypes/testing-library' by default
+  const extraDeps = ['@junk-temporary-prototypes/jest', '@junk-temporary-prototypes/testing-library', '@junk-temporary-prototypes/test-runner'];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
@@ -367,7 +367,7 @@ export const addStories: Task['run'] = async (
   const packageJson = await import(join(cwd, 'package.json'));
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
-  const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+  const isCoreRenderer = template.expected.renderer.startsWith('@junk-temporary-prototypes/');
   if (isCoreRenderer) {
     // Link in the template/components/index.js from store, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
@@ -385,7 +385,7 @@ export const addStories: Task['run'] = async (
     });
   }
 
-  const isCoreFramework = template.expected.framework.startsWith('@storybook/');
+  const isCoreFramework = template.expected.framework.startsWith('@junk-temporary-prototypes/');
 
   if (isCoreFramework) {
     const frameworkPath = await workspacePath('frameworks', template.expected.framework);
@@ -422,7 +422,7 @@ export const addStories: Task['run'] = async (
   if (isCoreRenderer) {
     // Add stories for lib/store (and addons below). NOTE: these stories will be in the
     // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-    await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
+    await linkPackageStories(await workspacePath('core package', '@junk-temporary-prototypes/store'), {
       mainConfig,
       cwd,
     });
@@ -431,7 +431,7 @@ export const addStories: Task['run'] = async (
   const mainAddons = (mainConfig.getSafeFieldValue(['addons']) || []).reduce(
     (acc: string[], addon: any) => {
       const name = typeof addon === 'string' ? addon : addon.name;
-      const match = /@storybook\/addon-(.*)/.exec(name);
+      const match = /@junk-temporary-prototypes\/addon-(.*)/.exec(name);
       if (!match) return acc;
       const suffix = match[1];
       if (suffix === 'essentials') {
@@ -444,7 +444,7 @@ export const addStories: Task['run'] = async (
 
   const addonDirs = await Promise.all(
     [...mainAddons, ...extraAddons].map(async (addon) =>
-      workspacePath('addon', `@storybook/addon-${addon}`)
+      workspacePath('addon', `@junk-temporary-prototypes/addon-${addon}`)
     )
   );
 
@@ -455,7 +455,7 @@ export const addStories: Task['run'] = async (
     }
 
     // Add some extra settings (see above for what these do)
-    if (template.expected.builder === '@storybook/builder-webpack5') {
+    if (template.expected.builder === '@junk-temporary-prototypes/builder-webpack5') {
       addEsbuildLoaderToStories(mainConfig);
     }
   }
@@ -479,7 +479,7 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
 
-  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
+  if (template.expected.builder === '@junk-temporary-prototypes/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
 

@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import { BuilderContext, targetFromTargetString } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
 import { dedent } from 'ts-dedent';

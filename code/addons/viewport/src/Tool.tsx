@@ -3,11 +3,11 @@ import type { ReactNode, FC } from 'react';
 import React, { useState, Fragment, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
 
-import { styled, Global, type Theme, withTheme } from '@storybook/theming';
+import { styled, Global, type Theme, withTheme } from '@junk-temporary-prototypes/theming';
 
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@junk-temporary-prototypes/components';
 
-import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
+import { useStorybookApi, useParameter, useAddonState } from '@junk-temporary-prototypes/manager-api';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';

@@ -1,24 +1,24 @@
 export const packageNames = {
-  '@kadira/react-storybook-decorator-centered': '@storybook/addon-centered',
-  '@kadira/storybook-addons': '@storybook/preview-api',
-  '@kadira/storybook-addon-actions': '@storybook/addon-actions',
-  '@kadira/storybook-addon-comments': '@storybook/addon-comments',
-  '@kadira/storybook-addon-graphql': '@storybook/addon-graphql',
-  '@kadira/storybook-addon-info': '@storybook/addon-info',
-  '@kadira/storybook-addon-knobs': '@storybook/addon-knobs',
-  '@kadira/storybook-addon-links': '@storybook/addon-links',
-  '@kadira/storybook-addon-notes': '@storybook/addon-notes',
-  '@kadira/storybook-addon-options': '@storybook/addon-options',
-  '@kadira/storybook-channels': '@storybook/channels',
-  '@kadira/storybook-channel-postmsg': '@storybook/channel-postmessage',
-  '@kadira/storybook-channel-websocket': '@storybook/channel-websocket',
-  '@kadira/storybook-ui': '@storybook/manager',
-  '@kadira/react-native-storybook': '@storybook/react-native',
-  '@kadira/react-storybook': '@storybook/react',
-  '@kadira/getstorybook': '@storybook/cli',
-  '@kadira/storybook': '@storybook/react',
-  storyshots: '@storybook/addon-storyshots',
-  getstorybook: '@storybook/cli',
+  '@kadira/react-storybook-decorator-centered': '@junk-temporary-prototypes/addon-centered',
+  '@kadira/storybook-addons': '@junk-temporary-prototypes/preview-api',
+  '@kadira/storybook-addon-actions': '@junk-temporary-prototypes/addon-actions',
+  '@kadira/storybook-addon-comments': '@junk-temporary-prototypes/addon-comments',
+  '@kadira/storybook-addon-graphql': '@junk-temporary-prototypes/addon-graphql',
+  '@kadira/storybook-addon-info': '@junk-temporary-prototypes/addon-info',
+  '@kadira/storybook-addon-knobs': '@junk-temporary-prototypes/addon-knobs',
+  '@kadira/storybook-addon-links': '@junk-temporary-prototypes/addon-links',
+  '@kadira/storybook-addon-notes': '@junk-temporary-prototypes/addon-notes',
+  '@kadira/storybook-addon-options': '@junk-temporary-prototypes/addon-options',
+  '@kadira/storybook-channels': '@junk-temporary-prototypes/channels',
+  '@kadira/storybook-channel-postmsg': '@junk-temporary-prototypes/channel-postmessage',
+  '@kadira/storybook-channel-websocket': '@junk-temporary-prototypes/channel-websocket',
+  '@kadira/storybook-ui': '@junk-temporary-prototypes/manager',
+  '@kadira/react-native-storybook': '@junk-temporary-prototypes/react-native',
+  '@kadira/react-storybook': '@junk-temporary-prototypes/react',
+  '@kadira/getstorybook': '@junk-temporary-prototypes/cli',
+  '@kadira/storybook': '@junk-temporary-prototypes/react',
+  storyshots: '@junk-temporary-prototypes/addon-storyshots',
+  getstorybook: '@junk-temporary-prototypes/cli',
 };
 
 export default function transformer(file, api) {
@@ -39,7 +39,7 @@ export default function transformer(file, api) {
    * @param {string} oldPackageName the name of the old package
    * @return {string} the new package name
    * @example
-   * // returns '@storybook/storybook'
+   * // returns '@junk-temporary-prototypes/storybook'
    * getNewPackageName('@kadira/storybook')
    */
   const getNewPackageName = (oldPackageName) => {

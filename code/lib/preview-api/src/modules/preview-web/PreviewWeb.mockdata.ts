@@ -8,9 +8,9 @@ import {
   STORY_RENDERED,
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
-} from '@storybook/core-events';
+} from '@junk-temporary-prototypes/core-events';
 
-import type { ModuleImportFn, StoryIndex, TeardownRenderToCanvas } from '@storybook/types';
+import type { ModuleImportFn, StoryIndex, TeardownRenderToCanvas } from '@junk-temporary-prototypes/types';
 import type { RenderPhase } from './render/StoryRender';
 
 export const componentOneExports = {

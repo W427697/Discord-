@@ -1,10 +1,10 @@
 import qs from 'qs';
 
-import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
+import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@junk-temporary-prototypes/core-events';
 
 import { init as initURL } from '../modules/url';
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 jest.useFakeTimers();
 
 describe('initial state', () => {

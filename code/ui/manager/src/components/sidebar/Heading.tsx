@@ -1,7 +1,7 @@
 import type { FC, ComponentProps } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
-import { Button } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Button } from '@junk-temporary-prototypes/components';
 
 import { Brand } from './Brand';
 import type { MenuList } from './Menu';

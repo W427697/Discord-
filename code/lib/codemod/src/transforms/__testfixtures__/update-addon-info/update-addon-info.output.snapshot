@@ -5,10 +5,10 @@ exports[`update-addon-info transforms correctly using "update-addon-info.input.j
 import React from 'react';
 import Button from './Button';
 
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import { storiesOf } from '@junk-temporary-prototypes/react';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 
-import { withInfo } from \\"@storybook/addon-info\\";
+import { withInfo } from \\"@junk-temporary-prototypes/addon-info\\";
 
 storiesOf('Button').add('simple usage', withInfo(
   'This is the basic usage with the button with providing a label to show the text.'

@@ -1,6 +1,6 @@
-import { moduleMetadata, Meta } from '@storybook/angular';
+import { moduleMetadata, Meta } from '@junk-temporary-prototypes/angular';
 import { APP_INITIALIZER } from '@angular/core';
-import { action } from '@storybook/addon-actions';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 import Button from '../../button.component';
 
 const meta: Meta<Button> = {

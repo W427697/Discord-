@@ -1,4 +1,4 @@
-import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
+import { SourceType, enhanceArgTypes } from '@junk-temporary-prototypes/docs-tools';
 
 import { sourceDecorator } from './sourceDecorator';
 

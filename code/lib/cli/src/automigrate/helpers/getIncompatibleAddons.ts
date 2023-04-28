@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import semver from 'semver';
 import { getActualPackageVersions } from './getActualPackageVersions';
 import { getAddonNames } from './mainConfigFile';
@@ -6,20 +6,20 @@ import { getAddonNames } from './mainConfigFile';
 export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
   // TODO: Keep this up to date with https://github.com/storybookjs/storybook/issues/20529 in case more addons get added
   const incompatibleList = {
-    '@storybook/addon-knobs': '6.4.0',
-    '@storybook/addon-postcss': '2.0.0',
+    '@junk-temporary-prototypes/addon-knobs': '6.4.0',
+    '@junk-temporary-prototypes/addon-postcss': '2.0.0',
     'storybook-addon-next-router': '4.0.2',
     'storybook-addon-outline': '1.4.2', // (deprecated)
-    '@storybook/addon-info': '5.3.21',
+    '@junk-temporary-prototypes/addon-info': '5.3.21',
     'storybook-addon-designs': '6.3.1',
     'storybook-addon-next': '1.7.0', // (deprecated)'
     'storybook-docs-toc': '1.7.0',
-    '@storybook/addon-google-analytics': '6.2.9',
+    '@junk-temporary-prototypes/addon-google-analytics': '6.2.9',
     'storybook-addon-pseudo-states': '1.15.5',
     'storybook-dark-mode': '2.1.1',
     'storybook-addon-gatsby': '0.0.5',
     '@etchteam/storybook-addon-css-variables-theme': '1.4.0',
-    '@storybook/addon-cssresources': '6.2.9',
+    '@junk-temporary-prototypes/addon-cssresources': '6.2.9',
     'storybook-addon-grid': '0.3.1',
     'storybook-multilevel-sort': '1.2.0',
     'storybook-addon-i18next': '1.3.0',
@@ -30,7 +30,7 @@ export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
     'storybook-addon-mock': '3.2.0',
     '@chakra-ui/storybook-addon': '4.0.16',
     'storybook-mobile-addon': '1.0.2',
-    '@storybook/addon-queryparams': '6.2.9',
+    '@junk-temporary-prototypes/addon-queryparams': '6.2.9',
   };
 
   const addons = getAddonNames(mainConfig).filter((addon) => addon in incompatibleList);

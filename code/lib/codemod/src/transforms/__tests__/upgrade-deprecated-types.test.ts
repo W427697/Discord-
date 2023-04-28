@@ -17,7 +17,7 @@ describe('upgrade-deprecated-types', () => {
     it('upgrade regular imports', () => {
       expect(
         tsTransform(dedent`
-          import { Story, ComponentMeta, Meta, ComponentStory, ComponentStoryObj, ComponentStoryFn } from '@storybook/react';
+          import { Story, ComponentMeta, Meta, ComponentStory, ComponentStoryObj, ComponentStoryFn } from '@junk-temporary-prototypes/react';
           import { Cat, CatProps } from './Cat';
             
           const meta = { title: 'Cat', component: Cat } satisfies ComponentMeta<typeof Cat>
@@ -35,7 +35,7 @@ describe('upgrade-deprecated-types', () => {
           export const E: Story<CatProps> = (args) => <Cat {...args} />;
         `)
       ).toMatchInlineSnapshot(`
-        import { StoryFn, Meta, StoryObj } from '@storybook/react';
+        import { StoryFn, Meta, StoryObj } from '@junk-temporary-prototypes/react';
         import { Cat, CatProps } from './Cat';
 
         const meta = { title: 'Cat', component: Cat } satisfies Meta<typeof Cat>;
@@ -57,7 +57,7 @@ describe('upgrade-deprecated-types', () => {
     it('upgrade imports with local names', () => {
       expect(
         tsTransform(dedent`
-          import { Story as Story_, ComponentMeta as ComponentMeta_, ComponentStory as Story__, ComponentStoryObj as ComponentStoryObj_, ComponentStoryFn as StoryFn_ } from '@storybook/react';
+          import { Story as Story_, ComponentMeta as ComponentMeta_, ComponentStory as Story__, ComponentStoryObj as ComponentStoryObj_, ComponentStoryFn as StoryFn_ } from '@junk-temporary-prototypes/react';
           import { Cat } from './Cat';
             
           const meta = { title: 'Cat', component: Cat } satisfies ComponentMeta_<typeof Cat>
@@ -79,7 +79,7 @@ describe('upgrade-deprecated-types', () => {
           StoryFn as Story_,
           Meta as ComponentMeta_,
           StoryObj as ComponentStoryObj_,
-        } from '@storybook/react';
+        } from '@junk-temporary-prototypes/react';
         import { Cat } from './Cat';
 
         const meta = { title: 'Cat', component: Cat } satisfies ComponentMeta_<typeof Cat>;
@@ -106,7 +106,7 @@ describe('upgrade-deprecated-types', () => {
 
       expect(() =>
         tsTransform(dedent`
-          import { ComponentMeta as Meta, ComponentStory as StoryFn } from '@storybook/react';
+          import { ComponentMeta as Meta, ComponentStory as StoryFn } from '@junk-temporary-prototypes/react';
           import { Cat } from './Cat';
             
           const meta = { title: 'Cat', component: Cat } satisfies Meta<typeof Cat>
@@ -118,7 +118,7 @@ describe('upgrade-deprecated-types', () => {
       ).toThrowErrorMatchingInlineSnapshot(`
         This codemod does not support local imports that are called the same as a storybook import.
         Rename this local import and try again.
-        > 1 |  import { ComponentMeta as Meta, ComponentStory as StoryFn } from '@storybook/react';
+        > 1 |  import { ComponentMeta as Meta, ComponentStory as StoryFn } from '@junk-temporary-prototypes/react';
             |           ^^^^^^^^^^^^^^^^^^^^^
           2 |  import { Cat } from './Cat';
           3 |    
@@ -129,7 +129,7 @@ describe('upgrade-deprecated-types', () => {
     it('upgrade namespaces', () => {
       expect(
         tsTransform(dedent`
-          import * as SB from '@storybook/react';
+          import * as SB from '@junk-temporary-prototypes/react';
           import { Cat, CatProps } from './Cat';
   
           const meta = { title: 'Cat', component: Cat } satisfies SB.ComponentMeta<typeof Cat>;
@@ -148,7 +148,7 @@ describe('upgrade-deprecated-types', () => {
           
         `)
       ).toMatchInlineSnapshot(`
-        import * as SB from '@storybook/react';
+        import * as SB from '@junk-temporary-prototypes/react';
         import { Cat, CatProps } from './Cat';
 
         const meta = { title: 'Cat', component: Cat } satisfies SB.Meta<typeof Cat>;

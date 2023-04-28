@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import { Badge, Icons } from '@storybook/components';
-import type { API } from '@storybook/manager-api';
-import { styled, useTheme } from '@storybook/theming';
+import { Badge, Icons } from '@junk-temporary-prototypes/components';
+import type { API } from '@junk-temporary-prototypes/manager-api';
+import { styled, useTheme } from '@junk-temporary-prototypes/theming';
 
-import { shortcutToHumanString } from '@storybook/manager-api';
+import { shortcutToHumanString } from '@junk-temporary-prototypes/manager-api';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',

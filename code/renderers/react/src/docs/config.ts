@@ -1,4 +1,4 @@
-import { extractComponentDescription, enhanceArgTypes } from '@storybook/docs-tools';
+import { extractComponentDescription, enhanceArgTypes } from '@junk-temporary-prototypes/docs-tools';
 
 import { extractArgTypes } from './extractArgTypes';
 import { jsxDecorator } from './jsxDecorator';

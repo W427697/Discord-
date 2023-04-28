@@ -59,7 +59,7 @@ export class PropertyExtractor implements NgModuleMetadata {
           Storybook Warning: 
           moduleMetadata property 'imports' contains one or more ModuleWithProviders, likely the result of a 'Module.forRoot()'-style call.
           In Storybook 7.0 we use Angular's new 'bootstrapApplication' API to mount the component to the DOM, which accepts a list of providers to set up application-wide providers.
-          Use the 'applicationConfig' decorator from '@storybook/angular' to pass your ModuleWithProviders to the 'providers' property in combination with the importProvidersFrom helper function from '@angular/core' to extract all the necessary providers.
+          Use the 'applicationConfig' decorator from '@junk-temporary-prototypes/angular' to pass your ModuleWithProviders to the 'providers' property in combination with the importProvidersFrom helper function from '@angular/core' to extract all the necessary providers.
           Visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information
           `
         )
@@ -140,7 +140,7 @@ export class PropertyExtractor implements NgModuleMetadata {
           Storybook Warning:
           You have added the "BrowserAnimationsModule" to the list of "imports" in your moduleMetadata definition of your Story.
           In Storybook 7.0 we use Angular's new 'bootstrapApplication' API to mount the component to the DOM, which accepts a list of providers to set up application-wide providers.
-          Use the 'applicationConfig' decorator from '@storybook/angular' and add the "provideAnimations" function to the list of "providers".
+          Use the 'applicationConfig' decorator from '@junk-temporary-prototypes/angular' and add the "provideAnimations" function to the list of "providers".
           If your Angular version does not support "provide-like" functions, use the helper function importProvidersFrom instead to set up animations. For this case, please add "importProvidersFrom(BrowserAnimationsModule)" to the list of providers of your applicationConfig definition.
           Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information.
         `
@@ -154,7 +154,7 @@ export class PropertyExtractor implements NgModuleMetadata {
           Storybook Warning:
           You have added the "NoopAnimationsModule" to the list of "imports" in your moduleMetadata definition of your Story.
           In Storybook v7.0 we are using Angular's new bootstrapApplication API to mount an Angular application to the DOM, which accepts a list of providers to set up application-wide providers.
-          Use the 'applicationConfig' decorator from '@storybook/angular' and add the "provideNoopAnimations" function to the list of "providers".
+          Use the 'applicationConfig' decorator from '@junk-temporary-prototypes/angular' and add the "provideNoopAnimations" function to the list of "providers".
           If your Angular version does not support "provide-like" functions, use the helper function importProvidersFrom instead to set up noop animations and to extract all necessary providers from NoopAnimationsModule. For this case, please add "importProvidersFrom(NoopAnimationsModule)" to the list of providers of your applicationConfig definition.
           Please visit https://angular.io/guide/standalone-components#configuring-dependency-injection for more information.
         `

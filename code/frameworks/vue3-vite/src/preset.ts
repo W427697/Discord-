@@ -1,12 +1,12 @@
-import { hasVitePlugins } from '@storybook/builder-vite';
-import type { PresetProperty } from '@storybook/types';
+import { hasVitePlugins } from '@junk-temporary-prototypes/builder-vite';
+import type { PresetProperty } from '@junk-temporary-prototypes/types';
 import { mergeConfig, type PluginOption } from 'vite';
 import type { StorybookConfig } from './types';
 import { vueDocgen } from './plugins/vue-docgen';
 
 export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/vue3',
+  builder: '@junk-temporary-prototypes/builder-vite',
+  renderer: '@junk-temporary-prototypes/vue3',
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

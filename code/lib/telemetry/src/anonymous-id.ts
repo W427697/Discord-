@@ -1,6 +1,6 @@
 import path from 'path';
 import { execSync } from 'child_process';
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot } from '@junk-temporary-prototypes/core-common';
 
 import { oneWayHash } from './one-way-hash';
 

@@ -17,7 +17,7 @@ beforeEach(() => {
 
 test('update import even when no stories can be extracted', () => {
   const input = dedent`
-      import { Heading } from '@storybook/addon-docs';
+      import { Heading } from '@junk-temporary-prototypes/addon-docs';
 
       <Heading />     
     `;
@@ -25,7 +25,7 @@ test('update import even when no stories can be extracted', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Heading } from '@storybook/blocks';
+    import { Heading } from '@junk-temporary-prototypes/blocks';
 
     <Heading />
 
@@ -34,7 +34,7 @@ test('update import even when no stories can be extracted', () => {
 
 test('drop invalid story nodes', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
       <Meta title="Foobar" />
       
@@ -46,7 +46,7 @@ test('drop invalid story nodes', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import * as FoobarStories from './Foobar.stories';
 
     <Meta of={FoobarStories} />
@@ -60,7 +60,7 @@ test('drop invalid story nodes', () => {
 
 test('convert story re-definition', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Primary } from './Foobar.stories';
 
       <Meta title="Foobar" />
@@ -73,7 +73,7 @@ test('convert story re-definition', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import { Primary } from './Foobar.stories';
     import * as FoobarStories from './Foobar_.stories';
 
@@ -98,7 +98,7 @@ test('convert story re-definition', () => {
 
 test('Comment out story nodes with id', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
       <Meta title="Foobar" />
       
@@ -108,7 +108,7 @@ test('Comment out story nodes with id', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import * as FoobarStories from './Foobar.stories';
 
     <Meta of={FoobarStories} />
@@ -122,7 +122,7 @@ test('Comment out story nodes with id', () => {
 
 test('convert correct story nodes', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
       <Meta title="Foobar" />
       
@@ -132,7 +132,7 @@ test('convert correct story nodes', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import * as FoobarStories from './Foobar.stories';
 
     <Meta of={FoobarStories} />
@@ -157,8 +157,8 @@ test('convert correct story nodes', () => {
 
 test('convert addon-docs imports', () => {
   const input = dedent`
-      import { Meta } from '@storybook/addon-docs';
-      import { Story } from '@storybook/addon-docs/blocks';
+      import { Meta } from '@junk-temporary-prototypes/addon-docs';
+      import { Story } from '@junk-temporary-prototypes/addon-docs/blocks';
 
       <Meta title="Foobar" />
       
@@ -168,8 +168,8 @@ test('convert addon-docs imports', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta } from '@storybook/blocks';
-    import { Story } from '@storybook/blocks';
+    import { Meta } from '@junk-temporary-prototypes/blocks';
+    import { Story } from '@junk-temporary-prototypes/blocks';
     import * as FoobarStories from './Foobar.stories';
 
     <Meta of={FoobarStories} />
@@ -181,7 +181,7 @@ test('convert addon-docs imports', () => {
 
 test('convert story nodes with spaces', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
       <Meta title="Foobar" />
       
@@ -191,7 +191,7 @@ test('convert story nodes with spaces', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import * as FoobarStories from './Foobar.stories';
 
     <Meta of={FoobarStories} />
@@ -216,7 +216,7 @@ test('convert story nodes with spaces', () => {
 
 test('extract esm into csf head code', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Button } from './Button';
 
       # hello
@@ -243,7 +243,7 @@ test('extract esm into csf head code', () => {
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import { Button } from './Button';
     import * as FoobarStories from './Foobar.stories';
 
@@ -294,7 +294,7 @@ test('extract esm into csf head code', () => {
 
 test('extract all meta parameters', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
 
       export const args = { bla: 1 };
       
@@ -332,7 +332,7 @@ test('extract all meta parameters', () => {
 
 test('extract all story attributes', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Button } from './Button';
 
       export const args = { bla: 1 };
@@ -394,7 +394,7 @@ test('extract all story attributes', () => {
 
 test('duplicate story name', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Button } from './Button';
 
       export const Default = (args) => <Button {...args} />;
@@ -413,7 +413,7 @@ test('duplicate story name', () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import { Button } from './Button';
     import * as FoobarStories from './Foobar.stories';
 
@@ -450,7 +450,7 @@ test('duplicate story name', () => {
 
 test('kebab case file name', () => {
   const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
+      import { Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Kebab } from './my-component/some-kebab-case';
 
       export const Template = (args) => <Kebab {...args} />;
@@ -468,7 +468,7 @@ test('kebab case file name', () => {
   const mdx = jscodeshift({ source: input, path: 'some-kebab-case.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
+    import { Meta, Story } from '@junk-temporary-prototypes/blocks';
     import { Kebab } from './my-component/some-kebab-case';
     import * as SomeKebabCaseStories from './some-kebab-case.stories';
 
@@ -508,7 +508,7 @@ test('kebab case file name', () => {
 
 test('story child is jsx', () => {
   const input = dedent`
-      import { Canvas, Meta, Story } from '@storybook/addon-docs';
+      import { Canvas, Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Button } from './button';
       
       <Story name="Primary">
@@ -541,7 +541,7 @@ test('story child is jsx', () => {
 
 test('story child is CSF3', () => {
   const input = dedent`
-      import { Story } from '@storybook/addon-docs';
+      import { Story } from '@junk-temporary-prototypes/addon-docs';
       import { Button } from './button';
              
       <Story name="Primary" render={(args) => <Button {...args}></Button> } args={{label: 'Hello' }} />
@@ -569,7 +569,7 @@ test('story child is CSF3', () => {
 
 test('story child is arrow function', () => {
   const input = dedent`
-      import { Canvas, Meta, Story } from '@storybook/addon-docs';
+      import { Canvas, Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Button } from './button';
       
       <Story name="Primary">
@@ -595,7 +595,7 @@ test('story child is arrow function', () => {
 
 test('story child is identifier', () => {
   const input = dedent`
-      import { Canvas, Meta, Story } from '@storybook/addon-docs';
+      import { Canvas, Meta, Story } from '@junk-temporary-prototypes/addon-docs';
       import { Button } from './button';
       
       <Story name="Primary">

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 import dedent from 'ts-dedent';
 import { Canvas } from './Canvas';
 import SourceStoriesMeta from './Source.stories';

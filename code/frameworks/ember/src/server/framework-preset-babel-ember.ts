@@ -1,7 +1,7 @@
 import type { TransformOptions } from '@babel/core';
 import { precompile } from 'ember-source/dist/ember-template-compiler';
-import { findDistEsm } from '@storybook/core-common';
-import type { StorybookConfig, Options } from '@storybook/types';
+import { findDistEsm } from '@junk-temporary-prototypes/core-common';
+import type { StorybookConfig, Options } from '@junk-temporary-prototypes/types';
 
 let emberOptions: any;
 

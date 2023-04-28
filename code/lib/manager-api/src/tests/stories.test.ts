@@ -11,13 +11,13 @@ import {
   SET_INDEX,
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
-} from '@storybook/core-events';
+} from '@junk-temporary-prototypes/core-events';
 import { EventEmitter } from 'events';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import { Channel } from '@storybook/channels';
+import { Channel } from '@junk-temporary-prototypes/channels';
 
-import type { API_StoryEntry, StoryIndex, API_PreparedStoryIndex } from '@storybook/types';
+import type { API_StoryEntry, StoryIndex, API_PreparedStoryIndex } from '@junk-temporary-prototypes/types';
 import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
@@ -36,7 +36,7 @@ function mockChannel() {
 const mockGetEntries = jest.fn();
 
 jest.mock('../lib/events');
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
     ...globalThis,
     fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),

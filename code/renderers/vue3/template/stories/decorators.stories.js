@@ -1,4 +1,4 @@
-import { global as globalThis } from '@storybook/global';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
 import { h } from 'vue';
 
 const { Button, Pre } = globalThis.Components;

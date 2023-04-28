@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_vnode"] }] */
 
-import { addons } from '@storybook/preview-api';
-import { logger } from '@storybook/client-logger';
-import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { addons } from '@junk-temporary-prototypes/preview-api';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import { SourceType, SNIPPET_RENDERED } from '@junk-temporary-prototypes/docs-tools';
 import type { ComponentOptions } from 'vue';
 import type Vue from 'vue';
 import type { StoryContext } from '../types';

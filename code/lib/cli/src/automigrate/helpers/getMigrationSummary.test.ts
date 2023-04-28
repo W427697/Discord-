@@ -25,10 +25,10 @@ describe('getMigrationSummary', () => {
 
   const installationMetadata: InstallationMetadata = {
     duplicatedDependencies: {
-      '@storybook/core-client': ['7.0.0', '7.1.0'],
-      '@storybook/instrumenter': ['6.0.0', '7.1.0'],
-      '@storybook/core-common': ['6.0.0', '7.1.0'],
-      '@storybook/addon-essentials': ['7.0.0', '7.1.0'],
+      '@junk-temporary-prototypes/core-client': ['7.0.0', '7.1.0'],
+      '@junk-temporary-prototypes/instrumenter': ['6.0.0', '7.1.0'],
+      '@junk-temporary-prototypes/core-common': ['6.0.0', '7.1.0'],
+      '@junk-temporary-prototypes/addon-essentials': ['7.0.0', '7.1.0'],
     },
     dependencies: {},
     infoCommand: 'yarn why',
@@ -135,15 +135,15 @@ describe('getMigrationSummary', () => {
 
       Critical: The following dependencies are duplicated and WILL cause unexpected behavior:
 
-      @storybook/instrumenter:
+      @junk-temporary-prototypes/instrumenter:
       6.0.0, 7.1.0
 
       Attention: The following dependencies are duplicated which might cause unexpected behavior:
 
-      @storybook/core-common:
+      @junk-temporary-prototypes/core-common:
       6.0.0, 7.1.0
 
-      @storybook/addon-essentials:
+      @junk-temporary-prototypes/addon-essentials:
       7.0.0, 7.1.0
 
       You can find more information for a given dependency by running yarn why <package-name>"

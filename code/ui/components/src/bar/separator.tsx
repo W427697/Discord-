@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 export const Separator = styled.span<SeparatorProps>(
   ({ theme }) => ({

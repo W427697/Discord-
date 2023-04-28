@@ -1,4 +1,4 @@
-import type { ModuleExport } from '@storybook/types';
+import type { ModuleExport } from '@junk-temporary-prototypes/types';
 
 export const PRIMARY_STORY = '^';
 

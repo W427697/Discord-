@@ -1,4 +1,4 @@
-import { enhanceArgTypes } from '@storybook/docs-tools';
+import { enhanceArgTypes } from '@junk-temporary-prototypes/docs-tools';
 import { extractArgTypes } from './extractArgTypes';
 import { extractComponentDescription } from './extractComponentDescription';
 import { sourceDecorator } from './sourceDecorator';

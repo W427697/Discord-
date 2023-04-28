@@ -1,10 +1,10 @@
-import { global as globalThis } from '@storybook/global';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
 
 // FIXME: do this using basic React functions for multi-framework
 //        once sandbox linking is working
 //
 // import { createElement } from 'react';
-// import { Title, Primary } from '@storybook/addon-docs';
+// import { Title, Primary } from '@junk-temporary-prototypes/addon-docs';
 //
 // const Override = () =>
 //   createElement('div', { style: { border: '10px solid green', padding: '100px' } }, [

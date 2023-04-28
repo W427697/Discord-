@@ -1,6 +1,6 @@
 import type { Configuration } from 'webpack';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import type { Options } from '@storybook/core-webpack';
+import type { Options } from '@junk-temporary-prototypes/core-webpack';
 import * as preset from './framework-preset-react';
 
 const mockApply = jest.fn();
@@ -25,7 +25,7 @@ describe('framework-preset-react', () => {
     presets: {
       // @ts-expect-error (Converted from ts-ignore)
       apply: async () => ({
-        name: '@storybook/react',
+        name: '@junk-temporary-prototypes/react',
         options: {
           fastRefresh: true,
         },
@@ -39,7 +39,7 @@ describe('framework-preset-react', () => {
     presets: {
       // @ts-expect-error (Converted from ts-ignore)
       apply: async () => ({
-        name: '@storybook/react',
+        name: '@junk-temporary-prototypes/react',
         options: {
           fastRefresh: false,
         },

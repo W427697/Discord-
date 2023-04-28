@@ -1,4 +1,4 @@
-import { resolvePathInStorybookCache } from '@storybook/core-common';
+import { resolvePathInStorybookCache } from '@junk-temporary-prototypes/core-common';
 
 // FIXME: babelConfig is maybe a TransformOptions?
 const extend = (babelConfig: any) => ({

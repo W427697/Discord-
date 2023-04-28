@@ -1,10 +1,10 @@
 import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
-import { IconButton, Icons } from '@storybook/components';
-import { Consumer } from '@storybook/manager-api';
-import type { Addon, Combo } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
-import { FORCE_REMOUNT } from '@storybook/core-events';
+import { IconButton, Icons } from '@junk-temporary-prototypes/components';
+import { Consumer } from '@junk-temporary-prototypes/manager-api';
+import type { Addon, Combo } from '@junk-temporary-prototypes/manager-api';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { FORCE_REMOUNT } from '@junk-temporary-prototypes/core-events';
 
 interface AnimatedButtonProps {
   animating?: boolean;

@@ -1,10 +1,10 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC } from 'react';
 import React, { useState, useCallback, Fragment } from 'react';
 
-import { Icons, WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@storybook/components';
-import { logger } from '@storybook/client-logger';
-import { styled } from '@storybook/theming';
+import { Icons, WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@junk-temporary-prototypes/components';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 import { Loader, Contained } from './Loader';
 

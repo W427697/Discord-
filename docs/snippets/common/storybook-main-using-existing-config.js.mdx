@@ -6,9 +6,9 @@ import custom from '../webpack.config.js'; // 👈 Custom Webpack configuration 
 export default {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-essentials',
+    '@junk-temporary-prototypes/addon-interactions',
   ],
   webpackFinal: async (config) => {
     return {

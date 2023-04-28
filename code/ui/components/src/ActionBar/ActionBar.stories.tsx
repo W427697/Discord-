@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import React from 'react';
-import { action } from '@storybook/addon-actions';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 
 import { ActionBar } from './ActionBar';
 

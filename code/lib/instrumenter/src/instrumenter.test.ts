@@ -1,19 +1,19 @@
 /// <reference types="@types/jest" />;
 /* eslint-disable no-underscore-dangle */
 
-import { addons, mockChannel } from '@storybook/preview-api';
-import { logger } from '@storybook/client-logger';
+import { addons, mockChannel } from '@junk-temporary-prototypes/preview-api';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import {
   FORCE_REMOUNT,
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
-} from '@storybook/core-events';
-import { global } from '@storybook/global';
+} from '@junk-temporary-prototypes/core-events';
+import { global } from '@junk-temporary-prototypes/global';
 
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 
 const callSpy = jest.fn();
 const syncSpy = jest.fn();

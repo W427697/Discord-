@@ -18,7 +18,7 @@ function webpack(
           ...rule,
           use: [
             {
-              loader: require.resolve('@storybook/source-loader'),
+              loader: require.resolve('@junk-temporary-prototypes/source-loader'),
               options: loaderOptions,
             },
           ],

@@ -1,8 +1,8 @@
-Storybook for Ember relies on [@storybook/ember-cli-storybook addon](https://github.com/storybookjs/ember-cli-storybook), to extract documentation comments from your component source files. If you're using Storybook with Ember, you should already have this addon installed, and you will just need to enable it by adding the following config block in your `ember-cli-build.js` file:
+Storybook for Ember relies on [@junk-temporary-prototypes/ember-cli-storybook addon](https://github.com/storybookjs/ember-cli-storybook), to extract documentation comments from your component source files. If you're using Storybook with Ember, you should already have this addon installed, and you will just need to enable it by adding the following config block in your `ember-cli-build.js` file:
 
 ```js
 let app = new EmberApp(defaults, {
-  '@storybook/ember-cli-storybook': {
+  '@junk-temporary-prototypes/ember-cli-storybook': {
     enableAddonDocsIntegration: true,
   },
 });
@@ -15,7 +15,7 @@ Storybook uses this file to auto-generate the `ArgTypes` for your component base
 You'll need to register that in `.storybook/preview.js`:
 
 ```js
-import { setJSONDoc } from '@storybook/addon-docs/ember';
+import { setJSONDoc } from '@junk-temporary-prototypes/addon-docs/ember';
 import docJson from '../dist/storybook-docgen/index.json';
 setJSONDoc(docJson);
 ```

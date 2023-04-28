@@ -1,15 +1,15 @@
 import type {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsWebComponents,
-} from '@storybook/preset-web-components-webpack';
+} from '@junk-temporary-prototypes/preset-web-components-webpack';
 import type {
   BuilderOptions,
   StorybookConfigWebpack,
   TypescriptOptions as TypescriptOptionsBuilder,
-} from '@storybook/builder-webpack5';
+} from '@junk-temporary-prototypes/builder-webpack5';
 
-type FrameworkName = '@storybook/web-components-webpack5';
-type BuilderName = '@storybook/builder-webpack5';
+type FrameworkName = '@junk-temporary-prototypes/web-components-webpack5';
+type BuilderName = '@junk-temporary-prototypes/builder-webpack5';
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;

@@ -3,7 +3,7 @@
 exports[`mdx-to-csf transforms correctly using "parameters.input.js" data 1`] = `
 "import React from 'react';
 import Button from './Button';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
 export default {
   title: 'Button',

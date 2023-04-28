@@ -1,4 +1,4 @@
-import { Addon_StoryContext } from '@storybook/types';
+import { Addon_StoryContext } from '@junk-temporary-prototypes/types';
 
 import { Component } from '@angular/core';
 import { moduleMetadata, applicationConfig } from './decorators';

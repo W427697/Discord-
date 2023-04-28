@@ -1,5 +1,5 @@
 import path from 'path';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import './presets';
 
 function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
@@ -13,7 +13,7 @@ function mockPreset(name: string, mockPresetObject: any) {
   jest.mock(name, () => mockPresetObject, { virtual: true });
 }
 
-jest.mock('@storybook/node-logger', () => ({
+jest.mock('@junk-temporary-prototypes/node-logger', () => ({
   logger: {
     info: jest.fn(),
     warn: jest.fn(),
@@ -23,23 +23,23 @@ jest.mock('@storybook/node-logger', () => ({
 
 jest.mock('./utils/safeResolve', () => {
   const KNOWN_FILES = [
-    '@storybook/react',
-    '@storybook/addon-actions/manager',
-    '@storybook/addon-actions/register',
+    '@junk-temporary-prototypes/react',
+    '@junk-temporary-prototypes/addon-actions/manager',
+    '@junk-temporary-prototypes/addon-actions/register',
     './local/preset',
     './local/addons',
     '/absolute/preset',
     '/absolute/addons',
-    '@storybook/addon-docs',
-    '@storybook/addon-cool',
-    '@storybook/addon-docs/preset',
-    '@storybook/addon-interactions/preset',
-    '@storybook/addon-essentials',
-    '@storybook/addon-knobs/manager',
-    '@storybook/addon-knobs/register',
-    '@storybook/addon-notes/register-panel',
-    '@storybook/preset-create-react-app',
-    '@storybook/preset-typescript',
+    '@junk-temporary-prototypes/addon-docs',
+    '@junk-temporary-prototypes/addon-cool',
+    '@junk-temporary-prototypes/addon-docs/preset',
+    '@junk-temporary-prototypes/addon-interactions/preset',
+    '@junk-temporary-prototypes/addon-essentials',
+    '@junk-temporary-prototypes/addon-knobs/manager',
+    '@junk-temporary-prototypes/addon-knobs/register',
+    '@junk-temporary-prototypes/addon-notes/register-panel',
+    '@junk-temporary-prototypes/preset-create-react-app',
+    '@junk-temporary-prototypes/preset-typescript',
     'addon-bar/preset.js',
     'addon-bar',
     'addon-baz/register.js',
@@ -402,38 +402,38 @@ describe('resolveAddonName', () => {
   });
 
   it('should resolve packages without metadata', () => {
-    expect(resolveAddonName({}, '@storybook/preset-create-react-app')).toEqual({
-      name: '@storybook/preset-create-react-app',
+    expect(resolveAddonName({}, '@junk-temporary-prototypes/preset-create-react-app')).toEqual({
+      name: '@junk-temporary-prototypes/preset-create-react-app',
       type: 'presets',
     });
   });
 
   it('should resolve managerEntries', () => {
-    expect(resolveAddonName({}, '@storybook/addon-actions/register')).toEqual({
-      name: '@storybook/addon-actions/register',
-      managerEntries: [path.normalize('@storybook/addon-actions/register')],
+    expect(resolveAddonName({}, '@junk-temporary-prototypes/addon-actions/register')).toEqual({
+      name: '@junk-temporary-prototypes/addon-actions/register',
+      managerEntries: [path.normalize('@junk-temporary-prototypes/addon-actions/register')],
       type: 'virtual',
     });
   });
 
   it('should resolve managerEntries from new /manager path', () => {
-    expect(resolveAddonName({}, '@storybook/addon-actions/manager')).toEqual({
-      name: '@storybook/addon-actions/manager',
-      managerEntries: [path.normalize('@storybook/addon-actions/manager')],
+    expect(resolveAddonName({}, '@junk-temporary-prototypes/addon-actions/manager')).toEqual({
+      name: '@junk-temporary-prototypes/addon-actions/manager',
+      managerEntries: [path.normalize('@junk-temporary-prototypes/addon-actions/manager')],
       type: 'virtual',
     });
   });
 
   it('should resolve presets', () => {
-    expect(resolveAddonName({}, '@storybook/addon-docs/preset')).toEqual({
-      name: '@storybook/addon-docs/preset',
+    expect(resolveAddonName({}, '@junk-temporary-prototypes/addon-docs/preset')).toEqual({
+      name: '@junk-temporary-prototypes/addon-docs/preset',
       type: 'presets',
     });
   });
 
   it('should resolve preset packages', () => {
-    expect(resolveAddonName({}, '@storybook/addon-essentials')).toEqual({
-      name: '@storybook/addon-essentials',
+    expect(resolveAddonName({}, '@junk-temporary-prototypes/addon-essentials')).toEqual({
+      name: '@junk-temporary-prototypes/addon-essentials',
       type: 'presets',
     });
   });
@@ -444,19 +444,19 @@ describe('resolveAddonName', () => {
 });
 
 describe('loadPreset', () => {
-  mockPreset('@storybook/react', {});
-  mockPreset('@storybook/preset-typescript', {});
-  mockPreset('@storybook/addon-docs/preset', {});
-  mockPreset('@storybook/addon-actions/register', {});
+  mockPreset('@junk-temporary-prototypes/react', {});
+  mockPreset('@junk-temporary-prototypes/preset-typescript', {});
+  mockPreset('@junk-temporary-prototypes/addon-docs/preset', {});
+  mockPreset('@junk-temporary-prototypes/addon-actions/register', {});
   mockPreset('addon-foo/register.js', {});
-  mockPreset('@storybook/addon-cool', {});
-  mockPreset('@storybook/addon-interactions/preset', {});
+  mockPreset('@junk-temporary-prototypes/addon-cool', {});
+  mockPreset('@junk-temporary-prototypes/addon-interactions/preset', {});
   mockPreset('addon-bar', {
-    addons: ['@storybook/addon-cool'],
-    presets: ['@storybook/addon-interactions/preset'],
+    addons: ['@junk-temporary-prototypes/addon-cool'],
+    presets: ['@junk-temporary-prototypes/addon-interactions/preset'],
   });
   mockPreset('addon-baz/register.js', {});
-  mockPreset('@storybook/addon-notes/register-panel', {});
+  mockPreset('@junk-temporary-prototypes/addon-notes/register-panel', {});
 
   const { loadPreset } = jest.requireActual('./presets');
 
@@ -469,9 +469,9 @@ describe('loadPreset', () => {
       {
         name: '',
         type: 'virtual',
-        framework: '@storybook/react',
-        presets: ['@storybook/preset-typescript'],
-        addons: ['@storybook/addon-docs/preset'],
+        framework: '@junk-temporary-prototypes/react',
+        presets: ['@junk-temporary-prototypes/preset-typescript'],
+        addons: ['@junk-temporary-prototypes/addon-docs/preset'],
       },
       0,
       {}
@@ -479,30 +479,30 @@ describe('loadPreset', () => {
     expect(loaded).toMatchInlineSnapshot(`
       Array [
         Object {
-          "name": "@storybook/preset-typescript",
+          "name": "@junk-temporary-prototypes/preset-typescript",
           "options": Object {},
           "preset": Object {},
         },
         Object {
-          "name": "@storybook/addon-docs/preset",
+          "name": "@junk-temporary-prototypes/addon-docs/preset",
           "options": Object {},
           "preset": Object {},
         },
         Object {
           "name": Object {
             "addons": Array [
-              "@storybook/addon-docs/preset",
+              "@junk-temporary-prototypes/addon-docs/preset",
             ],
-            "framework": "@storybook/react",
+            "framework": "@junk-temporary-prototypes/react",
             "name": "",
             "presets": Array [
-              "@storybook/preset-typescript",
+              "@junk-temporary-prototypes/preset-typescript",
             ],
             "type": "virtual",
           },
           "options": Object {},
           "preset": Object {
-            "framework": "@storybook/react",
+            "framework": "@junk-temporary-prototypes/react",
           },
         },
       ]
@@ -514,14 +514,14 @@ describe('loadPreset', () => {
       {
         name: '',
         type: 'virtual',
-        presets: ['@storybook/preset-typescript'],
+        presets: ['@junk-temporary-prototypes/preset-typescript'],
         addons: [
-          '@storybook/addon-docs/preset',
-          '@storybook/addon-actions/register',
+          '@junk-temporary-prototypes/addon-docs/preset',
+          '@junk-temporary-prototypes/addon-actions/register',
           'addon-foo/register.js',
           'addon-bar',
           'addon-baz/register.js',
-          '@storybook/addon-notes/register-panel',
+          '@junk-temporary-prototypes/addon-notes/register-panel',
         ],
       },
       0,
@@ -529,20 +529,20 @@ describe('loadPreset', () => {
     );
     expect(loaded).toEqual([
       {
-        name: '@storybook/preset-typescript',
+        name: '@junk-temporary-prototypes/preset-typescript',
         options: {},
         preset: {},
       },
       {
-        name: '@storybook/addon-docs/preset',
+        name: '@junk-temporary-prototypes/addon-docs/preset',
         options: {},
         preset: {},
       },
       {
-        name: '@storybook/addon-actions/register',
+        name: '@junk-temporary-prototypes/addon-actions/register',
         options: {},
         preset: {
-          managerEntries: [path.normalize('@storybook/addon-actions/register')],
+          managerEntries: [path.normalize('@junk-temporary-prototypes/addon-actions/register')],
         },
       },
       {
@@ -553,12 +553,12 @@ describe('loadPreset', () => {
         },
       },
       {
-        name: '@storybook/addon-interactions/preset',
+        name: '@junk-temporary-prototypes/addon-interactions/preset',
         options: {},
         preset: {},
       },
       {
-        name: '@storybook/addon-cool',
+        name: '@junk-temporary-prototypes/addon-cool',
         options: {},
         preset: {},
       },
@@ -575,22 +575,22 @@ describe('loadPreset', () => {
         },
       },
       {
-        name: '@storybook/addon-notes/register-panel',
+        name: '@junk-temporary-prototypes/addon-notes/register-panel',
         options: {},
         preset: {
-          managerEntries: [path.normalize('@storybook/addon-notes/register-panel')],
+          managerEntries: [path.normalize('@junk-temporary-prototypes/addon-notes/register-panel')],
         },
       },
       {
         name: {
-          presets: ['@storybook/preset-typescript'],
+          presets: ['@junk-temporary-prototypes/preset-typescript'],
           addons: [
-            '@storybook/addon-docs/preset',
-            '@storybook/addon-actions/register',
+            '@junk-temporary-prototypes/addon-docs/preset',
+            '@junk-temporary-prototypes/addon-actions/register',
             'addon-foo/register.js',
             'addon-bar',
             'addon-baz/register.js',
-            '@storybook/addon-notes/register-panel',
+            '@junk-temporary-prototypes/addon-notes/register-panel',
           ],
           name: '',
           type: 'virtual',
@@ -606,9 +606,9 @@ describe('loadPreset', () => {
       {
         name: '',
         type: 'virtual',
-        framework: '@storybook/react',
-        presets: ['@storybook/preset-typescript'],
-        addons: ['@storybook/addon-docs/preset', 'uninstalled-addon'],
+        framework: '@junk-temporary-prototypes/react',
+        presets: ['@junk-temporary-prototypes/preset-typescript'],
+        addons: ['@junk-temporary-prototypes/addon-docs/preset', 'uninstalled-addon'],
       },
       0,
       {}
@@ -619,31 +619,31 @@ describe('loadPreset', () => {
     expect(loaded).toMatchInlineSnapshot(`
       Array [
         Object {
-          "name": "@storybook/preset-typescript",
+          "name": "@junk-temporary-prototypes/preset-typescript",
           "options": Object {},
           "preset": Object {},
         },
         Object {
-          "name": "@storybook/addon-docs/preset",
+          "name": "@junk-temporary-prototypes/addon-docs/preset",
           "options": Object {},
           "preset": Object {},
         },
         Object {
           "name": Object {
             "addons": Array [
-              "@storybook/addon-docs/preset",
+              "@junk-temporary-prototypes/addon-docs/preset",
               "uninstalled-addon",
             ],
-            "framework": "@storybook/react",
+            "framework": "@junk-temporary-prototypes/react",
             "name": "",
             "presets": Array [
-              "@storybook/preset-typescript",
+              "@junk-temporary-prototypes/preset-typescript",
             ],
             "type": "virtual",
           },
           "options": Object {},
           "preset": Object {
-            "framework": "@storybook/react",
+            "framework": "@junk-temporary-prototypes/react",
           },
         },
       ]

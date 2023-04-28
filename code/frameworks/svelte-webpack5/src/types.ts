@@ -2,15 +2,15 @@ import type {
   SvelteOptions,
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
-} from '@storybook/preset-svelte-webpack';
+} from '@junk-temporary-prototypes/preset-svelte-webpack';
 import type {
   StorybookConfigWebpack,
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
-} from '@storybook/builder-webpack5';
+} from '@junk-temporary-prototypes/builder-webpack5';
 
-type FrameworkName = '@storybook/svelte-webpack5';
-type BuilderName = '@storybook/builder-webpack5';
+type FrameworkName = '@junk-temporary-prototypes/svelte-webpack5';
+type BuilderName = '@junk-temporary-prototypes/builder-webpack5';
 
 export type FrameworkOptions = SvelteOptions & {
   builder?: BuilderOptions;

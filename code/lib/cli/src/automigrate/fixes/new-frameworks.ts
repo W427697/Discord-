@@ -2,9 +2,9 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import findUp from 'find-up';
 import semver from 'semver';
-import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import { frameworkPackages, rendererPackages } from '@junk-temporary-prototypes/core-common';
 
-import type { Preset } from '@storybook/types';
+import type { Preset } from '@junk-temporary-prototypes/types';
 import type { Fix } from '../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 import { getStorybookVersionSpecifier } from '../../helpers';
@@ -45,19 +45,19 @@ interface NewFrameworkRunOptions {
 }
 
 /**
- * Does the user have separate framework and builders (e.g. @storybook/react + core.builder -> webpack5)?
+ * Does the user have separate framework and builders (e.g. @junk-temporary-prototypes/react + core.builder -> webpack5)?
  *
  * If so:
- * - Remove the dependencies (@storybook/react + @storybook/builder-webpack5 + @storybook/manager-webpack5)
- * - Install the correct new package e.g. (@storybook/react-webpack5)
+ * - Remove the dependencies (@junk-temporary-prototypes/react + @junk-temporary-prototypes/builder-webpack5 + @junk-temporary-prototypes/manager-webpack5)
+ * - Install the correct new package e.g. (@junk-temporary-prototypes/react-webpack5)
  * - Update the main config to use the new framework
  * -- moving core.builder into framework.options.builder
  * -- moving renderer options (e.g. reactOptions) into framework.options
  * -- removing the now unnecessary fields in main.js
  *
  * Extra step:
- * -- after figuring out a candidate framework, e.g. @storybook/react-webpack5, check if the user has a supported metaframework (e.g. Next.js or SvelteKit)
- * -- if so, override the framework with the supporting metaframework package e.g. @storybook/nextjs
+ * -- after figuring out a candidate framework, e.g. @junk-temporary-prototypes/react-webpack5, check if the user has a supported metaframework (e.g. Next.js or SvelteKit)
+ * -- if so, override the framework with the supporting metaframework package e.g. @junk-temporary-prototypes/nextjs
  */
 export const newFrameworks: Fix<NewFrameworkRunOptions> = {
   id: 'new-frameworks',
@@ -89,7 +89,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         // at some point in 6.4 we introduced a framework field, but filled with a renderer package
         rendererPackage = frameworkPackage;
       } else if (frameworkPackage && Object.values(rendererPackages).includes(frameworkPackage)) {
-        // for scenarios where the value is e.g. "react" instead of "@storybook/react"
+        // for scenarios where the value is e.g. "react" instead of "@junk-temporary-prototypes/react"
         rendererPackage = Object.keys(rendererPackages).find(
           (k) => rendererPackages[k] === frameworkPackage
         );
@@ -139,11 +139,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       typeof mainConfig.framework === 'string' ? {} : mainConfig.framework?.options;
 
     let dependenciesToRemove = [
-      '@storybook/builder-webpack5',
-      '@storybook/manager-webpack5',
-      '@storybook/builder-webpack4',
-      '@storybook/manager-webpack4',
-      '@storybook/builder-vite',
+      '@junk-temporary-prototypes/builder-webpack5',
+      '@junk-temporary-prototypes/manager-webpack5',
+      '@junk-temporary-prototypes/builder-webpack4',
+      '@junk-temporary-prototypes/manager-webpack4',
+      '@junk-temporary-prototypes/builder-vite',
       'storybook-builder-vite',
     ];
 
@@ -151,7 +151,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     let addonOptions: Record<string, any> = {};
     let metaFramework: string | undefined;
 
-    if (rendererPackage === '@storybook/react' && allDependencies.next) {
+    if (rendererPackage === '@junk-temporary-prototypes/react' && allDependencies.next) {
       const nextConfigFile = await findUp(nextJsConfigFiles, { cwd: configDir });
       const nextAddonOptions = getNextjsAddonOptions(mainConfig.addons);
       const isNextJsCandidate =
@@ -161,11 +161,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       if (isNextJsCandidate) {
         metaFramework = 'nextjs';
         if (
-          newFrameworkPackage === '@storybook/react-webpack5' ||
+          newFrameworkPackage === '@junk-temporary-prototypes/react-webpack5' ||
           // when framework is already set up but maybe legacy addons are still installed
-          newFrameworkPackage === '@storybook/nextjs'
+          newFrameworkPackage === '@junk-temporary-prototypes/nextjs'
         ) {
-          newFrameworkPackage = '@storybook/nextjs';
+          newFrameworkPackage = '@junk-temporary-prototypes/nextjs';
           addonsToRemove = ['storybook-addon-next', 'storybook-addon-next-router'].filter(
             (dep) =>
               allDependencies[dep] ||
@@ -176,26 +176,26 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           addonOptions = nextAddonOptions;
 
           dependenciesToRemove.push(
-            // in case users are coming from a properly set up @storybook/webpack5 project
-            '@storybook/react-webpack5',
+            // in case users are coming from a properly set up @junk-temporary-prototypes/webpack5 project
+            '@junk-temporary-prototypes/react-webpack5',
             'storybook-addon-next',
             'storybook-addon-next-router'
           );
         }
       }
     } else if (
-      rendererPackage === '@storybook/svelte' &&
+      rendererPackage === '@junk-temporary-prototypes/svelte' &&
       allDependencies['@sveltejs/kit'] &&
       semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
     ) {
       metaFramework = 'sveltekit';
-      if (newFrameworkPackage === '@storybook/svelte-vite') {
-        newFrameworkPackage = '@storybook/sveltekit';
+      if (newFrameworkPackage === '@junk-temporary-prototypes/svelte-vite') {
+        newFrameworkPackage = '@junk-temporary-prototypes/sveltekit';
         // in case svelteOptions are set, we remove them as they are not needed in sveltekit
         rendererOptions = {};
         dependenciesToRemove.push(
-          // in case users are coming from a properly set up @storybook/vite project
-          '@storybook/svelte-vite'
+          // in case users are coming from a properly set up @junk-temporary-prototypes/vite project
+          '@junk-temporary-prototypes/svelte-vite'
         );
       }
     }
@@ -326,8 +326,8 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     if (
-      dependenciesToRemove.includes('@storybook/builder-webpack4') ||
-      dependenciesToRemove.includes('@storybook/manager-webpack4')
+      dependenciesToRemove.includes('@junk-temporary-prototypes/builder-webpack4') ||
+      dependenciesToRemove.includes('@junk-temporary-prototypes/manager-webpack4')
     ) {
       disclaimer = dedent`\n\n
       ${chalk.underline(chalk.bold(chalk.cyan('Webpack 4 users')))}
@@ -346,18 +346,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         migrationSteps += `- Migrate the usage of the ${chalk.cyan(
           'storybook-addon-next-router'
         )} addon to use the APIs from the ${chalk.magenta(
-          '@storybook/nextjs'
+          '@junk-temporary-prototypes/nextjs'
         )} framework package instead. Follow the instructions below.`;
       }
 
-      if (frameworkPackage === '@storybook/react-vite') {
+      if (frameworkPackage === '@junk-temporary-prototypes/react-vite') {
         disclaimer = dedent`\n\n
           ${chalk.bold('Important')}: We've detected you are using Storybook in a Next.js project.
   
           This migration is set to update your project to use the ${chalk.magenta(
-            '@storybook/react-vite'
+            '@junk-temporary-prototypes/react-vite'
           )} framework, but Storybook provides a framework package specifically for Next.js projects: ${chalk.magenta(
-          '@storybook/nextjs'
+          '@junk-temporary-prototypes/nextjs'
         )}.
   
           This package provides a better, out of the box experience for Next.js users, however it is only compatible with the Webpack 5 builder, so we can't automigrate for you, as you are using the Vite builder. If you switch this project to use Webpack 5 and rerun this migration, we can update your project.
@@ -366,10 +366,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
             'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
           )}
         `;
-      } else if (frameworkPackage === '@storybook/nextjs') {
+      } else if (frameworkPackage === '@junk-temporary-prototypes/nextjs') {
         disclaimer = dedent`\n\n
         The ${chalk.magenta(
-          '@storybook/nextjs'
+          '@junk-temporary-prototypes/nextjs'
         )} package provides great user experience for Next.js users, and we highly recommend you to read more about it at ${chalk.yellow(
           'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
         )}
@@ -378,14 +378,14 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     if (metaFramework === 'sveltekit') {
-      if (frameworkPackage === '@storybook/svelte-webpack5') {
+      if (frameworkPackage === '@junk-temporary-prototypes/svelte-webpack5') {
         disclaimer = dedent`\n\n
           ${chalk.bold('Important')}: We've detected you are using Storybook in a SvelteKit project.
   
           This migration is set to update your project to use the ${chalk.magenta(
-            '@storybook/svelte-webpack5'
+            '@junk-temporary-prototypes/svelte-webpack5'
           )} framework, but Storybook provides a framework package specifically for SvelteKit projects: ${chalk.magenta(
-          '@storybook/sveltekit'
+          '@junk-temporary-prototypes/sveltekit'
         )}.
   
           This package provides a better experience for SvelteKit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using the Webpack builder.
@@ -403,7 +403,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         )}\n`;
         disclaimer = dedent`\n\n
         The ${chalk.magenta(
-          '@storybook/sveltekit'
+          '@junk-temporary-prototypes/sveltekit'
         )} package provides great user experience for SvelteKit users, and we highly recommend you to read more about it at ${chalk.yellow(
           'https://github.com/storybookjs/storybook/blob/next/code/frameworks/sveltekit/README.md'
         )}

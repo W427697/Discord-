@@ -1,1 +1,1 @@
-export * from '@storybook/addon-outline/manager';
+export * from '@junk-temporary-prototypes/addon-outline/manager';

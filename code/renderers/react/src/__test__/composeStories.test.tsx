@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@junk-temporary-prototypes/react';
 import { expectTypeOf } from 'expect-type';
 import { setProjectAnnotations, composeStories, composeStory } from '..';
 

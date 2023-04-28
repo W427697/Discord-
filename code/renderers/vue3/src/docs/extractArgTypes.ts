@@ -1,6 +1,6 @@
-import type { StrictArgTypes } from '@storybook/types';
-import type { ArgTypesExtractor } from '@storybook/docs-tools';
-import { hasDocgen, extractComponentProps, convert } from '@storybook/docs-tools';
+import type { StrictArgTypes } from '@junk-temporary-prototypes/types';
+import type { ArgTypesExtractor } from '@junk-temporary-prototypes/docs-tools';
+import { hasDocgen, extractComponentProps, convert } from '@junk-temporary-prototypes/docs-tools';
 
 const SECTIONS = ['props', 'events', 'slots', 'methods'];
 

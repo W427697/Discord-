@@ -1,5 +1,5 @@
-import { global } from '@storybook/global';
-import { addons, mockChannel } from '@storybook/preview-api';
+import { global } from '@junk-temporary-prototypes/global';
+import { addons, mockChannel } from '@junk-temporary-prototypes/preview-api';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';

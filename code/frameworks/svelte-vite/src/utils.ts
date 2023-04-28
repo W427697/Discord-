@@ -1,8 +1,8 @@
 import type { PluginOption } from 'vite';
-import type { Options } from '@storybook/types';
+import type { Options } from '@junk-temporary-prototypes/types';
 import dedent from 'ts-dedent';
-import { logger } from '@storybook/node-logger';
-import { hasVitePlugins } from '@storybook/builder-vite';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import { hasVitePlugins } from '@junk-temporary-prototypes/builder-vite';
 
 /**
  * A migration step that ensures the svelte-vite framework still supports SvelteKit,
@@ -24,11 +24,11 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
     'vite-plugin-sveltekit-compile',
   ]);
 
-  if (hasSvelteKitPlugins && framework !== '@storybook/sveltekit') {
+  if (hasSvelteKitPlugins && framework !== '@junk-temporary-prototypes/sveltekit') {
     logger.error(
       dedent`
-      We've detected a SvelteKit project using the @storybook/svelte-vite framework, which is not supported in Storybook 7.0
-      Please use the @storybook/sveltekit framework instead.
+      We've detected a SvelteKit project using the @junk-temporary-prototypes/svelte-vite framework, which is not supported in Storybook 7.0
+      Please use the @junk-temporary-prototypes/sveltekit framework instead.
       You can migrate automatically by running
       
       npx storybook@latest automigrate

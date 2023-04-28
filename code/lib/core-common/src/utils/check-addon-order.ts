@@ -2,9 +2,9 @@ import type {
   CoreCommon_AddonEntry,
   CoreCommon_AddonInfo,
   CoreCommon_OptionsEntry,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 interface Options {
   before: CoreCommon_AddonInfo;
@@ -23,7 +23,7 @@ const isCorrectOrder = (
   before: CoreCommon_AddonInfo,
   after: CoreCommon_AddonInfo
 ) => {
-  const essentialsIndex = addons.findIndex(predicateFor('@storybook/addon-essentials'));
+  const essentialsIndex = addons.findIndex(predicateFor('@junk-temporary-prototypes/addon-essentials'));
   let beforeIndex = addons.findIndex(predicateFor(before.name));
   let afterIndex = addons.findIndex(predicateFor(after.name));
   if (beforeIndex === -1 && before.inEssentials) beforeIndex = essentialsIndex;
@@ -41,7 +41,7 @@ export const checkAddonOrder = async ({ before, after, configFile, getConfig }: 
     }
 
     if (!isCorrectOrder(config.addons, before, after)) {
-      const orEssentials = " (or '@storybook/addon-essentials')";
+      const orEssentials = " (or '@junk-temporary-prototypes/addon-essentials')";
       const beforeText = `'${before.name}'${before.inEssentials ? orEssentials : ''}`;
       const afterText = `'${after.name}'${after.inEssentials ? orEssentials : ''}`;
       logger.warn(

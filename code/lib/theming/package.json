@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/theming",
+  "name": "@junk-temporary-prototypes/theming",
   "version": "7.0.7",
   "description": "Core Storybook Components",
   "keywords": [
@@ -49,8 +49,8 @@
   },
   "dependencies": {
     "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
-    "@storybook/client-logger": "7.0.7",
-    "@storybook/global": "^5.0.0",
+    "@junk-temporary-prototypes/client-logger": "7.0.7",
+    "@junk-temporary-prototypes/global": "^5.0.0",
     "memoizerific": "^1.11.3"
   },
   "devDependencies": {

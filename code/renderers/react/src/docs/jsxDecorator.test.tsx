@@ -2,11 +2,11 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { createElement, Profiler } from 'react';
 import PropTypes from 'prop-types';
-import { addons, useEffect } from '@storybook/preview-api';
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { addons, useEffect } from '@junk-temporary-prototypes/preview-api';
+import { SNIPPET_RENDERED } from '@junk-temporary-prototypes/docs-tools';
 import { renderJsx, jsxDecorator } from './jsxDecorator';
 
-jest.mock('@storybook/preview-api');
+jest.mock('@junk-temporary-prototypes/preview-api');
 const mockedAddons = addons as jest.Mocked<typeof addons>;
 const mockedUseEffect = useEffect as jest.Mocked<typeof useEffect>;
 

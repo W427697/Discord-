@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 export const deepElementFromPoint = (x: number, y: number) => {
   const element = global.document.elementFromPoint(x, y) as HTMLElement;

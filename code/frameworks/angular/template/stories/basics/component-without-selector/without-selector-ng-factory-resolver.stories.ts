@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { StoryFn, Meta, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { StoryFn, Meta, componentWrapperDecorator, moduleMetadata } from '@junk-temporary-prototypes/angular';
 
 import { WithoutSelectorComponent } from './without-selector.component';
 

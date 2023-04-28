@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { normalizePath } from 'vite';
-import type { Options } from '@storybook/types';
-import { logger } from '@storybook/node-logger';
+import type { Options } from '@junk-temporary-prototypes/types';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 import { listStories } from './list-stories';
 

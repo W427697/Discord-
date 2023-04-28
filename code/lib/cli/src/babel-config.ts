@@ -1,5 +1,5 @@
 import { writeFile, pathExists } from 'fs-extra';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import path from 'path';
 import prompts from 'prompts';
 import chalk from 'chalk';

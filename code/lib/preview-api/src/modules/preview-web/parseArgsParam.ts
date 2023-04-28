@@ -1,7 +1,7 @@
 import qs from 'qs';
 import { dedent } from 'ts-dedent';
-import type { Args } from '@storybook/types';
-import { once } from '@storybook/client-logger';
+import type { Args } from '@junk-temporary-prototypes/types';
+import { once } from '@junk-temporary-prototypes/client-logger';
 import isPlainObject from 'lodash/isPlainObject.js';
 
 // Keep this in sync with validateArgs in router/src/utils.ts

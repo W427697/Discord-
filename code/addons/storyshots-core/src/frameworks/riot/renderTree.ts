@@ -1,8 +1,8 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 const { document } = global;
 
-const riotForStorybook = jest.requireActual('@storybook/riot');
+const riotForStorybook = jest.requireActual('@junk-temporary-prototypes/riot');
 
 function bootstrapADocumentAndReturnANode() {
   const rootElement = document.createElement('div');

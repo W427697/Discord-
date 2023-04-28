@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/addon-controls",
+  "name": "@junk-temporary-prototypes/addon-controls",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

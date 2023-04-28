@@ -1,46 +1,46 @@
-import { frameworkPackages } from '@storybook/core-common';
-import type { Preset, StorybookConfig } from '@storybook/types';
+import { frameworkPackages } from '@junk-temporary-prototypes/core-common';
+import type { Preset, StorybookConfig } from '@junk-temporary-prototypes/types';
 import findUp from 'find-up';
 
 const logger = console;
 
 export const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
-  '@storybook/react': {
-    webpack5: '@storybook/react-webpack5',
-    vite: '@storybook/react-vite',
+  '@junk-temporary-prototypes/react': {
+    webpack5: '@junk-temporary-prototypes/react-webpack5',
+    vite: '@junk-temporary-prototypes/react-vite',
   },
-  '@storybook/preact': {
-    webpack5: '@storybook/preact-webpack5',
-    vite: '@storybook/preact-vite',
+  '@junk-temporary-prototypes/preact': {
+    webpack5: '@junk-temporary-prototypes/preact-webpack5',
+    vite: '@junk-temporary-prototypes/preact-vite',
   },
-  '@storybook/server': {
-    webpack5: '@storybook/server-webpack5',
+  '@junk-temporary-prototypes/server': {
+    webpack5: '@junk-temporary-prototypes/server-webpack5',
   },
-  '@storybook/ember': {
-    webpack5: '@storybook/ember',
+  '@junk-temporary-prototypes/ember': {
+    webpack5: '@junk-temporary-prototypes/ember',
   },
-  '@storybook/angular': {
-    webpack5: '@storybook/angular',
+  '@junk-temporary-prototypes/angular': {
+    webpack5: '@junk-temporary-prototypes/angular',
   },
-  '@storybook/vue': {
-    webpack5: '@storybook/vue-webpack5',
-    vite: '@storybook/vue-vite',
+  '@junk-temporary-prototypes/vue': {
+    webpack5: '@junk-temporary-prototypes/vue-webpack5',
+    vite: '@junk-temporary-prototypes/vue-vite',
   },
-  '@storybook/vue3': {
-    webpack5: '@storybook/vue3-webpack5',
-    vite: '@storybook/vue3-vite',
+  '@junk-temporary-prototypes/vue3': {
+    webpack5: '@junk-temporary-prototypes/vue3-webpack5',
+    vite: '@junk-temporary-prototypes/vue3-vite',
   },
-  '@storybook/svelte': {
-    webpack5: '@storybook/svelte-webpack5',
-    vite: '@storybook/svelte-vite',
+  '@junk-temporary-prototypes/svelte': {
+    webpack5: '@junk-temporary-prototypes/svelte-webpack5',
+    vite: '@junk-temporary-prototypes/svelte-vite',
   },
-  '@storybook/web-components': {
-    webpack5: '@storybook/web-components-webpack5',
-    vite: '@storybook/web-components-vite',
+  '@junk-temporary-prototypes/web-components': {
+    webpack5: '@junk-temporary-prototypes/web-components-webpack5',
+    vite: '@junk-temporary-prototypes/web-components-vite',
   },
-  '@storybook/html': {
-    webpack5: '@storybook/html-webpack5',
-    vite: '@storybook/html-vite',
+  '@junk-temporary-prototypes/html': {
+    webpack5: '@junk-temporary-prototypes/html-webpack5',
+    vite: '@junk-temporary-prototypes/html-vite',
   },
 };
 
@@ -113,13 +113,13 @@ export const detectBuilderInfo = async ({
   // if builder is still not detected, rely on package dependencies
   if (!builderOrFrameworkName) {
     if (
-      packageDependencies['@storybook/builder-vite'] ||
+      packageDependencies['@junk-temporary-prototypes/builder-vite'] ||
       packageDependencies['storybook-builder-vite']
     ) {
       builderOrFrameworkName = 'vite';
     } else if (
-      packageDependencies['@storybook/builder-webpack5'] ||
-      packageDependencies['@storybook/manager-webpack5']
+      packageDependencies['@junk-temporary-prototypes/builder-webpack5'] ||
+      packageDependencies['@junk-temporary-prototypes/manager-webpack5']
     ) {
       builderOrFrameworkName = 'webpack5';
     }

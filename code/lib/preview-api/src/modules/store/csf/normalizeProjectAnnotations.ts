@@ -3,7 +3,7 @@ import type {
   ArgTypes,
   ProjectAnnotations,
   NormalizedProjectAnnotations,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 
 import { inferArgTypes } from '../inferArgTypes';
 import { inferControls } from '../inferControls';

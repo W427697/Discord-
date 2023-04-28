@@ -28,17 +28,17 @@ import type {
   API_StoryEntry,
   Parameters,
   StoryId,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 
 import {
   STORY_CHANGED,
   SHARED_STATE_CHANGED,
   SHARED_STATE_SET,
   SET_STORIES,
-} from '@storybook/core-events';
-import type { RouterData } from '@storybook/router';
-import type { Listener } from '@storybook/channels';
-import { deprecate } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/core-events';
+import type { RouterData } from '@junk-temporary-prototypes/router';
+import type { Listener } from '@junk-temporary-prototypes/channels';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 import { createContext } from './context';
 import type { Options } from './store';
@@ -143,7 +143,7 @@ export type ManagerProviderProps = RouterData &
     children: ReactNode | ((props: Combo) => ReactNode);
   };
 
-// This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
+// This is duplicated from @junk-temporary-prototypes/preview-api for the reasons mentioned in lib-addons/types.js
 export const combineParameters = (...parameterSets: Parameters[]) =>
   mergeWith({}, ...parameterSets, (objValue: any, srcValue: any) => {
     // Treat arrays as scalars:

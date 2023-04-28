@@ -1,12 +1,12 @@
-import { global as globalThis } from '@storybook/global';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
 import {
   within,
   waitFor,
   fireEvent,
   userEvent,
   waitForElementToBeRemoved,
-} from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+} from '@junk-temporary-prototypes/testing-library';
+import { expect } from '@junk-temporary-prototypes/jest';
 
 export default {
   component: globalThis.Components.Form,

@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/preset-vue-webpack",
+  "name": "@junk-temporary-prototypes/preset-vue-webpack",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

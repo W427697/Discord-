@@ -1,10 +1,10 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { ComponentMeta, ComponentStoryObj, ComponentStoryFn } from '@storybook/react';
-import { ThemeProvider, useTheme } from '@storybook/theming';
-import type { Theme } from '@storybook/theming';
-import { action } from '@storybook/addon-actions';
+import type { ComponentMeta, ComponentStoryObj, ComponentStoryFn } from '@junk-temporary-prototypes/react';
+import { ThemeProvider, useTheme } from '@junk-temporary-prototypes/theming';
+import type { Theme } from '@junk-temporary-prototypes/theming';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 import { screen } from '@testing-library/dom';
 
 import { Heading } from './Heading';

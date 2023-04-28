@@ -1,6 +1,6 @@
 import type { FC, ComponentProps, ReactNode } from 'react';
 import React, { forwardRef } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 
 const ButtonWrapper = styled.button<{

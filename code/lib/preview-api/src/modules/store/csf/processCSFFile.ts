@@ -6,9 +6,9 @@ import type {
   CSFFile,
   ModuleExports,
   NormalizedComponentAnnotations,
-} from '@storybook/types';
-import { isExportStory } from '@storybook/csf';
-import { deprecate, logger } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/types';
+import { isExportStory } from '@junk-temporary-prototypes/csf';
+import { deprecate, logger } from '@junk-temporary-prototypes/client-logger';
 
 import dedent from 'ts-dedent';
 import { normalizeStory } from './normalizeStory';

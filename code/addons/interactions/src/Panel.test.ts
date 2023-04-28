@@ -1,4 +1,4 @@
-import { type Call, CallStates, type LogItem } from '@storybook/instrumenter';
+import { type Call, CallStates, type LogItem } from '@junk-temporary-prototypes/instrumenter';
 import { getInteractions } from './Panel';
 
 describe('Panel', () => {

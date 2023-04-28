@@ -1,12 +1,12 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider } from '@storybook/manager-api';
-import type { Combo } from '@storybook/manager-api';
-import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
+import { Location, LocationProvider, useNavigate } from '@junk-temporary-prototypes/router';
+import { Provider as ManagerProvider } from '@junk-temporary-prototypes/manager-api';
+import type { Combo } from '@junk-temporary-prototypes/manager-api';
+import { ThemeProvider, ensure as ensureTheme } from '@junk-temporary-prototypes/theming';
 
 import { HelmetProvider } from 'react-helmet-async';
 

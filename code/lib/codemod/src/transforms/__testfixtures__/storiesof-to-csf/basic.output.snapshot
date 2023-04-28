@@ -5,8 +5,8 @@ exports[`storiesof-to-csf transforms correctly using "basic.input.js" data 1`] =
 import React from 'react';
 import Button from './Button';
 
-import { configure } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import { configure } from '@junk-temporary-prototypes/react';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 
 export default {
   title: 'Button',

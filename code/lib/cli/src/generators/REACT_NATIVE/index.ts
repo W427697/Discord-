@@ -19,15 +19,15 @@ const generator = async (
     '@react-native-async-storage/async-storage',
     '@react-native-community/datetimepicker',
     '@react-native-community/slider',
-    '@storybook/addon-ondevice-controls',
-    '@storybook/addon-ondevice-actions',
-    '@storybook/react-native',
+    '@junk-temporary-prototypes/addon-ondevice-controls',
+    '@junk-temporary-prototypes/addon-ondevice-actions',
+    '@junk-temporary-prototypes/react-native',
   ];
 
   // change these to latest version once v6 stable is released
   const packagesWithFixedVersion = [
-    '@storybook/addon-actions@^6.5.16',
-    '@storybook/addon-controls@^6.5.16',
+    '@junk-temporary-prototypes/addon-actions@^6.5.16',
+    '@junk-temporary-prototypes/addon-controls@^6.5.16',
   ];
 
   const resolvedPackages = await packageManager.getVersionedPackages(packagesToResolve);

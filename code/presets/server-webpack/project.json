@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/preset-server-webpack",
+  "name": "@junk-temporary-prototypes/preset-server-webpack",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

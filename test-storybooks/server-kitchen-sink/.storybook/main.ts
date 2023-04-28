@@ -1,16 +1,16 @@
-import type { StorybookConfig } from '@storybook/server-webpack5';
+import type { StorybookConfig } from '@junk-temporary-prototypes/server-webpack5';
 
 const mainConfig: StorybookConfig = {
   stories: ['../stories/**/*.stories.@(json|yaml|yml)'],
   logLevel: 'debug',
   addons: [
-    '@storybook/addon-docs',
-    '@storybook/addon-a11y',
-    '@storybook/addon-actions',
-    '@storybook/addon-backgrounds',
-    '@storybook/addon-links',
-    '@storybook/addon-controls',
-    '@storybook/addon-highlight',
+    '@junk-temporary-prototypes/addon-docs',
+    '@junk-temporary-prototypes/addon-a11y',
+    '@junk-temporary-prototypes/addon-actions',
+    '@junk-temporary-prototypes/addon-backgrounds',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-controls',
+    '@junk-temporary-prototypes/addon-highlight',
   ],
   core: {
     disableTelemetry: true,
@@ -18,7 +18,7 @@ const mainConfig: StorybookConfig = {
   features: {
     storyStoreV7: false,
   },
-  framework: '@storybook/server-webpack5',
+  framework: '@junk-temporary-prototypes/server-webpack5',
 };
 
 module.exports = mainConfig;

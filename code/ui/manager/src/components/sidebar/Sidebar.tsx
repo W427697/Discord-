@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 
-import { styled } from '@storybook/theming';
-import { ScrollArea, Spaced } from '@storybook/components';
-import type { State } from '@storybook/manager-api';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { ScrollArea, Spaced } from '@junk-temporary-prototypes/components';
+import type { State } from '@junk-temporary-prototypes/manager-api';
 
 import type { API_LoadedRefData } from 'lib/types/src';
 import { Heading } from './Heading';

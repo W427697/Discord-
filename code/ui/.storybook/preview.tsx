@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import React, { Fragment, useEffect } from 'react';
 import isChromatic from 'chromatic/isChromatic';
 import {
@@ -9,14 +9,14 @@ import {
   convert,
   styled,
   useTheme,
-} from '@storybook/theming';
-import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
-import { Symbols } from '@storybook/components';
-import type { PreviewWeb } from '@storybook/preview-api';
-import type { ReactRenderer } from '@storybook/react';
-import type { Channel } from '@storybook/channels';
+} from '@junk-temporary-prototypes/theming';
+import { useArgs, DocsContext as DocsContextProps } from '@junk-temporary-prototypes/preview-api';
+import { Symbols } from '@junk-temporary-prototypes/components';
+import type { PreviewWeb } from '@junk-temporary-prototypes/preview-api';
+import type { ReactRenderer } from '@junk-temporary-prototypes/react';
+import type { Channel } from '@junk-temporary-prototypes/channels';
 
-import { DocsContext } from '@storybook/blocks';
+import { DocsContext } from '@junk-temporary-prototypes/blocks';
 
 import { DocsPageWrapper } from '../blocks/src/components';
 

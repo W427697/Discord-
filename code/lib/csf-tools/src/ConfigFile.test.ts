@@ -146,7 +146,7 @@ describe('ConfigFile', () => {
           getField(
             ['stories'],
             dedent`
-              import type { StorybookConfig } from '@storybook/react-webpack5';
+              import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
               const config: StorybookConfig = {
                 stories: [{ directory: '../src', titlePrefix: 'Demo' }],
@@ -206,7 +206,7 @@ describe('ConfigFile', () => {
           getField(
             ['stories'],
             dedent`
-              import type { StorybookConfig } from '@storybook/react-webpack5';
+              import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
               const config: StorybookConfig = {
                 stories: [{ directory: '../src', titlePrefix: 'Demo' }],
@@ -832,7 +832,7 @@ describe('ConfigFile', () => {
     describe('getNameFromPath', () => {
       it(`supports string literal node`, () => {
         const source = dedent`
-          import type { StorybookConfig } from '@storybook/react-webpack5';
+          import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
           const config: StorybookConfig = {
             framework: 'foo',
@@ -846,7 +846,7 @@ describe('ConfigFile', () => {
       describe('satisfies', () => {
         it(`supports string literal node`, () => {
           const source = dedent`
-            import type { StorybookConfig } from '@storybook/react-webpack5';
+            import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
   
             const config = {
               framework: 'foo',
@@ -859,7 +859,7 @@ describe('ConfigFile', () => {
 
         it(`supports string literal node without variables`, () => {
           const source = dedent`
-            import type { StorybookConfig } from '@storybook/react-webpack5';
+            import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
   
             export default {
               framework: 'foo',
@@ -871,7 +871,7 @@ describe('ConfigFile', () => {
 
         it(`supports object expression node with name property`, () => {
           const source = dedent`
-            import type { StorybookConfig } from '@storybook/react-webpack5';
+            import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
   
             const config = {
               framework: { name: 'foo', options: { bar: require('baz') } },
@@ -887,7 +887,7 @@ describe('ConfigFile', () => {
 
       it(`supports object expression node with name property`, () => {
         const source = dedent`
-          import type { StorybookConfig } from '@storybook/react-webpack5';
+          import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
           const config: StorybookConfig = {
             framework: { name: 'foo', options: { bar: require('baz') } },
@@ -902,7 +902,7 @@ describe('ConfigFile', () => {
 
       it(`returns undefined when accessing a field that does not exist`, () => {
         const source = dedent`
-          import type { StorybookConfig } from '@storybook/react-webpack5';
+          import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
           const config: StorybookConfig = { }
           export default config;
@@ -913,7 +913,7 @@ describe('ConfigFile', () => {
 
       it(`throws an error when node is of unexpected type`, () => {
         const source = dedent`
-          import type { StorybookConfig } from '@storybook/react-webpack5';
+          import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
           const config: StorybookConfig = {
             framework: makesNoSense(),
@@ -930,7 +930,7 @@ describe('ConfigFile', () => {
     describe('getNamesFromPath', () => {
       it(`supports an array with string literal and object expression with name property`, () => {
         const source = dedent`
-          import type { StorybookConfig } from '@storybook/react-webpack5';
+          import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
           const config: StorybookConfig = {
             addons: [
@@ -953,7 +953,7 @@ describe('ConfigFile', () => {
         describe('default export', () => {
           it(`supports an array with string literal and object expression with name property`, () => {
             const source = dedent`
-              import type { StorybookConfig } from '@storybook/react-webpack5';
+              import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
     
               const config = {
                 addons: [
@@ -974,7 +974,7 @@ describe('ConfigFile', () => {
 
           it(`supports an array with string literal and object expression with name property without variable`, () => {
             const source = dedent`
-              import type { StorybookConfig } from '@storybook/react-webpack5';
+              import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
     
               export default {
                 addons: [
@@ -996,7 +996,7 @@ describe('ConfigFile', () => {
         describe('module exports', () => {
           it(`supports an array with string literal and object expression with name property`, () => {
             const source = dedent`
-              import type { StorybookConfig } from '@storybook/react-webpack5';
+              import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
     
               const config = {
                 addons: [
@@ -1017,7 +1017,7 @@ describe('ConfigFile', () => {
 
           it(`supports an array with string literal and object expression with name property without variable`, () => {
             const source = dedent`
-              import type { StorybookConfig } from '@storybook/react-webpack5';
+              import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
     
               module.exports = {
                 addons: [
@@ -1040,7 +1040,7 @@ describe('ConfigFile', () => {
 
     it(`returns undefined when accessing a field that does not exist`, () => {
       const source = dedent`
-        import type { StorybookConfig } from '@storybook/react-webpack5';
+        import type { StorybookConfig } from '@junk-temporary-prototypes/react-webpack5';
 
         const config: StorybookConfig = { }
         export default config;

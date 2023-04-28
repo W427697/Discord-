@@ -2,10 +2,10 @@
 
 import { join } from 'path';
 import * as fs from 'fs-extra';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import * as m from './common-preset';
 
-const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
+const defaultFavicon = require.resolve('@junk-temporary-prototypes/core-server/public/favicon.svg');
 
 const createPath = (...p: string[]) => join(process.cwd(), ...p);
 const createOptions = (locations: string[]): Parameters<typeof m.favicon>[1] => ({
@@ -35,7 +35,7 @@ jest.mock('fs-extra', () => {
   };
 });
 
-jest.mock('@storybook/node-logger', () => {
+jest.mock('@junk-temporary-prototypes/node-logger', () => {
   return {
     logger: {
       warn: jest.fn(() => {}),

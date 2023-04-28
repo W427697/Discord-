@@ -1,6 +1,6 @@
 import { describe, test } from '@jest/globals';
-import { satisfies } from '@storybook/core-common';
-import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
+import { satisfies } from '@junk-temporary-prototypes/core-common';
+import type { ComponentAnnotations, StoryAnnotations } from '@junk-temporary-prototypes/types';
 import { expectTypeOf } from 'expect-type';
 import type { ComponentProps, SvelteComponentTyped } from 'svelte';
 import Button from './__test__/Button.svelte';

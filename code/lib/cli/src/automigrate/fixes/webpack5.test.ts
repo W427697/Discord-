@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { webpack5 } from './webpack5';
@@ -25,7 +25,7 @@ describe('webpack5 fix', () => {
 
   describe('sb < 6.3', () => {
     describe('webpack5 dependency', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0', webpack: '^5.0.0' } };
+      const packageJson = { dependencies: { '@junk-temporary-prototypes/react': '^6.2.0', webpack: '^5.0.0' } };
       it('should fail', async () => {
         await expect(
           checkWebpack5({
@@ -36,7 +36,7 @@ describe('webpack5 fix', () => {
       });
     });
     describe('no webpack5 dependency', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0' } };
+      const packageJson = { dependencies: { '@junk-temporary-prototypes/react': '^6.2.0' } };
       it('should no-op', async () => {
         await expect(
           checkWebpack5({
@@ -49,7 +49,7 @@ describe('webpack5 fix', () => {
   });
   describe('sb 6.3 - 7.0', () => {
     describe('webpack5 dependency', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.3.0', webpack: '^5.0.0' } };
+      const packageJson = { dependencies: { '@junk-temporary-prototypes/react': '^6.3.0', webpack: '^5.0.0' } };
       describe('webpack5 builder', () => {
         it('should no-op', async () => {
           await expect(
@@ -123,7 +123,7 @@ describe('webpack5 fix', () => {
   describe('sb 7.0+', () => {
     describe('webpack5 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/react': '^7.0.0-alpha.0', webpack: '^5.0.0' },
+        dependencies: { '@junk-temporary-prototypes/react': '^7.0.0-alpha.0', webpack: '^5.0.0' },
       };
       it('should no-op', async () => {
         await expect(

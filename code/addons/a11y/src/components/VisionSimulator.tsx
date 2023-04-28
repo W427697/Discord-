@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
-import { Global, styled } from '@storybook/theming';
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { Global, styled } from '@junk-temporary-prototypes/theming';
+import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@junk-temporary-prototypes/components';
 
 import { Filters } from './ColorFilters';
 

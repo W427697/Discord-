@@ -1,4 +1,4 @@
-import type { ArgTypes, StrictInputType } from '@storybook/types';
+import type { ArgTypes, StrictInputType } from '@junk-temporary-prototypes/types';
 import { enhanceArgTypes } from './enhanceArgTypes';
 
 expect.addSnapshotSerializer({

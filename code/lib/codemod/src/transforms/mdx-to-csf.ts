@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign,@typescript-eslint/no-shadow */
 import type { FileInfo } from 'jscodeshift';
-import { babelParse, babelParseExpression } from '@storybook/csf-tools';
+import { babelParse, babelParseExpression } from '@junk-temporary-prototypes/csf-tools';
 import { remark } from 'remark';
 import type { Root } from 'remark-mdx';
 import remarkMdx from 'remark-mdx';
@@ -72,8 +72,8 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   // rewrite addon docs import
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     node.value = node.value
-      .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks')
-      .replaceAll('@storybook/addon-docs', '@storybook/blocks');
+      .replaceAll('@junk-temporary-prototypes/addon-docs/blocks', '@junk-temporary-prototypes/blocks')
+      .replaceAll('@junk-temporary-prototypes/addon-docs', '@junk-temporary-prototypes/blocks');
   });
 
   const file = getEsmAst(root);
@@ -187,7 +187,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   file.path.traverse({
     // remove mdx imports from csf
     ImportDeclaration(path) {
-      if (path.node.source.value === '@storybook/blocks') {
+      if (path.node.source.value === '@junk-temporary-prototypes/blocks') {
         path.remove();
       }
     },

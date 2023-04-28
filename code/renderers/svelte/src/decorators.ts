@@ -1,12 +1,12 @@
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
-import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@junk-temporary-prototypes/types';
+import { sanitizeStoryContextUpdate } from '@junk-temporary-prototypes/preview-api';
 // ! DO NOT change this SlotDecorator import to a relative path, it will break it.
 // ! A relative import will be compiled at build time, and Svelte will be unable to
 // ! render the component together with the user's Svelte components
-// ! importing from @storybook/svelte will make sure that it is compiled at runtime
+// ! importing from @junk-temporary-prototypes/svelte will make sure that it is compiled at runtime
 // ! with the same bundle as the user's Svelte components
 // eslint-disable-next-line import/no-extraneous-dependencies
-import SlotDecorator from '@storybook/svelte/templates/SlotDecorator.svelte';
+import SlotDecorator from '@junk-temporary-prototypes/svelte/templates/SlotDecorator.svelte';
 import type { SvelteRenderer } from './types';
 
 /**

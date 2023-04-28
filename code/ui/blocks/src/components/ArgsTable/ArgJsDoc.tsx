@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
-import { codeCommon } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { codeCommon } from '@junk-temporary-prototypes/components';
 import type { JsDocTags } from './types';
 
 interface ArgJsDocArgs {

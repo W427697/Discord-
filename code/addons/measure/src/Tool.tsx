@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
-import { useGlobals, useStorybookApi } from '@storybook/manager-api';
-import { Icons, IconButton } from '@storybook/components';
+import { useGlobals, useStorybookApi } from '@junk-temporary-prototypes/manager-api';
+import { Icons, IconButton } from '@junk-temporary-prototypes/components';
 import { TOOL_ID, ADDON_ID } from './constants';
 
 export const Tool = () => {

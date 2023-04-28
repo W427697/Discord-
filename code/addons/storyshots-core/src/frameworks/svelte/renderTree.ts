@@ -1,4 +1,4 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { set_current_component } from 'svelte/internal';
 
 const { document } = global;

@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import { getBowerJson } from './helpers';
 import { detect, detectFrameworkPreset, detectLanguage, isStorybookInstalled } from './detect';
 import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
@@ -26,7 +26,7 @@ jest.mock('path', () => ({
   join: jest.fn((_, p) => p),
 }));
 
-jest.mock('@storybook/node-logger');
+jest.mock('@junk-temporary-prototypes/node-logger');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;
@@ -358,7 +358,7 @@ describe('Detect', () => {
     SUPPORTED_RENDERERS.forEach((framework) => {
       it(`true if devDependencies has ${framework} Storybook version`, () => {
         const devDependencies = {
-          [`@storybook/${framework}`]: '4.0.0-alpha.21',
+          [`@junk-temporary-prototypes/${framework}`]: '4.0.0-alpha.21',
         };
         expect(isStorybookInstalled({ devDependencies }, false)).toBeTruthy();
       });
@@ -368,7 +368,7 @@ describe('Detect', () => {
       expect(
         isStorybookInstalled(
           {
-            devDependencies: { '@storybook/react': '4.0.0-alpha.21' },
+            devDependencies: { '@junk-temporary-prototypes/react': '4.0.0-alpha.21' },
           },
           true
         )

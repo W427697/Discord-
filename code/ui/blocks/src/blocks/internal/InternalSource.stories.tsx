@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
 import * as ParametersStories from '../../examples/SourceParameters.stories';
 
 import { Source } from '../Source';

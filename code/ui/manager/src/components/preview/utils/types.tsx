@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactNode } from 'react';
-import type { State, API, LeafEntry } from '@storybook/manager-api';
-import type { StoryId } from '@storybook/types';
+import type { State, API, LeafEntry } from '@junk-temporary-prototypes/manager-api';
+import type { StoryId } from '@junk-temporary-prototypes/types';
 
 export type ViewMode = State['viewMode'];
 

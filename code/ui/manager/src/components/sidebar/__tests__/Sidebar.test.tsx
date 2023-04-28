@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ThemeProvider, ensure, themes } from '@storybook/theming';
+import { ThemeProvider, ensure, themes } from '@junk-temporary-prototypes/theming';
 
-import type { HashEntry, Refs } from '@storybook/manager-api';
-import type { Theme } from '@storybook/theming';
+import type { HashEntry, Refs } from '@junk-temporary-prototypes/manager-api';
+import type { Theme } from '@junk-temporary-prototypes/theming';
 import type { RenderResult } from '@testing-library/react';
-import type { API_IndexHash } from '@storybook/types';
+import type { API_IndexHash } from '@junk-temporary-prototypes/types';
 import { Sidebar } from '../Sidebar';
 import type { SidebarProps } from '../Sidebar';
 

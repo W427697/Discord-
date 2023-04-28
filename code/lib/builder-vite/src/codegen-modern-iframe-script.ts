@@ -1,5 +1,5 @@
-import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
-import type { Options, PreviewAnnotation } from '@storybook/types';
+import { loadPreviewOrConfigFile, getFrameworkName } from '@junk-temporary-prototypes/core-common';
+import type { Options, PreviewAnnotation } from '@junk-temporary-prototypes/types';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
@@ -31,7 +31,7 @@ export async function generateModernIframeScriptCode(options: Options, projectRo
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const generateHMRHandler = (frameworkName: string): string => {
     // Web components are not compatible with HMR, so disable HMR, reload page instead.
-    if (frameworkName === '@storybook/web-components-vite') {
+    if (frameworkName === '@junk-temporary-prototypes/web-components-vite') {
       return `
       if (import.meta.hot) {
         import.meta.hot.decline();
@@ -60,7 +60,7 @@ export async function generateModernIframeScriptCode(options: Options, projectRo
    * @todo Inline variable and remove `noinspection`
    */
   const code = `
-  import { composeConfigs, PreviewWeb, ClientApi } from '@storybook/preview-api';
+  import { composeConfigs, PreviewWeb, ClientApi } from '@junk-temporary-prototypes/preview-api';
   import '${virtualAddonSetupFile}';
   import { importFn } from '${virtualStoriesFile}';
   

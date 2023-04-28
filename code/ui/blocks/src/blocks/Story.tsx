@@ -7,8 +7,8 @@ import type {
   PreparedStory,
   StoryAnnotations,
   StoryId,
-} from '@storybook/types';
-import { deprecate } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/types';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 import dedent from 'ts-dedent';
 import { Story as PureStory, StorySkeleton } from '../components';
@@ -41,7 +41,7 @@ type StoryRefProps = {
    * Pass the export defining a story to render that story
    *
    * ```jsx
-   * import { Meta, Story } from '@storybook/blocks';
+   * import { Meta, Story } from '@junk-temporary-prototypes/blocks';
    * import * as ButtonStories from './Button.stories';
    *
    * <Meta of={ButtonStories} />
@@ -53,7 +53,7 @@ type StoryRefProps = {
    * Pass all exports of the CSF file if this MDX file is unattached
    *
    * ```jsx
-   * import { Story } from '@storybook/blocks';
+   * import { Story } from '@junk-temporary-prototypes/blocks';
    * import * as ButtonStories from './Button.stories';
    *
    * <Story of={ButtonStories.Primary} meta={ButtonStories} />

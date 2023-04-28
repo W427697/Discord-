@@ -5,7 +5,7 @@ import path from 'path';
 import glob from 'globby';
 import uniq from 'lodash/uniq.js';
 
-import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, Path } from '@junk-temporary-prototypes/types';
 
 const isDirectory = (directory: Path) => {
   try {

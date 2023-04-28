@@ -9,20 +9,20 @@ module.exports = {
   stories: ['../stories/*.stories.js'],
   logLevel: 'debug',
   addons: [
-    '@storybook/addon-a11y',
-    '@storybook/addon-storysource',
-    '@storybook/addon-actions',
-    '@storybook/addon-docs',
-    '@storybook/addon-controls',
-    '@storybook/addon-links',
-    '@storybook/addon-viewport',
-    '@storybook/addon-backgrounds',
-    '@storybook/addon-highlight',
+    '@junk-temporary-prototypes/addon-a11y',
+    '@junk-temporary-prototypes/addon-storysource',
+    '@junk-temporary-prototypes/addon-actions',
+    '@junk-temporary-prototypes/addon-docs',
+    '@junk-temporary-prototypes/addon-controls',
+    '@junk-temporary-prototypes/addon-links',
+    '@junk-temporary-prototypes/addon-viewport',
+    '@junk-temporary-prototypes/addon-backgrounds',
+    '@junk-temporary-prototypes/addon-highlight',
   ],
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: [/\.stories\.js$/, /index\.js$/],
-      use: require.resolve('@storybook/source-loader'),
+      use: require.resolve('@junk-temporary-prototypes/source-loader'),
       include: [path.resolve(__dirname, '../')],
       enforce: 'pre',
     });
@@ -47,5 +47,5 @@ module.exports = {
     buildStoriesJson: false,
     storyStoreV7: false,
   },
-  framework: { name: '@storybook/ember' },
+  framework: { name: '@junk-temporary-prototypes/ember' },
 };

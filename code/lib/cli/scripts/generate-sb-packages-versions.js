@@ -45,7 +45,7 @@ const run = async () => {
       })
     )
   )
-    .filter(({ name }) => /^(@storybook|sb$|storybook$)/.test(name))
+    .filter(({ name }) => /^(@junk-temporary-prototypes|sb$|storybook$)/.test(name))
     // As some previous steps are asynchronous order is not always the same so sort them to avoid that
     .sort((package1, package2) => package1.name.localeCompare(package2.name))
     .reduce((acc, { name }) => ({ ...acc, [name]: updatedVersion }), {});

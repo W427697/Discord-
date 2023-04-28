@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import ReactDOM from 'react-dom';
 
 import { StatusIcon } from './StatusIcon';

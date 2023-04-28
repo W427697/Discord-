@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import type { Context } from 'react';
 import { createContext } from 'react';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import type { DocsContextProps, Renderer } from '@storybook/types';
+import type { DocsContextProps, Renderer } from '@junk-temporary-prototypes/types';
 
 export type { DocsContextProps };
 

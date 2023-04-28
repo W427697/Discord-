@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { Renderer } from '@storybook/csf';
+import type { Renderer } from '@junk-temporary-prototypes/csf';
 
 import type {
   AnnotatedStoryFn,

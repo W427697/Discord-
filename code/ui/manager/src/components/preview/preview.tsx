@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 import {
   type API,
@@ -10,11 +10,11 @@ import {
   addons,
   types,
   type Addon,
-} from '@storybook/manager-api';
-import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
+} from '@junk-temporary-prototypes/manager-api';
+import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@junk-temporary-prototypes/core-events';
 
-import { Loader } from '@storybook/components';
-import { Location } from '@storybook/router';
+import { Loader } from '@junk-temporary-prototypes/components';
+import { Location } from '@junk-temporary-prototypes/router';
 
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';

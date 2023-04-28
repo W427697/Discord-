@@ -1,8 +1,8 @@
-import type { Builder, CoreConfig, Options } from '@storybook/types';
+import type { Builder, CoreConfig, Options } from '@junk-temporary-prototypes/types';
 import { pathToFileURL } from 'node:url';
 
 export async function getManagerBuilder(): Promise<Builder<unknown>> {
-  return import('@storybook/builder-manager');
+  return import('@junk-temporary-prototypes/builder-manager');
 }
 
 export async function getPreviewBuilder(
@@ -12,7 +12,7 @@ export async function getPreviewBuilder(
   let builderPackage: string;
   if (builderName) {
     builderPackage = require.resolve(
-      ['webpack5'].includes(builderName) ? `@storybook/builder-${builderName}` : builderName,
+      ['webpack5'].includes(builderName) ? `@junk-temporary-prototypes/builder-${builderName}` : builderName,
       { paths: [configDir] }
     );
   } else {

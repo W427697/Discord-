@@ -2,7 +2,7 @@ import { expect } from '@jest/globals';
 
 import { ArgsStore } from './ArgsStore';
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 
 const stringType = { type: { name: 'string' } };
 const booleanType = { type: { name: 'boolean' } };

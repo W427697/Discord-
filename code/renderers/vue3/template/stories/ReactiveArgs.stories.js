@@ -1,7 +1,7 @@
-import { expect } from '@storybook/jest';
-import { global as globalThis } from '@storybook/global';
-import { within, userEvent } from '@storybook/testing-library';
-import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
+import { expect } from '@junk-temporary-prototypes/jest';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { within, userEvent } from '@junk-temporary-prototypes/testing-library';
+import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@junk-temporary-prototypes/core-events';
 import ReactiveArgs from './ReactiveArgs.vue';
 
 export default {

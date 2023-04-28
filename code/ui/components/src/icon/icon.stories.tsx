@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { styled, css } from '@storybook/theming';
+import { styled, css } from '@junk-temporary-prototypes/theming';
 
 import { Icons } from './icon';
 import type { IconKey } from './icons';

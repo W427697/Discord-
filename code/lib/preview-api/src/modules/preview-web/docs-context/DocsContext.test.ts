@@ -1,5 +1,5 @@
-import { Channel } from '@storybook/channels';
-import type { CSFFile, Renderer } from '@storybook/types';
+import { Channel } from '@junk-temporary-prototypes/channels';
+import type { CSFFile, Renderer } from '@junk-temporary-prototypes/types';
 import type { StoryStore } from '../../store';
 
 import { DocsContext } from './DocsContext';

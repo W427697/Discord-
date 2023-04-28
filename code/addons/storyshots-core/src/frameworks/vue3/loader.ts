@@ -1,11 +1,11 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
 import type { Loader } from '../Loader';
 import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
-  return options.framework === 'vue3' || (!options.framework && hasDependency('@storybook/vue3'));
+  return options.framework === 'vue3' || (!options.framework && hasDependency('@junk-temporary-prototypes/vue3'));
 }
 
 function load(options: StoryshotsOptions) {
@@ -13,8 +13,8 @@ function load(options: StoryshotsOptions) {
 
   let mockStartedAPI: any;
 
-  jest.mock('@storybook/preview-api', () => {
-    const previewAPI = jest.requireActual('@storybook/preview-api');
+  jest.mock('@junk-temporary-prototypes/preview-api', () => {
+    const previewAPI = jest.requireActual('@junk-temporary-prototypes/preview-api');
 
     return {
       ...previewAPI,
@@ -25,8 +25,8 @@ function load(options: StoryshotsOptions) {
     };
   });
 
-  jest.mock('@storybook/vue3', () => {
-    const renderAPI = jest.requireActual('@storybook/vue3');
+  jest.mock('@junk-temporary-prototypes/vue3', () => {
+    const renderAPI = jest.requireActual('@junk-temporary-prototypes/vue3');
 
     renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
     renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
@@ -35,7 +35,7 @@ function load(options: StoryshotsOptions) {
   });
 
   // eslint-disable-next-line global-require
-  const storybook = require('@storybook/vue3');
+  const storybook = require('@junk-temporary-prototypes/vue3');
 
   configure({
     ...options,

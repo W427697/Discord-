@@ -1,1 +1,1 @@
-export * from '@storybook/addon-backgrounds/manager';
+export * from '@junk-temporary-prototypes/addon-backgrounds/manager';

@@ -1,2 +1,2 @@
-export * from '@storybook/blocks';
+export * from '@junk-temporary-prototypes/blocks';
 export { DocsRenderer } from './DocsRenderer';

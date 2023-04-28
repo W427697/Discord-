@@ -1,6 +1,6 @@
 import { hbs } from 'ember-cli-htmlbars';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
+import { action } from '@junk-temporary-prototypes/addon-actions';
+import { linkTo } from '@junk-temporary-prototypes/addon-links';
 
 // More on how to set up stories at: https://storybook.js.org/docs/ember/writing-stories/introduction
 export default {

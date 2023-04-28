@@ -29,7 +29,7 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {
-          core: { builder: '@storybook/builder-webpack5' },
+          core: { builder: '@junk-temporary-prototypes/builder-webpack5' },
         },
       })
     ).resolves.toEqual({ name: 'webpack5', options: {} });
@@ -39,7 +39,7 @@ describe('getBuilderInfo', () => {
         mainConfig: {
           core: {
             builder: {
-              name: '@storybook/builder-webpack5',
+              name: '@junk-temporary-prototypes/builder-webpack5',
               options: { lazyCompilation: true },
             },
           },
@@ -55,7 +55,7 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {
-          framework: '@storybook/react-webpack5',
+          framework: '@junk-temporary-prototypes/react-webpack5',
         },
       })
     ).resolves.toEqual({ name: 'webpack5', options: {} });
@@ -64,7 +64,7 @@ describe('getBuilderInfo', () => {
       getBuilderInfo({
         mainConfig: {
           framework: {
-            name: '@storybook/react-webpack5',
+            name: '@junk-temporary-prototypes/react-webpack5',
             options: {
               builder: {
                 lazyCompilation: true,
@@ -83,7 +83,7 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {
-          core: { builder: '@storybook/builder-vite' },
+          core: { builder: '@junk-temporary-prototypes/builder-vite' },
         },
       })
     ).resolves.toEqual({ name: 'vite', options: {} });
@@ -93,7 +93,7 @@ describe('getBuilderInfo', () => {
         mainConfig: {
           core: {
             builder: {
-              name: '@storybook/builder-vite',
+              name: '@junk-temporary-prototypes/builder-vite',
               options: { foo: 'bar' },
             },
           },
@@ -109,7 +109,7 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {
-          framework: '@storybook/react-vite',
+          framework: '@junk-temporary-prototypes/react-vite',
         },
       })
     ).resolves.toEqual({ name: 'vite', options: {} });
@@ -118,7 +118,7 @@ describe('getBuilderInfo', () => {
       getBuilderInfo({
         mainConfig: {
           framework: {
-            name: '@storybook/react-vite',
+            name: '@junk-temporary-prototypes/react-vite',
             options: { builder: { foo: 'bar' } },
           },
         },
@@ -204,7 +204,7 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {},
-        packageDependencies: { '@storybook/builder-vite': '^7.0.0' },
+        packageDependencies: { '@junk-temporary-prototypes/builder-vite': '^7.0.0' },
       })
     ).resolves.toEqual({
       name: 'vite',
@@ -218,7 +218,7 @@ describe('getBuilderInfo', () => {
     await expect(
       getBuilderInfo({
         mainConfig: {},
-        packageDependencies: { '@storybook/builder-webpack5': '^7.0.0' },
+        packageDependencies: { '@junk-temporary-prototypes/builder-webpack5': '^7.0.0' },
       })
     ).resolves.toEqual({
       name: 'webpack5',

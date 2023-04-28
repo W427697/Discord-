@@ -1,12 +1,12 @@
-import { hasVitePlugins } from '@storybook/builder-vite';
-import type { PresetProperty } from '@storybook/types';
+import { hasVitePlugins } from '@junk-temporary-prototypes/builder-vite';
+import type { PresetProperty } from '@junk-temporary-prototypes/types';
 import type { StorybookConfig } from './types';
 import { handleSvelteKit } from './utils';
 import { svelteDocgen } from './plugins/svelte-docgen';
 
 export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/svelte',
+  builder: '@junk-temporary-prototypes/builder-vite',
+  renderer: '@junk-temporary-prototypes/svelte',
 };
 
 export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (config, options) => {

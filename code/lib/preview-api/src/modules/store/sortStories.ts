@@ -9,7 +9,7 @@ import type {
   Parameters,
   Path,
   PreparedStory,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import { storySort } from './storySort';
 
 const sortStoriesCommon = (

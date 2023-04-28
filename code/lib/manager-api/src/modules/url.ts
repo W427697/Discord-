@@ -4,13 +4,13 @@ import {
   SET_CURRENT_STORY,
   GLOBALS_UPDATED,
   UPDATE_QUERY_PARAMS,
-} from '@storybook/core-events';
-import type { NavigateOptions } from '@storybook/router';
-import { queryFromLocation, buildArgsParam } from '@storybook/router';
+} from '@junk-temporary-prototypes/core-events';
+import type { NavigateOptions } from '@junk-temporary-prototypes/router';
+import { queryFromLocation, buildArgsParam } from '@junk-temporary-prototypes/router';
 import { dequal as deepEqual } from 'dequal';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import type { API_Layout, API_UI } from '@storybook/types';
+import type { API_Layout, API_UI } from '@junk-temporary-prototypes/types';
 import type { ModuleArgs, ModuleFn } from '../index';
 
 const { window: globalWindow } = global;

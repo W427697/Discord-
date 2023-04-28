@@ -1,4 +1,4 @@
-import type { ViewMode, Args, StoryId } from '@storybook/types';
+import type { ViewMode, Args, StoryId } from '@junk-temporary-prototypes/types';
 import type { StorySpecifier } from '../store/StoryIndexStore';
 
 export interface SelectionSpecifier {

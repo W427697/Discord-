@@ -1,13 +1,13 @@
-import { global as globalThis } from '@storybook/global';
-import type { PlayFunctionContext } from '@storybook/types';
-import { within, waitFor } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
+import type { PlayFunctionContext } from '@junk-temporary-prototypes/types';
+import { within, waitFor } from '@junk-temporary-prototypes/testing-library';
+import { expect } from '@junk-temporary-prototypes/jest';
 import {
   FORCE_REMOUNT,
   RESET_STORY_ARGS,
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
-} from '@storybook/core-events';
+} from '@junk-temporary-prototypes/core-events';
 
 export default {
   component: globalThis.Components.Button,

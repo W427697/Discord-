@@ -1,6 +1,6 @@
 import React from 'react';
-import { styled } from '@storybook/theming';
-import { action } from '@storybook/addon-actions';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 
 import * as InputComponents from './input/input';
 import { Field as FieldComponent } from './field/field';

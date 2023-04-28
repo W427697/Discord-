@@ -1,10 +1,10 @@
-import { global } from '@storybook/global';
-import { logger } from '@storybook/client-logger';
+import { global } from '@junk-temporary-prototypes/global';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
 import qs from 'qs';
 
-import type { PreparedStory } from '@storybook/types';
+import type { PreparedStory } from '@junk-temporary-prototypes/types';
 import type { View } from './View';
 
 const { document } = global;

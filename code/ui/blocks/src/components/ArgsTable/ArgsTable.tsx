@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import React from 'react';
 import pickBy from 'lodash/pickBy.js';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { transparentize } from 'polished';
-import { includeConditionalArg } from '@storybook/csf';
-import { once } from '@storybook/client-logger';
-import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
+import { includeConditionalArg } from '@junk-temporary-prototypes/csf';
+import { once } from '@junk-temporary-prototypes/client-logger';
+import { IconButton, Icons, Link, ResetWrapper } from '@junk-temporary-prototypes/components';
 
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';

@@ -1,5 +1,5 @@
-import type { Globals, GlobalTypes } from '@storybook/types';
-import { logger } from '@storybook/client-logger';
+import type { Globals, GlobalTypes } from '@junk-temporary-prototypes/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';
 import { getValuesFromArgTypes } from './csf/getValuesFromArgTypes';

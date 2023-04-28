@@ -1,9 +1,9 @@
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import type {
   CoreCommon_AddonEntry,
   CoreCommon_AddonInfo,
   CoreCommon_OptionsEntry,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import { checkAddonOrder } from '../check-addon-order';
 
 const configFile = './main.js';
@@ -21,7 +21,7 @@ const essentialAddons = [
 const pkgName = (entry: CoreCommon_AddonEntry): string => {
   if (typeof entry === 'string') {
     if (entry.includes('node_modules')) return entry;
-    return `@storybook/addon-${entry}`;
+    return `@junk-temporary-prototypes/addon-${entry}`;
   }
   return (entry as CoreCommon_OptionsEntry).name;
 };
@@ -38,8 +38,8 @@ afterEach(() => warn.mockReset());
 
 describe.each([
   ['docs', 'controls', ['docs', 'controls']],
-  ['docs', 'controls', ['docs', 'foo/node_modules/@storybook/addon-controls']],
-  ['docs', 'controls', [{ name: '@storybook/addon-docs' }, 'controls']],
+  ['docs', 'controls', ['docs', 'foo/node_modules/@junk-temporary-prototypes/addon-controls']],
+  ['docs', 'controls', [{ name: '@junk-temporary-prototypes/addon-docs' }, 'controls']],
   ['docs', 'controls', ['essentials', 'controls']],
   ['docs', 'controls', ['essentials']],
 ])('checkAddonOrder', (_before, _after, _addons) => {

@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/preact",
+  "name": "@junk-temporary-prototypes/preact",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import { str } from '@storybook/docs-tools';
-import { deprecate } from '@storybook/client-logger';
+import { str } from '@junk-temporary-prototypes/docs-tools';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';

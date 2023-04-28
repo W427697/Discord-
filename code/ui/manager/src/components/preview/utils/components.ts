@@ -1,5 +1,5 @@
-import { styled } from '@storybook/theming';
-import { Link } from '@storybook/router';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Link } from '@junk-temporary-prototypes/router';
 
 export const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
   position: 'absolute',

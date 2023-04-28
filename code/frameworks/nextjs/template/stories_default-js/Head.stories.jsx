@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-import { expect } from '@storybook/jest';
+import { expect } from '@junk-temporary-prototypes/jest';
 import Head from 'next/head';
 import React from 'react';
-import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { within, userEvent, waitFor } from '@junk-temporary-prototypes/testing-library';
 
 function Component() {
   return (

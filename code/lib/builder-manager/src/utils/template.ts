@@ -3,14 +3,14 @@ import fs from 'fs-extra';
 
 import { render } from 'ejs';
 
-import type { DocsOptions, Options, Ref } from '@storybook/types';
+import type { DocsOptions, Options, Ref } from '@junk-temporary-prototypes/types';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
 
 export const getTemplatePath = async (template: string) => {
   return join(
-    dirname(require.resolve('@storybook/builder-manager/package.json')),
+    dirname(require.resolve('@junk-temporary-prototypes/builder-manager/package.json')),
     'templates',
     template
   );

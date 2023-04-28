@@ -4,10 +4,10 @@
  */
 
 // import { describe, it, beforeAll, beforeEach, afterAll, afterEach, jest } from '@jest/globals';
-import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX, CONFIG_ERROR } from '@storybook/core-events';
+import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX, CONFIG_ERROR } from '@junk-temporary-prototypes/core-events';
 
-import type { ModuleExports, Path } from '@storybook/types';
-import { global } from '@storybook/global';
+import type { ModuleExports, Path } from '@junk-temporary-prototypes/types';
+import { global } from '@junk-temporary-prototypes/global';
 import { setGlobalRender } from '../../client-api';
 import {
   waitForRender,
@@ -20,7 +20,7 @@ import {
 import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
 
-jest.mock('@storybook/global', () => ({
+jest.mock('@junk-temporary-prototypes/global', () => ({
   global: {
     ...globalThis,
     window: globalThis,
@@ -37,8 +37,8 @@ jest.mock('@storybook/global', () => ({
 
 // console.log(global);
 
-jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/channel-postmessage', () => ({ createChannel: () => mockChannel }));
+jest.mock('@junk-temporary-prototypes/client-logger');
 jest.mock('react-dom');
 
 // for the auto-title test

@@ -28,10 +28,10 @@ export const externalFrameworks: ExternalFramework[] = [
   { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
 ];
 
-// Should match @storybook/<framework>
+// Should match @junk-temporary-prototypes/<framework>
 export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
 
-// Should match @storybook/<renderer>
+// Should match @junk-temporary-prototypes/<renderer>
 export type SupportedRenderers =
   | 'react'
   | 'react-native'

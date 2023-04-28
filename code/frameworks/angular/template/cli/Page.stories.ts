@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
-import { within, userEvent } from '@storybook/testing-library';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/angular';
+import { moduleMetadata } from '@junk-temporary-prototypes/angular';
+import { within, userEvent } from '@junk-temporary-prototypes/testing-library';
 import { CommonModule } from '@angular/common';
 
 import Button from './button.component';

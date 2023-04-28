@@ -1,4 +1,4 @@
-import type { StorybookInternalParameters } from '@storybook/types';
+import type { StorybookInternalParameters } from '@junk-temporary-prototypes/types';
 
 // addons, panels and events get unique names using a prefix
 export const PARAM_KEY = 'test';

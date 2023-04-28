@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import { SynchronousPromise } from 'synchronous-promise';
 import {
   CONFIG_ERROR,
@@ -12,9 +12,9 @@ import {
   STORY_INDEX_INVALIDATED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
-} from '@storybook/core-events';
-import { logger, deprecate } from '@storybook/client-logger';
-import type { Channel } from '@storybook/channels';
+} from '@junk-temporary-prototypes/core-events';
+import { logger, deprecate } from '@junk-temporary-prototypes/client-logger';
+import type { Channel } from '@junk-temporary-prototypes/channels';
 import type {
   Renderer,
   Args,
@@ -28,7 +28,7 @@ import type {
   StoryId,
   StoryRenderOptions,
   SetGlobalsPayload,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import { addons } from '../addons';
 import { StoryStore } from '../../store';
 

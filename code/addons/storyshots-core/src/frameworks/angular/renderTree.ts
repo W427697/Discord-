@@ -2,7 +2,7 @@ import AngularSnapshotSerializer from 'jest-preset-angular/build/serializers/ng-
 import HTMLCommentSerializer from 'jest-preset-angular/build/serializers/html-comment';
 import { TestBed } from '@angular/core/testing';
 import { addSerializer } from 'jest-specific-snapshot';
-import { getApplication, storyPropsProvider } from '@storybook/angular/renderer';
+import { getApplication, storyPropsProvider } from '@junk-temporary-prototypes/angular/renderer';
 import { BehaviorSubject } from 'rxjs';
 
 addSerializer(HTMLCommentSerializer);

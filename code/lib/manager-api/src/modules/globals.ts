@@ -1,7 +1,7 @@
-import { SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+import { SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@junk-temporary-prototypes/core-events';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import { dequal as deepEqual } from 'dequal';
-import type { SetGlobalsPayload, Globals, GlobalTypes } from '@storybook/types';
+import type { SetGlobalsPayload, Globals, GlobalTypes } from '@junk-temporary-prototypes/types';
 
 import type { ModuleFn } from '../index';
 

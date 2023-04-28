@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { VueLoaderPlugin } from 'vue-loader';
 
-import type { StorybookConfig } from '@storybook/core-webpack';
+import type { StorybookConfig } from '@junk-temporary-prototypes/core-webpack';
 
 export const webpack: StorybookConfig['webpack'] = async (config, { presets }) => {
   const typescriptOptions = await presets.apply<StorybookConfig['typescript']>(

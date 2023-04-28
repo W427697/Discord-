@@ -1,8 +1,8 @@
 import globby from 'globby';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import { warn } from './warn';
 
-jest.mock('@storybook/node-logger');
+jest.mock('@junk-temporary-prototypes/node-logger');
 jest.mock('globby');
 
 describe('warn', () => {

@@ -1,4 +1,4 @@
-import { start } from '@storybook/preview-api';
+import { start } from '@junk-temporary-prototypes/preview-api';
 
 import './globals';
 import type { EmberRenderer } from './types';

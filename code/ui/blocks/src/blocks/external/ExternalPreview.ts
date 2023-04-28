@@ -1,4 +1,4 @@
-import { Preview, composeConfigs } from '@storybook/preview-api';
+import { Preview, composeConfigs } from '@junk-temporary-prototypes/preview-api';
 import type {
   Renderer,
   ComponentTitle,
@@ -6,8 +6,8 @@ import type {
   ProjectAnnotations,
   ModuleExports,
   StoryIndex,
-} from '@storybook/types';
-import { Channel } from '@storybook/channels';
+} from '@junk-temporary-prototypes/types';
+import { Channel } from '@junk-temporary-prototypes/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';
 

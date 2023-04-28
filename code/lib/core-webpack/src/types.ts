@@ -1,6 +1,6 @@
-import type { Options, StorybookConfig as StorybookConfigBase } from '@storybook/types';
+import type { Options, StorybookConfig as StorybookConfigBase } from '@junk-temporary-prototypes/types';
 
-export type { Options, Preset, BuilderResult, TypescriptOptions } from '@storybook/types';
+export type { Options, Preset, BuilderResult, TypescriptOptions } from '@junk-temporary-prototypes/types';
 
 export type RulesConfig = any;
 

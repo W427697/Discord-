@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 
 export type SkippableTask =
   | 'smoke-test'
@@ -69,10 +69,10 @@ const baseTemplates = {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
     expected: {
-      // TODO: change this to @storybook/cra once that package is created
-      framework: '@storybook/react-webpack5',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
+      // TODO: change this to @junk-temporary-prototypes/cra once that package is created
+      framework: '@junk-temporary-prototypes/react-webpack5',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -82,10 +82,10 @@ const baseTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      // TODO: change this to @storybook/cra once that package is created
-      framework: '@storybook/react-webpack5',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
+      // TODO: change this to @junk-temporary-prototypes/cra once that package is created
+      framework: '@junk-temporary-prototypes/react-webpack5',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
   },
   'nextjs/12-js': {
@@ -93,9 +93,9 @@ const baseTemplates = {
     script:
       'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-12-3-2/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12.2.0" && yarn && git add . && git commit --amend --no-edit && cd ..',
     expected: {
-      framework: '@storybook/nextjs',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/nextjs',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -103,9 +103,9 @@ const baseTemplates = {
     name: 'Next.js (JavaScript)',
     script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
     expected: {
-      framework: '@storybook/nextjs',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/nextjs',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -113,9 +113,9 @@ const baseTemplates = {
     name: 'Next.js (TypeScript)',
     script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
     expected: {
-      framework: '@storybook/nextjs',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/nextjs',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -123,9 +123,9 @@ const baseTemplates = {
     name: 'React Vite (JS)',
     script: 'yarn create vite . --template react',
     expected: {
-      framework: '@storybook/react-vite',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/react-vite',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -133,18 +133,18 @@ const baseTemplates = {
     name: 'React Vite (TS)',
     script: 'yarn create vite . --template react-ts',
     expected: {
-      framework: '@storybook/react-vite',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/react-vite',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
   },
   'react-webpack/18-ts': {
     name: 'React 18 Webpack5 (TS)',
     script: 'yarn create webpack5-react .',
     expected: {
-      framework: '@storybook/react-webpack5',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/react-webpack5',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -152,9 +152,9 @@ const baseTemplates = {
     name: 'React 17 Webpack5 (TS)',
     script: 'yarn create webpack5-react . --version-react="17" --version-react-dom="17"',
     expected: {
-      framework: '@storybook/react-webpack5',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/react-webpack5',
+      renderer: '@junk-temporary-prototypes/react',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -164,7 +164,7 @@ const baseTemplates = {
     expected: {
       framework: 'storybook-solidjs-vite',
       renderer: 'storybook-solidjs',
-      builder: '@storybook/builder-vite',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     // TODO: remove this once solid-vite framework is released
     inDevelopment: true,
@@ -176,7 +176,7 @@ const baseTemplates = {
     expected: {
       framework: 'storybook-solidjs-vite',
       renderer: 'storybook-solidjs',
-      builder: '@storybook/builder-vite',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     // TODO: remove this once solid-vite framework is released
     inDevelopment: true,
@@ -186,9 +186,9 @@ const baseTemplates = {
     name: 'Vue3 Vite (JS)',
     script: 'yarn create vite . --template vue',
     expected: {
-      framework: '@storybook/vue3-vite',
-      renderer: '@storybook/vue3',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/vue3-vite',
+      renderer: '@junk-temporary-prototypes/vue3',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -196,9 +196,9 @@ const baseTemplates = {
     name: 'Vue3 Vite (TS)',
     script: 'yarn create vite . --template vue-ts',
     expected: {
-      framework: '@storybook/vue3-vite',
-      renderer: '@storybook/vue3',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/vue3-vite',
+      renderer: '@junk-temporary-prototypes/vue3',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -206,9 +206,9 @@ const baseTemplates = {
     name: 'Vue2 Vite (vue 2.7 JS)',
     script: 'npx create-vue@2 {{beforeDir}} --default',
     expected: {
-      framework: '@storybook/vue-vite',
-      renderer: '@storybook/vue',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/vue-vite',
+      renderer: '@junk-temporary-prototypes/vue',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
@@ -217,9 +217,9 @@ const baseTemplates = {
     name: 'HTML Webpack5',
     script: 'yarn create webpack5-html .',
     expected: {
-      framework: '@storybook/html-webpack5',
-      renderer: '@storybook/html',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/html-webpack5',
+      renderer: '@junk-temporary-prototypes/html',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -227,9 +227,9 @@ const baseTemplates = {
     name: 'HTML Vite JS',
     script: 'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
     expected: {
-      framework: '@storybook/html-vite',
-      renderer: '@storybook/html',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/html-vite',
+      renderer: '@junk-temporary-prototypes/html',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -237,9 +237,9 @@ const baseTemplates = {
     name: 'HTML Vite TS',
     script: 'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
     expected: {
-      framework: '@storybook/html-vite',
-      renderer: '@storybook/html',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/html-vite',
+      renderer: '@junk-temporary-prototypes/html',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -247,9 +247,9 @@ const baseTemplates = {
     name: 'Svelte Vite (JS)',
     script: 'yarn create vite . --template svelte',
     expected: {
-      framework: '@storybook/svelte-vite',
-      renderer: '@storybook/svelte',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/svelte-vite',
+      renderer: '@junk-temporary-prototypes/svelte',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -257,9 +257,9 @@ const baseTemplates = {
     name: 'Svelte Vite (TS)',
     script: 'yarn create vite . --template svelte-ts',
     expected: {
-      framework: '@storybook/svelte-vite',
-      renderer: '@storybook/svelte',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/svelte-vite',
+      renderer: '@junk-temporary-prototypes/svelte',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
@@ -269,9 +269,9 @@ const baseTemplates = {
     script:
       'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
-      framework: '@storybook/angular',
-      renderer: '@storybook/angular',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/angular',
+      renderer: '@junk-temporary-prototypes/angular',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -280,9 +280,9 @@ const baseTemplates = {
     script:
       'npx -p @angular/cli@14 ng new angular-v14 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
-      framework: '@storybook/angular',
-      renderer: '@storybook/angular',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/angular',
+      renderer: '@junk-temporary-prototypes/angular',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -291,9 +291,9 @@ const baseTemplates = {
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
-      framework: '@storybook/sveltekit',
-      renderer: '@storybook/svelte',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/sveltekit',
+      renderer: '@junk-temporary-prototypes/svelte',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -302,9 +302,9 @@ const baseTemplates = {
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
-      framework: '@storybook/sveltekit',
-      renderer: '@storybook/svelte',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/sveltekit',
+      renderer: '@junk-temporary-prototypes/svelte',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -313,9 +313,9 @@ const baseTemplates = {
     script:
       'npm create vite@latest --yes . -- --template lit && echo "export default {}" > vite.config.js',
     expected: {
-      framework: '@storybook/web-components-vite',
-      renderer: '@storybook/web-components',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/web-components-vite',
+      renderer: '@junk-temporary-prototypes/web-components',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
@@ -325,9 +325,9 @@ const baseTemplates = {
     script:
       'npm create vite@latest --yes . -- --template lit-ts && echo "export default {}" > vite.config.js',
     expected: {
-      framework: '@storybook/web-components-vite',
-      renderer: '@storybook/web-components',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/web-components-vite',
+      renderer: '@junk-temporary-prototypes/web-components',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
@@ -336,9 +336,9 @@ const baseTemplates = {
     name: 'Vue-CLI (Default JS)',
     script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
     expected: {
-      framework: '@storybook/vue3-webpack5',
-      renderer: '@storybook/vue3',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/vue3-webpack5',
+      renderer: '@junk-temporary-prototypes/vue3',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
@@ -348,9 +348,9 @@ const baseTemplates = {
     script:
       'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"',
     expected: {
-      framework: '@storybook/vue-webpack5',
-      renderer: '@storybook/vue',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/vue-webpack5',
+      renderer: '@junk-temporary-prototypes/vue',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
@@ -359,9 +359,9 @@ const baseTemplates = {
     name: 'Preact CLI (Default JS)',
     script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install',
     expected: {
-      framework: '@storybook/preact-webpack5',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/preact-webpack5',
+      renderer: '@junk-temporary-prototypes/preact',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -369,9 +369,9 @@ const baseTemplates = {
     name: 'Preact CLI (Default TS)',
     script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install',
     expected: {
-      framework: '@storybook/preact-webpack5',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-webpack5',
+      framework: '@junk-temporary-prototypes/preact-webpack5',
+      renderer: '@junk-temporary-prototypes/preact',
+      builder: '@junk-temporary-prototypes/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -379,9 +379,9 @@ const baseTemplates = {
     name: 'Preact Vite (JS)',
     script: 'yarn create vite . --template preact',
     expected: {
-      framework: '@storybook/preact-vite',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/preact-vite',
+      renderer: '@junk-temporary-prototypes/preact',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },
@@ -389,9 +389,9 @@ const baseTemplates = {
     name: 'Preact Vite (TS)',
     script: 'yarn create vite . --template preact-ts',
     expected: {
-      framework: '@storybook/preact-vite',
-      renderer: '@storybook/preact',
-      builder: '@storybook/builder-vite',
+      framework: '@junk-temporary-prototypes/preact-vite',
+      renderer: '@junk-temporary-prototypes/preact',
+      builder: '@junk-temporary-prototypes/builder-vite',
     },
     skipTasks: ['e2e-tests-dev'],
   },

@@ -1,4 +1,4 @@
 // DEPRECATED
-// Do not import @storybook/source-loader/extract-source directly.
-// Import @storybook/source-loader instead.
+// Do not import @junk-temporary-prototypes/source-loader/extract-source directly.
+// Import @junk-temporary-prototypes/source-loader instead.
 export * from './dist/index';

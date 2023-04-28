@@ -1,7 +1,7 @@
 import fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 import { pathExistsSync } from 'fs-extra';
 import { join } from 'path';
@@ -146,7 +146,7 @@ export function isStorybookInstalled(
     if (
       SUPPORTED_RENDERERS.reduce(
         (storybookPresent, framework) =>
-          storybookPresent || !!dependencies.devDependencies[`@storybook/${framework}`],
+          storybookPresent || !!dependencies.devDependencies[`@junk-temporary-prototypes/${framework}`],
         false
       )
     ) {

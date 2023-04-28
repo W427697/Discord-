@@ -7,7 +7,7 @@ import type { ExtendedOptions } from './types';
 
 export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets, frameworkPath, framework } = options;
-  const frameworkImportPath = frameworkPath || `@storybook/${framework}`;
+  const frameworkImportPath = frameworkPath || `@junk-temporary-prototypes/${framework}`;
 
   const presetEntries = await presets.apply('config', [], options);
   const configEntries = [...presetEntries].filter(Boolean);
@@ -31,8 +31,8 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender
-    } from '@storybook/client-api';
-    import { logger } from '@storybook/client-logger';
+    } from '@junk-temporary-prototypes/client-api';
+    import { logger } from '@junk-temporary-prototypes/client-logger';
     ${absoluteFilesToImport(configEntries, 'config')}
     import * as preview from '${virtualPreviewFile}';
     import { configStories } from '${virtualStoriesFile}';

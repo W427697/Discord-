@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 import { dedent } from 'ts-dedent';
 import { render as litRender } from 'lit';
 // Keep `.js` extension to avoid issue with Webpack (related to export map?)
 
 import { isTemplateResult } from 'lit/directive-helpers.js';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@junk-temporary-prototypes/preview-api';
+import type { RenderContext, ArgsStoryFn } from '@junk-temporary-prototypes/types';
 import type { WebComponentsRenderer } from './types';
 
 const { Node } = global;

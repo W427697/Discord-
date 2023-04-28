@@ -9,10 +9,10 @@ import {
   TooltipNote,
   WithTooltip,
   Bar,
-} from '@storybook/components';
-import type { Call, ControlStates } from '@storybook/instrumenter';
-import { CallStates } from '@storybook/instrumenter';
-import { styled } from '@storybook/theming';
+} from '@junk-temporary-prototypes/components';
+import type { Call, ControlStates } from '@junk-temporary-prototypes/instrumenter';
+import { CallStates } from '@junk-temporary-prototypes/instrumenter';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 import { StatusBadge } from './StatusBadge';
 

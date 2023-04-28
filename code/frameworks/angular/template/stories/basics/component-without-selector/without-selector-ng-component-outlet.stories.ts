@@ -1,5 +1,5 @@
 import { OnInit, Type, Component, Injector, Input } from '@angular/core';
-import { StoryFn, Meta, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { StoryFn, Meta, componentWrapperDecorator, moduleMetadata } from '@junk-temporary-prototypes/angular';
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
 export default {

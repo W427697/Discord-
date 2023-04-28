@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
-import { within, userEvent } from '@storybook/testing-library';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/vue3';
+import { within, userEvent } from '@junk-temporary-prototypes/testing-library';
 import MyPage from './Page.vue';
 
 const meta: Meta<typeof MyPage> = {

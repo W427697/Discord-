@@ -1,4 +1,4 @@
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import betterOpn from 'better-opn'; // betterOpn alias used because also loading open
 import open from 'open';
 import getDefaultBrowser from '@aw-web-design/x-default-browser';

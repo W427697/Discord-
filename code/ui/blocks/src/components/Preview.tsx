@@ -1,11 +1,11 @@
 import type { ClipboardEvent, FC, ReactElement, ReactNode } from 'react';
 import React, { Children, useCallback, useState } from 'react';
 import { darken } from 'polished';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
-import { global } from '@storybook/global';
-import { ActionBar, Zoom } from '@storybook/components';
-import type { ActionItem } from '@storybook/components';
+import { global } from '@junk-temporary-prototypes/global';
+import { ActionBar, Zoom } from '@junk-temporary-prototypes/components';
+import type { ActionItem } from '@junk-temporary-prototypes/components';
 
 import type { SourceProps } from '.';
 // eslint-disable-next-line import/no-cycle
@@ -208,7 +208,7 @@ export const Preview: FC<PreviewProps> = ({
   const { window: globalWindow } = global;
 
   const copyToClipboard = useCallback(async (text: string) => {
-    const { createCopyToClipboardFunction } = await import('@storybook/components');
+    const { createCopyToClipboardFunction } = await import('@junk-temporary-prototypes/components');
     createCopyToClipboardFunction();
   }, []);
 

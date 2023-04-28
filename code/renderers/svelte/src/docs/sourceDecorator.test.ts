@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import type { Args } from '@storybook/types';
+import type { Args } from '@junk-temporary-prototypes/types';
 import { generateSvelteSource } from './sourceDecorator';
 
 expect.addSnapshotSerializer({

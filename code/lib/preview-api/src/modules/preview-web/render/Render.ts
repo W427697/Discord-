@@ -1,4 +1,4 @@
-import type { StoryId, Renderer, StoryRenderOptions } from '@storybook/types';
+import type { StoryId, Renderer, StoryRenderOptions } from '@junk-temporary-prototypes/types';
 
 export type RenderType = 'story' | 'docs';
 

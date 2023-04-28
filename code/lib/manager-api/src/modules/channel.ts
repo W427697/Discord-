@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
-import type { Listener } from '@storybook/channels';
+import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@junk-temporary-prototypes/core-events';
+import type { Listener } from '@junk-temporary-prototypes/channels';
 
-import type { API_Provider } from '@storybook/types';
+import type { API_Provider } from '@junk-temporary-prototypes/types';
 import type { API, ModuleFn } from '../index';
 
 export interface SubAPI {

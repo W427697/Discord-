@@ -9,8 +9,8 @@ import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import slash from 'slash';
 
-import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
-import { globals } from '@storybook/preview/globals';
+import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@junk-temporary-prototypes/types';
+import { globals } from '@junk-temporary-prototypes/preview/globals';
 import {
   getBuilderOptions,
   getRendererName,
@@ -21,8 +21,8 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
   isPreservingSymlinks,
-} from '@storybook/core-common';
-import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+} from '@junk-temporary-prototypes/core-common';
+import { toRequireContextString, toImportFn } from '@junk-temporary-prototypes/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
@@ -30,7 +30,7 @@ import { createBabelLoader } from './babel-loader-preview';
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
 const storybookPaths: Record<string, string> = {
-  global: wrapForPnP('@storybook/global'),
+  global: wrapForPnP('@junk-temporary-prototypes/global'),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
@@ -42,12 +42,12 @@ const storybookPaths: Record<string, string> = {
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
+      [`@junk-temporary-prototypes/${sbPackage}`]: wrapForPnP(`@junk-temporary-prototypes/${sbPackage}`),
     }),
     {}
   ),
   // deprecated, remove in 8.0
-  [`@storybook/api`]: wrapForPnP(`@storybook/manager-api`),
+  [`@junk-temporary-prototypes/api`]: wrapForPnP(`@junk-temporary-prototypes/manager-api`),
 };
 
 export default async (
@@ -135,7 +135,7 @@ export default async (
     virtualModuleMapping[configEntryPath] = handlebars(
       await readTemplate(
         require.resolve(
-          '@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
+          '@junk-temporary-prototypes/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
         )
       ),
       {
@@ -232,7 +232,7 @@ export default async (
         message: /export '\S+' was not found in 'global'/,
       },
       {
-        message: /export '\S+' was not found in '@storybook\/global'/,
+        message: /export '\S+' was not found in '@junk-temporary-prototypes\/global'/,
       },
     ],
     plugins: [

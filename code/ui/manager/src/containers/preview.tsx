@@ -1,8 +1,8 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import React from 'react';
 
-import type { Combo, StoriesHash } from '@storybook/manager-api';
-import { Consumer } from '@storybook/manager-api';
+import type { Combo, StoriesHash } from '@junk-temporary-prototypes/manager-api';
+import { Consumer } from '@junk-temporary-prototypes/manager-api';
 
 import { Preview } from '../components/preview/preview';
 

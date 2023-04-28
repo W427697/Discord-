@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { angular12 } from './angular12';
@@ -26,7 +26,7 @@ describe('angular12 fix', () => {
   describe('sb < 6.3', () => {
     describe('angular12 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/angular': '^6.2.0', '@angular/core': '^12.0.0' },
+        dependencies: { '@junk-temporary-prototypes/angular': '^6.2.0', '@angular/core': '^12.0.0' },
       };
       it('should fail', async () => {
         await expect(
@@ -38,7 +38,7 @@ describe('angular12 fix', () => {
       });
     });
     describe('no angular dependency', () => {
-      const packageJson = { dependencies: { '@storybook/angular': '^6.2.0' } };
+      const packageJson = { dependencies: { '@junk-temporary-prototypes/angular': '^6.2.0' } };
       it('should no-op', async () => {
         await expect(
           checkAngular12({
@@ -52,7 +52,7 @@ describe('angular12 fix', () => {
   describe('sb 6.3 - 7.0', () => {
     describe('angular12 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/angular': '^6.3.0', '@angular/core': '^12.0.0' },
+        dependencies: { '@junk-temporary-prototypes/angular': '^6.3.0', '@angular/core': '^12.0.0' },
       };
       describe('webpack5 builder', () => {
         it('should no-op', async () => {
@@ -116,7 +116,7 @@ describe('angular12 fix', () => {
   describe('sb 7.0+', () => {
     describe('angular12 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/angular': '^7.0.0-alpha.0', '@angular/core': '^12.0.0' },
+        dependencies: { '@junk-temporary-prototypes/angular': '^7.0.0-alpha.0', '@angular/core': '^12.0.0' },
       };
       it('should no-op', async () => {
         await expect(

@@ -59,7 +59,7 @@ module.exports = {
   },
   transform: {
     '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
-    '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
+    '^.+\\.mdx$': '@junk-temporary-prototypes/addon-docs/jest-transform-mdx',
   },
   transformIgnorePatterns: [`(?<!node_modules.+)node_modules/(?!${modulesToTransform.join('|')})`],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],

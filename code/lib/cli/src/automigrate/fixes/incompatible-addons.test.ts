@@ -1,6 +1,6 @@
 /// <reference types="@types/jest" />;
 
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { incompatibleAddons } from './incompatible-addons';
@@ -32,11 +32,11 @@ describe('incompatible-addons fix', () => {
     jest.spyOn(packageVersions, 'getActualPackageVersions').mockReturnValueOnce(
       Promise.resolve([
         {
-          name: '@storybook/addon-essentials',
+          name: '@junk-temporary-prototypes/addon-essentials',
           version: '7.0.0',
         },
         {
-          name: '@storybook/addon-info',
+          name: '@junk-temporary-prototypes/addon-info',
           version: '5.3.21',
         },
       ])
@@ -44,16 +44,16 @@ describe('incompatible-addons fix', () => {
 
     const packageJson = {
       dependencies: {
-        '@storybook/addon-essentials': '^7.0.0',
-        '@storybook/addon-info': '^6.0.0',
+        '@junk-temporary-prototypes/addon-essentials': '^7.0.0',
+        '@junk-temporary-prototypes/addon-info': '^6.0.0',
       },
     };
     await expect(
-      check({ packageJson, main: { addons: ['@storybook/essentials', '@storybook/addon-info'] } })
+      check({ packageJson, main: { addons: ['@junk-temporary-prototypes/essentials', '@junk-temporary-prototypes/addon-info'] } })
     ).resolves.toEqual({
       incompatibleAddonList: [
         {
-          name: '@storybook/addon-info',
+          name: '@junk-temporary-prototypes/addon-info',
           version: '5.3.21',
         },
       ],
@@ -64,17 +64,17 @@ describe('incompatible-addons fix', () => {
     jest.spyOn(packageVersions, 'getActualPackageVersions').mockReturnValueOnce(
       Promise.resolve([
         {
-          name: '@storybook/addon-essentials',
+          name: '@junk-temporary-prototypes/addon-essentials',
           version: '7.0.0',
         },
       ])
     );
 
     const packageJson = {
-      dependencies: { '@storybook/addon-essentials': '^7.0.0' },
+      dependencies: { '@junk-temporary-prototypes/addon-essentials': '^7.0.0' },
     };
     await expect(
-      check({ packageJson, main: { addons: ['@storybook/essentials'] } })
+      check({ packageJson, main: { addons: ['@junk-temporary-prototypes/essentials'] } })
     ).resolves.toBeNull();
   });
 });

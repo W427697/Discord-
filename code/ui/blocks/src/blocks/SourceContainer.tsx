@@ -2,11 +2,11 @@ import type { FC, Context, PropsWithChildren } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 
 import { dequal as deepEqual } from 'dequal';
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@junk-temporary-prototypes/channels';
 
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
-import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
-import type { StoryId, Args } from '@storybook/types';
+import { SNIPPET_RENDERED } from '@junk-temporary-prototypes/docs-tools';
+import type { SyntaxHighlighterFormatTypes } from '@junk-temporary-prototypes/components';
+import type { StoryId, Args } from '@junk-temporary-prototypes/types';
 
 import { stringify } from 'telejson';
 

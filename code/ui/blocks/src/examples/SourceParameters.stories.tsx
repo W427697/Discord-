@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { SourceType } from '@storybook/docs-tools';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/react';
+import { SourceType } from '@junk-temporary-prototypes/docs-tools';
 
-import type { StoryContext } from '@storybook/types';
+import type { StoryContext } from '@junk-temporary-prototypes/types';
 
 import dedent from 'ts-dedent';
 import { EmptyExample } from './EmptyExample';

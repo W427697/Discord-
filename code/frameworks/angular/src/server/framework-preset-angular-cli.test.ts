@@ -1,6 +1,6 @@
 import path from 'path';
 import { Configuration } from 'webpack';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import { normalize, getSystemPath } from '@angular-devkit/core';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { webpackFinal } from './framework-preset-angular-cli';
@@ -804,16 +804,16 @@ const newWebpackConfiguration = (
       modules: ['node_modules'],
       mainFields: ['browser', 'main'],
       alias: {
-        '@storybook/preview-api': '/Users/joe/storybook/lib/addons',
-        '@storybook/manager-api': '/Users/joe/storybook/lib/api',
-        '@storybook/channels': '/Users/joe/storybook/lib/channels',
-        '@storybook/channel-postmessage': '/Users/joe/storybook/lib/channel-postmessage',
-        '@storybook/components': '/Users/joe/storybook/ui/components',
-        '@storybook/core-events': '/Users/joe/storybook/lib/core-events',
-        '@storybook/router': '/Users/joe/storybook/lib/router',
-        '@storybook/theming': '/Users/joe/storybook/lib/theming',
-        '@storybook/client-api': '/Users/joe/storybook/lib/client-api',
-        '@storybook/client-logger': '/Users/joe/storybook/lib/client-logger',
+        '@junk-temporary-prototypes/preview-api': '/Users/joe/storybook/lib/addons',
+        '@junk-temporary-prototypes/manager-api': '/Users/joe/storybook/lib/api',
+        '@junk-temporary-prototypes/channels': '/Users/joe/storybook/lib/channels',
+        '@junk-temporary-prototypes/channel-postmessage': '/Users/joe/storybook/lib/channel-postmessage',
+        '@junk-temporary-prototypes/components': '/Users/joe/storybook/ui/components',
+        '@junk-temporary-prototypes/core-events': '/Users/joe/storybook/lib/core-events',
+        '@junk-temporary-prototypes/router': '/Users/joe/storybook/lib/router',
+        '@junk-temporary-prototypes/theming': '/Users/joe/storybook/lib/theming',
+        '@junk-temporary-prototypes/client-api': '/Users/joe/storybook/lib/client-api',
+        '@junk-temporary-prototypes/client-logger': '/Users/joe/storybook/lib/client-logger',
         react: '/Users/joe/storybook/node_modules/react',
         'react-dom': '/Users/joe/storybook/node_modules/react-dom',
       },

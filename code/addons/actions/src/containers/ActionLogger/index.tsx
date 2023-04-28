@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { dequal as deepEqual } from 'dequal';
 
-import type { API } from '@storybook/manager-api';
-import { STORY_CHANGED } from '@storybook/core-events';
+import type { API } from '@junk-temporary-prototypes/manager-api';
+import { STORY_CHANGED } from '@junk-temporary-prototypes/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
 import type { ActionDisplay } from '../../models';

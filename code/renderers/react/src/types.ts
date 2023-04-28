@@ -1,8 +1,8 @@
 import type { ComponentType, ReactElement } from 'react';
-import type { WebRenderer } from '@storybook/types';
+import type { WebRenderer } from '@junk-temporary-prototypes/types';
 
-export type { RenderContext } from '@storybook/types';
-export type { StoryContext } from '@storybook/types';
+export type { RenderContext } from '@junk-temporary-prototypes/types';
+export type { StoryContext } from '@junk-temporary-prototypes/types';
 
 /**
  * @deprecated Use `ReactRenderer` instead.

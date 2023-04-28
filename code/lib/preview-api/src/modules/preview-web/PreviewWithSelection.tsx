@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import {
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
@@ -17,8 +17,8 @@ import {
   STORY_THREW_EXCEPTION,
   STORY_UNCHANGED,
   UPDATE_QUERY_PARAMS,
-} from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/core-events';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import type {
   Renderer,
   Args,
@@ -29,7 +29,7 @@ import type {
   StoryId,
   ViewMode,
   DocsIndexEntry,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 
 import type { MaybePromise } from './Preview';
 import { Preview } from './Preview';

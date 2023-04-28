@@ -2,9 +2,9 @@ import type { FC } from 'react';
 import React, { useState, Fragment, useCallback, useMemo, memo } from 'react';
 import memoize from 'memoizerific';
 
-import { useParameter, useGlobals } from '@storybook/manager-api';
-import { logger } from '@storybook/client-logger';
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { useParameter, useGlobals } from '@junk-temporary-prototypes/manager-api';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@junk-temporary-prototypes/components';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import { ColorIcon } from '../components/ColorIcon';

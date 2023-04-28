@@ -1,5 +1,5 @@
 import { expect, describe, it } from '@jest/globals';
-import type { StoryId, StoryIndexEntry } from '@storybook/types';
+import type { StoryId, StoryIndexEntry } from '@junk-temporary-prototypes/types';
 
 import { storySort } from './storySort';
 

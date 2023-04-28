@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { renderElement, unmountElement } from '@storybook/react-dom-shim';
-import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
-import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
+import { renderElement, unmountElement } from '@junk-temporary-prototypes/react-dom-shim';
+import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@junk-temporary-prototypes/types';
+import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@junk-temporary-prototypes/blocks';
 
 // TS doesn't like that we export a component with types that it doesn't know about (TS4203)
 export const defaultComponents: Record<string, any> = {

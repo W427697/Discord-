@@ -10,13 +10,13 @@ import type {
   StoryContext as GenericStoryContext,
   StrictArgs,
   ProjectAnnotations,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { Component } from 'vue';
 import type { ExtendedVue } from 'vue/types/vue';
 import type { VueRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@junk-temporary-prototypes/types';
 export type { VueRenderer };
 
 /**

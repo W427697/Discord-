@@ -1,6 +1,6 @@
-import { global as globalThis } from '@storybook/global';
+import { global as globalThis } from '@junk-temporary-prototypes/global';
 
-import { actions, configureActions } from '@storybook/addon-actions';
+import { actions, configureActions } from '@junk-temporary-prototypes/addon-actions';
 
 const configs = actions('actionA', 'actionB', 'actionC');
 

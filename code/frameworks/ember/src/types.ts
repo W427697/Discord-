@@ -1,15 +1,15 @@
 import type {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
-} from '@storybook/core-webpack';
+} from '@junk-temporary-prototypes/core-webpack';
 import type {
   StorybookConfigWebpack,
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
-} from '@storybook/builder-webpack5';
+} from '@junk-temporary-prototypes/builder-webpack5';
 
-type FrameworkName = '@storybook/ember-webpack5';
-type BuilderName = '@storybook/builder-webpack5';
+type FrameworkName = '@junk-temporary-prototypes/ember-webpack5';
+type BuilderName = '@junk-temporary-prototypes/builder-webpack5';
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;

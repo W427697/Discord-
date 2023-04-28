@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { mdxgfm } from './mdx-gfm';
@@ -50,13 +50,13 @@ describe('no-ops', () => {
         main: {
           addons: [
             {
-              name: '@storybook/addon-essentials',
+              name: '@junk-temporary-prototypes/addon-essentials',
               options: {
                 docs: false,
               },
             },
             {
-              name: '@storybook/addon-docs',
+              name: '@junk-temporary-prototypes/addon-docs',
               options: {
                 mdxPluginOptions: {
                   mdxCompileOptions: {
@@ -75,7 +75,7 @@ describe('no-ops', () => {
       check({
         packageJson,
         main: {
-          addons: ['@storybook/addon-mdx-gfm'],
+          addons: ['@junk-temporary-prototypes/addon-mdx-gfm'],
         },
       })
     ).resolves.toBeFalsy();
@@ -99,13 +99,13 @@ describe('continue', () => {
         main: {
           addons: [
             {
-              name: '@storybook/addon-essentials',
+              name: '@junk-temporary-prototypes/addon-essentials',
               options: {
                 docs: false,
               },
             },
             {
-              name: '@storybook/addon-docs',
+              name: '@junk-temporary-prototypes/addon-docs',
               options: {},
             },
           ],
@@ -118,7 +118,7 @@ describe('continue', () => {
       check({
         packageJson,
         main: {
-          addons: ['@storybook/addon-essentials'],
+          addons: ['@junk-temporary-prototypes/addon-essentials'],
         },
       })
     ).resolves.toBeTruthy();

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { action } from '@storybook/addon-actions';
+import { action } from '@junk-temporary-prototypes/addon-actions';
 import Panel from './panel';
 import { panels, shortcuts } from '../layout/app.mockdata';
 

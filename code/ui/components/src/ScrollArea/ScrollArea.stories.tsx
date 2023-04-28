@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { ScrollArea } from './ScrollArea';
 
 const Block = styled.span({

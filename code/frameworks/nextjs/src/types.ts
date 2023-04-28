@@ -2,15 +2,15 @@ import type {
   ReactOptions,
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
-} from '@storybook/preset-react-webpack';
+} from '@junk-temporary-prototypes/preset-react-webpack';
 import type {
   StorybookConfigWebpack,
   BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
-} from '@storybook/builder-webpack5';
+} from '@junk-temporary-prototypes/builder-webpack5';
 
-type FrameworkName = '@storybook/nextjs';
-type BuilderName = '@storybook/builder-webpack5';
+type FrameworkName = '@junk-temporary-prototypes/nextjs';
+type BuilderName = '@junk-temporary-prototypes/builder-webpack5';
 
 export type FrameworkOptions = ReactOptions & {
   nextConfigPath?: string;

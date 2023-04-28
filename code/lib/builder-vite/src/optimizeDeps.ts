@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { normalizePath, resolveConfig } from 'vite';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
-import type { Options } from '@storybook/types';
+import type { Options } from '@junk-temporary-prototypes/types';
 import { listStories } from './list-stories';
 
 const INCLUDE_CANDIDATES = [
@@ -10,22 +10,22 @@ const INCLUDE_CANDIDATES = [
   '@emotion/is-prop-valid',
   '@emotion/styled',
   '@mdx-js/react',
-  '@storybook/addon-docs > acorn-jsx',
-  '@storybook/addon-docs',
-  '@storybook/addon-essentials/docs/mdx-react-shim',
-  '@storybook/channel-postmessage',
-  '@storybook/channel-websocket',
-  '@storybook/client-api',
-  '@storybook/client-logger',
-  '@storybook/core/client',
-  '@storybook/global',
-  '@storybook/preview-api',
-  '@storybook/preview-web',
-  '@storybook/react > acorn-jsx',
-  '@storybook/react',
-  '@storybook/svelte',
-  '@storybook/types',
-  '@storybook/vue3',
+  '@junk-temporary-prototypes/addon-docs > acorn-jsx',
+  '@junk-temporary-prototypes/addon-docs',
+  '@junk-temporary-prototypes/addon-essentials/docs/mdx-react-shim',
+  '@junk-temporary-prototypes/channel-postmessage',
+  '@junk-temporary-prototypes/channel-websocket',
+  '@junk-temporary-prototypes/client-api',
+  '@junk-temporary-prototypes/client-logger',
+  '@junk-temporary-prototypes/core/client',
+  '@junk-temporary-prototypes/global',
+  '@junk-temporary-prototypes/preview-api',
+  '@junk-temporary-prototypes/preview-web',
+  '@junk-temporary-prototypes/react > acorn-jsx',
+  '@junk-temporary-prototypes/react',
+  '@junk-temporary-prototypes/svelte',
+  '@junk-temporary-prototypes/types',
+  '@junk-temporary-prototypes/vue3',
   'acorn-jsx',
   'acorn-walk',
   'acorn',

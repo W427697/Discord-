@@ -2,7 +2,7 @@ import { dedent } from 'ts-dedent';
 import { promise as glob } from 'glob-promise';
 import path from 'path';
 import slash from 'slash';
-import { once } from '@storybook/node-logger';
+import { once } from '@junk-temporary-prototypes/node-logger';
 
 import { boost } from './interpret-files';
 

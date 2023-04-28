@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
-import type { PackageJson } from '@storybook/types';
-import { getProjectRoot } from '@storybook/core-common';
+import type { PackageJson } from '@junk-temporary-prototypes/types';
+import { getProjectRoot } from '@junk-temporary-prototypes/core-common';
 
 export const monorepoConfigs = {
   Nx: 'nx.json',

@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes, FC, MouseEvent } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { darken } from 'polished';
 
 import { Icons } from '../../icon/icon';

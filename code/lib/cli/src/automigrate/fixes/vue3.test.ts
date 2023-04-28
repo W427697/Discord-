@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { vue3 } from './vue3';
@@ -25,7 +25,7 @@ describe('vue3 fix', () => {
   describe('sb < 6.3', () => {
     describe('vue3 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/vue': '^6.2.0', vue: '^3.0.0' },
+        dependencies: { '@junk-temporary-prototypes/vue': '^6.2.0', vue: '^3.0.0' },
       };
       it('should fail', async () => {
         await expect(
@@ -37,7 +37,7 @@ describe('vue3 fix', () => {
       });
     });
     describe('no vue dependency', () => {
-      const packageJson = { dependencies: { '@storybook/vue': '^6.2.0' } };
+      const packageJson = { dependencies: { '@junk-temporary-prototypes/vue': '^6.2.0' } };
       it('should no-op', async () => {
         await expect(
           checkVue3({
@@ -51,7 +51,7 @@ describe('vue3 fix', () => {
   describe('sb 6.3 - 7.0', () => {
     describe('vue3 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/vue': '^6.3.0', vue: '^3.0.0' },
+        dependencies: { '@junk-temporary-prototypes/vue': '^6.3.0', vue: '^3.0.0' },
       };
       describe('webpack5 builder', () => {
         it('should no-op', async () => {
@@ -130,7 +130,7 @@ describe('vue3 fix', () => {
   describe('sb 7.0+', () => {
     describe('vue3 dependency', () => {
       const packageJson = {
-        dependencies: { '@storybook/vue': '^7.0.0-alpha.0', vue: '^3.0.0' },
+        dependencies: { '@junk-temporary-prototypes/vue': '^7.0.0-alpha.0', vue: '^3.0.0' },
       };
       it('should no-op', async () => {
         await expect(

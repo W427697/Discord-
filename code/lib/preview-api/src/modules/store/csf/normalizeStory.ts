@@ -7,10 +7,10 @@ import type {
   StoryAnnotations,
   StoryFn,
   StoryId,
-} from '@storybook/types';
-import { storyNameFromExport, toId } from '@storybook/csf';
+} from '@junk-temporary-prototypes/types';
+import { storyNameFromExport, toId } from '@junk-temporary-prototypes/csf';
 import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/client-logger';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import deprecate from 'util-deprecate';
 import { normalizeInputTypes } from './normalizeInputTypes';
 

@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/client-logger",
+  "name": "@junk-temporary-prototypes/client-logger",
   "version": "7.0.7",
   "description": "",
   "keywords": [
@@ -43,7 +43,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/global": "^5.0.0"
+    "@junk-temporary-prototypes/global": "^5.0.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

@@ -3,7 +3,7 @@ import { dedent } from 'ts-dedent';
 import * as path from 'path';
 import * as fs from 'fs';
 import { preprocess } from 'svelte/compiler';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 // From https://github.com/sveltejs/svelte/blob/8db3e8d0297e052556f0b6dde310ef6e197b8d18/src/compiler/compile/utils/get_name_from_filename.ts
 // Copied because it is not exported from the compiler

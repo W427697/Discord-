@@ -3,8 +3,8 @@ import { dirname, join } from 'path';
 import findUp from 'find-up';
 
 import resolveFrom from 'resolve-from';
-import { logger } from '@storybook/node-logger';
-import type { Options, Ref } from '@storybook/types';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import type { Options, Ref } from '@junk-temporary-prototypes/types';
 
 export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>> => {
   const location = await findUp('package.json', { cwd: options.configDir });

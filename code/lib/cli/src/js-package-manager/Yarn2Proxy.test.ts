@@ -62,28 +62,28 @@ describe('Yarn 2 Proxy', () => {
   });
 
   describe('addDependencies', () => {
-    it('with devDep it should run `yarn install -D @storybook/preview-api`', () => {
+    it('with devDep it should run `yarn install -D @junk-temporary-prototypes/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
 
-      yarn2Proxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
+      yarn2Proxy.addDependencies({ installAsDevDependencies: true }, ['@junk-temporary-prototypes/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         'yarn',
-        ['add', '-D', '@storybook/preview-api'],
+        ['add', '-D', '@junk-temporary-prototypes/preview-api'],
         expect.any(String)
       );
     });
   });
 
   describe('removeDependencies', () => {
-    it('should run `yarn remove @storybook/preview-api`', () => {
+    it('should run `yarn remove @junk-temporary-prototypes/preview-api`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
 
-      yarn2Proxy.removeDependencies({}, ['@storybook/preview-api']);
+      yarn2Proxy.removeDependencies({}, ['@junk-temporary-prototypes/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         'yarn',
-        ['remove', '@storybook/preview-api'],
+        ['remove', '@junk-temporary-prototypes/preview-api'],
         expect.any(String)
       );
     });
@@ -99,17 +99,17 @@ describe('Yarn 2 Proxy', () => {
           skipInstall: true,
           packageJson: {
             devDependencies: {
-              '@storybook/manager-webpack5': 'x.x.x',
-              '@storybook/react': 'x.x.x',
+              '@junk-temporary-prototypes/manager-webpack5': 'x.x.x',
+              '@junk-temporary-prototypes/react': 'x.x.x',
             },
           },
         },
-        ['@storybook/manager-webpack5']
+        ['@junk-temporary-prototypes/manager-webpack5']
       );
 
       expect(writePackageSpy).toHaveBeenCalledWith({
         devDependencies: {
-          '@storybook/react': 'x.x.x',
+          '@junk-temporary-prototypes/react': 'x.x.x',
         },
       });
       expect(executeCommandSpy).not.toHaveBeenCalled();
@@ -120,14 +120,14 @@ describe('Yarn 2 Proxy', () => {
     it('without constraint it returns the latest version', async () => {
       const executeCommandSpy = jest
         .spyOn(yarn2Proxy, 'executeCommand')
-        .mockReturnValue('{"name":"@storybook/preview-api","version":"5.3.19"}');
+        .mockReturnValue('{"name":"@junk-temporary-prototypes/preview-api","version":"5.3.19"}');
 
-      const version = await yarn2Proxy.latestVersion('@storybook/preview-api');
+      const version = await yarn2Proxy.latestVersion('@junk-temporary-prototypes/preview-api');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
         'npm',
         'info',
-        '@storybook/preview-api',
+        '@junk-temporary-prototypes/preview-api',
         '--fields',
         'version',
         '--json',
@@ -139,15 +139,15 @@ describe('Yarn 2 Proxy', () => {
       const executeCommandSpy = jest
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockReturnValue(
-          '{"name":"@storybook/preview-api","versions":["4.25.3","5.3.19","6.0.0-beta.23"]}'
+          '{"name":"@junk-temporary-prototypes/preview-api","versions":["4.25.3","5.3.19","6.0.0-beta.23"]}'
         );
 
-      const version = await yarn2Proxy.latestVersion('@storybook/preview-api', '5.X');
+      const version = await yarn2Proxy.latestVersion('@junk-temporary-prototypes/preview-api', '5.X');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
         'npm',
         'info',
-        '@storybook/preview-api',
+        '@junk-temporary-prototypes/preview-api',
         '--fields',
         'versions',
         '--json',
@@ -158,7 +158,7 @@ describe('Yarn 2 Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('NOT A JSON');
 
-      await expect(yarn2Proxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
+      await expect(yarn2Proxy.latestVersion('@junk-temporary-prototypes/preview-api')).rejects.toThrow();
     });
   });
 
@@ -196,30 +196,30 @@ describe('Yarn 2 Proxy', () => {
 
   describe('mapDependencies', () => {
     it('should display duplicated dependencies based on yarn2 output', async () => {
-      // yarn info --name-only --recursive "@storybook/*" "storybook"
+      // yarn info --name-only --recursive "@junk-temporary-prototypes/*" "storybook"
       jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue(`
       "unrelated-and-should-be-filtered@npm:1.0.0"
-      "@storybook/global@npm:5.0.0"
-      "@storybook/instrumenter@npm:7.0.0-beta.12"
-      "@storybook/instrumenter@npm:7.0.0-beta.19"
-      "@storybook/jest@npm:0.0.11-next.0"
-      "@storybook/manager-api@npm:7.0.0-beta.19"
-      "@storybook/manager@npm:7.0.0-beta.19"
-      "@storybook/mdx2-csf@npm:0.1.0-next.5"
+      "@junk-temporary-prototypes/global@npm:5.0.0"
+      "@junk-temporary-prototypes/instrumenter@npm:7.0.0-beta.12"
+      "@junk-temporary-prototypes/instrumenter@npm:7.0.0-beta.19"
+      "@junk-temporary-prototypes/jest@npm:0.0.11-next.0"
+      "@junk-temporary-prototypes/manager-api@npm:7.0.0-beta.19"
+      "@junk-temporary-prototypes/manager@npm:7.0.0-beta.19"
+      "@junk-temporary-prototypes/mdx2-csf@npm:0.1.0-next.5"
       `);
 
-      const installations = await yarn2Proxy.findInstallations(['@storybook/*']);
+      const installations = await yarn2Proxy.findInstallations(['@junk-temporary-prototypes/*']);
 
       expect(installations).toMatchInlineSnapshot(`
         Object {
           "dependencies": Object {
-            "@storybook/global": Array [
+            "@junk-temporary-prototypes/global": Array [
               Object {
                 "location": "",
                 "version": "5.0.0",
               },
             ],
-            "@storybook/instrumenter": Array [
+            "@junk-temporary-prototypes/instrumenter": Array [
               Object {
                 "location": "",
                 "version": "7.0.0-beta.12",
@@ -229,25 +229,25 @@ describe('Yarn 2 Proxy', () => {
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/jest": Array [
+            "@junk-temporary-prototypes/jest": Array [
               Object {
                 "location": "",
                 "version": "0.0.11-next.0",
               },
             ],
-            "@storybook/manager": Array [
+            "@junk-temporary-prototypes/manager": Array [
               Object {
                 "location": "",
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/manager-api": Array [
+            "@junk-temporary-prototypes/manager-api": Array [
               Object {
                 "location": "",
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/mdx2-csf": Array [
+            "@junk-temporary-prototypes/mdx2-csf": Array [
               Object {
                 "location": "",
                 "version": "0.1.0-next.5",
@@ -255,7 +255,7 @@ describe('Yarn 2 Proxy', () => {
             ],
           },
           "duplicatedDependencies": Object {
-            "@storybook/instrumenter": Array [
+            "@junk-temporary-prototypes/instrumenter": Array [
               "7.0.0-beta.12",
               "7.0.0-beta.19",
             ],

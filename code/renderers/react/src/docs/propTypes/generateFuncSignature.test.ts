@@ -1,4 +1,4 @@
-import { parseJsDoc } from '@storybook/docs-tools';
+import { parseJsDoc } from '@junk-temporary-prototypes/docs-tools';
 import { generateFuncSignature, generateShortFuncSignature } from './generateFuncSignature';
 
 describe('generateFuncSignature', () => {

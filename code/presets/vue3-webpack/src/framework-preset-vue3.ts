@@ -1,6 +1,6 @@
 import { VueLoaderPlugin } from 'vue-loader';
 import { DefinePlugin } from 'webpack';
-import type { StorybookConfig } from '@storybook/core-webpack';
+import type { StorybookConfig } from '@junk-temporary-prototypes/core-webpack';
 
 export const webpack: StorybookConfig['webpack'] = (config) => {
   return {

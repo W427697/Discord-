@@ -1,4 +1,4 @@
-import type { Addon_StoryContext } from '@storybook/types';
+import type { Addon_StoryContext } from '@junk-temporary-prototypes/types';
 import { makeDecorator } from './make-decorator';
 
 // Copy & paste from internal api: client-api/src/client_api

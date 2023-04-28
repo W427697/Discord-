@@ -6,7 +6,7 @@ import type {
   StoryId,
   StoryName,
   ComponentTitle,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import memoize from 'memoizerific';
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';

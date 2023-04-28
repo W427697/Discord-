@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 
 import type { Fix } from '../types';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';

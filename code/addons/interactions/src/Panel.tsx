@@ -1,22 +1,22 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import * as React from 'react';
-import { useChannel, useParameter } from '@storybook/manager-api';
+import { useChannel, useParameter } from '@junk-temporary-prototypes/manager-api';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
-} from '@storybook/core-events';
+} from '@junk-temporary-prototypes/core-events';
 import {
   EVENTS,
   type Call,
   CallStates,
   type ControlStates,
   type LogItem,
-} from '@storybook/instrumenter';
+} from '@junk-temporary-prototypes/instrumenter';
 
-import type { StoryId } from '@storybook/types';
+import type { StoryId } from '@junk-temporary-prototypes/types';
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { TabIcon, TabStatus } from './components/TabStatus';
 

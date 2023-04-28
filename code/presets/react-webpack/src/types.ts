@@ -2,10 +2,10 @@ import type {
   WebpackConfiguration as WebpackConfigurationBase,
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsBase,
-} from '@storybook/core-webpack';
-import type { PluginOptions as ReactDocgenTypescriptOptions } from '@storybook/react-docgen-typescript-plugin';
+} from '@junk-temporary-prototypes/core-webpack';
+import type { PluginOptions as ReactDocgenTypescriptOptions } from '@junk-temporary-prototypes/react-docgen-typescript-plugin';
 
-export type { BuilderResult } from '@storybook/core-webpack';
+export type { BuilderResult } from '@junk-temporary-prototypes/core-webpack';
 
 export interface ReactOptions {
   fastRefresh?: boolean;

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import type { Combo, StoriesHash } from '@storybook/manager-api';
-import { Consumer } from '@storybook/manager-api';
+import type { Combo, StoriesHash } from '@junk-temporary-prototypes/manager-api';
+import { Consumer } from '@junk-temporary-prototypes/manager-api';
 
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './menu';

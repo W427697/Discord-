@@ -1,1 +1,1 @@
-export type { DocsContextProps } from '@storybook/types';
+export type { DocsContextProps } from '@junk-temporary-prototypes/types';

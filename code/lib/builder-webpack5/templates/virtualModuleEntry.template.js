@@ -9,7 +9,7 @@ import {
   addArgsEnhancer,
   addArgTypesEnhancer,
   setGlobalRender,
-} from '@storybook/preview-api';
+} from '@junk-temporary-prototypes/preview-api';
 import * as previewAnnotations from '{{previewAnnotationFilename}}';
 
 const config = previewAnnotations.default ?? previewAnnotations;

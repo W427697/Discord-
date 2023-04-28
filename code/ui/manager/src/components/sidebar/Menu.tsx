@@ -1,10 +1,10 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useMemo, useState } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { transparentize } from 'polished';
-import type { Button, TooltipLinkListLink } from '@storybook/components';
-import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
+import type { Button, TooltipLinkListLink } from '@junk-temporary-prototypes/components';
+import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@junk-temporary-prototypes/components';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -72,7 +72,7 @@ export interface ListItemIconProps {
 }
 
 /**
- * @deprecated Please use `Icons` from `@storybook/components` instead
+ * @deprecated Please use `Icons` from `@junk-temporary-prototypes/components` instead
  * Component will be removed in SB 8.0
  */
 export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {

@@ -1,9 +1,9 @@
 import { dirname, join } from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
-import type { Options, Preset } from '@storybook/core-webpack';
+import type { Options, Preset } from '@junk-temporary-prototypes/core-webpack';
 import type { StorybookConfig, ReactOptions } from './types';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
@@ -26,7 +26,7 @@ export const babel: StorybookConfig['babel'] = async (config, options) => {
     ],
   };
 };
-const storybookReactDirName = wrapForPnP('@storybook/preset-react-webpack');
+const storybookReactDirName = wrapForPnP('@junk-temporary-prototypes/preset-react-webpack');
 // TODO: improve node_modules detection
 const context = storybookReactDirName.includes('node_modules')
   ? join(storybookReactDirName, '../../') // Real life case, already in node_modules

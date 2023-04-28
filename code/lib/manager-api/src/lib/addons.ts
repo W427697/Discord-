@@ -1,7 +1,7 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import type { Channel } from '@storybook/channels';
-import { SET_CONFIG } from '@storybook/core-events';
+import type { Channel } from '@junk-temporary-prototypes/channels';
+import { SET_CONFIG } from '@junk-temporary-prototypes/core-events';
 import type {
   Addon_Collection,
   Addon_Config,
@@ -9,9 +9,9 @@ import type {
   Addon_Loaders,
   Addon_Type,
   Addon_Types,
-} from '@storybook/types';
-import { Addon_TypesEnum } from '@storybook/types';
-import { logger } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/types';
+import { Addon_TypesEnum } from '@junk-temporary-prototypes/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 import type { API } from '../index';
 import { mockChannel } from './storybook-channel-mock';
 

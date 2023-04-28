@@ -10,7 +10,7 @@ import type { JsPackageManager } from './js-package-manager';
 import versions from './versions';
 
 export function getCliDir() {
-  return dirname(require.resolve('@storybook/cli/package.json'));
+  return dirname(require.resolve('@junk-temporary-prototypes/cli/package.json'));
 }
 
 const resolveUsingBranchInstall = async (packageManager: JsPackageManager, request: string) => {
@@ -34,7 +34,7 @@ export async function getRendererDir(
 ) {
   const externalFramework = externalFrameworks.find((framework) => framework.name === renderer);
   const frameworkPackageName =
-    externalFramework?.renderer || externalFramework?.packageName || `@storybook/${renderer}`;
+    externalFramework?.renderer || externalFramework?.packageName || `@junk-temporary-prototypes/${renderer}`;
 
   const packageJsonPath = `${frameworkPackageName}/package.json`;
 

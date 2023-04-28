@@ -1,5 +1,5 @@
-import { addons } from '@storybook/preview-api';
-import { DOCS_RENDERED, STORY_CHANGED } from '@storybook/core-events';
+import { addons } from '@junk-temporary-prototypes/preview-api';
+import { DOCS_RENDERED, STORY_CHANGED } from '@junk-temporary-prototypes/core-events';
 import { AbstractRenderer } from './AbstractRenderer';
 import { StoryFnAngularReturnType, Parameters } from '../types';
 

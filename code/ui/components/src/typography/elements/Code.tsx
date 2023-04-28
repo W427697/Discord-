@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import type { ComponentProps } from 'react';
 import React, { Children } from 'react';
 import { SyntaxHighlighter } from '../../syntaxhighlighter/syntaxhighlighter';

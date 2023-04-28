@@ -2,7 +2,7 @@ import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
 import countBy from 'lodash/countBy.js';
 import mapValues from 'lodash/mapValues.js';
-import { sanitize } from '@storybook/csf';
+import { sanitize } from '@junk-temporary-prototypes/csf';
 import type {
   StoryId,
   Parameters,
@@ -21,7 +21,7 @@ import type {
   API_HashEntry,
   SetStoriesPayload,
   StoryIndexV2,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters } from '../index';
 import merge from './merge';

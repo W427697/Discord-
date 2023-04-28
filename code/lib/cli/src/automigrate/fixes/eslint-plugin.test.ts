@@ -68,7 +68,7 @@ describe('eslint-plugin fix', () => {
   });
 
   describe('when project does not contain eslint-plugin-storybook but has eslint installed', () => {
-    const packageJson = { dependencies: { '@storybook/react': '^6.2.0', eslint: '^7.0.0' } };
+    const packageJson = { dependencies: { '@junk-temporary-prototypes/react': '^6.2.0', eslint: '^7.0.0' } };
 
     describe('should no-op and warn when', () => {
       it('.eslintrc is not found', async () => {

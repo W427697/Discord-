@@ -2,7 +2,7 @@
 
 exports[`move-builtin-addons transforms correctly using "default.input.js" data 1`] = `
 "/* eslint-disable */
-import { storyOf } from '@storybook/react';
-import { linkTo } from '@storybook/addon-links';
-import { action } from '@storybook/addon-actions';"
+import { storyOf } from '@junk-temporary-prototypes/react';
+import { linkTo } from '@junk-temporary-prototypes/addon-links';
+import { action } from '@junk-temporary-prototypes/addon-actions';"
 `;

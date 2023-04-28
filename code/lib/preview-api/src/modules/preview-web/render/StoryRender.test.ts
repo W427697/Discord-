@@ -1,5 +1,5 @@
-import { Channel } from '@storybook/channels';
-import type { Renderer, StoryIndexEntry } from '@storybook/types';
+import { Channel } from '@junk-temporary-prototypes/channels';
+import type { Renderer, StoryIndexEntry } from '@junk-temporary-prototypes/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 

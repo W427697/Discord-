@@ -1,1 +1,1 @@
-export * from '@storybook/addon-actions/manager';
+export * from '@junk-temporary-prototypes/addon-actions/manager';

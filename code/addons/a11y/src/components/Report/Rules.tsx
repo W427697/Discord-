@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
-import { styled } from '@storybook/theming';
-import { Badge } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Badge } from '@junk-temporary-prototypes/components';
 import type { CheckResult } from 'axe-core';
 import { useResizeDetector } from 'react-resize-detector';
 

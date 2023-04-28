@@ -9,12 +9,12 @@ import type {
   DocsOptions,
   Options,
   StorybookConfig,
-} from '@storybook/types';
-import type { CsfPluginOptions } from '@storybook/csf-plugin';
-import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
-import { global } from '@storybook/global';
-import { loadCsf } from '@storybook/csf-tools';
-import { logger } from '@storybook/node-logger';
+} from '@junk-temporary-prototypes/types';
+import type { CsfPluginOptions } from '@junk-temporary-prototypes/csf-plugin';
+import type { JSXOptions, CompileOptions } from '@junk-temporary-prototypes/mdx2-csf';
+import { global } from '@junk-temporary-prototypes/global';
+import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 async function webpack(
@@ -56,7 +56,7 @@ async function webpack(
     skipCsf: true,
     ...mdxPluginOptions,
     mdxCompileOptions: {
-      providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+      providerImportSource: '@junk-temporary-prototypes/addon-docs/mdx-react-shim',
       ...mdxPluginOptions.mdxCompileOptions,
       remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
         mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
@@ -89,8 +89,8 @@ async function webpack(
   logger.info(`Addon-docs: using ${mdxVersion}`);
 
   const mdxLoader = global.FEATURES?.legacyMdx1
-    ? require.resolve('@storybook/mdx1-csf/loader')
-    : require.resolve('@storybook/mdx2-csf/loader');
+    ? require.resolve('@junk-temporary-prototypes/mdx1-csf/loader')
+    : require.resolve('@junk-temporary-prototypes/mdx2-csf/loader');
 
   const result = {
     ...webpackConfig,
@@ -98,7 +98,7 @@ async function webpack(
       ...(webpackConfig.plugins || []),
 
       ...(csfPluginOptions
-        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
+        ? [(await import('@junk-temporary-prototypes/csf-plugin')).webpack(csfPluginOptions)]
         : []),
     ],
 
@@ -139,8 +139,8 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = global.FEATURES?.legacyMdx1
-      ? await import('@storybook/mdx1-csf')
-      : await import('@storybook/mdx2-csf');
+      ? await import('@junk-temporary-prototypes/mdx1-csf')
+      : await import('@junk-temporary-prototypes/mdx2-csf');
     code = await compile(code, {});
     return loadCsf(code, { ...opts, fileName }).parse();
   };
@@ -162,7 +162,7 @@ const docs = (docsOptions: DocsOptions) => {
 };
 
 export const addons: StorybookConfig['addons'] = [
-  require.resolve('@storybook/react-dom-shim/dist/preset'),
+  require.resolve('@junk-temporary-prototypes/react-dom-shim/dist/preset'),
 ];
 
 /*

@@ -1,8 +1,8 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import semver from 'semver';
 import memoize from 'memoizerific';
 
-import type { API_UnknownEntries, API_Version, API_Versions } from '@storybook/types';
+import type { API_UnknownEntries, API_Version, API_Versions } from '@junk-temporary-prototypes/types';
 import { version as currentVersion } from '../version';
 
 import type { ModuleFn } from '../index';

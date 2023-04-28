@@ -1,4 +1,4 @@
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@junk-temporary-prototypes/testing-library';
 import { Page } from './Page';
 
 export default {

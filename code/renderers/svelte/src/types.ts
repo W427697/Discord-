@@ -1,4 +1,4 @@
-import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
+import type { StoryContext as StoryContextBase, WebRenderer } from '@junk-temporary-prototypes/types';
 import type { ComponentConstructorOptions, ComponentEvents, SvelteComponentTyped } from 'svelte';
 
 export type StoryContext = StoryContextBase<SvelteRenderer>;

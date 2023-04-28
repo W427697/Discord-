@@ -1,6 +1,6 @@
 import type { FC, SyntheticEvent } from 'react';
 import React, { useCallback } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 import type { LinkWrapperType, ListItemProps } from './ListItem';
 import ListItem from './ListItem';

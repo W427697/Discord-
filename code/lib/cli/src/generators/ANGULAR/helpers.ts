@@ -7,7 +7,7 @@ import { commandLog } from '../../helpers';
 export const ANGULAR_JSON_PATH = 'angular.json';
 
 export const compoDocPreviewPrefix = dedent`
-  import { setCompodocJson } from "@storybook/addon-docs/angular";
+  import { setCompodocJson } from "@junk-temporary-prototypes/addon-docs/angular";
   import docJson from "../documentation.json";
   setCompodocJson(docJson);
 `.trimStart();
@@ -56,7 +56,7 @@ export class AngularJSON {
     return Object.keys(this.projects).some((projectName) => {
       const { architect } = this.projects[projectName];
       return Object.keys(architect).some((key) => {
-        return architect[key].builder === '@storybook/angular:start-storybook';
+        return architect[key].builder === '@junk-temporary-prototypes/angular:start-storybook';
       });
     });
   }
@@ -115,7 +115,7 @@ export class AngularJSON {
 
     if (!architect.storybook) {
       architect.storybook = {
-        builder: '@storybook/angular:start-storybook',
+        builder: '@junk-temporary-prototypes/angular:start-storybook',
         options: {
           ...baseOptions,
           port: 6006,
@@ -125,7 +125,7 @@ export class AngularJSON {
 
     if (!architect['build-storybook']) {
       architect['build-storybook'] = {
-        builder: '@storybook/angular:build-storybook',
+        builder: '@junk-temporary-prototypes/angular:build-storybook',
         options: {
           ...baseOptions,
           outputDir:

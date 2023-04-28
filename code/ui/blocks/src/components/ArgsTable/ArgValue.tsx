@@ -2,8 +2,8 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import memoize from 'memoizerific';
 import uniq from 'lodash/uniq.js';
-import { styled } from '@storybook/theming';
-import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@junk-temporary-prototypes/components';
 import type { PropSummaryValue } from './types';
 
 interface ArgValueProps {

@@ -1,6 +1,6 @@
-import { once } from '@storybook/client-logger';
+import { once } from '@junk-temporary-prototypes/client-logger';
 import { expect } from '@jest/globals';
-import type { SBType } from '@storybook/types';
+import type { SBType } from '@junk-temporary-prototypes/types';
 
 import {
   combineArgs,
@@ -18,7 +18,7 @@ const functionType: SBType = { name: 'function' };
 const numArrayType: SBType = { name: 'array', value: numberType };
 const boolObjectType: SBType = { name: 'object', value: { bool: booleanType } };
 
-jest.mock('@storybook/client-logger');
+jest.mock('@junk-temporary-prototypes/client-logger');
 
 enum ArgsMapTestEnumWithoutInitializer {
   EnumValue,

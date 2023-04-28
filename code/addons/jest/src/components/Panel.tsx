@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { Fragment } from 'react';
-import { styled, themes, convert } from '@storybook/theming';
-import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
+import { styled, themes, convert } from '@junk-temporary-prototypes/theming';
+import { ScrollArea, TabsState, Link, Placeholder } from '@junk-temporary-prototypes/components';
 import { useResizeDetector } from 'react-resize-detector';
 import { Result } from './Result';
 import type { Test } from '../hoc/provideJestResult';

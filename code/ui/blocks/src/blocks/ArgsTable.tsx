@@ -1,17 +1,17 @@
 import type { FC } from 'react';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues.js';
-import type { ArgTypesExtractor } from '@storybook/docs-tools';
-import type { PropDescriptor } from '@storybook/preview-api';
-import { filterArgTypes } from '@storybook/preview-api';
-import type { StrictArgTypes, Args, Globals, Parameters } from '@storybook/types';
+import type { ArgTypesExtractor } from '@junk-temporary-prototypes/docs-tools';
+import type { PropDescriptor } from '@junk-temporary-prototypes/preview-api';
+import { filterArgTypes } from '@junk-temporary-prototypes/preview-api';
+import type { StrictArgTypes, Args, Globals, Parameters } from '@junk-temporary-prototypes/types';
 import {
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
   RESET_STORY_ARGS,
   GLOBALS_UPDATED,
-} from '@storybook/core-events';
-import { deprecate } from '@storybook/client-logger';
+} from '@junk-temporary-prototypes/core-events';
+import { deprecate } from '@junk-temporary-prototypes/client-logger';
 import dedent from 'ts-dedent';
 import type { ArgsTableProps as PureArgsTableProps, SortType } from '../components';
 import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';

@@ -1,10 +1,10 @@
-import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
-import type { TypescriptOptions } from '@storybook/core-webpack';
+import ReactDocgenTypescriptPlugin from '@junk-temporary-prototypes/react-docgen-typescript-plugin';
+import type { TypescriptOptions } from '@junk-temporary-prototypes/core-webpack';
 import * as preset from './framework-preset-react-docs';
 
 describe('framework-preset-react-docgen', () => {
   const babelPluginReactDocgenPath = require.resolve('babel-plugin-react-docgen');
-  const presetsListWithDocs = [{ name: '@storybook/addon-docs', options: {}, preset: null }];
+  const presetsListWithDocs = [{ name: '@junk-temporary-prototypes/addon-docs', options: {}, preset: null }];
 
   describe('react-docgen', () => {
     it('should return the babel config with the extra plugin', async () => {

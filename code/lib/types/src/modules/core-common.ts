@@ -12,7 +12,7 @@ import type { StoriesEntry, StoryIndexer } from './storyIndex';
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
  */
 
-export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
+export type BuilderName = 'webpack5' | '@junk-temporary-prototypes/builder-webpack5' | string;
 export type RendererName = string;
 
 interface ServerChannel {
@@ -121,7 +121,7 @@ export interface BuilderResult {
 
 export type PackageJson = PackageJsonFromTypeFest & Record<string, any>;
 
-// TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
+// TODO: This could be exported to the outside world and used in `options.ts` file of each `@junk-temporary-prototypes/APP`
 // like it's described in docs/api/new-frameworks.md
 export interface LoadOptions {
   packageJson: PackageJson;
@@ -264,7 +264,7 @@ export interface StorybookConfig {
   /**
    * Sets the addons you want to use with Storybook.
    *
-   * @example `['@storybook/addon-essentials']` or `[{ name: '@storybook/addon-essentials', options: { backgrounds: false } }]`
+   * @example `['@junk-temporary-prototypes/addon-essentials']` or `[{ name: '@junk-temporary-prototypes/addon-essentials', options: { backgrounds: false } }]`
    */
   addons?: Preset[];
   core?: CoreConfig;
@@ -322,7 +322,7 @@ export interface StorybookConfig {
   stories: StoriesEntry[];
 
   /**
-   * Framework, e.g. '@storybook/react-vite', required in v7
+   * Framework, e.g. '@junk-temporary-prototypes/react-vite', required in v7
    */
   framework?: Preset;
 

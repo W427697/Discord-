@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 
-import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Icons } from '@junk-temporary-prototypes/components';
 
 import type { Result } from 'axe-core';
 import { Info } from './Info';

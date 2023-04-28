@@ -1,4 +1,4 @@
-import type { CSFFile, PreparedStory } from '@storybook/types';
+import type { CSFFile, PreparedStory } from '@junk-temporary-prototypes/types';
 
 export function csfFileParts() {
   // These compose the raw exports of the CSF file

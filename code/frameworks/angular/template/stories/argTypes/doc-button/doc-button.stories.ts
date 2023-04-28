@@ -1,4 +1,4 @@
-import { Args } from '@storybook/angular';
+import { Args } from '@junk-temporary-prototypes/angular';
 import { DocButtonComponent } from './doc-button.component';
 
 export default {

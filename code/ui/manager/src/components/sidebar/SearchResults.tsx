@@ -1,12 +1,12 @@
-import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
-import { global } from '@storybook/global';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Icons } from '@junk-temporary-prototypes/components';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC, MouseEventHandler, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
-import { useStorybookApi } from '@storybook/manager-api';
-import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { useStorybookApi } from '@junk-temporary-prototypes/manager-api';
+import { PRELOAD_ENTRIES } from '@junk-temporary-prototypes/core-events';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isCloseType, isClearType, isExpandType } from './types';

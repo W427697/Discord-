@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Args } from '@storybook/types';
+import type { Args } from '@junk-temporary-prototypes/types';
 
 import { Button } from './Button';
 import { Icons } from '../icon/icon';

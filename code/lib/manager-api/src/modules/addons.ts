@@ -1,5 +1,5 @@
-import type { Addon_Types, API_Collection, API_Panels, API_StateMerger } from '@storybook/types';
-import { Addon_TypesEnum } from '@storybook/types';
+import type { Addon_Types, API_Collection, API_Panels, API_StateMerger } from '@junk-temporary-prototypes/types';
+import { Addon_TypesEnum } from '@junk-temporary-prototypes/types';
 import type { ModuleFn } from '../index';
 import type { Options } from '../store';
 

@@ -2,13 +2,13 @@ import { dirname, join, parse } from 'path';
 import fs from 'fs-extra';
 import express from 'express';
 
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
-import { stringifyProcessEnvs } from '@storybook/core-common';
+import { stringifyProcessEnvs } from '@junk-temporary-prototypes/core-common';
 import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import { wrapManagerEntries } from './utils/managerEntries';
@@ -151,7 +151,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   yield;
 
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
+  const coreDirOrigin = join(dirname(require.resolve('@junk-temporary-prototypes/manager/package.json')), 'dist');
 
   router.use(`/sb-addons`, express.static(addonsDir, { immutable: true, maxAge: '5m' }));
   router.use(`/sb-manager`, express.static(coreDirOrigin, { immutable: true, maxAge: '5m' }));
@@ -219,7 +219,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const addonsDir = config.outdir;
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
+  const coreDirOrigin = join(dirname(require.resolve('@junk-temporary-prototypes/manager/package.json')), 'dist');
   const coreDirTarget = join(options.outputDir, `sb-manager`);
 
   // TODO: this doesn't watch, we should change this to use the esbuild watch API: https://esbuild.github.io/api/#watch

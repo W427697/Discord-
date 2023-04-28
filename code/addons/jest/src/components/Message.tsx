@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { Fragment } from 'react';
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
 const positiveConsoleRegex = /\[32m(.*?)\[39m/;
 const negativeConsoleRegex = /\[31m(.*?)\[39m/;

@@ -1,9 +1,9 @@
 import type { FunctionComponent } from 'react';
 import React, { Fragment, useMemo } from 'react';
 
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 
-import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
+import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@junk-temporary-prototypes/components';
 import {
   shortcutToHumanString,
   Consumer,
@@ -15,9 +15,9 @@ import {
   addons,
   type Addon,
   types,
-} from '@storybook/manager-api';
+} from '@junk-temporary-prototypes/manager-api';
 
-import { Location, type RenderData } from '@storybook/router';
+import { Location, type RenderData } from '@junk-temporary-prototypes/router';
 import { zoomTool } from './tools/zoom';
 
 import * as S from './utils/components';

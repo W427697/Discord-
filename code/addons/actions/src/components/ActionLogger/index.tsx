@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import React, { Fragment } from 'react';
-import { styled, withTheme } from '@storybook/theming';
-import type { Theme } from '@storybook/theming';
+import { styled, withTheme } from '@junk-temporary-prototypes/theming';
+import type { Theme } from '@junk-temporary-prototypes/theming';
 
 import { Inspector } from 'react-inspector';
-import { ActionBar, ScrollArea } from '@storybook/components';
+import { ActionBar, ScrollArea } from '@junk-temporary-prototypes/components';
 
 import { Action, InspectorContainer, Counter } from './style';
 import type { ActionDisplay } from '../../models';

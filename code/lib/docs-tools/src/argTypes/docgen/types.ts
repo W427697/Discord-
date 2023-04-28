@@ -1,4 +1,4 @@
-import type { StrictArgTypes } from '@storybook/types';
+import type { StrictArgTypes } from '@junk-temporary-prototypes/types';
 import type { PropDef } from './PropDef';
 import type { Component } from '../types';
 

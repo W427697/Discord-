@@ -1,6 +1,6 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
-import { styled } from '@storybook/theming';
+import { action } from '@junk-temporary-prototypes/addon-actions';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { ArgsTable, ArgsTableError } from './ArgsTable';
 import { NoControlsWarning } from './NoControlsWarning';
 import * as ArgRow from './ArgRow.stories';

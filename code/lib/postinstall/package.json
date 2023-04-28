@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/postinstall",
+  "name": "@junk-temporary-prototypes/postinstall",
   "version": "7.0.7",
   "description": "Storybook addons postinstall utilities",
   "keywords": [

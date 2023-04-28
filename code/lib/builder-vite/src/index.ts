@@ -5,7 +5,7 @@ import type { RequestHandler } from 'express';
 import type { ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'path';
-import type { Options, StorybookConfig as StorybookBaseConfig } from '@storybook/types';
+import type { Options, StorybookConfig as StorybookBaseConfig } from '@junk-temporary-prototypes/types';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
@@ -21,7 +21,7 @@ export * from './types';
  *
  * Import `StorybookConfig` from your framework, such as:
  *
- * `import type { StorybookConfig } from '@storybook/react-vite';`
+ * `import type { StorybookConfig } from '@junk-temporary-prototypes/react-vite';`
  */
 export type StorybookViteConfig = StorybookBaseConfig & StorybookConfigVite;
 
@@ -42,7 +42,7 @@ function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandl
     }
 
     const indexHtml = await fs.readFile(
-      require.resolve('@storybook/builder-vite/input/iframe.html'),
+      require.resolve('@junk-temporary-prototypes/builder-vite/input/iframe.html'),
       'utf-8'
     );
     const generated = await transformIframeHtml(indexHtml, options);
@@ -66,7 +66,7 @@ export const start: ViteBuilder['start'] = async ({
 }) => {
   server = await createViteServer(options as Options, devServer);
 
-  const previewResolvedDir = wrapForPnP('@storybook/preview');
+  const previewResolvedDir = wrapForPnP('@junk-temporary-prototypes/preview');
   const previewDirOrigin = join(previewResolvedDir, 'dist');
 
   router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
@@ -84,7 +84,7 @@ export const start: ViteBuilder['start'] = async ({
 export const build: ViteBuilder['build'] = async ({ options }) => {
   const viteCompilation = viteBuild(options as Options);
 
-  const previewResolvedDir = wrapForPnP('@storybook/preview');
+  const previewResolvedDir = wrapForPnP('@junk-temporary-prototypes/preview');
   const previewDirOrigin = join(previewResolvedDir, 'dist');
   const previewDirTarget = join(options.outputDir || '', `sb-preview`);
 

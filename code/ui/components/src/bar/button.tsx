@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import React from 'react';
-import { styled, isPropValid } from '@storybook/theming';
+import { styled, isPropValid } from '@junk-temporary-prototypes/theming';
 import { transparentize } from 'polished';
 import { auto } from '@popperjs/core';
 

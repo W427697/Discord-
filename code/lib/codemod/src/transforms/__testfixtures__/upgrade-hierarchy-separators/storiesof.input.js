@@ -1,4 +1,4 @@
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@junk-temporary-prototypes/react';
 
 storiesOf('A/B/C', module).add('abc', () => <div>hello</div>);
 storiesOf('D|E/f', module).add('def', () => <div>hello</div>);

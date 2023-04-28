@@ -12,10 +12,10 @@ import { map, switchMap, mapTo } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
-import { CLIOptions } from '@storybook/types';
-import { getEnvConfig, versions } from '@storybook/cli';
-import { addToGlobalContext } from '@storybook/telemetry';
-import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
+import { CLIOptions } from '@junk-temporary-prototypes/types';
+import { getEnvConfig, versions } from '@junk-temporary-prototypes/cli';
+import { addToGlobalContext } from '@junk-temporary-prototypes/telemetry';
+import { buildDevStandalone, withTelemetry } from '@junk-temporary-prototypes/core-server';
 import {
   AssetPattern,
   StyleElement,

@@ -1,5 +1,5 @@
-import { styled } from '@storybook/theming';
-import type { CSSObject } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
+import type { CSSObject } from '@junk-temporary-prototypes/theming';
 import { withReset, withMargin } from '../lib/common';
 
 const listCommon: CSSObject = {

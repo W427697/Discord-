@@ -58,7 +58,7 @@ describe('getStorybookScripts', () => {
 describe('sb-scripts fix', () => {
   describe('sb < 7.0', () => {
     describe('does nothing', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0' } };
+      const packageJson = { dependencies: { '@junk-temporary-prototypes/react': '^6.2.0' } };
       it('should no-op', async () => {
         await expect(
           checkSbScripts({
@@ -74,7 +74,7 @@ describe('sb-scripts fix', () => {
     describe('with old scripts', () => {
       const packageJson = {
         dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+          '@junk-temporary-prototypes/react': '^7.0.0-alpha.0',
         },
         scripts: {
           storybook: 'start-storybook -p 6006',
@@ -107,7 +107,7 @@ describe('sb-scripts fix', () => {
       it('should update scripts to new format', async () => {
         const packageJson = {
           dependencies: {
-            '@storybook/react': '^7.0.0-alpha.0',
+            '@junk-temporary-prototypes/react': '^7.0.0-alpha.0',
           },
           scripts: {
             'storybook:ci': 'yarn start-storybook --ci',
@@ -144,7 +144,7 @@ describe('sb-scripts fix', () => {
     describe('already containing new scripts', () => {
       const packageJson = {
         dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
+          '@junk-temporary-prototypes/react': '^7.0.0-alpha.0',
         },
         scripts: {
           storybook: 'storybook dev -p 6006',

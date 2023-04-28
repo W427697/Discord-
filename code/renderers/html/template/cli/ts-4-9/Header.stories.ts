@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/html';
+import type { Meta, StoryObj } from '@junk-temporary-prototypes/html';
 import type { HeaderProps } from './Header';
 import { createHeader } from './Header';
 

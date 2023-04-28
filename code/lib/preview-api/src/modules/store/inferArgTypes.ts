@@ -1,7 +1,7 @@
 import mapValues from 'lodash/mapValues.js';
 import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/client-logger';
-import type { Renderer, SBType, ArgTypesEnhancer } from '@storybook/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import type { Renderer, SBType, ArgTypesEnhancer } from '@junk-temporary-prototypes/types';
 import { combineParameters } from './parameters';
 
 const inferType = (value: any, name: string, visited: Set<any>): SBType => {

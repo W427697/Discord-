@@ -1,6 +1,6 @@
 /// <reference types="@types/jest" />;
 
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@junk-temporary-prototypes/types';
 import type { PackageJson } from '../../js-package-manager';
 import { ansiRegex } from '../helpers/cleanLog';
 import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
@@ -29,7 +29,7 @@ describe('bare-mdx fix', () => {
   describe('should no-op', () => {
     it('in SB < v7.0.0', async () => {
       const packageJson = {
-        dependencies: { '@storybook/react': '^6.2.0' },
+        dependencies: { '@junk-temporary-prototypes/react': '^6.2.0' },
       };
       const main = { stories: ['../**/*.stories.mdx'] };
       await expect(
@@ -40,14 +40,14 @@ describe('bare-mdx fix', () => {
     describe('in SB >= v7.0.0', () => {
       it('without main', async () => {
         const packageJson = {
-          dependencies: { '@storybook/react': '^7.0.0' },
+          dependencies: { '@junk-temporary-prototypes/react': '^7.0.0' },
         };
         await expect(checkBareMdxStoriesGlob({ packageJson })).rejects.toThrow();
       });
 
       it('without stories field in main', async () => {
         const packageJson = {
-          dependencies: { '@storybook/react': '^7.0.0' },
+          dependencies: { '@junk-temporary-prototypes/react': '^7.0.0' },
         };
         const main = {};
         await expect(checkBareMdxStoriesGlob({ packageJson, main })).rejects.toThrow();
@@ -55,7 +55,7 @@ describe('bare-mdx fix', () => {
 
       it('without .stories.mdx in globs', async () => {
         const packageJson = {
-          dependencies: { '@storybook/react': '^7.0.0' },
+          dependencies: { '@junk-temporary-prototypes/react': '^7.0.0' },
         };
         const main = {
           stories: [
@@ -94,7 +94,7 @@ describe('bare-mdx fix', () => {
       'strings: $existingStoriesEntries',
       async ({ existingStoriesEntries, expectedStoriesEntries }) => {
         const packageJson = {
-          dependencies: { '@storybook/react': '^7.0.0' },
+          dependencies: { '@junk-temporary-prototypes/react': '^7.0.0' },
         };
         const main = {
           stories: existingStoriesEntries,
@@ -126,7 +126,7 @@ describe('bare-mdx fix', () => {
       'specifiers: $existingStoriesEntries.0.files',
       async ({ existingStoriesEntries, expectedStoriesEntries }) => {
         const packageJson = {
-          dependencies: { '@storybook/react': '^7.0.0' },
+          dependencies: { '@junk-temporary-prototypes/react': '^7.0.0' },
         };
         const main = {
           stories: existingStoriesEntries,

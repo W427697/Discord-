@@ -1,5 +1,5 @@
 import React from 'react';
-import { LocationProvider } from '@storybook/router';
+import { LocationProvider } from '@junk-temporary-prototypes/router';
 
 import NotificationList from './NotificationList';
 import itemMeta, * as itemStories from './NotificationItem.stories.jsx';

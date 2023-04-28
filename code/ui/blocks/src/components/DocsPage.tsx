@@ -1,6 +1,6 @@
-import { withReset } from '@storybook/components';
-import type { CSSObject } from '@storybook/theming';
-import { styled } from '@storybook/theming';
+import { withReset } from '@junk-temporary-prototypes/components';
+import type { CSSObject } from '@junk-temporary-prototypes/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { transparentize } from 'polished';
 import type { FC } from 'react';
 import React from 'react';

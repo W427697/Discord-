@@ -34,7 +34,7 @@ describe('removedGlobalClientAPIs fix', () => {
   });
   it('uses 1 removed API', async () => {
     const contents = `
-      import { addParameters } from '@storybook/react';
+      import { addParameters } from '@junk-temporary-prototypes/react';
       addParameters({});
     `;
     await expect(check({ contents })).resolves.toEqual(
@@ -45,7 +45,7 @@ describe('removedGlobalClientAPIs fix', () => {
   });
   it('uses >1 removed APIs', async () => {
     const contents = `
-      import { addParameters, addDecorator } from '@storybook/react';
+      import { addParameters, addDecorator } from '@junk-temporary-prototypes/react';
       addParameters({});
       addDecorator((storyFn) => storyFn());
     `;

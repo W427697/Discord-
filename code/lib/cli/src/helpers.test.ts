@@ -10,8 +10,8 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
 }));
 jest.mock('./dirs', () => ({
-  getRendererDir: (_: JsPackageManager, renderer: string) => `@storybook/${renderer}`,
-  getCliDir: () => '@storybook/cli',
+  getRendererDir: (_: JsPackageManager, renderer: string) => `@junk-temporary-prototypes/${renderer}`,
+  getCliDir: () => '@junk-temporary-prototypes/cli',
 }));
 
 jest.mock('fs-extra', () => ({
@@ -78,11 +78,11 @@ describe('Helpers', () => {
     `should copy $expected when folder $exists exists for language $language`,
     async ({ language, exists, expected }) => {
       const componentsDirectory = exists.map(
-        (folder: string) => `@storybook/react/template/cli/${folder}`
+        (folder: string) => `@junk-temporary-prototypes/react/template/cli/${folder}`
       );
       (fse.pathExists as jest.Mock).mockImplementation(
         (filePath) =>
-          componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
+          componentsDirectory.includes(filePath) || filePath === '@junk-temporary-prototypes/react/template/cli'
       );
       await helpers.copyTemplateFiles({
         renderer: 'react',
@@ -93,19 +93,19 @@ describe('Helpers', () => {
       const copySpy = jest.spyOn(fse, 'copy');
       expect(copySpy).toHaveBeenNthCalledWith(
         1,
-        '@storybook/cli/rendererAssets/common',
+        '@junk-temporary-prototypes/cli/rendererAssets/common',
         './stories',
         expect.anything()
       );
 
-      const expectedDirectory = `@storybook/react/template/cli${expected}`;
+      const expectedDirectory = `@junk-temporary-prototypes/react/template/cli${expected}`;
       expect(copySpy).toHaveBeenNthCalledWith(2, expectedDirectory, './stories', expect.anything());
     }
   );
 
   it(`should copy to src folder when exists`, async () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === '@storybook/react/template/cli' || filePath === './src';
+      return filePath === '@junk-temporary-prototypes/react/template/cli' || filePath === './src';
     });
     await helpers.copyTemplateFiles({
       renderer: 'react',
@@ -117,7 +117,7 @@ describe('Helpers', () => {
 
   it(`should copy to root folder when src doesn't exist`, async () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
-      return filePath === '@storybook/react/template/cli';
+      return filePath === '@junk-temporary-prototypes/react/template/cli';
     });
     await helpers.copyTemplateFiles({
       renderer: 'react',
@@ -145,7 +145,7 @@ describe('Helpers', () => {
         helpers.getStorybookVersionSpecifier({
           dependencies: {},
           devDependencies: {
-            '@storybook/react': '^x.x.x',
+            '@junk-temporary-prototypes/react': '^x.x.x',
           },
         })
       ).toEqual('^x.x.x');

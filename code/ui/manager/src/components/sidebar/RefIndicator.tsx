@@ -1,12 +1,12 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import type { FC } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
-import type { TooltipLinkListLink } from '@storybook/components';
-import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
-import { styled } from '@storybook/theming';
+import type { TooltipLinkListLink } from '@junk-temporary-prototypes/components';
+import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@junk-temporary-prototypes/components';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { transparentize } from 'polished';
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi } from '@junk-temporary-prototypes/manager-api';
 
 import type { RefType } from './types';
 

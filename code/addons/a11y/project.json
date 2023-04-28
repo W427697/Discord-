@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/addon-a11y",
+  "name": "@junk-temporary-prototypes/addon-a11y",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

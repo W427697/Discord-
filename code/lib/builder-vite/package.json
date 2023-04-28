@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/builder-vite",
+  "name": "@junk-temporary-prototypes/builder-vite",
   "version": "7.0.7",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
@@ -42,16 +42,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.0.7",
-    "@storybook/channel-websocket": "7.0.7",
-    "@storybook/client-logger": "7.0.7",
-    "@storybook/core-common": "7.0.7",
-    "@storybook/csf-plugin": "7.0.7",
-    "@storybook/mdx2-csf": "^1.0.0",
-    "@storybook/node-logger": "7.0.7",
-    "@storybook/preview": "7.0.7",
-    "@storybook/preview-api": "7.0.7",
-    "@storybook/types": "7.0.7",
+    "@junk-temporary-prototypes/channel-postmessage": "7.0.7",
+    "@junk-temporary-prototypes/channel-websocket": "7.0.7",
+    "@junk-temporary-prototypes/client-logger": "7.0.7",
+    "@junk-temporary-prototypes/core-common": "7.0.7",
+    "@junk-temporary-prototypes/csf-plugin": "7.0.7",
+    "@junk-temporary-prototypes/mdx2-csf": "^1.0.0",
+    "@junk-temporary-prototypes/node-logger": "7.0.7",
+    "@junk-temporary-prototypes/preview": "7.0.7",
+    "@junk-temporary-prototypes/preview-api": "7.0.7",
+    "@junk-temporary-prototypes/types": "7.0.7",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
@@ -96,7 +96,7 @@
       "./src/index.ts"
     ],
     "externals": [
-      "@storybook/mdx1-csf"
+      "@junk-temporary-prototypes/mdx1-csf"
     ],
     "platform": "node"
   },

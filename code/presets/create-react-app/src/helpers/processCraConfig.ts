@@ -86,7 +86,7 @@ export const processCraConfig = (
               return {
                 ...oneOfRule,
                 include: isStorybook530 ? undefined : [configDir],
-                exclude: [oneOfRule.exclude as RegExp, /@storybook/],
+                exclude: [oneOfRule.exclude as RegExp, /@junk-temporary-prototypes/],
               };
             }
 

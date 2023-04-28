@@ -1,5 +1,5 @@
 import React from 'react';
-import { LocationProvider } from '@storybook/router';
+import { LocationProvider } from '@junk-temporary-prototypes/router';
 import NotificationItem from './NotificationItem';
 
 export default {

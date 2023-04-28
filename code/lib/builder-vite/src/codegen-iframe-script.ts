@@ -1,5 +1,5 @@
-import { getRendererName } from '@storybook/core-common';
-import type { Options, PreviewAnnotation } from '@storybook/types';
+import { getRendererName } from '@junk-temporary-prototypes/core-common';
+import type { Options, PreviewAnnotation } from '@junk-temporary-prototypes/types';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
@@ -30,8 +30,8 @@ export async function generateIframeScriptCode(options: Options, projectRoot: st
     // is loaded. That way our client-apis can assume the existence of the API+store
     import { configure } from '${rendererName}';
 
-    import { logger } from '@storybook/client-logger';
-    import * as previewApi from "@storybook/preview-api";
+    import { logger } from '@junk-temporary-prototypes/client-logger';
+    import * as previewApi from "@junk-temporary-prototypes/preview-api";
     ${filesToImport(configEntries, 'config')}
 
     import * as preview from '${virtualPreviewFile}';

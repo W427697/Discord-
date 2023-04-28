@@ -1,6 +1,6 @@
-import type { PackageJson } from '@storybook/types';
+import type { PackageJson } from '@junk-temporary-prototypes/types';
 
-export type { PackageJson } from '@storybook/types';
+export type { PackageJson } from '@junk-temporary-prototypes/types';
 export type PackageJsonWithDepsAndDevDeps = PackageJson &
   Required<Pick<PackageJson, 'dependencies' | 'devDependencies'>>;
 

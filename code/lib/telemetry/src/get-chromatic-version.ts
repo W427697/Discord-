@@ -1,4 +1,4 @@
-import type { PackageJson } from '@storybook/types';
+import type { PackageJson } from '@junk-temporary-prototypes/types';
 
 export function getChromaticVersionSpecifier(packageJson: PackageJson) {
   const dependency =

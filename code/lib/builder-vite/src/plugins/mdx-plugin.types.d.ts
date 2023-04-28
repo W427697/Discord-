@@ -1,1 +1,1 @@
-declare module '@storybook/mdx1-csf';
+declare module '@junk-temporary-prototypes/mdx1-csf';

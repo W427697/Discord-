@@ -4,11 +4,11 @@ import path from 'path';
 import fs from 'fs';
 import svelteDoc from 'sveltedoc-parser';
 import type { SvelteParserOptions } from 'sveltedoc-parser';
-import { logger } from '@storybook/node-logger';
+import { logger } from '@junk-temporary-prototypes/node-logger';
 import { preprocess } from 'svelte/compiler';
 import { createFilter } from 'vite';
 
-// Most of the code here should probably be exported by @storybook/svelte and reused here.
+// Most of the code here should probably be exported by @junk-temporary-prototypes/svelte and reused here.
 // See: https://github.com/storybookjs/storybook/blob/next/app/svelte/src/server/svelte-docgen-loader.ts
 
 // From https://github.com/sveltejs/svelte/blob/8db3e8d0297e052556f0b6dde310ef6e197b8d18/src/compiler/compile/utils/get_name_from_filename.ts

@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/types';
+import type { Options } from '@junk-temporary-prototypes/types';
 // @ts-expect-error react-dom doesn't have this in export maps in v16, messing up TS
 import { version } from 'react-dom/package.json';
 
@@ -16,7 +16,7 @@ export const webpackFinal = async (config: any, options: Options) => {
       ...config.resolve,
       alias: {
         ...config.resolve?.alias,
-        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
+        '@junk-temporary-prototypes/react-dom-shim': '@junk-temporary-prototypes/react-dom-shim/dist/react-18',
       },
     },
   };
@@ -32,12 +32,12 @@ export const viteFinal = async (config: any, options: Options) => {
 
   const alias = Array.isArray(config.resolve?.alias)
     ? config.resolve.alias.concat({
-        find: /^@storybook\/react-dom-shim$/,
-        replacement: '@storybook/react-dom-shim/dist/react-18',
+        find: /^@junk-temporary-prototypes\/react-dom-shim$/,
+        replacement: '@junk-temporary-prototypes/react-dom-shim/dist/react-18',
       })
     : {
         ...config.resolve?.alias,
-        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
+        '@junk-temporary-prototypes/react-dom-shim': '@junk-temporary-prototypes/react-dom-shim/dist/react-18',
       };
 
   return {

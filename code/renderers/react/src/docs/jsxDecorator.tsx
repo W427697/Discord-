@@ -4,10 +4,10 @@ import React, { isValidElement, createElement } from 'react';
 import type { Options } from 'react-element-to-jsx-string';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
-import { addons, useEffect } from '@storybook/preview-api';
-import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
-import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
-import { logger } from '@storybook/client-logger';
+import { addons, useEffect } from '@junk-temporary-prototypes/preview-api';
+import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@junk-temporary-prototypes/types';
+import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@junk-temporary-prototypes/docs-tools';
+import { logger } from '@junk-temporary-prototypes/client-logger';
 
 import type { ReactRenderer } from '../types';
 

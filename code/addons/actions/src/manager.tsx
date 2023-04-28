@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { addons, types, useChannel } from '@storybook/manager-api';
-import { STORY_CHANGED } from '@storybook/core-events';
+import { addons, types, useChannel } from '@junk-temporary-prototypes/manager-api';
+import { STORY_CHANGED } from '@junk-temporary-prototypes/core-events';
 import ActionLogger from './containers/ActionLogger';
 import { ADDON_ID, CLEAR_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';
 

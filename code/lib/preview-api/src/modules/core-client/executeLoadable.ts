@@ -1,8 +1,8 @@
 /// <reference types="node" />
 /// <reference types="webpack-env" />
 
-import { logger } from '@storybook/client-logger';
-import type { Path, ModuleExports } from '@storybook/types';
+import { logger } from '@junk-temporary-prototypes/client-logger';
+import type { Path, ModuleExports } from '@junk-temporary-prototypes/types';
 
 export interface RequireContext {
   keys: () => string[];

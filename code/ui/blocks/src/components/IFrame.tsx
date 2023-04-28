@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
 const { window: globalWindow } = global;
 

@@ -1,7 +1,7 @@
 import type { FC, ComponentProps } from 'react';
 import React, { useEffect, useState, Fragment } from 'react';
-import { styled } from '@storybook/theming';
-import { Icons, Loader } from '@storybook/components';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Icons, Loader } from '@junk-temporary-prototypes/components';
 
 const Centered = styled.div({
   top: '50%',

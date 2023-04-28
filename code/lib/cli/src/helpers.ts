@@ -125,7 +125,7 @@ export function codeLog(codeLines: string[], leftPadAmount?: number) {
  * const babelDependencies = await getBabelDependencies(packageManager, npmOptions, packageJson);
  * // you can then spread the result when using installDependencies
  * installDependencies(npmOptions, [
- *   `@storybook/react@${storybookVersion}`,
+ *   `@junk-temporary-prototypes/react@${storybookVersion}`,
  *   ...babelDependencies,
  * ]);
  */

@@ -1,5 +1,5 @@
 import { expect, describe, it } from '@jest/globals';
-import type { Renderer, StoryAnnotationsOrFn } from '@storybook/types';
+import type { Renderer, StoryAnnotationsOrFn } from '@junk-temporary-prototypes/types';
 
 import { normalizeStory } from './normalizeStory';
 

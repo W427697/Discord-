@@ -1,14 +1,14 @@
-import { checkAddonOrder, serverRequire } from '@storybook/core-common';
+import { checkAddonOrder, serverRequire } from '@junk-temporary-prototypes/core-common';
 import path from 'path';
 
 export const checkActionsLoaded = (configDir: string) => {
   checkAddonOrder({
     before: {
-      name: '@storybook/addon-actions',
+      name: '@junk-temporary-prototypes/addon-actions',
       inEssentials: true,
     },
     after: {
-      name: '@storybook/addon-interactions',
+      name: '@junk-temporary-prototypes/addon-interactions',
       inEssentials: false,
     },
     configFile: path.isAbsolute(configDir)

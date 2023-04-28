@@ -90,27 +90,27 @@ describe('NPM Proxy', () => {
 
   describe('addDependencies', () => {
     describe('npm6', () => {
-      it('with devDep it should run `npm install -D @storybook/preview-api`', () => {
+      it('with devDep it should run `npm install -D @junk-temporary-prototypes/preview-api`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
 
-        npmProxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
+        npmProxy.addDependencies({ installAsDevDependencies: true }, ['@junk-temporary-prototypes/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['install', '-D', '@storybook/preview-api'],
+          ['install', '-D', '@junk-temporary-prototypes/preview-api'],
           expect.any(String)
         );
       });
     });
     describe('npm7', () => {
-      it('with devDep it should run `npm install -D @storybook/preview-api`', () => {
+      it('with devDep it should run `npm install -D @junk-temporary-prototypes/preview-api`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
 
-        npmProxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
+        npmProxy.addDependencies({ installAsDevDependencies: true }, ['@junk-temporary-prototypes/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['install', '-D', '@storybook/preview-api'],
+          ['install', '-D', '@junk-temporary-prototypes/preview-api'],
           expect.any(String)
         );
       });
@@ -119,27 +119,27 @@ describe('NPM Proxy', () => {
 
   describe('removeDependencies', () => {
     describe('npm6', () => {
-      it('with devDep it should run `npm uninstall @storybook/preview-api`', () => {
+      it('with devDep it should run `npm uninstall @junk-temporary-prototypes/preview-api`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
 
-        npmProxy.removeDependencies({}, ['@storybook/preview-api']);
+        npmProxy.removeDependencies({}, ['@junk-temporary-prototypes/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['uninstall', '@storybook/preview-api'],
+          ['uninstall', '@junk-temporary-prototypes/preview-api'],
           expect.any(String)
         );
       });
     });
     describe('npm7', () => {
-      it('with devDep it should run `npm uninstall @storybook/preview-api`', () => {
+      it('with devDep it should run `npm uninstall @junk-temporary-prototypes/preview-api`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
 
-        npmProxy.removeDependencies({}, ['@storybook/preview-api']);
+        npmProxy.removeDependencies({}, ['@junk-temporary-prototypes/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['uninstall', '@storybook/preview-api'],
+          ['uninstall', '@junk-temporary-prototypes/preview-api'],
           expect.any(String)
         );
       });
@@ -156,17 +156,17 @@ describe('NPM Proxy', () => {
             skipInstall: true,
             packageJson: {
               devDependencies: {
-                '@storybook/manager-webpack5': 'x.x.x',
-                '@storybook/react': 'x.x.x',
+                '@junk-temporary-prototypes/manager-webpack5': 'x.x.x',
+                '@junk-temporary-prototypes/react': 'x.x.x',
               },
             },
           },
-          ['@storybook/manager-webpack5']
+          ['@junk-temporary-prototypes/manager-webpack5']
         );
 
         expect(writePackageSpy).toHaveBeenCalledWith({
           devDependencies: {
-            '@storybook/react': 'x.x.x',
+            '@junk-temporary-prototypes/react': 'x.x.x',
           },
         });
         expect(executeCommandSpy).not.toHaveBeenCalled();
@@ -178,11 +178,11 @@ describe('NPM Proxy', () => {
     it('without constraint it returns the latest version', async () => {
       const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('"5.3.19"');
 
-      const version = await npmProxy.latestVersion('@storybook/preview-api');
+      const version = await npmProxy.latestVersion('@junk-temporary-prototypes/preview-api');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
         'info',
-        '@storybook/preview-api',
+        '@junk-temporary-prototypes/preview-api',
         'version',
         '--json',
       ]);
@@ -194,11 +194,11 @@ describe('NPM Proxy', () => {
         .spyOn(npmProxy, 'executeCommand')
         .mockReturnValue('["4.25.3","5.3.19","6.0.0-beta.23"]');
 
-      const version = await npmProxy.latestVersion('@storybook/preview-api', '5.X');
+      const version = await npmProxy.latestVersion('@junk-temporary-prototypes/preview-api', '5.X');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
         'info',
-        '@storybook/preview-api',
+        '@junk-temporary-prototypes/preview-api',
         'versions',
         '--json',
       ]);
@@ -208,21 +208,21 @@ describe('NPM Proxy', () => {
     it('throws an error if command output is not a valid JSON', async () => {
       jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('NOT A JSON');
 
-      await expect(npmProxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
+      await expect(npmProxy.latestVersion('@junk-temporary-prototypes/preview-api')).rejects.toThrow();
     });
   });
 
   describe('getVersion', () => {
     it('with a Storybook package listed in versions.json it returns the version', async () => {
       // eslint-disable-next-line global-require
-      const storybookAngularVersion = require('../versions').default['@storybook/angular'];
+      const storybookAngularVersion = require('../versions').default['@junk-temporary-prototypes/angular'];
       const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('"5.3.19"');
 
-      const version = await npmProxy.getVersion('@storybook/angular');
+      const version = await npmProxy.getVersion('@junk-temporary-prototypes/angular');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
         'info',
-        '@storybook/angular',
+        '@junk-temporary-prototypes/angular',
         'version',
         '--json',
       ]);
@@ -235,11 +235,11 @@ describe('NPM Proxy', () => {
         .spyOn(npmProxy, 'executeCommand')
         .mockReturnValue(`"${packageVersion}"`);
 
-      const version = await npmProxy.getVersion('@storybook/react-native');
+      const version = await npmProxy.getVersion('@junk-temporary-prototypes/react-native');
 
       expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
         'info',
-        '@storybook/react-native',
+        '@junk-temporary-prototypes/react-native',
         'version',
         '--json',
       ]);
@@ -286,45 +286,45 @@ describe('NPM Proxy', () => {
             "unrelated-and-should-be-filtered": {
               "version": "1.0.0"
             },
-            "@storybook/addon-interactions": {
+            "@junk-temporary-prototypes/addon-interactions": {
               "version": "7.0.0-rc.7",
-              "resolved": "https://registry.npmjs.org/@storybook/addon-interactions/-/addon-interactions-7.0.0-rc.7.tgz",
+              "resolved": "https://registry.npmjs.org/@junk-temporary-prototypes/addon-interactions/-/addon-interactions-7.0.0-rc.7.tgz",
               "overridden": false,
               "dependencies": {
-                "@storybook/instrumenter": {
+                "@junk-temporary-prototypes/instrumenter": {
                   "version": "6.0.0",
-                  "resolved": "https://registry.npmjs.org/@storybook/instrumenter/-/instrumenter-7.0.0-rc.7.tgz",
+                  "resolved": "https://registry.npmjs.org/@junk-temporary-prototypes/instrumenter/-/instrumenter-7.0.0-rc.7.tgz",
                   "overridden": false,
                   "dependencies": {
-                    "@storybook/channels": {
+                    "@junk-temporary-prototypes/channels": {
                       "version": "7.0.0-rc.7"
                     }
                   }
                 }
               }
             },
-            "@storybook/instrumenter": {
+            "@junk-temporary-prototypes/instrumenter": {
               "version": "7.0.0-beta.11",
-              "resolved": "https://registry.npmjs.org/@storybook/instrumenter/-/instrumenter-7.0.0-beta.11.tgz",
+              "resolved": "https://registry.npmjs.org/@junk-temporary-prototypes/instrumenter/-/instrumenter-7.0.0-beta.11.tgz",
               "overridden": false,
               "dependencies": {}
             },
-            "@storybook/jest": {
+            "@junk-temporary-prototypes/jest": {
               "version": "0.0.11-next.1",
-              "resolved": "https://registry.npmjs.org/@storybook/jest/-/jest-0.0.11-next.1.tgz",
+              "resolved": "https://registry.npmjs.org/@junk-temporary-prototypes/jest/-/jest-0.0.11-next.1.tgz",
               "overridden": false,
               "dependencies": {
-                "@storybook/instrumenter": {
+                "@junk-temporary-prototypes/instrumenter": {
                   "version": "7.0.0-alpha.21"
                 }
               }
             },
-            "@storybook/testing-library": {
+            "@junk-temporary-prototypes/testing-library": {
               "version": "0.0.14-next.1",
-              "resolved": "https://registry.npmjs.org/@storybook/testing-library/-/testing-library-0.0.14-next.1.tgz",
+              "resolved": "https://registry.npmjs.org/@junk-temporary-prototypes/testing-library/-/testing-library-0.0.14-next.1.tgz",
               "overridden": false,
               "dependencies": {
-                "@storybook/instrumenter": {
+                "@junk-temporary-prototypes/instrumenter": {
                   "version": "5.4.2-alpha.0"
                 }
               }
@@ -338,19 +338,19 @@ describe('NPM Proxy', () => {
       expect(installations).toMatchInlineSnapshot(`
         Object {
           "dependencies": Object {
-            "@storybook/addon-interactions": Array [
+            "@junk-temporary-prototypes/addon-interactions": Array [
               Object {
                 "location": "",
                 "version": "7.0.0-rc.7",
               },
             ],
-            "@storybook/channels": Array [
+            "@junk-temporary-prototypes/channels": Array [
               Object {
                 "location": "",
                 "version": "7.0.0-rc.7",
               },
             ],
-            "@storybook/instrumenter": Array [
+            "@junk-temporary-prototypes/instrumenter": Array [
               Object {
                 "location": "",
                 "version": "6.0.0",
@@ -368,13 +368,13 @@ describe('NPM Proxy', () => {
                 "version": "5.4.2-alpha.0",
               },
             ],
-            "@storybook/jest": Array [
+            "@junk-temporary-prototypes/jest": Array [
               Object {
                 "location": "",
                 "version": "0.0.11-next.1",
               },
             ],
-            "@storybook/testing-library": Array [
+            "@junk-temporary-prototypes/testing-library": Array [
               Object {
                 "location": "",
                 "version": "0.0.14-next.1",
@@ -382,7 +382,7 @@ describe('NPM Proxy', () => {
             ],
           },
           "duplicatedDependencies": Object {
-            "@storybook/instrumenter": Array [
+            "@junk-temporary-prototypes/instrumenter": Array [
               "5.4.2-alpha.0",
               "6.0.0",
               "7.0.0-alpha.21",

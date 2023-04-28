@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { DecoratorFunction, StoryContext } from '@storybook/types';
+import { DecoratorFunction, StoryContext } from '@junk-temporary-prototypes/types';
 import { componentWrapperDecorator } from './decorators';
 
 import decorateStory from './decorateStory';

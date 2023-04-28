@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@junk-temporary-prototypes/theming';
 import { withReset, headerCommon } from '../lib/common';
 
 export const H6 = styled.h6(withReset, headerCommon, ({ theme }) => ({

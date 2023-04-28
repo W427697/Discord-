@@ -1,9 +1,9 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 import cloneDeep from 'lodash/cloneDeep.js';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
-import { styled, useTheme, type Theme } from '@storybook/theming';
-import { Form, Icons, type IconsProps, IconButton } from '@storybook/components';
+import { styled, useTheme, type Theme } from '@junk-temporary-prototypes/theming';
+import { Form, Icons, type IconsProps, IconButton } from '@junk-temporary-prototypes/components';
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';

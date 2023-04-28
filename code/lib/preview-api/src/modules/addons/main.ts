@@ -1,6 +1,6 @@
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import type { Channel } from '@storybook/channels';
+import type { Channel } from '@junk-temporary-prototypes/channels';
 import { mockChannel } from './storybook-channel-mock';
 
 export class AddonStore {
@@ -64,7 +64,7 @@ function getAddonsStore(): AddonStore {
 }
 
 // Exporting this twice in order to to be able to import it like { addons } instead of 'addons'
-// prefer import { addons } from '@storybook/addons' over import addons from '@storybook/addons'
+// prefer import { addons } from '@junk-temporary-prototypes/addons' over import addons from '@junk-temporary-prototypes/addons'
 //
 // See public_api.ts
 

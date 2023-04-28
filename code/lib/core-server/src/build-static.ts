@@ -2,10 +2,10 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { dedent } from 'ts-dedent';
-import { global } from '@storybook/global';
+import { global } from '@junk-temporary-prototypes/global';
 
-import { logger } from '@storybook/node-logger';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { logger } from '@junk-temporary-prototypes/node-logger';
+import { telemetry, getPrecedingUpgrade } from '@junk-temporary-prototypes/telemetry';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -14,14 +14,14 @@ import type {
   LoadOptions,
   Options,
   StorybookConfig,
-} from '@storybook/types';
+} from '@junk-temporary-prototypes/types';
 import {
   loadAllPresets,
   loadMainConfig,
   logConfig,
   normalizeStories,
   resolveAddonName,
-} from '@storybook/core-common';
+} from '@junk-temporary-prototypes/core-common';
 
 import isEqual from 'lodash/isEqual.js';
 import { outputStats } from './utils/output-stats';
@@ -82,7 +82,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
     corePresets: [
-      require.resolve('@storybook/core-server/dist/presets/common-preset'),
+      require.resolve('@junk-temporary-prototypes/core-server/dist/presets/common-preset'),
       ...corePresets,
     ],
     overridePresets: [],
@@ -94,12 +94,12 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   presets = await loadAllPresets({
     corePresets: [
-      require.resolve('@storybook/core-server/dist/presets/common-preset'),
+      require.resolve('@junk-temporary-prototypes/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
       ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
-      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
+      require.resolve('@junk-temporary-prototypes/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets || [],
     ...options,
@@ -146,7 +146,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   }
 
   const coreServerPublicDir = join(
-    dirname(require.resolve('@storybook/core-server/package.json')),
+    dirname(require.resolve('@junk-temporary-prototypes/core-server/package.json')),
     'public'
   );
   effects.push(copy(coreServerPublicDir, options.outputDir));

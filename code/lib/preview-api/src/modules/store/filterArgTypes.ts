@@ -1,4 +1,4 @@
-import type { StrictArgTypes } from '@storybook/types';
+import type { StrictArgTypes } from '@junk-temporary-prototypes/types';
 import pickBy from 'lodash/pickBy.js';
 
 export type PropDescriptor = string[] | RegExp;

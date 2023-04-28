@@ -1,7 +1,7 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { Meta, ComponentStoryFn } from '@storybook/react';
+import type { Meta, ComponentStoryFn } from '@junk-temporary-prototypes/react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { Button } from './button';

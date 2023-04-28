@@ -1,4 +1,4 @@
-import type { ViewMode as ViewModeBase } from '@storybook/csf';
+import type { ViewMode as ViewModeBase } from '@junk-temporary-prototypes/csf';
 
 import type { Addon_OptionsParameter } from './addons';
 
@@ -58,7 +58,7 @@ export type {
   StrictGlobalTypes,
   StrictInputType,
   Tag,
-} from '@storybook/csf';
+} from '@junk-temporary-prototypes/csf';
 
 export type ViewMode = ViewModeBase | 'story' | 'info' | 'settings' | string | undefined;
 

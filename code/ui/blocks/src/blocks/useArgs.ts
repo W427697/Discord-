@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { Args, DocsContextProps, PreparedStory, Renderer } from '@storybook/types';
-import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
+import type { Args, DocsContextProps, PreparedStory, Renderer } from '@junk-temporary-prototypes/types';
+import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@junk-temporary-prototypes/core-events';
 
 export const useArgs = (
   story: PreparedStory,

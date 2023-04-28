@@ -1,12 +1,12 @@
-import { useStorybookApi } from '@storybook/manager-api';
-import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
-import { Button, Icons } from '@storybook/components';
+import { useStorybookApi } from '@junk-temporary-prototypes/manager-api';
+import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@junk-temporary-prototypes/manager-api';
+import { styled } from '@junk-temporary-prototypes/theming';
+import { Button, Icons } from '@junk-temporary-prototypes/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
-import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { PRELOAD_ENTRIES } from '@junk-temporary-prototypes/core-events';
 import {
   ComponentNode,
   DocumentNode,

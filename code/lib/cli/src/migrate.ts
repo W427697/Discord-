@@ -1,4 +1,4 @@
-import { listCodemods, runCodemod } from '@storybook/codemod';
+import { listCodemods, runCodemod } from '@junk-temporary-prototypes/codemod';
 import { runFixes } from './automigrate';
 import { bareMdxStoriesGlob } from './automigrate/fixes/bare-mdx-stories-glob';
 import { JsPackageManagerFactory } from './js-package-manager';
@@ -24,8 +24,8 @@ export async function addStorybookBlocksPackage() {
   const packageManager = JsPackageManagerFactory.getPackageManager();
   const packageJson = packageManager.retrievePackageJson();
   const versionToInstall = getStorybookVersionSpecifier(packageManager.retrievePackageJson());
-  logger.info(`✅ Adding "@storybook/blocks" package`);
+  logger.info(`✅ Adding "@junk-temporary-prototypes/blocks" package`);
   await packageManager.addDependencies({ installAsDevDependencies: true, packageJson }, [
-    `@storybook/blocks@${versionToInstall}`,
+    `@junk-temporary-prototypes/blocks@${versionToInstall}`,
   ]);
 }
