@@ -515,13 +515,59 @@ describe('prepareStory', () => {
 
       const hooks = new HooksContext();
       const context = prepareContext({ args: story.initialArgs, globals: {}, ...story });
-      story.unboundStoryFn({ ...context, ...storyContextExtras, hooks });
+      story.unboundStoryFn({ ...context, ...storyContextExtras(), hooks });
 
       expect(ctx1).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
       expect(ctx2).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
       expect(ctx3).toMatchObject({ unmappedArgs: { one: 1 }, args: { one: 'mapped-1' } });
 
       hooks.clean();
+    });
+  });
+
+  describe('mapping', () => {
+    it('maps labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: jest.fn() }
+      );
+
+      const context = prepareContext({ args: { one: 1 }, globals: {}, ...story });
+      expect(context).toMatchObject({
+        args: { one: 'mapped-1' },
+      });
+    });
+
+    it('maps arrays of labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: jest.fn() }
+      );
+
+      const context = prepareContext({
+        args: { one: [1, 1] },
+        globals: {},
+        ...story,
+      });
+      expect(context).toMatchObject({
+        args: { one: ['mapped-1', 'mapped-1'] },
+      });
     });
   });
 

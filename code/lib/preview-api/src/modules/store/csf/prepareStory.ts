@@ -243,8 +243,19 @@ export function prepareContext<
   }
 
   const mappedArgs = Object.entries(targetedContext.args).reduce((acc, [key, val]) => {
-    const mapping = targetedContext.argTypes[key]?.mapping;
-    acc[key] = mapping && val in mapping ? mapping[val] : val;
+    if (!targetedContext.argTypes[key]?.mapping) {
+      acc[key] = val;
+
+      return acc;
+    }
+
+    const mappingFn = (originalValue: any) =>
+      originalValue in targetedContext.argTypes[key].mapping
+        ? targetedContext.argTypes[key].mapping[originalValue]
+        : originalValue;
+
+    acc[key] = Array.isArray(val) ? val.map(mappingFn) : mappingFn(val);
+
     return acc;
   }, {} as Args);
 
