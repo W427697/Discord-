@@ -64,7 +64,7 @@ export function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, h(story, context.args)) as VueRenderer['storyResult'];
+      return prepare(decoratedStory, h(story)) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );

@@ -12,7 +12,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return h(Component, props, getSlots(props, context));
+  return () => h(Component, props, getSlots(props, context));
 };
 
 let setupFunction = (_app: any) => {};
@@ -54,7 +54,7 @@ export function renderToCanvas(
       const renderedElement: any = elementMap.get(canvasElement);
       const current = renderedElement && renderedElement.template ? renderedElement : element;
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
-      return h(current, reactiveArgs);
+      return h(current);
     },
   });
 
