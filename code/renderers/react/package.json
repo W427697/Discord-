@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.1.0-alpha.9",
+  "version": "7.1.0-alpha.10",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -53,13 +53,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.9",
-    "@storybook/core-client": "7.1.0-alpha.9",
-    "@storybook/docs-tools": "7.1.0-alpha.9",
+    "@storybook/client-logger": "7.1.0-alpha.10",
+    "@storybook/core-client": "7.1.0-alpha.10",
+    "@storybook/docs-tools": "7.1.0-alpha.10",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.9",
-    "@storybook/react-dom-shim": "7.1.0-alpha.9",
-    "@storybook/types": "7.1.0-alpha.9",
+    "@storybook/preview-api": "7.1.0-alpha.10",
+    "@storybook/react-dom-shim": "7.1.0-alpha.10",
+    "@storybook/types": "7.1.0-alpha.10",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
@@ -106,5 +106,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
+  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
 }
