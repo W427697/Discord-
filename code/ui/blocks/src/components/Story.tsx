@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { FunctionComponent } from 'react';
 import React, { useRef, useEffect, useState } from 'react';
 import type { DocsContextProps, PreparedStory } from '@junk-temporary-prototypes/types';

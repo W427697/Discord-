@@ -1,4 +1,4 @@
-import { toId } from '@junk-temporary-prototypes/csf';
+import { toId } from '@storybook/csf';
 
 import { constructUrl } from '../url';
 

@@ -1,5 +1,5 @@
-import { global as globalThis } from '@junk-temporary-prototypes/global';
-import { expect } from '@junk-temporary-prototypes/jest';
+import { global as globalThis } from '@storybook/global';
+import { expect } from '@storybook/jest';
 import type { PlayFunctionContext } from '@junk-temporary-prototypes/types';
 
 export default {

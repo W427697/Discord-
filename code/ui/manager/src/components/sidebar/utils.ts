@@ -1,5 +1,5 @@
 import memoize from 'memoizerific';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { SyntheticEvent } from 'react';
 import type { HashEntry, IndexHash } from '@junk-temporary-prototypes/manager-api';
 

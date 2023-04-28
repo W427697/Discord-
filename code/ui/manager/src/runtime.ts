@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import type { Channel } from '@junk-temporary-prototypes/channels';
 import type { AddonStore } from '@junk-temporary-prototypes/manager-api';

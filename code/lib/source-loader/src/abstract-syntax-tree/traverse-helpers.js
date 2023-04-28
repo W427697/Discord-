@@ -1,4 +1,4 @@
-import { isExportStory } from '@junk-temporary-prototypes/csf';
+import { isExportStory } from '@storybook/csf';
 import estraverse from 'estraverse';
 import { handleADD, handleSTORYOF, patchNode, handleExportedName } from './parse-helpers';
 

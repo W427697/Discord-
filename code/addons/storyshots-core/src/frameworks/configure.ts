@@ -10,8 +10,8 @@ import type {
 } from '@junk-temporary-prototypes/types';
 import { toRequireContext } from '@junk-temporary-prototypes/core-webpack';
 import { normalizeStoriesEntry } from '@junk-temporary-prototypes/core-common';
-import registerRequireContextHook from '@junk-temporary-prototypes/babel-plugin-require-context-hook/register';
-import { global } from '@junk-temporary-prototypes/global';
+import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
+import { global } from '@storybook/global';
 
 import type { ClientApi } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';

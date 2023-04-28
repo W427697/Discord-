@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import pick from 'lodash/pick.js';
 import { dequal as deepEqual } from 'dequal';
 import { create } from '@junk-temporary-prototypes/theming/create';

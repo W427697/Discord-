@@ -15,7 +15,7 @@ import {
   validateFrameworkName,
 } from '@junk-temporary-prototypes/core-common';
 import prompts from 'prompts';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { telemetry } from '@junk-temporary-prototypes/telemetry';
 
 import { join, resolve } from 'path';

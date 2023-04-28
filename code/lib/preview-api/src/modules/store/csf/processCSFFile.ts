@@ -7,7 +7,7 @@ import type {
   ModuleExports,
   NormalizedComponentAnnotations,
 } from '@junk-temporary-prototypes/types';
-import { isExportStory } from '@junk-temporary-prototypes/csf';
+import { isExportStory } from '@storybook/csf';
 import { deprecate, logger } from '@junk-temporary-prototypes/client-logger';
 
 import dedent from 'ts-dedent';

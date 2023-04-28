@@ -6,7 +6,7 @@ import type { DownshiftState, StateChangeOptions } from 'downshift';
 import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
 import { DEFAULT_REF_ID } from './Sidebar';

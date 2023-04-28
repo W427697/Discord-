@@ -1,4 +1,4 @@
-import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { global as globalThis } from '@storybook/global';
 
 import Button from './Button.vue';
 import Pre from './Pre.vue';

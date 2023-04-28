@@ -8,7 +8,7 @@ import {
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@junk-temporary-prototypes/core-events';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';

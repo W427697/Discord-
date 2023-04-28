@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import type { Parameters, Renderer, StrictArgTypes } from '@junk-temporary-prototypes/csf';
+import type { Parameters, Renderer, StrictArgTypes } from '@storybook/csf';
 import type { ModuleExports } from '@junk-temporary-prototypes/types';
 import type { FC } from 'react';
 import type { PropDescriptor } from '@junk-temporary-prototypes/preview-api';

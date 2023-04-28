@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

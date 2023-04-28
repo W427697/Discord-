@@ -105,7 +105,7 @@ export function getMigrationSummary({
 
 // These packages are aliased by Storybook, so it doesn't matter if they're duplicated
 const allowList = [
-  '@junk-temporary-prototypes/csf',
+  '@storybook/csf',
   // see this file for more info: code/lib/preview/src/globals/types.ts
   '@junk-temporary-prototypes/addons',
   '@junk-temporary-prototypes/channel-postmessage',

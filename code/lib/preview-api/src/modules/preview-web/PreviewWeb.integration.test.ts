@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { RenderContext } from '@junk-temporary-prototypes/types';
 import { addons, mockChannel as createMockChannel } from '../addons';
 
@@ -30,7 +30,7 @@ jest.mock('@junk-temporary-prototypes/client-logger');
 jest.mock('./WebView');
 
 const { document } = global;
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     history: { replaceState: jest.fn() },

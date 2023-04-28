@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign,@typescript-eslint/no-shadow */
 import type { FileInfo } from 'jscodeshift';
-import { babelParse, babelParseExpression } from '@junk-temporary-prototypes/csf-tools';
+import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
 import type { Root } from 'remark-mdx';
 import remarkMdx from 'remark-mdx';

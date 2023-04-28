@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { addons } from '@junk-temporary-prototypes/preview-api';
 import { STORY_CHANGED } from '@junk-temporary-prototypes/core-events';
 import { HIGHLIGHT, RESET_HIGHLIGHT, HIGHLIGHT_STYLE_ID } from './constants';

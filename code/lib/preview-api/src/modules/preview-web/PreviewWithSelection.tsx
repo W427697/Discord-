@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import {
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,

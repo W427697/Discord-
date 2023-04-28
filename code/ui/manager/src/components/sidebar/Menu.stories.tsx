@@ -1,10 +1,10 @@
-import { expect } from '@junk-temporary-prototypes/jest';
+import { expect } from '@storybook/jest';
 import type { ComponentProps } from 'react';
 import React from 'react';
 
 import { TooltipLinkList } from '@junk-temporary-prototypes/components';
 import { styled } from '@junk-temporary-prototypes/theming';
-import { within, userEvent, screen } from '@junk-temporary-prototypes/testing-library';
+import { within, userEvent, screen } from '@storybook/testing-library';
 import { SidebarMenu, ToolbarMenu } from './Menu';
 import { useMenu } from '../../containers/menu';
 

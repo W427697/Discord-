@@ -1,4 +1,4 @@
-import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { global as globalThis } from '@storybook/global';
 
 import { actions, configureActions } from '@junk-temporary-prototypes/addon-actions';
 

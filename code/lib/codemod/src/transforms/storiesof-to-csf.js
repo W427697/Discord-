@@ -1,6 +1,6 @@
 import prettier from 'prettier';
 import { logger } from '@junk-temporary-prototypes/node-logger';
-import { storyNameFromExport } from '@junk-temporary-prototypes/csf';
+import { storyNameFromExport } from '@storybook/csf';
 import { sanitizeName, jscodeshiftToPrettierParser } from '../lib/utils';
 
 /**

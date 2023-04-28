@@ -3,7 +3,7 @@ import React, { Children, useCallback, useState } from 'react';
 import { darken } from 'polished';
 import { styled } from '@junk-temporary-prototypes/theming';
 
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { ActionBar, Zoom } from '@junk-temporary-prototypes/components';
 import type { ActionItem } from '@junk-temporary-prototypes/components';
 

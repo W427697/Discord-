@@ -1,4 +1,4 @@
-import type { Globals } from '@junk-temporary-prototypes/csf';
+import type { Globals } from '@storybook/csf';
 import type { DocsContextProps, PreparedStory } from '@junk-temporary-prototypes/types';
 import { useEffect, useState } from 'react';
 import { GLOBALS_UPDATED } from '@junk-temporary-prototypes/core-events';

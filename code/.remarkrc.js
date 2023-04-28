@@ -1,1 +1,1 @@
-module.exports = require('@junk-temporary-prototypes/linter-config/remark.config');
+module.exports = require('@storybook/linter-config/remark.config');

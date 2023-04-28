@@ -1,5 +1,5 @@
-import { global } from '@junk-temporary-prototypes/global';
-import { toId, sanitize } from '@junk-temporary-prototypes/csf';
+import { global } from '@storybook/global';
+import { toId, sanitize } from '@storybook/csf';
 import type {
   StoryKind,
   ComponentTitle,

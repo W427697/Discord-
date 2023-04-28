@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import type { Channel } from '@junk-temporary-prototypes/channels';
 import { mockChannel } from './storybook-channel-mock';

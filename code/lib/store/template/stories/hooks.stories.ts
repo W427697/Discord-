@@ -1,7 +1,7 @@
-import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext } from '@junk-temporary-prototypes/types';
 import { useEffect, useState } from '@junk-temporary-prototypes/preview-api';
-import { within, userEvent } from '@junk-temporary-prototypes/testing-library';
+import { within, userEvent } from '@storybook/testing-library';
 
 export default {
   component: globalThis.Components.Button,

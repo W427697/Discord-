@@ -1,4 +1,4 @@
-import { storyNameFromExport, sanitize } from '@junk-temporary-prototypes/csf';
+import { storyNameFromExport, sanitize } from '@storybook/csf';
 import mapKeys from 'lodash/mapKeys.js';
 import { patchNode } from './parse-helpers';
 import getParser from './parsers';

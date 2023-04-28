@@ -82,12 +82,12 @@
   "dependencies": {
     "@junk-temporary-prototypes/client-logger": "7.0.7",
     "@junk-temporary-prototypes/core-events": "7.0.7",
-    "@junk-temporary-prototypes/csf": "^0.1.0",
-    "@junk-temporary-prototypes/global": "^5.0.0",
     "@junk-temporary-prototypes/manager-api": "7.0.7",
     "@junk-temporary-prototypes/preview-api": "7.0.7",
     "@junk-temporary-prototypes/router": "7.0.7",
     "@junk-temporary-prototypes/types": "7.0.7",
+    "@storybook/csf": "^0.1.0",
+    "@storybook/global": "^5.0.0",
     "prop-types": "^15.7.2",
     "ts-dedent": "^2.0.0"
   },

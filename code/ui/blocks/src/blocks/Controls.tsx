@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import type { Renderer } from '@junk-temporary-prototypes/csf';
+import type { Renderer } from '@storybook/csf';
 import type { ModuleExports } from '@junk-temporary-prototypes/types';
 import type { FC } from 'react';
 import React, { useContext } from 'react';

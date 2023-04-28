@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import qs from 'qs';
 import type { ViewMode } from '@junk-temporary-prototypes/types';
 

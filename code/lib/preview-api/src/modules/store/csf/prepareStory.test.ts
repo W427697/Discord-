@@ -1,6 +1,6 @@
 /// <reference types="@types/jest" />;
 
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
 import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@junk-temporary-prototypes/types';
 import { addons, HooksContext } from '../../addons';
@@ -8,9 +8,9 @@ import { addons, HooksContext } from '../../addons';
 import { UNTARGETED } from '../args';
 import { prepareStory, prepareMeta } from './prepareStory';
 
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
-    ...(jest.requireActual('@junk-temporary-prototypes/global') as any),
+    ...(jest.requireActual('@storybook/global') as any),
   },
 }));
 

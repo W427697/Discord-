@@ -4,7 +4,7 @@ import { SELECT_STORY } from '@junk-temporary-prototypes/core-events';
 import { linkTo, hrefTo } from './utils';
 
 jest.mock('@junk-temporary-prototypes/preview-api');
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
     document: global.document,
     window: global,

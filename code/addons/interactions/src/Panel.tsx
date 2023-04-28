@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import * as React from 'react';
 import { useChannel, useParameter } from '@junk-temporary-prototypes/manager-api';
 import {

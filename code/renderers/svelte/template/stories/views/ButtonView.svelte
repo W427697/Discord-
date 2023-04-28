@@ -3,7 +3,7 @@
    * @component Button View
    * @wrapper
    */
-  import { global as globalThis } from '@junk-temporary-prototypes/global';
+  import { global as globalThis } from '@storybook/global';
   const Button = globalThis.Components.Button;
 
   /**

@@ -1,5 +1,5 @@
 {
-  "name": "@junk-temporary-prototypes/csf-plugin",
+  "name": "@storybook/csf-plugin",
   "version": "7.0.7",
   "description": "Enrich CSF files via static analysis",
   "keywords": [
@@ -43,7 +43,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/csf-tools": "7.0.7",
+    "@storybook/csf-tools": "7.0.7",
     "unplugin": "^0.10.2"
   },
   "devDependencies": {

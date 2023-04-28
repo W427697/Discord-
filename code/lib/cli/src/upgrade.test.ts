@@ -27,7 +27,7 @@ describe.each([
   ['@junk-temporary-prototypes/addon-info', true],
   ['@junk-temporary-prototypes/something-random', true],
   ['@junk-temporary-prototypes/preset-create-react-app', false],
-  ['@junk-temporary-prototypes/linter-config', false],
+  ['@storybook/linter-config', false],
   ['@junk-temporary-prototypes/design-system', false],
 ])('isCorePackage', (input, output) => {
   it(`${input}`, () => {

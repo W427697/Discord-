@@ -1,8 +1,8 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { addons, makeDecorator } from '@junk-temporary-prototypes/preview-api';
 import { STORY_CHANGED, SELECT_STORY } from '@junk-temporary-prototypes/core-events';
 import type { StoryId, StoryName, ComponentTitle, StoryKind } from '@junk-temporary-prototypes/types';
-import { toId } from '@junk-temporary-prototypes/csf';
+import { toId } from '@storybook/csf';
 import { PARAM_KEY } from './constants';
 
 const { document, HTMLElement } = global;

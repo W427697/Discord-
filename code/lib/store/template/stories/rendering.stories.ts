@@ -1,7 +1,7 @@
-import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { global as globalThis } from '@storybook/global';
 import type { PlayFunctionContext } from '@junk-temporary-prototypes/types';
-import { within, waitFor } from '@junk-temporary-prototypes/testing-library';
-import { expect } from '@junk-temporary-prototypes/jest';
+import { within, waitFor } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 import {
   FORCE_REMOUNT,
   RESET_STORY_ARGS,

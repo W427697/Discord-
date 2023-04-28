@@ -1,7 +1,7 @@
 /// <reference types="node" />
 
 import { addons } from '@junk-temporary-prototypes/preview-api';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@junk-temporary-prototypes/core-events';
 import type {
   Renderer,

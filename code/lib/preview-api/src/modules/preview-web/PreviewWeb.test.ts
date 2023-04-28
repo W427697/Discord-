@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import merge from 'lodash/merge.js';
 import {
   CONFIG_ERROR,
@@ -59,9 +59,9 @@ const { history, document } = global;
 const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
-    ...(jest.requireActual('@junk-temporary-prototypes/global') as any),
+    ...(jest.requireActual('@storybook/global') as any),
     history: { replaceState: jest.fn() },
     document: {
       location: {

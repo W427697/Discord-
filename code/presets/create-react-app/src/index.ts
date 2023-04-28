@@ -4,7 +4,7 @@ import type { Configuration, RuleSetRule } from 'webpack';
 import semver from 'semver';
 import { logger } from '@junk-temporary-prototypes/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
-import ReactDocgenTypescriptPlugin from '@junk-temporary-prototypes/react-docgen-typescript-plugin';
+import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import { mergePlugins } from './helpers/mergePlugins';
 import { getReactScriptsPath } from './helpers/getReactScriptsPath';
 import { processCraConfig } from './helpers/processCraConfig';

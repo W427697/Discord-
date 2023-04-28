@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import semver from 'semver';
 import memoize from 'memoizerific';
 

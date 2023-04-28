@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 
 import { dedent } from 'ts-dedent';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { logger } from '@junk-temporary-prototypes/client-logger';
-import { toId, sanitize } from '@junk-temporary-prototypes/csf';
+import { toId, sanitize } from '@storybook/csf';
 import type {
   Args,
   StepRunner,

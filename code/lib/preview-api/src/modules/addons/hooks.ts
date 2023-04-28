@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { logger } from '@junk-temporary-prototypes/client-logger';
 import type {
   Renderer,

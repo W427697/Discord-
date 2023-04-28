@@ -47,9 +47,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@preact/preset-vite": "^2.0.0",
     "@junk-temporary-prototypes/builder-vite": "7.0.7",
-    "@junk-temporary-prototypes/preact": "7.0.7"
+    "@junk-temporary-prototypes/preact": "7.0.7",
+    "@preact/preset-vite": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",

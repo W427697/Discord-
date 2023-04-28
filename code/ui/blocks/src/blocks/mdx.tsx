@@ -2,7 +2,7 @@ import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@junk-temporary-prototypes/core-events';
 import { Code, components, Icons, nameSpaceClassNames } from '@junk-temporary-prototypes/components';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { styled } from '@junk-temporary-prototypes/theming';
 import { Source } from '../components';
 import type { DocsContextProps } from './DocsContext';

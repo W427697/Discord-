@@ -43,7 +43,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/global": "^5.0.0"
+    "@storybook/global": "^5.0.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

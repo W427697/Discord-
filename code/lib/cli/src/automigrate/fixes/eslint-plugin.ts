@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import { readConfig, writeConfig } from '@junk-temporary-prototypes/csf-tools';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { readFile, readJson, writeJson } from 'fs-extra';
 import detectIndent from 'detect-indent';
 

@@ -1,4 +1,4 @@
-import { expect } from '@junk-temporary-prototypes/jest';
+import { expect } from '@storybook/jest';
 import type { Key } from 'react';
 import React, { Fragment } from 'react';
 import { action } from '@junk-temporary-prototypes/addon-actions';
@@ -11,7 +11,7 @@ import {
   screen,
   getByText,
   userEvent,
-} from '@junk-temporary-prototypes/testing-library';
+} from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>

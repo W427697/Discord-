@@ -9,7 +9,7 @@ import {
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@junk-temporary-prototypes/core-events';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
 import { CallStates } from './types';

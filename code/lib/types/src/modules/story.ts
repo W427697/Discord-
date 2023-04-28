@@ -1,4 +1,4 @@
-import type { Renderer, ProjectAnnotations as CsfProjectAnnotations } from '@junk-temporary-prototypes/csf';
+import type { Renderer, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
 
 import type {
   ComponentAnnotations,

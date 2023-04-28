@@ -199,13 +199,13 @@ describe('Yarn 2 Proxy', () => {
       // yarn info --name-only --recursive "@junk-temporary-prototypes/*" "storybook"
       jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue(`
       "unrelated-and-should-be-filtered@npm:1.0.0"
-      "@junk-temporary-prototypes/global@npm:5.0.0"
+      "@storybook/global@npm:5.0.0"
       "@junk-temporary-prototypes/instrumenter@npm:7.0.0-beta.12"
       "@junk-temporary-prototypes/instrumenter@npm:7.0.0-beta.19"
-      "@junk-temporary-prototypes/jest@npm:0.0.11-next.0"
+      "@storybook/jest@npm:0.0.11-next.0"
       "@junk-temporary-prototypes/manager-api@npm:7.0.0-beta.19"
       "@junk-temporary-prototypes/manager@npm:7.0.0-beta.19"
-      "@junk-temporary-prototypes/mdx2-csf@npm:0.1.0-next.5"
+      "@storybook/mdx2-csf@npm:0.1.0-next.5"
       `);
 
       const installations = await yarn2Proxy.findInstallations(['@junk-temporary-prototypes/*']);
@@ -213,7 +213,7 @@ describe('Yarn 2 Proxy', () => {
       expect(installations).toMatchInlineSnapshot(`
         Object {
           "dependencies": Object {
-            "@junk-temporary-prototypes/global": Array [
+            "@storybook/global": Array [
               Object {
                 "location": "",
                 "version": "5.0.0",
@@ -229,7 +229,7 @@ describe('Yarn 2 Proxy', () => {
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@junk-temporary-prototypes/jest": Array [
+            "@storybook/jest": Array [
               Object {
                 "location": "",
                 "version": "0.0.11-next.0",
@@ -247,7 +247,7 @@ describe('Yarn 2 Proxy', () => {
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@junk-temporary-prototypes/mdx2-csf": Array [
+            "@storybook/mdx2-csf": Array [
               Object {
                 "location": "",
                 "version": "0.1.0-next.5",

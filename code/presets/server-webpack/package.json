@@ -55,8 +55,8 @@
   "dependencies": {
     "@junk-temporary-prototypes/core-server": "7.0.7",
     "@junk-temporary-prototypes/core-webpack": "7.0.7",
-    "@junk-temporary-prototypes/global": "^5.0.0",
     "@junk-temporary-prototypes/server": "7.0.7",
+    "@storybook/global": "^5.0.0",
     "@types/node": "^16.0.0",
     "safe-identifier": "^0.4.1",
     "ts-dedent": "^2.0.0",

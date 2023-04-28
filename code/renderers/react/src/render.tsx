@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { Component as ReactComponent, StrictMode, Fragment } from 'react';
 import { renderElement, unmountElement } from '@junk-temporary-prototypes/react-dom-shim';

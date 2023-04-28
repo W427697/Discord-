@@ -1,7 +1,7 @@
 // This file requires many imports from `../code`, which requires both an install and bootstrap of
 // the repo to work properly. So we load it async in the task runner *after* those steps.
 
-/* eslint-disable no-restricted-syntax, no-await-in-loop, no-param-reassign */
+/* eslint-disable no-restricted-syntax, no-await-in-loop */
 import {
   copy,
   ensureSymlink,
@@ -100,7 +100,8 @@ export const install: Task['run'] = async (
     );
   }
 
-  const extra = template.expected.renderer === '@junk-temporary-prototypes/html' ? { type: 'html' } : {};
+  const extra =
+    template.expected.renderer === '@junk-temporary-prototypes/html' ? { type: 'html' } : {};
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -153,7 +154,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
   const storiesMdxLoaderPath = require.resolve(
-    '../../code/node_modules/@junk-temporary-prototypes/mdx2-csf/loader'
+    '../../code/node_modules/@storybook/mdx2-csf/loader'
   );
   const babelLoaderPath = require.resolve('babel-loader');
   const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
@@ -344,8 +345,12 @@ function addExtraDependencies({
   dryRun: boolean;
   debug: boolean;
 }) {
-  // web-components doesn't install '@junk-temporary-prototypes/testing-library' by default
-  const extraDeps = ['@junk-temporary-prototypes/jest', '@junk-temporary-prototypes/testing-library', '@junk-temporary-prototypes/test-runner'];
+  // web-components doesn't install '@storybook/testing-library' by default
+  const extraDeps = [
+    '@storybook/jest',
+    '@storybook/testing-library',
+    '@junk-temporary-prototypes/test-runner',
+  ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
@@ -422,10 +427,13 @@ export const addStories: Task['run'] = async (
   if (isCoreRenderer) {
     // Add stories for lib/store (and addons below). NOTE: these stories will be in the
     // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-    await linkPackageStories(await workspacePath('core package', '@junk-temporary-prototypes/store'), {
-      mainConfig,
-      cwd,
-    });
+    await linkPackageStories(
+      await workspacePath('core package', '@junk-temporary-prototypes/store'),
+      {
+        mainConfig,
+        cwd,
+      }
+    );
   }
 
   const mainAddons = (mainConfig.getSafeFieldValue(['addons']) || []).reduce(
@@ -479,7 +487,8 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
 
-  if (template.expected.builder === '@junk-temporary-prototypes/builder-vite') setSandboxViteFinal(mainConfig);
+  if (template.expected.builder === '@junk-temporary-prototypes/builder-vite')
+    setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
 

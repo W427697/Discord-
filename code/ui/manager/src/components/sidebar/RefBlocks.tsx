@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { useState, useCallback, Fragment } from 'react';
 

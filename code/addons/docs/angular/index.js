@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 export const setCompodocJson = (compodocJson) => {
   // @ts-expect-error (Converted from ts-ignore)

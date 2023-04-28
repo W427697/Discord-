@@ -7,7 +7,7 @@
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX, CONFIG_ERROR } from '@junk-temporary-prototypes/core-events';
 
 import type { ModuleExports, Path } from '@junk-temporary-prototypes/types';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { setGlobalRender } from '../../client-api';
 import {
   waitForRender,
@@ -20,7 +20,7 @@ import {
 import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
 
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     window: globalThis,

@@ -1,5 +1,5 @@
 import type { Renderer, ModuleExports, ProjectAnnotations } from '@junk-temporary-prototypes/types';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import { combineParameters } from '../parameters';
 import { composeStepRunners } from './stepRunners';

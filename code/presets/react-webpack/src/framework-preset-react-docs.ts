@@ -1,4 +1,4 @@
-import ReactDocgenTypescriptPlugin from '@junk-temporary-prototypes/react-docgen-typescript-plugin';
+import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import { hasDocsOrControls } from '@junk-temporary-prototypes/docs-tools';
 
 import type { StorybookConfig } from './types';

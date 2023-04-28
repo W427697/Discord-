@@ -2,8 +2,8 @@
 import prettier from 'prettier';
 import * as t from '@babel/types';
 import { isIdentifier, isTSTypeAnnotation, isTSTypeReference } from '@babel/types';
-import type { CsfFile } from '@junk-temporary-prototypes/csf-tools';
-import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
+import type { CsfFile } from '@storybook/csf-tools';
+import { loadCsf } from '@storybook/csf-tools';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
@@ -238,7 +238,7 @@ class StorybookImportHelper {
     file.path.traverse({
       ImportDeclaration: (path) => {
         const source = path.node.source.value;
-        if (source.startsWith('@junk-temporary-prototypes/csf') || !source.startsWith('@junk-temporary-prototypes')) return;
+        if (source.startsWith('@storybook/csf') || !source.startsWith('@junk-temporary-prototypes')) return;
         const isRendererImport = path.get('specifiers').some((specifier) => {
           if (specifier.isImportNamespaceSpecifier()) {
             // throw path.buildCodeFrameError(

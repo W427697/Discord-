@@ -8,7 +8,7 @@ import {
 import type { NavigateOptions } from '@junk-temporary-prototypes/router';
 import { queryFromLocation, buildArgsParam } from '@junk-temporary-prototypes/router';
 import { dequal as deepEqual } from 'dequal';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import type { API_Layout, API_UI } from '@junk-temporary-prototypes/types';
 import type { ModuleArgs, ModuleFn } from '../index';

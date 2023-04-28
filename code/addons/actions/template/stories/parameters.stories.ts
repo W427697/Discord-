@@ -1,4 +1,4 @@
-import { global as globalThis } from '@junk-temporary-prototypes/global';
+import { global as globalThis } from '@storybook/global';
 import { withActions } from '@junk-temporary-prototypes/addon-actions/decorator';
 
 export default {

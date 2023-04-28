@@ -246,10 +246,10 @@ describe('NPM Proxy', () => {
               }
             },
             "devDependencies": {
-              "@junk-temporary-prototypes/jest": {
-                "from": "@junk-temporary-prototypes/jest",
+              "@storybook/jest": {
+                "from": "@storybook/jest",
                 "version": "0.0.11-next.0",
-                "resolved": "https://registry.npmjs.org/@junk-temporary-prototypes/jest/-/jest-0.0.11-next.0.tgz",
+                "resolved": "https://registry.npmjs.org/@storybook/jest/-/jest-0.0.11-next.0.tgz",
                 "dependencies": {
                   "@junk-temporary-prototypes/instrumenter": {
                     "from": "@junk-temporary-prototypes/instrumenter",
@@ -258,10 +258,10 @@ describe('NPM Proxy', () => {
                   }
                 }
               },
-              "@junk-temporary-prototypes/testing-library": {
-                "from": "@junk-temporary-prototypes/testing-library",
+              "@storybook/testing-library": {
+                "from": "@storybook/testing-library",
                 "version": "0.0.14-next.1",
-                "resolved": "https://registry.npmjs.org/@junk-temporary-prototypes/testing-library/-/testing-library-0.0.14-next.1.tgz",
+                "resolved": "https://registry.npmjs.org/@storybook/testing-library/-/testing-library-0.0.14-next.1.tgz",
                 "dependencies": {
                   "@junk-temporary-prototypes/instrumenter": {
                     "from": "@junk-temporary-prototypes/instrumenter",
@@ -327,7 +327,7 @@ describe('NPM Proxy', () => {
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@junk-temporary-prototypes/jest": Array [
+            "@storybook/jest": Array [
               Object {
                 "location": "",
                 "version": "0.0.11-next.0",
@@ -339,7 +339,7 @@ describe('NPM Proxy', () => {
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@junk-temporary-prototypes/testing-library": Array [
+            "@storybook/testing-library": Array [
               Object {
                 "location": "",
                 "version": "0.0.14-next.1",

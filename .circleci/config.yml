@@ -176,7 +176,7 @@ jobs:
             cd code
             SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
-          name: Run @junk-temporary-prototypes/bench on repro
+          name: Run @storybook/bench on repro
           command: |
             cd bench/cra-default-ts
             rm -rf node_modules
@@ -217,7 +217,7 @@ jobs:
             cd code
             SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
-          name: Run @junk-temporary-prototypes/bench on repro
+          name: Run @storybook/bench on repro
           command: |
             cd bench/react-vite-default-ts
             rm -rf node_modules

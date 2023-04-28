@@ -1,4 +1,4 @@
-import { sanitize } from '@junk-temporary-prototypes/csf';
+import { sanitize } from '@storybook/csf';
 import type { Renderer, ModuleExports, NormalizedComponentAnnotations } from '@junk-temporary-prototypes/types';
 
 import { normalizeInputTypes } from './normalizeInputTypes';

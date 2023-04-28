@@ -15,7 +15,7 @@ import type {
   StorybookConfig,
   PresetPropertyFn,
 } from '@junk-temporary-prototypes/types';
-import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
+import { loadCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { parseStaticDir } from '../utils/server-statics';

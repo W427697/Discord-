@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { simulatePageLoad } from './simulate-pageload';
 
 const { document } = global;

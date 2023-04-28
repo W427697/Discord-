@@ -1,4 +1,4 @@
-const base = require('@junk-temporary-prototypes/linter-config/prettier.config');
+const base = require('@storybook/linter-config/prettier.config');
 
 module.exports = {
   ...base,

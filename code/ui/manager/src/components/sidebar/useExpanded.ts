@@ -1,7 +1,7 @@
 import type { StoriesHash } from '@junk-temporary-prototypes/manager-api';
 import { useStorybookApi } from '@junk-temporary-prototypes/manager-api';
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@junk-temporary-prototypes/core-events';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import throttle from 'lodash/throttle.js';
 import type { Dispatch, MutableRefObject } from 'react';
 import type React from 'react';

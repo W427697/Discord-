@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@junk-temporary-prototypes/theming';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { Spaced, Button } from '@junk-temporary-prototypes/components';
 import type { DocsContextProps, ModuleExport } from '@junk-temporary-prototypes/types';
 import { Preview, PreviewSkeleton } from './Preview';

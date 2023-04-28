@@ -118,10 +118,10 @@
     "@babel/core": {
       "optional": true
     },
-    "@next/font": {
+    "@junk-temporary-prototypes/addon-actions": {
       "optional": true
     },
-    "@junk-temporary-prototypes/addon-actions": {
+    "@next/font": {
       "optional": true
     },
     "typescript": {

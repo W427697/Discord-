@@ -48,9 +48,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
-    "@junk-temporary-prototypes/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
     "@junk-temporary-prototypes/types": "7.0.7",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
     "@types/babel__core": "^7.1.7",
     "babel-plugin-react-docgen": "^4.1.0",
     "pnp-webpack-plugin": "^1.7.0",

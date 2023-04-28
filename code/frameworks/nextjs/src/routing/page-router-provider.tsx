@@ -1,4 +1,4 @@
-import type { Globals } from '@junk-temporary-prototypes/csf';
+import type { Globals } from '@storybook/csf';
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 import React from 'react';
 import type { RouteParams } from './types';

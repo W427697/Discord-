@@ -1,8 +1,8 @@
-import { global as globalThis } from '@junk-temporary-prototypes/global';
-import { userEvent, within } from '@junk-temporary-prototypes/testing-library';
+import { global as globalThis } from '@storybook/global';
+import { userEvent, within } from '@storybook/testing-library';
 import { PREVIEW_KEYDOWN } from '@junk-temporary-prototypes/core-events';
-import { jest, expect } from '@junk-temporary-prototypes/jest';
-import type { PlayFunctionContext } from '@junk-temporary-prototypes/csf';
+import { jest, expect } from '@storybook/jest';
+import type { PlayFunctionContext } from '@storybook/csf';
 
 export default {
   component: globalThis.Components.Form,

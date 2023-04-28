@@ -76,10 +76,10 @@
     "@junk-temporary-prototypes/client-logger": "7.0.7",
     "@junk-temporary-prototypes/components": "7.0.7",
     "@junk-temporary-prototypes/core-events": "7.0.7",
-    "@junk-temporary-prototypes/global": "^5.0.0",
     "@junk-temporary-prototypes/manager-api": "7.0.7",
     "@junk-temporary-prototypes/preview-api": "7.0.7",
     "@junk-temporary-prototypes/theming": "7.0.7",
+    "@storybook/global": "^5.0.0",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2"
   },

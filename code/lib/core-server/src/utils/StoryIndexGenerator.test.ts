@@ -9,15 +9,15 @@ import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@junk-temporary-prototypes/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexer, StoryIndexEntry } from '@junk-temporary-prototypes/types';
-import { loadCsf, getStorySortParameter } from '@junk-temporary-prototypes/csf-tools';
-import { toId } from '@junk-temporary-prototypes/csf';
+import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
+import { toId } from '@storybook/csf';
 import { logger, once } from '@junk-temporary-prototypes/node-logger';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
-jest.mock('@junk-temporary-prototypes/csf-tools');
-jest.mock('@junk-temporary-prototypes/csf', () => {
-  const csf = jest.requireActual('@junk-temporary-prototypes/csf');
+jest.mock('@storybook/csf-tools');
+jest.mock('@storybook/csf', () => {
+  const csf = jest.requireActual('@storybook/csf');
   return {
     ...csf,
     toId: jest.fn(csf.toId),
@@ -39,7 +39,7 @@ const csfIndexer = async (fileName: string, opts: any) => {
 
 const storiesMdxIndexer = async (fileName: string, opts: any) => {
   let code = (await fs.readFile(fileName, 'utf-8')).toString();
-  const { compile } = await import('@junk-temporary-prototypes/mdx2-csf');
+  const { compile } = await import('@storybook/mdx2-csf');
   code = await compile(code, {});
   return loadCsf(code, { ...opts, fileName }).parse();
 };
@@ -58,7 +58,7 @@ const options = {
 
 describe('StoryIndexGenerator', () => {
   beforeEach(() => {
-    const actual = jest.requireActual('@junk-temporary-prototypes/csf-tools');
+    const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
     jest.mocked(logger.warn).mockClear();
     jest.mocked(once.warn).mockClear();

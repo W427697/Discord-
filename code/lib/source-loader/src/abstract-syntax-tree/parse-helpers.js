@@ -1,4 +1,4 @@
-import { sanitize } from '@junk-temporary-prototypes/csf';
+import { sanitize } from '@storybook/csf';
 
 const STORIES_OF = 'storiesOf';
 

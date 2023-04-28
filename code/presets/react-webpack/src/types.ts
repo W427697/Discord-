@@ -3,7 +3,7 @@ import type {
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsBase,
 } from '@junk-temporary-prototypes/core-webpack';
-import type { PluginOptions as ReactDocgenTypescriptOptions } from '@junk-temporary-prototypes/react-docgen-typescript-plugin';
+import type { PluginOptions as ReactDocgenTypescriptOptions } from '@storybook/react-docgen-typescript-plugin';
 
 export type { BuilderResult } from '@junk-temporary-prototypes/core-webpack';
 

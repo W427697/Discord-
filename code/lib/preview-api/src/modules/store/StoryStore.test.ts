@@ -14,9 +14,9 @@ jest.mock('./csf/processCSFFile', () => ({
   processCSFFile: jest.fn(jest.requireActual('./csf/processCSFFile').processCSFFile),
 }));
 
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
-    ...(jest.requireActual('@junk-temporary-prototypes/global') as any),
+    ...(jest.requireActual('@storybook/global') as any),
   },
 }));
 

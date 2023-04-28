@@ -1,5 +1,5 @@
-import { expect } from '@junk-temporary-prototypes/jest';
-import { within, userEvent, waitFor } from '@junk-temporary-prototypes/testing-library';
+import { expect } from '@storybook/jest';
+import { within, userEvent, waitFor } from '@storybook/testing-library';
 import {
   UPDATE_STORY_ARGS,
   STORY_ARGS_UPDATED,

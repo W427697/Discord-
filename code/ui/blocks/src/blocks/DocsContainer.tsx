@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { useEffect } from 'react';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { ThemeVars } from '@junk-temporary-prototypes/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@junk-temporary-prototypes/theming';
 import type { Renderer } from '@junk-temporary-prototypes/types';

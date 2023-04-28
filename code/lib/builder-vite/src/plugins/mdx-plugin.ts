@@ -28,7 +28,7 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
 
       const { compile } = features?.legacyMdx1
         ? await import('@junk-temporary-prototypes/mdx1-csf')
-        : await import('@junk-temporary-prototypes/mdx2-csf');
+        : await import('@storybook/mdx2-csf');
 
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
         ...mdxPluginOptions,

@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useStorybookApi } from '@junk-temporary-prototypes/manager-api';

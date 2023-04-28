@@ -8,7 +8,7 @@ import type {
   StoryFn,
   StoryId,
 } from '@junk-temporary-prototypes/types';
-import { storyNameFromExport, toId } from '@junk-temporary-prototypes/csf';
+import { storyNameFromExport, toId } from '@storybook/csf';
 import { dedent } from 'ts-dedent';
 import { logger } from '@junk-temporary-prototypes/client-logger';
 import deprecate from 'util-deprecate';

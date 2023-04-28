@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import type {
   Renderer,
@@ -20,7 +20,7 @@ import type {
   PreparedMeta,
   ModuleExport,
 } from '@junk-temporary-prototypes/types';
-import { includeConditionalArg } from '@junk-temporary-prototypes/csf';
+import { includeConditionalArg } from '@storybook/csf';
 
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';

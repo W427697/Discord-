@@ -1,6 +1,6 @@
 import { styled } from '@junk-temporary-prototypes/theming';
 import { Icons } from '@junk-temporary-prototypes/components';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { FC, MouseEventHandler, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';

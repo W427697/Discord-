@@ -2086,9 +2086,9 @@ __metadata:
     "@mdx-js/react": ^2.1.5
     "@junk-temporary-prototypes/blocks": 7.0.0-alpha.56
     "@junk-temporary-prototypes/components": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf-plugin": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/mdx2-csf": next
+    "@storybook/csf-plugin": 7.0.0-alpha.56
+    "@storybook/csf-tools": 7.0.0-alpha.56
+    "@storybook/mdx2-csf": next
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/postinstall": 7.0.0-alpha.56
     "@junk-temporary-prototypes/preview-api": 7.0.0-alpha.56
@@ -2263,7 +2263,7 @@ __metadata:
     "@junk-temporary-prototypes/client-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/components": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf": next
+    "@storybook/csf": next
     "@junk-temporary-prototypes/docs-tools": 7.0.0-alpha.56
     "@junk-temporary-prototypes/manager-api": 7.0.0-alpha.56
     "@junk-temporary-prototypes/preview-api": 7.0.0-alpha.56
@@ -2403,7 +2403,7 @@ __metadata:
     "@junk-temporary-prototypes/codemod": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-common": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-server": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
+    "@storybook/csf-tools": 7.0.0-alpha.56
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/telemetry": 7.0.0-alpha.56
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
@@ -2460,8 +2460,8 @@ __metadata:
   resolution: "@junk-temporary-prototypes/codemod@portal:../../code/lib/codemod::locator=%40storybook%2Fexternal-docs%40workspace%3A."
   dependencies:
     "@babel/types": ^7.20.2
-    "@junk-temporary-prototypes/csf": next
-    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
+    "@storybook/csf": next
+    "@storybook/csf-tools": 7.0.0-alpha.56
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
     cross-spawn: ^7.0.3
@@ -2479,7 +2479,7 @@ __metadata:
   resolution: "@junk-temporary-prototypes/components@portal:../../code/ui/components::locator=%40storybook%2Fexternal-docs%40workspace%3A."
   dependencies:
     "@junk-temporary-prototypes/client-logger": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf": next
+    "@storybook/csf": next
     "@junk-temporary-prototypes/theming": 7.0.0-alpha.56
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
     memoizerific: ^1.11.3
@@ -2550,9 +2550,9 @@ __metadata:
     "@junk-temporary-prototypes/builder-manager": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-common": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf": next
-    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/docs-mdx": next
+    "@storybook/csf": next
+    "@storybook/csf-tools": 7.0.0-alpha.56
+    "@storybook/docs-mdx": next
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/preview-api": 7.0.0-alpha.56
     "@junk-temporary-prototypes/telemetry": 7.0.0-alpha.56
@@ -2609,31 +2609,31 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@junk-temporary-prototypes/csf-plugin@npm:7.0.0-alpha.56":
+"@storybook/csf-plugin@npm:7.0.0-alpha.56":
   version: 7.0.0-alpha.56
-  resolution: "@junk-temporary-prototypes/csf-plugin@npm:7.0.0-alpha.56"
+  resolution: "@storybook/csf-plugin@npm:7.0.0-alpha.56"
   dependencies:
-    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
+    "@storybook/csf-tools": 7.0.0-alpha.56
     unplugin: ^0.10.2
   checksum: e9af8bfc2cf1329083581ab8022e3cadd2d81e89a0c084801f2670e74cff48bbae8e4d267661a3ae13599831ed5b9a46cecebda6625ee4f9fdf38a657d71ca95
   languageName: node
   linkType: hard
 
-"@junk-temporary-prototypes/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A.":
+"@storybook/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@junk-temporary-prototypes/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A."
+  resolution: "@storybook/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A."
   dependencies:
     "@babel/types": ^7.20.2
-    "@junk-temporary-prototypes/csf": next
+    "@storybook/csf": next
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
     fs-extra: ^9.0.1
     ts-dedent: ^2.0.0
   languageName: node
   linkType: soft
 
-"@junk-temporary-prototypes/csf@npm:next":
+"@storybook/csf@npm:next":
   version: 0.0.2-next.7
-  resolution: "@junk-temporary-prototypes/csf@npm:0.0.2-next.7"
+  resolution: "@storybook/csf@npm:0.0.2-next.7"
   dependencies:
     expect-type: ^0.14.2
     lodash: ^4.17.15
@@ -2642,9 +2642,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@junk-temporary-prototypes/docs-mdx@npm:next":
+"@storybook/docs-mdx@npm:next":
   version: 0.0.1-next.4
-  resolution: "@junk-temporary-prototypes/docs-mdx@npm:0.0.1-next.4"
+  resolution: "@storybook/docs-mdx@npm:0.0.1-next.4"
   checksum: b40d98caa07cf493466438058af37a794221c3d6f8869e24328ee6219fcbd21419377448c0b1123e6aadd457559006920fa05d81bd599afa8dde11a27cf11a62
   languageName: node
   linkType: hard
@@ -2703,7 +2703,7 @@ __metadata:
     "@junk-temporary-prototypes/channels": 7.0.0-alpha.56
     "@junk-temporary-prototypes/client-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf": next
+    "@storybook/csf": next
     "@junk-temporary-prototypes/router": 7.0.0-alpha.56
     "@junk-temporary-prototypes/theming": 7.0.0-alpha.56
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
@@ -2727,9 +2727,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@junk-temporary-prototypes/mdx2-csf@npm:next":
+"@storybook/mdx2-csf@npm:next":
   version: 0.1.0-next.7
-  resolution: "@junk-temporary-prototypes/mdx2-csf@npm:0.1.0-next.7"
+  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.7"
   dependencies:
     loader-utils: ^2.0.4
   checksum: 80038a1df415486346cf0316d159a2dfec309cb697d5d253bad37f0d0274ba9bdb8e11aa365987e8e8bb33747bf2ab1bb2600d4281ab07709d0562bfb606b4ac
@@ -2764,7 +2764,7 @@ __metadata:
     "@junk-temporary-prototypes/docs-tools": 7.0.0-alpha.56
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/react": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
+    "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
     "@types/node": ^16.0.0
     "@types/semver": ^7.3.4
     babel-plugin-add-react-displayname: ^0.0.5
@@ -2795,7 +2795,7 @@ __metadata:
     "@junk-temporary-prototypes/channels": 7.0.0-alpha.56
     "@junk-temporary-prototypes/client-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.56
-    "@junk-temporary-prototypes/csf": next
+    "@storybook/csf": next
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
     "@types/qs": ^6.9.5
     dequal: ^2.0.2
@@ -2818,7 +2818,7 @@ __metadata:
     "@junk-temporary-prototypes/channels": 7.0.0-alpha.43
     "@junk-temporary-prototypes/client-logger": 7.0.0-alpha.43
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.43
-    "@junk-temporary-prototypes/csf": next
+    "@storybook/csf": next
     "@junk-temporary-prototypes/store": 7.0.0-alpha.43
     ansi-to-html: ^0.6.11
     global: ^4.4.0
@@ -2838,9 +2838,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@junk-temporary-prototypes/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0":
+"@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0":
   version: 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
-  resolution: "@junk-temporary-prototypes/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0"
+  resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0"
   dependencies:
     debug: ^4.1.1
     endent: ^2.0.1

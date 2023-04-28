@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { styled } from '@junk-temporary-prototypes/theming';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import type { Config as ReactPopperTooltipConfig, PopperOptions } from 'react-popper-tooltip';
 import { usePopperTooltip } from 'react-popper-tooltip';

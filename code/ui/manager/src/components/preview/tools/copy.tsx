@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { getStoryHref, IconButton, Icons } from '@junk-temporary-prototypes/components';

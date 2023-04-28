@@ -1,5 +1,5 @@
 import type { Options } from '@junk-temporary-prototypes/types';
-import type { PluginOptions as RDTSPluginOptions } from '@junk-temporary-prototypes/react-docgen-typescript-plugin';
+import type { PluginOptions as RDTSPluginOptions } from '@storybook/react-docgen-typescript-plugin';
 
 export interface PluginOptions extends Options {
   /**

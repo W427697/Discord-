@@ -4,7 +4,7 @@ jest.mock('../version', () => ({
   version: '3.0.0',
 }));
 
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
     VERSIONCHECK: JSON.stringify({
       success: true,

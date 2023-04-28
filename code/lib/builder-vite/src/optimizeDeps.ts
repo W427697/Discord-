@@ -18,7 +18,7 @@ const INCLUDE_CANDIDATES = [
   '@junk-temporary-prototypes/client-api',
   '@junk-temporary-prototypes/client-logger',
   '@junk-temporary-prototypes/core/client',
-  '@junk-temporary-prototypes/global',
+  '@storybook/global',
   '@junk-temporary-prototypes/preview-api',
   '@junk-temporary-prototypes/preview-web',
   '@junk-temporary-prototypes/react > acorn-jsx',

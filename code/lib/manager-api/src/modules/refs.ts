@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
 import type {
   API_ComposedRef,

@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { dedent } from 'ts-dedent';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import { logger } from '@junk-temporary-prototypes/node-logger';
 import { telemetry, getPrecedingUpgrade } from '@junk-temporary-prototypes/telemetry';

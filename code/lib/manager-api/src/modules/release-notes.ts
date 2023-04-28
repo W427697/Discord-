@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { API_ReleaseNotes } from '@junk-temporary-prototypes/types';
 import memoize from 'memoizerific';
 

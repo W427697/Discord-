@@ -1,5 +1,5 @@
 {
-  "name": "@junk-temporary-prototypes/csf-tools",
+  "name": "@storybook/csf-tools",
   "version": "7.0.7",
   "description": "Parse and manipulate CSF and Storybook config files",
   "keywords": [
@@ -45,8 +45,8 @@
     "@babel/parser": "~7.21.2",
     "@babel/traverse": "~7.21.2",
     "@babel/types": "~7.21.2",
-    "@junk-temporary-prototypes/csf": "^0.1.0",
     "@junk-temporary-prototypes/types": "7.0.7",
+    "@storybook/csf": "^0.1.0",
     "fs-extra": "^11.1.0",
     "recast": "^0.23.1",
     "ts-dedent": "^2.0.0"

@@ -2,7 +2,7 @@ import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
 import countBy from 'lodash/countBy.js';
 import mapValues from 'lodash/mapValues.js';
-import { sanitize } from '@junk-temporary-prototypes/csf';
+import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
   Parameters,

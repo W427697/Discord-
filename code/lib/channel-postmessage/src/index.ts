@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import * as EVENTS from '@junk-temporary-prototypes/core-events';
 import { Channel } from '@junk-temporary-prototypes/channels';
 import type { ChannelHandler, ChannelEvent } from '@junk-temporary-prototypes/channels';

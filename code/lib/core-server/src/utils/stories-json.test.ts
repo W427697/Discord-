@@ -7,7 +7,7 @@ import path from 'path';
 import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@junk-temporary-prototypes/core-events';
 import type { StoryIndex, StoryIndexer } from '@junk-temporary-prototypes/types';
-import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
+import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@junk-temporary-prototypes/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
@@ -45,7 +45,7 @@ const csfIndexer = async (fileName: string, opts: any) => {
 
 const storiesMdxIndexer = async (fileName: string, opts: any) => {
   let code = (await fs.readFile(fileName, 'utf-8')).toString();
-  const { compile } = await import('@junk-temporary-prototypes/mdx2-csf');
+  const { compile } = await import('@storybook/mdx2-csf');
   code = await compile(code, {});
   return loadCsf(code, { ...opts, fileName }).parse();
 };

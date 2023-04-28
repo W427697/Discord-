@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['@junk-temporary-prototypes/eslint-config-storybook', 'plugin:storybook/recommended'],
+  extends: ['@storybook/eslint-config-storybook', 'plugin:storybook/recommended'],
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],

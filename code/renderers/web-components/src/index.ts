@@ -1,6 +1,6 @@
 /// <reference types="webpack-env" />
 
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import './globals';
 

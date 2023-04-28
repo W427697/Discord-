@@ -1,4 +1,4 @@
-import { isExportStory } from '@junk-temporary-prototypes/csf';
+import { isExportStory } from '@storybook/csf';
 import type {
   Renderer,
   Args,

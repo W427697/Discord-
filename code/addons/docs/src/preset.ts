@@ -10,10 +10,10 @@ import type {
   Options,
   StorybookConfig,
 } from '@junk-temporary-prototypes/types';
-import type { CsfPluginOptions } from '@junk-temporary-prototypes/csf-plugin';
-import type { JSXOptions, CompileOptions } from '@junk-temporary-prototypes/mdx2-csf';
-import { global } from '@junk-temporary-prototypes/global';
-import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
+import type { CsfPluginOptions } from '@storybook/csf-plugin';
+import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
+import { global } from '@storybook/global';
+import { loadCsf } from '@storybook/csf-tools';
 import { logger } from '@junk-temporary-prototypes/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
@@ -90,7 +90,7 @@ async function webpack(
 
   const mdxLoader = global.FEATURES?.legacyMdx1
     ? require.resolve('@junk-temporary-prototypes/mdx1-csf/loader')
-    : require.resolve('@junk-temporary-prototypes/mdx2-csf/loader');
+    : require.resolve('@storybook/mdx2-csf/loader');
 
   const result = {
     ...webpackConfig,
@@ -98,7 +98,7 @@ async function webpack(
       ...(webpackConfig.plugins || []),
 
       ...(csfPluginOptions
-        ? [(await import('@junk-temporary-prototypes/csf-plugin')).webpack(csfPluginOptions)]
+        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
         : []),
     ],
 
@@ -140,7 +140,7 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = global.FEATURES?.legacyMdx1
       ? await import('@junk-temporary-prototypes/mdx1-csf')
-      : await import('@junk-temporary-prototypes/mdx2-csf');
+      : await import('@storybook/mdx2-csf');
     code = await compile(code, {});
     return loadCsf(code, { ...opts, fileName }).parse();
   };

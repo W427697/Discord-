@@ -2,7 +2,7 @@ import { useStorybookApi, useStorybookState } from '@junk-temporary-prototypes/m
 import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@junk-temporary-prototypes/components';
 import { Location, Route } from '@junk-temporary-prototypes/router';
 import { styled } from '@junk-temporary-prototypes/theming';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
 

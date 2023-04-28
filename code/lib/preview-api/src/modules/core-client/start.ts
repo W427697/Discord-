@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import type { Renderer, ArgsStoryFn, Path, ProjectAnnotations } from '@junk-temporary-prototypes/types';
 import { createChannel } from '@junk-temporary-prototypes/channel-postmessage';
 import { FORCE_RE_RENDER } from '@junk-temporary-prototypes/core-events';

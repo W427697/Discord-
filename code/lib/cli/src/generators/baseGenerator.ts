@@ -191,7 +191,7 @@ export async function baseGenerator(
     addons.push('@junk-temporary-prototypes/addon-interactions');
     addonPackages.push(
       '@junk-temporary-prototypes/addon-interactions',
-      '@junk-temporary-prototypes/testing-library@^0.0.14-next.1'
+      '@storybook/testing-library@^0.0.14-next.1'
     );
   }
 

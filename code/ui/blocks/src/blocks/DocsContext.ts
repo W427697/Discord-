@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import type { Context } from 'react';
 import { createContext } from 'react';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import type { DocsContextProps, Renderer } from '@junk-temporary-prototypes/types';
 

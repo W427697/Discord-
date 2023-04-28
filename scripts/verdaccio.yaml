@@ -27,11 +27,11 @@ packages:
     proxy: npmjs
 
   # storybook's packages not hosted in this monorepo
-  '@junk-temporary-prototypes/csf':
+  '@storybook/csf':
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/global':
+  '@storybook/global':
     access: $all
     publish: $all
     proxy: npmjs
@@ -47,7 +47,7 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/bench':
+  '@storybook/bench':
     access: $all
     publish: $all
     proxy: npmjs
@@ -63,11 +63,11 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/react-docgen-typescript-plugin':
+  '@storybook/react-docgen-typescript-plugin':
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/testing-library':
+  '@storybook/testing-library':
     access: $all
     publish: $all
     proxy: npmjs
@@ -79,23 +79,23 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/mdx2-csf':
+  '@storybook/mdx2-csf':
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/expect':
+  '@storybook/expect':
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/jest':
+  '@storybook/jest':
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/docs-mdx':
+  '@storybook/docs-mdx':
     access: $all
     publish: $all
     proxy: npmjs
-  '@junk-temporary-prototypes/babel-plugin-require-context-hook':
+  '@storybook/babel-plugin-require-context-hook':
     access: $all
     publish: $all
     proxy: npmjs

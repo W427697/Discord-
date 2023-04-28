@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import { Channel } from '@junk-temporary-prototypes/channels';
 import type { ChannelHandler } from '@junk-temporary-prototypes/channels';
 import { logger } from '@junk-temporary-prototypes/client-logger';

@@ -13,7 +13,7 @@ import {
   STORY_MISSING,
 } from '@junk-temporary-prototypes/core-events';
 import { EventEmitter } from 'events';
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import { Channel } from '@junk-temporary-prototypes/channels';
 
@@ -36,7 +36,7 @@ function mockChannel() {
 const mockGetEntries = jest.fn();
 
 jest.mock('../lib/events');
-jest.mock('@junk-temporary-prototypes/global', () => ({
+jest.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),

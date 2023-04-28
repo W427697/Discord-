@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@junk-temporary-prototypes/preview-api';

@@ -1,5 +1,5 @@
 {
-  "name": "@junk-temporary-prototypes/csf-plugin",
+  "name": "@storybook/csf-plugin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

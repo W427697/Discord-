@@ -1,4 +1,4 @@
-import { global } from '@junk-temporary-prototypes/global';
+import { global } from '@storybook/global';
 import React from 'react';
 import { getStoryHref, IconButton, Icons } from '@junk-temporary-prototypes/components';
 import { Consumer } from '@junk-temporary-prototypes/manager-api';
