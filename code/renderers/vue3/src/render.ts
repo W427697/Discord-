@@ -1,18 +1,9 @@
 /* eslint-disable no-param-reassign */
-import type { ConcreteComponent } from 'vue';
 import { createApp, h, isReactive, isVNode, reactive } from 'vue';
-import type { RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { ArgsStoryFn, RenderContext } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
-import type { VueRenderer, StoryFnVueReturnType, StoryID } from './types';
-
-const slotsMap = new Map<
-  StoryID,
-  {
-    component?: Omit<ConcreteComponent<any>, 'props'>;
-    reactiveSlots?: Args;
-  }
->();
+import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -22,7 +13,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return () => h(Component, props, createOrUpdateSlots(context));
+  return () => h(Component, props, generateSlots(context));
 };
 
 let setupFunction = (_app: any) => {};
@@ -148,17 +139,4 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
-}
-
-function createOrUpdateSlots(context: StoryContext<VueRenderer, Args>) {
-  const { id: storyID, component } = context;
-  const slots = generateSlots(context);
-  // this seem to cause recursive updates, and vue errors
-  // if (slotsMap.has(storyID)) {
-  //   const app = slotsMap.get(storyID);
-  //   if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
-  //   return app?.reactiveSlots;
-  // }
-  slotsMap.set(storyID, { component, reactiveSlots: slots });
-  return slots;
 }
