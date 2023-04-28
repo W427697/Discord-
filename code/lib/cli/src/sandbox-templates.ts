@@ -266,8 +266,8 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
   },
-  'angular-cli/next': {
-    name: 'Angular CLI (Next)',
+  'angular-cli/prerelease': {
+    name: 'Angular CLI (Prerelease)',
     script:
       'npx -p @angular/cli@next ng new angular-v16 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
@@ -474,7 +474,7 @@ export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
   ...ci,
   // TODO: add this after the sandbox is ready in the sandboxes repo
-  // 'angular-cli/next',
+  // 'angular-cli/prerelease',
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
