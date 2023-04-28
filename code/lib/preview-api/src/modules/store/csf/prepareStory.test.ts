@@ -2,13 +2,7 @@
 
 import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
-import type {
-  Renderer,
-  ArgsEnhancer,
-  PlayFunctionContext,
-  SBScalarType,
-  StoryContextForLoaders,
-} from '@storybook/types';
+import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
 import { addons, HooksContext } from '../../addons';
 
 import { UNTARGETED } from '../args';
