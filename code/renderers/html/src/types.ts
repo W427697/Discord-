@@ -2,7 +2,6 @@ import type {
   ArgsStoryFn,
   StoryContext as DefaultStoryContext,
   WebRenderer,
-  Parameters as DefaultParameters,
 } from '@storybook/types';
 import type { SourceType } from '@storybook/docs-tools';
 
@@ -24,7 +23,7 @@ export interface HtmlRenderer extends WebRenderer {
   storyResult: StoryFnHtmlReturnType;
 }
 
-export interface Parameters extends DefaultParameters {
+export interface Parameters {
   renderer: 'html';
   docs?: {
     story: { inline: boolean };
