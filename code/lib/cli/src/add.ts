@@ -3,7 +3,7 @@ import fs from 'fs';
 import { sync as spawnSync } from 'cross-spawn';
 
 import { getStorybookInfo } from '@junk-temporary-prototypes/core-common';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@junk-temporary-prototypes/csf-tools';
 
 import { commandLog } from './helpers';
 import {

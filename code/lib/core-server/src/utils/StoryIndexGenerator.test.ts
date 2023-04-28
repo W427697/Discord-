@@ -9,13 +9,13 @@ import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@junk-temporary-prototypes/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexer, StoryIndexEntry } from '@junk-temporary-prototypes/types';
-import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
+import { loadCsf, getStorySortParameter } from '@junk-temporary-prototypes/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger, once } from '@junk-temporary-prototypes/node-logger';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
-jest.mock('@storybook/csf-tools');
+jest.mock('@junk-temporary-prototypes/csf-tools');
 jest.mock('@storybook/csf', () => {
   const csf = jest.requireActual('@storybook/csf');
   return {
@@ -58,7 +58,7 @@ const options = {
 
 describe('StoryIndexGenerator', () => {
   beforeEach(() => {
-    const actual = jest.requireActual('@storybook/csf-tools');
+    const actual = jest.requireActual('@junk-temporary-prototypes/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
     jest.mocked(logger.warn).mockClear();
     jest.mocked(once.warn).mockClear();

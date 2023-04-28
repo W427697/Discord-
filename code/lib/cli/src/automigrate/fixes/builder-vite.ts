@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import { writeConfig } from '@storybook/csf-tools';
+import { writeConfig } from '@junk-temporary-prototypes/csf-tools';
 
 import type { Fix } from '../types';
 import type { PackageJson } from '../../js-package-manager';

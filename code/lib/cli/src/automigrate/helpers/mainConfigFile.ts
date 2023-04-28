@@ -1,7 +1,7 @@
 import { getStorybookInfo, loadMainConfig } from '@junk-temporary-prototypes/core-common';
 import type { StorybookConfig } from '@junk-temporary-prototypes/types';
-import type { ConfigFile } from '@storybook/csf-tools';
-import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
+import type { ConfigFile } from '@junk-temporary-prototypes/csf-tools';
+import { readConfig, writeConfig as writeConfigFile } from '@junk-temporary-prototypes/csf-tools';
 import chalk from 'chalk';
 import semver from 'semver';
 import dedent from 'ts-dedent';

@@ -155,7 +155,7 @@ export default {
 
 `jsxOptions` are options that will be passed to `@babel/preset-react` for `.md` and `.mdx` files.
 
-`csfPluginOptions` is an object for configuring `@storybook/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
+`csfPluginOptions` is an object for configuring `@junk-temporary-prototypes/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
 
 The `transcludeMarkdown` option enables mdx files to import `.md` files and render them as a component.
 

@@ -3752,6 +3752,8 @@ __metadata:
     "@junk-temporary-prototypes/blocks": 7.0.7
     "@junk-temporary-prototypes/client-logger": 7.0.7
     "@junk-temporary-prototypes/components": 7.0.7
+    "@junk-temporary-prototypes/csf-plugin": 7.0.7
+    "@junk-temporary-prototypes/csf-tools": 7.0.7
     "@junk-temporary-prototypes/node-logger": 7.0.7
     "@junk-temporary-prototypes/postinstall": 7.0.7
     "@junk-temporary-prototypes/preview-api": 7.0.7
@@ -3759,8 +3761,6 @@ __metadata:
     "@junk-temporary-prototypes/theming": 7.0.7
     "@junk-temporary-prototypes/types": 7.0.7
     "@mdx-js/react": ^2.1.5
-    "@storybook/csf-plugin": 7.0.7
-    "@storybook/csf-tools": 7.0.7
     "@storybook/global": ^5.0.0
     "@storybook/mdx2-csf": ^1.0.0
     fs-extra: ^11.1.0
@@ -4320,11 +4320,11 @@ __metadata:
     "@junk-temporary-prototypes/channel-websocket": 7.0.7
     "@junk-temporary-prototypes/client-logger": 7.0.7
     "@junk-temporary-prototypes/core-common": 7.0.7
+    "@junk-temporary-prototypes/csf-plugin": 7.0.7
     "@junk-temporary-prototypes/node-logger": 7.0.7
     "@junk-temporary-prototypes/preview": 7.0.7
     "@junk-temporary-prototypes/preview-api": 7.0.7
     "@junk-temporary-prototypes/types": 7.0.7
-    "@storybook/csf-plugin": 7.0.7
     "@storybook/mdx2-csf": ^1.0.0
     "@types/express": ^4.17.13
     "@types/node": ^16.0.0
@@ -4464,11 +4464,11 @@ __metadata:
     "@junk-temporary-prototypes/codemod": 7.0.7
     "@junk-temporary-prototypes/core-common": 7.0.7
     "@junk-temporary-prototypes/core-server": 7.0.7
+    "@junk-temporary-prototypes/csf-tools": 7.0.7
     "@junk-temporary-prototypes/node-logger": 7.0.7
     "@junk-temporary-prototypes/telemetry": 7.0.7
     "@junk-temporary-prototypes/types": 7.0.7
     "@ndelangen/get-tarball": ^3.0.7
-    "@storybook/csf-tools": 7.0.7
     "@types/cross-spawn": ^6.0.2
     "@types/prompts": ^2.0.9
     "@types/puppeteer-core": ^2.1.0
@@ -4534,10 +4534,10 @@ __metadata:
     "@babel/core": ~7.21.0
     "@babel/preset-env": ~7.21.0
     "@babel/types": ~7.21.2
+    "@junk-temporary-prototypes/csf-tools": 7.0.7
     "@junk-temporary-prototypes/node-logger": 7.0.7
     "@junk-temporary-prototypes/types": 7.0.7
     "@storybook/csf": ^0.1.0
-    "@storybook/csf-tools": 7.0.7
     "@types/jscodeshift": ^0.11.6
     ansi-regex: ^5.0.1
     cross-spawn: ^7.0.3
@@ -4651,13 +4651,13 @@ __metadata:
     "@junk-temporary-prototypes/builder-manager": 7.0.7
     "@junk-temporary-prototypes/core-common": 7.0.7
     "@junk-temporary-prototypes/core-events": 7.0.7
+    "@junk-temporary-prototypes/csf-tools": 7.0.7
     "@junk-temporary-prototypes/manager": 7.0.7
     "@junk-temporary-prototypes/node-logger": 7.0.7
     "@junk-temporary-prototypes/preview-api": 7.0.7
     "@junk-temporary-prototypes/telemetry": 7.0.7
     "@junk-temporary-prototypes/types": 7.0.7
     "@storybook/csf": ^0.1.0
-    "@storybook/csf-tools": 7.0.7
     "@storybook/docs-mdx": ^0.1.0
     "@storybook/global": ^5.0.0
     "@types/compression": ^1.7.0
@@ -4710,6 +4710,36 @@ __metadata:
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
     webpack: 5
+  languageName: unknown
+  linkType: soft
+
+"@junk-temporary-prototypes/csf-plugin@7.0.7, @junk-temporary-prototypes/csf-plugin@workspace:*, @junk-temporary-prototypes/csf-plugin@workspace:lib/csf-plugin":
+  version: 0.0.0-use.local
+  resolution: "@junk-temporary-prototypes/csf-plugin@workspace:lib/csf-plugin"
+  dependencies:
+    "@junk-temporary-prototypes/csf-tools": 7.0.7
+    typescript: ~4.9.3
+    unplugin: ^0.10.2
+  languageName: unknown
+  linkType: soft
+
+"@junk-temporary-prototypes/csf-tools@7.0.7, @junk-temporary-prototypes/csf-tools@workspace:*, @junk-temporary-prototypes/csf-tools@workspace:lib/csf-tools":
+  version: 0.0.0-use.local
+  resolution: "@junk-temporary-prototypes/csf-tools@workspace:lib/csf-tools"
+  dependencies:
+    "@babel/generator": ~7.21.1
+    "@babel/parser": ~7.21.2
+    "@babel/traverse": ~7.21.2
+    "@babel/types": ~7.21.2
+    "@junk-temporary-prototypes/types": 7.0.7
+    "@storybook/csf": ^0.1.0
+    "@types/fs-extra": ^11.0.1
+    "@types/js-yaml": ^3.12.6
+    fs-extra: ^11.1.0
+    js-yaml: ^3.14.1
+    recast: ^0.23.1
+    ts-dedent: ^2.0.0
+    typescript: ~4.9.3
   languageName: unknown
   linkType: soft
 
@@ -5418,6 +5448,8 @@ __metadata:
     "@junk-temporary-prototypes/core-events": "workspace:*"
     "@junk-temporary-prototypes/core-server": "workspace:*"
     "@junk-temporary-prototypes/core-webpack": "workspace:*"
+    "@junk-temporary-prototypes/csf-plugin": "workspace:*"
+    "@junk-temporary-prototypes/csf-tools": "workspace:*"
     "@junk-temporary-prototypes/docs-tools": "workspace:*"
     "@junk-temporary-prototypes/ember": "workspace:*"
     "@junk-temporary-prototypes/html": "workspace:*"
@@ -5473,8 +5505,6 @@ __metadata:
     "@storybook/babel-plugin-require-context-hook": 1.0.1
     "@storybook/bench": next
     "@storybook/csf": ^0.1.0
-    "@storybook/csf-plugin": "workspace:*"
-    "@storybook/csf-tools": "workspace:*"
     "@storybook/eslint-config-storybook": ^3.1.2
     "@storybook/global": ^5.0.0
     "@storybook/jest": ^0.1.0
@@ -5584,6 +5614,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@junk-temporary-prototypes/sb@workspace:lib/cli-sb":
+  version: 0.0.0-use.local
+  resolution: "@junk-temporary-prototypes/sb@workspace:lib/cli-sb"
+  dependencies:
+    "@junk-temporary-prototypes/cli": 7.0.7
+  bin:
+    sb: ./index.js
+  languageName: unknown
+  linkType: soft
+
 "@junk-temporary-prototypes/server-webpack5@workspace:*, @junk-temporary-prototypes/server-webpack5@workspace:frameworks/server-webpack5":
   version: 0.0.0-use.local
   resolution: "@junk-temporary-prototypes/server-webpack5@workspace:frameworks/server-webpack5"
@@ -5636,6 +5676,17 @@ __metadata:
   dependencies:
     "@junk-temporary-prototypes/client-logger": 7.0.7
     "@junk-temporary-prototypes/preview-api": 7.0.7
+  languageName: unknown
+  linkType: soft
+
+"@junk-temporary-prototypes/storybook@workspace:lib/cli-storybook":
+  version: 0.0.0-use.local
+  resolution: "@junk-temporary-prototypes/storybook@workspace:lib/cli-storybook"
+  dependencies:
+    "@junk-temporary-prototypes/cli": 7.0.7
+  bin:
+    sb: ./index.js
+    storybook: ./index.js
   languageName: unknown
   linkType: soft
 
@@ -7388,36 +7439,6 @@ __metadata:
   checksum: 077efdd42ad4315227c3050287055a1c5cc1938d5761f81954c68b149ceffd7d6651e8d74b4abb71a371f4b6e070152f2226949c76b7561db37d187e3401e311
   languageName: node
   linkType: hard
-
-"@storybook/csf-plugin@7.0.7, @storybook/csf-plugin@workspace:*, @storybook/csf-plugin@workspace:lib/csf-plugin":
-  version: 0.0.0-use.local
-  resolution: "@storybook/csf-plugin@workspace:lib/csf-plugin"
-  dependencies:
-    "@storybook/csf-tools": 7.0.7
-    typescript: ~4.9.3
-    unplugin: ^0.10.2
-  languageName: unknown
-  linkType: soft
-
-"@storybook/csf-tools@7.0.7, @storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
-  version: 0.0.0-use.local
-  resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
-  dependencies:
-    "@babel/generator": ~7.21.1
-    "@babel/parser": ~7.21.2
-    "@babel/traverse": ~7.21.2
-    "@babel/types": ~7.21.2
-    "@junk-temporary-prototypes/types": 7.0.7
-    "@storybook/csf": ^0.1.0
-    "@types/fs-extra": ^11.0.1
-    "@types/js-yaml": ^3.12.6
-    fs-extra: ^11.1.0
-    js-yaml: ^3.14.1
-    recast: ^0.23.1
-    ts-dedent: ^2.0.0
-    typescript: ~4.9.3
-  languageName: unknown
-  linkType: soft
 
 "@storybook/csf@npm:^0.0.1":
   version: 0.0.1
@@ -27057,16 +27078,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sb@workspace:lib/cli-sb":
-  version: 0.0.0-use.local
-  resolution: "sb@workspace:lib/cli-sb"
-  dependencies:
-    "@junk-temporary-prototypes/cli": 7.0.7
-  bin:
-    sb: ./index.js
-  languageName: unknown
-  linkType: soft
-
 "scheduler@npm:^0.19.1":
   version: 0.19.1
   resolution: "scheduler@npm:0.19.1"
@@ -27992,17 +28003,6 @@ __metadata:
   checksum: 2f27c3eaa7207b81410e170e7c41379816d22c1566308a9d97fbf853c4facff531fcb2a85f085c7503c578736570972f747c26018ebeaba7d1341fb82a7b6d52
   languageName: node
   linkType: hard
-
-"storybook@workspace:lib/cli-storybook":
-  version: 0.0.0-use.local
-  resolution: "storybook@workspace:lib/cli-storybook"
-  dependencies:
-    "@junk-temporary-prototypes/cli": 7.0.7
-  bin:
-    sb: ./index.js
-    storybook: ./index.js
-  languageName: unknown
-  linkType: soft
 
 "stream-combiner@npm:~0.0.4":
   version: 0.0.4

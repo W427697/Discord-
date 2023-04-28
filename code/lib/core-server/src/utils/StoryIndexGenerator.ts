@@ -22,7 +22,7 @@ import type {
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@junk-temporary-prototypes/preview-api';
 import { normalizeStoryPath } from '@junk-temporary-prototypes/core-common';
 import { logger, once } from '@junk-temporary-prototypes/node-logger';
-import { getStorySortParameter } from '@storybook/csf-tools';
+import { getStorySortParameter } from '@junk-temporary-prototypes/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';

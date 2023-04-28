@@ -2086,8 +2086,8 @@ __metadata:
     "@mdx-js/react": ^2.1.5
     "@junk-temporary-prototypes/blocks": 7.0.0-alpha.56
     "@junk-temporary-prototypes/components": 7.0.0-alpha.56
-    "@storybook/csf-plugin": 7.0.0-alpha.56
-    "@storybook/csf-tools": 7.0.0-alpha.56
+    "@junk-temporary-prototypes/csf-plugin": 7.0.0-alpha.56
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
     "@storybook/mdx2-csf": next
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/postinstall": 7.0.0-alpha.56
@@ -2403,7 +2403,7 @@ __metadata:
     "@junk-temporary-prototypes/codemod": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-common": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-server": 7.0.0-alpha.56
-    "@storybook/csf-tools": 7.0.0-alpha.56
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/telemetry": 7.0.0-alpha.56
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
@@ -2461,7 +2461,7 @@ __metadata:
   dependencies:
     "@babel/types": ^7.20.2
     "@storybook/csf": next
-    "@storybook/csf-tools": 7.0.0-alpha.56
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/types": 7.0.0-alpha.56
     cross-spawn: ^7.0.3
@@ -2551,7 +2551,7 @@ __metadata:
     "@junk-temporary-prototypes/core-common": 7.0.0-alpha.56
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.56
     "@storybook/csf": next
-    "@storybook/csf-tools": 7.0.0-alpha.56
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
     "@storybook/docs-mdx": next
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.56
     "@junk-temporary-prototypes/preview-api": 7.0.0-alpha.56
@@ -2609,19 +2609,19 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@storybook/csf-plugin@npm:7.0.0-alpha.56":
+"@junk-temporary-prototypes/csf-plugin@npm:7.0.0-alpha.56":
   version: 7.0.0-alpha.56
-  resolution: "@storybook/csf-plugin@npm:7.0.0-alpha.56"
+  resolution: "@junk-temporary-prototypes/csf-plugin@npm:7.0.0-alpha.56"
   dependencies:
-    "@storybook/csf-tools": 7.0.0-alpha.56
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.56
     unplugin: ^0.10.2
   checksum: e9af8bfc2cf1329083581ab8022e3cadd2d81e89a0c084801f2670e74cff48bbae8e4d267661a3ae13599831ed5b9a46cecebda6625ee4f9fdf38a657d71ca95
   languageName: node
   linkType: hard
 
-"@storybook/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A.":
+"@junk-temporary-prototypes/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@storybook/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A."
+  resolution: "@junk-temporary-prototypes/csf-tools@portal:../../code/lib/csf-tools::locator=%40storybook%2Fexternal-docs%40workspace%3A."
   dependencies:
     "@babel/types": ^7.20.2
     "@storybook/csf": next

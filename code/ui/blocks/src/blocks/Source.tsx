@@ -43,7 +43,7 @@ type SourceParameters = SourceCodeProps & {
    */
   transform?: (code: string, storyContext: StoryContextForLoaders) => string;
   /**
-   * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
+   * Internal: set by our CSF loader (`enrichCsf` in `@junk-temporary-prototypes/csf-tools`).
    */
   originalSource?: string;
 };

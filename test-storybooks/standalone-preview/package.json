@@ -72,7 +72,7 @@
     "@junk-temporary-prototypes/core-events": "portal:../../code/lib/core-events",
     "@junk-temporary-prototypes/core-server": "portal:../../code/lib/core-server",
     "@junk-temporary-prototypes/core-webpack": "portal:../../code/lib/core-webpack",
-    "@storybook/csf-tools": "portal:../../code/lib/csf-tools",
+    "@junk-temporary-prototypes/csf-tools": "portal:../../code/lib/csf-tools",
     "@junk-temporary-prototypes/docs-tools": "portal:../../code/lib/docs-tools",
     "@junk-temporary-prototypes/instrumenter": "portal:../../code/lib/instrumenter",
     "@junk-temporary-prototypes/node-logger": "portal:../../code/lib/node-logger",

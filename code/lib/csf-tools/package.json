@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/csf-tools",
+  "name": "@junk-temporary-prototypes/csf-tools",
   "version": "7.0.7",
   "description": "Parse and manipulate CSF and Storybook config files",
   "keywords": [

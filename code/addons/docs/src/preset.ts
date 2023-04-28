@@ -10,10 +10,10 @@ import type {
   Options,
   StorybookConfig,
 } from '@junk-temporary-prototypes/types';
-import type { CsfPluginOptions } from '@storybook/csf-plugin';
+import type { CsfPluginOptions } from '@junk-temporary-prototypes/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
-import { loadCsf } from '@storybook/csf-tools';
+import { loadCsf } from '@junk-temporary-prototypes/csf-tools';
 import { logger } from '@junk-temporary-prototypes/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
@@ -98,7 +98,7 @@ async function webpack(
       ...(webpackConfig.plugins || []),
 
       ...(csfPluginOptions
-        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
+        ? [(await import('@junk-temporary-prototypes/csf-plugin')).webpack(csfPluginOptions)]
         : []),
     ],
 

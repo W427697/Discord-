@@ -2573,7 +2573,7 @@ __metadata:
     "@junk-temporary-prototypes/core-common": 7.0.0-alpha.42
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.42
     "@storybook/csf": next
-    "@storybook/csf-tools": 7.0.0-alpha.42
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.42
     "@junk-temporary-prototypes/docs-tools": 7.0.0-alpha.42
     "@storybook/mdx2-csf": 0.1.0-next.0
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.42
@@ -2784,7 +2784,7 @@ __metadata:
     "@junk-temporary-prototypes/codemod": 7.0.0-alpha.42
     "@junk-temporary-prototypes/core-common": 7.0.0-alpha.42
     "@junk-temporary-prototypes/core-server": 7.0.0-alpha.42
-    "@storybook/csf-tools": 7.0.0-alpha.42
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.42
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.42
     "@junk-temporary-prototypes/telemetry": 7.0.0-alpha.42
     "@types/semver": ^7.3.4
@@ -2853,7 +2853,7 @@ __metadata:
   dependencies:
     "@babel/types": ^7.12.11
     "@storybook/csf": next
-    "@storybook/csf-tools": 7.0.0-alpha.42
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.42
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.42
     cross-spawn: ^7.0.3
     globby: ^11.0.2
@@ -2958,7 +2958,7 @@ __metadata:
     "@junk-temporary-prototypes/core-common": 7.0.0-alpha.42
     "@junk-temporary-prototypes/core-events": 7.0.0-alpha.42
     "@storybook/csf": next
-    "@storybook/csf-tools": 7.0.0-alpha.42
+    "@junk-temporary-prototypes/csf-tools": 7.0.0-alpha.42
     "@storybook/docs-mdx": 0.0.1-canary.12433cf.0
     "@junk-temporary-prototypes/node-logger": 7.0.0-alpha.42
     "@junk-temporary-prototypes/store": 7.0.0-alpha.42
@@ -3014,9 +3014,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@storybook/csf-tools@portal:../../code/lib/csf-tools::locator=standalone-preview%40workspace%3A.":
+"@junk-temporary-prototypes/csf-tools@portal:../../code/lib/csf-tools::locator=standalone-preview%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@storybook/csf-tools@portal:../../code/lib/csf-tools::locator=standalone-preview%40workspace%3A."
+  resolution: "@junk-temporary-prototypes/csf-tools@portal:../../code/lib/csf-tools::locator=standalone-preview%40workspace%3A."
   dependencies:
     "@babel/generator": ^7.12.11
     "@babel/parser": ^7.12.11
