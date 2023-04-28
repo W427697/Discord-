@@ -51,7 +51,7 @@ export const DecoratorFunctionalComponent: Story = {
   decorators: [
     (storyFn, context) => {
       const story = storyFn();
-      return () => h('div', [h('h2', ['Decorator not using args']), [h(story, context.args)]]);
+      return () => h('div', [h('h2', ['Decorator not using args']), [h(story)]]);
     },
   ],
 };
@@ -61,10 +61,7 @@ export const DecoratorFunctionalComponentArgsFromContext: Story = {
     (storyFn, context) => {
       const story = storyFn();
       return () =>
-        h('div', [
-          h('h2', ['Decorator using args.label: ', context.args.label]),
-          [h(story, context.args)],
-        ]);
+        h('div', [h('h2', ['Decorator using args.label: ', context.args.label]), [h(story)]]);
     },
   ],
 };
