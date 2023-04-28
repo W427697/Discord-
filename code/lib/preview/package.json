@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.1.0-alpha.9",
+  "version": "7.1.0-alpha.10",
   "description": "",
   "keywords": [
     "storybook"
@@ -55,12 +55,12 @@
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.9",
-    "@storybook/channel-websocket": "7.1.0-alpha.9",
-    "@storybook/channels": "7.1.0-alpha.9",
-    "@storybook/client-logger": "7.1.0-alpha.9",
-    "@storybook/core-events": "7.1.0-alpha.9",
-    "@storybook/preview-api": "7.1.0-alpha.9",
+    "@storybook/channel-postmessage": "7.1.0-alpha.10",
+    "@storybook/channel-websocket": "7.1.0-alpha.10",
+    "@storybook/channels": "7.1.0-alpha.10",
+    "@storybook/client-logger": "7.1.0-alpha.10",
+    "@storybook/core-events": "7.1.0-alpha.10",
+    "@storybook/preview-api": "7.1.0-alpha.10",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
@@ -74,5 +74,5 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
+  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
 }
