@@ -4,7 +4,7 @@
  */
 
 // import { describe, it, beforeAll, beforeEach, afterAll, afterEach, jest } from '@jest/globals';
-import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
+import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX, CONFIG_ERROR } from '@storybook/core-events';
 
 import type { ModuleExports, Path } from '@storybook/types';
 import { global } from '@storybook/global';
@@ -31,9 +31,6 @@ jest.mock('@storybook/global', () => ({
         search: '?id=*',
       },
     },
-    FEATURES: {
-      breakingChangesV7: true,
-    },
     DOCS_OPTIONS: {},
   },
 }));
@@ -41,6 +38,7 @@ jest.mock('@storybook/global', () => ({
 // console.log(global);
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
+jest.mock('@storybook/client-logger');
 jest.mock('react-dom');
 
 // for the auto-title test
@@ -988,6 +986,10 @@ describe('start', () => {
                 "id": "introduction",
                 "importPath": "./Introduction.stories.mdx",
                 "name": undefined,
+                "parameters": Object {
+                  "fileName": "./Introduction.stories.mdx",
+                  "renderer": "test",
+                },
                 "storiesImports": Array [],
                 "tags": Array [
                   "stories-mdx",
@@ -1003,6 +1005,34 @@ describe('start', () => {
 
         // Wait a second to let the docs "render" finish (and maybe throw)
         await waitForQuiescence();
+      });
+
+      it('errors on .mdx files', async () => {
+        const renderToCanvas = jest.fn();
+
+        const { configure } = start(renderToCanvas);
+
+        configure(
+          'test',
+          makeRequireContext({
+            './Introduction.mdx': {
+              default: () => 'some mdx function',
+            },
+          })
+        );
+
+        await waitForEvents([CONFIG_ERROR]);
+        expect(mockChannel.emit.mock.calls.find((call) => call[0] === CONFIG_ERROR)?.[1])
+          .toMatchInlineSnapshot(`
+          [Error: Cannot index \`.mdx\` file (\`./Introduction.mdx\`) in \`storyStoreV7: false\` mode.
+
+          The legacy story store does not support new-style \`.mdx\` files. If the file above
+          is not intended to be indexed (i.e. displayed as an entry in the sidebar), either
+          exclude it from your \`stories\` glob, or add <Meta isTemplate /> to it.
+
+          If you wanted to index the file, you'll need to name it \`stories.mdx\` and stick to the
+          legacy (6.x) MDX API, or use the new store.]
+        `);
       });
     });
   });
@@ -1218,6 +1248,10 @@ describe('start', () => {
                 "id": "component-b--docs",
                 "importPath": "file2",
                 "name": "Docs",
+                "parameters": Object {
+                  "fileName": "file2",
+                  "renderer": "test",
+                },
                 "storiesImports": Array [],
                 "tags": Array [
                   "autodocs",
@@ -1251,6 +1285,10 @@ describe('start', () => {
                 "id": "component-c--docs",
                 "importPath": "exports-map-0",
                 "name": "Docs",
+                "parameters": Object {
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
                 "storiesImports": Array [],
                 "tags": Array [
                   "component-tag",

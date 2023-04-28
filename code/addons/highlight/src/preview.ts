@@ -20,10 +20,6 @@ export const highlightObject = (color: string) => ({
   boxShadow: '0 0 0 6px rgba(255,255,255,0.6)',
 });
 
-if (module && module.hot && module.hot.decline) {
-  module.hot.decline();
-}
-
 interface HighlightInfo {
   /** html selector of the element */
   elements: string[];
@@ -57,7 +53,7 @@ const resetHighlight = () => {
   const id = HIGHLIGHT_STYLE_ID;
   const sheetToBeRemoved = document.getElementById(id);
   if (sheetToBeRemoved) {
-    sheetToBeRemoved.parentNode.removeChild(sheetToBeRemoved);
+    sheetToBeRemoved.parentNode?.removeChild(sheetToBeRemoved);
   }
 };
 

@@ -11,9 +11,6 @@ import { prepareStory, prepareMeta } from './prepareStory';
 jest.mock('@storybook/global', () => ({
   global: {
     ...(jest.requireActual('@storybook/global') as any),
-    FEATURES: {
-      breakingChangesV7: true,
-    },
   },
 }));
 
@@ -26,10 +23,6 @@ const moduleExport = {};
 const stringType: SBScalarType = { name: 'string' };
 const numberType: SBScalarType = { name: 'number' };
 const booleanType: SBScalarType = { name: 'boolean' };
-
-beforeEach(() => {
-  global.FEATURES = { breakingChangesV7: true };
-});
 
 describe('prepareStory', () => {
   describe('tags', () => {
@@ -517,9 +510,54 @@ describe('prepareStory', () => {
     });
   });
 
+  describe('mapping', () => {
+    it('maps labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: jest.fn() }
+      );
+
+      const context = story.prepareContext({ args: { one: 1 }, ...story } as any);
+      expect(context).toMatchObject({
+        args: { one: 'mapped-1' },
+      });
+    });
+
+    it('maps arrays of labels to values in prepareContext', () => {
+      const story = prepareStory(
+        {
+          id,
+          name,
+          argTypes: {
+            one: { name: 'one', mapping: { 1: 'mapped-1' } },
+          },
+          moduleExport,
+        },
+        { id, title },
+        { render: jest.fn() }
+      );
+
+      const context = story.prepareContext({
+        args: { one: [1, 1] },
+        ...story,
+      } as any);
+      expect(context).toMatchObject({
+        args: { one: ['mapped-1', 'mapped-1'] },
+      });
+    });
+  });
+
   describe('with `FEATURES.argTypeTargetsV7`', () => {
     beforeEach(() => {
-      global.FEATURES = { breakingChangesV7: true, argTypeTargetsV7: true };
+      global.FEATURES = { argTypeTargetsV7: true };
     });
     it('filters out targeted args', () => {
       const renderMock = jest.fn();
@@ -731,10 +769,12 @@ describe('prepareMeta', () => {
       undecoratedStoryFn,
       playFunction,
       prepareContext,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      parameters: { __isArgsStory, ...parameters },
       ...expectedPreparedMeta
     } = preparedStory;
 
-    expect(preparedMeta).toMatchObject(expectedPreparedMeta);
-    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length);
+    expect(preparedMeta).toMatchObject({ ...expectedPreparedMeta, parameters });
+    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length + 1);
   });
 });

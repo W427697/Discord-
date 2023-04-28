@@ -6,7 +6,7 @@ Teams publish Storybook online to review and collaborate on works in progress. T
 
 <video autoPlay muted playsInline loop>
   <source
-    src="storybook-publish-review-optimized.mp4"
+    src="storybook-workflow-publish.mp4"
     type="video/mp4"
   />
 </video>
@@ -160,20 +160,6 @@ Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3
 ## Search engine optimization (SEO)
 
 If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
-
-### Title
-
-Storybook will generate the document title (i.e. `<title>`) for you automatically, to include the currently-viewed component and story. By default, it looks something like "Components / Button - Primary ⋅ Storybook". You can modify the "Storybook" portion by adding the following to the `main.js` file in your config directory:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/seo-title.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
 
 ### Description
 

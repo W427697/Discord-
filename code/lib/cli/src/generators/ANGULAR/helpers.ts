@@ -24,7 +24,7 @@ export const promptForCompoDocs = async (): Promise<boolean> => {
 
 export class AngularJSON {
   json: {
-    projects: Record<string, { root: string; architect: Record<string, any> }>;
+    projects: Record<string, { root: string; projectType: string; architect: Record<string, any> }>;
   };
 
   constructor() {
@@ -50,6 +50,24 @@ export class AngularJSON {
 
       return !architect.storybook;
     });
+  }
+
+  get hasStorybookBuilder() {
+    return Object.keys(this.projects).some((projectName) => {
+      const { architect } = this.projects[projectName];
+      return Object.keys(architect).some((key) => {
+        return architect[key].builder === '@storybook/angular:start-storybook';
+      });
+    });
+  }
+
+  get rootProject() {
+    const rootProjectName = Object.keys(this.projects).find((projectName) => {
+      const { root } = this.projects[projectName];
+      return root === '' || root === '.';
+    });
+
+    return rootProjectName ? this.projects[rootProjectName] : null;
   }
 
   getProjectSettingsByName(projectName: string) {

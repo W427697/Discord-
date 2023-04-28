@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "incremental": false,
     "noImplicitAny": true,
@@ -16,7 +17,8 @@
     "strictBindCallApply": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "noUnusedLocals": true,
-    "types": ["jest"]
+    "types": ["jest"],
+    "strict": true
   },
   "exclude": ["dist", "**/dist", "node_modules", "**/node_modules", "**/setup-jest.ts"],
   "ts-node": {

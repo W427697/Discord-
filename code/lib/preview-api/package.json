@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-api",
-  "version": "7.0.0-beta.60",
+  "version": "7.1.0-alpha.10",
   "description": "",
   "keywords": [
     "storybook"
@@ -67,28 +67,28 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.0.0-beta.60",
-    "@storybook/channels": "7.0.0-beta.60",
-    "@storybook/client-logger": "7.0.0-beta.60",
-    "@storybook/core-events": "7.0.0-beta.60",
-    "@storybook/csf": "next",
+    "@storybook/channel-postmessage": "7.1.0-alpha.10",
+    "@storybook/channels": "7.1.0-alpha.10",
+    "@storybook/client-logger": "7.1.0-alpha.10",
+    "@storybook/core-events": "7.1.0-alpha.10",
+    "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/types": "7.0.0-beta.60",
+    "@storybook/types": "7.1.0-alpha.10",
     "@types/qs": "^6.9.5",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
-    "slash": "^3.0.0",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@jest/globals": "^26.6.2",
-    "@storybook/core-common": "7.0.0-beta.60",
+    "@storybook/core-common": "7.1.0-alpha.10",
     "ansi-to-html": "^0.6.11",
-    "react": "^16.14.0"
+    "react": "^16.14.0",
+    "slash": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -103,5 +103,5 @@
       "./src/store.ts"
     ]
   },
-  "gitHead": "325e0406b449b740d94d481a32a62304a8b2fd11"
+  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
 }

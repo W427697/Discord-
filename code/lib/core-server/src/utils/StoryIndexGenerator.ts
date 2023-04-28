@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
+import invariant from 'tiny-invariant';
 
 import type {
   IndexEntry,
@@ -15,13 +16,13 @@ import type {
   Path,
   Tag,
   StoryIndex,
-  V2CompatIndexEntry,
+  V3CompatIndexEntry,
   StoryId,
   StoryName,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { normalizeStoryPath } from '@storybook/core-common';
-import { logger } from '@storybook/node-logger';
+import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
@@ -122,6 +123,15 @@ export class StoryIndexGenerator {
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
         const files = await glob(fullGlob);
+
+        if (files.length === 0) {
+          once.warn(
+            `No story files found for the specified pattern: ${chalk.blue(
+              path.join(specifier.directory, specifier.files)
+            )}`
+          );
+        }
+
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           if (ext === '.storyshot') {
@@ -316,6 +326,10 @@ export class StoryIndexGenerator {
       // are invalidated.f
       const dependencies = this.findDependencies(absoluteImports);
 
+      // To ensure the `<Meta of={}/>` import is always first in the list, we'll bring the dependency
+      // that contains it to the front of the list.
+      let sortedDependencies = dependencies;
+
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
       let csfEntry: StoryIndexEntry;
@@ -333,6 +347,8 @@ export class StoryIndexGenerator {
               csfEntry = first;
             }
           }
+
+          sortedDependencies = [dep, ...dependencies.filter((d) => d !== dep)];
         });
 
         if (!csfEntry)
@@ -363,9 +379,9 @@ export class StoryIndexGenerator {
         title,
         name,
         importPath,
-        storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
+        storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        tags: [...(result.tags || []), 'docs'],
+        tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
       };
       return docsEntry;
     } catch (err) {
@@ -381,6 +397,11 @@ export class StoryIndexGenerator {
   }
 
   chooseDuplicate(firstEntry: IndexEntry, secondEntry: IndexEntry): IndexEntry {
+    // NOTE: it is possible for the same entry to show up twice (if it matches >1 glob). That's OK.
+    if (firstEntry.importPath === secondEntry.importPath) {
+      return firstEntry;
+    }
+
     let firstIsBetter = true;
     if (secondEntry.type === 'story') {
       firstIsBetter = false;
@@ -404,19 +425,22 @@ export class StoryIndexGenerator {
         ? `component docs page`
         : `automatically generated docs page`;
       if (betterEntry.name === this.options.docs.defaultName) {
-        logger.warn(
-          `🚨 You have a story for ${betterEntry.title} with the same name as your default docs entry name (${betterEntry.name}), so the docs page is being dropped. Consider changing the story name.`
+        throw new IndexingError(
+          `You have a story for ${betterEntry.title} with the same name as your default docs entry name (${betterEntry.name}), so the docs page is being dropped. Consider changing the story name.`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       } else {
-        logger.warn(
-          `🚨 You have a story for ${betterEntry.title} with the same name as your ${worseDescriptor} (${worseEntry.name}), so the docs page is being dropped. ${changeDocsName}`
+        throw new IndexingError(
+          `You have a story for ${betterEntry.title} with the same name as your ${worseDescriptor} (${worseEntry.name}), so the docs page is being dropped. ${changeDocsName}`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       }
     } else if (isMdxEntry(betterEntry)) {
       // Both entries are MDX but pointing at the same place
       if (isMdxEntry(worseEntry)) {
-        logger.warn(
-          `🚨 You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`
+        throw new IndexingError(
+          `You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       }
 
@@ -517,7 +541,7 @@ export class StoryIndexGenerator {
             },
           };
           return acc;
-        }, {} as Record<StoryId, V2CompatIndexEntry>);
+        }, {} as Record<StoryId, V3CompatIndexEntry>);
       }
 
       this.lastIndex = {
@@ -529,6 +553,7 @@ export class StoryIndexGenerator {
     } catch (err) {
       this.lastError = err;
       logger.warn(`🚨 ${this.lastError.toString()}`);
+      invariant(this.lastError);
       throw this.lastError;
     }
   }
@@ -573,7 +598,7 @@ export class StoryIndexGenerator {
   }
 
   async getStorySortParameter() {
-    const previewFile = ['js', 'jsx', 'ts', 'tsx']
+    const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
       .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
       .find((fname) => fs.existsSync(fname));
     let storySortParameter;

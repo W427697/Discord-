@@ -60,7 +60,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
     return () => {
       // It seems like you are supposed to unmount components outside of `useEffect`:
       //   https://github.com/facebook/react/issues/25675#issuecomment-1363957941
-      setTimeout(() => cleanup(), 0);
+      Promise.resolve().then(() => cleanup());
     };
   }, [autoplay, renderStoryToElement, story]);
 
@@ -78,7 +78,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   return (
     <>
       {height ? (
-        <style>{`${storyBlockIdFromId(
+        <style>{`#${storyBlockIdFromId(
           props
         )} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
       ) : null}
