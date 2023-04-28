@@ -544,7 +544,7 @@ export const loadCsfFromJson = (jsonString: string, options: CsfOptions): Indexe
     // TODO: meta tags?
   };
   // TODO: title format helpers?
-  const metaTitle = meta.title + ''.replace(/\/|\\/g, '-').toLowerCase();
+  const metaTitle = meta.title.replace(/\/|\\/g, '-').toLowerCase();
   const stories: IndexedStory[] = json.stories.map((story: any) => {
     const id = `${metaTitle}--${story.name.toLowerCase().replace(/ /g, '-')}`;
     const { name } = story;

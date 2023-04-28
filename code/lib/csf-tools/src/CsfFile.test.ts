@@ -1,9 +1,9 @@
 /// <reference types="@types/jest" />;
 
 /* eslint-disable no-underscore-dangle */
-import { dedent } from 'ts-dedent';
 import yaml from 'js-yaml';
-import { loadCsf } from './CsfFile';
+import { dedent } from 'ts-dedent';
+import { loadCsf, loadCsfFromJson } from './CsfFile';
 
 expect.addSnapshotSerializer({
   print: (val: any) => yaml.dump(val).trimEnd(),
@@ -529,9 +529,57 @@ describe('CsfFile', () => {
         }
       `)
       ).toMatchInlineSnapshot(`
-      meta:
-        title: Chip
-      stories: []
+              meta:
+                title: Chip
+              stories: []
+            `);
+    });
+  });
+
+  describe('json parsing', () => {
+    it('json', () => {
+      expect(
+        loadCsfFromJson(
+          JSON.stringify({
+            title: 'Foo/Bar/Baz',
+            parameters: {
+              server: {
+                params: {
+                  ParamA: 'ParamA',
+                },
+              },
+            },
+            args: {
+              ArgsA: 'ArgsA',
+            },
+            stories: [
+              {
+                name: 'StoryA',
+                args: {
+                  StoryArgsA: 'StoryArgsA',
+                },
+              },
+              {
+                name: 'StoryB',
+                args: {
+                  StoryArgsB: 'StoryArgsB',
+                },
+              },
+            ],
+          }),
+          {
+            fileName: 'foo.json',
+            makeTitle: (path) => path,
+          }
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: Foo/Bar/Baz
+        stories:
+          - id: foo-bar-baz--storya
+            name: StoryA
+          - id: foo-bar-baz--storyb
+            name: StoryB
       `);
     });
   });
