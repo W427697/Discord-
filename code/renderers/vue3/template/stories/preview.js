@@ -1,25 +1,12 @@
-import type { App, Plugin } from 'vue';
-import type { StoryContext } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { setup, type VueRenderer } from '@storybook/vue3';
+import { setup } from '@storybook/vue3';
 
-declare module 'vue' {
-  interface ComponentCustomProperties {
-    $greetingMessage: (key: string) => string;
-  }
-}
-
-declare global {
-  // eslint-disable-next-line no-var,vars-on-top
-  var Components: Record<string, any>;
-}
-
-const somePlugin: Plugin = {
-  install: (app: App, options) => {
+const somePlugin = {
+  install: (app, options) => {
     // inject a globally available $greetingText() method
     // eslint-disable-next-line no-param-reassign
-    app.config.globalProperties.$greetingMessage = (key: string) => {
+    app.config.globalProperties.$greetingMessage = (key) => {
       // retrieve a nested property in `options`
       // using `key`
       return options.greetings[key];
@@ -29,13 +16,13 @@ const somePlugin: Plugin = {
 const someColor = 'someColor';
 
 // add components to global scope
-setup((app: App) => {
+setup((app) => {
   // This adds a component that can be used globally in stories
   app.component('GlobalButton', globalThis.Components.Button);
 });
 
 // this adds a plugin to vue app that can be used globally in stories
-setup((app: App, context?: StoryContext<VueRenderer>) => {
+setup((app, context) => {
   app.use(somePlugin, {
     greetings: {
       hello: `Hello Story! from some plugin your name is ${context?.name}!`,
@@ -46,6 +33,6 @@ setup((app: App, context?: StoryContext<VueRenderer>) => {
 });
 
 // additonal setup to provide some propriety  to the app
-setup((app: App, context) => {
+setup((app, context) => {
   app.provide(someColor, 'green');
 });

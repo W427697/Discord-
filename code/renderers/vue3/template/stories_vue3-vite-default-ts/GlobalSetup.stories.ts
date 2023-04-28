@@ -1,5 +1,5 @@
 import { expect } from '@storybook/jest';
-import type { Meta, StoryObj } from 'renderers/vue3/src';
+import type { Meta, StoryObj } from '@storybook/vue3';
 import { within } from '@storybook/testing-library';
 import { inject } from 'vue';
 import GlobalSetup from './GlobalSetup.vue';
