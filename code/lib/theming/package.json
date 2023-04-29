@@ -22,15 +22,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./create": {
+      "types": "./dist/create.d.ts",
       "require": "./dist/create.js",
-      "import": "./dist/create.mjs",
-      "types": "./dist/create.d.ts"
+      "import": "./dist/create.mjs"
     },
     "./package.json": "./package.json"
   },
