@@ -3,8 +3,6 @@ import type { Args } from '@storybook/types';
 
 import type { ArgsType } from 'jest-mock';
 import {
-  generateTemplateSource,
-  getComponentsFromTemplate,
   mapAttributesAndDirectives,
   generateAttributesSource,
   attributeSource,
@@ -15,25 +13,6 @@ expect.addSnapshotSerializer({
   print: (val: any) => val,
   test: (val: unknown) => typeof val === 'string',
 });
-function generateArgTypes(args: Args, slotProps: string[] | undefined) {
-  return Object.keys(args).reduce((acc, prop) => {
-    acc[prop] = { table: { category: slotProps?.includes(prop) ? 'slots' : 'props' } };
-    return acc;
-  }, {} as Record<string, any>);
-}
-
-function generateForArgs(
-  args: Args,
-  slotProps: string[] | undefined = undefined,
-  template = '<Component />'
-) {
-  const components = getComponentsFromTemplate(template);
-  return generateTemplateSource(
-    components,
-    { args, argTypes: generateArgTypes(args, slotProps) },
-    true
-  );
-}
 
 describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
   test('camelCase boolean Arg', () => {
