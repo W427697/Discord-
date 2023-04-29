@@ -65,7 +65,9 @@ export function generateAttributesSource(
     .map((key: any) => {
       const source = tempArgs[key].loc.source.replace(/\$props/g, 'args');
       const argKey = (tempArgs[key] as DirectiveNode).arg?.loc.source;
-      return byRef ? replaceValueWithRef(source, args, argKey) : evalExp(source, omitEvent(args));
+      return byRef && argKey
+        ? replaceValueWithRef(source, args, argKey)
+        : evalExp(source, omitEvent(args));
     })
     .join(' ');
 }
