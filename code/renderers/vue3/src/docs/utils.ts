@@ -37,13 +37,15 @@ const attributeSource = (key: string, value: unknown, dynamic?: boolean) =>
 
 const evalExp = (argExpValue: any, args: Args): any => {
   let evalVal = argExpValue;
-  if (/v-bind="(\w+)"/.test(evalVal))
+  if (evalVal && /v-bind="(\w+)"/.test(evalVal))
     return evalVal.replace(/"(\w+)"/g, `"${displayObject(args)}"`);
 
   Object.keys(args).forEach((akey) => {
-    const regexMatch = new RegExp(`(\\w+)\\.${akey}\\(?`, 'g');
+    const regexMatch = new RegExp(`(\\w+)\\.${akey}`, 'g');
     const regexTarget = new RegExp(`(\\w+)\\.${akey}`, 'g');
-    if (regexMatch.test(evalVal)) evalVal = evalVal.replace(regexTarget, displayObject(args[akey]));
+    if (regexMatch.test(evalVal)) {
+      evalVal = evalVal.replace(regexTarget, displayObject(args[akey]));
+    }
   });
 
   return evalVal;
