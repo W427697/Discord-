@@ -4,17 +4,13 @@ import { nanoid } from 'nanoid';
 import type { Options, TelemetryData } from './types';
 import { getAnonymousProjectId } from './anonymous-id';
 import { set as saveToCache } from './event-cache';
+import { getSessionId } from './session-id';
 
 const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
 
 const fetch = retry(originalFetch);
 
 let tasks: Promise<any>[] = [];
-
-// getStorybookMetadata -> packagejson + Main.js
-// event specific data: sessionId, ip, etc..
-// send telemetry
-const sessionId = nanoid();
 
 export const addToGlobalContext = (key: string, value: any) => {
   globalContext[key] = value;
@@ -44,6 +40,8 @@ export async function sendTelemetry(
         ...globalContext,
         anonymousId: getAnonymousProjectId(),
       };
+
+  const sessionId = await getSessionId();
   const eventId = nanoid();
   const body = { ...rest, eventType, eventId, sessionId, metadata, payload, context };
   let request: Promise<any>;
