@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/telemetry",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/telemetry",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/telemetry"
+    "directory": "code/lib/telemetry"
   },
   "funding": {
     "type": "opencollective",
