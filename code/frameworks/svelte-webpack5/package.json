@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/svelte-webpack5",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/svelte-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/svelte-webpack5"
+    "directory": "code/frameworks/svelte-webpack5"
   },
   "funding": {
     "type": "opencollective",

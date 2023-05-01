@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/csf-tools",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/csf-tools",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/csf-tools"
+    "directory": "code/lib/csf-tools"
   },
   "funding": {
     "type": "opencollective",

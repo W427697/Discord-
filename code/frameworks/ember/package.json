@@ -2,14 +2,14 @@
   "name": "@storybook/ember",
   "version": "7.1.0-alpha.11",
   "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/ember",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/ember",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/ember"
+    "directory": "code/frameworks/ember"
   },
   "funding": {
     "type": "opencollective",

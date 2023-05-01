@@ -6,14 +6,14 @@
     "lib",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/source-loader",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/source-loader",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/source-loader"
+    "directory": "code/lib/source-loader"
   },
   "funding": {
     "type": "opencollective",
