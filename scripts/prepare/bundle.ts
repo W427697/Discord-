@@ -73,11 +73,15 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     optimized,
   });
 
+  const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
+
   if (formats.includes('esm')) {
     tasks.push(
       build({
         silent: true,
-        entry: allEntries,
+        treeshake: true,
+        entry: nonPresetEntries,
+        shims: false,
         watch,
         outDir,
         format: ['esm'],
