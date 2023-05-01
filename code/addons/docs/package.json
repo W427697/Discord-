@@ -24,7 +24,6 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "sideEffects": false,
   "exports": {
     ".": {
       "node": "./dist/index.js",
