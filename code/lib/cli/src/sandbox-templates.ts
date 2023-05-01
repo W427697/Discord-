@@ -121,7 +121,7 @@ const baseTemplates = {
   },
   'react-vite/default-js': {
     name: 'React Vite (JS)',
-    script: 'npm create vite@beta --yes . -- --template react',
+    script: 'npm create vite@latest --yes . -- --template react',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -131,7 +131,7 @@ const baseTemplates = {
   },
   'react-vite/default-ts': {
     name: 'React Vite (TS)',
-    script: 'npm create vite@beta --yes . -- --template react-ts',
+    script: 'npm create vite@latest --yes . -- --template react-ts',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -184,7 +184,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
-    script: 'npm create vite@beta --yes . -- --template vue',
+    script: 'npm create vite@latest --yes . -- --template vue',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -194,7 +194,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-ts': {
     name: 'Vue3 Vite (TS)',
-    script: 'npm create vite@beta --yes . -- --template vue-ts',
+    script: 'npm create vite@latest --yes . -- --template vue-ts',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -226,7 +226,7 @@ const baseTemplates = {
   'html-vite/default-js': {
     name: 'HTML Vite JS',
     script:
-      'npm create vite@beta --yes . -- --template vanilla && echo "export default {}" > vite.config.js',
+      'npm create vite@latest --yes . -- --template vanilla && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -237,7 +237,7 @@ const baseTemplates = {
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
     script:
-      'npm create vite@beta --yes . -- --template vanilla-ts && echo "export default {}" > vite.config.js',
+      'npm create vite@latest --yes . -- --template vanilla-ts && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -247,7 +247,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
-    script: 'npm create vite@beta --yes . -- --template svelte',
+    script: 'npm create vite@latest --yes . -- --template svelte',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -257,7 +257,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-ts': {
     name: 'Svelte Vite (TS)',
-    script: 'npm create vite@beta --yes . -- --template svelte-ts',
+    script: 'npm create vite@latest --yes . -- --template svelte-ts',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -265,6 +265,18 @@ const baseTemplates = {
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
+  },
+  'angular-cli/prerelease': {
+    name: 'Angular CLI (Prerelease)',
+    script:
+      'npx -p @angular/cli@next ng new angular-v16 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev'],
+    inDevelopment: true,
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
@@ -312,7 +324,8 @@ const baseTemplates = {
   },
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
-    script: 'npm create vite@beta --yes . -- --template lit',
+    script:
+      'npm create vite@latest --yes . -- --template lit && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -323,7 +336,8 @@ const baseTemplates = {
   },
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
-    script: 'npm create vite@beta --yes . -- --template lit-ts',
+    script:
+      'npm create vite@latest --yes . -- --template lit-ts && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -377,7 +391,7 @@ const baseTemplates = {
   },
   'preact-vite/default-js': {
     name: 'Preact Vite (JS)',
-    script: 'npm create vite@beta --yes . -- --template preact',
+    script: 'npm create vite@latest --yes . -- --template preact',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -387,7 +401,7 @@ const baseTemplates = {
   },
   'preact-vite/default-ts': {
     name: 'Preact Vite (TS)',
-    script: 'npm create vite@beta --yes . -- --template preact-ts',
+    script: 'npm create vite@latest --yes . -- --template preact-ts',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -459,6 +473,8 @@ export const allTemplates: Record<TemplateKey, Template> = {
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
   ...ci,
+  // TODO: add this after the sandbox is ready in the sandboxes repo
+  // 'angular-cli/prerelease',
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
