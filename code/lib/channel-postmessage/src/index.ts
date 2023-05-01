@@ -29,9 +29,9 @@ const defaultEventOptions = { allowFunction: true, maxDepth: 25 };
 export class PostmsgTransport {
   private buffer: BufferedEvent[];
 
-  private handler: ChannelHandler;
+  private handler: ChannelHandler | null;
 
-  private connected: boolean;
+  private connected = false;
 
   constructor(private readonly config: Config) {
     this.buffer = [];
@@ -125,7 +125,7 @@ export class PostmsgTransport {
       try {
         f.postMessage(data, '*');
       } catch (e) {
-        console.error('sending over postmessage fail');
+        logger.error('sending over postmessage fail');
       }
     });
 
@@ -154,9 +154,9 @@ export class PostmsgTransport {
             return false;
           }
         })
-        .map((e) => e.contentWindow);
+        .map((e) => <Window>e.contentWindow);
 
-      return list.length ? list : this.getCurrentFrames();
+      return list?.length ? list : this.getCurrentFrames();
     }
     if (global && global.parent && global.parent !== global.self) {
       return [global.parent];
@@ -170,7 +170,7 @@ export class PostmsgTransport {
       const list: HTMLIFrameElement[] = Array.from(
         document.querySelectorAll('[data-is-storybook="true"]')
       );
-      return list.map((e) => e.contentWindow);
+      return list.map((e) => <Window>e.contentWindow);
     }
     if (global && global.parent) {
       return [global.parent];
@@ -184,7 +184,7 @@ export class PostmsgTransport {
       const list: HTMLIFrameElement[] = Array.from(
         document.querySelectorAll('#storybook-preview-iframe')
       );
-      return list.map((e) => e.contentWindow);
+      return list.map((e) => <Window>e.contentWindow);
     }
     if (global && global.parent) {
       return [global.parent];
@@ -231,7 +231,9 @@ export class PostmsgTransport {
           ...event.args
         );
 
-        this.handler(event);
+        if (this.handler) {
+          this.handler(event);
+        }
       }
     } catch (error) {
       logger.error(error);
@@ -256,6 +258,10 @@ const getEventSourceUrl = (event: MessageEvent) => {
     let origin;
 
     try {
+      if (!src) {
+        return false;
+      }
+
       ({ origin } = new URL(src, document.location.toString()));
     } catch (err) {
       return false;
@@ -263,8 +269,8 @@ const getEventSourceUrl = (event: MessageEvent) => {
     return origin === event.origin;
   });
 
-  if (frame && remainder.length === 0) {
-    const src = frame.getAttribute('src');
+  const src = frame?.getAttribute('src');
+  if (src && remainder.length === 0) {
     const { protocol, host, pathname } = new URL(src, document.location.toString());
     return `${protocol}//${host}${pathname}`;
   }
