@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/svelte-vite",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/svelte-vite",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/svelte-vite"
+    "directory": "code/frameworks/svelte-vite"
   },
   "funding": {
     "type": "opencollective",
