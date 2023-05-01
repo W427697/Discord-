@@ -6,14 +6,14 @@
     "api",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/postinstall",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/postinstall",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/postinstall"
+    "directory": "code/lib/postinstall"
   },
   "funding": {
     "type": "opencollective",
