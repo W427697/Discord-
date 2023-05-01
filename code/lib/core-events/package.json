@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core-events",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/core-events",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/core-events"
+    "directory": "code/lib/core-events"
   },
   "funding": {
     "type": "opencollective",
