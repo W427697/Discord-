@@ -1,18 +1,18 @@
 {
   "name": "@storybook/vue-webpack5",
-  "version": "7.1.0-alpha.9",
+  "version": "7.1.0-alpha.11",
   "description": "Storybook for Vue: Develop Vue Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/vue-webpack5",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/vue-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/vue-webpack5"
+    "directory": "code/frameworks/vue-webpack5"
   },
   "funding": {
     "type": "opencollective",
@@ -48,10 +48,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.1.0-alpha.9",
-    "@storybook/core-common": "7.1.0-alpha.9",
-    "@storybook/preset-vue-webpack": "7.1.0-alpha.9",
-    "@storybook/vue": "7.1.0-alpha.9",
+    "@storybook/builder-webpack5": "7.1.0-alpha.11",
+    "@storybook/core-common": "7.1.0-alpha.11",
+    "@storybook/preset-vue-webpack": "7.1.0-alpha.11",
+    "@storybook/vue": "7.1.0-alpha.11",
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
@@ -83,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }

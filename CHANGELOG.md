@@ -1,3 +1,38 @@
+## 7.1.0-alpha.11 (April 28, 2023)
+
+#### Features
+
+-   Feature: Add support for Angular 16 [#22096](https://github.com/storybooks/storybook/pull/22096)
+
+#### Bug Fixes
+
+-   Vue3: Rollback v7 breaking change and keep reactive v6-compatible API [#22229](https://github.com/storybooks/storybook/pull/22229)
+
+#### Maintenance
+
+-   Core: Add tests for mapping behaviour in #22169 [#22301](https://github.com/storybooks/storybook/pull/22301)
+
+#### Dependency Upgrades
+
+-   Update glob to v10.0.0 [#22171](https://github.com/storybooks/storybook/pull/22171)
+
+## 7.1.0-alpha.10 (April 28, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix compiler error when there is double tag [#22286](https://github.com/storybooks/storybook/pull/22286)
+-   Args: Fix multiple mapped args return array of labels [#22169](https://github.com/storybooks/storybook/pull/22169)
+-   Angular: Fix storyshots by removing deprecated import [#22134](https://github.com/storybooks/storybook/pull/22134)
+-   Ember: Fix wrong path [#22203](https://github.com/storybooks/storybook/pull/22203)
+-   CLI: Add web-components webpack5 to missing-babelrc automigration [#22202](https://github.com/storybooks/storybook/pull/22202)
+-   Docs: Fix inline story style [#21870](https://github.com/storybooks/storybook/pull/21870)
+
+#### Build
+
+-   Fix vue-cli/default-js sandbox [#22259](https://github.com/storybooks/storybook/pull/22259)
+-   Core: Fix `DOCS_RENDERED` test [#22255](https://github.com/storybooks/storybook/pull/22255)
+-   Add regex to ignore outdated Browserslist in Jest initialization base file [#22260](https://github.com/storybooks/storybook/pull/22260)
+
 ## 7.1.0-alpha.9 (April 26, 2023)
 
 #### Features

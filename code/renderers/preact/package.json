@@ -1,18 +1,18 @@
 {
   "name": "@storybook/preact",
-  "version": "7.1.0-alpha.9",
+  "version": "7.1.0-alpha.11",
   "description": "Storybook Preact renderer",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/preact",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/renderers/preact",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "renderers/preact"
+    "directory": "code/renderers/preact"
   },
   "funding": {
     "type": "opencollective",
@@ -48,10 +48,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "7.1.0-alpha.9",
+    "@storybook/core-client": "7.1.0-alpha.11",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.9",
-    "@storybook/types": "7.1.0-alpha.9",
+    "@storybook/preview-api": "7.1.0-alpha.11",
+    "@storybook/types": "7.1.0-alpha.11",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -74,5 +74,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }
