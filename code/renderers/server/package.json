@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/server",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/renderers/server",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "renderers/server"
+    "directory": "code/renderers/server"
   },
   "funding": {
     "type": "opencollective",

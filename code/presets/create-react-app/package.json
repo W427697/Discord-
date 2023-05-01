@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/create-react-app",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/create-react-app",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/create-react-app"
+    "directory": "code/presets/create-react-app"
   },
   "funding": {
     "type": "opencollective",

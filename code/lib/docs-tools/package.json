@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/docs-tools",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/docs-tools",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/docs-tools"
+    "directory": "code/lib/docs-tools"
   },
   "funding": {
     "type": "opencollective",

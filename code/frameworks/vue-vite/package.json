@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/vue-vite",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/vue-vite",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/vue-vite"
+    "directory": "code/frameworks/vue-vite"
   },
   "funding": {
     "type": "opencollective",

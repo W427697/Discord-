@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/preact-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/preact-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/preact-webpack"
+    "directory": "code/presets/preact-webpack"
   },
   "funding": {
     "type": "opencollective",

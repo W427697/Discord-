@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/vue3",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/renderers/vue3",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "renderers/vue3"
+    "directory": "code/renderers/vue3"
   },
   "funding": {
     "type": "opencollective",

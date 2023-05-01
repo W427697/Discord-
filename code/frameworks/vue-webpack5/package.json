@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/vue-webpack5",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/vue-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/vue-webpack5"
+    "directory": "code/frameworks/vue-webpack5"
   },
   "funding": {
     "type": "opencollective",
