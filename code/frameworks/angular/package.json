@@ -6,14 +6,14 @@
     "storybook",
     "angular"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/angular",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/angular"
+    "directory": "code/frameworks/angular"
   },
   "funding": {
     "type": "opencollective",
@@ -39,7 +39,6 @@
     "@storybook/builder-webpack5": "7.1.0-alpha.11",
     "@storybook/cli": "7.1.0-alpha.11",
     "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/core-client": "7.1.0-alpha.11",
     "@storybook/core-common": "7.1.0-alpha.11",
     "@storybook/core-events": "7.1.0-alpha.11",
     "@storybook/core-server": "7.1.0-alpha.11",
@@ -49,6 +48,7 @@
     "@storybook/manager-api": "7.1.0-alpha.11",
     "@storybook/node-logger": "7.1.0-alpha.11",
     "@storybook/preview-api": "7.1.0-alpha.11",
+    "@storybook/telemetry": "7.1.0-alpha.11",
     "@storybook/types": "7.1.0-alpha.11",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
@@ -123,5 +123,5 @@
   "bundler": {
     "tsConfig": "tsconfig.build.json"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }

@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/docs"
+    "directory": "code/addons/docs"
   },
   "funding": {
     "type": "opencollective",
@@ -148,7 +148,7 @@
       "./src/shims/mdx-react-shim.ts"
     ]
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4",
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

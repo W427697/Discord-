@@ -8,14 +8,14 @@
     "storybook",
     "web-components"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/web-components",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/renderers/web-components",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "renderers/web-components"
+    "directory": "code/renderers/web-components"
   },
   "funding": {
     "type": "opencollective",
@@ -84,5 +84,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }

@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/docs-tools",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/docs-tools",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/docs-tools"
+    "directory": "code/lib/docs-tools"
   },
   "funding": {
     "type": "opencollective",
@@ -43,7 +43,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.12.10",
     "@storybook/core-common": "7.1.0-alpha.11",
     "@storybook/preview-api": "7.1.0-alpha.11",
     "@storybook/types": "7.1.0-alpha.11",
@@ -64,5 +63,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }

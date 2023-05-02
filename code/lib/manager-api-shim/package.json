@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/api",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -66,5 +66,5 @@
     ],
     "shim": "@storybook/manager-api"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }

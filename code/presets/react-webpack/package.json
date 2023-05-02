@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/react-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/react-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/react-webpack"
+    "directory": "code/presets/react-webpack"
   },
   "funding": {
     "type": "opencollective",
@@ -70,7 +70,7 @@
     "@storybook/docs-tools": "7.1.0-alpha.11",
     "@storybook/node-logger": "7.1.0-alpha.11",
     "@storybook/react": "7.1.0-alpha.11",
-    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.630821.0",
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
     "babel-plugin-add-react-displayname": "^0.0.5",
@@ -111,5 +111,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }

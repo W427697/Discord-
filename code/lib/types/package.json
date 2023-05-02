@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/types",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/types",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -61,5 +61,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
 }
