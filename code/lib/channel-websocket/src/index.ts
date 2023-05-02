@@ -20,9 +20,9 @@ interface CreateChannelArgs {
 }
 
 export class WebsocketTransport {
-  private socket: WebSocket;
+  private socket: WebSocket | null = null;
 
-  private handler: ChannelHandler;
+  private handler: ChannelHandler | null = null;
 
   private buffer: string[] = [];
 
@@ -49,8 +49,10 @@ export class WebsocketTransport {
   }
 
   private sendNow(event: any) {
-    const data = stringify(event, { maxDepth: 15, allowFunction: true });
-    this.socket.send(data);
+    if (this.socket) {
+      const data = stringify(event, { maxDepth: 15, allowFunction: true });
+      this.socket.send(data);
+    }
   }
 
   private flush() {
@@ -67,7 +69,9 @@ export class WebsocketTransport {
     };
     this.socket.onmessage = ({ data }) => {
       const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
-      this.handler(event);
+      if (this.handler) {
+        this.handler(event);
+      }
     };
     this.socket.onerror = (e) => {
       if (onError) {
