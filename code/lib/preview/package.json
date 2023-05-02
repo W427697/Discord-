@@ -22,14 +22,12 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/runtime.mjs",
-      "require": "./dist/runtime.js",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./globals": {
-      "import": "./dist/globals.mjs",
-      "require": "./dist/globals.js",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./package.json": "./package.json"
   },

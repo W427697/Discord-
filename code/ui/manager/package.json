@@ -21,20 +21,16 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./dist/runtime": {
-      "require": "./dist/runtime.js",
-      "import": "./dist/runtime.mjs",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./dist/globals": {
-      "require": "./dist/globals.js",
-      "import": "./dist/globals.mjs",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./paths": "./paths.js",
     "./package.json": "./package.json"

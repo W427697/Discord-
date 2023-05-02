@@ -21,26 +21,26 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./dist/framework-preset-vue-docs": {
+      "types": "./dist/framework-preset-vue-docs.d.ts",
       "require": "./dist/framework-preset-vue-docs.js",
-      "import": "./dist/framework-preset-vue-docs.mjs",
-      "types": "./dist/framework-preset-vue-docs.d.ts"
+      "import": "./dist/framework-preset-vue-docs.mjs"
     },
     "./dist/framework-preset-vue": {
+      "types": "./dist/framework-preset-vue.d.ts",
       "require": "./dist/framework-preset-vue.js",
-      "import": "./dist/framework-preset-vue.mjs",
-      "types": "./dist/framework-preset-vue.d.ts"
+      "import": "./dist/framework-preset-vue.mjs"
     },
     "./package.json": "./package.json"
   },
