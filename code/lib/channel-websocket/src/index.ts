@@ -20,9 +20,9 @@ interface CreateChannelArgs {
 }
 
 export class WebsocketTransport {
-  private socket: WebSocket | null = null;
+  private socket?: WebSocket;
 
-  private handler: ChannelHandler | null = null;
+  private handler?: ChannelHandler;
 
   private buffer: string[] = [];
 
