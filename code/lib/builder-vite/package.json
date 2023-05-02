@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-vite/#readme",
   "bugs": {
@@ -19,10 +19,10 @@
   "author": "Eirik Sletteberg",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./input/iframe.html": "./input/iframe.html",
     "./package.json": "./package.json"
@@ -42,16 +42,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.11",
-    "@storybook/channel-websocket": "7.1.0-alpha.11",
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/core-common": "7.1.0-alpha.11",
-    "@storybook/csf-plugin": "7.1.0-alpha.11",
+    "@storybook/channel-postmessage": "7.1.0-alpha.12",
+    "@storybook/channel-websocket": "7.1.0-alpha.12",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/core-common": "7.1.0-alpha.12",
+    "@storybook/csf-plugin": "7.1.0-alpha.12",
     "@storybook/mdx2-csf": "^1.0.0",
-    "@storybook/node-logger": "7.1.0-alpha.11",
-    "@storybook/preview": "7.1.0-alpha.11",
-    "@storybook/preview-api": "7.1.0-alpha.11",
-    "@storybook/types": "7.1.0-alpha.11",
+    "@storybook/node-logger": "7.1.0-alpha.12",
+    "@storybook/preview": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12",
+    "@storybook/types": "7.1.0-alpha.12",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
@@ -99,5 +99,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

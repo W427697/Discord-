@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-dom-shim",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,21 +22,20 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/react-16.d.ts",
       "node": "./dist/react-16.js",
       "require": "./dist/react-16.js",
-      "import": "./dist/react-16.mjs",
-      "types": "./dist/react-16.d.ts"
+      "import": "./dist/react-16.mjs"
     },
     "./dist/react-18": {
+      "types": "./dist/react-18.d.ts",
       "node": "./dist/react-18.js",
       "require": "./dist/react-18.js",
-      "import": "./dist/react-18.mjs",
-      "types": "./dist/react-18.d.ts"
+      "import": "./dist/react-18.mjs"
     },
     "./dist/preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -54,7 +53,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@storybook/types": "7.1.0-alpha.11",
+    "@storybook/types": "7.1.0-alpha.12",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
@@ -71,5 +70,5 @@
       "./src/react-18.tsx"
     ]
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

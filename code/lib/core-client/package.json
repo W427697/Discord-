@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-client",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,9 +21,9 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/entry.d.ts",
       "require": "./dist/entry.js",
-      "import": "./dist/entry.mjs",
-      "types": "./dist/entry.d.ts"
+      "import": "./dist/entry.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -35,8 +35,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/preview-api": "7.1.0-alpha.11"
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12"
   },
   "publishConfig": {
     "access": "public"
@@ -47,5 +47,5 @@
     ],
     "shim": "@storybook/preview-api/dist/core-client"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

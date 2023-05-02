@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-svelte-webpack",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,31 +21,31 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./dist/framework-preset-svelte-docs": {
+      "types": "./dist/framework-preset-svelte-docs.d.ts",
       "require": "./dist/framework-preset-svelte-docs.js",
-      "import": "./dist/framework-preset-svelte-docs.mjs",
-      "types": "./dist/framework-preset-svelte-docs.d.ts"
+      "import": "./dist/framework-preset-svelte-docs.mjs"
     },
     "./dist/framework-preset-svelte": {
+      "types": "./dist/framework-preset-svelte.d.ts",
       "require": "./dist/framework-preset-svelte.js",
-      "import": "./dist/framework-preset-svelte.mjs",
-      "types": "./dist/framework-preset-svelte.d.ts"
+      "import": "./dist/framework-preset-svelte.mjs"
     },
     "./dist/svelte-docgen-loader": {
+      "types": "./dist/svelte-docgen-loader.d.ts",
       "require": "./dist/svelte-docgen-loader.js",
-      "import": "./dist/svelte-docgen-loader.mjs",
-      "types": "./dist/svelte-docgen-loader.d.ts"
+      "import": "./dist/svelte-docgen-loader.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -63,8 +63,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.1.0-alpha.11",
-    "@storybook/node-logger": "7.1.0-alpha.11",
+    "@storybook/core-webpack": "7.1.0-alpha.12",
+    "@storybook/node-logger": "7.1.0-alpha.12",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.0.0"
   },
@@ -93,5 +93,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

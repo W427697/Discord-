@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components-webpack5",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
     "lit",
@@ -24,15 +24,14 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -52,10 +51,10 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.20.2",
-    "@storybook/builder-webpack5": "7.1.0-alpha.11",
-    "@storybook/core-common": "7.1.0-alpha.11",
-    "@storybook/preset-web-components-webpack": "7.1.0-alpha.11",
-    "@storybook/web-components": "7.1.0-alpha.11",
+    "@storybook/builder-webpack5": "7.1.0-alpha.12",
+    "@storybook/core-common": "7.1.0-alpha.12",
+    "@storybook/preset-web-components-webpack": "7.1.0-alpha.12",
+    "@storybook/web-components": "7.1.0-alpha.12",
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
@@ -80,5 +79,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

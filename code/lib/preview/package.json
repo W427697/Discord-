@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,12 +22,12 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/runtime.js",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./globals": {
-      "require": "./dist/globals.js",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./package.json": "./package.json"
   },
@@ -55,12 +55,12 @@
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.11",
-    "@storybook/channel-websocket": "7.1.0-alpha.11",
-    "@storybook/channels": "7.1.0-alpha.11",
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/core-events": "7.1.0-alpha.11",
-    "@storybook/preview-api": "7.1.0-alpha.11",
+    "@storybook/channel-postmessage": "7.1.0-alpha.12",
+    "@storybook/channel-websocket": "7.1.0-alpha.12",
+    "@storybook/channels": "7.1.0-alpha.12",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/core-events": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
@@ -74,5 +74,5 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

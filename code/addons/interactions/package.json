@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -23,25 +23,25 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./manager": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./preview": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./register.js": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -72,16 +72,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/components": "7.1.0-alpha.11",
-    "@storybook/core-common": "7.1.0-alpha.11",
-    "@storybook/core-events": "7.1.0-alpha.11",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/components": "7.1.0-alpha.12",
+    "@storybook/core-common": "7.1.0-alpha.12",
+    "@storybook/core-events": "7.1.0-alpha.12",
     "@storybook/global": "^5.0.0",
-    "@storybook/instrumenter": "7.1.0-alpha.11",
-    "@storybook/manager-api": "7.1.0-alpha.11",
-    "@storybook/preview-api": "7.1.0-alpha.11",
-    "@storybook/theming": "7.1.0-alpha.11",
-    "@storybook/types": "7.1.0-alpha.11",
+    "@storybook/instrumenter": "7.1.0-alpha.12",
+    "@storybook/manager-api": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12",
+    "@storybook/theming": "7.1.0-alpha.12",
+    "@storybook/types": "7.1.0-alpha.12",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
     "ts-dedent": "^2.2.0"
@@ -118,7 +118,7 @@
     ],
     "platform": "node"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95",
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [

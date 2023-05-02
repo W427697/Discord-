@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-viewport",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Build responsive components by adjusting Storybook’s viewport size and orientation",
   "keywords": [
     "addon",
@@ -24,25 +24,25 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./manager": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./preview": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.ts",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./register": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -73,13 +73,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/components": "7.1.0-alpha.11",
-    "@storybook/core-events": "7.1.0-alpha.11",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/components": "7.1.0-alpha.12",
+    "@storybook/core-events": "7.1.0-alpha.12",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.11",
-    "@storybook/preview-api": "7.1.0-alpha.11",
-    "@storybook/theming": "7.1.0-alpha.11",
+    "@storybook/manager-api": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12",
+    "@storybook/theming": "7.1.0-alpha.12",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2"
   },
@@ -109,7 +109,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95",
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6",
   "storybook": {
     "displayName": "Viewport",
     "icon": "https://user-images.githubusercontent.com/263385/101991678-48cdf300-3c7c-11eb-9764-f8af293c1b28.png",
