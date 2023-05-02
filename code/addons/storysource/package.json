@@ -23,19 +23,19 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./manager": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./package.json": "./package.json"
   },
