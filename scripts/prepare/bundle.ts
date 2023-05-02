@@ -73,6 +73,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     optimized,
   });
 
+  /* preset files are always CJS only.
+   * Generating an ESM file for them anyway is problematic because they often have a reference to `require`.
+   * TSUP generated code will then have a `require` polyfill/guard in the ESM files, which causes issues for webpack.
+   */
   const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
 
   if (formats.includes('esm')) {
