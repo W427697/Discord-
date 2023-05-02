@@ -27,44 +27,42 @@
   "exports": {
     ".": {
       "node": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preview": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./blocks": {
+      "types": "./dist/blocks.d.ts",
       "require": "./dist/blocks.js",
-      "import": "./dist/blocks.mjs",
-      "types": "./dist/blocks.d.ts"
+      "import": "./dist/blocks.mjs"
     },
     "./dist/preview": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./dist/preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./dist/shims/mdx-react-shim": {
+      "types": "./dist/shims/mdx-react-shim.d.ts",
       "require": "./dist/shims/mdx-react-shim.js",
-      "import": "./dist/shims/mdx-react-shim.mjs",
-      "types": "./dist/shims/mdx-react-shim.d.ts"
+      "import": "./dist/shims/mdx-react-shim.mjs"
     },
     "./mdx-react-shim": {
+      "types": "./dist/shims/mdx-react-shim.d.ts",
       "require": "./dist/shims/mdx-react-shim.js",
-      "import": "./dist/shims/mdx-react-shim.mjs",
-      "types": "./dist/shims/mdx-react-shim.d.ts"
+      "import": "./dist/shims/mdx-react-shim.mjs"
     },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",

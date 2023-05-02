@@ -22,21 +22,20 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/react-16.d.ts",
       "node": "./dist/react-16.js",
       "require": "./dist/react-16.js",
-      "import": "./dist/react-16.mjs",
-      "types": "./dist/react-16.d.ts"
+      "import": "./dist/react-16.mjs"
     },
     "./dist/react-18": {
+      "types": "./dist/react-18.d.ts",
       "node": "./dist/react-18.js",
       "require": "./dist/react-18.js",
-      "import": "./dist/react-18.mjs",
-      "types": "./dist/react-18.d.ts"
+      "import": "./dist/react-18.mjs"
     },
     "./dist/preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
