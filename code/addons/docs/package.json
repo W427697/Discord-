@@ -38,7 +38,6 @@
     },
     "./preset": {
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
     "./blocks": {
@@ -53,7 +52,6 @@
     },
     "./dist/preset": {
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
     "./dist/shims/mdx-react-shim": {
