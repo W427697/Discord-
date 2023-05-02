@@ -29,13 +29,12 @@ const defaultEventOptions = { allowFunction: true, maxDepth: 25 };
 export class PostmsgTransport {
   private buffer: BufferedEvent[];
 
-  private handler: ChannelHandler | null;
+  private handler?: ChannelHandler;
 
   private connected = false;
 
   constructor(private readonly config: Config) {
     this.buffer = [];
-    this.handler = null;
 
     if (typeof global?.addEventListener === 'function') {
       global.addEventListener('message', this.handleEvent.bind(this), false);
