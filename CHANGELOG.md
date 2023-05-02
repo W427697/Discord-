@@ -1,3 +1,30 @@
+## 7.1.0-alpha.12 (May 3, 2023)
+
+#### Bug Fixes
+
+-   Migrate: skip the automigration for gf markdown when user isn't using mdx [#22186](https://github.com/storybooks/storybook/pull/22186)
+-   UI: Addon panel does not update after disabling/enabling an addon [#22258](https://github.com/storybooks/storybook/pull/22258)
+-   Typescript: Fix bad typings caused by tsup bug [#22261](https://github.com/storybooks/storybook/pull/22261)
+-   Core: Fix source snippets for stories with mapped args [#22135](https://github.com/storybooks/storybook/pull/22135)
+
+#### Maintenance
+
+-   Telemetry: Persist sessionId across runs [#22325](https://github.com/storybooks/storybook/pull/22325)
+-   Packaging: Move `types` condition to the front in all `package.json.exports` maps [#22321](https://github.com/storybooks/storybook/pull/22321)
+-   Packaging: Don't generate ESM dist for preset files [#22330](https://github.com/storybooks/storybook/pull/22330)
+-   Typescript: Migrate `@storybook/csf-tools` to strict TS [#22312](https://github.com/storybooks/storybook/pull/22312)
+-   Typescript: Migrate @storybook/postinstall and @storybook/router to strict TS [#22200](https://github.com/storybooks/storybook/pull/22200)
+-   Maintenance: Fix urls for all packages in package.json [#22101](https://github.com/storybooks/storybook/pull/22101)
+-   Docs: Improve component typings [#22050](https://github.com/storybooks/storybook/pull/22050)
+
+#### Build
+
+-   Build: Comment out flaky test [#22310](https://github.com/storybooks/storybook/pull/22310)
+-   Build: Migrate `@storybook/web-components-vite` to strict TS [#22309](https://github.com/storybooks/storybook/pull/22309)
+-   Build: Migrate `@storybook/html-vite` to strict TS [#22293](https://github.com/storybooks/storybook/pull/22293)
+-   Build: Migrate @storybook/preset-vue-webpack to strict TS [#22320](https://github.com/storybooks/storybook/pull/22320)
+-   Build: Use `next` branch for sandbox and repro commands [#22238](https://github.com/storybooks/storybook/pull/22238)
+
 ## 7.1.0-alpha.11 (April 28, 2023)
 
 #### Features
