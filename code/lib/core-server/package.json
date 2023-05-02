@@ -29,13 +29,11 @@
     "./dist/presets/babel-cache-preset": {
       "node": "./dist/presets/babel-cache-preset.js",
       "require": "./dist/presets/babel-cache-preset.js",
-      "import": "./dist/presets/babel-cache-preset.mjs",
       "types": "./dist/presets/babel-cache-preset.d.ts"
     },
     "./dist/presets/common-preset": {
       "node": "./dist/presets/common-preset.js",
       "require": "./dist/presets/common-preset.js",
-      "import": "./dist/presets/common-preset.mjs",
       "types": "./dist/presets/common-preset.d.ts"
     },
     "./public/favicon.svg": "./public/favicon.svg",
