@@ -1,19 +1,19 @@
 {
   "name": "@storybook/angular",
-  "version": "7.1.0-alpha.10",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
     "angular"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/angular",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "frameworks/angular"
+    "directory": "code/frameworks/angular"
   },
   "funding": {
     "type": "opencollective",
@@ -36,20 +36,20 @@
     "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.1.0-alpha.10",
-    "@storybook/cli": "7.1.0-alpha.10",
-    "@storybook/client-logger": "7.1.0-alpha.10",
-    "@storybook/core-common": "7.1.0-alpha.10",
-    "@storybook/core-events": "7.1.0-alpha.10",
-    "@storybook/core-server": "7.1.0-alpha.10",
-    "@storybook/core-webpack": "7.1.0-alpha.10",
-    "@storybook/docs-tools": "7.1.0-alpha.10",
+    "@storybook/builder-webpack5": "7.1.0-alpha.12",
+    "@storybook/cli": "7.1.0-alpha.12",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/core-common": "7.1.0-alpha.12",
+    "@storybook/core-events": "7.1.0-alpha.12",
+    "@storybook/core-server": "7.1.0-alpha.12",
+    "@storybook/core-webpack": "7.1.0-alpha.12",
+    "@storybook/docs-tools": "7.1.0-alpha.12",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.10",
-    "@storybook/node-logger": "7.1.0-alpha.10",
-    "@storybook/preview-api": "7.1.0-alpha.10",
-    "@storybook/telemetry": "7.1.0-alpha.10",
-    "@storybook/types": "7.1.0-alpha.10",
+    "@storybook/manager-api": "7.1.0-alpha.12",
+    "@storybook/node-logger": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12",
+    "@storybook/telemetry": "7.1.0-alpha.12",
+    "@storybook/types": "7.1.0-alpha.12",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
@@ -65,24 +65,24 @@
     "webpack": "5"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1600.0-rc.3",
-    "@angular-devkit/build-angular": "^16.0.0-rc.3",
-    "@angular-devkit/core": "^16.0.0-rc.3",
-    "@angular/animations": "^16.0.0-rc.3",
-    "@angular/cli": "^16.0.0-rc.3",
-    "@angular/common": "^16.0.0-rc.3",
-    "@angular/compiler": "^16.0.0-rc.3",
-    "@angular/compiler-cli": "^16.0.0-rc.3",
-    "@angular/core": "^16.0.0-rc.3",
-    "@angular/forms": "^16.0.0-rc.3",
-    "@angular/platform-browser": "^16.0.0-rc.3",
-    "@angular/platform-browser-dynamic": "^16.0.0-rc.3",
+    "@angular-devkit/architect": "^0.1600.0-rc.4",
+    "@angular-devkit/build-angular": "^16.0.0-rc.4",
+    "@angular-devkit/core": "^16.0.0-rc.4",
+    "@angular/animations": "^16.0.0-rc.4",
+    "@angular/cli": "^16.0.0-rc.4",
+    "@angular/common": "^16.0.0-rc.4",
+    "@angular/compiler": "^16.0.0-rc.4",
+    "@angular/compiler-cli": "^16.0.0-rc.4",
+    "@angular/core": "^16.0.0-rc.4",
+    "@angular/forms": "^16.0.0-rc.4",
+    "@angular/platform-browser": "^16.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "^16.0.0-rc.4",
     "@types/rimraf": "^3.0.2",
     "@types/tmp": "^0.2.3",
     "cross-spawn": "^7.0.3",
     "jest": "^29.3.1",
-    "jest-preset-angular": "^12.2.3",
-    "jest-specific-snapshot": "^7.0.0",
+    "jest-preset-angular": "^13.0.1",
+    "jest-specific-snapshot": "^8.0.0",
     "rimraf": "^3.0.2",
     "tmp": "^0.2.1",
     "typescript": "~4.9.3",
@@ -123,5 +123,5 @@
   "bundler": {
     "tsConfig": "tsconfig.build.json"
   },
-  "gitHead": "e7c833e690dd0d2966ffb7fb806a3bda89a508c8"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }
