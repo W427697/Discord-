@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -24,10 +24,10 @@
   "author": "Storybook Team",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json",
     "./bin/index": "./bin/index.js"
@@ -57,13 +57,13 @@
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
     "@ndelangen/get-tarball": "^3.0.7",
-    "@storybook/codemod": "7.1.0-alpha.11",
-    "@storybook/core-common": "7.1.0-alpha.11",
-    "@storybook/core-server": "7.1.0-alpha.11",
-    "@storybook/csf-tools": "7.1.0-alpha.11",
-    "@storybook/node-logger": "7.1.0-alpha.11",
-    "@storybook/telemetry": "7.1.0-alpha.11",
-    "@storybook/types": "7.1.0-alpha.11",
+    "@storybook/codemod": "7.1.0-alpha.12",
+    "@storybook/core-common": "7.1.0-alpha.12",
+    "@storybook/core-server": "7.1.0-alpha.12",
+    "@storybook/csf-tools": "7.1.0-alpha.12",
+    "@storybook/node-logger": "7.1.0-alpha.12",
+    "@storybook/telemetry": "7.1.0-alpha.12",
+    "@storybook/types": "7.1.0-alpha.12",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -94,7 +94,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.1.0-alpha.11",
+    "@storybook/client-api": "7.1.0-alpha.12",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -115,5 +115,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

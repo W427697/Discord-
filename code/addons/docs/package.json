@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -27,44 +27,42 @@
   "exports": {
     ".": {
       "node": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preview": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./blocks": {
+      "types": "./dist/blocks.d.ts",
       "require": "./dist/blocks.js",
-      "import": "./dist/blocks.mjs",
-      "types": "./dist/blocks.d.ts"
+      "import": "./dist/blocks.mjs"
     },
     "./dist/preview": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./dist/preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./dist/shims/mdx-react-shim": {
+      "types": "./dist/shims/mdx-react-shim.d.ts",
       "require": "./dist/shims/mdx-react-shim.js",
-      "import": "./dist/shims/mdx-react-shim.mjs",
-      "types": "./dist/shims/mdx-react-shim.d.ts"
+      "import": "./dist/shims/mdx-react-shim.mjs"
     },
     "./mdx-react-shim": {
+      "types": "./dist/shims/mdx-react-shim.d.ts",
       "require": "./dist/shims/mdx-react-shim.js",
-      "import": "./dist/shims/mdx-react-shim.mjs",
-      "types": "./dist/shims/mdx-react-shim.d.ts"
+      "import": "./dist/shims/mdx-react-shim.mjs"
     },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",
@@ -101,19 +99,19 @@
   "dependencies": {
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.1.0-alpha.11",
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/components": "7.1.0-alpha.11",
-    "@storybook/csf-plugin": "7.1.0-alpha.11",
-    "@storybook/csf-tools": "7.1.0-alpha.11",
+    "@storybook/blocks": "7.1.0-alpha.12",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/components": "7.1.0-alpha.12",
+    "@storybook/csf-plugin": "7.1.0-alpha.12",
+    "@storybook/csf-tools": "7.1.0-alpha.12",
     "@storybook/global": "^5.0.0",
     "@storybook/mdx2-csf": "^1.0.0",
-    "@storybook/node-logger": "7.1.0-alpha.11",
-    "@storybook/postinstall": "7.1.0-alpha.11",
-    "@storybook/preview-api": "7.1.0-alpha.11",
-    "@storybook/react-dom-shim": "7.1.0-alpha.11",
-    "@storybook/theming": "7.1.0-alpha.11",
-    "@storybook/types": "7.1.0-alpha.11",
+    "@storybook/node-logger": "7.1.0-alpha.12",
+    "@storybook/postinstall": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12",
+    "@storybook/react-dom-shim": "7.1.0-alpha.12",
+    "@storybook/theming": "7.1.0-alpha.12",
+    "@storybook/types": "7.1.0-alpha.12",
     "fs-extra": "^11.1.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
@@ -143,7 +141,7 @@
       "@storybook/mdx1-csf"
     ]
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95",
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

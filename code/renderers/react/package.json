@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -21,20 +21,19 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preview": {
+      "types": "./dist/config.d.ts",
       "require": "./dist/config.js",
-      "import": "./dist/config.mjs",
-      "types": "./dist/config.d.ts"
+      "import": "./dist/config.mjs"
     },
     "./dist/preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -53,13 +52,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/core-client": "7.1.0-alpha.11",
-    "@storybook/docs-tools": "7.1.0-alpha.11",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/core-client": "7.1.0-alpha.12",
+    "@storybook/docs-tools": "7.1.0-alpha.12",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.11",
-    "@storybook/react-dom-shim": "7.1.0-alpha.11",
-    "@storybook/types": "7.1.0-alpha.11",
+    "@storybook/preview-api": "7.1.0-alpha.12",
+    "@storybook/react-dom-shim": "7.1.0-alpha.12",
+    "@storybook/types": "7.1.0-alpha.12",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
@@ -106,5 +105,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

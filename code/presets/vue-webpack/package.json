@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-vue-webpack",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook for Vue: Develop Vue Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,26 +21,26 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./dist/framework-preset-vue-docs": {
+      "types": "./dist/framework-preset-vue-docs.d.ts",
       "require": "./dist/framework-preset-vue-docs.js",
-      "import": "./dist/framework-preset-vue-docs.mjs",
-      "types": "./dist/framework-preset-vue-docs.d.ts"
+      "import": "./dist/framework-preset-vue-docs.mjs"
     },
     "./dist/framework-preset-vue": {
+      "types": "./dist/framework-preset-vue.d.ts",
       "require": "./dist/framework-preset-vue.js",
-      "import": "./dist/framework-preset-vue.mjs",
-      "types": "./dist/framework-preset-vue.d.ts"
+      "import": "./dist/framework-preset-vue.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -58,8 +58,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.1.0-alpha.11",
-    "@storybook/docs-tools": "7.1.0-alpha.11",
+    "@storybook/core-webpack": "7.1.0-alpha.12",
+    "@storybook/docs-tools": "7.1.0-alpha.12",
     "@types/node": "^16.0.0",
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.44.23",
@@ -95,5 +95,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }

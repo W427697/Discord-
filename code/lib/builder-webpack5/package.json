@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-webpack5",
-  "version": "7.1.0-alpha.11",
+  "version": "7.1.0-alpha.12",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,22 +21,20 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./presets/custom-webpack-preset": {
+      "types": "./dist/presets/custom-webpack-preset.d.ts",
       "node": "./dist/presets/custom-webpack-preset.js",
-      "require": "./dist/presets/custom-webpack-preset.js",
-      "import": "./dist/presets/custom-webpack-preset.mjs",
-      "types": "./dist/presets/custom-webpack-preset.d.ts"
+      "require": "./dist/presets/custom-webpack-preset.js"
     },
     "./presets/preview-preset": {
+      "types": "./dist/presets/preview-preset.d.ts",
       "node": "./dist/presets/preview-preset.js",
-      "require": "./dist/presets/preview-preset.js",
-      "import": "./dist/presets/preview-preset.mjs",
-      "types": "./dist/presets/preview-preset.d.ts"
+      "require": "./dist/presets/preview-preset.js"
     },
     "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
     "./templates/preview.ejs": "./templates/preview.ejs",
@@ -58,25 +56,25 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/addons": "7.1.0-alpha.11",
-    "@storybook/api": "7.1.0-alpha.11",
-    "@storybook/channel-postmessage": "7.1.0-alpha.11",
-    "@storybook/channel-websocket": "7.1.0-alpha.11",
-    "@storybook/channels": "7.1.0-alpha.11",
-    "@storybook/client-api": "7.1.0-alpha.11",
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/components": "7.1.0-alpha.11",
-    "@storybook/core-common": "7.1.0-alpha.11",
-    "@storybook/core-events": "7.1.0-alpha.11",
-    "@storybook/core-webpack": "7.1.0-alpha.11",
+    "@storybook/addons": "7.1.0-alpha.12",
+    "@storybook/api": "7.1.0-alpha.12",
+    "@storybook/channel-postmessage": "7.1.0-alpha.12",
+    "@storybook/channel-websocket": "7.1.0-alpha.12",
+    "@storybook/channels": "7.1.0-alpha.12",
+    "@storybook/client-api": "7.1.0-alpha.12",
+    "@storybook/client-logger": "7.1.0-alpha.12",
+    "@storybook/components": "7.1.0-alpha.12",
+    "@storybook/core-common": "7.1.0-alpha.12",
+    "@storybook/core-events": "7.1.0-alpha.12",
+    "@storybook/core-webpack": "7.1.0-alpha.12",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.11",
-    "@storybook/node-logger": "7.1.0-alpha.11",
-    "@storybook/preview": "7.1.0-alpha.11",
-    "@storybook/preview-api": "7.1.0-alpha.11",
-    "@storybook/router": "7.1.0-alpha.11",
-    "@storybook/store": "7.1.0-alpha.11",
-    "@storybook/theming": "7.1.0-alpha.11",
+    "@storybook/manager-api": "7.1.0-alpha.12",
+    "@storybook/node-logger": "7.1.0-alpha.12",
+    "@storybook/preview": "7.1.0-alpha.12",
+    "@storybook/preview-api": "7.1.0-alpha.12",
+    "@storybook/router": "7.1.0-alpha.12",
+    "@storybook/store": "7.1.0-alpha.12",
+    "@storybook/theming": "7.1.0-alpha.12",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
     "babel-loader": "^9.0.0",
@@ -131,5 +129,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "8de6963fca74d5952f5cb5737e34fb4e1ddfd0f6"
 }
