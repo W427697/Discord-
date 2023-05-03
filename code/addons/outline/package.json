@@ -112,7 +112,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "gitHead": "9991b68c7d0cd1543c974f358cae9e0d02b29e7e",
   "storybook": {
     "displayName": "Outline",
     "unsupportedFrameworks": [
