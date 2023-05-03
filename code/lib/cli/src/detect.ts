@@ -169,40 +169,44 @@ export function detectLanguage(packageJson?: PackageJson) {
     return language;
   }
 
-  if (
-    hasDependency(packageJson, 'typescript', (version) =>
-      semver.gte(semver.coerce(version), '4.9.0')
-    ) &&
-    (!hasDependency(packageJson, 'prettier') ||
-      hasDependency(packageJson, 'prettier', (version) =>
-        semver.gte(semver.coerce(version), '2.8.0')
-      )) &&
-    (!hasDependency(packageJson, '@babel/plugin-transform-typescript') ||
-      hasDependency(packageJson, '@babel/plugin-transform-typescript', (version) =>
-        semver.gte(semver.coerce(version), '7.20.0')
-      )) &&
-    (!hasDependency(packageJson, '@typescript-eslint/parser') ||
-      hasDependency(packageJson, '@typescript-eslint/parser', (version) =>
-        semver.gte(semver.coerce(version), '5.44.0')
-      )) &&
-    (!hasDependency(packageJson, 'eslint-plugin-storybook') ||
-      hasDependency(packageJson, 'eslint-plugin-storybook', (version) =>
-        semver.gte(semver.coerce(version), '0.6.8')
-      ))
-  ) {
-    language = SupportedLanguage.TYPESCRIPT_4_9;
-  } else if (
-    hasDependency(packageJson, 'typescript', (version) =>
-      semver.gte(semver.coerce(version), '3.8.0')
-    )
-  ) {
-    language = SupportedLanguage.TYPESCRIPT_3_8;
-  } else if (
-    hasDependency(packageJson, 'typescript', (version) =>
-      semver.lt(semver.coerce(version), '3.8.0')
-    )
-  ) {
-    logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
+  try {
+    if (
+      hasDependency(packageJson, 'typescript', (version) =>
+        semver.gte(semver.coerce(version), '4.9.0')
+      ) &&
+      (!hasDependency(packageJson, 'prettier') ||
+        hasDependency(packageJson, 'prettier', (version) =>
+          semver.gte(semver.coerce(version), '2.8.0')
+        )) &&
+      (!hasDependency(packageJson, '@babel/plugin-transform-typescript') ||
+        hasDependency(packageJson, '@babel/plugin-transform-typescript', (version) =>
+          semver.gte(semver.coerce(version), '7.20.0')
+        )) &&
+      (!hasDependency(packageJson, '@typescript-eslint/parser') ||
+        hasDependency(packageJson, '@typescript-eslint/parser', (version) =>
+          semver.gte(semver.coerce(version), '5.44.0')
+        )) &&
+      (!hasDependency(packageJson, 'eslint-plugin-storybook') ||
+        hasDependency(packageJson, 'eslint-plugin-storybook', (version) =>
+          semver.gte(semver.coerce(version), '0.6.8')
+        ))
+    ) {
+      language = SupportedLanguage.TYPESCRIPT_4_9;
+    } else if (
+      hasDependency(packageJson, 'typescript', (version) =>
+        semver.gte(semver.coerce(version), '3.8.0')
+      )
+    ) {
+      language = SupportedLanguage.TYPESCRIPT_3_8;
+    } else if (
+      hasDependency(packageJson, 'typescript', (version) =>
+        semver.lt(semver.coerce(version), '3.8.0')
+      )
+    ) {
+      logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
+    }
+  } catch (e) {
+    logger.warn('Failed to detect TypeScript version, populating with JavaScript examples');
   }
 
   return language;

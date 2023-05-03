@@ -315,6 +315,16 @@ describe('Detect', () => {
     );
   });
 
+  it(`should return language javascript if the TS dependency cannot be determined`, () => {
+    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
+    expect(detectLanguage({ dependencies: { typescript: '*' } })).toBe(
+      SupportedLanguage.JAVASCRIPT
+    );
+    expect(logger.warn).toHaveBeenCalledWith(
+      'Failed to detect TypeScript version, populating with JavaScript examples'
+    );
+  });
+
   it(`should return language typescript-3-8 if the TS dependency is >=3.8 and <4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '3.8.0' } })).toBe(
       SupportedLanguage.TYPESCRIPT_3_8
