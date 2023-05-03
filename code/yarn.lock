@@ -466,7 +466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.18.9, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.12, @babel/core@npm:^7.20.2, @babel/core@npm:^7.20.5, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.6, @babel/core@npm:~7.21.0":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.12, @babel/core@npm:^7.20.2, @babel/core@npm:^7.20.5, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.6, @babel/core@npm:~7.21.0":
   version: 7.21.8
   resolution: "@babel/core@npm:7.21.8"
   dependencies:
@@ -2090,7 +2090,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.1.6, @babel/traverse@npm:^7.18.9, @babel/traverse@npm:^7.19.3, @babel/traverse@npm:^7.20.5, @babel/traverse@npm:^7.21.4, @babel/traverse@npm:^7.21.5, @babel/traverse@npm:^7.4.5, @babel/traverse@npm:^7.7.0, @babel/traverse@npm:^7.7.2, @babel/traverse@npm:^7.8.6, @babel/traverse@npm:~7.21.2":
+"@babel/traverse@npm:^7.1.6, @babel/traverse@npm:^7.19.3, @babel/traverse@npm:^7.20.5, @babel/traverse@npm:^7.21.4, @babel/traverse@npm:^7.21.5, @babel/traverse@npm:^7.4.5, @babel/traverse@npm:^7.7.0, @babel/traverse@npm:^7.7.2, @babel/traverse@npm:^7.8.6, @babel/traverse@npm:~7.21.2":
   version: 7.21.5
   resolution: "@babel/traverse@npm:7.21.5"
   dependencies:
@@ -6791,7 +6791,7 @@ __metadata:
     "@vitejs/plugin-react": ^3.0.1
     ast-types: ^0.14.2
     magic-string: ^0.27.0
-    react-docgen: 6.0.0-rc.8
+    react-docgen: 6.0.0-alpha.3
     typescript: ~4.9.3
     vite: ^4.0.0
   peerDependencies:
@@ -7875,7 +7875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__traverse@npm:*, @types/babel__traverse@npm:^7.0.6, @types/babel__traverse@npm:^7.18.0":
+"@types/babel__traverse@npm:*, @types/babel__traverse@npm:^7.0.6":
   version: 7.18.5
   resolution: "@types/babel__traverse@npm:7.18.5"
   dependencies:
@@ -7985,13 +7985,6 @@ __metadata:
   version: 0.0.3
   resolution: "@types/doctrine@npm:0.0.3"
   checksum: 566dcdc988c97ff01d14493ceb2223643347f07cf0a88c86cd7cb7c2821cfc837fd39295e6809a29614fdfdc6c4e981408155ca909b2e5da5d947af939b6c966
-  languageName: node
-  linkType: hard
-
-"@types/doctrine@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "@types/doctrine@npm:0.0.5"
-  checksum: 9b38d1b110e94fa34632e21f83b64ed05116f6349b5666c11bc0d4081c793f9b0be25b9d8b34df0ec38d440741836c17d4c84576e22dc00a18fe972f96688bf3
   languageName: node
   linkType: hard
 
@@ -8552,13 +8545,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: e38f98b7524817459bb1214d39f4cfcb1dd7ffb31992a427b4494f3988aa6195dc349dfb66b299270b399b34568d045bf1cb6230349a6d343e183052ee486eaa
-  languageName: node
-  linkType: hard
-
-"@types/resolve@npm:^1.20.2":
-  version: 1.20.2
-  resolution: "@types/resolve@npm:1.20.2"
-  checksum: c5b7e1770feb5ccfb6802f6ad82a7b0d50874c99331e0c9b259e415e55a38d7a86ad0901c57665d93f75938be2a6a0bc9aa06c9749192cadb2e4512800bbc6e6
   languageName: node
   linkType: hard
 
@@ -21916,7 +21902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"min-indent@npm:^1.0.0, min-indent@npm:^1.0.1":
+"min-indent@npm:^1.0.0":
   version: 1.0.1
   resolution: "min-indent@npm:1.0.1"
   checksum: 7e207bd5c20401b292de291f02913230cb1163abca162044f7db1d951fa245b174dc00869d40dd9a9f32a885ad6a5f3e767ee104cf278f399cb4e92d3f582d5c
@@ -25198,20 +25184,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen@npm:6.0.0-rc.8":
-  version: 6.0.0-rc.8
-  resolution: "react-docgen@npm:6.0.0-rc.8"
+"react-docgen@npm:6.0.0-alpha.3":
+  version: 6.0.0-alpha.3
+  resolution: "react-docgen@npm:6.0.0-alpha.3"
   dependencies:
-    "@babel/core": ^7.18.9
-    "@babel/traverse": ^7.18.9
-    "@babel/types": ^7.18.9
-    "@types/babel__traverse": ^7.18.0
-    "@types/doctrine": ^0.0.5
-    "@types/resolve": ^1.20.2
+    "@babel/core": ^7.7.5
+    "@babel/generator": ^7.12.11
+    ast-types: ^0.14.2
+    commander: ^2.19.0
     doctrine: ^3.0.0
-    resolve: ^1.22.1
-    strip-indent: ^4.0.0
-  checksum: c874b4fc8b162adfaae66b1b82a7e3a5eec89dde7dff00bbe5346d4d8f88e50f046e5b2f00a0aa0b9c0ec57a1fd1971e988cd8b772d5a3f1acf6bb75484f04fe
+    estree-to-babel: ^3.1.0
+    neo-async: ^2.6.1
+    node-dir: ^0.1.10
+    resolve: ^1.17.0
+    strip-indent: ^3.0.0
+  bin:
+    react-docgen: bin/react-docgen.js
+  checksum: 284bba5528d5e9084c3ed36b2d2fec8fc5d55f3fb8ca544ec3a0d1ab98c39001ecb7db6e03a1088b82eb3d750c1343cde2fc9b7729540277eda40e10f38912d8
   languageName: node
   linkType: hard
 
@@ -28020,15 +28009,6 @@ __metadata:
   dependencies:
     min-indent: ^1.0.0
   checksum: ae0deaf41c8d1001c5d4fbe16cb553865c1863da4fae036683b474fa926af9fc121e155cb3fc57a68262b2ae7d5b8420aa752c97a6428c315d00efe2a3875679
-  languageName: node
-  linkType: hard
-
-"strip-indent@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "strip-indent@npm:4.0.0"
-  dependencies:
-    min-indent: ^1.0.1
-  checksum: 6b1fb4e22056867f5c9e7a6f3f45922d9a2436cac758607d58aeaac0d3b16ec40b1c43317de7900f1b8dd7a4107352fa47fb960f2c23566538c51e8585c8870e
   languageName: node
   linkType: hard
 
