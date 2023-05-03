@@ -42,7 +42,7 @@ const alreadyCompletedException = new Error(
 
 const isObject = (o: unknown) => Object.prototype.toString.call(o) === '[object Object]';
 const isModule = (o: unknown) => Object.prototype.toString.call(o) === '[object Module]';
-const isInstrumentable = (o: unknown) => {
+const isInstrumentable = (o: object) => {
   if (!isObject(o) && !isModule(o)) return false;
   if (o.constructor === undefined) return true;
   const proto = o.constructor.prototype;
@@ -112,6 +112,10 @@ export class Instrumenter {
       isPlaying?: boolean;
       isDebugging?: boolean;
     }) => {
+      if (!storyId) {
+        return;
+      }
+
       const state = this.getState(storyId);
       this.setState(storyId, {
         ...getInitialState(),
@@ -576,7 +580,7 @@ export class Instrumenter {
       }
 
       const hasPrevious = logItems.some((item) =>
-        [CallStates.DONE, CallStates.ERROR].includes(item.status)
+        ([CallStates.DONE, CallStates.ERROR] as (CallStates | undefined)[]).includes(item.status)
       );
       const controlStates: ControlStates = {
         start: hasPrevious,
