@@ -186,7 +186,7 @@ export class PostmsgTransport implements ChannelTransport {
       const list: HTMLIFrameElement[] = Array.from(
         document.querySelectorAll('#storybook-preview-iframe')
       );
-      list.flatMap((e) => (e.contentWindow ? [e.contentWindow] : []));
+      return list.flatMap((e) => (e.contentWindow ? [e.contentWindow] : []));
     }
     if (global && global.parent) {
       return [global.parent];
