@@ -1,7 +1,7 @@
 import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
-import type { ChannelHandler, ChannelEvent } from '@storybook/channels';
+import type { ChannelHandler, ChannelEvent, ChannelTransport } from '@storybook/channels';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
@@ -26,7 +26,7 @@ const defaultEventOptions = { allowFunction: true, maxDepth: 25 };
 // that way we can send postMessage to child windows as well, not just iframe
 // https://stackoverflow.com/questions/6340160/how-to-get-the-references-of-all-already-opened-child-windows
 
-export class PostmsgTransport {
+export class PostmsgTransport implements ChannelTransport {
   private buffer: BufferedEvent[];
 
   private handler?: ChannelHandler;
