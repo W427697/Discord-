@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/preview",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,19 +22,17 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/runtime.mjs",
-      "require": "./dist/runtime.js",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./globals": {
-      "import": "./dist/globals.mjs",
-      "require": "./dist/globals.js",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/runtime.js",
-  "module": "dist/runtime.mjs",
+  "module": "dist/runtime.js",
   "types": "dist/runtime.d.ts",
   "typesVersions": {
     "*": {
@@ -54,7 +52,7 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
     "@storybook/channel-postmessage": "7.0.7",
@@ -69,8 +67,10 @@
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/runtime.ts",
+    "browserEntries": [
+      "./src/runtime.ts"
+    ],
+    "nodeEntries": [
       "./src/globals.ts"
     ]
   },

@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/core-server",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/core-server"
+    "directory": "code/lib/core-server"
   },
   "funding": {
     "type": "opencollective",
@@ -21,22 +21,20 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./dist/presets/babel-cache-preset": {
+      "types": "./dist/presets/babel-cache-preset.d.ts",
       "node": "./dist/presets/babel-cache-preset.js",
-      "require": "./dist/presets/babel-cache-preset.js",
-      "import": "./dist/presets/babel-cache-preset.mjs",
-      "types": "./dist/presets/babel-cache-preset.d.ts"
+      "require": "./dist/presets/babel-cache-preset.js"
     },
     "./dist/presets/common-preset": {
+      "types": "./dist/presets/common-preset.d.ts",
       "node": "./dist/presets/common-preset.js",
-      "require": "./dist/presets/common-preset.js",
-      "import": "./dist/presets/common-preset.mjs",
-      "types": "./dist/presets/common-preset.d.ts"
+      "require": "./dist/presets/common-preset.js"
     },
     "./public/favicon.svg": "./public/favicon.svg",
     "./package.json": "./package.json"

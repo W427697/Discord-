@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/ui/manager",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/ui/manager",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -21,26 +21,22 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./dist/runtime": {
-      "require": "./dist/runtime.js",
-      "import": "./dist/runtime.mjs",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./dist/globals": {
-      "require": "./dist/globals.js",
-      "import": "./dist/globals.mjs",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./paths": "./paths.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -51,7 +47,7 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
@@ -95,10 +91,12 @@
   },
   "bundler": {
     "pre": "./scripts/generate-exports-file.ts",
-    "entries": [
+    "browserEntries": [
       "./src/index.tsx",
-      "./src/globals.ts",
       "./src/runtime.ts"
+    ],
+    "nodeEntries": [
+      "./src/globals.ts"
     ]
   },
   "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971"

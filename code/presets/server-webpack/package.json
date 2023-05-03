@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/server-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/presets/server-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/server-webpack"
+    "directory": "code/presets/server-webpack"
   },
   "funding": {
     "type": "opencollective",
@@ -21,21 +21,21 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./dist/loader": {
+      "types": "./dist/loader.d.ts",
       "require": "./dist/loader.js",
-      "import": "./dist/loader.mjs",
-      "types": "./dist/loader.d.ts"
+      "import": "./dist/loader.mjs"
     },
     "./package.json": "./package.json"
   },

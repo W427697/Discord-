@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/manager-api",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/manager-api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -21,10 +21,10 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },

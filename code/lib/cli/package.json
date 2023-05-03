@@ -7,14 +7,14 @@
     "generator",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/cli",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/cli",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/cli"
+    "directory": "code/lib/cli"
   },
   "funding": {
     "type": "opencollective",
@@ -24,10 +24,10 @@
   "author": "Storybook Team",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json",
     "./bin/index": "./bin/index.js"
@@ -101,6 +101,7 @@
     "@types/semver": "^7.3.4",
     "@types/shelljs": "^0.8.7",
     "@types/util-deprecate": "^1.0.0",
+    "slash": "^5.0.0",
     "strip-json-comments": "^3.1.1",
     "typescript": "~4.9.3"
   },

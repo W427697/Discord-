@@ -5,7 +5,7 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/ui/components",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/ui/components",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,15 +22,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./html": {
+      "types": "./dist/html.d.ts",
       "require": "./dist/html.js",
-      "import": "./dist/html.mjs",
-      "types": "./dist/html.d.ts"
+      "import": "./dist/html.mjs"
     },
     "./package.json": "./package.json"
   },
