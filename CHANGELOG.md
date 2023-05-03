@@ -1,3 +1,29 @@
+## 7.0.8 (May 3, 2023)
+
+#### Bug Fixes
+
+-   Typescript: Fix bad typings caused by tsup bug [#22261](https://github.com/storybooks/storybook/pull/22261)
+-   Migrate: skip the automigration for gf markdown when user isn't using mdx [#22186](https://github.com/storybooks/storybook/pull/22186)
+-   UI: Addon panel does not update after disabling/enabling an addon [#22258](https://github.com/storybooks/storybook/pull/22258)
+-   Vue3: Fix compiler error when there is double tag [#22286](https://github.com/storybooks/storybook/pull/22286)
+-   Args: Fix multiple mapped args return array of labels  [#22169](https://github.com/storybooks/storybook/pull/22169)
+-   CLI: Add web-components webpack5 to missing-babelrc automigration [#22202](https://github.com/storybooks/storybook/pull/22202)
+-   Docs: Fix inline story style [#21870](https://github.com/storybooks/storybook/pull/21870)
+-   UI: Fix shift + 7 shortcut to focus search field [#22073](https://github.com/storybooks/storybook/pull/22073)
+-   UI: Fix controls missing when navigating from story [#21967](https://github.com/storybooks/storybook/pull/21967)
+-   NextJS: Fix tsconfig resolution [#22160](https://github.com/storybooks/storybook/pull/22160)
+-   Core: Pass parameters in `SET_INDEX` for docs entries [#22154](https://github.com/storybooks/storybook/pull/22154)
+
+#### Maintenance
+
+-   Telemetry: Persist sessionId across runs [#22325](https://github.com/storybooks/storybook/pull/22325)
+-   Packaging: Move `types` condition to the front in all `package.json.exports` maps [#22321](https://github.com/storybooks/storybook/pull/22321)
+-   Core: Rename manager UI mjs to js [#22247](https://github.com/storybooks/storybook/pull/22247)
+-   Angular: Add support for Angular 16 [#22096](https://github.com/storybooks/storybook/pull/22096)
+-   Packaging: Don't generate ESM dist for preset files [#22330](https://github.com/storybooks/storybook/pull/22330)
+-   Packaging: Fix url for all packages in package.json [#22101](https://github.com/storybooks/storybook/pull/22101)
+-   Add regex to ignore outdated Browserslist in Jest initialization base file [#22260](https://github.com/storybooks/storybook/pull/22260)
+
 ## 7.0.7 (April 24, 2023)
 
 #### Bug Fixes
