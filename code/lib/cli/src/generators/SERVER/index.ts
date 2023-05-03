@@ -10,7 +10,9 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   });
 
   const templateDir = join(getCliDir(), 'templates', 'server');
-  copyTemplate(templateDir);
+  if (templateDir) {
+    copyTemplate(templateDir);
+  }
 };
 
 export default generator;
