@@ -23,8 +23,8 @@ export function defineJestParameter(parameters: AddonParameters): string[] | nul
   }
 
   if (jest === undefined && typeof filePath === 'string') {
-    const fileName = filePath.split('/').pop().split('.')[0];
-    return [fileName];
+    const fileName = filePath.split('/').pop()?.split('.')[0];
+    return fileName ? [fileName] : [];
   }
 
   return null;
