@@ -42,10 +42,10 @@ const alreadyCompletedException = new Error(
 
 const isObject = (o: unknown) => Object.prototype.toString.call(o) === '[object Object]';
 const isModule = (o: unknown) => Object.prototype.toString.call(o) === '[object Module]';
-const isInstrumentable = (o: object) => {
+const isInstrumentable = (o: unknown) => {
   if (!isObject(o) && !isModule(o)) return false;
-  if (o.constructor === undefined) return true;
-  const proto = o.constructor.prototype;
+  if ((o as object).constructor === undefined) return true;
+  const proto = (o as object).constructor.prototype;
   if (!isObject(proto)) return false;
   if (Object.prototype.hasOwnProperty.call(proto, 'isPrototypeOf') === false) return false;
   return true;
