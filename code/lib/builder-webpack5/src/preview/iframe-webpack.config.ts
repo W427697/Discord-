@@ -296,7 +296,7 @@ export default async (
             fullySpecified: false,
           },
         },
-        createBabelLoader(babelOptions, typescriptOptions),
+        createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
           type: 'asset/source',
