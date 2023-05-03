@@ -5,6 +5,7 @@ import type { ChannelHandler, ChannelEvent, ChannelTransport } from '@storybook/
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
+import invariant from 'tiny-invariant';
 
 const { document, location } = global;
 
@@ -145,18 +146,20 @@ export class PostmsgTransport implements ChannelTransport {
         document.querySelectorAll('iframe[data-is-storybook][data-is-loaded]')
       );
 
-      const list = nodes
-        .filter((e) => {
-          try {
-            return !!e.contentWindow && e.dataset.isStorybook !== undefined && e.id === target;
-          } catch (er) {
-            return false;
+      const list = nodes.flatMap((e) => {
+        try {
+          if (!!e.contentWindow && e.dataset.isStorybook !== undefined && e.id === target) {
+            return [e.contentWindow];
           }
-        })
-        .map((e) => <Window>e.contentWindow);
+          return [];
+        } catch (er) {
+          return [];
+        }
+      });
 
       return list?.length ? list : this.getCurrentFrames();
     }
+
     if (global && global.parent && global.parent !== global.self) {
       return [global.parent];
     }
@@ -169,7 +172,7 @@ export class PostmsgTransport implements ChannelTransport {
       const list: HTMLIFrameElement[] = Array.from(
         document.querySelectorAll('[data-is-storybook="true"]')
       );
-      return list.map((e) => <Window>e.contentWindow);
+      return list.flatMap((e) => (e.contentWindow ? [e.contentWindow] : []));
     }
     if (global && global.parent) {
       return [global.parent];
@@ -183,7 +186,7 @@ export class PostmsgTransport implements ChannelTransport {
       const list: HTMLIFrameElement[] = Array.from(
         document.querySelectorAll('#storybook-preview-iframe')
       );
-      return list.map((e) => <Window>e.contentWindow);
+      list.flatMap((e) => (e.contentWindow ? [e.contentWindow] : []));
     }
     if (global && global.parent) {
       return [global.parent];
@@ -230,9 +233,8 @@ export class PostmsgTransport implements ChannelTransport {
           ...event.args
         );
 
-        if (this.handler) {
-          this.handler(event);
-        }
+        invariant(this.handler, 'ChannelHandler should be set');
+        this.handler(event);
       }
     } catch (error) {
       logger.error(error);
