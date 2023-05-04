@@ -40,12 +40,14 @@ const alreadyCompletedException = new Error(
   `This function ran after the play function completed. Did you forget to \`await\` it?`
 );
 
-const isObject = (o: unknown) => Object.prototype.toString.call(o) === '[object Object]';
-const isModule = (o: unknown) => Object.prototype.toString.call(o) === '[object Module]';
+const isObject = (o: unknown): o is object =>
+  Object.prototype.toString.call(o) === '[object Object]';
+const isModule = (o: unknown): o is NodeModule =>
+  Object.prototype.toString.call(o) === '[object Module]';
 const isInstrumentable = (o: unknown) => {
   if (!isObject(o) && !isModule(o)) return false;
-  if ((o as object).constructor === undefined) return true;
-  const proto = (o as object).constructor.prototype;
+  if (o.constructor === undefined) return true;
+  const proto = o.constructor.prototype;
   if (!isObject(proto)) return false;
   if (Object.prototype.hasOwnProperty.call(proto, 'isPrototypeOf') === false) return false;
   return true;
