@@ -25,7 +25,7 @@ export class NPMProxy extends JsPackageManager {
   installArgs: string[] | undefined;
 
   initPackageJson() {
-    return this.executeCommand('npm', ['init', '-y']);
+    return this.executeCommand({ command: 'npm', args: ['init', '-y'] });
   }
 
   getRunStorybookCommand(): string {
@@ -37,7 +37,7 @@ export class NPMProxy extends JsPackageManager {
   }
 
   getNpmVersion(): string {
-    return this.executeCommand('npm', ['--version']);
+    return this.executeCommand({ command: 'npm', args: ['--version'] });
   }
 
   getInstallArgs(): string[] {
@@ -48,19 +48,21 @@ export class NPMProxy extends JsPackageManager {
   }
 
   public runPackageCommand(command: string, args: string[], cwd?: string): string {
-    return this.executeCommand('npm', ['exec', '--', command, ...args], undefined, cwd);
+    return this.executeCommand({
+      command: 'npm',
+      args: ['exec', '--', command, ...args],
+      cwd,
+    });
   }
 
   public findInstallations() {
     const pipeToNull = platform() === 'win32' ? '2>NUL' : '2>/dev/null';
-    const commandResult = this.executeCommand(
-      'npm',
-      ['ls', '--json', '--depth=99', pipeToNull],
-      undefined,
-      undefined,
+    const commandResult = this.executeCommand({
+      command: 'npm',
+      args: ['ls', '--json', '--depth=99', pipeToNull],
       // ignore errors, because npm ls will exit with code 1 if there are e.g. unmet peer dependencies
-      true
-    );
+      ignoreError: true,
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);
@@ -96,7 +98,11 @@ export class NPMProxy extends JsPackageManager {
   protected runRemoveDeps(dependencies: string[]): void {
     const args = [...dependencies];
 
-    this.executeCommand('npm', ['uninstall', ...this.getInstallArgs(), ...args], 'inherit');
+    this.executeCommand({
+      command: 'npm',
+      args: ['uninstall', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
   protected runGetVersions<T extends boolean>(
@@ -105,7 +111,10 @@ export class NPMProxy extends JsPackageManager {
   ): Promise<T extends true ? string[] : string> {
     const args = [fetchAllVersions ? 'versions' : 'version', '--json'];
 
-    const commandResult = this.executeCommand('npm', ['info', packageName, ...args]);
+    const commandResult = this.executeCommand({
+      command: 'npm',
+      args: ['info', packageName, ...args],
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);

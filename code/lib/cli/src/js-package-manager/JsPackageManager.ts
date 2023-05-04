@@ -1,9 +1,11 @@
 import chalk from 'chalk';
 import { gt, satisfies } from 'semver';
-import { sync as spawnSync } from 'cross-spawn';
+import type { CommonOptions } from 'execa';
+import { sync as commandSync } from 'execa';
 import path from 'path';
 import fs from 'fs';
 
+import dedent from 'ts-dedent';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
@@ -44,22 +46,22 @@ export abstract class JsPackageManager {
 
   public abstract getRunCommand(command: string): string;
 
+  public readonly cwd?: string;
+
   // NOTE: for some reason yarn prefers the npm registry in
   // local development, so always use npm
   setRegistryURL(url: string) {
     if (url) {
-      this.executeCommand('npm', ['config', 'set', 'registry', url]);
+      this.executeCommand({ command: 'npm', args: ['config', 'set', 'registry', url] });
     } else {
-      this.executeCommand('npm', ['config', 'delete', 'registry']);
+      this.executeCommand({ command: 'npm', args: ['config', 'delete', 'registry'] });
     }
   }
 
   getRegistryURL() {
-    const url = this.executeCommand('npm', ['config', 'get', 'registry']).trim();
+    const url = this.executeCommand({ command: 'npm', args: ['config', 'get', 'registry'] }).trim();
     return url === 'undefined' ? undefined : url;
   }
-
-  public readonly cwd?: string;
 
   constructor(options?: JsPackageManagerOptions) {
     this.cwd = options?.cwd;
@@ -134,8 +136,19 @@ export abstract class JsPackageManager {
     try {
       packageJson = this.readPackageJson();
     } catch (err) {
-      this.initPackageJson();
-      packageJson = this.readPackageJson();
+      if (err.message.includes('Could not read package.json')) {
+        this.initPackageJson();
+        packageJson = this.readPackageJson();
+      } else {
+        throw new Error(
+          dedent`
+            There was an error while reading the package.json file at ${this.packageJsonPath()}: ${
+            err.message
+          }
+            Please fix the error and try again.
+          `
+        );
+      }
     }
 
     return {
@@ -297,6 +310,11 @@ export abstract class JsPackageManager {
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
       // @ts-expect-error (Converted from ts-ignore)
       current = storybookPackagesVersions[packageName];
+
+      // HEY THERE! IF THIS IS COMMITED IT WAS A MISTAKE. PLEASE UNDO THIS:
+      if (current) {
+        return `^${current}`;
+      }
     }
 
     let latest;
@@ -412,24 +430,36 @@ export abstract class JsPackageManager {
   public abstract runPackageCommand(command: string, args: string[], cwd?: string): string;
   public abstract findInstallations(pattern?: string[]): InstallationMetadata | undefined;
 
-  public executeCommand(
-    command: string,
-    args: string[],
-    stdio?: 'pipe' | 'inherit',
-    cwd?: string,
-    ignoreError?: boolean
-  ): string {
-    const commandResult = spawnSync(command, args, {
-      cwd: cwd ?? this.cwd,
-      stdio: stdio ?? 'pipe',
-      encoding: 'utf-8',
-      shell: true,
-    });
+  public executeCommand({
+    command,
+    args = [],
+    stdio,
+    cwd,
+    ignoreError = false,
+    env,
+  }: {
+    command: string;
+    args: string[];
+    stdio?: CommonOptions<string>['stdio'];
+    cwd?: string;
+    ignoreError?: boolean;
+    env?: CommonOptions<string>['env'];
+  }): string {
+    try {
+      const commandResult = commandSync(command, args, {
+        cwd: cwd ?? this.cwd,
+        stdio: stdio ?? 'pipe',
+        encoding: 'utf-8',
+        shell: true,
+        env,
+      });
 
-    if (commandResult.status !== 0 && ignoreError !== true) {
-      throw new Error(commandResult.stderr ?? '');
+      return commandResult.stdout ?? '';
+    } catch (err) {
+      if (ignoreError !== true) {
+        throw err;
+      }
+      return '';
     }
-
-    return commandResult.stdout ?? '';
   }
 }

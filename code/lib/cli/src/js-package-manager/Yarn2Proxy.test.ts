@@ -17,7 +17,9 @@ describe('Yarn 2 Proxy', () => {
 
       yarn2Proxy.initPackageJson();
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', ['init']);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ command: 'yarn', args: ['init'] })
+      );
     });
   });
 
@@ -27,7 +29,9 @@ describe('Yarn 2 Proxy', () => {
 
       yarn2Proxy.installDependencies();
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', ['install'], expect.any(String));
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ command: 'yarn', args: ['install'] })
+      );
     });
   });
 
@@ -38,10 +42,10 @@ describe('Yarn 2 Proxy', () => {
       yarn2Proxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
-        'yarn',
-        ['compodoc', '-e', 'json', '-d', '.'],
-        undefined,
-        undefined
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['compodoc', '-e', 'json', '-d', '.'],
+        })
       );
     });
   });
@@ -52,12 +56,12 @@ describe('Yarn 2 Proxy', () => {
 
       yarn2Proxy.setRegistryURL('https://foo.bar');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
-        'config',
-        'set',
-        'registry',
-        'https://foo.bar',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'npm',
+          args: ['config', 'set', 'registry', 'https://foo.bar'],
+        })
+      );
     });
   });
 
@@ -68,9 +72,7 @@ describe('Yarn 2 Proxy', () => {
       yarn2Proxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        'yarn',
-        ['add', '-D', '@storybook/preview-api'],
-        expect.any(String)
+        expect.objectContaining({ command: 'yarn', args: ['add', '-D', '@storybook/preview-api'] })
       );
     });
   });
@@ -82,9 +84,10 @@ describe('Yarn 2 Proxy', () => {
       yarn2Proxy.removeDependencies({}, ['@storybook/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        'yarn',
-        ['remove', '@storybook/preview-api'],
-        expect.any(String)
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['remove', '@storybook/preview-api'],
+        })
       );
     });
 
@@ -124,14 +127,12 @@ describe('Yarn 2 Proxy', () => {
 
       const version = await yarn2Proxy.latestVersion('@storybook/preview-api');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
-        'npm',
-        'info',
-        '@storybook/preview-api',
-        '--fields',
-        'version',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['npm', 'info', '@storybook/preview-api', '--fields', 'version', '--json'],
+        })
+      );
       expect(version).toEqual('5.3.19');
     });
 
@@ -144,14 +145,12 @@ describe('Yarn 2 Proxy', () => {
 
       const version = await yarn2Proxy.latestVersion('@storybook/preview-api', '5.X');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
-        'npm',
-        'info',
-        '@storybook/preview-api',
-        '--fields',
-        'versions',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['npm', 'info', '@storybook/preview-api', '--fields', 'versions', '--json'],
+        })
+      );
       expect(version).toEqual('5.3.19');
     });
 
