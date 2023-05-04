@@ -79,7 +79,7 @@ const webpack = async (
   // Remove existing rules related to JavaScript and TypeScript.
   logger.info(`=> Removing existing JavaScript and TypeScript rules.`);
   const filteredRules = webpackConfig.module?.rules?.filter((rule: RuleSetRule | '...') => {
-    if (typeof rule === 'string') return undefined;
+    if (typeof rule === 'string') return false;
     const { test } = rule;
     return !(test instanceof RegExp && (test?.test('.js') || test?.test('.ts')));
   });
