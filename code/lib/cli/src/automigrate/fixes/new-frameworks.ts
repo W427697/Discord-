@@ -15,7 +15,7 @@ import {
   packagesMap,
 } from '../helpers/new-frameworks-utils';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
-import { isCoercible } from '../helpers/semver';
+import { isCoercible, tryCoerce } from '../helpers/semver';
 
 const logger = console;
 
@@ -155,7 +155,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     if (rendererPackage === '@storybook/react' && allDependencies.next) {
       const nextConfigFile = await findUp(nextJsConfigFiles, { cwd: configDir });
       const nextAddonOptions = getNextjsAddonOptions(mainConfig.addons);
-      const coercedNext = isCoercible(allDependencies.next) && semver.coerce(allDependencies.next);
+      const coercedNext = tryCoerce(allDependencies.next);
       const isNextJsCandidate =
         (coercedNext && semver.gte(coercedNext.version, '12.0.0') && nextConfigFile) ||
         Object.keys(nextAddonOptions).length > 0;
