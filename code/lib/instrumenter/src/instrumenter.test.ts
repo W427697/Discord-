@@ -29,7 +29,8 @@ class HTMLElement {
   }
 }
 
-delete (global as Partial<typeof globalThis>).location;
+// @ts-expect-error (global scope type conflicts)
+delete global.location;
 // @ts-expect-error (global scope type conflicts)
 global.location = { reload: jest.fn() };
 // @ts-expect-error (global scope type conflicts)

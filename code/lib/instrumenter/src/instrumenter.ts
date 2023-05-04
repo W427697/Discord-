@@ -581,8 +581,8 @@ export class Instrumenter {
         return;
       }
 
-      const hasPrevious = logItems.some((item) =>
-        ([CallStates.DONE, CallStates.ERROR] as (CallStates | undefined)[]).includes(item.status)
+      const hasPrevious = logItems.some(
+        (item) => item.status === CallStates.DONE || item.status === CallStates.ERROR
       );
       const controlStates: ControlStates = {
         start: hasPrevious,
