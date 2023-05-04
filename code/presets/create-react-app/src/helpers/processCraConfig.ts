@@ -27,7 +27,7 @@ export const processCraConfig = (
 
   /*
    * NOTE: As of version 5.3.0 of Storybook, Storybook's default loaders are no
-   * longer appended when using this preset, meaning less customisation is
+   * longer appended when using this preset, meaning less customization is
    * needed when used alongside that version.
    *
    * When loaders were appended in previous Storybook versions, some CRA loaders

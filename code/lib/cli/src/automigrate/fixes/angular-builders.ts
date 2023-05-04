@@ -8,6 +8,7 @@ import { getStorybookData } from '../helpers/mainConfigFile';
 import { isNxProject } from '../../helpers';
 import { AngularJSON } from '../../generators/ANGULAR/helpers';
 import type { JsPackageManager } from '../../js-package-manager';
+import { isCoercible } from '../helpers/semver';
 
 interface AngularBuildersRunOptions {
   mainConfig: StorybookConfig;
@@ -27,7 +28,7 @@ export const angularBuilders: Fix<AngularBuildersRunOptions> = {
     const allDependencies = packageManager.getAllDependencies();
 
     const angularVersion = allDependencies['@angular/core'];
-    const angularCoerced = semver.coerce(angularVersion)?.version;
+    const angularCoerced = isCoercible(angularVersion) && semver.coerce(angularVersion)?.version;
 
     // skip non-angular projects
     if (!angularCoerced) {

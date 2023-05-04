@@ -7,6 +7,7 @@ import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 import versions from '../../versions';
+import { tryCoerce } from '../../automigrate/helpers/semver';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const monorepoRootPath = path.join(__dirname, '..', '..', '..', '..', '..', '..');
@@ -25,10 +26,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
       }
     : {};
 
-  const craVersion = semver.coerce(
+  const craVersion = tryCoerce(
     packageManager.retrievePackageJson().dependencies['react-scripts']
   )?.version;
-  const isCra5OrHigher = craVersion && semver.gte(craVersion, '5.0.0');
+  const isCra5OrHigher = craVersion ? semver.gte(craVersion, '5.0.0') : true;
   const updatedOptions = isCra5OrHigher ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
   const extraPackages = [];

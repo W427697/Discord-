@@ -4,6 +4,7 @@ import semver from 'semver';
 import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
 import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
+import { isCoercible } from '../helpers/semver';
 
 interface Vue3RunOptions {
   vueVersion: string;
@@ -22,7 +23,7 @@ export const vue3: Fix<Vue3RunOptions> = {
   async check({ configDir, packageManager }) {
     const allDependencies = packageManager.getAllDependencies();
     const vueVersion = allDependencies.vue;
-    const vueCoerced = semver.coerce(vueVersion)?.version;
+    const vueCoerced = isCoercible(vueVersion) && semver.coerce(vueVersion)?.version;
 
     if (!vueCoerced || semver.lt(vueCoerced, '3.0.0')) {
       return null;

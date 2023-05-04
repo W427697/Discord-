@@ -6,6 +6,7 @@ import chalk from 'chalk';
 import semver from 'semver';
 import dedent from 'ts-dedent';
 import type { JsPackageManager } from '../../js-package-manager';
+import { isCoercible } from './semver';
 
 const logger = console;
 
@@ -24,7 +25,9 @@ export const getStorybookData = async ({
     previewConfig: previewConfigPath,
   } = getStorybookInfo(packageJson, userDefinedConfigDir);
   const storybookVersion =
-    storybookVersionSpecifier && semver.coerce(storybookVersionSpecifier)?.version;
+    storybookVersionSpecifier &&
+    isCoercible(storybookVersionSpecifier) &&
+    semver.coerce(storybookVersionSpecifier)?.version;
 
   const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
 

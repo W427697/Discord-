@@ -4,6 +4,7 @@ import semver from 'semver';
 import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
 import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
+import { isCoercible } from '../helpers/semver';
 
 interface Angular12RunOptions {
   angularVersion: string;
@@ -23,7 +24,7 @@ export const angular12: Fix<Angular12RunOptions> = {
   async check({ packageManager, configDir }) {
     const allDependencies = packageManager.getAllDependencies();
     const angularVersion = allDependencies['@angular/core'];
-    const angularCoerced = semver.coerce(angularVersion)?.version;
+    const angularCoerced = isCoercible(angularVersion) && semver.coerce(angularVersion)?.version;
 
     if (!angularCoerced || semver.lt(angularCoerced, '12.0.0')) {
       return null;

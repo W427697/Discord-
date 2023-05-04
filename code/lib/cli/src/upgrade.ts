@@ -114,6 +114,14 @@ const EXTRA_FLAGS: ExtraFlags = {
   'react-scripts@<5': ['--reject', '/preset-create-react-app/'],
 };
 
+const isCoercible = (version: string) => {
+  try {
+    return !!semver.coerce(version);
+  } catch (e) {
+    return false;
+  }
+};
+
 export const addExtraFlags = (
   extraFlags: ExtraFlags,
   flags: string[],
@@ -125,7 +133,11 @@ export const addExtraFlags = (
       const [pkg, specifier] = getPackageDetails(pattern);
       const pkgVersion = dependencies[pkg] || devDependencies[pkg];
 
-      if (pkgVersion && semver.satisfies(semver.coerce(pkgVersion), specifier)) {
+      if (
+        pkgVersion &&
+        isCoercible(pkgVersion) &&
+        semver.satisfies(semver.coerce(pkgVersion), specifier)
+      ) {
         return [...acc, ...extra];
       }
 

@@ -6,6 +6,7 @@ import { CoreBuilder } from '../../project_types';
 import { AngularJSON, compoDocPreviewPrefix, promptForCompoDocs } from './helpers';
 import { getCliDir } from '../../dirs';
 import { paddedLog, copyTemplate } from '../../helpers';
+import { tryCoerce } from '../../automigrate/helpers/semver';
 
 const generator: Generator<{ projectName: string }> = async (
   packageManager,
@@ -13,16 +14,16 @@ const generator: Generator<{ projectName: string }> = async (
   options,
   commandOptions
 ) => {
-  const angularVersionFromDependencies = semver.coerce(
+  const angularVersionFromDependencies = tryCoerce(
     packageManager.retrievePackageJson().dependencies['@angular/core']
   )?.version;
 
-  const angularVersionFromDevDependencies = semver.coerce(
+  const angularVersionFromDevDependencies = tryCoerce(
     packageManager.retrievePackageJson().devDependencies['@angular/core']
   )?.version;
 
   const angularVersion = angularVersionFromDependencies || angularVersionFromDevDependencies;
-  const isWebpack5 = semver.gte(angularVersion, '12.0.0');
+  const isWebpack5 = angularVersion ? semver.gte(angularVersion, '12.0.0') : true;
   const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
   const angularJSON = new AngularJSON();

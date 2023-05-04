@@ -16,6 +16,7 @@ import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
 import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
+import { isCoercible } from './helpers/semver';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -150,7 +151,9 @@ export async function runFixes({
     version: storybookVersion,
   } = getStorybookInfo(packageManager.retrievePackageJson(), userSpecifiedConfigDir);
 
-  const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
+  const sbVersionCoerced =
+    storybookVersion && isCoercible(storybookVersion) && semver.coerce(storybookVersion)?.version;
+
   if (!sbVersionCoerced) {
     logger.info(dedent`
       [Storybook automigrate] ❌ Unable to determine storybook version so the automigrations will be skipped.

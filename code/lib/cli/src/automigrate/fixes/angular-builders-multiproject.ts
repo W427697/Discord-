@@ -4,6 +4,7 @@ import chalk from 'chalk';
 import type { Fix } from '../types';
 import { isNxProject } from '../../helpers';
 import { AngularJSON } from '../../generators/ANGULAR/helpers';
+import { isCoercible } from '../helpers/semver';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AngularBuildersMultiprojectRunOptions {}
@@ -22,7 +23,7 @@ export const angularBuildersMultiproject: Fix<AngularBuildersMultiprojectRunOpti
     const allDependencies = packageManager.getAllDependencies();
 
     const angularVersion = allDependencies['@angular/core'];
-    const angularCoerced = semver.coerce(angularVersion)?.version;
+    const angularCoerced = isCoercible(angularVersion) && semver.coerce(angularVersion)?.version;
 
     // skip non-angular projects
     if (!angularCoerced) {

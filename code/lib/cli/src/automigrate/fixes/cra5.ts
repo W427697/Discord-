@@ -4,6 +4,7 @@ import semver from 'semver';
 import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
 import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
+import { isCoercible } from '../helpers/semver';
 
 interface CRA5RunOptions {
   craVersion: string;
@@ -23,7 +24,7 @@ export const cra5: Fix<CRA5RunOptions> = {
   async check({ packageManager, configDir }) {
     const allDependencies = packageManager.getAllDependencies();
     const craVersion = allDependencies['react-scripts'];
-    const craCoerced = semver.coerce(craVersion)?.version;
+    const craCoerced = isCoercible(craVersion) && semver.coerce(craVersion)?.version;
 
     if (!craCoerced || semver.lt(craCoerced, '5.0.0')) {
       return null;

@@ -4,6 +4,7 @@ import semver from 'semver';
 import type { Fix } from '../types';
 import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
 import { updateMainConfig } from '../helpers/mainConfigFile';
+import { isCoercible } from '../helpers/semver';
 
 const logger = console;
 
@@ -29,7 +30,7 @@ export const webpack5: Fix<Webpack5RunOptions> = {
     const allDependencies = packageManager.retrievePackageJson().dependencies;
 
     const webpackVersion = allDependencies.webpack;
-    const webpackCoerced = semver.coerce(webpackVersion)?.version;
+    const webpackCoerced = isCoercible(webpackVersion) && semver.coerce(webpackVersion)?.version;
 
     if (
       !webpackCoerced ||
