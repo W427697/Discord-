@@ -82,7 +82,11 @@ export class NPMProxy extends JsPackageManager {
   }
 
   protected runInstall(): void {
-    this.executeCommand('npm', ['install', ...this.getInstallArgs()], 'inherit');
+    this.executeCommand({
+      command: 'npm',
+      args: ['install', ...this.getInstallArgs()],
+      stdio: 'inherit',
+    });
   }
 
   protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
@@ -92,7 +96,11 @@ export class NPMProxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('npm', ['install', ...this.getInstallArgs(), ...args], 'inherit');
+    this.executeCommand({
+      command: 'npm',
+      args: ['install', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
   protected runRemoveDeps(dependencies: string[]): void {

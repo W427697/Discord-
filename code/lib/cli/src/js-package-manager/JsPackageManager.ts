@@ -310,11 +310,6 @@ export abstract class JsPackageManager {
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
       // @ts-expect-error (Converted from ts-ignore)
       current = storybookPackagesVersions[packageName];
-
-      // HEY THERE! IF THIS IS COMMITED IT WAS A MISTAKE. PLEASE UNDO THIS:
-      if (current) {
-        return `^${current}`;
-      }
     }
 
     let latest;
