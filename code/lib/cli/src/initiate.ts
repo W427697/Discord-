@@ -4,6 +4,7 @@ import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
+import dedent from 'ts-dedent';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -328,10 +329,6 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
 
-  if (!options.skipInstall && !storybookInstalled) {
-    packageManager.installDependencies();
-  }
-
   if (!options.disableTelemetry) {
     telemetry('init', { projectType });
   }
@@ -376,6 +373,19 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
       cliOptions: options,
       printError: (err) => !err.handled && logger.error(err),
     },
-    () => doInitiate(options, pkg)
+    async () => {
+      try {
+        await doInitiate(options, pkg);
+      } catch (err) {
+        logger.log();
+        logger.log(dedent`
+          Unfortunately we encountered an error while initializing Storybook in your project:
+          ${chalk.red(err.message)}
+          
+          This is likely a bug, please file an issue.
+        `);
+        throw err;
+      }
+    }
   );
 }
