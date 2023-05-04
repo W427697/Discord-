@@ -78,12 +78,14 @@ const webpack = async (
 
   // Remove existing rules related to JavaScript and TypeScript.
   logger.info(`=> Removing existing JavaScript and TypeScript rules.`);
-  const filteredRules =
-    webpackConfig.module &&
-    webpackConfig.module.rules.filter(
-      ({ test }: RuleSetRule) =>
-        !(test instanceof RegExp && ((test && test.test('.js')) || test.test('.ts')))
-    );
+  const filteredRules = webpackConfig.module?.rules?.filter(
+    (rule: RuleSetRule | '...') =>
+      typeof rule !== 'string' &&
+      !(
+        rule.test instanceof RegExp &&
+        ((rule.test && rule.test.test('.js')) || rule.test.test('.ts'))
+      )
+  );
 
   // Require the CRA config and set the appropriate mode.
   const craWebpackConfigPath = join(scriptsPath, 'config', 'webpack.config');
