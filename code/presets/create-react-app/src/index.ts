@@ -81,7 +81,7 @@ const webpack = async (
   const filteredRules = webpackConfig.module?.rules?.filter((rule: RuleSetRule | '...') => {
     if (typeof rule === 'string') return undefined;
     const { test } = rule;
-    return !(test instanceof RegExp && ((test && test.test('.js')) || test.test('.ts')));
+    return !(test instanceof RegExp && (test?.test('.js') || test?.test('.ts')));
   });
 
   // Require the CRA config and set the appropriate mode.
