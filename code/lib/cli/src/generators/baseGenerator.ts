@@ -4,7 +4,7 @@ import { dedent } from 'ts-dedent';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { externalFrameworks, CoreBuilder } from '../project_types';
-import { getBabelDependencies, copyTemplateFiles } from '../helpers';
+import { getBabelDependencies, copyTemplateFiles, paddedLog } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
@@ -222,19 +222,50 @@ export async function baseGenerator(
     );
   }
 
-  const packages = [
+  const allPackages = [
     'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
-  ]
+  ];
+
+  const packages = [...new Set(allPackages)]
     .filter(Boolean)
     .filter(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
+  paddedLog(`Retrieving the latest versions for ${packages.length} Storybook packages`);
 
   const versionedPackages = await packageManager.getVersionedPackages(packages);
+
+  const babelDependencies =
+    addBabel && builder !== CoreBuilder.Vite
+      ? await getBabelDependencies(packageManager, packageJson)
+      : [];
+  const isNewFolder = !files.some(
+    (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
+  );
+  if (isNewFolder) {
+    await generateStorybookBabelConfigInCWD();
+  }
+
+  const depsToInstall = [...versionedPackages, ...babelDependencies];
+
+  if (depsToInstall.length > 0) {
+    paddedLog(`Installing Storybook dependencies`);
+    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+  }
+
+  if (addScripts) {
+    packageManager.addStorybookCommandInScripts({
+      port: 6006,
+    });
+  }
+
+  if (addESLint) {
+    packageManager.addESLintConfig();
+  }
 
   await fse.ensureDir(`./${storybookConfigFolder}`);
 
@@ -259,33 +290,6 @@ export async function baseGenerator(
   }
 
   await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
-
-  const babelDependencies =
-    addBabel && builder !== CoreBuilder.Vite
-      ? await getBabelDependencies(packageManager, packageJson)
-      : [];
-  const isNewFolder = !files.some(
-    (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
-  );
-  if (isNewFolder) {
-    await generateStorybookBabelConfigInCWD();
-  }
-
-  const depsToInstall = [...versionedPackages, ...babelDependencies];
-
-  if (depsToInstall.length > 0) {
-    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
-  }
-
-  if (addScripts) {
-    packageManager.addStorybookCommandInScripts({
-      port: 6006,
-    });
-  }
-
-  if (addESLint) {
-    packageManager.addESLintConfig();
-  }
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
