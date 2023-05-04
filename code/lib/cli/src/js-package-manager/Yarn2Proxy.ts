@@ -17,7 +17,7 @@ export class Yarn2Proxy extends JsPackageManager {
   }
 
   initPackageJson() {
-    return this.executeCommand('yarn', ['init']);
+    return this.executeCommand({ command: 'yarn', args: ['init'] });
   }
 
   getRunStorybookCommand(): string {
@@ -29,17 +29,20 @@ export class Yarn2Proxy extends JsPackageManager {
   }
 
   runPackageCommand(command: string, args: string[], cwd?: string): string {
-    return this.executeCommand(`yarn`, [command, ...args], undefined, cwd);
+    return this.executeCommand({ command: 'yarn', args: [command, ...args], cwd });
   }
 
   public findInstallations(pattern: string[]) {
-    const commandResult = this.executeCommand('yarn', [
-      'info',
-      '--name-only',
-      '--recursive',
-      pattern.map((p) => `"${p}"`).join(' '),
-      `"${pattern}"`,
-    ]);
+    const commandResult = this.executeCommand({
+      command: 'yarn',
+      args: [
+        'info',
+        '--name-only',
+        '--recursive',
+        pattern.map((p) => `"${p}"`).join(' '),
+        `"${pattern}"`,
+      ],
+    });
 
     try {
       return this.mapDependencies(commandResult);
@@ -58,7 +61,11 @@ export class Yarn2Proxy extends JsPackageManager {
   }
 
   protected runInstall(): void {
-    this.executeCommand('yarn', ['install', ...this.getInstallArgs()], 'inherit');
+    this.executeCommand({
+      command: 'yarn',
+      args: ['install', ...this.getInstallArgs()],
+      stdio: 'inherit',
+    });
   }
 
   protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
@@ -68,13 +75,21 @@ export class Yarn2Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('yarn', ['add', ...this.getInstallArgs(), ...args], 'inherit');
+    this.executeCommand({
+      command: 'yarn',
+      args: ['add', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
   protected runRemoveDeps(dependencies: string[]): void {
     const args = [...dependencies];
 
-    this.executeCommand('yarn', ['remove', ...this.getInstallArgs(), ...args], 'inherit');
+    this.executeCommand({
+      command: 'yarn',
+      args: ['remove', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
   protected runGetVersions<T extends boolean>(
@@ -84,7 +99,10 @@ export class Yarn2Proxy extends JsPackageManager {
     const field = fetchAllVersions ? 'versions' : 'version';
     const args = ['--fields', field, '--json'];
 
-    const commandResult = this.executeCommand('yarn', ['npm', 'info', packageName, ...args]);
+    const commandResult = this.executeCommand({
+      command: 'yarn',
+      args: ['npm', 'info', packageName, ...args],
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);

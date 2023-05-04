@@ -17,7 +17,9 @@ describe('NPM Proxy', () => {
 
       npmProxy.initPackageJson();
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', ['init', '-y']);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ command: 'npm', args: ['init', '-y'] })
+      );
     });
   });
 
@@ -27,12 +29,12 @@ describe('NPM Proxy', () => {
 
       npmProxy.setRegistryURL('https://foo.bar');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
-        'config',
-        'set',
-        'registry',
-        'https://foo.bar',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'npm',
+          args: ['config', 'set', 'registry', 'https://foo.bar'],
+        })
+      );
     });
   });
 
@@ -65,10 +67,10 @@ describe('NPM Proxy', () => {
         npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          'npm',
-          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
-          undefined,
-          undefined
+          expect.objectContaining({
+            command: 'npm',
+            args: ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
+          })
         );
       });
     });
@@ -79,10 +81,10 @@ describe('NPM Proxy', () => {
         npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          'npm',
-          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
-          undefined,
-          undefined
+          expect.objectContaining({
+            command: 'npm',
+            args: ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
+          })
         );
       });
     });
@@ -96,9 +98,10 @@ describe('NPM Proxy', () => {
         npmProxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          'npm',
-          ['install', '-D', '@storybook/preview-api'],
-          expect.any(String)
+          expect.objectContaining({
+            command: 'npm',
+            args: ['install', '-D', '@storybook/preview-api'],
+          })
         );
       });
     });
@@ -109,9 +112,10 @@ describe('NPM Proxy', () => {
         npmProxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          'npm',
-          ['install', '-D', '@storybook/preview-api'],
-          expect.any(String)
+          expect.objectContaining({
+            command: 'npm',
+            args: ['install', '-D', '@storybook/preview-api'],
+          })
         );
       });
     });
@@ -125,9 +129,7 @@ describe('NPM Proxy', () => {
         npmProxy.removeDependencies({}, ['@storybook/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          'npm',
-          ['uninstall', '@storybook/preview-api'],
-          expect.any(String)
+          expect.objectContaining({ command: 'npm', args: ['uninstall', '@storybook/preview-api'] })
         );
       });
     });
@@ -138,9 +140,7 @@ describe('NPM Proxy', () => {
         npmProxy.removeDependencies({}, ['@storybook/preview-api']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
-          'npm',
-          ['uninstall', '@storybook/preview-api'],
-          expect.any(String)
+          expect.objectContaining({ command: 'npm', args: ['uninstall', '@storybook/preview-api'] })
         );
       });
     });
@@ -180,12 +180,12 @@ describe('NPM Proxy', () => {
 
       const version = await npmProxy.latestVersion('@storybook/preview-api');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
-        'info',
-        '@storybook/preview-api',
-        'version',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'npm',
+          args: ['info', '@storybook/preview-api', 'version', '--json'],
+        })
+      );
       expect(version).toEqual('5.3.19');
     });
 
@@ -196,12 +196,12 @@ describe('NPM Proxy', () => {
 
       const version = await npmProxy.latestVersion('@storybook/preview-api', '5.X');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
-        'info',
-        '@storybook/preview-api',
-        'versions',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'npm',
+          args: ['info', '@storybook/preview-api', 'versions', '--json'],
+        })
+      );
       expect(version).toEqual('5.3.19');
     });
 
@@ -220,12 +220,12 @@ describe('NPM Proxy', () => {
 
       const version = await npmProxy.getVersion('@storybook/angular');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
-        'info',
-        '@storybook/angular',
-        'version',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'npm',
+          args: ['info', '@storybook/angular', 'version', '--json'],
+        })
+      );
       expect(version).toEqual(`^${storybookAngularVersion}`);
     });
 
@@ -237,12 +237,12 @@ describe('NPM Proxy', () => {
 
       const version = await npmProxy.getVersion('@storybook/react-native');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
-        'info',
-        '@storybook/react-native',
-        'version',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'npm',
+          args: ['info', '@storybook/react-native', 'version', '--json'],
+        })
+      );
       expect(version).toEqual(`^${packageVersion}`);
     });
   });
