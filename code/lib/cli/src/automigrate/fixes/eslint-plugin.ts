@@ -25,7 +25,7 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
   id: 'eslintPlugin',
 
   async check({ packageManager }) {
-    const allDependencies = packageManager.getAllDependencies();
+    const allDependencies = await packageManager.getAllDependencies();
 
     const eslintPluginStorybook = allDependencies['eslint-plugin-storybook'];
     const eslintDependency = allDependencies.eslint;
@@ -64,8 +64,9 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
     const deps = [`eslint-plugin-storybook`];
 
     logger.info(`✅ Adding dependencies: ${deps}`);
-    if (!dryRun)
-      packageManager.addDependencies({ installAsDevDependencies: true, skipInstall }, deps);
+    if (!dryRun) {
+      await packageManager.addDependencies({ installAsDevDependencies: true, skipInstall }, deps);
+    }
 
     if (!dryRun && unsupportedExtension) {
       logger.info(dedent`

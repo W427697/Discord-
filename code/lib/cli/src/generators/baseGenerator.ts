@@ -197,7 +197,7 @@ export async function baseGenerator(
 
   const files = await fse.readdir(process.cwd());
 
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
   const installedDependencies = new Set(
     Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
   );
@@ -253,8 +253,8 @@ export async function baseGenerator(
   const depsToInstall = [...versionedPackages, ...babelDependencies];
 
   if (depsToInstall.length > 0) {
-    paddedLog(`Installing Storybook dependencies`);
-    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+    paddedLog(`Installing Storybook dependencies with ${packageManager.type}`);
+    await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
   }
 
   if (addScripts) {
@@ -264,7 +264,7 @@ export async function baseGenerator(
   }
 
   if (addESLint) {
-    packageManager.addESLintConfig();
+    await packageManager.addESLintConfig();
   }
 
   await fse.ensureDir(`./${storybookConfigFolder}`);

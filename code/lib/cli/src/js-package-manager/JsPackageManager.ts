@@ -1,11 +1,12 @@
 import chalk from 'chalk';
 import { gt, satisfies } from 'semver';
 import type { CommonOptions } from 'execa';
-import { sync as commandSync } from 'execa';
+import { command as execaCommand, sync as execaCommandSync } from 'execa';
 import path from 'path';
 import fs from 'fs';
 
 import dedent from 'ts-dedent';
+import { readFile, writeFile } from 'fs-extra';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
@@ -40,7 +41,7 @@ interface JsPackageManagerOptions {
 export abstract class JsPackageManager {
   public abstract readonly type: PackageManagerName;
 
-  public abstract initPackageJson(): void;
+  public abstract initPackageJson(): Promise<void>;
 
   public abstract getRunStorybookCommand(): string;
 
@@ -50,16 +51,17 @@ export abstract class JsPackageManager {
 
   // NOTE: for some reason yarn prefers the npm registry in
   // local development, so always use npm
-  setRegistryURL(url: string) {
+  async setRegistryURL(url: string) {
     if (url) {
-      this.executeCommand({ command: 'npm', args: ['config', 'set', 'registry', url] });
+      await this.executeCommand({ command: 'npm', args: ['config', 'set', 'registry', url] });
     } else {
-      this.executeCommand({ command: 'npm', args: ['config', 'delete', 'registry'] });
+      await this.executeCommand({ command: 'npm', args: ['config', 'delete', 'registry'] });
     }
   }
 
-  getRegistryURL() {
-    const url = this.executeCommand({ command: 'npm', args: ['config', 'get', 'registry'] }).trim();
+  async getRegistryURL() {
+    const res = await this.executeCommand({ command: 'npm', args: ['config', 'get', 'registry'] });
+    const url = res.trim();
     return url === 'undefined' ? undefined : url;
   }
 
@@ -70,7 +72,7 @@ export abstract class JsPackageManager {
   /**
    * Install dependencies listed in `package.json`
    */
-  public installDependencies(): void {
+  public async installDependencies() {
     let done = commandLog('Preparing to install dependencies');
     done();
     logger.log();
@@ -79,7 +81,7 @@ export abstract class JsPackageManager {
     done = commandLog('Installing dependencies');
 
     try {
-      this.runInstall();
+      await this.runInstall();
     } catch (e) {
       done('An error occurred while installing dependencies.');
       throw new HandledError(e);
@@ -91,17 +93,17 @@ export abstract class JsPackageManager {
     return this.cwd ? path.resolve(this.cwd, 'package.json') : path.resolve('package.json');
   }
 
-  readPackageJson(): PackageJson {
+  async readPackageJson(): Promise<PackageJson> {
     const packageJsonPath = this.packageJsonPath();
     if (!fs.existsSync(packageJsonPath)) {
       throw new Error(`Could not read package.json file at ${packageJsonPath}`);
     }
 
-    const jsonContent = fs.readFileSync(packageJsonPath, 'utf8');
+    const jsonContent = await readFile(packageJsonPath, 'utf8');
     return JSON.parse(jsonContent);
   }
 
-  writePackageJson(packageJson: PackageJson) {
+  async writePackageJson(packageJson: PackageJson) {
     const packageJsonToWrite = { ...packageJson };
     // make sure to not accidentally add empty fields
     if (
@@ -124,21 +126,21 @@ export abstract class JsPackageManager {
     }
 
     const content = `${JSON.stringify(packageJsonToWrite, null, 2)}\n`;
-    fs.writeFileSync(this.packageJsonPath(), content, 'utf8');
+    await writeFile(this.packageJsonPath(), content, 'utf8');
   }
 
   /**
    * Read the `package.json` file available in the directory the command was call from
    * If there is no `package.json` it will create one.
    */
-  public retrievePackageJson(): PackageJsonWithDepsAndDevDeps {
+  public async retrievePackageJson(): Promise<PackageJsonWithDepsAndDevDeps> {
     let packageJson;
     try {
-      packageJson = this.readPackageJson();
+      packageJson = await this.readPackageJson();
     } catch (err) {
       if (err.message.includes('Could not read package.json')) {
-        this.initPackageJson();
-        packageJson = this.readPackageJson();
+        await this.initPackageJson();
+        packageJson = await this.readPackageJson();
       } else {
         throw new Error(
           dedent`
@@ -159,8 +161,8 @@ export abstract class JsPackageManager {
     };
   }
 
-  public getAllDependencies(): Record<string, string> {
-    const { dependencies, devDependencies, peerDependencies } = this.retrievePackageJson();
+  public async getAllDependencies(): Promise<Record<string, string>> {
+    const { dependencies, devDependencies, peerDependencies } = await this.retrievePackageJson();
 
     return {
       ...dependencies,
@@ -182,14 +184,14 @@ export abstract class JsPackageManager {
    *   `@storybook/preview-api@${addonsVersion}`,
    * ]);
    */
-  public addDependencies(
+  public async addDependencies(
     options: {
       skipInstall?: boolean;
       installAsDevDependencies?: boolean;
       packageJson?: PackageJson;
     },
     dependencies: string[]
-  ): void {
+  ) {
     const { skipInstall } = options;
 
     if (skipInstall) {
@@ -211,10 +213,10 @@ export abstract class JsPackageManager {
           ...dependenciesMap,
         };
       }
-      this.writePackageJson(packageJson);
+      await this.writePackageJson(packageJson);
     } else {
       try {
-        this.runAddDeps(dependencies, options.installAsDevDependencies);
+        await this.runAddDeps(dependencies, options.installAsDevDependencies);
       } catch (e) {
         logger.error('An error occurred while installing dependencies.');
         logger.log(e.message);
@@ -363,9 +365,9 @@ export abstract class JsPackageManager {
     });
   }
 
-  public addESLintConfig() {
-    const packageJson = this.retrievePackageJson();
-    this.writePackageJson({
+  public async addESLintConfig() {
+    const packageJson = await this.retrievePackageJson();
+    await this.writePackageJson({
       ...packageJson,
       eslintConfig: {
         ...packageJson.eslintConfig,
@@ -382,9 +384,9 @@ export abstract class JsPackageManager {
     });
   }
 
-  public addScripts(scripts: Record<string, string>) {
-    const packageJson = this.retrievePackageJson();
-    this.writePackageJson({
+  public async addScripts(scripts: Record<string, string>) {
+    const packageJson = await this.retrievePackageJson();
+    await this.writePackageJson({
       ...packageJson,
       scripts: {
         ...packageJson.scripts,
@@ -393,17 +395,20 @@ export abstract class JsPackageManager {
     });
   }
 
-  public addPackageResolutions(versions: Record<string, string>) {
-    const packageJson = this.retrievePackageJson();
+  public async addPackageResolutions(versions: Record<string, string>) {
+    const packageJson = await this.retrievePackageJson();
     const resolutions = this.getResolutions(packageJson, versions);
     this.writePackageJson({ ...packageJson, ...resolutions });
   }
 
-  protected abstract runInstall(): void;
+  protected abstract runInstall(): Promise<void>;
 
-  protected abstract runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void;
+  protected abstract runAddDeps(
+    dependencies: string[],
+    installAsDevDependencies: boolean
+  ): Promise<void>;
 
-  protected abstract runRemoveDeps(dependencies: string[]): void;
+  protected abstract runRemoveDeps(dependencies: string[]): Promise<void>;
 
   protected abstract getResolutions(
     packageJson: PackageJson,
@@ -422,31 +427,65 @@ export abstract class JsPackageManager {
   ): // Use generic and conditional type to force `string[]` if fetchAllVersions is true and `string` if false
   Promise<T extends true ? string[] : string>;
 
-  public abstract runPackageCommand(command: string, args: string[], cwd?: string): string;
-  public abstract findInstallations(pattern?: string[]): InstallationMetadata | undefined;
+  public abstract runPackageCommand(command: string, args: string[], cwd?: string): Promise<string>;
+  public abstract runPackageCommandSync(command: string, args: string[], cwd?: string): string;
+  public abstract findInstallations(pattern?: string[]): Promise<InstallationMetadata | undefined>;
 
-  public executeCommand({
+  public executeCommandSync({
     command,
     args = [],
     stdio,
     cwd,
     ignoreError = false,
     env,
-  }: {
+    ...execaOptions
+  }: CommonOptions<string> & {
     command: string;
     args: string[];
-    stdio?: CommonOptions<string>['stdio'];
     cwd?: string;
     ignoreError?: boolean;
-    env?: CommonOptions<string>['env'];
   }): string {
     try {
-      const commandResult = commandSync(command, args, {
+      const commandResult = execaCommandSync(command, args, {
         cwd: cwd ?? this.cwd,
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
         env,
+        ...execaOptions,
+      });
+
+      return commandResult.stdout ?? '';
+    } catch (err) {
+      if (ignoreError !== true) {
+        throw err;
+      }
+      return '';
+    }
+  }
+
+  public async executeCommand({
+    command,
+    args = [],
+    stdio,
+    cwd,
+    ignoreError = false,
+    env,
+    ...execaOptions
+  }: CommonOptions<string> & {
+    command: string;
+    args: string[];
+    cwd?: string;
+    ignoreError?: boolean;
+  }): Promise<string> {
+    try {
+      const commandResult = await execaCommand([command, ...args].join(' '), {
+        cwd: cwd ?? this.cwd,
+        stdio: stdio ?? 'pipe',
+        encoding: 'utf-8',
+        shell: true,
+        env,
+        ...execaOptions,
       });
 
       return commandResult.stdout ?? '';
