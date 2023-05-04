@@ -12,7 +12,6 @@
 -   UI: Fix shift + 7 shortcut to focus search field [#22073](https://github.com/storybooks/storybook/pull/22073)
 -   UI: Fix controls missing when navigating from story [#21967](https://github.com/storybooks/storybook/pull/21967)
 -   NextJS: Fix tsconfig resolution [#22160](https://github.com/storybooks/storybook/pull/22160)
--   Core: Pass parameters in `SET_INDEX` for docs entries [#22154](https://github.com/storybooks/storybook/pull/22154)
 
 #### Maintenance
 
