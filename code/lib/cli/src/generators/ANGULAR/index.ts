@@ -14,11 +14,11 @@ const generator: Generator<{ projectName: string }> = async (
   commandOptions
 ) => {
   const angularVersionFromDependencies = semver.coerce(
-    packageManager.retrievePackageJson().dependencies['@angular/core']
+    (await packageManager.retrievePackageJson()).dependencies['@angular/core']
   )?.version;
 
   const angularVersionFromDevDependencies = semver.coerce(
-    packageManager.retrievePackageJson().devDependencies['@angular/core']
+    (await packageManager.retrievePackageJson()).devDependencies['@angular/core']
   )?.version;
 
   const angularVersion = angularVersionFromDependencies || angularVersionFromDevDependencies;

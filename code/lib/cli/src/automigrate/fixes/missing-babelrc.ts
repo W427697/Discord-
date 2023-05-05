@@ -24,7 +24,7 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
   id: 'missing-babelrc',
 
   async check({ configDir, packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
     const { mainConfig, storybookVersion } = await getStorybookData({ configDir, packageManager });
 
     if (!semver.gte(storybookVersion, '7.0.0')) {

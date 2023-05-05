@@ -34,8 +34,8 @@ export class PNPMProxy extends JsPackageManager {
     return pathExistsSync(pnpmWorkspaceYaml);
   }
 
-  initPackageJson() {
-    return this.executeCommand({
+  async initPackageJson() {
+    await this.executeCommand({
       command: 'pnpm',
       args: ['init', '-y'],
     });
@@ -49,7 +49,7 @@ export class PNPMProxy extends JsPackageManager {
     return `pnpm run ${command}`;
   }
 
-  getPnpmVersion(): string {
+  async getPnpmVersion(): Promise<string> {
     return this.executeCommand({
       command: 'pnpm',
       args: ['--version'],
@@ -67,7 +67,15 @@ export class PNPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
-  runPackageCommand(command: string, args: string[], cwd?: string): string {
+  public runPackageCommandSync(command: string, args: string[], cwd?: string): string {
+    return this.executeCommandSync({
+      command: 'pnpm',
+      args: ['exec', command, ...args],
+      cwd,
+    });
+  }
+
+  async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
     return this.executeCommand({
       command: 'pnpm',
       args: ['exec', command, ...args],
@@ -75,8 +83,8 @@ export class PNPMProxy extends JsPackageManager {
     });
   }
 
-  public findInstallations(pattern: string[]) {
-    const commandResult = this.executeCommand({
+  public async findInstallations(pattern: string[]) {
+    const commandResult = await this.executeCommand({
       command: 'pnpm',
       args: ['list', pattern.map((p) => `"${p}"`).join(' '), '--json', '--depth=99'],
     });
@@ -98,45 +106,45 @@ export class PNPMProxy extends JsPackageManager {
     };
   }
 
-  protected runInstall(): void {
-    this.executeCommand({
+  protected async runInstall() {
+    await this.executeCommand({
       command: 'pnpm',
       args: ['install', ...this.getInstallArgs()],
       stdio: 'inherit',
     });
   }
 
-  protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
+  protected async runAddDeps(dependencies: string[], installAsDevDependencies: boolean) {
     let args = [...dependencies];
 
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
 
-    this.executeCommand({
+    await this.executeCommand({
       command: 'pnpm',
       args: ['add', ...args, ...this.getInstallArgs()],
       stdio: 'inherit',
     });
   }
 
-  protected runRemoveDeps(dependencies: string[]): void {
+  protected async runRemoveDeps(dependencies: string[]) {
     const args = [...dependencies];
 
-    this.executeCommand({
+    await this.executeCommand({
       command: 'pnpm',
       args: ['remove', ...args, ...this.getInstallArgs()],
       stdio: 'inherit',
     });
   }
 
-  protected runGetVersions<T extends boolean>(
+  protected async runGetVersions<T extends boolean>(
     packageName: string,
     fetchAllVersions: T
   ): Promise<T extends true ? string[] : string> {
     const args = [fetchAllVersions ? 'versions' : 'version', '--json'];
 
-    const commandResult = this.executeCommand({
+    const commandResult = await this.executeCommand({
       command: 'pnpm',
       args: ['info', packageName, ...args],
     });
