@@ -125,7 +125,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "9991b68c7d0cd1543c974f358cae9e0d02b29e7e",
+  "gitHead": "797cfd6f12f94a65617c65f25b2d6546a689bf1b",
   "storybook": {
     "displayName": "Actions",
     "unsupportedFrameworks": [
