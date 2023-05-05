@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html';
-import type { HeaderProps } from './Header';
-import { createHeader } from './Header';
+import type { HeaderProps } from '.';
+import { createHeader } from '.';
 
 const meta = {
   title: 'Example/Header',
