@@ -260,11 +260,9 @@ export async function copyTemplateFiles({
 // and if it exists, returns the version of that package from the specified package.json
 export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAndDevDeps) {
   const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
-  const storybookPackage = Object.keys(allDeps).find(
-    (name: keyof typeof storybookMonorepoPackages) => {
-      return storybookMonorepoPackages[name];
-    }
-  );
+  const storybookPackage = Object.keys(allDeps).find((name: string) => {
+    return storybookMonorepoPackages[name as keyof typeof storybookMonorepoPackages];
+  });
 
   if (!storybookPackage) {
     throw new Error(`Couldn't find any official storybook packages in package.json`);

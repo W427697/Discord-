@@ -43,16 +43,10 @@ export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
 
   const incompatibleAddons: { name: string; version: string }[] = [];
   addonVersions.forEach(
-    ({
-      name,
-      version: installedVersion,
-    }: {
-      name: keyof typeof incompatibleList;
-      version: string;
-    }) => {
+    ({ name, version: installedVersion }: { name: string; version: string }) => {
       if (installedVersion === null) return;
 
-      const addonVersion = incompatibleList[name];
+      const addonVersion = incompatibleList[name as keyof typeof incompatibleList];
       try {
         if (semver.lte(semver.coerce(installedVersion), semver.coerce(addonVersion))) {
           incompatibleAddons.push({ name, version: installedVersion });
