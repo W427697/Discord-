@@ -266,6 +266,17 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
   },
+  'angular-cli/prerelease': {
+    name: 'Angular CLI (Prerelease)',
+    script:
+      'npx -p @angular/cli@next ng new angular-v16 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev'],
+  },
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
     script:
@@ -483,6 +494,7 @@ export const merged: TemplateKey[] = [
 ];
 export const daily: TemplateKey[] = [
   ...merged,
+  'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',
