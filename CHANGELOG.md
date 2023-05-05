@@ -1,3 +1,13 @@
+## 7.0.9 (May 5, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix virtual modules excluded for babel-loader [#22331](https://github.com/storybooks/storybook/pull/22331)
+
+#### Maintenance
+
+-   Angular: Allow TypeScript 4.0.0 and 5.0.0 [#22391](https://github.com/storybooks/storybook/pull/22391)
+
 ## 7.0.8 (May 3, 2023)
 
 #### Bug Fixes
