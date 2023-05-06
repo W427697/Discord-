@@ -2,9 +2,9 @@ import path from 'path';
 import { createFilter } from '@rollup/pluginutils';
 import {
   parse,
-  builtinHandlers as docgenHandlers,
-  builtinResolvers as docgenResolver,
-  builtinImporters as docgenImporters,
+  builtinHandlers,
+  builtinResolvers,
+  builtinImporters,
   type Handler,
   type Documentation,
   type ResolverClass
@@ -15,11 +15,14 @@ import actualNameHandler from './docgen-handlers/actualNameHandler';
 
 type DocObj = Documentation & { actualName: string };
 
-// TODO: None of these are able to be overridden, so `default` is aspirational here.
-const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
-const resolver = <ResolverClass><unknown>docgenResolver.FindExportedDefinitionsResolver;
-const importer = docgenImporters.fsImporter;
-const handlers = [...defaultHandlers, actualNameHandler] as Handler[];
+// Combine default handlers and custom handler
+const handlers = [
+  ...Object.values(builtinHandlers),
+  actualNameHandler
+] as Handler[];
+
+const resolver = <ResolverClass><unknown>builtinResolvers.FindExportedDefinitionsResolver;
+const importer = builtinImporters.fsImporter;
 
 type Options = {
   include?: string | RegExp | (string | RegExp)[];
@@ -41,7 +44,7 @@ export function reactDocgen({
       if (!filter(relPath)) return;
 
       try {
-        // Since we're using `findAllExportedComponentDefinitions`, this will always be an array.
+        // Parse the source code with react-docgen
         const docgenResults = parse(src, {
           handlers,
           importer,
@@ -50,6 +53,7 @@ export function reactDocgen({
         }) as DocObj[];
         const s = new MagicString(src);
 
+        // Append docgenInfo to each component with an actualName
         docgenResults.forEach((info) => {
           const { actualName, ...docgenInfo } = info;
           if (actualName) {
@@ -58,14 +62,13 @@ export function reactDocgen({
           }
         });
 
-        // eslint-disable-next-line consistent-return
+        // Return transformed code and source map
         return {
           code: s.toString(),
           map: s.generateMap(),
         };
       } catch (e) {
-        // Usually this is just an error from react-docgen that it couldn't find a component
-        // Only uncomment for troubleshooting
+        // Uncomment the following line for troubleshooting errors from react-docgen
         // console.error(e);
       }
     },
