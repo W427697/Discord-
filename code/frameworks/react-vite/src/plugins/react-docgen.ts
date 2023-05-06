@@ -5,19 +5,21 @@ import {
   builtinHandlers as docgenHandlers,
   builtinResolvers as docgenResolver,
   builtinImporters as docgenImporters,
+  type Handler,
+  type Documentation,
+  type ResolverClass
 } from 'react-docgen';
-import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import MagicString from 'magic-string';
 import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';
 
-type DocObj = DocumentationObject & { actualName: string };
+type DocObj = Documentation & { actualName: string };
 
 // TODO: None of these are able to be overridden, so `default` is aspirational here.
 const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
-const defaultResolver = docgenResolver.findAllExportedComponentDefinitions;
-const defaultImporter = docgenImporters.makeFsImporter();
-const handlers = [...defaultHandlers, actualNameHandler];
+const resolver = <ResolverClass><unknown>docgenResolver.FindExportedDefinitionsResolver;
+const importer = docgenImporters.fsImporter;
+const handlers = [...defaultHandlers, actualNameHandler] as Handler[];
 
 type Options = {
   include?: string | RegExp | (string | RegExp)[];
@@ -40,8 +42,10 @@ export function reactDocgen({
 
       try {
         // Since we're using `findAllExportedComponentDefinitions`, this will always be an array.
-        const docgenResults = parse(src, defaultResolver, handlers, {
-          importer: defaultImporter,
+        const docgenResults = parse(src, {
+          handlers,
+          importer,
+          resolver,
           filename: id,
         }) as DocObj[];
         const s = new MagicString(src);
