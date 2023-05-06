@@ -14,7 +14,7 @@ import actualNameHandler from './docgen-handlers/actualNameHandler';
 type DocObj = DocumentationObject & { actualName: string };
 
 // TODO: None of these are able to be overridden, so `default` is aspirational here.
-const defaultHandlers = Object.values(docgenHandlers || {}).map((handler) => handler);
+const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
 const defaultResolver = docgenResolver.findAllExportedComponentDefinitions;
 const defaultImporter = docgenImporters.makeFsImporter();
 const handlers = [...defaultHandlers, actualNameHandler];
