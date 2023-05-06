@@ -2,9 +2,9 @@ import path from 'path';
 import { createFilter } from '@rollup/pluginutils';
 import {
   parse,
-  handlers as docgenHandlers,
-  resolver as docgenResolver,
-  importers as docgenImporters,
+  builtinHandlers as docgenHandlers,
+  builtinResolvers as docgenResolver,
+  builtinImporters as docgenImporters,
 } from 'react-docgen';
 import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import MagicString from 'magic-string';
