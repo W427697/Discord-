@@ -1,6 +1,6 @@
 <script>
   import './page.css';
-  import Header from './Header.svelte';
+  import Header from '../Header/Header.svelte';
 
   let user = null;
 </script>
