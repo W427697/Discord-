@@ -110,14 +110,10 @@ export class Instrumenter {
       isPlaying = true,
       isDebugging = false,
     }: {
-      storyId?: StoryId;
+      storyId: StoryId;
       isPlaying?: boolean;
       isDebugging?: boolean;
     }) => {
-      if (!storyId) {
-        return;
-      }
-
       const state = this.getState(storyId);
       this.setState(storyId, {
         ...getInitialState(),
