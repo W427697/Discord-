@@ -1,3 +1,23 @@
+## 7.1.0-alpha.13 (May 5, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix virtual modules excluded for babel-loader [#22331](https://github.com/storybooks/storybook/pull/22331)
+
+#### Maintenance
+
+-   Angular: Allow TypeScript 4.0.0 and 5.0.0 [#22391](https://github.com/storybooks/storybook/pull/22391)
+-   Angular: Enable Angular Unit tests [#22355](https://github.com/storybooks/storybook/pull/22355)
+-   TypeScript: Migrate @storybook/theming to strict TS [#22376](https://github.com/storybooks/storybook/pull/22376)
+-   TypeScript: Migrate @storybook/channel-websocket to strict TS [#22364](https://github.com/storybooks/storybook/pull/22364)
+-   TypeScript: Migrate @storybook/addon-outline to strict TS [#22369](https://github.com/storybooks/storybook/pull/22369)
+-   TypeScript: Migrate @storybook/addon-viewbook to strict ts [#22339](https://github.com/storybooks/storybook/pull/22339)
+-   TypeScript: Migrate @storybook/channels to strict TS [#22365](https://github.com/storybooks/storybook/pull/22365)
+
+#### Build
+
+-   Add Angular Prerelease sandbox [#22379](https://github.com/storybooks/storybook/pull/22379)
+
 ## 7.1.0-alpha.12 (May 3, 2023)
 
 #### Bug Fixes
