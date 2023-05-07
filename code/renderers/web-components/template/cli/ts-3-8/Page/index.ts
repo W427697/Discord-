@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { Header } from './Header';
+import { Header } from '../Header';
 import './page.css';
 
 type User = {
