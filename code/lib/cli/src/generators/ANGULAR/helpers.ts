@@ -28,7 +28,7 @@ export class AngularJSON {
   constructor() {
     if (!fs.existsSync(ANGULAR_JSON_PATH)) {
       throw new Error(
-        'An angular.json file was not found in the current working directory. Storybook needs it to work properly. Please go to https://storybook.js.org/docs/angular/faq#error-no-angularjson-file-found for troubleshooting'
+        'An angular.json file was not found in the current working directory. Storybook needs it to work properly, so please rerun the command at the root of your project, where the angular.json file is located. More info: https://storybook.js.org/docs/angular/faq#error-no-angularjson-file-found'
       );
     }
 
