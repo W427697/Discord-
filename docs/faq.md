@@ -37,7 +37,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 
 ## Error: No angular.json file found
 
-Storybook supports Angular multi-project workspace. You can setup Storybook for each project in the workspace. When running npx storybook@latest init you will be asked for which project Storybook should be set up. Essentially, during initialization, the .storybook folder will be created and the angular.json will be edited to add the Storybook configuration for the selected project. Therefore it is important to always run the init command from the root of the workspace, where the angular.json file is located.
+Storybook can be set up for both single-project and multi-project Angular workspaces. To set up Storybook for a project, run `npx storybook@latest init` at the root of the workspace where the `angular.json` file is located. During initialization, the `.storybook` folder will be created and the `angular.json` file will be edited to add the Storybook configuration for the selected project. It's important to run the command at the root level to ensure that Storybook detects all projects correctly.
 
 ## How can I opt-out of Angular Ivy?
 
