@@ -75,7 +75,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.0",
+    "@babel/core": "^7.22.5",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.15.0",
     "jest-specific-snapshot": "^8.0.0",
