@@ -58,7 +58,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
-      optionValues: { output: sandboxDir, branch: 'main', init: false, debug },
+      optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
       cwd: parentDir,
       dryRun,
       debug,
@@ -322,17 +322,17 @@ async function linkPackageStories(
       if (await pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
-          storiesDir = (await pathExists(join(cwd, `src/${storiesFolderName}`)))
-            ? `src/${storiesFolderName}`
-            : storiesFolderName;
+          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
         }
-        addPreviewAnnotations(mainConfig, [`./${join(storiesDir, packageDir, previewFile)}`]);
+        addPreviewAnnotations(mainConfig, [
+          `./${join(storiesDir, variant ? `${packageDir}_${variant}` : packageDir, previewFile)}`,
+        ]);
       }
     })
   );
 }
 
-function addExtraDependencies({
+async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -350,7 +350,7 @@ function addExtraDependencies({
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
-    packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
+    await packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }
 
@@ -481,7 +481,7 @@ export const addStories: Task['run'] = async (
   }
 
   // Some addon stories require extra dependencies
-  addExtraDependencies({ cwd, dryRun, debug });
+  await addExtraDependencies({ cwd, dryRun, debug });
 
   await writeConfig(mainConfig);
 };

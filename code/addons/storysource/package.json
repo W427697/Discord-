@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "7.1.0-alpha.9",
+  "version": "7.1.0-alpha.13",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/storysource"
+    "directory": "code/addons/storysource"
   },
   "funding": {
     "type": "opencollective",
@@ -23,20 +23,19 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./manager": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -54,16 +53,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.9",
-    "@storybook/components": "7.1.0-alpha.9",
-    "@storybook/manager-api": "7.1.0-alpha.9",
-    "@storybook/preview-api": "7.1.0-alpha.9",
-    "@storybook/router": "7.1.0-alpha.9",
-    "@storybook/source-loader": "7.1.0-alpha.9",
-    "@storybook/theming": "7.1.0-alpha.9",
+    "@storybook/client-logger": "7.1.0-alpha.13",
+    "@storybook/components": "7.1.0-alpha.13",
+    "@storybook/manager-api": "7.1.0-alpha.13",
+    "@storybook/preview-api": "7.1.0-alpha.13",
+    "@storybook/router": "7.1.0-alpha.13",
+    "@storybook/source-loader": "7.1.0-alpha.13",
+    "@storybook/theming": "7.1.0-alpha.13",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "tiny-invariant": "^1.3.1"
   },
   "devDependencies": {
     "@types/react": "^16.14.34",
@@ -92,7 +92,7 @@
       "./src/preset.ts"
     ]
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9",
+  "gitHead": "5f5be6cc6695e4ed9ddddc58f8f8258bf07e7c53",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",

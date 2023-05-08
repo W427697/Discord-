@@ -41,7 +41,7 @@ import { HandledError } from './HandledError';
 
 const logger = console;
 
-const installStorybook = <Project extends ProjectType>(
+const installStorybook = async <Project extends ProjectType>(
   projectType: Project,
   packageManager: JsPackageManager,
   options: CommandOptions
@@ -53,7 +53,7 @@ const installStorybook = <Project extends ProjectType>(
 
   let packageJson;
   try {
-    packageJson = packageManager.readPackageJson();
+    packageJson = await packageManager.readPackageJson();
   } catch (err) {
     //
   }
@@ -228,7 +228,7 @@ const installStorybook = <Project extends ProjectType>(
   };
 
   try {
-    return runGenerator();
+    return await runGenerator();
   } catch (err) {
     logger.error(`\n     ${chalk.red(err.stack)}`);
     throw new HandledError(err);
@@ -291,7 +291,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     : 'Detecting project type';
   const done = commandLog(infoText);
 
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
 
   if (projectTypeProvided) {
     if (installableProjectTypes.includes(projectTypeProvided)) {
@@ -329,7 +329,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
 
   if (!options.skipInstall && !storybookInstalled) {
-    packageManager.installDependencies();
+    await packageManager.installDependencies();
   }
 
   if (!options.disableTelemetry) {
