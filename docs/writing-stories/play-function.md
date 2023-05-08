@@ -232,3 +232,35 @@ By default, each interaction you write inside your `play` function will be execu
 <!-- prettier-ignore-end -->
 
 Applying these changes to your stories can provide a performance boost and improved error handling with [`addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions).
+
+# Issue: Add guidance about when to use screen.query vs. canvas.query in play functions
+
+## Problem
+
+In our codebase, we use `screen.query` and `canvas.query` to find elements on the screen and canvas respectively. However, it's not always clear when to use each function, which can lead to confusion and errors. 
+
+## Solution
+
+To help clarify when to use `screen.query` vs. `canvas.query` in play functions, we should add some guidance to our codebase. Here's a draft that we can use as a starting point:
+
+### Guidance
+
+In our codebase, we use `screen.query` and `canvas.query` to find elements on the screen and canvas respectively. It's important to understand when to use each function, as using the wrong one can result in unexpected behavior.
+
+Here's a general guideline:
+
+- Use `screen.query` when you need to find an element on the screen, such as a button or text field. For example, if you need to find a button with the text "Submit", you could use:
+
+submit_button = screen.query('button', {'text': 'Submit'})
+
+
+- Use `canvas.query` when you need to find an element on the canvas, such as a shape or image. For example, if you need to find a circle with the color red, you could use:
+
+red_circle = canvas.query('circle', {'fill': 'red'})
+
+
+By following these guidelines, you can ensure that your play functions are searching for elements in the correct place, which can help prevent errors and make your code easier to understand.
+
+### Implementation
+
+To implement this guidance, we should identify the appropriate file(s) in our codebase where play functions are defined or where `screen.query` and `canvas.query` are used. We can then add a comment or a section to provide the guidance above.
