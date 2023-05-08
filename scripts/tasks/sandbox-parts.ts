@@ -335,7 +335,7 @@ async function linkPackageStories(
   );
 }
 
-function addExtraDependencies({
+async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -349,7 +349,7 @@ function addExtraDependencies({
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
-    packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
+    await packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }
 
@@ -461,7 +461,7 @@ export const addStories: Task['run'] = async (
   }
 
   // Some addon stories require extra dependencies
-  addExtraDependencies({ cwd, dryRun, debug });
+  await addExtraDependencies({ cwd, dryRun, debug });
 
   await writeConfig(mainConfig);
 };
