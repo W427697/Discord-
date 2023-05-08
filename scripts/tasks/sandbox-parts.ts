@@ -16,7 +16,12 @@ import { join, resolve, sep } from 'path';
 import slash from 'slash';
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
-import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
+import {
+  installYarn2,
+  configureYarn2ForVerdaccio,
+  addPackageResolutions,
+  dedupeDependencies,
+} from '../utils/yarn';
 import { exec } from '../utils/exec';
 import type { ConfigFile } from '../../code/lib/csf-tools';
 import { writeConfig } from '../../code/lib/csf-tools';
@@ -74,6 +79,9 @@ export const install: Task['run'] = async (
   await installYarn2({ cwd, dryRun, debug });
 
   if (link) {
+    // try to dedupe dependencies to avoid conflicts with yarn link
+    await dedupeDependencies({ cwd, dryRun, debug });
+
     await executeCLIStep(steps.link, {
       argument: sandboxDir,
       cwd: CODE_DIRECTORY,

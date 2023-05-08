@@ -30,6 +30,19 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
+export const dedupeDependencies = async ({ cwd, dryRun, debug }: YarnOptions) => {
+  await exec(
+    `yarn dedupe`,
+    { cwd },
+    {
+      dryRun,
+      debug,
+      startMessage: `➰ Deduplicating dependencies`,
+      errorMessage: `🚨 Deduplicating dependencies failed`,
+    }
+  );
+};
+
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   const pnpApiExists = await pathExists(path.join(cwd, '.pnp.cjs'));
 
