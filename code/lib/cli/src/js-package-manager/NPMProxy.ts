@@ -47,7 +47,7 @@ export class NPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
-  public async runPackageCommandSync(command: string, args: string[], cwd?: string): string {
+  public runPackageCommandSync(command: string, args: string[], cwd?: string): string {
     return this.executeCommandSync({
       command: 'npm',
       args: ['exec', '--', command, ...args],

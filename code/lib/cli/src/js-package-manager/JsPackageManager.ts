@@ -352,14 +352,14 @@ export abstract class JsPackageManager {
     return versions.reverse().find((version) => satisfies(version, constraint));
   }
 
-  public addStorybookCommandInScripts(options?: { port: number; preCommand?: string }) {
+  public async addStorybookCommandInScripts(options?: { port: number; preCommand?: string }) {
     const sbPort = options?.port ?? 6006;
     const storybookCmd = `storybook dev -p ${sbPort}`;
 
     const buildStorybookCmd = `storybook build`;
 
     const preCommand = options?.preCommand ? this.getRunCommand(options.preCommand) : undefined;
-    this.addScripts({
+    await this.addScripts({
       storybook: [preCommand, storybookCmd].filter(Boolean).join(' && '),
       'build-storybook': [preCommand, buildStorybookCmd].filter(Boolean).join(' && '),
     });

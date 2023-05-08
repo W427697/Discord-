@@ -235,7 +235,9 @@ export async function baseGenerator(
     .filter(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
-  paddedLog(`Retrieving the latest versions for ${packages.length} Storybook packages`);
+
+  paddedLog(`Retrieving the latest versions for ${packages.length} St
+    orybook packages`);
 
   const versionedPackages = await packageManager.getVersionedPackages(packages);
 
@@ -253,12 +255,12 @@ export async function baseGenerator(
   const depsToInstall = [...versionedPackages, ...babelDependencies];
 
   if (depsToInstall.length > 0) {
-    paddedLog(`Installing Storybook dependencies with ${packageManager.type}`);
+    paddedLog(`Installing Storybook dependencies`);
     await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
   }
 
   if (addScripts) {
-    packageManager.addStorybookCommandInScripts({
+    await packageManager.addStorybookCommandInScripts({
       port: 6006,
     });
   }

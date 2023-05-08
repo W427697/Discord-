@@ -42,7 +42,7 @@ export class Yarn1Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
-  runPackageCommandSync(command: string, args: string[], cwd?: string): string {
+  public runPackageCommandSync(command: string, args: string[], cwd?: string): string {
     return this.executeCommandSync({ command: `yarn`, args: [command, ...args], cwd });
   }
 
