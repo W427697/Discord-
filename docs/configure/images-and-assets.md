@@ -79,8 +79,8 @@ You can also pass a list of directories separated by commas without spaces inste
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-multiple-static-dir.js.mdx',
-    'common/storybook-main-with-multiple-static-dir.ts.mdx',
+    'common/main-config-static-dirs.js.mdx',
+    'common/main-config-static-dirs.ts.mdx',
   ]}
 />
 
@@ -92,8 +92,8 @@ Or even use a configuration object to define the directories:
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-object-configuration-static-dir.js.mdx',
-    'common/storybook-main-with-object-configuration-static-dir.ts.mdx',
+    'common/main-config-static-dirs-with-object.js.mdx',
+    'common/main-config-static-dirs-with-object.ts.mdx',
   ]}
 />
 
