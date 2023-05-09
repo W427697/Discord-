@@ -8,7 +8,7 @@ const mockRunScript = jest.fn();
 jest.mock('@storybook/cli', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({
-      runPackageCommand: mockRunScript,
+      runPackageCommandSync: mockRunScript,
     }),
   },
 }));
