@@ -1,3 +1,19 @@
+## 7.0.10 (May 9, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix copyTemplate failures on `init` [#22375](https://github.com/storybooks/storybook/pull/22375)
+-   CLI: Fix server init [#22443](https://github.com/storybooks/storybook/pull/22443)
+-   CLI: Scope styles in sample components from the CLI templates [#22162](https://github.com/storybooks/storybook/pull/22162)
+-   React: Use correct default annotations for composeStories [#22308](https://github.com/storybooks/storybook/pull/22308)
+-   Server: Add json indexer [#22460](https://github.com/storybooks/storybook/pull/22460)
+-   UI: Fix opacity from list-item color [#22074](https://github.com/storybooks/storybook/pull/22074)
+
+#### Maintenance
+
+-   CLI: Refactor package manager methods to be async [#22401](https://github.com/storybooks/storybook/pull/22401)
+-   Improve Error message for Angular.json file not found [#22377](https://github.com/storybooks/storybook/pull/22377)
+
 ## 7.0.9 (May 5, 2023)
 
 #### Bug Fixes
