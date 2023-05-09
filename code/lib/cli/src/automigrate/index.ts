@@ -148,7 +148,7 @@ export async function runFixes({
     configDir: inferredConfigDir,
     mainConfig: mainConfigPath,
     version: storybookVersion,
-  } = getStorybookInfo(packageManager.retrievePackageJson(), userSpecifiedConfigDir);
+  } = getStorybookInfo(await packageManager.retrievePackageJson(), userSpecifiedConfigDir);
 
   const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
   if (!sbVersionCoerced) {

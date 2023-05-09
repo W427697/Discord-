@@ -8,6 +8,16 @@ jest.doMock('child_process', () => cpSpawnMock);
 
 const { runCompodoc } = require('./run-compodoc');
 
+const mockRunScript = jest.fn();
+
+jest.mock('@storybook/cli', () => ({
+  JsPackageManagerFactory: {
+    getPackageManager: () => ({
+      runPackageCommandSync: mockRunScript,
+    }),
+  },
+}));
+
 const builderContextLoggerMock: LoggerApi = {
   createChild: jest.fn(),
   log: jest.fn(),
