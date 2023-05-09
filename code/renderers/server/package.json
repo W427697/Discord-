@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "7.0.9",
+  "version": "7.0.10",
   "description": "Storybook Server renderer",
   "keywords": [
     "storybook"
@@ -53,11 +53,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "7.0.9",
+    "@storybook/core-client": "7.0.10",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.0.9",
-    "@storybook/types": "7.0.9",
+    "@storybook/preview-api": "7.0.10",
+    "@storybook/types": "7.0.10",
     "@types/fs-extra": "^11.0.1",
     "fs-extra": "^11.1.0",
     "ts-dedent": "^2.0.0"
