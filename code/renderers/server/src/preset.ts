@@ -9,7 +9,7 @@ export const storyIndexers = (indexers: StoryIndexer[] | null) => {
     const meta: StaticMeta = {
       title: json.title,
     };
-    const stories: IndexedStory[] = json.stories.map((story: any) => {
+    const stories: IndexedStory[] = json.stories.map((story: { name: string }) => {
       const id = toId(meta.title, story.name);
       const { name } = story;
       const indexedStory: IndexedStory = {
