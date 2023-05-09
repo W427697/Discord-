@@ -445,7 +445,7 @@ module.exports = {
       type: 'menu',
       children: [
         {
-          title: '@storybook/blocks',
+          title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
           children: [
