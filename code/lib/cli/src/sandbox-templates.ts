@@ -455,6 +455,17 @@ const internalTemplates = {
       },
     },
   },
+  'internal/server-webpack5': {
+    name: 'Server Webpack5',
+    script: 'yarn init -y',
+    expected: {
+      framework: '@storybook/server-webpack5',
+      renderer: '@storybook/server',
+      builder: '@storybook/builder-webpack5',
+    },
+    isInternal: true,
+    inDevelopment: true,
+  },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
   //   name: 'PNP (cra/default-ts)',
