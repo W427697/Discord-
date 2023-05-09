@@ -30,7 +30,6 @@ const Key = styled.span(({ theme }) => ({
 const KeyChild = styled.code(
   ({ theme }) => `
   padding: 0;
-  vertical-align: middle;
 
   & + & {
     margin-left: 6px;
