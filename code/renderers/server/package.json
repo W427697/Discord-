@@ -31,6 +31,11 @@
       "require": "./dist/config.js",
       "import": "./dist/config.mjs"
     },
+    "./preset": {
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -49,9 +54,12 @@
   },
   "dependencies": {
     "@storybook/core-client": "7.0.9",
+    "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "7.0.9",
     "@storybook/types": "7.0.9",
+    "@types/fs-extra": "^11.0.1",
+    "fs-extra": "^11.1.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -66,7 +74,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts"
+      "./src/config.ts",
+      "./src/preset.ts"
     ],
     "platform": "browser"
   },

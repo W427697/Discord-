@@ -100,7 +100,9 @@ export const install: Task['run'] = async (
     );
   }
 
-  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+  let extra = {};
+  if (template.expected.renderer === '@storybook/html') extra = { type: 'html' };
+  else if (template.expected.renderer === '@storybook/server') extra = { type: 'server' };
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -367,7 +369,10 @@ export const addStories: Task['run'] = async (
   const packageJson = await import(join(cwd, 'package.json'));
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
-  const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+  const isCoreRenderer =
+    template.expected.renderer.startsWith('@storybook/') &&
+    template.expected.renderer !== '@storybook/server';
+
   if (isCoreRenderer) {
     // Link in the template/components/index.js from store, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
