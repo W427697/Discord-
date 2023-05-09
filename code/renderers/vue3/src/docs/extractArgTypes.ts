@@ -38,7 +38,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         tags = [],
       } = docgenInfo as MetaDocgenInfo;
       if (global) return; // skip global props
-      console.log('docgenInfo = ', docgenInfo);
+
       const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
 
       const nestedTypes =
@@ -76,17 +76,20 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
     schemaType.kind === 'enum' &&
     Array.isArray(schemaType.schema)
   ) {
-    const values = schemaType.schema.filter((item) => item !== 'undefined');
-    const sbType: SBType = { name: 'enum', value: values };
-    if (values.find((item: string) => item === 'string'))
-      return { ...sbType, name: 'string', value: undefined } as SBScalarType;
-    if (values.find((item: string) => item === 'number'))
-      return { ...sbType, name: 'number', value: undefined } as SBScalarType;
-    if (values.find((item: string) => item === 'boolean'))
-      return { ...sbType, name: 'boolean', value: undefined } as SBScalarType;
+    const values = schemaType.schema
+      .filter((item) => item !== 'undefined' && item !== null)
+      .map((item) => (typeof item === 'string' ? item.replace(/"/g, '') : item));
 
+    const sbType: SBType = { name: 'enum', value: values };
+    const stringIndex = values.indexOf('string');
+    const numberIndex = values.indexOf('number');
+    const booleanIndex = values.indexOf('boolean');
+    if (stringIndex !== -1 || numberIndex !== -1 || booleanIndex !== -1) {
+      const typeName = values[stringIndex ?? numberIndex ?? booleanIndex];
+      return { ...sbType, name: typeName, value: undefined } as SBScalarType;
+    }
     const hasObject = values.find((item) => typeof item === 'object');
-    console.log('hasObject = ', hasObject);
+
     return {
       ...sbType,
       name: hasObject ? 'array' : 'enum',
@@ -104,7 +107,6 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
         return [key, value as MetaDocgenInfo];
       })
     );
-
     return {
       name: 'object',
       value: props,
