@@ -3,7 +3,7 @@ import type { Generator } from '../types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const [latestRaxVersion] = await packageManager.getVersions('rax');
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
 
   const raxVersion = packageJson.dependencies.rax || latestRaxVersion;
 
@@ -16,7 +16,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   packageJson.dependencies['rax-text'] = packageJson.dependencies['rax-text'] || raxVersion;
   packageJson.dependencies['rax-view'] = packageJson.dependencies['rax-view'] || raxVersion;
 
-  packageManager.writePackageJson(packageJson);
+  await packageManager.writePackageJson(packageJson);
 
   await baseGenerator(packageManager, npmOptions, options, 'rax', {
     extraPackages: ['rax'],

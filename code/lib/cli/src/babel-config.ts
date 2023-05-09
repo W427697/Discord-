@@ -90,7 +90,7 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
 
     const packageManager = JsPackageManagerFactory.getPackageManager();
 
-    packageManager.addDependencies({ installAsDevDependencies: true }, added);
+    await packageManager.addDependencies({ installAsDevDependencies: true }, added);
   } else {
     logger.info(
       `⚠️ Please remember to install the required dependencies yourself: (${added.join(', ')})`
