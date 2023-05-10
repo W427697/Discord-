@@ -88,4 +88,4 @@ export const JsStaticPropTypes = { parameters: { component: JsStaticPropTypesCom
 
 export const Jsdoc = { parameters: { component: JsdocComponent } };
 
-export const JsProptypes = { parameters: { component: JsProptypesComponent } };
+export const JsProptypes = { parameters: { component: JsProptypesComponent, chromatic: false } };
