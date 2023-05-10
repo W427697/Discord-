@@ -76,6 +76,8 @@ export const TsComponentProps = { parameters: { component: TsComponentPropsCompo
 
 export const TsJsdoc = { parameters: { component: TsJsdocComponent } };
 
-export const TsTypes = { parameters: { component: TsTypesComponent, chromatic: false } };
+export const TsTypes = {
+  parameters: { component: TsTypesComponent, chromatic: { disableSnapshot: true } },
+};
 
 export const TsHtml = { parameters: { component: TsHtmlComponent } };
