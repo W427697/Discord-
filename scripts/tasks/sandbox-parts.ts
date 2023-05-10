@@ -16,7 +16,12 @@ import { join, resolve, sep } from 'path';
 import slash from 'slash';
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
-import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
+import {
+  installYarn2,
+  configureYarn2ForVerdaccio,
+  addPackageResolutions,
+  addWorkaroundResolutions,
+} from '../utils/yarn';
 import { exec } from '../utils/exec';
 import type { ConfigFile } from '../../code/lib/csf-tools';
 import { writeConfig } from '../../code/lib/csf-tools';
@@ -81,6 +86,7 @@ export const install: Task['run'] = async (
       dryRun,
       debug,
     });
+    await addWorkaroundResolutions({ cwd, dryRun, debug });
   } else {
     // We need to add package resolutions to ensure that we only ever install the latest version
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
