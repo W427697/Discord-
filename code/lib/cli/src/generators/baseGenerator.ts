@@ -236,8 +236,7 @@ export async function baseGenerator(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
 
-  paddedLog(`Retrieving the latest versions for ${packages.length} St
-    orybook packages`);
+  paddedLog(`Retrieving the latest versions for ${packages.length} Storybook packages`);
 
   const versionedPackages = await packageManager.getVersionedPackages(packages);
 

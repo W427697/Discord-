@@ -43,7 +43,7 @@ const command = (name: string) =>
 command('init')
   .description('Initialize Storybook into your project.')
   .option('-f --force', 'Force add Storybook')
-  .option('-s --skip-install', 'Skip installing deps')
+  .option('-s --skip-install', 'Skip installing deps (deprecated)')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager for installing deps')
   .option('-N --use-npm', 'Use npm to install deps (deprecated)')
   .option('--use-pnp', 'Enable pnp mode for Yarn 2+')
