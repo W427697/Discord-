@@ -5,6 +5,7 @@ import { logger } from '@storybook/node-logger';
 
 import { pathExistsSync } from 'fs-extra';
 import { join } from 'path';
+import prompts from 'prompts';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
@@ -16,7 +17,6 @@ import {
 } from './project_types';
 import { getBowerJson, isNxProject, paddedLog } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
-import { detectWebpack } from './detect-webpack';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
@@ -109,14 +109,17 @@ export function detectFrameworkPreset(
  *
  * @returns CoreBuilder
  */
-export function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
+export async function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
-  if (viteConfig) {
+  const dependencies = await packageManager.getAllDependencies();
+
+  if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
     paddedLog('Detected Vite project. Setting builder to Vite');
     return CoreBuilder.Vite;
   }
 
-  if (detectWebpack(packageManager)) {
+  // REWORK
+  if (dependencies['webpack'] && dependencies['vite'] !== undefined) {
     paddedLog('Detected webpack project. Setting builder to webpack');
     return CoreBuilder.Webpack5;
   }
@@ -129,8 +132,24 @@ export function detectBuilder(packageManager: JsPackageManager, projectType: Pro
     case ProjectType.VUE3:
     case ProjectType.SFC_VUE:
       return CoreBuilder.Vite;
-    default:
+    case ProjectType.REACT_SCRIPTS:
+    case ProjectType.ANGULAR:
+    case ProjectType.NEXTJS:
       return CoreBuilder.Webpack5;
+    default:
+      // eslint-disable-next-line no-case-declarations
+      const { builder } = await prompts({
+        type: 'select',
+        name: 'builder',
+        message:
+          'We were not able to detect the right builder for your project. Please select one:',
+        choices: [
+          { title: 'Vite', value: CoreBuilder.Vite },
+          { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
+        ],
+      });
+
+      return builder;
   }
 }
 
