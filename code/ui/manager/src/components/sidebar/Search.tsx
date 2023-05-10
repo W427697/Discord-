@@ -126,7 +126,6 @@ const FocusKey = styled.code(({ theme }) => ({
   borderRadius: 3,
   userSelect: 'none',
   pointerEvents: 'none',
-  fontFamily: 'inherit',
 }));
 
 const ClearIcon = styled(Icons)(({ theme }) => ({
