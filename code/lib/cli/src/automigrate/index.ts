@@ -59,6 +59,7 @@ export const automigrate = async ({
   configDir: userSpecifiedConfigDir,
   renderer: rendererPackage,
   skipInstall,
+  hideMigrationSummary = false,
 }: FixOptions = {}) => {
   if (list) {
     logAvailableMigrations();
@@ -100,17 +101,19 @@ export const automigrate = async ({
     await remove(TEMP_LOG_FILE_PATH);
   }
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const installationMetadata = await packageManager.findInstallations([
-    '@storybook/*',
-    'storybook',
-  ]);
+  if (!hideMigrationSummary) {
+    const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+    const installationMetadata = await packageManager.findInstallations([
+      '@storybook/*',
+      'storybook',
+    ]);
 
-  logger.info();
-  logger.info(
-    getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
-  );
-  logger.info();
+    logger.info();
+    logger.info(
+      getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
+    );
+    logger.info();
+  }
 
   cleanup();
 
