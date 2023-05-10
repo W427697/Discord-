@@ -1,18 +1,18 @@
 import type { JsPackageManager } from './js-package-manager';
 
-export const detectWebpack = (packageManager: JsPackageManager): number | false => {
+export const detectWebpack = async (packageManager: JsPackageManager): Promise<number | false> => {
   try {
     let out = '';
     if (packageManager.type === 'npm') {
       try {
         // npm <= v7
-        out = packageManager.executeCommand('npm', ['ls', 'webpack']);
+        out = await packageManager.executeCommand({ command: 'npm', args: ['ls', 'webpack'] });
       } catch (e2) {
         // npm >= v8
-        out = packageManager.executeCommand('npm', ['why', 'webpack']);
+        out = await packageManager.executeCommand({ command: 'npm', args: ['why', 'webpack'] });
       }
     } else {
-      out = packageManager.executeCommand('yarn', ['why', 'webpack']);
+      out = await packageManager.executeCommand({ command: 'yarn', args: ['why', 'webpack'] });
     }
 
     // if the user has BOTH webpack 4 and 5 installed already, we'll pick the safest options (4)

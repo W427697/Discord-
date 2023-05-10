@@ -1,11 +1,11 @@
 {
   "name": "@storybook/preview",
-  "version": "7.1.0-alpha.9",
+  "version": "7.1.0-alpha.14",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/preview",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,12 +22,12 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/runtime.js",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./globals": {
-      "require": "./dist/globals.js",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./package.json": "./package.json"
   },
@@ -55,12 +55,12 @@
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.9",
-    "@storybook/channel-websocket": "7.1.0-alpha.9",
-    "@storybook/channels": "7.1.0-alpha.9",
-    "@storybook/client-logger": "7.1.0-alpha.9",
-    "@storybook/core-events": "7.1.0-alpha.9",
-    "@storybook/preview-api": "7.1.0-alpha.9",
+    "@storybook/channel-postmessage": "7.1.0-alpha.14",
+    "@storybook/channel-websocket": "7.1.0-alpha.14",
+    "@storybook/channels": "7.1.0-alpha.14",
+    "@storybook/client-logger": "7.1.0-alpha.14",
+    "@storybook/core-events": "7.1.0-alpha.14",
+    "@storybook/preview-api": "7.1.0-alpha.14",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
@@ -74,5 +74,5 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
+  "gitHead": "72ae6b0d965d1ae596159cdb15109c5e13376d78"
 }
