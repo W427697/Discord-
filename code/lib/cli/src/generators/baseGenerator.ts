@@ -222,43 +222,21 @@ export async function baseGenerator(
     );
   }
 
-  const packages = [
+  const allPackages = [
     'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
-  ]
+  ];
+
+  const packages = [...new Set(allPackages)]
     .filter(Boolean)
     .filter(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
 
   const versionedPackages = await packageManager.getVersionedPackages(packages);
-
-  await fse.ensureDir(`./${storybookConfigFolder}`);
-
-  if (addMainFile) {
-    await configureMain({
-      framework: { name: frameworkInclude, options: options.framework || {} },
-      storybookConfigFolder,
-      docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
-      extensions,
-      language,
-      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
-      ...extraMain,
-      ...(type !== 'framework'
-        ? {
-            core: {
-              builder: builderInclude,
-            },
-          }
-        : {}),
-    });
-  }
-
-  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
 
   const babelDependencies =
     addBabel && builder !== CoreBuilder.Vite
@@ -286,6 +264,30 @@ export async function baseGenerator(
   if (addESLint) {
     await packageManager.addESLintConfig();
   }
+
+  await fse.ensureDir(`./${storybookConfigFolder}`);
+
+  if (addMainFile) {
+    await configureMain({
+      framework: { name: frameworkInclude, options: options.framework || {} },
+      storybookConfigFolder,
+      docs: { autodocs: 'tag' },
+      addons: pnp ? addons.map(wrapForPnp) : addons,
+      extensions,
+      language,
+      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
+      ...extraMain,
+      ...(type !== 'framework'
+        ? {
+            core: {
+              builder: builderInclude,
+            },
+          }
+        : {}),
+    });
+  }
+
+  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
