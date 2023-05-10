@@ -128,14 +128,23 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
 
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
-    case ProjectType.VUE:
-    case ProjectType.VUE3:
     case ProjectType.SFC_VUE:
       return CoreBuilder.Vite;
     case ProjectType.REACT_SCRIPTS:
     case ProjectType.ANGULAR:
     case ProjectType.NEXTJS:
+      return CoreBuilder.Webpack5;
+    /**
+     * START: Explicit Webpack 5 builder
+     *
+     * These project types are explicitly using Webpack 5 if a vite.config file is not found, because
+     * a vite.config file is necessary to configure these project types to use Vite, which is already
+     * handled above
+     */
     case ProjectType.PREACT:
+    case ProjectType.VUE:
+    case ProjectType.VUE3:
+      /** END: Explicit Webpack 5 builder */
       return CoreBuilder.Webpack5;
     default:
       // eslint-disable-next-line no-case-declarations
