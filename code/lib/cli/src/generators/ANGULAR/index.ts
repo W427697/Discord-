@@ -79,8 +79,15 @@ const generator: Generator<{ projectName: string }> = async (
     });
   }
 
-  const templateDir = join(getCliDir(), 'templates', 'angular', projectType || 'application');
-  copyTemplate(templateDir, root || undefined);
+  let projectTypeValue = projectType || 'application';
+  if (projectTypeValue !== 'application' && projectTypeValue !== 'library') {
+    projectTypeValue = 'application';
+  }
+
+  const templateDir = join(getCliDir(), 'templates', 'angular', projectTypeValue);
+  if (templateDir) {
+    copyTemplate(templateDir, root || undefined);
+  }
 
   return {
     projectName: angularProjectName,

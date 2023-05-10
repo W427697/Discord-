@@ -25,8 +25,11 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   await baseGenerator(packageManager, npmOptions, options, 'aurelia', {
     extraPackages: ['aurelia'],
   });
+
   const templateDir = join(getCliDir(), 'templates', 'aurelia');
-  copyTemplate(templateDir);
+  if (templateDir) {
+    copyTemplate(templateDir);
+  }
 };
 
 export default generator;

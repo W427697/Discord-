@@ -1,3 +1,29 @@
+## 7.1.0-alpha.14 (May 9, 2023)
+
+#### Bug Fixes
+
+-   CLI: Scope styles in sample components from the CLI templates [#22162](https://github.com/storybooks/storybook/pull/22162)
+-   CLI: Fix copyTemplate failures on `init` [#22375](https://github.com/storybooks/storybook/pull/22375)
+-   CLI: Fix server init [#22443](https://github.com/storybooks/storybook/pull/22443)
+-   Server: Add json indexer [#22460](https://github.com/storybooks/storybook/pull/22460)
+-   React: Use correct default annotations for composeStories [#22308](https://github.com/storybooks/storybook/pull/22308)
+-   UI: Fix opacity of list-item color [#22074](https://github.com/storybooks/storybook/pull/22074)
+
+#### Maintenance
+
+-   CLI: Refactor package manager methods to be async [#22401](https://github.com/storybooks/storybook/pull/22401)
+-   Angular: Improve Error message for angular.json not found [#22377](https://github.com/storybooks/storybook/pull/22377)
+-   TypeScript: Migrate @storybook/instrumenter to strict TS [#22370](https://github.com/storybooks/storybook/pull/22370)
+-   TypeScript: Migrate @storybook/core-events to strict TS [#22448](https://github.com/storybooks/storybook/pull/22448)
+-   TypeScript: Migrate @storybook/core-client to strict TS [#22447](https://github.com/storybooks/storybook/pull/22447)
+-   TypeScript: Migrate @storybook/react-vite and @storybook/preact-vite to strict TS [#22428](https://github.com/storybooks/storybook/pull/22428)
+-   TypeScript: Migrate @storybook/svelte-vite to strict TS [#22411](https://github.com/storybooks/storybook/pull/22411)
+-   TypeScript: Migrate @storybook/types to strict TS [#22397](https://github.com/storybooks/storybook/pull/22397)
+-   TypeScript: Migrate @storybook/addon-storysource to strict TS [#22367](https://github.com/storybooks/storybook/pull/22367)
+-   TypeScript: Migrate @storybook/client-api to strict TS [#22421](https://github.com/storybooks/storybook/pull/22421)
+-   TypeScript: Migrate @storybook/sveltekit to strict TS [#22412](https://github.com/storybooks/storybook/pull/22412)
+-   TypeScript: Migrate @storybook/source-loader to strict TS [#22420](https://github.com/storybooks/storybook/pull/22420)
+
 ## 7.1.0-alpha.13 (May 5, 2023)
 
 #### Bug Fixes
