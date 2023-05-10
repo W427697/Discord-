@@ -100,7 +100,9 @@ export const install: Task['run'] = async (
     );
   }
 
-  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+  let extra = {};
+  if (template.expected.renderer === '@storybook/html') extra = { type: 'html' };
+  else if (template.expected.renderer === '@storybook/server') extra = { type: 'server' };
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -332,7 +334,7 @@ async function linkPackageStories(
   );
 }
 
-function addExtraDependencies({
+async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -350,7 +352,7 @@ function addExtraDependencies({
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
-    packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
+    await packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }
 
@@ -368,7 +370,9 @@ export const addStories: Task['run'] = async (
   const packageJson = await import(join(cwd, 'package.json'));
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
-  const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+  const isCoreRenderer =
+    template.expected.renderer.startsWith('@storybook/') &&
+    template.expected.renderer !== '@storybook/server';
 
   const sandboxSpecificStoriesFolder = key.replaceAll('/', '-');
   const storiesVariantFolder = getStoriesFolderWithVariant(sandboxSpecificStoriesFolder);
@@ -481,7 +485,7 @@ export const addStories: Task['run'] = async (
   }
 
   // Some addon stories require extra dependencies
-  addExtraDependencies({ cwd, dryRun, debug });
+  await addExtraDependencies({ cwd, dryRun, debug });
 
   await writeConfig(mainConfig);
 };
