@@ -2,6 +2,8 @@ import { pathExistsSync } from 'fs-extra';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
+import { createLogStream } from '../utils';
+import { paddedLog } from '../helpers';
 
 type PnpmDependency = {
   from: string;
@@ -114,18 +116,54 @@ export class PNPMProxy extends JsPackageManager {
     });
   }
 
-  protected async runAddDeps(dependencies: string[], installAsDevDependencies: boolean) {
+  protected async runAddDeps(dependencies: string[] = [], installAsDevDependencies: boolean) {
+    const { logStream, readLogFile, clearLogFile, moveLogFile, removeLogFile } =
+      await createLogStream('init-storybook.log');
     let args = [...dependencies];
 
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
 
-    await this.executeCommand({
-      command: 'pnpm',
-      args: ['add', ...args, ...this.getInstallArgs()],
-      stdio: 'inherit',
-    });
+    let tries = 0;
+    const install = async () => {
+      // if this fails due to connection issues we try again 2 times
+      // if it ends up failing another way or after trying 3 times we tell the user to go read the logfile
+      if (tries >= 3) {
+        await moveLogFile();
+        throw new Error(
+          "We tried to install Storybook's dependencies but your connection caused issues. Please check the logfile generated at ./init-install.log for troubleshooting and try again."
+        );
+      }
+
+      await clearLogFile();
+      tries += 1;
+
+      try {
+        await this.executeCommand({
+          command: 'pnpm',
+          args: ['add', ...args, ...this.getInstallArgs()],
+          stdio: ['ignore', logStream, logStream],
+        });
+      } catch (err) {
+        const stdout = await readLogFile();
+
+        if (stdout.includes('ECONNRESET')) {
+          paddedLog('Ran into connection issues while installing dependencies, retrying...');
+          await install();
+          return;
+        }
+
+        await moveLogFile();
+
+        throw new Error(
+          'Something went wrong while installing Storybook dependencies. Please check the logfile generated at ./init-install.log for troubleshooting and try again.'
+        );
+      }
+    };
+
+    await install();
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
