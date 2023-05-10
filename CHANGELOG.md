@@ -1,3 +1,13 @@
+## 7.1.0-alpha.15 (May 11, 2023)
+
+#### Bug Fixes
+
+-   CLI: Do not show a migration summary on sb init [#22109](https://github.com/storybooks/storybook/pull/22109)
+-   Toolbars: Fix title behavior in UI [#22496](https://github.com/storybooks/storybook/pull/22496)
+-   UI: Show current search shortcut in search box sidebar [#21619](https://github.com/storybooks/storybook/pull/21619)
+-   Measure: Deactivate when switching to Docs mode [#21602](https://github.com/storybooks/storybook/pull/21602)
+-   Outline: Fix additional outline border in docs mode [#21773](https://github.com/storybooks/storybook/pull/21773)
+
 ## 7.1.0-alpha.14 (May 9, 2023)
 
 #### Bug Fixes
