@@ -19,6 +19,7 @@ import { getBowerJson, isNxProject, paddedLog } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
+const webpackConfigFiles = ['webpack.config.js'];
 
 const hasDependency = (
   packageJson: PackageJsonWithMaybeDeps,
@@ -111,6 +112,7 @@ export function detectFrameworkPreset(
  */
 export async function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
+  const webpackConfig = findUp.sync(webpackConfigFiles);
   const dependencies = await packageManager.getAllDependencies();
 
   if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
@@ -119,7 +121,7 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   }
 
   // REWORK
-  if (dependencies['webpack'] && dependencies['vite'] !== undefined) {
+  if (webpackConfig || (dependencies['webpack'] && dependencies['vite'] !== undefined)) {
     paddedLog('Detected webpack project. Setting builder to webpack');
     return CoreBuilder.Webpack5;
   }
