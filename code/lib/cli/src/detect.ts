@@ -128,8 +128,6 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
 
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
-    case ProjectType.SVELTE:
-    case ProjectType.SVELTEKIT:
     case ProjectType.VUE:
     case ProjectType.VUE3:
     case ProjectType.SFC_VUE:
@@ -137,6 +135,7 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
     case ProjectType.REACT_SCRIPTS:
     case ProjectType.ANGULAR:
     case ProjectType.NEXTJS:
+    case ProjectType.PREACT:
       return CoreBuilder.Webpack5;
     default:
       // eslint-disable-next-line no-case-declarations
