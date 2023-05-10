@@ -8,7 +8,6 @@ import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
-import aureliaGenerator from './generators/AURELIA';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
@@ -18,17 +17,12 @@ import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
 import webpackReactGenerator from './generators/WEBPACK_REACT';
-import mithrilGenerator from './generators/MITHRIL';
-import marionetteGenerator from './generators/MARIONETTE';
-import markoGenerator from './generators/MARKO';
 import htmlGenerator from './generators/HTML';
 import webComponentsGenerator from './generators/WEB-COMPONENTS';
-import riotGenerator from './generators/RIOT';
 import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
-import raxGenerator from './generators/RAX';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
@@ -131,21 +125,6 @@ const installStorybook = async <Project extends ProjectType>(
           commandLog('Adding Storybook support to your "Ember" app\n')
         );
 
-      case ProjectType.MITHRIL:
-        return mithrilGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Mithril" app\n')
-        );
-
-      case ProjectType.MARIONETTE:
-        return marionetteGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Marionette.js" app\n')
-        );
-
-      case ProjectType.MARKO:
-        return markoGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Marko" app\n')
-        );
-
       case ProjectType.HTML:
         return htmlGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "HTML" app\n')
@@ -154,11 +133,6 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.WEB_COMPONENTS:
         return webComponentsGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "web components" app\n')
-        );
-
-      case ProjectType.RIOT:
-        return riotGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "riot.js" app\n')
         );
 
       case ProjectType.PREACT:
@@ -174,16 +148,6 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.SVELTEKIT:
         return svelteKitGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "SvelteKit" app\n')
-        );
-
-      case ProjectType.RAX:
-        return raxGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Rax" app\n')
-        );
-
-      case ProjectType.AURELIA:
-        return aureliaGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Aurelia" app\n')
         );
 
       case ProjectType.SERVER:

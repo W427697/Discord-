@@ -213,46 +213,6 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
-    name: ProjectType.MITHRIL,
-    files: {
-      'package.json': {
-        dependencies: {
-          mithril: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.MARIONETTE,
-    files: {
-      'package.json': {
-        dependencies: {
-          'backbone.marionette': '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.MARKO,
-    files: {
-      'package.json': {
-        dependencies: {
-          marko: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.RIOT,
-    files: {
-      'package.json': {
-        dependencies: {
-          riot: '1.0.0',
-        },
-      },
-    },
-  },
-  {
     name: ProjectType.PREACT,
     files: {
       'package.json': {
@@ -268,27 +228,6 @@ const MOCK_FRAMEWORK_FILES: {
       'package.json': {
         dependencies: {
           svelte: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.RAX,
-    files: {
-      '.rax': 'file content',
-      'package.json': {
-        dependencies: {
-          rax: '1.0.0',
-        },
-      },
-    },
-  },
-  {
-    name: ProjectType.AURELIA,
-    files: {
-      'package.json': {
-        dependencies: {
-          'aurelia-bootstrapper': '1.0.0',
         },
       },
     },
