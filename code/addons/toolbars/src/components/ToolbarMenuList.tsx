@@ -14,6 +14,7 @@ type ToolbarMenuListProps = ToolbarMenuProps & WithKeyboardCycleProps;
 export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
   ({
     id,
+    name,
     description,
     toolbar: { icon: _icon, items, title: _title, preventDynamicIcon, dynamicTitle },
   }) => {
@@ -31,6 +32,10 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
 
     if (dynamicTitle) {
       title = getSelectedTitle({ currentValue, items }) || title;
+    }
+
+    if (!title && !icon) {
+      console.warn(`Toolbar '${name}' has no title or icon`);
     }
 
     const handleItemClick = useCallback(
