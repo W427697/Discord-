@@ -12,28 +12,27 @@ interface ClientApi extends Addon_ClientStoryApi<ReactRenderer['storyResult']> {
 const RENDERER = 'react';
 
 let api: ReturnType<typeof start<ReactRenderer>>;
-const lazyStart = () => {
+const getApi = () => {
   if (!api) api = start<ReactRenderer>(renderToCanvas, { render });
+  return api;
 };
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
-  lazyStart();
-  return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({
+  return (
+    getApi().clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>
+  ).addParameters({
     renderer: RENDERER,
   });
 };
 
 export const configure: ClientApi['configure'] = (...args) => {
-  lazyStart();
-  return api.configure(RENDERER, ...args);
+  return getApi().configure(RENDERER, ...args);
 };
 
 export const forceReRender: ClientApi['forceReRender'] = () => {
-  lazyStart();
-  return api.forceReRender();
+  return getApi().forceReRender();
 };
 
 export const raw: ClientApi['raw'] = (...args) => {
-  lazyStart();
-  return api.clientApi.raw(...args);
+  return getApi().clientApi.raw(...args);
 };
