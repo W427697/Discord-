@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.1.0-alpha.9",
+  "version": "7.1.0-alpha.14",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -18,7 +18,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/controls"
+    "directory": "code/addons/controls"
   },
   "funding": {
     "type": "opencollective",
@@ -27,20 +27,20 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./manager": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./register": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -68,15 +68,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/blocks": "7.1.0-alpha.9",
-    "@storybook/client-logger": "7.1.0-alpha.9",
-    "@storybook/components": "7.1.0-alpha.9",
-    "@storybook/core-common": "7.1.0-alpha.9",
-    "@storybook/manager-api": "7.1.0-alpha.9",
-    "@storybook/node-logger": "7.1.0-alpha.9",
-    "@storybook/preview-api": "7.1.0-alpha.9",
-    "@storybook/theming": "7.1.0-alpha.9",
-    "@storybook/types": "7.1.0-alpha.9",
+    "@storybook/blocks": "7.1.0-alpha.14",
+    "@storybook/client-logger": "7.1.0-alpha.14",
+    "@storybook/components": "7.1.0-alpha.14",
+    "@storybook/core-common": "7.1.0-alpha.14",
+    "@storybook/manager-api": "7.1.0-alpha.14",
+    "@storybook/node-logger": "7.1.0-alpha.14",
+    "@storybook/preview-api": "7.1.0-alpha.14",
+    "@storybook/theming": "7.1.0-alpha.14",
+    "@storybook/types": "7.1.0-alpha.14",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
@@ -102,7 +102,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9",
+  "gitHead": "72ae6b0d965d1ae596159cdb15109c5e13376d78",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",
