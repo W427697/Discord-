@@ -14,6 +14,9 @@ export function interopRequireDefault(filePath: string) {
       target: `node${process.version.slice(1)}`,
       format: 'cjs',
       hookIgnoreNodeModules: false,
+      // some frameworks like stylus reply 'name' property of classes of functions
+      // https://github.com/storybookjs/storybook/issues/19049
+      keepNames: true,
       tsconfigRaw: `{
       "compilerOptions": {
         "strict": false,
