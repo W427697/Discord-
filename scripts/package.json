@@ -56,6 +56,7 @@
     "@nrwl/cli": "^15.4.5",
     "@nrwl/nx-cloud": "^15.0.2",
     "@nrwl/workspace": "^15.4.5",
+    "@octokit/graphql": "^5.0.5",
     "@storybook/eslint-config-storybook": "^3.1.2",
     "@storybook/jest": "future",
     "@storybook/linter-config": "^3.1.2",
@@ -79,6 +80,7 @@
     "@types/semver": "^7.3.4",
     "@types/serve-static": "^1.13.8",
     "@types/shelljs": "^0.8.7",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
@@ -151,6 +153,7 @@
     "type-fest": "^3.4.0",
     "typescript": "~4.9.3",
     "util": "^0.12.4",
+    "uuid": "^9.0.0",
     "wait-on": "^5.2.1",
     "window-size": "^1.1.1",
     "zx": "^7.0.3"
