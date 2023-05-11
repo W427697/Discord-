@@ -314,7 +314,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
   done();
 
-  const storybookInstatiated = isStorybookInstatiated(resolve(process.cwd(), '.storybook'));
+  const storybookInstatiated = isStorybookInstatiated();
 
   if (storybookInstatiated && projectType !== ProjectType.ANGULAR) {
     logger.log();

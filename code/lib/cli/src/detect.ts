@@ -4,7 +4,7 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
 import { pathExistsSync } from 'fs-extra';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
@@ -133,7 +133,7 @@ export function detectBuilder(packageManager: JsPackageManager, projectType: Pro
   }
 }
 
-export function isStorybookInstatiated(configDir: string) {
+export function isStorybookInstatiated(configDir = resolve(process.cwd(), '.storybook')) {
   return fs.existsSync(configDir);
 }
 
