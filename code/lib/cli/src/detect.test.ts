@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
 import { getBowerJson } from './helpers';
-import { detect, detectFrameworkPreset, detectLanguage, isStorybookInstalled } from './detect';
-import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
+import { detect, detectFrameworkPreset, detectLanguage } from './detect';
+import { ProjectType, SupportedLanguage } from './project_types';
 import type { PackageJsonWithMaybeDeps } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
@@ -344,36 +344,6 @@ describe('Detect', () => {
 
   it(`should return language javascript by default`, () => {
     expect(detectLanguage()).toBe(SupportedLanguage.JAVASCRIPT);
-  });
-
-  describe('isStorybookInstalled should return', () => {
-    it('false if empty devDependency', () => {
-      expect(isStorybookInstalled({ devDependencies: {} }, false)).toBe(false);
-    });
-
-    it('false if no devDependency', () => {
-      expect(isStorybookInstalled({}, false)).toBe(false);
-    });
-
-    SUPPORTED_RENDERERS.forEach((framework) => {
-      it(`true if devDependencies has ${framework} Storybook version`, () => {
-        const devDependencies = {
-          [`@storybook/${framework}`]: '4.0.0-alpha.21',
-        };
-        expect(isStorybookInstalled({ devDependencies }, false)).toBeTruthy();
-      });
-    });
-
-    it('false if forced flag', () => {
-      expect(
-        isStorybookInstalled(
-          {
-            devDependencies: { '@storybook/react': '4.0.0-alpha.21' },
-          },
-          true
-        )
-      ).toBe(false);
-    });
   });
 
   describe('detectFrameworkPreset should return', () => {
