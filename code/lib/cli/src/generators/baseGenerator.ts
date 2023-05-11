@@ -4,13 +4,18 @@ import { dedent } from 'ts-dedent';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
-import { copyTemplateFiles } from '../helpers';
+import { copyTemplateFiles, paddedLog } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
 import { getBabelPresets, writeBabelConfigFile } from '../babel-config';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
+import {
+  configureEslintPlugin,
+  extractEslintInfo,
+  suggestESLintPlugin,
+} from '../automigrate/helpers/eslintPlugin';
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -20,7 +25,6 @@ const defaultOptions: FrameworkOptions = {
   addMainFile: true,
   addComponents: true,
   skipBabel: false,
-  addESLint: false,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -155,7 +159,6 @@ export async function baseGenerator(
     addMainFile,
     addComponents,
     skipBabel,
-    addESLint,
     extraMain,
     extensions,
     storybookConfigFolder,
@@ -294,7 +297,24 @@ export async function baseGenerator(
     }
   }
 
+  try {
+    const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
+      packageManager
+    );
+
+    if (hasEslint && !isStorybookPluginInstalled) {
+      const shouldInstallESLintPlugin = await suggestESLintPlugin();
+      if (shouldInstallESLintPlugin) {
+        depsToInstall.push('eslint-plugin-storybook');
+        await configureEslintPlugin(eslintConfigFile, packageManager);
+      }
+    }
+  } catch (err) {
+    // any failure regarding configuring the eslint plugin should not fail the whole generator
+  }
+
   if (depsToInstall.length > 0) {
+    paddedLog('Installing Storybook dependencies');
     await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
   }
 
@@ -302,10 +322,6 @@ export async function baseGenerator(
     await packageManager.addStorybookCommandInScripts({
       port: 6006,
     });
-  }
-
-  if (addESLint) {
-    await packageManager.addESLintConfig();
   }
 
   if (addComponents) {
