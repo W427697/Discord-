@@ -28,10 +28,9 @@ const generator: Generator<{ projectName: string }> = async (
   const angularJSON = new AngularJSON();
 
   if (angularJSON.projectsWithoutStorybook.length === 0) {
-    paddedLog(
+    throw new Error(
       'Every project in your workspace is already set up with Storybook. There is nothing to do!'
     );
-    return Promise.reject();
   }
 
   const angularProjectName = await angularJSON.getProjectName();
