@@ -54,7 +54,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     extraAddons,
     extraPackages,
     staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
-    addBabel: false,
+    skipBabel: true,
     addESLint: true,
     extraMain,
   });
