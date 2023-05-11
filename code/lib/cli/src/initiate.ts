@@ -4,7 +4,6 @@ import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
-import { resolve } from 'node:path';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstatiated, detectLanguage, detectBuilder, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
