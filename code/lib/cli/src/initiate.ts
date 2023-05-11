@@ -4,6 +4,7 @@ import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
+import dedent from 'ts-dedent';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -191,12 +192,12 @@ const installStorybook = async <Project extends ProjectType>(
           commandLog('Adding Storybook support to your "Server" app\n')
         );
 
-      case ProjectType.NX /* NX */:
-        paddedLog(
-          'We have detected Nx in your project. Please use `nx g @nrwl/storybook:configuration` to add Storybook to your project.'
-        );
-        paddedLog('For more information, please see https://nx.dev/packages/storybook');
-        return Promise.reject();
+      case ProjectType.NX:
+        throw new Error(dedent`
+          We have detected Nx in your project. Please use "nx g @nrwl/storybook:configuration" to add Storybook to your project.
+          
+          For more information, please see https://nx.dev/packages/storybook
+        `);
 
       case ProjectType.SOLID:
         return solidGenerator(packageManager, npmOptions, generatorOptions).then(
@@ -230,7 +231,9 @@ const installStorybook = async <Project extends ProjectType>(
   try {
     return await runGenerator();
   } catch (err) {
-    logger.error(`\n     ${chalk.red(err.stack)}`);
+    if (err?.stack) {
+      logger.error(`\n     ${chalk.red(err.stack)}`);
+    }
     throw new HandledError(err);
   }
 };
