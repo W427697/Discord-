@@ -14,7 +14,6 @@ import {
 } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
-import aureliaGenerator from './generators/AURELIA';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
@@ -24,17 +23,12 @@ import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
 import webpackReactGenerator from './generators/WEBPACK_REACT';
-import mithrilGenerator from './generators/MITHRIL';
-import marionetteGenerator from './generators/MARIONETTE';
-import markoGenerator from './generators/MARKO';
 import htmlGenerator from './generators/HTML';
 import webComponentsGenerator from './generators/WEB-COMPONENTS';
-import riotGenerator from './generators/RIOT';
 import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
-import raxGenerator from './generators/RAX';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
@@ -69,7 +63,7 @@ const installStorybook = async <Project extends ProjectType>(
 
   const generatorOptions = {
     language,
-    builder: options.builder || detectBuilder(packageManager, projectType),
+    builder: options.builder || (await detectBuilder(packageManager, projectType)),
     linkable: !!options.linkable,
     pnp: pnp || options.usePnp,
   };
@@ -137,21 +131,6 @@ const installStorybook = async <Project extends ProjectType>(
           commandLog('Adding Storybook support to your "Ember" app')
         );
 
-      case ProjectType.MITHRIL:
-        return mithrilGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Mithril" app')
-        );
-
-      case ProjectType.MARIONETTE:
-        return marionetteGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Marionette.js" app')
-        );
-
-      case ProjectType.MARKO:
-        return markoGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Marko" app')
-        );
-
       case ProjectType.HTML:
         return htmlGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "HTML" app')
@@ -160,11 +139,6 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.WEB_COMPONENTS:
         return webComponentsGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "web components" app')
-        );
-
-      case ProjectType.RIOT:
-        return riotGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "riot.js" app')
         );
 
       case ProjectType.PREACT:
@@ -180,16 +154,6 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.SVELTEKIT:
         return svelteKitGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "SvelteKit" app')
-        );
-
-      case ProjectType.RAX:
-        return raxGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Rax" app')
-        );
-
-      case ProjectType.AURELIA:
-        return aureliaGenerator(packageManager, npmOptions, generatorOptions).then(
-          commandLog('Adding Storybook support to your "Aurelia" app')
         );
 
       case ProjectType.SERVER:
@@ -223,7 +187,7 @@ const installStorybook = async <Project extends ProjectType>(
       default:
         paddedLog(`We couldn't detect your project type. (code: ${projectType})`);
         paddedLog(
-          'You can specify a project type explicitly via `sb init --type <type>`, see our docs on how to configure Storybook for your framework: https://storybook.js.org/docs/react/get-started/install'
+          'You can specify a project type explicitly via `storybook init --type <type>`, see our docs on how to configure Storybook for your framework: https://storybook.js.org/docs/react/get-started/install'
         );
 
         // Add a new line for the clear visibility.
