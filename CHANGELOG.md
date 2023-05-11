@@ -1,3 +1,20 @@
+## 7.1.0-alpha.16 (May 11, 2023)
+
+#### Bug Fixes
+
+-   Web-components: Fix source decorator to handle document fragments [#22513](https://github.com/storybooks/storybook/pull/22513)
+-   Angular: Adjust child process I/O for compodoc command [#22441](https://github.com/storybooks/storybook/pull/22441)
+-   Core: Fix windows path error in StoryStore v6 [#22512](https://github.com/storybooks/storybook/pull/22512)
+
+#### Maintenance
+
+-   CLI: Prompt to force initialization when storybook is detected [#22392](https://github.com/storybooks/storybook/pull/22392)
+-   UI: Fix css inconsistency in Button and Icon components [#22497](https://github.com/storybooks/storybook/pull/22497)
+
+#### Build
+
+-   Sandboxes: Pin @vitejs/plugin-react to avoid conflict [#22501](https://github.com/storybooks/storybook/pull/22501)
+
 ## 7.1.0-alpha.15 (May 11, 2023)
 
 #### Bug Fixes
