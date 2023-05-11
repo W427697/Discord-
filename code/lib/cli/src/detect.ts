@@ -4,17 +4,16 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
 import { pathExistsSync } from 'fs-extra';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
   supportedTemplates,
-  SUPPORTED_RENDERERS,
   SupportedLanguage,
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { getBowerJson, isNxProject, paddedLog } from './helpers';
+import { commandLog, getBowerJson, isNxProject } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
 import { detectWebpack } from './detect-webpack';
 
@@ -112,12 +111,12 @@ export function detectFrameworkPreset(
 export function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
   if (viteConfig) {
-    paddedLog('Detected Vite project. Setting builder to Vite');
+    commandLog('Detected Vite project. Setting builder to Vite')();
     return CoreBuilder.Vite;
   }
 
   if (detectWebpack(packageManager)) {
-    paddedLog('Detected webpack project. Setting builder to webpack');
+    commandLog('Detected webpack project. Setting builder to webpack')();
     return CoreBuilder.Webpack5;
   }
 
@@ -134,26 +133,8 @@ export function detectBuilder(packageManager: JsPackageManager, projectType: Pro
   }
 }
 
-export function isStorybookInstalled(
-  dependencies: Pick<PackageJson, 'devDependencies'> | false,
-  force?: boolean
-) {
-  if (!dependencies) {
-    return false;
-  }
-
-  if (!force && dependencies.devDependencies) {
-    if (
-      SUPPORTED_RENDERERS.reduce(
-        (storybookPresent, framework) =>
-          storybookPresent || !!dependencies.devDependencies[`@storybook/${framework}`],
-        false
-      )
-    ) {
-      return true;
-    }
-  }
-  return false;
+export function isStorybookInstantiated(configDir = resolve(process.cwd(), '.storybook')) {
+  return fs.existsSync(configDir);
 }
 
 export function detectPnp() {
