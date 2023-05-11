@@ -4,18 +4,17 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
 import { pathExistsSync } from 'fs-extra';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import prompts from 'prompts';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
   supportedTemplates,
-  SUPPORTED_RENDERERS,
   SupportedLanguage,
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
-import { getBowerJson, isNxProject, paddedLog } from './helpers';
+import { commandLog, getBowerJson, isNxProject } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
@@ -116,13 +115,13 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   const dependencies = await packageManager.getAllDependencies();
 
   if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
-    paddedLog('Detected Vite project. Setting builder to Vite');
+    commandLog('Detected Vite project. Setting builder to Vite')();
     return CoreBuilder.Vite;
   }
 
   // REWORK
   if (webpackConfig || (dependencies['webpack'] && dependencies['vite'] !== undefined)) {
-    paddedLog('Detected webpack project. Setting builder to webpack');
+    commandLog('Detected webpack project. Setting builder to webpack')();
     return CoreBuilder.Webpack5;
   }
 
@@ -151,26 +150,8 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   }
 }
 
-export function isStorybookInstalled(
-  dependencies: Pick<PackageJson, 'devDependencies'> | false,
-  force?: boolean
-) {
-  if (!dependencies) {
-    return false;
-  }
-
-  if (!force && dependencies.devDependencies) {
-    if (
-      SUPPORTED_RENDERERS.reduce(
-        (storybookPresent, framework) =>
-          storybookPresent || !!dependencies.devDependencies[`@storybook/${framework}`],
-        false
-      )
-    ) {
-      return true;
-    }
-  }
-  return false;
+export function isStorybookInstantiated(configDir = resolve(process.cwd(), '.storybook')) {
+  return fs.existsSync(configDir);
 }
 
 export function detectPnp() {
