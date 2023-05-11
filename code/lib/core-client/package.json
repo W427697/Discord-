@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-client",
-  "version": "7.1.0-alpha.14",
+  "version": "7.1.0-alpha.15",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -35,8 +35,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.14",
-    "@storybook/preview-api": "7.1.0-alpha.14"
+    "@storybook/client-logger": "7.1.0-alpha.15",
+    "@storybook/preview-api": "7.1.0-alpha.15"
   },
   "publishConfig": {
     "access": "public"
@@ -47,5 +47,5 @@
     ],
     "shim": "@storybook/preview-api/dist/core-client"
   },
-  "gitHead": "72ae6b0d965d1ae596159cdb15109c5e13376d78"
+  "gitHead": "b8b1b7949c095a8fccfca6f1f3192b4203020485"
 }

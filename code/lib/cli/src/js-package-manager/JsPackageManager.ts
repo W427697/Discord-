@@ -427,8 +427,18 @@ export abstract class JsPackageManager {
   ): // Use generic and conditional type to force `string[]` if fetchAllVersions is true and `string` if false
   Promise<T extends true ? string[] : string>;
 
-  public abstract runPackageCommand(command: string, args: string[], cwd?: string): Promise<string>;
-  public abstract runPackageCommandSync(command: string, args: string[], cwd?: string): string;
+  public abstract runPackageCommand(
+    command: string,
+    args: string[],
+    cwd?: string,
+    stdio?: string
+  ): Promise<string>;
+  public abstract runPackageCommandSync(
+    command: string,
+    args: string[],
+    cwd?: string,
+    stdio?: 'inherit' | 'pipe'
+  ): string;
   public abstract findInstallations(pattern?: string[]): Promise<InstallationMetadata | undefined>;
 
   public executeCommandSync({
