@@ -327,9 +327,8 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
       },
     ]);
     logger.log();
-    if (!force) {
-      throw new HandledError(`Project already inited with Storybook`);
-    } else {
+
+    if (force) {
       // eslint-disable-next-line no-param-reassign
       options.force = true;
     }
