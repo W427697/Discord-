@@ -5,7 +5,13 @@ import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
 import { installableProjectTypes, ProjectType } from './project_types';
-import { detect, isStorybookInstatiated, detectLanguage, detectBuilder, detectPnp } from './detect';
+import {
+  detect,
+  isStorybookInstantiated,
+  detectLanguage,
+  detectBuilder,
+  detectPnp,
+} from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import aureliaGenerator from './generators/AURELIA';
@@ -313,9 +319,9 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
   done();
 
-  const storybookInstatiated = isStorybookInstatiated();
+  const storybookInstantiated = isStorybookInstantiated();
 
-  if (storybookInstatiated && projectType !== ProjectType.ANGULAR) {
+  if (storybookInstantiated && projectType !== ProjectType.ANGULAR) {
     logger.log();
     const { force } = await prompts([
       {
@@ -330,6 +336,8 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     if (force) {
       // eslint-disable-next-line no-param-reassign
       options.force = true;
+    } else {
+      process.exit(0);
     }
   }
 

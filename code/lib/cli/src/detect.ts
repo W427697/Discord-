@@ -133,7 +133,7 @@ export function detectBuilder(packageManager: JsPackageManager, projectType: Pro
   }
 }
 
-export function isStorybookInstatiated(configDir = resolve(process.cwd(), '.storybook')) {
+export function isStorybookInstantiated(configDir = resolve(process.cwd(), '.storybook')) {
   return fs.existsSync(configDir);
 }
 
