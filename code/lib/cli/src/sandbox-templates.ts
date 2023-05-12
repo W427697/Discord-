@@ -352,7 +352,7 @@ const baseTemplates = {
   },
   'vue-cli/default-js': {
     name: 'Vue v3 CLI (JS)',
-    script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
+    script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge  && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -364,7 +364,7 @@ const baseTemplates = {
   'vue-cli/vue2-default-js': {
     name: 'Vue v2 CLI (JS)',
     script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"',
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
@@ -375,7 +375,7 @@ const baseTemplates = {
   },
   'preact-webpack5/default-js': {
     name: 'Preact Latest CLI (JS)',
-    script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install',
+    script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install  && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -385,7 +385,7 @@ const baseTemplates = {
   },
   'preact-webpack5/default-ts': {
     name: 'Preact Latest CLI (TS)',
-    script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install',
+    script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install  && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -459,6 +459,17 @@ const internalTemplates = {
         },
       },
     },
+  },
+  'internal/server-webpack5': {
+    name: 'Server Webpack5',
+    script: 'yarn init -y',
+    expected: {
+      framework: '@storybook/server-webpack5',
+      renderer: '@storybook/server',
+      builder: '@storybook/builder-webpack5',
+    },
+    isInternal: true,
+    inDevelopment: true,
   },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
