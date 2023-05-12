@@ -16,7 +16,12 @@ import { join, resolve, sep } from 'path';
 import slash from 'slash';
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
-import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
+import {
+  installYarn2,
+  configureYarn2ForVerdaccio,
+  addPackageResolutions,
+  addWorkaroundResolutions,
+} from '../utils/yarn';
 import { exec } from '../utils/exec';
 import type { ConfigFile } from '../../code/lib/csf-tools';
 import { writeConfig } from '../../code/lib/csf-tools';
@@ -58,7 +63,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
-      optionValues: { output: sandboxDir, branch: 'main', init: false, debug },
+      optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
       cwd: parentDir,
       dryRun,
       debug,
@@ -81,6 +86,7 @@ export const install: Task['run'] = async (
       dryRun,
       debug,
     });
+    await addWorkaroundResolutions({ cwd, dryRun, debug });
   } else {
     // We need to add package resolutions to ensure that we only ever install the latest version
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
@@ -100,7 +106,9 @@ export const install: Task['run'] = async (
     );
   }
 
-  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+  let extra = {};
+  if (template.expected.renderer === '@storybook/html') extra = { type: 'html' };
+  else if (template.expected.renderer === '@storybook/server') extra = { type: 'server' };
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -278,7 +286,7 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
 }
 
-function addVariantToFolder(variant?: string, folder = 'stories') {
+function getStoriesFolderWithVariant(variant?: string, folder = 'stories') {
   return variant ? `${folder}_${variant}` : folder;
 }
 
@@ -286,9 +294,9 @@ function addVariantToFolder(variant?: string, folder = 'stories') {
 async function linkPackageStories(
   packageDir: string,
   { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string },
-  frameworkVariant?: string
+  variant?: string
 ) {
-  const storiesFolderName = frameworkVariant ? addVariantToFolder(frameworkVariant) : 'stories';
+  const storiesFolderName = variant ? getStoriesFolderWithVariant(variant) : 'stories';
   const source = join(CODE_DIRECTORY, packageDir, 'template', storiesFolderName);
   // By default we link `stories` directories
   //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
@@ -297,10 +305,7 @@ async function linkPackageStories(
   // The files must be linked in the cwd, in order to ensure that any dependencies they
   // reference are resolved in the cwd. In particular 'react' resolved by MDX files.
   const target = linkInDir
-    ? resolve(
-        linkInDir,
-        frameworkVariant ? addVariantToFolder(frameworkVariant, packageDir) : packageDir
-      )
+    ? resolve(linkInDir, variant ? getStoriesFolderWithVariant(variant, packageDir) : packageDir)
     : resolve(cwd, 'template-stories', packageDir);
 
   await ensureSymlink(source, target);
@@ -325,17 +330,17 @@ async function linkPackageStories(
       if (await pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
-          storiesDir = (await pathExists(join(cwd, `src/${storiesFolderName}`)))
-            ? `src/${storiesFolderName}`
-            : storiesFolderName;
+          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
         }
-        addPreviewAnnotations(mainConfig, [`./${join(storiesDir, packageDir, previewFile)}`]);
+        addPreviewAnnotations(mainConfig, [
+          `./${join(storiesDir, variant ? `${packageDir}_${variant}` : packageDir, previewFile)}`,
+        ]);
       }
     })
   );
 }
 
-function addExtraDependencies({
+async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -353,7 +358,7 @@ function addExtraDependencies({
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
-    packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
+    await packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }
 
@@ -371,7 +376,13 @@ export const addStories: Task['run'] = async (
   const packageJson = await import(join(cwd, 'package.json'));
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
-  const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+  const isCoreRenderer =
+    template.expected.renderer.startsWith('@storybook/') &&
+    template.expected.renderer !== '@storybook/server';
+
+  const sandboxSpecificStoriesFolder = key.replaceAll('/', '-');
+  const storiesVariantFolder = getStoriesFolderWithVariant(sandboxSpecificStoriesFolder);
+
   if (isCoreRenderer) {
     // Link in the template/components/index.js from store, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
@@ -387,6 +398,22 @@ export const addStories: Task['run'] = async (
       cwd,
       linkInDir: resolve(cwd, storiesPath),
     });
+
+    if (
+      await pathExists(
+        resolve(CODE_DIRECTORY, rendererPath, join('template', storiesVariantFolder))
+      )
+    ) {
+      await linkPackageStories(
+        rendererPath,
+        {
+          mainConfig,
+          cwd,
+          linkInDir: resolve(cwd, storiesPath),
+        },
+        sandboxSpecificStoriesFolder
+      );
+    }
   }
 
   const isCoreFramework = template.expected.framework.startsWith('@storybook/');
@@ -403,8 +430,7 @@ export const addStories: Task['run'] = async (
       });
     }
 
-    const frameworkVariant = key.split('/')[1];
-    const storiesVariantFolder = addVariantToFolder(frameworkVariant);
+    console.log({ sandboxSpecificStoriesFolder, storiesVariantFolder });
 
     if (
       await pathExists(
@@ -418,7 +444,7 @@ export const addStories: Task['run'] = async (
           cwd,
           linkInDir: resolve(cwd, storiesPath),
         },
-        frameworkVariant
+        sandboxSpecificStoriesFolder
       );
     }
   }
@@ -465,7 +491,7 @@ export const addStories: Task['run'] = async (
   }
 
   // Some addon stories require extra dependencies
-  addExtraDependencies({ cwd, dryRun, debug });
+  await addExtraDependencies({ cwd, dryRun, debug });
 
   await writeConfig(mainConfig);
 };

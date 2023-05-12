@@ -15,7 +15,6 @@ import { wrapManagerEntries } from './utils/managerEntries';
 import type {
   BuilderBuildResult,
   BuilderFunction,
-  BuilderStartOptions,
   BuilderStartResult,
   Compilation,
   ManagerBuilder,
@@ -50,7 +49,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     write: false,
     ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
-    outExtension: { '.js': '.mjs' },
+    outExtension: { '.js': '.js' },
     loader: {
       '.js': 'jsx',
       '.png': 'dataurl',
@@ -235,7 +234,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     filter: (src) => {
       const { ext } = parse(src);
       if (ext) {
-        return ext === '.mjs';
+        return ext === '.js';
       }
       return true;
     },
@@ -282,7 +281,7 @@ export const bail: ManagerBuilder['bail'] = async () => {
   }
 };
 
-export const start = async (options: BuilderStartOptions) => {
+export const start: ManagerBuilder['start'] = async (options) => {
   asyncIterator = starter(options);
   let result;
 
@@ -294,7 +293,7 @@ export const start = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const build = async (options: BuilderStartOptions) => {
+export const build: ManagerBuilder['build'] = async (options) => {
   asyncIterator = builder(options);
   let result;
 
