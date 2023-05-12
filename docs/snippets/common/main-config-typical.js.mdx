@@ -1,0 +1,16 @@
+```js
+// .storybook/main.js
+
+const config = {
+  // Required
+  framework: '@storybook/vue3-vite',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  // Optional
+  addons: ['@storybook/addon-essentials'],
+  docs: {
+    autodocs: 'tag',
+  },
+  staticDirs: ['../public'],
+};
+export default config;
+```

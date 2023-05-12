@@ -1,0 +1,14 @@
+```js
+// .storybook/main.js
+
+export default {
+  framework: '@storybook/vue3-vite',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  previewBody: (body) => `
+    ${body}
+    ${
+      process.env.ANALYTICS_ID ? '<script src="https://cdn.example.com/analytics.js"></script>' : ''
+    }
+  `,
+};
+```

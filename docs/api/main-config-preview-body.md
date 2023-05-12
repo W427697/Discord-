@@ -1,0 +1,26 @@
+---
+title: 'config.previewBody'
+---
+
+Type: `(body: string) => string`
+
+Programmatically adjust the [preview body](../configure/story-rendering.md#adding-to-body) of your Storybook.
+
+<div class="aside">
+
+💡 If you don't need to programmatically adjust the preview body, you can add scripts and styles to [`preview-body.html`](../configure/story-rendering.md#adding-to-body) instead.
+
+</div>
+
+For example, you can conditionally add scripts or styles, depending on the environment:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-preview-body.js.mdx',
+    'common/main-config-preview-body.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->

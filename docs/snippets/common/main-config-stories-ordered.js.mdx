@@ -1,0 +1,11 @@
+```js
+// .storybook/main.js
+
+export default {
+  framework: '@storybook/vue3-vite',
+  stories: [
+    '../src/**/*.mdx', // 👈 These will display first in the sidebar
+    '../src/**/*.stories.@(js|jsx|ts|tsx)', // 👈 Followed by these
+  ],
+};
+```

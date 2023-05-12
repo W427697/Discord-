@@ -1,0 +1,13 @@
+```js
+// .storybook/main.js
+
+export default {
+  framework: {
+    name: '@storybook/react-vite',
+    options: {
+      legacyRootApi: true,
+    },
+  },
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+};
+```
