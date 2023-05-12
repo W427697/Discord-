@@ -82,7 +82,7 @@ export const suggestESLintPlugin = async (): Promise<boolean> => {
     type: 'confirm',
     name: 'shouldInstall',
     message: dedent`
-        We detected that you're using ESLint. Storybook provides a plugin that gives the best experience with Storybook and helps follow best practices: ${chalk.yellow(
+        We have detected that you're using ESLint. Storybook provides a plugin that gives the best experience with Storybook and helps follow best practices: ${chalk.yellow(
           'https://github.com/storybookjs/eslint-plugin-storybook#readme'
         )}
 
