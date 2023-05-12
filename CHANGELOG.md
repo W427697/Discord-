@@ -1,3 +1,12 @@
+## 7.1.0-alpha.17 (May 12, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix storybook upgrade precheckfailure object [#22517](https://github.com/storybooks/storybook/pull/22517)
+-   CLI: Throw errors instead of rejecting promises [#22515](https://github.com/storybooks/storybook/pull/22515)
+-   CSF: Expose story id in composeStories [#22471](https://github.com/storybooks/storybook/pull/22471)
+-   CLI: Remove unsupported frameworks/renderers and improve builder detection [#22492](https://github.com/storybooks/storybook/pull/22492)
+
 ## 7.1.0-alpha.16 (May 11, 2023)
 
 #### Bug Fixes
