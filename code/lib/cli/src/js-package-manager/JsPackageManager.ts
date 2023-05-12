@@ -365,25 +365,6 @@ export abstract class JsPackageManager {
     });
   }
 
-  public async addESLintConfig() {
-    const packageJson = await this.retrievePackageJson();
-    await this.writePackageJson({
-      ...packageJson,
-      eslintConfig: {
-        ...packageJson.eslintConfig,
-        overrides: [
-          ...(packageJson.eslintConfig?.overrides || []),
-          {
-            files: ['**/*.stories.*'],
-            rules: {
-              'import/no-anonymous-default-export': 'off',
-            },
-          },
-        ],
-      },
-    });
-  }
-
   public async addScripts(scripts: Record<string, string>) {
     const packageJson = await this.retrievePackageJson();
     await this.writePackageJson({
