@@ -27,10 +27,14 @@ export const findEslintFile = () => {
   return extension ? `${filePrefix}.${extension}` : null;
 };
 
-export async function extractEslintInfo(packageManager: JsPackageManager) {
+export async function extractEslintInfo(packageManager: JsPackageManager): Promise<{
+  hasEslint: boolean;
+  isStorybookPluginInstalled: boolean;
+  eslintConfigFile: string | null;
+}> {
   const allDependencies = await packageManager.getAllDependencies();
   const packageJson = await packageManager.retrievePackageJson();
-  let eslintConfigFile;
+  let eslintConfigFile: string | null = null;
 
   try {
     eslintConfigFile = findEslintFile();
