@@ -197,7 +197,7 @@ export async function baseGenerator(
 
   const files = await fse.readdir(process.cwd());
 
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
   const installedDependencies = new Set(
     Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
   );
@@ -274,17 +274,17 @@ export async function baseGenerator(
   const depsToInstall = [...versionedPackages, ...babelDependencies];
 
   if (depsToInstall.length > 0) {
-    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+    await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
   }
 
   if (addScripts) {
-    packageManager.addStorybookCommandInScripts({
+    await packageManager.addStorybookCommandInScripts({
       port: 6006,
     });
   }
 
   if (addESLint) {
-    packageManager.addESLintConfig();
+    await packageManager.addESLintConfig();
   }
 
   if (addComponents) {
