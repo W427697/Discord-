@@ -7,6 +7,12 @@ import { Preview } from '@storybook/your-framework';
 const preview: Preview = {
   parameters: {
     options: {
+      /**
+        * Although the type for both `a` and `b` is the `import('@storybook/types').IndexEntry`,
+        * you can not write this function as an actual TypeScript code, because the entire
+        * function is extracted as-is and executed in Js environment!
+        * So take that into consideration and use JSDoc if you want to have intellisense
+        **/
       storySort: (a, b) =>
         a.id === b.id ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true }),
     },
