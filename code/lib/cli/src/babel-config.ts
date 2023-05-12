@@ -2,7 +2,6 @@ import { writeFile, pathExists } from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 import path from 'path';
 import prompts from 'prompts';
-import chalk from 'chalk';
 import { JsPackageManagerFactory } from './js-package-manager';
 
 export const generateStorybookBabelConfigInCWD = async () => {
@@ -59,7 +58,7 @@ export const writeBabelConfigFile = async ({
 };
 
 export const generateStorybookBabelConfig = async ({ target }: { target: string }) => {
-  logger.info(`Generating the storybook default babel config at ${target}`);
+  logger.info(`Generating the Storybook default babel config at ${target}`);
 
   const fileName = '.babelrc.json';
   const location = path.join(target, fileName);
@@ -79,12 +78,6 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
       return;
     }
   }
-
-  logger.info(
-    `The config will contain ${chalk.yellow(
-      '@babel/preset-env'
-    )} and you will be prompted for additional presets, if you wish to add them depending on your project needs.`
-  );
 
   const { typescript, jsx } = await prompts([
     {
@@ -106,24 +99,8 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
   logger.info(`Writing file to ${location}`);
   await writeBabelConfigFile({ location, typescript, jsx });
 
-  const { runInstall } = await prompts({
-    type: 'confirm',
-    initial: true,
-    name: 'runInstall',
-    message: `Shall we install the required dependencies now? (${dependencies.join(', ')})`,
-  });
+  const packageManager = JsPackageManagerFactory.getPackageManager();
 
-  if (runInstall) {
-    logger.info(`Installing dependencies...`);
-
-    const packageManager = JsPackageManagerFactory.getPackageManager();
-
-    await packageManager.addDependencies({ installAsDevDependencies: true }, dependencies);
-  } else {
-    logger.info(
-      `⚠️ Please remember to install the required dependencies yourself: (${dependencies.join(
-        ', '
-      )})`
-    );
-  }
+  logger.info(`Installing dependencies (${dependencies.join(', ')})`);
+  await packageManager.addDependencies({ installAsDevDependencies: true }, dependencies);
 };
