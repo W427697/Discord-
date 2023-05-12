@@ -3,18 +3,13 @@
 
 import * as path from 'path';
 
-// Export a function. Accept the base config as the only param.
 export default {
+  framework: '@storybook/vue3-vite',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
     // You can change the configuration based on that.
-    // 'PRODUCTION' is used when building the static version of storybook.
+    // 'PRODUCTION' is used when building the static version of Storybook.
 
     // Make whatever fine-grained changes you need
     config.module.rules.push({

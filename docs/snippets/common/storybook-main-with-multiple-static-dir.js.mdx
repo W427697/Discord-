@@ -2,8 +2,8 @@
 // .storybook/main.js
 
 export default {
-  stories: [],
-  addons: [],
+  framework: '@storybook/vue3-vite',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   staticDirs: ['../public', '../static'],
 };
 ```

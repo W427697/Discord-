@@ -5,11 +5,12 @@
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  // Your Storybook configuration
+  framework: '@storybook/vue3-vite',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   refs: {
     'design-system': {
       title: 'Storybook Design System',
-      url: 'https://5ccbc373887ca40020446347-yldsqjoxzb.chromatic.com',
+      url: 'https://master--5ccbc373887ca40020446347.chromatic.com/',
       expanded: false, // Optional, true by default
     },
   },

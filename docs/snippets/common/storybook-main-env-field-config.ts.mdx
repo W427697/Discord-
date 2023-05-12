@@ -5,12 +5,8 @@
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
+  framework: '@storybook/vue3-vite',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
   /*
    * 👇 The `config` argument contains all the other existing environment variables.
    * Either configured in an `.env` file or configured on the command line.

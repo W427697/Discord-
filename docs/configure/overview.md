@@ -85,7 +85,7 @@ For example, if you wanted to pull both `.md` and `.js` files from the `my-proje
 
 ### With a configuration object
 
-Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages` directory, you could adjust your `stories` configuration field into the following:
+Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages/components` directory, you could adjust your `stories` configuration field into the following:
 
 <!-- prettier-ignore-start -->
 
@@ -98,7 +98,7 @@ Additionally, you can customize your Storybook configuration to load your storie
 
 <!-- prettier-ignore-end -->
 
-When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/stories` directory and generate the titles for your stories.
+When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/components` directory and generate the titles for your stories.
 
 ### With a directory
 
