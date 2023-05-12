@@ -1,3 +1,21 @@
+## 7.0.11 (May 12, 2023)
+
+#### Bug Fixes
+
+-   Toolbars: Fix title behavior in UI [#22496](https://github.com/storybooks/storybook/pull/22496)
+-   CLI: Fix storybook upgrade precheckfailure object [#22517](https://github.com/storybooks/storybook/pull/22517)
+-   CLI: Throw errors instead of rejecting promises [#22515](https://github.com/storybooks/storybook/pull/22515)
+-   CLI: Remove unsupported frameworks/renderers and improve builder detection [#22492](https://github.com/storybooks/storybook/pull/22492)
+-   Web-components: Fix source decorator to handle document fragments [#22513](https://github.com/storybooks/storybook/pull/22513)
+-   Core: Fix windows path error in StoryStore v6 [#22512](https://github.com/storybooks/storybook/pull/22512)
+-   CLI: Do not show a migration summary on sb init [#22109](https://github.com/storybooks/storybook/pull/22109)
+-   UI: Show current search shortcut in search box sidebar [#21619](https://github.com/storybooks/storybook/pull/21619)
+-   Outline: Fix additional outline border in docs mode [#21773](https://github.com/storybooks/storybook/pull/21773)
+-   Measure: Deactivate when switching to Docs mode [#21602](https://github.com/storybooks/storybook/pull/21602)
+-   CSF: Expose story id in composeStories [#22471](https://github.com/storybooks/storybook/pull/22471)
+-   CLI: Prompt to force initialization when storybook folder is detected [#22392](https://github.com/storybooks/storybook/pull/22392)
+-   UI: Fix css inconsistency in Button and Icon components [#22497](https://github.com/storybooks/storybook/pull/22497)
+
 ## 7.0.10 (May 9, 2023)
 
 #### Bug Fixes
