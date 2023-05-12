@@ -298,15 +298,17 @@ export async function baseGenerator(
   }
 
   try {
-    const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
-      packageManager
-    );
+    if (process.env.CI !== 'true') {
+      const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
+        packageManager
+      );
 
-    if (hasEslint && !isStorybookPluginInstalled) {
-      const shouldInstallESLintPlugin = await suggestESLintPlugin();
-      if (shouldInstallESLintPlugin) {
-        depsToInstall.push('eslint-plugin-storybook');
-        await configureEslintPlugin(eslintConfigFile, packageManager);
+      if (hasEslint && !isStorybookPluginInstalled) {
+        const shouldInstallESLintPlugin = await suggestESLintPlugin();
+        if (shouldInstallESLintPlugin) {
+          depsToInstall.push('eslint-plugin-storybook');
+          await configureEslintPlugin(eslintConfigFile, packageManager);
+        }
       }
     }
   } catch (err) {
