@@ -2,7 +2,11 @@
 title: 'Main configuration'
 ---
 
-The main configuration defines a Storybook project's behavior, including the location of stories, addons to use, feature flags, and other project-specific settings. This configuration is defined in `.storybook/main.js|ts`, which is located relative to the root of your project.
+The main configuration defines a Storybook project's behavior, including the location of stories, addons to use, feature flags, and other project-specific settings.
+
+## `main.js` or `main.ts`
+
+This configuration is defined in `.storybook/main.js|ts`, which is located relative to the root of your project.
 
 A typical Storybook configuration file looks like this:
 
