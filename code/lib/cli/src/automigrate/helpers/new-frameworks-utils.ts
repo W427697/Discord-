@@ -154,7 +154,7 @@ export const detectBuilderInfo = async ({
   };
 };
 
-export const getNextjsAddonOptions = (addons: Preset[]) => {
+export const getNextjsAddonOptions = (addons: Preset[] | undefined) => {
   const nextjsAddon = addons?.find((addon) =>
     typeof addon === 'string'
       ? addon === 'storybook-addon-next'

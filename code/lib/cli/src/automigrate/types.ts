@@ -15,7 +15,7 @@ export interface RunOptions<ResultType> {
   packageManager: JsPackageManager;
   result: ResultType;
   dryRun?: boolean;
-  mainConfigPath?: string;
+  mainConfigPath: string;
   skipInstall?: boolean;
 }
 

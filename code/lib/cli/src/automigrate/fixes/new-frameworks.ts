@@ -4,6 +4,7 @@ import semver from 'semver';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 
 import type { Preset } from '@storybook/types';
+import invariant from 'tiny-invariant';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 import {
@@ -220,6 +221,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       `);
     }
 
+    invariant(mainConfigPath, 'Missing main config path.');
+    invariant(metaFramework, 'Missing metaframework.');
+    invariant(builderConfig, 'Missing builder config.');
     return {
       mainConfigPath,
       dependenciesToAdd,
@@ -517,3 +521,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     });
   },
 };
+
+function coerceSemver(version: string) {
+  const coercedSemver = semver.coerce(version);
+  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
+  return coercedSemver;
+}

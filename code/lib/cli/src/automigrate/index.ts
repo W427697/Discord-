@@ -305,6 +305,8 @@ export async function runFixes({
       if (!f.promptOnly) {
         if (runAnswer.fix) {
           try {
+            invariant(typeof f.run === 'function', 'run method should be available in fix.');
+            invariant(mainConfigPath, 'Main config path should be defined to run migration.');
             await f.run({
               result,
               packageManager,
@@ -318,7 +320,8 @@ export async function runFixes({
             fixSummary.succeeded.push(f.id);
           } catch (error) {
             fixResults[f.id] = FixStatus.FAILED;
-            fixSummary.failed[f.id] = error.message;
+            fixSummary.failed[f.id] =
+              error instanceof Error ? error.message : 'Failed to run migration';
 
             logger.info(`❌ error when running ${chalk.cyan(f.id)} migration`);
             logger.info(error);

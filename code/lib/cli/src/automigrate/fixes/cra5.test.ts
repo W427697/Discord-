@@ -29,6 +29,7 @@ describe('cra5 fix', () => {
 
       it('should fail', async () => {
         await expect(
+          // @ts-expect-error this should fail when main property is missing.
           checkCra5({
             packageManager,
             storybookVersion: '6.2.0',
