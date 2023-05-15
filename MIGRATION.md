@@ -1329,7 +1329,7 @@ We've renamed many of the parameters that control docs rendering for consistency
 - `docs.inlineStories` has been renamed `docs.story.inline`
 - `docs.iframeHeight` has been renamed `docs.story.iframeHeight`
 - `notes` and `info` are no longer supported, instead use `docs.description.story | component`
-- `componentSubtitle` are no longer supported, instead use `docs.subtitle`
+- `componentSubtitle` is no longer supported, instead use `docs.subtitle`
 
 #### MDX docs files
 
