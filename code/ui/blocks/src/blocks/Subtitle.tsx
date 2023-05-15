@@ -26,8 +26,7 @@ export const Subtitle: FunctionComponent<SubtitleProps> = (props) => {
   }
 
   const { preparedMeta } = useOf(of || 'meta', ['meta']);
-  const { parameters } = preparedMeta;
-  const { componentSubtitle, docs } = parameters || {};
+  const { componentSubtitle, docs } = preparedMeta.parameters || {};
 
   if (componentSubtitle) {
     deprecate(
