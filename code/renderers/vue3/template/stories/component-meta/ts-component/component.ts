@@ -1,6 +1,17 @@
 import { h, defineComponent } from 'vue';
-import type { MyProps } from './PropDefinitions';
+// import type { MyProps } from './PropDefinitions';  this works on vue@3.3.0
+
+interface MyProps {
+  /**
+   * string foo
+   */
+  foo: string;
+  /**
+   * optional number bar
+   */
+  bar?: number;
+}
 
 export default defineComponent((props: MyProps) => {
-  return h('pre', JSON.stringify(props, null, 2));
+  return h('h1', 'Hello wiiindooow!');
 });

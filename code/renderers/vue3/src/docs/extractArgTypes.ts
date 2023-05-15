@@ -18,7 +18,7 @@ type MetaDocgenInfo = DocgenInfo & {
   tags: { name: string; text: string }[];
 };
 
-const SECTIONS = ['props', 'events', 'slots', 'methods'];
+const SECTIONS = ['props', 'events', 'slots', 'exposed'];
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
   if (!hasDocgen(component)) {
@@ -61,7 +61,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           category: section,
         },
       };
-      // console.log('results = ', results[name]);
+      console.log('results = ', results[name]);
     });
   });
   return results;

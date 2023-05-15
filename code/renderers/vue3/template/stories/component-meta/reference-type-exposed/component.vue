@@ -1,12 +1,22 @@
+<template>
+	<Pre>{{ JSON.stringify({ label, count }, null, 2) }} </Pre>
+</template>
 <script setup lang="ts">
+
 import { ref } from 'vue';
 
-const counter = ref('foo')
+const label = ref('Button')
+const count = ref(100)
 
 defineExpose({
 	/**
-	 * a counter string
+	 * a label string
 	 */
-	counter
+	label,
+	/**
+	 * a count number
+	 */
+	count
 });
+
 </script>

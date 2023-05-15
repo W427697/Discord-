@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, h } from 'vue';
 
 interface SubmitPayload {
   /**
@@ -58,5 +58,8 @@ export default defineComponent({
         return undefined;
       },
     },
+  },
+  render() {
+    return h('pre', JSON.stringify(this.$props, null, 2));
   },
 });

@@ -1,5 +1,6 @@
 import type { StoryObj, Meta } from '@storybook/vue3';
-import Component from './reference-type-events/component.vue';
+
+import Component from './ts-component/component';
 
 const meta = {
   component: Component,
@@ -8,4 +9,4 @@ const meta = {
 type Story = StoryObj<typeof meta>;
 export default meta;
 
-export const ReferenceTypeEvents: Story = {};
+export const Default: Story = { args: { foo: 'bar', bar: 20 } };
