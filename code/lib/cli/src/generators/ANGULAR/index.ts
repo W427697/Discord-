@@ -1,5 +1,6 @@
 import { join } from 'path';
 import semver from 'semver';
+import invariant from 'tiny-invariant';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
@@ -47,7 +48,7 @@ const generator: Generator<{ projectName: string }> = async (
 
   const { root, projectType } = angularProject;
   const { projects } = angularJSON;
-  const useCompodoc = commandOptions.yes ? true : await promptForCompoDocs();
+  const useCompodoc = commandOptions?.yes ? true : await promptForCompoDocs();
   const storybookFolder = root ? `${root}/.storybook` : '.storybook';
 
   angularJSON.addStorybookEntries({
