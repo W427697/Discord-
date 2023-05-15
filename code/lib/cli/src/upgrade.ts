@@ -4,6 +4,7 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 
+import invariant from 'tiny-invariant';
 import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
 import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
@@ -79,7 +80,7 @@ export const checkVersionConsistency = () => {
     .split('\n');
   const storybookPackages = lines
     .map(getStorybookVersion)
-    .filter(Boolean)
+    .filter((item): item is NonNullable<typeof item> => !!item)
     .filter((pkg) => isCorePackage(pkg.package));
   if (!storybookPackages.length) {
     logger.warn('No storybook core packages found.');
@@ -125,9 +126,9 @@ export const addExtraFlags = (
     (acc, entry) => {
       const [pattern, extra] = entry;
       const [pkg, specifier] = getPackageDetails(pattern);
-      const pkgVersion = dependencies[pkg] || devDependencies[pkg];
+      const pkgVersion = dependencies?.[pkg] || devDependencies?.[pkg];
 
-      if (pkgVersion && semver.satisfies(semver.coerce(pkgVersion), specifier)) {
+      if (pkgVersion && specifier && semver.satisfies(coerceSemver(pkgVersion), specifier)) {
         return [...acc, ...extra];
       }
 
@@ -256,4 +257,10 @@ export const doUpgrade = async ({
 
 export async function upgrade(options: UpgradeOptions): Promise<void> {
   await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));
+}
+
+function coerceSemver(version: string) {
+  const coercedSemver = semver.coerce(version);
+  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
+  return coercedSemver;
 }
