@@ -71,6 +71,7 @@
       - [Source block](#source-block)
       - [Canvas block](#canvas-block)
       - [ArgsTable block](#argstable-block)
+      - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
     - [Configuring Autodocs](#configuring-autodocs)
     - [MDX2 upgrade](#mdx2-upgrade)
     - [Legacy MDX1 support](#legacy-mdx1-support)
@@ -1333,7 +1334,7 @@ Additionally to changing the docs information architecture, we've updated the AP
 
 - When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
 
-- Most other props controlling rendering of blocks now correspond precisely to the parameters for that block [defined for autodocs above](#autodocs-changes).
+- Most other props controlling rendering of blocks now correspond precisely to the parameters for that block [defined for autodocs above](#autodocsautodocs-changes).
 
 ##### Meta block
 
@@ -1449,6 +1450,12 @@ The following props are not supported in the new blocks:
 - `story="^"` to reference the primary story (just omit `of` in that case, for `Controls`).
 - `story="."` to reference the current story (this no longer makes sense in Docs 2).
 - `story="name"` to reference a story (use `of={}`).
+- 
+##### Subtitle block and `parameters.componentSubtitle`
+
+The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+`parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
 
 #### Configuring Autodocs
 
