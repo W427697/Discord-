@@ -131,13 +131,14 @@ export const detectBuilderInfo = async ({
     }
   }
 
+  invariant(builderOrFrameworkName, 'builderOrFrameworkName is not detected.');
   if (
-    builderOrFrameworkName?.includes('vite') ||
+    builderOrFrameworkName.includes('vite') ||
     communityFrameworks.vite.includes(builderOrFrameworkName)
   ) {
     builderName = 'vite';
   } else if (
-    builderOrFrameworkName?.includes('webpack') ||
+    builderOrFrameworkName.includes('webpack') ||
     communityFrameworks.webpack5.includes(builderOrFrameworkName)
   ) {
     builderName = 'webpack5';

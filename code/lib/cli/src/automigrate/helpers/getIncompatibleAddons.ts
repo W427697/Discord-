@@ -36,7 +36,9 @@ export const getIncompatibleAddons = async (
     '@storybook/addon-queryparams': '6.2.9',
   };
 
-  const addons = getAddonNames(mainConfig).filter((addon) => addon in incompatibleList);
+  const addons = getAddonNames(mainConfig).filter(
+    (addon): addon is keyof typeof incompatibleList => addon in incompatibleList
+  );
 
   if (addons.length === 0) {
     return [];

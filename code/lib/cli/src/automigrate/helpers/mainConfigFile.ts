@@ -178,5 +178,5 @@ export const getAddonNames = (mainConfig: StorybookConfig): string[] => {
       .replace(/\/preset$/, '');
   });
 
-  return addonList.filter(Boolean);
+  return addonList.filter((item): item is NonNullable<typeof item> => item != null);
 };

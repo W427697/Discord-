@@ -58,8 +58,8 @@ export function getMigrationSummary({
 }: {
   fixResults: Record<string, FixStatus>;
   fixSummary: FixSummary;
-  installationMetadata: InstallationMetadata;
-  logFile?: string;
+  installationMetadata?: InstallationMetadata | null;
+  logFile: string;
 }) {
   const messages = [];
   messages.push(getGlossaryMessages(fixSummary, fixResults, logFile).join(messageDivider));

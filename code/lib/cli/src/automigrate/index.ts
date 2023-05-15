@@ -63,8 +63,8 @@ export const automigrate = async ({
   hideMigrationSummary = false,
 }: FixOptions = {}): Promise<{
   fixResults: Record<string, FixStatus>;
-  preCheckFailure: PreCheckFailure;
-}> => {
+  preCheckFailure?: PreCheckFailure;
+} | null> => {
   if (list) {
     logAvailableMigrations();
     return null;
@@ -181,7 +181,8 @@ export async function runFixes({
   try {
     await loadMainConfig({ configDir });
   } catch (err) {
-    if (err.message.includes('No configuration files have been found')) {
+    const errMessage = String(err);
+    if (errMessage.includes('No configuration files have been found')) {
       logger.info(
         dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
           configDir
@@ -196,7 +197,7 @@ export async function runFixes({
     logger.info(
       dedent`[Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
         mainConfigPath
-      )} with the following error: ${err.message}`
+      )} with the following error: ${errMessage}`
     );
     logger.info('Please fix the error and try again.');
 
@@ -228,8 +229,10 @@ export async function runFixes({
       });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
-      logger.error(`\n${error.stack}`);
-      fixSummary.failed[f.id] = error.message;
+      if (error instanceof Error) {
+        logger.error(`\n${error.stack}`);
+        fixSummary.failed[f.id] = error.message;
+      }
       fixResults[f.id] = FixStatus.CHECK_FAILED;
     }
 
@@ -246,7 +249,7 @@ export async function runFixes({
         })
       );
 
-      let runAnswer: { fix: boolean };
+      let runAnswer: { fix: boolean } | undefined;
 
       try {
         if (dryRun) {
@@ -303,6 +306,7 @@ export async function runFixes({
       }
 
       if (!f.promptOnly) {
+        invariant(runAnswer, 'runAnswer must be defined if not promptOnly');
         if (runAnswer.fix) {
           try {
             invariant(typeof f.run === 'function', 'run method should be available in fix.');

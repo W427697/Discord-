@@ -83,7 +83,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
   async run({ result: { value }, dryRun, mainConfigPath }) {
     logger.info(`✅ Setting 'docs.autodocs' to true in main.js`);
     if (!dryRun) {
-      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+      await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         main.removeField(['docs', 'docsPage']);
         main.setFieldValue(['docs', 'autodocs'], value ?? true);
       });

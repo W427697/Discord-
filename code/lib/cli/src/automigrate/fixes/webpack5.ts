@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import type { Fix, RunOptions } from '../types';
+import type { Fix } from '../types';
 import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 
