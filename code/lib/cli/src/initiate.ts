@@ -198,7 +198,7 @@ const installStorybook = async <Project extends ProjectType>(
     if (err?.message !== 'Canceled by the user' && err?.stack) {
       logger.error(`\n     ${chalk.red(err.stack)}`);
     }
-    throw new HandledError(err instanceof Error ? err : String(err));
+    throw new HandledError(err);
   }
 };
 
@@ -272,8 +272,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     try {
       projectType = await detect(packageManager, options);
     } catch (err) {
-      invariant(err instanceof Error);
-      done(err.message);
+      done(String(err));
       throw new HandledError(err);
     }
   }
