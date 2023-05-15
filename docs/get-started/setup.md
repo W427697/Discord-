@@ -20,6 +20,7 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'web-components/your-component.js.mdx',
     'web-components/your-component.ts.mdx',
     'svelte/your-component.js.mdx',
+    'svelte/your-component.ts.mdx',
     'html/your-component.js.mdx',
     'html/your-component.ts.mdx',
     'preact/your-component.js.mdx',
@@ -49,6 +50,8 @@ You may have to configure your CSS tooling for Storybook’s rendering environme
 - [Emotion](https://storybook.js.org/recipes/@emotion/styled/)
 - [Sass](https://storybook.js.org/recipes/sass/)
 - [Bootstrap](https://storybook.js.org/recipes/bootstrap/)
+- [Less](https://storybook.js.org/recipes/less/)
+- [Vanilla-extract](https://storybook.js.org/recipes/@vanilla-extract/css/)
 
 Don't see the tool that you're looking for? Check out the [styling and css](../configure/styling-and-css.md) page for more details.
 
