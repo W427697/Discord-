@@ -51,7 +51,7 @@ const getBuilderDetails = (builder: string) => {
   return builder;
 };
 
-const getExternalFramework = (framework: string) =>
+const getExternalFramework = (framework?: string) =>
   externalFrameworks.find(
     (exFramework) =>
       framework !== undefined &&
@@ -60,7 +60,7 @@ const getExternalFramework = (framework: string) =>
         exFramework?.frameworks?.some?.((item) => item === framework))
   );
 
-const getFrameworkPackage = (framework: string, renderer: string, builder: string) => {
+const getFrameworkPackage = (framework: string | undefined, renderer: string, builder: string) => {
   const externalFramework = getExternalFramework(framework);
   const storybookBuilder = builder?.replace(/^@storybook\/builder-/, '');
   const storybookFramework = framework?.replace(/^@storybook\//, '');
@@ -91,7 +91,7 @@ const getFrameworkPackage = (framework: string, renderer: string, builder: strin
   return externalFramework.packageName;
 };
 
-const getRendererPackage = (framework: string, renderer: string) => {
+const getRendererPackage = (framework: string | undefined, renderer: string) => {
   const externalFramework = getExternalFramework(framework);
   if (externalFramework !== undefined)
     return externalFramework.renderer || externalFramework.packageName;
@@ -116,10 +116,12 @@ const getFrameworkDetails = (
   rendererId: SupportedRenderers;
 } => {
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
+  invariant(frameworkPackage, 'Missing framework package.');
 
   const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
 
   const rendererPackage = getRendererPackage(framework, renderer);
+  invariant(rendererPackage, 'Missing renderer package.');
   const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
@@ -162,7 +164,7 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   );
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
-  ['angular', 'nextjs'].includes(framework);
+  framework ? ['angular', 'nextjs'].includes(framework) : false;
 
 export async function baseGenerator(
   packageManager: JsPackageManager,
@@ -232,14 +234,14 @@ export async function baseGenerator(
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    ...stripVersions(extraAddonPackages),
+    ...stripVersions(extraAddonPackages ?? []),
   ];
   // added to package.json
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/blocks',
-    ...extraAddonPackages,
+    ...(extraAddonPackages ?? []),
   ];
 
   if (hasInteractiveStories(rendererId)) {
@@ -342,7 +344,7 @@ export async function baseGenerator(
       if (hasEslint && !isStorybookPluginInstalled) {
         if (skipPrompts || (await suggestESLintPlugin())) {
           depsToInstall.push('eslint-plugin-storybook');
-          await configureEslintPlugin(eslintConfigFile, packageManager);
+          await configureEslintPlugin(eslintConfigFile ?? undefined, packageManager);
         }
       }
     }

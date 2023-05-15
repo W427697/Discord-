@@ -47,7 +47,10 @@ export async function extractEslintInfo(packageManager: JsPackageManager): Promi
   return { hasEslint, isStorybookPluginInstalled, eslintConfigFile };
 }
 
-export async function configureEslintPlugin(eslintFile: string, packageManager: JsPackageManager) {
+export async function configureEslintPlugin(
+  eslintFile: string | undefined,
+  packageManager: JsPackageManager
+) {
   if (eslintFile) {
     paddedLog(`Configuring Storybook ESLint plugin at ${eslintFile}`);
     if (eslintFile.endsWith('json')) {
