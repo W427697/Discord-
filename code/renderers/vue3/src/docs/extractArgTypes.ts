@@ -48,10 +48,9 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       ${nestedTypes} 
     ${tags.map((tag) => `@${tag.name}: ${tag.text}`).join(`
     `)}`;
-
       results[name] = {
         name,
-        description: descriptions,
+        description: descriptions.replace('undefined', ''),
         defaultValue: { summary: defaultSummary },
         type: { required, ...sbType },
         table: {
@@ -61,7 +60,6 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           category: section,
         },
       };
-      console.log('results = ', results[name]);
     });
   });
   return results;
