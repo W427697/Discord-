@@ -75,7 +75,7 @@ export const createLogStream = async (
       const clearLogFile = async () => writeFile(temporaryLogPath, '');
       const removeLogFile = async () => remove(temporaryLogPath);
       const readLogFile = async () => {
-        return readFile(temporaryLogPath, 'utf8'); // .replace(/[\x00-\x1F\x7F]/g, '');
+        return readFile(temporaryLogPath, 'utf8');
       };
       resolve({ logStream, moveLogFile, clearLogFile, removeLogFile, readLogFile });
     });

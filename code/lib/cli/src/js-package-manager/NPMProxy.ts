@@ -150,8 +150,6 @@ export class NPMProxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    logStream.write(`\n THIS IS CUSTOM! Installing dependencies:\n${args.join('\n')}\n\n`);
-
     try {
       await this.executeCommand({
         command: 'npm',
