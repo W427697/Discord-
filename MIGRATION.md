@@ -1334,7 +1334,7 @@ Additionally to changing the docs information architecture, we've updated the AP
 
 - When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
 
-- Most other props controlling rendering of blocks now correspond precisely to the parameters for that block [defined for autodocs above](#autodocsautodocs-changes).
+- Most other props controlling rendering of blocks now correspond precisely to the parameters for that block [defined for autodocs above](#autodocs-changes).
 
 ##### Meta block
 
