@@ -196,14 +196,16 @@ export class Yarn1Proxy extends JsPackageManager {
   }
 
   public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'YARN1 error';
     const match = logs.match(YARN1_ERROR_REGEX);
+
     if (match) {
-      const errorMessage = match[0].replace(/^error\s(.*)$/, '$1');
+      const errorMessage = match[0]?.replace(/^error\s(.*)$/, '$1');
       if (errorMessage) {
-        return `YARN1: ${errorMessage}`.trim();
+        finalMessage = `${finalMessage}: ${errorMessage}`;
       }
     }
 
-    return `Unknown Yarn1 error`;
+    return finalMessage.trim();
   }
 }

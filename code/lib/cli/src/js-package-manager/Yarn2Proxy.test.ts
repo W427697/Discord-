@@ -289,7 +289,7 @@ describe('Yarn 2 Proxy', () => {
       `;
 
       expect(yarn2Proxy.parseErrorFromLogs(YARN2_ERROR_SAMPLE)).toEqual(
-        'YN0001 - EXCEPTION: react@npm:28.2.0: No candidates found'
+        'YARN2 error YN0001 - EXCEPTION: react@npm:28.2.0: No candidates found'
       );
     });
 
@@ -302,7 +302,7 @@ describe('Yarn 2 Proxy', () => {
         ➤ YN0061: @npmcli/move-file@npm:2.0.1 is deprecated: This functionality has been moved to @npmcli/fs
       `;
 
-      expect(yarn2Proxy.parseErrorFromLogs(YARN2_ERROR_SAMPLE)).toEqual(`Unknown Yarn2 error`);
+      expect(yarn2Proxy.parseErrorFromLogs(YARN2_ERROR_SAMPLE)).toEqual(`YARN2 error`);
     });
   });
 });

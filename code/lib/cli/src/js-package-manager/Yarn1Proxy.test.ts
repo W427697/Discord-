@@ -287,7 +287,7 @@ describe('Yarn 1 Proxy', () => {
       `;
 
       expect(yarn1Proxy.parseErrorFromLogs(YARN1_ERROR_SAMPLE)).toEqual(
-        `YARN1: Couldn't find any versions for "react" that matches "28.2.0"`
+        `YARN1 error: Couldn't find any versions for "react" that matches "28.2.0"`
       );
     });
 
@@ -298,7 +298,7 @@ describe('Yarn 1 Proxy', () => {
         info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.
       `;
 
-      expect(yarn1Proxy.parseErrorFromLogs(YARN1_ERROR_SAMPLE)).toEqual(`Unknown Yarn1 error`);
+      expect(yarn1Proxy.parseErrorFromLogs(YARN1_ERROR_SAMPLE)).toEqual(`YARN1 error`);
     });
   });
 });

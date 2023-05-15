@@ -232,18 +232,26 @@ export class Yarn2Proxy extends JsPackageManager {
   }
 
   public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'YARN2 error';
     const match = logs.match(YARN2_ERROR_REGEX);
-    let errorCode;
 
     if (match) {
-      errorCode = match[1] as keyof typeof YARN2_ERROR_CODES;
-      const errorMessage = match[2];
+      const errorCode = match[1] as keyof typeof YARN2_ERROR_CODES;
+      if (errorCode) {
+        finalMessage = `${finalMessage} ${errorCode}`;
+      }
+
       const errorType = YARN2_ERROR_CODES[errorCode];
-      if (errorCode && errorMessage) {
-        return `${errorCode} - ${errorType}: ${errorMessage}`.trim();
+      if (errorType) {
+        finalMessage = `${finalMessage} - ${errorType}`;
+      }
+
+      const errorMessage = match[2];
+      if (errorMessage) {
+        finalMessage = `${finalMessage}: ${errorMessage}`;
       }
     }
 
-    return `Unknown Yarn2 error${errorCode ? `: ${errorCode}` : ''}`;
+    return finalMessage.trim();
   }
 }

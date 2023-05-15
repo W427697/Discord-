@@ -466,7 +466,7 @@ describe('NPM Proxy', () => {
         `;
 
       expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(
-        'ERESOLVE: Dependency resolution error.'
+        'NPM error ERESOLVE - Dependency resolution error.'
       );
     });
 
@@ -479,19 +479,7 @@ describe('NPM Proxy', () => {
         npm ERR!   react@"30" from the root project
       `;
 
-      expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(`Unknown NPM error`);
-    });
-
-    it('should show unknown npm error with code if it at least matches the pattern', () => {
-      const NPM_ERROR_SAMPLE = `
-        npm ERR! code ESOMETHING
-        npm ERR! ESOMETHING something something
-        npm ERR! 
-      `;
-
-      expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(
-        `Unknown NPM error: ESOMETHING`
-      );
+      expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(`NPM error`);
     });
   });
 });

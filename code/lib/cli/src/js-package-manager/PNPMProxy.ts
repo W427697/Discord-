@@ -25,24 +25,6 @@ type PnpmListItem = {
 export type PnpmListOutput = PnpmListItem[];
 
 const PNPM_ERROR_REGEX = /(ELIFECYCLE|ERR_PNPM_[A-Z_]+)\s+(.*)/i;
-const PNPM_ERROR_CODES = {
-  ELIFECYCLE: 'Lifecycle error',
-  ERR_PNPM_BAD_TARBALL_SIZE: 'Bad tarball size error',
-  ERR_PNPM_DEDUPE_CHECK_ISSUES: 'Dedupe check issues error',
-  ERR_PNPM_FETCH_401: 'Fetch 401 error',
-  ERR_PNPM_FETCH_403: 'Fetch 403 error',
-  ERR_PNPM_LOCKFILE_BREAKING_CHANGE: 'Lockfile breaking change error',
-  ERR_PNPM_MODIFIED_DEPENDENCY: 'Modified dependency error',
-  ERR_PNPM_MODULES_BREAKING_CHANGE: 'Modules breaking change error',
-  ERR_PNPM_NO_MATCHING_VERSION: 'No matching version error',
-  ERR_PNPM_PEER_DEP_ISSUES: 'Peer dependency issues error',
-  ERR_PNPM_RECURSIVE_FAIL: 'Recursive command failed error',
-  ERR_PNPM_RECURSIVE_RUN_NO_SCRIPT: 'Recursive run no script error',
-  ERR_PNPM_STORE_BREAKING_CHANGE: 'Store breaking change error',
-  ERR_PNPM_UNEXPECTED_STORE: 'Unexpected store error',
-  ERR_PNPM_UNEXPECTED_VIRTUAL_STORE: 'Unexpected virtual store error',
-  ERR_PNPM_UNSUPPORTED_ENGINE: 'Unsupported engine error',
-};
 
 export class PNPMProxy extends JsPackageManager {
   readonly type = 'pnpm';
@@ -255,16 +237,15 @@ export class PNPMProxy extends JsPackageManager {
   }
 
   public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'PNPM error';
     const match = logs.match(PNPM_ERROR_REGEX);
-    let errorCode;
     if (match) {
-      errorCode = match[1] as keyof typeof PNPM_ERROR_CODES;
-      const errorMessage = match[2];
-      const errorType = PNPM_ERROR_CODES[errorCode];
-      if (errorType && errorMessage) {
-        return `${errorCode}: ${errorMessage}`.trim();
+      const [errorCode] = match;
+      if (errorCode) {
+        finalMessage = `${finalMessage} ${errorCode}`;
       }
     }
-    return `Unknown PNPM error${errorCode ? `: ${errorCode}` : ''}`;
+
+    return finalMessage.trim();
   }
 }

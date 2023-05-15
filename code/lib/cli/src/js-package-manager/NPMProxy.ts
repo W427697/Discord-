@@ -249,16 +249,21 @@ export class NPMProxy extends JsPackageManager {
   }
 
   public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'NPM error';
     const match = logs.match(NPM_ERROR_REGEX);
-    let errorCode;
+
     if (match) {
-      errorCode = match[1] as keyof typeof NPM_ERROR_CODES;
+      const errorCode = match[1] as keyof typeof NPM_ERROR_CODES;
+      if (errorCode) {
+        finalMessage = `${finalMessage} ${errorCode}`;
+      }
+
       const errorMessage = NPM_ERROR_CODES[errorCode];
-      if (errorCode && errorMessage) {
-        return `${errorCode}: ${errorMessage}`.trim();
+      if (errorMessage) {
+        finalMessage = `${finalMessage} - ${errorMessage}`;
       }
     }
 
-    return `Unknown NPM error${errorCode ? `: ${errorCode}` : ''}`;
+    return finalMessage.trim();
   }
 }
