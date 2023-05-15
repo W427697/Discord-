@@ -16,7 +16,7 @@ interface SubtitleProps {
 }
 
 const DEPRECATION_MIGRATION_LINK =
-  'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parameters';
+  'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#subtitle-block-and-parameterscomponentsubtitle';
 
 export const Subtitle: FunctionComponent<SubtitleProps> = (props) => {
   const { of, children } = props;
