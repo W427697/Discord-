@@ -24,7 +24,7 @@ export type PropDefaultValue = PropSummaryValue;
 
 export interface PropDef {
   name: string;
-  type: PropType;
+  type: PropType | null;
   sbType?: any;
   required: boolean;
   description?: string;

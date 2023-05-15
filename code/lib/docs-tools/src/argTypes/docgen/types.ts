@@ -42,7 +42,7 @@ export interface DocgenInfo {
   flowType?: DocgenFlowType;
   tsType?: DocgenTypeScriptType;
   required: boolean;
-  description?: string;
+  description: string;
   defaultValue?: DocgenPropDefaultValue;
 }
 

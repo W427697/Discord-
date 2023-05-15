@@ -11,7 +11,7 @@ import { getPropDefFactory } from './createPropDef';
 export interface ExtractedProp {
   propDef: PropDef;
   docgenInfo: DocgenInfo;
-  jsDocTags: ExtractedJsDoc;
+  jsDocTags?: ExtractedJsDoc;
   typeSystem: TypeSystem;
 }
 
@@ -86,8 +86,8 @@ function extractProp(
   docgenInfo: DocgenInfo,
   typeSystem: TypeSystem,
   createPropDef: PropDefFactory
-): ExtractedProp {
-  const jsDocParsingResult = parseJsDoc(docgenInfo.description);
+): ExtractedProp | null {
+  const jsDocParsingResult = parseJsDoc(docgenInfo.description, {});
   const isIgnored = jsDocParsingResult.includesJsDoc && jsDocParsingResult.ignore;
 
   if (!isIgnored) {
@@ -105,5 +105,5 @@ function extractProp(
 }
 
 export function extractComponentDescription(component?: Component): string {
-  return component != null && getDocgenDescription(component);
+  return component != null ? getDocgenDescription(component) : '';
 }
