@@ -1,3 +1,15 @@
+## 7.0.12 (May 15, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix source snippets for stories with mapped args [#22135](https://github.com/storybooks/storybook/pull/22135)
+-   CLI: Fix `getFrameworkPackage` logic [#22559](https://github.com/storybooks/storybook/pull/22559)
+-   CLI: Remove automigrate reference from init command [#22561](https://github.com/storybooks/storybook/pull/22561)
+
+#### Maintenance
+
+-   CLI: Detach automigrate command from storybook init [#22523](https://github.com/storybooks/storybook/pull/22523)
+
 ## 7.0.11 (May 12, 2023)
 
 #### Bug Fixes
