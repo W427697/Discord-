@@ -39,6 +39,8 @@ function printError(error: any) {
 export const dev = async (cliOptions: CLIOptions) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+  const readUpResult = readUpSync({ cwd: __dirname });
+  invariant(readUpResult, 'Failed to find the closest package.json file.');
   const options = {
     ...cliOptions,
     configDir: cliOptions.configDir || './.storybook',
