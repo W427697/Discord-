@@ -1,8 +1,10 @@
 import sort from 'semver/functions/sort';
 import { platform } from 'os';
+import dedent from 'ts-dedent';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
+import { createLogStream } from '../utils';
 
 type NpmDependency = {
   version: string;
@@ -17,6 +19,41 @@ type NpmDependencies = {
 
 export type NpmListOutput = {
   dependencies: NpmDependencies;
+};
+
+const NPM_ERROR_REGEX = /\bERR! code\s+([A-Z]+)\b/;
+const NPM_ERROR_CODES = {
+  E401: 'Authentication failed or is required.',
+  E403: 'Access to the resource is forbidden.',
+  E404: 'Requested resource not found.',
+  EACCES: 'Permission issue.',
+  EAI_FAIL: 'DNS lookup failed.',
+  EBADENGINE: 'Engine compatibility check failed.',
+  EBADPLATFORM: 'Platform not supported.',
+  ECONNREFUSED: 'Connection refused.',
+  ECONNRESET: 'Connection reset.',
+  EEXIST: 'File or directory already exists.',
+  EINVALIDTYPE: 'Invalid type encountered.',
+  EISGIT: 'Git operation failed or conflicts with an existing file.',
+  EJSONPARSE: 'Error parsing JSON data.',
+  EMISSINGARG: 'Required argument missing.',
+  ENEEDAUTH: 'Authentication needed.',
+  ENOAUDIT: 'No audit available.',
+  ENOENT: 'File or directory does not exist.',
+  ENOGIT: 'Git not found or failed to run.',
+  ENOLOCK: 'Lockfile missing.',
+  ENOSPC: 'Insufficient disk space.',
+  ENOTFOUND: 'Resource not found.',
+  EOTP: 'One-time password required.',
+  EPERM: 'Permission error.',
+  EPUBLISHCONFLICT: 'Conflict during package publishing.',
+  ERESOLVE: 'Dependency resolution error.',
+  EROFS: 'File system is read-only.',
+  ERR_SOCKET_TIMEOUT: 'Socket timed out.',
+  ETARGET: 'Package target not found.',
+  ETIMEDOUT: 'Operation timed out.',
+  ETOOMANYARGS: 'Too many arguments provided.',
+  EUNKNOWNTYPE: 'Unknown type encountered.',
 };
 
 export class NPMProxy extends JsPackageManager {
@@ -104,17 +141,38 @@ export class NPMProxy extends JsPackageManager {
   }
 
   protected async runAddDeps(dependencies: string[], installAsDevDependencies: boolean) {
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream(
+      'init-storybook.log'
+    );
     let args = [...dependencies];
 
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
 
-    await this.executeCommand({
-      command: 'npm',
-      args: ['install', ...this.getInstallArgs(), ...args],
-      stdio: 'inherit',
-    });
+    logStream.write(`\n THIS IS CUSTOM! Installing dependencies:\n${args.join('\n')}\n\n`);
+
+    try {
+      await this.executeCommand({
+        command: 'npm',
+        args: ['install', ...args, ...this.getInstallArgs()],
+        stdio: ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./init-install.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
@@ -190,5 +248,19 @@ export class NPMProxy extends JsPackageManager {
       duplicatedDependencies,
       infoCommand: 'npm ls --depth=1',
     };
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    const match = logs.match(NPM_ERROR_REGEX);
+    let errorCode;
+    if (match) {
+      errorCode = match[1] as keyof typeof NPM_ERROR_CODES;
+      const errorMessage = NPM_ERROR_CODES[errorCode];
+      if (errorCode && errorMessage) {
+        return `${errorCode}: ${errorMessage}`.trim();
+      }
+    }
+
+    return `Unknown NPM error${errorCode ? `: ${errorCode}` : ''}`;
   }
 }

@@ -254,6 +254,7 @@ export async function baseGenerator(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
 
+  paddedLog(`\nGetting the correct version of ${packages.length} packages`);
   const versionedPackages = await packageManager.getVersionedPackages(packages);
 
   await fse.ensureDir(`./${storybookConfigFolder}`);

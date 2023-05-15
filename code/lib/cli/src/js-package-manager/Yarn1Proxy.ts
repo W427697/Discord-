@@ -1,3 +1,5 @@
+import dedent from 'ts-dedent';
+import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -17,6 +19,8 @@ export type Yarn1ListOutput = {
   type: 'tree';
   data: Yarn1ListData;
 };
+
+const YARN1_ERROR_REGEX = /^error\s(.*)$/gm;
 
 export class Yarn1Proxy extends JsPackageManager {
   readonly type = 'yarn1';
@@ -93,11 +97,31 @@ export class Yarn1Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    await this.executeCommand({
-      command: 'yarn',
-      args: ['add', ...this.getInstallArgs(), ...args],
-      stdio: 'inherit',
-    });
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream(
+      'init-storybook.log'
+    );
+
+    try {
+      await this.executeCommand({
+        command: 'yarn',
+        args: ['add', ...this.getInstallArgs(), ...args],
+        stdio: ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./init-install.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
@@ -169,5 +193,17 @@ export class Yarn1Proxy extends JsPackageManager {
     }
 
     throw new Error('Something went wrong while parsing yarn output');
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    const match = logs.match(YARN1_ERROR_REGEX);
+    if (match) {
+      const errorMessage = match[0].replace(/^error\s(.*)$/, '$1');
+      if (errorMessage) {
+        return `YARN1: ${errorMessage}`.trim();
+      }
+    }
+
+    return `Unknown Yarn1 error`;
   }
 }
