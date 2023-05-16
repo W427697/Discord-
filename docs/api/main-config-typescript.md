@@ -1,6 +1,8 @@
 ---
-title: 'config.typescript'
+title: 'typescript'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type:
 
@@ -26,31 +28,31 @@ Configures how Storybook handles [TypeScript files](../configure/typescript.md).
 
 <!-- prettier-ignore-end -->
 
-## `config.typescript.check`
+## `check`
 
 Type: `boolean`
 
 Optionally run [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
 
-## `config.typescript.checkOptions`
+## `checkOptions`
 
 Type: `CheckOptions`
 
 Options to pass to `fork-ts-checker-webpack-plugin`, if enabled. See [docs for available options](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v4.1.6/README.md#options).
 
-## `config.typescript.skipBabel`
+## `skipBabel`
 
 Type: `boolean`
 
 Disable parsing of TypeScript files through babel.
 
-## `config.typescript.reactDocgen`
+## `reactDocgen`
 
 Type: `'react-docgen' | 'react-docgen-typescript' | false`
 
 Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components.
 
-## `config.typescript.reactDocgenTypescriptOptions`
+## `reactDocgenTypescriptOptions`
 
 Type: `ReactDocgenTypescriptOptions`
 

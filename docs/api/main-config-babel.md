@@ -1,6 +1,8 @@
 ---
-title: 'config.babel'
+title: 'babel'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 <!-- TODO: Is `babel` or `babelDefault` the one we prefer? -->
 
@@ -73,7 +75,7 @@ Type:
   cache?: FileSystemCache;
   configDir: string;
   docsMode?: boolean;
-  features?: StorybookConfig['features']; // See: config.features
+  features?: StorybookConfig['features'];
   versionCheck?: {
     success: boolean;
     cached: boolean;

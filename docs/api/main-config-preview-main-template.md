@@ -1,6 +1,8 @@
 ---
-title: 'config.previewMainTemplate'
+title: 'previewMainTemplate'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `string`
 
@@ -20,6 +22,9 @@ Here's an example demonstrating the default template, which you can copy and cus
 />
 
 <!-- prettier-ignore-end -->
+
+<details>
+<summary>Preview main page default template</summary>
 
 ```html
 <!-- .storybook/previewMainTemplate.ejs -->
@@ -103,3 +108,5 @@ Here's an example demonstrating the default template, which you can copy and cus
   </body>
 </html>
 ```
+
+</details>

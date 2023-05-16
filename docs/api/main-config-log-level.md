@@ -1,6 +1,8 @@
 ---
-title: 'config.logLevel'
+title: 'logLevel'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `'debug' | 'error' | 'info' | 'trace' | 'warn'`
 

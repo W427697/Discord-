@@ -1,6 +1,8 @@
 ---
-title: 'config.env'
+title: 'env'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `(config: { [key: string]: string }) => { [key: string]: string }`
 

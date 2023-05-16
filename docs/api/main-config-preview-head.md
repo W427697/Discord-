@@ -1,6 +1,8 @@
 ---
-title: 'config.previewHead'
+title: 'previewHead'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `(head: string) => string`
 

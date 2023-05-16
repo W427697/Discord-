@@ -1,6 +1,8 @@
 ---
-title: 'config.docs'
+title: 'docs'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type:
 
@@ -25,7 +27,7 @@ Configures Storybook's [auto-generated documentation](../writing-docs/autodocs.m
 
 <!-- prettier-ignore-end -->
 
-## `config.docs.autoDocs`
+## `autoDocs`
 
 Type: `boolean | 'tag'`
 
@@ -37,7 +39,7 @@ Enables or disables automatic documentation for stories.
 - `false`: Disables it for all stories
 - `'tag'`: Enables it for stories tagged with `'autodocs'`
 
-## `config.docs.defaultName`
+## `defaultName`
 
 Type: `string`
 
@@ -45,7 +47,7 @@ Default: `'Docs'`
 
 Name used for generated documentation pages.
 
-## `config.docs.docsMode`
+## `docsMode`
 
 Type: `boolean`
 

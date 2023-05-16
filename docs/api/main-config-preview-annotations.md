@@ -1,6 +1,8 @@
 ---
-title: 'config.previewAnnotations'
+title: 'previewAnnotations'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `string[] | ((config: string[], options: Options) => string[] | Promise<string[]>)`
 

@@ -1,6 +1,8 @@
 ---
-title: 'config.features'
+title: 'features'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type:
 
@@ -27,25 +29,25 @@ Enables Storybook's additional features.
 
 <!-- prettier-ignore-end -->
 
-## `config.features.buildStoriesJson`
+## `buildStoriesJson`
 
 Type: `boolean`
 
 Generates a `stories.json` file to help story loading with the on-demand mode.
 
-## `config.features.legacyDecoratorFileOrder`
+## `legacyDecoratorFileOrder`
 
 Type: `boolean`
 
 Apply decorators from preview.js before decorators from addons or frameworks
 
-## `config.features.legacyMdx1`
+## `legacyMdx1`
 
 Type: `boolean`
 
 Enables support for MDX version 1 as a fallback. Requires [@storybook/mdx1-csf](https://github.com/storybookjs/mdx1-csf) to be installed.
 
-## `config.features.storyStoreV7`
+## `storyStoreV7`
 
 Type: `boolean`
 
@@ -53,7 +55,7 @@ Default: `true`
 
 Opts out of [on-demand story loading](#on-demand-story-loading); loads all stories at build time.
 
-## `config.features.argTypeTargetsV7` (EXPERIMENTAL)
+## `argTypeTargetsV7` (EXPERIMENTAL)
 
 Type: `boolean`
 

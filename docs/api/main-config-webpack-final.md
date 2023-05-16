@@ -1,6 +1,8 @@
 ---
-title: 'config.webpackFinal'
+title: 'webpackFinal'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `async (config: Config, options: WebpackOptions) => Config`
 
@@ -19,6 +21,6 @@ Customize Storybook's Webpack setup when using the [webpack builder](../builders
 
 ## `Options`
 
-<!-- TODO: Is it alright to reference `config.babel`'s Options here? -->
+<!-- TODO: Is it alright to reference `babel`'s Options here? -->
 
-See [`config.babel`](./main-config-babel.md#options).
+See [`babel` options](./main-config-babel.md#options).

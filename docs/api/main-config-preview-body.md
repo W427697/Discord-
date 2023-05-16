@@ -1,6 +1,8 @@
 ---
-title: 'config.previewBody'
+title: 'previewBody'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `(body: string) => string`
 

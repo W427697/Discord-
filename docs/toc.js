@@ -445,7 +445,7 @@ module.exports = {
       type: 'menu',
       children: [
         {
-          title: 'Main configuration',
+          title: 'main.js|ts configuration',
           pathSegment: '',
           type: 'menu',
           children: [

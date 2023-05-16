@@ -1,6 +1,8 @@
 ---
-title: 'config.staticDirs'
+title: 'staticDirs'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `(string | { from: string; to: string })[]`
 

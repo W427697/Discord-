@@ -1,6 +1,8 @@
 ---
-title: 'config.core'
+title: 'core'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type:
 
@@ -30,7 +32,7 @@ Configures Storybook's internal features.
 
 <!-- prettier-ignore-end -->
 
-## `config.core.builder`
+## `builder`
 
 Type:
 
@@ -44,7 +46,7 @@ Type:
 
 Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../builders/webpack.md).
 
-## `config.core.channelOptions`
+## `channelOptions`
 
 Type: `ChannelOptions`
 
@@ -64,7 +66,7 @@ Type: `ChannelOptions`
 }
 ```
 
-## `config.core.crossOriginIsolated`
+## `crossOriginIsolated`
 
 Type: `boolean`
 
@@ -75,31 +77,31 @@ This enables these headers in development-mode:
 - `Cross-Origin-Opener-Policy: same-origin`
 - `Cross-Origin-Embedder-Policy: require-corp`
 
-## `config.core.disableProjectJson`
+## `disableProjectJson`
 
 Type: `boolean`
 
 Disables the generation of `project.json`, a file containing Storybook metadata
 
-## `config.core.disableTelemetry`
+## `disableTelemetry`
 
 Type: `boolean`
 
 Disables Storybook's [telemetry collection](../configure/telemetry.md).
 
-## `config.core.disableWebpackDefaults`
+## `disableWebpackDefaults`
 
 Type: `boolean`
 
 Disables Storybook's default Webpack configuration.
 
-## `config.core.enableCrashReports`
+## `enableCrashReports`
 
 Type: `boolean`
 
 Enable crash reports to be sent to Storybook [telemetry](../configure/telemetry.md).
 
-## `config.core.renderer`
+## `renderer`
 
 Type: `RendererName`
 

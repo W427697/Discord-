@@ -1,6 +1,8 @@
 ---
-title: 'config.refs'
+title: 'refs'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type:
 

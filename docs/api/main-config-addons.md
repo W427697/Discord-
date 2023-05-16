@@ -1,6 +1,8 @@
 ---
-title: 'config.addons'
+title: 'addons'
 ---
+
+Parent: [main.js|ts configuration](./Overview.md)
 
 Type: `(string | { name: string; options?: AddonOptions })[]`
 
