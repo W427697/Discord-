@@ -42,9 +42,9 @@ export const Symbols = memo<SymbolsProps>(function Symbols({ icons: keys = Objec
       style={{ position: 'absolute', width: 0, height: 0 }}
       data-chromatic="ignore"
     >
-      {keys.map((key: IconKey) => (
+      {keys.map((key: string) => (
         <symbol id={`icon--${key}`} key={key}>
-          {icons[key]}
+          {icons[key as IconKey]}
         </symbol>
       ))}
     </Svg>

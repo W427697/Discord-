@@ -2,7 +2,7 @@ import type { FC, AnchorHTMLAttributes } from 'react';
 import React from 'react';
 
 export const Link: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
-  href: input,
+  href: input = '',
   children,
   ...props
 }) => {

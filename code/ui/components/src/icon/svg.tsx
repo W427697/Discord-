@@ -10,7 +10,7 @@ const Svg = styled.svg<SvgProps>(
     shapeRendering: 'inherit',
     transform: 'translate3d(0,0,0)',
   },
-  ({ inline }) =>
+  ({ inline }: any) =>
     inline
       ? {
           display: 'inline-block',

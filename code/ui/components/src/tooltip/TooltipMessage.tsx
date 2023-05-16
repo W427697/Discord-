@@ -4,13 +4,13 @@ import { styled } from '@storybook/theming';
 
 import { Link } from '../typography/link/link';
 
-const Title = styled.div(({ theme }) => ({
+const Title = styled.div(({ theme }: any) => ({
   fontWeight: theme.typography.weight.bold,
 }));
 
 const Desc = styled.span();
 
-const Links = styled.div(({ theme }) => ({
+const Links = styled.div(({ theme }: any) => ({
   marginTop: 8,
   textAlign: 'center',
 
@@ -20,7 +20,7 @@ const Links = styled.div(({ theme }) => ({
   },
 }));
 
-const Message = styled.div(({ theme }) => ({
+const Message = styled.div(({ theme }: any) => ({
   color: theme.color.defaultText,
   lineHeight: '18px',
 }));
@@ -64,5 +64,5 @@ export const TooltipMessage: FC<TooltipMessageProps> = ({ title, desc, links }) 
 TooltipMessage.defaultProps = {
   title: null,
   desc: null,
-  links: null,
+  links: undefined,
 };

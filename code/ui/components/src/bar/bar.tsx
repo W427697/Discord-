@@ -18,8 +18,8 @@ export const Side = styled.div<SideProps>(
     marginLeft: 3,
     marginRight: 3,
   },
-  ({ scrollable }) => (scrollable ? { flexShrink: 0 } : {}),
-  ({ left }) =>
+  ({ scrollable }: any) => (scrollable ? { flexShrink: 0 } : {}),
+  ({ left }: any) =>
     left
       ? {
           '& > *': {
@@ -27,7 +27,7 @@ export const Side = styled.div<SideProps>(
           },
         }
       : {},
-  ({ right }) =>
+  ({ right }: any) =>
     right
       ? {
           marginLeft: 30,
@@ -52,7 +52,7 @@ const UnstyledBar: FC<ComponentProps<typeof ScrollArea> & { scrollable?: boolean
     <div className={className}>{children}</div>
   );
 export const Bar = styled(UnstyledBar)<{ border?: boolean; scrollable?: boolean }>(
-  ({ theme, scrollable = true }) => ({
+  ({ theme, scrollable = true }: any) => ({
     color: theme.barTextColor,
     width: '100%',
     height: 40,
@@ -60,7 +60,7 @@ export const Bar = styled(UnstyledBar)<{ border?: boolean; scrollable?: boolean 
     overflow: scrollable ? 'auto' : 'hidden',
     overflowY: 'hidden',
   }),
-  ({ theme, border = false }) =>
+  ({ theme, border = false }: any) =>
     border
       ? {
           boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
@@ -70,7 +70,7 @@ export const Bar = styled(UnstyledBar)<{ border?: boolean; scrollable?: boolean 
 );
 Bar.displayName = 'Bar';
 
-const BarInner = styled.div<{ bgColor: string }>(({ bgColor }) => ({
+const BarInner = styled.div<{ bgColor: string | undefined }>(({ bgColor }: any) => ({
   display: 'flex',
   justifyContent: 'space-between',
   position: 'relative',

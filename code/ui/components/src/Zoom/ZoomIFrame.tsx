@@ -10,7 +10,7 @@ export type IZoomIFrameProps = {
 };
 
 export class ZoomIFrame extends Component<IZoomIFrameProps> {
-  iframe: HTMLIFrameElement = null;
+  iframe?: HTMLIFrameElement;
 
   componentDidMount() {
     const { iFrameRef } = this.props;
@@ -25,29 +25,35 @@ export class ZoomIFrame extends Component<IZoomIFrameProps> {
     }
 
     if (active !== nextProps.active) {
-      this.iframe.setAttribute('data-is-storybook', nextProps.active ? 'true' : 'false');
+      this.iframe?.setAttribute('data-is-storybook', nextProps.active ? 'true' : 'false');
     }
 
     // this component renders an iframe, which gets updates via post-messages
     // never update this component, it will cause the iframe to refresh
     // the only exception is when the url changes, which happens when the version changes
+    // eslint-disable-next-line react/destructuring-assignment
     return nextProps.children.props.src !== this.props.children.props.src;
   }
 
   setIframeInnerZoom(scale: number) {
     try {
-      if (browserSupportsCssZoom()) {
-        Object.assign(this.iframe.contentDocument.body.style, {
-          zoom: 1 / scale,
-          minHeight: `calc(100vh / ${1 / scale})`,
-        });
+      if (this.iframe?.contentDocument?.body?.style) {
+        const { style } = this.iframe.contentDocument.body;
+        if (browserSupportsCssZoom()) {
+          Object.assign(style, {
+            zoom: 1 / scale,
+            minHeight: `calc(100vh / ${1 / scale})`,
+          });
+        } else {
+          Object.assign(style, {
+            width: `${scale * 100}%`,
+            height: `${scale * 100}%`,
+            transform: `scale(${1 / scale})`,
+            transformOrigin: 'top left',
+          });
+        }
       } else {
-        Object.assign(this.iframe.contentDocument.body.style, {
-          width: `${scale * 100}%`,
-          height: `${scale * 100}%`,
-          transform: `scale(${1 / scale})`,
-          transformOrigin: 'top left',
-        });
+        this.setIframeZoom(scale);
       }
     } catch (e) {
       this.setIframeZoom(scale);
@@ -55,12 +61,15 @@ export class ZoomIFrame extends Component<IZoomIFrameProps> {
   }
 
   setIframeZoom(scale: number) {
-    Object.assign(this.iframe.style, {
-      width: `${scale * 100}%`,
-      height: `${scale * 100}%`,
-      transform: `scale(${1 / scale})`,
-      transformOrigin: 'top left',
-    });
+    if (this.iframe?.style) {
+      const { style } = this.iframe;
+      Object.assign(style, {
+        width: `${scale * 100}%`,
+        height: `${scale * 100}%`,
+        transform: `scale(${1 / scale})`,
+        transformOrigin: 'top left',
+      });
+    }
   }
 
   render() {

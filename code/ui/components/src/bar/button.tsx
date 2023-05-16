@@ -20,12 +20,12 @@ const ButtonOrLink = React.forwardRef<
   BarLinkProps | BarButtonProps
 >(({ children, ...restProps }, ref) => {
   return restProps.href != null ? (
-    <a ref={ref as React.ForwardedRef<HTMLAnchorElement>} {...(restProps as BarLinkProps)}>
+    <a ref={ref as React.LegacyRef<HTMLAnchorElement>} {...(restProps as BarLinkProps)}>
       {children}
     </a>
   ) : (
     <button
-      ref={ref as React.ForwardedRef<HTMLButtonElement>}
+      ref={ref as React.LegacyRef<HTMLButtonElement>}
       type="button"
       {...(restProps as BarButtonProps)}
     >

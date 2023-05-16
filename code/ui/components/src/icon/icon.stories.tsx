@@ -25,7 +25,7 @@ const Item = styled.li<{ minimal?: boolean }>`
     height: 14px;
   }
 
-  ${(props) =>
+  ${(props: any) =>
     props.minimal &&
     css`
       flex: none;
@@ -65,7 +65,7 @@ export default {
 export const Basic = (args: ComponentProps<typeof Icons>) => <Icons {...args} />;
 Basic.args = { icon: 'watch' };
 
-export const Labels = (args: ComponentProps<typeof Icons>) => (
+export const Labels = (args: Omit<ComponentProps<typeof Icons>, 'icon'>) => (
   <>
     <Header>{Object.keys(icons).length} icons</Header>
     <List>
@@ -79,7 +79,7 @@ export const Labels = (args: ComponentProps<typeof Icons>) => (
   </>
 );
 
-export const NoLabels = (args: ComponentProps<typeof Icons>) => (
+export const NoLabels = (args: Omit<ComponentProps<typeof Icons>, 'icon'>) => (
   <>
     <Header>{Object.keys(icons).length} icons</Header>
     <List>

@@ -45,7 +45,7 @@ interface Panels {
   [key: string]: {
     title: string;
     color?: string;
-    render: ({ active, key }: { active: boolean; key: Key }) => JSX.Element;
+    render: ({ active, key }: { active: boolean; key: Key }) => JSX.Element | undefined;
   };
 }
 
@@ -57,7 +57,7 @@ const panels: Panels = {
         <div id="test1" key={key}>
           CONTENT 1
         </div>
-      ) : null,
+      ) : undefined,
   },
   test2: {
     title: 'Tab title #2',
@@ -90,7 +90,7 @@ const panels: Panels = {
             />
           ))}
         </div>
-      ) : null,
+      ) : undefined,
   },
   test4: {
     title: 'Tab title #4',
@@ -99,7 +99,7 @@ const panels: Panels = {
         <div key={key} id="test4">
           CONTENT 4
         </div>
-      ) : null,
+      ) : undefined,
   },
   test5: {
     title: 'Tab title #5',
@@ -108,7 +108,7 @@ const panels: Panels = {
         <div key={key} id="test5">
           CONTENT 5
         </div>
-      ) : null,
+      ) : undefined,
   },
   test6: {
     title: 'Tab title #6',
@@ -129,7 +129,7 @@ const content = Object.entries(panels).map(([k, v]) => (
 export default {
   title: 'Tabs',
   decorators: [
-    (story) => (
+    (story: any) => (
       <div
         style={{
           position: 'relative',
@@ -150,7 +150,7 @@ export default {
 type Story = StoryObj<typeof TabsState>;
 
 export const StatefulStatic = {
-  render: (args) => (
+  render: (args: any) => (
     <TabsState initial="test2" {...args}>
       <div id="test1" title="With a function">
         {({ active, selected }: { active: boolean; selected: string }) =>
@@ -165,7 +165,7 @@ export const StatefulStatic = {
 } satisfies Story;
 
 export const StatefulStaticWithSetButtonTextColors = {
-  render: (args) => (
+  render: (args: any) => (
     <div>
       <TabsState initial="test2" {...args}>
         <div id="test1" title="With a function" color="#e00000">
@@ -182,7 +182,7 @@ export const StatefulStaticWithSetButtonTextColors = {
 } satisfies Story;
 
 export const StatefulStaticWithSetBackgroundColor = {
-  render: (args) => (
+  render: (args: any) => (
     <div>
       <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)" {...args}>
         <div id="test1" title="With a function" color="#e00000">
@@ -216,7 +216,7 @@ export const StatefulDynamicWithOpenTooltip = {
     },
     chromatic: { viewports: [380] },
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }: any) => {
     const canvas = within(canvasElement);
 
     await waitFor(async () => {
@@ -240,7 +240,7 @@ export const StatefulDynamicWithOpenTooltip = {
 
     expect(screen.queryByTestId('tooltip')).toBeInTheDocument();
   },
-  render: (args) => (
+  render: (args: any) => (
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title}>
@@ -259,7 +259,7 @@ export const StatefulDynamicWithSelectedAddon = {
     },
     chromatic: { viewports: [380] },
   },
-  play: async (context) => {
+  play: async (context: any) => {
     await StatefulDynamicWithOpenTooltip.play(context);
 
     const popperContainer = screen.getByTestId('tooltip');
@@ -270,7 +270,7 @@ export const StatefulDynamicWithSelectedAddon = {
     // reopen the tooltip
     await StatefulDynamicWithOpenTooltip.play(context);
   },
-  render: (args) => (
+  render: (args: any) => (
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title}>
@@ -282,11 +282,11 @@ export const StatefulDynamicWithSelectedAddon = {
 } satisfies Story;
 
 export const StatefulNoInitial = {
-  render: (args) => <TabsState {...args}>{content}</TabsState>,
+  render: (args: any) => <TabsState {...args}>{content}</TabsState>,
 } satisfies Story;
 
 export const StatelessBordered = {
-  render: (args) => (
+  render: (args: any) => (
     <Tabs
       bordered
       absolute={false}
@@ -303,7 +303,7 @@ export const StatelessBordered = {
 } satisfies Story;
 
 export const StatelessWithTools = {
-  render: (args) => (
+  render: (args: any) => (
     <Tabs
       selected="test3"
       menuName="Addons"
@@ -328,7 +328,7 @@ export const StatelessWithTools = {
 } satisfies Story;
 
 export const StatelessAbsolute = {
-  render: (args) => (
+  render: (args: any) => (
     <Tabs
       absolute
       selected="test3"
@@ -344,7 +344,7 @@ export const StatelessAbsolute = {
 } satisfies Story;
 
 export const StatelessAbsoluteBordered = {
-  render: (args) => (
+  render: (args: any) => (
     <Tabs
       absolute
       bordered
@@ -361,7 +361,7 @@ export const StatelessAbsoluteBordered = {
 } satisfies Story;
 
 export const StatelessEmpty = {
-  render: (args) => (
+  render: (args: any) => (
     <Tabs
       actions={{
         onSelect,

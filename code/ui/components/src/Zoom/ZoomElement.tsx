@@ -7,7 +7,7 @@ import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 const hasBrowserSupportForCssZoom = browserSupportsCssZoom();
 
 const ZoomElementWrapper = styled.div<{ scale: number; elementHeight: number }>(
-  ({ scale = 1, elementHeight }) =>
+  ({ scale = 1, elementHeight }: any) =>
     hasBrowserSupportForCssZoom
       ? {
           '> *': {

@@ -19,7 +19,7 @@ const Arrow = styled.div<ArrowProps>(
     position: 'absolute',
     borderStyle: 'solid',
   },
-  ({ placement }) => {
+  ({ placement }: any) => {
     let x = 0;
     let y = 0;
 
@@ -40,7 +40,7 @@ const Arrow = styled.div<ArrowProps>(
     const transform = `translate3d(${x}px, ${y}px, 0px)`;
     return { transform };
   },
-  ({ theme, color, placement }) => ({
+  ({ theme, color, placement }: any) => ({
     bottom: `${match('top', placement, `${ArrowSpacing * -1}px`, 'auto')}`,
     top: `${match('bottom', placement, `${ArrowSpacing * -1}px`, 'auto')}`,
     right: `${match('left', placement, `${ArrowSpacing * -1}px`, 'auto')}`,
@@ -87,17 +87,17 @@ const Arrow = styled.div<ArrowProps>(
 );
 
 export interface WrapperProps {
-  color: keyof Color;
+  color?: keyof Color;
   hidden?: boolean;
   hasChrome: boolean;
 }
 
 const Wrapper = styled.div<WrapperProps>(
-  ({ hidden }) => ({
+  ({ hidden }: any) => ({
     display: hidden ? 'none' : 'inline-block',
     zIndex: 2147483647,
   }),
-  ({ theme, color, hasChrome }) =>
+  ({ theme, color, hasChrome }: any) =>
     hasChrome
       ? {
           background:
@@ -117,7 +117,7 @@ const Wrapper = styled.div<WrapperProps>(
 export interface TooltipProps {
   children?: React.ReactNode;
   tooltipRef?: any;
-  hasChrome?: boolean;
+  hasChrome: boolean;
   arrowProps?: any;
   placement?: string;
   color?: keyof Color;
@@ -130,7 +130,13 @@ export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
     ref
   ) => {
     return (
-      <Wrapper data-testid="tooltip" hasChrome={hasChrome} ref={ref} {...props} color={color}>
+      <Wrapper
+        data-testid="tooltip"
+        hasChrome={hasChrome}
+        ref={tooltipRef || ref}
+        {...props}
+        color={color}
+      >
         {hasChrome && withArrows && <Arrow placement={placement} {...arrowProps} color={color} />}
         {children}
       </Wrapper>

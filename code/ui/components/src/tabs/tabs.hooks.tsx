@@ -8,7 +8,7 @@ import { WithTooltip } from '../tooltip/WithTooltip';
 import type { ChildrenList } from './tabs.helpers';
 import type { Link } from '../tooltip/TooltipLinkList';
 
-const CollapseIcon = styled.span<{ isActive: boolean }>(({ theme, isActive }) => ({
+const CollapseIcon = styled.span<{ isActive: boolean }>(({ theme, isActive }: any) => ({
   display: 'inline-block',
   width: 0,
   height: 0,
@@ -20,8 +20,9 @@ const CollapseIcon = styled.span<{ isActive: boolean }>(({ theme, isActive }) =>
   transition: 'transform .1s ease-out',
 }));
 
-const AddonButton = styled(TabButton)<{ preActive: boolean }>(({ active, theme, preActive }) => {
-  return `
+const AddonButton = styled(TabButton)<{ preActive: boolean }>(
+  ({ active, theme, preActive }: any) => {
+    return `
     color: ${preActive || active ? theme.color.secondary : theme.color.mediumdark};
     &:hover {
       color: ${theme.color.secondary};
@@ -30,7 +31,8 @@ const AddonButton = styled(TabButton)<{ preActive: boolean }>(({ active, theme, 
       }
     }
   `;
-});
+  }
+);
 
 export function useList(list: ChildrenList) {
   const tabBarRef = useRef<HTMLDivElement>();
@@ -49,24 +51,25 @@ export function useList(list: ChildrenList) {
       menuName,
       actions,
     }: {
-      menuName: string;
+      menuName: string | undefined;
       actions?: {
         onSelect: (id: string) => void;
       } & Record<string, any>;
     }) => {
-      const isAddonsActive = invisibleList.some(({ active }) => active);
+      const isAddonsActive = invisibleList.some(({ active }: any) => active);
       const [isTooltipVisible, setTooltipVisible] = useState(false);
       return (
         <>
           <WithTooltip
             interactive
+            hasChrome={false}
             visible={isTooltipVisible}
             onVisibleChange={setTooltipVisible}
             placement="bottom"
             delayHide={100}
             tooltip={
               <TooltipLinkList
-                links={invisibleList.map(({ title, id, color, active }) => {
+                links={invisibleList.map(({ title, id, color, active }: any) => {
                   return {
                     id,
                     title,
@@ -74,7 +77,7 @@ export function useList(list: ChildrenList) {
                     active,
                     onClick: (e) => {
                       e.preventDefault();
-                      actions.onSelect(id);
+                      actions?.onSelect(id);
                     },
                   } as Link;
                 })}
@@ -98,7 +101,7 @@ export function useList(list: ChildrenList) {
               />
             </AddonButton>
           </WithTooltip>
-          {invisibleList.map(({ title, id, color }, index) => {
+          {invisibleList.map(({ title, id, color }: any, index) => {
             const indexId = `index-${index}`;
             return (
               <TabButton
@@ -138,7 +141,7 @@ export function useList(list: ChildrenList) {
 
     let widthSum = 0;
 
-    const newInvisibleList = list.filter((item) => {
+    const newInvisibleList = list.filter((item: any) => {
       const { id } = item;
       const tabButton = tabRefs.current.get(id);
       const { width: tabWidth = 0 } = tabButton?.getBoundingClientRect() || {};

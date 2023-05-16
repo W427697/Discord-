@@ -1,4 +1,4 @@
-import type { FC, ComponentProps, ReactNode } from 'react';
+import type { FC, ReactNode, ComponentPropsWithRef } from 'react';
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
@@ -17,7 +17,7 @@ const ButtonWrapper = styled.button<{
   children?: ReactNode;
   href?: string;
 }>(
-  ({ small, theme }) => ({
+  ({ small, theme }: any) => ({
     border: 0,
     borderRadius: '3em',
     cursor: 'pointer',
@@ -58,7 +58,7 @@ const ButtonWrapper = styled.button<{
       },
     },
   }),
-  ({ disabled }) =>
+  ({ disabled }: any) =>
     disabled
       ? {
           cursor: 'not-allowed !important',
@@ -68,7 +68,7 @@ const ButtonWrapper = styled.button<{
           },
         }
       : {},
-  ({ containsIcon, small }) =>
+  ({ containsIcon, small }: any) =>
     containsIcon
       ? {
           svg: {
@@ -78,7 +78,7 @@ const ButtonWrapper = styled.button<{
           ...(small ? { padding: 10 } : { padding: 13 }),
         }
       : {},
-  ({ theme, primary, secondary, gray }) => {
+  ({ theme, primary, secondary, gray }: any) => {
     let color;
 
     if (gray) {
@@ -110,7 +110,7 @@ const ButtonWrapper = styled.button<{
         }
       : {};
   },
-  ({ theme, tertiary, inForm, small }) =>
+  ({ theme, tertiary, inForm, small }: any) =>
     tertiary
       ? {
           background: theme.button.background,
@@ -140,7 +140,7 @@ const ButtonWrapper = styled.button<{
           },
         }
       : {},
-  ({ theme, outline }) =>
+  ({ theme, outline }: any) =>
     outline
       ? {
           boxShadow: `${transparentize(0.8, theme.color.defaultText)} 0 0 0 1px inset`,
@@ -158,7 +158,7 @@ const ButtonWrapper = styled.button<{
           },
         }
       : {},
-  ({ theme, outline, primary }) => {
+  ({ theme, outline, primary }: any) => {
     const color = theme.color.primary;
 
     return outline && primary
@@ -190,7 +190,7 @@ const ButtonWrapper = styled.button<{
         }
       : {};
   },
-  ({ theme, outline, primary, secondary }) => {
+  ({ theme, outline, primary, secondary }: any) => {
     let color;
 
     if (secondary) {
@@ -232,7 +232,7 @@ const ButtonWrapper = styled.button<{
 
 const ButtonLink = ButtonWrapper.withComponent('a');
 
-export const Button: FC<ComponentProps<typeof ButtonWrapper>> = Object.assign(
+export const Button: FC<ComponentPropsWithRef<typeof ButtonWrapper>> = Object.assign(
   forwardRef<
     any,
     {

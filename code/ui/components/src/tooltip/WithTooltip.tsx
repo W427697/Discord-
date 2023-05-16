@@ -13,12 +13,12 @@ const { document } = global;
 // A target that doesn't speak popper
 const TargetContainer = styled.div<{ trigger: ReactPopperTooltipConfig['trigger'] }>`
   display: inline-block;
-  cursor: ${(props) =>
+  cursor: ${(props: any) =>
     props.trigger === 'hover' || props.trigger.includes('hover') ? 'default' : 'pointer'};
 `;
 
 const TargetSvgContainer = styled.g<{ trigger: ReactPopperTooltipConfig['trigger'] }>`
-  cursor: ${(props) =>
+  cursor: ${(props: any) =>
     props.trigger === 'hover' || props.trigger.includes('hover') ? 'default' : 'pointer'};
 `;
 
@@ -31,7 +31,7 @@ export interface WithTooltipPureProps
     PopperOptions {
   svg?: boolean;
   withArrows?: boolean;
-  hasChrome?: boolean;
+  hasChrome: boolean;
   tooltip: ReactNode | ((p: WithHideFn) => ReactNode);
   children: ReactNode;
   onDoubleClick?: () => void;
@@ -191,11 +191,11 @@ const WithToolTipState: FC<
     iframes.forEach((iframe) => {
       const bind = () => {
         try {
-          if (iframe.contentWindow.document) {
+          if (iframe.contentWindow?.document) {
             iframe.contentWindow.document.addEventListener('click', hide);
             unbinders.push(() => {
               try {
-                iframe.contentWindow.document.removeEventListener('click', hide);
+                iframe.contentWindow?.document.removeEventListener('click', hide);
               } catch (e) {
                 // logger.debug('Removing a click listener from iframe failed: ', e);
               }

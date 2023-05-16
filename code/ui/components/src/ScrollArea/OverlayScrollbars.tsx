@@ -26,19 +26,23 @@ export const OverlayScrollbarsComponent: FC<OverlayScrollbarsComponentProps> = (
   const osInstance = useRef<OverlayScrollbars>();
 
   useEffect(() => {
-    osInstance.current = OverlayScrollbars(osTargetRef.current, options, extensions);
+    osInstance.current = OverlayScrollbars(
+      osTargetRef.current ?? document.createElement('div'),
+      options,
+      extensions
+    );
     mergeHostClassNames(osInstance.current, className);
     return () => {
       if (OverlayScrollbars.valid(osInstance.current)) {
-        osInstance.current.destroy();
-        osInstance.current = null;
+        osInstance.current?.destroy();
+        osInstance.current = undefined;
       }
     };
   }, []);
 
   useEffect(() => {
     if (OverlayScrollbars.valid(osInstance.current)) {
-      osInstance.current.options(options);
+      osInstance.current?.options(options);
     }
   }, [options]);
 
@@ -71,19 +75,26 @@ export const OverlayScrollbarsComponent: FC<OverlayScrollbarsComponentProps> = (
   );
 };
 
-function mergeHostClassNames(osInstance: OverlayScrollbars, className: string) {
+function mergeHostClassNames(
+  osInstance: OverlayScrollbars | undefined,
+  className: string | undefined
+) {
   if (OverlayScrollbars.valid(osInstance)) {
-    const { host } = osInstance.getElements();
-    const regex = new RegExp(
-      `(^os-host([-_].+|)$)|${osInstance.options().className.replace(/\s/g, '$|')}$`,
-      'g'
-    );
-    const osClassNames = host.className
-      .split(' ')
-      .filter((name) => name.match(regex))
-      .join(' ');
+    const elements = osInstance?.getElements();
+    const host = elements?.host;
 
-    host.className = `${osClassNames} ${className || ''}`;
+    if (host) {
+      const regex = new RegExp(
+        `(^os-host([-_].+|)$)|${osInstance?.options().className?.replace(/\s/g, '$|')}$`,
+        'g'
+      );
+      const osClassNames = host.className
+        .split(' ')
+        .filter((name: string) => name.match(regex))
+        .join(' ');
+
+      host.className = `${osClassNames} ${className || ''}`;
+    }
   }
 }
 

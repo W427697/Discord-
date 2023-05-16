@@ -13,23 +13,23 @@ export interface TitleProps {
   disabled?: boolean;
 }
 const Title = styled(({ active, loading, disabled, ...rest }: TitleProps) => <span {...rest} />)<{
-  active: boolean;
-  loading: boolean;
-  disabled: boolean;
+  active?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
 }>(
-  ({ theme }) => ({
+  ({ theme }: any) => ({
     color: theme.color.defaultText,
     // Previously was theme.typography.weight.normal but this weight does not exists in Theme
     fontWeight: theme.typography.weight.regular,
   }),
-  ({ active, theme }) =>
+  ({ active, theme }: any) =>
     active
       ? {
           color: theme.color.secondary,
           fontWeight: theme.typography.weight.bold,
         }
       : {},
-  ({ loading, theme }) =>
+  ({ loading, theme }: any) =>
     loading
       ? {
           display: 'inline-block',
@@ -37,7 +37,7 @@ const Title = styled(({ active, loading, disabled, ...rest }: TitleProps) => <sp
           ...theme.animation.inlineGlow,
         }
       : {},
-  ({ disabled, theme }) =>
+  ({ disabled, theme }: any) =>
     disabled
       ? {
           color: transparentize(0.7, theme.color.defaultText),
@@ -62,14 +62,14 @@ const Right = styled.span<RightProps>({
   },
 });
 
-const Center = styled.span<{ isIndented: boolean }>(
+const Center = styled.span<{ isIndented: boolean | undefined }>(
   {
     flex: 1,
     textAlign: 'left',
     display: 'flex',
     flexDirection: 'column',
   },
-  ({ isIndented }) => (isIndented ? { marginLeft: 24 } : {})
+  ({ isIndented }: any) => (isIndented ? { marginLeft: 24 } : {})
 );
 
 export interface CenterTextProps {
@@ -78,17 +78,17 @@ export interface CenterTextProps {
 }
 
 const CenterText = styled.span<CenterTextProps>(
-  ({ theme }) => ({
+  ({ theme }: any) => ({
     fontSize: '11px',
     lineHeight: '14px',
   }),
-  ({ active, theme }) =>
+  ({ active, theme }: any) =>
     active
       ? {
           color: theme.color.secondary,
         }
       : {},
-  ({ theme, disabled }) =>
+  ({ theme, disabled }: any) =>
     disabled
       ? {
           color: theme.textMutedColor,
@@ -101,7 +101,7 @@ export interface LeftProps {
 }
 
 const Left = styled.span<LeftProps>(
-  ({ active, theme }) =>
+  ({ active, theme }: any) =>
     active
       ? {
           '& svg': {
@@ -123,7 +123,7 @@ export interface ItemProps {
 }
 
 const Item = styled.a<ItemProps>(
-  ({ theme }) => ({
+  ({ theme }: any) => ({
     fontSize: theme.typography.size.s1,
     transition: 'all 150ms ease-out',
     color: transparentize(0.5, theme.color.defaultText),
@@ -147,7 +147,7 @@ const Item = styled.a<ItemProps>(
       opacity: 1,
     },
   }),
-  ({ disabled }) =>
+  ({ disabled }: any) =>
     disabled
       ? {
           cursor: 'not-allowed',
@@ -247,9 +247,9 @@ ListItem.defaultProps = {
   right: null,
   active: false,
   disabled: false,
-  href: null,
-  LinkWrapper: null,
-  onClick: null,
+  href: undefined,
+  LinkWrapper: undefined,
+  onClick: undefined,
 };
 
 export default ListItem;

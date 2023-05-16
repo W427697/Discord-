@@ -19,7 +19,7 @@ export interface WrapperProps {
 }
 
 const Wrapper = styled.div<WrapperProps>(
-  ({ theme, bordered }) =>
+  ({ theme, bordered }: any) =>
     bordered
       ? {
           backgroundClip: 'padding-box',
@@ -29,7 +29,7 @@ const Wrapper = styled.div<WrapperProps>(
           boxSizing: 'border-box',
         }
       : {},
-  ({ absolute }) =>
+  ({ absolute }: any) =>
     absolute
       ? {
           width: '100%',
@@ -66,17 +66,17 @@ const Content = styled.div<ContentProps>(
     display: 'block',
     position: 'relative',
   },
-  ({ theme }) => ({
+  ({ theme }: any) => ({
     fontSize: theme.typography.size.s2 - 1,
     background: theme.background.content,
   }),
-  ({ bordered, theme }) =>
+  ({ bordered, theme }: any) =>
     bordered
       ? {
           borderRadius: `0 0 ${theme.appBorderRadius - 1}px ${theme.appBorderRadius - 1}px`,
         }
       : {},
-  ({ absolute, bordered }) =>
+  ({ absolute, bordered }: any) =>
     absolute
       ? {
           height: `calc(100% - ${bordered ? 42 : 40}px)`,
@@ -149,7 +149,7 @@ export const Tabs: FC<TabsProps> = memo(
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
         <FlexBar scrollable={false} border backgroundColor={backgroundColor}>
           <TabBar style={{ whiteSpace: 'normal' }} ref={tabBarRef} role="tablist">
-            {visibleList.map(({ title, id, active, color }, index) => {
+            {visibleList.map(({ title, id, active, color }: any, index) => {
               const indexId = `index-${index}`;
 
               return (
@@ -165,7 +165,7 @@ export const Tabs: FC<TabsProps> = memo(
                   textColor={color}
                   onClick={(e: MouseEvent) => {
                     e.preventDefault();
-                    actions.onSelect(id);
+                    actions?.onSelect(id);
                   }}
                   role="tab"
                 >
@@ -178,7 +178,7 @@ export const Tabs: FC<TabsProps> = memo(
           {tools}
         </FlexBar>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
-          {list.map(({ id, active, render }) => render({ key: id, active }))}
+          {list.map(({ id, active, render }: any) => render({ key: id, active }))}
         </Content>
       </Wrapper>
     ) : (
@@ -190,10 +190,10 @@ export const Tabs: FC<TabsProps> = memo(
 );
 Tabs.displayName = 'Tabs';
 Tabs.defaultProps = {
-  id: null,
+  id: undefined,
   children: null,
   tools: null,
-  selected: null,
+  selected: undefined,
   absolute: false,
   bordered: false,
   menuName: 'Tabs',
@@ -203,21 +203,21 @@ type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
 
 export interface TabsStateProps {
   children: FuncChildren[] | ReactNode;
-  initial: string;
+  initial: string | undefined;
   absolute: boolean;
   bordered: boolean;
   backgroundColor: string;
-  menuName: string;
+  menuName: string | undefined;
 }
 
 export interface TabsStateState {
-  selected: string;
+  selected: string | undefined;
 }
 
 export class TabsState extends Component<TabsStateProps, TabsStateState> {
   static defaultProps: TabsStateProps = {
     children: [],
-    initial: null,
+    initial: undefined,
     absolute: false,
     bordered: false,
     backgroundColor: '',

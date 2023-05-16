@@ -20,8 +20,10 @@ export interface ScrollAreaProps {
 }
 
 export const ScrollArea: FC<ScrollAreaProps> = styled(Scroller)<ScrollAreaProps>(
-  ({ vertical }) => (!vertical ? { overflowY: 'hidden' } : { overflowY: 'auto', height: '100%' }),
-  ({ horizontal }) => (!horizontal ? { overflowX: 'hidden' } : { overflowX: 'auto', width: '100%' })
+  ({ vertical }: any) =>
+    !vertical ? { overflowY: 'hidden' } : { overflowY: 'auto', height: '100%' },
+  ({ horizontal }: any) =>
+    !horizontal ? { overflowX: 'hidden' } : { overflowX: 'auto', width: '100%' }
 );
 
 ScrollArea.defaultProps = {

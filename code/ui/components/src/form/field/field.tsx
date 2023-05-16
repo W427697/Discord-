@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 
-const Wrapper = styled.label(({ theme }) => ({
+const Wrapper = styled.label(({ theme }: any) => ({
   display: 'flex',
   borderBottom: `1px solid ${theme.appBorderColor}`,
   margin: '0 15px',
@@ -13,7 +13,7 @@ const Wrapper = styled.label(({ theme }) => ({
   },
 }));
 
-const Label = styled.span(({ theme }) => ({
+const Label = styled.span(({ theme }: any) => ({
   minWidth: 100,
   fontWeight: theme.typography.weight.bold,
   marginRight: 15,

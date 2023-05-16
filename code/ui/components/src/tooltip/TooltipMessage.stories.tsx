@@ -6,13 +6,13 @@ import { TooltipMessage } from './TooltipMessage';
 export default {
   component: TooltipMessage,
   decorators: [
-    (storyFn) => (
+    (storyFn: any) => (
       <div
         style={{
           height: '300px',
         }}
       >
-        <WithTooltip placement="top" startOpen tooltip={storyFn()}>
+        <WithTooltip placement="top" startOpen tooltip={storyFn()} hasChrome={false}>
           <div>Tooltip</div>
         </WithTooltip>
       </div>

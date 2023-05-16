@@ -13,7 +13,7 @@ const Container = styled.div(({ theme }) => ({
   zIndex: 1,
 }));
 
-export const ActionButton = styled.button<{ disabled: boolean }>(
+export const ActionButton = styled.button<{ disabled?: boolean }>(
   ({ theme }) => ({
     margin: 0,
     border: '0 none',

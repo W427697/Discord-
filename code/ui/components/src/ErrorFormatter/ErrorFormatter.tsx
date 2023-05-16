@@ -5,14 +5,14 @@ import { styled } from '@storybook/theming';
 
 const { document } = global;
 
-const ErrorName = styled.strong(({ theme }) => ({
+const ErrorName = styled.strong(({ theme }: any) => ({
   color: theme.color.orange,
 }));
-const ErrorImportant = styled.strong(({ theme }) => ({
+const ErrorImportant = styled.strong(({ theme }: any) => ({
   color: theme.color.ancillary,
   textDecoration: 'underline',
 }));
-const ErrorDetail = styled.em(({ theme }) => ({
+const ErrorDetail = styled.em(({ theme }: any) => ({
   color: theme.textMutedColor,
 }));
 
@@ -65,17 +65,17 @@ export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
       <span>{type}</span>: <ErrorName>{name}</ErrorName>
       <br />
       {lines.map((l, i) =>
-        l.name ? (
+        l?.name ? (
           // eslint-disable-next-line react/no-array-index-key
           <Fragment key={i}>
-            {'  '}at <ErrorImportant>{l.name}</ErrorImportant> (
-            <ErrorDetail>{l.location}</ErrorDetail>)
+            {'  '}at <ErrorImportant>{l?.name}</ErrorImportant> (
+            <ErrorDetail>{l?.location}</ErrorDetail>)
             <br />
           </Fragment>
         ) : (
           // eslint-disable-next-line react/no-array-index-key
           <Fragment key={i}>
-            {'  '}at <ErrorDetail>{l.location}</ErrorDetail>
+            {'  '}at <ErrorDetail>{l?.location}</ErrorDetail>
             <br />
           </Fragment>
         )

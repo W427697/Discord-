@@ -45,7 +45,7 @@ const sharedArgTypes = {
 export const Field = {
   render: (args: any) => (
     <FieldComponent key="key" {...args}>
-      <InputComponents.Select value="val2" onChange={action('onChange')}>
+      <InputComponents.Select value="val2" onChange={action('onChange')} valid={undefined}>
         <option value="val1">Value 1</option>
         <option value="val2">Value 2</option>
         <option value="val3">Value 3</option>

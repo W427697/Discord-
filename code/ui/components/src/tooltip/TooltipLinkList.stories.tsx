@@ -32,13 +32,13 @@ const StoryLinkWrapper: FunctionComponent<StoryLinkWrapperProps> = ({
 export default {
   component: TooltipLinkList,
   decorators: [
-    (storyFn) => (
+    (storyFn: any) => (
       <div
         style={{
           height: '300px',
         }}
       >
-        <WithTooltip placement="top" startOpen tooltip={storyFn()}>
+        <WithTooltip placement="top" startOpen tooltip={storyFn()} hasChrome={false}>
           <div>Tooltip</div>
         </WithTooltip>
       </div>

@@ -8,7 +8,7 @@ import { codeCommon } from '../lib/common';
 const isInlineCodeRegex = /[\n\r]/g;
 
 const DefaultCodeBlock = styled.code(
-  ({ theme }) => ({
+  ({ theme }: any) => ({
     // from reset
     fontFamily: theme.typography.fonts.mono,
     WebkitFontSmoothing: 'antialiased',
@@ -22,7 +22,7 @@ const DefaultCodeBlock = styled.code(
   codeCommon
 );
 
-const StyledSyntaxHighlighter = styled(SyntaxHighlighter)(({ theme }) => ({
+const StyledSyntaxHighlighter = styled(SyntaxHighlighter)(({ theme }: any) => ({
   // DocBlocks-specific styling and overrides
   fontFamily: theme.typography.fonts.mono,
   fontSize: `${theme.typography.size.s2 - 1}px`,

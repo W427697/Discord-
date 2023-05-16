@@ -12,7 +12,7 @@ const List = styled.div(
     overflowY: 'auto',
     maxHeight: 15.5 * 32, // 11.5 items
   },
-  ({ theme }) => ({
+  ({ theme }: any) => ({
     borderRadius: theme.appBorderRadius,
   })
 );
@@ -31,14 +31,19 @@ export interface TooltipLinkListProps {
 const Item: FC<Link & { isIndented?: boolean }> = (props) => {
   const { LinkWrapper, onClick: onClickFromProps, id, isIndented, ...rest } = props;
   const { title, href, active } = rest;
-  const onClick = useCallback(
-    (event: SyntheticEvent) => {
-      onClickFromProps(event, rest);
-    },
-    [onClickFromProps]
-  );
 
   const hasOnClick = !!onClickFromProps;
+
+  let onClick: any;
+
+  if (hasOnClick) {
+    onClick = useCallback(
+      (event: SyntheticEvent) => {
+        onClickFromProps(event, rest);
+      },
+      [onClickFromProps]
+    );
+  }
 
   return (
     <ListItem
@@ -61,7 +66,7 @@ export const TooltipLinkList: FC<TooltipLinkListProps> = ({ links, LinkWrapper }
       {links.map(({ isGatsby, ...p }) => (
         <Item
           key={p.id}
-          LinkWrapper={isGatsby ? LinkWrapper : null}
+          LinkWrapper={isGatsby ? LinkWrapper : undefined}
           isIndented={hasOneLeftElement}
           {...p}
         />
@@ -71,5 +76,5 @@ export const TooltipLinkList: FC<TooltipLinkListProps> = ({ links, LinkWrapper }
 };
 
 TooltipLinkList.defaultProps = {
-  LinkWrapper: ListItem.defaultProps.LinkWrapper,
+  LinkWrapper: ListItem.defaultProps?.LinkWrapper,
 };

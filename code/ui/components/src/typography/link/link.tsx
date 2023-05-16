@@ -32,7 +32,7 @@ export interface LinkInnerProps {
 }
 
 const LinkInner = styled.span<LinkInnerProps>(
-  ({ withArrow }) =>
+  ({ withArrow }: any) =>
     withArrow
       ? {
           '> svg:last-of-type': {
@@ -45,7 +45,7 @@ const LinkInner = styled.span<LinkInnerProps>(
           },
         }
       : {},
-  ({ containsIcon }) =>
+  ({ containsIcon }: any) =>
     containsIcon
       ? {
           svg: {
@@ -63,7 +63,7 @@ const LinkInner = styled.span<LinkInnerProps>(
 type AProps = AnchorHTMLAttributes<HTMLAnchorElement>;
 
 const A = styled.a<LinkStylesProps>(
-  ({ theme }) => ({
+  ({ theme }: any) => ({
     display: 'inline-block',
     transition: 'all 150ms ease-out',
     textDecoration: 'none',
@@ -98,7 +98,7 @@ const A = styled.a<LinkStylesProps>(
       },
     },
   }),
-  ({ theme, secondary, tertiary }) => {
+  ({ theme, secondary, tertiary }: any) => {
     let colors;
     if (secondary) {
       colors = [theme.textMutedColor, theme.color.dark, theme.color.darker];
@@ -130,7 +130,7 @@ const A = styled.a<LinkStylesProps>(
         }
       : {};
   },
-  ({ nochrome }) =>
+  ({ nochrome }: any) =>
     nochrome
       ? {
           color: 'inherit',
@@ -141,7 +141,7 @@ const A = styled.a<LinkStylesProps>(
           },
         }
       : {},
-  ({ theme, inverse }) =>
+  ({ theme, inverse }: any) =>
     inverse
       ? {
           color: theme.color.lightest,
@@ -164,7 +164,7 @@ const A = styled.a<LinkStylesProps>(
           },
         }
       : {},
-  ({ isButton }) =>
+  ({ isButton }: any) =>
     isButton
       ? {
           border: 0,
@@ -195,7 +195,7 @@ export const Link: FC<LinkProps & AProps> = ({
 }) => (
   <A
     {...rest}
-    onClick={onClick && cancel ? (e) => cancelled(e, onClick) : onClick}
+    onClick={onClick && cancel ? (e: any) => cancelled(e, onClick) : onClick}
     className={className}
   >
     <LinkInner withArrow={withArrow} containsIcon={containsIcon}>

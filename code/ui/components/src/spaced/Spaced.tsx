@@ -11,7 +11,7 @@ export interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>(
-  ({ theme, col, row = 1 }) =>
+  ({ theme, col, row = 1 }: any) =>
     col
       ? {
           display: 'inline-block',
@@ -32,7 +32,7 @@ const Container = styled.div<ContainerProps>(
             marginTop: 0,
           },
         },
-  ({ theme, outer, col, row }) => {
+  ({ theme, outer, col, row }: any) => {
     switch (true) {
       case !!(outer && col): {
         return {

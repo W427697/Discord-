@@ -4,11 +4,11 @@ import { styled } from '@storybook/theming';
 
 import { Spaced } from './Spaced';
 
-const PlaceholderBlock = styled.div(({ color }) => ({
+const PlaceholderBlock = styled.div(({ color }: any) => ({
   background: color || 'hotpink',
   padding: 20,
 }));
-const PlaceholderInline = styled.span(({ color }) => ({
+const PlaceholderInline = styled.span(({ color }: any) => ({
   background: color || 'hotpink',
   display: 'inline-block',
   padding: 20,

@@ -1,6 +1,6 @@
 import { styled } from '@storybook/theming';
 
-export const DocumentWrapper = styled.div(({ theme }) => ({
+export const DocumentWrapper = styled.div(({ theme }: any) => ({
   fontSize: `${theme.typography.size.s2}px`,
   lineHeight: '1.6',
 

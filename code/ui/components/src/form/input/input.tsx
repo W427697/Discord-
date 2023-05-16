@@ -52,7 +52,7 @@ const styles = ({ theme }: { theme: Theme }): CSSObject => ({
 
 export type Sizes = '100%' | 'flex' | 'auto';
 export type Alignments = 'end' | 'center' | 'start';
-export type ValidationStates = 'valid' | 'error' | 'warn';
+export type ValidationStates = 'valid' | 'error' | 'warn' | undefined;
 
 const sizes = ({ size }: { size?: Sizes }): CSSObject => {
   switch (size) {
@@ -115,13 +115,13 @@ type InputProps = Omit<
   keyof {
     size?: Sizes;
     align?: Alignments;
-    valid?: ValidationStates;
+    valid: ValidationStates;
     height?: number;
   }
 > & {
   size?: Sizes;
   align?: Alignments;
-  valid?: ValidationStates;
+  valid: ValidationStates;
   height?: number;
 };
 export const Input = Object.assign(
@@ -132,7 +132,7 @@ export const Input = Object.assign(
   )<{
     size?: Sizes;
     align?: Alignments;
-    valid?: ValidationStates;
+    valid: ValidationStates;
     height?: number;
   }>(styles, sizes, alignment, validation, {
     minHeight: 32,
@@ -147,13 +147,13 @@ type SelectProps = Omit<
   keyof {
     size?: Sizes;
     align?: Alignments;
-    valid?: ValidationStates;
+    valid: ValidationStates;
     height?: number;
   }
 > & {
   size?: Sizes;
   align?: Alignments;
-  valid?: ValidationStates;
+  valid: ValidationStates;
   height?: number;
 };
 export const Select = Object.assign(
@@ -177,13 +177,13 @@ type TextareaProps = Omit<
   keyof {
     size?: Sizes;
     align?: Alignments;
-    valid?: ValidationStates;
+    valid: ValidationStates;
     height?: number;
   }
 > & {
   size?: Sizes;
   align?: Alignments;
-  valid?: ValidationStates;
+  valid: ValidationStates;
   height?: number;
 };
 export const Textarea = Object.assign(
@@ -206,7 +206,7 @@ const ButtonStyled = styled(
     {
       size?: Sizes;
       align?: Alignments;
-      valid?: ValidationStates;
+      valid: ValidationStates;
       height?: number;
     }
   >(function ButtonStyled({ size, valid, align, ...props }, ref) {
@@ -215,7 +215,7 @@ const ButtonStyled = styled(
 )<{
   size?: Sizes;
   align?: Alignments;
-  valid?: ValidationStates;
+  valid: ValidationStates;
   height?: number;
 }>(sizes, validation, {
   // Custom styling for color widget nested in buttons
@@ -231,7 +231,13 @@ const ButtonStyled = styled(
 
 export const Button: FC<any> = Object.assign(
   forwardRef<{}, {}>(function Button(props, ref) {
-    return <ButtonStyled {...props} {...{ tertiary: true, small: true, inForm: true }} ref={ref} />;
+    return (
+      <ButtonStyled
+        {...props}
+        {...{ tertiary: true, small: true, inForm: true, valid: undefined }}
+        ref={ref}
+      />
+    );
   }),
   {
     displayName: 'Button',

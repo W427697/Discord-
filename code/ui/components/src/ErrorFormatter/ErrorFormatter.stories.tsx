@@ -7,7 +7,7 @@ import { ErrorFormatter } from './ErrorFormatter';
 const meta: Meta<typeof ErrorFormatter> = {
   component: ErrorFormatter,
   decorators: [
-    (Story) => (
+    (Story: any) => (
       <pre>
         <Story />
       </pre>
