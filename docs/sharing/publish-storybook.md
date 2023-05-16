@@ -133,6 +133,12 @@ You can publish the static Storybook web app to many hosts. We maintain [`storyb
 
 But features like [Composition](./storybook-composition.md), [embed](./embed.md), history, and versioning require tighter integration with Storybook APIs and secure authentication. Your hosting provider may not be capable of supporting these features. Learn about the Component Publishing Protocol (CPP) to see what.
 
+<div class="aside">
+
+ℹ️ Additional header configuration may be required to serve Storybook's static files correctly on your host. See the [Migration guide](../../MIGRATION.md#deploying-build-artifacts) for more information on the required headers.
+
+</div>
+
 <details>
 
 <summary><h2>Component Publishing Protocol (CPP)</h2></summary>
