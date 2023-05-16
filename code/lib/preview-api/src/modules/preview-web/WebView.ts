@@ -179,6 +179,7 @@ export class WebView implements View<HTMLElement> {
   }
 
   showDocs() {
+    this.storyRoot().innerHTML = '';
     this.storyRoot().setAttribute('hidden', 'true');
     this.docsRoot().removeAttribute('hidden');
   }
