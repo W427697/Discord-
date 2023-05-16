@@ -141,9 +141,7 @@ export class Yarn2Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream(
-      'init-storybook.log'
-    );
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
 
     try {
       await this.executeCommand({
@@ -161,7 +159,7 @@ export class Yarn2Proxy extends JsPackageManager {
       throw new Error(
         dedent`${errorMessage}
         
-        Please check the logfile generated at ./init-install.log for troubleshooting and try again.`
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
       );
     }
 

@@ -141,9 +141,7 @@ export class NPMProxy extends JsPackageManager {
   }
 
   protected async runAddDeps(dependencies: string[], installAsDevDependencies: boolean) {
-    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream(
-      'init-storybook.log'
-    );
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
     let args = [...dependencies];
 
     if (installAsDevDependencies) {
@@ -166,7 +164,7 @@ export class NPMProxy extends JsPackageManager {
       throw new Error(
         dedent`${errorMessage}
         
-        Please check the logfile generated at ./init-install.log for troubleshooting and try again.`
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
       );
     }
 
@@ -250,6 +248,7 @@ export class NPMProxy extends JsPackageManager {
 
   public parseErrorFromLogs(logs: string): string {
     let finalMessage = 'NPM error';
+    console.log({ logs });
     const match = logs.match(NPM_ERROR_REGEX);
 
     if (match) {
