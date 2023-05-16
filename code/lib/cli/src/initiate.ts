@@ -238,6 +238,12 @@ const projectTypeInquirer = async (
 };
 
 async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+  process.on('SIGINT', () => {
+    logger.log();
+    logger.log('Storybook init canceled by the user.');
+    process.exit(0);
+  });
+
   let { packageManager: pkgMgr } = options;
   if (options.useNpm) {
     useNpmWarning();
