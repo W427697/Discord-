@@ -30,7 +30,6 @@ import { createBabelLoader, createSWCLoader } from './loaders';
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
 const storybookPaths: Record<string, string> = {
-  global: wrapForPnP('@storybook/global'),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
@@ -148,7 +147,7 @@ export default async (
     const rendererName = await getRendererName(options);
 
     const rendererInitEntry = resolve(join(workingDir, 'storybook-init-renderer-entry.js'));
-    virtualModuleMapping[rendererInitEntry] = `import '${rendererName}';`;
+    virtualModuleMapping[rendererInitEntry] = `import '${slash(rendererName)}';`;
     entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(
@@ -295,8 +294,8 @@ export default async (
           },
         },
         builderOptions.useSWC
-          ? createSWCLoader({})
-          : createBabelLoader(babelOptions, typescriptOptions),
+          ? createSWCLoader({}, Object.keys(virtualModuleMapping))
+          : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
           type: 'asset/source',
