@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.11",
+  "version": "7.0.12",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -36,21 +36,21 @@
     "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.11",
-    "@storybook/cli": "7.0.11",
-    "@storybook/client-logger": "7.0.11",
-    "@storybook/core-client": "7.0.11",
-    "@storybook/core-common": "7.0.11",
-    "@storybook/core-events": "7.0.11",
-    "@storybook/core-server": "7.0.11",
-    "@storybook/core-webpack": "7.0.11",
-    "@storybook/docs-tools": "7.0.11",
+    "@storybook/builder-webpack5": "7.0.12",
+    "@storybook/cli": "7.0.12",
+    "@storybook/client-logger": "7.0.12",
+    "@storybook/core-client": "7.0.12",
+    "@storybook/core-common": "7.0.12",
+    "@storybook/core-events": "7.0.12",
+    "@storybook/core-server": "7.0.12",
+    "@storybook/core-webpack": "7.0.12",
+    "@storybook/docs-tools": "7.0.12",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.11",
-    "@storybook/node-logger": "7.0.11",
-    "@storybook/preview-api": "7.0.11",
-    "@storybook/telemetry": "7.0.11",
-    "@storybook/types": "7.0.11",
+    "@storybook/manager-api": "7.0.12",
+    "@storybook/node-logger": "7.0.12",
+    "@storybook/preview-api": "7.0.12",
+    "@storybook/telemetry": "7.0.12",
+    "@storybook/types": "7.0.12",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
@@ -124,5 +124,5 @@
   "bundler": {
     "tsConfig": "tsconfig.build.json"
   },
-  "gitHead": "43e5c1aa449b2438e50b23d72f13155f3c2ab236"
+  "gitHead": "7b73b43500a411f4044d8f78c0c13f48f176fa08"
 }

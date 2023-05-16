@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.11",
+  "version": "7.0.12",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -43,8 +43,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/node-logger": "7.0.11",
-    "@storybook/types": "7.0.11",
+    "@storybook/node-logger": "7.0.12",
+    "@storybook/types": "7.0.12",
     "@types/node": "^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
@@ -80,5 +80,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "43e5c1aa449b2438e50b23d72f13155f3c2ab236"
+  "gitHead": "7b73b43500a411f4044d8f78c0c13f48f176fa08"
 }

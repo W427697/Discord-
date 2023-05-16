@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-webpack5",
-  "version": "7.0.11",
+  "version": "7.0.12",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -47,9 +47,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.11",
-    "@storybook/preset-react-webpack": "7.0.11",
-    "@storybook/react": "7.0.11",
+    "@storybook/builder-webpack5": "7.0.12",
+    "@storybook/preset-react-webpack": "7.0.12",
+    "@storybook/react": "7.0.12",
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
@@ -82,5 +82,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "43e5c1aa449b2438e50b23d72f13155f3c2ab236"
+  "gitHead": "7b73b43500a411f4044d8f78c0c13f48f176fa08"
 }
