@@ -14,7 +14,7 @@ export function createDefaultValue(
     if (!isDefaultValueBlacklisted(value)) {
       return !isTooLongForDefaultValueSummary(value)
         ? createSummaryValue(value)
-        : createSummaryValue(type.name, value);
+        : createSummaryValue(type?.name, value);
     }
   }
 
