@@ -1,4 +1,7 @@
 import dedent from 'ts-dedent';
+import { sync as findUpSync } from 'find-up';
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
 import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -57,6 +60,23 @@ export class Yarn1Proxy extends JsPackageManager {
 
   async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
     return this.executeCommand({ command: `yarn`, args: [command, ...args], cwd });
+  }
+
+  public async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string> {
+    const packageJsonPath = await findUpSync(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
+    return packageJson.version;
   }
 
   public async findInstallations(pattern: string[]) {

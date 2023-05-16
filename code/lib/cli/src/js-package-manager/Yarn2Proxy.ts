@@ -1,4 +1,9 @@
 import dedent from 'ts-dedent';
+import { sync as findUpSync, sync as syncFindUp } from 'find-up';
+import fs, { existsSync, readFileSync } from 'fs';
+import path from 'path';
+import { NodeFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
+import { getLibzipSync } from '@yarnpkg/libzip';
 import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -115,6 +120,59 @@ export class Yarn2Proxy extends JsPackageManager {
     } catch (e) {
       return undefined;
     }
+  }
+
+  async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string | null> {
+    const pnpapiPath = findUpSync(['.pnp.js', '.pnp.cjs'], { cwd: basePath });
+
+    if (pnpapiPath) {
+      try {
+        // eslint-disable-next-line import/no-dynamic-require, global-require
+        const pnpApi = require(pnpapiPath);
+
+        const resolvedPath = await pnpApi.resolveToUnqualified(packageName, basePath, {
+          considerBuiltins: false,
+        });
+
+        const pkgLocator = pnpApi.findPackageLocator(resolvedPath);
+        const pkg = pnpApi.getPackageInformation(pkgLocator);
+
+        const localFs: typeof fs = { ...fs };
+        const nodeFs = new NodeFS(localFs);
+
+        const zipOpenFs = new ZipOpenFS({
+          libzip: getLibzipSync(),
+          baseFs: nodeFs,
+          readOnlyArchives: true,
+        });
+
+        const virtualFs = new VirtualFS({
+          baseFs: zipOpenFs,
+        });
+
+        const virtualFile = virtualFs.readJsonSync(
+          path.join(pkg.packageLocation, 'package.json') as any
+        );
+        return virtualFile.version;
+      } catch (error) {
+        console.error('Error while fetching package version in Yarn PnP mode:', error);
+      }
+    }
+
+    const packageJsonPath = await syncFindUp(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson.version;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
