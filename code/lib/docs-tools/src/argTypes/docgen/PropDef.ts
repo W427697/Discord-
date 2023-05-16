@@ -1,7 +1,7 @@
 // FIXME: this is legacy code that needs to be updated & simplified with ArgType refactor
 
 export interface JsDocParam {
-  name: string;
+  name: string | undefined | null;
   description?: string;
 }
 
@@ -15,7 +15,7 @@ export interface JsDocTags {
 }
 
 export interface PropSummaryValue {
-  summary: string;
+  summary?: string;
   detail?: string;
 }
 
@@ -28,6 +28,6 @@ export interface PropDef {
   sbType?: any;
   required: boolean;
   description?: string;
-  defaultValue?: PropDefaultValue;
+  defaultValue?: PropDefaultValue | null;
   jsDocTags?: JsDocTags;
 }

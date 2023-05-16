@@ -38,12 +38,12 @@ export interface DocgenPropDefaultValue {
 }
 
 export interface DocgenInfo {
-  type?: DocgenPropType;
+  type: DocgenPropType;
   flowType?: DocgenFlowType;
   tsType?: DocgenTypeScriptType;
   required: boolean;
   description: string;
-  defaultValue?: DocgenPropDefaultValue;
+  defaultValue: DocgenPropDefaultValue;
 }
 
 export enum TypeSystem {
