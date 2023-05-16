@@ -1,3 +1,9 @@
+## 7.1.0-alpha.19 (May 16, 2023)
+
+#### Bug Fixes
+
+-   Normalize paths exposed to vite-builder's `storybook-stories.js` file [#22327](https://github.com/storybooks/storybook/pull/22327)
+
 ## 7.1.0-alpha.18 (May 15, 2023)
 
 #### Bug Fixes
