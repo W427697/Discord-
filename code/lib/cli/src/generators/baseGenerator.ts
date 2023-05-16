@@ -1,10 +1,11 @@
 import path from 'path';
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
+import ora from 'ora';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
-import { copyTemplateFiles, paddedLog } from '../helpers';
+import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
@@ -16,6 +17,8 @@ import {
   extractEslintInfo,
   suggestESLintPlugin,
 } from '../automigrate/helpers/eslintPlugin';
+
+const logger = console;
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -254,8 +257,13 @@ export async function baseGenerator(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
 
-  paddedLog(`\nGetting the correct version of ${packages.length} packages`);
+  logger.log();
+  const versionedPackagesSpinner = ora({
+    indent: 2,
+    text: `Getting the correct version of ${packages.length} packages`,
+  }).start();
   const versionedPackages = await packageManager.getVersionedPackages(packages);
+  versionedPackagesSpinner.succeed();
 
   await fse.ensureDir(`./${storybookConfigFolder}`);
 
@@ -334,8 +342,12 @@ export async function baseGenerator(
   }
 
   if (depsToInstall.length > 0) {
-    paddedLog('Installing Storybook dependencies');
+    const addDependenciesSpinner = ora({
+      indent: 2,
+      text: 'Installing Storybook dependencies',
+    }).start();
     await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+    addDependenciesSpinner.succeed();
   }
 
   if (addScripts) {
