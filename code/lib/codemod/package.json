@@ -1,18 +1,18 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.1.0-alpha.8",
+  "version": "7.1.0-alpha.19",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/codemod",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/codemod",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/codemod"
+    "directory": "code/lib/codemod"
   },
   "funding": {
     "type": "opencollective",
@@ -22,9 +22,9 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./dist/transforms/add-component-parameters.js": "./dist/transforms/add-component-parameters.js",
     "./dist/transforms/csf-2-to-3.js": "./dist/transforms/csf-2-to-3.js",
@@ -49,9 +49,9 @@
     "@babel/preset-env": "~7.21.0",
     "@babel/types": "~7.21.2",
     "@storybook/csf": "^0.1.0",
-    "@storybook/csf-tools": "7.1.0-alpha.8",
-    "@storybook/node-logger": "7.1.0-alpha.8",
-    "@storybook/types": "7.1.0-alpha.8",
+    "@storybook/csf-tools": "7.1.0-alpha.19",
+    "@storybook/node-logger": "7.1.0-alpha.19",
+    "@storybook/types": "7.1.0-alpha.19",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",
@@ -97,5 +97,5 @@
       "cjs"
     ]
   },
-  "gitHead": "ae73d1c8065f7d614cfe6f3462ae7ca55a0c4e6b"
+  "gitHead": "f3e4f1e5a224fa8323a679555c9197335a7bce54"
 }

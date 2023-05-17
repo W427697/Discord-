@@ -266,6 +266,17 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev'],
   },
+  'angular-cli/prerelease': {
+    name: 'Angular CLI (Prerelease)',
+    script:
+      'npx -p @angular/cli@next ng new angular-v16 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev'],
+  },
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
     script:
@@ -336,7 +347,8 @@ const baseTemplates = {
   },
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
-    script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
+    script:
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -348,7 +360,7 @@ const baseTemplates = {
   'vue-cli/vue2-default-js': {
     name: 'Vue-CLI (Vue2 JS)',
     script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"',
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
@@ -359,7 +371,8 @@ const baseTemplates = {
   },
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
-    script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install',
+    script:
+      'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -369,7 +382,8 @@ const baseTemplates = {
   },
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
-    script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install',
+    script:
+      'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -444,6 +458,17 @@ const internalTemplates = {
       },
     },
   },
+  'internal/server-webpack5': {
+    name: 'Server Webpack5',
+    script: 'yarn init -y',
+    expected: {
+      framework: '@storybook/server-webpack5',
+      renderer: '@storybook/server',
+      builder: '@storybook/builder-webpack5',
+    },
+    isInternal: true,
+    inDevelopment: true,
+  },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
   //   name: 'PNP (cra/default-ts)',
@@ -483,6 +508,7 @@ export const merged: TemplateKey[] = [
 ];
 export const daily: TemplateKey[] = [
   ...merged,
+  'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',

@@ -1,5 +1,8 @@
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
+import { join } from 'path';
+import slash from 'slash';
+import glob from 'globby';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
@@ -22,9 +25,27 @@ export const mdxgfm: Fix<Options> = {
       return null;
     }
 
+    const hasMDXFiles = await mainConfig?.stories?.reduce(async (acc, item) => {
+      const val = await acc;
+
+      if (val === true) {
+        return true;
+      }
+
+      const pattern =
+        typeof item === 'string'
+          ? slash(join(configDir, item))
+          : slash(join(configDir, item.directory, item.files));
+
+      const files = await glob(pattern);
+
+      return files.some((f) => f.endsWith('.mdx'));
+    }, Promise.resolve(false));
+
     const usesMDX1 = mainConfig?.features?.legacyMdx1 === true || false;
     const skip =
       usesMDX1 ||
+      !hasMDXFiles ||
       !!mainConfig.addons?.find((item) => {
         if (item === '@storybook/addon-mdx-gfm') {
           return true;
@@ -60,8 +81,10 @@ export const mdxgfm: Fix<Options> = {
 
   async run({ packageManager, dryRun, mainConfigPath, skipInstall }) {
     if (!dryRun) {
-      const packageJson = packageManager.retrievePackageJson();
-      const versionToInstall = getStorybookVersionSpecifier(packageManager.retrievePackageJson());
+      const packageJson = await packageManager.retrievePackageJson();
+      const versionToInstall = getStorybookVersionSpecifier(
+        await packageManager.retrievePackageJson()
+      );
       await packageManager.addDependencies(
         { installAsDevDependencies: true, skipInstall, packageJson },
         [`@storybook/addon-mdx-gfm@${versionToInstall}`]

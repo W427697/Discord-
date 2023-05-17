@@ -1,9 +1,10 @@
 import * as path from 'path';
 import slash from 'slash';
-import { promise as glob } from 'glob-promise';
+import { glob } from 'glob';
 import { normalizeStories } from '@storybook/core-common';
 
 import type { Options } from '@storybook/types';
+import { normalizePath } from 'vite';
 
 export async function listStories(options: Options) {
   return (
@@ -20,5 +21,5 @@ export async function listStories(options: Options) {
         return glob(slash(absolutePattern), { follow: true });
       })
     )
-  ).reduce((carry, stories) => carry.concat(stories), []);
+  ).reduce((carry, stories) => carry.concat(stories.map(normalizePath)), []);
 }

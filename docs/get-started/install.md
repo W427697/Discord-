@@ -89,6 +89,7 @@ Below are some of the most common installation issues and instructions on how to
    'get-started/installation-problems/vue.mdx',
    'get-started/installation-problems/web-components.mdx',
    'get-started/installation-problems/qwik.mdx',
+   'get-started/installation-problems/solid.mdx',
   ]}
 />
 
@@ -100,7 +101,7 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 </div>
 
-If all else fails, try asking for [help](https://storybook.js.org/support)
+If all else fails, try asking for [help](https://storybook.js.org/community#support)
 
 </details>
 
