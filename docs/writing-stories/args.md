@@ -207,7 +207,7 @@ Similarly, special formats are available for dates and colors. Date objects will
 
 Args specified through the URL will extend and override any default values of args set on the story.
 
-## Setting args from withihn a story
+## Setting args from within a story
 
 Components with interactivity often need their containing component, or page, to respond to events, modify their state, then pass a changed arg back to the rendered component to reflect the change. For example, you would want a Switch component to be checked by a user and the arg shown in Storybook to reflect the change. This can be accomplished by using the `useArgs` hook exported by `@storybook/preview-api`:
 
