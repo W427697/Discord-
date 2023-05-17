@@ -216,7 +216,7 @@ Components with interactivity often need their containing component, or page, to
 
 import { StoryObj, Meta } from "@storybook/react";
 import { useArgs } from "@storybook/preview-api";
-import { Switch, SwitchProps } from ".";
+import { Switch } from ".";
 
 const meta: Meta<typeof Switch> = {
     title: "Inputs/Switch",
@@ -226,23 +226,21 @@ export default meta;
 
 type Story = StoryObj<typeof Switch>;
 
-// Separate render logic into a new function that will not cause issues with eslint rule `react-hooks/rules-of-hooks`
-const WrappedComponent = (args: SwitchProps) => {
-  const [{ isChecked }, updateArgs] = UseArgs();
-
-    function onChange() {
-        updateArgs({ isChecked: !isChecked });
-    }
-
-    return <Switch {...args} onChange={onChange} isChecked={isChecked} />;
-}
-
 export const Example = {    
     args: {
         isChecked: false,
         label: "Switch Me!"
     },
-    render: (args) => <WrappedComponent {...args} />
+    render: (args) => {
+      // eslint-disable-next-line
+      const [{ isChecked }, updateArgs] = UseArgs();
+
+      function onChange() {
+          updateArgs({ isChecked: !isChecked });
+      }
+
+      return <Switch {...args} onChange={onChange} isChecked={isChecked} />;
+    }
 };
 ```
 
