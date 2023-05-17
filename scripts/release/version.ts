@@ -35,7 +35,7 @@ const optionsSchema = z
       'prepatch',
     ]),
     preId: z.string().optional(),
-    verbose: z.boolean(),
+    verbose: z.boolean().optional(),
   })
   .refine((schema) => (schema.preId ? schema.releaseType.startsWith('pre') : true), {
     message:
