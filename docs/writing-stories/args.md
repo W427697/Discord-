@@ -226,8 +226,7 @@ export default meta;
 
 type Story = StoryObj<typeof Switch>;
 
-export const Standard = {
-    ...template,
+export const Example = {    
     args: {
         isChecked: false,
         label: "Switch Me!"
