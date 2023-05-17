@@ -218,7 +218,7 @@ import { StoryObj, Meta } from "@storybook/react";
 import { useArgs } from "@storybook/preview-api";
 import { Switch } from ".";
 
-export const meta: Meta<typeof Switch> = {
+const meta: Meta<typeof Switch> = {
     title: "Inputs/Switch",
     component: Switch
 };
