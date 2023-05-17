@@ -12,6 +12,7 @@
     "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
     "lint:package": "sort-package-json",
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
+    "release:version": "ts-node --swc ./release/version.ts",
     "task": "ts-node --swc ./task.ts",
     "test": "jest --config ./jest.config.js",
     "upgrade": "ts-node --swc ./task.ts"
@@ -152,6 +153,7 @@
     "util": "^0.12.4",
     "wait-on": "^5.2.1",
     "window-size": "^1.1.1",
+    "zod": "^3.21.4",
     "zx": "^7.0.3"
   },
   "optionalDependencies": {
