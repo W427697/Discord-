@@ -91,6 +91,6 @@ export default {
   '@junk-temporary-prototypes/web-components': '7.0.7',
   '@junk-temporary-prototypes/web-components-vite': '7.0.7',
   '@junk-temporary-prototypes/web-components-webpack5': '7.0.7',
-  sb: '7.0.7',
-  storybook: '7.0.7',
+  '@junk-temporary-prototypes/sb': '7.0.7',
+  '@junk-temporary-prototypes/storybook': '7.0.7',
 };
