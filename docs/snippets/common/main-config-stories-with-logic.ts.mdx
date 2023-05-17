@@ -1,7 +1,7 @@
 ```ts
 // .storybook/main.ts
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
 import type { StorybookConfig } from '@storybook/your-framework';
 
 async function findStories() {
@@ -9,7 +9,7 @@ async function findStories() {
 }
 
 const config: StorybookConfig = {
-  framework: '@storybook/vue3-vite',
+  framework: '@storybook/your-framework',
   stories: async (list) => [
     ...list,
     // 👇 Add your found stories to the existing list of story files

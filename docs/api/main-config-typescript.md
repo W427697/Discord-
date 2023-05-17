@@ -10,9 +10,9 @@ Type:
 {
   check?: boolean;
   checkOptions?: CheckOptions;
-  skipBabel?: boolean;
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
   reactDocgenTypescriptOptions?: ReactDocgenTypescriptOptions;
+  skipBabel?: boolean;
 }
 ```
 
@@ -22,7 +22,7 @@ Configures how Storybook handles [TypeScript files](../configure/typescript.md).
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-add-ts-config.ts.mdx',
+    'common/main-config-typescript.ts.mdx',
   ]}
 />
 
@@ -40,12 +40,6 @@ Type: `CheckOptions`
 
 Options to pass to `fork-ts-checker-webpack-plugin`, if enabled. See [docs for available options](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v4.1.6/README.md#options).
 
-## `skipBabel`
-
-Type: `boolean`
-
-Disable parsing of TypeScript files through babel.
-
 ## `reactDocgen`
 
 Type: `'react-docgen' | 'react-docgen-typescript' | false`
@@ -57,3 +51,9 @@ Configure which library, if any, Storybook uses to parse React components, [reac
 Type: `ReactDocgenTypescriptOptions`
 
 Options to pass to react-docgen-typescript-plugin if react-docgen-typescript is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
+
+## `skipBabel`
+
+Type: `boolean`
+
+Disable parsing of TypeScript files through babel.

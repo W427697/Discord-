@@ -18,8 +18,8 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-default-setup.js.mdx',
-    'common/storybook-main-baseline-setup.ts.mdx',
+    'common/main-config-typical.js.mdx',
+    'common/main-config-typical.ts.mdx',
   ]}
 />
 
@@ -91,8 +91,8 @@ Additionally, you can customize your Storybook configuration to load your storie
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-with-custom-object.js.mdx',
-    'common/storybook-storyloading-with-custom-object.ts.mdx',
+    'common/main-config-stories-with-object.js.mdx',
+    'common/main-config-stories-with-object.ts.mdx',
   ]}
 />
 
@@ -123,8 +123,8 @@ You can also adjust your Storybook configuration and implement custom logic to l
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-custom-logic.js.mdx',
-    'common/storybook-storyloading-custom-logic.ts.mdx',
+    'common/main-config-stories-with-logic.js.mdx',
+    'common/main-config-stories-with-logic.ts.mdx',
   ]}
 />
 
@@ -138,8 +138,8 @@ As your Storybook grows, it gets challenging to load all of your stories perform
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
-    'common/storybook-on-demand-story-loading.ts.mdx',
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx',
   ]}
 />
 

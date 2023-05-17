@@ -7,13 +7,14 @@ import type { StorybookConfig } from '@storybook/your-framework';
 const config: StorybookConfig = {
   framework: '@storybook/your-framework',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  core: {
-    builder: {
-      name: '@storybook/builder-vite',
-      options: {
-        viteConfigPath: '../../../vite.config.js',
-      },
-    },
+  async webpackFinal(config, { configType }) {
+    if (configType === 'DEVELOPMENT') {
+      // Modify config for development
+    }
+    if (configType === 'PRODUCTION') {
+      // Modify config for production
+    }
+    return config;
   },
 };
 

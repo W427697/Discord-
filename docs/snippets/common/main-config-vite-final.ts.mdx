@@ -1,10 +1,12 @@
 ```js
-// .storybook/main.js
+// .storybook/main.ts
 
+// Replace your-framework with the framework you are using (e.g., react-vite, vue3-vite)
+import type { StorybookConfig } from '@storybook/your-framework';
 import { mergeConfig } from 'vite';
 
-export default {
-  framework: '@storybook/vue3-vite',
+const config = {
+  framework: '@storybook/your-framework',
   stories: ['../src/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   async viteFinal(config, { configType }) {
     if (configType === 'DEVELOPMENT') {
@@ -18,4 +20,6 @@ export default {
     });
   },
 };
+
+export default config;
 ```

@@ -12,8 +12,8 @@ Customize Storybook's Webpack setup when using the [webpack builder](../builders
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-add-sass-config.js.mdx',
-    'common/storybook-main-add-sass-config.ts.mdx',
+    'common/main-config-webpack-final.js.mdx',
+    'common/main-config-webpack-final.ts.mdx',
   ]}
 />
 

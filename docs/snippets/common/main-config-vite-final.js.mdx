@@ -1,12 +1,11 @@
 ```js
-// .storybook/main.ts
+// .storybook/main.js
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
-import type { StorybookConfig } from '@storybook/your-framework';
 import { mergeConfig } from 'vite';
 
-const config = {
-  framework: '@storybook/vue3-vite',
+export default {
+  // Replace your-framework with the framework you are using (e.g., react-vite, vue3-vite)
+  framework: '@storybook/your-framework',
   stories: ['../src/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   async viteFinal(config, { configType }) {
     if (configType === 'DEVELOPMENT') {
@@ -20,6 +19,4 @@ const config = {
     });
   },
 };
-
-export default config;
 ```

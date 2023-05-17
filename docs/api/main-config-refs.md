@@ -9,6 +9,7 @@ Type:
 ```ts
 { [key: string]:
   | { title: string; url: string; expanded?: boolean }
+  | (config: { title: string; url: string; expanded?: boolean }) => { title: string; url: string; expanded?: boolean }
   | { disable: boolean }
 }
 ```
@@ -19,8 +20,23 @@ Configures [Storybook composition](../sharing/storybook-composition.md).
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-ref-remote.js.mdx',
-    'common/storybook-main-ref-remote.ts.mdx',
+    'common/main-config-refs.js.mdx',
+    'common/main-config-refs.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+## Using a function
+
+You can use a function to dynamically configure refs:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-refs-with-function.js.mdx',
+    'common/main-config-refs-with-function.ts.mdx',
   ]}
 />
 
@@ -34,8 +50,8 @@ Some package dependencies automatically [compose their Storybook in yours](../sh
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-disable-refs.js.mdx',
-    'common/storybook-main-disable-refs.ts.mdx',
+    'common/main-config-refs-disable.js.mdx',
+    'common/main-config-refs-disable.ts.mdx',
   ]}
 />
 

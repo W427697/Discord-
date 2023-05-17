@@ -1,8 +1,11 @@
-```js
-// .storybook/main.js
+```ts
+// .storybook/main.ts
 
-export default {
-  framework: '@storybook/vue3-vite',
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
+  framework: '@storybook/your-framework',
   stories: [
     {
       // 👇 Sets the directory containing your stories
@@ -14,4 +17,6 @@ export default {
     },
   ],
 };
+
+export default config;
 ```

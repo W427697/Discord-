@@ -12,8 +12,8 @@ Customize Storybook's Vite setup when using the [vite builder](../builders/vite.
 
 <CodeSnippets
   paths={[
-    'common/storybook-vite-builder-config-env.js.mdx',
-    'common/storybook-vite-builder-config-env.ts.mdx',
+    'common/main-config-vite-final.js.mdx',
+    'common/main-config-vite-final.ts.mdx',
   ]}
 />
 

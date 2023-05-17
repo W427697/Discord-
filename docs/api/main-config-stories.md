@@ -66,8 +66,8 @@ For example, if you wanted to load your stories from a `packages/components` dir
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-with-custom-object.js.mdx',
-    'common/storybook-storyloading-with-custom-object.ts.mdx',
+    'common/main-config-stories-with-object.js.mdx',
+    'common/main-config-stories-with-object.ts.mdx',
   ]}
 />
 
@@ -119,8 +119,8 @@ You can also adjust your Storybook configuration and implement custom logic to l
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-custom-logic.js.mdx',
-    'common/storybook-storyloading-custom-logic.ts.mdx',
+    'common/main-config-stories-with-logic.js.mdx',
+    'common/main-config-stories-with-logic.ts.mdx',
   ]}
 />
 

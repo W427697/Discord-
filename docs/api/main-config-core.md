@@ -101,6 +101,17 @@ Type: `boolean`
 
 Enable crash reports to be sent to Storybook [telemetry](../configure/telemetry.md).
 
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-enable-crash-reports.js.mdx',
+    'common/main-config-core-enable-crash-reports.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## `renderer`
 
 Type: `RendererName`

@@ -12,8 +12,8 @@ Sets a list of directories of [static files](../configure/images-and-assets.md#s
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-multiple-static-dir.js.mdx',
-    'common/storybook-main-with-multiple-static-dir.ts.mdx',
+    'common/main-config-static-dirs.js.mdx',
+    'common/main-config-static-dirs.ts.mdx',
   ]}
 />
 
@@ -27,8 +27,8 @@ You can also use a configuration object to define the directories:
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-object-configuration-static-dir.js.mdx',
-    'common/storybook-main-with-object-configuration-static-dir.ts.mdx',
+    'common/main-config-static-dirs-with-object.js.mdx',
+    'common/main-config-static-dirs-with-object.ts.mdx',
   ]}
 />
 

@@ -18,22 +18,22 @@ Type:
 
 Enables Storybook's additional features.
 
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-features.js.mdx',
-    'common/main-config-features.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 ## `buildStoriesJson`
 
 Type: `boolean`
 
 Generates a `stories.json` file to help story loading with the on-demand mode.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-features-build-stories-json.js.mdx',
+    'common/main-config-features-build-stories-json.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## `legacyDecoratorFileOrder`
 
@@ -47,6 +47,17 @@ Type: `boolean`
 
 Enables support for MDX version 1 as a fallback. Requires [@storybook/mdx1-csf](https://github.com/storybookjs/mdx1-csf) to be installed.
 
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-features-legacy-mdx-1.js.mdx',
+    'common/main-config-features-legacy-mdx-1.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## `storyStoreV7`
 
 Type: `boolean`
@@ -54,6 +65,17 @@ Type: `boolean`
 Default: `true`
 
 Opts out of [on-demand story loading](#on-demand-story-loading); loads all stories at build time.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## `argTypeTargetsV7` (EXPERIMENTAL)
 
@@ -69,8 +91,8 @@ As your Storybook grows, it gets challenging to load all of your stories perform
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
-    'common/storybook-on-demand-story-loading.ts.mdx',
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx',
   ]}
 />
 

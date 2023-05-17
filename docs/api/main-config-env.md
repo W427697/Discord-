@@ -12,8 +12,8 @@ Defines custom Storybook [environment variables](../configure/environment-variab
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-env-field-config.js.mdx',
-    'common/storybook-main-env-field-config.ts.mdx',
+    'common/main-config-env.js.mdx',
+    'common/main-config-env.ts.mdx',
   ]}
 />
 
