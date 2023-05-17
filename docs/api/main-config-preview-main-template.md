@@ -23,6 +23,8 @@ Here's an example demonstrating the default template, which you can copy and cus
 
 <!-- prettier-ignore-end -->
 
+For reference, here's the default template:
+
 <details>
 <summary>Preview main page default template</summary>
 

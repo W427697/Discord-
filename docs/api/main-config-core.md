@@ -21,17 +21,6 @@ Type:
 
 Configures Storybook's internal features.
 
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-core.js.mdx',
-    'common/main-config-core.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 ## `builder`
 
 Type:
@@ -45,6 +34,17 @@ Type:
 ```
 
 Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../builders/webpack.md).
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-builder.js.mdx',
+    'common/main-config-core-builder.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## `channelOptions`
 
@@ -77,11 +77,33 @@ This enables these headers in development-mode:
 - `Cross-Origin-Opener-Policy: same-origin`
 - `Cross-Origin-Embedder-Policy: require-corp`
 
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-cross-origin-isolated.js.mdx',
+    'common/main-config-core-cross-origin-isolated.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## `disableProjectJson`
 
 Type: `boolean`
 
 Disables the generation of `project.json`, a file containing Storybook metadata
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-disable-project-json.js.mdx',
+    'common/main-config-core-disable-project-json.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## `disableTelemetry`
 
@@ -89,11 +111,33 @@ Type: `boolean`
 
 Disables Storybook's [telemetry collection](../configure/telemetry.md).
 
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-disable-telemetry.js.mdx',
+    'common/main-config-core-disable-telemetry.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ## `disableWebpackDefaults`
 
 Type: `boolean`
 
 Disables Storybook's default Webpack configuration.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-disable-webpack-defaults.js.mdx',
+    'common/main-config-core-disable-webpack-defaults.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## `enableCrashReports`
 

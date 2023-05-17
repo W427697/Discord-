@@ -7,8 +7,8 @@ import type { StorybookConfig } from '@storybook/your-framework';
 const config: StorybookConfig = {
   framework: '@storybook/your-framework',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  docs: {
-    autoDocs: 'tag',
+  core: {
+    disableTelemetry: true,
   },
 };
 

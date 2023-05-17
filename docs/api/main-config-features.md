@@ -39,7 +39,18 @@ Generates a `stories.json` file to help story loading with the on-demand mode.
 
 Type: `boolean`
 
-Apply decorators from preview.js before decorators from addons or frameworks
+Apply decorators from preview.js before decorators from addons or frameworks. [More information](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#changed-decorator-order-between-previewjs-and-addonsframeworks).
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-features-legacy-decorator-file-order.js.mdx',
+    'common/main-config-features-legacy-decorator-file-order.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## `legacyMdx1`
 
@@ -82,6 +93,17 @@ Opts out of [on-demand story loading](#on-demand-story-loading); loads all stori
 Type: `boolean`
 
 Filter args with a "target" on the type from the render function.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-features-arg-type-targets-v7.js.mdx',
+    'common/main-config-features-arg-type-targets-v7.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## On-demand story loading
 

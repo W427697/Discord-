@@ -12,7 +12,7 @@ Storybook's configuration file (i.e., `main.ts`) is defined as an ESM module wri
 
 <CodeSnippets
   paths={[
-    'common/main-config-typescript.ts.mdx',
+    'common/main-config-typical.ts.mdx',
   ]}
 />
 
