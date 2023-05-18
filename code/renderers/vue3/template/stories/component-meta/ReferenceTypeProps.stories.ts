@@ -22,7 +22,6 @@ export const ReferenceTypeProps: Story = {
     bar: 1,
     unionOptional: 'Foo',
     union: 'Foo',
-    unionRequiredWithDefault: 'Foo',
     inlined: { foo: 'Foo' },
     nested: { nestedProp: 'Nested Prop' },
     nestedIntersection: { nestedProp: 'Nested Prop', additionalProp: 'Additional Prop' },

@@ -42,52 +42,52 @@ interface MyProps {
 	 */
 	foo: string,
 	/**
-	 * optional number bar
+	 * description bar is optional number 
 	 */
 	bar?: number,
 	/**
-	 * string array baz
+	 * description baz is string array 
 	 */
 	baz?: string[],
 	/**
-	 * required union type
+	 * description union is required union type
 	 */
 	union: string | number,
 	/**
-	 * optional union type
+	 * description unionOptional is optional union type
 	 */
 	unionOptional?: string | number,
 	/**
-	 * required nested object
+	 * description nested is required nested object
 	 */
 	nested: MyNestedProps,
 	/**
-	 * required nested object with intersection
+	 * description required nested object with intersection
 	 */
 	nestedIntersection: MyNestedProps & {
 		/**
-		 * required additional property
+		 * description required additional property
 		 */
 		additionalProp: string;
 	},
 	/**
-	 * optional nested object
+	 * description optional nested object
 	 */
 	nestedOptional?: MyNestedProps | MyIgnoredNestedProps,
 	/**
-	 * required array object
+	 * description required array object
 	 */
 	array: MyNestedProps[],
 	/**
-	 * optional array object
+	 * description optional array object
 	 */
 	arrayOptional?: MyNestedProps[],
 	/**
-	 * enum value
+	 * description enum value
 	 */
 	enumValue: MyEnum,
 	/**
-	 * literal type alias that require context
+	 * description literal type alias that require context
 	 */
 	literalFromContext: MyCategories,
 	inlined: { foo: string; },

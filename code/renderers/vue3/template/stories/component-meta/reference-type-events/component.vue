@@ -13,11 +13,18 @@ interface MyEvents {
 const emit = defineEmits<MyEvents>();
 </script>
 <template>
-  <button @click="emit('bar', { year: 2023, title: 'Storybook' })">
-    event: 'bar', value: {year: 2023, title:'Storybook' }
-  </button>
-  <button @click="emit('baz')">event: 'baz'</button>
-  <button @click="emit('foo', { foo: 'foo' })">
-    event: 'foo', data: {foo: 'foo'}
-  </button>
+  <div>
+    foo:
+    <button @click="emit('bar', { year: 2023, title: 'Storybook' })">
+      event: 'bar', value: {year: 2023, title:'Storybook' }
+    </button>
+  </div>
+  <div>bar:
+    <button @click="emit('baz')">event: 'baz'</button>
+  </div>
+  <div>foo:
+    <button @click="emit('foo', { foo: 'foo' })">
+      event: 'foo', data: {foo: 'foo'}
+    </button>
+  </div>
 </template>
