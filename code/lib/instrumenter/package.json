@@ -1,6 +1,6 @@
 {
   "name": "@storybook/instrumenter",
-  "version": "7.1.0-alpha.18",
+  "version": "7.1.0-alpha.19",
   "description": "",
   "keywords": [
     "storybook"
@@ -43,11 +43,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.1.0-alpha.18",
-    "@storybook/client-logger": "7.1.0-alpha.18",
-    "@storybook/core-events": "7.1.0-alpha.18",
+    "@storybook/channels": "7.1.0-alpha.19",
+    "@storybook/client-logger": "7.1.0-alpha.19",
+    "@storybook/core-events": "7.1.0-alpha.19",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.18"
+    "@storybook/preview-api": "7.1.0-alpha.19"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
@@ -60,5 +60,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "52d9e5ef8bb048042ca5ff1b1ef95d1421ddfafc"
+  "gitHead": "f3e4f1e5a224fa8323a679555c9197335a7bce54"
 }
