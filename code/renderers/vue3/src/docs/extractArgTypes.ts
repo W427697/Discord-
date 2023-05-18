@@ -18,41 +18,46 @@ type MetaDocgenInfo = DocgenInfo & {
   tags: { name: string; text: string }[];
 };
 
-const SECTIONS = ['props', 'events', 'slots', 'exposed'];
+const ARG_TYPE_SECTIONS = ['props', 'events', 'slots', 'exposed'];
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
   if (!hasDocgen(component)) {
     return null;
   }
-  const results: StrictArgTypes = {};
-  SECTIONS.forEach((section) => {
+
+  const argTypes: StrictArgTypes = {};
+
+  ARG_TYPE_SECTIONS.forEach((section) => {
     const props = extractComponentProps(component, section);
-    props.forEach(({ propDef, docgenInfo, jsDocTags }) => {
+
+    props.forEach(({ docgenInfo }) => {
       const {
         name,
         type,
-        global,
         description,
         default: defaultSummary,
         required,
         tags = [],
+        global,
       } = docgenInfo as MetaDocgenInfo;
-      if (global) return; // skip global props
+
+      if (argTypes[name] || global) {
+        return; // skip duplicate and global props
+      }
 
       const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
-
       const nestedTypes =
         sbType.name === 'object' && section === 'props' ? nestedInfo(sbType as SBObjectType) : '';
       const definedTypes = `${type.replace(' | undefined', '')}`;
-      const descriptions = `${description} 
-      ${nestedTypes} 
-    ${tags.map((tag) => `@${tag.name}: ${tag.text}`).join(`
-    `)}`;
-      results[name] = {
+      const descriptions = `${
+        tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
+      }${description} ${nestedTypes} `;
+
+      argTypes[name] = {
         name,
         description: descriptions.replace('undefined', ''),
         defaultValue: { summary: defaultSummary },
-        type: { required, ...sbType },
+        type: { required, ...sbType } as SBType,
         table: {
           type: { summary: definedTypes },
           jsDocTags: tags,
@@ -62,7 +67,8 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       };
     });
   });
-  return results;
+
+  return argTypes;
 };
 
 export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
@@ -121,5 +127,5 @@ function nestedInfo(sbType: SBObjectType) {
     •${key}: ${value.type} ${value.description}
       `;
     })
-    .join('\n');
+    .join('<br>');
 }
