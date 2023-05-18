@@ -22,6 +22,7 @@ export function vueComponentMeta(): PluginOption {
     path.join(__dirname, '../../../../tsconfig.json'),
     checkerOptions
   );
+
   const isVueComponent = (fileSource: string) => {
     try {
       const module = getDefaultExport(fileSource);
@@ -39,11 +40,10 @@ export function vueComponentMeta(): PluginOption {
     const sourceFile = program.getSourceFile(filePath)!;
     // eslint-disable-next-line no-restricted-syntax
     for (const statement of sourceFile.statements) {
-      if (
-        ts.isExportAssignment(statement) &&
-        statement.expression.expression?.escapedText === 'defineComponent'
-      ) {
-        return 'defineComponent';
+      if (ts.isExportAssignment(statement)) {
+        const expression = statement.expression as ts.AsExpression;
+        if ((expression.expression as ts.Identifier).escapedText === 'defineComponent')
+          return 'defineComponent';
       }
     }
     return undefined;
