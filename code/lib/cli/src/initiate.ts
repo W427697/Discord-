@@ -35,7 +35,7 @@ import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
-import type { CommandOptions } from './generators/types';
+import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
 
 const logger = console;
@@ -60,11 +60,12 @@ const installStorybook = async <Project extends ProjectType>(
   const language = detectLanguage(packageJson);
   const pnp = detectPnp();
 
-  const generatorOptions = {
+  const generatorOptions: GeneratorOptions = {
     language,
     builder: options.builder || (await detectBuilder(packageManager, projectType)),
     linkable: !!options.linkable,
     pnp: pnp || options.usePnp,
+		yes: options.yes,
   };
 
   const runGenerator: () => Promise<any> = async () => {

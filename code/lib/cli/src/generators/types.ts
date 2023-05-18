@@ -8,6 +8,8 @@ export type GeneratorOptions = {
   builder: Builder;
   linkable: boolean;
   pnp: boolean;
+  // Automatically answer yes to prompts
+  yes: boolean;
   frameworkPreviewParts?: FrameworkPreviewParts;
 };
 

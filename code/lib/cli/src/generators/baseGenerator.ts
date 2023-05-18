@@ -163,7 +163,7 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder = CoreBuilder.Webpack5, pnp, frameworkPreviewParts }: GeneratorOptions,
+  { language, builder = CoreBuilder.Webpack5, pnp, frameworkPreviewParts, yes }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
@@ -321,7 +321,7 @@ export async function baseGenerator(
       );
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        const shouldInstallESLintPlugin = await suggestESLintPlugin();
+        const shouldInstallESLintPlugin = yes || await suggestESLintPlugin();
         if (shouldInstallESLintPlugin) {
           depsToInstall.push('eslint-plugin-storybook');
           await configureEslintPlugin(eslintConfigFile, packageManager);
