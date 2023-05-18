@@ -372,7 +372,7 @@ const baseTemplates = {
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
     script:
-      'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && echo "module.exports = {}" > webpack.config.js',
+      'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
