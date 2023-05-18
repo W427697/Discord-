@@ -226,7 +226,7 @@ const baseTemplates = {
   'html-vite/default-js': {
     name: 'HTML Vite JS',
     script:
-      'npm create vite@latest --yes . -- --template vanilla && echo "export default {}" > vite.config.js',
+      'npm create vite@latest --yes . -- --template vanilla && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -237,7 +237,7 @@ const baseTemplates = {
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
     script:
-      'npm create vite@latest --yes . -- --template vanilla-ts && echo "export default {}" > vite.config.js',
+      'npm create vite@latest --yes . -- --template vanilla-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -324,7 +324,7 @@ const baseTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
     script:
-      'npm create vite@latest --yes . -- --template lit && echo "export default {}" > vite.config.js',
+      'npm create vite@latest --yes . -- --template lit && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -336,7 +336,7 @@ const baseTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
     script:
-      'npm create vite@latest --yes . -- --template lit-ts && echo "export default {}" > vite.config.js',
+      'npm create vite@latest --yes . -- --template lit-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -348,7 +348,7 @@ const baseTemplates = {
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
     script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge && echo "module.exports = {}" > webpack.config.js',
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -360,7 +360,7 @@ const baseTemplates = {
   'vue-cli/vue2-default-js': {
     name: 'Vue-CLI (Vue2 JS)',
     script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && echo "module.exports = {}" > webpack.config.js',
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
@@ -383,7 +383,7 @@ const baseTemplates = {
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
     script:
-      'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && echo "module.exports = {}" > webpack.config.js',
+      'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
