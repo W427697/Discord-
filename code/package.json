@@ -260,6 +260,7 @@
     "util": "^0.12.4",
     "vite": "^4.0.0",
     "vite-plugin-turbosnap": "^1.0.1",
+    "vue-component-meta": "^1.6.5",
     "wait-on": "^5.2.1"
   },
   "dependenciesMeta": {

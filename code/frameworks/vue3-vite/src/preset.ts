@@ -2,7 +2,7 @@ import { hasVitePlugins } from '@storybook/builder-vite';
 import type { PresetProperty } from '@storybook/types';
 import { mergeConfig, type PluginOption } from 'vite';
 import type { StorybookConfig } from './types';
-import { vueDocgen } from './plugins/vue-docgen';
+import { vueComponentMeta } from './plugins/vue-component-meta';
 
 export const core: PresetProperty<'core', StorybookConfig> = {
   builder: '@storybook/builder-vite',
@@ -19,7 +19,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
   }
 
   // Add docgen plugin
-  plugins.push(vueDocgen());
+  plugins.push(vueComponentMeta());
 
   return mergeConfig(config, {
     plugins,

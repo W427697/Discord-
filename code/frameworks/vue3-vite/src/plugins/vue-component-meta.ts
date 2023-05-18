@@ -8,7 +8,7 @@ import MagicString from 'magic-string';
 import type { MetaCheckerOptions } from 'vue-component-meta';
 import { createComponentMetaChecker } from 'vue-component-meta';
 
-export function vueDocgen(): PluginOption {
+export function vueComponentMeta(): PluginOption {
   const include = /\.(vue|ts)$/;
   const filter = createFilter(include);
 
@@ -22,10 +22,35 @@ export function vueDocgen(): PluginOption {
     path.join(__dirname, '../../../../tsconfig.json'),
     checkerOptions
   );
+  const isVueComponent = (fileSource: string) => {
+    try {
+      const module = getDefaultExport(fileSource);
+      if (module === 'defineComponent') return true;
+    } catch (e) {
+      return false;
+    }
+    return false;
+  };
+
+  const getDefaultExport = (filePath: string) => {
+    // eslint-disable-next-line global-require
+    const ts: typeof import('typescript/lib/tsserverlibrary') = require('typescript');
+    const program = ts.createProgram([filePath], {});
+    const sourceFile = program.getSourceFile(filePath)!;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const statement of sourceFile.statements) {
+      if (
+        ts.isExportAssignment(statement) &&
+        statement.expression.expression?.escapedText === 'defineComponent'
+      ) {
+        return 'defineComponent';
+      }
+    }
+    return undefined;
+  };
 
   return {
-    name: 'storybook:vue-docgen-plugin',
-
+    name: 'storybook:vue-component-meta-plugin',
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;
 
@@ -33,7 +58,6 @@ export function vueDocgen(): PluginOption {
       try {
         const meta = checker.getComponentMeta(id);
 
-        console.log('\n- meta = props :', meta.props);
         metaSource = {
           exportName: checker.getExportNames(id)[0],
           displayName: id
@@ -50,7 +74,7 @@ export function vueDocgen(): PluginOption {
         if (!isVue) {
           return undefined;
         }
-        console.log('metaSource = ', metaSource);
+
         metaSource = JSON.stringify(metaSource);
 
         const s = new MagicString(src);
@@ -61,59 +85,13 @@ export function vueDocgen(): PluginOption {
 
         s.append(`;_sfc_main.__docgenInfo = ${metaSource}`);
 
-        // console.log('s = ', s.toString());
-
-        const ss = {
+        return {
           code: s.toString(),
           map: s.generateMap({ hires: true, source: id }),
         };
-
-        if (tsVueComponent || id.endsWith('Button.vue'))
-          console.log(
-            'tsVueComponent = \n',
-            '---------------------------------------------------------------\n',
-            ss.code,
-            '\n---------------------------------------------------------------\n',
-            '\n'
-          );
-        return ss;
       } catch (e) {
-        console.log('-------Checker error = ', e);
         return undefined;
       }
     },
   };
-}
-
-function isVueComponent(fileSource: string) {
-  try {
-    const module = getDefaultExport(fileSource);
-    console.log('getDefaultExport = ', module);
-    if (module === 'defineComponent') return true;
-  } catch (e) {
-    console.log('getDefaultExport error = ', e);
-    return false;
-  }
-  return false;
-}
-
-function getDefaultExport(filePath: string): any {
-  console.log('-- filePath > ', filePath);
-  // eslint-disable-next-line global-require
-  const ts: typeof import('typescript/lib/tsserverlibrary') = require('typescript');
-  // Create a program from the main entry point.
-  const program = ts.createProgram([filePath], {});
-  // Parse the main source file and look for type definitions.
-  const sourceFile = program.getSourceFile(filePath)!;
-  // eslint-disable-next-line no-restricted-syntax
-  for (const statement of sourceFile.statements) {
-    // console.log('\nstatement = ', statement);
-    if (
-      ts.isExportAssignment(statement) &&
-      statement.expression.expression?.escapedText === 'defineComponent'
-    ) {
-      return 'defineComponent';
-    }
-  }
-  return undefined;
 }
