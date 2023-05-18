@@ -231,8 +231,7 @@ export const Example = {
         isChecked: false,
         label: "Switch Me!"
     },
-    render: (args) => {
-      // eslint-disable-next-line
+    render: function Render(args) {      
       const [{ isChecked }, updateArgs] = UseArgs();
 
       function onChange() {
