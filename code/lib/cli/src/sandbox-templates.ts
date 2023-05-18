@@ -461,7 +461,7 @@ const internalTemplates = {
   },
   'internal/server-webpack5': {
     name: 'Server Webpack5',
-    script: 'yarn init -y',
+    script: 'yarn init -y && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/server-webpack5',
       renderer: '@storybook/server',
