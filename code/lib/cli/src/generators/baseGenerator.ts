@@ -321,7 +321,7 @@ export async function baseGenerator(
       );
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        const shouldInstallESLintPlugin = yes || await suggestESLintPlugin();
+        const shouldInstallESLintPlugin = yes || (await suggestESLintPlugin());
         if (shouldInstallESLintPlugin) {
           depsToInstall.push('eslint-plugin-storybook');
           await configureEslintPlugin(eslintConfigFile, packageManager);
