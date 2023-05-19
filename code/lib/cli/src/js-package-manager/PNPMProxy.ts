@@ -37,7 +37,7 @@ export class PNPMProxy extends JsPackageManager {
   async initPackageJson() {
     await this.executeCommand({
       command: 'pnpm',
-      args: ['init', '-y'],
+      args: ['init'],
     });
   }
 
