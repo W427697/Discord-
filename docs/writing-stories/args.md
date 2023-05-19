@@ -97,8 +97,8 @@ You can also define args at the global level; they will apply to every component
 
 <CodeSnippets
   paths={[
-    'common/button-story-project-args-theme.js.mdx',
-    'common/button-story-project-args-theme.ts.mdx',
+    'common/preview-config-args.js.mdx',
+    'common/preview-config-args.ts.mdx',
   ]}
 />
 

@@ -1,0 +1,10 @@
+```js
+// .storybook/preview.js
+
+export default {
+  // 👇 All stories expect a theme arg
+  argTypes: { theme: { control: 'select', options: ['light', 'dark'] } },
+  // 👇 The default value of the theme arg for all stories
+  args: { theme: 'light' },
+};
+```

@@ -552,6 +552,58 @@ module.exports = {
           ],
         },
         {
+          title: 'preview.js|ts configuration',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            {
+              title: 'Overview',
+              pathSegment: 'preview-config',
+              type: 'link',
+            },
+            {
+              title: 'args',
+              pathSegment: 'preview-config-args',
+              type: 'link',
+            },
+            {
+              title: 'argTypes',
+              pathSegment: 'preview-config-arg-types',
+              type: 'link',
+            },
+            {
+              title: 'decorators',
+              pathSegment: 'preview-config-decorators',
+              type: 'link',
+            },
+            {
+              title: 'globals',
+              pathSegment: 'preview-config-globals',
+              type: 'link',
+            },
+            {
+              title: 'globalTypes',
+              pathSegment: 'preview-config-global-types',
+              type: 'link',
+            },
+            {
+              title: 'loaders',
+              pathSegment: 'preview-config-loaders',
+              type: 'link',
+            },
+            {
+              title: 'parameters',
+              pathSegment: 'preview-config-parameters',
+              type: 'link',
+            },
+            {
+              title: 'render',
+              pathSegment: 'preview-config-render',
+              type: 'link',
+            },
+          ],
+        },
+        {
           title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
