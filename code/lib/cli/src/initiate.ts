@@ -199,7 +199,7 @@ const installStorybook = async <Project extends ProjectType>(
   try {
     return await runGenerator();
   } catch (err) {
-    if (err?.stack) {
+    if (err?.message !== 'Canceled by the user' && err?.stack) {
       logger.error(`\n     ${chalk.red(err.stack)}`);
     }
     throw new HandledError(err);
@@ -238,12 +238,6 @@ const projectTypeInquirer = async (
 };
 
 async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
-  process.on('SIGINT', () => {
-    logger.log();
-    logger.log('Storybook init canceled by the user.');
-    process.exit(0);
-  });
-
   let { packageManager: pkgMgr } = options;
   if (options.useNpm) {
     useNpmWarning();
@@ -292,7 +286,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   const storybookInstantiated = isStorybookInstantiated();
 
-  if (storybookInstantiated && projectType !== ProjectType.ANGULAR) {
+  if (options.force === false && storybookInstantiated && projectType !== ProjectType.ANGULAR) {
     logger.log();
     const { force } = await prompts([
       {
