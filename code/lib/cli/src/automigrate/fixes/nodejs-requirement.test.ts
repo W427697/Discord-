@@ -1,6 +1,5 @@
 /// <reference types="@types/jest" />;
 
-import { makePackageManager } from '../helpers/testing-helpers';
 import { nodeJsRequirement } from './nodejs-requirement';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
