@@ -4123,7 +4123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/nx-darwin-x64@npm:15.9.4, @nrwl/nx-darwin-x64@npm:^15.9.3":
+"@nrwl/nx-darwin-x64@npm:15.9.4":
   version: 15.9.4
   resolution: "@nrwl/nx-darwin-x64@npm:15.9.4"
   conditions: os=darwin & cpu=x64
@@ -6842,7 +6842,6 @@ __metadata:
     "@linear/sdk": ^1.21.0
     "@nrwl/cli": ^15.4.5
     "@nrwl/nx-cloud": ^15.0.2
-    "@nrwl/nx-darwin-x64": ^15.9.3
     "@nrwl/workspace": ^15.4.5
     "@playwright/test": 1.32.3
     "@storybook/addon-a11y": "workspace:*"
@@ -6989,7 +6988,7 @@ __metadata:
     lint-staged: ^10.5.4
     lodash: ^4.17.21
     node-gyp: ^8.4.0
-    nx: ^15.9.0
+    nx: ^15.4.5
     playwright: 1.32.3
     prettier: 2.8.0
     process: ^0.11.10
@@ -7261,7 +7260,7 @@ __metadata:
     typescript: ~4.9.3
     vite: ^4.0.0
     vue: ^2.7.10
-    vue-component-meta: 1.6
+    vue-component-meta: 1.6.5
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -22398,7 +22397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nx@npm:15.9.4, nx@npm:>=15.5.2 < 16, nx@npm:^15.9.0":
+"nx@npm:15.9.4, nx@npm:>=15.5.2 < 16, nx@npm:^15.4.5":
   version: 15.9.4
   resolution: "nx@npm:15.9.4"
   dependencies:

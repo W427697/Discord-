@@ -52,7 +52,7 @@
     "@storybook/core-server": "7.1.0-alpha.19",
     "@storybook/vue": "7.1.0-alpha.19",
     "magic-string": "^0.27.0",
-    "vue-component-meta": "1.6"
+    "vue-component-meta": "1.6.5"
   },
   "devDependencies": {
     "typescript": "~4.9.3",
