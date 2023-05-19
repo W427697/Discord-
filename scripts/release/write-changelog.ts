@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
@@ -18,6 +19,7 @@ program
     'write changelog based on merged PRs and commits. the <version> argument describes which version to generate for, must be a semver string'
   )
   .arguments('<version>')
+  .option('-P, --patches-only', 'Set to only consider PRs labeled with "patch" label')
   .option(
     '-F, --from <tag>',
     'Which tag or commit to generate changelog from, eg. "7.0.7". Leave unspecified to select latest released tag in git history'
@@ -30,6 +32,7 @@ program
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const optionsSchema = z.object({
+  patchesOnly: z.boolean().optional(),
   from: z.string().optional(),
   to: z.string().optional(),
   verbose: z.boolean().optional(),
@@ -37,6 +40,7 @@ const optionsSchema = z.object({
 });
 
 type Options = {
+  patchesOnly?: boolean;
   from?: string;
   to?: string;
   verbose: boolean;
@@ -179,10 +183,12 @@ type ChangelogEntry = PullRequestInfo;
 const getChangelogEntries = ({
   commits,
   pullRequests,
+  patchesOnly,
   verbose,
 }: {
   commits: readonly (DefaultLogFields & ListLogLine)[];
   pullRequests: PullRequestInfo[];
+  patchesOnly?: boolean;
   verbose?: boolean;
 }): ChangelogEntry[] => {
   if (pullRequests.length !== commits.length) {
@@ -202,16 +208,20 @@ const getChangelogEntries = ({
   });
 
   const changelogEntries: ChangelogEntry[] = [];
-  // eslint-disable-next-line no-restricted-syntax
-  for (const entry of allEntries) {
-    // here we filter out any duplicate entries, eg. when multiple commits are associated with the same pull request
+  allEntries.forEach((entry) => {
+    // filter out any duplicate entries, eg. when multiple commits are associated with the same pull request
     if (
-      !entry.pull ||
-      changelogEntries.findIndex((existing) => entry.pull === existing.pull) === -1
+      entry.pull &&
+      changelogEntries.findIndex((existing) => entry.pull === existing.pull) !== -1
     ) {
-      changelogEntries.push(entry);
+      return;
     }
-  }
+    // filter out any entries that are not patches if patchesOnly is set. this will also filter out direct commits
+    if (patchesOnly && !entry.labels?.includes('patch')) {
+      return;
+    }
+    changelogEntries.push(entry);
+  });
 
   if (verbose) {
     console.log(`📝 Generated changelog entries:`);
@@ -279,7 +289,7 @@ export const run = async (args: unknown[], options: unknown) => {
   if (!validateOptions(args, options)) {
     return;
   }
-  const { from, to, dryRun, verbose } = options;
+  const { from, to, patchesOnly, dryRun, verbose } = options;
   const version = args[0] as string;
 
   console.log(
@@ -301,7 +311,7 @@ export const run = async (args: unknown[], options: unknown) => {
     console.error(err);
     throw err;
   });
-  const changelogEntries = getChangelogEntries({ commits, pullRequests, verbose });
+  const changelogEntries = getChangelogEntries({ commits, pullRequests, patchesOnly, verbose });
   const changelogText = getChangelogText({
     changelogEntries,
     version,
