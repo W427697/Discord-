@@ -10,22 +10,21 @@ const fsExtra = require('fs-extra');
 jest.mock('../utils/exec');
 const { execaCommand } = require('../utils/exec');
 
-const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
-const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
-const MANAGER_API_VERSION_PATH = path.join(
-  CODE_DIR_PATH,
-  'lib',
-  'manager-api',
-  'src',
-  'version.ts'
-);
-const VERSIONS_PATH = path.join(CODE_DIR_PATH, 'lib', 'cli', 'src', 'versions.ts');
+beforeEach(() => {
+  jest.resetAllMocks();
+});
 
 describe('Version', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
+  const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
+  const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
+  const MANAGER_API_VERSION_PATH = path.join(
+    CODE_DIR_PATH,
+    'lib',
+    'manager-api',
+    'src',
+    'version.ts'
+  );
+  const VERSIONS_PATH = path.join(CODE_DIR_PATH, 'lib', 'cli', 'src', 'versions.ts');
   it('should throw on invalid release type', async () => {
     await expect(() => version({ releaseType: 'invalid' })).rejects.toThrow();
   });

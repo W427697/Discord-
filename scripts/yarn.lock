@@ -2167,6 +2167,7 @@ __metadata:
     cross-env: ^7.0.3
     cross-spawn: ^7.0.3
     danger: ^10.6.2
+    dataloader: ^2.2.2
     detect-port: ^1.3.0
     ejs: ^3.1.8
     ejs-lint: ^2.0.0
@@ -2217,6 +2218,7 @@ __metadata:
     semver: ^7.3.7
     serve-static: ^1.14.1
     shelljs: ^0.8.5
+    simple-git: ^3.18.0
     slash: ^3.0.0
     sort-package-json: ^1.48.1
     tempy: ^1.0.0
@@ -2232,6 +2234,7 @@ __metadata:
     verdaccio-auth-memory: ^10.2.0
     wait-on: ^5.2.1
     window-size: ^1.1.1
+    zod: ^3.21.4
     zx: ^7.0.3
   dependenciesMeta:
     "@verdaccio/types":
@@ -2244,6 +2247,22 @@ __metadata:
       optional: true
   languageName: unknown
   linkType: soft
+
+"@kwsites/file-exists@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/file-exists@npm:1.1.1"
+  dependencies:
+    debug: ^4.1.1
+  checksum: 39e693239a72ccd8408bb618a0200e4a8d61682057ca7ae2c87668d7e69196e8d7e2c9cde73db6b23b3b0230169a15e5f1bfe086539f4be43e767b2db68e8ee4
+  languageName: node
+  linkType: hard
+
+"@kwsites/promise-deferred@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/promise-deferred@npm:1.1.1"
+  checksum: ef1ad3f1f50991e3bed352b175986d8b4bc684521698514a2ed63c1d1fc9848843da4f2bc2df961c9b148c94e1c34bf33f0da8a90ba2234e452481f2cc9937b1
+  languageName: node
+  linkType: hard
 
 "@linear/sdk@npm:^1.22.0":
   version: 1.22.0
@@ -5890,6 +5909,13 @@ __metadata:
     whatwg-mimetype: ^3.0.0
     whatwg-url: ^11.0.0
   checksum: 051c3aaaf3e961904f136aab095fcf6dff4db23a7fc759dd8ba7b3e6ba03fc07ef608086caad8ab910d864bd3b5e57d0d2f544725653d77c96a2c971567045f4
+  languageName: node
+  linkType: hard
+
+"dataloader@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "dataloader@npm:2.2.2"
+  checksum: 125ec69f821478cf7c6b4360095db6cab939fe57876a0d2060c428091a8deee7152345189923b71a6afa694aaec463779f34b585317164016fd6f54f52cd94ba
   languageName: node
   linkType: hard
 
@@ -13553,6 +13579,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"simple-git@npm:^3.18.0":
+  version: 3.18.0
+  resolution: "simple-git@npm:3.18.0"
+  dependencies:
+    "@kwsites/file-exists": ^1.1.1
+    "@kwsites/promise-deferred": ^1.1.1
+    debug: ^4.3.4
+  checksum: 1e642b49b0af98e757388010f226ca51926e8e4f7c488d1ea487435328bac6b08e827ddd59cefcf86512b6fd0d39f847c437690e7362d925195e9d4faba72e94
+  languageName: node
+  linkType: hard
+
 "sisteransi@npm:^1.0.5":
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
@@ -15901,6 +15938,13 @@ __metadata:
     property-expr: ^2.0.4
     toposort: ^2.0.2
   checksum: f0802798dc64b49f313886b983a9bea5f283e2094ee2aa1197587b84f50ac5b5d03af99857c313139e63dc02558fac3aaa343503bdbffa96f70006b39d1f59c9
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.21.4":
+  version: 3.21.4
+  resolution: "zod@npm:3.21.4"
+  checksum: 161e8cf7aea38a99244d65da4a9477d9d966f6a533e503feaa20ff7968a9691065c38c6f1eab5cbbdc8374142fff4a05c9cacb8479803ab50ab6a6ca80e5d624
   languageName: node
   linkType: hard
 
