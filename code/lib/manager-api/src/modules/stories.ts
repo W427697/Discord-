@@ -141,6 +141,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     isPrepared: (storyId, refId) => {
       const data = api.getData(storyId, refId);
+      if(!data) return false;
       return data.type === 'story' ? data.prepared : true;
     },
     resolveStory: (storyId, refId) => {
