@@ -22,7 +22,7 @@ export const createBabelLoader = (
   };
 };
 
-export const createSWCLoader = (options: any, excludes: string[] = []) => {
+export const createSWCLoader = (excludes: string[] = []) => {
   logger.warn(dedent`
     The SWC loader is an experimental feature and may change or even be removed at any time.
   `);
@@ -41,10 +41,7 @@ export const createSWCLoader = (options: any, excludes: string[] = []) => {
     use: [
       {
         loader: require.resolve('swc-loader'),
-        options: {
-          ...config,
-          ...options,
-        },
+        options: config,
       },
     ],
     include: [getProjectRoot()],
