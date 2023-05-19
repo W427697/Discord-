@@ -1,27 +1,26 @@
 /// <reference types="@types/jest" />;
 
 import type { StorybookConfig } from '@storybook/types';
-import type { PackageJson } from '../../js-package-manager';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import { incompatibleAddons } from './incompatible-addons';
 import * as packageVersions from '../helpers/getActualPackageVersions';
+import type { JsPackageManager } from '../../js-package-manager';
 
 jest.mock('../helpers/getActualPackageVersions');
 
 const check = async ({
-  packageJson,
+  packageManager,
   main: mainConfig = {},
   storybookVersion = '7.0.0',
 }: {
-  packageJson: PackageJson;
+  packageManager: Partial<JsPackageManager>;
   main?: Partial<StorybookConfig> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
-  mockStorybookData({ mainConfig, storybookVersion });
-
   return incompatibleAddons.check({
-    packageManager: makePackageManager(packageJson),
+    packageManager: packageManager as any,
     configDir: '',
+    mainConfig: mainConfig as any,
+    storybookVersion,
   });
 };
 
@@ -42,14 +41,11 @@ describe('incompatible-addons fix', () => {
       ])
     );
 
-    const packageJson = {
-      dependencies: {
-        '@storybook/addon-essentials': '^7.0.0',
-        '@storybook/addon-info': '^6.0.0',
-      },
-    };
     await expect(
-      check({ packageJson, main: { addons: ['@storybook/essentials', '@storybook/addon-info'] } })
+      check({
+        packageManager: {},
+        main: { addons: ['@storybook/essentials', '@storybook/addon-info'] },
+      })
     ).resolves.toEqual({
       incompatibleAddonList: [
         {
@@ -70,11 +66,8 @@ describe('incompatible-addons fix', () => {
       ])
     );
 
-    const packageJson = {
-      dependencies: { '@storybook/addon-essentials': '^7.0.0' },
-    };
     await expect(
-      check({ packageJson, main: { addons: ['@storybook/essentials'] } })
+      check({ packageManager: {}, main: { addons: ['@storybook/essentials'] } })
     ).resolves.toBeNull();
   });
 });

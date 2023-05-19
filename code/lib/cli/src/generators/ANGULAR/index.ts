@@ -13,16 +13,8 @@ const generator: Generator<{ projectName: string }> = async (
   options,
   commandOptions
 ) => {
-  const angularVersionFromDependencies = semver.coerce(
-    (await packageManager.retrievePackageJson()).dependencies['@angular/core']
-  )?.version;
-
-  const angularVersionFromDevDependencies = semver.coerce(
-    (await packageManager.retrievePackageJson()).devDependencies['@angular/core']
-  )?.version;
-
-  const angularVersion = angularVersionFromDependencies || angularVersionFromDevDependencies;
-  const isWebpack5 = semver.gte(angularVersion, '12.0.0');
+  const angularVersion = await packageManager.getPackageVersion('@angular/core');
+  const isWebpack5 = angularVersion && semver.gte(angularVersion, '12.0.0');
   const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
   const angularJSON = new AngularJSON();

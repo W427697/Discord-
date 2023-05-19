@@ -18,16 +18,6 @@ import storybookMonorepoPackages from './versions';
 
 const logger = console;
 
-export function getBowerJson() {
-  const bowerJsonPath = path.resolve('bower.json');
-  if (!fs.existsSync(bowerJsonPath)) {
-    return false;
-  }
-
-  const jsonContent = fs.readFileSync(bowerJsonPath, 'utf8');
-  return JSON.parse(jsonContent);
-}
-
 export function readFileAsJson(jsonPath: string, allowComments?: boolean) {
   const filePath = path.resolve(jsonPath);
   if (!fs.existsSync(filePath)) {
@@ -274,6 +264,7 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
   return allDeps[storybookPackage];
 }
 
-export function isNxProject(packageJSON: PackageJson) {
-  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
+export async function isNxProject(packageManager: JsPackageManager) {
+  const nxVersion = await packageManager.getPackageVersion('nx');
+  return nxVersion ?? fs.existsSync('nx.json');
 }

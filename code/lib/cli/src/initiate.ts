@@ -50,14 +50,7 @@ const installStorybook = async <Project extends ProjectType>(
     skipInstall: options.skipInstall,
   };
 
-  let packageJson;
-  try {
-    packageJson = await packageManager.readPackageJson();
-  } catch (err) {
-    //
-  }
-
-  const language = detectLanguage(packageJson);
+  const language = await detectLanguage(packageManager);
   const pnp = detectPnp();
 
   const generatorOptions = {
@@ -263,8 +256,6 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     : 'Detecting project type';
   const done = commandLog(infoText);
 
-  const packageJson = await packageManager.retrievePackageJson();
-
   if (projectTypeProvided) {
     if (installableProjectTypes.includes(projectTypeProvided)) {
       projectType = projectTypeProvided.toUpperCase();
@@ -277,7 +268,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     }
   } else {
     try {
-      projectType = detect(packageJson, options);
+      projectType = detect(packageManager, options);
     } catch (err) {
       done(err.message);
       throw new HandledError(err);

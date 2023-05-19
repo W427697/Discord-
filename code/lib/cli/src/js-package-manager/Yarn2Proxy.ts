@@ -4,6 +4,7 @@ import fs, { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { NodeFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
 import { getLibzipSync } from '@yarnpkg/libzip';
+import semver from 'semver';
 import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -153,9 +154,10 @@ export class Yarn2Proxy extends JsPackageManager {
         const virtualFile = virtualFs.readJsonSync(
           path.join(pkg.packageLocation, 'package.json') as any
         );
-        return virtualFile.version;
+        return semver.coerce(virtualFile.version)?.version ?? null;
       } catch (error) {
         console.error('Error while fetching package version in Yarn PnP mode:', error);
+        return null;
       }
     }
 
@@ -172,7 +174,7 @@ export class Yarn2Proxy extends JsPackageManager {
     }
 
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-    return packageJson.version;
+    return semver.coerce(packageJson.version)?.version ?? null;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

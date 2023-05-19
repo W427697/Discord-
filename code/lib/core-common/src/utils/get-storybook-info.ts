@@ -45,6 +45,8 @@ export const frameworkPackages: Record<string, string> = {
   'storybook-solidjs-vite': 'solid',
 };
 
+export const builderPackages = ['@storybook/builder-webpack5', '@storybook/builder-vite'];
+
 const logger = console;
 
 const findDependency = (

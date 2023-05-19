@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import type { Fix } from '../types';
-import { getStorybookData } from '../helpers/mainConfigFile';
 import { getIncompatibleAddons } from '../helpers/getIncompatibleAddons';
 
 interface IncompatibleAddonsOptions {
@@ -12,12 +11,7 @@ export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
   id: 'incompatible-addons',
   promptOnly: true,
 
-  async check({ packageManager, configDir }) {
-    const { mainConfig } = await getStorybookData({
-      packageManager,
-      configDir,
-    });
-
+  async check({ mainConfig }) {
     const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
 
     return incompatibleAddonList.length > 0 ? { incompatibleAddonList } : null;

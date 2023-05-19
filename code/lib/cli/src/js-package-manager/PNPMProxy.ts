@@ -3,6 +3,7 @@ import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import path from 'path';
 import fs from 'fs';
+import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -130,9 +131,10 @@ export class PNPMProxy extends JsPackageManager {
           'utf-8'
         );
 
-        return JSON.parse(packageJSON).version;
+        return semver.coerce(JSON.parse(packageJSON).version)?.version ?? null;
       } catch (error) {
         console.error('Error while fetching package version in Yarn PnP mode:', error);
+        return null;
       }
     }
 
@@ -150,7 +152,7 @@ export class PNPMProxy extends JsPackageManager {
 
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
-    return packageJson.version;
+    return semver.coerce(packageJson.version)?.version ?? null;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

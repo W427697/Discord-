@@ -16,6 +16,7 @@ import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
 import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
+import { getStorybookData } from './helpers/mainConfigFile';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -211,10 +212,19 @@ export async function runFixes({
     let result;
 
     try {
+      const { mainConfig, previewConfigPath } = await getStorybookData({
+        configDir,
+        packageManager,
+      });
+
       result = await f.check({
         packageManager,
         configDir,
         rendererPackage,
+        mainConfig,
+        storybookVersion,
+        previewConfigPath,
+        mainConfigPath,
       });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);

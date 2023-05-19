@@ -23,6 +23,7 @@ export * from '../types';
 
 export const allFixes: Fix[] = [
   nodeJsRequirement,
+  newFrameworks,
   cra5,
   webpack5,
   vue3,
@@ -30,7 +31,6 @@ export const allFixes: Fix[] = [
   builderVite,
   sbBinary,
   sbScripts,
-  newFrameworks,
   incompatibleAddons,
   removedGlobalClientAPIs,
   mdx1to2,

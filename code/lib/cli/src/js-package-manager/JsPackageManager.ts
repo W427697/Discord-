@@ -49,10 +49,7 @@ export abstract class JsPackageManager {
 
   public readonly cwd?: string;
 
-  public abstract getPackageVersion(
-    packageName: string,
-    basePath?: string
-  ): Promise<string | undefined>;
+  public abstract getPackageVersion(packageName: string, basePath?: string): Promise<string | null>;
 
   // NOTE: for some reason yarn prefers the npm registry in
   // local development, so always use npm

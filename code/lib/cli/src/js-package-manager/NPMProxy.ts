@@ -4,6 +4,7 @@ import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
+import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -80,7 +81,10 @@ export class NPMProxy extends JsPackageManager {
     return this.executeCommand({ command: 'npm', args: ['--version'] });
   }
 
-  public async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string> {
+  public async getPackageVersion(
+    packageName: string,
+    basePath = process.cwd()
+  ): Promise<string | null> {
     const packageJsonPath = await findUpSync(
       (dir) => {
         const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
@@ -94,7 +98,7 @@ export class NPMProxy extends JsPackageManager {
     }
 
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
-    return packageJson.version;
+    return semver.coerce(packageJson.version)?.version ?? null;
   }
 
   getInstallArgs(): string[] {

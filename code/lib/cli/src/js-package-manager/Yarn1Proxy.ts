@@ -2,6 +2,7 @@ import dedent from 'ts-dedent';
 import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
+import semver from 'semver';
 import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -62,7 +63,10 @@ export class Yarn1Proxy extends JsPackageManager {
     return this.executeCommand({ command: `yarn`, args: [command, ...args], cwd });
   }
 
-  public async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string> {
+  public async getPackageVersion(
+    packageName: string,
+    basePath = process.cwd()
+  ): Promise<string | null> {
     const packageJsonPath = await findUpSync(
       (dir) => {
         const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
@@ -76,7 +80,7 @@ export class Yarn1Proxy extends JsPackageManager {
     }
 
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
-    return packageJson.version;
+    return semver.coerce(packageJson.version)?.version ?? null;
   }
 
   public async findInstallations(pattern: string[]) {
