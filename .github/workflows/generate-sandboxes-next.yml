@@ -49,4 +49,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'generate sandboxes norbert/discord-message-generate-sandboxes-fail has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+          args: 'generate sandboxes norbert/discord-message-generate-sandboxes-fail has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs/${{ github.job }})'
