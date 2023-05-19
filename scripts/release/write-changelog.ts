@@ -294,7 +294,13 @@ export const run = async (args: unknown[], options: unknown) => {
   // get commit at latest version tag
   const commits = await getAllCommitsBetween({ from: fromCommit, to: toCommit, verbose });
   const repo = await getRepo(verbose);
-  const pullRequests = await getPullInfoFromCommits({ repo, commits, verbose });
+  const pullRequests = await getPullInfoFromCommits({ repo, commits, verbose }).catch((err) => {
+    console.error(
+      `🚨 Could not get pull requests from commits, this is usually because you have unpushed commits`
+    );
+    console.error(err);
+    throw err;
+  });
   const changelogEntries = getChangelogEntries({ commits, pullRequests, verbose });
   const changelogText = getChangelogText({
     changelogEntries,
