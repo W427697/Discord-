@@ -1,24 +1,24 @@
 import { PNPMProxy } from './PNPMProxy';
 
-describe('NPM Proxy', () => {
+describe('PNPM Proxy', () => {
   let pnpmProxy: PNPMProxy;
 
   beforeEach(() => {
     pnpmProxy = new PNPMProxy();
   });
 
-  it('type should be npm', () => {
+  it('type should be pnpm', () => {
     expect(pnpmProxy.type).toEqual('pnpm');
   });
 
   describe('initPackageJson', () => {
-    it('should run `npm init -y`', async () => {
+    it('should run `pnpm init`', async () => {
       const executeCommandSpy = jest.spyOn(pnpmProxy, 'executeCommand').mockResolvedValueOnce('');
 
       await pnpmProxy.initPackageJson();
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        expect.objectContaining({ command: 'pnpm', args: ['init', '-y'] })
+        expect.objectContaining({ command: 'pnpm', args: ['init'] })
       );
     });
   });
@@ -53,7 +53,7 @@ describe('NPM Proxy', () => {
   });
 
   describe('runScript', () => {
-    it('should execute script `yarn compodoc -- -e json -d .`', async () => {
+    it('should execute script `pnpm exec compodoc -- -e json -d .`', async () => {
       const executeCommandSpy = jest
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('7.1.0');
