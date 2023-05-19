@@ -358,7 +358,7 @@ export async function baseGenerator(
       );
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        const shouldInstallESLintPlugin = await suggestESLintPlugin();
+        const shouldInstallESLintPlugin = true; // await suggestESLintPlugin(); this blocks the terminal
         if (shouldInstallESLintPlugin) {
           depsToInstall.push('eslint-plugin-storybook');
           await configureEslintPlugin(eslintConfigFile, packageManager);
