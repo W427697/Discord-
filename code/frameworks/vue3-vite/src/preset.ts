@@ -9,7 +9,10 @@ export const core: PresetProperty<'core', StorybookConfig> = {
   renderer: '@storybook/vue3',
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
+export const viteFinal: StorybookConfig['viteFinal'] = async (
+  config: Record<string, any>,
+  { _ }: any
+) => {
   const plugins: PluginOption[] = [];
 
   // Add vue plugin if not present
