@@ -1,3 +1,102 @@
+## 7.1.0-alpha.19 (May 16, 2023)
+
+#### Bug Fixes
+
+-   Normalize paths exposed to vite-builder's `storybook-stories.js` file [#22327](https://github.com/storybooks/storybook/pull/22327)
+
+## 7.1.0-alpha.18 (May 15, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix `getFrameworkPackage` logic [#22559](https://github.com/storybooks/storybook/pull/22559)
+-   CLI: Remove automigrate reference from init command [#22561](https://github.com/storybooks/storybook/pull/22561)
+
+#### Maintenance
+
+-   CLI: Detach automigrate command from storybook init [#22523](https://github.com/storybooks/storybook/pull/22523)
+
+## 7.1.0-alpha.17 (May 12, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix storybook upgrade precheckfailure object [#22517](https://github.com/storybooks/storybook/pull/22517)
+-   CLI: Throw errors instead of rejecting promises [#22515](https://github.com/storybooks/storybook/pull/22515)
+-   CSF: Expose story id in composeStories [#22471](https://github.com/storybooks/storybook/pull/22471)
+-   CLI: Remove unsupported frameworks/renderers and improve builder detection [#22492](https://github.com/storybooks/storybook/pull/22492)
+
+## 7.1.0-alpha.16 (May 11, 2023)
+
+#### Bug Fixes
+
+-   Web-components: Fix source decorator to handle document fragments [#22513](https://github.com/storybooks/storybook/pull/22513)
+-   Angular: Adjust child process I/O for compodoc command [#22441](https://github.com/storybooks/storybook/pull/22441)
+-   Core: Fix windows path error in StoryStore v6 [#22512](https://github.com/storybooks/storybook/pull/22512)
+
+#### Maintenance
+
+-   CLI: Prompt to force initialization when storybook is detected [#22392](https://github.com/storybooks/storybook/pull/22392)
+-   UI: Fix css inconsistency in Button and Icon components [#22497](https://github.com/storybooks/storybook/pull/22497)
+
+#### Build
+
+-   Sandboxes: Pin @vitejs/plugin-react to avoid conflict [#22501](https://github.com/storybooks/storybook/pull/22501)
+
+## 7.1.0-alpha.15 (May 11, 2023)
+
+#### Bug Fixes
+
+-   CLI: Do not show a migration summary on sb init [#22109](https://github.com/storybooks/storybook/pull/22109)
+-   Toolbars: Fix title behavior in UI [#22496](https://github.com/storybooks/storybook/pull/22496)
+-   UI: Show current search shortcut in search box sidebar [#21619](https://github.com/storybooks/storybook/pull/21619)
+-   Measure: Deactivate when switching to Docs mode [#21602](https://github.com/storybooks/storybook/pull/21602)
+-   Outline: Fix additional outline border in docs mode [#21773](https://github.com/storybooks/storybook/pull/21773)
+
+## 7.1.0-alpha.14 (May 9, 2023)
+
+#### Bug Fixes
+
+-   CLI: Scope styles in sample components from the CLI templates [#22162](https://github.com/storybooks/storybook/pull/22162)
+-   CLI: Fix copyTemplate failures on `init` [#22375](https://github.com/storybooks/storybook/pull/22375)
+-   CLI: Fix server init [#22443](https://github.com/storybooks/storybook/pull/22443)
+-   Server: Add json indexer [#22460](https://github.com/storybooks/storybook/pull/22460)
+-   React: Use correct default annotations for composeStories [#22308](https://github.com/storybooks/storybook/pull/22308)
+-   UI: Fix opacity of list-item color [#22074](https://github.com/storybooks/storybook/pull/22074)
+
+#### Maintenance
+
+-   CLI: Refactor package manager methods to be async [#22401](https://github.com/storybooks/storybook/pull/22401)
+-   Angular: Improve Error message for angular.json not found [#22377](https://github.com/storybooks/storybook/pull/22377)
+-   TypeScript: Migrate @storybook/instrumenter to strict TS [#22370](https://github.com/storybooks/storybook/pull/22370)
+-   TypeScript: Migrate @storybook/core-events to strict TS [#22448](https://github.com/storybooks/storybook/pull/22448)
+-   TypeScript: Migrate @storybook/core-client to strict TS [#22447](https://github.com/storybooks/storybook/pull/22447)
+-   TypeScript: Migrate @storybook/react-vite and @storybook/preact-vite to strict TS [#22428](https://github.com/storybooks/storybook/pull/22428)
+-   TypeScript: Migrate @storybook/svelte-vite to strict TS [#22411](https://github.com/storybooks/storybook/pull/22411)
+-   TypeScript: Migrate @storybook/types to strict TS [#22397](https://github.com/storybooks/storybook/pull/22397)
+-   TypeScript: Migrate @storybook/addon-storysource to strict TS [#22367](https://github.com/storybooks/storybook/pull/22367)
+-   TypeScript: Migrate @storybook/client-api to strict TS [#22421](https://github.com/storybooks/storybook/pull/22421)
+-   TypeScript: Migrate @storybook/sveltekit to strict TS [#22412](https://github.com/storybooks/storybook/pull/22412)
+-   TypeScript: Migrate @storybook/source-loader to strict TS [#22420](https://github.com/storybooks/storybook/pull/22420)
+
+## 7.1.0-alpha.13 (May 5, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix virtual modules excluded for babel-loader [#22331](https://github.com/storybooks/storybook/pull/22331)
+
+#### Maintenance
+
+-   Angular: Allow TypeScript 4.0.0 and 5.0.0 [#22391](https://github.com/storybooks/storybook/pull/22391)
+-   Angular: Enable Angular Unit tests [#22355](https://github.com/storybooks/storybook/pull/22355)
+-   TypeScript: Migrate @storybook/theming to strict TS [#22376](https://github.com/storybooks/storybook/pull/22376)
+-   TypeScript: Migrate @storybook/channel-websocket to strict TS [#22364](https://github.com/storybooks/storybook/pull/22364)
+-   TypeScript: Migrate @storybook/addon-outline to strict TS [#22369](https://github.com/storybooks/storybook/pull/22369)
+-   TypeScript: Migrate @storybook/addon-viewbook to strict ts [#22339](https://github.com/storybooks/storybook/pull/22339)
+-   TypeScript: Migrate @storybook/channels to strict TS [#22365](https://github.com/storybooks/storybook/pull/22365)
+
+#### Build
+
+-   Add Angular Prerelease sandbox [#22379](https://github.com/storybooks/storybook/pull/22379)
+
 ## 7.1.0-alpha.12 (May 3, 2023)
 
 #### Bug Fixes
