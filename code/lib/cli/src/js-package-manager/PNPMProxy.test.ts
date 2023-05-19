@@ -375,4 +375,30 @@ describe('NPM Proxy', () => {
       `);
     });
   });
+
+  describe('parseErrors', () => {
+    it('should parse pnpm errors', () => {
+      const PNPM_ERROR_SAMPLE = `
+        ERR_PNPM_NO_MATCHING_VERSION No matching version found for react@29.2.0
+
+        This error happened while installing a direct dependency of /Users/yannbraga/open-source/sandboxes/react-vite/default-js/before-storybook
+        
+        The latest release of react is "18.2.0".
+        `;
+
+      expect(pnpmProxy.parseErrorFromLogs(PNPM_ERROR_SAMPLE)).toEqual(
+        'PNPM error ERR_PNPM_NO_MATCHING_VERSION No matching version found for react@29.2.0'
+      );
+    });
+
+    it('should show unknown pnpm error', () => {
+      const PNPM_ERROR_SAMPLE = `
+        This error happened while installing a direct dependency of /Users/yannbraga/open-source/sandboxes/react-vite/default-js/before-storybook
+          
+        The latest release of react is "18.2.0".
+      `;
+
+      expect(pnpmProxy.parseErrorFromLogs(PNPM_ERROR_SAMPLE)).toEqual(`PNPM error`);
+    });
+  });
 });
