@@ -262,7 +262,7 @@ const writeToFile = async ({
   verbose?: boolean;
 }) => {
   const isPrerelease = semver.prerelease(version) !== null;
-  const changelogFilename = isPrerelease ? 'CHANGELOG-prerelease.md' : 'CHANGELOG.md';
+  const changelogFilename = isPrerelease ? 'CHANGELOG.prerelease.md' : 'CHANGELOG.md';
   const changelogPath = path.join(__dirname, '..', '..', changelogFilename);
 
   if (verbose) {
