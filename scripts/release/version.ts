@@ -15,7 +15,6 @@ import packageVersionMap from '../../code/lib/cli/src/versions';
 program
   .name('version')
   .description('version all packages')
-  .option('flags')
   .requiredOption(
     '-R, --release-type <major|minor|patch|prerelease>',
     'Which release type to use to bump the version'

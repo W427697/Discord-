@@ -13,6 +13,7 @@
     "lint:package": "sort-package-json",
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
     "release:version": "ts-node --swc ./release/version.ts",
+    "release:write-changelog": "ts-node --swc ./release/write-changelog.ts",
     "task": "ts-node --swc ./task.ts",
     "test": "jest --config ./jest.config.js",
     "upgrade": "ts-node --swc ./task.ts"
@@ -91,6 +92,7 @@
     "cross-env": "^7.0.3",
     "cross-spawn": "^7.0.3",
     "danger": "^10.6.2",
+    "dataloader": "^2.2.2",
     "detect-port": "^1.3.0",
     "ejs": "^3.1.8",
     "ejs-lint": "^2.0.0",
@@ -141,6 +143,7 @@
     "semver": "^7.3.7",
     "serve-static": "^1.14.1",
     "shelljs": "^0.8.5",
+    "simple-git": "^3.18.0",
     "slash": "^3.0.0",
     "sort-package-json": "^1.48.1",
     "tempy": "^1.0.0",
