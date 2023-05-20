@@ -521,9 +521,3 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     });
   },
 };
-
-function coerceSemver(version: string) {
-  const coercedSemver = semver.coerce(version);
-  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
-  return coercedSemver;
-}

@@ -3,7 +3,7 @@ import path, { join } from 'path';
 import fs from 'fs';
 import fse from 'fs-extra';
 import chalk from 'chalk';
-import { satisfies } from 'semver';
+import { satisfies, coerce } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
 import findUp from 'find-up';
@@ -272,4 +272,10 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
 export async function isNxProject(packageManager: JsPackageManager) {
   const nxVersion = await packageManager.getPackageVersion('nx');
   return !!nxVersion ?? findUp.sync('nx.json');
+}
+
+export function coerceSemver(version: string) {
+  const coercedSemver = coerce(version);
+  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
+  return coercedSemver;
 }

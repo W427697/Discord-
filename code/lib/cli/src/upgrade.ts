@@ -4,10 +4,9 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 
-import invariant from 'tiny-invariant';
 import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
 import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
-import { commandLog } from './helpers';
+import { coerceSemver, commandLog } from './helpers';
 import { automigrate } from './automigrate';
 
 type Package = {
@@ -257,10 +256,4 @@ export const doUpgrade = async ({
 
 export async function upgrade(options: UpgradeOptions): Promise<void> {
   await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));
-}
-
-function coerceSemver(version: string) {
-  const coercedSemver = semver.coerce(version);
-  invariant(coercedSemver != null, `Could not coerce ${version} into a semver.`);
-  return coercedSemver;
 }
