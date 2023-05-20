@@ -31,10 +31,14 @@ export const mdxgfm: Fix<Options> = {
         return true;
       }
 
-      const pattern =
-        typeof item === 'string'
-          ? slash(join(configDir, item))
-          : slash(join(configDir, item.directory, item.files));
+      invariant(configDir, 'configDir is expected to be non-null.');
+      let pattern: string;
+      if (typeof item === 'string') {
+        pattern = slash(join(configDir, item));
+      } else {
+        invariant(item.files, 'item.files is expected to be non-null.');
+        pattern = slash(join(configDir, item.directory, item.files));
+      }
 
       const files = await glob(pattern, commonGlobOptions(pattern));
 
