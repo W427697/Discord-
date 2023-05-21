@@ -158,12 +158,16 @@ function getTemplateComponents(
 ): (TemplateChildNode | VNode)[] {
   try {
     const originalStoryFn = renderFn;
-    const story = originalStoryFn ? originalStoryFn(context?.args, context) : context?.component;
+
+    const storyFn = originalStoryFn ? originalStoryFn(context?.args, context) : context?.component;
+    const story = typeof storyFn === 'function' ? storyFn() : storyFn;
+
     const { template } = story;
 
     if (!template) return [h(story, context?.args)];
     return getComponents(template);
   } catch (e) {
+    console.log('error', e);
     return [];
   }
 }
@@ -244,6 +248,7 @@ export function generateTemplateSource(
               .map((child) => child.content)
               .join('')
         : '';
+      console.log(' vnode ', vnode, ' childSources ', childSources, ' attributes ', attributes);
       const name =
         typeof type === 'string'
           ? type

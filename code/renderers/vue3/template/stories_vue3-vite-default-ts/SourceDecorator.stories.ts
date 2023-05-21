@@ -1,3 +1,4 @@
+import { expect } from '@storybook/jest';
 import { global as globalThis } from '@storybook/global';
 import { within } from '@storybook/testing-library';
 import { STORY_ARGS_UPDATED, RESET_STORY_ARGS, UPDATE_STORY_ARGS } from '@storybook/core-events';
@@ -47,30 +48,5 @@ export const MultiComponents: Story = {
                 </div>   
                </div>`,
     };
-  },
-  play: async ({ canvasElement, id }) => {
-    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
-    const canvas = within(canvasElement);
-
-    await channel.emit(RESET_STORY_ARGS, { storyId: id });
-    await new Promise((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
-
-    channel.on(SNIPPET_RENDERED, (snippet: any) => {
-      console.log('SNIPPET_RENDERED', snippet);
-    }); // snippet is the rendered code snippet
-
-    await channel.emit(UPDATE_STORY_ARGS, {
-      storyId: id,
-      updatedArgs: {
-        label: 'Button 1',
-        size: 'small',
-        backgroundColor: '#aa00ff',
-      },
-    });
-    await new Promise((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
   },
 };
