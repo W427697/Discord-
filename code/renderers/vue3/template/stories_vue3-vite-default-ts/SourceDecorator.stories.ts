@@ -1,11 +1,5 @@
-import { expect } from '@storybook/jest';
-import { global as globalThis } from '@storybook/global';
-import { within } from '@storybook/testing-library';
-import { STORY_ARGS_UPDATED, RESET_STORY_ARGS, UPDATE_STORY_ARGS } from '@storybook/core-events';
-
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import GlobalUsage from './GlobalUsage.vue';
 import GlobalSetup from './GlobalSetup.vue';
 
