@@ -1,3 +1,32 @@
+## 7.0.13 (May 22, 2023)
+
+#### Bug Fixes
+
+-   Angular: Fix process I/O for compodoc command [#22441](https://github.com/storybooks/storybook/pull/22441)
+-   CLI: Improve error handling when dealing with angular.json files [#22663](https://github.com/storybooks/storybook/pull/22663)
+-   CLI: Skip prompting for eslint plugin with --yes flag [#22651](https://github.com/storybooks/storybook/pull/22651)
+-   CLI: Account for windows paths when copying templates [#22644](https://github.com/storybooks/storybook/pull/22644)
+-   CLI: Fix pnpm init command [#22635](https://github.com/storybooks/storybook/pull/22635)
+-   UI: Add legacy font formats [#22576](https://github.com/storybooks/storybook/pull/22576)
+-   Webpack: Remove the alias for `global` [#22393](https://github.com/storybooks/storybook/pull/22393)
+
+#### Maintenance
+
+-   Angular: Enable unit tests [#22355](https://github.com/storybooks/storybook/pull/22355)
+-   CLI: Reduce installation noise and improve error handling [#22554](https://github.com/storybooks/storybook/pull/22554)
+
+#### Build
+
+-   Build: Add discord notification when generating sandboxes fails [#22638](https://github.com/storybooks/storybook/pull/22638)
+-   Build: Set correct ref on sandboxes Github action [#22625](https://github.com/storybooks/storybook/pull/22625)
+-   Build: Fix sandbox generation scripts [#22620](https://github.com/storybooks/storybook/pull/22620)
+
+#### Dependency Upgrades
+
+-   Addon-docs: Remove mdx1-csf as optional peer dep [#22038](https://github.com/storybooks/storybook/pull/22038)
+-   React-vite: Fix perf regression by pinning vite-plugin-react-docgen-ts [#22013](https://github.com/storybooks/storybook/pull/22013)
+-   Update `@emotion/cache` version [#21941](https://github.com/storybooks/storybook/pull/21941)
+
 ## 7.0.12 (May 15, 2023)
 
 #### Bug Fixes
