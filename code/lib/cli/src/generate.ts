@@ -6,6 +6,7 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
+import { addToGlobalContext } from '@storybook/telemetry';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
@@ -20,6 +21,9 @@ import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
+import versions from './versions';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
@@ -134,7 +138,7 @@ command('extract [location] [output]')
   );
 
 command('sandbox [filterValue]')
-  .alias('repro') // for retrocompatibility purposes
+  .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
@@ -216,9 +220,9 @@ command('dev')
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
 
-    // The key is the field created in `program` variable for
+    // The key is the field created in `options` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(options, {
       port: 'SBCONFIG_PORT',
       host: 'SBCONFIG_HOSTNAME',
       staticDir: 'SBCONFIG_STATIC_DIR',
@@ -226,8 +230,9 @@ command('dev')
       ci: 'CI',
     });
 
-    if (typeof program.port === 'string' && program.port.length > 0) {
-      program.port = parseInt(program.port, 10);
+    if (parseInt(`${options.port}`, 10)) {
+      // eslint-disable-next-line no-param-reassign
+      options.port = parseInt(`${options.port}`, 10);
     }
 
     await dev({ ...options, packageJson: pkg }).catch(() => process.exit(1));
@@ -252,9 +257,9 @@ command('build')
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
 
-    // The key is the field created in `program` variable for
+    // The key is the field created in `options` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(options, {
       staticDir: 'SBCONFIG_STATIC_DIR',
       outputDir: 'SBCONFIG_OUTPUT_DIR',
       configDir: 'SBCONFIG_CONFIG_DIR',

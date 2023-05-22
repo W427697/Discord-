@@ -1,4 +1,4 @@
-import { dirname, join, resolve } from 'path';
+import { dirname, isAbsolute, join, resolve } from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -27,8 +27,9 @@ import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
+const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+
 const storybookPaths: Record<string, string> = {
-  global: dirname(require.resolve('@storybook/global/package.json')),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
@@ -40,12 +41,12 @@ const storybookPaths: Record<string, string> = {
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [`@storybook/${sbPackage}`]: dirname(require.resolve(`@storybook/${sbPackage}/package.json`)),
+      [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
     }),
     {}
   ),
   // deprecated, remove in 8.0
-  [`@storybook/api`]: dirname(require.resolve(`@storybook/manager-api/package.json`)),
+  [`@storybook/api`]: wrapForPnP(`@storybook/manager-api`),
 };
 
 export default async (
@@ -61,7 +62,6 @@ export default async (
     babelOptions,
     typescriptOptions,
     features,
-    serverChannelUrl,
   } = options;
 
   const isProd = configType === 'PRODUCTION';
@@ -110,6 +110,12 @@ export default async (
         if (typeof entry === 'object') {
           return entry.absolute;
         }
+
+        // TODO: Remove as soon as we drop support for disabled StoryStoreV7
+        if (isAbsolute(entry)) {
+          return entry;
+        }
+
         return slash(entry);
       }
     ),
@@ -141,7 +147,7 @@ export default async (
     const rendererName = await getRendererName(options);
 
     const rendererInitEntry = resolve(join(workingDir, 'storybook-init-renderer-entry.js'));
-    virtualModuleMapping[rendererInitEntry] = `import '${rendererName}';`;
+    virtualModuleMapping[rendererInitEntry] = `import '${slash(rendererName)}';`;
     entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(
@@ -252,7 +258,6 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
-            SERVER_CHANNEL_URL: serverChannelUrl,
           },
           headHtmlSnippet,
           bodyHtmlSnippet,
@@ -288,7 +293,7 @@ export default async (
             fullySpecified: false,
           },
         },
-        createBabelLoader(babelOptions, typescriptOptions),
+        createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
           type: 'asset/source',

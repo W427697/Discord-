@@ -17,13 +17,14 @@ const frameworksThatNeedBabelConfig = [
   '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
   '@storybook/html-webpack5',
+  '@storybook/web-components-webpack5',
 ];
 
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {
   id: 'missing-babelrc',
 
   async check({ configDir, packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
     const { mainConfig, storybookVersion } = await getStorybookData({ configDir, packageManager });
 
     if (!semver.gte(storybookVersion, '7.0.0')) {
@@ -67,6 +68,11 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
       We can create a ${chalk.blue(
         '.babelrc.json'
       )} file with some basic configuration and add any necessary package devDependencies.
+
+      ${chalk.bold(
+        'Note:'
+      )} After installing the necessary presets, if it does not work in a monorepo, see the babel documentation for reference:
+      ${chalk.yellow('https://babeljs.io/docs')}
 
       Please see the migration guide for more information:
       ${chalk.yellow(

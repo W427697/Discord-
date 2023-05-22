@@ -8,7 +8,7 @@ Storybook collects completely anonymous data to help us improve user experience.
 
 Hundreds of thousands of developers use Storybook daily to build, test, and document components. Storybook is framework agnostic and integrates with the front-end ecosystem:
 
-- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue](https://vuejs.org/), and [Svelte](https://svelte.dev/)
+- **JavaScript frameworks** such as [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/) and [Solid](https://www.solidjs.com/)
 - **Libraries** such as [Styled-Components](https://styled-components.com/), [Tailwind](https://tailwindcss.com/), [Redux](https://redux.js.org/)
 - **Design tools** such as [Figma](https://figma.com/), [Sketch](https://www.sketch.com/), [Zeplin](https://zeplin.io/) and [InVision](https://www.invisionapp.com/)
 - **Workflow tools** such as [Notion](https://www.notion.so/product), [Confluence](https://www.atlassian.com/software/confluence), and [Jira](https://www.atlassian.com/software/jira)
@@ -24,7 +24,7 @@ We collect general usage details, including command invocation, Storybook versio
 Specifically, we track the following information in our telemetry events:
 
 - Timestamp of the occurrence.
-- Command invoked (e.g., `init`, `upgrade`, `start-storybook`).
+- Command invoked (e.g., `init`, `upgrade`, `dev`, `build`).
 - Storybook unique identifier: One-way hash generated during Storybook installation process.
 - One way hash of the IP address where the event occurred for spam detection.
 - Story count.

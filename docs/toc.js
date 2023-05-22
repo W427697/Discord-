@@ -1,6 +1,5 @@
 module.exports = {
   toc: [
-    
     {
       title: '🚀 Get started',
       pathSegment: 'get-started',
@@ -305,6 +304,11 @@ module.exports = {
           title: 'Addon API',
           type: 'link',
         },
+        {
+          pathSegment: 'addon-migration-guide',
+          title: 'Migrate addons to 7.0',
+          type: 'link',
+        },
       ],
     },
     {
@@ -315,6 +319,11 @@ module.exports = {
         {
           pathSegment: 'overview',
           title: 'Overview',
+          type: 'link',
+        },
+        {
+          pathSegment: 'styling-and-css',
+          title: 'Styling and CSS',
           type: 'link',
         },
         {
@@ -350,11 +359,6 @@ module.exports = {
             {
               pathSegment: 'typescript',
               title: 'TypeScript',
-              type: 'link',
-            },
-            {
-              pathSegment: 'styling-and-css',
-              title: 'Styling and CSS',
               type: 'link',
             },
             {
@@ -608,6 +612,11 @@ module.exports = {
     {
       title: '❓ FAQ',
       pathSegment: 'faq',
+      type: 'link',
+    },
+    {
+      title: '↗️ Migrate to 7.0',
+      pathSegment: 'migration-guide',
       type: 'link',
     },
   ],

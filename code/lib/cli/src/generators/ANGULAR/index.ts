@@ -14,11 +14,11 @@ const generator: Generator<{ projectName: string }> = async (
   commandOptions
 ) => {
   const angularVersionFromDependencies = semver.coerce(
-    packageManager.retrievePackageJson().dependencies['@angular/core']
+    (await packageManager.retrievePackageJson()).dependencies['@angular/core']
   )?.version;
 
   const angularVersionFromDevDependencies = semver.coerce(
-    packageManager.retrievePackageJson().devDependencies['@angular/core']
+    (await packageManager.retrievePackageJson()).devDependencies['@angular/core']
   )?.version;
 
   const angularVersion = angularVersionFromDependencies || angularVersionFromDevDependencies;
@@ -28,17 +28,16 @@ const generator: Generator<{ projectName: string }> = async (
   const angularJSON = new AngularJSON();
 
   if (angularJSON.projectsWithoutStorybook.length === 0) {
-    paddedLog(
+    throw new Error(
       'Every project in your workspace is already set up with Storybook. There is nothing to do!'
     );
-    return Promise.reject();
   }
 
   const angularProjectName = await angularJSON.getProjectName();
 
   paddedLog(`Adding Storybook support to your "${angularProjectName}" project`);
 
-  const { root } = angularJSON.getProjectSettingsByName(angularProjectName);
+  const { root, projectType } = angularJSON.getProjectSettingsByName(angularProjectName);
   const { projects } = angularJSON;
   const useCompodoc = commandOptions.yes ? true : await promptForCompoDocs();
   const storybookFolder = root ? `${root}/.storybook` : '.storybook';
@@ -79,11 +78,19 @@ const generator: Generator<{ projectName: string }> = async (
     });
   }
 
-  const templateDir = join(getCliDir(), 'templates', 'angular');
-  copyTemplate(templateDir, root || undefined);
+  let projectTypeValue = projectType || 'application';
+  if (projectTypeValue !== 'application' && projectTypeValue !== 'library') {
+    projectTypeValue = 'application';
+  }
+
+  const templateDir = join(getCliDir(), 'templates', 'angular', projectTypeValue);
+  if (templateDir) {
+    copyTemplate(templateDir, root || undefined);
+  }
 
   return {
     projectName: angularProjectName,
+    configDir: storybookFolder,
   };
 };
 

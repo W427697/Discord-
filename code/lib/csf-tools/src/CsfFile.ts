@@ -105,9 +105,9 @@ export interface CsfOptions {
 }
 
 export class NoMetaError extends Error {
-  constructor(ast: t.Node, fileName?: string) {
+  constructor(message: string, ast: t.Node, fileName?: string) {
     super(dedent`
-      CSF: missing default export ${formatLocation(ast, fileName)}
+      CSF: ${message} ${formatLocation(ast, fileName)}
 
       More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
     `);
@@ -272,6 +272,14 @@ export class CsfFile {
             self._metaNode = metaNode;
             self._parseMeta(metaNode, parent);
           }
+
+          if (self._metaStatement && !self._metaNode) {
+            throw new NoMetaError(
+              'default export must be an object',
+              self._metaStatement,
+              self._fileName
+            );
+          }
         },
       },
       ExportNamedDeclaration: {
@@ -435,7 +443,7 @@ export class CsfFile {
     });
 
     if (!self._meta) {
-      throw new NoMetaError(self._ast, self._fileName);
+      throw new NoMetaError('missing default export', self._ast, self._fileName);
     }
 
     if (!self._meta.title && !self._meta.component) {
@@ -517,8 +525,15 @@ export const loadCsf = (code: string, options: CsfOptions) => {
   return new CsfFile(ast, options);
 };
 
-export const formatCsf = (csf: CsfFile) => {
-  const { code } = generate.default(csf._ast, {});
+interface FormatOptions {
+  sourceMaps?: boolean;
+}
+export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: false }) => {
+  const result = generate.default(csf._ast, options);
+  if (options.sourceMaps) {
+    return result;
+  }
+  const { code } = result;
   return code;
 };
 
@@ -530,5 +545,5 @@ export const readCsf = async (fileName: string, options: CsfOptions) => {
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fs.writeFile(fileName as string, await formatCsf(csf));
+  await fs.writeFile(fileName as string, (await formatCsf(csf)) as string);
 };

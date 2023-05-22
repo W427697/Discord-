@@ -10,17 +10,18 @@ import type {
   Store_CSFExports,
   StoryContext,
   Parameters,
+  PreparedStoryFn,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
 import { composeConfigs } from '../composeConfigs';
-import { prepareStory } from '../prepareStory';
+import { prepareContext, prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';
 import { normalizeComponentAnnotations } from '../normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from '../getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from '../normalizeProjectAnnotations';
 
-let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = {};
+let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs([]);
 
 export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
   projectAnnotations: ProjectAnnotations<TRenderer> | ProjectAnnotations<TRenderer>[]
@@ -32,10 +33,10 @@ export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
 export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
   storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
   componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
-  projectAnnotations: ProjectAnnotations<TRenderer> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
+  projectAnnotations: ProjectAnnotations<TRenderer> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS as ProjectAnnotations<TRenderer>,
   defaultConfig: ProjectAnnotations<TRenderer> = {},
   exportsName?: string
-) {
+): PreparedStoryFn<TRenderer, Partial<TArgs>> {
   if (storyAnnotations === undefined) {
     throw new Error('Expected a story but received undefined.');
   }
@@ -59,7 +60,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
     normalizedComponentAnnotations
   );
 
-  const normalizedProjectAnnotations = normalizeProjectAnnotations({
+  const normalizedProjectAnnotations = normalizeProjectAnnotations<TRenderer>({
     ...projectAnnotations,
     ...defaultConfig,
   });
@@ -80,13 +81,14 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       args: { ...story.initialArgs, ...extraArgs },
     };
 
-    return story.unboundStoryFn(story.prepareContext(context as StoryContext));
+    return story.unboundStoryFn(prepareContext(context as StoryContext));
   };
 
   composedStory.storyName = storyName;
-  composedStory.args = story.initialArgs;
-  composedStory.play = story.playFunction as ComposedStoryPlayFn;
+  composedStory.args = story.initialArgs as Partial<TArgs>;
+  composedStory.play = story.playFunction as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>;
   composedStory.parameters = story.parameters as Parameters;
+  composedStory.id = story.id;
 
   return composedStory;
 }

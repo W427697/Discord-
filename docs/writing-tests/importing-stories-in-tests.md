@@ -32,12 +32,6 @@ Run the following command to add Storybook's testing addon into your environment
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk. Additionally, don't forget to select **only** your framework.
-
-</div>
-
 ### Optional configuration
 
 If you've set up global decorators or parameters and you need to use them in your tests, add the following to your test configuration file:
@@ -84,6 +78,7 @@ For example, if you were working on a login component and wanted to test the inv
 <CodeSnippets
   paths={[
     'react/component-test-with-testing-library.js.mdx',
+    'react/component-test-with-testing-library.ts.mdx',
     'vue/component-test-with-testing-library.js.mdx',
     'angular/component-test-with-testing-library.ts.mdx',
     'svelte/component-test-with-testing-library.js.mdx',

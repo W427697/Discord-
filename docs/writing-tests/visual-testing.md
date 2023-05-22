@@ -6,11 +6,16 @@ Visual tests, also called visual regression tests, catch bugs in UI appearance. 
 
 Ideal for verifying what the user sees: layout, color, size, and contrast. Storybook is a fantastic tool for visual testing because every story is essentially a test specification. Any time you write or update a story, you get a spec for free.
 
-![Visually testing a component in Storybook](./component-visual-testing.gif)
+<video autoPlay muted playsInline loop>
+  <source
+    src="component-visual-testing-optimized.mp4"
+    type="video/mp4"
+  />
+</video>
 
 There are [many tools](https://github.com/mojoaxel/awesome-regression-testing) for visual testing. We recommend [Chromatic](https://www.chromatic.com?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) by Storybook maintainers to run visual tests in a lightning-fast cloud browser environment.
 
-For a self-managed alternative to Chromatic, we offer [StoryShots](https://github.com/storybookjs/storybook/tree/main/addons/storyshots). It allows you to run visual tests on stories by integrating with [jest-image-snapshot](https://github.com/storybookjs/storybook/tree/main/addons/storyshots/storyshots-puppeteer#imagesnapshots).
+For a self-managed alternative to Chromatic, we offer [StoryShots](https://github.com/storybookjs/storybook/tree/next/code/addons/storyshots-core). It allows you to run visual tests on stories by integrating with [jest-image-snapshot](https://github.com/storybookjs/storybook/tree/main/code/addons/storyshots-puppeteer#imagesnapshots).
 
 ## Setup Chromatic addon
 

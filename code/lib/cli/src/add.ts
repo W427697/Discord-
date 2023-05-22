@@ -80,7 +80,7 @@ export async function add(
     pkgMgr = 'npm';
   }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 
   const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
@@ -89,13 +89,8 @@ export async function add(
     return;
   }
   const main = await readConfig(mainConfig);
-  const addons = main.getFieldValue(['addons']);
-  if (addons && !Array.isArray(addons)) {
-    logger.error('Expected addons array in main.js config');
-  }
-
   logger.log(`Verifying ${addonName}`);
-  const latestVersion = packageManager.latestVersion(addonName);
+  const latestVersion = await packageManager.latestVersion(addonName);
   if (!latestVersion) {
     logger.error(`Unknown addon ${addonName}`);
   }
@@ -105,12 +100,11 @@ export async function add(
   const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
   const addonWithVersion = `${addonName}@${version}`;
   logger.log(`Installing ${addonWithVersion}`);
-  packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
+  await packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
 
   // add to main.js
   logger.log(`Adding '${addon}' to main.js addons field.`);
-  const updatedAddons = [...(addons || []), addonName];
-  main.setFieldValue(['addons'], updatedAddons);
+  main.appendValueToArray(['addons'], addonName);
   await writeConfig(main);
 
   if (!options.skipPostinstall) {

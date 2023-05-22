@@ -6,6 +6,8 @@ title: 'Toolbars & globals'
 
 Storybook ships with toolbar addons to control the [viewport](./viewport.md) and [background](./backgrounds.md) the story renders in. You can also create your own toolbar items which control special “globals” which you can then read to create [decorators](../writing-stories/decorators.md) to control story rendering.
 
+![Toolbars and globals](./toolbars-and-globals.png)
+
 ## Globals
 
 Globals in Storybook represents “global” (as in not story-specific) inputs to the rendering of the story. As they aren’t specific to the story, they aren’t passed in the `args` argument to the story function (although they are accessible as `context.globals`), but typically you use them in decorators, which apply to all stories.
@@ -113,6 +115,8 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'svelte/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.ts.mdx',
+    'solid/my-component-story-use-globaltype.js.mdx',
+    'solid/my-component-story-use-globaltype.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
@@ -134,6 +138,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
     'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
     'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
+    'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
   ]}
 />
 
