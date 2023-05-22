@@ -131,7 +131,7 @@ export const install: Task['run'] = async (
   }
 
   const nodeOptionsString = nodeOptions.join(' ');
-  const prefix = `NODE_OPTIONS="${nodeOptionsString}" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"`;
+  const prefix = `NODE_OPTIONS='${nodeOptionsString}' STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"`;
 
   await updatePackageScripts({
     cwd,
