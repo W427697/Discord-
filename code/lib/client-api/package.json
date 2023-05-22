@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/client-api",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.3",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.7",
-    "@junk-temporary-prototypes/preview-api": "7.0.7"
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.3"
   },
   "publishConfig": {
     "access": "public"
@@ -54,5 +54,6 @@
     ],
     "shim": "@junk-temporary-prototypes/preview-api/dist/client-api"
   },
-  "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971"
+  "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "stableVersion": "7.0.7"
 }

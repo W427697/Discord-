@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/channel-postmessage",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.3",
   "description": "",
   "keywords": [
     "storybook"
@@ -43,9 +43,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/channels": "7.0.7",
-    "@junk-temporary-prototypes/client-logger": "7.0.7",
-    "@junk-temporary-prototypes/core-events": "7.0.7",
+    "@junk-temporary-prototypes/channels": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/core-events": "7.0.8-alpha.3",
     "@storybook/global": "^5.0.0",
     "qs": "^6.10.0",
     "telejson": "^7.0.3"
@@ -61,5 +61,6 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971"
+  "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "stableVersion": "7.0.7"
 }
