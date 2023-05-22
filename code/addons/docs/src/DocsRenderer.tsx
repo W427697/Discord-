@@ -12,6 +12,7 @@ export const defaultComponents: Record<string, any> = {
 
 class ErrorBoundary extends Component<{
   showException: (err: Error) => void;
+  children: React.ReactNode;
 }> {
   state = { hasError: false };
 
