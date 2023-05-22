@@ -757,15 +757,26 @@ describe('CsfFile', () => {
     it('Object export with storyName', () => {
       const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
 
-      parse(
-        dedent`
-        export default { title: 'foo/bar' };
-        export const A = {
-          storyName: 'Apple'
-        }
-      `,
-        true
-      );
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar' };
+          export const A = {
+            storyName: 'Apple'
+          }
+        `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: Apple
+            parameters:
+              __isArgsStory: true
+              __id: foo-bar--a
+      `);
 
       expect(consoleWarnMock).toHaveBeenCalledWith(
         'Unexpected usage of "storyName" in "A". Please use "name" instead.'

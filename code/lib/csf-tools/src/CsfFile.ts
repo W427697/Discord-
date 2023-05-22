@@ -324,6 +324,7 @@ export class CsfFile {
                         logger.warn(
                           `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
                         );
+                        name = p.value.value;
                       }
                       self._storyAnnotations[exportName][p.key.name] = p.value;
                     }
