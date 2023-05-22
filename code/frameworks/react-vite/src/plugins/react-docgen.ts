@@ -61,7 +61,7 @@ export function reactDocgen({
           code: s.toString(),
           map: s.generateMap(),
         };
-      } catch (e) {
+      } catch (e: any) {
         // Ignore the error when react-docgen cannot find a react component
         if (e.code === ERROR_CODES.MISSING_DEFINITION) {
           return;
