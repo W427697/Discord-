@@ -45,6 +45,19 @@ describe('getBuilderPackageName', () => {
     expect(packageName).toBe(builderPackage);
   });
 
+  it('should return builder package name when core.builder.name contains windows backslash paths', () => {
+    const builderPackage = '@storybook/builder-webpack5';
+    const packageNameOrPath = 'c:\\path\\to\\@storybook\\builder-webpack5';
+    const mainConfig = {
+      core: {
+        builder: { name: packageNameOrPath },
+      },
+    };
+
+    const packageName = getBuilderPackageName(mainConfig as any);
+    expect(packageName).toBe(builderPackage);
+  });
+
   it(`should return package name or path when core.builder doesn't contain the name of a valid builder package`, () => {
     const packageNameOrPath = '@my-org/storybook-builder';
     const mainConfig = {
@@ -93,6 +106,17 @@ describe('getFrameworkPackageName', () => {
 
     const packageName = getFrameworkPackageName(mainConfig as any);
     expect(packageName).toBe(frameworkPackage);
+  });
+
+  it('should return builder package name when framework.name contains windows backslash paths', () => {
+    const builderPackage = '@storybook/react-vite';
+    const packageNameOrPath = 'c:\\path\\to\\@storybook\\react-vite';
+    const mainConfig = {
+      framework: { name: packageNameOrPath },
+    };
+
+    const packageName = getFrameworkPackageName(mainConfig as any);
+    expect(packageName).toBe(builderPackage);
   });
 
   it(`should return package name or path when framework does not contain the name of a valid framework package`, () => {

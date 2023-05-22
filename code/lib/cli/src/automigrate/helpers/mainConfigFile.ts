@@ -11,6 +11,7 @@ import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools
 import chalk from 'chalk';
 import semver from 'semver';
 import dedent from 'ts-dedent';
+import path from 'path';
 import type { JsPackageManager } from '../../js-package-manager';
 
 const logger = console;
@@ -24,10 +25,15 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfig) => {
   const packageNameOrPath =
     typeof mainConfig?.framework === 'string' ? mainConfig.framework : mainConfig?.framework?.name;
 
-  return packageNameOrPath
-    ? Object.keys(frameworkPackages).find((pkg) => packageNameOrPath.endsWith(pkg)) ??
-        packageNameOrPath
-    : null;
+  if (!packageNameOrPath) {
+    return null;
+  }
+
+  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
+
+  return (
+    Object.keys(frameworkPackages).find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath
+  );
 };
 
 /**
@@ -41,9 +47,13 @@ export const getBuilderPackageName = (mainConfig?: StorybookConfig) => {
       ? mainConfig.core.builder
       : mainConfig?.core?.builder?.name;
 
-  return packageNameOrPath
-    ? builderPackages.find((pkg) => packageNameOrPath.endsWith(pkg)) ?? packageNameOrPath
-    : null;
+  if (!packageNameOrPath) {
+    return null;
+  }
+
+  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
+
+  return builderPackages.find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath;
 };
 
 /**
