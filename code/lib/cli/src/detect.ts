@@ -202,6 +202,7 @@ export async function detect(
   options: { force?: boolean; html?: boolean } = {}
 ) {
   const packageJson = await packageManager.retrievePackageJson();
+
   if (!packageJson) {
     return ProjectType.UNDETECTED;
   }

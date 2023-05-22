@@ -268,7 +268,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     }
   } else {
     try {
-      projectType = detect(packageManager, options);
+      projectType = await detect(packageManager, options);
     } catch (err) {
       done(err.message);
       throw new HandledError(err);
