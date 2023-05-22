@@ -97,6 +97,15 @@ const isCurrentVersionPublished = async (currentVersion: string, verbose?: boole
   return true;
 };
 
+const buildAllPackages = async (verbose?: boolean) => {
+  console.log(`🏗️ Building all packages...`);
+  await execaCommand('yarn task --task=compile --start-from=compile --no-link', {
+    stdio: 'inherit',
+    cwd: CODE_DIR_PATH,
+  });
+  console.log(`🏗️ Packages successfully built`);
+};
+
 const getAllPackages = async (verbose?: boolean) => {
   const { stdout } = await execaCommand('yarn workspaces list --json');
   const packages = JSON.parse(stdout);
@@ -117,7 +126,9 @@ export const run = async (options: unknown) => {
     );
   }
 
-  const allPackages = await getAllPackages(verbose);
+  await buildAllPackages(verbose);
+
+  // const allPackages = await getAllPackages(verbose);
 
   // get the list of packages to publish
   // publish
@@ -125,7 +136,7 @@ export const run = async (options: unknown) => {
   // check registry for published version
   // retry if needed
 
-  console.log(`✅ Wrote Changelog to file`);
+  console.log(`✅ Published all packages`);
 };
 
 if (require.main === module) {

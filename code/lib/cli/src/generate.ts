@@ -23,7 +23,7 @@ import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
 import versions from './versions';
 
-addToGlobalContext('cliVersion', versions.storybook);
+addToGlobalContext('cliVersion', versions['@junk-temporary-prototypes/storybook']);
 
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
