@@ -18,66 +18,16 @@ type MetaDocgenInfo = DocgenInfo & {
   tags: { name: string; text: string }[];
 };
 
-const SECTIONS = ['props', 'events', 'slots', 'methods'];
-
-/**
- * As @enum tag is not implemented in vuedocgen, infers propdef enum type
- * from the presence of @values tag.
- */
-function inferEnum(propDef: PropDef, docgenInfo: DocgenInfo): false | PropDef {
-  // cast as any, since "values" doesn't exist in DocgenInfo type
-  const { type, values } = docgenInfo as any;
-  const matched = Array.isArray(values) && values.length && type && type.name !== 'enum';
-
-  if (!matched) {
-    return false;
-  }
-
-  const enumString = values.join(', ');
-  let { summary } = propDef.type;
-  summary = summary ? `${summary}: ${enumString}` : enumString;
-
-  Object.assign(propDef.type, {
-    ...propDef.type,
-    name: 'enum',
-    value: values,
-    summary,
-  });
-  return propDef;
-}
-
-/**
- * @returns {Array} result
- * @returns {PropDef} result.def - propDef
- * @returns {boolean} result.isChanged - flag whether propDef is mutated or not.
- *  this is needed to prevent sbType from performing convert(docgenInfo).
- */
-function verifyPropDef(propDef: PropDef, docgenInfo: DocgenInfo): [PropDef, boolean] {
-  let def = propDef;
-  let isChanged = false;
-
-  // another callback can be added here.
-  // callback is mutually exclusive from each other.
-  const callbacks = [inferEnum];
-  for (let i = 0, len = callbacks.length; i < len; i += 1) {
-    const matched = callbacks[i](propDef, docgenInfo);
-    if (matched) {
-      def = matched;
-      isChanged = true;
-    }
-  }
-
-  return [def, isChanged];
-}
+const argTypeSections = ['props', 'events', 'slots', 'methods'];
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
   if (!hasDocgen(component)) {
     return null;
   }
   const argTypes: StrictArgTypes = {};
-  SECTIONS.forEach((section) => {
+  argTypeSections.forEach((section) => {
     const props = extractComponentProps(component, section);
-    console.log('props', props);
+
     props.forEach(({ propDef, docgenInfo, jsDocTags }) => {
       const {
         name,
@@ -87,15 +37,11 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         required,
         tags = [],
         global,
-        schema,
       } = docgenInfo as MetaDocgenInfo;
 
       if (argTypes[name] || global) {
         return; // skip duplicate and global props
       }
-
-      // const [result, isPropDefChanged] = verifyPropDef(propDef, docgenInfo);
-      // const { name, type, description, defaultValue: defaultSummary, required } = result;
 
       const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
       const nestedTypes =

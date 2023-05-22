@@ -24,19 +24,7 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
   skipBabel: true,
 });
 
-const ts: typeof import('typescript/lib/tsserverlibrary') = require('typescript');
-
-let typescriptPresent;
-try {
-  require.resolve('typescript');
-  typescriptPresent = true;
-} catch (e) {
-  typescriptPresent = false;
-}
-console.log('typescriptPresent', typescriptPresent, ' typescript ', typescript);
-
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
-  console.log('presents ', presets);
   return mergeConfig(config, {
     plugins: [vueComponentMeta()],
     resolve: {

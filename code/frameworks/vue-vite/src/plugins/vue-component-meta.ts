@@ -3,8 +3,6 @@ import type { PluginOption } from 'vite';
 import { createFilter } from 'vite';
 import MagicString from 'magic-string';
 
-import * as ts from 'typescript';
-
 import type { MetaCheckerOptions } from 'vue-component-meta';
 import { createComponentMetaCheckerByJsonConfig } from 'vue-component-meta';
 
@@ -20,8 +18,7 @@ export function vueComponentMeta(): PluginOption {
 
   const checker = createComponentMetaCheckerByJsonConfig(
     path.join(__dirname, '../../../../'),
-    checkerOptions,
-    ts
+    checkerOptions
   );
   return {
     name: 'storybook:vue-component-meta-plugin',
@@ -42,7 +39,7 @@ export function vueComponentMeta(): PluginOption {
           ...meta,
           sourceFiles: id,
         };
-        console.log(metaSource);
+
         metaSource = JSON.stringify(metaSource);
         const s = new MagicString(src);
         s.append(`;__component__.exports.__docgenInfo = ${metaSource}`);
@@ -52,15 +49,8 @@ export function vueComponentMeta(): PluginOption {
           map: s.generateMap({ hires: true, source: id }),
         };
       } catch (e) {
-        console.error(e);
         return undefined;
       }
     },
   };
-}
-
-function getTypescript() {
-  // eslint-disable-next-line global-require
-  const tss: typeof import('typescript/lib/tsserverlibrary') = require('typescript');
-  return tss;
 }
