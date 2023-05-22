@@ -2,7 +2,6 @@
 
 #### Bug Fixes
 
--   Core: Only connect to serverChannel in development mode [#22575](https://github.com/storybooks/storybook/pull/22575)
 -   Angular: Fix process I/O for compodoc command [#22441](https://github.com/storybooks/storybook/pull/22441)
 -   CLI: Improve error handling when dealing with angular.json files [#22663](https://github.com/storybooks/storybook/pull/22663)
 -   CLI: Skip prompting for eslint plugin with --yes flag [#22651](https://github.com/storybooks/storybook/pull/22651)
@@ -16,6 +15,7 @@
 -   Angular: Enable unit tests [#22355](https://github.com/storybooks/storybook/pull/22355)
 -   CLI: Reduce installation noise and improve error handling [#22554](https://github.com/storybooks/storybook/pull/22554)
 -   CLI: Only handle CTRL + C on init event [#22687](https://github.com/storybooks/storybook/pull/22687)
+-   CLI: Don't touch nx packages on upgrade [#22419](https://github.com/storybooks/storybook/pull/22419)
 
 #### Build
 
