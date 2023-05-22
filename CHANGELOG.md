@@ -23,11 +23,6 @@
 -   Build: Set correct ref on sandboxes Github action [#22625](https://github.com/storybooks/storybook/pull/22625)
 -   Build: Fix sandbox generation scripts [#22620](https://github.com/storybooks/storybook/pull/22620)
 
-#### Dependency Upgrades
-
--   Addon-docs: Remove mdx1-csf as optional peer dep [#22038](https://github.com/storybooks/storybook/pull/22038)
--   React-vite: Fix perf regression by pinning vite-plugin-react-docgen-ts [#22013](https://github.com/storybooks/storybook/pull/22013)
--   Update `@emotion/cache` version [#21941](https://github.com/storybooks/storybook/pull/21941)
 
 ## 7.0.12 (May 15, 2023)
 
