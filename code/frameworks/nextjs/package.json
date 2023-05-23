@@ -83,6 +83,7 @@
     "fs-extra": "^11.1.0",
     "image-size": "^1.0.0",
     "loader-utils": "^3.2.0",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "pnp-webpack-plugin": "^1.7.0",
     "postcss": "^8.4.21",
     "postcss-loader": "^7.0.2",
