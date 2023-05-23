@@ -58,7 +58,7 @@ export const renderHTML = async (
   refs: Promise<Record<string, Ref>>,
   logLevel: Promise<string>,
   docsOptions: Promise<DocsOptions>,
-  { versionCheck, releaseNotesData, previewUrl, serverChannelUrl, configType }: Options
+  { versionCheck, releaseNotesData, previewUrl, configType }: Options
 ) => {
   const customHeadRef = await customHead;
   const titleRef = await title;
@@ -78,7 +78,6 @@ export const renderHTML = async (
       VERSIONCHECK: JSON.stringify(JSON.stringify(versionCheck), null, 2),
       RELEASE_NOTES_DATA: JSON.stringify(JSON.stringify(releaseNotesData), null, 2),
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
-      SERVER_CHANNEL_URL: JSON.stringify(serverChannelUrl, null, 2),
     },
     head: customHeadRef ? await fs.readFile(customHeadRef, 'utf8') : '',
   });

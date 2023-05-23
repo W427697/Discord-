@@ -1,3 +1,14 @@
+## 7.0.14 (May 23, 2023)
+
+#### Bug Fixes
+
+-   Core: Only connect to serverChannel in development mode [#22575](https://github.com/storybooks/storybook/pull/22575)
+-   CLI: Fix error parsing on NPM proxy [#22690](https://github.com/storybooks/storybook/pull/22690)
+
+#### Maintenance
+
+-   Core: Create server channel from window.location [#22055](https://github.com/storybooks/storybook/pull/22055)
+
 ## 7.0.13 (May 22, 2023)
 
 #### Bug Fixes
