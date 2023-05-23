@@ -1,0 +1,78 @@
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
+
+on:
+  push:
+    branches:
+      - main-v2
+  workflow_dispatch:
+    inputs:
+      release-type:
+        description: 'Which release type to use for bumping the version'
+        required: true
+        default: 'prerelease'
+        type: choice
+        options:
+          - prerelease
+          - prepatch
+          - preminor
+          - premajor
+          - patch
+          - minor
+          - major
+      pre-id:
+        description: For prerelease versions, what prerelease identifier to use, eg. 'alpha', 'beta', 'rc'
+        required: false
+        type: string
+
+jobs:
+  prepare-prerelease-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main-v2
+        uses: actions/checkout@v3
+        with:
+          ref: main-v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      # TODO: abort early here if PR has "freeze" label
+      - name: Restore dependencies
+        id: dependency-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.yarn/berry/cache
+          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          restore-keys: |
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-
+      - name: Install Dependencies
+        run: |
+          yarn task --task install --start-from install --debug
+      # TODO: check if a release is needed
+      # TODO: set inputs correctly from pushes
+      - name: Bump version
+        id: version
+        working-directory: scripts
+        run: |
+          yarn release:version --release-type ${{ github.event.inputs.release-type }} --pre-id ${{ github.event.inputs.pre-id }} --verbose
+      - name: Write changelog
+        working-directory: scripts
+        run: |
+          yarn release:write-changelog ${{ steps.version.outputs.next-version }} --verbose
+      # TODO: abort late here if PR has "freeze" label
+      - name: Create or update pull request
+        # create a pull request from the new branch to main-v2-release
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'bump version to ${{ steps.version.outputs.next-version }}'
+          title: 'bump version to ${{ steps.version.outputs.next-version }}'
+          body: |
+            This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}.
+            Please review and merge this pull request to release the new version.
+          branch: version-from-${{ steps.version.outputs.current-version }}
+          base: main-v2-release
+          draft: false
+          delete-branch: true
