@@ -27,7 +27,7 @@ const getRepo = async (verbose?: boolean): Promise<string> => {
     throw new Error('No remote named "origin" found');
   }
   const pushUrl = originRemote.refs.push;
-  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:/, '');
+  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:(github\.com)*/, '');
   if (verbose) {
     console.log(`📦 Extracted repo: ${chalk.blue(repo)}`);
   }
@@ -42,7 +42,7 @@ export const run = async (args: unknown[], options: unknown) => {
 
   console.log(`⬇️ Fetching remote 'origin/${branch}'...`);
   try {
-    await git.fetch('origin', branch);
+    await git.fetch('origin', branch, { '--depth': 1 });
   } catch (error) {
     console.warn(
       `❗ Could not fetch remote 'origin/${branch}', it probably does not exist yet, which is okay`

@@ -30,6 +30,7 @@ env:
 
 jobs:
   prepare-prerelease-pull-request:
+    name: Prepare prerelease pull request
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main-v2
@@ -75,7 +76,7 @@ jobs:
         run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts version-from-${{ steps.version.outputs.current-version }}
 
       - name: Create or update pull request
-        if: steps.check-frozen.outputs.frozen == 'false'
+        if: steps.check-frozen.outputs.frozen == 'false' || github.event_name == 'workflow_dispatch'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
