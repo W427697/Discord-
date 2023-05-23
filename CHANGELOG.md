@@ -1,3 +1,11 @@
+## 7.0.15 (May 24, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix `.mp3` support for builder-manager [#22699](https://github.com/storybooks/storybook/pull/22699)
+-   Vite: Fix missing @storybook/global dependency [#22700](https://github.com/storybooks/storybook/pull/22700)
+-   NextJS: Fix compatibility with Next 13.4.3 [#22697](https://github.com/storybooks/storybook/pull/22697)
+
 ## 7.0.14 (May 23, 2023)
 
 #### Bug Fixes
