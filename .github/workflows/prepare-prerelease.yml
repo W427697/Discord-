@@ -56,9 +56,14 @@ jobs:
         run: |
           yarn install
 
-      # TODO: check if a release is needed
+      - name: Check if pull request is frozen
+        id: check-frozen
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: scripts
+        run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts
 
-      # TODO: set inputs correctly from pushes
+      # TODO: check if a release is needed
 
       - name: Bump version
         id: version
@@ -72,13 +77,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           yarn release:write-changelog ${{ steps.version.outputs.next-version }} --verbose
-
-      - name: Check if pull request is frozen
-        id: check-frozen
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: scripts
-        run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts version-from-${{ steps.version.outputs.current-version }}
 
       - name: Create or update pull request
         if: steps.check-frozen.outputs.frozen == 'false' || github.event_name == 'workflow_dispatch'
