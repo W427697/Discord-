@@ -87,7 +87,7 @@ const getFromCommit = async (from?: string | undefined, verbose?: boolean) => {
   let actualFrom = from;
   if (!from) {
     console.log(`🔍 No 'from' specified, finding latest version tag, fetching all of them...`);
-    await git.fetch('origin', ['--all', '--tags']);
+    // await git.fetch('origin', ['--all', '--tags']);
     const { latest } = await git.tags(['v*', '--sort=-v:refname', '--merged']);
     actualFrom = latest;
     if (verbose) {
