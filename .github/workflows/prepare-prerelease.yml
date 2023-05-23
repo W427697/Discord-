@@ -1,5 +1,5 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: Prepare prerelease pull request
+run-name: Prepare prerelease pull request by ${{ github.triggering_actor }}
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
         id: version
         working-directory: scripts
         run: |
-          yarn release:version --release-type ${{ github.event.inputs.release-type }} --pre-id ${{ github.event.inputs.pre-id }} --verbose
+          yarn release:version --release-type ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('{0} {1}', '--pre-id', inputs.pre-id) }} --verbose
       - name: Write changelog
         working-directory: scripts
         run: |
