@@ -140,7 +140,7 @@ Suppose you are serving assets in a [static directory](#serving-static-files-via
 
 ### Referencing Fonts in Stories
 
-After configuring Storybook to server assets from your static folder, you can reference those assets in Storybook. For example, you can reference and apply a custom font in your stories.
+After configuring Storybook to serve assets from your static folder, you can reference those assets in Storybook. For example, you can reference and apply a custom font in your stories.
 
 Inside the `.storybook/` configuration folder, create `preview-head.html`, then use `<link />` to reference your font.
 
