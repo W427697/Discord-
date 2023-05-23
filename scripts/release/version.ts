@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
+import { setOutput } from '@actions/core';
 import { ensureDir, readFile, readJson, writeFile, writeJson } from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
@@ -169,6 +170,11 @@ export const run = async (options: unknown) => {
   await bumpCodeVersion(nextVersion);
   await bumpAllPackageVersions(nextVersion, verbose);
   await bumpVersionSources(currentVersion, nextVersion);
+
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    setOutput('current-version', currentVersion);
+    setOutput('next-version', nextVersion);
+  }
 };
 
 if (require.main === module) {
