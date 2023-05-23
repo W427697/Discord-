@@ -16,14 +16,14 @@ const props = withDefaults(defineProps<{
    */
   primary?: boolean,
   /**
-   * size of the button
-   */
-  size?: 'small' | 'medium' | 'large',
-  /**
    * background color of the button
    */
   backgroundColor?: string,
-
+} & {
+  /**
+   * size of the button
+   */
+  size?: 'small' | 'medium' | 'large',
 }>(), { primary: false });
 
 const emit = defineEmits<{
