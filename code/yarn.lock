@@ -5567,6 +5567,7 @@ __metadata:
     "@storybook/client-logger": 7.0.14
     "@storybook/core-common": 7.0.14
     "@storybook/csf-plugin": 7.0.14
+    "@storybook/global": ^5.0.0
     "@storybook/mdx2-csf": ^1.0.0
     "@storybook/node-logger": 7.0.14
     "@storybook/preview": 7.0.14
