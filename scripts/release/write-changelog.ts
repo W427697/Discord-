@@ -147,7 +147,7 @@ const getRepo = async (verbose?: boolean): Promise<string> => {
     throw new Error('No remote named "origin" found');
   }
   const pushUrl = originRemote.refs.push;
-  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:/, '');
+  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:(\/\/github\.com\/)*/, '');
   if (verbose) {
     console.log(`📦 Extracted repo: ${chalk.blue(repo)}`);
   }
