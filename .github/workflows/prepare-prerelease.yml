@@ -1,5 +1,5 @@
-name: Prepare prerelease pull request
-run-name: Prepare prerelease pull request by ${{ github.triggering_actor }}
+name: Prepare prerelease PR
+run-name: Prepare prerelease PR, triggered by ${{ github.triggering_actor }}
 
 on:
   push:
@@ -33,12 +33,17 @@ jobs:
   prepare-prerelease-pull-request:
     name: Prepare prerelease pull request
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scripts
     steps:
       - name: Checkout main-v2
         uses: actions/checkout@v3
         with:
           ref: main-v2
-          fetch-depth: 0
+          # this needs to be set to a high enough number that it will contain the last version tag
+          # as of May 2023, the whole repo has 55K commits
+          fetch-depth: 10000
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -53,7 +58,6 @@ jobs:
           key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
 
       - name: Install Script Dependencies
-        working-directory: scripts
         run: |
           yarn install
 
@@ -61,23 +65,22 @@ jobs:
         id: check-frozen
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: scripts
         run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts
 
-      # TODO: check if a release is needed
+      # TODO: check if a version bump is needed, skip next two steps if not
 
       - name: Bump version
         id: version
-        working-directory: scripts
         run: |
           yarn release:version --release-type ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('{0} {1}', '--pre-id', inputs.pre-id) }} --verbose
 
       - name: Write changelog
-        working-directory: scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           yarn release:write-changelog ${{ steps.version.outputs.next-version }} --verbose
+
+      # TODO: generate PR description
 
       - name: Create or update pull request
         if: steps.check-frozen.outputs.frozen == 'false' || github.event_name == 'workflow_dispatch'
