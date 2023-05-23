@@ -67,11 +67,15 @@ jobs:
 
       - name: Write changelog
         working-directory: scripts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           yarn release:write-changelog ${{ steps.version.outputs.next-version }} --verbose
 
       - name: Check if pull request is frozen
         id: check-frozen
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: scripts
         run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts version-from-${{ steps.version.outputs.current-version }}
 
