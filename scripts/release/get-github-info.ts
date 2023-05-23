@@ -185,6 +185,20 @@ export async function getPullInfoFromCommit(request: {
   }
 
   const data = await GHDataLoader.load({ kind: 'commit', ...request });
+  if (!data) {
+    return {
+      user: null,
+      pull: null,
+      commit: request.commit,
+      title: null,
+      labels: null,
+      links: {
+        commit: request.commit,
+        pull: null,
+        user: null,
+      },
+    };
+  }
   let user = null;
   if (data.author && data.author.user) {
     user = data.author.user;
