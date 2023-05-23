@@ -27,6 +27,7 @@ on:
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
 
 jobs:
   prepare-prerelease-pull-request:
