@@ -396,6 +396,13 @@ export interface StorybookConfig {
    * @example '.storybook/index.ejs'
    */
   previewMainTemplate?: string;
+
+  /**
+   * Programmatically modify the preview head/body HTML.
+   * The managerHead function accept a string,
+   * which is the existing head, and return a modified string.
+   */
+  managerHead?: PresetValue<string>;
 }
 
 export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);

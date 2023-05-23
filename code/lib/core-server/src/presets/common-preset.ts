@@ -20,6 +20,7 @@ import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
+import { safeResolve } from '../utils/safeResolve';
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
 
@@ -217,3 +218,6 @@ export const docs = (
   ...docsOptions,
   docsMode,
 });
+
+export const managerHead = (_: any, options: Options) =>
+  safeResolve(join(options.configDir, 'manager-head.html'));
