@@ -2,7 +2,7 @@
 title: 'previewAnnotations'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `string[] | ((config: string[], options: Options) => string[] | Promise<string[]>)`
 
@@ -10,7 +10,7 @@ Add additional scripts to run in the story preview.
 
 <div class="aside">
 
-💡 Mostly used by [addons](../addons/writing-presets.md) and [frameworks](../contribute/framework.md#previewjs-example). Storybook users should likely add scripts to [`preview.js`](../configure/overview.md#configure-story-rendering) instead.
+💡 Mostly used by [frameworks](../contribute/framework.md#previewjs-example). Storybook users and [addon authors](../addons/writing-presets.md) should add scripts to [`preview.js`](../configure/overview.md#configure-story-rendering) instead.
 
 </div>
 

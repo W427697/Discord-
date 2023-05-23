@@ -2,11 +2,11 @@
 title: 'previewHead'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(head: string) => string`
 
-Programmatically adjust the [preview head](../configure/story-rendering.md#adding-to-head) of your Storybook.
+Programmatically adjust the [preview `<head>`](../configure/story-rendering.md#adding-to-head) of your Storybook. Most often used by [addon authors](../addons/writing-presets.md#babel).
 
 <div class="aside">
 

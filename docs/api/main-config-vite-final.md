@@ -2,7 +2,7 @@
 title: 'viteFinal'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(config: Vite.InlineConfig, options: Options) => Vite.InlineConfig | Promise<Vite.InlineConfig>`
 
@@ -21,6 +21,6 @@ Customize Storybook's Vite setup when using the [vite builder](../builders/vite.
 
 ## `Options`
 
-<!-- TODO: Is it alright to reference `babel`'s Options here? -->
+Type: `{ configType?: 'DEVELOPMENT' | 'PRODUCTION' }`
 
-See [`babel` options](./main-config-babel.md#options).
+There are other options that are difficult to document here. Please introspect the type definition for more information.

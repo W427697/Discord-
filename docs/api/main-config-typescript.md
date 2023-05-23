@@ -2,7 +2,7 @@
 title: 'typescript'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type:
 
@@ -22,7 +22,7 @@ Configures how Storybook handles [TypeScript files](../configure/typescript.md).
 
 Type: `boolean`
 
-Optionally run [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
+Optionally run [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin). Note that because this uses a Webpack plugin, it is only available when using the [Webpack builder](../builders/webpack.md).
 
 <!-- prettier-ignore-start -->
 
@@ -38,7 +38,7 @@ Optionally run [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fo
 
 Type: `CheckOptions`
 
-Options to pass to `fork-ts-checker-webpack-plugin`, if enabled. See [docs for available options](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v4.1.6/README.md#options).
+Options to pass to `fork-ts-checker-webpack-plugin`, if [enabled](#check). See [docs for available options](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v4.1.6/README.md#options).
 
 <!-- prettier-ignore-start -->
 
@@ -60,7 +60,7 @@ Default:
 - `'react-docgen-typescript'`: if `@storybook/react` and `typescript` are installed
 - `'react-docgen'`: if `@storybook/react` is installed
 
-Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components.
+Only available for React Storybook projects. Configure which library, if any, Storybook uses to parse React components, [react-docgen](https://github.com/reactjs/react-docgen) or [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript). Set to `false` to disable parsing React components.
 
 <!-- prettier-ignore-start -->
 
@@ -76,7 +76,7 @@ Configure which library, if any, Storybook uses to parse React components, [reac
 
 Type: `ReactDocgenTypescriptOptions`
 
-Options to pass to react-docgen-typescript-plugin if react-docgen-typescript is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
+Only available for React Storybook projects. Options to pass to react-docgen-typescript-plugin if react-docgen-typescript is enabled. See [docs for available options](https://github.com/hipstersmoothie/react-docgen-typescript-plugin).
 
 <!-- prettier-ignore-start -->
 

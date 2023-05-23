@@ -2,7 +2,7 @@
 title: 'env'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(config: { [key: string]: string }) => { [key: string]: string }`
 

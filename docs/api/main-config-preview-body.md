@@ -2,11 +2,11 @@
 title: 'previewBody'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `(body: string) => string`
 
-Programmatically adjust the [preview body](../configure/story-rendering.md#adding-to-body) of your Storybook.
+Programmatically adjust the [preview `<body>`](../configure/story-rendering.md#adding-to-body) of your Storybook. Most often used by [addon authors](../addons/writing-presets.md#babel).
 
 <div class="aside">
 

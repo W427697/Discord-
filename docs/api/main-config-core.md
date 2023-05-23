@@ -2,7 +2,7 @@
 title: 'core'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type:
 
@@ -50,21 +50,39 @@ Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../buil
 
 Type: `ChannelOptions`
 
-<!-- TODO: No idea what this is for? -->
-
 ```ts
 {
-  allowRegExp: boolean;
-  allowFunction: boolean;
-  allowSymbol: boolean;
-  allowDate: boolean;
-  allowUndefined: boolean;
   allowClass: boolean;
+  allowDate: boolean;
+  allowFunction: boolean;
+  allowRegExp: boolean;
+  allowSymbol: boolean;
+  allowUndefined: boolean;
+  lazyEval: boolean;
   maxDepth: number;
   space: number | undefined;
-  lazyEval: boolean;
 }
 ```
+
+Configures the channel used by Storybook to communicate between the manager and preview.
+
+Only two properties are likely to be used:
+
+### `channelOptions.allowFunction`
+
+Type: `boolean`
+
+Default: `false`
+
+Enables serializing functions across the channel, which can be a security risk.
+
+### `channelOptions.maxDepth`
+
+Type: `number`
+
+Default: `3`
+
+The maximum depth of nested objects to serialize across the channel. Larger values will be slower.
 
 ## `crossOriginIsolated`
 

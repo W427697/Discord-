@@ -5,9 +5,12 @@
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   framework: '@storybook/your-framework',
-  previewMainTemplate: './previewMainTemplate.ejs',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  managerHead: (head) => `
+    ${head}
+    <link rel="preload" href="/fonts/my-custom-manager-font.woff2" />
+  `,
 };
 
 export default config;

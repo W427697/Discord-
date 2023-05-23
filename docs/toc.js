@@ -475,6 +475,11 @@ module.exports = {
               type: 'link',
             },
             {
+              title: 'babelDefault',
+              pathSegment: 'main-config-babel-default',
+              type: 'link',
+            },
+            {
               title: 'core',
               pathSegment: 'main-config-core',
               type: 'link',
@@ -500,6 +505,11 @@ module.exports = {
               type: 'link',
             },
             {
+              title: 'managerHead',
+              pathSegment: 'main-config-manager-head',
+              type: 'link',
+            },
+            {
               title: 'previewAnnotations',
               pathSegment: 'main-config-preview-annotations',
               type: 'link',
@@ -512,11 +522,6 @@ module.exports = {
             {
               title: 'previewHead',
               pathSegment: 'main-config-preview-head',
-              type: 'link',
-            },
-            {
-              title: 'previewMainTemplate',
-              pathSegment: 'main-config-preview-main-template',
               type: 'link',
             },
             {

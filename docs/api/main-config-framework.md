@@ -2,7 +2,7 @@
 title: 'framework'
 ---
 
-Parent: [main.js|ts configuration](./Overview.md)
+Parent: [main.js|ts configuration](./main-config.md)
 
 Type: `FrameworkName | { name: FrameworkName; options?: FrameworkOptions }`
 
