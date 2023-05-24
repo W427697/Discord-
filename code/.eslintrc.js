@@ -74,6 +74,7 @@ module.exports = {
         'frameworks/**/*',
         'lib/**/*',
         'builders/**/*',
+        'deprecated/**/*',
         'renderers/**/*',
         'ui/**/*',
       ],

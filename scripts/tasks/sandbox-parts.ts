@@ -299,7 +299,7 @@ async function linkPackageStories(
   const storiesFolderName = variant ? getStoriesFolderWithVariant(variant) : 'stories';
   const source = join(CODE_DIRECTORY, packageDir, 'template', storiesFolderName);
   // By default we link `stories` directories
-  //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
+  //   e.g '../../../code/deprecated/store/template/stories' to 'template-stories/lib/store'
   // if the directory <code>/lib/store/template/stories exists
   //
   // The files must be linked in the cwd, in order to ensure that any dependencies they

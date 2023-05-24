@@ -1,25 +1,24 @@
 {
-  "name": "@storybook/preview-web",
+  "name": "@storybook/core-client",
   "version": "7.1.0-alpha.25",
-  "description": "",
+  "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview-web",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/core-client",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/preview-web"
+    "directory": "code/deprecated/core-client"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/entry.d.ts",
@@ -31,12 +30,6 @@
   "main": "dist/entry.js",
   "module": "dist/entry.mjs",
   "types": "dist/entry.d.ts",
-  "files": [
-    "dist/**/*",
-    "README.md",
-    "*.js",
-    "*.d.ts"
-  ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/facade.ts"
@@ -52,7 +45,7 @@
     "entries": [
       "./src/entry.ts"
     ],
-    "shim": "@storybook/preview-api/dist/preview-web"
+    "shim": "@storybook/preview-api/dist/core-client"
   },
   "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
 }

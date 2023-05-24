@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/api",
+  "name": "@storybook/client-api",
   "version": "7.1.0-alpha.25",
-  "description": "Storybook Manager API (facade)",
+  "description": "Storybook Client API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/api",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/client-api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/manager-api-shim"
+    "directory": "code/deprecated/client-api"
   },
   "funding": {
     "type": "opencollective",
@@ -43,19 +43,7 @@
   },
   "dependencies": {
     "@storybook/client-logger": "7.1.0-alpha.25",
-    "@storybook/manager-api": "7.1.0-alpha.25"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
+    "@storybook/preview-api": "7.1.0-alpha.25"
   },
   "publishConfig": {
     "access": "public"
@@ -64,7 +52,7 @@
     "entries": [
       "./src/entry.ts"
     ],
-    "shim": "@storybook/manager-api"
+    "shim": "@storybook/preview-api/dist/client-api"
   },
   "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
 }
