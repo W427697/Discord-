@@ -96,9 +96,9 @@ function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
 // getReleaseLine will be called a large number of times but it'll be called at the same time
 // so instead of doing a bunch of network requests, we can do a single one.
 const GHDataLoader = new DataLoader(async (requests: RequestData[]) => {
-  if (!process.env.GITHUB_TOKEN) {
+  if (!process.env.GH_TOKEN) {
     throw new Error(
-      'Please create a GitHub personal access token at https://github.com/settings/tokens/new with `read:user` and `repo:status` permissions and add it as the GITHUB_TOKEN environment variable'
+      'Please create a GitHub personal access token at https://github.com/settings/tokens/new with `read:user` and `repo:status` permissions and add it as the GH_TOKEN environment variable'
     );
   }
   const repos: ReposWithCommitsAndPRsToFetch = {};
@@ -112,7 +112,7 @@ const GHDataLoader = new DataLoader(async (requests: RequestData[]) => {
   const data = await fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
-      Authorization: `Token ${process.env.GITHUB_TOKEN}`,
+      Authorization: `Token ${process.env.GH_TOKEN}`,
     },
     body: JSON.stringify({ query: makeQuery(repos) }),
   }).then((x: any) => x.json());
