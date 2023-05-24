@@ -22,7 +22,7 @@ export default {
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) => {
       return storyFn({
-        args: { object: context.args },
+        args: { object: { ...context.args } },
       });
     },
   ],
