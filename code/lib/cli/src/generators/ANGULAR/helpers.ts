@@ -10,14 +10,19 @@ export const compoDocPreviewPrefix = dedent`
   setCompodocJson(docJson);
 `.trimStart();
 
-export const promptForCompoDocs = async (): Promise<boolean> => {
-  const { useCompoDoc } = await prompts({
-    type: 'confirm',
-    name: 'useCompoDoc',
+export const promptForCompoDocs = async (): Promise<'1.1.19' | '1.1.20' | false> => {
+  const { compodocVersion } = await prompts({
+    type: 'select',
+    name: 'compodocVersion',
     message: 'Do you want to use Compodoc for documentation?',
+    choices: [
+      { title: 'Yes (v1.1.19) - (Node v16 support)', value: '1.1.19' },
+      { title: 'Yes (v1.1.20) - (Node >= v18 required)', value: '1.1.20' },
+      { title: 'No', value: null },
+    ],
   });
 
-  return useCompoDoc;
+  return compodocVersion;
 };
 
 export class AngularJSON {

@@ -55,13 +55,13 @@ const generator: Generator<{ projectName: string }> = async (
 
   const { root, projectType } = angularProject;
   const { projects } = angularJSON;
-  const useCompodoc = commandOptions.yes ? true : await promptForCompoDocs();
+  const compodocVersion = commandOptions.yes ? '1.1.19' : await promptForCompoDocs();
   const storybookFolder = root ? `${root}/.storybook` : '.storybook';
 
   angularJSON.addStorybookEntries({
     angularProjectName,
     storybookFolder,
-    useCompodoc,
+    useCompodoc: compodocVersion !== null,
     root,
   });
   angularJSON.write();
@@ -71,7 +71,7 @@ const generator: Generator<{ projectName: string }> = async (
     npmOptions,
     {
       ...updatedOptions,
-      ...(useCompodoc && {
+      ...(compodocVersion && {
         frameworkPreviewParts: {
           prefix: compoDocPreviewPrefix,
         },
@@ -79,7 +79,7 @@ const generator: Generator<{ projectName: string }> = async (
     },
     'angular',
     {
-      ...(useCompodoc && { extraPackages: ['@compodoc/compodoc'] }),
+      ...(compodocVersion && { extraPackages: [`@compodoc/compodoc@${compodocVersion}`] }),
       addScripts: false,
       componentsDestinationPath: root ? `${root}/src/stories` : undefined,
       storybookConfigFolder: storybookFolder,
