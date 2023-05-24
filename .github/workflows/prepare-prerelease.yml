@@ -42,7 +42,7 @@ jobs:
         with:
           ref: main-v2
           # this needs to be set to a high enough number that it will contain the last version tag
-          # as of May 2023, the whole repo has 55K commits
+          # as of May 2023, the whole repo had 55K commits
           fetch-depth: 10000
 
       - name: Setup Node.js
@@ -83,6 +83,10 @@ jobs:
         id: version
         run: |
           yarn release:version --release-type ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('{0} {1}', '--pre-id', inputs.pre-id) }} --verbose
+
+      # tags are needed for the changelog generation
+      - name: Fetch git tags
+        run: git fetch --tags origin
 
       - name: Write changelog
         env:
