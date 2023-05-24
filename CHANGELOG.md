@@ -1,3 +1,9 @@
+## 7.1.0-alpha.23 (May 24, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix `managerHead` preset in `main.ts` [#22701](https://github.com/storybooks/storybook/pull/22701)
+
 ## 7.1.0-alpha.22 (May 24, 2023)
 
 #### Bug Fixes
