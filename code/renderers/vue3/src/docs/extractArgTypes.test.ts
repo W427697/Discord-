@@ -1,5 +1,4 @@
 import { hasDocgen, extractComponentProps } from '@storybook/docs-tools';
-import { template } from 'lodash';
 import { extractArgTypes } from './extractArgTypes';
 import {
   mockExtractComponentPropsReturn,

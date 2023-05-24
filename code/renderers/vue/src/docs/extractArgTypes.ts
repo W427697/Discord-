@@ -5,7 +5,7 @@ import type {
   SBType,
   StrictArgTypes,
 } from '@storybook/types';
-import type { ArgTypesExtractor, DocgenInfo, PropDef } from '@storybook/docs-tools';
+import type { ArgTypesExtractor, DocgenInfo } from '@storybook/docs-tools';
 import { hasDocgen, extractComponentProps } from '@storybook/docs-tools';
 
 type Schema = { kind: string; schema: [] | object; type?: string } | string;
