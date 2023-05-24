@@ -20,7 +20,9 @@ import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
-import { safeResolve } from '../utils/safeResolve';
+
+const interpolate = (string: string, data: Record<string, string> = {}) =>
+  Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
 
@@ -219,5 +221,14 @@ export const docs = (
   docsMode,
 });
 
-export const managerHead = (_: any, options: Options) =>
-  safeResolve(join(options.configDir, 'manager-head.html'));
+export const managerHead = async (_: any, options: Options) => {
+  const location = join(options.configDir, 'manager-head.html');
+  if (await pathExists(location)) {
+    const contents = readFile(location, 'utf-8');
+    const interpolations = options.presets.apply<Record<string, string>>('env');
+
+    return interpolate(await contents, await interpolations);
+  }
+
+  return '';
+};

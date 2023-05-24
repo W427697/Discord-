@@ -60,7 +60,6 @@ export const renderHTML = async (
   docsOptions: Promise<DocsOptions>,
   { versionCheck, releaseNotesData, previewUrl, configType }: Options
 ) => {
-  const customHeadRef = await customHead;
   const titleRef = await title;
   const templateRef = await template;
 
@@ -79,6 +78,6 @@ export const renderHTML = async (
       RELEASE_NOTES_DATA: JSON.stringify(JSON.stringify(releaseNotesData), null, 2),
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
     },
-    head: customHeadRef ? await fs.readFile(customHeadRef, 'utf8') : '',
+    head: (await customHead) || '',
   });
 };
