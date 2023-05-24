@@ -1,10 +1,14 @@
-## 7.0.16 (May 24, 2023)
+## 7.0.17 (May 24, 2023)
 
 #### Bug Fixes
 
 -   Vite: Fix pnpm support by replacing @storybook/global with `window` [#22709](https://github.com/storybooks/storybook/pull/22709)
 -   Core: Fix `managerHead` preset in `main.ts` [#22701](https://github.com/storybooks/storybook/pull/22701)
 
+
+## 7.0.16 (May 24, 2023)
+
+No-op
 ## 7.0.15 (May 24, 2023)
 
 #### Bug Fixes
