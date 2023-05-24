@@ -47,7 +47,6 @@
     "@storybook/client-logger": "7.0.15",
     "@storybook/core-common": "7.0.15",
     "@storybook/csf-plugin": "7.0.15",
-    "@storybook/global": "^5.0.0",
     "@storybook/mdx2-csf": "^1.0.0",
     "@storybook/node-logger": "7.0.15",
     "@storybook/preview": "7.0.15",
