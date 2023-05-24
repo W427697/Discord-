@@ -62,10 +62,18 @@ jobs:
           yarn install
 
       - name: Check if pull request is frozen
+        if: github.event_name != 'workflow_dispatch'
         id: check-frozen
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts
+
+      - name: Cancel when frozen
+        if: github.event_name != 'workflow_dispatch' || steps.check-frozen.outputs.frozen == 'true'
+        # From https://stackoverflow.com/a/75809743
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
 
       # TODO: check if a version bump is needed, skip next two steps if not
 
@@ -80,19 +88,27 @@ jobs:
         run: |
           yarn release:write-changelog ${{ steps.version.outputs.next-version }} --verbose
 
+      - name: 'Commit changes to branch: version-from-${{ steps.version.outputs.current-version }}'
+        working-directory: .
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -b version-from-${{ steps.version.outputs.current-version }}
+          git add .
+          git commit -m "bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" || true
+          git push --force origin version-from-${{ steps.version.outputs.current-version }}
+
       # TODO: generate PR description
 
       - name: Create or update pull request
-        if: steps.check-frozen.outputs.frozen == 'false' || github.event_name == 'workflow_dispatch'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'bump version to ${{ steps.version.outputs.next-version }}'
-          title: 'Bump version to ${{ steps.version.outputs.next-version }}'
-          body: |
-            This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}.
-            Please review and merge this pull request to release the new version.
-          branch: version-from-${{ steps.version.outputs.current-version }}
-          base: main-v2-release
-          draft: false
-          delete-branch: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit \
+            --title "Bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" \
+            --body "This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}. Please review and merge this pull request to release the new version." \
+          || \
+          gh pr create \
+            --title "Bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" \
+            --body "This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}. Please review and merge this pull request to release the new version." \
+            --base main-v2-release \
