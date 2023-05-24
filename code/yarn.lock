@@ -5615,9 +5615,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-manager@7.1.0-alpha.24, @storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:lib/builder-manager":
+"@storybook/builder-manager@7.1.0-alpha.24, @storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:builders/builder-manager":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-manager@workspace:lib/builder-manager"
+  resolution: "@storybook/builder-manager@workspace:builders/builder-manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/core-common": 7.1.0-alpha.24
@@ -5640,9 +5640,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-vite@7.1.0-alpha.24, @storybook/builder-vite@workspace:*, @storybook/builder-vite@workspace:lib/builder-vite":
+"@storybook/builder-vite@7.1.0-alpha.24, @storybook/builder-vite@workspace:*, @storybook/builder-vite@workspace:builders/builder-vite":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
+  resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
     "@storybook/channel-postmessage": 7.1.0-alpha.24
     "@storybook/channel-websocket": 7.1.0-alpha.24
@@ -5683,9 +5683,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-webpack5@7.1.0-alpha.24, @storybook/builder-webpack5@workspace:*, @storybook/builder-webpack5@workspace:lib/builder-webpack5":
+"@storybook/builder-webpack5@7.1.0-alpha.24, @storybook/builder-webpack5@workspace:*, @storybook/builder-webpack5@workspace:builders/builder-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-webpack5@workspace:lib/builder-webpack5"
+  resolution: "@storybook/builder-webpack5@workspace:builders/builder-webpack5"
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 7.1.0-alpha.24

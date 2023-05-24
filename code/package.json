@@ -17,6 +17,7 @@
       "addons/*",
       "frameworks/*",
       "lib/*",
+      "builders/*",
       "ui/*",
       "presets/*",
       "renderers/*"
