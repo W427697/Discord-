@@ -25,9 +25,8 @@ export const ReferenceTypeProps: Story = {
     inlined: { foo: 'Foo' },
     nested: { nestedProp: 'Nested Prop' },
     nestedIntersection: { nestedProp: 'Nested Prop', additionalProp: 'Additional Prop' },
-    array: [{ foo: 'Foo' }],
-    literalFromContext: ['Uncategorized', 'Display', 'Addons'],
+    array: [{ nestedProp: 'Nested Prop' }],
+    literalFromContext: 'Uncategorized',
     enumValue: MyEnum.Small,
-    recursive: { recursive: { recursive: 'recursive' } },
   },
 };

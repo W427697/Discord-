@@ -9,4 +9,11 @@ const meta = {
 type Story = StoryObj<typeof meta>;
 export default meta;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    numberDefault: 12,
+    objectDefault: { foo: 'bar' },
+    arrayDefault: [1, 2, 3],
+    complexDefault: [1, 2, 3, 4, 5],
+  },
+};

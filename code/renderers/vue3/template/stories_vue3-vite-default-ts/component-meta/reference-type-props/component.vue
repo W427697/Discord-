@@ -91,7 +91,7 @@ interface MyProps {
 	 */
 	literalFromContext: MyCategories,
 	inlined: { foo: string; },
-	recursive: MyNestedRecursiveProps
+	recursive?: MyNestedRecursiveProps
 }
 
 
