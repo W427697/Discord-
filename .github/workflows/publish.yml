@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main-v2-release
-  workflow_dispatch:
+      - next-v2-release
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -23,10 +23,8 @@ jobs:
       run:
         working-directory: scripts
     steps:
-      - name: Checkout main-v2-release
+      - name: Checkout ${{ github.ref }}}
         uses: actions/checkout@v3
-        with:
-          ref: main-v2-release
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -57,32 +55,33 @@ jobs:
         id: is-prerelease
         run: ./node_modules/.bin/ts-node --swc ./release/utils/is-prerelease.ts
 
-      - name: Install code dependencies
-        if: steps.publish-needed.outputs.published != 'true'
-        working-directory: .
-        run: |
-          yarn task --task=install --start-from=install
+      # - name: Install code dependencies
+      #   if: steps.publish-needed.outputs.published != 'true'
+      #   working-directory: .
+      #   run: yarn task --task=install --start-from=install
 
-      - name: Publish
-        if: steps.publish-needed.outputs.published != 'true'
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          yarn release:publish --tag ${{ steps.is-prerelease.outputs.prerelease && 'next' || 'latest' }} --verbose
+      # - name: Publish
+      #   if: steps.publish-needed.outputs.published != 'true'
+      #   env:
+      #     YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #   run: yarn release:publish --tag ${{ steps.is-prerelease.outputs.prerelease && 'next' || 'latest' }} --verbose
 
-      - name: Merge main-v2-release into main-v2
+      - name: Get target branch
+        id: target
+        run: echo "${{ github.ref == 'next-v2-release' && 'next-v2' || 'main-v2' }}" >> $GITHUB_OUTPUT
+
+      - name: Merge ${{ github.ref }} into ${{ steps.target.outputs.target }}
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout main-v2
-          git merge main-v2-release
-          git push origin main-v2
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ${{ steps.target.outputs.target }} origin/${{ steps.target.outputs.target }}
+          git merge ${{ github.ref }}
+          git push origin ${{ steps.target.outputs.target }}
 
       - name: Get changelog for ${{ steps.version.outputs.current-version }}}
         if: steps.publish-needed.outputs.published != 'true'
         id: changelog
-        run: |
-          ./node_modules/.bin/ts-node --swc ./release/utils/get-changelog-entry.ts ${{ steps.version.outputs.current-version }}
+        run: ./node_modules/.bin/ts-node --swc ./release/utils/get-changelog-entry.ts ${{ steps.version.outputs.current-version }}
 
       - name: Create GitHub Release
         if: steps.publish-needed.outputs.published != 'true'
@@ -96,7 +95,5 @@ jobs:
             --title "${{ steps.version.outputs.current-version }}" \
             --notes "${{ steps.changelog.outputs.changelog }}" \
             ${{ steps.is-prerelease.outputs.prerelease && '--prerelease' || '' }}
-
-      # TODO: if real release, merge main-v2 into main
 
       # TODO: report failures to Discord
