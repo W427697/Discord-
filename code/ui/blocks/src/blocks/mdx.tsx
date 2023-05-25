@@ -44,7 +44,7 @@ export const CodeOrSourceMdx: FC<CodeOrSourceMdxProps> = ({ className, children,
   const language = className && className.split('-');
   return (
     <Source
-      language={((language && language[1]) as SupportedLanguage) || 'plaintext'}
+      language={((language && language[1]) as SupportedLanguage) || 'text'}
       format={false}
       code={children as string}
       {...rest}

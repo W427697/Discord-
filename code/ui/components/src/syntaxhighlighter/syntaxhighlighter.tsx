@@ -17,9 +17,8 @@ import md from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
 import yml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
-import plaintext from 'react-syntax-highlighter/dist/esm/languages/hljs/plaintext';
 
-import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/light';
+import ReactSyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
 // @ts-expect-error (Converted from ts-ignore)
 import { createElement } from 'react-syntax-highlighter/dist/esm/index';
 
@@ -46,7 +45,6 @@ export const supportedLanguages = {
   tsx,
   typescript,
   graphql,
-  plaintext,
 };
 
 Object.entries(supportedLanguages).forEach(([key, val]) => {

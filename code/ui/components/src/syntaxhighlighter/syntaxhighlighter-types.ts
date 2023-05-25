@@ -27,11 +27,14 @@ export type SyntaxHighlighterFormatTypes = boolean | 'dedent' | BuiltInParserNam
 // the reason these a COPIED is the types for this package are defining modules by filename
 // which will not match one we've localized type-definitions
 type LineTagPropsFunction = (lineNumber: number) => React.HTMLProps<HTMLElement>;
+
+export type SupportedLanguage = 'text' | keyof typeof supportedLanguages;
+
 export interface SyntaxHighlighterBaseProps {
   children?: React.ReactNode;
   codeTagProps?: React.HTMLProps<HTMLElement>;
   customStyle?: any;
-  language?: keyof typeof supportedLanguages;
+  language?: SupportedLanguage;
   lineNumberStyle?: any;
   lineProps?: LineTagPropsFunction | React.HTMLProps<HTMLElement>;
   showLineNumbers?: boolean;
@@ -39,7 +42,5 @@ export interface SyntaxHighlighterBaseProps {
   style?: any;
   useInlineStyles?: boolean;
 }
-
-export type SupportedLanguage = keyof typeof supportedLanguages;
 
 export type SyntaxHighlighterProps = SyntaxHighlighterBaseProps & SyntaxHighlighterCustomProps;
