@@ -168,6 +168,8 @@ export class CsfFile {
       ? findVarInitialization(value.name, this._ast.program)
       : value;
     if (t.isStringLiteral(node)) return node.value;
+    if (t.isTSSatisfiesExpression(node)) return node.expression.value;
+
     throw new Error(dedent`
       CSF: unexpected dynamic title ${formatLocation(node, this._fileName)}
 
