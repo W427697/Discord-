@@ -74,8 +74,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -B ${{ steps.target.outputs.target }} refs/remotes/origin/${{ steps.target.outputs.target }}
-          git pull
+          git fetch ${{ steps.target.outputs.target }}
+          git checkout ${{ steps.target.outputs.target }}
           git merge ${{ github.ref }}
           git push origin ${{ steps.target.outputs.target }}
 
