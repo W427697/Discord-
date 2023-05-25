@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/preview-web",
-  "version": "7.0.8-alpha.3",
+  "version": "7.0.8-alpha.4",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.3",
-    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.3"
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4"
   },
   "publishConfig": {
     "access": "public"

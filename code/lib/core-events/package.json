@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/core-events",
-  "version": "7.0.8-alpha.3",
+  "version": "7.0.8-alpha.4",
   "description": "Event names used in storybook core",
   "keywords": [
     "storybook"

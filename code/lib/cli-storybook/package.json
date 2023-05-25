@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/storybook",
-  "version": "7.0.8-alpha.3",
+  "version": "7.0.8-alpha.4",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -24,7 +24,7 @@
     "storybook": "./index.js"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/cli": "7.0.8-alpha.3"
+    "@junk-temporary-prototypes/cli": "7.0.8-alpha.4"
   },
   "publishConfig": {
     "access": "public"
