@@ -4,17 +4,14 @@
 import fetch from 'node-fetch';
 
 export default {
-  title: 'Examples/Loader'
   component: 'demo-todo-item',
-  render: (args, { loaded: { todo } }) => TodoItem({...args, ...todo}),
+  render: (args, { loaded: { todo } }) => TodoItem({ ...args, ...todo }),
 };
 
 export const Primary = {
   loaders: [
     async () => ({
-      todo: await (
-        await fetch('https://jsonplaceholder.typicode.com/todos/1')
-      ).json(),
+      todo: await (await fetch('https://jsonplaceholder.typicode.com/todos/1')).json(),
     }),
   ],
 };

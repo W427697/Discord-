@@ -6,11 +6,6 @@ import type { Meta, StoryObj } from 'storybook-solidjs';
 import { TodoItem } from './TodoItem';
 
 const meta: Meta<typeof TodoItem> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/solid/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Examples/Loader',
   component: TodoItem,
   render: (args, { loaded: { todo } }) => <TodoItem {...args} {...todo} />,
 };

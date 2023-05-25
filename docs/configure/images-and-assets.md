@@ -6,7 +6,7 @@ Components often rely on images, videos, fonts, and other assets to render as th
 
 ### Import assets into stories
 
-You can import any media assets by importing (or requiring) them. It works out of the box with our default config. But, if you are using a custom webpack config, you’ll need to add the [file loader](https://v4.webpack.js.org/loaders/) to handle the required files.
+You can import any media assets by importing (or requiring) them. It works out of the box with our default config. But, if you are using a custom webpack config, you’ll need to add the [file loader](https://webpack.js.org/loaders/) to handle the required files.
 
 Afterward, you can use any asset in your stories:
 
