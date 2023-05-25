@@ -60,7 +60,7 @@ export const Code = ({
     <StyledSyntaxHighlighter
       bordered
       copyable
-      language={language?.[1] ?? 'plaintext'}
+      language={(language?.[1] as any) ?? 'plaintext'}
       format={false}
       {...props}
     >

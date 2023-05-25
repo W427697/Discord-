@@ -1,5 +1,6 @@
 import type { BuiltInParserName } from 'prettier';
 import type { ReactNode } from 'react';
+import type { supportedLanguages } from './syntaxhighlighter';
 
 export interface SyntaxHighlighterRendererProps {
   rows: any[];
@@ -30,7 +31,7 @@ export interface SyntaxHighlighterBaseProps {
   children?: React.ReactNode;
   codeTagProps?: React.HTMLProps<HTMLElement>;
   customStyle?: any;
-  language?: string;
+  language?: keyof typeof supportedLanguages;
   lineNumberStyle?: any;
   lineProps?: LineTagPropsFunction | React.HTMLProps<HTMLElement>;
   showLineNumbers?: boolean;
