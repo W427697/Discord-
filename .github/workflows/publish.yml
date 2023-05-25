@@ -66,7 +66,7 @@ jobs:
       - name: Publish
         if: steps.publish-needed.outputs.published != 'true'
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           yarn release:publish --tag ${{ steps.is-prerelease.outputs.prerelease && 'next' || 'latest' }} --verbose
 
