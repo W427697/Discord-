@@ -79,8 +79,8 @@ You can also pass a list of directories separated by commas without spaces inste
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-multiple-static-dir.js.mdx',
-    'common/storybook-main-with-multiple-static-dir.ts.mdx',
+    'common/main-config-static-dirs.js.mdx',
+    'common/main-config-static-dirs.ts.mdx',
   ]}
 />
 
@@ -92,8 +92,8 @@ Or even use a configuration object to define the directories:
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-with-object-configuration-static-dir.js.mdx',
-    'common/storybook-main-with-object-configuration-static-dir.ts.mdx',
+    'common/main-config-static-dirs-with-object.js.mdx',
+    'common/main-config-static-dirs-with-object.ts.mdx',
   ]}
 />
 
@@ -137,3 +137,16 @@ In this case, you need to have all your images and media files with relative pat
 If you load static content via importing, this is automatic, and you do not have to do anything.
 
 Suppose you are serving assets in a [static directory](#serving-static-files-via-storybook-configuration) along with your Storybook. In that case, you need to use relative paths to load images or use the base element.
+
+### Referencing Fonts in Stories
+
+After configuring Storybook to serve assets from your static folder, you can reference those assets in Storybook. For example, you can reference and apply a custom font in your stories.
+
+Inside the `.storybook/` configuration folder, create `preview-head.html`, then use `<link />` to reference your font.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={['common/storybook-preview-head-example.html.mdx']} />
+
+<!-- prettier-ignore-end -->

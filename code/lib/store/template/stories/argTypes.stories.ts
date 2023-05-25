@@ -8,7 +8,7 @@ export default {
   // Compose all the argTypes into `object`, so the pre component only needs a single prop
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { object: context.argTypes } }),
+      storyFn({ args: { object: { ...context.argTypes } } }),
   ],
   argTypes: {
     componentArg: { type: 'string' },
