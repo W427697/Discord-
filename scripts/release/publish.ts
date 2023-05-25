@@ -129,7 +129,7 @@ const publishAllPackages = async ({
   console.log(`📦 Publishing all packages...`);
   const command = `yarn workspaces foreach --parallel --no-private --verbose npm publish --tolerate-republish ${
     tag ? `--tag ${tag}` : ''
-  }}`;
+  }`;
   if (verbose) {
     console.log(`📦 Executing: ${command}`);
   }
