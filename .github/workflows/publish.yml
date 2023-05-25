@@ -1,0 +1,95 @@
+name: Publish
+run-name: Publish new version, triggered by ${{ github.triggering_actor }}
+
+on:
+  push:
+    branches:
+      - main-v2-release
+  workflow_dispatch:
+
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish new version
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scripts
+    steps:
+      - name: Checkout main-v2-release
+        uses: actions/checkout@v3
+        with:
+          ref: main-v2-release
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.yarn/berry/cache
+          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+
+      - name: Install Script Dependencies
+        run: |
+          yarn install
+
+      - name: Get current version
+        id: version
+        run: ./node_modules/.bin/ts-node --swc ./release/utils/get-current-version.ts
+
+      - name: Check if publish is needed
+        id: publish-needed
+        run: ./node_modules/.bin/ts-node --swc ./release/utils/is-version-published.ts ${{ steps.version.outputs.current-version }}
+
+      - name: Check release vs prerelease
+        if: steps.publish-needed.outputs.published != 'true'
+        id: is-prerelease
+        run: ./node_modules/.bin/ts-node --swc ./release/utils/is-prerelease.ts
+
+      - name: Publish
+        if: steps.publish-needed.outputs.published != 'true'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn release:publish --tag ${{ steps.is-prerelease.outputs.prerelease && 'next' || 'latest' }} --verbose
+
+      - name: Merge main-v2-release into main-v2
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout main-v2
+          git merge main-v2-release
+          git push origin main-v2
+
+      - name: Get changelog for ${{ steps.version.outputs.current-version }}}
+        if: steps.publish-needed.outputs.published != 'true'
+        id: changelog
+        run: |
+          ./node_modules/.bin/ts-node --swc ./release/utils/get-changelog-entry.ts ${{ steps.version.outputs.current-version }}
+
+      - name: Create GitHub Release
+        if: steps.publish-needed.outputs.published != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create \
+          ${{ steps.version.outputs.current-version }} \
+            --repo "${{ github.repository }}" \
+            --target main-v2 \
+            --title "${{ steps.version.outputs.current-version }}" \
+            --notes "${{ steps.changelog.outputs.changelog }}" \
+            ${{ steps.is-prerelease.outputs.prerelease && '--prerelease' || '' }}
+
+      # TODO: if real release, merge main-v2 into main
+
+      # TODO: report failures to Discord
