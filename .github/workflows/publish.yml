@@ -68,7 +68,7 @@ jobs:
 
       - name: Get target branch
         id: target
-        run: echo "${{ github.ref == 'next-v2-release' && 'next-v2' || 'main-v2' }}" >> $GITHUB_OUTPUT
+        run: echo "target=${{ github.ref == 'next-v2-release' && 'next-v2' || 'main-v2' }}" >> $GITHUB_OUTPUT
 
       - name: Merge ${{ github.ref }} into ${{ steps.target.outputs.target }}
         run: |
