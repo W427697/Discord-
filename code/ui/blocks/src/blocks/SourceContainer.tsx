@@ -9,6 +9,7 @@ import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
 import type { StoryId, Args } from '@storybook/types';
 
 import { stringify } from 'telejson';
+import { uniqueId } from 'lodash';
 
 type ArgsHash = string;
 export function argsHash(args: Args): ArgsHash {
@@ -43,6 +44,7 @@ export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
   channel,
 }) => {
   const [sources, setSources] = useState<StorySources>({});
+  const [currentSource, setCurrentSource] = useState<SourceItem>({ code: '', format: 'html' });
 
   useEffect(() => {
     const handleSnippetRendered = (
@@ -64,11 +66,8 @@ export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
         : idOrEvent;
 
       const hash = args ? argsHash(args) : UNKNOWN_ARGS_HASH;
-
-      // optimization: if the source is the same, ignore the incoming event
-      if (sources[id] && sources[id][hash] && sources[id][hash].code === source) {
-        return;
-      }
+      // optimization: don't update if the source is the same
+      if (deepEqual(currentSource, { code: source, format })) return;
 
       setSources((current) => {
         const newSources = {
@@ -79,9 +78,11 @@ export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
           },
         };
 
-        if (!deepEqual(current, newSources)) {
+        if (!deepEqual(currentSource, { code: source, format })) {
+          setCurrentSource({ code: source, format });
           return newSources;
         }
+
         return current;
       });
     };
