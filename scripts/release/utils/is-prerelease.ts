@@ -13,9 +13,9 @@ program
   .description('returns true if the current version is a prerelease')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
-export const isPrerelease = async (version?: string) => {
-  const actualVersion = version || (await getCurrentVersion());
-  const result = semver.prerelease(actualVersion) !== null;
+export const isPrerelease = async (versionArg?: string) => {
+  const version = versionArg || (await getCurrentVersion());
+  const result = semver.prerelease(version) !== null;
 
   if (process.env.GITHUB_ACTIONS === 'true') {
     setOutput('prerelease', result);

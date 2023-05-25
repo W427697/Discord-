@@ -18,6 +18,7 @@ jobs:
   publish:
     name: Publish new version
     runs-on: ubuntu-latest
+    environment: release
     defaults:
       run:
         working-directory: scripts
@@ -39,7 +40,7 @@ jobs:
             ~/.yarn/berry/cache
           key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
 
-      - name: Install Script Dependencies
+      - name: Install script dependencies
         run: |
           yarn install
 
@@ -55,6 +56,12 @@ jobs:
         if: steps.publish-needed.outputs.published != 'true'
         id: is-prerelease
         run: ./node_modules/.bin/ts-node --swc ./release/utils/is-prerelease.ts
+
+      - name: Install code dependencies
+        if: steps.publish-needed.outputs.published != 'true'
+        working-directory: .
+        run: |
+          yarn task --task=install --start-from=install
 
       - name: Publish
         if: steps.publish-needed.outputs.published != 'true'
