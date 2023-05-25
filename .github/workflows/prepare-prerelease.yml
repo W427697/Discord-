@@ -122,4 +122,10 @@ jobs:
             --base main-v2-release \
             --head version-from-${{ steps.version.outputs.current-version }}
 
-      # TODO: report failures to Discord
+      - name: Report job failure to Discord
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The GitHub Action for preparing the release pull request bumping from v${{ steps.version.outputs.current-version }} to v${{ steps.version.outputs.next-version }} (triggered by ${{ github.triggering_actor }}) failed! See run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'

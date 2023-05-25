@@ -23,7 +23,7 @@ jobs:
       run:
         working-directory: scripts
     steps:
-      - name: Checkout ${{ github.ref }}
+      - name: Checkout ${{ github.ref_name }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 100
@@ -57,28 +57,28 @@ jobs:
         id: is-prerelease
         run: ./node_modules/.bin/ts-node --swc ./release/utils/is-prerelease.ts
 
-      # - name: Install code dependencies
-      #   if: steps.publish-needed.outputs.published != 'true'
-      #   working-directory: .
-      #   run: yarn task --task=install --start-from=install
+      - name: Install code dependencies
+        if: steps.publish-needed.outputs.published != 'true'
+        working-directory: .
+        run: yarn task --task=install --start-from=install
 
-      # - name: Publish
-      #   if: steps.publish-needed.outputs.published != 'true'
-      #   env:
-      #     YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: yarn release:publish --tag ${{ steps.is-prerelease.outputs.prerelease && 'next' || 'latest' }} --verbose
+      - name: Publish
+        if: steps.publish-needed.outputs.published != 'true'
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn release:publish --tag ${{ steps.is-prerelease.outputs.prerelease && 'next' || 'latest' }} --verbose
 
       - name: Get target branch
         id: target
-        run: echo "target=${{ github.ref == 'next-v2-release' && 'next-v2' || 'main-v2' }}" >> $GITHUB_OUTPUT
+        run: echo "target=${{ github.ref_name == 'next-v2-release' && 'next-v2' || 'main-v2' }}" >> $GITHUB_OUTPUT
 
-      - name: Merge ${{ github.ref }} into ${{ steps.target.outputs.target }}
+      - name: Merge ${{ github.ref_name }} into ${{ steps.target.outputs.target }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin ${{ steps.target.outputs.target }}
           git checkout ${{ steps.target.outputs.target }}
-          git merge ${{ github.ref }}
+          git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
 
       - name: Get changelog for ${{ steps.version.outputs.current-version }}}
@@ -99,5 +99,23 @@ jobs:
             --notes "${{ steps.changelog.outputs.changelog }}" \
             ${{ steps.is-prerelease.outputs.prerelease && '--prerelease' || '' }}
 
-      # TODO: if real release, merge into main
-      # TODO: report failures to Discord
+      # Merge from next to main if it is not a prerelease, and this release is from next-release
+      # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
+      # This will keep next-release, next and main all tracking v7.1.0
+      - name: Merge ${{ steps.target.outputs.target }} into main-v2
+        if: steps.publish-needed.outputs.published != 'true' && steps.target.outputs.target == 'next-v2' && !steps.is-prerelease.outputs.prerelease
+        run: |
+          git fetch --unshallow
+          git fetch origin main-v2
+          git checkout main-v2
+          git merge ${{ steps.target.outputs.target }}
+          git push origin main-v2
+          - name: The job has failed
+
+      - name: Report job failure to Discord
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'The GitHub Action for publishing version ${{ steps.version.outputs.current-version }} (triggered by ${{ github.triggering_actor }}) failed! See run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
