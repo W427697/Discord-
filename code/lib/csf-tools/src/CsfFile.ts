@@ -409,11 +409,13 @@ export class CsfFile {
               }
             }
 
-            if (annotationKey === 'storyName' && t.isStringLiteral(annotationValue)) {
-              const storyName = annotationValue.value;
+            if (
+              (annotationKey === 'name' || annotationKey === 'storyName') &&
+              t.isStringLiteral(annotationValue)
+            ) {
               const story = self._stories[exportName];
               if (!story) return;
-              story.name = storyName;
+              story.name = annotationValue.value;
             }
           }
         },
