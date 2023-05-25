@@ -10,14 +10,6 @@ export default {
   },
 };
 
-const Template = (args) => ({
-  components: { Button },
-  setup() {
-    return { args };
-  },
-  template: '<Button v-bind="args" />',
-});
-
 // This is an accessible story
 export const Accessible = {
   render: (args) => ({

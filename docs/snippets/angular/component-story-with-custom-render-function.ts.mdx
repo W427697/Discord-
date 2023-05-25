@@ -24,6 +24,7 @@ const meta: Meta<MyComponent> = {
 export default meta;
 type Story = StoryObj<MyComponent>;
 
+// This story uses a render function to fully control how the component renders.
 export const Example: Story = {
   render: () => ({
     template: `
