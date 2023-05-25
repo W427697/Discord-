@@ -23,7 +23,7 @@ jobs:
       run:
         working-directory: scripts
     steps:
-      - name: Checkout ${{ github.ref }}}
+      - name: Checkout ${{ github.ref }}
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -74,7 +74,8 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b ${{ steps.target.outputs.target }} origin/${{ steps.target.outputs.target }}
+          git checkout -B ${{ steps.target.outputs.target }} refs/remotes/origin/${{ steps.target.outputs.target }}
+          git pull
           git merge ${{ github.ref }}
           git push origin ${{ steps.target.outputs.target }}
 
