@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/addon-jest",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.3",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -70,12 +70,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.7",
-    "@junk-temporary-prototypes/components": "7.0.7",
-    "@junk-temporary-prototypes/core-events": "7.0.7",
-    "@junk-temporary-prototypes/manager-api": "7.0.7",
-    "@junk-temporary-prototypes/preview-api": "7.0.7",
-    "@junk-temporary-prototypes/theming": "7.0.7",
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/components": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/core-events": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/manager-api": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.3",
+    "@junk-temporary-prototypes/theming": "7.0.8-alpha.3",
     "@storybook/global": "^5.0.0",
     "react-resize-detector": "^7.1.2",
     "upath": "^1.2.0"
@@ -106,6 +106,7 @@
     "platform": "browser"
   },
   "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "stableVersion": "7.0.7",
   "storybook": {
     "displayName": "Jest",
     "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",

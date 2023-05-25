@@ -14,6 +14,7 @@
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
     "release:version": "ts-node --swc ./release/version.ts",
     "release:write-changelog": "ts-node --swc ./release/write-changelog.ts",
+    "release:publish": "ts-node --swc ./release/publish.ts",
     "task": "ts-node --swc ./task.ts",
     "test": "jest --config ./jest.config.js",
     "upgrade": "ts-node --swc ./task.ts"
@@ -129,6 +130,7 @@
     "npmlog": "^5.0.1",
     "nx": "^15.4.5",
     "p-limit": "^3.1.0",
+    "p-retry": "^5.1.2",
     "prettier": "^2.8.0",
     "pretty-hrtime": "^1.0.0",
     "process": "^0.11.10",
