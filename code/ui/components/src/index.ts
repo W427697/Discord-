@@ -36,6 +36,7 @@ export type {
   SyntaxHighlighterFormatTypes,
   SyntaxHighlighterProps,
   SyntaxHighlighterRendererProps,
+  SupportedLanguage,
 } from './syntaxhighlighter/syntaxhighlighter-types';
 export { SyntaxHighlighter } from './syntaxhighlighter/lazy-syntaxhighlighter';
 export { createCopyToClipboardFunction } from './syntaxhighlighter/syntaxhighlighter';

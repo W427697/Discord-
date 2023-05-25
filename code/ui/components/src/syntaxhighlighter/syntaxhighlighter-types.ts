@@ -40,4 +40,6 @@ export interface SyntaxHighlighterBaseProps {
   useInlineStyles?: boolean;
 }
 
+export type SupportedLanguage = keyof typeof supportedLanguages;
+
 export type SyntaxHighlighterProps = SyntaxHighlighterBaseProps & SyntaxHighlighterCustomProps;

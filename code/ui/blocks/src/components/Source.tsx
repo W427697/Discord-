@@ -1,6 +1,7 @@
 import type { ComponentProps, FunctionComponent } from 'react';
 import React from 'react';
 import { styled, ThemeProvider, convert, themes, ignoreSsrWarning } from '@storybook/theming';
+import type { SupportedLanguage } from '@storybook/components';
 import { SyntaxHighlighter } from '@storybook/components';
 
 import { EmptyBlock } from './EmptyBlock';
@@ -32,7 +33,7 @@ export interface SourceCodeProps {
   /**
    * The language the syntax highlighter uses for your story’s code
    */
-  language?: string;
+  language?: SupportedLanguage;
   /**
    * Use this to override the content of the source block.
    */
