@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: Checkout ${{ github.ref }}
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -97,4 +99,5 @@ jobs:
             --notes "${{ steps.changelog.outputs.changelog }}" \
             ${{ steps.is-prerelease.outputs.prerelease && '--prerelease' || '' }}
 
+      # TODO: if real release, merge into main
       # TODO: report failures to Discord
