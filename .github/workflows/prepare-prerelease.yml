@@ -1,5 +1,5 @@
-name: Prepare prerelease pull request
-run-name: Prepare prerelease pull request by ${{ github.triggering_actor }}
+name: Prepare prerelease PR
+run-name: Prepare prerelease PR, triggered by ${{ github.triggering_actor }}
 
 on:
   push:
@@ -27,15 +27,23 @@ on:
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
 
 jobs:
   prepare-prerelease-pull-request:
+    name: Prepare prerelease pull request
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scripts
     steps:
       - name: Checkout main-v2
         uses: actions/checkout@v3
         with:
           ref: main-v2
+          # this needs to be set to a high enough number that it will contain the last version tag
+          # as of May 2023, the whole repo had 55K commits
+          fetch-depth: 10000
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -50,41 +58,68 @@ jobs:
           key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
 
       - name: Install Script Dependencies
-        working-directory: scripts
         run: |
           yarn install
 
-      # TODO: check if a release is needed
+      - name: Check if pull request is frozen
+        if: github.event_name != 'workflow_dispatch'
+        id: check-frozen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts
 
-      # TODO: set inputs correctly from pushes
+      - name: Cancel when frozen
+        if: steps.check-frozen.outputs.frozen == 'true' && github.event_name != 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # From https://stackoverflow.com/a/75809743
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+
+      # TODO: check if a version bump is needed, skip next two steps if not
 
       - name: Bump version
         id: version
-        working-directory: scripts
         run: |
           yarn release:version --release-type ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('{0} {1}', '--pre-id', inputs.pre-id) }} --verbose
 
+      # tags are needed for the changelog generation
+      - name: Fetch git tags
+        run: git fetch --tags origin
+
       - name: Write changelog
-        working-directory: scripts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           yarn release:write-changelog ${{ steps.version.outputs.next-version }} --verbose
 
-      - name: Check if pull request is frozen
-        id: check-frozen
-        working-directory: scripts
-        run: ./node_modules/.bin/ts-node --swc ./release/is-pr-frozen.ts version-from-${{ steps.version.outputs.current-version }}
+      - name: 'Commit changes to branch: version-from-${{ steps.version.outputs.current-version }}'
+        working-directory: .
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -b version-from-${{ steps.version.outputs.current-version }}
+          git add .
+          git commit -m "bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" || true
+          git push --force origin version-from-${{ steps.version.outputs.current-version }}
+
+      # TODO: generate PR description
 
       - name: Create or update pull request
-        if: steps.check-frozen.outputs.frozen == 'false'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'bump version to ${{ steps.version.outputs.next-version }}'
-          title: 'Bump version to ${{ steps.version.outputs.next-version }}'
-          body: |
-            This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}.
-            Please review and merge this pull request to release the new version.
-          branch: version-from-${{ steps.version.outputs.current-version }}
-          base: main-v2-release
-          draft: false
-          delete-branch: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit \
+            --repo "${{github.repository }}"\
+            --title "Bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" \
+            --body "This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}. Please review and merge this pull request to release the new version." \
+          || \
+          gh pr create \
+            --repo "${{github.repository }}"\
+            --title "Bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" \
+            --body "This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}. Please review and merge this pull request to release the new version." \
+            --base main-v2-release \
+            --head version-from-${{ steps.version.outputs.current-version }}
+
+      # TODO: report failures to Discord

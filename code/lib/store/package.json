@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/store",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.4",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.7",
-    "@junk-temporary-prototypes/preview-api": "7.0.7"
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4"
   },
   "publishConfig": {
     "access": "public"
@@ -55,5 +55,6 @@
     "platform": "node",
     "shim": "@junk-temporary-prototypes/preview-api/dist/store"
   },
-  "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971"
+  "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "stableVersion": "7.0.7"
 }

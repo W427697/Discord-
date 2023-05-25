@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/addon-toolbars",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.4",
   "description": "Create your own toolbar items that control story rendering",
   "keywords": [
     "addon",
@@ -68,11 +68,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.7",
-    "@junk-temporary-prototypes/components": "7.0.7",
-    "@junk-temporary-prototypes/manager-api": "7.0.7",
-    "@junk-temporary-prototypes/preview-api": "7.0.7",
-    "@junk-temporary-prototypes/theming": "7.0.7"
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/components": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/manager-api": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/theming": "7.0.8-alpha.4"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
@@ -100,6 +100,7 @@
     "platform": "browser"
   },
   "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "stableVersion": "7.0.7",
   "storybook": {
     "displayName": "Toolbars",
     "icon": "https://user-images.githubusercontent.com/263385/101991677-48cdf300-3c7c-11eb-93b4-19b0e3366959.png",

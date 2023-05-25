@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { renderElement, unmountElement } from '@junk-temporary-prototypes/react-dom-shim';
-import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@junk-temporary-prototypes/types';
+import type {
+  Renderer,
+  Parameters,
+  DocsContextProps,
+  DocsRenderFunction,
+} from '@junk-temporary-prototypes/types';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@junk-temporary-prototypes/blocks';
 
 // TS doesn't like that we export a component with types that it doesn't know about (TS4203)
@@ -53,6 +58,7 @@ export class DocsRenderer<TRenderer extends Renderer> {
           .then(({ MDXProvider }) =>
             // We use a `key={}` here to reset the `hasError` state each time we render ErrorBoundary
             renderElement(
+              // @ts-expect-error -- why does this break?
               <ErrorBoundary showException={reject} key={Math.random()}>
                 <MDXProvider components={components}>
                   <Docs context={context} docsParameter={docsParameter} />

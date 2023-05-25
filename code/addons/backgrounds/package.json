@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/addon-backgrounds",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.4",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
@@ -76,13 +76,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.7",
-    "@junk-temporary-prototypes/components": "7.0.7",
-    "@junk-temporary-prototypes/core-events": "7.0.7",
-    "@junk-temporary-prototypes/manager-api": "7.0.7",
-    "@junk-temporary-prototypes/preview-api": "7.0.7",
-    "@junk-temporary-prototypes/theming": "7.0.7",
-    "@junk-temporary-prototypes/types": "7.0.7",
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/components": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/core-events": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/manager-api": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/theming": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/types": "7.0.8-alpha.4",
     "@storybook/global": "^5.0.0",
     "memoizerific": "^1.11.3",
     "ts-dedent": "^2.0.0"
@@ -113,6 +113,7 @@
     ]
   },
   "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "stableVersion": "7.0.7",
   "storybook": {
     "displayName": "Backgrounds",
     "icon": "https://user-images.githubusercontent.com/263385/101991667-479cc600-3c7c-11eb-96d3-410e936252e7.png",

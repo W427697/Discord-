@@ -86,7 +86,14 @@ const getCommitAt = async (id: string, verbose?: boolean) => {
 const getFromCommit = async (from?: string | undefined, verbose?: boolean) => {
   let actualFrom = from;
   if (!from) {
+    console.log(`🔍 No 'from' specified, finding latest version tag, fetching all of them...`);
+    // await git.fetch('origin', ['--all', '--tags']);
     const { latest } = await git.tags(['v*', '--sort=-v:refname', '--merged']);
+    if (!latest) {
+      throw new Error(
+        'Could not automatically detect which commit to generate from, because no version tag was found in the history. Have you fetch tags?'
+      );
+    }
     actualFrom = latest;
     if (verbose) {
       console.log(`🔍 No 'from' specified, found latest tag: ${chalk.blue(latest)}`);
@@ -147,7 +154,7 @@ const getRepo = async (verbose?: boolean): Promise<string> => {
     throw new Error('No remote named "origin" found');
   }
   const pushUrl = originRemote.refs.push;
-  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:/, '');
+  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:(\/\/github\.com\/)*/, '');
   if (verbose) {
     console.log(`📦 Extracted repo: ${chalk.blue(repo)}`);
   }

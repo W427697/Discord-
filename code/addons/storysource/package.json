@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/addon-storysource",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.4",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -54,13 +54,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.7",
-    "@junk-temporary-prototypes/components": "7.0.7",
-    "@junk-temporary-prototypes/manager-api": "7.0.7",
-    "@junk-temporary-prototypes/preview-api": "7.0.7",
-    "@junk-temporary-prototypes/router": "7.0.7",
-    "@junk-temporary-prototypes/source-loader": "7.0.7",
-    "@junk-temporary-prototypes/theming": "7.0.7",
+    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/components": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/manager-api": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/router": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/source-loader": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/theming": "7.0.8-alpha.4",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^15.5.0"
@@ -93,6 +93,7 @@
     ]
   },
   "gitHead": "9e352853ca5ce94d81fcdb06c303b4fbf43f8971",
+  "stableVersion": "7.0.7",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",

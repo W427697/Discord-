@@ -6,15 +6,27 @@ import chalk from 'chalk';
 import program from 'commander';
 import { simpleGit } from 'simple-git';
 import { setOutput } from '@actions/core';
+import path from 'path';
+import { readJson } from 'fs-extra';
 import { getPullInfoFromCommit } from './get-github-info';
 
 program
   .name('is-pr-frozen')
-  .description('returns true if the pull reques associated with the branch has the "freeze" label')
-  .arguments('<branch>')
+  .description(
+    'returns true if the versioning pull request associated with the current branch has the "freeze" label'
+  )
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const git = simpleGit();
+
+const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
+const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
+
+const getCurrentVersion = async () => {
+  console.log(`📐 Reading current version of Storybook...`);
+  const { version } = await readJson(CODE_PACKAGE_JSON_PATH);
+  return version;
+};
 
 const getRepo = async (verbose?: boolean): Promise<string> => {
   const remotes = await git.getRemotes(true);
@@ -27,22 +39,24 @@ const getRepo = async (verbose?: boolean): Promise<string> => {
     throw new Error('No remote named "origin" found');
   }
   const pushUrl = originRemote.refs.push;
-  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:/, '');
+  const repo = pushUrl.replace(/\.git$/, '').replace(/.*:(\/\/github\.com\/)*/, '');
   if (verbose) {
     console.log(`📦 Extracted repo: ${chalk.blue(repo)}`);
   }
   return repo;
 };
 
-export const run = async (args: unknown[], options: unknown) => {
+export const run = async (options: unknown) => {
   const { verbose } = options as { verbose?: boolean };
-  const branch = args[0] as string;
+
+  const version = await getCurrentVersion();
+  const branch = `version-from-${version}`;
 
   console.log(`💬 Determining if pull request from branch '${chalk.blue(branch)}' is frozen`);
 
   console.log(`⬇️ Fetching remote 'origin/${branch}'...`);
   try {
-    await git.fetch('origin', branch);
+    await git.fetch('origin', branch, { '--depth': 1 });
   } catch (error) {
     console.warn(
       `❗ Could not fetch remote 'origin/${branch}', it probably does not exist yet, which is okay`
@@ -82,7 +96,7 @@ export const run = async (args: unknown[], options: unknown) => {
 
 if (require.main === module) {
   const parsed = program.parse();
-  run(parsed.args, parsed.opts()).catch((err) => {
+  run(parsed.opts()).catch((err) => {
     console.error(err);
     process.exit(1);
   });

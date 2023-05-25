@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/root",
-  "version": "7.0.7",
+  "version": "7.0.8-alpha.4",
   "private": true,
   "description": "Storybook root",
   "homepage": "https://storybook.js.org/",
