@@ -353,11 +353,12 @@ export class StoryIndexGenerator {
 
         if (!csfEntry)
           throw new Error(
-            dedent`Could not find CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+            dedent`Could not find or load CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
             
               - Does that file exist?
               - If so, is it a CSF file (\`.stories.*\`)?
-              - If so, is it matched by the \`stories\` glob in \`main.js\`?`
+              - If so, is it matched by the \`stories\` glob in \`main.js\`?
+              - If so, has the file successfully loaded in Storybook and are its stories visible?`
           );
       }
 
