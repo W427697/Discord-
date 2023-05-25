@@ -1,12 +1,9 @@
-import path, { dirname, join } from 'path';
+import { dirname, join } from 'path';
 import fs from 'fs-extra';
 
 import { render } from 'ejs';
 
 import type { DocsOptions, Options, Ref } from '@storybook/types';
-
-const interpolate = (string: string, data: Record<string, string> = {}) =>
-  Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
 
 export const getTemplatePath = async (template: string) => {
   return join(
@@ -17,31 +14,10 @@ export const getTemplatePath = async (template: string) => {
 };
 
 export const readTemplate = async (template: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const path = await getTemplatePath(template);
 
   return fs.readFile(path, 'utf8');
 };
-
-export async function getManagerHeadTemplate(
-  configDirPath: string,
-  interpolations: Record<string, string>
-) {
-  const head = await fs
-    .pathExists(path.resolve(configDirPath, 'manager-head.html'))
-    .then<Promise<string> | false>((exists) => {
-      if (exists) {
-        return fs.readFile(path.resolve(configDirPath, 'manager-head.html'), 'utf8');
-      }
-      return false;
-    });
-
-  if (!head) {
-    return '';
-  }
-
-  return interpolate(head, interpolations);
-}
 
 export async function getManagerMainTemplate() {
   return getTemplatePath(`manager.ejs`);
@@ -58,9 +34,8 @@ export const renderHTML = async (
   refs: Promise<Record<string, Ref>>,
   logLevel: Promise<string>,
   docsOptions: Promise<DocsOptions>,
-  { versionCheck, releaseNotesData, previewUrl, serverChannelUrl, configType }: Options
+  { versionCheck, releaseNotesData, previewUrl, configType }: Options
 ) => {
-  const customHeadRef = await customHead;
   const titleRef = await title;
   const templateRef = await template;
 
@@ -79,6 +54,6 @@ export const renderHTML = async (
       RELEASE_NOTES_DATA: JSON.stringify(JSON.stringify(releaseNotesData), null, 2),
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
     },
-    head: customHeadRef ? await fs.readFile(customHeadRef, 'utf8') : '',
+    head: (await customHead) || '',
   });
 };

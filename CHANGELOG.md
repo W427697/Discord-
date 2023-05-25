@@ -1,3 +1,55 @@
+## 7.1.0-alpha.23 (May 24, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix `managerHead` preset in `main.ts` [#22701](https://github.com/storybooks/storybook/pull/22701)
+
+## 7.1.0-alpha.22 (May 24, 2023)
+
+#### Bug Fixes
+
+-   Vite: Fix pnpm support by replacing @storybook/global with `window` [#22709](https://github.com/storybooks/storybook/pull/22709)
+
+## 7.1.0-alpha.21 (May 23, 2023)
+
+#### Features
+
+-   Webpack: Add option to use swc instead of babel [#22075](https://github.com/storybooks/storybook/pull/22075)
+
+#### Bug Fixes
+
+-   UI: Fix `.mp3` support for builder-manager [#22699](https://github.com/storybooks/storybook/pull/22699)
+-   CLI: Fix support for BROWSER env var [#21473](https://github.com/storybooks/storybook/pull/21473)
+-   Vite: Fix missing @storybook/global dependency [#22700](https://github.com/storybooks/storybook/pull/22700)
+-   Next.js: Fix compatibility with Next 13.4.3 [#22697](https://github.com/storybooks/storybook/pull/22697)
+-   CLI: Fix error parsing on NPM proxy [#22690](https://github.com/storybooks/storybook/pull/22690)
+-   Core: Only connect to serverChannel in development mode [#22575](https://github.com/storybooks/storybook/pull/22575)
+-   CLI: Improve error handling when dealing with angular.json files [#22663](https://github.com/storybooks/storybook/pull/22663)
+-   CLI: Skip prompting for eslint plugin with --yes flag [#22651](https://github.com/storybooks/storybook/pull/22651)
+-   CLI: Fix upgrade to not upgrade nx packages [#22419](https://github.com/storybooks/storybook/pull/22419)
+-   CLI: Only handle CTRL + C on init event [#22687](https://github.com/storybooks/storybook/pull/22687)
+-   Angular: Remove console.log [#22671](https://github.com/storybooks/storybook/pull/22671)
+
+## 7.1.0-alpha.20 (May 20, 2023)
+
+#### Bug Fixes
+
+-   CLI: Account for windows paths when copying templates [#22644](https://github.com/storybooks/storybook/pull/22644)
+-   CLI: Fix pnpm init command [#22635](https://github.com/storybooks/storybook/pull/22635)
+-   UI: Add legacy font formats [#22576](https://github.com/storybooks/storybook/pull/22576)
+-   Webpack: Remove the alias for `global` [#22393](https://github.com/storybooks/storybook/pull/22393)
+
+#### Maintenance
+
+-   CLI: Reduce installation noise and improve error handling [#22554](https://github.com/storybooks/storybook/pull/22554)
+-   Actions: Fix type of withActions [#22455](https://github.com/storybooks/storybook/pull/22455)
+
+#### Build
+
+-   Build: add discord notification when generating sandboxes fails [#22638](https://github.com/storybooks/storybook/pull/22638)
+-   Build: set correct ref on sandboxes Github action [#22625](https://github.com/storybooks/storybook/pull/22625)
+-   Build: Fix sandbox generation scripts [#22620](https://github.com/storybooks/storybook/pull/22620)
+
 ## 7.1.0-alpha.19 (May 16, 2023)
 
 #### Bug Fixes
