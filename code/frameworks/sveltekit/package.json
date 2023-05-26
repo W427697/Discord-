@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/sveltekit",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook for SvelteKit",
   "keywords": [
     "storybook",
@@ -51,9 +51,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/builder-vite": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/svelte": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/svelte-vite": "7.0.8-alpha.4"
+    "@junk-temporary-prototypes/builder-vite": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/svelte": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/svelte-vite": "7.2.0-alpha.3"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/addon-storysource",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -54,13 +54,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/components": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/manager-api": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/router": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/source-loader": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/theming": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/client-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/components": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/manager-api": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/preview-api": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/router": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/source-loader": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/theming": "7.2.0-alpha.3",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^15.5.0"

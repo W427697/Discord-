@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/core-server",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -58,15 +58,15 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@junk-temporary-prototypes/builder-manager": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-common": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-events": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/csf-tools": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/manager": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/node-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/telemetry": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/types": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/builder-manager": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-common": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-events": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/csf-tools": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/manager": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/node-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/preview-api": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/telemetry": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/types": "7.2.0-alpha.3",
     "@storybook/csf": "^0.1.0",
     "@storybook/docs-mdx": "^0.1.0",
     "@storybook/global": "^5.0.0",

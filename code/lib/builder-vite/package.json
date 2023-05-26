@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/builder-vite",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
   "bugs": {
@@ -42,15 +42,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/channel-postmessage": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/channel-websocket": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-common": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/csf-plugin": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/node-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/preview": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/types": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/channel-postmessage": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/channel-websocket": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/client-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-common": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/csf-plugin": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/node-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/preview": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/preview-api": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/types": "7.2.0-alpha.3",
     "@storybook/mdx2-csf": "^1.0.0",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",

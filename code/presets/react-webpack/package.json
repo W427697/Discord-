@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/preset-react-webpack",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading",
   "keywords": [
     "storybook"
@@ -65,10 +65,10 @@
   "dependencies": {
     "@babel/preset-flow": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
-    "@junk-temporary-prototypes/core-webpack": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/docs-tools": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/node-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/react": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/core-webpack": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/docs-tools": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/node-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/react": "7.2.0-alpha.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
     "@types/node": "^16.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/addon-interactions",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -72,15 +72,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/components": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-common": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-events": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/instrumenter": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/manager-api": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/preview-api": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/theming": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/types": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/client-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/components": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-common": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-events": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/instrumenter": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/manager-api": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/preview-api": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/theming": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/types": "7.2.0-alpha.3",
     "@storybook/global": "^5.0.0",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",

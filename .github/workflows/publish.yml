@@ -14,6 +14,9 @@ env:
 permissions:
   contents: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+
 jobs:
   publish:
     name: Publish new version
@@ -112,10 +115,10 @@ jobs:
           git push origin main-v2
           - name: The job has failed
 
-      - name: Report job failure to Discord
-        if: failure()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: 'The GitHub Action for publishing version ${{ steps.version.outputs.current-version }} (triggered by ${{ github.triggering_actor }}) failed! See run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+      # - name: Report job failure to Discord
+      #   if: failure()
+      #   env:
+      #     DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+      #   uses: Ilshidur/action-discord@master
+      #   with:
+      #     args: 'The GitHub Action for publishing version ${{ steps.version.outputs.current-version }} (triggered by ${{ github.triggering_actor }}) failed! See run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'

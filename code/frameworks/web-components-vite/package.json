@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/web-components-vite",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook for web-components and Vite: Develop Web Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -48,10 +48,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/builder-vite": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-server": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/node-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/web-components": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/builder-vite": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-server": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/node-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/web-components": "7.2.0-alpha.3",
     "magic-string": "^0.27.0"
   },
   "devDependencies": {

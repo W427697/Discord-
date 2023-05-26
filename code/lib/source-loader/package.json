@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/source-loader",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -44,7 +44,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/types": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/types": "7.2.0-alpha.3",
     "@storybook/csf": "^0.1.0",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",

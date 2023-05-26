@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/manager-api",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Core Storybook Manager API & Context",
   "keywords": [
     "storybook"
@@ -42,12 +42,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/channels": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-events": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/router": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/theming": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/types": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/channels": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/client-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-events": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/router": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/theming": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/types": "7.2.0-alpha.3",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
     "dequal": "^2.0.2",

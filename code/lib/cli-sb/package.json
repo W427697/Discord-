@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/sb",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -21,7 +21,7 @@
   "license": "MIT",
   "bin": "./index.js",
   "dependencies": {
-    "@junk-temporary-prototypes/cli": "7.0.8-alpha.4"
+    "@junk-temporary-prototypes/cli": "7.2.0-alpha.3"
   },
   "publishConfig": {
     "access": "public"

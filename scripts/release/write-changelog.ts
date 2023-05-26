@@ -49,13 +49,7 @@ type Options = {
 
 const git = simpleGit();
 
-const LABELS_FOR_CHANGELOG = [
-  'BREAKING CHANGE',
-  'feature request',
-  'bug',
-  'documentation',
-  'maintenance',
-];
+const LABELS_FOR_CHANGELOG = ['BREAKING CHANGE', 'feature request', 'bug', 'maintenance'];
 
 const validateOptions = (args: unknown[], options: { [key: string]: any }): options is Options => {
   optionsSchema.parse(options);

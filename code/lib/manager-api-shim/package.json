@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/api",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook Manager API (facade)",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/client-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/manager-api": "7.0.8-alpha.4"
+    "@junk-temporary-prototypes/client-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/manager-api": "7.2.0-alpha.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

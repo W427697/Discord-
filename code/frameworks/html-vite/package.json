@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/html-vite",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook for HTML and Vite: Develop HTML in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -48,15 +48,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@junk-temporary-prototypes/addons": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/builder-vite": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/channel-postmessage": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/channel-websocket": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/client-api": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-server": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/html": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/node-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/preview-web": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/addons": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/builder-vite": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/channel-postmessage": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/channel-websocket": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/client-api": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-server": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/html": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/node-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/preview-web": "7.2.0-alpha.3",
     "magic-string": "^0.27.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@junk-temporary-prototypes/cli",
-  "version": "7.0.8-alpha.4",
+  "version": "7.2.0-alpha.3",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -56,13 +56,13 @@
   "dependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@junk-temporary-prototypes/codemod": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-common": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/core-server": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/csf-tools": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/node-logger": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/telemetry": "7.0.8-alpha.4",
-    "@junk-temporary-prototypes/types": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/codemod": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-common": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/core-server": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/csf-tools": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/node-logger": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/telemetry": "7.2.0-alpha.3",
+    "@junk-temporary-prototypes/types": "7.2.0-alpha.3",
     "@ndelangen/get-tarball": "^3.0.7",
     "@types/semver": "^7.5.0",
     "boxen": "^5.1.2",
@@ -94,7 +94,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@junk-temporary-prototypes/client-api": "7.0.8-alpha.4",
+    "@junk-temporary-prototypes/client-api": "7.2.0-alpha.3",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
