@@ -1,3 +1,17 @@
+## 7.0.18 (May 26, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix TS 5.0 compat with vue-component-type-helpers [#22814](https://github.com/storybooks/storybook/pull/22814)
+-   Vue3: Fix reactive args updates in decorators [#22717](https://github.com/storybooks/storybook/pull/22717)
+-   Vue3: Revert v7 breaking change, restore reactive v6-compat API [#22692](https://github.com/storybooks/storybook/pull/22692)
+
+#### Build
+
+-   Build: Add more checks to ci:daily workflow [#22815](https://github.com/storybooks/storybook/pull/22815)
+-   Build: Fix Nextjs E2E tests [#22816](https://github.com/storybooks/storybook/pull/22816)
+-   Build: Bring back new Vue3 tests to main [#22685](https://github.com/storybooks/storybook/pull/22685)
+
 ## 7.0.17 (May 24, 2023)
 
 #### Bug Fixes
