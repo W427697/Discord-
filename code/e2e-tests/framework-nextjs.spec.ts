@@ -41,7 +41,7 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs_default-js/Navigation', 'default');
+      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Navigation', 'default');
       root = sbPage.previewRoot();
     });
 
@@ -73,7 +73,7 @@ test.describe('Next.js', () => {
     test.beforeEach(async ({ page }) => {
       sbPage = new SbPage(page);
 
-      await sbPage.navigateToStory('frameworks/nextjs_default-js/Router', 'default');
+      await sbPage.navigateToStory('frameworks/nextjs-nextjs-default-js/Router', 'default');
       root = sbPage.previewRoot();
     });
 
