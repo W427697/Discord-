@@ -4,6 +4,7 @@
 
 -   Vue3: Fix TS 5.0 compat with vue-component-type-helpers [#22814](https://github.com/storybooks/storybook/pull/22814)
 -   Vue3: Fix reactive args updates in decorators [#22717](https://github.com/storybooks/storybook/pull/22717)
+-   Vue3: Revert v7 breaking change, restore reactive v6-compat API [#22692](https://github.com/storybooks/storybook/pull/22692)
 
 #### Build
 
