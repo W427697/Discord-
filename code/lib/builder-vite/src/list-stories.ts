@@ -1,25 +1,25 @@
 import * as path from 'path';
 import slash from 'slash';
-import * as glob from 'glob';
+import { glob } from 'glob';
 import { normalizeStories } from '@storybook/core-common';
 
 import type { Options } from '@storybook/types';
 import { normalizePath } from 'vite';
 
 export async function listStories(options: Options) {
-  const raw = await options.presets.apply('stories', [], options);
-  const normalizeOptions = {
-    configDir: options.configDir,
-    workingDir: options.configDir,
-  };
-  const normalized = normalizeStories(raw, normalizeOptions).map(({ directory, files }) => {
-    const pattern = path.join(directory, files);
-    const absolutePattern = path.isAbsolute(pattern)
-      ? pattern
-      : path.join(options.configDir, pattern);
+  return (
+    await Promise.all(
+      normalizeStories(await options.presets.apply('stories', [], options), {
+        configDir: options.configDir,
+        workingDir: options.configDir,
+      }).map(({ directory, files }) => {
+        const pattern = path.join(directory, files);
+        const absolutePattern = path.isAbsolute(pattern)
+          ? pattern
+          : path.join(options.configDir, pattern);
 
-    return glob.sync(slash(absolutePattern), { follow: true });
-  });
-
-  return normalized.reduce((carry, stories) => carry.concat(stories.map(normalizePath)), []);
+        return glob(slash(absolutePattern), { follow: true });
+      })
+    )
+  ).reduce((carry, stories) => carry.concat(stories.map(normalizePath)), []);
 }
