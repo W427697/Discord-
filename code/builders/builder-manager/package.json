@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-manager",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/builders/builder-manager",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/builder-manager"
+    "directory": "code/builders/builder-manager"
   },
   "funding": {
     "type": "opencollective",

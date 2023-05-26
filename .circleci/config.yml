@@ -145,6 +145,7 @@ jobs:
             - code/addons
             - code/frameworks
             - code/lib
+            - code/builders
             - code/ui
             - code/renderers
             - code/presets

@@ -1,21 +1,21 @@
 {
   "name": "standalone-preview",
-  "version": "7.0.0-alpha.43",
+  "version": "7.1.0-alpha.24",
   "private": true,
   "scripts": {
     "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" storybook dev -p 9011 -c ../official-storybook --preview-url=http://localhost:1337/external-iframe.html",
     "storybook-preview": "cross-env PREVIEW_URL=external-iframe.html NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" parcel ./storybook.html --port 1337"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "7.0.0-alpha.43",
-    "@storybook/cli": "7.0.0-alpha.43",
-    "@storybook/react": "7.0.0-alpha.43",
-    "@storybook/react-webpack5": "7.0.0-alpha.43",
+    "@storybook/addon-docs": "7.1.0-alpha.24",
+    "@storybook/cli": "7.1.0-alpha.24",
+    "@storybook/react": "7.1.0-alpha.24",
+    "@storybook/react-webpack5": "7.1.0-alpha.24",
     "cross-env": "^7.0.3",
     "parcel": "2.0.1",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "storybook": "7.0.0-alpha.43"
+    "storybook": "7.1.0-alpha.24"
   },
   "resolutions": {
     "@storybook/addon-a11y": "portal:../../code/addons/a11y",
@@ -54,9 +54,9 @@
     "@storybook/addons": "portal:../../code/lib/addons",
     "@storybook/api": "portal:../../code/lib/api",
     "@storybook/blocks": "portal:../../code/lib/blocks",
-    "@storybook/builder-manager": "portal:../../code/lib/builder-manager",
-    "@storybook/builder-vite": "portal:../../code/lib/builder-vite",
-    "@storybook/builder-webpack5": "portal:../../code/lib/builder-webpack5",
+    "@storybook/builder-manager": "portal:../../code/builders/builder-manager",
+    "@storybook/builder-vite": "portal:../../code/builders/builder-vite",
+    "@storybook/builder-webpack5": "portal:../../code/builders/builder-webpack5",
     "@storybook/channel-postmessage": "portal:../../code/lib/channel-postmessage",
     "@storybook/channel-websocket": "portal:../../code/lib/channel-websocket",
     "@storybook/channels": "portal:../../code/lib/channels",
