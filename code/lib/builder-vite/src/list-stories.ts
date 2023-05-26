@@ -12,16 +12,14 @@ export async function listStories(options: Options) {
     configDir: options.configDir,
     workingDir: options.configDir,
   };
-  const normalized = await Promise.all(
-    normalizeStories(raw, normalizeOptions).map(async ({ directory, files }) => {
-      const pattern = path.join(directory, files);
-      const absolutePattern = path.isAbsolute(pattern)
-        ? pattern
-        : path.join(options.configDir, pattern);
+  const normalized = normalizeStories(raw, normalizeOptions).map(({ directory, files }) => {
+    const pattern = path.join(directory, files);
+    const absolutePattern = path.isAbsolute(pattern)
+      ? pattern
+      : path.join(options.configDir, pattern);
 
-      return glob.sync(slash(absolutePattern), { follow: true });
-    })
-  );
+    return glob.sync(slash(absolutePattern), { follow: true });
+  });
 
   return normalized.reduce((carry, stories) => carry.concat(stories.map(normalizePath)), []);
 }
