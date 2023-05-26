@@ -30,11 +30,12 @@ export const Inheritance = {
 
 export const Hooks = {
   decorators: [
-    // conditional decorator
+    // conditional decorator, valid decorator should return storyFn, not empty or null object
+    // return same storyFn  means no change no decorator
     (storyFn: PartialStoryFn, context: StoryContext) =>
       context.args.condition
         ? storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } })
-        : {},
+        : storyFn(),
     // decorator that uses hooks
     (storyFn: PartialStoryFn, context: StoryContext) => {
       useEffect(() => {});
