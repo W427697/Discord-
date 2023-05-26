@@ -29,33 +29,38 @@ program
 
 const optionsSchema = z
   .object({
-    releaseType: z.enum([
-      'major',
-      'minor',
-      'patch',
-      'prerelease',
-      'premajor',
-      'preminor',
-      'prepatch',
-    ]),
+    releaseType: z
+      .enum(['major', 'minor', 'patch', 'prerelease', 'premajor', 'preminor', 'prepatch'])
+      .optional(),
     preId: z.string().optional(),
+    exact: z
+      .string()
+      .optional()
+      .refine((version) => (version ? semver.valid(version) !== null : true), {
+        message: '--exact version has to be a valid semver string',
+      }),
     verbose: z.boolean().optional(),
   })
-  .strict()
-  .refine((schema) => (schema.preId ? schema.releaseType.startsWith('pre') : true), {
-    message:
-      'Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease',
-  })
-  .or(
-    z
-      .object({
-        exact: z.string().refine((version) => semver.valid(version) !== null, {
-          message: '--exact version has to be a valid semver string',
-        }),
-        verbose: z.boolean().optional(),
-      })
-      .strict()
-  );
+  .superRefine((schema, ctx) => {
+    // manual union validation because zod + commander is not great in this case
+    const hasExact = 'exact' in schema && schema.exact;
+    const hasReleaseType = 'releaseType' in schema && schema.releaseType;
+    if ((hasExact && hasReleaseType) || (!hasExact && !hasReleaseType)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          'Combining --exact with --release-type is invalid, but having one of them is required',
+      });
+    }
+    if (schema.preId && !schema.releaseType.startsWith('pre')) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          'Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease',
+      });
+    }
+    return z.NEVER;
+  });
 
 type BaseOptions = { verbose: boolean };
 type BumpOptions = BaseOptions & {

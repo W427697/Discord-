@@ -25,20 +25,93 @@ describe('Version', () => {
     'version.ts'
   );
   const VERSIONS_PATH = path.join(CODE_DIR_PATH, 'lib', 'cli', 'src', 'versions.ts');
+
   it('should throw when release type is invalid', async () => {
-    await expect(() => version({ releaseType: 'invalid' })).rejects.toThrow();
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ releaseType: 'invalid' })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "received": "invalid",
+          "code": "invalid_enum_value",
+          "options": [
+            "major",
+            "minor",
+            "patch",
+            "prerelease",
+            "premajor",
+            "preminor",
+            "prepatch"
+          ],
+          "path": [
+            "releaseType"
+          ],
+          "message": "Invalid enum value. Expected 'major' | 'minor' | 'patch' | 'prerelease' | 'premajor' | 'preminor' | 'prepatch', received 'invalid'"
+        }
+      ]"
+    `);
   });
 
   it('should throw when prerelease identifier is combined with non-pre release type', async () => {
-    await expect(() => version({ releaseType: 'major', preId: 'alpha' })).rejects.toThrow();
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ releaseType: 'major', preId: 'alpha' })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease",
+          "path": []
+        }
+      ]"
+    `);
   });
 
   it('should throw when exact is combined with release type', async () => {
-    await expect(() => version({ releaseType: 'major', exact: '1.0.0' })).rejects.toThrow();
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ releaseType: 'major', exact: '1.0.0' })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "Combining --exact with --release-type is invalid, but having one of them is required",
+          "path": []
+        }
+      ]"
+    `);
   });
 
   it('should throw when exact is invalid semver', async () => {
-    await expect(() => version({ exact: 'not-semver' })).rejects.toThrow();
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ exact: 'not-semver' })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "--exact version has to be a valid semver string",
+          "path": [
+            "exact"
+          ]
+        }
+      ]"
+    `);
   });
 
   it.each([
