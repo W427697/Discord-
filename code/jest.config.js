@@ -4,7 +4,6 @@ module.exports = {
     '<rootDir>/frameworks/*',
     '<rootDir>/lib/*',
     '<rootDir>/builders/*',
-    '<rootDir>/deprecated/*',
     '<rootDir>/renderers/*',
     '<rootDir>/ui/!(node_modules)*',
   ],
