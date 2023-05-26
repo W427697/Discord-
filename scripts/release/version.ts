@@ -16,11 +16,15 @@ import packageVersionMap from '../../code/lib/cli/src/versions';
 program
   .name('version')
   .description('version all packages')
-  .requiredOption(
+  .option(
     '-R, --release-type <major|minor|patch|prerelease>',
     'Which release type to use to bump the version'
   )
   .option('-P, --pre-id <id>', 'Which prerelease identifer to change to, eg. "alpha", "beta", "rc"')
+  .option(
+    '-E, --exact <version>',
+    'Use exact version instead of calculating from current version, eg. "7.2.0-canary.123". Can not be combined with --release-type or --pre-id'
+  )
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const optionsSchema = z
@@ -37,16 +41,31 @@ const optionsSchema = z
     preId: z.string().optional(),
     verbose: z.boolean().optional(),
   })
+  .strict()
   .refine((schema) => (schema.preId ? schema.releaseType.startsWith('pre') : true), {
     message:
       'Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease',
-  });
+  })
+  .or(
+    z
+      .object({
+        exact: z.string().refine((version) => semver.valid(version) !== null, {
+          message: '--exact version has to be a valid semver string',
+        }),
+        verbose: z.boolean().optional(),
+      })
+      .strict()
+  );
 
-type Options = {
+type BaseOptions = { verbose: boolean };
+type BumpOptions = BaseOptions & {
   releaseType: semver.ReleaseType;
   preId?: string;
-  verbose: boolean;
 };
+type ExactOptions = BaseOptions & {
+  exact: semver.ReleaseType;
+};
+type Options = BumpOptions | ExactOptions;
 
 const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
 const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
@@ -134,12 +153,7 @@ export const run = async (options: unknown) => {
   if (!validateOptions(options)) {
     return;
   }
-  const { releaseType, preId, verbose } = options;
-
-  console.log(`📈 Release type selected: ${chalk.green(releaseType)}`);
-  if (preId) {
-    console.log(`🆔 Version prerelease identifier selected: ${chalk.yellow(preId)}`);
-  }
+  const { verbose } = options;
 
   console.log(`🚛 Finding Storybook packages...`);
 
@@ -154,16 +168,31 @@ export const run = async (options: unknown) => {
         `${chalk.green(pkg.name.padEnd(60))}${chalk.red(pkg.version)}: ${chalk.cyan(pkg.location)}`
     );
     console.log(`📦 Packages:
-    ${formattedPackages.join('\n    ')}`);
+        ${formattedPackages.join('\n    ')}`);
   }
 
-  const nextVersion = semver.inc(currentVersion, releaseType, preId);
+  let nextVersion: string;
 
-  console.log(
-    `⏭ Bumping version ${chalk.blue(currentVersion)} with release type ${chalk.green(releaseType)}${
-      preId ? ` and ${chalk.yellow(preId)}` : ''
-    } results in version: ${chalk.bgGreenBright.bold(nextVersion)}`
-  );
+  if ('exact' in options && options.exact) {
+    console.log(`📈 Exact version selected: ${chalk.green(options.exact)}`);
+    nextVersion = options.exact;
+  } else {
+    const { releaseType, preId } = options as BumpOptions;
+    console.log(`📈 Release type selected: ${chalk.green(releaseType)}`);
+    if (preId) {
+      console.log(`🆔 Version prerelease identifier selected: ${chalk.yellow(preId)}`);
+    }
+
+    nextVersion = semver.inc(currentVersion, releaseType, preId);
+
+    console.log(
+      `⏭ Bumping version ${chalk.blue(currentVersion)} with release type ${chalk.green(
+        releaseType
+      )}${
+        preId ? ` and ${chalk.yellow(preId)}` : ''
+      } results in version: ${chalk.bgGreenBright.bold(nextVersion)}`
+    );
+  }
 
   console.log(`⏭ Bumping all packages to ${chalk.blue(nextVersion)}...`);
 
