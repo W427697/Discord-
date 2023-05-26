@@ -1,3 +1,13 @@
+## 7.1.0-alpha.24 (May 26, 2023)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive args updates in decorators [#22717](https://github.com/storybooks/storybook/pull/22717)
+
+#### Build
+
+-   Build: Update Nx to latest version [#22694](https://github.com/storybooks/storybook/pull/22694)
+
 ## 7.1.0-alpha.23 (May 24, 2023)
 
 #### Bug Fixes
