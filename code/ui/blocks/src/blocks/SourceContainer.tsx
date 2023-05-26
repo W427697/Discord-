@@ -9,7 +9,6 @@ import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
 import type { StoryId, Args } from '@storybook/types';
 
 import { stringify } from 'telejson';
-import { uniqueId } from 'lodash';
 
 type ArgsHash = string;
 export function argsHash(args: Args): ArgsHash {
