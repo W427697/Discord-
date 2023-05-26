@@ -31,7 +31,7 @@ export const Inheritance = {
 export const Hooks = {
   decorators: [
     // conditional decorator
-    (storyFn: PartialStoryFn, context: StoryContext) => (context.args.condition ? storyFn() : null),
+    (storyFn: PartialStoryFn, context: StoryContext) => (context.args.condition ? storyFn() : {}),
     // decorator that uses hooks
     (storyFn: PartialStoryFn, context: StoryContext) => {
       useEffect(() => {});
