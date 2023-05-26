@@ -49,10 +49,10 @@ export function decorateStory(
       let story: VueRenderer['storyResult'] | undefined;
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
-        story = decorated({
-          ...context,
-          ...sanitizeStoryContextUpdate(update),
-        });
+        const sanitizedUpdate = sanitizeStoryContextUpdate(update);
+        // update the args in a reactive way
+        if (update) sanitizedUpdate.args = Object.assign(context.args, sanitizedUpdate.args);
+        story = decorated({ ...context, ...sanitizedUpdate });
         return story;
       }, context);
 
@@ -64,7 +64,7 @@ export function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, h(story, context.args)) as VueRenderer['storyResult'];
+      return prepare(decoratedStory, h(story)) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
