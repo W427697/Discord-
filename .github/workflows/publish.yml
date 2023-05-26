@@ -98,7 +98,7 @@ jobs:
           ${{ steps.version.outputs.current-version }} \
             --repo "${{ github.repository }}" \
             --target main-v2 \
-            --title "${{ steps.version.outputs.current-version }}" \
+            --title "v${{ steps.version.outputs.current-version }}" \
             --notes "${{ steps.changelog.outputs.changelog }}" \
             ${{ steps.is-prerelease.outputs.prerelease && '--prerelease' || '' }}
 
