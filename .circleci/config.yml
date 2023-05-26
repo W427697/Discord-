@@ -690,6 +690,7 @@ workflows:
     when:
       equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -698,6 +699,12 @@ workflows:
           requires:
             - build
       - unit-tests:
+          requires:
+            - build
+      - script-unit-tests:
+          requires:
+            - build
+      - chromatic-internal-storybooks:
           requires:
             - build
       - create-sandboxes:
