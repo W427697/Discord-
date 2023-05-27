@@ -261,6 +261,44 @@ export class CsfFile {
     }
   }
 
+  _parseExpressionStatement(node: t.ExpressionStatement, parent: t.Node) {
+    const { expression } = node;
+    // B.storyName = 'some string';
+    if (
+      t.isProgram(parent) &&
+      t.isAssignmentExpression(expression) &&
+      t.isMemberExpression(expression.left) &&
+      t.isIdentifier(expression.left.object) &&
+      t.isIdentifier(expression.left.property)
+    ) {
+      const exportName = expression.left.object.name;
+      const annotationKey = expression.left.property.name;
+      const annotationValue = expression.right;
+
+      // v1-style annotation
+      // A.story = { parameters: ..., decorators: ... }
+
+      if (this._storyAnnotations[exportName]) {
+        if (annotationKey === 'story' && t.isObjectExpression(annotationValue)) {
+          (annotationValue.properties as t.ObjectProperty[]).forEach((prop) => {
+            if (t.isIdentifier(prop.key)) {
+              this._storyAnnotations[exportName][prop.key.name] = prop.value;
+            }
+          });
+        } else {
+          this._storyAnnotations[exportName][annotationKey] = annotationValue;
+        }
+      }
+
+      if (annotationKey === 'storyName' && t.isStringLiteral(annotationValue)) {
+        const storyName = annotationValue.value;
+        const story = this._stories[exportName];
+        if (!story) return;
+        story.name = storyName;
+      }
+    }
+  }
+
   getStoryExport(key: string) {
     let node = this._storyExports[key] as t.Node;
     node = t.isVariableDeclarator(node) ? (node.init as t.Node) : node;
@@ -408,6 +446,14 @@ export class CsfFile {
                       otherNode as t.VariableDeclaration | t.FunctionDeclaration
                     );
                     self._parseDeclaration(decl, exportNamedVariable, parent);
+                    const start = parent.body.indexOf(otherNode);
+                    const end = parent.body.indexOf(node);
+                    const nodes = parent.body.slice(start, end);
+                    nodes.forEach((n) => {
+                      if (t.isExpressionStatement(n)) {
+                        self._parseExpressionStatement(n, parent);
+                      }
+                    });
                   } else {
                     self._storyAnnotations[exportName] = {};
                     self._stories[exportName] = { id: 'FIXME', name: exportName, parameters: {} };
@@ -420,41 +466,7 @@ export class CsfFile {
       },
       ExpressionStatement: {
         enter({ node, parent }) {
-          const { expression } = node;
-          // B.storyName = 'some string';
-          if (
-            t.isProgram(parent) &&
-            t.isAssignmentExpression(expression) &&
-            t.isMemberExpression(expression.left) &&
-            t.isIdentifier(expression.left.object) &&
-            t.isIdentifier(expression.left.property)
-          ) {
-            const exportName = expression.left.object.name;
-            const annotationKey = expression.left.property.name;
-            const annotationValue = expression.right;
-
-            // v1-style annotation
-            // A.story = { parameters: ..., decorators: ... }
-
-            if (self._storyAnnotations[exportName]) {
-              if (annotationKey === 'story' && t.isObjectExpression(annotationValue)) {
-                (annotationValue.properties as t.ObjectProperty[]).forEach((prop) => {
-                  if (t.isIdentifier(prop.key)) {
-                    self._storyAnnotations[exportName][prop.key.name] = prop.value;
-                  }
-                });
-              } else {
-                self._storyAnnotations[exportName][annotationKey] = annotationValue;
-              }
-            }
-
-            if (annotationKey === 'storyName' && t.isStringLiteral(annotationValue)) {
-              const storyName = annotationValue.value;
-              const story = self._stories[exportName];
-              if (!story) return;
-              story.name = storyName;
-            }
-          }
+          self._parseExpressionStatement(node, parent);
         },
       },
       CallExpression: {
