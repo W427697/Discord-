@@ -55,6 +55,7 @@
   "dependencies": {
     "@storybook/core-client": "7.1.0-alpha.25",
     "@storybook/csf": "^0.1.0",
+    "@storybook/csf-tools": "7.1.0-alpha.25",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "7.1.0-alpha.25",
     "@storybook/types": "7.1.0-alpha.25",
