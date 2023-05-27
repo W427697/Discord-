@@ -206,6 +206,61 @@ export class CsfFile {
     this._meta = meta;
   }
 
+  _parseDeclaration(
+    decl: t.VariableDeclarator | t.FunctionDeclaration,
+    node: t.ExportNamedDeclaration,
+    parent: t.Node
+  ) {
+    if (t.isIdentifier(decl.id)) {
+      const { name: exportName } = decl.id;
+      if (exportName === '__namedExportsOrder' && t.isVariableDeclarator(decl)) {
+        this._namedExportsOrder = parseExportsOrder(decl.init as t.Expression);
+        return;
+      }
+      this._storyExports[exportName] = decl;
+      this._storyStatements[exportName] = node;
+      let name = storyNameFromExport(exportName);
+      if (this._storyAnnotations[exportName]) {
+        logger.warn(`Unexpected annotations for "${exportName}" before story declaration`);
+      } else {
+        this._storyAnnotations[exportName] = {};
+      }
+      let parameters;
+      if (t.isVariableDeclarator(decl) && t.isObjectExpression(decl.init)) {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        let __isArgsStory = true; // assume default render is an args story
+        // CSF3 object export
+        (decl.init.properties as t.ObjectProperty[]).forEach((p) => {
+          if (t.isIdentifier(p.key)) {
+            if (p.key.name === 'render') {
+              __isArgsStory = isArgsStory(p.value as t.Expression, parent, this);
+            } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
+              name = p.value.value;
+            } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
+              logger.warn(
+                `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
+              );
+            }
+            this._storyAnnotations[exportName][p.key.name] = p.value;
+          }
+        });
+        parameters = { __isArgsStory };
+      } else {
+        const fn = t.isVariableDeclarator(decl) ? decl.init : decl;
+        parameters = {
+          // __id: toId(self._meta.title, name),
+          // FIXME: Template.bind({});
+          __isArgsStory: isArgsStory(fn as t.Node, parent, this),
+        };
+      }
+      this._stories[exportName] = {
+        id: 'FIXME',
+        name,
+        parameters,
+      };
+    }
+  }
+
   getStoryExport(key: string) {
     let node = this._storyExports[key] as t.Node;
     node = t.isVariableDeclarator(node) ? (node.init as t.Node) : node;
@@ -293,56 +348,7 @@ export class CsfFile {
           if (declarations) {
             // export const X = ...;
             declarations.forEach((decl: t.VariableDeclarator | t.FunctionDeclaration) => {
-              if (t.isIdentifier(decl.id)) {
-                const { name: exportName } = decl.id;
-                if (exportName === '__namedExportsOrder' && t.isVariableDeclarator(decl)) {
-                  self._namedExportsOrder = parseExportsOrder(decl.init as t.Expression);
-                  return;
-                }
-                self._storyExports[exportName] = decl;
-                self._storyStatements[exportName] = node;
-                let name = storyNameFromExport(exportName);
-                if (self._storyAnnotations[exportName]) {
-                  logger.warn(
-                    `Unexpected annotations for "${exportName}" before story declaration`
-                  );
-                } else {
-                  self._storyAnnotations[exportName] = {};
-                }
-                let parameters;
-                if (t.isVariableDeclarator(decl) && t.isObjectExpression(decl.init)) {
-                  // eslint-disable-next-line @typescript-eslint/naming-convention
-                  let __isArgsStory = true; // assume default render is an args story
-                  // CSF3 object export
-                  (decl.init.properties as t.ObjectProperty[]).forEach((p) => {
-                    if (t.isIdentifier(p.key)) {
-                      if (p.key.name === 'render') {
-                        __isArgsStory = isArgsStory(p.value as t.Expression, parent, self);
-                      } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
-                        name = p.value.value;
-                      } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
-                        logger.warn(
-                          `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
-                        );
-                      }
-                      self._storyAnnotations[exportName][p.key.name] = p.value;
-                    }
-                  });
-                  parameters = { __isArgsStory };
-                } else {
-                  const fn = t.isVariableDeclarator(decl) ? decl.init : decl;
-                  parameters = {
-                    // __id: toId(self._meta.title, name),
-                    // FIXME: Template.bind({});
-                    __isArgsStory: isArgsStory(fn as t.Node, parent, self),
-                  };
-                }
-                self._stories[exportName] = {
-                  id: 'FIXME',
-                  name,
-                  parameters,
-                };
-              }
+              self._parseDeclaration(decl, node, parent);
             });
           } else if (node.specifiers.length > 0) {
             // export { X as Y }
@@ -370,8 +376,42 @@ export class CsfFile {
                     self._parseMeta(metaNode, parent);
                   }
                 } else {
-                  self._storyAnnotations[exportName] = {};
-                  self._stories[exportName] = { id: 'FIXME', name: exportName, parameters: {} };
+                  let decl: t.VariableDeclarator | t.FunctionDeclaration | undefined;
+                  const otherNode =
+                    t.isProgram(parent) &&
+                    parent.body.find((on: t.Node) => {
+                      if (t.isVariableDeclaration(on) && on.declarations) {
+                        return on.declarations.some((d) => {
+                          if (
+                            t.isVariableDeclarator(d) &&
+                            t.isIdentifier(d.id) &&
+                            d.id.name === exportName
+                          ) {
+                            decl = d;
+                            return true;
+                          }
+                          return false;
+                        });
+                      }
+                      if (
+                        t.isFunctionDeclaration(on) &&
+                        t.isIdentifier(on.id) &&
+                        on.id.name === exportName
+                      ) {
+                        decl = on;
+                        return true;
+                      }
+                      return false;
+                    });
+                  if (decl && otherNode) {
+                    const exportNamedVariable = t.exportNamedDeclaration(
+                      otherNode as t.VariableDeclaration | t.FunctionDeclaration
+                    );
+                    self._parseDeclaration(decl, exportNamedVariable, parent);
+                  } else {
+                    self._storyAnnotations[exportName] = {};
+                    self._stories[exportName] = { id: 'FIXME', name: exportName, parameters: {} };
+                  }
                 }
               }
             });
