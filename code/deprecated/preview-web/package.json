@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/store",
+  "name": "@storybook/preview-web",
   "version": "7.1.0-alpha.25",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/store",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/preview-web",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/store"
+    "directory": "code/deprecated/preview-web"
   },
   "funding": {
     "type": "opencollective",
@@ -52,8 +52,7 @@
     "entries": [
       "./src/entry.ts"
     ],
-    "platform": "node",
-    "shim": "@storybook/preview-api/dist/store"
+    "shim": "@storybook/preview-api/dist/preview-web"
   },
   "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
 }

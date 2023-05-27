@@ -5442,9 +5442,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addons@7.1.0-alpha.25, @storybook/addons@workspace:*, @storybook/addons@workspace:lib/addons":
+"@storybook/addons@7.1.0-alpha.25, @storybook/addons@workspace:*, @storybook/addons@workspace:deprecated/addons":
   version: 0.0.0-use.local
-  resolution: "@storybook/addons@workspace:lib/addons"
+  resolution: "@storybook/addons@workspace:deprecated/addons"
   dependencies:
     "@storybook/manager-api": 7.1.0-alpha.25
     "@storybook/preview-api": 7.1.0-alpha.25
@@ -5532,9 +5532,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/api@7.1.0-alpha.25, @storybook/api@workspace:*, @storybook/api@workspace:lib/manager-api-shim":
+"@storybook/api@7.1.0-alpha.25, @storybook/api@workspace:*, @storybook/api@workspace:deprecated/manager-api-shim":
   version: 0.0.0-use.local
-  resolution: "@storybook/api@workspace:lib/manager-api-shim"
+  resolution: "@storybook/api@workspace:deprecated/manager-api-shim"
   dependencies:
     "@storybook/client-logger": 7.1.0-alpha.25
     "@storybook/manager-api": 7.1.0-alpha.25
@@ -5615,9 +5615,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-manager@7.1.0-alpha.25, @storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:lib/builder-manager":
+"@storybook/builder-manager@7.1.0-alpha.25, @storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:builders/builder-manager":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-manager@workspace:lib/builder-manager"
+  resolution: "@storybook/builder-manager@workspace:builders/builder-manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/core-common": 7.1.0-alpha.25
@@ -5640,9 +5640,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-vite@7.1.0-alpha.25, @storybook/builder-vite@workspace:*, @storybook/builder-vite@workspace:lib/builder-vite":
+"@storybook/builder-vite@7.1.0-alpha.25, @storybook/builder-vite@workspace:*, @storybook/builder-vite@workspace:builders/builder-vite":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
+  resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
     "@storybook/channel-postmessage": 7.1.0-alpha.25
     "@storybook/channel-websocket": 7.1.0-alpha.25
@@ -5683,9 +5683,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-webpack5@7.1.0-alpha.25, @storybook/builder-webpack5@workspace:*, @storybook/builder-webpack5@workspace:lib/builder-webpack5":
+"@storybook/builder-webpack5@7.1.0-alpha.25, @storybook/builder-webpack5@workspace:*, @storybook/builder-webpack5@workspace:builders/builder-webpack5":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-webpack5@workspace:lib/builder-webpack5"
+  resolution: "@storybook/builder-webpack5@workspace:builders/builder-webpack5"
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 7.1.0-alpha.25
@@ -5863,9 +5863,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-api@7.1.0-alpha.25, @storybook/client-api@workspace:*, @storybook/client-api@workspace:lib/client-api":
+"@storybook/client-api@7.1.0-alpha.25, @storybook/client-api@workspace:*, @storybook/client-api@workspace:deprecated/client-api":
   version: 0.0.0-use.local
-  resolution: "@storybook/client-api@workspace:lib/client-api"
+  resolution: "@storybook/client-api@workspace:deprecated/client-api"
   dependencies:
     "@storybook/client-logger": 7.1.0-alpha.25
     "@storybook/preview-api": 7.1.0-alpha.25
@@ -5956,9 +5956,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-client@7.1.0-alpha.25, @storybook/core-client@workspace:*, @storybook/core-client@workspace:lib/core-client":
+"@storybook/core-client@7.1.0-alpha.25, @storybook/core-client@workspace:*, @storybook/core-client@workspace:deprecated/core-client":
   version: 0.0.0-use.local
-  resolution: "@storybook/core-client@workspace:lib/core-client"
+  resolution: "@storybook/core-client@workspace:deprecated/core-client"
   dependencies:
     "@storybook/client-logger": 7.1.0-alpha.25
     "@storybook/preview-api": 7.1.0-alpha.25
@@ -6783,9 +6783,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/preview-web@7.1.0-alpha.25, @storybook/preview-web@workspace:*, @storybook/preview-web@workspace:lib/preview-web":
+"@storybook/preview-web@7.1.0-alpha.25, @storybook/preview-web@workspace:*, @storybook/preview-web@workspace:deprecated/preview-web":
   version: 0.0.0-use.local
-  resolution: "@storybook/preview-web@workspace:lib/preview-web"
+  resolution: "@storybook/preview-web@workspace:deprecated/preview-web"
   dependencies:
     "@storybook/client-logger": 7.1.0-alpha.25
     "@storybook/preview-api": 7.1.0-alpha.25
@@ -7182,9 +7182,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/store@7.1.0-alpha.25, @storybook/store@workspace:*, @storybook/store@workspace:lib/store":
+"@storybook/store@7.1.0-alpha.25, @storybook/store@workspace:*, @storybook/store@workspace:deprecated/store":
   version: 0.0.0-use.local
-  resolution: "@storybook/store@workspace:lib/store"
+  resolution: "@storybook/store@workspace:deprecated/store"
   dependencies:
     "@storybook/client-logger": 7.1.0-alpha.25
     "@storybook/preview-api": 7.1.0-alpha.25

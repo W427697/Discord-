@@ -2,14 +2,14 @@
   "name": "@storybook/builder-vite",
   "version": "7.1.0-alpha.25",
   "description": "A plugin to run and build Storybooks with Vite",
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-vite/#readme",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/builders/builder-vite/#readme",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/builder-vite"
+    "directory": "code/builders/builder-vite"
   },
   "funding": {
     "type": "opencollective",
