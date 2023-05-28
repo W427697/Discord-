@@ -45,9 +45,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "~7.21.0",
-    "@babel/preset-env": "~7.21.0",
-    "@babel/types": "~7.21.2",
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "@babel/types": "^7.22.0",
     "@storybook/csf": "^0.1.0",
     "@storybook/csf-tools": "7.1.0-alpha.25",
     "@storybook/node-logger": "7.1.0-alpha.25",
