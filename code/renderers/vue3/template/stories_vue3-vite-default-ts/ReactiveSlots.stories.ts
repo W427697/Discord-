@@ -4,6 +4,7 @@ import { within } from '@storybook/testing-library';
 import { STORY_ARGS_UPDATED, RESET_STORY_ARGS, UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { h } from 'vue';
 import type { Meta, StoryObj } from '@storybook/vue3';
+import type { PlayFunctionContext } from '@storybook/csf';
 import BaseLayout from './BaseLayout.vue';
 
 const globalThis = global as any;
@@ -28,7 +29,7 @@ export const SimpleSlotTest: Story = {
     default: () => 'Default Text Slot',
     footer: h('p', 'Footer VNode Slot'),
   },
-  play: async ({ canvasElement, id }) => {
+  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
 
@@ -66,7 +67,7 @@ export const NamedSlotTest: Story = {
     footer: h('p', 'Footer VNode Slot'),
   },
   // test that args are updated correctly in rective mode
-  play: async ({ canvasElement, id }) => {
+  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
 
@@ -106,7 +107,7 @@ export const SlotWithRenderFn: Story = {
     default: () => 'Default Text Slot',
     footer: h('p', 'Footer VNode Slot'),
   },
-  render: (args) => ({
+  render: (args: any) => ({
     components: { BaseLayout },
     setup() {
       return { args };
@@ -116,7 +117,7 @@ export const SlotWithRenderFn: Story = {
                 <template #header="{ title }"><h1>{{args.header({title})}}</h1></template>
               </BaseLayout>`,
   }),
-  play: async ({ canvasElement, id }) => {
+  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
 

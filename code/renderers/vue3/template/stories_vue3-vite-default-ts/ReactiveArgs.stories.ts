@@ -114,7 +114,7 @@ ReactiveCSF2Wrapper.decorators = [
   }),
 ];
 
-ReactiveCSF2Wrapper.play = async ({ canvasElement, id }) => {
+ReactiveCSF2Wrapper.play = async ({ canvasElement, id }: PlayFunctionContext<any>) => {
   const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
   const canvas = within(canvasElement);
 
