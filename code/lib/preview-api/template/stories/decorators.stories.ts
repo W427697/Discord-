@@ -1,5 +1,10 @@
 import { global as globalThis } from '@storybook/global';
-import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
+import type {
+  ArgsStoryFn,
+  PartialStoryFn,
+  PlayFunctionContext,
+  StoryContext,
+} from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { useEffect } from '@storybook/preview-api';
@@ -30,13 +35,16 @@ export const Inheritance = {
 
 export const Hooks = {
   decorators: [
-    // conditional decorator
-    (storyFn: PartialStoryFn, context: StoryContext) => (context.args.condition ? storyFn() : null),
     // decorator that uses hooks
     (storyFn: PartialStoryFn, context: StoryContext) => {
       useEffect(() => {});
-      return storyFn();
+      return storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } });
     },
+    // conditional decorator, runs before the above
+    (storyFn: PartialStoryFn, context: StoryContext) =>
+      context.args.condition
+        ? storyFn()
+        : (context.originalStoryFn as ArgsStoryFn)(context.args, context),
   ],
   args: {
     text: 'text',
