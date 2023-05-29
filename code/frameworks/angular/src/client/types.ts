@@ -32,7 +32,10 @@ export type AngularFramework = {
 };
 
 export type Parameters = DefaultParameters & {
-  /** Uses legacy angular rendering engine that use dynamic component */
+  /**
+   * Uses legacy angular rendering engine that use dynamic component
+   * @deprecated Will be removed in Storybook 8.0
+   */
   angularLegacyRendering?: boolean;
   bootstrapModuleOptions?: unknown;
 };
