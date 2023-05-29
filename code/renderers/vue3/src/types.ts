@@ -1,5 +1,5 @@
 import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
-import type { Component } from 'vue';
+import type { Component, DefineComponent } from 'vue';
 
 export type { RenderContext } from '@storybook/types';
 
@@ -10,7 +10,7 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type StoryFnVueReturnType = Component<any>;
+export type StoryFnVueReturnType = DefineComponent<any> | Component<any> | JSX.Element;
 
 export type StoryContext = StoryContextBase<VueRenderer>;
 

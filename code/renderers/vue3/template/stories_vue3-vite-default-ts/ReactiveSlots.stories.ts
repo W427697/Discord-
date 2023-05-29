@@ -1,10 +1,12 @@
 import { expect } from '@storybook/jest';
-import { global as globalThis } from '@storybook/global';
+import { global } from '@storybook/global';
 import { within } from '@storybook/testing-library';
 import { STORY_ARGS_UPDATED, RESET_STORY_ARGS, UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { h } from 'vue';
 import type { Meta, StoryObj } from '@storybook/vue3';
 import BaseLayout from './BaseLayout.vue';
+
+const globalThis = global as any;
 
 const meta = {
   component: BaseLayout,
