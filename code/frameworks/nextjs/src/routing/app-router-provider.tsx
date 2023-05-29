@@ -7,6 +7,7 @@ import type {
   PathnameContext as TPathnameContext,
   SearchParamsContext as TSearchParamsContext,
 } from 'next/dist/shared/lib/hooks-client-context';
+// @ts-expect-error (TODO: valentin needs to fix this)
 import type { FlightRouterState } from 'next/dist/server/app-render';
 import type { RouteParams } from './types';
 
@@ -82,6 +83,7 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
             childNodes: new Map(),
             tree: [pathname, { children: getParallelRoutes([...segments]) }],
             url: pathname,
+            // @ts-expect-error (TODO: valentin needs to fix this)
             headRenderedAboveThisLevel: true,
           }}
         >
