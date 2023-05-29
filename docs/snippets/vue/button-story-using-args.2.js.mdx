@@ -7,17 +7,7 @@ export default {
   component: Button,
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/vue/api/csf
- * to learn how to use render functions.
- */
 export const Primary = {
-  render: (args, { argTypes }) => ({
-    components: { Button },
-    props: Object.keys(argTypes),
-    template: '<Button v-bind="$props" />',
-  }),
   args: {
     backgroundColor: '#ff0',
     label: 'Button',
@@ -25,11 +15,6 @@ export const Primary = {
 };
 
 export const Secondary = {
-  render: (args, { argTypes }) => ({
-    components: { Button },
-    props: Object.keys(argTypes),
-    template: '<Button v-bind="$props" />',
-  }),
   args: {
     ...Primary.args,
     label: '😄👍😍💯',
@@ -37,11 +22,6 @@ export const Secondary = {
 };
 
 export const Tertiary = {
-  render: (args, { argTypes }) => ({
-    components: { Button },
-    props: Object.keys(argTypes),
-    template: '<Button v-bind="$props" />',
-  }),
   args: {
     ...Primary.args,
     label: '📚📕📈🤓',

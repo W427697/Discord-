@@ -17,11 +17,6 @@ type Story = StoryObj<typeof Button>;
 
 // This is an accessible story
 export const Accessible: Story = {
-  render: (args, { argTypes }) => ({
-    components: { Button },
-    props: Object.keys(argTypes),
-    template: '<Button v-bind="$props" v-on="$props" />',
-  }),
   args: {
     primary: false,
     label: 'Button',
