@@ -12,6 +12,6 @@ interface MyProps {
   bar?: number;
 }
 
-export default defineComponent((props: MyProps) => {
-  return h('h1', 'Hello wiiindooow!');
+export default defineComponent((props: MyProps) => () => h('Pre', `${JSON.stringify(props)}`), {
+  props: ['foo', 'bar'],
 });
