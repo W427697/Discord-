@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/store",
-  "version": "7.1.0-alpha.24",
-  "description": "",
+  "name": "@storybook/client-api",
+  "version": "7.1.0-alpha.25",
+  "description": "Storybook Client API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/store",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/deprecated/client-api",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/store"
+    "directory": "code/deprecated/client-api"
   },
   "funding": {
     "type": "opencollective",
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.24",
-    "@storybook/preview-api": "7.1.0-alpha.24"
+    "@storybook/client-logger": "7.1.0-alpha.25",
+    "@storybook/preview-api": "7.1.0-alpha.25"
   },
   "publishConfig": {
     "access": "public"
@@ -52,8 +52,7 @@
     "entries": [
       "./src/entry.ts"
     ],
-    "platform": "node",
-    "shim": "@storybook/preview-api/dist/store"
+    "shim": "@storybook/preview-api/dist/client-api"
   },
-  "gitHead": "51cf5ea9af9e1a6464df2ec402828b2febdd0034"
+  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
 }

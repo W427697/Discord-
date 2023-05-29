@@ -1,18 +1,18 @@
 {
   "name": "@storybook/builder-manager",
-  "version": "7.1.0-alpha.24",
+  "version": "7.1.0-alpha.25",
   "description": "Storybook manager builder",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-manager",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/builders/builder-manager",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/builder-manager"
+    "directory": "code/builders/builder-manager"
   },
   "funding": {
     "type": "opencollective",
@@ -44,9 +44,9 @@
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/core-common": "7.1.0-alpha.24",
-    "@storybook/manager": "7.1.0-alpha.24",
-    "@storybook/node-logger": "7.1.0-alpha.24",
+    "@storybook/core-common": "7.1.0-alpha.25",
+    "@storybook/manager": "7.1.0-alpha.25",
+    "@storybook/node-logger": "7.1.0-alpha.25",
     "@types/ejs": "^3.1.1",
     "@types/find-cache-dir": "^3.2.1",
     "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
@@ -73,5 +73,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "51cf5ea9af9e1a6464df2ec402828b2febdd0034"
+  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
 }

@@ -1,18 +1,18 @@
 {
   "name": "@storybook/builder-webpack5",
-  "version": "7.1.0-alpha.24",
+  "version": "7.1.0-alpha.25",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/builder-webpack5",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/builders/builder-webpack5",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/builder-webpack5"
+    "directory": "code/builders/builder-webpack5"
   },
   "funding": {
     "type": "opencollective",
@@ -55,26 +55,26 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.12.10",
-    "@storybook/addons": "7.1.0-alpha.24",
-    "@storybook/api": "7.1.0-alpha.24",
-    "@storybook/channel-postmessage": "7.1.0-alpha.24",
-    "@storybook/channel-websocket": "7.1.0-alpha.24",
-    "@storybook/channels": "7.1.0-alpha.24",
-    "@storybook/client-api": "7.1.0-alpha.24",
-    "@storybook/client-logger": "7.1.0-alpha.24",
-    "@storybook/components": "7.1.0-alpha.24",
-    "@storybook/core-common": "7.1.0-alpha.24",
-    "@storybook/core-events": "7.1.0-alpha.24",
-    "@storybook/core-webpack": "7.1.0-alpha.24",
+    "@babel/core": "^7.22.0",
+    "@storybook/addons": "7.1.0-alpha.25",
+    "@storybook/api": "7.1.0-alpha.25",
+    "@storybook/channel-postmessage": "7.1.0-alpha.25",
+    "@storybook/channel-websocket": "7.1.0-alpha.25",
+    "@storybook/channels": "7.1.0-alpha.25",
+    "@storybook/client-api": "7.1.0-alpha.25",
+    "@storybook/client-logger": "7.1.0-alpha.25",
+    "@storybook/components": "7.1.0-alpha.25",
+    "@storybook/core-common": "7.1.0-alpha.25",
+    "@storybook/core-events": "7.1.0-alpha.25",
+    "@storybook/core-webpack": "7.1.0-alpha.25",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.24",
-    "@storybook/node-logger": "7.1.0-alpha.24",
-    "@storybook/preview": "7.1.0-alpha.24",
-    "@storybook/preview-api": "7.1.0-alpha.24",
-    "@storybook/router": "7.1.0-alpha.24",
-    "@storybook/store": "7.1.0-alpha.24",
-    "@storybook/theming": "7.1.0-alpha.24",
+    "@storybook/manager-api": "7.1.0-alpha.25",
+    "@storybook/node-logger": "7.1.0-alpha.25",
+    "@storybook/preview": "7.1.0-alpha.25",
+    "@storybook/preview-api": "7.1.0-alpha.25",
+    "@storybook/router": "7.1.0-alpha.25",
+    "@storybook/store": "7.1.0-alpha.25",
+    "@storybook/theming": "7.1.0-alpha.25",
     "@swc/core": "^1.3.49",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
@@ -131,5 +131,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "51cf5ea9af9e1a6464df2ec402828b2febdd0034"
+  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
 }
