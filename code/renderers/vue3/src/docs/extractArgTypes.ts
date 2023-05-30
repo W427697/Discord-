@@ -17,7 +17,6 @@ type MetaDocgenInfo = DocgenInfo & {
   schema: Schema;
   tags: { name: string; text: string }[];
 };
-
 const ARG_TYPE_SECTIONS = ['props', 'events', 'slots', 'exposed'];
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
@@ -46,6 +45,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       }
 
       const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
+
       const nestedTypes =
         sbType.name === 'object' && section === 'props' ? nestedInfo(sbType as SBObjectType) : '';
       const definedTypes = `${type.replace(' | undefined', '')}`;
@@ -64,6 +64,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           defaultValue: { summary: defaultSummary },
           category: section,
         },
+        control: { disable: section !== 'props' && section !== 'slots' },
       };
     });
   });
@@ -88,11 +89,16 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
     const stringIndex = values.indexOf('string');
     const numberIndex = values.indexOf('number');
     const booleanIndex = values.indexOf('boolean');
-    if (stringIndex !== -1 || numberIndex !== -1 || booleanIndex !== -1) {
-      const typeName = values[stringIndex ?? numberIndex ?? booleanIndex];
+    const RecordIndex = values.indexOf('Record');
+    if (stringIndex !== -1 || numberIndex !== -1 || booleanIndex !== -1 || RecordIndex !== -1) {
+      const typeName = values[stringIndex ?? numberIndex ?? booleanIndex ?? RecordIndex ?? 0];
       return { ...sbType, name: typeName, value: undefined } as SBScalarType;
     }
-    const hasObject = values.find((item) => typeof item === 'object');
+    const hasObject = values.find((item) =>
+      ['object', 'Record', '[]', 'array', 'Array'].some((substring) => {
+        return item.toString().includes(substring);
+      })
+    );
 
     return {
       ...sbType,

@@ -24,14 +24,14 @@ export default defineComponent({
   },
   props: {
     /**
-     * Default number
+     * Number prop with default
      */
     numberDefault: {
       type: Number,
       default: 42,
     },
     /**
-     * Default function Object
+     * Object prop with default
      */
     objectDefault: {
       type: Object,
@@ -40,7 +40,7 @@ export default defineComponent({
       }),
     },
     /**
-     * Default function Array
+     * Array prop with default
      */
     arrayDefault: {
       type: Array,
