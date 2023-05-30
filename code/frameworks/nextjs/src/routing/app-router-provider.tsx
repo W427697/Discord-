@@ -8,7 +8,7 @@ import type {
   PathnameContext as TPathnameContext,
   SearchParamsContext as TSearchParamsContext,
 } from 'next/dist/shared/lib/hooks-client-context';
-import type { FlightRouterState } from 'next/dist/server/app-render';
+import type { FlightRouterState } from 'next/dist/server/app-render/types';
 import type { RouteParams } from './types';
 
 /**
