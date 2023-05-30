@@ -327,16 +327,27 @@ export default async (
       ...(isProd
         ? {
             minimize: true,
-            minimizer: [
-              new TerserWebpackPlugin({
-                minify: TerserWebpackPlugin.swcMinify,
-                terserOptions: {
-                  sourceMap: true,
-                  mangle: false,
-                  keep_fnames: true,
-                },
-              }),
-            ],
+            minimizer: builderOptions.useSWC
+              ? [
+                  new TerserWebpackPlugin({
+                    minify: TerserWebpackPlugin.swcMinify,
+                    terserOptions: {
+                      sourceMap: true,
+                      mangle: false,
+                      keep_fnames: true,
+                    },
+                  }),
+                ]
+              : [
+                  new TerserWebpackPlugin({
+                    parallel: true,
+                    terserOptions: {
+                      sourceMap: true,
+                      mangle: false,
+                      keep_fnames: true,
+                    },
+                  }),
+                ],
           }
         : {}),
     },
