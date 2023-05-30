@@ -29,6 +29,9 @@ describe('extractArgTypes', () => {
     expect(argTypes).toMatchInlineSnapshot(`
       Object {
         "array": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -50,6 +53,9 @@ describe('extractArgTypes', () => {
           },
         },
         "arrayOptional": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -71,6 +77,9 @@ describe('extractArgTypes', () => {
           },
         },
         "bar": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": "1",
           },
@@ -92,6 +101,9 @@ describe('extractArgTypes', () => {
           },
         },
         "baz": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": "[\\"foo\\", \\"bar\\"]",
           },
@@ -113,6 +125,9 @@ describe('extractArgTypes', () => {
           },
         },
         "enumValue": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -134,6 +149,9 @@ describe('extractArgTypes', () => {
           },
         },
         "foo": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -172,6 +190,9 @@ describe('extractArgTypes', () => {
           },
         },
         "inlined": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -193,6 +214,9 @@ describe('extractArgTypes', () => {
           },
         },
         "literalFromContext": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -214,6 +238,9 @@ describe('extractArgTypes', () => {
           },
         },
         "nested": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -235,6 +262,9 @@ describe('extractArgTypes', () => {
           },
         },
         "nestedIntersection": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -256,6 +286,9 @@ describe('extractArgTypes', () => {
           },
         },
         "nestedOptional": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -277,6 +310,9 @@ describe('extractArgTypes', () => {
           },
         },
         "recursive": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -298,6 +334,9 @@ describe('extractArgTypes', () => {
           },
         },
         "union": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -319,6 +358,9 @@ describe('extractArgTypes', () => {
           },
         },
         "unionOptional": Object {
+          "control": Object {
+            "disable": true,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -353,6 +395,9 @@ describe('extractArgTypes', () => {
     expect(argTypes).toMatchInlineSnapshot(`
       Object {
         "bar": Object {
+          "control": Object {
+            "disable": false,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -417,6 +462,9 @@ describe('extractArgTypes', () => {
           },
         },
         "baz": Object {
+          "control": Object {
+            "disable": false,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -438,6 +486,9 @@ describe('extractArgTypes', () => {
           },
         },
         "foo": Object {
+          "control": Object {
+            "disable": false,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -504,6 +555,9 @@ describe('extractArgTypes', () => {
     expect(argTypes).toMatchInlineSnapshot(`
       Object {
         "default": Object {
+          "control": Object {
+            "disable": false,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -539,6 +593,9 @@ describe('extractArgTypes', () => {
           },
         },
         "named": Object {
+          "control": Object {
+            "disable": false,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -574,6 +631,9 @@ describe('extractArgTypes', () => {
           },
         },
         "no-bind": Object {
+          "control": Object {
+            "disable": false,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
@@ -596,6 +656,9 @@ describe('extractArgTypes', () => {
           },
         },
         "vbind": Object {
+          "control": Object {
+            "disable": false,
+          },
           "defaultValue": Object {
             "summary": undefined,
           },
