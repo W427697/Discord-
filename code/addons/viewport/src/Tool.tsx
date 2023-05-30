@@ -110,21 +110,8 @@ const getStyles = (
     return undefined;
   }
 
-  let result: ViewportStyles | undefined;
-
-  if (typeof styles === 'function') {
-    if (prevStyles) {
-      result = styles(prevStyles);
-    }
-  } else {
-    result = styles;
-  }
-
-  if (result && isRotated) {
-    return flip(result);
-  }
-
-  return result;
+  const result = typeof styles === 'function' ? styles(prevStyles) : styles;
+  return isRotated ? flip(result) : result;
 };
 
 export const ViewportTool: FC = memo(
