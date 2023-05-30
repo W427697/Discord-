@@ -51,16 +51,14 @@
     "@storybook/core-common": "7.1.0-alpha.25",
     "@storybook/preset-vue3-webpack": "7.1.0-alpha.25",
     "@storybook/vue3": "7.1.0-alpha.25",
-    "@types/node": "^16.0.0"
+    "vue": "^3.2.0"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "3.0.0",
-    "typescript": "~4.9.3",
-    "vue": "3.0.0"
+    "@types/node": "^16.0.0",
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "@vue/compiler-sfc": "^3.0.0",
     "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
