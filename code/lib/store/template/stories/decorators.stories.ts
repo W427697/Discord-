@@ -57,7 +57,13 @@ export const Hooks = {
 
     await channel.emit(UPDATE_STORY_ARGS, {
       storyId: id,
-      updatedArgs: { condition: !args.condition },
+      updatedArgs: { condition: false },
+    });
+    await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
+
+    await channel.emit(UPDATE_STORY_ARGS, {
+      storyId: id,
+      updatedArgs: { condition: true },
     });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
   },
