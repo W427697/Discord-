@@ -1,16 +1,25 @@
 import path from 'path';
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
+import ora from 'ora';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { externalFrameworks, CoreBuilder } from '../project_types';
-import { getBabelDependencies, copyTemplateFiles } from '../helpers';
+import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
+import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
-import { generateStorybookBabelConfigInCWD } from '../babel-config';
+import { getBabelPresets, writeBabelConfigFile } from '../babel-config';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
+import {
+  configureEslintPlugin,
+  extractEslintInfo,
+  suggestESLintPlugin,
+} from '../automigrate/helpers/eslintPlugin';
+import { HandledError } from '../HandledError';
+
+const logger = console;
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -19,8 +28,7 @@ const defaultOptions: FrameworkOptions = {
   addScripts: true,
   addMainFile: true,
   addComponents: true,
-  addBabel: false,
-  addESLint: false,
+  skipBabel: false,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -54,13 +62,30 @@ const getExternalFramework = (framework: string) =>
 
 const getFrameworkPackage = (framework: string, renderer: string, builder: string) => {
   const externalFramework = getExternalFramework(framework);
+  const storybookBuilder = builder?.replace(/^@storybook\/builder-/, '');
+  const storybookFramework = framework?.replace(/^@storybook\//, '');
 
   if (externalFramework === undefined) {
-    return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
+    const frameworkPackage = framework
+      ? `@storybook/${storybookFramework}`
+      : `@storybook/${renderer}-${storybookBuilder}`;
+
+    if (packageVersions[frameworkPackage as keyof typeof packageVersions]) {
+      return frameworkPackage;
+    }
+
+    throw new Error(
+      dedent`
+        Could not find framework package: ${frameworkPackage}.
+        Make sure this package exists, and if it does, please file an issue as this might be a bug in Storybook.
+      `
+    );
   }
 
   if (externalFramework.frameworks !== undefined) {
-    return externalFramework.frameworks.find((item) => item.match(new RegExp(`-${builder}`)));
+    return externalFramework.frameworks.find((item) =>
+      item.match(new RegExp(`-${storybookBuilder}`))
+    );
   }
 
   return externalFramework.packageName;
@@ -142,11 +167,42 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder = CoreBuilder.Webpack5, pnp, frameworkPreviewParts }: GeneratorOptions,
+  {
+    language,
+    builder = CoreBuilder.Webpack5,
+    pnp,
+    frameworkPreviewParts,
+    yes: skipPrompts,
+  }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
 ) {
+  // This is added so that we can handle the scenario where the user presses Ctrl+C and report a canceled event.
+  // Given that there are subprocesses running as part of this function, we need to handle the signal ourselves otherwise it might run into race conditions.
+  // TODO: This should be revisited once we have a better way to handle this.
+  let isNodeProcessExiting = false;
+  const setNodeProcessExiting = () => {
+    isNodeProcessExiting = true;
+  };
+  process.on('SIGINT', setNodeProcessExiting);
+
+  const stopIfExiting = async <T>(callback: () => Promise<T>) => {
+    if (isNodeProcessExiting) {
+      throw new HandledError('Canceled by the user');
+    }
+
+    try {
+      return await callback();
+    } catch (error) {
+      if (isNodeProcessExiting) {
+        throw new HandledError('Canceled by the user');
+      }
+
+      throw error;
+    }
+  };
+
   const {
     extraAddons: extraAddonPackages,
     extraPackages,
@@ -154,8 +210,7 @@ export async function baseGenerator(
     addScripts,
     addMainFile,
     addComponents,
-    addBabel,
-    addESLint,
+    skipBabel,
     extraMain,
     extensions,
     storybookConfigFolder,
@@ -197,7 +252,7 @@ export async function baseGenerator(
 
   const files = await fse.readdir(process.cwd());
 
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
   const installedDependencies = new Set(
     Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
   );
@@ -234,7 +289,15 @@ export async function baseGenerator(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
 
-  const versionedPackages = await packageManager.getVersionedPackages(packages);
+  logger.log();
+  const versionedPackagesSpinner = ora({
+    indent: 2,
+    text: `Getting the correct version of ${packages.length} packages`,
+  }).start();
+  const versionedPackages = await stopIfExiting(async () =>
+    packageManager.getVersionedPackages(packages)
+  );
+  versionedPackagesSpinner.succeed();
 
   await fse.ensureDir(`./${storybookConfigFolder}`);
 
@@ -260,40 +323,87 @@ export async function baseGenerator(
 
   await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
 
-  const babelDependencies =
-    addBabel && builder !== CoreBuilder.Vite
-      ? await getBabelDependencies(packageManager, packageJson)
-      : [];
-  const isNewFolder = !files.some(
-    (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
-  );
-  if (isNewFolder) {
-    await generateStorybookBabelConfigInCWD();
+  const depsToInstall = [...versionedPackages];
+
+  // Add basic babel config for a select few frameworks that need it, if they do not have a babel config file already
+  if (builder !== CoreBuilder.Vite && !skipBabel) {
+    const frameworksThatNeedBabelConfig = [
+      '@storybook/react-webpack5',
+      '@storybook/vue-webpack5',
+      '@storybook/vue3-webpack5',
+      '@storybook/html-webpack5',
+      '@storybook/web-components-webpack5',
+    ];
+    const needsBabelConfig = frameworkPackages.find((pkg) =>
+      frameworksThatNeedBabelConfig.includes(pkg)
+    );
+    const hasNoBabelFile = !files.some(
+      (fname) => fname.startsWith('.babel') || fname.startsWith('babel')
+    );
+
+    if (hasNoBabelFile && needsBabelConfig) {
+      const isTypescript = language !== SupportedLanguage.JAVASCRIPT;
+      const isReact = rendererId === 'react';
+      depsToInstall.push(
+        ...getBabelPresets({
+          typescript: isTypescript,
+          jsx: isReact,
+        })
+      );
+      await writeBabelConfigFile({
+        typescript: isTypescript,
+        jsx: isReact,
+      });
+    }
   }
 
-  const depsToInstall = [...versionedPackages, ...babelDependencies];
+  try {
+    if (process.env.CI !== 'true') {
+      const { hasEslint, isStorybookPluginInstalled, eslintConfigFile } = await extractEslintInfo(
+        packageManager
+      );
+
+      if (hasEslint && !isStorybookPluginInstalled) {
+        if (skipPrompts || (await suggestESLintPlugin())) {
+          depsToInstall.push('eslint-plugin-storybook');
+          await configureEslintPlugin(eslintConfigFile, packageManager);
+        }
+      }
+    }
+  } catch (err) {
+    // any failure regarding configuring the eslint plugin should not fail the whole generator
+  }
 
   if (depsToInstall.length > 0) {
-    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+    const addDependenciesSpinner = ora({
+      indent: 2,
+      text: 'Installing Storybook dependencies',
+    }).start();
+    await stopIfExiting(async () =>
+      packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall)
+    );
+    addDependenciesSpinner.succeed();
   }
 
   if (addScripts) {
-    packageManager.addStorybookCommandInScripts({
-      port: 6006,
-    });
-  }
-
-  if (addESLint) {
-    packageManager.addESLintConfig();
+    await stopIfExiting(async () =>
+      packageManager.addStorybookCommandInScripts({
+        port: 6006,
+      })
+    );
   }
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
-    await copyTemplateFiles({
-      renderer: templateLocation,
-      packageManager,
-      language,
-      destination: componentsDestinationPath,
-    });
+    await stopIfExiting(async () =>
+      copyTemplateFiles({
+        renderer: templateLocation,
+        packageManager,
+        language,
+        destination: componentsDestinationPath,
+      })
+    );
   }
+
+  process.off('SIGINT', setNodeProcessExiting);
 }
