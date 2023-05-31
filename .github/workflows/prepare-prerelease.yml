@@ -108,7 +108,9 @@ jobs:
           git commit -m "bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" || true
           git push --force origin version-from-${{ steps.version.outputs.current-version }}
 
-      # TODO: generate PR description
+      - name: Generate PR description
+        id: description
+        run: yarn release:generate-pr-description --current-version=${{ steps.version.outputs.current-version }} --next-version=${{ steps.version.outputs.next-version }} --verbose
 
       - name: Create or update pull request
         env:
@@ -117,12 +119,12 @@ jobs:
           gh pr edit \
             --repo "${{github.repository }}"\
             --title "Bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" \
-            --body "This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}. Please review and merge this pull request to release the new version." \
+            --body "${{ steps.description.outputs.description }}" \
           || \
           gh pr create \
             --repo "${{github.repository }}"\
             --title "Bump version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}" \
-            --body "This is an automated pull request to bump the version from ${{ steps.version.outputs.current-version }} to ${{ steps.version.outputs.next-version }}. Please review and merge this pull request to release the new version." \
+            --body "${{ steps.description.outputs.description }}" \
             --base next-v2-release \
             --head version-from-${{ steps.version.outputs.current-version }}
 
