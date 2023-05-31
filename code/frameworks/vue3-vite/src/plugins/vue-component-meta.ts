@@ -35,7 +35,7 @@ export function vueComponentMeta(): PluginOption {
 
   const getDefaultExport = (filePath: string) => {
     // eslint-disable-next-line global-require
-    const ts: typeof import('typescript/lib/tsserverlibrary') = require('typescript');
+    const ts = require('typescript');
     const program = ts.createProgram([filePath], {});
     const sourceFile = program.getSourceFile(filePath)!;
     // eslint-disable-next-line no-restricted-syntax

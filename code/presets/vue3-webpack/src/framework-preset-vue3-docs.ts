@@ -1,3 +1,4 @@
+import path from 'path';
 import type { StorybookConfig } from '@storybook/core-webpack';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 
@@ -18,9 +19,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = (config, options) =
 
   config.module.rules.push({
     test: /\.vue$/,
-    loader: require.resolve('vue-component-meta', {
-      paths: [require.resolve('@storybook/preset-vue3-webpack')],
-    }),
+    // loader: require.resolve('vue-docgen-loader', {
+    //   paths: [require.resolve('@storybook/preset-vue3-webpack')],
+    // }),
+    loader: path.resolve(__dirname, './meta-loader.js'),
     enforce: 'post',
     options: {
       docgenOptions: {
