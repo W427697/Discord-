@@ -1,5 +1,5 @@
-import { normalizeStoriesEntry } from '@storybook/core-common';
 import { expect } from '@jest/globals';
+import { normalizeStoriesEntry } from '../../../../core-api/src/common';
 
 import { userOrAutoTitleFromSpecifier as userOrAuto } from './autoTitle';
 

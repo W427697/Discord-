@@ -1,4 +1,4 @@
-import { getRendererName } from '@storybook/core-common';
+import { getRendererName } from '@storybook/core-api';
 import type { Options, PreviewAnnotation } from '@storybook/types';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';

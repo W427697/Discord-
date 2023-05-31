@@ -9,7 +9,7 @@ import type {
   DecoratorFunction,
 } from '@storybook/types';
 import { toRequireContext } from '@storybook/core-webpack';
-import { normalizeStoriesEntry } from '@storybook/core-common';
+import { normalizeStoriesEntry } from '@storybook/core-api';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 import { global } from '@storybook/global';
 

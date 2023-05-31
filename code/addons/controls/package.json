@@ -71,7 +71,7 @@
     "@storybook/blocks": "7.1.0-alpha.25",
     "@storybook/client-logger": "7.1.0-alpha.25",
     "@storybook/components": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
+    "@storybook/core-api": "7.1.0-alpha.25",
     "@storybook/manager-api": "7.1.0-alpha.25",
     "@storybook/node-logger": "7.1.0-alpha.25",
     "@storybook/preview-api": "7.1.0-alpha.25",

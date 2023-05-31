@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger } from '@storybook/node-logger';
-import { serverRequire } from '@storybook/core-common';
+import { serverRequire } from '@storybook/core-api';
 
 interface PresetOptions {
   configDir: string;

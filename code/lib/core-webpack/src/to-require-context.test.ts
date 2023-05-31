@@ -1,5 +1,5 @@
 import path from 'path';
-import { normalizeStoriesEntry } from '@storybook/core-common';
+import { normalizeStoriesEntry } from '@storybook/core-api';
 
 import { toRequireContext } from './to-require-context';
 

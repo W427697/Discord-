@@ -27,7 +27,7 @@ describe('getMigrationSummary', () => {
     duplicatedDependencies: {
       '@storybook/core-client': ['7.0.0', '7.1.0'],
       '@storybook/instrumenter': ['6.0.0', '7.1.0'],
-      '@storybook/core-common': ['6.0.0', '7.1.0'],
+      '@storybook/core-api': ['6.0.0', '7.1.0'],
       '@storybook/addon-essentials': ['7.0.0', '7.1.0'],
     },
     dependencies: {},
@@ -140,7 +140,7 @@ describe('getMigrationSummary', () => {
 
       Attention: The following dependencies are duplicated which might cause unexpected behavior:
 
-      @storybook/core-common:
+      @storybook/core-api:
       6.0.0, 7.1.0
 
       @storybook/addon-essentials:

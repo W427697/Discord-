@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
-import { getStorybookInfo } from '@storybook/core-common';
+import { getStorybookInfo } from '@storybook/core-api';
 import { readFile } from 'fs-extra';
 import type { Fix } from '../types';
 

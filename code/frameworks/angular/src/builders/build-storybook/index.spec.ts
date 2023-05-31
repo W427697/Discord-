@@ -16,7 +16,7 @@ const buildMock = {
   withTelemetry: (name: string, options: any, fn: any) => fn(),
 };
 
-jest.doMock('@storybook/core-server', () => buildMock);
+jest.doMock('@storybook/core-api', () => buildMock);
 jest.doMock('@storybook/cli', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({

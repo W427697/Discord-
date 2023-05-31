@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import findUp from 'find-up';
 import semver from 'semver';
-import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import { frameworkPackages, rendererPackages } from '@storybook/core-api';
 
 import type { Preset } from '@storybook/types';
 import type { Fix } from '../types';

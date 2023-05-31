@@ -14,7 +14,7 @@ const buildMock = {
   buildStaticStandalone: buildStaticStandaloneMock,
   withTelemetry: (_: string, __: any, fn: any) => fn(),
 };
-jest.doMock('@storybook/core-server', () => buildMock);
+jest.doMock('@storybook/core-api', () => buildMock);
 jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
 const mockRunScript = jest.fn();

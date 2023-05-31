@@ -41,21 +41,18 @@ export const getIncompatibleAddons = async (mainConfig: StorybookConfig) => {
 
   const addonVersions = await getActualPackageVersions(addons);
 
-  const incompatibleAddons: { name: string; version: string }[] = [];
+  const incompatibleAddons: { name: keyof typeof incompatibleList; version: string }[] = [];
   addonVersions.forEach(
-    ({
-      name,
-      version: installedVersion,
-    }: {
-      name: keyof typeof incompatibleList;
-      version: string;
-    }) => {
+    ({ name, version: installedVersion }: { name: string; version: string }) => {
       if (installedVersion === null) return;
 
-      const addonVersion = incompatibleList[name];
+      const key = name as keyof typeof incompatibleList;
+      const addonVersion = incompatibleList[key];
       try {
-        if (semver.lte(semver.coerce(installedVersion), semver.coerce(addonVersion))) {
-          incompatibleAddons.push({ name, version: installedVersion });
+        const coercedInstalled = semver.coerce(installedVersion);
+        const coercedAddon = semver.coerce(addonVersion);
+        if (coercedInstalled && coercedAddon && semver.lte(coercedInstalled, coercedAddon)) {
+          incompatibleAddons.push({ name: key, version: installedVersion });
         }
       } catch (err) {
         // we tried our best but if we can't compare, we just no-op for that addon

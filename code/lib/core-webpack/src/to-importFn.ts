@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import type { NormalizedStoriesSpecifier } from '@storybook/types';
-import { globToRegexp } from '@storybook/core-common';
+import { globToRegexp } from '@storybook/core-api';
 
 import { importPipeline } from './importPipeline';
 

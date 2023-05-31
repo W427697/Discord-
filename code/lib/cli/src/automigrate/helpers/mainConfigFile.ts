@@ -1,4 +1,4 @@
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
+import { getStorybookInfo, loadMainConfig } from '@storybook/core-api';
 import type { StorybookConfig } from '@storybook/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
@@ -31,7 +31,7 @@ export const getStorybookData = async ({
   let mainConfig: StorybookConfig;
   try {
     mainConfig = await loadMainConfig({ configDir, noCache: true });
-  } catch (err) {
+  } catch (err: any) {
     throw new Error(
       dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${err.message}`
     );
@@ -109,5 +109,5 @@ export const getAddonNames = (mainConfig: StorybookConfig): string[] => {
       .replace(/\/preset$/, '');
   });
 
-  return addonList.filter(Boolean);
+  return addonList.filter(Boolean) as string[];
 };

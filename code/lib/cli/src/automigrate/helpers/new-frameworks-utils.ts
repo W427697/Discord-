@@ -1,4 +1,4 @@
-import { frameworkPackages } from '@storybook/core-common';
+import { frameworkPackages } from '@storybook/core-api';
 import type { Preset, StorybookConfig } from '@storybook/types';
 import findUp from 'find-up';
 

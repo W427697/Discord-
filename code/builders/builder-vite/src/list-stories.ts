@@ -1,7 +1,7 @@
 import * as path from 'path';
 import slash from 'slash';
 import { glob } from 'glob';
-import { normalizeStories } from '@storybook/core-common';
+import { normalizeStories } from '@storybook/core-api';
 
 import type { Options } from '@storybook/types';
 import { normalizePath } from 'vite';

@@ -1,4 +1,4 @@
-import { stringifyEnvs } from '@storybook/core-common';
+import { stringifyEnvs } from '@storybook/core-api';
 import type { UserConfig as ViteConfig } from 'vite';
 import type { Builder_EnvsRaw, Options } from '@storybook/types';
 
@@ -15,7 +15,7 @@ const allowedEnvVariables = [
 ];
 
 /**
- * Customized version of stringifyProcessEnvs from @storybook/core-common which
+ * Customized version of stringifyProcessEnvs from @storybook/core-api which
  * uses import.meta.env instead of process.env and checks for allowed variables.
  */
 export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: ViteConfig['envPrefix']) {

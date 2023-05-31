@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@storybook/builder-webpack5": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
+    "@storybook/core-api": "7.1.0-alpha.25",
     "@storybook/preact": "7.1.0-alpha.25",
     "@storybook/preset-preact-webpack": "7.1.0-alpha.25",
     "@types/node": "^16.0.0"

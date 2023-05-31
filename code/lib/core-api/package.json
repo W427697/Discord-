@@ -1,0 +1,192 @@
+{
+  "name": "@storybook/core-api",
+  "version": "7.1.0-alpha.25",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/core-api",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/core-api"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist/common": {
+      "types": "./dist/common.d.ts",
+      "import": "./dist/common.mjs",
+      "require": "./dist/common.js"
+    },
+    "./dist/builder": {
+      "types": "./dist/builder.d.ts",
+      "import": "./dist/builder.mjs",
+      "require": "./dist/builder.js"
+    },
+    "./dist/server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.mjs",
+      "require": "./dist/server.js"
+    },
+    "./dist/telemetry": {
+      "types": "./dist/telemetry.d.ts",
+      "import": "./dist/telemetry.mjs",
+      "require": "./dist/telemetry.js"
+    },
+    "./dist/presets/babel-cache-preset": {
+      "types": "./dist/presets/babel-cache-preset.d.ts",
+      "node": "./dist/presets/babel-cache-preset.js",
+      "require": "./dist/presets/babel-cache-preset.js"
+    },
+    "./dist/presets/common-preset": {
+      "types": "./dist/presets/common-preset.d.ts",
+      "node": "./dist/presets/common-preset.js",
+      "require": "./dist/presets/common-preset.js"
+    },
+    "./public/favicon.svg": "./public/favicon.svg",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "dist/common": [
+        "dist/common.d.ts"
+      ],
+      "dist/server": [
+        "dist/server.d.ts"
+      ],
+      "dist/builder": [
+        "dist/builder.d.ts"
+      ],
+      "dist/telemetry": [
+        "dist/telemetry.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "templates/**/*",
+    "public/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@aw-web-design/x-default-browser": "1.4.88",
+    "@discoveryjs/json-ext": "^0.5.3",
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@storybook/core-events": "7.1.0-alpha.25",
+    "@storybook/csf": "^0.1.0",
+    "@storybook/csf-tools": "7.1.0-alpha.25",
+    "@storybook/docs-mdx": "^0.1.0",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager": "7.1.0-alpha.25",
+    "@storybook/node-logger": "7.1.0-alpha.25",
+    "@storybook/preview-api": "7.1.0-alpha.25",
+    "@storybook/types": "7.1.0-alpha.25",
+    "@types/detect-port": "^1.3.0",
+    "@types/ejs": "^3.1.1",
+    "@types/find-cache-dir": "^3.2.1",
+    "@types/node": "^16.0.0",
+    "@types/node-fetch": "^2.5.7",
+    "@types/pretty-hrtime": "^1.0.0",
+    "@types/semver": "^7.3.4",
+    "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
+    "better-opn": "^2.1.1",
+    "boxen": "^5.1.2",
+    "browser-assert": "^1.2.1",
+    "chalk": "^4.1.0",
+    "cli-table3": "^0.6.1",
+    "compression": "^1.7.4",
+    "detect-package-manager": "^2.0.1",
+    "detect-port": "^1.3.0",
+    "ejs": "^3.1.8",
+    "esbuild": "^0.17.0",
+    "esbuild-plugin-alias": "^0.2.1",
+    "esbuild-register": "^3.4.0",
+    "express": "^4.17.3",
+    "fetch-retry": "^5.0.2",
+    "file-system-cache": "^2.0.0",
+    "find-cache-dir": "^3.0.0",
+    "find-up": "^5.0.0",
+    "fs-extra": "^11.1.0",
+    "glob": "^10.0.0",
+    "globby": "^11.0.2",
+    "handlebars": "^4.7.7",
+    "ip": "^2.0.0",
+    "isomorphic-unfetch": "^3.1.0",
+    "lazy-universal-dotenv": "^4.0.0",
+    "lodash": "^4.17.21",
+    "nanoid": "^3.3.1",
+    "node-fetch": "^2.6.7",
+    "open": "^8.4.0",
+    "picomatch": "^2.3.0",
+    "pkg-dir": "^5.0.0",
+    "pretty-hrtime": "^1.0.3",
+    "process": "^0.11.10",
+    "prompts": "^2.4.0",
+    "read-pkg-up": "^7.0.1",
+    "resolve-from": "^5.0.0",
+    "semver": "^7.3.7",
+    "serve-favicon": "^2.5.0",
+    "telejson": "^7.0.3",
+    "tiny-invariant": "^1.3.1",
+    "ts-dedent": "^2.0.0",
+    "util": "^0.12.4",
+    "util-deprecate": "^1.0.2",
+    "watchpack": "^2.2.0",
+    "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.0",
+    "@types/ip": "^1.1.0",
+    "@types/mock-fs": "^4.13.1",
+    "@types/picomatch": "^2.3.0",
+    "@types/serve-favicon": "^2.5.2",
+    "@types/ws": "^8",
+    "jest-os-detection": "^1.3.1",
+    "jest-specific-snapshot": "^7.0.0",
+    "mock-fs": "^5.2.0",
+    "slash": "^5.0.0",
+    "type-fest": "^2.19.0",
+    "typescript": "~4.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/common.ts",
+      "./src/server.ts",
+      "./src/builder.ts",
+      "./src/telemetry.ts",
+      "./src/presets/babel-cache-preset.ts",
+      "./src/presets/common-preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "3f93a9032c93e77e34c3b39adea4b4a0f21e8920"
+}

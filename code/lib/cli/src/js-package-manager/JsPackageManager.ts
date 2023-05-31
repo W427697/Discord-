@@ -82,7 +82,7 @@ export abstract class JsPackageManager {
 
     try {
       await this.runInstall();
-    } catch (e) {
+    } catch (e: any) {
       done('An error occurred while installing dependencies.');
       throw new HandledError(e);
     }
@@ -137,7 +137,7 @@ export abstract class JsPackageManager {
     let packageJson;
     try {
       packageJson = await this.readPackageJson();
-    } catch (err) {
+    } catch (err: any) {
       if (err.message.includes('Could not read package.json')) {
         await this.initPackageJson();
         packageJson = await this.readPackageJson();
@@ -168,7 +168,7 @@ export abstract class JsPackageManager {
       ...dependencies,
       ...devDependencies,
       ...peerDependencies,
-    };
+    } as Record<string, string>;
   }
 
   /**
@@ -195,7 +195,7 @@ export abstract class JsPackageManager {
     const { skipInstall } = options;
 
     if (skipInstall) {
-      const { packageJson } = options;
+      const { packageJson = {} } = options;
 
       const dependenciesMap = dependencies.reduce((acc, dep) => {
         const [packageName, packageVersion] = getPackageDetails(dep);
@@ -216,8 +216,8 @@ export abstract class JsPackageManager {
       await this.writePackageJson(packageJson);
     } else {
       try {
-        await this.runAddDeps(dependencies, options.installAsDevDependencies);
-      } catch (e) {
+        await this.runAddDeps(dependencies, options.installAsDevDependencies || false);
+      } catch (e: any) {
         logger.error('\nAn error occurred while installing dependencies:');
         logger.log(e.message);
         throw new HandledError(e);
@@ -246,7 +246,7 @@ export abstract class JsPackageManager {
     const { skipInstall } = options;
 
     if (skipInstall) {
-      const { packageJson } = options;
+      const { packageJson = {} } = options;
 
       dependencies.forEach((dep) => {
         if (packageJson.devDependencies) {
@@ -261,7 +261,7 @@ export abstract class JsPackageManager {
     } else {
       try {
         this.runRemoveDeps(dependencies);
-      } catch (e) {
+      } catch (e: any) {
         logger.error('An error occurred while removing dependencies.');
         logger.log(e.message);
         throw new HandledError(e);
@@ -307,7 +307,7 @@ export abstract class JsPackageManager {
    * @param constraint A valid semver constraint, example: '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
    */
   public async getVersion(packageName: string, constraint?: string): Promise<string> {
-    let current: string;
+    let current: string | false = false;
 
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
       // @ts-expect-error (Converted from ts-ignore)
@@ -317,7 +317,7 @@ export abstract class JsPackageManager {
     let latest;
     try {
       latest = await this.latestVersion(packageName, constraint);
-    } catch (e) {
+    } catch (e: any) {
       if (current) {
         logger.warn(`\n     ${chalk.yellow(e.message)}`);
         return current;
@@ -349,7 +349,7 @@ export abstract class JsPackageManager {
     const versions = await this.runGetVersions(packageName, true);
 
     // Get the latest version satisfying the constraint
-    return versions.reverse().find((version) => satisfies(version, constraint));
+    return versions.reverse().find((version) => satisfies(version, constraint)) as string;
   }
 
   public async addStorybookCommandInScripts(options?: { port: number; preCommand?: string }) {

@@ -33,6 +33,7 @@ export default {
   '@storybook/client-logger': '7.1.0-alpha.25',
   '@storybook/codemod': '7.1.0-alpha.25',
   '@storybook/components': '7.1.0-alpha.25',
+  '@storybook/core-api': '7.1.0-alpha.25',
   '@storybook/core-client': '7.1.0-alpha.25',
   '@storybook/core-common': '7.1.0-alpha.25',
   '@storybook/core-events': '7.1.0-alpha.25',

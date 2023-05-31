@@ -48,13 +48,13 @@ export async function getRendererDir(
         paths: [process.cwd()],
       })
     );
-  } catch (e) {
+  } catch (e: any) {
     errors.push(e);
   }
 
   try {
     return await resolveUsingBranchInstall(packageManager, frameworkPackageName);
-  } catch (e) {
+  } catch (e: any) {
     errors.push(e);
   }
 

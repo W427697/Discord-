@@ -16,9 +16,8 @@ import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit
 
 import { CLIOptions } from '@storybook/types';
 import { getEnvConfig, versions } from '@storybook/cli';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { addToGlobalContext, buildStaticStandalone, withTelemetry } from '@storybook/core-api';
 
-import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
   StyleElement,

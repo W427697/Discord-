@@ -52,7 +52,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.22.0",
     "@storybook/builder-webpack5": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
+    "@storybook/core-api": "7.1.0-alpha.25",
     "@storybook/preset-web-components-webpack": "7.1.0-alpha.25",
     "@storybook/web-components": "7.1.0-alpha.25",
     "@types/node": "^16.0.0"

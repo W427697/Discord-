@@ -128,11 +128,12 @@
     "@storybook/addon-outline": "7.1.0-alpha.25",
     "@storybook/addon-toolbars": "7.1.0-alpha.25",
     "@storybook/addon-viewport": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
+    "@storybook/core-api": "7.1.0-alpha.25",
     "@storybook/manager-api": "7.1.0-alpha.25",
     "@storybook/node-logger": "7.1.0-alpha.25",
     "@storybook/preview-api": "7.1.0-alpha.25",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.0.0",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "@storybook/vue": "7.1.0-alpha.25",

@@ -2,9 +2,23 @@
 import chalk from 'chalk';
 import assert from 'assert';
 import fetch from 'node-fetch';
+import type { BinaryLike } from 'crypto';
+import { createHash } from 'crypto';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
 import versions from '../code/lib/cli/src/versions';
-import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
+
+export const oneWayHash = (payload: BinaryLike): string => {
+  const hash = createHash('sha256');
+
+  // Always prepend the payload value with salt. This ensures the hash is truly
+  // one-way.
+  hash.update('storybook-telemetry-salt');
+
+  // Update is an append operation, not a replacement. The salt from the prior
+  // update is still present!
+  hash.update(payload);
+  return hash.digest('hex');
+};
 
 const PORT = process.env.PORT || 6007;
 

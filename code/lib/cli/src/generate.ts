@@ -6,7 +6,7 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
-import { addToGlobalContext } from '@storybook/telemetry';
+import { addToGlobalContext } from '@storybook/core-api';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';

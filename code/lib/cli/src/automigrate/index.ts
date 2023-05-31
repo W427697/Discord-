@@ -7,7 +7,7 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { join } from 'path';
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
+import { getStorybookInfo, loadMainConfig } from '@storybook/core-api';
 import semver from 'semver';
 import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
 import type { PackageManagerName } from '../js-package-manager';

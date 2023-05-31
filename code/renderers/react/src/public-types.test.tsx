@@ -1,6 +1,6 @@
 import { describe, test } from '@jest/globals';
 
-import { satisfies } from '@storybook/core-common';
+import { satisfies } from '@storybook/core-api';
 import type { Args, StoryAnnotations, StrictArgs } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import type { KeyboardEventHandler, ReactNode } from 'react';

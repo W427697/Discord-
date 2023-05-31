@@ -1,4 +1,4 @@
-import { normalizeStories } from '@storybook/core-common';
+import { normalizeStories } from '@storybook/core-api';
 import type { CoreConfig, DocsOptions, Options } from '@storybook/types';
 
 export type PreviewHtml = string | undefined;

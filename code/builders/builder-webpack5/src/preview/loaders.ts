@@ -1,4 +1,4 @@
-import { getProjectRoot } from '@storybook/core-common';
+import { getProjectRoot } from '@storybook/core-api';
 import type { Options } from '@swc/core';
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';

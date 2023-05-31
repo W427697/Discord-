@@ -1,4 +1,4 @@
-import { loadPreviewOrConfigFile } from '@storybook/core-common';
+import { loadPreviewOrConfigFile } from '@storybook/core-api';
 import type { Options } from '@storybook/types';
 import slash from 'slash';
 import { normalizePath } from 'vite';

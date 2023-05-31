@@ -21,7 +21,7 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
   isPreservingSymlinks,
-} from '@storybook/core-common';
+} from '@storybook/core-api';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';

@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { frameworkPackages, rendererPackages } from '@storybook/core-common';
+import { frameworkPackages, rendererPackages } from '@storybook/core-api';
 import dedent from 'ts-dedent';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';

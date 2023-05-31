@@ -1,4 +1,4 @@
-import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
+import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-api';
 import type { Options, PreviewAnnotation } from '@storybook/types';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';

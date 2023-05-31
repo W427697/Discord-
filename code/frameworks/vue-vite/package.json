@@ -48,8 +48,7 @@
   },
   "dependencies": {
     "@storybook/builder-vite": "7.1.0-alpha.25",
-    "@storybook/core-common": "7.1.0-alpha.25",
-    "@storybook/core-server": "7.1.0-alpha.25",
+    "@storybook/core-api": "7.1.0-alpha.25",
     "@storybook/vue": "7.1.0-alpha.25",
     "magic-string": "^0.27.0",
     "vue-docgen-api": "^4.40.0"

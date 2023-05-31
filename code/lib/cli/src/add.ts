@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { sync as spawnSync } from 'cross-spawn';
 
-import { getStorybookInfo } from '@storybook/core-common';
+import { getStorybookInfo } from '@storybook/core-api';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 
 import { commandLog } from './helpers';

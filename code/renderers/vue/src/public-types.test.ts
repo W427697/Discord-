@@ -1,4 +1,4 @@
-import { satisfies } from '@storybook/core-common';
+import { satisfies } from '@storybook/core-api';
 import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import type { SetOptional } from 'type-fest';
