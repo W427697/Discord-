@@ -25,7 +25,8 @@ function getDocumentWidthAndHeight() {
 function createCanvas(): CanvasState {
   const canvas = global.document.createElement('canvas');
   canvas.id = 'storybook-addon-measure';
-  const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+  const context = canvas.getContext('2d');
+  invariant(context != null);
   // Set canvas width & height
   const { width, height } = getDocumentWidthAndHeight();
   setCanvasWidthAndHeight(canvas, context, { width, height });
