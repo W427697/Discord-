@@ -24,8 +24,7 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
     // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
-    '@playwright/test': '1.32.3',
-    playwright: '1.32.3',
+    '@playwright/test': '^1.34.3',
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
@@ -56,6 +55,19 @@ export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
       errorMessage: `🚨 Installing Yarn 2 failed`,
     }
   );
+};
+
+export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => {
+  logger.info(`🔢 Adding resolutions for workarounds`);
+  if (dryRun) return;
+
+  const packageJsonPath = path.join(cwd, 'package.json');
+  const packageJson = await readJSON(packageJsonPath);
+  packageJson.resolutions = {
+    ...packageJson.resolutions,
+    '@vitejs/plugin-react': '^4.0.0', // due to conflicting version in @storybook/vite-react
+  };
+  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOptions) => {
