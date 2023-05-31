@@ -73,9 +73,7 @@ export function Result(props: ResultProps) {
               }}
             />
           ) : null}
-          <div>
-            {capitalizeFirstLetter(fullName as string) || capitalizeFirstLetter(title as string)}
-          </div>
+          <div>{capitalizeFirstLetter(fullName ?? '') || capitalizeFirstLetter(title ?? '')}</div>
         </HeaderBar>
       </Wrapper>
       {isOpen ? (
