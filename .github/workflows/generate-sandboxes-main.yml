@@ -29,6 +29,9 @@ jobs:
         run: |
           git config --global user.name "Storybook Bot"
           git config --global user.email "bot@storybook.js.org"
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6.0.2
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
       - name: Compile Storybook libraries

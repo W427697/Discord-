@@ -27,6 +27,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6.0.2
       - name: install and compile
         run: yarn task --task compile --start-from=auto --no-link
       - name: test
