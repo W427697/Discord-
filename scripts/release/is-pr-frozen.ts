@@ -8,7 +8,7 @@ import { simpleGit } from 'simple-git';
 import { setOutput } from '@actions/core';
 import path from 'path';
 import { readJson } from 'fs-extra';
-import { getPullInfoFromCommit } from './get-github-info';
+import { getPullInfoFromCommit } from './utils/get-github-info';
 
 program
   .name('is-pr-frozen')

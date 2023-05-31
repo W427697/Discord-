@@ -9,18 +9,18 @@ import dedent from 'ts-dedent';
 import { getCurrentVersion } from './get-current-version';
 
 program
-  .name('get-changelog-entry')
+  .name('get-changelog-from-file')
   .description(
     'get changelog entry for specific version. If not version argument specified it will use the current version in code/package.json'
   )
   .arguments('[version]')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
-export const getChangelogEntry = async (args: { version?: string; verbose?: boolean }) => {
+export const getChangelogFromFile = async (args: { version?: string; verbose?: boolean }) => {
   const version = args.version || (await getCurrentVersion());
   const isPrerelease = semver.prerelease(version) !== null;
   const changelogFilename = isPrerelease ? 'CHANGELOG.prerelease.md' : 'CHANGELOG.md';
-  const changelogPath = path.join(__dirname, '..', '..', '..', changelogFilename);
+  const changelogPath = path.join(__dirname, '..', '..', changelogFilename);
 
   console.log(`📝 Getting changelog from ${chalk.blue(changelogPath)}`);
 
@@ -45,7 +45,7 @@ export const getChangelogEntry = async (args: { version?: string; verbose?: bool
 
 if (require.main === module) {
   const parsed = program.parse();
-  getChangelogEntry({ version: parsed.args[0], verbose: parsed.opts().verbose }).catch((err) => {
+  getChangelogFromFile({ version: parsed.args[0], verbose: parsed.opts().verbose }).catch((err) => {
     console.error(err);
     process.exit(1);
   });

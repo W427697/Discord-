@@ -49,16 +49,16 @@ jobs:
 
       - name: Get current version
         id: version
-        run: ./node_modules/.bin/ts-node --swc ./release/utils/get-current-version.ts
+        run: yarn release:get-current-version
 
       - name: Check if publish is needed
         id: publish-needed
-        run: ./node_modules/.bin/ts-node --swc ./release/utils/is-version-published.ts ${{ steps.version.outputs.current-version }}
+        run: yarn release:is-version-published ${{ steps.version.outputs.current-version }}
 
       - name: Check release vs prerelease
         if: steps.publish-needed.outputs.published != 'true'
         id: is-prerelease
-        run: ./node_modules/.bin/ts-node --swc ./release/utils/is-prerelease.ts
+        run: yarn release:is-prerelease
 
       - name: Install code dependencies
         if: steps.publish-needed.outputs.published != 'true'
@@ -87,7 +87,7 @@ jobs:
       - name: Get changelog for ${{ steps.version.outputs.current-version }}}
         if: steps.publish-needed.outputs.published != 'true'
         id: changelog
-        run: ./node_modules/.bin/ts-node --swc ./release/utils/get-changelog-entry.ts ${{ steps.version.outputs.current-version }}
+        run: yarn release:get-changelog-from-file ${{ steps.version.outputs.current-version }}
 
       - name: Create GitHub Release
         if: steps.publish-needed.outputs.published != 'true'
