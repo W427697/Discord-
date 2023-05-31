@@ -92,7 +92,7 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/pnpm-lock.yaml" }}
       - run:
           name: Install
           command: |
@@ -100,9 +100,9 @@ jobs:
             pnpm install
       - save_cache:
           name: Save Yarn cache
-          key: prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          key: prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/pnpm-lock.yaml" }}
           paths:
-            - ~/.yarn/berry/cache
+            - scripts/node_modules/.pnpm
       - run:
           name: Prettier
           command: |
@@ -118,7 +118,7 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/pnpm-lock.yaml" }}
       - run:
           name: Compile
           command: |
@@ -132,9 +132,10 @@ jobs:
       - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache
-          key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/pnpm-lock.yaml" }}
           paths:
             - ~/.yarn/berry/cache
+            - scripts/node_modules/.pnpm
       - persist_to_workspace:
           root: .
           paths:
