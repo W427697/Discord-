@@ -158,7 +158,7 @@ test.describe('addon-docs', () => {
 
   test('source snippet should change back to previous value in stories block', async ({ page }) => {
     test.skip(
-      /^(vue-cli|preact)/i.test(`${templateName}`),
+      /^(lit|vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
 
