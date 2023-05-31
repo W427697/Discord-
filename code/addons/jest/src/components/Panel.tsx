@@ -133,7 +133,7 @@ const TestPanel: FC<{ test: Test }> = ({ test }) => {
     <section ref={ref}>
       <SuiteHead>
         <SuiteTotals {...{ result, width: width ?? 0 }} />
-        {width !== undefined && width > 240 ? (
+        {width != null && width > 240 ? (
           <ProgressWrapper>
             {sortedTestsByCount.map((entry: any) => {
               return (
