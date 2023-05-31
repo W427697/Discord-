@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
-import { run as version } from './version';
+import { run as version } from '../version';
 
 // eslint-disable-next-line jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../code/__mocks__/fs-extra'));
@@ -135,6 +135,8 @@ describe('Version', () => {
     { releaseType: 'prerelease', preId: 'beta', currentVersion: '1.0.0-alpha.10', expectedVersion: '1.0.0-beta.0' },
     // prettier-ignore
     { releaseType: 'major', currentVersion: '1.0.0-rc.10', expectedVersion: '1.0.0' },
+    // prettier-ignore
+    { releaseType: 'minor', currentVersion: '1.0.0-rc.10', expectedVersion: '1.0.0' },
     // prettier-ignore
     { releaseType: 'patch', currentVersion: '1.0.0-rc.10', expectedVersion: '1.0.0' },
     // prettier-ignore
