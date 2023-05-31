@@ -2,16 +2,16 @@
 
 export interface JsDocParam {
   name: string | undefined | null;
-  description?: string;
+  description?: string | null;
 }
 
 export interface JsDocReturns {
-  description?: string;
+  description?: string | null;
 }
 
 export interface JsDocTags {
   params?: JsDocParam[];
-  returns?: JsDocReturns;
+  returns?: JsDocReturns | null;
 }
 
 export interface PropSummaryValue {

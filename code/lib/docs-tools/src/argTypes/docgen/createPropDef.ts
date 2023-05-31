@@ -96,11 +96,11 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult?: JsDocParsingRes
         name: x.getPrettyName(),
         description: x.description,
       })),
-    };
+    } satisfies JsDocTags;
 
     if (Object.values(value).filter(Boolean).length > 0) {
       // eslint-disable-next-line no-param-reassign
-      propDef.jsDocTags = value as JsDocTags;
+      propDef.jsDocTags = value;
     }
   }
 
