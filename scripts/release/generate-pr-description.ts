@@ -4,7 +4,6 @@
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
-import semver from 'semver';
 import { z } from 'zod';
 import dedent from 'ts-dedent';
 import { setOutput } from '@actions/core';
@@ -18,23 +17,20 @@ program
     '-C, --current-version <version>',
     'Which version to generate changelog from, eg. "7.0.7"'
   )
-  .requiredOption(
-    '-N, --next-version <version>',
-    'Which version to generate changelog to, eg. "7.0.8"'
-  )
+  .option('-N, --next-version <version>', 'Which version to generate changelog to, eg. "7.0.8"')
   .option('-P, --patches-only', 'Set to only consider PRs labeled with "patch" label')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const optionsSchema = z.object({
   currentVersion: z.string(),
-  nextVersion: z.string(),
+  nextVersion: z.string().optional(),
   patchesOnly: z.boolean().optional(),
   verbose: z.boolean().optional(),
 });
 
 type Options = {
   currentVersion: string;
-  nextVersion: string;
+  nextVersion?: string;
   patchesOnly?: boolean;
   verbose: boolean;
 };
@@ -54,13 +50,24 @@ const LABELS_BY_IMPORTANCE = {
   unknown: '⚠️ Missing Label',
 } as const;
 
-export const mapToTodoItems = (changes: Change[]): string => {
+export const mapToChangelist = ({
+  changes,
+  isRelease,
+}: {
+  changes: Change[];
+  isRelease: boolean;
+}): string => {
   return changes
     .map((change) => {
+      const lines: string[] = [];
       if (!change.pull) {
-        return `- **⚠️ Direct commit**: ${change.title} ${change.links.commit}
-\t- [ ] The change is appropriate for the version bump`;
+        lines.push(`- **⚠️ Direct commit**: ${change.title} ${change.links.commit}`);
+        if (isRelease) {
+          lines.push('\t- [ ] The change is appropriate for the version bump');
+        }
+        return lines.join('\n');
       }
+
       const label = (change.labels
         ?.filter((l) => Object.keys(LABELS_BY_IMPORTANCE).includes(l))
         .sort(
@@ -69,10 +76,14 @@ export const mapToTodoItems = (changes: Change[]): string => {
             Object.keys(LABELS_BY_IMPORTANCE).indexOf(b)
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
-      return `- **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}
-\t- [ ] The change is appropriate for the version bump
-\t- [ ] The PR is labeled correctly
-\t- [ ] The PR title is correct`;
+      lines.push(`- **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}`);
+
+      if (isRelease) {
+        lines.push('\t- [ ] The change is appropriate for the version bump');
+        lines.push('\t- [ ] The PR is labeled correctly');
+        lines.push('\t- [ ] The PR title is correct');
+      }
+      return lines.join('\n');
     })
     .join('\n');
 };
@@ -80,12 +91,12 @@ export const mapToTodoItems = (changes: Change[]): string => {
 export const generateReleaseDescription = ({
   currentVersion,
   nextVersion,
-  todoItems,
+  changeList,
   changelogText,
 }: {
   currentVersion: string;
   nextVersion: string;
-  todoItems: string;
+  changeList: string;
   changelogText: string;
 }): string => {
   // don't mention contributors in the release PR, to avoid spamming them
@@ -112,9 +123,9 @@ export const generateReleaseDescription = ({
   
   This is a list of all the PRs merged and commits pushed directly to \`next\`, that will be part of this release:
   
-  ${todoItems}
+  ${changeList}
 
-  If you needed to make any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
   
   When everything above is done:
   - [ ] Merge this PR
@@ -127,11 +138,32 @@ export const generateReleaseDescription = ({
   ${unmentionChangelog}`;
 };
 
+export const generateNonReleaseDescription = (changeList: string): string => {
+  return dedent`This is an automated pull request. None of the changes requires a version bump, they are only internal or documentation related. Merging this PR will not trigger a new release, but documentation will be updated.
+  If you're not a core maintainer with permissions to release you can ignore this pull request.
+  
+  This is a list of all the PRs merged and commits pushed directly to \`next\` since the last release:
+  
+  ${changeList}
+
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+  
+  When everything above is done:
+  - [ ] Merge this PR
+  - [ ] [Approve the publish workflow run](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)`;
+};
+
 export const run = async (options: unknown) => {
   if (!validateOptions(options)) {
     return;
   }
   const { currentVersion, nextVersion, patchesOnly, verbose } = options;
+
+  if (!nextVersion) {
+    console.log(
+      '🚨 --next-version option not specificed, generating PR description assuming no release is needed'
+    );
+  }
 
   console.log(
     `💬 Generating PR description for ${chalk.blue(nextVersion)} between ${chalk.green(
@@ -146,16 +178,15 @@ export const run = async (options: unknown) => {
     patchesOnly,
     verbose,
   });
-  // TODO: determine if a release is needed or not
 
-  const todoItems = mapToTodoItems(changes);
-
-  const description = generateReleaseDescription({
-    currentVersion,
-    nextVersion,
-    todoItems,
-    changelogText,
-  });
+  const description = nextVersion
+    ? generateReleaseDescription({
+        currentVersion,
+        nextVersion,
+        changeList: mapToChangelist({ changes, isRelease: true }),
+        changelogText,
+      })
+    : generateNonReleaseDescription(mapToChangelist({ changes, isRelease: false }));
 
   if (process.env.GITHUB_ACTIONS === 'true') {
     setOutput('description', description);
