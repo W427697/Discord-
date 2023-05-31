@@ -8,7 +8,6 @@ import dedent from 'ts-dedent';
 
 import { join } from 'path';
 import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
-import semver from 'semver';
 import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
 import type { PackageManagerName } from '../js-package-manager';
 
@@ -17,6 +16,7 @@ import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 import { getMigrationSummary } from './helpers/getMigrationSummary';
 import { getStorybookData } from './helpers/mainConfigFile';
+import { getStorybookVersion } from '../utils';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -158,14 +158,14 @@ export async function runFixes({
   const fixResults = {} as Record<FixId, FixStatus>;
   const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
 
-  const {
-    configDir: inferredConfigDir,
-    mainConfig: mainConfigPath,
-    version: storybookVersion,
-  } = getStorybookInfo(await packageManager.retrievePackageJson(), userSpecifiedConfigDir);
+  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
+    await packageManager.retrievePackageJson(),
+    userSpecifiedConfigDir
+  );
 
-  const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-  if (!sbVersionCoerced) {
+  const storybookVersion = await getStorybookVersion(packageManager);
+
+  if (!storybookVersion) {
     logger.info(dedent`
       [Storybook automigrate] ❌ Unable to determine storybook version so the automigrations will be skipped.
         🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.

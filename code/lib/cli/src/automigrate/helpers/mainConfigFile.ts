@@ -9,10 +9,10 @@ import type { StorybookConfig } from '@storybook/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
 import chalk from 'chalk';
-import semver from 'semver';
 import dedent from 'ts-dedent';
 import path from 'path';
 import type { JsPackageManager } from '../../js-package-manager';
+import { getStorybookVersion } from '../../utils';
 
 const logger = console;
 
@@ -93,8 +93,7 @@ export const getStorybookData = async ({
     configDir: configDirFromScript,
     previewConfig: previewConfigPath,
   } = getStorybookInfo(packageJson, userDefinedConfigDir);
-  const storybookVersion =
-    storybookVersionSpecifier && semver.coerce(storybookVersionSpecifier)?.version;
+  const storybookVersion = await getStorybookVersion(packageManager);
 
   const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
 
