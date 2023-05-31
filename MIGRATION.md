@@ -1110,7 +1110,7 @@ In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2
 
 #### Create React App: dropped CRA4 support
 
-Since v7 [drops webpack4 support](#webpack4-support-discontinued), it longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
+Since v7 [drops webpack4 support](#webpack4-support-discontinued), it no longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
 
 #### HTML: No longer auto-dedents source code
 
