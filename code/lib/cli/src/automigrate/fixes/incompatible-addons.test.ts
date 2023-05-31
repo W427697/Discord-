@@ -2,10 +2,7 @@
 
 import type { StorybookConfig } from '@storybook/types';
 import { incompatibleAddons } from './incompatible-addons';
-import * as packageVersions from '../helpers/getActualPackageVersions';
 import type { JsPackageManager } from '../../js-package-manager';
-
-jest.mock('../helpers/getActualPackageVersions');
 
 const check = async ({
   packageManager,
@@ -28,22 +25,20 @@ describe('incompatible-addons fix', () => {
   afterEach(jest.restoreAllMocks);
 
   it('should show incompatible addons', async () => {
-    jest.spyOn(packageVersions, 'getActualPackageVersions').mockReturnValueOnce(
-      Promise.resolve([
-        {
-          name: '@storybook/addon-essentials',
-          version: '7.0.0',
-        },
-        {
-          name: '@storybook/addon-info',
-          version: '5.3.21',
-        },
-      ])
-    );
-
     await expect(
       check({
-        packageManager: {},
+        packageManager: {
+          getPackageVersion(packageName, basePath) {
+            switch (packageName) {
+              case '@storybook/addon-essentials':
+                return Promise.resolve('7.0.0');
+              case '@storybook/addon-info':
+                return Promise.resolve('5.3.21');
+              default:
+                return Promise.resolve(null);
+            }
+          },
+        },
         main: { addons: ['@storybook/essentials', '@storybook/addon-info'] },
       })
     ).resolves.toEqual({
@@ -57,17 +52,20 @@ describe('incompatible-addons fix', () => {
   });
 
   it('no-op when there are no incompatible addons', async () => {
-    jest.spyOn(packageVersions, 'getActualPackageVersions').mockReturnValueOnce(
-      Promise.resolve([
-        {
-          name: '@storybook/addon-essentials',
-          version: '7.0.0',
-        },
-      ])
-    );
-
     await expect(
-      check({ packageManager: {}, main: { addons: ['@storybook/essentials'] } })
+      check({
+        packageManager: {
+          getPackageVersion(packageName, basePath) {
+            switch (packageName) {
+              case '@storybook/addon-essentials':
+                return Promise.resolve('7.0.0');
+              default:
+                return Promise.resolve(null);
+            }
+          },
+        },
+        main: { addons: ['@storybook/essentials'] },
+      })
     ).resolves.toBeNull();
   });
 });

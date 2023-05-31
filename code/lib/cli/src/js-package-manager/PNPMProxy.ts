@@ -111,7 +111,7 @@ export class PNPMProxy extends JsPackageManager {
     }
   }
 
-  async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string | null> {
+  public async getPackageJSON(packageName: string, basePath?: string): Promise<PackageJson | null> {
     const pnpapiPath = findUpSync(['.pnp.js', '.pnp.cjs'], { cwd: basePath });
 
     if (pnpapiPath) {
@@ -126,12 +126,11 @@ export class PNPMProxy extends JsPackageManager {
         const pkgLocator = pnpApi.findPackageLocator(resolvedPath);
         const pkg = pnpApi.getPackageInformation(pkgLocator);
 
-        const packageJSON = fs.readFileSync(
-          path.join(pkg.packageLocation, 'package.json'),
-          'utf-8'
+        const packageJSON = JSON.parse(
+          fs.readFileSync(path.join(pkg.packageLocation, 'package.json'), 'utf-8')
         );
 
-        return semver.coerce(JSON.parse(packageJSON).version)?.version ?? null;
+        return packageJSON;
       } catch (error) {
         console.error('Error while fetching package version in Yarn PnP mode:', error);
         return null;
@@ -150,9 +149,13 @@ export class PNPMProxy extends JsPackageManager {
       return null;
     }
 
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+    return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  }
 
-    return semver.coerce(packageJson.version)?.version ?? null;
+  async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string | null> {
+    const packageJSON = await this.getPackageJSON(packageName, basePath);
+
+    return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

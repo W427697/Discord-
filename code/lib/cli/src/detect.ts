@@ -3,8 +3,7 @@ import findUp from 'find-up';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
-import { pathExistsSync } from 'fs-extra';
-import { join, resolve } from 'path';
+import { resolve } from 'path';
 import prompts from 'prompts';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
@@ -155,7 +154,7 @@ export function isStorybookInstantiated(configDir = resolve(process.cwd(), '.sto
 }
 
 export function detectPnp() {
-  return pathExistsSync(join(process.cwd(), '.pnp.cjs'));
+  return findUp.sync(['.pnp.js', '.pnp.cjs']);
 }
 
 export async function detectLanguage(packageManager: JsPackageManager) {

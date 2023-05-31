@@ -63,10 +63,10 @@ export class Yarn1Proxy extends JsPackageManager {
     return this.executeCommand({ command: `yarn`, args: [command, ...args], cwd });
   }
 
-  public async getPackageVersion(
+  public async getPackageJSON(
     packageName: string,
     basePath = process.cwd()
-  ): Promise<string | null> {
+  ): Promise<PackageJson | null> {
     const packageJsonPath = await findUpSync(
       (dir) => {
         const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
@@ -79,8 +79,15 @@ export class Yarn1Proxy extends JsPackageManager {
       return null;
     }
 
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
-    return semver.coerce(packageJson.version)?.version ?? null;
+    return JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
+  }
+
+  public async getPackageVersion(
+    packageName: string,
+    basePath = process.cwd()
+  ): Promise<string | null> {
+    const packageJson = await this.getPackageJSON(packageName, basePath);
+    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
   }
 
   public async findInstallations(pattern: string[]) {

@@ -81,10 +81,7 @@ export class NPMProxy extends JsPackageManager {
     return this.executeCommand({ command: 'npm', args: ['--version'] });
   }
 
-  public async getPackageVersion(
-    packageName: string,
-    basePath = process.cwd()
-  ): Promise<string | null> {
+  public async getPackageJSON(packageName: string, basePath?: string): Promise<PackageJson | null> {
     const packageJsonPath = await findUpSync(
       (dir) => {
         const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
@@ -97,8 +94,16 @@ export class NPMProxy extends JsPackageManager {
       return null;
     }
 
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
-    return semver.coerce(packageJson.version)?.version ?? null;
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson;
+  }
+
+  public async getPackageVersion(
+    packageName: string,
+    basePath = process.cwd()
+  ): Promise<string | null> {
+    const packageJson = await this.getPackageJSON(packageName, basePath);
+    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
   }
 
   getInstallArgs(): string[] {

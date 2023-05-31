@@ -71,7 +71,7 @@ const generator: Generator<{ projectName: string }> = async (
     },
     'angular',
     {
-      ...(useCompodoc && { extraPackages: ['@compodoc/compodoc'] }),
+      ...(useCompodoc && { extraPackages: ['@compodoc/compodoc', '@storybook/addon-docs'] }),
       addScripts: false,
       componentsDestinationPath: root ? `${root}/src/stories` : undefined,
       storybookConfigFolder: storybookFolder,

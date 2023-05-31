@@ -11,8 +11,8 @@ export const incompatibleAddons: Fix<IncompatibleAddonsOptions> = {
   id: 'incompatible-addons',
   promptOnly: true,
 
-  async check({ mainConfig }) {
-    const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
+  async check({ mainConfig, packageManager }) {
+    const incompatibleAddonList = await getIncompatibleAddons(mainConfig, packageManager);
 
     return incompatibleAddonList.length > 0 ? { incompatibleAddonList } : null;
   },

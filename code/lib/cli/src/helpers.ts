@@ -6,6 +6,7 @@ import chalk from 'chalk';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
+import findUp from 'find-up';
 import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
@@ -266,5 +267,5 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
 
 export async function isNxProject(packageManager: JsPackageManager) {
   const nxVersion = await packageManager.getPackageVersion('nx');
-  return nxVersion ?? fs.existsSync('nx.json');
+  return nxVersion ?? findUp.sync('nx.json');
 }

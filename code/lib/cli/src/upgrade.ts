@@ -189,7 +189,7 @@ export const doUpgrade = async ({
   }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
-  const beforeVersion = await getStorybookCoreVersion();
+  const beforeVersion = await getStorybookCoreVersion(packageManager);
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
 
@@ -238,7 +238,7 @@ export const doUpgrade = async ({
     automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
   if (!options.disableTelemetry) {
-    const afterVersion = await getStorybookCoreVersion();
+    const afterVersion = await getStorybookCoreVersion(packageManager);
     const { preCheckFailure, fixResults } = automigrationResults || {};
     const automigrationTelemetry = {
       automigrationResults: preCheckFailure ? null : fixResults,

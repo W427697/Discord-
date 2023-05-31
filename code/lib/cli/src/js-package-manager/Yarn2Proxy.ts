@@ -123,7 +123,7 @@ export class Yarn2Proxy extends JsPackageManager {
     }
   }
 
-  async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string | null> {
+  async getPackageJSON(packageName: string, basePath = process.cwd()): Promise<PackageJson | null> {
     const pnpapiPath = findUpSync(['.pnp.js', '.pnp.cjs'], { cwd: basePath });
 
     if (pnpapiPath) {
@@ -151,12 +151,11 @@ export class Yarn2Proxy extends JsPackageManager {
           baseFs: zipOpenFs,
         });
 
-        const virtualFile = virtualFs.readJsonSync(
-          path.join(pkg.packageLocation, 'package.json') as any
-        );
-        return semver.coerce(virtualFile.version)?.version ?? null;
+        return virtualFs.readJsonSync(path.join(pkg.packageLocation, 'package.json') as any);
       } catch (error) {
-        console.error('Error while fetching package version in Yarn PnP mode:', error);
+        if (error.code !== 'MODULE_NOT_FOUND') {
+          console.error('Error while fetching package version in Yarn PnP mode:', error);
+        }
         return null;
       }
     }
@@ -174,7 +173,12 @@ export class Yarn2Proxy extends JsPackageManager {
     }
 
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-    return semver.coerce(packageJson.version)?.version ?? null;
+    return packageJson;
+  }
+
+  async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string | null> {
+    const packageJSON = await this.getPackageJSON(packageName, basePath);
+    return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

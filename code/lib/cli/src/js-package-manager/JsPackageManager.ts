@@ -49,6 +49,11 @@ export abstract class JsPackageManager {
 
   public readonly cwd?: string;
 
+  public abstract getPackageJSON(
+    packageName: string,
+    basePath?: string
+  ): Promise<PackageJson | null>;
+
   public abstract getPackageVersion(packageName: string, basePath?: string): Promise<string | null>;
 
   // NOTE: for some reason yarn prefers the npm registry in
