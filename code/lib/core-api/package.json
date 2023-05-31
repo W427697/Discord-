@@ -23,28 +23,13 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "node": "./dist/index.js",
       "require": "./dist/index.js"
-    },
-    "./dist/common": {
-      "types": "./dist/common.d.ts",
-      "import": "./dist/common.mjs",
-      "require": "./dist/common.js"
     },
     "./dist/builder": {
       "types": "./dist/builder.d.ts",
-      "import": "./dist/builder.mjs",
+      "node": "./dist/builder.js",
       "require": "./dist/builder.js"
-    },
-    "./dist/server": {
-      "types": "./dist/server.d.ts",
-      "import": "./dist/server.mjs",
-      "require": "./dist/server.js"
-    },
-    "./dist/telemetry": {
-      "types": "./dist/telemetry.d.ts",
-      "import": "./dist/telemetry.mjs",
-      "require": "./dist/telemetry.js"
     },
     "./dist/presets/babel-cache-preset": {
       "types": "./dist/presets/babel-cache-preset.d.ts",
@@ -60,24 +45,14 @@
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
       "*": [
         "dist/index.d.ts"
       ],
-      "dist/common": [
-        "dist/common.d.ts"
-      ],
-      "dist/server": [
-        "dist/server.d.ts"
-      ],
       "dist/builder": [
         "dist/builder.d.ts"
-      ],
-      "dist/telemetry": [
-        "dist/telemetry.d.ts"
       ]
     }
   },
@@ -185,6 +160,9 @@
       "./src/telemetry.ts",
       "./src/presets/babel-cache-preset.ts",
       "./src/presets/common-preset.ts"
+    ],
+    "formats": [
+      "cjs"
     ],
     "platform": "node"
   },
