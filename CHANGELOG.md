@@ -1,3 +1,23 @@
+## 7.1.0-alpha.26 (May 31, 2023)
+
+#### Bug Fixes
+
+-   Addons: Fix `Addon_BaseAnnotations` type [#22771](https://github.com/storybooks/storybook/pull/22771)
+-   Viewport: Fix viewport menu [#22829](https://github.com/storybooks/storybook/pull/22829)
+
+#### Maintenance
+
+-   NextJS: Fix types [#22836](https://github.com/storybooks/storybook/pull/22836)
+-   React: Update babel dependencies to fix sandbox creation [#22824](https://github.com/storybooks/storybook/pull/22824)
+
+#### Build
+
+-   Build: sort package json files [#22847](https://github.com/storybooks/storybook/pull/22847)
+-   Build: cleanup the test-storybooks [#22846](https://github.com/storybooks/storybook/pull/22846)
+-   Build: fix the theme output during development [#22841](https://github.com/storybooks/storybook/pull/22841)
+-   Build: move deprecated packages [#22753](https://github.com/storybooks/storybook/pull/22753)
+-   Build: move builders [#22751](https://github.com/storybooks/storybook/pull/22751)
+
 ## 7.1.0-alpha.25 (May 26, 2023)
 
 #### Bug Fixes
