@@ -97,6 +97,7 @@ jobs:
           name: Install
           command: |
             cd scripts
+            pnpm -v
             pnpm install
       - save_cache:
           name: Save Yarn cache
