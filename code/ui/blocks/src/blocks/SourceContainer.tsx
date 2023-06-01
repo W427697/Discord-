@@ -1,7 +1,6 @@
 import type { FC, Context, PropsWithChildren } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 
-import { dequal as deepEqual } from 'dequal';
 import type { Channel } from '@storybook/channels';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -43,7 +42,6 @@ export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
   channel,
 }) => {
   const [sources, setSources] = useState<StorySources>({});
-  const [currentSource, setCurrentSource] = useState<SourceItem>({ code: '', format: 'html' });
 
   useEffect(() => {
     const handleSnippetRendered = (
@@ -66,7 +64,7 @@ export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
 
       const hash = args ? argsHash(args) : UNKNOWN_ARGS_HASH;
       // optimization: don't update if the source is the same
-      if (deepEqual(currentSource, { code: source, format })) return;
+      // if (deepEqual(currentSource, { code: source, format })) return;
 
       setSources((current) => {
         const newSources = {
@@ -77,12 +75,7 @@ export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
           },
         };
 
-        if (!deepEqual(currentSource, { code: source, format })) {
-          setCurrentSource({ code: source, format });
-          return newSources;
-        }
-
-        return current;
+        return newSources;
       });
     };
 
