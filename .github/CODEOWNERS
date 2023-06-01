@@ -1,0 +1,4 @@
+# Any change inside the `/code` and `/scripts` directories will require approval from @storybookjs/core team.
+
+/code/ @storybookjs/core
+/scripts/ @storybookjs/core
