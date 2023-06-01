@@ -132,7 +132,7 @@ export class PNPMProxy extends JsPackageManager {
 
         return packageJSON;
       } catch (error) {
-        console.error('Error while fetching package version in Yarn PnP mode:', error);
+        console.error('Error while fetching package version in PNPM PnP mode:', error);
         return null;
       }
     }
