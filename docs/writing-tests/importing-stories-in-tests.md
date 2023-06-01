@@ -12,10 +12,10 @@ Stories are a practical starting point for UI testing. Import stories into tools
 
 Storybook has test addons for core frameworks React, Vue (2,3), and Angular. This allows you to reuse stories along with all of their mocks, dependencies, and context.
 
-- [@storybook/testing-react](https://storybook.js.org/addons/@storybook/testing-react)
+<!-- - [@storybook/testing-react](https://storybook.js.org/addons/@storybook/testing-react)
 - [@storybook/testing-vue](https://storybook.js.org/addons/@storybook/testing-vue)
 - [@storybook/testing-vue3](https://storybook.js.org/addons/@storybook/testing-vue3)
-- [@storybook/testing-angular](https://storybook.js.org/addons/@storybook/testing-angular)
+- [@storybook/testing-angular](https://storybook.js.org/addons/@storybook/testing-angular) -->
 
 ### Install the addon
 
@@ -61,15 +61,9 @@ Update your test script to include the configuration file:
 
 <!-- prettier-ignore-end -->
 
-## Example with Testing Library
+## Write a test with Testing Library
 
 [Testing Library](https://testing-library.com/) is a suite of helper libraries for browser-based interaction tests. With [Component Story Format](../api/csf.md), your stories are reusable with Testing Library. Each named export (story) is renderable within your testing setup.
-
-<div class="aside">
-
-💡 You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
-
-</div>
 
 For example, if you were working on a login component and wanted to test the invalid credentials scenario, here's how you could write your test:
 
@@ -88,9 +82,67 @@ For example, if you were working on a login component and wanted to test the inv
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+💡 You can use Testing Library out-of-the-box with [Storybook Interaction Testing](./interaction-testing.md).
+
+</div>
+
 Once the test runs, it loads the story and renders it. [Testing Library](https://testing-library.com/) then emulates the user's behavior and checks if the component state has updated.
 
-## Example with Cypress
+### Configure
+
+By default, Storybook offers a zero-config setup for React allowing you to run your stories as tests with Testing Library. However you can extend your test setup and include additional global decorators, parameters and other features by adding a cpmfiguration file. To do so, create a `setup.js|ts` file as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/storybook-testing-addon-optional-config.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Update your test script to include the configuration file:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/storybook-testing-addon-optional-config-scripts.json.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Run tests on a single story
+
+To allow your tests to run on a single story, you can use the `composeStory` function from the appropriate framework or supported addon. However if you're relying on this method, we recommend that you supply the story metadata (e.g., the [`default export](../writing-stories/introduction.md#default-export)) to the `composeStory` function. This ensures that your tests are able to accurately determine correct information about the story. For example:
+
+<!-- prettier-ignore-start -->
+```js
+// example goes here
+```
+
+<!-- prettier-ignore-end -->
+
+### Combine stories into a single test
+
+If you intend to test multiple stories in a single test, you can use the `composeStories` function from the appropriate framework or supported addon. The function will process every component story you've specified, including any [`args`](../writing-stories/args.md) or [`decorators`](../writing-stories/decorators.md) you've defined. For example:
+
+<!-- prettier-ignore-start -->
+```js
+// example goes here
+```
+
+<!-- prettier-ignore-end -->
+
+## End-to-end testing with Storybook
+
+Storybook seamlessly integrates with additional testing frameworks like Cypress and Playwright to provide a comprehensive testing solution. By leveraging the Component Story Format (CSF), developers can write test cases that simulate user interactions and verify the behavior of individual components within the Storybook environment. This approach enables developers to thoroughly test their components' functionality, responsiveness, and visual appearance across different scenarios, resulting in more robust and reliable applications.
+
+### With Cypress
 
 [Cypress](https://www.cypress.io/) is an end-to-end testing framework. It enables you to test a complete instance of your application by simulating user behavior. With Component Story Format, your stories are reusable with Cypress. Each named export (in other words, a story) is renderable within your testing setup.
 
@@ -136,7 +188,7 @@ When Cypress runs your test, it loads Storybook's isolated iframe and checks if 
 
 ![Cypress running successfully](./cypress-success-run-tests-optimized.png)
 
-## Example with Playwright
+### With Playwright
 
 [Playwright](https://playwright.dev/) is a browser automation tool and end-to-end testing framework from Microsoft. It offers cross-browser automation, mobile testing with device emulation, and headless testing. With Component Story Format, your stories are reusable with Playwright. Each named export (in other words, a story) is renderable within your testing setup.
 
@@ -180,6 +232,12 @@ With Playwright, you can write a test to check if the inputs are filled and matc
 Once you execute Playwright, it opens a new browser window, loads Storybook's isolated iframe, asserts if the inputs contain the specified values, and displays the test results in the terminal.
 
 ---
+
+## Troubleshooting
+
+### Run tests in other frameworks
+
+Storybook provides community led addons for other frameworks like [Vue 2](https://storybook.js.org/addons/@storybook/testing-vue), [Vue 3](https://storybook.js.org/addons/@storybook/testing-vue3) and [Angular](https://storybook.js.org/addons/@storybook/testing-angular). However these addons are still lacking support for the latest stable Storybook release. If you're interested in helping out, we recommend reaching out to the maintainers using the default communication channels (GitHub and [Discord server](https://discord.com/channels/486522875931656193/839297503446695956)).
 
 #### Learn about other UI tests
 
