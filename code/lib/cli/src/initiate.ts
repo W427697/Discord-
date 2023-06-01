@@ -51,7 +51,7 @@ const installStorybook = async <Project extends ProjectType>(
   };
 
   const language = await detectLanguage(packageManager);
-  const pnp = detectPnp();
+  const pnp = await detectPnp();
 
   const generatorOptions = {
     language,

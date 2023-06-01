@@ -153,8 +153,8 @@ export function isStorybookInstantiated(configDir = resolve(process.cwd(), '.sto
   return fs.existsSync(configDir);
 }
 
-export function detectPnp() {
-  return findUp.sync(['.pnp.js', '.pnp.cjs']);
+export async function detectPnp() {
+  return !!findUp.sync(['.pnp.js', '.pnp.cjs']);
 }
 
 export async function detectLanguage(packageManager: JsPackageManager) {
