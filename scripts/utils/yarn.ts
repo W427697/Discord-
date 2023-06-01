@@ -85,7 +85,8 @@ export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOpt
     // We need to be able to update lockfile when bootstrapping the examples
     `yarn config set enableImmutableInstalls false`,
     // Discard all YN0013 - FETCH_NOT_CACHED messages
-    `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`,
+    // Error on YN0060 - INCOMPATIBLE_PEER_DEPENDENCY
+    `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" }, { "code": "YN0060", "level": "error" } ]'`,
   ];
 
   await exec(
