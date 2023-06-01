@@ -87,7 +87,7 @@ function extractProp(
   typeSystem: TypeSystem,
   createPropDef: PropDefFactory
 ): ExtractedProp | null {
-  const jsDocParsingResult = parseJsDoc(docgenInfo.description, {});
+  const jsDocParsingResult = parseJsDoc(docgenInfo.description);
   const isIgnored = jsDocParsingResult.includesJsDoc && jsDocParsingResult.ignore;
 
   if (!isIgnored) {
