@@ -97,6 +97,7 @@ export const scopedResolve = (id: string): string => {
   let scopedModulePath;
 
   try {
+    // TODO: Remove in next major release (SB 8.0) and use the statement in the catch block per default instead
     scopedModulePath = require.resolve(id, { paths: [path.resolve()] });
   } catch (e) {
     scopedModulePath = require.resolve(id);
