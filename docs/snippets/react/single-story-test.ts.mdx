@@ -1,16 +1,16 @@
-```js
-// Form.test.js
+```ts
+// Form.test.ts
 
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { composeStory } from '@storybook/react';
 
-import Meta, { InvalidForm as InvalidFormStory } from './LoginForm.stories'; //👈 Our stories imported here.
+import Meta, { ValidForm as ValidFormStory } from './LoginForm.stories';
 
-const FormError = composeStory(InvalidFormStory, Meta);
+const FormOK = composeStory(ValidFormStory, Meta);
 
-test('Checks if the form is valid', () => {
-  render(<FormError />);
+test('Validates form', () => {
+  render(<FormOK />);
 
   const buttonElement = screen.getByRole('button', {
     name: 'Submit',
@@ -19,6 +19,6 @@ test('Checks if the form is valid', () => {
   fireEvent.click(buttonElement);
 
   const isFormValid = screen.getByLabelText('invalid-form');
-  expect(isFormValid).toBeInTheDocument();
+  expect(isFormValid).not.toBeInTheDocument();
 });
 ```

@@ -169,9 +169,21 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'importing-stories-in-tests',
+          pathSegment: '',
           title: 'Import stories in tests',
-          type: 'link',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'end-to-end-testing',
+              title: 'End-to-end tests',
+              type: 'link',
+            },
+            {
+              pathSegment: 'unit-testing',
+              title: 'Unit tests',
+              type: 'link',
+            },
+          ],
         },
       ],
     },
