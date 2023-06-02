@@ -7586,7 +7586,7 @@ __metadata:
     svelte-check: ^3.4.3
     sveltedoc-parser: ^4.2.1
     type-fest: 2.19.0
-    typescript: ~4.9.3
+    typescript: ^5.0.4
   peerDependencies:
     svelte: ^3.1.0
   languageName: unknown
@@ -7876,6 +7876,7 @@ __metadata:
     "@types/node": ^16.0.0
     cross-spawn: ^7.0.3
     lit: 2.3.1
+    tiny-invariant: ^1.3.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
     web-component-analyzer: ^1.1.6
@@ -29235,8 +29236,8 @@ __metadata:
   linkType: hard
 
 "svelte-preprocess@npm:^5.0.3":
-  version: 5.0.4
-  resolution: "svelte-preprocess@npm:5.0.4"
+  version: 5.0.3
+  resolution: "svelte-preprocess@npm:5.0.3"
   dependencies:
     "@types/pug": ^2.0.6
     detect-indent: ^6.1.0
@@ -29253,7 +29254,7 @@ __metadata:
     sass: ^1.26.8
     stylus: ^0.55.0
     sugarss: ^2.0.0 || ^3.0.0 || ^4.0.0
-    svelte: ^3.23.0 || ^4.0.0-next.0 || ^4.0.0
+    svelte: ^3.23.0
     typescript: ">=3.9.5 || ^4.0.0 || ^5.0.0"
   peerDependenciesMeta:
     "@babel/core":
@@ -29276,7 +29277,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 1ed64b96a91327a47992df0b82df708b5cda92e1da211edbedaf411e633a0be5a8425d19f996abc8dcef52dadd26b5474924dd9eeb30a7b409bf60c33b689d6c
+  checksum: ec4fd22320eba631d7abc2641f542ec7e10f8a1862eb522fb5e12651c1f541d048c64191d770841a48793b8051b5bf6b09307505d66d6bb9786ba6807918057d
   languageName: node
   linkType: hard
 
