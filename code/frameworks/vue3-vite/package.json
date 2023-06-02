@@ -52,7 +52,7 @@
     "@storybook/vue3": "7.1.0-alpha.26",
     "@vitejs/plugin-vue": "^4.0.0",
     "magic-string": "^0.27.0",
-    "vue-component-meta": "^1.6.5"
+    "vue-component-meta": "^1.7.3"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",

@@ -7720,7 +7720,7 @@ __metadata:
     typescript: ~4.9.3
     vite: ^4.0.0
     vue: ^2.7.10
-    vue-component-meta: ^1.6.5
+    vue-component-meta: ^1.7.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7764,7 +7764,7 @@ __metadata:
     magic-string: ^0.27.0
     typescript: ~4.9.3
     vite: ^4.0.0
-    vue-component-meta: ^1.6.5
+    vue-component-meta: ^1.7.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -31299,7 +31299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-component-meta@npm:^1.6.5":
+"vue-component-meta@npm:^1.7.3":
   version: 1.7.8
   resolution: "vue-component-meta@npm:1.7.8"
   dependencies:
