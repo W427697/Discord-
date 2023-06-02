@@ -26,7 +26,8 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     : {};
 
   const packageJson = await packageManager.retrievePackageJson();
-  const craVersion = semver.coerce(packageJson.dependencies['react-scripts'])?.version;
+  const dependencyRaw = packageJson.dependencies['react-scripts'] || packageJson.devDependencies['react-scripts']
+  const craVersion = semver.coerce(dependencyRaw)?.version;
   const isCra5OrHigher = craVersion && semver.gte(craVersion, '5.0.0');
   const updatedOptions = isCra5OrHigher ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
