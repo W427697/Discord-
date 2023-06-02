@@ -131,7 +131,8 @@ export class Channel {
     const listeners = this.listeners(event.type);
     if (listeners && listeners.length) {
       listeners.forEach((fn) => {
-        fn.apply(event, event.args);
+        // args should always be an array, but serverChannel seems to sometimes send a single value
+        fn.apply(event, Array.isArray(event.args) ? event.args : [event.args]);
       });
     }
     this.data[event.type] = event.args;

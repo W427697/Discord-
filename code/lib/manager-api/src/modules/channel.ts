@@ -8,8 +8,10 @@ import type { API, ModuleFn } from '../index';
 export interface SubAPI {
   getChannel: () => API_Provider<API>['channel'];
   on: (type: string, cb: Listener) => () => void;
+  onServerAction: (type: string, cb: Listener) => () => void;
   off: (type: string, cb: Listener) => void;
   emit: (type: string, ...args: any[]) => void;
+  emitServerAction: (type: string, ...args: any[]) => void;
   once: (type: string, cb: Listener) => void;
   collapseAll: () => void;
   expandAll: () => void;
@@ -25,6 +27,11 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
 
       return () => provider.channel.removeListener(type, cb);
     },
+    onServerAction: (type, cb) => {
+      provider.serverChannel.addListener(type, cb);
+
+      return () => provider.serverChannel.removeListener(type, cb);
+    },
     off: (type, cb) => provider.channel.removeListener(type, cb),
     once: (type, cb) => provider.channel.once(type, cb),
     emit: (type, data, ...args) => {
@@ -39,6 +46,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
             : 'storybook-preview-iframe';
       }
       provider.channel.emit(type, data, ...args);
+    },
+    emitServerAction: (type, data, ...args) => {
+      provider.serverChannel.emit(type, data, ...args);
     },
 
     collapseAll: () => {
