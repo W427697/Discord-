@@ -46,12 +46,12 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
 
       const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
 
-      const nestedTypes =
-        sbType.name === 'object' && section === 'props' ? nestedInfo(sbType as SBObjectType) : '';
+      // const nestedTypes =
+      //   sbType.name === 'object' && section === 'props' ? nestedInfo(sbType as SBObjectType) : '';
       const definedTypes = `${type.replace(' | undefined', '')}`;
       const descriptions = `${
         tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
-      }${description} ${nestedTypes} `;
+      }${description} `; // nestedTypes
 
       argTypes[name] = {
         name,
@@ -125,13 +125,13 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
   return { name: schemaType } as unknown as SBType;
 };
 
-function nestedInfo(sbType: SBObjectType) {
-  return Object.keys(sbType.value)
-    .map((key) => {
-      const value = sbType.value[key] as MetaDocgenInfo;
-      return `
-    •${key}: ${value.type} ${value.description}
-      `;
-    })
-    .join('<br>');
-}
+// function nestedInfo(sbType: SBObjectType) {
+//   return Object.keys(sbType.value)
+//     .map((key) => {
+//       const value = sbType.value[key] as MetaDocgenInfo;
+//       return `
+//     •${key}: ${value.type} ${value.description}
+//       `;
+//     })
+//     .join('<br>');
+// }
