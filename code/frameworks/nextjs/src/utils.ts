@@ -94,7 +94,6 @@ export const addScopedAlias = (baseConfig: WebpackConfig, name: string, alias?: 
  * scopedResolve('styled-jsx') === '/some/path/node_modules/styled-jsx'
  */
 export const scopedResolve = (id: string): string => {
-  // id = css-loader/package.json
   let scopedModulePath;
 
   try {
