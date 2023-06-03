@@ -35,7 +35,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description required array object  ",
+          "description": "description required array object",
           "name": "array",
           "table": Object {
             "category": "events",
@@ -59,7 +59,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description optional array object  ",
+          "description": "description optional array object",
           "name": "arrayOptional",
           "table": Object {
             "category": "events",
@@ -83,7 +83,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": "1",
           },
-          "description": "description bar is optional number  ",
+          "description": "description bar is optional number",
           "name": "bar",
           "table": Object {
             "category": "events",
@@ -107,7 +107,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": "[\\"foo\\", \\"bar\\"]",
           },
-          "description": "description baz is string array  ",
+          "description": "description baz is string array",
           "name": "baz",
           "table": Object {
             "category": "events",
@@ -131,7 +131,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description enum value  ",
+          "description": "description enum value",
           "name": "enumValue",
           "table": Object {
             "category": "events",
@@ -155,7 +155,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "@default: \\"rounded\\"<br>@since: v1.0.0<br>@see: https://vuejs.org/<br>@deprecated: v1.1.0<br><br>string foo  ",
+          "description": "@default: \\"rounded\\"<br>@since: v1.0.0<br>@see: https://vuejs.org/<br>@deprecated: v1.1.0<br><br>string foo",
           "name": "foo",
           "table": Object {
             "category": "events",
@@ -196,7 +196,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "  ",
+          "description": "",
           "name": "inlined",
           "table": Object {
             "category": "events",
@@ -220,7 +220,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description literal type alias that require context  ",
+          "description": "description literal type alias that require context",
           "name": "literalFromContext",
           "table": Object {
             "category": "events",
@@ -244,7 +244,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description nested is required nested object  ",
+          "description": "description nested is required nested object",
           "name": "nested",
           "table": Object {
             "category": "events",
@@ -268,7 +268,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description required nested object with intersection  ",
+          "description": "description required nested object with intersection",
           "name": "nestedIntersection",
           "table": Object {
             "category": "events",
@@ -292,7 +292,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description optional nested object  ",
+          "description": "description optional nested object",
           "name": "nestedOptional",
           "table": Object {
             "category": "events",
@@ -316,7 +316,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "  ",
+          "description": "",
           "name": "recursive",
           "table": Object {
             "category": "events",
@@ -340,7 +340,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description union is required union type  ",
+          "description": "description union is required union type",
           "name": "union",
           "table": Object {
             "category": "events",
@@ -364,7 +364,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "description unionOptional is optional union type  ",
+          "description": "description unionOptional is optional union type",
           "name": "unionOptional",
           "table": Object {
             "category": "events",
@@ -401,7 +401,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "  ",
+          "description": "",
           "name": "bar",
           "table": Object {
             "category": "props",
@@ -468,7 +468,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "  ",
+          "description": "",
           "name": "baz",
           "table": Object {
             "category": "props",
@@ -492,7 +492,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "  ",
+          "description": "",
           "name": "foo",
           "table": Object {
             "category": "props",
@@ -561,9 +561,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": " 
-          •num: number 
-             ",
+          "description": "",
           "name": "default",
           "table": Object {
             "category": "props",
@@ -599,9 +597,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": " 
-          •str: string 
-             ",
+          "description": "",
           "name": "named",
           "table": Object {
             "category": "props",
@@ -637,7 +633,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": "  ",
+          "description": "",
           "name": "no-bind",
           "table": Object {
             "category": "props",
@@ -662,11 +658,7 @@ describe('extractArgTypes', () => {
           "defaultValue": Object {
             "summary": undefined,
           },
-          "description": " 
-          •num: number 
-            <br>
-          •str: string 
-             ",
+          "description": "",
           "name": "vbind",
           "table": Object {
             "category": "props",
