@@ -62,7 +62,9 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           defaultValue: { summary: defaultSummary },
           category: section,
         },
-        control: { disable: section !== 'props' && section !== 'slots' },
+        control: {
+          disable: section !== 'props' && section !== 'slots',
+        },
       };
     });
   });
@@ -70,7 +72,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
   return argTypes;
 };
 
-export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
+export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
   if (typeof schemaType !== 'object') {
     return { name: schemaType } as SBScalarType;
   }
@@ -88,8 +90,12 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
     const numberIndex = values.indexOf('number');
     const booleanIndex = values.indexOf('boolean');
     const RecordIndex = values.indexOf('Record');
+
     if (stringIndex !== -1 || numberIndex !== -1 || booleanIndex !== -1 || RecordIndex !== -1) {
-      const typeName = values[stringIndex ?? numberIndex ?? booleanIndex ?? RecordIndex ?? 0];
+      const typeName =
+        values[
+          (stringIndex + 1 || numberIndex + 1 || booleanIndex + 1 || RecordIndex + 1 || 1) - 1
+        ];
       return { ...sbType, name: typeName, value: undefined } as SBScalarType;
     }
     const hasObject = values.find((item) =>
