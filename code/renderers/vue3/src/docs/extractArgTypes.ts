@@ -51,6 +51,15 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
       }${description}`; // nestedTypes
 
+      // enalble control only for props and slots
+      const control: { disable: boolean; type?: string } = {
+        disable: section !== 'props' && section !== 'slots',
+      };
+      // set control to boolean if type is boolean
+      if (definedTypes === 'boolean') {
+        control.type = 'boolean';
+      }
+
       argTypes[name] = {
         name,
         description: descriptions.replace('undefined', ''),
@@ -62,9 +71,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           defaultValue: { summary: defaultSummary },
           category: section,
         },
-        control: {
-          disable: section !== 'props' && section !== 'slots',
-        },
+        control,
       };
     });
   });
@@ -103,7 +110,6 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
         return item.toString().includes(substring);
       })
     );
-
     return {
       ...sbType,
       name: hasObject ? 'array' : 'enum',

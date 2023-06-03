@@ -45,10 +45,11 @@ interface MyProps {
 	 * description bar is optional number 
 	 */
 	bar?: number,
+	baz: boolean,
 	/**
 	 * description baz is string array 
 	 */
-	baz?: string[],
+	stringArray?: string[],
 	/**
 	 * description union is required union type
 	 */
@@ -97,7 +98,7 @@ interface MyProps {
 
 withDefaults(defineProps<MyProps>(), {
 	bar: 1,
-	baz: () => ['foo', 'bar'],
+	stringArray: () => ['foo', 'bar'],
 });
 </script>
 <template>
