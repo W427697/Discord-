@@ -51,7 +51,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       const definedTypes = `${type.replace(' | undefined', '')}`;
       const descriptions = `${
         tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
-      }${description} `; // nestedTypes
+      }${description}`; // nestedTypes
 
       argTypes[name] = {
         name,
