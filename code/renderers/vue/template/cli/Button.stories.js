@@ -8,7 +8,7 @@ export default {
   render: (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     components: { MyButton },
-    template: '<my-button @onClick="onClick" v-bind="$props" />',
+    template: '<my-button  v-bind="$props" />',
   }),
   argTypes: {
     backgroundColor: { control: 'color' },
