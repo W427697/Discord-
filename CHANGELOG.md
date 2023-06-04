@@ -1,3 +1,9 @@
+## 7.0.19 (June 4, 2023)
+
+#### Bug Fixes
+
+-   Server: Fix .stories.yml support [#22906](https://github.com/storybooks/storybook/pull/22906)
+
 ## 7.0.18 (May 26, 2023)
 
 #### Bug Fixes
