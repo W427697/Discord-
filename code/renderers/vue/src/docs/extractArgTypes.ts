@@ -28,7 +28,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
   argTypeSections.forEach((section) => {
     const props = extractComponentProps(component, section);
 
-    props.forEach(({ propDef, docgenInfo, jsDocTags }) => {
+    props.forEach(({ docgenInfo }) => {
       const {
         name,
         type,
@@ -69,8 +69,8 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           jsDocTags: tags,
           defaultValue: { summary: defaultSummary },
           category: section,
-          control,
         },
+        control,
       };
     });
   });
