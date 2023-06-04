@@ -50,7 +50,7 @@
     "rimraf": "^3.0.2"
   },
   "peerDependencies": {
-    "@storybook/addon-storyshots": "7.1.0-alpha.26",
+    "@storybook/addon-storyshots": "7.1.0-alpha.27",
     "puppeteer": ">=2.0.0"
   },
   "peerDependenciesMeta": {
