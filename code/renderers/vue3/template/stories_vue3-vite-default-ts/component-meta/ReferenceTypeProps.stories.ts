@@ -1,6 +1,4 @@
 import type { StoryObj, Meta } from '@storybook/vue3';
-// import ComponentJSetup from './reference-type-props/component-js-setup.vue';
-// import ComponentJS from './reference-type-props/component-js.vue';
 import Component from './reference-type-props/component.vue';
 
 const meta = {
@@ -18,7 +16,8 @@ enum MyEnum {
 export const ReferenceTypeProps: Story = {
   args: {
     foo: 'Foo',
-    baz: ['Baz', 'Bar', 'Foo'],
+    baz: true,
+    stringArray: ['Foo', 'Bar', 'Baz'],
     bar: 1,
     unionOptional: 'Foo',
     union: 'Foo',
