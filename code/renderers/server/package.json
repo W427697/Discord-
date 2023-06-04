@@ -61,7 +61,8 @@
     "@storybook/types": "7.1.0-alpha.26",
     "@types/fs-extra": "^11.0.1",
     "fs-extra": "^11.1.0",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.0.0",
+    "yaml": "^2.3.1"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
