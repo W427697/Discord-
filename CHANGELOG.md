@@ -4,6 +4,10 @@
 
 -   Server: Fix .stories.yml support [#22906](https://github.com/storybooks/storybook/pull/22906)
 
+#### Build
+
+-   Build: Fix the theme output during development [#22841](https://github.com/storybooks/storybook/pull/22841)
+
 ## 7.0.18 (May 26, 2023)
 
 #### Bug Fixes
