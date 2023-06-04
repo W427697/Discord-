@@ -45,9 +45,12 @@ interface MyProps {
 	 * description bar is optional number 
 	 */
 	bar?: number,
+	/**
+	 * description baz is required boolean
+	 */
 	baz: boolean,
 	/**
-	 * description baz is string array 
+	 * description stringArray is string array 
 	 */
 	stringArray?: string[],
 	/**
