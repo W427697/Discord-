@@ -7,7 +7,7 @@ import './button.css';
 
 export default {
   name: 'my-button',
-
+  emits: ['onClick'],
   props: {
     label: {
       type: String,
