@@ -90,13 +90,13 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult?: JsDocParsingRes
       propDef.description = jsDocParsingResult.description;
     }
 
-    const value = {
+    const value: JsDocTags = {
       ...extractedTags,
       params: extractedTags?.params?.map((x) => ({
         name: x.getPrettyName(),
         description: x.description,
       })),
-    } satisfies JsDocTags;
+    };
 
     if (Object.values(value).filter(Boolean).length > 0) {
       // eslint-disable-next-line no-param-reassign
