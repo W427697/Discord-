@@ -12,7 +12,9 @@ import type {
   ProjectAnnotations,
 } from '@storybook/types';
 
-import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
+// TODO: don't use internal type when https://github.com/sveltejs/svelte/issues/8692 has been resolved
+import type { ComponentType } from 'svelte/types/runtime/internal';
+import type { ComponentProps, SvelteComponentTyped } from 'svelte';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { SvelteRenderer } from './types';
 
