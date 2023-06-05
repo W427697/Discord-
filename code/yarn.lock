@@ -7713,10 +7713,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue-vite@workspace:frameworks/vue-vite"
   dependencies:
+    "@babel/core": ^7.15.0
     "@storybook/builder-vite": 7.1.0-alpha.27
     "@storybook/core-common": 7.1.0-alpha.27
     "@storybook/core-server": 7.1.0-alpha.27
     "@storybook/vue": 7.1.0-alpha.27
+    css-loader: ^6.2.0
     magic-string: ^0.27.0
     typescript: ~4.9.3
     vite: ^4.0.0
@@ -7808,15 +7810,15 @@ __metadata:
     "@storybook/preview-api": 7.1.0-alpha.27
     "@storybook/types": 7.1.0-alpha.27
     "@types/prettier": 2.7.2
-    "@vue/vue3-jest": ^29.0.0
+    "@vue/vue3-jest": 29
     ts-dedent: ^2.0.0
     type-fest: 2.19.0
     typescript: ~4.9.3
-    vue: ^3.3.0
+    vue: ^3.2.47
     vue-component-type-helpers: ^1.6.5
     vue-tsc: ^1.2.0
   peerDependencies:
-    vue: ^3.0.0 || ^3.3.0
+    vue: ^3.0.0
   languageName: unknown
   linkType: soft
 
@@ -7824,12 +7826,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue@workspace:renderers/vue"
   dependencies:
+    "@babel/core": "*"
     "@storybook/client-logger": 7.1.0-alpha.27
     "@storybook/core-client": 7.1.0-alpha.27
     "@storybook/docs-tools": 7.1.0-alpha.27
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.1.0-alpha.27
     "@storybook/types": 7.1.0-alpha.27
+    css-loader: "*"
     ts-dedent: ^2.0.0
     type-fest: 2.19.0
     vue: ^2.7.14
@@ -9752,7 +9756,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/vue3-jest@npm:^29.0.0":
+"@vue/vue3-jest@npm:29":
   version: 29.2.4
   resolution: "@vue/vue3-jest@npm:29.2.4"
   dependencies:
@@ -31522,7 +31526,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.33, vue@npm:^3.3.0":
+"vue@npm:^3.2.33, vue@npm:^3.2.47":
   version: 3.3.4
   resolution: "vue@npm:3.3.4"
   dependencies:
