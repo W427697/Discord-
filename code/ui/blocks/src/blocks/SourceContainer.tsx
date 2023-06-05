@@ -63,6 +63,12 @@ export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
         : idOrEvent;
 
       const hash = args ? argsHash(args) : UNKNOWN_ARGS_HASH;
+      // FIXME: In SB8.0 when we remove the Source block deprecations,
+      // we should restore this optimizationand make the Source block
+      // smarter about understanding when its args change.
+      //
+      // See https://github.com/storybookjs/storybook/pull/22807
+      //
       // optimization: don't update if the source is the same
       // if (deepEqual(currentSource, { code: source, format })) return;
 
