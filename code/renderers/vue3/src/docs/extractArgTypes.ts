@@ -17,6 +17,8 @@ type MetaDocgenInfo = DocgenInfo & {
   schema: Schema;
   tags: { name: string; text: string }[];
 };
+type ArgControl = { disable: boolean; type?: string; types?: string[] };
+
 const ARG_TYPE_SECTIONS = ['props', 'events', 'slots', 'exposed'];
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
@@ -51,15 +53,6 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
       }${description}`; // nestedTypes
 
-      // enalble control only for props and slots
-      const control: { disable: boolean; type?: string } = {
-        disable: section !== 'props' && section !== 'slots',
-      };
-      // set control to boolean if type is boolean
-      if (definedTypes === 'boolean') {
-        control.type = 'boolean';
-      }
-
       argTypes[name] = {
         name,
         description: descriptions.replace('undefined', ''),
@@ -71,7 +64,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           defaultValue: { summary: defaultSummary },
           category: section,
         },
-        control,
+        control: argTypeControl(definedTypes, section),
       };
     });
   });
@@ -134,3 +127,23 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
   }
   return { name: schemaType } as unknown as SBType;
 };
+
+function argTypeControl(definedTypes: string, section: string) {
+  const control: ArgControl = {
+    disable: section !== 'props' && section !== 'slots',
+  };
+
+  control.types = definedTypes
+    .split('|')
+    .map((item) => {
+      const trimmedType = item.trim();
+      if (trimmedType === 'string') return 'text';
+      return trimmedType;
+    })
+    .filter((item) => ['text', 'string', 'number', 'boolean', 'enum', 'object'].includes(item));
+
+  // set control to boolean if type is boolean
+  if (definedTypes === 'boolean') control.type = 'boolean';
+
+  return control;
+}
