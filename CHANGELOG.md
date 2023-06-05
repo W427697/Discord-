@@ -3,6 +3,7 @@
 #### Bug Fixes
 
 -   Server: Fix .stories.yml support [#22906](https://github.com/storybooks/storybook/pull/22906)
+-   Docs: Fix Source block snippet updates [#22835](https://github.com/storybooks/storybook/pull/22835)
 
 #### Build
 
