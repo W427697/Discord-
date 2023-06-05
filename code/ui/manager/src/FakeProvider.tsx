@@ -17,6 +17,14 @@ export class FakeProvider extends Provider {
       addListener: () => {},
       removeListener: () => {},
     };
+    // @ts-expect-error (Converted from ts-ignore)
+    this.serverChannel = {
+      on: () => {},
+      off: () => {},
+      emit: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+    };
   }
 
   // @ts-expect-error (Converted from ts-ignore)
