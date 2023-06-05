@@ -60,7 +60,7 @@ interface MyProps {
 	/**
 	 * description unionOptional is optional union type
 	 */
-	unionOptional?: string | number,
+	unionOptional?: string | number | boolean,
 	/**
 	 * description nested is required nested object
 	 */
