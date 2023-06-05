@@ -218,7 +218,7 @@ export abstract class JsPackageManager {
       try {
         await this.runAddDeps(dependencies, options.installAsDevDependencies);
       } catch (e) {
-        logger.error('An error occurred while installing dependencies.');
+        logger.error('\nAn error occurred while installing dependencies:');
         logger.log(e.message);
         throw new HandledError(e);
       }
@@ -365,25 +365,6 @@ export abstract class JsPackageManager {
     });
   }
 
-  public async addESLintConfig() {
-    const packageJson = await this.retrievePackageJson();
-    await this.writePackageJson({
-      ...packageJson,
-      eslintConfig: {
-        ...packageJson.eslintConfig,
-        overrides: [
-          ...(packageJson.eslintConfig?.overrides || []),
-          {
-            files: ['**/*.stories.*'],
-            rules: {
-              'import/no-anonymous-default-export': 'off',
-            },
-          },
-        ],
-      },
-    });
-  }
-
   public async addScripts(scripts: Record<string, string>) {
     const packageJson = await this.retrievePackageJson();
     await this.writePackageJson({
@@ -440,6 +421,7 @@ export abstract class JsPackageManager {
     stdio?: 'inherit' | 'pipe'
   ): string;
   public abstract findInstallations(pattern?: string[]): Promise<InstallationMetadata | undefined>;
+  public abstract parseErrorFromLogs(logs?: string): string;
 
   public executeCommandSync({
     command,
