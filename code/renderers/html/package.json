@@ -1,6 +1,6 @@
 {
   "name": "@storybook/html",
-  "version": "7.1.0-alpha.26",
+  "version": "7.1.0-alpha.27",
   "description": "Storybook HTML renderer",
   "keywords": [
     "storybook"
@@ -48,11 +48,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "7.1.0-alpha.26",
-    "@storybook/docs-tools": "7.1.0-alpha.26",
+    "@storybook/core-client": "7.1.0-alpha.27",
+    "@storybook/docs-tools": "7.1.0-alpha.27",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.26",
-    "@storybook/types": "7.1.0-alpha.26",
+    "@storybook/preview-api": "7.1.0-alpha.27",
+    "@storybook/types": "7.1.0-alpha.27",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -74,5 +74,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "515abaa55abc8ad20f906e4ce46cde3d3850991e"
+  "gitHead": "2625ab17064b29167746908ad7e73947c7616f11"
 }
