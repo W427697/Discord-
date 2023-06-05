@@ -1663,13 +1663,23 @@ describe('stories API', () => {
       await init();
 
       await expect(
-        API.updateStatus({ 'a-story-id': { 'a-addon-id': 'loading' } })
+        API.updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+        })
       ).resolves.not.toThrow();
 
       expect(store.getState().status).toMatchInlineSnapshot(`
         Object {
           "a-story-id": Object {
-            "a-addon-id": "loading",
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "pending",
+              "title": "an addon title",
+            },
           },
         }
       `);
@@ -1691,19 +1701,31 @@ describe('stories API', () => {
       await init();
 
       await expect(
-        API.updateStatus({
-          'a-story-id': { 'a-addon-id': 'loading' },
-          'another-story-id': { 'a-addon-id': 'ready' },
+        API.updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
         })
       ).resolves.not.toThrow();
 
       expect(store.getState().status).toMatchInlineSnapshot(`
         Object {
           "a-story-id": Object {
-            "a-addon-id": "loading",
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "pending",
+              "title": "an addon title",
+            },
           },
           "another-story-id": Object {
-            "a-addon-id": "ready",
+            "a-addon-id": Object {
+              "description": "",
+              "status": "success",
+              "title": "a addon title",
+            },
           },
         }
       `);

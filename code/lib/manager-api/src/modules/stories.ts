@@ -62,14 +62,22 @@ type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
 type StoryUpdate = Partial<
   Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
 >;
-type Status = Record<StoryId, Record<string, 'loading' | 'ready' | 'error' | 'warn' | 'unknown'>>;
+interface StatusObject {
+  status: 'pending' | 'success' | 'error' | 'warn' | 'unknown';
+  title: string;
+  description: string;
+  data?: any;
+}
+
+type StatusState = Record<StoryId, Record<string, StatusObject>>;
+type StatusUpdate = Record<StoryId, StatusObject>;
 
 type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
-  status: Status;
+  status: StatusState;
 }
 
 export interface SubAPI {
@@ -104,7 +112,7 @@ export interface SubAPI {
   ): StoryId;
   fetchIndex: () => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
-  updateStatus: (update: Status) => Promise<void>;
+  updateStatus: (id: string, update: StatusUpdate) => Promise<void>;
   updateDocs: (storyId: StoryId, update: DocsUpdate, ref?: API_ComposedRef) => Promise<void>;
   setPreviewInitialized: (ref?: ComposedRef) => Promise<void>;
 }
@@ -383,9 +391,15 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         await fullAPI.updateRef(refId, { index });
       }
     },
-    updateStatus: async (update) => {
+    updateStatus: async (id, update) => {
       const { status } = store.getState();
-      await store.setState({ status: merge(status, update) }, { persistence: 'session' });
+      const addition = Object.entries(update).reduce<StatusState>((acc, [storyId, value]) => {
+        acc[storyId] = acc[storyId] || {};
+        acc[storyId][id] = value;
+
+        return acc;
+      }, {});
+      await store.setState({ status: merge(status, addition) }, { persistence: 'session' });
     },
     updateDocs: async (
       docsId: StoryId,
