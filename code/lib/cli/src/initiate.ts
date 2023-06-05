@@ -37,6 +37,7 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions } from './generators/types';
 import { HandledError } from './HandledError';
+import { dev } from './dev';
 
 const logger = console;
 
@@ -319,9 +320,29 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
 
-  if (projectType === ProjectType.ANGULAR) {
+  const isReactProject =
+    projectType === ProjectType.REACT_SCRIPTS ||
+    projectType === ProjectType.REACT ||
+    projectType === ProjectType.WEBPACK_REACT ||
+    projectType === ProjectType.REACT_PROJECT ||
+    projectType === ProjectType.NEXTJS;
+
+  const shouldRunDev =
+    projectType !== ProjectType.ANGULAR && projectType !== ProjectType.REACT_NATIVE;
+  if (process.env.CI !== 'true' && shouldRunDev) {
+    logger.log('\nRunning Storybook');
+    await dev({
+      ...options,
+      port: 6006,
+      open: true,
+      quiet: true,
+      // TODO: change this logic to all frameworks once the idea is validated
+      initialPath: isReactProject ? '/onboarding' : undefined,
+    });
+  } else if (projectType === ProjectType.ANGULAR) {
     logger.log('\nTo run your Storybook, type:\n');
     codeLog([`ng run ${installResult.projectName}:storybook`]);
+    logger.log();
   } else if (projectType === ProjectType.REACT_NATIVE) {
     logger.log();
     logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
@@ -335,10 +356,8 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   } else {
     logger.log('\nTo run your Storybook, type:\n');
     codeLog([packageManager.getRunStorybookCommand()]);
+    logger.log();
   }
-
-  // Add a new line for the clear visibility.
-  logger.log();
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
