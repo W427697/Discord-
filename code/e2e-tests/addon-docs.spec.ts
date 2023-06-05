@@ -85,7 +85,7 @@ test.describe('addon-docs', () => {
   test('should provide source snippet', async ({ page }) => {
     // templateName is e.g. 'Vue-CLI (Default JS)'
     test.skip(
-      /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
+      /^(vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
 
@@ -111,7 +111,6 @@ test.describe('addon-docs', () => {
 
   test('source snippet should not change in stories block', async ({ page }) => {
     const skipped = [
-      'vue3',
       'vue-cli',
       'preact',
       // SSv6 does not render stories in the correct order in our sandboxes
@@ -155,6 +154,42 @@ test.describe('addon-docs', () => {
     await expect(primaryCode).toContainText('Changed');
     // Check the stories one still says "Basic"
     await expect(storiesCode).toContainText('Basic');
+  });
+
+  test('source snippet should change back to previous value in stories block', async ({ page }) => {
+    test.skip(
+      /^(lit|vue-cli|preact|angular|internal\/ssv6|ca)/i.test(`${templateName}`),
+      `Skipping ${templateName}, which does not support dynamic source snippets`
+    );
+
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+    const root = sbPage.previewRoot();
+    const toggles = root.locator('.docblock-code-toggle');
+
+    const toggle = await toggles.nth(0);
+    await toggle.click({ force: true });
+
+    const codes = root.locator('pre.prismjs');
+
+    const code = await codes.nth(0);
+    const text = await code.innerText();
+
+    await expect(text).toContain('Basic');
+
+    const labelControl = root.locator('textarea[name=label]');
+    labelControl.fill('Changed');
+    labelControl.blur();
+
+    // Check the Primary one has changed
+    await expect(code).toContainText('Changed');
+
+    // Change the value back
+    labelControl.fill('Basic');
+    labelControl.blur();
+
+    // Check the Primary one has changed back
+    await expect(code).toContainText('Basic');
   });
 
   test('should not run autoplay stories without parameter', async ({ page }) => {
