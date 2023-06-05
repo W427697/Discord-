@@ -10,7 +10,7 @@ export interface JsDocReturns {
 }
 
 export interface JsDocTags {
-  params?: JsDocParam[];
+  params?: JsDocParam[] | null;
   returns?: JsDocReturns | null;
 }
 

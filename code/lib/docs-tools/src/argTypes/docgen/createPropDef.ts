@@ -91,7 +91,7 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult?: JsDocParsingRes
     }
 
     const value: JsDocTags = {
-      ...extractedTags,
+      returns: extractedTags?.returns,
       params: extractedTags?.params?.map((x) => ({
         name: x.getPrettyName(),
         description: x.description,
