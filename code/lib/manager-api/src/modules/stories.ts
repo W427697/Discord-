@@ -563,7 +563,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     if (FEATURES?.storyStoreV7) {
-      provider.serverChannel?.on(STORY_INDEX_INVALIDATED, () => fullAPI.fetchIndex());
+      fullAPI.onServerAction(STORY_INDEX_INVALIDATED, () => fullAPI.fetchIndex());
       await fullAPI.fetchIndex();
     }
   };

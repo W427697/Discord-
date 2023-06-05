@@ -1,56 +1,51 @@
 import WebSocket, { WebSocketServer } from 'ws';
-import { stringify } from 'telejson';
+import { isJSON, parse, stringify } from 'telejson';
+import type { ChannelHandler } from '@storybook/channels';
+import { Channel } from '@storybook/channels';
 
 type Server = ConstructorParameters<typeof WebSocketServer>[0]['server'];
 
-export class ServerChannel {
-  webSocketServer: WebSocketServer;
+export class ServerChannelTransport {
+  private socket: WebSocketServer;
 
-  listeners: Record<string, Function[]>;
+  private handler?: ChannelHandler;
 
   constructor(server: Server) {
-    this.webSocketServer = new WebSocketServer({ noServer: true });
-    this.listeners = {};
+    this.socket = new WebSocketServer({ noServer: true });
 
     server.on('upgrade', (request, socket, head) => {
       if (request.url === '/storybook-server-channel') {
-        this.webSocketServer.handleUpgrade(request, socket, head, (ws) => {
-          this.webSocketServer.emit('connection', ws, request);
+        this.socket.handleUpgrade(request, socket, head, (ws) => {
+          this.socket.emit('connection', ws, request);
         });
       }
     });
-    this.webSocketServer.on('connection', (wss) => {
+    this.socket.on('connection', (wss) => {
       wss.on('message', (data) => {
-        try {
-          const { type, args } = JSON.parse(data.toString('utf-8'));
-          if (this.listeners) {
-            this.listeners[type].forEach((listener) => listener(args));
-          }
-        } catch (e) {
-          //
-        }
+        const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
+        this.handler(event);
       });
     });
   }
 
-  on(type: string, callback: any) {
-    this.listeners[type] = this.listeners[type] || [];
-    this.listeners[type].push(callback);
-
-    return () => {
-      this.listeners[type] = this.listeners[type].filter((l) => l !== callback);
-    };
+  setHandler(handler: ChannelHandler) {
+    this.handler = handler;
   }
 
-  emit(type: string, args: any = []) {
-    const event = { type, args };
+  send(event: any) {
     const data = stringify(event, { maxDepth: 15, allowFunction: true });
-    Array.from(this.webSocketServer.clients)
+
+    Array.from(this.socket.clients)
       .filter((c) => c.readyState === WebSocket.OPEN)
       .forEach((client) => client.send(data));
   }
 }
 
 export function getServerChannel(server: Server) {
-  return new ServerChannel(server);
+  const transport = new ServerChannelTransport(server);
+
+  return new Channel({ transport, async: true });
 }
+
+// for backwards compatibility
+export type ServerChannel = ReturnType<typeof getServerChannel>;

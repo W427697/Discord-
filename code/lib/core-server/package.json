@@ -57,6 +57,7 @@
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
     "@storybook/builder-manager": "7.1.0-alpha.26",
+    "@storybook/channels": "7.1.0-alpha.26",
     "@storybook/core-common": "7.1.0-alpha.26",
     "@storybook/core-events": "7.1.0-alpha.26",
     "@storybook/csf": "^0.1.0",
