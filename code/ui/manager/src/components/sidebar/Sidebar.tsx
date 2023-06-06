@@ -33,15 +33,7 @@ const StyledSpaced = styled(Spaced)({
   paddingBottom: '2.5rem',
 });
 
-const CustomScrollArea = styled(ScrollArea)({
-  '&&&&& .os-scrollbar-handle:before': {
-    left: -12,
-  },
-  '&&&&& .os-scrollbar-vertical': {
-    right: 5,
-  },
-  padding: 20,
-});
+const CustomScrollArea = ScrollArea;
 
 const Swap = React.memo(function Swap({
   children,
@@ -104,50 +96,52 @@ export const Sidebar = React.memo(function Sidebar({
   return (
     <Container className="container sidebar-container">
       <CustomScrollArea vertical>
-        <StyledSpaced row={1.6}>
-          <Heading
-            className="sidebar-header"
-            menuHighlighted={menuHighlighted}
-            menu={menu}
-            skipLinkHref="#storybook-preview-wrapper"
-          />
+        <div style={{ padding: 20 }}>
+          <StyledSpaced row={1.6}>
+            <Heading
+              className="sidebar-header"
+              menuHighlighted={menuHighlighted}
+              menu={menu}
+              skipLinkHref="#storybook-preview-wrapper"
+            />
 
-          <Search
-            dataset={dataset}
-            isLoading={isLoading}
-            enableShortcuts={enableShortcuts}
-            {...lastViewedProps}
-          >
-            {({
-              query,
-              results,
-              isBrowsing,
-              closeMenu,
-              getMenuProps,
-              getItemProps,
-              highlightedIndex,
-            }) => (
-              <Swap condition={isBrowsing}>
-                <Explorer
-                  dataset={dataset}
-                  selected={selected}
-                  isLoading={isLoading}
-                  isBrowsing={isBrowsing}
-                />
-                <SearchResults
-                  query={query}
-                  results={results}
-                  closeMenu={closeMenu}
-                  getMenuProps={getMenuProps}
-                  getItemProps={getItemProps}
-                  highlightedIndex={highlightedIndex}
-                  enableShortcuts={enableShortcuts}
-                  isLoading={isLoading}
-                />
-              </Swap>
-            )}
-          </Search>
-        </StyledSpaced>
+            <Search
+              dataset={dataset}
+              isLoading={isLoading}
+              enableShortcuts={enableShortcuts}
+              {...lastViewedProps}
+            >
+              {({
+                query,
+                results,
+                isBrowsing,
+                closeMenu,
+                getMenuProps,
+                getItemProps,
+                highlightedIndex,
+              }) => (
+                <Swap condition={isBrowsing}>
+                  <Explorer
+                    dataset={dataset}
+                    selected={selected}
+                    isLoading={isLoading}
+                    isBrowsing={isBrowsing}
+                  />
+                  <SearchResults
+                    query={query}
+                    results={results}
+                    closeMenu={closeMenu}
+                    getMenuProps={getMenuProps}
+                    getItemProps={getItemProps}
+                    highlightedIndex={highlightedIndex}
+                    enableShortcuts={enableShortcuts}
+                    isLoading={isLoading}
+                  />
+                </Swap>
+              )}
+            </Search>
+          </StyledSpaced>
+        </div>
       </CustomScrollArea>
     </Container>
   );

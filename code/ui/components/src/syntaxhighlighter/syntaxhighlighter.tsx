@@ -104,8 +104,8 @@ const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({
   children,
   className,
 }): JSX.Element => (
-  <ScrollArea horizontal vertical className={className}>
-    {children}
+  <ScrollArea horizontal vertical>
+    <div className={className}>{children}</div>
   </ScrollArea>
 );
 const Scroller = styled(UnstyledScroller)(
