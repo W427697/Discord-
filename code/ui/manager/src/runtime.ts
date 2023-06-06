@@ -5,7 +5,6 @@ import type { AddonStore } from '@storybook/manager-api';
 import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import * as postMessage from '@storybook/channel-postmessage';
-import * as webSocket from '@storybook/channel-websocket';
 import { CHANNEL_CREATED } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
@@ -36,8 +35,7 @@ class ReactProvider extends Provider {
     this.channel = postMessageChannel;
 
     if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
-      const serverChannel = webSocket.createChannel({});
-      this.serverChannel = serverChannel;
+      this.serverChannel = this.channel;
       addons.setServerChannel(this.serverChannel);
     }
   }
