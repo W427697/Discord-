@@ -43,6 +43,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/channel-websocket": "7.1.0-alpha.29",
     "@storybook/channels": "7.1.0-alpha.29",
     "@storybook/client-logger": "7.1.0-alpha.29",
     "@storybook/core-events": "7.1.0-alpha.29",
