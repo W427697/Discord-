@@ -123,5 +123,5 @@
   "bundler": {
     "tsConfig": "tsconfig.build.json"
   },
-  "gitHead": "301fa4868a78b498d46e2e2907339968f300e1cf"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }
