@@ -51,9 +51,10 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       }${description}`;
 
       // enalble control only for props and slots
-      const control: { disable: boolean; type?: string } = {
-        disable: section !== 'props' && section !== 'slots',
-      };
+      const control: { disable?: boolean; type?: string } = {};
+      if (section !== 'props' && section !== 'slots') {
+        control.disable = false;
+      }
       // set control to boolean if type is boolean
       if (definedTypes === 'boolean') {
         control.type = 'boolean';
