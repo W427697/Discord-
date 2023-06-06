@@ -1633,7 +1633,7 @@ describe('stories API', () => {
     });
   });
 
-  describe('status', () => {
+  describe('experimental_updateStatus', () => {
     it('is included in the initial state', () => {
       const { state } = initStoriesAndSetState({
         storyId: 'id',
@@ -1663,7 +1663,7 @@ describe('stories API', () => {
       await init();
 
       await expect(
-        API.updateStatus('a-addon-id', {
+        API.experimental_updateStatus('a-addon-id', {
           'a-story-id': {
             status: 'pending',
             title: 'an addon title',
@@ -1701,7 +1701,7 @@ describe('stories API', () => {
       await init();
 
       await expect(
-        API.updateStatus('a-addon-id', {
+        API.experimental_updateStatus('a-addon-id', {
           'a-story-id': {
             status: 'pending',
             title: 'an addon title',

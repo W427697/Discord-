@@ -112,9 +112,9 @@ export interface SubAPI {
   ): StoryId;
   fetchIndex: () => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
-  updateStatus: (id: string, update: StatusUpdate) => Promise<void>;
   updateDocs: (storyId: StoryId, update: DocsUpdate, ref?: API_ComposedRef) => Promise<void>;
   setPreviewInitialized: (ref?: ComposedRef) => Promise<void>;
+  experimental_updateStatus: (id: string, update: StatusUpdate) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
@@ -391,16 +391,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         await fullAPI.updateRef(refId, { index });
       }
     },
-    updateStatus: async (id, update) => {
-      const { status } = store.getState();
-      const addition = Object.entries(update).reduce<StatusState>((acc, [storyId, value]) => {
-        acc[storyId] = acc[storyId] || {};
-        acc[storyId][id] = value;
-
-        return acc;
-      }, {});
-      await store.setState({ status: merge(status, addition) }, { persistence: 'session' });
-    },
     updateDocs: async (
       docsId: StoryId,
       update: DocsUpdate,
@@ -428,6 +418,18 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       } else {
         fullAPI.updateRef(ref.id, { previewInitialized: true });
       }
+    },
+
+    /* EXPERIMENTAL APIs */
+    experimental_updateStatus: async (id, update) => {
+      const { status } = store.getState();
+      const addition = Object.entries(update).reduce<StatusState>((acc, [storyId, value]) => {
+        acc[storyId] = acc[storyId] || {};
+        acc[storyId][id] = value;
+
+        return acc;
+      }, {});
+      await store.setState({ status: merge(status, addition) }, { persistence: 'session' });
     },
   };
 
