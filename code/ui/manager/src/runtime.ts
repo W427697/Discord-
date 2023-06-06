@@ -19,6 +19,9 @@ class ReactProvider extends Provider {
 
   private channel: Channel;
 
+  /**
+   * @deprecated will be removed in 8.0, please use channel instead
+   */
   private serverChannel?: Channel;
 
   constructor() {
