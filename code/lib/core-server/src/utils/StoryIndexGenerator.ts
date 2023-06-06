@@ -20,7 +20,7 @@ import type {
   StoryName,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
-import { normalizeStoryPath } from '@storybook/core-common';
+import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
@@ -121,7 +121,7 @@ export class StoryIndexGenerator {
         const fullGlob = slash(
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
-        const files = await glob(fullGlob);
+        const files = await glob(fullGlob, commonGlobOptions(fullGlob));
 
         if (files.length === 0) {
           once.warn(
