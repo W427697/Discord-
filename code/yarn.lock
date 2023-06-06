@@ -5981,7 +5981,6 @@ __metadata:
   resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
     "@storybook/channel-postmessage": 7.1.0-alpha.29
-    "@storybook/channel-websocket": 7.1.0-alpha.29
     "@storybook/client-logger": 7.1.0-alpha.29
     "@storybook/core-common": 7.1.0-alpha.29
     "@storybook/csf-plugin": 7.1.0-alpha.29
@@ -6027,7 +6026,6 @@ __metadata:
     "@storybook/addons": 7.1.0-alpha.29
     "@storybook/api": 7.1.0-alpha.29
     "@storybook/channel-postmessage": 7.1.0-alpha.29
-    "@storybook/channel-websocket": 7.1.0-alpha.29
     "@storybook/channels": 7.1.0-alpha.29
     "@storybook/client-api": 7.1.0-alpha.29
     "@storybook/client-logger": 7.1.0-alpha.29
@@ -6550,7 +6548,6 @@ __metadata:
     "@storybook/addons": 7.1.0-alpha.29
     "@storybook/builder-vite": 7.1.0-alpha.29
     "@storybook/channel-postmessage": 7.1.0-alpha.29
-    "@storybook/channel-websocket": 7.1.0-alpha.29
     "@storybook/client-api": 7.1.0-alpha.29
     "@storybook/core-server": 7.1.0-alpha.29
     "@storybook/html": 7.1.0-alpha.29
@@ -6700,7 +6697,6 @@ __metadata:
     "@storybook/addons": 7.1.0-alpha.29
     "@storybook/api": 7.1.0-alpha.29
     "@storybook/channel-postmessage": 7.1.0-alpha.29
-    "@storybook/channel-websocket": 7.1.0-alpha.29
     "@storybook/channels": 7.1.0-alpha.29
     "@storybook/client-logger": 7.1.0-alpha.29
     "@storybook/components": 7.1.0-alpha.29
