@@ -8,10 +8,10 @@ import type { API, ModuleFn } from '../index';
 export interface SubAPI {
   getChannel: () => API_Provider<API>['channel'];
   on: (type: string, cb: Listener) => () => void;
-  onServerAction: (type: string, cb: Listener) => () => void;
+  experimental_onServer: (type: string, cb: Listener) => () => void;
   off: (type: string, cb: Listener) => void;
   emit: (type: string, ...args: any[]) => void;
-  emitServerAction: (type: string, ...args: any[]) => void;
+  experimental_emitServer: (type: string, ...args: any[]) => void;
   once: (type: string, cb: Listener) => void;
   collapseAll: () => void;
   expandAll: () => void;
@@ -27,7 +27,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
 
       return () => provider.channel.removeListener(type, cb);
     },
-    onServerAction: (type, cb) => {
+    experimental_onServer: (type, cb) => {
       provider.serverChannel.addListener(type, cb);
 
       return () => provider.serverChannel.removeListener(type, cb);
@@ -47,7 +47,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
       }
       provider.channel.emit(type, data, ...args);
     },
-    emitServerAction: (type, data, ...args) => {
+    experimental_emitServer: (type, data, ...args) => {
       provider.serverChannel.emit(type, data, ...args);
     },
 

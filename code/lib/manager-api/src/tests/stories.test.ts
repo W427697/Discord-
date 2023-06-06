@@ -395,7 +395,7 @@ describe('stories API', () => {
     it('handles properly prepared stories', async () => {
       const navigate = jest.fn();
       const store = createMockStore();
-      const fullAPI = Object.assign(new EventEmitter(), { onServerAction: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), { experimental_onServer: jest.fn() });
 
       const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
@@ -434,7 +434,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {
         setOptions: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -564,7 +564,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api, {
         setIndex: jest.fn(),
         setOptions: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
       init();
 
@@ -583,7 +583,7 @@ describe('stories API', () => {
         setIndex: jest.fn(),
         setOptions: jest.fn(),
         getCurrentParameter: jest.fn().mockReturnValue('options'),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
       init();
 
@@ -600,7 +600,7 @@ describe('stories API', () => {
       const fullAPI = Object.assign(
         new EventEmitter(),
         {
-          onServerAction: jest.fn(),
+          experimental_onServer: jest.fn(),
         },
         {}
       );
@@ -625,7 +625,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {
         setIndex: jest.fn(),
-        onServerAction: jest.fn((type, cb) => {
+        experimental_onServer: jest.fn((type, cb) => {
           provider.serverChannel.addListener(type, cb);
 
           return () => provider.serverChannel.removeListener(type, cb);
@@ -664,7 +664,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {
         setIndex: jest.fn(),
-        onServerAction: jest.fn((type, cb) => {
+        experimental_onServer: jest.fn((type, cb) => {
           provider.serverChannel.addListener(type, cb);
 
           return () => provider.serverChannel.removeListener(type, cb);
@@ -714,7 +714,7 @@ describe('stories API', () => {
         isSettingsScreenActive() {
           return false;
         },
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
       const store = createMockStore({});
       const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -760,7 +760,7 @@ describe('stories API', () => {
   describe('CURRENT_STORY_WAS_SET event', () => {
     it('sets previewInitialized', async () => {
       const navigate = jest.fn();
-      const fullAPI = Object.assign(new EventEmitter(), { onServerAction: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), { experimental_onServer: jest.fn() });
       const store = createMockStore({});
       const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
@@ -775,7 +775,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), {
         updateRef: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
       const store = createMockStore();
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -824,7 +824,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
         updateRef: jest.fn(),
       });
 
@@ -853,7 +853,7 @@ describe('stories API', () => {
       const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         updateRef: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
 
       init();
@@ -871,7 +871,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const emit = jest.fn();
       const on = jest.fn();
-      const fullAPI = { emit, on, onServerAction: jest.fn() };
+      const fullAPI = { emit, on, experimental_onServer: jest.fn() };
       const store = createMockStore();
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -898,7 +898,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const emit = jest.fn();
       const on = jest.fn();
-      const fullAPI = { emit, on, onServerAction: jest.fn() };
+      const fullAPI = { emit, on, experimental_onServer: jest.fn() };
       const store = createMockStore();
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -922,7 +922,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const emit = jest.fn();
       const on = jest.fn();
-      const fullAPI = { emit, on, onServerAction: jest.fn() };
+      const fullAPI = { emit, on, experimental_onServer: jest.fn() };
       const store = createMockStore();
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -949,7 +949,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const emit = jest.fn();
       const on = jest.fn();
-      const fullAPI = { emit, on, onServerAction: jest.fn() };
+      const fullAPI = { emit, on, experimental_onServer: jest.fn() };
       const store = createMockStore();
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -1420,7 +1420,7 @@ describe('stories API', () => {
       const fullAPI = Object.assign(new EventEmitter(), {
         setStories: jest.fn(),
         setOptions: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -1452,7 +1452,7 @@ describe('stories API', () => {
       const fullAPI = Object.assign(new EventEmitter(), {
         setStories: jest.fn(),
         setOptions: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -1483,7 +1483,7 @@ describe('stories API', () => {
       const fullAPI = Object.assign(new EventEmitter(), {
         setStories: jest.fn(),
         setOptions: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -1513,7 +1513,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -1530,7 +1530,7 @@ describe('stories API', () => {
     it('sets previewInitialized to true, ref', async () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), {
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
         updateRef: jest.fn(),
       });
       const store = createMockStore();
@@ -1556,7 +1556,7 @@ describe('stories API', () => {
     it('sets previewInitialized to true, local', async () => {
       const navigate = jest.fn();
       const store = createMockStore();
-      const fullAPI = Object.assign(new EventEmitter(), { onServerAction: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), { experimental_onServer: jest.fn() });
 
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
@@ -1573,7 +1573,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), {
         updateRef: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
       const store = createMockStore();
       const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
@@ -1596,7 +1596,7 @@ describe('stories API', () => {
 
   describe('v2 SET_STORIES event', () => {
     it('normalizes parameters and calls setRef for external stories', () => {
-      const fullAPI = Object.assign(new EventEmitter(), { onServerAction: jest.fn() });
+      const fullAPI = Object.assign(new EventEmitter(), { experimental_onServer: jest.fn() });
       const navigate = jest.fn();
       const store = createMockStore();
 
@@ -1605,7 +1605,7 @@ describe('stories API', () => {
         setIndex: jest.fn(),
         findRef: jest.fn(),
         setRef: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
       init();
 
@@ -1645,7 +1645,7 @@ describe('stories API', () => {
         setIndex: jest.fn(),
         findRef: jest.fn(),
         setRef: jest.fn(),
-        onServerAction: jest.fn(),
+        experimental_onServer: jest.fn(),
       });
       init();
 
