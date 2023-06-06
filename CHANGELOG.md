@@ -1,3 +1,10 @@
+## 7.1.0-alpha.28 (June 6, 2023)
+
+#### Bug Fixes
+
+-   Docs: E2E tests for Source block update fix [#22835](https://github.com/storybooks/storybook/pull/22835)
+-   Docs: Fix Source block snippet updates [#22807](https://github.com/storybooks/storybook/pull/22807)
+
 ## 7.1.0-alpha.27 (June 4, 2023)
 
 #### Features
