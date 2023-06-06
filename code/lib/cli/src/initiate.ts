@@ -329,7 +329,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   const shouldRunDev =
     projectType !== ProjectType.ANGULAR && projectType !== ProjectType.REACT_NATIVE;
-  if (process.env.CI !== 'true' && shouldRunDev) {
+  if (process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true' && shouldRunDev) {
     logger.log('\nRunning Storybook');
     await dev({
       ...options,
