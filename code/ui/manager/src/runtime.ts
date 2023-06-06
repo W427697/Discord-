@@ -17,7 +17,6 @@ const { FEATURES, CONFIG_TYPE } = global;
 class ReactProvider extends Provider {
   private addons: AddonStore;
 
-  // @ts-expect-error Unused, possibly remove, leaving, because it could be accessed even though it is private
   private channel: Channel;
 
   private serverChannel?: Channel;
@@ -25,14 +24,14 @@ class ReactProvider extends Provider {
   constructor() {
     super();
 
-    const postMessageChannel = postMessage.createChannel({ page: 'manager' });
+    const channel = postMessage.createChannel({ page: 'manager' });
 
-    addons.setChannel(postMessageChannel);
+    addons.setChannel(channel);
 
-    postMessageChannel.emit(CHANNEL_CREATED);
+    channel.emit(CHANNEL_CREATED);
 
     this.addons = addons;
-    this.channel = postMessageChannel;
+    this.channel = channel;
 
     if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
