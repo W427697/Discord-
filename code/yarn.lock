@@ -6089,6 +6089,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/channel-postmessage@workspace:lib/channel-postmessage"
   dependencies:
+    "@storybook/channel-websocket": 7.1.0-alpha.29
     "@storybook/channels": 7.1.0-alpha.29
     "@storybook/client-logger": 7.1.0-alpha.29
     "@storybook/core-events": 7.1.0-alpha.29
