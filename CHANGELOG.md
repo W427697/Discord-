@@ -1,3 +1,10 @@
+## 7.1.0-alpha.29 (June 6, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix upgrade notification message [#22933](https://github.com/storybooks/storybook/pull/22933)
+-   Core: Fix indexing errors by excluding node_modules stories [#22873](https://github.com/storybooks/storybook/pull/22873)
+
 ## 7.1.0-alpha.28 (June 6, 2023)
 
 #### Bug Fixes
