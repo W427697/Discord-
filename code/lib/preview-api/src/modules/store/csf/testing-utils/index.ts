@@ -88,6 +88,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   composedStory.args = story.initialArgs as Partial<TArgs>;
   composedStory.play = story.playFunction as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>;
   composedStory.parameters = story.parameters as Parameters;
+  composedStory.id = story.id;
 
   return composedStory;
 }

@@ -1,3 +1,5 @@
+import dedent from 'ts-dedent';
+import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -17,6 +19,8 @@ export type Yarn1ListOutput = {
   type: 'tree';
   data: Yarn1ListData;
 };
+
+const YARN1_ERROR_REGEX = /^error\s(.*)$/gm;
 
 export class Yarn1Proxy extends JsPackageManager {
   readonly type = 'yarn1';
@@ -42,8 +46,13 @@ export class Yarn1Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
-  public runPackageCommandSync(command: string, args: string[], cwd?: string): string {
-    return this.executeCommandSync({ command: `yarn`, args: [command, ...args], cwd });
+  public runPackageCommandSync(
+    command: string,
+    args: string[],
+    cwd?: string,
+    stdio?: 'pipe' | 'inherit'
+  ): string {
+    return this.executeCommandSync({ command: `yarn`, args: [command, ...args], cwd, stdio });
   }
 
   async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
@@ -88,11 +97,29 @@ export class Yarn1Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    await this.executeCommand({
-      command: 'yarn',
-      args: ['add', ...this.getInstallArgs(), ...args],
-      stdio: 'inherit',
-    });
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
+
+    try {
+      await this.executeCommand({
+        command: 'yarn',
+        args: ['add', ...this.getInstallArgs(), ...args],
+        stdio: ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
@@ -164,5 +191,19 @@ export class Yarn1Proxy extends JsPackageManager {
     }
 
     throw new Error('Something went wrong while parsing yarn output');
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'YARN1 error';
+    const match = logs.match(YARN1_ERROR_REGEX);
+
+    if (match) {
+      const errorMessage = match[0]?.replace(/^error\s(.*)$/, '$1');
+      if (errorMessage) {
+        finalMessage = `${finalMessage}: ${errorMessage}`;
+      }
+    }
+
+    return finalMessage.trim();
   }
 }
