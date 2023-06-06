@@ -1,1 +1,1 @@
-{"version":"7.1.0-alpha.28","info":{"plain":"#### Bug Fixes\n\n-   Docs: E2E tests for Source block update fix [#22835](https://github.com/storybooks/storybook/pull/22835)\n-   Docs: Fix Source block snippet updates [#22807](https://github.com/storybooks/storybook/pull/22807)"}}
+{"version":"7.1.0-alpha.29","info":{"plain":"#### Bug Fixes\n\n-   CLI: Fix upgrade notification message [#22933](https://github.com/storybooks/storybook/pull/22933)\n-   Core: Fix indexing errors by excluding node_modules stories [#22873](https://github.com/storybooks/storybook/pull/22873)"}}
