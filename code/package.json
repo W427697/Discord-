@@ -242,7 +242,7 @@
     "lerna": "^6.4.0",
     "lint-staged": "^10.5.4",
     "lodash": "^4.17.21",
-    "node-gyp": "^8.4.0",
+    "node-gyp": "^9.3.1",
     "nx": "16.2.1",
     "nx-cloud": "16.0.5",
     "prettier": "2.8.0",

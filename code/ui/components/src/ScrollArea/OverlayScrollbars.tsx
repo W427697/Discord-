@@ -1,11 +1,11 @@
 import type { HTMLAttributes, FC } from 'react';
 import React, { useRef, useEffect } from 'react';
-import OverlayScrollbars from 'overlayscrollbars';
+import type { Options } from 'overlayscrollbars';
+import { OverlayScrollbars } from 'overlayscrollbars';
 
 interface OverlayScrollbarsComponentProps extends HTMLAttributes<HTMLDivElement> {
   children?: any;
-  options?: OverlayScrollbars.Options;
-  extensions?: OverlayScrollbars.Extensions;
+  options?: Options;
 }
 
 /**
@@ -17,7 +17,7 @@ interface OverlayScrollbarsComponentProps extends HTMLAttributes<HTMLDivElement>
 
 export const OverlayScrollbarsComponent: FC<OverlayScrollbarsComponentProps> = ({
   options = {},
-  extensions,
+
   className,
   children,
   ...rest
@@ -26,7 +26,7 @@ export const OverlayScrollbarsComponent: FC<OverlayScrollbarsComponentProps> = (
   const osInstance = useRef<OverlayScrollbars>();
 
   useEffect(() => {
-    osInstance.current = OverlayScrollbars(osTargetRef.current, options, extensions);
+    osInstance.current = OverlayScrollbars(osTargetRef.current, options);
     mergeHostClassNames(osInstance.current, className);
     return () => {
       if (OverlayScrollbars.valid(osInstance.current)) {
@@ -73,9 +73,9 @@ export const OverlayScrollbarsComponent: FC<OverlayScrollbarsComponentProps> = (
 
 function mergeHostClassNames(osInstance: OverlayScrollbars, className: string) {
   if (OverlayScrollbars.valid(osInstance)) {
-    const { host } = osInstance.getElements();
+    const { host } = osInstance.elements();
     const regex = new RegExp(
-      `(^os-host([-_].+|)$)|${osInstance.options().className.replace(/\s/g, '$|')}$`,
+      `(^os-host([-_].+|)$)|${osInstance.elements().host.className.replace(/\s/g, '$|')}$`,
       'g'
     );
     const osClassNames = host.className
