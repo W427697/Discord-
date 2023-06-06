@@ -4,6 +4,8 @@
 
 -   Server: Fix .stories.yml support [#22906](https://github.com/storybooks/storybook/pull/22906)
 -   Docs: Fix Source block snippet updates [#22835](https://github.com/storybooks/storybook/pull/22835)
+-   Core: Fix indexing errors by excluding node_modules stories [#22873](https://github.com/storybooks/storybook/pull/22873)
+-   CLI: Fix upgrade notification message [#22933](https://github.com/storybooks/storybook/pull/22933)
 
 #### Build
 
