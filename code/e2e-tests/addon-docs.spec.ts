@@ -175,6 +175,8 @@ test.describe('addon-docs', () => {
     const code = await codes.nth(0);
     const text = await code.innerText();
 
+    console.log('text :', text);
+
     await expect(text).toContain('Basic');
 
     const labelControl = root.locator('textarea[name=label]');
