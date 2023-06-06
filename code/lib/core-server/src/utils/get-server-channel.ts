@@ -21,7 +21,8 @@ export class ServerChannelTransport {
       }
     });
     this.socket.on('connection', (wss) => {
-      wss.on('message', (data) => {
+      wss.on('message', (raw) => {
+        const data = raw.toString();
         const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
         this.handler(event);
       });
