@@ -50,6 +50,7 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'ci'
     | 'quiet'
     | 'disableTelemetry'
+    | 'initialPath'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
@@ -93,6 +94,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         sslKey,
         disableTelemetry,
         assets,
+        initialPath,
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
@@ -117,6 +119,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
           ...(assets ? { assets } : {}),
         },
         tsConfig,
+        initialPath,
       };
 
       return standaloneOptions;
