@@ -182,7 +182,7 @@ export const run = async (options: unknown) => {
   const currentVersion = await getCurrentVersion(verbose);
   const isAlreadyPublished = await isCurrentVersionPublished({
     currentVersion,
-    packageName: '@junk-temporary-prototypes/manager-api',
+    packageName: '@storybook/manager-api',
     verbose,
   });
   if (isAlreadyPublished) {

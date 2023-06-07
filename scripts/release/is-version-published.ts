@@ -70,7 +70,7 @@ export const run = async (args: unknown[], options: unknown) => {
 
   const isAlreadyPublished = await isVersionPublished({
     version,
-    packageName: '@junk-temporary-prototypes/manager-api',
+    packageName: '@storybook/manager-api',
     verbose,
   });
 

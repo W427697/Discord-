@@ -30,7 +30,7 @@ describe('Version', () => {
     fsExtra.__setMockFiles({
       [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
       [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
-      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
     });
 
     await expect(version({ releaseType: 'invalid' })).rejects.toThrowErrorMatchingInlineSnapshot(`
@@ -60,7 +60,7 @@ describe('Version', () => {
     fsExtra.__setMockFiles({
       [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
       [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
-      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
     });
 
     await expect(version({ releaseType: 'major', preId: 'alpha' })).rejects
@@ -79,7 +79,7 @@ describe('Version', () => {
     fsExtra.__setMockFiles({
       [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
       [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
-      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
     });
 
     await expect(version({ releaseType: 'major', exact: '1.0.0' })).rejects
@@ -98,7 +98,7 @@ describe('Version', () => {
     fsExtra.__setMockFiles({
       [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
       [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
-      [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "1.0.0" };`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
     });
 
     await expect(version({ exact: 'not-semver' })).rejects.toThrowErrorMatchingInlineSnapshot(`
@@ -147,7 +147,7 @@ describe('Version', () => {
       fsExtra.__setMockFiles({
         [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: currentVersion }),
         [MANAGER_API_VERSION_PATH]: `export const version = "${currentVersion}";`,
-        [VERSIONS_PATH]: `export default { "@junk-temporary-prototypes/addon-a11y": "${currentVersion}" };`,
+        [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "${currentVersion}" };`,
       });
 
       await version({ releaseType, preId, exact });
@@ -158,12 +158,7 @@ describe('Version', () => {
         { spaces: 2 }
       );
       expect(fsExtra.writeFile).toHaveBeenCalledWith(
-        path.join(
-          CODE_DIR_PATH,
-          '.yarn',
-          'versions',
-          'generated-by-versions-script.yml'
-        ),
+        path.join(CODE_DIR_PATH, '.yarn', 'versions', 'generated-by-versions-script.yml'),
         expect.stringContaining(expectedVersion)
       );
       expect(execaCommand).toHaveBeenCalledWith('yarn version apply --all', { cwd: CODE_DIR_PATH });
