@@ -2,6 +2,22 @@
 title: 'Write a preset addon'
 ---
 
+Storybook preset addons are pre-configured settings or configurations that can be used to extend Storybook's core functionality with a specific feature or framework.
+
+## How presets work
+
+## Presets API
+
+### Babel
+
+### Builders
+
+To support different builders with preset addons, Storybook provides a set of separate APIs for each builder
+
+#### Vite
+
+#### Webpack
+
 [Storybook preset addons](./addon-types.md#preset-addons) are grouped collections of `babel`, `webpack`, and `addons` configurations that support specific use cases in Storybook, such as TypeScript or MDX support.
 
 This doc covers the [presets API](#presets-api) and how to use the presets mechanism for [advanced configuration](#advanced-configuration).
@@ -42,6 +58,12 @@ For example, Storybook's Mihtril support uses plugins internally and here's how 
 
 - `babel` is applied to the preview config, after it has been initialized by storybook
 - `babelDefault` is applied to the preview config before any user presets have been applied
+
+### Builders
+
+#### Vite
+
+#### Webpack
 
 ### Webpack
 
