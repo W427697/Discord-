@@ -6248,7 +6248,6 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/theming": 7.1.0-alpha.29
     "@storybook/types": 7.1.0-alpha.29
-    "@types/overlayscrollbars": ^1.12.0
     "@types/react-syntax-highlighter": 11.0.5
     "@types/util-deprecate": ^1.0.0
     css: ^3.0.0
@@ -8755,13 +8754,6 @@ __metadata:
   version: 4.1.4
   resolution: "@types/npmlog@npm:4.1.4"
   checksum: 5670c38db51f2c4a5da05657920d7597bf9da00615920b42a001fde9011f05ab1e8ec8cbc671abb47915028e3e0ace5c3d981c23684c202a00bf518f16ece01d
-  languageName: node
-  linkType: hard
-
-"@types/overlayscrollbars@npm:^1.12.0":
-  version: 1.12.1
-  resolution: "@types/overlayscrollbars@npm:1.12.1"
-  checksum: 01e5f3e96ddb349fc49c7e6d8b5b6e2c930c4e50d19d3f269df8f537d149cb054ddfe9db617fb7c071f0799163cd9e633e4d23491f070c9888bca827b0b964e7
   languageName: node
   linkType: hard
 
