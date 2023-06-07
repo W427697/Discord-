@@ -6028,7 +6028,6 @@ __metadata:
     "@types/pretty-hrtime": ^1.0.0
     "@types/semver": ^7.3.4
     "@types/terser-webpack-plugin": ^5.2.0
-    "@types/webpack-dev-middleware": ^5.3.0
     "@types/webpack-hot-middleware": ^2.25.6
     "@types/webpack-virtual-modules": ^0.1.1
     babel-loader: ^9.0.0
@@ -6053,7 +6052,7 @@ __metadata:
     util: ^0.12.4
     util-deprecate: ^1.0.2
     webpack: 5
-    webpack-dev-middleware: ^5.3.1
+    webpack-dev-middleware: ^6.1.1
     webpack-hot-middleware: ^2.25.1
     webpack-virtual-modules: ^0.4.3
   peerDependencies:
@@ -9113,15 +9112,6 @@ __metadata:
   version: 9.0.1
   resolution: "@types/uuid@npm:9.0.1"
   checksum: 234e14e053504a98532bb5d1490c8d649fe24ae04a94ba042b09b380a900094df1032aa7c3864b74b7a85a0a5e97530b2d1340048ed9d07855140cb99b2cefc8
-  languageName: node
-  linkType: hard
-
-"@types/webpack-dev-middleware@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@types/webpack-dev-middleware@npm:5.3.0"
-  dependencies:
-    webpack-dev-middleware: "*"
-  checksum: 338d8d067192a767c54285ef39116f4d09fe170297a22a6fafc6f2bfdaa64f01dea415767921e076380515e7e83e7fa03ce83eb1efc40665508c0daec48f57ee
   languageName: node
   linkType: hard
 
@@ -31537,24 +31527,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-dev-middleware@npm:*":
-  version: 6.1.1
-  resolution: "webpack-dev-middleware@npm:6.1.1"
-  dependencies:
-    colorette: ^2.0.10
-    memfs: ^3.4.12
-    mime-types: ^2.1.31
-    range-parser: ^1.2.1
-    schema-utils: ^4.0.0
-  peerDependencies:
-    webpack: ^5.0.0
-  peerDependenciesMeta:
-    webpack:
-      optional: true
-  checksum: f8f5b7f7591fa3e4d4008b28ab2b5c13367a24587257e3e37cff31e2d8a6c859de5294af83c79e8faf3137db194377f392fffacdf5010b5c1311eba6f9b71568
-  languageName: node
-  linkType: hard
-
 "webpack-dev-middleware@npm:6.0.2":
   version: 6.0.2
   resolution: "webpack-dev-middleware@npm:6.0.2"
@@ -31585,6 +31557,24 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: 378ceed430b61c0b0eccdbb55a97173aa36231bb88e20ad12bafb3d553e542708fa31f08474b9c68d4ac95174a047def9e426e193b7134be3736afa66a0d1708
+  languageName: node
+  linkType: hard
+
+"webpack-dev-middleware@npm:^6.1.1":
+  version: 6.1.1
+  resolution: "webpack-dev-middleware@npm:6.1.1"
+  dependencies:
+    colorette: ^2.0.10
+    memfs: ^3.4.12
+    mime-types: ^2.1.31
+    range-parser: ^1.2.1
+    schema-utils: ^4.0.0
+  peerDependencies:
+    webpack: ^5.0.0
+  peerDependenciesMeta:
+    webpack:
+      optional: true
+  checksum: f8f5b7f7591fa3e4d4008b28ab2b5c13367a24587257e3e37cff31e2d8a6c859de5294af83c79e8faf3137db194377f392fffacdf5010b5c1311eba6f9b71568
   languageName: node
   linkType: hard
 
