@@ -10,8 +10,7 @@ export default {
     components: {
       MyHeader,
     },
-    template:
-      '<my-header :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
+    template: '<my-header :user="user"  />',
   }),
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/vue/configure/story-layout
