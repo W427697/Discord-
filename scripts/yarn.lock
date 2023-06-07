@@ -2194,6 +2194,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kwsites/file-exists@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/file-exists@npm:1.1.1"
+  dependencies:
+    debug: ^4.1.1
+  checksum: 39e693239a72ccd8408bb618a0200e4a8d61682057ca7ae2c87668d7e69196e8d7e2c9cde73db6b23b3b0230169a15e5f1bfe086539f4be43e767b2db68e8ee4
+  languageName: node
+  linkType: hard
+
+"@kwsites/promise-deferred@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/promise-deferred@npm:1.1.1"
+  checksum: ef1ad3f1f50991e3bed352b175986d8b4bc684521698514a2ed63c1d1fc9848843da4f2bc2df961c9b148c94e1c34bf33f0da8a90ba2234e452481f2cc9937b1
+  languageName: node
+  linkType: hard
+
 "@linear/sdk@npm:^1.22.0":
   version: 1.22.0
   resolution: "@linear/sdk@npm:1.22.0"
@@ -2945,6 +2961,7 @@ __metadata:
     "@types/semver": ^7.3.4
     "@types/serve-static": ^1.13.8
     "@types/shelljs": ^0.8.7
+    "@types/uuid": ^9.0.1
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/experimental-utils": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
@@ -2958,6 +2975,7 @@ __metadata:
     cross-env: ^7.0.3
     cross-spawn: ^7.0.3
     danger: ^10.6.2
+    dataloader: ^2.2.2
     detect-port: ^1.3.0
     ejs: ^3.1.8
     ejs-lint: ^2.0.0
@@ -2994,6 +3012,7 @@ __metadata:
     nx: 16.2.1
     nx-cloud: 16.0.5
     p-limit: ^3.1.0
+    p-retry: ^5.1.2
     prettier: ^2.8.0
     pretty-hrtime: ^1.0.0
     process: ^0.11.10
@@ -3009,6 +3028,7 @@ __metadata:
     semver: ^7.3.7
     serve-static: ^1.14.1
     shelljs: ^0.8.5
+    simple-git: ^3.18.0
     slash: ^3.0.0
     sort-package-json: ^1.48.1
     tempy: ^1.0.0
@@ -3020,10 +3040,12 @@ __metadata:
     type-fest: ^3.4.0
     typescript: 5.0.4
     util: ^0.12.4
+    uuid: ^9.0.0
     verdaccio: ^5.19.1
     verdaccio-auth-memory: ^10.2.0
     wait-on: ^5.2.1
     window-size: ^1.1.1
+    zod: ^3.21.4
     zx: ^7.0.3
   dependenciesMeta:
     "@verdaccio/types":
@@ -3677,6 +3699,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/retry@npm:0.12.1":
+  version: 0.12.1
+  resolution: "@types/retry@npm:0.12.1"
+  checksum: d2d08393973693826fc947fb09596c34bd65863201e2f6d7e9d7a02d504199d6a2bab13eba56f6366ee0fd45434c699a9fdcfff3311e63bf2fad7a4cf34bacfd
+  languageName: node
+  linkType: hard
+
 "@types/scheduler@npm:*":
   version: 0.16.3
   resolution: "@types/scheduler@npm:0.16.3"
@@ -3748,6 +3777,13 @@ __metadata:
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 8690789328e8e10c487334341fcf879fd49f8987c98ce49849f9871052f95d87477735171bb661e6f551bdb95235e015dfdad1867ca1d9b5b88a053f72ac40eb
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "@types/uuid@npm:9.0.1"
+  checksum: 234e14e053504a98532bb5d1490c8d649fe24ae04a94ba042b09b380a900094df1032aa7c3864b74b7a85a0a5e97530b2d1340048ed9d07855140cb99b2cefc8
   languageName: node
   linkType: hard
 
@@ -5997,6 +6033,13 @@ __metadata:
     whatwg-mimetype: ^3.0.0
     whatwg-url: ^11.0.0
   checksum: 051c3aaaf3e961904f136aab095fcf6dff4db23a7fc759dd8ba7b3e6ba03fc07ef608086caad8ab910d864bd3b5e57d0d2f544725653d77c96a2c971567045f4
+  languageName: node
+  linkType: hard
+
+"dataloader@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "dataloader@npm:2.2.2"
+  checksum: 125ec69f821478cf7c6b4360095db6cab939fe57876a0d2060c428091a8deee7152345189923b71a6afa694aaec463779f34b585317164016fd6f54f52cd94ba
   languageName: node
   linkType: hard
 
@@ -12065,6 +12108,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"p-retry@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "p-retry@npm:5.1.2"
+  dependencies:
+    "@types/retry": 0.12.1
+    retry: ^0.13.1
+  checksum: 9017001ebfbe2a08cf45c970106f6953f5c76d1f8d8e9ff81afcbf6c25fe9f0e13499c5ac49b35d114672cf15689a952f4f3287fd1316420eb810a5a99ecf4e7
+  languageName: node
+  linkType: hard
+
 "p-try@npm:^2.0.0":
   version: 2.2.0
   resolution: "p-try@npm:2.2.0"
@@ -13426,6 +13479,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"retry@npm:^0.13.1":
+  version: 0.13.1
+  resolution: "retry@npm:0.13.1"
+  checksum: 9ae822ee19db2163497e074ea919780b1efa00431d197c7afdb950e42bf109196774b92a49fc9821f0b8b328a98eea6017410bfc5e8a0fc19c85c6d11adb3772
+  languageName: node
+  linkType: hard
+
 "reusify@npm:^1.0.4":
   version: 1.0.4
   resolution: "reusify@npm:1.0.4"
@@ -13781,6 +13841,17 @@ __metadata:
   version: 4.0.2
   resolution: "signal-exit@npm:4.0.2"
   checksum: 3c36ae214f4774b4a7cbbd2d090b2864f8da4dc3f9140ba5b76f38bea7605c7aa8042adf86e48ee8a0955108421873f9b0f20281c61b8a65da4d9c1c1de4929f
+  languageName: node
+  linkType: hard
+
+"simple-git@npm:^3.18.0":
+  version: 3.19.0
+  resolution: "simple-git@npm:3.19.0"
+  dependencies:
+    "@kwsites/file-exists": ^1.1.1
+    "@kwsites/promise-deferred": ^1.1.1
+    debug: ^4.3.4
+  checksum: 4dc448e663f92bed8dd2d43e07b1c3dbb2444412f39d38b710fe3dc41b1c25dae07aff1960fbf5bd17d4f8f33b6908a335c82f0b9c5db5b87c4ad1d7a2873d7e
   languageName: node
   linkType: hard
 
@@ -15459,6 +15530,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8867e438990d1d33ac61093e2e4e3477a2148b844e4fa9e3c2360fa4399292429c4b6ec64537eb1659c97b2d10db349c673ad58b50e2824a11e0d3630de3c056
+  languageName: node
+  linkType: hard
+
 "v8-compile-cache-lib@npm:^3.0.1":
   version: 3.0.1
   resolution: "v8-compile-cache-lib@npm:3.0.1"
@@ -16161,6 +16241,13 @@ __metadata:
     property-expr: ^2.0.4
     toposort: ^2.0.2
   checksum: f0802798dc64b49f313886b983a9bea5f283e2094ee2aa1197587b84f50ac5b5d03af99857c313139e63dc02558fac3aaa343503bdbffa96f70006b39d1f59c9
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.21.4":
+  version: 3.21.4
+  resolution: "zod@npm:3.21.4"
+  checksum: 161e8cf7aea38a99244d65da4a9477d9d966f6a533e503feaa20ff7968a9691065c38c6f1eab5cbbdc8374142fff4a05c9cacb8479803ab50ab6a6ca80e5d624
   languageName: node
   linkType: hard
 
