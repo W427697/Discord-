@@ -36,7 +36,8 @@
     "@typescript-eslint/parser": "^5.45.0",
     "esbuild": "^0.16.4",
     "eslint": "^8.28.0",
-    "serialize-javascript": "^3.1.0"
+    "serialize-javascript": "^3.1.0",
+    "type-fest": "^3.11.0"
   },
   "dependencies": {
     "@babel/core": "^7.22.0",
