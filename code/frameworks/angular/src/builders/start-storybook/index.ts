@@ -58,9 +58,13 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
   const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
       const runCompodoc$ = options.compodoc
-        ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
-            mapTo({ tsConfig })
-          )
+        ? runCompodoc(
+            {
+              compodocArgs: [...options.compodocArgs, ...(options.quiet ? ['--silent'] : [])],
+              tsconfig: tsConfig,
+            },
+            context
+          ).pipe(mapTo({ tsConfig }))
         : of({});
 
       return runCompodoc$.pipe(mapTo({ tsConfig }));
