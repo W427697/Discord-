@@ -33,6 +33,8 @@ export const Inheritance = {
   },
 };
 
+// NOTE this story is currently broken in Chromatic for both Vue2/Vue3
+// Issue: https://github.com/storybookjs/storybook/issues/22945
 export const Hooks = {
   decorators: [
     // decorator that uses hooks
