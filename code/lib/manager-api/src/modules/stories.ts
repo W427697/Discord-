@@ -114,7 +114,14 @@ export interface SubAPI {
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
   updateDocs: (storyId: StoryId, update: DocsUpdate, ref?: API_ComposedRef) => Promise<void>;
   setPreviewInitialized: (ref?: ComposedRef) => Promise<void>;
-  experimental_updateStatus: (id: string, update: StatusUpdate) => Promise<void>;
+  /**
+   * Updates the status of a collection of stories.
+   *
+   * @param {string} addonId - The ID of the addon to update.
+   * @param {StatusUpdate} update - An object containing the updated status information.
+   * @returns {Promise<void>} A promise that resolves when the status has been updated.
+   */
+  experimental_updateStatus: (addonId: string, update: StatusUpdate) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
