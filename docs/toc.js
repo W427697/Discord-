@@ -557,6 +557,11 @@ module.exports = {
           ],
         },
         {
+          pathSegment: 'arg-types',
+          title: 'ArgTypes',
+          type: 'link',
+        },
+        {
           title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
@@ -656,11 +661,6 @@ module.exports = {
             {
               pathSegment: 'csf',
               title: 'Component Story Format',
-              type: 'link',
-            },
-            {
-              pathSegment: 'argtypes',
-              title: 'ArgTypes',
               type: 'link',
             },
           ],
