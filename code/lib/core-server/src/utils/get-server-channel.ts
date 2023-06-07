@@ -5,6 +5,10 @@ import { Channel } from '@storybook/channels';
 
 type Server = ConstructorParameters<typeof WebSocketServer>[0]['server'];
 
+/**
+ * This class represents a channel transport that allows for a one-to-many relationship between the server and clients.
+ * Unlike other channels such as the postmessage and websocket channel implementations, this channel will receive from many clients and any events emitted will be sent out to all connected clients.
+ */
 export class ServerChannelTransport {
   private socket: WebSocketServer;
 
@@ -43,9 +47,9 @@ export class ServerChannelTransport {
 }
 
 export function getServerChannel(server: Server) {
-  const transport = new ServerChannelTransport(server);
+  const transports = [new ServerChannelTransport(server)];
 
-  return new Channel({ transport, async: true });
+  return new Channel({ transports, async: true });
 }
 
 // for backwards compatibility
