@@ -6369,7 +6369,7 @@ __metadata:
     jest-specific-snapshot: ^7.0.0
     lodash: ^4.17.21
     node-fetch: ^3.3.1
-    open: ^8.0.0
+    open: ^8.4.0
     pretty-hrtime: ^1.0.3
     prompts: ^2.4.0
     read-pkg-up: ^7.0.1
@@ -24059,7 +24059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:8.4.2, open@npm:^8.0.0, open@npm:^8.0.4, open@npm:^8.0.9, open@npm:^8.4.0, open@npm:~8.4.0":
+"open@npm:8.4.2, open@npm:^8.0.4, open@npm:^8.0.9, open@npm:^8.4.0, open@npm:~8.4.0":
   version: 8.4.2
   resolution: "open@npm:8.4.2"
   dependencies:
