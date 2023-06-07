@@ -94,7 +94,7 @@
     "styled-jsx": "5.1.1",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths": "^4.0.0",
-    "tsconfig-paths-webpack-plugin": "^3.5.2"
+    "tsconfig-paths-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.0",
