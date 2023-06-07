@@ -360,14 +360,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@aw-web-design/x-default-browser@npm:1.4.88":
-  version: 1.4.88
-  resolution: "@aw-web-design/x-default-browser@npm:1.4.88"
+"@aw-web-design/x-default-browser@npm:1.4.126":
+  version: 1.4.126
+  resolution: "@aw-web-design/x-default-browser@npm:1.4.126"
   dependencies:
     default-browser-id: 3.0.0
   bin:
     x-default-browser: bin/x-default-browser.js
-  checksum: ae604e01aeb226b48cad226bfce55a88a12d759d139ede20aa71ee9ed94fefe912659678ae663bb277d9c02f281f62a965bdc0adf43817b0f95d397cbf97d8b2
+  checksum: 634c7fad7a5f4df86e3fcd3a11e50034fcb6f6302281569727574cbda7532850063cb34ec328384a686ab0812f297bf301a5e2450bc7b93b5f80a006b1f2dfd7
   languageName: node
   linkType: hard
 
@@ -6332,7 +6332,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-server@workspace:lib/core-server"
   dependencies:
-    "@aw-web-design/x-default-browser": 1.4.88
+    "@aw-web-design/x-default-browser": 1.4.126
     "@discoveryjs/json-ext": ^0.5.3
     "@storybook/builder-manager": 7.1.0-alpha.29
     "@storybook/core-common": 7.1.0-alpha.29
@@ -6355,7 +6355,7 @@ __metadata:
     "@types/semver": ^7.3.4
     "@types/serve-favicon": ^2.5.2
     "@types/ws": ^8
-    better-opn: ^2.1.1
+    better-opn: ^3.0.2
     boxen: ^5.1.2
     chalk: ^4.1.0
     cli-table3: ^0.6.1
@@ -6380,6 +6380,7 @@ __metadata:
     tiny-invariant: ^1.3.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
+    util: ^0.12.4
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
     ws: ^8.2.3
@@ -11255,12 +11256,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"better-opn@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "better-opn@npm:2.1.1"
+"better-opn@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "better-opn@npm:3.0.2"
   dependencies:
-    open: ^7.0.3
-  checksum: c483f52a1c71555926df37a89ae7e521cddff6509e2a02c6af83c2c500e20cb3307417579ce1d5ec4d09855cc7d30f608b20934e7cedc54218888722d5bfc1d3
+    open: ^8.0.4
+  checksum: 911ef25d44da75aabfd2444ce7a4294a8000ebcac73068c04a60298b0f7c7506b60421aa4cd02ac82502fb42baaff7e4892234b51e6923eded44c5a11185f2f5
   languageName: node
   linkType: hard
 
@@ -19154,7 +19155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-wsl@npm:^2.1.1, is-wsl@npm:^2.2.0":
+"is-wsl@npm:^2.2.0":
   version: 2.2.0
   resolution: "is-wsl@npm:2.2.0"
   dependencies:
@@ -24058,7 +24059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:8.4.2, open@npm:^8.0.9, open@npm:^8.4.0, open@npm:~8.4.0":
+"open@npm:8.4.2, open@npm:^8.0.4, open@npm:^8.0.9, open@npm:^8.4.0, open@npm:~8.4.0":
   version: 8.4.2
   resolution: "open@npm:8.4.2"
   dependencies:
@@ -24066,16 +24067,6 @@ __metadata:
     is-docker: ^2.1.1
     is-wsl: ^2.2.0
   checksum: bb6b3a58401dacdb0aad14360626faf3fb7fba4b77816b373495988b724fb48941cad80c1b65d62bb31a17609b2cd91c41a181602caea597ca80dfbcc27e84c9
-  languageName: node
-  linkType: hard
-
-"open@npm:^7.0.3":
-  version: 7.4.2
-  resolution: "open@npm:7.4.2"
-  dependencies:
-    is-docker: ^2.0.0
-    is-wsl: ^2.1.1
-  checksum: 77573a6a68f7364f3a19a4c80492712720746b63680ee304555112605ead196afe91052bd3c3d165efdf4e9d04d255e87de0d0a77acec11ef47fd5261251813f
   languageName: node
   linkType: hard
 
