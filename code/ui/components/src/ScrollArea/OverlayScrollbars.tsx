@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useRef, useEffect } from 'react';
 import type { UseOverlayScrollbarsParams } from 'overlayscrollbars-react';
+
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 
 export const OverlayScrollbarsComponent: FC<{
