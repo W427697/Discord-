@@ -257,7 +257,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
 
-  let projectType;
+  let projectType: ProjectType;
   const projectTypeProvided = options.type;
   const infoText = projectTypeProvided
     ? `Installing Storybook for user specified project type: ${projectTypeProvided}`
@@ -268,7 +268,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   if (projectTypeProvided) {
     if (installableProjectTypes.includes(projectTypeProvided)) {
-      projectType = projectTypeProvided.toUpperCase();
+      projectType = projectTypeProvided.toUpperCase() as ProjectType;
     } else {
       done(`The provided project type was not recognized by Storybook: ${projectTypeProvided}`);
       logger.log(`\nThe project types currently supported by Storybook are:\n`);
@@ -328,21 +328,54 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     projectType === ProjectType.NEXTJS;
 
   const shouldRunDev =
-    projectType !== ProjectType.ANGULAR && projectType !== ProjectType.REACT_NATIVE;
-  if (process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true' && shouldRunDev) {
+    projectType !== ProjectType.REACT_NATIVE &&
+    process.env.CI !== 'true' &&
+    process.env.IN_STORYBOOK_SANDBOX !== 'true';
+  if (shouldRunDev) {
     logger.log('\nRunning Storybook');
-    await dev({
-      ...options,
-      port: 6006,
-      open: true,
-      quiet: true,
-      // TODO: change this logic to all frameworks once the idea is validated
-      initialPath: isReactProject ? '/onboarding' : undefined,
+
+    process.on('SIGINT', () => {
+      logger.log('\nTo run your Storybook again, type:\n');
+      const storybookCommand =
+        projectType === ProjectType.ANGULAR
+          ? `ng run ${installResult.projectName}:storybook`
+          : packageManager.getRunStorybookCommand();
+      codeLog([storybookCommand]);
+      logger.log();
     });
-  } else if (projectType === ProjectType.ANGULAR) {
-    logger.log('\nTo run your Storybook, type:\n');
-    codeLog([`ng run ${installResult.projectName}:storybook`]);
-    logger.log();
+
+    switch (projectType) {
+      case ProjectType.ANGULAR: {
+        try {
+          // for angular specifically, we have to run the `ng` command, and to stream the output
+          // it has to be a sync command.
+          packageManager.runPackageCommandSync(
+            `ng run ${installResult.projectName}:storybook`,
+            ['--quiet'],
+            undefined,
+            'inherit'
+          );
+        } catch (e) {
+          if (e.message.includes('Command failed with exit code 129')) {
+            // catch ctrl + c error
+          } else {
+            throw e;
+          }
+        }
+        break;
+      }
+
+      default: {
+        await dev({
+          ...options,
+          port: 6006,
+          open: true,
+          quiet: true,
+          // TODO: change this logic to all frameworks once the idea is validated
+          initialPath: isReactProject ? '/onboarding' : undefined,
+        });
+      }
+    }
   } else if (projectType === ProjectType.REACT_NATIVE) {
     logger.log();
     logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
