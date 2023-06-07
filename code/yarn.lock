@@ -3005,15 +3005,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-typed-document-node/core@npm:^3.1.0":
-  version: 3.2.0
-  resolution: "@graphql-typed-document-node/core@npm:3.2.0"
-  peerDependencies:
-    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-  checksum: 94e9d75c1f178bbae8d874f5a9361708a3350c8def7eaeb6920f2c820e82403b7d4f55b3735856d68e145e86c85cbfe2adc444fdc25519cd51f108697e99346c
-  languageName: node
-  linkType: hard
-
 "@hapi/accept@npm:^5.0.1":
   version: 5.0.2
   resolution: "@hapi/accept@npm:5.0.2"
@@ -3974,17 +3965,6 @@ __metadata:
     write-pkg: 4.0.0
     yargs: 16.2.0
   checksum: 21087b65a0999852212d3cf8b9e94b4cf158324211a47d3655fadee84a59b6ec8b62dc133266a2204324cfbd0871d9cec65cfc8da802a6ee4b2f8effc5ed6614
-  languageName: node
-  linkType: hard
-
-"@linear/sdk@npm:^1.21.0":
-  version: 1.22.0
-  resolution: "@linear/sdk@npm:1.22.0"
-  dependencies:
-    "@graphql-typed-document-node/core": ^3.1.0
-    graphql: ^15.4.0
-    isomorphic-unfetch: ^3.1.0
-  checksum: 7e8f24f617631d027fd606334a498b04014d4c33603bcb3e08073d14f86260d116597983567f8bc147a935e4557180158175b52b9a9a8a270a234b946894a82b
   languageName: node
   linkType: hard
 
@@ -5133,13 +5113,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^4.1.0, @rollup/pluginutils@npm:^4.1.1, @rollup/pluginutils@npm:^4.2.0":
+"@rollup/pluginutils@npm:^4.1.0, @rollup/pluginutils@npm:^4.1.1":
   version: 4.2.1
   resolution: "@rollup/pluginutils@npm:4.2.1"
   dependencies:
     estree-walker: ^2.0.1
     picomatch: ^2.2.2
   checksum: 3ee56b2c8f1ed8dfd0a92631da1af3a2dfdd0321948f089b3752b4de1b54dc5076701eadd0e5fc18bd191b77af594ac1db6279e83951238ba16bf8a414c64c48
+  languageName: node
+  linkType: hard
+
+"@rollup/pluginutils@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@rollup/pluginutils@npm:5.0.2"
+  dependencies:
+    "@types/estree": ^1.0.0
+    estree-walker: ^2.0.2
+    picomatch: ^2.3.1
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: b06f73c15bb59418aa6fbfead5675bab2d6922e15663525ffc2eb8429530bc5add516600adb251cfbf9b60f3d12fb821cde155cb5103415154a476bd0f163432
   languageName: node
   linkType: hard
 
@@ -5840,7 +5836,7 @@ __metadata:
     telejson: ^7.0.3
     tmp: ^0.2.1
     ts-dedent: ^2.0.0
-    tsconfig-paths-webpack-plugin: ^3.5.2
+    tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^5.0.4
     util-deprecate: ^1.0.2
     webpack: 5
@@ -6057,7 +6053,7 @@ __metadata:
     case-sensitive-paths-webpack-plugin: ^2.4.0
     css-loader: ^6.7.1
     express: ^4.17.3
-    fork-ts-checker-webpack-plugin: ^7.2.8
+    fork-ts-checker-webpack-plugin: ^8.0.0
     fs-extra: ^11.1.0
     html-webpack-plugin: ^5.5.0
     path-browserify: ^1.0.1
@@ -6075,7 +6071,7 @@ __metadata:
     webpack: 5
     webpack-dev-middleware: ^6.1.1
     webpack-hot-middleware: ^2.25.1
-    webpack-virtual-modules: ^0.4.3
+    webpack-virtual-modules: ^0.5.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6787,7 +6783,7 @@ __metadata:
     styled-jsx: 5.1.1
     ts-dedent: ^2.0.0
     tsconfig-paths: ^4.0.0
-    tsconfig-paths-webpack-plugin: ^3.5.2
+    tsconfig-paths-webpack-plugin: ^4.0.1
     typescript: ^4.9.3
     webpack: ^5.65.0
   peerDependencies:
@@ -6983,7 +6979,7 @@ __metadata:
     safe-identifier: ^0.4.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
-    yaml: ^1.10.0
+    yaml: ^2.3.1
     yaml-loader: ^0.8.0
   languageName: unknown
   linkType: soft
@@ -7180,7 +7176,7 @@ __metadata:
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
   dependencies:
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.2.1
-    "@rollup/pluginutils": ^4.2.0
+    "@rollup/pluginutils": ^5.0.2
     "@storybook/builder-vite": 7.1.0-alpha.29
     "@storybook/react": 7.1.0-alpha.29
     "@types/node": ^16.0.0
@@ -7270,7 +7266,6 @@ __metadata:
     "@babel/runtime": ^7.20.1
     "@emotion/jest": ^11.10.0
     "@jest/globals": ^29.3.1
-    "@linear/sdk": ^1.21.0
     "@nx/workspace": 16.2.1
     "@playwright/test": ^1.34.3
     "@storybook/addon-a11y": "workspace:*"
@@ -16474,9 +16469,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^7.2.8":
-  version: 7.3.0
-  resolution: "fork-ts-checker-webpack-plugin@npm:7.3.0"
+"fork-ts-checker-webpack-plugin@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "fork-ts-checker-webpack-plugin@npm:8.0.0"
   dependencies:
     "@babel/code-frame": ^7.16.7
     chalk: ^4.1.2
@@ -16492,12 +16487,8 @@ __metadata:
     tapable: ^2.2.1
   peerDependencies:
     typescript: ">3.6.0"
-    vue-template-compiler: "*"
     webpack: ^5.11.0
-  peerDependenciesMeta:
-    vue-template-compiler:
-      optional: true
-  checksum: 00a3dad0815178db485317d8909dc1171c0bb97e43dac004a74048b36ddc0260db188fcb5eebb01a54fb280a82acf55e5a5d09e1e55ffa80b77ad41e5c8ba539
+  checksum: 1a2bb9bbd3e943e3b3a45d7fa9e8383698f5fea1ba28f7d18c8372c804460c2f13af53f791360b973fddafd3e88de7af59082c3cb3375f4e7c3365cd85accedc
   languageName: node
   linkType: hard
 
@@ -17434,13 +17425,6 @@ __metadata:
   version: 1.4.0
   resolution: "graphemer@npm:1.4.0"
   checksum: e951259d8cd2e0d196c72ec711add7115d42eb9a8146c8eeda5b8d3ac91e5dd816b9cd68920726d9fd4490368e7ed86e9c423f40db87e2d8dfafa00fa17c3a31
-  languageName: node
-  linkType: hard
-
-"graphql@npm:^15.4.0":
-  version: 15.8.0
-  resolution: "graphql@npm:15.8.0"
-  checksum: 30cc09b77170a9d1ed68e4c017ec8c5265f69501c96e4f34f8f6613f39a886c96dd9853eac925f212566ed651736334c8fe24ceae6c44e8d7625c95c3009a801
   languageName: node
   linkType: hard
 
@@ -29932,18 +29916,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths-webpack-plugin@npm:^3.5.2":
-  version: 3.5.2
-  resolution: "tsconfig-paths-webpack-plugin@npm:3.5.2"
+"tsconfig-paths-webpack-plugin@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "tsconfig-paths-webpack-plugin@npm:4.0.1"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.7.0
-    tsconfig-paths: ^3.9.0
-  checksum: 8b964284cfc58b5d3c4b13c31d7032d6774076d0af78f215644abd10da5b2c1b47eb91f9c084e709c84a70918fbc1cdb8730eba489c3f9be8039bf1e8daebcd4
+    tsconfig-paths: ^4.1.2
+  checksum: c5d09b669b07806b5f4e5aafd893824a9e302ddb8e011ad48c4cf65143414b5b317f09d84e2b8a13ad1e5b52d658e7eb1f71af1dc267533eb766b3f144963b30
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:^3.14.1, tsconfig-paths@npm:^3.9.0":
+"tsconfig-paths@npm:^3.14.1":
   version: 3.14.2
   resolution: "tsconfig-paths@npm:3.14.2"
   dependencies:
@@ -31727,10 +31711,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-virtual-modules@npm:^0.4.3, webpack-virtual-modules@npm:^0.4.5":
+"webpack-virtual-modules@npm:^0.4.5":
   version: 0.4.6
   resolution: "webpack-virtual-modules@npm:0.4.6"
   checksum: d3ecd680289e04f6fac70f09a682385b176303cfdc69ad08f11fce6fa031f9c054b3e728cb54967da48f051cd2ebe3f0d0d02bf78d3dfc8a3a9be91ea7544bbb
+  languageName: node
+  linkType: hard
+
+"webpack-virtual-modules@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "webpack-virtual-modules@npm:0.5.0"
+  checksum: 0742e069cd49d91ccd0b59431b3666903d321582c1b1062fa6bdae005c3538af55ff8787ea5eafbf72662f3496d3a879e2c705d55ca0af8283548a925be18484
   languageName: node
   linkType: hard
 
