@@ -52,7 +52,6 @@
     "@babel/types": "^7.22.0",
     "@emotion/jest": "^11.10.5",
     "@jest/globals": "^29.3.1",
-    "@linear/sdk": "^1.22.0",
     "@nx/workspace": "16.2.1",
     "@storybook/eslint-config-storybook": "^3.1.2",
     "@storybook/jest": "future",
@@ -150,7 +149,7 @@
     "type-fest": "^3.4.0",
     "typescript": "5.0.4",
     "util": "^0.12.4",
-    "wait-on": "^5.2.1",
+    "wait-on": "^7.0.1",
     "window-size": "^1.1.1",
     "zx": "^7.0.3"
   },
