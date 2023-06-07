@@ -2996,7 +2996,7 @@ __metadata:
     ts-loader: ^9.4.2
     ts-node: ^10.9.1
     tsup: ^6.7.0
-    type-fest: ^3.4.0
+    type-fest: ^3.11.0
     typescript: 5.0.4
     util: ^0.12.4
     verdaccio: ^5.19.1
@@ -14947,10 +14947,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^3.0.0, type-fest@npm:^3.4.0":
+"type-fest@npm:^3.0.0":
   version: 3.11.0
   resolution: "type-fest@npm:3.11.0"
   checksum: df9f3d38a0b133dc7d517b1eb690d8da90f14fd72ff068dc1a6b0c45b20df36ff390fcf23256d85a114b17ac234422161a1438abb68b3d6364462cfc2846558d
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^3.11.0":
+  version: 3.11.1
+  resolution: "type-fest@npm:3.11.1"
+  checksum: 55c0ba11e8b494684bf63f76e762ac44a95a9243a873cfc03c97f909477938d4a80f0c6265bfae92074072305447428748726385bbf2be4484b8451d73c84881
   languageName: node
   linkType: hard
 
