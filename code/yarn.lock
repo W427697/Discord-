@@ -7539,14 +7539,13 @@ __metadata:
     "@sveltejs/vite-plugin-svelte": ^2.0.0
     "@types/node": ^16.0.0
     magic-string: ^0.27.0
-    svelte: ^3.0.0 || ^4.0.0 || ^4.0.0-next.0
+    svelte: ^4.0.0-next.0
     sveltedoc-parser: ^4.2.1
     ts-dedent: ^2.2.0
     typescript: ~4.9.3
     vite: ^4.0.0
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    svelte: ^3.0.0 || ^4.0.0 || ^4.0.0-next.0
     vite: ^3.0.0 || ^4.0.0
   languageName: unknown
   linkType: soft
@@ -7604,6 +7603,7 @@ __metadata:
     typescript: ^4.9.3
     vite: ^4.0.0
   peerDependencies:
+    svelte: ^3.0.0 || ^4.0.0 || ^4.0.0-next.0
     vite: ^4.0.0
   languageName: unknown
   linkType: soft
@@ -29331,7 +29331,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^3.0.0 || ^4.0.0 || ^4.0.0-next.0, svelte@npm:^4.0.0-next.0":
+"svelte@npm:^3.31.2, svelte@npm:^3.48.0":
+  version: 3.59.1
+  resolution: "svelte@npm:3.59.1"
+  checksum: 12a250de5c359d3a184f15727d5e61e45103a795adb32e8c4100a40929d987832ab7edcbfe357d86863c0819ad4edbd69bfc83ac33bf9b5e47a233a621fbcc3e
+  languageName: node
+  linkType: hard
+
+"svelte@npm:^4.0.0-next.0":
   version: 4.0.0-next.0
   resolution: "svelte@npm:4.0.0-next.0"
   dependencies:
@@ -29348,13 +29355,6 @@ __metadata:
     magic-string: ^0.30.0
     periscopic: ^3.1.0
   checksum: 8dade0d28c01310a1f35fe8b08edbd17286110f11291c962f10b7566ec20752a9fe65ee4ca01b522741e3037f71c02eb78b67fed8b98ae5417af0d323c2d18b0
-  languageName: node
-  linkType: hard
-
-"svelte@npm:^3.31.2, svelte@npm:^3.48.0":
-  version: 3.59.1
-  resolution: "svelte@npm:3.59.1"
-  checksum: 12a250de5c359d3a184f15727d5e61e45103a795adb32e8c4100a40929d987832ab7edcbfe357d86863c0819ad4edbd69bfc83ac33bf9b5e47a233a621fbcc3e
   languageName: node
   linkType: hard
 
