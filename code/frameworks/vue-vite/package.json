@@ -51,7 +51,7 @@
     "@storybook/core-common": "7.1.0-alpha.29",
     "@storybook/core-server": "7.1.0-alpha.29",
     "@storybook/vue": "7.1.0-alpha.29",
-    "magic-string": "^0.27.0",
+    "magic-string": "^0.30.0",
     "vue-docgen-api": "^4.40.0"
   },
   "devDependencies": {
