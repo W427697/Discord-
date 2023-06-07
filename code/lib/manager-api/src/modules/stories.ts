@@ -50,6 +50,7 @@ import {
 } from '../lib/stories';
 
 import type { ComposedRef, ModuleFn } from '../index';
+import { merge } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -61,11 +62,22 @@ type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
 type StoryUpdate = Partial<
   Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
 >;
+interface StatusObject {
+  status: 'pending' | 'success' | 'error' | 'warn' | 'unknown';
+  title: string;
+  description: string;
+  data?: any;
+}
+
+type StatusState = Record<StoryId, Record<string, StatusObject>>;
+type StatusUpdate = Record<StoryId, StatusObject>;
+
 type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
+  status: StatusState;
 }
 
 export interface SubAPI {
@@ -102,6 +114,14 @@ export interface SubAPI {
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
   updateDocs: (storyId: StoryId, update: DocsUpdate, ref?: API_ComposedRef) => Promise<void>;
   setPreviewInitialized: (ref?: ComposedRef) => Promise<void>;
+  /**
+   * Updates the status of a collection of stories.
+   *
+   * @param {string} addonId - The ID of the addon to update.
+   * @param {StatusUpdate} update - An object containing the updated status information.
+   * @returns {Promise<void>} A promise that resolves when the status has been updated.
+   */
+  experimental_updateStatus: (addonId: string, update: StatusUpdate) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
@@ -406,6 +426,18 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         fullAPI.updateRef(ref.id, { previewInitialized: true });
       }
     },
+
+    /* EXPERIMENTAL APIs */
+    experimental_updateStatus: async (id, update) => {
+      const { status } = store.getState();
+      const addition = Object.entries(update).reduce<StatusState>((acc, [storyId, value]) => {
+        acc[storyId] = acc[storyId] || {};
+        acc[storyId][id] = value;
+
+        return acc;
+      }, {});
+      await store.setState({ status: merge(status, addition) }, { persistence: 'session' });
+    },
   };
 
   const initModule = async () => {
@@ -575,6 +607,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       viewMode: initialViewMode,
       hasCalledSetOptions: false,
       previewInitialized: false,
+      status: {},
     },
     init: initModule,
   };
