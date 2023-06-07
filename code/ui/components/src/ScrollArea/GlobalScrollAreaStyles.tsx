@@ -351,7 +351,8 @@ export const getScrollAreaStyles: (theme: Theme) => CSSObject = (theme: Theme) =
     '.os-scrollbar .os-scrollbar-handle': {
       border: 'var(--os-handle-border)',
       borderRadius: 'var(--os-handle-border-radius)',
-      background: 'var(--os-handle-bg)',
+      background: theme.textMutedColor,
+      opacity: 0.5,
     },
     '.os-scrollbar .os-scrollbar-handle:before': {
       content: '""',
@@ -364,7 +365,7 @@ export const getScrollAreaStyles: (theme: Theme) => CSSObject = (theme: Theme) =
     },
     '.os-scrollbar .os-scrollbar-handle:hover': {
       border: 'var(--os-handle-border-hover)',
-      background: 'var(--os-handle-bg-hover)',
+      opacity: 0.6,
     },
     '.os-scrollbar .os-scrollbar-handle:active': {
       border: 'var(--os-handle-border-active)',
