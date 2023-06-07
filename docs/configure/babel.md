@@ -135,7 +135,7 @@ For more info, please refer to the [Babel documentation](https://babeljs.io/docs
 
 ### SWC fallback
 
-If you're working with a Webpack-based project and having issues with Babel configuration, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler. To do so, update your Storybook configuration file (e.g., `.storybook/main.js|ts`) to enable the exp experimental `useSWC` option:
+If you're working with a Webpack-based project and having issues with Babel configuration, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler. To do so, update your Storybook configuration file (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
 
 <!-- prettier-ignore-start -->
 

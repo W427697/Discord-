@@ -59,7 +59,6 @@
   },
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
-    "@types/overlayscrollbars": "^1.12.0",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
