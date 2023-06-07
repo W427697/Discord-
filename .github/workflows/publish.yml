@@ -104,9 +104,9 @@ jobs:
           git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
 
-      # Force push from next to main if it is not a prerelease, and this release is from next-release
+      # Force push from next to main if it is not a prerelease, and this release is from release/next
       # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
-      # This will keep next-release, next and main all tracking v7.1.0
+      # This will keep release/next, next and main all tracking v7.1.0
       - name: Force push ${{ steps.target.outputs.target }} to main-v2
         if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next-v2' && !steps.is-prerelease.outputs.prerelease
         run: |

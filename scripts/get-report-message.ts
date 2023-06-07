@@ -4,7 +4,7 @@ import { join } from 'path';
 import { CODE_DIRECTORY } from './utils/constants';
 import { execaCommand } from './utils/exec';
 
-type Branch = 'main' | 'next' | 'alpha' | 'next-release' | 'latest-release';
+type Branch = 'main' | 'next' | 'alpha' | 'release/next' | 'release/main';
 type Workflow = 'merged' | 'daily';
 
 const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
@@ -13,7 +13,7 @@ const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
   }
 
   // The CI workflows can run on release branches and we should display the version number
-  if (branch === 'next-release' || branch === 'latest-release') {
+  if (branch === 'release/next' || branch === 'release/main') {
     const packageJson = await readJson(join(CODE_DIRECTORY, 'package.json'));
 
     // running in alpha branch we should just show the version which failed
