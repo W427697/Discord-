@@ -42,7 +42,7 @@ export interface SubAPI {
    * Returns the id of the currently selected panel.
    * @returns {string} - The ID of the currently selected panel.
    */
-  getSelectedPanel: () => string;
+  getSelectedPanel: () => string | null | undefined;
   /**
    * Sets the currently selected panel via it's ID.
    * @param {string} panelName - The ID of the panel to select.
