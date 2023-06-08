@@ -1,6 +1,9 @@
-import path from "path";
-import { run as isPrFrozen } from "../is-pr-frozen";
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable global-require */
+import path from 'path';
+import { run as isPrFrozen } from '../is-pr-frozen';
 
+// eslint-disable-next-line jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
 jest.mock('../utils/get-github-info');
 
@@ -16,40 +19,43 @@ fsExtra.__setMockFiles({
 });
 
 describe('isPrFrozen', () => {
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should return true when PR is frozen', async () => {
     getPullInfoFromCommit.mockResolvedValue({
-      labels: ['freeze']
+      labels: ['freeze'],
     });
-    await expect(isPrFrozen({patch: false})).resolves.toBe(true);
+    await expect(isPrFrozen({ patch: false })).resolves.toBe(true);
   });
 
   it('should return false when PR is not frozen', async () => {
     getPullInfoFromCommit.mockResolvedValue({
-      labels: []
+      labels: [],
     });
-    await expect(isPrFrozen({patch: false})).resolves.toBe(false);
+    await expect(isPrFrozen({ patch: false })).resolves.toBe(false);
   });
 
   it('should look for patch PRs when patch is true', async () => {
     getPullInfoFromCommit.mockResolvedValue({
-      labels: []
+      labels: [],
     });
-    await isPrFrozen({patch: true});
+    await isPrFrozen({ patch: true });
 
-    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-from-patch-1.0.0', {'--depth': 1});
+    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-from-patch-1.0.0', {
+      '--depth': 1,
+    });
   });
-  
+
   it('should look for prerelease PRs when patch is false', async () => {
     getPullInfoFromCommit.mockResolvedValue({
-      labels: []
+      labels: [],
     });
-    await isPrFrozen({patch: false});
+    await isPrFrozen({ patch: false });
 
-    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-from-prerelease-1.0.0', {'--depth': 1});
+    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-from-prerelease-1.0.0', {
+      '--depth': 1,
+    });
   });
 });

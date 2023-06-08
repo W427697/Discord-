@@ -1,4 +1,5 @@
-import { graphql, GraphQlQueryResponseData } from '@octokit/graphql';
+import type { GraphQlQueryResponseData } from '@octokit/graphql';
+import { graphql } from '@octokit/graphql';
 
 export const githubGraphQlClient = graphql.defaults({
   headers: { authorization: `token ${process.env.GH_TOKEN}` },
