@@ -53,7 +53,12 @@ const LABELS_BY_IMPORTANCE = {
   unknown: '❔ Missing Label',
 } as const;
 
-const CHANGE_TITLES_TO_IGNORE = [/^bump version.*/i, /^merge branch.*/i, /\[skip ci\]/i];
+const CHANGE_TITLES_TO_IGNORE = [
+  /^bump version.*/i,
+  /^merge branch.*/i,
+  /\[skip ci\]/i,
+  /\[ci skip\]/i,
+];
 
 export const mapToChangelist = ({
   changes,
