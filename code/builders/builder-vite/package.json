@@ -56,7 +56,7 @@
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
     "fs-extra": "^11.1.0",
-    "magic-string": "^0.27.0",
+    "magic-string": "^0.30.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
     "rollup": "^2.25.0 || ^3.3.0"
