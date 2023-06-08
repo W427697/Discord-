@@ -66,16 +66,18 @@ const pullInfoMock = {
   },
 };
 
-beforeAll(() => {
+beforeEach(() => {
   // mock IO
-  gitClient.getLatestTag.mockResolvedValueOnce('v7.2.1');
-  gitClient.git.log.mockResolvedValueOnce(gitLogMock);
+  jest.clearAllMocks();
+  gitClient.getLatestTag.mockResolvedValue('v7.2.1');
+  gitClient.git.log.mockResolvedValue(gitLogMock);
   gitClient.git.getRemotes.mockResolvedValue(remoteMock);
-  githubInfo.getPullInfoFromCommit.mockResolvedValueOnce(pullInfoMock);
-  github.getLabelIds.mockResolvedValueOnce({ picked: 'pick-id' });
+  githubInfo.getPullInfoFromCommit.mockResolvedValue(pullInfoMock);
+  github.getLabelIds.mockResolvedValue({ picked: 'pick-id' });
 });
 
 test('it should fail early when no GH_TOKEN is set', async () => {
+  delete process.env.GH_TOKEN;
   await expect(run({})).rejects.toThrowErrorMatchingInlineSnapshot(
     `"GH_TOKEN environment variable must be set, exiting."`
   );
