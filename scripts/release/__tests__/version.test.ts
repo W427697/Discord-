@@ -7,6 +7,10 @@ import { run as version } from '../version';
 jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
 const fsExtra = require('fs-extra');
 
+jest.mock('../../../code/lib/cli/src/versions', () => ({
+  '@storybook/addon-a11y': '7.1.0-alpha.29',
+}));
+
 jest.mock('../../utils/exec');
 const { execaCommand } = require('../../utils/exec');
 
