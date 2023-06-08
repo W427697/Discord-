@@ -7715,6 +7715,7 @@ __metadata:
     css-loader: "*"
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
+    vue: ^2.7.0
     vue-tsc: ^1.0.9
   peerDependencies:
     babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -31114,7 +31115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^2.6.12, vue@npm:^2.7.10":
+"vue@npm:^2.6.12, vue@npm:^2.7.0, vue@npm:^2.7.10":
   version: 2.7.14
   resolution: "vue@npm:2.7.14"
   dependencies:
