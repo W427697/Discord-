@@ -45,7 +45,7 @@ jobs:
       - name: Checkout next
         uses: actions/checkout@v3
         with:
-          ref: next
+          ref: next-debug
           # this needs to be set to a high enough number that it will contain the last version tag
           # as of May 2023, the whole repo had 55K commits
           fetch-depth: 10000

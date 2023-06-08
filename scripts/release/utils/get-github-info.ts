@@ -155,7 +155,7 @@ const GHDataLoader = new DataLoader(
         cleanedData[repo][rest.kind][rest.kind === 'pull' ? rest.pull : rest.commit]
     );
   },
-  { maxBatchSize: 10 }
+  { maxBatchSize: 50 }
 );
 
 export type PullRequestInfo = {
