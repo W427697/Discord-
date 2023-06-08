@@ -51,7 +51,7 @@
     "@storybook/node-logger": "7.1.0-alpha.29",
     "@storybook/svelte": "7.1.0-alpha.29",
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
-    "magic-string": "^0.27.0",
+    "magic-string": "^0.30.0",
     "svelte": "^3.0.0",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.2.0"
