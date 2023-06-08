@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - next
+      - next-debug
   workflow_dispatch:
     inputs:
       release-type:

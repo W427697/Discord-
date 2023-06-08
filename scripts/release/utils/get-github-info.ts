@@ -21,7 +21,7 @@ type ReposWithCommitsAndPRsToFetch = Record<
 >;
 
 function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
-  return `
+  const debug = `
       query {
         ${Object.keys(repos)
           .map(
@@ -85,6 +85,8 @@ function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
           .join('\n')}
         }
     `;
+  console.log(debug);
+  return debug;
 }
 
 // why are we using dataloader?
