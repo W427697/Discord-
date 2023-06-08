@@ -320,6 +320,13 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
 
+  const isReactWebProject =
+    projectType === ProjectType.REACT_SCRIPTS ||
+    projectType === ProjectType.REACT ||
+    projectType === ProjectType.WEBPACK_REACT ||
+    projectType === ProjectType.REACT_PROJECT ||
+    projectType === ProjectType.NEXTJS;
+
   const shouldRunDev =
     projectType !== ProjectType.REACT_NATIVE &&
     process.env.CI !== 'true' &&
@@ -364,6 +371,8 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
           port: 6006,
           open: true,
           quiet: true,
+          // TODO: change this logic to all frameworks once the idea is validated
+          initialPath: isReactWebProject ? '/onboarding' : undefined,
         });
       }
     }
