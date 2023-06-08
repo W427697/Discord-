@@ -260,8 +260,10 @@ export const transformStoryIndexToStoriesHash = (
 
     // Finally add an entry for the docs/story itself
     acc[item.id] = {
-      ...item,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME, changing the position of this line causes tests to fail
       type: 'story',
+      ...item,
       depth: paths.length,
       parent: paths[paths.length - 1],
       renderLabel,
