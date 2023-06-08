@@ -148,4 +148,4 @@ If you're working with a Webpack-based project, you can opt into replacing Babel
 
 <!-- prettier-ignore-end -->
 
-See the [`useSWC` API reference](../api/main-config-framework.md#optionsbuilderuseswc-experimental) for more information.
+See the [`useSWC` API reference](../api/main-config-framework.md#optionsbuilderuseswc) for more information.

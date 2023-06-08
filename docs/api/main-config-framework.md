@@ -39,7 +39,9 @@ Type: `Record<string, any>`
 
 Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../builders/webpack.md).
 
-#### `options.builder.useSWC` (EXPERIMENTAL)
+#### `options.builder.useSWC`
+
+(⚠️ **Experimental**)
 
 For frameworks made with the [Webpack](../builders/webpack.md) builder, this option allows you to use the [SWC](https://swc.rs/) compiler instead of [Babel](../configure/babel.md).
 
