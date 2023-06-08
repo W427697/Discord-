@@ -85,10 +85,6 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           yarn release:pick-patches
 
-      - name: Install code dependencies
-        working-directory: .
-        run: yarn task --task=install --start-from=install
-
       - name: Bump version
         id: bump-version
         if: steps.unreleased-changes.outputs.has-changes-to-release == 'true'
