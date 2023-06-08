@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import originalFetch from 'node-fetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
@@ -8,7 +10,7 @@ import { getSessionId } from './session-id';
 
 const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
 
-const fetch = retry(originalFetch);
+const fetch = retry(originalFetch as any);
 
 let tasks: Promise<any>[] = [];
 
