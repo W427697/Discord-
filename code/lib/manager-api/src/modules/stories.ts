@@ -89,7 +89,7 @@ export interface SubAPI {
    */
   storyId: typeof toId;
   /**
-   * Resolves a story ID to its corresponding hash entry in the story index.
+   * Resolves a story, docs, component or group ID to its corresponding hash entry in the index.
    *
    * @param {StoryId} storyId - The ID of the story to resolve.
    * @param {string} [refsId] - The ID of the refs to use for resolving the story.
@@ -132,7 +132,7 @@ export interface SubAPI {
   setIndex: (index: API_PreparedStoryIndex) => Promise<void>;
 
   /**
-   * Jumps to the next or previous component in the component index.
+   * Jumps to the next or previous component in the index.
    *
    * @param {Direction} direction - The direction to jump. Use -1 to jump to the previous component, and 1 to jump to the next component.
    * @returns {void}
@@ -205,7 +205,7 @@ export interface SubAPI {
    */
   findLeafEntry(index: API_IndexHash, storyId: StoryId): API_LeafEntry;
   /**
-   * Finds the leaf story ID for the given story ID in the given story index.
+   * Finds the leaf story ID for the given component or group ID in the given index.
    *
    * @param {API_IndexHash} index - The story index to search for the leaf story ID in.
    * @param {StoryId} storyId - The ID of the story to find the leaf story ID for.
