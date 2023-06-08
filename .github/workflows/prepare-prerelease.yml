@@ -59,7 +59,11 @@ jobs:
         with:
           path: |
             ~/.yarn/berry/cache
-          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          restore-keys: |
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+            yarn-v1
 
       - name: Install Script Dependencies
         run: |
@@ -99,6 +103,10 @@ jobs:
         run: |
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
+
+      - name: Install code dependencies
+        working-directory: .
+        run: yarn task --task=install --start-from=install
 
       - name: Bump version
         id: bump-version
