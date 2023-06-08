@@ -116,14 +116,16 @@ const getStyles = (
 
 export const ViewportTool: FC = memo(
   withTheme(({ theme }: { theme: Theme }) => {
-    const {
-      viewports = MINIMAL_VIEWPORTS,
-      defaultOrientation = 'portrait',
-      defaultViewport = responsiveViewport.id,
-      disable,
-    } = useParameter<ViewportAddonParameter>(PARAM_KEY, {});
+    const viewportAddonParameter = useParameter<ViewportAddonParameter>(PARAM_KEY, {
+      viewports: MINIMAL_VIEWPORTS,
+      defaultOrientation: 'portrait',
+      defaultViewport: responsiveViewport.id,
+    });
+    const viewports = viewportAddonParameter?.viewports ?? MINIMAL_VIEWPORTS;
+    const defaultOrientation = viewportAddonParameter?.defaultOrientation ?? 'portrait';
+    const defaultViewport = viewportAddonParameter?.defaultViewport ?? responsiveViewport.id;
     const [state, setState] = useAddonState<ViewportToolState>(ADDON_ID, {
-      selected: defaultViewport,
+      selected: viewportAddonParameter?.defaultViewport ?? responsiveViewport.id,
       isRotated: defaultOrientation === 'landscape',
     });
 
@@ -166,7 +168,7 @@ export const ViewportTool: FC = memo(
       ref.current = styles;
     }, [item]);
 
-    if (disable || Object.entries(viewports).length === 0) {
+    if (viewportAddonParameter?.disable || Object.entries(viewports).length === 0) {
       return null;
     }
 

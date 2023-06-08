@@ -53,17 +53,17 @@ const Centered = styled.span({
 type Status = 'initial' | 'manual' | 'running' | 'error' | 'ran' | 'ready';
 
 export const A11YPanel: React.FC = () => {
-  const { manual } = useParameter<Pick<A11yParameters, 'manual'>>('a11y', {
+  const a11yParameters = useParameter<Pick<A11yParameters, 'manual'>>('a11y', {
     manual: false,
   });
-  const [status, setStatus] = useState<Status>(manual ? 'manual' : 'initial');
+  const [status, setStatus] = useState<Status>(a11yParameters?.manual ? 'manual' : 'initial');
   const [error, setError] = React.useState<unknown>(undefined);
   const { setResults, results } = useA11yContext();
   const { storyId } = useStorybookState();
 
   React.useEffect(() => {
-    setStatus(manual ? 'manual' : 'initial');
-  }, [manual]);
+    setStatus(a11yParameters?.manual ? 'manual' : 'initial');
+  }, [a11yParameters?.manual]);
 
   const handleResult = (axeResults: AxeResults) => {
     setStatus('ran');

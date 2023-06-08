@@ -54,19 +54,22 @@ interface DocsParams {
 export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
   const story = api.getCurrentStoryData();
   const selectedStoryRef = React.useRef<HTMLDivElement>(null);
-  const { source: loaderSource, locationsMap }: SourceParams = useParameter('storySource', {});
-  const { source: { originalSource: docsSource } = {} }: DocsParams = useParameter('docs', {});
+  const sourceParams = useParameter<SourceParams>('storySource', {});
+  const docsParams = useParameter<DocsParams>('docs', {});
   // prefer to use the source from source-loader, but fallback to
   // source provided by csf-plugin for vite usage
-  const source = loaderSource || docsSource || 'loading source...';
-  const currentLocationIndex = locationsMap
-    ? Object.keys(locationsMap).find((key: string) => {
+  const source = sourceParams?.source || docsParams?.source?.originalSource || 'loading source...';
+  const currentLocationIndex = sourceParams?.locationsMap
+    ? Object.keys(sourceParams?.locationsMap ?? {}).find((key: string) => {
         const sourceLoaderId = key.split('--');
-        return story.id.endsWith(sourceLoaderId[sourceLoaderId.length - 1]);
+        return story?.id.endsWith(sourceLoaderId[sourceLoaderId.length - 1]);
       })
     : undefined;
   const currentLocation =
-    locationsMap && currentLocationIndex ? locationsMap[currentLocationIndex] : undefined;
+    sourceParams?.locationsMap && currentLocationIndex
+      ? sourceParams?.locationsMap[currentLocationIndex]
+      : undefined;
+
   React.useEffect(() => {
     if (selectedStoryRef.current) {
       selectedStoryRef.current.scrollIntoView();
@@ -120,18 +123,22 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
     const parts: React.ReactNode[] = [];
     let lastRow = 0;
 
-    invariant(locationsMap, 'locationsMap should be defined while creating parts');
+    invariant(sourceParams?.locationsMap, 'locationsMap should be defined while creating parts');
 
-    Object.keys(locationsMap).forEach((key) => {
-      const location = locationsMap[key];
+    Object.keys(sourceParams?.locationsMap).forEach((key) => {
+      const location = sourceParams?.locationsMap?.[key];
+      // @ts-expect-error TODO: handle scenario
       const first = location.startLoc.line - 1;
+      // @ts-expect-error TODO: handle scenario
       const last = location.endLoc.line;
-      const { title, refId } = story;
+      const { title, refId } = story ?? { title: '', refId: '' };
       // source loader ids are different from story id
       const sourceIdParts = key.split('--');
       const id = api.storyId(title, sourceIdParts[sourceIdParts.length - 1]);
       const start = createPart({ rows: rows.slice(lastRow, first), stylesheet, useInlineStyles });
-      const storyPart = createStoryPart({ rows, stylesheet, useInlineStyles, location, id, refId });
+      const storyPart = location
+        ? createStoryPart({ rows, stylesheet, useInlineStyles, location, id, refId })
+        : undefined;
 
       parts.push(...start);
       parts.push(storyPart);
@@ -160,7 +167,7 @@ export const StoryPanel: React.FC<StoryPanelProps> = ({ api }) => {
       properties: { className: [] },
     }));
 
-    if (!locationsMap || !Object.keys(locationsMap).length) {
+    if (!sourceParams?.locationsMap || !Object.keys(sourceParams?.locationsMap).length) {
       return createPart({ rows: myrows, stylesheet, useInlineStyles });
     }
 
