@@ -5898,6 +5898,7 @@ __metadata:
     babel-plugin-named-exports-order: ^0.0.2
     browser-assert: ^1.2.1
     case-sensitive-paths-webpack-plugin: ^2.4.0
+    constants-browserify: ^1.0.0
     css-loader: ^6.7.1
     express: ^4.17.3
     fork-ts-checker-webpack-plugin: ^8.0.0
