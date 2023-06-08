@@ -101,7 +101,7 @@ test('it should label the PR associated with cheery picks in the current branch'
         ",
         {
           "input": {
-            "clientMutationId": "111db3d5-7ad7-5d3b-a8a9-efa7e7e9de57",
+            "clientMutationId": "7efda802-d7d1-5d76-97d6-cc16a9f3e357",
             "labelIds": [
               "pick-id",
             ],
