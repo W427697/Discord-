@@ -4,7 +4,7 @@ run-name: Prepare patch PR, triggered by ${{ github.triggering_actor }}
 on:
   push:
     branches:
-      - next-v2
+      - next
   workflow_dispatch:
 
 env:

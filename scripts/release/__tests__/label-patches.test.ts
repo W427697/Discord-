@@ -30,7 +30,7 @@ const gitLogMock: LogResult = {
       hash: 'some-hash',
       date: '2023-06-07T09:45:11+02:00',
       message: 'Something else',
-      refs: 'HEAD -> main-v2',
+      refs: 'HEAD -> main',
       body: '',
       author_name: 'Jeppe Reinhold',
       author_email: 'jeppe@chromatic.com',
@@ -39,7 +39,7 @@ const gitLogMock: LogResult = {
       hash: 'b75879c4d3d72f7830e9c5fca9f75a303ddb194d',
       date: '2023-06-07T09:45:11+02:00',
       message: 'Merge pull request #55 from storybookjs/fixes',
-      refs: 'HEAD -> main-v2',
+      refs: 'HEAD -> main',
       body:
         'Legal: Fix license\n' +
         '(cherry picked from commit 930b47f011f750c44a1782267d698ccdd3c04da3)\n',

@@ -221,7 +221,7 @@ export const getChanges = async ({
 
   let commits;
   if (unpickedPatches) {
-    commits = (await getUnpickedPRs('next-v2', verbose)).map((it) => ({ hash: it.mergeCommit }));
+    commits = (await getUnpickedPRs('next', verbose)).map((it) => ({ hash: it.mergeCommit }));
   } else {
     commits = await getAllCommitsBetween({
       from: await getFromCommit(from, verbose),
