@@ -7190,7 +7190,7 @@ __metadata:
     acorn-jsx: ^5.3.1
     acorn-walk: ^7.2.0
     escodegen: ^2.0.0
-    expect-type: ^0.16.0
+    expect-type: ^0.15.0
     html-tags: ^3.1.0
     jest-specific-snapshot: ^7.0.0
     lodash: ^4.17.21
@@ -7534,7 +7534,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.1.0-alpha.29
     "@storybook/types": 7.1.0-alpha.29
-    expect-type: ^0.16.0
+    expect-type: ^0.15.0
     svelte: ^3.59.1
     svelte-check: ^3.4.3
     sveltedoc-parser: ^4.2.1
@@ -15779,10 +15779,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect-type@npm:^0.16.0":
-  version: 0.16.0
-  resolution: "expect-type@npm:0.16.0"
-  checksum: 5fc878e4d62342041dc28f1c0bbeb8f7b620ff591d9c76f81e527fb05ec43c649f763563c4f746ebd46ac9e935b4685a7b62a8237f37f61ea4eb2dc3a1de6597
+"expect-type@npm:^0.15.0":
+  version: 0.15.0
+  resolution: "expect-type@npm:0.15.0"
+  checksum: d5ffc86df1937290a6555e763f76a8c27d18d9bfa63e18788a79ff52bba3d2a9a518af1163d437854efca6bd8e03768a2c4b10ea29e861c9d6f57ff53f19c3c4
   languageName: node
   linkType: hard
 
