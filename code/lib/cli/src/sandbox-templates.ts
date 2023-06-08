@@ -469,7 +469,6 @@ const internalTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     isInternal: true,
-    inDevelopment: true,
   },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
