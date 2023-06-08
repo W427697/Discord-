@@ -84,7 +84,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^26.6.2",
+    "@jest/globals": "^29.5.0",
     "@storybook/core-common": "7.1.0-alpha.29",
     "ansi-to-html": "^0.6.11",
     "react": "^16.14.0",
