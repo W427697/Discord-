@@ -10,7 +10,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
 
   await baseGenerator(packageManager, npmOptions, options, 'react', {
     extraPackages,
-    extraAddons: ['@storybook/addon-onboarding'],
   });
 };
 
