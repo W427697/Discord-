@@ -30,7 +30,7 @@ const gitLogMock: LogResult = {
       hash: 'some-hash',
       date: '2023-06-07T09:45:11+02:00',
       message: 'Something else',
-      refs: 'HEAD -> main-v2',
+      refs: 'HEAD -> main',
       body: '',
       author_name: 'Jeppe Reinhold',
       author_email: 'jeppe@chromatic.com',
@@ -39,7 +39,7 @@ const gitLogMock: LogResult = {
       hash: 'b75879c4d3d72f7830e9c5fca9f75a303ddb194d',
       date: '2023-06-07T09:45:11+02:00',
       message: 'Merge pull request #55 from storybookjs/fixes',
-      refs: 'HEAD -> main-v2',
+      refs: 'HEAD -> main',
       body:
         'Legal: Fix license\n' +
         '(cherry picked from commit 930b47f011f750c44a1782267d698ccdd3c04da3)\n',
@@ -101,7 +101,7 @@ test('it should label the PR associated with cheery picks in the current branch'
         ",
         {
           "input": {
-            "clientMutationId": "111db3d5-7ad7-5d3b-a8a9-efa7e7e9de57",
+            "clientMutationId": "7efda802-d7d1-5d76-97d6-cc16a9f3e357",
             "labelIds": [
               "pick-id",
             ],

@@ -1,6 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
@@ -51,9 +48,7 @@ export const run = async (
 
   const currentVersion = await getCurrentVersion();
 
-  console.log(
-    `📐 Checking if there are any unreleased changes...`
-  );
+  console.log(`📐 Checking if there are any unreleased changes...`);
 
   const { changes } = await getChanges({
     version: currentVersion,
@@ -63,8 +58,9 @@ export const run = async (
     verbose,
   });
 
-  const changesToRelease = changes
-    .filter(({ labels }) => intersection(LABELS_TO_RELEASE, labels).length > 0);
+  const changesToRelease = changes.filter(
+    ({ labels }) => intersection(LABELS_TO_RELEASE, labels).length > 0
+  );
 
   const hasChangesToRelease = changesToRelease.length > 0;
 

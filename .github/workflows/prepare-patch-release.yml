@@ -4,7 +4,7 @@ run-name: Prepare patch PR, triggered by ${{ github.triggering_actor }}
 on:
   push:
     branches:
-      - next-v2
+      - next
   workflow_dispatch:
 
 env:
@@ -38,7 +38,11 @@ jobs:
         with:
           path: |
             ~/.yarn/berry/cache
-          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          restore-keys: |
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+            yarn-v1
 
       - name: Install Script Dependencies
         run: |
@@ -80,6 +84,10 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           yarn release:pick-patches
+
+      - name: Install code dependencies
+        working-directory: .
+        run: yarn task --task=install --start-from=install
 
       - name: Bump version
         id: bump-version
