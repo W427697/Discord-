@@ -135,7 +135,7 @@ interface Other {
 }
 
 export interface Combo {
-  api: API;
+  api?: API;
   state: State;
 }
 
@@ -226,6 +226,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     );
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
+    // @ts-expect-error (TODO)
     const state = getInitialState(this.state, ...this.modules.map((m) => m.state));
 
     // Get our API by combining the APIs exported by each module
@@ -235,7 +236,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     this.api = api;
   }
 
-  static getDerivedStateFromProps(props: ManagerProviderProps, state: State): State {
+  static getDerivedStateFromProps(props: ManagerProviderProps, state: State): State | null {
     if (state.path !== props.path) {
       return {
         ...state,
@@ -243,7 +244,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
         path: props.path,
         refId: props.refId,
         viewMode: props.viewMode,
-        storyId: props.storyId,
+        storyId: props.storyId ?? '',
       };
     }
     return null;
@@ -322,15 +323,17 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
-  const data = filterer.current(c);
+  const data = filterer.current(c) ?? [];
 
   const l = useMemo(() => {
-    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
+    const result: string[] = [];
+    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), result)];
   }, [c.state]);
 
   return useMemo(() => {
     const Child = renderer.current as FC<P>;
 
+    // @ts-expect-error (TODO)
     return <Child {...data} />;
   }, l);
 }
@@ -357,6 +360,9 @@ export function useStorybookState(): State {
 }
 export function useStorybookApi(): API {
   const { api } = useContext(ManagerContext);
+
+  if (!api) throw new Error('Cannot find Storybook API context');
+
   return api;
 }
 
@@ -399,7 +405,7 @@ export const useChannel = (eventMap: API_EventMap, deps: any[] = []) => {
   return api.emit;
 };
 
-export function useStoryPrepared(storyId?: StoryId) {
+export function useStoryPrepared(storyId: StoryId) {
   const api = useStorybookApi();
   return api.isPrepared(storyId);
 }
@@ -408,7 +414,7 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
   const api = useStorybookApi();
 
   const result = api.getCurrentParameter<S>(parameterKey);
-  return orDefault<S>(result, defaultValue);
+  return orDefault<S | undefined>(result, defaultValue);
 }
 
 // cache for taking care of HMR
@@ -487,7 +493,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
-  const args = data?.type === 'story' ? data.args : {};
+  const args = data?.type === 'story' ? data.args ?? {} : {};
   const updateArgs = useCallback(
     (newArgs: Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]
@@ -509,7 +515,7 @@ export function useGlobalTypes(): ArgTypes {
   return useStorybookApi().getGlobalTypes();
 }
 
-function useCurrentStory(): API_StoryEntry | API_DocsEntry {
+function useCurrentStory(): API_StoryEntry | API_DocsEntry | undefined {
   const { getCurrentStoryData } = useStorybookApi();
 
   return getCurrentStoryData();

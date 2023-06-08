@@ -148,6 +148,10 @@ describe('stories API', () => {
       api.setIndex({ v: 4, entries: mockEntries });
       const { index } = store.getState();
 
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index)).toEqual([
         'component-a',
@@ -208,6 +212,10 @@ describe('stories API', () => {
       });
       const { index } = store.getState();
 
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index)).toEqual([
         'design-system',
@@ -252,6 +260,10 @@ describe('stories API', () => {
       });
       const { index } = store.getState();
 
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(index)).toEqual([
         'component-a',
@@ -294,6 +306,10 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(index)).toEqual(['a', 'a-b', 'a-b--1']);
@@ -341,6 +357,14 @@ describe('stories API', () => {
 
       const { index } = store.getState();
 
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(index)).toEqual(['a', 'a--1']);
       expect(index.a).toMatchObject({
@@ -378,6 +402,10 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(index)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
@@ -420,6 +448,10 @@ describe('stories API', () => {
 
       const { index } = store.getState();
 
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       expect(index['prepared--story']).toMatchObject({
         type: 'story',
         id: 'prepared--story',
@@ -450,7 +482,14 @@ describe('stories API', () => {
       });
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().index['component-a--story-1'] as API_StoryEntry).toMatchObject({
+
+      const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
+      expect(index['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -460,7 +499,7 @@ describe('stories API', () => {
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().index['component-a--story-1'] as API_StoryEntry).toMatchObject({
+      expect(index['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -513,6 +552,10 @@ describe('stories API', () => {
 
         const { index } = store.getState();
 
+        if (!index) {
+          throw new Error('Expected index to be set');
+        }
+
         // We need exact key ordering, even if in theory JS doesn't guarantee it
         expect(Object.keys(index)).toEqual([
           'component-a',
@@ -547,6 +590,10 @@ describe('stories API', () => {
           api.setIndex({ v: 4, entries: docsEntries });
 
           const { index } = store.getState();
+
+          if (!index) {
+            throw new Error('Expected index to be set');
+          }
 
           expect(Object.keys(index)).toEqual(['component-b', 'component-b--docs']);
         });
@@ -643,6 +690,10 @@ describe('stories API', () => {
       await new Promise((r) => setTimeout(r, 0));
       const { index } = store.getState();
 
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
     });
 
@@ -684,6 +735,10 @@ describe('stories API', () => {
       await new Promise((r) => setTimeout(r, 0));
       const { index, indexError: newIndexError } = store.getState();
       expect(newIndexError).not.toBeDefined();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
 
       expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
     });
@@ -809,6 +864,11 @@ describe('stories API', () => {
       setIndex({ v: 4, entries: preparedEntries });
 
       const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
       expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
 
@@ -816,6 +876,11 @@ describe('stories API', () => {
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
 
       const { index: changedIndex } = store.getState();
+
+      if (!changedIndex) {
+        throw new Error('Expected index to be set');
+      }
+
       expect((changedIndex['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
       expect((changedIndex['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
@@ -864,6 +929,11 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
       expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
@@ -915,6 +985,11 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
       expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
@@ -1090,7 +1165,13 @@ describe('stories API', () => {
       } = initStoriesAndSetState({ store, navigate, storyId, viewMode: 'story', provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
-      const result = findSiblingStoryId(storyId, store.getState().index, 1, false);
+      const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
+      const result = findSiblingStoryId(storyId, index, 1, false);
       expect(result).toBe('a--2');
     });
     it('works forward toSiblingGroup', () => {
@@ -1103,7 +1184,13 @@ describe('stories API', () => {
       } = initStoriesAndSetState({ store, navigate, storyId, viewMode: 'story', provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
-      const result = findSiblingStoryId(storyId, store.getState().index, 1, true);
+      const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
+      const result = findSiblingStoryId(storyId, index, 1, true);
       expect(result).toBe('b-c--1');
     });
   });
@@ -1407,6 +1494,11 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       expect(index['component-a--story-1']).toMatchObject({
         type: 'story',
         id: 'component-a--story-1',
@@ -1467,6 +1559,11 @@ describe('stories API', () => {
       });
 
       const { index } = store.getState();
+
+      if (!index) {
+        throw new Error('Expected index to be set');
+      }
+
       expect(index['component-a--docs']).toMatchObject({
         type: 'docs',
         id: 'component-a--docs',

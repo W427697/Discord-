@@ -22,10 +22,12 @@ export interface SubAPI {
 export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
   const api: SubAPI = {
     getGlobals() {
-      return store.getState().globals;
+      // @TODO: remove the casting once we have a proper type for the globals
+      return store.getState().globals!;
     },
     getGlobalTypes() {
-      return store.getState().globalTypes;
+      // @TODO: remove the casting once we have a proper type for the global types
+      return store.getState().globalTypes!;
     },
     updateGlobals(newGlobals) {
       // Only emit the message to the local ref
@@ -51,6 +53,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
 
   const initModule = () => {
     fullAPI.on(GLOBALS_UPDATED, function handleGlobalsUpdated({ globals }: { globals: Globals }) {
+      // @ts-expect-error the types for 'this' are not defined
       const { ref } = getEventMetadata(this, fullAPI);
 
       if (!ref) {
@@ -64,6 +67,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
 
     // Emitted by the preview on initialization
     fullAPI.on(SET_GLOBALS, function handleSetStories({ globals, globalTypes }: SetGlobalsPayload) {
+      // @ts-expect-error the types for 'this' are not defined
       const { ref } = getEventMetadata(this, fullAPI);
       const currentGlobals = store.getState()?.globals;
 

@@ -75,26 +75,26 @@ type StatusUpdate = Record<StoryId, StatusObject>;
 type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
-  storyId: StoryId;
+  storyId: StoryId | undefined;
   viewMode: ViewMode;
   status: StatusState;
 }
 
 export interface SubAPI {
   storyId: typeof toId;
-  resolveStory: (storyId: StoryId, refsId?: string) => API_HashEntry;
+  resolveStory: (storyId: StoryId, refsId?: string) => API_HashEntry | undefined;
   selectFirstStory: () => void;
   selectStory: (
     kindOrId?: string,
     story?: string,
     obj?: { ref?: string; viewMode?: ViewMode }
   ) => void;
-  getCurrentStoryData: () => API_LeafEntry;
+  getCurrentStoryData: () => API_LeafEntry | undefined;
   setIndex: (index: API_PreparedStoryIndex) => Promise<void>;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
-  getData: (storyId: StoryId, refId?: string) => API_LeafEntry;
-  isPrepared: (storyId: StoryId, refId?: string) => boolean;
+  getData: (storyId?: StoryId, refId?: string) => API_LeafEntry | undefined;
+  isPrepared: (storyId?: StoryId, refId?: string) => boolean;
   getParameters: (
     storyId: StoryId | { storyId: StoryId; refId: string },
     parameterName?: ParameterName
@@ -109,7 +109,7 @@ export interface SubAPI {
     index: API_IndexHash,
     direction: Direction,
     toSiblingGroup: boolean // when true, skip over leafs within the same group
-  ): StoryId;
+  ): StoryId | undefined;
   fetchIndex: () => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
   updateDocs: (storyId: StoryId, update: DocsUpdate, ref?: API_ComposedRef) => Promise<void>;
@@ -127,7 +127,7 @@ export interface SubAPI {
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
 
 function removeRemovedOptions<T extends Record<string, any> = Record<string, any>>(options?: T): T {
-  if (!options || typeof options === 'string') {
+  if (typeof options === 'string') {
     return options;
   }
   const result: T = { ...options } as T;
@@ -153,6 +153,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
   const api: SubAPI = {
     storyId: toId,
     getData: (storyId, refId) => {
+      if (!storyId) return undefined;
+
       const result = api.resolveStory(storyId, refId);
       if (result?.type === 'story' || result?.type === 'docs') {
         return result;
@@ -161,22 +163,22 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     isPrepared: (storyId, refId) => {
       const data = api.getData(storyId, refId);
-      return data.type === 'story' ? data.prepared : true;
+      return data?.type === 'story' ? data.prepared : true;
     },
     resolveStory: (storyId, refId) => {
       const { refs, index } = store.getState();
       if (refId && !refs[refId]) {
-        return null;
+        return undefined;
       }
       if (refId) {
-        return refs[refId].index ? refs[refId].index[storyId] : undefined;
+        return refs[refId].index ? refs[refId].index?.[storyId] : undefined;
       }
       return index ? index[storyId] : undefined;
     },
     getCurrentStoryData: () => {
       const { storyId, refId } = store.getState();
 
-      return api.getData(storyId, refId);
+      return storyId ? api.getData(storyId, refId) : undefined;
     },
     getParameters: (storyIdOrCombo, parameterName) => {
       const { storyId, refId } =
@@ -185,7 +187,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           : storyIdOrCombo;
       const data = api.getData(storyId, refId);
 
-      if (['story', 'docs'].includes(data?.type)) {
+      if (data?.type && ['story', 'docs'].includes(data.type)) {
         const { parameters } = data;
 
         if (parameters) {
@@ -197,7 +199,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     getCurrentParameter: (parameterName) => {
       const { storyId, refId } = store.getState();
-      const parameters = api.getParameters({ storyId, refId }, parameterName);
+      const parameters =
+        refId && storyId ? api.getParameters({ storyId, refId }, parameterName) : undefined;
       // FIXME Returning falsey parameters breaks a bunch of toolbars code,
       // so this strange logic needs to be here until various client code is updated.
       return parameters || undefined;
@@ -212,7 +215,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
 
       const hash = refId ? refs[refId].index || {} : index;
-      const result = api.findSiblingStoryId(storyId, hash, direction, true);
+      const result =
+        hash && storyId ? api.findSiblingStoryId(storyId, hash, direction, true) : null;
 
       if (result) {
         api.selectStory(result, undefined, { ref: refId });
@@ -228,7 +232,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
 
       const hash = story.refId ? refs[story.refId].index : index;
-      const result = api.findSiblingStoryId(storyId, hash, direction, false);
+      const result =
+        hash && storyId ? api.findSiblingStoryId(storyId, hash, direction, false) : null;
 
       if (result) {
         api.selectStory(result, undefined, { ref: refId });
@@ -236,7 +241,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     selectFirstStory: () => {
       const { index } = store.getState();
-      const firstStory = Object.keys(index).find((id) => index[id].type === 'story');
+      const firstStory = index ? Object.keys(index).find((id) => index[id].type === 'story') : null;
 
       if (firstStory) {
         api.selectStory(firstStory);
@@ -255,28 +260,31 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
       if (!name) {
         // Find the entry (group, component or story) that is referred to
-        const entry = titleOrId ? hash[titleOrId] || hash[sanitize(titleOrId)] : hash[kindSlug];
+        const entry =
+          titleOrId && hash
+            ? hash[titleOrId] || hash[sanitize(titleOrId)]
+            : kindSlug && hash?.[kindSlug];
 
         if (!entry) throw new Error(`Unknown id or title: '${titleOrId}'`);
 
         // We want to navigate to the first ancestor entry that is a leaf
-        const leafEntry = api.findLeafEntry(hash, entry.id);
-        const fullId = leafEntry.refId ? `${leafEntry.refId}_${leafEntry.id}` : leafEntry.id;
-        navigate(`/${leafEntry.type}/${fullId}`);
+        const leafEntry = hash ? api.findLeafEntry(hash, entry.id) : null;
+        const fullId = leafEntry?.refId ? `${leafEntry.refId}_${leafEntry.id}` : leafEntry?.id;
+        navigate(`/${leafEntry?.type}/${fullId}`);
       } else if (!titleOrId) {
         // This is a slugified version of the kind, but that's OK, our toId function is idempotent
-        const id = toId(kindSlug, name);
+        const id = kindSlug ? toId(kindSlug, name) : null;
 
-        api.selectStory(id, undefined, options);
+        if (id) api.selectStory(id, undefined, options);
       } else {
         const id = ref ? `${ref}_${toId(titleOrId, name)}` : toId(titleOrId, name);
-        if (hash[id]) {
+        if (hash?.[id]) {
           api.selectStory(id, undefined, options);
         } else {
           // Support legacy API with component permalinks, where kind is `x/y` but permalink is 'z'
-          const entry = hash[sanitize(titleOrId)];
+          const entry = hash?.[sanitize(titleOrId)];
           if (entry?.type === 'component') {
-            const foundId = entry.children.find((childId) => hash[childId].name === name);
+            const foundId = entry.children.find((childId) => hash?.[childId].name === name);
             if (foundId) {
               api.selectStory(foundId, undefined, options);
             }
@@ -337,7 +345,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         options: { target: refId },
       });
     },
-    resetStoryArgs: (story, argNames?: [string]) => {
+    resetStoryArgs: (story, argNames?: string[]) => {
       const { id: storyId, refId } = story;
       fullAPI.emit(RESET_STORY_ARGS, {
         storyId,
@@ -360,7 +368,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         await fullAPI.setIndex(storyIndex);
       } catch (err) {
-        await store.setState({ indexError: err });
+        await store.setState({ indexError: err as Error });
       }
     },
     // The story index we receive on SET_INDEX is "prepared" in that it has parameters
@@ -384,17 +392,21 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     ): Promise<void> => {
       if (!ref) {
         const { index } = store.getState();
-        index[storyId] = {
-          ...index[storyId],
-          ...update,
-        } as API_StoryEntry;
+        if (index) {
+          index[storyId] = {
+            ...index[storyId],
+            ...update,
+          } as API_StoryEntry;
+        }
         await store.setState({ index });
       } else {
         const { id: refId, index } = ref;
-        index[storyId] = {
-          ...index[storyId],
-          ...update,
-        } as API_StoryEntry;
+        if (index) {
+          index[storyId] = {
+            ...index[storyId],
+            ...update,
+          } as API_StoryEntry;
+        }
         await fullAPI.updateRef(refId, { index });
       }
     },
@@ -405,17 +417,21 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     ): Promise<void> => {
       if (!ref) {
         const { index } = store.getState();
-        index[docsId] = {
-          ...index[docsId],
-          ...update,
-        } as API_DocsEntry;
+        if (index) {
+          index[docsId] = {
+            ...index[docsId],
+            ...update,
+          } as API_DocsEntry;
+        }
         await store.setState({ index });
       } else {
         const { id: refId, index } = ref;
-        index[docsId] = {
-          ...index[docsId],
-          ...update,
-        } as API_DocsEntry;
+        if (index) {
+          index[docsId] = {
+            ...index[docsId],
+            ...update,
+          } as API_DocsEntry;
+        }
         await fullAPI.updateRef(refId, { index });
       }
     },
@@ -453,6 +469,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         viewMode: ViewMode;
         [k: string]: any;
       }) {
+        // @ts-expect-error FIXME 'this' does not have a proper type annotation
         const { sourceType } = getEventMetadata(this, fullAPI);
 
         if (sourceType === 'local') {
@@ -473,11 +490,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     // the preview.js file or the index to load). Once it has a selection, it will render its own
     // preparing spinner.
     fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.setPreviewInitialized(ref);
     });
 
     fullAPI.on(STORY_CHANGED, function handler() {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { sourceType } = getEventMetadata(this, fullAPI);
 
       if (sourceType === 'local') {
@@ -490,6 +509,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     fullAPI.on(STORY_PREPARED, function handler({ id, ...update }: StoryPreparedPayload) {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { ref, sourceType } = getEventMetadata(this, fullAPI);
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
 
@@ -507,8 +527,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         // create a list of related stories to be preloaded
         const toBePreloaded = Array.from(
           new Set([
-            api.findSiblingStoryId(storyId, index, 1, true),
-            api.findSiblingStoryId(storyId, index, -1, true),
+            index && storyId ? api.findSiblingStoryId(storyId, index, 1, true) : null,
+            index && storyId ? api.findSiblingStoryId(storyId, index, -1, true) : null,
           ])
         ).filter(Boolean);
 
@@ -520,16 +540,18 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     fullAPI.on(DOCS_PREPARED, function handler({ id, ...update }: DocsPreparedPayload) {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
     });
 
     fullAPI.on(SET_INDEX, function handler(index: API_PreparedStoryIndex) {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
 
       if (!ref) {
         fullAPI.setIndex(index);
-        const options = fullAPI.getCurrentParameter('options');
+        const options = fullAPI.getCurrentParameter('options') as Record<string, string>;
         fullAPI.setOptions(removeRemovedOptions(options));
       } else {
         fullAPI.setRef(ref.id, { ...ref, storyIndex: index }, true);
@@ -538,6 +560,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     // For composition back-compatibilty
     fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
@@ -565,6 +588,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         storyId: string;
         viewMode: ViewMode;
       }) {
+        // @ts-expect-error FIXME 'this' does not have a proper type annotation
         const { ref } = getEventMetadata(this, fullAPI);
 
         if (!ref) {
@@ -578,6 +602,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     fullAPI.on(
       STORY_ARGS_UPDATED,
       function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
+        // @ts-expect-error FIXME 'this' does not have a proper type annotation
         const { ref } = getEventMetadata(this, fullAPI);
         fullAPI.updateStory(storyId, { args }, ref);
       }
@@ -585,11 +610,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     // When there's a preview error, we don't show it in the manager, but simply
     fullAPI.on(CONFIG_ERROR, function handleConfigError(err) {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.setPreviewInitialized(ref);
     });
 
     fullAPI.on(STORY_MISSING, function handleConfigError(err) {
+      // @ts-expect-error FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.setPreviewInitialized(ref);
     });

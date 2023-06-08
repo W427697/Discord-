@@ -27,7 +27,7 @@ export interface SubState {
 }
 
 export interface SubAPI {
-  findRef: (source: string) => API_ComposedRef;
+  findRef: (source: string) => API_ComposedRef | undefined;
   setRef: (id: string, data: API_SetRefData, ready?: boolean) => void;
   updateRef: (id: string, ref: API_ComposedRefUpdate) => void;
   getRefs: () => API_Refs;
@@ -80,7 +80,7 @@ async function handleRequest(
 
     return json as API_SetRefData;
   } catch (err) {
-    return { indexError: err };
+    return { indexError: err as Error };
   }
 }
 
@@ -164,7 +164,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const loadedData: API_SetRefData = {};
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
-      const urlParseResult = parseUrl(url);
+      const urlParseResult = parseUrl(url ?? '');
 
       const headers: HeadersInit = {
         Accept: 'application/json',
@@ -222,6 +222,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const versions =
         ref.versions && Object.keys(ref.versions).length ? ref.versions : loadedData.versions;
 
+      // @ts-expect-error TODO: handle null id
       await api.setRef(id, {
         id,
         url: urlParseResult.url,
@@ -244,7 +245,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let index: API_IndexHash;
+      let index: API_IndexHash | undefined;
       if (setStoriesData) {
         index = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),

@@ -15,7 +15,7 @@ const getReleaseNotesData = memoize(1)((): API_ReleaseNotes => {
 });
 
 export interface SubAPI {
-  releaseNotesVersion: () => string;
+  releaseNotesVersion: () => string | undefined;
   setDidViewReleaseNotes: () => void;
   showReleaseNotesOnLaunch: () => boolean;
 }
@@ -32,11 +32,14 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store }) => {
   };
 
   const api: SubAPI = {
-    releaseNotesVersion: () => releaseNotesData.currentVersion,
+    releaseNotesVersion: () => releaseNotesData?.currentVersion,
     setDidViewReleaseNotes: () => {
       const releaseNotesViewed = getReleaseNotesViewed();
 
-      if (!releaseNotesViewed.includes(releaseNotesData.currentVersion)) {
+      if (
+        releaseNotesData.currentVersion &&
+        !releaseNotesViewed.includes(releaseNotesData.currentVersion)
+      ) {
         store.setState(
           { releaseNotesViewed: [...releaseNotesViewed, releaseNotesData.currentVersion] },
           { persistence: 'permanent' }
@@ -49,7 +52,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store }) => {
       const releaseNotesViewed = getReleaseNotesViewed();
       const didViewReleaseNotes = releaseNotesViewed.includes(releaseNotesData.currentVersion);
       const showReleaseNotesOnLaunch = releaseNotesData.showOnFirstLaunch && !didViewReleaseNotes;
-      return showReleaseNotesOnLaunch;
+      return showReleaseNotesOnLaunch ?? false;
     },
   };
 

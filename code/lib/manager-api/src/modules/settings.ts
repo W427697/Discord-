@@ -12,6 +12,7 @@ export interface SubState {
   settings: API_Settings;
 }
 
+// @ts-expect-error TODO
 export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) => {
   const isSettingsScreenActive = () => {
     const { path } = fullAPI.getUrlState();
@@ -37,9 +38,11 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
       if (!isSettingsScreenActive()) {
         const { settings, storyId } = store.getState();
 
-        await store.setState({
-          settings: { ...settings, lastTrackedStoryId: storyId },
-        });
+        if (storyId) {
+          await store.setState({
+            settings: { ...settings, lastTrackedStoryId: storyId },
+          });
+        }
       }
 
       navigate(path);

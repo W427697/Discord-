@@ -15,7 +15,7 @@ export const isMacLike = () =>
 export const controlOrMetaKey = () => (isMacLike() ? 'meta' : 'control');
 
 export function keys<O>(o: O) {
-  return Object.keys(o) as (keyof O)[];
+  return Object.keys(o ?? {}) as (keyof O)[];
 }
 
 export interface SubState {
@@ -165,7 +165,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
       const shortcuts = api.getShortcutKeys();
       const actions = keys(shortcuts);
       const matchedFeature = actions.find((feature: API_Action) =>
-        shortcutMatchesShortcut(shortcut, shortcuts[feature])
+        shortcut ? shortcutMatchesShortcut(shortcut, shortcuts[feature]) : false
       );
       if (matchedFeature) {
         // Event.prototype.preventDefault is missing when received from the MessageChannel.
@@ -225,7 +225,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
           if (element) {
             try {
               // should be like a channel message and all that, but yolo for now
-              element.contentWindow.focus();
+              element.contentWindow?.focus();
             } catch (e) {
               //
             }

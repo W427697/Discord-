@@ -12,7 +12,7 @@ export interface SubAPI {
   getElements: <T>(type: Addon_Types) => API_Collection<T>;
   getPanels: () => API_Panels;
   getStoryPanels: () => API_Panels;
-  getSelectedPanel: () => string;
+  getSelectedPanel: () => string | null | undefined;
   setSelectedPanel: (panelName: string) => void;
   setAddonState<S>(
     addonId: string,
@@ -25,6 +25,8 @@ export interface SubAPI {
 export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
   const keys = Object.keys(panels);
 
+  if (!selectedPanel) return keys[0] || null;
+
   if (keys.indexOf(selectedPanel) >= 0) {
     return selectedPanel;
   }
@@ -35,6 +37,7 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
   return currentPanel;
 }
 
+// @ts-expect-error (TODO)
 export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),

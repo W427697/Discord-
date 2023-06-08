@@ -48,7 +48,7 @@ export class AddonStore {
       this.setChannel(mockChannel());
     }
 
-    return this.channel;
+    return this.channel as Channel;
   };
 
   getServerChannel = (): Channel => {
@@ -90,7 +90,7 @@ export class AddonStore {
 
   add = (name: string, addon: Addon_Type) => {
     const { type } = addon;
-    const collection = this.getElements(type);
+    const collection = type ? this.getElements(type) : {};
     collection[name] = { id: name, ...addon };
   };
 

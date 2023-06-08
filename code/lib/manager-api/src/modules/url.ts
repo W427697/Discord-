@@ -104,7 +104,7 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
   const api: SubAPI = {
     getQueryParam(key) {
       const { customQueryParams } = store.getState();
-      return customQueryParams ? customQueryParams[key] : undefined;
+      return customQueryParams ? customQueryParams[key] ?? undefined : undefined;
     },
     getUrlState() {
       const { path, customQueryParams, storyId, url, viewMode } = store.getState();
@@ -142,7 +142,7 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
       if (currentStory?.type !== 'story') return;
 
       const { args, initialArgs } = currentStory;
-      const argsString = buildArgsParam(initialArgs, args);
+      const argsString = buildArgsParam(initialArgs, args ?? {});
       navigateTo(path, { ...queryParams, args: argsString }, { replace: true });
       api.setQueryParams({ args: argsString });
     };

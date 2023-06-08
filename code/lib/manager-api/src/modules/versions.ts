@@ -10,7 +10,7 @@ import type { ModuleFn } from '../index';
 const { VERSIONCHECK } = global;
 
 export interface SubState {
-  versions: API_Versions & API_UnknownEntries;
+  versions: API_Versions | (undefined & API_UnknownEntries);
   lastVersionCheck: number;
   dismissedVersionNotification: undefined | string;
 }
@@ -24,8 +24,8 @@ const getVersionCheckData = memoize(1)((): API_Versions => {
 });
 
 export interface SubAPI {
-  getCurrentVersion: () => API_Version;
-  getLatestVersion: () => API_Version;
+  getCurrentVersion: () => API_Version | undefined;
+  getLatestVersion: () => API_Version | undefined;
   versionUpdateAvailable: () => boolean;
 }
 
@@ -66,7 +66,7 @@ export const init: ModuleFn = ({ store, mode, fullAPI }) => {
         if (!latest.version) {
           return true;
         }
-        if (!current.version) {
+        if (!current?.version) {
           return true;
         }
 
@@ -81,7 +81,7 @@ export const init: ModuleFn = ({ store, mode, fullAPI }) => {
         const diff = semver.diff(actualCurrent, latest.version);
 
         return (
-          semver.gt(latest.version, actualCurrent) && diff !== 'patch' && !diff.includes('pre')
+          semver.gt(latest.version, actualCurrent) && diff !== 'patch' && !diff?.includes('pre')
         );
       }
       return false;
@@ -99,10 +99,14 @@ export const init: ModuleFn = ({ store, mode, fullAPI }) => {
     });
 
     if (api.versionUpdateAvailable()) {
-      const latestVersion = api.getLatestVersion().version;
-      const diff = semver.diff(versions.current.version, versions.latest.version);
+      const latestVersion = api.getLatestVersion()?.version;
+      const diff =
+        versions.current?.version && versions.latest?.version
+          ? semver.diff(versions.current.version, versions.latest.version)
+          : null;
 
       if (
+        latestVersion &&
         latestVersion !== dismissedVersionNotification &&
         diff !== 'patch' &&
         !semver.prerelease(latestVersion) &&
@@ -113,7 +117,7 @@ export const init: ModuleFn = ({ store, mode, fullAPI }) => {
           link: '/settings/about',
           content: {
             headline: `Storybook ${latestVersion} is available!`,
-            subHeadline: `Your current version is: ${versions.current.version}`,
+            subHeadline: `Your current version is: ${versions.current?.version}`,
           },
           icon: { name: 'book' },
           onClear() {

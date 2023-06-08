@@ -21,6 +21,7 @@ import type {
   API_HashEntry,
   SetStoriesPayload,
   StoryIndexV2,
+  API_BaseEntry,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters } from '../index';
@@ -120,6 +121,8 @@ export const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStor
       ) {
         type = 'docs';
       }
+
+      // @ts-expect-error (TODO)
       acc[entry.id] = {
         type,
         ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
@@ -175,7 +178,7 @@ export const transformStoryIndexToStoriesHash = (
     // Now create a "path" or sub id for each name
     const paths = names.reduce((list, name, idx) => {
       const parent = idx > 0 && list[idx - 1];
-      const id = sanitize(parent ? `${parent}-${name}` : name);
+      const id = sanitize(parent ? `${parent}-${name}` : name ?? '');
 
       if (parent === id) {
         throw new Error(
@@ -201,7 +204,7 @@ export const transformStoryIndexToStoriesHash = (
           id,
           name: names[idx],
           depth: idx,
-          renderLabel,
+          renderLabel: renderLabel as API_BaseEntry['renderLabel'],
           startCollapsed: collapsedRoots.includes(id),
           // Note that this will later get appended to the previous list of children (see below)
           children: [childId],
@@ -226,7 +229,7 @@ export const transformStoryIndexToStoriesHash = (
           name: names[idx],
           parent: paths[idx - 1],
           depth: idx,
-          renderLabel,
+          renderLabel: renderLabel as API_BaseEntry['renderLabel'],
           ...(childId && {
             children: [childId],
           }),
@@ -242,7 +245,7 @@ export const transformStoryIndexToStoriesHash = (
           name: names[idx],
           parent: paths[idx - 1],
           depth: idx,
-          renderLabel,
+          renderLabel: renderLabel as API_BaseEntry['renderLabel'],
           ...(childId && {
             children: [childId],
           }),
@@ -256,8 +259,8 @@ export const transformStoryIndexToStoriesHash = (
 
     // Finally add an entry for the docs/story itself
     acc[item.id] = {
-      type: 'story',
       ...item,
+      type: 'story',
       depth: paths.length,
       parent: paths[paths.length - 1],
       renderLabel,
