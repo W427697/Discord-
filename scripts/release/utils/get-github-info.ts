@@ -39,6 +39,7 @@ function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
             associatedPullRequests(first: 50) {
               nodes {
                 number
+                id
                 title
                 url
                 mergedAt
@@ -155,9 +156,10 @@ const GHDataLoader = new DataLoader(async (requests: RequestData[]) => {
 
 export type PullRequestInfo = {
   user: string | null;
+  id: string | null;
   title: string | null;
   commit: string | null;
-  pull: string | null;
+  pull: number | null;
   labels: string[] | null;
   links: {
     commit: string;
@@ -187,6 +189,7 @@ export async function getPullInfoFromCommit(request: {
   const data = await GHDataLoader.load({ kind: 'commit', ...request });
   if (!data) {
     return {
+      id: null,
       user: null,
       pull: null,
       commit: request.commit,
@@ -235,6 +238,7 @@ export async function getPullInfoFromCommit(request: {
 
   return {
     user: user ? user.login : null,
+    id: associatedPullRequest ? associatedPullRequest.id : null,
     pull: associatedPullRequest ? associatedPullRequest.number : null,
     commit: request.commit,
     title: associatedPullRequest ? associatedPullRequest.title : null,
@@ -276,7 +280,8 @@ export async function getPullInfoFromPullRequest(request: {
 
   return {
     user: user ? user.login : null,
-    pull: request.pull.toString(),
+    id: null,
+    pull: request.pull,
     commit: commit ? commit.abbreviatedOid : null,
     title: title || null,
     labels: data ? (data.labels.nodes || []).map((label: { name: string }) => label.name) : null,

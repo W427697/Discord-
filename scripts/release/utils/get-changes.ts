@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import semver from 'semver';
-import simpleGit from 'simple-git';
 import type { PullRequestInfo } from './get-github-info';
 import { getPullInfoFromCommit } from './get-github-info';
 import { getUnpickedPRs } from './get-unpicked-prs';
+import { git } from './git-client';
 
 const LABELS_FOR_CHANGELOG = ['BREAKING CHANGE', 'feature request', 'bug', 'maintenance'];
-
-const git = simpleGit();
 
 const getCommitAt = async (id: string, verbose?: boolean) => {
   if (!semver.valid(id)) {
@@ -223,7 +221,7 @@ export const getChanges = async ({
 
   let commits;
   if (unpickedPatches) {
-    commits = (await getUnpickedPRs('next', verbose)).map((it) => ({ hash: it.mergeCommit }));
+    commits = (await getUnpickedPRs('next-v2', verbose)).map((it) => ({ hash: it.mergeCommit }));
   } else {
     commits = await getAllCommitsBetween({
       from: await getFromCommit(from, verbose),
