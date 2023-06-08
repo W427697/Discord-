@@ -1,4 +1,4 @@
-import originalFetch from 'isomorphic-unfetch';
+import originalFetch from 'node-fetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
 import type { Options, TelemetryData } from './types';
