@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import type { GraphQlQueryResponseData } from '@octokit/graphql';
 import ora from 'ora';
 import { simpleGit } from 'simple-git';
-import { getUnpickedPRs } from './utils/get-unpicked-prs';
 import { setOutput } from '@actions/core';
+import { getUnpickedPRs } from './utils/get-unpicked-prs';
 import { githubGraphQlClient } from './utils/github-client';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
@@ -15,7 +15,7 @@ const logger = console;
 
 const OWNER = 'storybookjs';
 const REPO = 'monorepo-release-tooling-prototype';
-const SOURCE_BRANCH = 'next-v2';
+const SOURCE_BRANCH = 'next';
 
 const git = simpleGit();
 
@@ -139,7 +139,7 @@ export const run = async (_: unknown) => {
   }
 
   if (process.env.GITHUB_ACTIONS === 'true') {
-      setOutput('failed-cherry-picks', JSON.stringify(failedCherryPicks));
+    setOutput('failed-cherry-picks', JSON.stringify(failedCherryPicks));
   }
 };
 

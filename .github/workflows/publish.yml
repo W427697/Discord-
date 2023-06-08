@@ -4,8 +4,8 @@ run-name: Publish new version on ${{ github.ref_name }}, triggered by ${{ github
 on:
   push:
     branches:
-      - release/main-v2
-      - release/next-v2
+      - latest-release
+      - next-release
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -73,7 +73,7 @@ jobs:
 
       - name: Get target branch
         id: target
-        run: echo "target=${{ github.ref_name == 'release/next-v2' && 'next-v2' || 'main-v2' }}" >> $GITHUB_OUTPUT
+        run: echo "target=${{ github.ref_name == 'next-release' && 'next' || 'main' }}" >> $GITHUB_OUTPUT
 
       - name: Get changelog for ${{ steps.version.outputs.current-version }}
         if: steps.publish-needed.outputs.published == 'false'
@@ -104,13 +104,13 @@ jobs:
           git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
 
-      # Force push from next to main if it is not a prerelease, and this release is from release/next
+      # Force push from next to main if it is not a prerelease, and this release is from next-release
       # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
-      # This will keep release/next, next and main all tracking v7.1.0
-      - name: Force push ${{ steps.target.outputs.target }} to main-v2
-        if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next-v2' && !steps.is-prerelease.outputs.prerelease
-        run: |
-          git push --force origin ${{ steps.target.outputs.target }}:main-v2
+      # This will keep release-next, next and main all tracking v7.1.0
+      # - name: Force push ${{ steps.target.outputs.target }} to main
+      #   if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease
+      #   run: |
+      #     git push --force origin ${{ steps.target.outputs.target }}:main
 
       # - name: Report job failure to Discord
       #   if: failure()

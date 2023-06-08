@@ -4,7 +4,7 @@ run-name: Prepare patch PR, triggered by ${{ github.triggering_actor }}
 on:
   push:
     branches:
-      - next-v2
+      - next
   workflow_dispatch:
 
 env:
@@ -23,10 +23,10 @@ jobs:
       run:
         working-directory: scripts
     steps:
-      - name: Checkout main-v2
+      - name: Checkout main
         uses: actions/checkout@v3
         with:
-          ref: main-v2
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -70,7 +70,7 @@ jobs:
         run:
           # depth needs to be set to a high enough number that it will contain all the merge commits to cherry-pick
           # as of May 2023, the whole repo had 55K commits
-          git fetch --depth=2000 origin next-v2
+          git fetch --depth=2000 origin next
 
       - name: Pick patches
         id: pick-patches
@@ -136,7 +136,7 @@ jobs:
           gh pr create \
             --repo "${{github.repository }}"\
             --title "Bump version on \`main\`: patch from ${{ steps.versions.outputs.current }} to ${{ steps.versions.outputs.next }}" \
-            --base release/main-v2 \
+            --base latest-release \
             --head version-patch-from-${{ steps.versions.outputs.current }} \
             --body "${{ steps.description.outputs.description }}"
 
@@ -153,7 +153,7 @@ jobs:
           gh pr create \
             --repo "${{github.repository }}"\
             --title "Merge patches to \`main\`" \
-            --base release/main-v2 \
+            --base latest-release \
             --head version-patch-from-${{ steps.versions.outputs.current }} \
             --body "${{ steps.description.outputs.description }}"
 

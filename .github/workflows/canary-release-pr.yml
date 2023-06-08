@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - next-v2
+      - next
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1

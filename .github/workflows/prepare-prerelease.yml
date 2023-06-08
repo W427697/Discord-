@@ -4,7 +4,7 @@ run-name: Prepare prerelease PR, triggered by ${{ github.triggering_actor }}
 on:
   push:
     branches:
-      - next-v2
+      - next
   workflow_dispatch:
     inputs:
       release-type:
@@ -41,10 +41,10 @@ jobs:
       run:
         working-directory: scripts
     steps:
-      - name: Checkout next-v2
+      - name: Checkout next
         uses: actions/checkout@v3
         with:
-          ref: next-v2
+          ref: next
           # this needs to be set to a high enough number that it will contain the last version tag
           # as of May 2023, the whole repo had 55K commits
           fetch-depth: 10000
@@ -139,7 +139,7 @@ jobs:
           gh pr create \
             --repo "${{github.repository }}"\
             --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
-            --base release/next-v2 \
+            --base next-release \
             --head version-prerelease-from-${{ steps.bump-version.outputs.current-version }} \
             --body "${{ steps.description.outputs.description }}"
 
