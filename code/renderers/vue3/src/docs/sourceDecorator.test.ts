@@ -1,7 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import type { Args } from '@storybook/types';
 
-import type { ArgsType } from 'jest-mock';
 import {
   mapAttributesAndDirectives,
   generateAttributesSource,
@@ -241,7 +239,7 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
       generateAttributesSource(
         mapAttributesAndDirectives({ camelCaseBooleanArg: true }),
         { camelCaseBooleanArg: true },
-        [{ camelCaseBooleanArg: { type: 'boolean' } }] as ArgsType<Args>
+        [{ camelCaseBooleanArg: { type: 'boolean' } }] as any
       )
     ).toMatchInlineSnapshot(`:camel-case-boolean-arg="true"`);
   });
@@ -250,7 +248,7 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
       generateAttributesSource(
         mapAttributesAndDirectives({ camelCaseStringArg: 'foo' }),
         { camelCaseStringArg: 'foo' },
-        [{ camelCaseStringArg: { type: 'string' } }] as ArgsType<Args>
+        [{ camelCaseStringArg: { type: 'string' } }] as any
       )
     ).toMatchInlineSnapshot(`camel-case-string-arg="foo"`);
   });
@@ -268,7 +266,7 @@ describe('Vue3: sourceDecorator->generateAttributesSource()', () => {
           camelCaseStringArg: 'foo',
           cameCaseNumberArg: 2023,
         },
-        [] as ArgsType<Args>
+        [] as any
       )
     ).toMatchInlineSnapshot(
       `:camel-case-boolean-arg="true" camel-case-string-arg="foo" :came-case-number-arg="2023"`
