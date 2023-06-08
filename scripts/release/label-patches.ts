@@ -1,9 +1,9 @@
 /* eslint-disable no-await-in-loop */
 import program from 'commander';
 import { v4 as uuidv4 } from 'uuid';
+import ora from 'ora';
 import { getLabelIds, githubGraphQlClient } from './utils/github-client';
 import { getPullInfoFromCommits, getRepo } from './utils/get-changes';
-import ora from 'ora';
 import { getLatestTag, git } from './utils/git-client';
 
 program
@@ -29,7 +29,7 @@ export const run = async (_: unknown) => {
   }
 
   const spinner = ora('Looking for latest tag').start();
-  let latestTag = await getLatestTag();
+  const latestTag = await getLatestTag();
   spinner.succeed(`Found latest tag: ${latestTag}`);
 
   const spinner2 = ora(`Looking at cherry pick commits since ${latestTag}`).start();
@@ -43,14 +43,23 @@ export const run = async (_: unknown) => {
     spinner2.fail('No cherry pick commits found to label.');
     return;
   }
+
   const repo = await getRepo();
-  const pullRequests = await getPullInfoFromCommits({
-    repo,
-    commits: cherryPicked.map((hash) => ({ hash })),
-  });
-  const commitWithPr = cherryPicked.map(
-    (commit, index) => `Commit: ${commit}\n PR: ${pullRequests[index].links.pull}`
-  );
+  const pullRequests = (
+    await getPullInfoFromCommits({
+      repo,
+      commits: cherryPicked.map((hash) => ({ hash })),
+    })
+  ).filter((it) => it.id != null);
+
+  if (pullRequests.length === 0) {
+    spinner2.fail(
+      `Found picks: ${cherryPicked.join(', ')}, but no associated pull request found to label.`
+    );
+    return;
+  }
+
+  const commitWithPr = pullRequests.map((pr) => `Commit: ${pr.commit}\n PR: ${pr.links.pull}`);
 
   spinner2.succeed(`Found the following picks 🍒:\n ${commitWithPr.join('\n')}`);
 
@@ -61,6 +70,7 @@ export const run = async (_: unknown) => {
     spinner3.succeed(`Successfully labeled all PRs with the picked label.`);
   } catch (e) {
     spinner3.fail(`Something went wrong when labelling the PRs.`);
+    console.error(e);
   }
 };
 

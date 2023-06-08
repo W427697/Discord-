@@ -131,18 +131,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr edit \
-            --repo "${{github.repository }}"\
-            --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
-            --body "${{ steps.description.outputs.description }}" \
-          || \
-          gh pr create \
-            --repo "${{github.repository }}"\
-            --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
-            --base next-release \
-            --head version-prerelease-from-${{ steps.bump-version.outputs.current-version }} \
-            --body "${{ steps.description.outputs.description }}"
-
+          if PR_STATE=$(gh pr view --json state --jq .state 2>/dev/null) && [[ -n "$PR_STATE" && "$PR_STATE" == *"OPEN"* ]]; then
+            gh pr edit \
+              --repo "${{github.repository }}" \
+              --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
+              --body "${{ steps.description.outputs.description }}"
+          else
+            gh pr create \
+              --repo "${{github.repository }}"\
+              --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
+              --base release/next-v2 \
+              --head version-prerelease-from-${{ steps.bump-version.outputs.current-version }} \
+              --body "${{ steps.description.outputs.description }}"
+          fi
       # - name: Report job failure to Discord
       #   if: failure()
       #   env:
