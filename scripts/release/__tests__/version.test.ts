@@ -15,7 +15,7 @@ jest.mock('../../utils/exec');
 const { execaCommand } = require('../../utils/exec');
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
 });
 
 describe('Version', () => {
