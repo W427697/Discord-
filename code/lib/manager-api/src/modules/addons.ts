@@ -37,7 +37,8 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
   return currentPanel;
 }
 
-// @ts-expect-error (TODO)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore TODO
 export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),

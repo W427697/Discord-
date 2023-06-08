@@ -29,20 +29,19 @@ export const ControlsPanel: FC = () => {
   const [globals] = useGlobals();
   const rows = useArgTypes();
   const isArgsStory = useParameter<boolean>('__isArgsStory', false);
-  const {
-    expanded,
-    sort,
-    presetColors,
-    hideNoControlsWarning = false,
-  } = useParameter<ControlsParameters>(PARAM_KEY, {});
+  const controlParameters = useParameter<ControlsParameters>(PARAM_KEY, {});
   const { path } = useStorybookState();
 
   const hasControls = Object.values(rows).some((arg) => arg?.control);
-  const showWarning = !(hasControls && isArgsStory) && !hideNoControlsWarning;
+  const showWarning = !(hasControls && isArgsStory) && !controlParameters?.hideNoControlsWarning;
 
   const withPresetColors = Object.entries(rows).reduce((acc, [key, arg]) => {
     if (arg?.control?.type !== 'color' || arg?.control?.presetColors) acc[key] = arg;
-    else acc[key] = { ...arg, control: { ...arg.control, presetColors } };
+    else
+      acc[key] = {
+        ...arg,
+        control: { ...arg.control, presetColors: controlParameters?.presetColors },
+      };
     return acc;
   }, {} as ArgTypes);
 
@@ -52,14 +51,14 @@ export const ControlsPanel: FC = () => {
       <ArgsTable
         {...{
           key: path, // resets state when switching stories
-          compact: !expanded && hasControls,
+          compact: !controlParameters?.expanded && hasControls,
           rows: withPresetColors,
           args,
           globals,
           updateArgs,
           resetArgs,
           inAddonPanel: true,
-          sort,
+          sort: controlParameters?.sort,
         }}
       />
     </>

@@ -55,6 +55,7 @@ export const Default = () => {
       navigate={() => {}}
       docsOptions={{ docsMode: false }}
     >
+      {/* @ts-expect-error TODO setPreviewInitialized needs a proper type */}
       <Consumer filter={setPreviewInitialized}>{() => <></>}</Consumer>
       <App
         key="app"

@@ -12,7 +12,8 @@ export interface SubState {
   settings: API_Settings;
 }
 
-// @ts-expect-error TODO
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore TODO
 export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) => {
   const isSettingsScreenActive = () => {
     const { path } = fullAPI.getUrlState();

@@ -226,8 +226,10 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     );
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
-    // @ts-expect-error (TODO)
-    const state = getInitialState(this.state, ...this.modules.map((m) => m.state));
+    const state = getInitialState(
+      this.state,
+      ...this.modules.map((m) => m.state as { key: string })
+    );
 
     // Get our API by combining the APIs exported by each module
     const api: API = Object.assign(this.api, { navigate }, ...this.modules.map((m) => m.api));
@@ -244,7 +246,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
         path: props.path,
         refId: props.refId,
         viewMode: props.viewMode,
-        storyId: props.storyId ?? '',
+        storyId: props.storyId,
       };
     }
     return null;
@@ -323,6 +325,8 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore TODO: data needs a proper type
   const data = filterer.current(c) ?? [];
 
   const l = useMemo(() => {

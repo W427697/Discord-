@@ -469,7 +469,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         viewMode: ViewMode;
         [k: string]: any;
       }) {
-        // @ts-expect-error FIXME 'this' does not have a proper type annotation
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore FIXME 'this' does not have a proper type annotation
         const { sourceType } = getEventMetadata(this, fullAPI);
 
         if (sourceType === 'local') {
@@ -490,13 +491,15 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     // the preview.js file or the index to load). Once it has a selection, it will render its own
     // preparing spinner.
     fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.setPreviewInitialized(ref);
     });
 
     fullAPI.on(STORY_CHANGED, function handler() {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { sourceType } = getEventMetadata(this, fullAPI);
 
       if (sourceType === 'local') {
@@ -509,7 +512,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     fullAPI.on(STORY_PREPARED, function handler({ id, ...update }: StoryPreparedPayload) {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { ref, sourceType } = getEventMetadata(this, fullAPI);
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
 
@@ -540,13 +544,15 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     fullAPI.on(DOCS_PREPARED, function handler({ id, ...update }: DocsPreparedPayload) {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
     });
 
     fullAPI.on(SET_INDEX, function handler(index: API_PreparedStoryIndex) {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
 
       if (!ref) {
@@ -560,7 +566,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     // For composition back-compatibilty
     fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
@@ -588,7 +595,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         storyId: string;
         viewMode: ViewMode;
       }) {
-        // @ts-expect-error FIXME 'this' does not have a proper type annotation
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore FIXME 'this' does not have a proper type annotation
         const { ref } = getEventMetadata(this, fullAPI);
 
         if (!ref) {
@@ -602,7 +610,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     fullAPI.on(
       STORY_ARGS_UPDATED,
       function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
-        // @ts-expect-error FIXME 'this' does not have a proper type annotation
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore FIXME 'this' does not have a proper type annotation
         const { ref } = getEventMetadata(this, fullAPI);
         fullAPI.updateStory(storyId, { args }, ref);
       }
@@ -610,13 +619,15 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     // When there's a preview error, we don't show it in the manager, but simply
     fullAPI.on(CONFIG_ERROR, function handleConfigError(err) {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.setPreviewInitialized(ref);
     });
 
     fullAPI.on(STORY_MISSING, function handleConfigError(err) {
-      // @ts-expect-error FIXME 'this' does not have a proper type annotation
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME 'this' does not have a proper type annotation
       const { ref } = getEventMetadata(this, fullAPI);
       fullAPI.setPreviewInitialized(ref);
     });

@@ -122,7 +122,8 @@ export const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStor
         type = 'docs';
       }
 
-      // @ts-expect-error (TODO)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore TODO
       acc[entry.id] = {
         type,
         ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
