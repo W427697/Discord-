@@ -320,7 +320,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
 
-  const isReactProject =
+  const isReactWebProject =
     projectType === ProjectType.REACT_SCRIPTS ||
     projectType === ProjectType.REACT ||
     projectType === ProjectType.WEBPACK_REACT ||
@@ -372,7 +372,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
           open: true,
           quiet: true,
           // TODO: change this logic to all frameworks once the idea is validated
-          initialPath: isReactProject ? '/onboarding' : undefined,
+          initialPath: isReactWebProject ? '/onboarding' : undefined,
         });
       }
     }
