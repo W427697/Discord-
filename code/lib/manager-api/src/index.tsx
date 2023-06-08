@@ -365,8 +365,8 @@ export function useStorybookState(): State {
 export function useStorybookApi(): API {
   const { api } = useContext(ManagerContext);
 
-  if (!api) throw new Error('Cannot find Storybook API context');
-
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore TODO: the api can be sometimes undefined, we need to handle this properly
   return api;
 }
 
