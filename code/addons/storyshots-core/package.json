@@ -69,7 +69,6 @@
     "jest-preset-angular": "^12.2.3",
     "jest-vue-preprocessor": "^1.7.1",
     "react-test-renderer": "^16",
-    "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "vue-jest": "^5.0.0-alpha.8"
   },

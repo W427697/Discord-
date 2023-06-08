@@ -6,7 +6,7 @@ As of version 7.0, Storybook now re-uses your project’s Babel configuration to
 
 <div class="aside">
 
-If you're not using Storybook 7, please reference the <LinkWithVersion version="6.5" href="./babel">previous documentation</LinkWithVersion> for guidance on configuring your Babel setup.
+If you're not using Storybook 7, please reference the [previous documentation](../../../release-6-5/docs/configure/babel.md) for guidance on configuring your Babel setup.
 
 </div>
 
@@ -135,7 +135,7 @@ For more info, please refer to the [Babel documentation](https://babeljs.io/docs
 
 ### SWC fallback
 
-If you're working with a Webpack-based project and having issues with Babel configuration, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler. To do so, update your Storybook configuration file (e.g., `.storybook/main.js|ts`) to enable the exp experimental `useSWC` option:
+If you're working with a Webpack-based project and having issues with Babel configuration, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler. To do so, update your Storybook configuration file (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
 
 <!-- prettier-ignore-start -->
 
