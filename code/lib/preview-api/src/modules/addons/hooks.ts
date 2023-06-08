@@ -70,7 +70,7 @@ export class HooksContext<TRenderer extends Renderer, TArgs extends Args = Args>
   init() {
     this.hookListsMap = new WeakMap();
     this.mountedDecorators = new Set();
-    this.prevMountedDecorators = this.mountedDecorators;
+    this.prevMountedDecorators = new Set();
     this.currentHooks = [];
     this.nextHookIndex = 0;
     this.currentPhase = 'NONE';
@@ -191,7 +191,7 @@ export const applyHooks =
     );
     return (context) => {
       const { hooks } = context as { hooks: HooksContext<TRenderer> };
-      hooks.prevMountedDecorators = hooks.mountedDecorators;
+      hooks.prevMountedDecorators ??= new Set();
       hooks.mountedDecorators = new Set([storyFn, ...decorators]);
       hooks.currentContext = context;
       hooks.hasUpdates = false;
