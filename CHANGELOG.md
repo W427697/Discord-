@@ -6,6 +6,12 @@
 -   Docs: Fix Source block snippet updates [#22835](https://github.com/storybooks/storybook/pull/22835)
 -   Core: Fix indexing errors by excluding node_modules stories [#22873](https://github.com/storybooks/storybook/pull/22873)
 -   CLI: Fix upgrade notification message [#22933](https://github.com/storybooks/storybook/pull/22933)
+-   Angular: Add --open/--no-open flag to dev command [#22964](https://github.com/storybooks/storybook/pull/22964)
+-   Angular: Silence compodoc when running storybook with --quiet [#22957](https://github.com/storybooks/storybook/pull/22957)
+
+#### Maintenance
+
+-   Core: Improve MDX of error in story index [#22782](https://github.com/storybooks/storybook/pull/22782)
 
 #### Build
 
