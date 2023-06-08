@@ -46,7 +46,7 @@
     "@storybook/types": "7.1.0-alpha.29",
     "@types/jest-specific-snapshot": "^0.5.6",
     "glob": "^10.0.0",
-    "jest-specific-snapshot": "^7.0.0",
+    "jest-specific-snapshot": "^8.0.0",
     "preact-render-to-string": "^5.1.19",
     "pretty-format": "^29.0.0",
     "react-test-renderer": "^16.8.0 || ^17.0.0 || ^18.0.0",
