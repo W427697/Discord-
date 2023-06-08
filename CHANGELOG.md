@@ -1,4 +1,4 @@
-## 7.0.19 (June 8, 2023)
+## 7.0.20 (June 8, 2023)
 
 #### Bug Fixes
 
@@ -17,6 +17,11 @@
 
 -   Build: Fix the theme output during development [#22841](https://github.com/storybooks/storybook/pull/22841)
 -   Revert "Docs: E2E tests for Source block update fix" [#22934](https://github.com/storybookjs/storybook/pull/22934)
+
+## 7.0.19 (June 8, 2023)
+
+Bad release
+
 ## 7.0.18 (May 26, 2023)
 
 #### Bug Fixes
