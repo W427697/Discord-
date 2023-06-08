@@ -51,7 +51,7 @@
     "@storybook/core-server": "7.1.0-alpha.29",
     "@storybook/vue3": "7.1.0-alpha.29",
     "@vitejs/plugin-vue": "^4.0.0",
-    "magic-string": "^0.27.0",
+    "magic-string": "^0.30.0",
     "vue-docgen-api": "^4.40.0"
   },
   "devDependencies": {

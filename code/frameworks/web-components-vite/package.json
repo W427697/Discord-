@@ -51,7 +51,7 @@
     "@storybook/core-server": "7.1.0-alpha.29",
     "@storybook/node-logger": "7.1.0-alpha.29",
     "@storybook/web-components": "7.1.0-alpha.29",
-    "magic-string": "^0.27.0"
+    "magic-string": "^0.30.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
