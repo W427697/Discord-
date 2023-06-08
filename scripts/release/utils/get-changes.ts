@@ -69,7 +69,7 @@ export const getAllCommitsBetween = async ({
   to?: string;
   verbose?: boolean;
 }) => {
-  const logResult = await git.log({ from, to });
+  const logResult = await git.log({ from, to, '--first-parent': null });
   if (verbose) {
     console.log(
       `🔍 Found ${chalk.blue(logResult.total)} commits between ${chalk.green(
