@@ -225,8 +225,8 @@ describe('Version', () => {
         }),
         { spaces: 2 }
       );
-      expect(execaCommand).toHaveBeenCalledWith('yarn task --task=install', {
-        cwd: path.join(CODE_DIR_PATH, '..'),
+      expect(execaCommand).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
+        cwd: path.join(CODE_DIR_PATH),
         stdio: undefined,
       });
     }
