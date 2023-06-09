@@ -45,10 +45,11 @@ export function decorateStory(
   storyFn: LegacyStoryFn<VueRenderer>,
   decorators: DecoratorFunction<VueRenderer>[]
 ): LegacyStoryFn<VueRenderer> {
+  let updatedArgs = {};
+
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
       let story: VueRenderer['storyResult'] | undefined;
-      const updatedArgs = shallowReactive<Args>({});
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
         story = decorated({
@@ -60,7 +61,7 @@ export function decorateStory(
           update &&
           update.args &&
           Object.keys(update).length === 1 &&
-          Object.keys(updateArgs).length === 0
+          Object.keys(updatedArgs).length === 0
         ) {
           updateArgs(updatedArgs, update.args);
         }
@@ -79,6 +80,7 @@ export function decorateStory(
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
     },
     (context) => {
+      updatedArgs = {};
       const story = storyFn(context);
       story.inheritAttrs ??= context.parameters.inheritAttrs ?? false;
       return prepare(story) as LegacyStoryFn<VueRenderer>;
