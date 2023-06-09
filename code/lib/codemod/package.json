@@ -52,6 +52,7 @@
     "@storybook/csf-tools": "7.1.0-alpha.29",
     "@storybook/node-logger": "7.1.0-alpha.29",
     "@storybook/types": "7.1.0-alpha.29",
+    "@types/cross-spawn": "^6.0.2",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",
