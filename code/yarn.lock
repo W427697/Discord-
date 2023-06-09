@@ -4593,19 +4593,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.32.3":
-  version: 1.32.3
-  resolution: "@playwright/test@npm:1.32.3"
+"@playwright/test@npm:1.35.0":
+  version: 1.35.0
+  resolution: "@playwright/test@npm:1.35.0"
   dependencies:
     "@types/node": "*"
     fsevents: 2.3.2
-    playwright-core: 1.32.3
+    playwright-core: 1.35.0
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: d09e4135c868b4067f45b8c297d02b0d8ddb8298657c942a06c72f3d9a3236af94586718dc7590693dbb31ea4b8fcceeb8a1e8811072f2add7d952c5c9129df3
+  checksum: 77594d876632e9ce8a33851fed0a9ffe1034ca216811a3b5c3925c371eddb20ceb6848f3e9b10234a025dcf7be979cddcd0285ad627ad30afbc0cf246ab74c4d
   languageName: node
   linkType: hard
 
@@ -6777,7 +6777,7 @@ __metadata:
     "@nrwl/cli": ^15.4.5
     "@nrwl/nx-cloud": ^15.0.2
     "@nrwl/workspace": ^15.4.5
-    "@playwright/test": 1.32.3
+    "@playwright/test": ^1.35.0
     "@storybook/addon-a11y": "workspace:*"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/addon-backgrounds": "workspace:*"
@@ -24533,6 +24533,15 @@ __metadata:
   bin:
     playwright: cli.js
   checksum: 8b94feb15084813607abac69ef3d4f78b345bcc89e322706e62c203b79e74096caf499ce4cd4103b1bfc853f17a9ff0573f636dc0ee88f56a5cb6ed18ce55f06
+  languageName: node
+  linkType: hard
+
+"playwright-core@npm:1.35.0":
+  version: 1.35.0
+  resolution: "playwright-core@npm:1.35.0"
+  bin:
+    playwright-core: cli.js
+  checksum: 157257f0950190903d75ff6af70258fe1b1c6bf44f144a063428a594c09b4631d4c151ff65e28e1d9fc13edd8bd51c4720a7d87fc755c2afba47f41919bf5875
   languageName: node
   linkType: hard
 
