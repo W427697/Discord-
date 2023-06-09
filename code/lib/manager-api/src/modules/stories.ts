@@ -40,6 +40,7 @@ import { logger } from '@storybook/client-logger';
 
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
+import type { Meta } from '../lib/events';
 
 import {
   denormalizeStoryParameters,
@@ -605,17 +606,18 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     // and emit STORY_SPECIFIED with the id. We need to ensure we respond to this change.
     fullAPI.on(
       STORY_SPECIFIED,
-      function handler({
-        storyId,
-        viewMode,
-      }: {
-        storyId: string;
-        viewMode: ViewMode;
-        [k: string]: any;
-      }) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore FIXME 'this' does not have a proper type annotation
-        const { sourceType } = getEventMetadata(this, fullAPI);
+      function handler(
+        this: Meta,
+        {
+          storyId,
+          viewMode,
+        }: {
+          storyId: string;
+          viewMode: ViewMode;
+          [k: string]: any;
+        }
+      ) {
+        const { sourceType } = getEventMetadata(this, fullAPI) ?? { sourceType: undefined };
 
         if (sourceType === 'local') {
           if (fullAPI.isSettingsScreenActive()) return;
@@ -634,17 +636,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     // Until the ref has a selection, it will not render anything (e.g. while waiting for
     // the preview.js file or the index to load). Once it has a selection, it will render its own
     // preparing spinner.
-    fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { ref } = getEventMetadata(this, fullAPI);
+    fullAPI.on(CURRENT_STORY_WAS_SET, function handler(this: Meta) {
+      const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
       fullAPI.setPreviewInitialized(ref);
     });
 
-    fullAPI.on(STORY_CHANGED, function handler() {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { sourceType } = getEventMetadata(this, fullAPI);
+    fullAPI.on(STORY_CHANGED, function handler(this: Meta) {
+      const { sourceType } = getEventMetadata(this, fullAPI) ?? { sourceType: undefined };
 
       if (sourceType === 'local') {
         const options = fullAPI.getCurrentParameter('options');
@@ -655,49 +653,49 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     });
 
-    fullAPI.on(STORY_PREPARED, function handler({ id, ...update }: StoryPreparedPayload) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { ref, sourceType } = getEventMetadata(this, fullAPI);
-      fullAPI.updateStory(id, { ...update, prepared: true }, ref);
+    fullAPI.on(
+      STORY_PREPARED,
+      function handler(this: Meta, { id, ...update }: StoryPreparedPayload) {
+        const { ref, sourceType } = getEventMetadata(this, fullAPI) ?? {
+          ref: undefined,
+          sourceType: undefined,
+        };
+        fullAPI.updateStory(id, { ...update, prepared: true }, ref);
 
-      if (!ref) {
-        if (!store.getState().hasCalledSetOptions) {
-          const { options } = update.parameters;
-          fullAPI.setOptions(removeRemovedOptions(options));
-          store.setState({ hasCalledSetOptions: true });
+        if (!ref) {
+          if (!store.getState().hasCalledSetOptions) {
+            const { options } = update.parameters;
+            fullAPI.setOptions(removeRemovedOptions(options));
+            store.setState({ hasCalledSetOptions: true });
+          }
+        }
+
+        if (sourceType === 'local') {
+          const { storyId, index, refId } = store.getState();
+
+          // create a list of related stories to be preloaded
+          const toBePreloaded = Array.from(
+            new Set([
+              index && storyId ? api.findSiblingStoryId(storyId, index, 1, true) : null,
+              index && storyId ? api.findSiblingStoryId(storyId, index, -1, true) : null,
+            ])
+          ).filter(Boolean);
+
+          fullAPI.emit(PRELOAD_ENTRIES, {
+            ids: toBePreloaded,
+            options: { target: refId },
+          });
         }
       }
+    );
 
-      if (sourceType === 'local') {
-        const { storyId, index, refId } = store.getState();
-
-        // create a list of related stories to be preloaded
-        const toBePreloaded = Array.from(
-          new Set([
-            index && storyId ? api.findSiblingStoryId(storyId, index, 1, true) : null,
-            index && storyId ? api.findSiblingStoryId(storyId, index, -1, true) : null,
-          ])
-        ).filter(Boolean);
-
-        fullAPI.emit(PRELOAD_ENTRIES, {
-          ids: toBePreloaded,
-          options: { target: refId },
-        });
-      }
-    });
-
-    fullAPI.on(DOCS_PREPARED, function handler({ id, ...update }: DocsPreparedPayload) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { ref } = getEventMetadata(this, fullAPI);
+    fullAPI.on(DOCS_PREPARED, function handler(this: Meta, { id, ...update }: DocsPreparedPayload) {
+      const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
       fullAPI.updateStory(id, { ...update, prepared: true }, ref);
     });
 
-    fullAPI.on(SET_INDEX, function handler(index: API_PreparedStoryIndex) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { ref } = getEventMetadata(this, fullAPI);
+    fullAPI.on(SET_INDEX, function handler(this: Meta, index: API_PreparedStoryIndex) {
+      const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
 
       if (!ref) {
         fullAPI.setIndex(index);
@@ -709,10 +707,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     // For composition back-compatibilty
-    fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { ref } = getEventMetadata(this, fullAPI);
+    fullAPI.on(SET_STORIES, function handler(this: Meta, data: SetStoriesPayload) {
+      const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
+
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
       if (!ref) {
@@ -724,24 +721,25 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     fullAPI.on(
       SELECT_STORY,
-      function handler({
-        kind,
-        title = kind,
-        story,
-        name = story,
-        storyId,
-        ...rest
-      }: {
-        kind?: StoryKind;
-        title?: ComponentTitle;
-        story?: StoryName;
-        name?: StoryName;
-        storyId: string;
-        viewMode: ViewMode;
-      }) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore FIXME 'this' does not have a proper type annotation
-        const { ref } = getEventMetadata(this, fullAPI);
+      function handler(
+        this: Meta,
+        {
+          kind,
+          title = kind,
+          story,
+          name = story,
+          storyId,
+          ...rest
+        }: {
+          kind?: StoryKind;
+          title?: ComponentTitle;
+          story?: StoryName;
+          name?: StoryName;
+          storyId: string;
+          viewMode: ViewMode;
+        }
+      ) {
+        const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
 
         if (!ref) {
           fullAPI.selectStory(storyId || title, name, rest);
@@ -753,26 +751,23 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     fullAPI.on(
       STORY_ARGS_UPDATED,
-      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore FIXME 'this' does not have a proper type annotation
-        const { ref } = getEventMetadata(this, fullAPI);
+      function handleStoryArgsUpdated(
+        this: Meta,
+        { storyId, args }: { storyId: StoryId; args: Args }
+      ) {
+        const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
         fullAPI.updateStory(storyId, { args }, ref);
       }
     );
 
     // When there's a preview error, we don't show it in the manager, but simply
-    fullAPI.on(CONFIG_ERROR, function handleConfigError(err) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { ref } = getEventMetadata(this, fullAPI);
+    fullAPI.on(CONFIG_ERROR, function handleConfigError(this: Meta, err) {
+      const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
       fullAPI.setPreviewInitialized(ref);
     });
 
-    fullAPI.on(STORY_MISSING, function handleConfigError(err) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore FIXME 'this' does not have a proper type annotation
-      const { ref } = getEventMetadata(this, fullAPI);
+    fullAPI.on(STORY_MISSING, function handleConfigError(this: Meta, err) {
+      const { ref } = getEventMetadata(this, fullAPI) ?? { ref: undefined };
       fullAPI.setPreviewInitialized(ref);
     });
 
