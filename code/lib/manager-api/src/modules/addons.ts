@@ -10,7 +10,7 @@ import type { ModuleFn } from '../index';
 import type { Options } from '../store';
 
 export interface SubState {
-  selectedPanel: string;
+  selectedPanel?: string | null;
   addons: Record<string, never>;
 }
 
@@ -73,7 +73,11 @@ export interface SubAPI {
   getAddonState<S>(addonId: string): S;
 }
 
-export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
+export function ensurePanel(
+  panels: API_Panels,
+  selectedPanel?: SubState['selectedPanel'],
+  currentPanel?: SubState['selectedPanel']
+) {
   const keys = Object.keys(panels);
 
   if (!selectedPanel) return keys[0] || null;
@@ -88,8 +92,6 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
   return currentPanel;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore TODO
 export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
@@ -150,7 +152,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
     state: {
       selectedPanel: ensurePanel(
         api.getElements(Addon_TypesEnum.PANEL),
-        store.getState().selectedPanel
+        store.getState()?.selectedPanel
       ),
       addons: {},
     },

@@ -20,7 +20,7 @@ export const ActiveTabs = {
 export interface SubState {
   layout: API_Layout;
   ui: API_UI;
-  selectedPanel: string | undefined;
+  selectedPanel: string | null | undefined;
   theme: ThemeVars;
 }
 
