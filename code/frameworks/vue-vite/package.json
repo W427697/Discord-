@@ -51,15 +51,14 @@
     "@storybook/core-common": "7.1.0-alpha.29",
     "@storybook/core-server": "7.1.0-alpha.29",
     "@storybook/vue": "7.1.0-alpha.29",
-    "magic-string": "^0.27.0",
+    "magic-string": "^0.30.0",
     "typescript": "~4.9.3",
     "vue-component-meta": "^1.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "css-loader": "^6.2.0",
-    "vite": "^4.0.0",
-    "vue": "^2.7.10"
+    "vite": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

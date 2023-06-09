@@ -398,29 +398,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:*, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.15.0, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.12, @babel/core@npm:^7.22.0, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.6":
-  version: 7.22.1
-  resolution: "@babel/core@npm:7.22.1"
-  dependencies:
-    "@ampproject/remapping": ^2.2.0
-    "@babel/code-frame": ^7.21.4
-    "@babel/generator": ^7.22.0
-    "@babel/helper-compilation-targets": ^7.22.1
-    "@babel/helper-module-transforms": ^7.22.1
-    "@babel/helpers": ^7.22.0
-    "@babel/parser": ^7.22.0
-    "@babel/template": ^7.21.9
-    "@babel/traverse": ^7.22.1
-    "@babel/types": ^7.22.0
-    convert-source-map: ^1.7.0
-    debug: ^4.1.0
-    gensync: ^1.0.0-beta.2
-    json5: ^2.2.2
-    semver: ^6.3.0
-  checksum: 33ede7473e3794a9904f004e87fa4625cea3f6790f0f2c6eb46145f2e8627cdcd9b6dc749b1534d579855198ebeeb1979b7ffb694c8cea7c3e6f17e718b7524b
-  languageName: node
-  linkType: hard
-
 "@babel/core@npm:7.21.4":
   version: 7.21.4
   resolution: "@babel/core@npm:7.21.4"
@@ -487,6 +464,29 @@ __metadata:
     semver: ^5.4.1
     source-map: ^0.5.0
   checksum: ffff3e94f219c7a4a32c825eca57c9beb1a83a60c0c5c37e7ddbcecd45c5c188cece5352f56a91a14c05c25ffcb298155429fedb9e86477cf2c91c3388b1f2c9
+  languageName: node
+  linkType: hard
+
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.15.0, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.12, @babel/core@npm:^7.22.0, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.6":
+  version: 7.22.1
+  resolution: "@babel/core@npm:7.22.1"
+  dependencies:
+    "@ampproject/remapping": ^2.2.0
+    "@babel/code-frame": ^7.21.4
+    "@babel/generator": ^7.22.0
+    "@babel/helper-compilation-targets": ^7.22.1
+    "@babel/helper-module-transforms": ^7.22.1
+    "@babel/helpers": ^7.22.0
+    "@babel/parser": ^7.22.0
+    "@babel/template": ^7.21.9
+    "@babel/traverse": ^7.22.1
+    "@babel/types": ^7.22.0
+    convert-source-map: ^1.7.0
+    debug: ^4.1.0
+    gensync: ^1.0.0-beta.2
+    json5: ^2.2.2
+    semver: ^6.3.0
+  checksum: 33ede7473e3794a9904f004e87fa4625cea3f6790f0f2c6eb46145f2e8627cdcd9b6dc749b1534d579855198ebeeb1979b7ffb694c8cea7c3e6f17e718b7524b
   languageName: node
   linkType: hard
 
@@ -7480,10 +7480,9 @@ __metadata:
     "@storybook/core-server": 7.1.0-alpha.29
     "@storybook/vue": 7.1.0-alpha.29
     css-loader: ^6.2.0
-    magic-string: ^0.27.0
+    magic-string: ^0.30.0
     typescript: ~4.9.3
     vite: ^4.0.0
-    vue: ^2.7.10
     vue-component-meta: ^1.7.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7587,7 +7586,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue@workspace:renderers/vue"
   dependencies:
-    "@babel/core": "*"
     "@storybook/client-logger": 7.1.0-alpha.29
     "@storybook/core-client": 7.1.0-alpha.29
     "@storybook/docs-tools": 7.1.0-alpha.29
@@ -7597,9 +7595,11 @@ __metadata:
     css-loader: "*"
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
+    typescript: ~4.9.3
     vue: ^2.7.0
     vue-tsc: ^1.0.9
   peerDependencies:
+    "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
     vue: ^2.0.0
   peerDependenciesMeta:
@@ -30683,7 +30683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^2.6.12, vue@npm:^2.7.0, vue@npm:^2.7.10":
+"vue@npm:^2.6.12, vue@npm:^2.7.0":
   version: 2.7.14
   resolution: "vue@npm:2.7.14"
   dependencies:

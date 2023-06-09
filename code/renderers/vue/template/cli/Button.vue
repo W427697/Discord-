@@ -59,7 +59,7 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit('onClick', 'click');
+      this.$emit('onClick', 'clicked');
     },
   },
 };

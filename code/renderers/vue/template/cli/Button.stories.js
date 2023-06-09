@@ -5,11 +5,6 @@ export default {
   title: 'Example/Button',
   component: MyButton,
   tags: ['autodocs'],
-  render: (args, { argTypes }) => ({
-    props: Object.keys(argTypes),
-    components: { MyButton },
-    template: '<my-button  v-bind="$props" />',
-  }),
   argTypes: {
     backgroundColor: { control: 'color' },
     size: {
