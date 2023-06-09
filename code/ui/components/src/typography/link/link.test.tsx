@@ -6,9 +6,9 @@ import { ThemeProvider, themes, convert } from '@storybook/theming';
 import type { LinkProps } from './link';
 import { Link } from './link';
 
-const LEFT_BUTTON = 0;
-const MIDDLE_BUTTON = 1;
-const RIGHT_BUTTON = 2;
+const LEFT_BUTTON = '[MouseLeft]';
+const MIDDLE_BUTTON = '[MouseMiddle]';
+const RIGHT_BUTTON = '[MouseRight]';
 
 function ThemedLink(props: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
@@ -23,49 +23,79 @@ describe('Link', () => {
     it('should call onClick on a plain left click', () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { button: LEFT_BUTTON });
+      userEvent.pointer({
+        target: screen.getByText('Content'),
+        keys: `${LEFT_BUTTON}`,
+      });
       expect(handleClick).toHaveBeenCalled();
     });
 
     it("shouldn't call onClick on a middle click", () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { button: MIDDLE_BUTTON });
+      userEvent.pointer({
+        target: screen.getByText('Content'),
+        keys: `${MIDDLE_BUTTON}`,
+      });
       expect(handleClick).not.toHaveBeenCalled();
     });
 
     it("shouldn't call onClick on a right click", () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { button: RIGHT_BUTTON });
+      userEvent.pointer({
+        target: screen.getByText('Content'),
+        keys: `${RIGHT_BUTTON}`,
+      });
       expect(handleClick).not.toHaveBeenCalled();
     });
 
     it("shouldn't call onClick on alt+click", () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { altKey: true });
+      userEvent.keyboard('[>AltLeft]');
+      userEvent.pointer({
+        target: screen.getByText('Content'),
+        keys: `${LEFT_BUTTON}`,
+      });
+      userEvent.keyboard('[/AltLeft]');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
     it("shouldn't call onClick on ctrl+click", () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { ctrlKey: true });
+      userEvent.keyboard('[>ControlLeft]');
+      userEvent.pointer({
+        target: screen.getByText('Content'),
+        keys: `${LEFT_BUTTON}`,
+      });
+      userEvent.keyboard('[/ControlLeft]');
+
       expect(handleClick).not.toHaveBeenCalled();
     });
 
     it("shouldn't call onClick on cmd+click / win+click", () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { metaKey: true });
+      userEvent.keyboard('[>MetaLeft]');
+      userEvent.pointer({
+        target: screen.getByText('Content'),
+        keys: `${LEFT_BUTTON}`,
+      });
+      userEvent.keyboard('[/MetaLeft]');
       expect(handleClick).not.toHaveBeenCalled();
     });
 
     it("shouldn't call onClick on shift+click", () => {
       const handleClick = jest.fn();
       render(<ThemedLink onClick={handleClick}>Content</ThemedLink>);
-      userEvent.click(screen.getByText('Content'), { shiftKey: true });
+      userEvent.keyboard('[>ShiftLeft]');
+      userEvent.pointer({
+        target: screen.getByText('Content'),
+        keys: `${LEFT_BUTTON}`,
+      });
+      userEvent.keyboard('[/ShiftLeft]');
       expect(handleClick).not.toHaveBeenCalled();
     });
   });
