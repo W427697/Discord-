@@ -361,10 +361,6 @@ describe('stories API', () => {
         throw new Error('Expected index to be set');
       }
 
-      if (!index) {
-        throw new Error('Expected index to be set');
-      }
-
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(index)).toEqual(['a', 'a--1']);
       expect(index.a).toMatchObject({
