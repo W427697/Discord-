@@ -64,7 +64,7 @@
     "@storybook/router": "7.1.0-alpha.30",
     "@storybook/theming": "7.1.0-alpha.30",
     "@storybook/types": "7.1.0-alpha.30",
-    "@testing-library/react": "^11.2.2",
+    "@testing-library/react": "^14.0.0",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
     "downshift": "^6.0.15",
