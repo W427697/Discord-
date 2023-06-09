@@ -4242,13 +4242,13 @@ __metadata:
   linkType: hard
 
 "@octokit/endpoint@npm:^7.0.0":
-  version: 7.0.5
-  resolution: "@octokit/endpoint@npm:7.0.5"
+  version: 7.0.6
+  resolution: "@octokit/endpoint@npm:7.0.6"
   dependencies:
     "@octokit/types": ^9.0.0
     is-plain-object: ^5.0.0
     universal-user-agent: ^6.0.0
-  checksum: 68de3e40b4d2b4d3decfc3e23480d5a781275ebf86d084a38ba70c5d46a6cad051b63332da1768a64d58b0b810c5b57401a3892dff4dd0060d8b6b31d78fc2f5
+  checksum: fd147a55010b54af7567bf90791359f7096a1c9916a2b7c72f8afd0c53141338b3d78da3a4ab3e3bdfeb26218a1b73735432d8987ccc04996b1019219299f115
   languageName: node
   linkType: hard
 
@@ -4288,10 +4288,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/openapi-types@npm:^16.0.0":
-  version: 16.0.0
-  resolution: "@octokit/openapi-types@npm:16.0.0"
-  checksum: 8d45fc0249e8ba0c0c1ef4de5ac2dddbb8f8b42b66383d58ab026b59282f908466d344a98ef0ff198b1d42ef1fae7e6f8b69ab88c11c955d3ac54426bf6c17d2
+"@octokit/openapi-types@npm:^18.0.0":
+  version: 18.0.0
+  resolution: "@octokit/openapi-types@npm:18.0.0"
+  checksum: d90fab10d962be71e72b85ffab2055cffd9c3196ff1edc3e4106deb78e99e8782965cf7aa6a4c1398f828e4d0c3e0f905915debfe34396d956dfce8e75b21664
   languageName: node
   linkType: hard
 
@@ -4553,11 +4553,11 @@ __metadata:
   linkType: hard
 
 "@octokit/types@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@octokit/types@npm:9.0.0"
+  version: 9.3.0
+  resolution: "@octokit/types@npm:9.3.0"
   dependencies:
-    "@octokit/openapi-types": ^16.0.0
-  checksum: 33e165e9ddaf7f1e8e94e3e48e2bb73f6193b1405887c382b5079450bebf67fe844784e3bb91c90acdb5718c3551936202de3ee98aaf7f7ec428a064032e158a
+    "@octokit/openapi-types": ^18.0.0
+  checksum: c6b3410201a0c21be9a7d46add76593a519d5ed8a9e7151ef897d4330b288eff01ed3f9695ce62a054579e643d12dea5f1bac77b7770c7be590ef54bf78004ba
   languageName: node
   linkType: hard
 
@@ -7286,7 +7286,7 @@ __metadata:
     type-fest: 2.19.0
     typescript: ~4.9.3
     vue: ^3.2.47
-    vue-component-type-helpers: ^1.6.5
+    vue-component-type-helpers: latest
     vue-tsc: ^1.2.0
   peerDependencies:
     vue: ^3.0.0
@@ -13936,9 +13936,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.350
-  resolution: "electron-to-chromium@npm:1.4.350"
-  checksum: 026603e4fac93a17e8fafb53d5c217a7259be23cb67d0d6e11ff0f054407f0013a2e2fc96042f1c2082d101aded46be501904299b33cd3458bf8d01be90077f8
+  version: 1.4.426
+  resolution: "electron-to-chromium@npm:1.4.426"
+  checksum: 245c8a706d4c4f7c22fb56db0baa9416a5732b8c3dd4d1578da2bf1781d285ecdc79c4ad1efc97c38a337cfbe50dd6982f8aaa04f0f1437ff5eb10fb58d77730
   languageName: node
   linkType: hard
 
@@ -30775,10 +30775,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-component-type-helpers@npm:^1.6.5":
-  version: 1.7.8
-  resolution: "vue-component-type-helpers@npm:1.7.8"
-  checksum: 82560704241cad12858e197593b18398bfd43c0319b93f0102723975b392a6319bcd9a5912859ebef0a26965d2301836252713af7e0cfe71a0312237ad64ca16
+"vue-component-type-helpers@npm:latest":
+  version: 1.6.5
+  resolution: "vue-component-type-helpers@npm:1.6.5"
+  checksum: 205d520c05e53d1cc6f53fe920c64b4c6883249cbfe15026fcda250980bf4ddfc004292e0c9ecaa7fcf983bd143482ffbc4191e0b84f6d3f996a0a07ca3396c4
   languageName: node
   linkType: hard
 
