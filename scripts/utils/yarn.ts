@@ -20,12 +20,6 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
-  packageJson.devDependencies = {
-    ...packageJson.devDependencies,
-    playwright: '^1.35.0',
-    'playwright-core': '^1.35.0',
-    '@playwright/test': '^1.35.0',
-  };
   packageJson.resolutions = {
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
