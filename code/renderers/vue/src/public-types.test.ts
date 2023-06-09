@@ -6,7 +6,7 @@ import type { Component } from 'vue';
 import type { ExtendedVue } from 'vue/types/vue';
 import { Vue } from 'vue/types/vue';
 import type { Decorator, Meta, StoryObj } from './public-types';
-import Button from './__tests__/MyButton.vue';
+import Button from './__tests__/Button.vue';
 import type { VueRenderer } from './types';
 
 describe('Meta', () => {
