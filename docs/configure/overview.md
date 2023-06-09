@@ -18,8 +18,8 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-default-setup.js.mdx',
-    'common/storybook-main-baseline-setup.ts.mdx',
+    'common/main-config-typical.js.mdx',
+    'common/main-config-typical.ts.mdx',
   ]}
 />
 
@@ -56,6 +56,7 @@ Additionally, you can also provide additional feature flags to your Storybook co
 | `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up <br/> `features: { storyStoreV7: true }`                   |
 | `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on-demand mode <br/> `features: { buildStoriesJson: true }`                                        |
 | `legacyMdx1`          | Enables support for MDX version 1 as a fallback. Requires [`@storybook/mdx1-csf`](https://github.com/storybookjs/mdx1-csf) <br/> `features: { legacyMdx1: true }` |
+| `useSWC`              | Enables experimental support for [SWC](https://swc.rs/) as a Babel alternative for Webpack-based projects<br/> `builder: { useSWC: true }`                        |
 
 ## Configure story loading
 
@@ -85,20 +86,20 @@ For example, if you wanted to pull both `.md` and `.js` files from the `my-proje
 
 ### With a configuration object
 
-Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages` directory, you could adjust your `stories` configuration field into the following:
+Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages/components` directory, you could adjust your `stories` configuration field into the following:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-with-custom-object.js.mdx',
-    'common/storybook-storyloading-with-custom-object.ts.mdx',
+    'common/main-config-stories-with-object.js.mdx',
+    'common/main-config-stories-with-object.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/stories` directory and generate the titles for your stories.
+When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/components` directory and generate the titles for your stories.
 
 ### With a directory
 
@@ -123,8 +124,8 @@ You can also adjust your Storybook configuration and implement custom logic to l
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-custom-logic.js.mdx',
-    'common/storybook-storyloading-custom-logic.ts.mdx',
+    'common/main-config-stories-with-logic.js.mdx',
+    'common/main-config-stories-with-logic.ts.mdx',
   ]}
 />
 
@@ -138,8 +139,8 @@ As your Storybook grows, it gets challenging to load all of your stories perform
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
-    'common/storybook-on-demand-story-loading.ts.mdx',
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx',
   ]}
 />
 

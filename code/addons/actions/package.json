@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.1.0-alpha.7",
+  "version": "7.1.0-alpha.29",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/actions"
+    "directory": "code/addons/actions"
   },
   "funding": {
     "type": "opencollective",
@@ -23,30 +23,30 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./decorator": {
+      "types": "./dist/decorator.d.ts",
       "require": "./dist/decorator.js",
-      "import": "./dist/decorator.mjs",
-      "types": "./dist/decorator.d.ts"
+      "import": "./dist/decorator.mjs"
     },
     "./manager": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./preview": {
+      "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "import": "./dist/preview.mjs"
     },
     "./register.js": {
+      "types": "./dist/manager.d.ts",
       "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs",
-      "types": "./dist/manager.d.ts"
+      "import": "./dist/manager.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -80,14 +80,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.7",
-    "@storybook/components": "7.1.0-alpha.7",
-    "@storybook/core-events": "7.1.0-alpha.7",
+    "@storybook/client-logger": "7.1.0-alpha.29",
+    "@storybook/components": "7.1.0-alpha.29",
+    "@storybook/core-events": "7.1.0-alpha.29",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.7",
-    "@storybook/preview-api": "7.1.0-alpha.7",
-    "@storybook/theming": "7.1.0-alpha.7",
-    "@storybook/types": "7.1.0-alpha.7",
+    "@storybook/manager-api": "7.1.0-alpha.29",
+    "@storybook/preview-api": "7.1.0-alpha.29",
+    "@storybook/theming": "7.1.0-alpha.29",
+    "@storybook/types": "7.1.0-alpha.29",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "polished": "^4.2.2",
@@ -95,10 +95,11 @@
     "react-inspector": "^6.0.0",
     "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0",
-    "uuid-browser": "^3.1.0"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.167",
+    "@types/uuid": "^9.0.1",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
@@ -124,7 +125,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc",
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16",
   "storybook": {
     "displayName": "Actions",
     "unsupportedFrameworks": [

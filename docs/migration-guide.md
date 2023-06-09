@@ -11,7 +11,12 @@ The rest of this guide will help you upgrade successfully, either automatically 
 - [Webpack4 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued)
 - [IE11 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#modern-browser-support)
 - [Minimum supported version of node is 16](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-support-for-node-15-and-below)
+- [Babel mode v7 exclusively](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#babel-mode-v7-exclusively)
 - [Some community addons might not work yet](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-users)
+- Storybook CLI changes:
+  - [Start and build binaries removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed)
+  - [`DLL` flags removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#removed-dll-flags)
+  - [`use-npm` flag deprecated](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#cli-option---use-npm-deprecated)
 
 If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before continuing. If these are hard requirements, you should probably stick with Storybook 6.x.
 
@@ -105,8 +110,8 @@ To use MDX1:
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-fallback-mdx.js.mdx',
-    'common/storybook-main-fallback-mdx.ts.mdx'
+    'common/main-config-features-legacy-mdx-1.js.mdx',
+    'common/main-config-features-legacy-mdx-1.ts.mdx'
   ]}
 />
 
@@ -126,8 +131,8 @@ To opt out, add the `storyStoreV7` feature flag in `.storybook/main.js`:
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
-    'common/storybook-on-demand-story-loading.ts.mdx'
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx'
   ]}
 />
 
