@@ -152,7 +152,7 @@ export interface API_ReleaseNotes {
 }
 
 export interface API_Settings {
-  lastTrackedStoryId: string;
+  lastTrackedStoryId: string | null;
 }
 
 export interface API_Version {
