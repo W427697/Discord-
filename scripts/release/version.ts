@@ -6,9 +6,9 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
+import type { Workspace } from '../utils/workspace';
 import { getWorkspaces } from '../utils/workspace';
 import { execaCommand } from '../utils/exec';
-import { listOfPackages } from '../utils/list-packages';
 
 program
   .name('version')
@@ -119,23 +119,24 @@ const bumpVersionSources = async (currentVersion: string, nextVersion: string) =
 };
 
 const bumpAllPackageJsons = async ({
+  packages,
   currentVersion,
   nextVersion,
   verbose,
 }: {
+  packages: Workspace[];
   currentVersion: string;
   nextVersion: string;
   verbose?: boolean;
 }) => {
-  const allPackages = await getWorkspaces();
   console.log(
     `🤜 Bumping versions and dependencies in ${chalk.cyan(
-      `all ${allPackages.length} package.json`
+      `all ${packages.length} package.json`
     )}'s...`
   );
   // 1. go through all packages in the monorepo
   await Promise.all(
-    allPackages.map(async (pkg) => {
+    packages.map(async (pkg) => {
       // 2. get the package.json
       const packageJsonPath = path.join(CODE_DIR_PATH, pkg.location, 'package.json');
       const packageJson: {
@@ -195,15 +196,14 @@ export const run = async (options: unknown) => {
 
   console.log(`🚛 Finding Storybook packages...`);
 
-  const [packages, currentVersion] = await Promise.all([listOfPackages(), getCurrentVersion()]);
+  const [packages, currentVersion] = await Promise.all([getWorkspaces(), getCurrentVersion()]);
 
   console.log(
     `📦 found ${packages.length} storybook packages at version ${chalk.red(currentVersion)}`
   );
   if (verbose) {
     const formattedPackages = packages.map(
-      (pkg) =>
-        `${chalk.green(pkg.name.padEnd(60))}${chalk.red(pkg.version)}: ${chalk.cyan(pkg.location)}`
+      (pkg) => `${chalk.green(pkg.name.padEnd(60))}: ${chalk.cyan(pkg.location)}`
     );
     console.log(`📦 Packages:
         ${formattedPackages.join('\n    ')}`);
@@ -236,7 +236,7 @@ export const run = async (options: unknown) => {
 
   await bumpCodeVersion(nextVersion);
   await bumpVersionSources(currentVersion, nextVersion);
-  await bumpAllPackageJsons({ currentVersion, nextVersion, verbose });
+  await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
   // update lock file
   await execaCommand(`yarn task --task install`, {
     cwd: CODE_DIR_PATH,
