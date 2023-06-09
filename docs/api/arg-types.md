@@ -119,7 +119,7 @@ Type:
   }
 ```
 
-Default: [Inferred](#automatic-argtype-inference); `'select'`, if [`options`](#options) are specified; falling back to `'object'`
+Default: Inferred from [`type`](#type); `'select'`, if [`options`](#options) are specified; falling back to `'object'`
 
 Specify the behavior of the [controls addon](../essentials/controls.md) for the arg. If you specify a string, it's used as the [`type`](#controltype) of the control. If you specify an object, you can provide additional configuration.
 
@@ -394,9 +394,11 @@ Display the argType under a subcategory heading (which displays under the [`cate
 
 Type: `{ detail?: string; summary: string }`
 
-Default: [Inferred](#automatic-argtype-inference)
+Default: Inferred from [`type`](#type)
 
 The documented type of the argType. `summary` is typically used for the type itself, while `detail` is used for additional information.
+
+If you need to specify the actual, semantic type, you should use [`type`](#type), instead.
 
 ### `type`
 
@@ -456,11 +458,13 @@ type SBType =
 
 Default: [Inferred](#automatic-argtype-inference)
 
-TK <!-- TODO: Not sure how this differs from `table.type.summary` -->
+Specifies the semantic type of the argType. When an argType is [inferred](#automatic-argtype-inference), the information from the various tools is summarized in this property, which is then used to infer other properties, like [`control`](#control) and [`table.type`](#tabletype).
+
+If you only need to specify the documented type, you should use [`table.type`](#tabletype), instead.
 
 <!-- prettier-ignore-start -->
 
-<!-- TODO <CodeSnippets
+<CodeSnippets
   paths={[
     'angular/arg-types-type.ts.mdx',
     'web-components/arg-types-type.js.mdx',
@@ -468,27 +472,9 @@ TK <!-- TODO: Not sure how this differs from `table.type.summary` -->
     'common/arg-types-type.js.mdx',
     'common/arg-types-type.ts.mdx',
   ]}
-/> -->
+/>
 
 <!-- prettier-ignore-end -->
-
-```ts
-// Example.stories.ts|tsx
-
-// Replace your-renderer with the renderer you are using (e.g., react, vue3, angular, etc.)
-import type { Meta } from '@storybook/your-renderer';
-
-import { Example } from './Example';
-
-const meta: Meta<typeof Example> = {
-  component: Example,
-  argTypes: {
-    // TK
-  },
-};
-
-export default meta;
-```
 
 ### `defaultValue` (deprecated)
 
