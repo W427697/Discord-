@@ -39,15 +39,14 @@
     "@storybook/csf": "^0.1.0",
     "@storybook/node-logger": "7.1.0-alpha.29",
     "@storybook/types": "7.1.0-alpha.29",
-    "@types/jest-image-snapshot": "^5.1.0",
+    "@types/jest-image-snapshot": "^6.0.0",
     "jest-image-snapshot": "^6.0.0"
   },
   "devDependencies": {
     "@types/puppeteer": "^5.4.0",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",
-    "puppeteer": "^2.0.0 || ^3.0.0",
-    "rimraf": "^3.0.2"
+    "puppeteer": "^2.0.0 || ^3.0.0"
   },
   "peerDependencies": {
     "@storybook/addon-storyshots": "7.1.0-alpha.29",
