@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { API } from '@storybook/manager-api';
+import type { Combo } from '@storybook/manager-api';
 import { Consumer, Provider as ManagerProvider } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
@@ -38,7 +38,7 @@ const ThemeStack = styled.div(
   })
 );
 
-function setPreviewInitialized({ api }: { api: API }) {
+function setPreviewInitialized({ api }: Combo) {
   api.setPreviewInitialized();
   return {};
 }
@@ -55,7 +55,6 @@ export const Default = () => {
       navigate={() => {}}
       docsOptions={{ docsMode: false }}
     >
-      {/* @ts-expect-error TODO setPreviewInitialized needs a proper type */}
       <Consumer filter={setPreviewInitialized}>{() => <></>}</Consumer>
       <App
         key="app"
