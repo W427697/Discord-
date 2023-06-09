@@ -5736,9 +5736,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/bench@npm:next":
-  version: 1.0.0-next.6
-  resolution: "@storybook/bench@npm:1.0.0-next.6"
+"@storybook/bench@npm:0.8.0--canary.20.5929c70.0":
+  version: 0.8.0--canary.20.5929c70.0
+  resolution: "@storybook/bench@npm:0.8.0--canary.20.5929c70.0"
   dependencies:
     "@google-cloud/bigquery": ^5.2.0
     "@hapi/hapi": ^20.2.2
@@ -5751,13 +5751,13 @@ __metadata:
     fs-extra: ^10.1.0
     jsonexport: ^3.0.1
     lodash: ^4.17.19
-    playwright: ^1.24.2
+    playwright: ^1.35.0
     pretty-bytes: ^5.3.0
     rimraf: ^3.0.2
   bin:
     sb-bench: bin/index.js
     sb-upload: bin/upload.js
-  checksum: 4f8d054359a9240a0b0badb847f630ec339e2d77dae03703e21d4ca6a07cfba465e6f469416c58f55a7554bbe9383ce27f516e10197d8e5a8befbc0b1fc783a0
+  checksum: c439ec9ffa3222a5f2cecb56e8cfe5a82e6ecec0ec3379df98d4607ff627752ad8f07149aad1b67278c4c07c0bc85e9ca95583e4bc126135c34ec663b83e187d
   languageName: node
   linkType: hard
 
@@ -7086,7 +7086,7 @@ __metadata:
     "@storybook/angular": "workspace:*"
     "@storybook/api": "workspace:*"
     "@storybook/babel-plugin-require-context-hook": 1.0.1
-    "@storybook/bench": next
+    "@storybook/bench": 0.8.0--canary.20.5929c70.0
     "@storybook/blocks": "workspace:*"
     "@storybook/builder-manager": "workspace:*"
     "@storybook/builder-vite": "workspace:*"
@@ -24494,15 +24494,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.34.3":
-  version: 1.34.3
-  resolution: "playwright-core@npm:1.34.3"
-  bin:
-    playwright-core: cli.js
-  checksum: 2e3ec8394b69bcd55db3a01a0a2cf63ee4b924bd79852c237d3eb045273f056b5784ab2147f60a7bb2db7998b8f7c5ec34d8554dd7648cc77d5affc9d91a85c8
-  languageName: node
-  linkType: hard
-
 "playwright-core@npm:1.35.0":
   version: 1.35.0
   resolution: "playwright-core@npm:1.35.0"
@@ -24512,14 +24503,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright@npm:^1.24.2":
-  version: 1.34.3
-  resolution: "playwright@npm:1.34.3"
+"playwright@npm:^1.35.0":
+  version: 1.35.0
+  resolution: "playwright@npm:1.35.0"
   dependencies:
-    playwright-core: 1.34.3
+    playwright-core: 1.35.0
   bin:
     playwright: cli.js
-  checksum: e17c0dbfc87f8764d1e34762b27d561d34a1e3dccc5d4e5d08edbf58e582d49e86ecf161f7f21af103a35045ae5a9cf0169204aa9c0a808046116cb2cc9f415c
+  checksum: efe6a7c74fff1fe30b952e3d80a6da42779579174ae4ced83e24ebd07d9388f0a43d5188106f08874e645128e27b020c0c8e118948d607328d37a38b20c57c19
   languageName: node
   linkType: hard
 

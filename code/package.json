@@ -120,7 +120,7 @@
     "@storybook/angular": "workspace:*",
     "@storybook/api": "workspace:*",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
-    "@storybook/bench": "next",
+    "@storybook/bench": "0.8.0--canary.20.5929c70.0",
     "@storybook/blocks": "workspace:*",
     "@storybook/builder-manager": "workspace:*",
     "@storybook/builder-vite": "workspace:*",
