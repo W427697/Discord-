@@ -48,6 +48,7 @@ const LABELS_BY_IMPORTANCE = {
   'feature request': '✨ Feature Request',
   bug: '🐛 Bug',
   maintenance: '🔧 Maintenance',
+  dependencies: '📦 Dependencies',
   documentation: '📝 Documentation',
   build: '🏗️ Build',
   unknown: '❔ Missing Label',
@@ -178,11 +179,11 @@ export const generateReleaseDescription = ({
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
   
   When everything above is done:
   - [ ] Merge this PR
-  - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)
+  - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
   
   ---
   
@@ -211,11 +212,11 @@ export const generateNonReleaseDescription = (
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
   
   When everything above is done:
   - [ ] Merge this PR
-  - [ ] [Approve the publish workflow run](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)`
+  - [ ] [Approve the publish workflow run](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`
       // don't mention contributors in the release PR, to avoid spamming them
       .replaceAll('[@', '[@ ')
       .replaceAll('"', '\\"')
