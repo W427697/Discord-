@@ -325,6 +325,8 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore: TODO: fix noImplicitAny error here
   const data = filterer.current(c) ?? [];
 
   const l = useMemo(() => {
