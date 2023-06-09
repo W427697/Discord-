@@ -239,8 +239,8 @@ export const run = async (options: unknown) => {
   await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
 
   console.log(`⬆️ Updating lock file with ${chalk.blue('yarn install')}`);
-  await execaCommand(`yarn task --task=install`, {
-    cwd: path.join(__dirname, '..', '..'),
+  await execaCommand(`yarn install`, {
+    cwd: path.join(CODE_DIR_PATH),
     stdio: verbose ? 'inherit' : undefined,
   });
   console.log(`✅ Updated lock file with ${chalk.blue('yarn install')}`);
