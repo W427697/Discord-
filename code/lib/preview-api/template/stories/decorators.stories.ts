@@ -40,13 +40,15 @@ export const Hooks = {
     // decorator that uses hooks
     (storyFn: PartialStoryFn, context: StoryContext) => {
       useEffect(() => {});
+
       return storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } });
     },
     // conditional decorator, runs before the above
-    (storyFn: PartialStoryFn, context: StoryContext) =>
-      context.args.condition
+    (storyFn: PartialStoryFn, context: StoryContext) => {
+      return context.args.condition
         ? storyFn()
-        : (context.originalStoryFn as ArgsStoryFn)(context.args, context),
+        : (context.originalStoryFn as ArgsStoryFn)(context.unmappedArgs, context);
+    },
   ],
   args: {
     text: 'text',

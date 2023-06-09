@@ -20,8 +20,7 @@ export default {
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) => {
       const { argNames } = context.parameters;
-      const args = { ...context.args };
-      const object = argNames ? pick(args, argNames) : args;
+      const object = argNames ? pick(context.args, argNames) : context.args;
       return storyFn({ args: { object } });
     },
   ],

@@ -8,6 +8,8 @@ export default {
 };
 
 export const UseState = {
+  // parameters: { inheritAttrs: true },
+  args: { label: 'Clicked 0 times' },
   decorators: [
     (story: PartialStoryFn) => {
       const [count, setCount] = useState(0);
