@@ -1,6 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
@@ -56,7 +53,12 @@ const LABELS_BY_IMPORTANCE = {
   unknown: '❔ Missing Label',
 } as const;
 
-const CHANGE_TITLES_TO_IGNORE = [/^bump version on.*/i, /^merge branch.*/i];
+const CHANGE_TITLES_TO_IGNORE = [
+  /^bump version.*/i,
+  /^merge branch.*/i,
+  /\[skip ci\]/i,
+  /\[ci skip\]/i,
+];
 
 export const mapToChangelist = ({
   changes,
@@ -116,13 +118,13 @@ export const mapCherryPicksToTodo = ({
 }): string => {
   const list = commits
     .map((commit) => {
-      const change = changes.find((change) => change.commit === commit.substring(0, 7));
-      if (!change) {
+      const foundChange = changes.find((change) => change.commit === commit.substring(0, 7));
+      if (!foundChange) {
         throw new Error(
           `Cherry pick commit "${commit}" not found in changes, this should not happen?!`
         );
       }
-      return `- [ ] ${change.links.pull}: \`git cherry-pick -m1 -x ${commit}\``;
+      return `- [ ] ${foundChange.links.pull}: \`git cherry-pick -m1 -x ${commit}\``;
     })
     .join('\n');
 
@@ -174,7 +176,7 @@ export const generateReleaseDescription = ({
   
   ${changeList}
 
-  ${manualCherryPicks ? manualCherryPicks : ''}
+  ${manualCherryPicks || ''}
 
   If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
   
@@ -207,7 +209,7 @@ export const generateNonReleaseDescription = (
   
   ${changeList}
 
-  ${manualCherryPicks ? manualCherryPicks : ''}
+  ${manualCherryPicks || ''}
 
   If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
   
@@ -266,11 +268,13 @@ export const run = async (rawOptions: unknown) => {
       })
     : generateNonReleaseDescription(
         mapToChangelist({ changes, isRelease: false }),
-        hasCherryPicks ? mapCherryPicksToTodo({
-          commits: manualCherryPicks,
-          changes,
-          verbose,
-        }) : undefined
+        hasCherryPicks
+          ? mapCherryPicksToTodo({
+              commits: manualCherryPicks,
+              changes,
+              verbose,
+            })
+          : undefined
       );
 
   if (process.env.GITHUB_ACTIONS === 'true') {
