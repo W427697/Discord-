@@ -60,10 +60,10 @@
     "@storybook/preview-api": "7.1.0-alpha.29",
     "@storybook/types": "7.1.0-alpha.29",
     "sveltedoc-parser": "^4.2.1",
-    "type-fest": "2.19.0"
+    "type-fest": "^3.11.0"
   },
   "devDependencies": {
-    "expect-type": "^0.14.2",
+    "expect-type": "^0.15.0",
     "svelte": "^3.59.1",
     "svelte-check": "^3.4.3",
     "typescript": "^5.0.4"

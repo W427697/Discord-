@@ -54,7 +54,7 @@
     "@storybook/preview-api": "7.1.0-alpha.29",
     "@storybook/types": "7.1.0-alpha.29",
     "ts-dedent": "^2.0.0",
-    "type-fest": "2.19.0",
+    "type-fest": "^3.11.0",
     "vue-component-type-helpers": "^1.6.5"
   },
   "devDependencies": {
