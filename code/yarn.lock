@@ -7650,7 +7650,7 @@ __metadata:
     type-fest: ^3.11.0
     typescript: ~4.9.3
     vue: ^3.2.47
-    vue-component-type-helpers: ^1.6.5
+    vue-component-type-helpers: latest
     vue-tsc: latest
   peerDependencies:
     vue: ^3.0.0
@@ -30525,10 +30525,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-component-type-helpers@npm:^1.6.5":
-  version: 1.7.11
-  resolution: "vue-component-type-helpers@npm:1.7.11"
-  checksum: 91437b05d7b475e1e33686b561674134616d353c77fb87949ca99ead59272557eb3de4628d39512694880ab6e7cdf15045cf9a204bf6203d0b35b5b4b8a540b5
+"vue-component-type-helpers@npm:latest":
+  version: 1.6.5
+  resolution: "vue-component-type-helpers@npm:1.6.5"
+  checksum: 205d520c05e53d1cc6f53fe920c64b4c6883249cbfe15026fcda250980bf4ddfc004292e0c9ecaa7fcf983bd143482ffbc4191e0b84f6d3f996a0a07ca3396c4
   languageName: node
   linkType: hard
 
