@@ -1,5 +1,5 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
-import { reactive, h } from 'vue';
+import { shallowReactive, h } from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn, Args } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 
@@ -45,11 +45,10 @@ export function decorateStory(
   storyFn: LegacyStoryFn<VueRenderer>,
   decorators: DecoratorFunction<VueRenderer>[]
 ): LegacyStoryFn<VueRenderer> {
-  const updatedArgs: Args = reactive({});
-
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
       let story: VueRenderer['storyResult'] | undefined;
+      const updatedArgs = shallowReactive<Args>({});
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
         story = decorated({
@@ -68,7 +67,7 @@ export function decorateStory(
         return story;
       }, context);
 
-      updateArgs(context.args, updatedArgs);
+      context.args = updatedArgs;
 
       if (!story) story = decorated(context);
 
