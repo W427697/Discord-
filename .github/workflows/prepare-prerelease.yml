@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - next
+      - fix-release-publish
   workflow_dispatch:
     inputs:
       release-type:
@@ -44,7 +45,7 @@ jobs:
       - name: Checkout next
         uses: actions/checkout@v3
         with:
-          ref: next
+          ref: fix-release-publish
           # this needs to be set to a high enough number that it will contain the last version tag
           # as of May 2023, the whole repo had 55K commits
           fetch-depth: 10000
@@ -149,10 +150,10 @@ jobs:
               --body "${{ steps.description.outputs.description }}"
           fi
 
-      - name: Report job failure to Discord
-        if: failure()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
-        uses: Ilshidur/action-discord@master
-        with:
-          args: 'The GitHub Action for preparing the release pull request bumping from v${{ steps.bump-version.outputs.current-version }} to v${{ steps.bump-version.outputs.next-version }} (triggered by ${{ github.triggering_actor }}) failed! See run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+      # - name: Report job failure to Discord
+      #   if: failure()
+      #   env:
+      #     DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
+      #   uses: Ilshidur/action-discord@master
+      #   with:
+      #     args: 'The GitHub Action for preparing the release pull request bumping from v${{ steps.bump-version.outputs.current-version }} to v${{ steps.bump-version.outputs.next-version }} (triggered by ${{ github.triggering_actor }}) failed! See run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
