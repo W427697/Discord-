@@ -7578,6 +7578,7 @@ __metadata:
     vue-component-type-helpers: ^1.6.5
     vue-tsc: ^1.2.0
   peerDependencies:
+    lodash: "*"
     vue: ^3.0.0
   languageName: unknown
   linkType: soft

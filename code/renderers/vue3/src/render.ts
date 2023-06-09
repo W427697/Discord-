@@ -4,6 +4,7 @@ import { createApp, h, reactive, isVNode, isReactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
+import { cloneDeep } from 'lodash';
 import type { VueRenderer, StoryFnVueReturnType, StoryID } from './types';
 
 const slotsMap = new Map<
@@ -139,7 +140,7 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
     }
   });
   // update currentArgs with nextArgs
-  Object.assign(currentArgs, nextArgs);
+  Object.assign(currentArgs, cloneDeep(nextArgs));
 }
 
 /**

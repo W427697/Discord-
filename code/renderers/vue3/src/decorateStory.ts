@@ -68,7 +68,7 @@ export function decorateStory(
         return story;
       }, context);
 
-      context.args = updatedArgs;
+      updateArgs(context.args, updatedArgs);
 
       if (!story) story = decorated(context);
 
@@ -82,7 +82,7 @@ export function decorateStory(
     (context) => {
       updatedArgs = {};
       const story = storyFn(context);
-      story.inheritAttrs ??= context.parameters.inheritAttrs ?? false;
+      story.inheritAttrs ??= context.parameters.inheritAttrs ?? true;
       return prepare(story) as LegacyStoryFn<VueRenderer>;
     }
   );

@@ -66,6 +66,7 @@
     "vue-tsc": "^1.2.0"
   },
   "peerDependencies": {
+    "lodash": "*",
     "vue": "^3.0.0"
   },
   "engines": {
