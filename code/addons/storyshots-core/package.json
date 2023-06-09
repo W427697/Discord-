@@ -54,8 +54,8 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@angular/core": "^13.3.6",
-    "@angular/platform-browser-dynamic": "^13.3.6",
+    "@angular/core": "^16.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "^16.0.0-rc.4",
     "@emotion/jest": "^11.8.0",
     "@storybook/addon-docs": "7.1.0-alpha.29",
     "@storybook/angular": "7.1.0-alpha.29",
