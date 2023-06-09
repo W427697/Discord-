@@ -65,7 +65,7 @@
     "@babel/preset-react": "^7.22.0",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/types": "^7.22.0",
-    "@emotion/jest": "^11.10.5",
+    "@emotion/jest": "^11.10.0",
     "@jest/globals": "^29.3.1",
     "@nx/workspace": "16.2.1",
     "@octokit/graphql": "^5.0.5",

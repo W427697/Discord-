@@ -6,7 +6,7 @@ import { h } from 'vue';
 import type { ComponentPropsAndSlots, Decorator, Meta, StoryObj } from './public-types';
 import type { VueRenderer } from './types';
 import BaseLayout from './__tests__/BaseLayout.vue';
-import Button from './__tests__/Button.vue';
+import Button from './__tests__/MyButton.vue';
 import DecoratorTsVue from './__tests__/Decorator.vue';
 import Decorator2TsVue from './__tests__/Decorator2.vue';
 
