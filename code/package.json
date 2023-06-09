@@ -325,10 +325,6 @@
       [
         "dependencies",
         "Dependency Upgrades"
-      ],
-      [
-        "other",
-        "Other"
       ]
     ]
   }
