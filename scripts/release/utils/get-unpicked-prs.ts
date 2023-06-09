@@ -1,5 +1,6 @@
-import type { GraphQlQueryResponseData } from "@octokit/graphql";
-import { githubGraphQlClient } from "./github-client";
+/* eslint-disable no-console */
+import type { GraphQlQueryResponseData } from '@octokit/graphql';
+import { githubGraphQlClient } from './github-client';
 
 export interface PR {
   number: number;
@@ -36,7 +37,7 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
     `,
     {
       owner: 'storybookjs',
-      repo: 'monorepo-release-tooling-prototype',
+      repo: 'storybook',
       order: {
         field: 'UPDATED_AT',
         direction: 'ASC',
@@ -58,8 +59,10 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
     labels: node.labels.nodes.map((l: any) => l.name),
   }));
 
-  const unpickedPRs = prs.filter((pr: any) => !pr.labels.includes('picked')).filter((pr: any) => pr.branch === baseBranch);
-  if(verbose){
+  const unpickedPRs = prs
+    .filter((pr: any) => !pr.labels.includes('picked'))
+    .filter((pr: any) => pr.branch === baseBranch);
+  if (verbose) {
     console.log(`🔍 Found unpicked patch pull requests:
   ${JSON.stringify(unpickedPRs, null, 2)}`);
   }

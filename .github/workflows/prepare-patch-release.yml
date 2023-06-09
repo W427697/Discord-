@@ -4,7 +4,7 @@ run-name: Prepare patch PR, triggered by ${{ github.triggering_actor }}
 on:
   push:
     branches:
-      - next-v2
+      - next
   workflow_dispatch:
 
 env:
@@ -38,11 +38,16 @@ jobs:
         with:
           path: |
             ~/.yarn/berry/cache
-          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          restore-keys: |
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+            yarn-v1
 
-      - name: Install Script Dependencies
+      - name: Install Dependencies
+        working-directory: .
         run: |
-          yarn install
+          yarn task --task=install
 
       - name: Check if pull request is frozen
         if: github.event_name != 'workflow_dispatch'

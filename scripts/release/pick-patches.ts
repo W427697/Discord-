@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-await-in-loop */
 import program from 'commander';
 import chalk from 'chalk';
@@ -14,7 +15,7 @@ program.name('pick-patches').description('Cherry pick patch PRs back to main');
 const logger = console;
 
 const OWNER = 'storybookjs';
-const REPO = 'monorepo-release-tooling-prototype';
+const REPO = 'storybook';
 const SOURCE_BRANCH = 'next';
 
 const git = simpleGit();
@@ -112,14 +113,15 @@ export const run = async (_: unknown) => {
 
   const failedCherryPicks: string[] = [];
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const pr of patchPRs) {
-    const spinner = ora(`Cherry picking #${pr.number}`).start();
+    const prSpinner = ora(`Cherry picking #${pr.number}`).start();
 
     try {
       await git.raw(['cherry-pick', '-m', '1', '-x', pr.mergeCommit]);
-      spinner.succeed(`Picked: ${formatPR(pr)}`);
+      prSpinner.succeed(`Picked: ${formatPR(pr)}`);
     } catch (pickError) {
-      spinner.fail(`Failed to automatically pick: ${formatPR(pr)}`);
+      prSpinner.fail(`Failed to automatically pick: ${formatPR(pr)}`);
       logger.error(pickError.message);
       const abort = ora(`Aborting cherry pick for merge commit: ${pr.mergeCommit}`).start();
       try {
@@ -130,7 +132,7 @@ export const run = async (_: unknown) => {
         logger.error(pickError.message);
       }
       failedCherryPicks.push(pr.mergeCommit);
-      spinner.info(
+      prSpinner.info(
         `This PR can be picked manually with: ${chalk.grey(
           `git cherry-pick -m1 -x ${pr.mergeCommit}`
         )}`

@@ -14,9 +14,14 @@ program
     'get changelog entry for specific version. If not version argument specified it will use the current version in code/package.json'
   )
   .arguments('[version]')
+  .option('-E, --no-escape', 'Escape quote-like characters, so the output is safe in CLIs', true)
   .option('-V, --verbose', 'Enable verbose logging', false);
 
-export const getChangelogFromFile = async (args: { version?: string; verbose?: boolean }) => {
+export const getChangelogFromFile = async (args: {
+  version?: string;
+  escape?: boolean;
+  verbose?: boolean;
+}) => {
   const version = args.version || (await getCurrentVersion());
   const isPrerelease = semver.prerelease(version) !== null;
   const changelogFilename = isPrerelease ? 'CHANGELOG.prerelease.md' : 'CHANGELOG.md';
@@ -33,10 +38,16 @@ export const getChangelogFromFile = async (args: { version?: string; verbose?: b
       )}`
     );
   }
-  const result = `## ${changelogForVersion}`;
+  const result = args.escape
+    ? `## ${changelogForVersion}`
+        .replaceAll('"', '\\"')
+        .replaceAll('`', '\\`')
+        .replaceAll("'", "\\'")
+    : `## ${changelogForVersion}`;
 
   console.log(dedent`📝 Changelog entry found:
       ${result}`);
+
   if (process.env.GITHUB_ACTIONS === 'true') {
     setOutput('changelog', result);
   }
@@ -45,7 +56,11 @@ export const getChangelogFromFile = async (args: { version?: string; verbose?: b
 
 if (require.main === module) {
   const parsed = program.parse();
-  getChangelogFromFile({ version: parsed.args[0], verbose: parsed.opts().verbose }).catch((err) => {
+  getChangelogFromFile({
+    version: parsed.args[0],
+    escape: parsed.opts().escape,
+    verbose: parsed.opts().verbose,
+  }).catch((err) => {
     console.error(err);
     process.exit(1);
   });

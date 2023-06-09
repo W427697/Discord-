@@ -31,6 +31,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 100
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -42,7 +43,11 @@ jobs:
         with:
           path: |
             ~/.yarn/berry/cache
-          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+          key: yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+          restore-keys: |
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}-${{ hashFiles('code/yarn.lock') }}
+            yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
+            yarn-v1
 
       - name: Install script dependencies
         run: |
@@ -83,9 +88,11 @@ jobs:
 
       # tags are needed to get list of patches to label as picked
       - name: Fetch git tags
+        if: github.ref_name == 'main-release'
         run: git fetch --tags origin
 
       - name: Label patch PRs as picked
+        if: github.ref_name == 'main-release'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn release:label-patches
