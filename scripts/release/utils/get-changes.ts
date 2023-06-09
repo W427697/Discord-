@@ -212,7 +212,8 @@ export const getChangelogText = ({
       return pull
         ? `- ${title} - ${pull}, thanks ${user}!`
         : `- ⚠️ _Direct commit_ ${title} - ${commit} by ${user}`;
-    });
+    })
+    .sort();
   const text = [heading, '', ...formattedEntries].join('\n');
 
   console.log(`✅ Generated Changelog:`);
