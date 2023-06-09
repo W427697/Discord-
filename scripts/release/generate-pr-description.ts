@@ -48,6 +48,7 @@ const LABELS_BY_IMPORTANCE = {
   'feature request': '✨ Feature Request',
   bug: '🐛 Bug',
   maintenance: '🔧 Maintenance',
+  dependencies: '📦 Dependencies',
   documentation: '📝 Documentation',
   build: '🏗️ Build',
   unknown: '❔ Missing Label',
