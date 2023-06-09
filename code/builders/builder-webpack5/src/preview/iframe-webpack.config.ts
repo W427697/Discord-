@@ -308,9 +308,13 @@ export default async (
       mainFields: ['browser', 'module', 'main'].filter(Boolean),
       alias: storybookPaths,
       fallback: {
+        stream: false,
         path: require.resolve('path-browserify'),
         assert: require.resolve('browser-assert'),
         util: require.resolve('util'),
+        url: require.resolve('url'),
+        fs: false,
+        constants: require.resolve('constants-browserify'),
       },
       // Set webpack to resolve symlinks based on whether the user has asked node to.
       // This feels like it should be default out-of-the-box in webpack :shrug:
@@ -324,18 +328,32 @@ export default async (
       sideEffects: true,
       usedExports: isProd,
       moduleIds: 'named',
-      minimizer: isProd
-        ? [
-            new TerserWebpackPlugin({
-              parallel: true,
-              terserOptions: {
-                sourceMap: true,
-                mangle: false,
-                keep_fnames: true,
-              },
-            }),
-          ]
-        : [],
+      ...(isProd
+        ? {
+            minimize: true,
+            minimizer: builderOptions.useSWC
+              ? [
+                  new TerserWebpackPlugin({
+                    minify: TerserWebpackPlugin.swcMinify,
+                    terserOptions: {
+                      sourceMap: true,
+                      mangle: false,
+                      keep_fnames: true,
+                    },
+                  }),
+                ]
+              : [
+                  new TerserWebpackPlugin({
+                    parallel: true,
+                    terserOptions: {
+                      sourceMap: true,
+                      mangle: false,
+                      keep_fnames: true,
+                    },
+                  }),
+                ],
+          }
+        : {}),
     },
     performance: {
       hints: isProd ? 'warning' : false,
