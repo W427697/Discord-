@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import { setOutput } from '@actions/core';
 import { ensureDir, readFile, readJson, writeFile, writeJson } from 'fs-extra';
