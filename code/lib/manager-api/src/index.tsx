@@ -325,8 +325,6 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore TODO: data needs a proper type
   const data = filterer.current(c) ?? [];
 
   const l = useMemo(() => {
@@ -337,8 +335,7 @@ function ManagerConsumer<P = Combo>({
   return useMemo(() => {
     const Child = renderer.current as FC<P>;
 
-    // @ts-expect-error (TODO)
-    return <Child {...data} />;
+    return <Child {...(data as any)} />;
   }, l);
 }
 
