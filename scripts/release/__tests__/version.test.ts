@@ -12,6 +12,7 @@ jest.mock('../../../code/lib/cli/src/versions', () => ({
 }));
 
 jest.mock('../../utils/exec');
+const { execaCommand } = require('../../utils/exec');
 
 jest.mock('../../utils/workspace', () => ({
   getWorkspaces: jest.fn().mockResolvedValue([
@@ -224,6 +225,10 @@ describe('Version', () => {
         }),
         { spaces: 2 }
       );
+      expect(execaCommand).toHaveBeenCalledWith('yarn task --task=install', {
+        cwd: path.join(CODE_DIR_PATH, '..'),
+        stdio: undefined,
+      });
     }
   );
 });
