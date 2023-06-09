@@ -2,7 +2,7 @@
 defineProps<{ label: string }>();
 </script>
 <template>
-  <div style="padding: 20px;background-color: pink;">
+  <wrapper>
     <header data-testid="header-slot">
       <slot name="header" title="Header title from the slot">
         If you see this, the header slot was not reactive.
@@ -26,19 +26,37 @@ defineProps<{ label: string }>();
         Footer slot placeholder
       </slot>
     </footer>
-  </div>
+
+
+  </wrapper>
 </template>
 
 <style>
-header,
 footer {
   background-color: #fff0ff;
   padding: 20px;
 }
 
+h3,
+wrapper {
+
+  font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
 main,
 #content {
-  background-color: #f0f0f0;
+  background-color: #f8d4ae;
   padding: 20px;
+}
+
+h3,
+h4 {
+  color: black;
+  padding: 5px 20px;
+}
+
+slot {
+  border: 1px solid black;
+  color: gray;
 }
 </style>

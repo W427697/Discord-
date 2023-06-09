@@ -9,13 +9,13 @@ const meta = {
   // storybook render function is not a functional component. it returns a functional component or a component options
   render: (args) => {
     // create the slot contents as a functional components
-    const header = ({ title }: { title: string }) => h('h3', `${args.header} - Title: ${title}`);
+    const header = ({ title }: { title: string }) => h('h4', `${args.header} - Title: ${title}`);
     const defaultSlot = () => h('p', `${args.default}`);
     const footer = () => h('p', `${args.footer}`);
     // vue render function is a functional components
     return () =>
       h('div', [
-        `Custom render uses a functional component, and passes slots to the component:`,
+        h('h3', 'Custom render returns a functional component'),
         h(Reactivity, args, { header, default: defaultSlot, footer }),
       ]);
   },
