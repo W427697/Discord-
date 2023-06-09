@@ -1,8 +1,10 @@
-import type { Component, ComponentOptions, ConcreteComponent } from 'vue';
-import { h } from 'vue';
-import type { DecoratorFunction, LegacyStoryFn, StoryContext } from '@storybook/types';
+import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
+import { reactive, h } from 'vue';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn, Args } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
+
 import type { VueRenderer } from './types';
+import { updateArgs } from './render';
 
 /*
   This normalizes a functional component into a render method in ComponentOptions.
@@ -20,6 +22,7 @@ function prepare(
   innerStory?: ConcreteComponent
 ): Component | null {
   const story = rawStory as ComponentOptions;
+
   if (story === null) {
     return null;
   }
@@ -31,7 +34,6 @@ function prepare(
       components: { ...(story.components || {}), story: innerStory },
     };
   }
-
   return {
     render() {
       return h(story);
@@ -43,17 +45,30 @@ export function decorateStory(
   storyFn: LegacyStoryFn<VueRenderer>,
   decorators: DecoratorFunction<VueRenderer>[]
 ): LegacyStoryFn<VueRenderer> {
+  const updatedArgs: Args = reactive({});
+
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
       let story: VueRenderer['storyResult'] | undefined;
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
-        const sanitizedUpdate = sanitizeStoryContextUpdate(update);
-        // update the args in a reactive way
-        if (update) sanitizedUpdate.args = Object.assign(context.args, sanitizedUpdate.args);
-        story = decorated({ ...context, ...sanitizedUpdate });
+        story = decorated({
+          ...context,
+          ...sanitizeStoryContextUpdate(update),
+        });
+
+        if (
+          update &&
+          update.args &&
+          Object.keys(update).length === 1 &&
+          Object.keys(updateArgs).length === 0
+        ) {
+          updateArgs(updatedArgs, update.args);
+        }
         return story;
       }, context);
+
+      updateArgs(context.args, updatedArgs);
 
       if (!story) story = decorated(context);
 
@@ -61,9 +76,13 @@ export function decorateStory(
         return story;
       }
 
-      const innerStory = () => h(story!);
+      const innerStory = () => h(story!, context.args);
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
     },
-    (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
+    (context) => {
+      const story = storyFn(context);
+      story.inheritAttrs ??= context.parameters.inheritAttrs ?? false;
+      return prepare(story) as LegacyStoryFn<VueRenderer>;
+    }
   );
 }

@@ -1,10 +1,18 @@
 /* eslint-disable no-param-reassign */
-import type { App } from 'vue';
+import type { App, ConcreteComponent } from 'vue';
 import { createApp, h, reactive, isVNode, isReactive } from 'vue';
-import type { ArgsStoryFn, RenderContext } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
-import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';
+import type { VueRenderer, StoryFnVueReturnType, StoryID } from './types';
+
+const slotsMap = new Map<
+  StoryID,
+  {
+    component?: Omit<ConcreteComponent<any>, 'props'>;
+    reactiveSlots?: Args;
+  }
+>();
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -14,7 +22,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return () => h(Component, props, generateSlots(context));
+  return h(Component, props, createOrUpdateSlots(context));
 };
 
 // set of setup functions that will be called when story is created
@@ -74,9 +82,7 @@ export function renderToCanvas(
       map.set(canvasElement, appState);
 
       return () => {
-        // not passing args here as props
-        // treat the rootElement as a component without props
-        return h(rootElement);
+        return h(rootElement, appState.reactiveArgs);
       };
     },
   });
@@ -150,4 +156,16 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
+}
+
+function createOrUpdateSlots(context: StoryContext<VueRenderer, Args>) {
+  const { id: storyID, component } = context;
+  const slots = generateSlots(context);
+  if (slotsMap.has(storyID)) {
+    const app = slotsMap.get(storyID);
+    if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
+    return app?.reactiveSlots;
+  }
+  slotsMap.set(storyID, { component, reactiveSlots: slots });
+  return slots;
 }
