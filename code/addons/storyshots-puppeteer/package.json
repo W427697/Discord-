@@ -39,7 +39,7 @@
     "@storybook/csf": "^0.1.0",
     "@storybook/node-logger": "7.1.0-alpha.29",
     "@storybook/types": "7.1.0-alpha.29",
-    "@types/jest-image-snapshot": "^5.1.0",
+    "@types/jest-image-snapshot": "^6.0.0",
     "jest-image-snapshot": "^6.0.0"
   },
   "devDependencies": {

@@ -5447,7 +5447,7 @@ __metadata:
     "@storybook/csf": ^0.1.0
     "@storybook/node-logger": 7.1.0-alpha.29
     "@storybook/types": 7.1.0-alpha.29
-    "@types/jest-image-snapshot": ^5.1.0
+    "@types/jest-image-snapshot": ^6.0.0
     "@types/puppeteer": ^5.4.0
     enzyme: ^3.11.0
     enzyme-to-json: ^3.6.1
@@ -8379,14 +8379,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest-image-snapshot@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "@types/jest-image-snapshot@npm:5.1.0"
+"@types/jest-image-snapshot@npm:^6.0.0":
+  version: 6.1.0
+  resolution: "@types/jest-image-snapshot@npm:6.1.0"
   dependencies:
     "@types/jest": "*"
     "@types/pixelmatch": "*"
     ssim.js: ^3.1.1
-  checksum: c25db75b38960a84cc999a8b07f6f244d22e5e2c9965f78dc15c4249ec71a403363a50ee69884cdf66fcaf5a9ef125363316929fa1925d38868b3937c110138b
+  checksum: f811e9d49c1600ed85745bb5be3b0bb0c6da719eb761d62fa6f21214ca6e0ad822bc3643e7ab7260452e180dbabc2530661eb10688e49de2cb2c950bd2252ccf
   languageName: node
   linkType: hard
 
