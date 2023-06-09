@@ -6,7 +6,24 @@ import { getPullInfoFromCommit } from './get-github-info';
 import { getUnpickedPRs } from './get-unpicked-prs';
 import { git } from './git-client';
 
-const LABELS_FOR_CHANGELOG = ['BREAKING CHANGE', 'feature request', 'bug', 'maintenance'];
+export const RELEASED_LABELS = {
+  'BREAKING CHANGE': '❗ Breaking Change',
+  'feature request': '✨ Feature Request',
+  bug: '🐛 Bug',
+  maintenance: '🔧 Maintenance',
+  dependencies: '📦 Dependencies',
+} as const;
+
+export const UNRELEASED_LABELS = {
+  documentation: '📝 Documentation',
+  build: '🏗️ Build',
+  unknown: '❔ Missing Label',
+} as const;
+
+export const LABELS_BY_IMPORTANCE = {
+  ...RELEASED_LABELS,
+  ...UNRELEASED_LABELS,
+} as const;
 
 const getCommitAt = async (id: string, verbose?: boolean) => {
   if (!semver.valid(id)) {
@@ -187,7 +204,7 @@ export const getChangelogText = ({
         return false;
       }
       // only include PRs that with labels listed in LABELS_FOR_CHANGELOG
-      return entry.labels?.some((label) => LABELS_FOR_CHANGELOG.includes(label));
+      return entry.labels?.some((label) => Object.keys(RELEASED_LABELS).includes(label));
     })
     .map((entry) => {
       const { title, links } = entry;
