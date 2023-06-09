@@ -1,6 +1,6 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
-import { shallowReactive, h } from 'vue';
-import type { DecoratorFunction, StoryContext, LegacyStoryFn, Args } from '@storybook/types';
+import { h } from 'vue';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 
 import type { VueRenderer } from './types';
