@@ -25,16 +25,17 @@ function prepare(
     return null;
   }
   if (typeof story === 'function') return story; // we don't need to wrap a functional component nor to convert it to a component options
+  const normalizedStory = { ...normalizeFunctionalComponent(story), inheritAttrs: false };
   if (innerStory) {
     return {
       // Normalize so we can always spread an object
-      ...normalizeFunctionalComponent(story),
+      ...normalizedStory,
       components: { ...(story.components || {}), story: innerStory },
     };
   }
   return {
     render() {
-      return h(story);
+      return h(normalizedStory);
     },
   };
 }
