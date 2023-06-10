@@ -1,11 +1,10 @@
 /* eslint-disable no-param-reassign */
 import type { App, ConcreteComponent } from 'vue';
-import { createApp, h, reactive, isVNode, isReactive } from 'vue';
+import { createApp, h, reactive, isReactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
-import { cloneDeep } from 'lodash';
-import type { VueRenderer, StoryFnVueReturnType, StoryID } from './types';
+import type { VueRenderer, StoryID } from './types';
 
 const slotsMap = new Map<
   StoryID,
@@ -60,10 +59,9 @@ export function renderToCanvas(
     // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
     // we need to call here to run the decorators again
     // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
-    const element = storyFn(); // call the story function to get the root element with all the decorators
-    const args = getArgs(element, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
+    storyFn(); // call the story function to run  the decorators when the args are changed
 
-    updateArgs(existingApp.reactiveArgs, args);
+    updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -75,7 +73,7 @@ export function renderToCanvas(
     setup() {
       storyContext.args = reactive(storyContext.args);
       const rootElement = storyFn(); // call the story function to get the root element with all the decorators
-      const args = getArgs(rootElement, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
+      const { args } = storyContext; // get the args from the story context
       const appState = {
         vueApp,
         reactiveArgs: reactive(args),
@@ -114,15 +112,6 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
 
   return reactive(Object.fromEntries(slots));
 }
-/**
- * get the args from the root element props if it is a vnode otherwise from the context
- * @param element is the root element of the story
- * @param storyContext is the story context
- */
-
-function getArgs(element: StoryFnVueReturnType, storyContext: StoryContext<VueRenderer, Args>) {
-  return element.props && isVNode(element) ? element.props : storyContext.args;
-}
 
 /**
  *  update the reactive args
@@ -140,7 +129,7 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
     }
   });
   // update currentArgs with nextArgs
-  Object.assign(currentArgs, cloneDeep(nextArgs));
+  Object.assign(currentArgs, nextArgs);
 }
 
 /**
