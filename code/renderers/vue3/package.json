@@ -55,7 +55,7 @@
     "@storybook/types": "7.1.0-alpha.30",
     "ts-dedent": "^2.0.0",
     "type-fest": "^3.11.0",
-    "vue-component-type-helpers": "^1.6.5"
+    "vue-component-type-helpers": "latest"
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
