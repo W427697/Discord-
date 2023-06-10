@@ -257,15 +257,15 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const versions =
         ref.versions && Object.keys(ref.versions).length ? ref.versions : loadedData.versions;
 
-      if (id) {
-        await api.setRef(id, {
-          id,
-          url: urlParseResult.url,
-          ...loadedData,
-          ...(versions ? { versions } : {}),
-          type: !loadedData.storyIndex ? 'auto-inject' : 'lazy',
-        });
-      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore FIXME: handle id being undefined
+      await api.setRef(id, {
+        id,
+        url: urlParseResult.url,
+        ...loadedData,
+        ...(versions ? { versions } : {}),
+        type: !loadedData.storyIndex ? 'auto-inject' : 'lazy',
+      });
     },
 
     getRefs: () => {
