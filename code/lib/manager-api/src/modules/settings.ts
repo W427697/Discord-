@@ -55,11 +55,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
       if (!isSettingsScreenActive()) {
         const { settings, storyId } = store.getState();
 
-        if (storyId) {
-          await store.setState({
-            settings: { ...settings, lastTrackedStoryId: storyId },
-          });
-        }
+        await store.setState({
+          settings: { ...settings, lastTrackedStoryId: storyId ?? null },
+        });
       }
 
       navigate(path);
