@@ -83,6 +83,8 @@ export function renderToCanvas(
       map.set(canvasElement, appState);
 
       return () => {
+        // not passing args here as props
+        // treat the rootElement as a component without props
         return h(rootElement, appState.reactiveArgs);
       };
     },

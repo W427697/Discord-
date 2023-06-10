@@ -1,10 +1,15 @@
-import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
+import type { Component, ComponentOptions, ConcreteComponent } from 'vue';
 import { h } from 'vue';
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
+import type { DecoratorFunction, LegacyStoryFn, StoryContext } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-
 import type { VueRenderer } from './types';
-import { updateArgs } from './render';
+
+/*
+  This normalizes a functional component into a render method in ComponentOptions.
+
+  The concept is taken from Vue 3's `defineComponent` but changed from creating a `setup`
+  method on the ComponentOptions so end-users don't need to specify a "thunk" as a decorator.
+ */
 
 function normalizeFunctionalComponent(options: ConcreteComponent): ComponentOptions {
   return typeof options === 'function' ? { render: options, name: options.name } : options;
@@ -57,8 +62,6 @@ export function decorateStory(
     };
   }, storyFn);
 
-  return (context: StoryContext<VueRenderer>) => {
-    const story = decoratedStoryFn(context);
-    return prepare(story) as LegacyStoryFn<VueRenderer>;
-  };
+  return (context: StoryContext<VueRenderer>) =>
+    prepare(decoratedStoryFn(context)) as LegacyStoryFn<VueRenderer>;
 }
