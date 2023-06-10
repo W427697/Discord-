@@ -1,4 +1,4 @@
-import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
+import type { ConcreteComponent, Component } from 'vue';
 import { h } from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
