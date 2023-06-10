@@ -6,13 +6,6 @@ import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 import type { VueRenderer } from './types';
 import { updateArgs } from './render';
 
-/*
-  This normalizes a functional component into a render method in ComponentOptions.
-
-  The concept is taken from Vue 3's `defineComponent` but changed from creating a `setup`
-  method on the ComponentOptions so end-users don't need to specify a "thunk" as a decorator.
- */
-
 function normalizeFunctionalComponent(options: ConcreteComponent): ComponentOptions {
   return typeof options === 'function' ? { render: options, name: options.name } : options;
 }
@@ -45,45 +38,27 @@ export function decorateStory(
   storyFn: LegacyStoryFn<VueRenderer>,
   decorators: DecoratorFunction<VueRenderer>[]
 ): LegacyStoryFn<VueRenderer> {
-  let updatedArgs = {};
+  const decoratedStoryFn = decorators.reduce((decoratedFn, decorator) => {
+    let storyResult: VueRenderer['storyResult'];
 
-  return decorators.reduce(
-    (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
-      let story: VueRenderer['storyResult'] | undefined;
-
-      const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
-        story = decorated({
-          ...context,
-          ...sanitizeStoryContextUpdate(update),
-        });
-
-        if (
-          update &&
-          update.args &&
-          Object.keys(update).length === 1 &&
-          Object.keys(updatedArgs).length === 0
-        ) {
-          updateArgs(updatedArgs, update.args);
-        }
-        return story;
+    const decoratedStory = (context: StoryContext<VueRenderer>) =>
+      decorator((update) => {
+        const mergedContext = { ...context, ...sanitizeStoryContextUpdate(update) };
+        storyResult = decoratedFn(mergedContext);
+        context.args = mergedContext.args;
+        return storyResult;
       }, context);
 
-      updateArgs(context.args, updatedArgs);
+    return (context: StoryContext<VueRenderer>) => {
+      const story = decoratedStory(context);
+      if (!storyResult) storyResult = decoratedFn(context);
+      if (story === storyResult) return story;
+      return prepare(story, () => h(storyResult, context.args)) as VueRenderer['storyResult'];
+    };
+  }, storyFn);
 
-      if (!story) story = decorated(context);
-
-      if (decoratedStory === story) {
-        return story;
-      }
-
-      const innerStory = () => h(story!, context.args);
-      return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
-    },
-    (context) => {
-      updatedArgs = {};
-      const story = storyFn(context);
-      story.inheritAttrs ??= context.parameters.inheritAttrs ?? true;
-      return prepare(story) as LegacyStoryFn<VueRenderer>;
-    }
-  );
+  return (context: StoryContext<VueRenderer>) => {
+    const story = decoratedStoryFn(context);
+    return prepare(story) as LegacyStoryFn<VueRenderer>;
+  };
 }
