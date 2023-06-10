@@ -1,4 +1,3 @@
-import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import { hasDocsOrControls } from '@storybook/docs-tools';
 
 import type { StorybookConfig } from './types';
@@ -42,6 +41,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
   if (reactDocgen !== 'react-docgen-typescript') {
     return config;
   }
+
+  const { default: ReactDocgenTypescriptPlugin } = await import(
+    '@storybook/react-docgen-typescript-plugin'
+  );
 
   return {
     ...config,
