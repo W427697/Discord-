@@ -128,6 +128,19 @@ Storybook's default Webpack configuration provides support for most project setu
 
 <!-- prettier-ignore-end -->
 
+While if you only want to add an import path, like `@` import which is used in `NextJS 13` default setup, you can use the following solution without adding a package:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-ts-module-resolution-atsign-import.js.mdx',
+    'common/storybook-main-ts-module-resolution-atsign-import.ts.mdx',
+  ]}****
+/>
+
+<!-- prettier-ignore-end -->
+
 ### Pre-bundled assets do not show in the Storybook UI
 
 As Storybook relies on [esbuild](https://esbuild.github.io/) to build its internal manager, support for bundling assets with the `managerWebpack` will no longer have an impact on the Storybook UI. We recommend removing existing `managerWebpack` configuration elements from your Storybook configuration file and bundling assets other than images or CSS into JavaScript beforehand.
