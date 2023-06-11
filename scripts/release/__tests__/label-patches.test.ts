@@ -18,8 +18,8 @@ const remoteMock = [
   {
     name: 'origin',
     refs: {
-      fetch: 'https://github.com/storybookjs/monorepo-release-tooling-prototype.git',
-      push: 'https://github.com/storybookjs/monorepo-release-tooling-prototype.git',
+      fetch: 'https://github.com/storybookjs/storybook.git',
+      push: 'https://github.com/storybookjs/storybook.git',
     },
   },
 ];
@@ -60,8 +60,8 @@ const pullInfoMock = {
   labels: ['documentation', 'patch', 'picked'],
   links: {
     commit:
-      '[`930b47f011f750c44a1782267d698ccdd3c04da3`](https://github.com/storybookjs/monorepo-release-tooling-prototype/commit/930b47f011f750c44a1782267d698ccdd3c04da3)',
-    pull: '[#55](https://github.com/storybookjs/monorepo-release-tooling-prototype/pull/55)',
+      '[`930b47f011f750c44a1782267d698ccdd3c04da3`](https://github.com/storybookjs/storybook/commit/930b47f011f750c44a1782267d698ccdd3c04da3)',
+    pull: '[#55](https://github.com/storybookjs/storybook/pull/55)',
     user: '[@JReinhold](https://github.com/JReinhold)',
   },
 };
@@ -125,7 +125,7 @@ test('it should label the PR associated with cheery picks in the current branch'
       "- Looking for latest tag\\n",
       "✔ Found latest tag: v7.2.1\\n",
       "- Looking at cherry pick commits since v7.2.1\\n",
-      "✔ Found the following picks 🍒:\\n Commit: 930b47f011f750c44a1782267d698ccdd3c04da3\\n PR: [#55](https://github.com/storybookjs/monorepo-release-tooling-prototype/pull/55)\\n",
+      "✔ Found the following picks 🍒:\\n Commit: 930b47f011f750c44a1782267d698ccdd3c04da3\\n PR: [#55](https://github.com/storybookjs/storybook/pull/55)\\n",
       "- Labeling the PRs with the picked label...\\n",
       "✔ Successfully labeled all PRs with the picked label.\\n"
     ]
