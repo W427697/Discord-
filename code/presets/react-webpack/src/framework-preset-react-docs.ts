@@ -42,15 +42,13 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
     return config;
   }
 
-  const { default: ReactDocgenTypescriptPlugin } = await import(
-    '@storybook/react-docgen-typescript-plugin'
-  );
+  const { ReactDocgenTypeScriptPlugin } = await import('@storybook/react-docgen-typescript-plugin');
 
   return {
     ...config,
     plugins: [
       ...(config.plugins || []),
-      new ReactDocgenTypescriptPlugin({
+      new ReactDocgenTypeScriptPlugin({
         ...reactDocgenTypescriptOptions,
         // We *need* this set so that RDT returns default values in the same format as react-docgen
         savePropValueAsString: true,
