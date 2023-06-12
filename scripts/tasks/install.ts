@@ -7,8 +7,9 @@ export const install: Task = {
   async ready({ codeDir }) {
     return pathExists(join(codeDir, 'node_modules'));
   },
-  async run({ codeDir }, { dryRun, debug }) {
-    await require('../utils/cli-utils').checkDependencies()
+  async run({ codeDir }) {
+    // eslint-disable-next-line global-require
+    await require('../utils/cli-utils').checkDependencies();
 
     // these are webpack4 types, we we should never use
     await remove(join(codeDir, 'node_modules', '@types', 'webpack'));
