@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import type { App, ConcreteComponent } from 'vue';
+import type { App } from 'vue';
 import { createApp, h, reactive, isReactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
