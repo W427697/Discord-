@@ -12,9 +12,10 @@ The rest of this guide will help you upgrade successfully, either automatically 
 - [IE11 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#modern-browser-support)
 - [Minimum supported version of node is 16](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-support-for-node-15-and-below)
 - [Babel mode v7 exclusively](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#babel-mode-v7-exclusively)
+- [Start and build CLI binaries removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed)
 - [Some community addons might not work yet](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-users)
 
-If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before continuing. If these are hard requirements, you should probably stick with Storybook 6.x.
+If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before continuing. If any of these new requirements or changes do not fit your project, you should probably stick with Storybook 6.x.
 
 ## Automatic upgrade
 
