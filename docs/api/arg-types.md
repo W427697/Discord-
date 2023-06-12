@@ -82,7 +82,7 @@ Type:
 ```ts
 {
   [key: string]: {
-    control?: ControlType | { type: ControlType };
+    control?: ControlType | { type: ControlType; /* See below for more */ };
     description?: string;
     if?: Conditional;
     mapping?: { [key: string]: { [option: string]: any } };
@@ -95,7 +95,6 @@ Type:
       type?: { summary?: string; detail?: string };
     },
     type?: SBType | SBScalarType['name'];
-    defaultValue?: any;
   }
 }
 ```
@@ -119,7 +118,11 @@ Type:
   }
 ```
 
-Default: Inferred from [`type`](#type); `'select'`, if [`options`](#options) are specified; falling back to `'object'`
+Default:
+
+1. `'select'`, if [`options`](#options) are specified
+2. Else, inferred from [`type`](#type)
+3. Else, `'object'`
 
 Specify the behavior of the [controls addon](../essentials/controls.md) for the arg. If you specify a string, it's used as the [`type`](#controltype) of the control. If you specify an object, you can provide additional configuration.
 
