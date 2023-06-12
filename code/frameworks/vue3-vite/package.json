@@ -52,6 +52,7 @@
     "@storybook/vue3": "7.1.0-alpha.30",
     "@vitejs/plugin-vue": "^4.0.0",
     "magic-string": "^0.30.0",
+    "react": "^18.2.0",
     "vue-docgen-api": "^4.40.0"
   },
   "devDependencies": {
