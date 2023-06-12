@@ -23,13 +23,7 @@ function normalizeFunctionalComponent(options: ConcreteComponent): ComponentOpti
  * @param {ConcreteComponent} innerStory - Optional innerStory used for rendering child components.
  * @returns {Component | null} - Returns a Component object that can be rendered.
  */
-function prepare(
-  rawStory: VueRenderer['storyResult'],
-  innerStory?: ConcreteComponent
-): Component | null {
-  const story = rawStory as ComponentOptions;
-
-  // If story is falsy, return null
+function prepare(story: VueRenderer['storyResult'], innerStory?: Component): Component | null {
   if (!story) {
     return null;
   }
@@ -100,8 +94,9 @@ export function decorateStory(
     return (context: StoryContext<VueRenderer>) => {
       const story = currentDecoratedStory(context);
       if (!storyResult) storyResult = accuDecoratedStoryFn(context);
+      console.log({ story, storyResult });
       if (!story) return storyResult;
-      if (story === storyResult) return story;
+      if (story === storyResult) return storyResult;
 
       return prepare(story, () => h(storyResult, context.args)) as VueRenderer['storyResult'];
     };
