@@ -7,14 +7,6 @@ import type { Args, StoryContext } from '@storybook/csf';
 import { cloneDeep } from 'lodash';
 import type { VueRenderer, StoryID } from './types';
 
-const slotsMap = new Map<
-  StoryID,
-  {
-    component?: Omit<ConcreteComponent<any>, 'props'>;
-    reactiveSlots?: Args;
-  }
->();
-
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
   if (!Component) {
