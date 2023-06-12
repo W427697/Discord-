@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import type { App, ConcreteComponent } from 'vue';
-import { createApp, h, reactive, isVNode, isReactive } from 'vue';
+import { createApp, h, reactive, isReactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 
 import { cloneDeep } from 'lodash';
-import type { VueRenderer, StoryFnVueReturnType, StoryID } from './types';
+import type { VueRenderer, StoryID } from './types';
 
 const slotsMap = new Map<
   StoryID,

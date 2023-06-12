@@ -94,7 +94,6 @@ export function decorateStory(
     return (context: StoryContext<VueRenderer>) => {
       const story = currentDecoratedStory(context);
       if (!storyResult) storyResult = accuDecoratedStoryFn(context);
-      console.log({ story, storyResult });
       if (!story) return storyResult;
       if (story === storyResult) return storyResult;
 

@@ -167,7 +167,7 @@ function getTemplateComponents(
     if (!template) return [h(story, context?.args)];
     return getComponents(template);
   } catch (e) {
-    console.log('error', e);
+    // console.log('error', e);
     return [];
   }
 }
