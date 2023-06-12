@@ -37,7 +37,9 @@ jest.mock('@storybook/global', () => ({
 
 // console.log(global);
 
-jest.mock('@storybook/channels', () => ({ createPostmessageChannel: () => mockChannel }));
+jest.mock('@storybook/channels', () => ({
+  createPostMessageChannel: () => mockChannel,
+}));
 jest.mock('@storybook/client-logger');
 jest.mock('react-dom');
 
