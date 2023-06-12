@@ -33,34 +33,77 @@ export const Inheritance = {
   },
 };
 
-// NOTE this story is currently broken in Chromatic for both Vue2/Vue3
 // Issue: https://github.com/storybookjs/storybook/issues/22945
 export const Hooks = {
   decorators: [
     // decorator that uses hooks
     (storyFn: PartialStoryFn, context: StoryContext) => {
       useEffect(() => {});
+
       return storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } });
     },
     // conditional decorator, runs before the above
-    (storyFn: PartialStoryFn, context: StoryContext) =>
-      context.args.condition
-        ? storyFn()
-        : (context.originalStoryFn as ArgsStoryFn)(context.args, context),
+    (storyFn: PartialStoryFn, context: StoryContext) => {
+      return context.args.condition ? storyFn() : null;
+    },
   ],
   args: {
-    text: 'text',
+    text: 'starting',
     condition: true,
   },
-  play: async ({ id, args }: PlayFunctionContext<any>) => {
+  play: async ({ id, canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     await channel.emit(RESET_STORY_ARGS, { storyId: id });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
+    const canvas = within(canvasElement);
+    await expect(canvas.getByTestId('pre').innerText).toEqual('story component project starting');
 
     await channel.emit(UPDATE_STORY_ARGS, {
       storyId: id,
       updatedArgs: { condition: false },
     });
     await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
+    await expect(canvas.getByTestId('pre').innerText).toEqual('component project starting');
+  },
+};
+
+export const MultiHooks = {
+  decorators: [
+    // decorator A that uses hooks
+    (storyFn: PartialStoryFn, context: StoryContext) => {
+      useEffect(() => {});
+
+      return storyFn({ args: { ...context.args, text: `WrapperA( ${context.args['text']} )` } });
+    },
+    // decorator B that uses hooks
+    (storyFn: PartialStoryFn, context: StoryContext) => {
+      useEffect(() => {});
+
+      return storyFn({ args: { ...context.args, text: `WrapperB( ${context.args['text']} )` } });
+    },
+    // conditional decorator, runs before the above
+    (storyFn: PartialStoryFn, context: StoryContext) => {
+      return context.args.condition ? storyFn() : null;
+    },
+  ],
+  args: {
+    text: 'story',
+    condition: true,
+  },
+  play: async ({ id, canvasElement }: PlayFunctionContext<any>) => {
+    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+    await channel.emit(RESET_STORY_ARGS, { storyId: id });
+    await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
+    const canvas = within(canvasElement);
+    await expect(canvas.getByTestId('pre').innerText).toEqual(
+      'WrapperA( WrapperB( component project story ) )'
+    );
+
+    await channel.emit(UPDATE_STORY_ARGS, {
+      storyId: id,
+      updatedArgs: { condition: false },
+    });
+    await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
+    await expect(canvas.getByTestId('pre').innerText).toEqual('component project story');
   },
 };
