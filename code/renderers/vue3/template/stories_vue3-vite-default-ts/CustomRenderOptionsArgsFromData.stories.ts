@@ -23,10 +23,9 @@ const meta = {
       components: {
         Reactivity,
       },
-      template: `<div>
-                    <h3> Custom render returns options API Component</h3> 
+      template: `<div>Custom render uses options api and binds args to data: 
                     <Reactivity v-bind="args">
-                      <template #header="{title}"><h4>{{ args.header }} - Title: {{ title }}</h4></template>
+                      <template #header="{title}"><h3>{{ args.header }} - Title: {{ title }}</h3></template>
                       <template #default>{{ args.default }}</template>
                       <template #footer>{{ args.footer }} </template>
                     </Reactivity>

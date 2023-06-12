@@ -2,7 +2,7 @@
 defineProps<{ label: string }>();
 </script>
 <template>
-  <wrapper>
+  <div style="padding: 20px;background-color: pink;">
     <header data-testid="header-slot">
       <slot name="header" title="Header title from the slot">
         If you see this, the header slot was not reactive.
@@ -26,9 +26,7 @@ defineProps<{ label: string }>();
         Footer slot placeholder
       </slot>
     </footer>
-
-
-  </wrapper>
+  </div>
 </template>
 
 <style>
