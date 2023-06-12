@@ -1,7 +1,6 @@
 import { pathExists, remove } from 'fs-extra';
 import { join } from 'path';
 import type { Task } from '../task';
-import { exec } from '../utils/exec';
 
 export const install: Task = {
   description: 'Install the dependencies of the monorepo',
@@ -9,7 +8,7 @@ export const install: Task = {
     return pathExists(join(codeDir, 'node_modules'));
   },
   async run({ codeDir }, { dryRun, debug }) {
-    await exec(`yarn install`, { cwd: codeDir }, { dryRun, debug });
+    await require('../utils/cli-utils').checkDependencies()
 
     // these are webpack4 types, we we should never use
     await remove(join(codeDir, 'node_modules', '@types', 'webpack'));
