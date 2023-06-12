@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="../typings.d.ts" />
+
 import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { logger, pretty } from '@storybook/client-logger';
