@@ -44,6 +44,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "dist/postmessage/index": [
+        "dist/postmessage/index.d.ts"
+      ],
+      "dist/websocket/index": [
+        "dist/websocket/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
