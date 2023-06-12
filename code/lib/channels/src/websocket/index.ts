@@ -1,9 +1,9 @@
 import { global } from '@storybook/global';
-import { Channel } from '@storybook/channels';
-import type { ChannelHandler, ChannelTransport } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import invariant from 'tiny-invariant';
+import type { ChannelHandler, ChannelTransport } from '../main';
+import { Channel } from '../main';
 
 const { CONFIG_TYPE } = global;
 

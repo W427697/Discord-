@@ -1,6 +1,6 @@
 export async function generateAddonSetupCode() {
   return `
-    import { createChannel as createPostMessageChannel } from '@storybook/channel-postmessage';
+    import { createPostMessageChannel } from '@storybook/channels';
     import { addons } from '@storybook/preview-api';
 
     const channel = createPostMessageChannel({ page: 'preview' });

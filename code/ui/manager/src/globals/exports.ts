@@ -113,7 +113,7 @@ export default {
     'resetComponents',
     'withReset',
   ],
-  '@storybook/channels': ['Channel'],
+  '@storybook/channels': ['Channel', 'createPostMessageChannel', 'createWebSocketChannel'],
   '@storybook/core-events': [
     'CHANNEL_CREATED',
     'CONFIG_ERROR',

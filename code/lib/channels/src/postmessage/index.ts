@@ -1,12 +1,12 @@
 import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
-import { Channel } from '@storybook/channels';
-import type { ChannelHandler, ChannelEvent, ChannelTransport } from '@storybook/channels';
-import { WebsocketTransport } from '@storybook/channel-websocket';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
 import invariant from 'tiny-invariant';
+import { WebsocketTransport } from '../websocket/index';
+import type { ChannelHandler, ChannelEvent, ChannelTransport } from '../main';
+import { Channel } from '../main';
 
 const { document, location, CONFIG_TYPE } = global;
 
