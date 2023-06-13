@@ -24,6 +24,7 @@ import {
 } from '../utils/yarn';
 import { exec } from '../utils/exec';
 import type { ConfigFile } from '../../code/lib/csf-tools';
+import storybookPackages from '../../code/lib/cli/src/versions';
 import { writeConfig } from '../../code/lib/csf-tools';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
@@ -430,8 +431,6 @@ export const addStories: Task['run'] = async (
       });
     }
 
-    console.log({ sandboxSpecificStoriesFolder, storiesVariantFolder });
-
     if (
       await pathExists(
         resolve(CODE_DIRECTORY, frameworkPath, join('template', storiesVariantFolder))
@@ -473,9 +472,12 @@ export const addStories: Task['run'] = async (
   );
 
   const addonDirs = await Promise.all(
-    [...mainAddons, ...extraAddons].map(async (addon) =>
-      workspacePath('addon', `@storybook/addon-${addon}`)
-    )
+    [...mainAddons, ...extraAddons]
+      // only include addons that are in the monorepo
+      .filter((addon: string) =>
+        Object.keys(storybookPackages).find((pkg: string) => pkg === `@storybook/addon-${addon}`)
+      )
+      .map(async (addon) => workspacePath('addon', `@storybook/addon-${addon}`))
   );
 
   if (isCoreRenderer) {

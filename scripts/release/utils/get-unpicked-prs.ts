@@ -16,7 +16,7 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
     `
       query ($owner: String!, $repo: String!, $state: PullRequestState!, $order: IssueOrder!) {
         repository(owner: $owner, name: $repo) {
-          pullRequests(states: [$state], labels: ["patch"], orderBy: $order, first: 50) {
+          pullRequests(states: [$state], labels: ["patch"], orderBy: $order, first: 50, baseRefName: "next") {
             nodes {
               id
               number
@@ -40,7 +40,7 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
       repo: 'storybook',
       order: {
         field: 'UPDATED_AT',
-        direction: 'ASC',
+        direction: 'DESC',
       },
       state: 'MERGED',
     }
@@ -61,7 +61,9 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
 
   const unpickedPRs = prs
     .filter((pr: any) => !pr.labels.includes('picked'))
-    .filter((pr: any) => pr.branch === baseBranch);
+    .filter((pr: any) => pr.branch === baseBranch)
+    .reverse();
+
   if (verbose) {
     console.log(`🔍 Found unpicked patch pull requests:
   ${JSON.stringify(unpickedPRs, null, 2)}`);

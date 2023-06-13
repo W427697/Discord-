@@ -1,3 +1,16 @@
+## 7.1.0-alpha.32
+
+- Build: Remove `babel-core` & upgrade `esbuild` - [#23017](https://github.com/storybookjs/storybook/pull/23017), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Disable esbuild on files imported from `node_modules` - [#23018](https://github.com/storybookjs/storybook/pull/23018), thanks [@tmeasday](https://github.com/tmeasday)!
+- Core: Integrate serverChannel into channel - [#22940](https://github.com/storybookjs/storybook/pull/22940), thanks [@ndelangen](https://github.com/ndelangen)!
+- React: Lazy import `react-docgen-typescript-plugin` - [#23019](https://github.com/storybookjs/storybook/pull/23019), thanks [@tmeasday](https://github.com/tmeasday)!
+
+## 7.1.0-alpha.31
+
+- Dependencies: Set vue-component-type-helpers to latest - [#23015](https://github.com/storybookjs/storybook/pull/23015), thanks [@ndelangen](https://github.com/ndelangen)!
+- Dependencies: Upgrade `nanoid`, prebundle it, upgrade `remark`, cleanup some `.md` files for warnings - [#23005](https://github.com/storybookjs/storybook/pull/23005), thanks [@ndelangen](https://github.com/ndelangen)!
+- Dependencies: Use `latest` version of `vue-tsc` & sync versions of `angular` - [#23011](https://github.com/storybookjs/storybook/pull/23011), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 7.1.0-alpha.30
 
 - Web-components: Fix custom-elements order of property application - [#19183](https://github.com/storybookjs/storybook/pull/19183), thanks [@sonntag-philipp](https://github.com/sonntag-philipp)!
