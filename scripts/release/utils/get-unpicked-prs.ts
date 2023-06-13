@@ -23,7 +23,7 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
               title
               baseRefName
               mergeCommit { 
-                abbreviatedOid
+                oid
               }
               labels(first: 20) {
                 nodes {
@@ -55,7 +55,7 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
     id: node.id,
     branch: node.baseRefName,
     title: node.title,
-    mergeCommit: node.mergeCommit.abbreviatedOid,
+    mergeCommit: node.mergeCommit.oid,
     labels: node.labels.nodes.map((l: any) => l.name),
   }));
 
