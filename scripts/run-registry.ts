@@ -2,6 +2,7 @@ import { exec } from 'child_process';
 import { remove, pathExists, readJSON } from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
+import killPort from 'kill-port';
 import program from 'commander';
 
 import { runServer, parseConfigFile } from 'verdaccio';
@@ -106,6 +107,8 @@ const run = async () => {
   logger.log(`🚛 listing storybook packages`);
 
   if (!process.env.CI) {
+    // when running e2e locally, kill the existing running process
+    await killPort(6001).catch(() => {});
     // when running e2e locally, clear cache to avoid EPUBLISHCONFLICT errors
     const verdaccioCache = path.resolve(__dirname, '..', '.verdaccio-cache');
     if (await pathExists(verdaccioCache)) {

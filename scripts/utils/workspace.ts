@@ -8,7 +8,7 @@ export async function getWorkspaces() {
   const { stdout } = await execSync('yarn workspaces list --json', {
     cwd: CODE_DIRECTORY,
   });
-  return JSON.parse(`[${stdout.split('\n').join(',')}]`) as Workspace[];
+  return JSON.parse(`[${stdout.trim().split('\n').join(',')}]`) as Workspace[];
 }
 
 const getWorkspacesMemo = memoize(1)(getWorkspaces);
