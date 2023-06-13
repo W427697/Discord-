@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference path="./typings.d.ts" />
 
+import { global } from '@storybook/global';
 import { Channel } from './main';
 import { PostMessageTransport } from './postmessage';
 import type { ChannelTransport, Config } from './types';
 import { WebsocketTransport } from './websocket';
+
+const { CONFIG_TYPE } = global;
 
 export * from './main';
 
