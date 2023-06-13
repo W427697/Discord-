@@ -8,7 +8,7 @@ export const chromatic: Task = {
   async ready() {
     return false;
   },
-  async run({ key, sandboxDir, builtSandboxDir, junitFilename }, { dryRun, debug }) {
+  async run({ key, sandboxDir, builtSandboxDir }, { dryRun, debug }) {
     const tokenEnvVarName = `CHROMATIC_TOKEN_${key.toUpperCase().replace(/\/|-|\./g, '_')}`;
     const token = process.env[tokenEnvVarName];
 
@@ -17,7 +17,7 @@ export const chromatic: Task = {
           --debug \
           --exit-zero-on-changes \
           --storybook-build-dir=${builtSandboxDir} \
-          --junit-report=${junitFilename} \
+          --exit-once-uploaded \
           --projectToken=${token}`,
       { cwd: sandboxDir },
       { dryRun, debug }

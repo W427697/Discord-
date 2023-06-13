@@ -332,8 +332,6 @@ jobs:
             yarn storybook:ui:chromatic
             yarn storybook:blocks:chromatic
       - report-workflow-on-failure
-      - store_test_results:
-          path: test-results
   ## new workflow
   create-sandboxes:
     parameters:
@@ -475,8 +473,6 @@ jobs:
           command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> chromatic)
-      - store_test_results:
-          path: test-results
   e2e-production:
     parameters:
       parallelism:
