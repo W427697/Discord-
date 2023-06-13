@@ -2,36 +2,32 @@ const { spawn } = require('child_process');
 const { join } = require('path');
 const { existsSync } = require('fs');
 
-const logger = console;
-
-const checkDependencies = async () => {
+const checkDependencies = async (force) => {
   const scriptsPath = join(__dirname, '..');
   const codePath = join(__dirname, '..', '..', 'code');
 
   const tasks = [];
 
-  if (!existsSync(join(scriptsPath, 'node_modules'))) {
+  if (!existsSync(join(scriptsPath, 'node_modules')) && !force) {
     tasks.push(
-      spawn('yarn', ['install'], {
+      spawn('yarn install', {
         cwd: scriptsPath,
         shell: true,
-        stdio: ['inherit', 'inherit', 'inherit'],
+        stdio: 'pipe',
       })
     );
   }
-  if (!existsSync(join(codePath, 'node_modules'))) {
+  if (!existsSync(join(codePath, 'node_modules')) && !force) {
     tasks.push(
-      spawn('yarn', ['install'], {
+      spawn('yarn install', {
         cwd: codePath,
         shell: true,
-        stdio: ['inherit', 'inherit', 'inherit'],
+        stdio: 'pipe',
       })
     );
   }
 
   if (tasks.length > 0) {
-    logger.log('installing dependencies');
-
     await Promise.all(
       tasks.map(
         (t) =>

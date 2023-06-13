@@ -12,15 +12,15 @@ export const chromatic: Task = {
     const tokenEnvVarName = `CHROMATIC_TOKEN_${key.toUpperCase().replace(/\/|-|\./g, '_')}`;
     const token = process.env[tokenEnvVarName];
 
-    await exec(
-      `npx chromatic \
-          --debug \
-          --exit-zero-on-changes \
-          --storybook-build-dir=${builtSandboxDir} \
-          --exit-once-uploaded \
-          --projectToken=${token}`,
-      { cwd: sandboxDir },
-      { dryRun, debug }
-    );
+    const command = `npx chromatic`;
+    const flags = [
+      `--debug`,
+      `--exit-zero-on-changes`,
+      `--storybook-build-dir=${builtSandboxDir}`,
+      `--exit-once-uploaded`,
+      `--projectToken=${token}`,
+    ];
+
+    await exec(`${command} ${flags.join(' ')} `, { cwd: sandboxDir }, { dryRun, debug });
   },
 };

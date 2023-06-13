@@ -1,6 +1,27 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
-import type { ExecaChildProcess, Options } from 'execa';
 import chalk from 'chalk';
+import * as cp from 'child_process';
+import type { SpawnOptionsWithoutStdio } from 'child_process';
+
+type Options = SpawnOptionsWithoutStdio;
+
+const command = async (cmd: string, options: Options) => {
+  return new Promise<void>((resolve, reject) => {
+    const child = cp.spawn(cmd, options);
+    const rejected = false;
+    child.on('error', reject);
+    child.on('exit', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        if (rejected) {
+          return;
+        }
+        reject(new Error(`Process exited with code: ${code}`));
+      }
+    });
+  });
+};
 
 const logger = console;
 
@@ -12,60 +33,42 @@ type StepOptions = {
   signal?: AbortSignal;
 };
 
-// Note this is to fool `ts-node` into not turning the `import()` into a `require()`.
-// See: https://github.com/TypeStrong/ts-node/discussions/1290
-// eslint-disable-next-line @typescript-eslint/no-implied-eval
-const dynamicImport = new Function('specifier', 'return import(specifier)');
-export const getExeca = async () => (await dynamicImport('execa')) as typeof import('execa');
-
-// Reimplementation of `execaCommand` to use `getExeca`
-export const execaCommand = async (
-  command: string,
-  options: Options = {}
-): Promise<ExecaChildProcess<string>> => {
-  const execa = await getExeca();
-  // We await here because execaCommand returns a promise, but that's not what the user expects
-  // eslint-disable-next-line @typescript-eslint/return-await
-  return await execa.execaCommand(command, options);
-};
-
 export const exec = async (
-  command: string | string[],
+  cmd: string | string[],
   options: Options = {},
   { startMessage, errorMessage, dryRun, debug, signal }: StepOptions = {}
 ): Promise<void> => {
-  const execa = await getExeca();
+  // const execa = await getExeca();
   logger.info();
   if (startMessage) logger.info(startMessage);
 
   if (dryRun) {
-    logger.info(`\n> ${command}\n`);
+    logger.info(`\n> ${cmd}\n`);
     return undefined;
   }
 
   const defaultOptions: Options = {
     shell: true,
-    stdout: debug ? 'inherit' : 'pipe',
-    stderr: debug ? 'inherit' : 'pipe',
+    stdio: debug ? ('inherit' as Options['stdio']) : ('pipe' as Options['stdio']),
     signal,
   };
-  let currentChild: ExecaChildProcess<string>;
+  let currentChild: Promise<void>;
 
   try {
-    if (typeof command === 'string') {
-      logger.debug(`> ${command}`);
-      currentChild = execa.execaCommand(command, { ...defaultOptions, ...options });
+    if (typeof cmd === 'string') {
+      logger.debug(`> ${cmd}`);
+      currentChild = command(cmd, { ...defaultOptions, ...options });
       await currentChild;
     } else {
-      for (const subcommand of command) {
+      for (const subcommand of cmd) {
         logger.debug(`> ${subcommand}`);
-        currentChild = execa.execaCommand(subcommand, { ...defaultOptions, ...options });
+        currentChild = command(subcommand, { ...defaultOptions, ...options });
         await currentChild;
       }
     }
   } catch (err) {
     if (!err.killed) {
-      logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
+      logger.error(chalk.red(`An error occurred while executing: \`${cmd}\``));
       logger.log(`${errorMessage}\n`);
     }
 

@@ -5,12 +5,6 @@ import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 import { exec } from '../utils/exec';
 import type { Task } from '../task';
 
-const linkedContents = `export * from '../src/index';`;
-const linkCommand = `nx run-many --target="prep" --all --parallel --max-parallel=${maxConcurrentTasks} --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`;
-const noLinkCommand = `nx run-many --target="prep" --all --parallel=8 ${
-  process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
-} -- --reset --optimized`;
-
 export const compile: Task = {
   description: 'Compile the source code of the monorepo',
   dependsOn: ['install'],
@@ -23,16 +17,35 @@ export const compile: Task = {
         resolve(codeDir, './lib/manager-api/dist/index.d.ts'),
         'utf8'
       );
+
+      const linkedContents = `export * from '../src/index';`;
       const isLinkedContents = contents.indexOf(linkedContents) !== -1;
-      if (link) return isLinkedContents;
+
+      if (link) {
+        return isLinkedContents;
+      }
       return !isLinkedContents;
     } catch (err) {
       return false;
     }
   },
   async run({ codeDir }, { link, dryRun, debug }) {
+    const command = `nx run-many --target="prep" --all`;
+
+    const flags = link
+      ? [
+          `--parallel`,
+          `--exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer`,
+          `-- --reset`,
+        ]
+      : [`--parallel=8`, `-- --reset --optimized`];
+
+    if (process.env.CI) {
+      flags.push(`--max-parallel=${maxConcurrentTasks}`);
+    }
+
     return exec(
-      link ? linkCommand : noLinkCommand,
+      `${command} ${flags.join(' ')}`,
       { cwd: codeDir },
       {
         startMessage: '🥾 Bootstrapping',

@@ -9,7 +9,7 @@ export const install: Task = {
   },
   async run({ codeDir }) {
     // eslint-disable-next-line global-require
-    await require('../utils/cli-utils').checkDependencies();
+    await require('../utils/cli-utils').checkDependencies(true);
 
     // these are webpack4 types, we we should never use
     await remove(join(codeDir, 'node_modules', '@types', 'webpack'));
