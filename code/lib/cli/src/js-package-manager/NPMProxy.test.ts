@@ -1,5 +1,15 @@
 import { NPMProxy } from './NPMProxy';
 
+// mock createLogStream
+jest.mock('../utils', () => ({
+  createLogStream: jest.fn(() => ({
+    logStream: '',
+    readLogFile: jest.fn(),
+    moveLogFile: jest.fn(),
+    removeLogFile: jest.fn(),
+  })),
+}));
+
 describe('NPM Proxy', () => {
   let npmProxy: NPMProxy;
 
@@ -424,6 +434,52 @@ describe('NPM Proxy', () => {
           "infoCommand": "npm ls --depth=1",
         }
       `);
+    });
+  });
+
+  describe('parseErrors', () => {
+    it('should parse npm errors', () => {
+      const NPM_RESOLVE_ERROR_SAMPLE = `
+        npm ERR!
+        npm ERR! code ERESOLVE
+        npm ERR! ERESOLVE unable to resolve dependency tree
+        npm ERR! 
+        npm ERR! While resolving: before-storybook@1.0.0
+        npm ERR! Found: react@undefined
+        npm ERR! node_modules/react
+        npm ERR!   react@"30" from the root project
+        `;
+
+      const NPM_TIMEOUT_ERROR_SAMPLE = `
+          npm notice 
+          npm notice New major version of npm available! 8.5.0 -> 9.6.7
+          npm notice Changelog: <https://github.com/npm/cli/releases/tag/v9.6.7>
+          npm notice Run \`npm install -g npm@9.6.7\` to update!
+          npm notice 
+          npm ERR! code ERR_SOCKET_TIMEOUT
+          npm ERR! errno ERR_SOCKET_TIMEOUT
+          npm ERR! network Invalid response body while trying to fetch https://registry.npmjs.org/@storybook%2ftypes: Socket timeout
+          npm ERR! network This is a problem related to network connectivity.
+      `;
+
+      expect(npmProxy.parseErrorFromLogs(NPM_RESOLVE_ERROR_SAMPLE)).toEqual(
+        'NPM error ERESOLVE - Dependency resolution error.'
+      );
+      expect(npmProxy.parseErrorFromLogs(NPM_TIMEOUT_ERROR_SAMPLE)).toEqual(
+        'NPM error ERR_SOCKET_TIMEOUT - Socket timed out.'
+      );
+    });
+
+    it('should show unknown npm error', () => {
+      const NPM_ERROR_SAMPLE = `
+        npm ERR! 
+        npm ERR! While resolving: before-storybook@1.0.0
+        npm ERR! Found: react@undefined
+        npm ERR! node_modules/react
+        npm ERR!   react@"30" from the root project
+      `;
+
+      expect(npmProxy.parseErrorFromLogs(NPM_ERROR_SAMPLE)).toEqual(`NPM error`);
     });
   });
 });

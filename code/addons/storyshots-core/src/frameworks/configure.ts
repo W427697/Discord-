@@ -74,7 +74,7 @@ function getConfigPathParts(input: string): Output {
 
         return specifier;
       });
-      output.requireContexts = output.stories.map((specifier) => {
+      output.requireContexts = output.stories?.map((specifier) => {
         const { path: basePath, recursive, match } = toRequireContext(specifier);
 
         // eslint-disable-next-line no-underscore-dangle
@@ -114,7 +114,7 @@ function configure<TRenderer extends Renderer>(
   }));
 
   if (preview) {
-    // This is essentially the same code as lib/builder-webpack5/templates/virtualModuleEntry.template
+    // This is essentially the same code as builders/builder-webpack5/templates/virtualModuleEntry.template
     const {
       parameters,
       decorators,

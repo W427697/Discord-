@@ -10,7 +10,7 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 <div class="aside">
 
-Writing stories directly in MDX was deprecated in Storybook 7. Please reference the <LinkWithVersion version="6.5" href="./mdx.md">previous documentation</LinkWithVersion> for guidance on that feature.
+Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
 
 </div>
 
@@ -412,8 +412,8 @@ Update your Storybook configuration (in `.storybook/main.js|ts`), and provide th
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-fallback-mdx.js.mdx',
-    'common/storybook-main-fallback-mdx.ts.mdx',
+    'common/main-config-features-legacy-mdx-1.js.mdx',
+    'common/main-config-features-legacy-mdx-1.ts.mdx',
   ]}
 />
 
