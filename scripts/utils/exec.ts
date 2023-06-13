@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
 import chalk from 'chalk';
+import { promisify } from 'util';
 import * as cp from 'child_process';
 import type { SpawnOptionsWithoutStdio } from 'child_process';
 
@@ -32,6 +33,8 @@ type StepOptions = {
   debug?: boolean;
   signal?: AbortSignal;
 };
+
+export const execSync = promisify(cp.exec);
 
 export const exec = async (
   cmd: string | string[],

@@ -6,7 +6,7 @@ import { join, resolve } from 'path';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import { globSync } from 'glob';
 import { directory } from 'tempy';
-import { execaCommand } from './utils/exec';
+import { execSync } from './utils/exec';
 
 const logger = console;
 
@@ -37,10 +37,9 @@ async function run(cwd: string) {
     dirs.map(async (dir) => {
       const outputDir = directory();
       const resolvedDir = await realpath(dir);
-      await execaCommand(
-        `yarn compodoc ${resolvedDir} -p ./tsconfig.json -e json -d ${outputDir}`,
-        { cwd }
-      );
+      await execSync(`yarn compodoc ${resolvedDir} -p ./tsconfig.json -e json -d ${outputDir}`, {
+        cwd,
+      });
       const contents = await readFile(join(outputDir, 'documentation.json'), 'utf8');
       try {
         return JSON.parse(contents);
