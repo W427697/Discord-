@@ -12,7 +12,7 @@ jest.mock('../../../code/lib/cli/src/versions', () => ({
 }));
 
 jest.mock('../../utils/exec');
-const { execaCommand } = require('../../utils/exec');
+const { execSync } = require('../../utils/exec');
 
 jest.mock('../../utils/workspace', () => ({
   getWorkspaces: jest.fn().mockResolvedValue([
@@ -225,7 +225,7 @@ describe('Version', () => {
         }),
         { spaces: 2 }
       );
-      expect(execaCommand).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
+      expect(execSync).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
         cwd: path.join(CODE_DIR_PATH),
         stdio: undefined,
       });
