@@ -8,7 +8,7 @@ const checkDependencies = async (force) => {
 
   const tasks = [];
 
-  if (!existsSync(join(scriptsPath, 'node_modules')) && !force) {
+  if (!existsSync(join(scriptsPath, 'node_modules')) || force) {
     tasks.push(
       spawn('yarn install', {
         cwd: scriptsPath,
@@ -17,7 +17,7 @@ const checkDependencies = async (force) => {
       })
     );
   }
-  if (!existsSync(join(codePath, 'node_modules')) && !force) {
+  if (!existsSync(join(codePath, 'node_modules')) || force) {
     tasks.push(
       spawn('yarn install', {
         cwd: codePath,
@@ -32,6 +32,13 @@ const checkDependencies = async (force) => {
       tasks.map(
         (t) =>
           new Promise((res, rej) => {
+            t.on('close', (code) => {
+              if (code !== 0) {
+                rej();
+              } else {
+                res();
+              }
+            });
             t.on('exit', (code) => {
               if (code !== 0) {
                 rej();
