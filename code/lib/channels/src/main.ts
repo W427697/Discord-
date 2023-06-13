@@ -1,35 +1,14 @@
 /// <reference types="node" />
 
-export type ChannelHandler = (event: ChannelEvent) => void;
-
-export interface ChannelTransport {
-  send(event: ChannelEvent, options?: any): void;
-  setHandler(handler: ChannelHandler): void;
-}
-
-export interface ChannelEvent {
-  type: string; // eventName
-  from: string;
-  args: any[];
-}
-
-export interface Listener {
-  (...args: any[]): void;
-}
-
-interface EventsKeyValue {
-  [key: string]: Listener[];
-}
-
-type ChannelArgs = ChannelArgsSingle | ChannelArgsMulti;
-interface ChannelArgsSingle {
-  transport?: ChannelTransport;
-  async?: boolean;
-}
-interface ChannelArgsMulti {
-  transports: ChannelTransport[];
-  async?: boolean;
-}
+import type {
+  ChannelArgs,
+  ChannelArgsMulti,
+  EventsKeyValue,
+  ChannelTransport,
+  ChannelArgsSingle,
+  Listener,
+  ChannelEvent,
+} from './types';
 
 const isMulti = (args: ChannelArgs): args is ChannelArgsMulti => {
   // @ts-expect-error (we guard against this right here)

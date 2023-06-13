@@ -5,10 +5,8 @@ import { global } from '@storybook/global';
 import { logger } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import invariant from 'tiny-invariant';
-import type { ChannelHandler, ChannelTransport } from '../main';
 import { Channel } from '../main';
-
-const { CONFIG_TYPE } = global;
+import type { ChannelTransport, ChannelHandler } from '../types';
 
 const { WebSocket } = global;
 
@@ -25,12 +23,12 @@ interface CreateChannelArgs {
   onError?: OnError;
 }
 
-export class WebsocketTransport {
-  private socket: WebSocket;
+export class WebsocketTransport implements ChannelTransport {
+  private buffer: string[] = [];
 
   private handler?: ChannelHandler;
 
-  private buffer: string[] = [];
+  private socket: WebSocket;
 
   private isReady = false;
 
@@ -80,28 +78,28 @@ export class WebsocketTransport {
   }
 }
 
+/**
+ * @deprecated This function is deprecated. Use the `createBrowserChannel` factory function from `@storybook/channels` instead. This API will be removed in 8.0.
+ * @param {CreateChannelArgs} options - The options for creating the channel.
+ * @param {string} [options.url] - The URL of the WebSocket server to connect to.
+ * @param {boolean} [options.async=false] - Whether the channel should be asynchronous.
+ * @param {OnError} [options.onError] - A function to handle errors that occur during the channel's lifetime.
+ * @returns {Channel} - The newly created channel.
+ */
 export function createChannel({
   url,
   async = false,
   onError = (err) => logger.warn(err),
 }: CreateChannelArgs) {
-  const transports: ChannelTransport[] = [];
-
-  if (url) {
-    transports.push(new WebsocketTransport({ url, onError }));
-  }
-
-  const isUrlServerChannel = !!url?.includes('storybook-server-channel');
-
-  if (CONFIG_TYPE === 'DEVELOPMENT' && isUrlServerChannel === false) {
+  let channelUrl = url;
+  if (!channelUrl) {
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const { hostname, port } = window.location;
-    const channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
-
-    transports.push(new WebsocketTransport({ url: channelUrl, onError: () => {} }));
+    channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
   }
 
-  return new Channel({ transports, async });
+  const transport = new WebsocketTransport({ url: channelUrl, onError });
+  return new Channel({ transport, async });
 }
 
 // backwards compat with builder-vite

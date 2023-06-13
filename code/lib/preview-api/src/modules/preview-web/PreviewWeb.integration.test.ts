@@ -26,7 +26,7 @@ import {
 
 jest.mock('@storybook/channels', () => ({
   ...jest.requireActual('@storybook/channels'),
-  createPostMessageChannel: () => mockChannel,
+  createBrowserChannel: () => mockChannel,
 }));
 jest.mock('@storybook/client-logger');
 
