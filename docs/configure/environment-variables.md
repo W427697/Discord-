@@ -57,6 +57,8 @@ Then you can access this environment variable anywhere, even within your stories
     'web-components/my-component-with-env-variables.js.mdx',
     'web-components/my-component-with-env-variables.ts.mdx',
     'svelte/my-component-with-env-variables.js.mdx',
+    'solid/my-component-with-env-variables.js.mdx',
+    'solid/my-component-with-env-variables.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/environment-variables#snippet-my-component-with-env-variables"
@@ -80,8 +82,8 @@ Additionally, you can extend your Storybook configuration file (i.e., [`.storybo
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-env-field-config.js.mdx',
-    'common/storybook-main-env-field-config.ts.mdx',
+    'common/main-config-env.js.mdx',
+    'common/main-config-env.ts.mdx',
   ]}
 />
 

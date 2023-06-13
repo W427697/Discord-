@@ -20,9 +20,12 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'web-components/your-component.js.mdx',
     'web-components/your-component.ts.mdx',
     'svelte/your-component.js.mdx',
+    'svelte/your-component.ts.mdx',
     'html/your-component.js.mdx',
     'html/your-component.ts.mdx',
     'preact/your-component.js.mdx',
+    'solid/your-component.js.mdx',
+    'solid/your-component.ts.mdx',
   ]}
   usesCsf3
   csf2Path="get-started/setup#snippet-your-component"
@@ -47,6 +50,8 @@ You may have to configure your CSS tooling for Storybook’s rendering environme
 - [Emotion](https://storybook.js.org/recipes/@emotion/styled/)
 - [Sass](https://storybook.js.org/recipes/sass/)
 - [Bootstrap](https://storybook.js.org/recipes/bootstrap/)
+- [Less](https://storybook.js.org/recipes/less/)
+- [Vanilla-extract](https://storybook.js.org/recipes/@vanilla-extract/css/)
 
 Don't see the tool that you're looking for? Check out the [styling and css](../configure/styling-and-css.md) page for more details.
 
@@ -100,6 +105,8 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
     'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
     'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 
