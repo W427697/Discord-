@@ -1,24 +1,23 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="../typings.d.ts" />
+
 import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
-import { Channel } from '@storybook/channels';
-import type { ChannelHandler, ChannelEvent, ChannelTransport } from '@storybook/channels';
-import { WebsocketTransport } from '@storybook/channel-websocket';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
 import invariant from 'tiny-invariant';
+import { Channel } from '../main';
+import type {
+  ChannelTransport,
+  BufferedEvent,
+  ChannelHandler,
+  Config,
+  ChannelEvent,
+} from '../types';
+import { getEventSourceUrl } from './getEventSourceUrl';
 
-const { document, location, CONFIG_TYPE } = global;
-
-interface Config {
-  page: 'manager' | 'preview';
-}
-
-interface BufferedEvent {
-  event: ChannelEvent;
-  resolve: (value?: any) => void;
-  reject: (reason?: any) => void;
-}
+const { document, location } = global;
 
 export const KEY = 'storybook-channel';
 
@@ -28,7 +27,7 @@ const defaultEventOptions = { allowFunction: true, maxDepth: 25 };
 // that way we can send postMessage to child windows as well, not just iframe
 // https://stackoverflow.com/questions/6340160/how-to-get-the-references-of-all-already-opened-child-windows
 
-export class PostmsgTransport implements ChannelTransport {
+export class PostMessageTransport implements ChannelTransport {
   private buffer: BufferedEvent[];
 
   private handler?: ChannelHandler;
@@ -243,65 +242,24 @@ export class PostmsgTransport implements ChannelTransport {
   }
 }
 
-const getEventSourceUrl = (event: MessageEvent) => {
-  const frames: HTMLIFrameElement[] = Array.from(
-    document.querySelectorAll('iframe[data-is-storybook]')
-  );
-  // try to find the originating iframe by matching it's contentWindow
-  // This might not be cross-origin safe
-  const [frame, ...remainder] = frames.filter((element) => {
-    try {
-      return element.contentWindow === event.source;
-    } catch (err) {
-      // continue
-    }
-
-    const src = element.getAttribute('src');
-    let origin;
-
-    try {
-      if (!src) {
-        return false;
-      }
-
-      ({ origin } = new URL(src, document.location.toString()));
-    } catch (err) {
-      return false;
-    }
-    return origin === event.origin;
-  });
-
-  const src = frame?.getAttribute('src');
-  if (src && remainder.length === 0) {
-    const { protocol, host, pathname } = new URL(src, document.location.toString());
-    return `${protocol}//${host}${pathname}`;
-  }
-
-  if (remainder.length > 0) {
-    // If we found multiple matches, there's going to be trouble
-    logger.error('found multiple candidates for event source');
-  }
-
-  // If we found no frames of matches
-  return null;
-};
+/**
+ * @deprecated This export is deprecated. Use `PostMessageTransport` instead. This API will be removed in 8.0.
+ */
+export const PostmsgTransport = PostMessageTransport;
 
 /**
- * Creates a channel which communicates with an iframe or child window.
+ * @deprecated This function is deprecated. Use the `createBrowserChannel` factory function from `@storybook/channels` instead. This API will be removed in 8.0.
+ * @param {Config} config - The configuration object.
+ * @returns {Channel} The channel instance.
  */
 export function createChannel({ page }: Config): Channel {
-  const transports: ChannelTransport[] = [new PostmsgTransport({ page })];
-
-  if (CONFIG_TYPE === 'DEVELOPMENT') {
-    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-    const { hostname, port } = window.location;
-    const channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
-
-    transports.push(new WebsocketTransport({ url: channelUrl, onError: () => {} }));
-  }
-
-  return new Channel({ transports });
+  const transport = new PostmsgTransport({ page });
+  return new Channel({ transport });
 }
 
-// backwards compat with builder-vite
+/**
+ * @deprecated This function is deprecated. Use the `createBrowserChannel` factory function from `@storybook/channels` instead. This API will be removed in 8.0.
+ * @param {Config} config - The configuration object.
+ * @returns {Channel} The channel instance.
+ */
 export default createChannel;
