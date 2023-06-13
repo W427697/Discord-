@@ -5,6 +5,7 @@ import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
 import dedent from 'ts-dedent';
+import boxen from 'boxen';
 import { installableProjectTypes, ProjectType } from './project_types';
 import {
   detect,
@@ -318,65 +319,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     telemetry('init', { projectType });
   }
 
-  logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
-
-  const isReactWebProject =
-    projectType === ProjectType.REACT_SCRIPTS ||
-    projectType === ProjectType.REACT ||
-    projectType === ProjectType.WEBPACK_REACT ||
-    projectType === ProjectType.REACT_PROJECT ||
-    projectType === ProjectType.NEXTJS;
-
-  const shouldRunDev =
-    projectType !== ProjectType.REACT_NATIVE &&
-    process.env.CI !== 'true' &&
-    process.env.IN_STORYBOOK_SANDBOX !== 'true';
-  if (shouldRunDev) {
-    logger.log('\nRunning Storybook');
-
-    process.on('SIGINT', () => {
-      logger.log('\nTo run your Storybook again, type:\n');
-      const storybookCommand =
-        projectType === ProjectType.ANGULAR
-          ? `ng run ${installResult.projectName}:storybook`
-          : packageManager.getRunStorybookCommand();
-      codeLog([storybookCommand]);
-      logger.log();
-    });
-
-    switch (projectType) {
-      case ProjectType.ANGULAR: {
-        try {
-          // for angular specifically, we have to run the `ng` command, and to stream the output
-          // it has to be a sync command.
-          packageManager.runPackageCommandSync(
-            `ng run ${installResult.projectName}:storybook`,
-            ['--quiet'],
-            undefined,
-            'inherit'
-          );
-        } catch (e) {
-          if (e.message.includes('Command failed with exit code 129')) {
-            // catch ctrl + c error
-          } else {
-            throw e;
-          }
-        }
-        break;
-      }
-
-      default: {
-        await dev({
-          ...options,
-          port: 6006,
-          open: true,
-          quiet: true,
-          // TODO: change this logic to all frameworks once the idea is validated
-          initialPath: isReactWebProject ? '/onboarding' : undefined,
-        });
-      }
-    }
-  } else if (projectType === ProjectType.REACT_NATIVE) {
+  if (projectType === ProjectType.REACT_NATIVE) {
     logger.log();
     logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
     logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
@@ -387,9 +330,69 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
     logger.log();
   } else {
-    logger.log('\nTo run your Storybook, type:\n');
-    codeLog([packageManager.getRunStorybookCommand()]);
-    logger.log();
+    const storybookCommand =
+      projectType === ProjectType.ANGULAR
+        ? `ng run ${installResult.projectName}:storybook`
+        : packageManager.getRunStorybookCommand();
+    logger.log(
+      boxen(
+        dedent`
+          Storybook was successfully installed in your project! 🎉
+          To run Storybook manually, run ${chalk.yellow(
+            chalk.bold(storybookCommand)
+          )}. CTRL+C to stop.
+          
+          Wanna know more about Storybook? Check out ${chalk.cyan('https://storybook.js.org/')}
+          Having trouble or want to chat? Join us at ${chalk.cyan('https://discord.gg/storybook/')}
+        `,
+        { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
+      )
+    );
+
+    const shouldRunDev = process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true';
+    if (shouldRunDev) {
+      logger.log('\nRunning Storybook');
+
+      switch (projectType) {
+        case ProjectType.ANGULAR: {
+          try {
+            // for angular specifically, we have to run the `ng` command, and to stream the output
+            // it has to be a sync command.
+            packageManager.runPackageCommandSync(
+              `ng run ${installResult.projectName}:storybook`,
+              ['--quiet'],
+              undefined,
+              'inherit'
+            );
+          } catch (e) {
+            if (e.message.includes('Command failed with exit code 129')) {
+              // catch ctrl + c error
+            } else {
+              throw e;
+            }
+          }
+          break;
+        }
+
+        default: {
+          const isReactWebProject =
+            projectType === ProjectType.REACT_SCRIPTS ||
+            projectType === ProjectType.REACT ||
+            projectType === ProjectType.WEBPACK_REACT ||
+            projectType === ProjectType.REACT_PROJECT ||
+            projectType === ProjectType.NEXTJS;
+
+          await dev({
+            ...options,
+            port: 6006,
+            open: true,
+            quiet: true,
+            // TODO: change this logic to all frameworks once the idea is validated
+            ...(isReactWebProject ? { initialPath: '/onboarding' } : {}),
+          });
+        }
+      }
+    }
   }
 }
 
