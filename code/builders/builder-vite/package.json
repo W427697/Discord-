@@ -42,7 +42,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.1.0-alpha.32",
+    "@storybook/channels": "7.1.0-alpha.32",
     "@storybook/client-logger": "7.1.0-alpha.32",
     "@storybook/core-common": "7.1.0-alpha.32",
     "@storybook/csf-plugin": "7.1.0-alpha.32",
