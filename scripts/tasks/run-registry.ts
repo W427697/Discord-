@@ -1,5 +1,6 @@
 import detectFreePort from 'detect-port';
 
+import waitOn from 'wait-on';
 import { CODE_DIRECTORY } from '../utils/constants';
 import { exec } from '../utils/exec';
 import type { Task } from '../task';
@@ -9,13 +10,15 @@ export async function runRegistry({ dryRun, debug }: { dryRun?: boolean; debug?:
 
   exec(
     'yarn local-registry --open',
-    { cwd: CODE_DIRECTORY, env: { CI: 'true' } },
+    { cwd: CODE_DIRECTORY, env: { ...process.env, CI: 'true' } },
     { dryRun, debug, signal: controller.signal }
   ).catch((err) => {
     // If aborted, we want to make sure the rejection is handled.
     if (!err.killed) throw err;
   });
-  await exec('yarn wait-on http://localhost:6001', { cwd: CODE_DIRECTORY }, { dryRun, debug });
+  await waitOn({
+    resources: ['http://localhost:6001'],
+  });
 
   return controller;
 }

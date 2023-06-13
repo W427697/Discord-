@@ -104,6 +104,7 @@ async function run() {
       buffer: false,
       shell: true,
       env: {
+        ...process.env,
         NODE_ENV: 'production',
       },
     });

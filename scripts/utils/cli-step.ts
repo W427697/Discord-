@@ -93,6 +93,7 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
     {
       cwd: options.cwd,
       env: {
+        ...process.env,
         STORYBOOK_DISABLE_TELEMETRY: 'true',
       },
     },

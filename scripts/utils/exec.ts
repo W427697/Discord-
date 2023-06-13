@@ -38,7 +38,6 @@ export const exec = async (
   options: Options = {},
   { startMessage, errorMessage, dryRun, debug, signal }: StepOptions = {}
 ): Promise<void> => {
-  // const execa = await getExeca();
   logger.info();
   if (startMessage) logger.info(startMessage);
 

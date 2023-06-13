@@ -8,7 +8,7 @@ import semver from 'semver';
 import { z } from 'zod';
 import type { Workspace } from '../utils/workspace';
 import { getWorkspaces } from '../utils/workspace';
-import { execaCommand } from '../utils/exec';
+import { exec } from '../utils/exec';
 
 program
   .name('version')
@@ -239,10 +239,13 @@ export const run = async (options: unknown) => {
   await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
 
   console.log(`⬆️ Updating lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
-  await execaCommand(`yarn install --mode=update-lockfile`, {
-    cwd: path.join(CODE_DIR_PATH),
-    stdio: verbose ? 'inherit' : undefined,
-  });
+  await exec(
+    `yarn install --mode=update-lockfile`,
+    {
+      cwd: path.join(CODE_DIR_PATH),
+    },
+    { debug: verbose }
+  );
   console.log(`✅ Updated lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
 
   if (process.env.GITHUB_ACTIONS === 'true') {

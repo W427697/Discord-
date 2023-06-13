@@ -28,6 +28,7 @@ export const e2eTestsBuild: Task & { port: number } = {
       playwrightCommand,
       {
         env: {
+          ...process.env,
           STORYBOOK_URL: `http://localhost:${this.port}`,
           STORYBOOK_TEMPLATE_NAME: key,
           ...(junitFilename && {
