@@ -23,8 +23,8 @@ In your [`.storybook/main.js`](../configure/overview.md#configure-story-renderin
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-ref-remote.js.mdx',
-    'common/storybook-main-ref-remote.ts.mdx',
+    'common/main-config-refs.js.mdx',
+    'common/main-config-refs.ts.mdx',
   ]}
 />
 
@@ -59,8 +59,8 @@ You can also compose Storybooks based on the current development environment (e.
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-ref-per-environment.js.mdx',
-    'common/storybook-main-ref-per-environment.ts.mdx',
+    'common/main-config-refs-with-function.js.mdx',
+    'common/main-config-refs-with-function.ts.mdx',
   ]}
 />
 
@@ -68,7 +68,7 @@ You can also compose Storybooks based on the current development environment (e.
 
 <div class="aside">
 
-💡 Similar to the other fields available in Storybook’s configuration file, the `refs` field can also be a function that accepts a config parameter containing Storybook’s configuration object. Check the [Webpack documentation](../builders/webpack.md#extending-storybooks-webpack-config) to learn more about it.
+💡 Similar to the other fields available in Storybook’s configuration file, the `refs` field can also be a function that accepts a config parameter containing Storybook’s configuration object. Check the [Webpack documentation](../builders/webpack.md#override-the-default-configuration) to learn more about it.
 
 </div>
 
@@ -84,8 +84,8 @@ If you're using Storybook 6.4, or higher, you can optimize your composition via 
 
 <CodeSnippets
   paths={[
-    'common/storybook-enable-buildstoriesjson.js.mdx',
-    'common/storybook-enable-buildstoriesjson.ts.mdx',
+    'common/main-config-features-build-stories-json.js.mdx',
+    'common/main-config-features-build-stories-json.ts.mdx',
   ]}
 />
 

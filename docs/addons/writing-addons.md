@@ -66,7 +66,7 @@ We'll need to add the necessary dependencies and make some adjustments. Run the 
 Initialize a local Storybook instance to allow you to test your addon.
 
 ```shell
-npx storybook init
+npx storybook@latest init
 ```
 
 <div class="aside">
@@ -125,7 +125,7 @@ For this example, we'll modify Storybook's UI.
 
 ### Add a panel
 
-Now let’s add a panel to Storybook. Inside the `src` directory, create a new file called `register.js` and add the following:
+Now let’s add a panel to Storybook. Inside the `src` directory, create a new file called `manager.js` and add the following:
 
 <!-- prettier-ignore-start -->
 
@@ -204,6 +204,8 @@ When Storybook was initialized, it provided a small set of example stories. Chan
     'svelte/button-story-with-addon-example.js.mdx',
     'web-components/button-story-with-addon-example.js.mdx',
     'web-components/button-story-with-addon-example.ts.mdx',
+    'solid/button-story-with-addon-example.js.mdx',
+    'solid/button-story-with-addon-example.ts.mdx',
   ]}
   usesCsf3
   csf2Path="addons/writing-addons#snippet-button-story-with-addon-example"
@@ -234,7 +236,7 @@ Before publishing the addon, we'll need to make one last change. In the root dir
 
 <!-- prettier-ignore-end -->
 
-This auto-registers the addon without any additional configuration from the user. Storybook looks for either a `preset.js` or a `register.js` file located at the root level.
+This auto-registers the addon without any additional configuration from the user. Storybook looks for either a `preset.js` or a `manager.js` file located at the root level.
 
 ### Packaging and publishing
 

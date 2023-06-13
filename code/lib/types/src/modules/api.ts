@@ -7,7 +7,7 @@ import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
 import type { API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_Types } from './addons';
+import type { Addon_Type } from './addons';
 import type { StoryIndex } from './storyIndex';
 
 export type API_ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
@@ -30,17 +30,8 @@ export interface API_MatchOptions {
   path: string;
 }
 
-export interface API_Addon {
-  title: string;
-  type?: Addon_Types;
-  id?: string;
-  route?: (routeOptions: API_RouteOptions) => string;
-  match?: (matchOptions: API_MatchOptions) => boolean;
-  render: (renderOptions: API_RenderOptions) => any;
-  paramKey?: string;
-  disabled?: boolean;
-  hidden?: boolean;
-}
+export type API_Addon = Addon_Type;
+
 export interface API_Collection<T = API_Addon> {
   [key: string]: T;
 }
@@ -56,6 +47,9 @@ export interface API_ProviderData<API> {
 
 export interface API_Provider<API> {
   channel?: Channel;
+  /**
+   * @deprecated will be removed in 8.0, please use channel instead
+   */
   serverChannel?: Channel;
   renderPreview?: API_IframeRenderer;
   handleAPI(api: API): void;

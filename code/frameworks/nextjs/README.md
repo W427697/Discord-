@@ -44,7 +44,7 @@
   - [FAQ](#faq)
     - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
-    - [Module not found: Error: Can't resolve \[package name\]](#module-not-found-error-cant-resolve-package-name)
+    - [Module not found: Error: Can't resolve `package name`](#module-not-found-error-cant-resolve-package-name)
     - [What if I'm using the Vite builder?](#what-if-im-using-the-vite-builder)
 - [Acknowledgements](#acknowledgements)
 
@@ -88,7 +88,7 @@
 Follow the prompts after running this command in your Next.js project's root directory:
 
 ```bash
-npx storybook@next init
+npx storybook@latest init
 ```
 
 [More on getting started with Storybook](https://storybook.js.org/docs/react/get-started/install)
@@ -98,7 +98,7 @@ npx storybook@next init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@next upgrade --prerelease
+npx storybook@latest upgrade --prerelease
 ```
 
 #### Automatic migration
@@ -110,7 +110,7 @@ When running the `upgrade` command above, you should get a prompt asking you to 
 Install the framework:
 
 ```bash
-yarn add --dev @storybook/nextjs@next
+yarn add --dev @storybook/nextjs
 ```
 
 Update your `main.js` to change the framework property:
@@ -159,12 +159,16 @@ export default {
   framework: {
     name: '@storybook/nextjs',
     options: {
+      image: {
+        loading: 'eager',
+      },
       nextConfigPath: path.resolve(__dirname, '../next.config.js'),
     },
   },
 };
 ```
 
+- `image`: Props to pass to every instance of `next/image`
 - `nextConfigPath`: The absolute path to the `next.config.js`
 
 ### Next.js's Image Component
@@ -926,7 +930,7 @@ Therefore, if something in storybook isn't showing the image properly, make sure
 
 See [local images](https://nextjs.org/docs/basic-features/image-optimization#local-images) for more detail on how Next.js treats static image imports.
 
-#### Module not found: Error: Can't resolve [package name]
+#### Module not found: Error: Can't resolve `package name`
 
 You might get this if you're using Yarn v2 or v3. See [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users) for more details.
 

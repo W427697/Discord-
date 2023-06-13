@@ -1,8 +1,11 @@
 import { global } from '@storybook/global';
 import { Channel } from '@storybook/channels';
-import type { ChannelHandler } from '@storybook/channels';
+import type { ChannelHandler, ChannelTransport } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
+import invariant from 'tiny-invariant';
+
+const { CONFIG_TYPE } = global;
 
 const { WebSocket } = global;
 
@@ -14,7 +17,7 @@ interface WebsocketTransportArgs {
 }
 
 interface CreateChannelArgs {
-  url: string;
+  url?: string;
   async?: boolean;
   onError?: OnError;
 }
@@ -22,14 +25,28 @@ interface CreateChannelArgs {
 export class WebsocketTransport {
   private socket: WebSocket;
 
-  private handler: ChannelHandler;
+  private handler?: ChannelHandler;
 
   private buffer: string[] = [];
 
   private isReady = false;
 
   constructor({ url, onError }: WebsocketTransportArgs) {
-    this.connect(url, onError);
+    this.socket = new WebSocket(url);
+    this.socket.onopen = () => {
+      this.isReady = true;
+      this.flush();
+    };
+    this.socket.onmessage = ({ data }) => {
+      const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
+      invariant(this.handler, 'WebsocketTransport handler should be set');
+      this.handler(event);
+    };
+    this.socket.onerror = (e) => {
+      if (onError) {
+        onError(e);
+      }
+    };
   }
 
   setHandler(handler: ChannelHandler) {
@@ -58,23 +75,6 @@ export class WebsocketTransport {
     this.buffer = [];
     buffer.forEach((event) => this.send(event));
   }
-
-  private connect(url: string, onError: OnError) {
-    this.socket = new WebSocket(url);
-    this.socket.onopen = () => {
-      this.isReady = true;
-      this.flush();
-    };
-    this.socket.onmessage = ({ data }) => {
-      const event = typeof data === 'string' && isJSON(data) ? parse(data) : data;
-      this.handler(event);
-    };
-    this.socket.onerror = (e) => {
-      if (onError) {
-        onError(e);
-      }
-    };
-  }
 }
 
 export function createChannel({
@@ -82,8 +82,23 @@ export function createChannel({
   async = false,
   onError = (err) => logger.warn(err),
 }: CreateChannelArgs) {
-  const transport = new WebsocketTransport({ url, onError });
-  return new Channel({ transport, async });
+  const transports: ChannelTransport[] = [];
+
+  if (url) {
+    transports.push(new WebsocketTransport({ url, onError }));
+  }
+
+  const isUrlServerChannel = !!url?.includes('storybook-server-channel');
+
+  if (CONFIG_TYPE === 'DEVELOPMENT' && isUrlServerChannel === false) {
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const { hostname, port } = window.location;
+    const channelUrl = `${protocol}://${hostname}:${port}/storybook-server-channel`;
+
+    transports.push(new WebsocketTransport({ url: channelUrl, onError: () => {} }));
+  }
+
+  return new Channel({ transports, async });
 }
 
 // backwards compat with builder-vite

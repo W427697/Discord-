@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
+import invariant from 'tiny-invariant';
 
 import type {
   IndexEntry,
@@ -20,7 +21,7 @@ import type {
   StoryName,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
-import { normalizeStoryPath } from '@storybook/core-common';
+import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
@@ -121,7 +122,7 @@ export class StoryIndexGenerator {
         const fullGlob = slash(
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
-        const files = await glob(fullGlob);
+        const files = await glob(fullGlob, commonGlobOptions(fullGlob));
 
         if (files.length === 0) {
           once.warn(
@@ -325,6 +326,10 @@ export class StoryIndexGenerator {
       // are invalidated.f
       const dependencies = this.findDependencies(absoluteImports);
 
+      // To ensure the `<Meta of={}/>` import is always first in the list, we'll bring the dependency
+      // that contains it to the front of the list.
+      let sortedDependencies = dependencies;
+
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
       let csfEntry: StoryIndexEntry;
@@ -342,15 +347,18 @@ export class StoryIndexGenerator {
               csfEntry = first;
             }
           }
+
+          sortedDependencies = [dep, ...dependencies.filter((d) => d !== dep)];
         });
 
         if (!csfEntry)
           throw new Error(
-            dedent`Could not find CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+            dedent`Could not find or load CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
             
               - Does that file exist?
               - If so, is it a CSF file (\`.stories.*\`)?
-              - If so, is it matched by the \`stories\` glob in \`main.js\`?`
+              - If so, is it matched by the \`stories\` glob in \`main.js\`?
+              - If so, has the file successfully loaded in Storybook and are its stories visible?`
           );
       }
 
@@ -372,9 +380,9 @@ export class StoryIndexGenerator {
         title,
         name,
         importPath,
-        storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
+        storiesImports: sortedDependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        tags: [...(result.tags || []), 'docs'],
+        tags: [...(result.tags || []), csfEntry ? 'attached-mdx' : 'unattached-mdx', 'docs'],
       };
       return docsEntry;
     } catch (err) {
@@ -546,6 +554,7 @@ export class StoryIndexGenerator {
     } catch (err) {
       this.lastError = err;
       logger.warn(`🚨 ${this.lastError.toString()}`);
+      invariant(this.lastError);
       throw this.lastError;
     }
   }
@@ -590,7 +599,7 @@ export class StoryIndexGenerator {
   }
 
   async getStorySortParameter() {
-    const previewFile = ['js', 'jsx', 'ts', 'tsx']
+    const previewFile = ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs']
       .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
       .find((fname) => fs.existsSync(fname));
     let storySortParameter;

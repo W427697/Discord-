@@ -2,7 +2,6 @@
 // Gizmo.stories.js
 
 export default {
-  title: 'Gizmo',
   component: 'gizmo-element',
   argTypes: {
     canRotate: {
@@ -31,10 +30,8 @@ export default {
       options: ['left', 'right', 'center'],
     },
     rotationAxis: {
-      control: {
-        type: 'check',
-        options: ['x', 'y', 'z'],
-      },
+      control: 'check',
+      options: ['x', 'y', 'z'],
     },
     scaling: {
       control: 'select',

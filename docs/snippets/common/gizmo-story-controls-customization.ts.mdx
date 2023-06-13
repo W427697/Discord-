@@ -7,11 +7,6 @@ import type { Meta } from '@storybook/your-framework';
 import { Gizmo } from './Gizmo';
 
 const meta: Meta<typeof Gizmo> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Gizmo',
   component: Gizmo,
   argTypes: {
     canRotate: {
@@ -40,10 +35,8 @@ const meta: Meta<typeof Gizmo> = {
       options: ['left', 'right', 'center'],
     },
     rotationAxis: {
-      control: {
-        type: 'check',
-        options: ['x', 'y', 'z'],
-      },
+      control: 'check',
+      options: ['x', 'y', 'z'],
     },
     scaling: {
       control: 'select',

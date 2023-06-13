@@ -8,8 +8,7 @@ import { userEvent, waitFor, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 const meta: Meta = {
-  title: 'MyComponent',
-  component: 'my-component',
+  component: 'my-form-element',
   argTypes: {
     onSubmit: { action: true },
   },
@@ -19,7 +18,7 @@ export default meta;
 type Story = StoryObj;
 
 /*
- * See https://storybook.js.org/docs/7.0/web-components/writing-stories/play-function#working-with-the-canvas
+ * See https://storybook.js.org/docs/web-components/writing-stories/play-function#working-with-the-canvas
  * to learn more about using the canvasElement to query the DOM
  */
 export const Submitted: Story = {

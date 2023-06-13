@@ -27,12 +27,6 @@ Run the following command to install it.
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
-
 Update your `package.json` scripts and enable the test runner.
 
 ```json
@@ -101,6 +95,7 @@ If you're already using any of those flags in your project, you should be able t
 | `-u`, `--updateSnapshot`        | Use this flag to re-record every snapshot that fails during this test run <br/>`test-storybook -u`                               |
 | `--eject`                       | Creates a local configuration file to override defaults of the test-runner <br/>`test-storybook --eject`                         |
 | `--coverage`                    | Runs [coverage tests](./test-coverage.md) on your stories and components <br/> `test-storybook --coverage`                       |
+| `--shard [index/count]`         | Requires CI. Splits the test suite execution into multiple machines <br/> `test-storybook --shard=1/8`                           |
 
 <!-- prettier-ignore-start -->
 

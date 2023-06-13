@@ -2,6 +2,8 @@
 title: 'Decorators'
 ---
 
+<YouTubeCallout id="4yi_yCTkgng" title="Storybook Decorators Crash Course" />
+
 A decorator is a way to wrap a story in extra “rendering” functionality. Many addons define decorators to augment your stories with extra rendering or gather details about how your story renders.
 
 When writing stories, decorators are typically used to wrap stories with extra markup or context mocking.
@@ -24,6 +26,8 @@ Some components require a “harness” to render in a useful way. For instance,
     'web-components/your-component-with-decorator.js.mdx',
     'web-components/your-component-with-decorator.ts.mdx',
     'svelte/your-component-with-decorator.js.mdx',
+    'solid/your-component-with-decorator.js.mdx',
+    'solid/your-component-with-decorator.ts.mdx'
   ]}
 />
 
@@ -55,6 +59,8 @@ For example, if you're working with React's Styled Components and your component
     'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/add-localize-package-to-polyfills.ts.mdx',
     'angular/storybook-preview-with-angular-polyfills.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 
@@ -95,6 +101,8 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'web-components/button-story-decorator.js.mdx',
     'web-components/button-story-decorator.ts.mdx',
     'svelte/button-story-decorator.js.mdx',
+    'solid/button-story-decorator.js.mdx',
+    'solid/button-story-decorator.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/decorators#snippet-button-story-decorator"
@@ -103,7 +111,7 @@ To define a decorator for a single story, use the `decorators` key on a named ex
 
 <!-- prettier-ignore-end -->
 
-It is useful to ensure that the story remains a “pure” rendering of the component under test, and any extra HTML or components don't pollute that. In particular the [Source](../api/doc-block-source.md) doc block works best when you do this.
+It is useful to ensure that the story remains a “pure” rendering of the component under test and that any extra HTML or components are used only as decorators. In particular the [Source](../api/doc-block-source.md) Doc Block works best when you do this.
 
 ## Component decorators
 
@@ -121,6 +129,8 @@ To define a decorator for all stories of a component, use the `decorators` key o
     'web-components/button-story-component-decorator.js.mdx',
     'web-components/button-story-component-decorator.ts.mdx',
     'svelte/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.ts.mdx',
   ]}
 />
 
@@ -141,6 +151,8 @@ We can also set a decorator for **all stories** via the `decorators` export of y
     'angular/storybook-preview-global-decorator.ts.mdx',
     'web-components/storybook-preview-global-decorator.js.mdx',
     'svelte/storybook-preview-global-decorator.js.mdx',
+    'solid/storybook-preview-global-decorator.js.mdx',
+    'solid/storybook-preview-global-decorator.ts.mdx',
   ]}
 />
 
