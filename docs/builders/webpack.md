@@ -128,7 +128,7 @@ Storybook's default Webpack configuration provides support for most project setu
 
 <!-- prettier-ignore-end -->
 
-While if you only want to add an import path, like `@` import which is used in `NextJS 13` default setup, you can use the following solution without adding a package:
+However, if you're working with a framework that provides a default aliasing configuration (e.g., Next.js, Nuxt) and you want to configure Storybook to use the same aliases, you may not need to install any additional packages. Instead, you can extend the default configuration of Storybook to use the same aliases provided by the framework. For example, to set up an alias for the `@` import path, you can add the following to your `.storybook/main.js|ts` file:
 
 <!-- prettier-ignore-start -->
 
