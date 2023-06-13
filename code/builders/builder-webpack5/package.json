@@ -59,7 +59,6 @@
     "@storybook/addons": "7.1.0-alpha.31",
     "@storybook/api": "7.1.0-alpha.31",
     "@storybook/channel-postmessage": "7.1.0-alpha.31",
-    "@storybook/channel-websocket": "7.1.0-alpha.31",
     "@storybook/channels": "7.1.0-alpha.31",
     "@storybook/client-api": "7.1.0-alpha.31",
     "@storybook/client-logger": "7.1.0-alpha.31",
