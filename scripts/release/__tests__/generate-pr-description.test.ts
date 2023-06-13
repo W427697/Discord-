@@ -29,7 +29,7 @@ describe('Generate PR Description', () => {
       labels: null,
       links: {
         commit:
-          '[`012b58140c3606efeacbe99c0c410624b0a1ed1f`](https://github.com/storybookjs/monorepo-release-tooling-prototype/commit/012b58140c3606efeacbe99c0c410624b0a1ed1f)',
+          '[`012b58140c3606efeacbe99c0c410624b0a1ed1f`](https://github.com/storybookjs/storybook/commit/012b58140c3606efeacbe99c0c410624b0a1ed1f)',
         pull: null,
         user: '[@github-actions[bot]](https://github.com/github-actions%5Bbot%5D)',
       },
@@ -185,7 +185,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
         And for each change below:
 
         1. Ensure the change is appropriate for the version bump. E.g. patch release should only contain patches, not new or de-stabilizing features. If a change is not appropriate, revert the PR.
-        2. Ensure the PR is labeled correctly with \\"BREAKING CHANGE\\", \\"feature request\\", \\"maintainance\\", \\"bug\\", \\"build\\" or \\"documentation\\".
+        2. Ensure the PR is labeled correctly with one of: \\"BREAKING CHANGE\\", \\"feature request\\", \\"bug\\", \\"maintenance\\", \\"dependencies\\", \\"documentation\\", \\"build\\", \\"unknown\\".
         3. Ensure the PR title is correct, and follows the format \\"[Area]: [Summary]\\", e.g. *\\"React: Fix hooks in CSF3 render functions\\"*. If it is not correct, change the title in the PR.
             - Areas include: React, Vue, Core, Docs, Controls, etc.
             - First word of summary indicates the type: “Add”, “Fix”, “Upgrade”, etc.
@@ -219,11 +219,11 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
         - [ ] [#42](https://github.com/storybookjs/storybook/pull/42): \\\`git cherry-pick -m1 -x abc123\\\`
 
-        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
         When everything above is done:
         - [ ] Merge this PR
-        - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)
+        - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
 
         ---
 
@@ -270,11 +270,11 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
         - [ ] [#42](https://github.com/storybookjs/storybook/pull/42): \\\`git cherry-pick -m1 -x abc123\\\`
 
-        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
 
         When everything above is done:
         - [ ] Merge this PR
-        - [ ] [Approve the publish workflow run](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)"
+        - [ ] [Approve the publish workflow run](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)"
       `);
     });
 
@@ -305,7 +305,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
         And for each change below:
 
         1. Ensure the change is appropriate for the version bump. E.g. patch release should only contain patches, not new or de-stabilizing features. If a change is not appropriate, revert the PR.
-        2. Ensure the PR is labeled correctly with \\"BREAKING CHANGE\\", \\"feature request\\", \\"maintainance\\", \\"bug\\", \\"build\\" or \\"documentation\\".
+        2. Ensure the PR is labeled correctly with one of: \\"BREAKING CHANGE\\", \\"feature request\\", \\"bug\\", \\"maintenance\\", \\"dependencies\\", \\"documentation\\", \\"build\\", \\"unknown\\".
         3. Ensure the PR title is correct, and follows the format \\"[Area]: [Summary]\\", e.g. *\\"React: Fix hooks in CSF3 render functions\\"*. If it is not correct, change the title in the PR.
             - Areas include: React, Vue, Core, Docs, Controls, etc.
             - First word of summary indicates the type: “Add”, “Fix”, “Upgrade”, etc.
@@ -334,11 +334,11 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
 
 
-        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
         When everything above is done:
         - [ ] Merge this PR
-        - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)
+        - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
 
         ---
 
@@ -380,11 +380,11 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
 
 
-        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
 
         When everything above is done:
         - [ ] Merge this PR
-        - [ ] [Approve the publish workflow run](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)"
+        - [ ] [Approve the publish workflow run](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)"
       `);
     });
   });

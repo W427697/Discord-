@@ -15,7 +15,7 @@ program.name('pick-patches').description('Cherry pick patch PRs back to main');
 const logger = console;
 
 const OWNER = 'storybookjs';
-const REPO = 'monorepo-release-tooling-prototype';
+const REPO = 'storybook';
 const SOURCE_BRANCH = 'next';
 
 const git = simpleGit();

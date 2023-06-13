@@ -37,7 +37,7 @@ export async function getUnpickedPRs(baseBranch: string, verbose?: boolean): Pro
     `,
     {
       owner: 'storybookjs',
-      repo: 'monorepo-release-tooling-prototype',
+      repo: 'storybook',
       order: {
         field: 'UPDATED_AT',
         direction: 'ASC',

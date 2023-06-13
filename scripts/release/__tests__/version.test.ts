@@ -14,8 +14,21 @@ jest.mock('../../../code/lib/cli/src/versions', () => ({
 jest.mock('../../utils/exec');
 const { execaCommand } = require('../../utils/exec');
 
+jest.mock('../../utils/workspace', () => ({
+  getWorkspaces: jest.fn().mockResolvedValue([
+    {
+      name: '@storybook/addon-a11y',
+      location: 'addons/a11y',
+    },
+  ]),
+}));
+
+jest.spyOn(console, 'log').mockImplementation(() => {});
+jest.spyOn(console, 'warn').mockImplementation(() => {});
+jest.spyOn(console, 'error').mockImplementation(() => {});
+
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
 });
 
 describe('Version', () => {
@@ -29,6 +42,7 @@ describe('Version', () => {
     'version.ts'
   );
   const VERSIONS_PATH = path.join(CODE_DIR_PATH, 'lib', 'cli', 'src', 'versions.ts');
+  const A11Y_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'addons', 'a11y', 'package.json');
 
   it('should throw when release type is invalid', async () => {
     fsExtra.__setMockFiles({
@@ -152,6 +166,23 @@ describe('Version', () => {
         [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: currentVersion }),
         [MANAGER_API_VERSION_PATH]: `export const version = "${currentVersion}";`,
         [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "${currentVersion}" };`,
+        [A11Y_PACKAGE_JSON_PATH]: JSON.stringify({
+          version: currentVersion,
+          dependencies: {
+            '@storybook/core-server': currentVersion,
+            'unrelated-package-a': '1.0.0',
+          },
+          devDependencies: {
+            'unrelated-package-b': currentVersion,
+            '@storybook/core-common': `^${currentVersion}`,
+          },
+          peerDependencies: {
+            '@storybook/preview-api': `*`,
+            '@storybook/svelte': '0.1.1',
+            '@storybook/manager-api': `~${currentVersion}`,
+          },
+        }),
+        [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "${currentVersion}" };`,
       });
 
       await version({ releaseType, preId, exact });
@@ -162,18 +193,42 @@ describe('Version', () => {
         { spaces: 2 }
       );
       expect(fsExtra.writeFile).toHaveBeenCalledWith(
-        path.join(CODE_DIR_PATH, '.yarn', 'versions', 'generated-by-versions-script.yml'),
-        expect.stringContaining(expectedVersion)
-      );
-      expect(execaCommand).toHaveBeenCalledWith('yarn version apply --all', { cwd: CODE_DIR_PATH });
-      expect(fsExtra.writeFile).toHaveBeenCalledWith(
         MANAGER_API_VERSION_PATH,
-        expect.stringContaining(expectedVersion)
+        `export const version = "${expectedVersion}";`
       );
       expect(fsExtra.writeFile).toHaveBeenCalledWith(
         VERSIONS_PATH,
-        expect.stringContaining(expectedVersion)
+        `export default { "@storybook/addon-a11y": "${expectedVersion}" };`
       );
+      expect(fsExtra.writeJson).toHaveBeenCalledWith(
+        A11Y_PACKAGE_JSON_PATH,
+        expect.objectContaining({
+          // should update package version
+          version: expectedVersion,
+          dependencies: {
+            // should update storybook dependencies matching current version
+            '@storybook/core-server': expectedVersion,
+            'unrelated-package-a': '1.0.0',
+          },
+          devDependencies: {
+            // should not update non-storybook dependencies, even if they match current version
+            'unrelated-package-b': currentVersion,
+            // should update dependencies with range modifiers correctly (e.g. ^1.0.0 -> ^2.0.0)
+            '@storybook/core-common': `^${expectedVersion}`,
+          },
+          peerDependencies: {
+            // should not update storybook depenedencies if they don't match current version
+            '@storybook/preview-api': `*`,
+            '@storybook/svelte': '0.1.1',
+            '@storybook/manager-api': `~${expectedVersion}`,
+          },
+        }),
+        { spaces: 2 }
+      );
+      expect(execaCommand).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
+        cwd: path.join(CODE_DIR_PATH),
+        stdio: undefined,
+      });
     }
   );
 });

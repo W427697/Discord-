@@ -44,9 +44,10 @@ jobs:
             yarn-v1-${{ hashFiles('scripts/yarn.lock') }}
             yarn-v1
 
-      - name: Install Script Dependencies
+      - name: Install Dependencies
+        working-directory: .
         run: |
-          yarn install
+          yarn task --task=install
 
       - name: Check if pull request is frozen
         if: github.event_name != 'workflow_dispatch'
@@ -84,10 +85,6 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           yarn release:pick-patches
-
-      - name: Install code dependencies
-        working-directory: .
-        run: yarn task --task=install --start-from=install
 
       - name: Bump version
         id: bump-version
