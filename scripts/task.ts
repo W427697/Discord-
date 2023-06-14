@@ -452,24 +452,16 @@ async function run() {
       writeTaskList(statuses);
 
       try {
-        console.log('prior', {
-          'task.key': getTaskKey(task),
-        });
         const controller = await runTask(task, details, {
           ...optionValues,
           // Always debug the final task so we can see it's output fully
           debug: task === finalTask ? true : optionValues.debug,
         });
 
-        console.log({
-          'task.key': getTaskKey(task),
-          controller,
-        });
         if (controller) {
           controllers.push(controller);
         }
       } catch (err) {
-        console.log('ERROR', { err });
         logger.error(`Error running task ${getTaskKey(task)}:`);
 
         // If it is the last task, we don't need to log the full trace
@@ -501,7 +493,6 @@ async function run() {
           );
         }
 
-        console.log('CALLING ABORT', controllers.length, controllers);
         controllers.forEach((controller) => {
           controller.abort();
         });
