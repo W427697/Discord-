@@ -3,10 +3,12 @@ import { remove, pathExists, readJSON } from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import killPort from 'kill-port';
+
 import { runServer, parseConfigFile } from 'verdaccio';
 import pLimit from 'p-limit';
 import type { Server } from 'http';
 import { LOCAL_REGISTRY_CACHE_DIRECTORY, LOCAL_REGISTRY_URL } from './utils/constants';
+// @ts-expect-error (concurrency is JS)
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages } from './utils/list-packages';
 
@@ -20,6 +22,7 @@ const startVerdaccio = async () => {
       const config = {
         ...parseConfigFile(path.join(__dirname, 'verdaccio.yaml')),
         self_path: cache,
+        logs: { type: 'stdout', format: 'pretty', level: 'warn' },
       };
 
       // @ts-expect-error (verdaccio's interface is wrong)
@@ -137,7 +140,6 @@ export const run = async (options: { publish: boolean; open: boolean }) => {
   }
 
   return () => {
-    console.log('CALLED CLOSE');
     verdaccioServer.close();
   };
 };

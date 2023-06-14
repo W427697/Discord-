@@ -81,7 +81,11 @@ export const exec = async (
     }
   } catch (err) {
     if (!err.killed) {
-      logger.error(chalk.red(`An error occurred while executing: \`${cmd}\``));
+      logger.error(
+        chalk.red(
+          `An error occurred while executing: \`${cmd}\` in ${options.cwd || process.cwd()}`
+        )
+      );
       logger.log(`${errorMessage}\n`);
     }
 

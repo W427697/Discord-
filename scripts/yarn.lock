@@ -3112,6 +3112,7 @@ __metadata:
     "@types/escodegen": ^0.0.6
     "@types/express": ^4.17.11
     "@types/fs-extra": ^11.0.1
+    "@types/kill-port": ^2.0.0
     "@types/lodash": ^4
     "@types/node": ^16.0.0
     "@types/node-fetch": ^2.5.7
@@ -3125,7 +3126,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/experimental-utils": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
-    "@verdaccio/types": ^10.2.0
+    "@verdaccio/types": ^10.8.0
     ansi-regex: ^5.0.0
     babel-eslint: ^10.1.0
     babel-loader: ^9.1.2
@@ -3206,8 +3207,8 @@ __metadata:
     typescript: 5.0.4
     util: ^0.12.4
     uuid: ^9.0.0
-    verdaccio: ^5.19.1
-    verdaccio-auth-memory: ^10.2.0
+    verdaccio: ^5.25.0
+    verdaccio-auth-memory: ^10.2.2
     wait-on: ^7.0.1
     why-is-node-running: ^2.2.2
     window-size: ^1.1.1
@@ -3815,6 +3816,16 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: ff8f54fc49621210291f815fe5b15d809fd7d032941b3180743440bd507ecdf08b9e844625fa346af568c84bf34114eb378dcdc3e921a08ba1e2a08d7e3c809c
+  languageName: node
+  linkType: hard
+
+"@types/kill-port@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@types/kill-port@npm:2.0.0"
+  dependencies:
+    "@types/node": "*"
+    shell-exec: ^1
+  checksum: 33fa3cee58477a5ee3ce086d5ddfc80dc32d26933c0d4f2e1a8a5aa9dac6bd641c800d1ea85ad7847972f7fc8d0b76e1b0eb61a8ce07c3e20291234ff8cf245b
   languageName: node
   linkType: hard
 
@@ -4436,7 +4447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@verdaccio/types@npm:^10.2.0":
+"@verdaccio/types@npm:^10.8.0":
   version: 10.8.0
   resolution: "@verdaccio/types@npm:10.8.0"
   checksum: 98a8ddd626ff817a35de607a6bf92b1a19b69310b622f27add25943b8947cc9251590345f903d9d5ba8953aa5e21ef5554112cf6a576ddaa4614f6dcbb5095dd
@@ -14958,6 +14969,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"shell-exec@npm:^1":
+  version: 1.1.2
+  resolution: "shell-exec@npm:1.1.2"
+  checksum: d03cdcaf1a7462397d70efde4f43df46a6776bff27d46c83a9f985898b738366236185e79958717356f19b54a1766597d86dfab4d1d8dbe18c07cd5586d2d27c
+  languageName: node
+  linkType: hard
+
 "side-channel@npm:^1.0.4":
   version: 1.0.4
   resolution: "side-channel@npm:1.0.4"
@@ -16938,7 +16956,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"verdaccio-auth-memory@npm:^10.2.0":
+"verdaccio-auth-memory@npm:^10.2.2":
   version: 10.2.2
   resolution: "verdaccio-auth-memory@npm:10.2.2"
   dependencies:
@@ -16963,7 +16981,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"verdaccio@npm:^5.19.1":
+"verdaccio@npm:^5.25.0":
   version: 5.25.0
   resolution: "verdaccio@npm:5.25.0"
   dependencies:
