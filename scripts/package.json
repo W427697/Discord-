@@ -140,7 +140,6 @@
     "json5": "^2.2.3",
     "junit-xml": "^1.2.0",
     "kill-port": "^2.0.1",
-    "lerna": "^6.4.0",
     "lint-staged": "^10.5.4",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
@@ -179,7 +178,6 @@
     "util": "^0.12.4",
     "uuid": "^9.0.0",
     "wait-on": "^7.0.1",
-    "why-is-node-running": "^2.2.2",
     "window-size": "^1.1.1",
     "zod": "^3.21.4"
   },

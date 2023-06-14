@@ -10,7 +10,8 @@ import type { Server } from 'http';
 import { LOCAL_REGISTRY_CACHE_DIRECTORY, LOCAL_REGISTRY_URL } from './utils/constants';
 // @ts-expect-error (concurrency is JS)
 import { maxConcurrentTasks } from './utils/concurrency';
-import { listOfPackages } from './utils/list-packages';
+import type { Workspace } from './utils/workspace';
+import { getWorkspaces } from './utils/workspace';
 
 const logger = console;
 
@@ -49,7 +50,7 @@ const currentVersion = async () => {
   return version;
 };
 
-const publish = (packages: { name: string; location: string }[], url: string) => {
+const publish = (packages: Workspace[], url: string) => {
   logger.log(`Publishing packages with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
@@ -116,7 +117,7 @@ export const run = async (options: { publish: boolean; open: boolean }) => {
 
   const [verdaccioServer, packages, version] = await Promise.all([
     startVerdaccio(),
-    listOfPackages(),
+    getWorkspaces(),
     currentVersion(),
   ]);
 
