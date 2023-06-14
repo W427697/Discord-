@@ -14,7 +14,7 @@ export const sandbox: Task = {
     return ['run-registry'];
   },
   async ready({ sandboxDir }) {
-    return pathExists((sandboxDir));
+    return pathExists(sandboxDir);
   },
   async run(details, options) {
     if (options.link && details.template.inDevelopment) {
