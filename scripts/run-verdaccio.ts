@@ -61,6 +61,10 @@ const publish = (packages: Workspace[], url: string) => {
       limit(
         () =>
           new Promise((res, rej) => {
+            if (name === '@storybook/root') {
+              return;
+            }
+
             logger.log(
               `🛫 publishing ${name} (${location.replace(
                 path.resolve(path.join(__dirname, '..')),

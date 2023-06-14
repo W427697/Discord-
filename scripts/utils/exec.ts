@@ -46,7 +46,9 @@ export const exec = async (
   { startMessage, errorMessage, dryRun, debug, signal }: StepOptions = {}
 ): Promise<void> => {
   logger.info();
-  if (startMessage) logger.info(startMessage);
+  if (startMessage) {
+    logger.info(startMessage);
+  }
 
   if (dryRun) {
     logger.info(`\n> ${cmd}\n`);
