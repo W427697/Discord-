@@ -101,7 +101,7 @@ export const run = async (options: { publish: boolean; open: boolean }) => {
   logger.log(`📐 reading version of storybook`);
   logger.log(`🚛 listing storybook packages`);
 
-  if (!process.env.CI) {
+  if (!process.env.CI && options.publish) {
     // when running e2e locally, kill the existing running process
     await killPort(6001).catch(() => {});
     // when running e2e locally, clear cache to avoid EPUBLISHCONFLICT errors

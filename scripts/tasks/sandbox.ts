@@ -1,5 +1,4 @@
 import { pathExists, remove } from 'fs-extra';
-
 import type { Task } from '../task';
 
 const logger = console;
@@ -15,7 +14,7 @@ export const sandbox: Task = {
     return ['run-registry'];
   },
   async ready({ sandboxDir }) {
-    return pathExists(sandboxDir);
+    return pathExists((sandboxDir));
   },
   async run(details, options) {
     if (options.link && details.template.inDevelopment) {

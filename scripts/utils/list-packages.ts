@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { join } from 'path';
+import { CODE_DIRECTORY } from './constants';
 
 export interface Package {
   name: string;
@@ -8,10 +8,11 @@ export interface Package {
   location: string;
 }
 
-export const listOfPackages = (): Promise<Package[]> =>
-  new Promise((res, rej) => {
-    const command = `npx lerna list --json`;
-    exec(command, { cwd: join(__dirname, '..', '..', 'code') }, (e, result) => {
+export const listOfPackages = (): Promise<Package[]> => {
+  const lerna = require.resolve('lerna/cli');
+  return new Promise((res, rej) => {
+    const command = `node ${lerna} list --json`;
+    exec(command, { cwd: CODE_DIRECTORY }, (e, result) => {
       if (e) {
         rej(e);
       } else {
@@ -20,3 +21,4 @@ export const listOfPackages = (): Promise<Package[]> =>
       }
     });
   });
+};
