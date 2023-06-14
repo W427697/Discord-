@@ -37,6 +37,7 @@ jobs:
   prepare-prerelease-pull-request:
     name: Prepare prerelease pull request
     runs-on: ubuntu-latest
+    environment: release
     defaults:
       run:
         working-directory: scripts
@@ -48,6 +49,7 @@ jobs:
           # this needs to be set to a high enough number that it will contain the last version tag
           # as of May 2023, the whole repo had 55K commits
           fetch-depth: 10000
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
