@@ -225,10 +225,14 @@ describe('Version', () => {
         }),
         { spaces: 2 }
       );
-      expect(exec).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
-        cwd: path.join(CODE_DIR_PATH),
-        stdio: undefined,
-      });
+      expect(exec).toHaveBeenCalledWith(
+        'yarn install --mode=update-lockfile',
+        {
+          cwd: path.join(CODE_DIR_PATH),
+          stdio: undefined,
+        },
+        { debug: undefined }
+      );
     }
   );
 });
