@@ -1,16 +1,14 @@
 import { pathExists } from 'fs-extra';
-import { resolve } from 'path';
+import { LOCAL_REGISTRY_CACHE_DIRECTORY } from '../utils/constants';
 import { run } from '../run-verdaccio';
 
 import type { Task } from '../task';
-
-const verdaccioCacheDir = resolve(__dirname, '../../.verdaccio-cache');
 
 export const publish: Task = {
   description: 'Publish the packages of the monorepo to an internal npm server',
   dependsOn: ['compile'],
   async ready() {
-    return pathExists(verdaccioCacheDir);
+    return pathExists(LOCAL_REGISTRY_CACHE_DIRECTORY);
   },
   async run(_) {
     const controller = new AbortController();

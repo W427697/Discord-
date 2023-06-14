@@ -6,7 +6,7 @@ import killPort from 'kill-port';
 import { runServer, parseConfigFile } from 'verdaccio';
 import pLimit from 'p-limit';
 import type { Server } from 'http';
-import { LOCAL_REGISTRY_URL } from './utils/constants';
+import { LOCAL_REGISTRY_CACHE_DIRECTORY, LOCAL_REGISTRY_URL } from './utils/constants';
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages } from './utils/list-packages';
 
@@ -16,7 +16,7 @@ const startVerdaccio = async () => {
   let resolved = false;
   return Promise.race([
     new Promise((resolve) => {
-      const cache = path.join(__dirname, '..', '.verdaccio-cache');
+      const cache = LOCAL_REGISTRY_CACHE_DIRECTORY;
       const config = {
         ...parseConfigFile(path.join(__dirname, 'verdaccio.yaml')),
         self_path: cache,
@@ -102,7 +102,7 @@ export const run = async (options: { publish: boolean; open: boolean }) => {
     // when running e2e locally, kill the existing running process
     await killPort(6001).catch(() => {});
     // when running e2e locally, clear cache to avoid EPUBLISHCONFLICT errors
-    const verdaccioCache = path.resolve(__dirname, '..', '.verdaccio-cache');
+    const verdaccioCache = LOCAL_REGISTRY_CACHE_DIRECTORY;
     if (await pathExists(verdaccioCache)) {
       logger.log(`🗑 cleaning up cache`);
       await remove(verdaccioCache);
