@@ -2,7 +2,7 @@ import detectFreePort from 'detect-port';
 
 import type { Task } from '../task';
 import { run } from '../run-verdaccio';
-import { LOCAL_REGISTRY_PORT } from './utils/constants';
+import { LOCAL_REGISTRY_PORT } from '../utils/constants';
 
 export const runRegistryTask: Task = {
   description: 'Run the internal npm server',
