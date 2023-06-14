@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-postmessage",
-  "version": "7.1.0-alpha.32",
+  "version": "7.1.0-alpha.34",
   "description": "",
   "keywords": [
     "storybook"
@@ -43,8 +43,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.1.0-alpha.32",
-    "@storybook/client-logger": "7.1.0-alpha.32"
+    "@storybook/channels": "7.1.0-alpha.34",
+    "@storybook/client-logger": "7.1.0-alpha.34"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

@@ -108,7 +108,7 @@ export const mapCherryPicksToTodo = ({
 }): string => {
   const list = commits
     .map((commit) => {
-      const foundChange = changes.find((change) => change.commit === commit.substring(0, 7));
+      const foundChange = changes.find((change) => change.commit === commit);
       if (!foundChange) {
         throw new Error(
           `Cherry pick commit "${commit}" not found in changes, this should not happen?!`
