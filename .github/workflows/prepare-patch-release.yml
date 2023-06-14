@@ -19,6 +19,7 @@ jobs:
   prepare-patch-pull-request:
     name: Prepare patch pull request
     runs-on: ubuntu-latest
+    environment: release
     defaults:
       run:
         working-directory: scripts
@@ -27,6 +28,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: main
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
