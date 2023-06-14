@@ -7,6 +7,7 @@ import { Symbols } from '@storybook/components';
 import { Route } from '@storybook/router';
 import { Global, createGlobal, styled } from '@storybook/theming';
 
+import type { Page } from './components/layout/mobile';
 import { Mobile } from './components/layout/mobile';
 import { Desktop } from './components/layout/desktop';
 import Sidebar from './containers/sidebar';
@@ -27,9 +28,10 @@ export interface AppProps {
   viewMode: State['viewMode'];
   layout: State['layout'];
   panelCount: number;
+  mains: Page[];
 }
 
-const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
+const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, mains }) => {
   const { width, height, ref } = useResizeDetector();
   let content;
 
@@ -39,17 +41,6 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
       Preview,
       Panel,
       Notifications,
-      pages: [
-        {
-          key: 'settings',
-          render: () => <SettingsPages />,
-          route: (({ children }) => (
-            <Route path="/settings/" startsWith>
-              {children}
-            </Route>
-          )) as FC,
-        },
-      ],
     }),
     []
   );
@@ -57,7 +48,25 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
   if (!width || !height) {
     content = <div />;
   } else if (width < 600) {
-    content = <Mobile {...props} viewMode={viewMode} options={layout} />;
+    content = (
+      <Mobile
+        {...props}
+        viewMode={viewMode}
+        options={layout}
+        pages={[
+          ...mains,
+          {
+            key: 'settings',
+            render: () => <SettingsPages />,
+            route: (({ children }) => (
+              <Route path="/settings/" startsWith>
+                {children}
+              </Route>
+            )) as FC,
+          },
+        ]}
+      />
+    );
   } else {
     content = (
       <Desktop
@@ -67,6 +76,18 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
         width={width}
         height={height}
         panelCount={panelCount}
+        pages={[
+          ...mains,
+          {
+            key: 'settings',
+            render: () => <SettingsPages />,
+            route: (({ children }) => (
+              <Route path="/settings/" startsWith>
+                {children}
+              </Route>
+            )) as FC,
+          },
+        ]}
       />
     );
   }

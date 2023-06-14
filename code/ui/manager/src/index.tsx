@@ -3,8 +3,8 @@ import type { FC } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider } from '@storybook/manager-api';
+import { Location, LocationProvider, Route, useNavigate } from '@storybook/router';
+import { Provider as ManagerProvider, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 
@@ -13,6 +13,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './app';
 
 import Provider from './provider';
+import type { Page } from './components/layout/mobile';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -45,7 +46,29 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           docsOptions={global?.DOCS_OPTIONS || {}}
         >
           {({ state, api }: Combo) => {
-            const panelCount = Object.keys(api.getPanels()).length;
+            const panelCount = Object.keys(api.getElements(types.PANEL)).length;
+            const mains = Object.values(api.getElements(types.MAIN)).map((v) => {
+              const out: Page = {
+                key: v.id,
+                render: () => (
+                  <>
+                    <v.render active key={v.id} />
+                  </>
+                ),
+                route: (({ children }) => {
+                  console.log({ v });
+                  return (
+                    <Route path={v.title as string} startsWith>
+                      {children}
+                    </Route>
+                  );
+                }) as FC,
+              };
+
+              return out;
+            });
+
+            console.log({ mains });
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story
               ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
@@ -58,6 +81,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                   viewMode={state.viewMode}
                   layout={isLoading ? { ...state.layout, showPanel: false } : state.layout}
                   panelCount={panelCount}
+                  mains={mains}
                 />
               </ThemeProvider>
             );

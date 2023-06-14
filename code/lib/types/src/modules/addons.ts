@@ -347,5 +347,6 @@ export enum Addon_TypesEnum {
   TOOL = 'tool',
   TOOLEXTRA = 'toolextra',
   PREVIEW = 'preview',
+  MAIN = 'main',
   NOTES_ELEMENT = 'notes-element',
 }
