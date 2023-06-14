@@ -5,16 +5,19 @@ import { CODE_DIRECTORY } from '../utils/constants';
 import { exec } from '../utils/exec';
 import type { Task } from '../task';
 
-export async function runRegistry({ dryRun, debug }: { dryRun?: boolean; debug?: boolean }) {
+export async function runRegistry({ dryRun }: { dryRun?: boolean; debug?: boolean }) {
   const controller = new AbortController();
 
   exec(
     'yarn local-registry --open',
-    { cwd: CODE_DIRECTORY, env: { ...process.env, CI: 'true' } },
-    { dryRun, debug, signal: controller.signal }
+    { cwd: CODE_DIRECTORY, env: { ...process.env, CI: 'true' }, detached: true },
+    { dryRun, signal: controller.signal }
   ).catch((err) => {
     // If aborted, we want to make sure the rejection is handled.
-    if (!err.killed) throw err;
+    if (!err.killed) {
+      controller.abort();
+      throw err;
+    }
   });
   await waitOn({
     resources: ['http://localhost:6001'],
