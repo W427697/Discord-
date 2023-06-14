@@ -11,6 +11,7 @@ const {
 
 const getAngularWebpackUtils = () => {
   try {
+    // Angular < 16.1.0
     const {
       getCommonConfig,
       getStylesConfig,
@@ -25,6 +26,7 @@ const getAngularWebpackUtils = () => {
       getTypeScriptConfig,
     };
   } catch (e) {
+    // Angular > 16.1.0
     const {
       getCommonConfig,
       getStylesConfig,
