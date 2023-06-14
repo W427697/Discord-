@@ -11,5 +11,8 @@
     "task": "echo 'Installing Script Dependencies...'; cd scripts; yarn install >/dev/null; yarn task",
     "test": "cd code; yarn test"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "react-element-to-jsx-string": "^15.0.0"
+  }
 }
