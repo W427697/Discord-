@@ -24,7 +24,6 @@ export const testRunnerBuild: Task & { port: number } = {
       {
         ...execOptions,
         env: {
-          ...process.env,
           JEST_JUNIT_OUTPUT_FILE: junitFilename,
         },
       },

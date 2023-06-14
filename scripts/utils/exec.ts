@@ -8,6 +8,9 @@ type Options = SpawnOptionsWithoutStdio;
 
 const command = async (cmd: string, options: Options) => {
   return new Promise<void>((resolve, reject) => {
+    if (options.env) {
+      Object.assign(options.env, process.env);
+    }
     const child = cp.spawn(cmd, options);
     const rejected = false;
 
