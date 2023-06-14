@@ -6,7 +6,12 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
-import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
+import {
+  CODE_DIRECTORY,
+  JUNIT_DIRECTORY,
+  SANDBOX_DIRECTORY,
+  SCRIPTS_DIRECTORY,
+} from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
 import { install } from './tasks/install';
@@ -45,6 +50,7 @@ export type TemplateDetails = {
   selectedTask: TaskKey;
   template: Template;
   codeDir: Path;
+  scriptsDir: Path;
   sandboxDir: Path;
   builtSandboxDir: Path;
   junitFilename: Path;
@@ -341,6 +347,7 @@ async function run() {
     key: templateKey,
     template,
     codeDir: CODE_DIRECTORY,
+    scriptsDir: SCRIPTS_DIRECTORY,
     selectedTask: taskKey,
     sandboxDir: templateSandboxDir,
     builtSandboxDir: templateKey && join(templateSandboxDir, 'storybook-static'),
@@ -445,14 +452,26 @@ async function run() {
       writeTaskList(statuses);
 
       try {
+        console.log('prior', {
+          'task.key': getTaskKey(task),
+        });
         const controller = await runTask(task, details, {
           ...optionValues,
           // Always debug the final task so we can see it's output fully
           debug: task === finalTask ? true : optionValues.debug,
         });
-        if (controller) controllers.push(controller);
+
+        console.log({
+          'task.key': getTaskKey(task),
+          controller,
+        });
+        if (controller) {
+          controllers.push(controller);
+        }
       } catch (err) {
+        console.log('ERROR', { err });
         logger.error(`Error running task ${getTaskKey(task)}:`);
+
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {
           logger.error(err.message);
@@ -469,6 +488,7 @@ async function run() {
                 ...allOptionValues,
                 link: true,
                 startFrom: 'auto',
+                debug: true,
               })}
               
               Note this uses locally linking which in rare cases behaves differently to CI. For a closer match, run:
@@ -476,10 +496,12 @@ async function run() {
               ${getCommand('yarn task', options, {
                 ...allOptionValues,
                 startFrom: 'auto',
+                debug: true,
               })}`
           );
         }
 
+        console.log('CALLING ABORT', controllers.length, controllers);
         controllers.forEach((controller) => {
           controller.abort();
         });

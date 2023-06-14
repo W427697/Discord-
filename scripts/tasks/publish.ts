@@ -1,7 +1,7 @@
 import { pathExists } from 'fs-extra';
 import { resolve } from 'path';
+import { run } from '../run-verdaccio';
 
-import { exec } from '../utils/exec';
 import type { Task } from '../task';
 
 const verdaccioCacheDir = resolve(__dirname, '../../.verdaccio-cache');
@@ -12,16 +12,15 @@ export const publish: Task = {
   async ready() {
     return pathExists(verdaccioCacheDir);
   },
-  async run({ codeDir }, { dryRun, debug }) {
-    return exec(
-      'yarn local-registry --publish',
-      { cwd: codeDir },
-      {
-        startMessage: '📕 Publishing packages',
-        errorMessage: '❌ Failed publishing packages',
-        dryRun,
-        debug,
-      }
-    );
+  async run(_) {
+    const controller = new AbortController();
+
+    const stop = await run({ open: false, publish: true });
+
+    controller.signal.addEventListener('abort', () => {
+      stop();
+    });
+
+    return controller;
   },
 };

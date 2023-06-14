@@ -10,7 +10,18 @@ const command = async (cmd: string, options: Options) => {
   return new Promise<void>((resolve, reject) => {
     const child = cp.spawn(cmd, options);
     const rejected = false;
+
     child.on('error', reject);
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        if (rejected) {
+          return;
+        }
+        reject(new Error(`Process exited with code: ${code}`));
+      }
+    });
     child.on('exit', (code) => {
       if (code === 0) {
         resolve();
