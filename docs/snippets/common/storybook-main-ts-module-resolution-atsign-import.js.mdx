@@ -8,11 +8,11 @@ export default {
   framework: '@storybook/your-framework',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   webpackFinal: async (config) => {
-    if(config.resolve){
+    if (config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
-        '@' : path.resolve(__dirname, '../src')
-      }
+        '@': path.resolve(__dirname, '../src'),
+      };
     }
     return config;
   },

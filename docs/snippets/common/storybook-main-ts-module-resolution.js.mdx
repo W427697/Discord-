@@ -8,7 +8,7 @@ export default {
   framework: '@storybook/your-framework',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   webpackFinal: async (config) => {
-    if(config.resolve){
+    if (config.resolve) {
       config.resolve.plugins = [
         ...(config.resolve.plugins || []),
         new TsconfigPathsPlugin({
