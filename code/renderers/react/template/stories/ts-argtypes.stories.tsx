@@ -78,18 +78,26 @@ export const TsComponentProps = { parameters: { component: TsComponentPropsCompo
 
 export const TsJsdoc = { parameters: { component: TsJsdocComponent } };
 
+const addChromaticIgnore = async (element: HTMLElement) => {
+  const row = element.parentElement?.parentElement;
+  if (row?.nodeName === 'TR') {
+    row.setAttribute('data-chromatic', 'ignore');
+  } else {
+    throw new Error('the DOM structure changed, please update this test');
+  }
+};
+
 export const TsTypes: StoryObj = {
   parameters: { component: TsTypesComponent },
   play: async ({ canvasElement }) => {
-    // This play function's sole purpose is to add a "chromatic ignore" region to a flaky row.
+    // This play function's sole purpose is to add a "chromatic ignore" region to flaky rows.
     const canvas = within(canvasElement);
     const funcCell = await canvas.findByText('funcWithArgsAndReturns');
-    const funcRow = funcCell.parentElement?.parentElement;
-    if (funcRow?.nodeName === 'TR') {
-      funcRow.setAttribute('data-chromatic', 'ignore');
-    } else {
-      throw new Error('the DOM structure changed, please update this test');
-    }
+    addChromaticIgnore(funcCell);
+    const namedNumericCell = await canvas.findByText('namedNumericLiteralUnion');
+    addChromaticIgnore(namedNumericCell);
+    const inlinedNumericCell = await canvas.findByText('inlinedNumericLiteralUnion');
+    addChromaticIgnore(inlinedNumericCell);
   },
 };
 
