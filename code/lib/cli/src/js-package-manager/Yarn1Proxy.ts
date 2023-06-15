@@ -65,7 +65,7 @@ export class Yarn1Proxy extends JsPackageManager {
 
   public async getPackageJSON(
     packageName: string,
-    basePath = process.cwd()
+    basePath = this.cwd
   ): Promise<PackageJson | null> {
     const packageJsonPath = await findUpSync(
       (dir) => {
@@ -82,10 +82,7 @@ export class Yarn1Proxy extends JsPackageManager {
     return JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
   }
 
-  public async getPackageVersion(
-    packageName: string,
-    basePath = process.cwd()
-  ): Promise<string | null> {
+  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
     const packageJson = await this.getPackageJSON(packageName, basePath);
     return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
   }

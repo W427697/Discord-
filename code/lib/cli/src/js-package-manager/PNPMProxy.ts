@@ -111,7 +111,10 @@ export class PNPMProxy extends JsPackageManager {
     }
   }
 
-  public async getPackageJSON(packageName: string, basePath?: string): Promise<PackageJson | null> {
+  public async getPackageJSON(
+    packageName: string,
+    basePath = this.cwd
+  ): Promise<PackageJson | null> {
     const pnpapiPath = findUpSync(['.pnp.js', '.pnp.cjs'], { cwd: basePath });
 
     if (pnpapiPath) {
@@ -152,7 +155,7 @@ export class PNPMProxy extends JsPackageManager {
     return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
   }
 
-  async getPackageVersion(packageName: string, basePath = process.cwd()): Promise<string | null> {
+  async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
     const packageJSON = await this.getPackageJSON(packageName, basePath);
 
     return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;

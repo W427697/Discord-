@@ -73,7 +73,7 @@ export abstract class JsPackageManager {
   }
 
   constructor(options?: JsPackageManagerOptions) {
-    this.cwd = options?.cwd;
+    this.cwd = options?.cwd || process.cwd();
   }
 
   /**
@@ -97,7 +97,7 @@ export abstract class JsPackageManager {
   }
 
   packageJsonPath(): string {
-    return this.cwd ? path.resolve(this.cwd, 'package.json') : path.resolve('package.json');
+    return path.resolve(this.cwd, 'package.json');
   }
 
   async readPackageJson(): Promise<PackageJson> {
