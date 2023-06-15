@@ -43,8 +43,9 @@ addons.register('@storybook/addon-debugger', (api) => {
     ),
   });
   addons.add('@storybook/addon-debugger/panel', {
+    // TODO: I hacked it so title is the route this activates on
     title: '/debugger/',
-    type: types.MAIN,
+    type: types.experimental_MAIN,
     render: () => {
       console.log('render debugger');
       return <div>page content</div>;

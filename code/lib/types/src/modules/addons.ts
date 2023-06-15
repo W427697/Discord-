@@ -366,9 +366,9 @@ export enum Addon_TypesEnum {
   PREVIEW = 'preview',
   /**
    * This adds pages that render instead of the canvas.
-   * @unstable
+   * DO NOT USE
    */
-  MAIN = 'main',
+  experimental_MAIN = 'main',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.

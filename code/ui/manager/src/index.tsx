@@ -50,7 +50,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
             const panelCount = Object.keys(api.getElements(types.PANEL)).length;
             const mains: Page[] = [
               {
-                key: 'settings',
+                key: '/settings/',
                 render: () => <SettingsPages />,
                 route: ({ children }) => (
                   <Route path="/settings/" startsWith>
@@ -58,16 +58,15 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                   </Route>
                 ),
               },
-              ...Object.values(api.getElements(types.MAIN)).map<Page>((v) => {
+              ...Object.values(api.getElements(types.experimental_MAIN)).map<Page>((v) => {
                 return {
-                  key: v.id,
+                  key: (v.title as string) || v.id,
                   render: () => (
                     <>
                       <v.render active key={v.id} />
                     </>
                   ),
                   route: ({ children }) => {
-                    console.log({ v });
                     return (
                       <Route path={v.title as string} startsWith>
                         {children}

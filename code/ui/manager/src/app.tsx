@@ -1,10 +1,8 @@
-import type { FC } from 'react';
 import React, { useMemo } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
 import { type State } from '@storybook/manager-api';
 import { Symbols } from '@storybook/components';
-import { Route } from '@storybook/router';
 import { Global, createGlobal, styled } from '@storybook/theming';
 
 import type { Page } from './components/layout/mobile';
