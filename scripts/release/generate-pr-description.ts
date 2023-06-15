@@ -5,8 +5,9 @@ import { z } from 'zod';
 import dedent from 'ts-dedent';
 import { setOutput } from '@actions/core';
 import type { Change } from './utils/get-changes';
-import { getChanges, LABELS_BY_IMPORTANCE } from './utils/get-changes';
+import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';
+import type { PullRequestInfo } from './utils/get-github-info';
 
 program
   .name('generate-pr-description')
@@ -66,6 +67,11 @@ export const mapToChangelist = ({
         }
       }
       return true;
+    })
+    .sort((a, b) => {
+      const isReleasable = (pr: PullRequestInfo) =>
+        (pr.labels ?? []).some((label) => Object.keys(RELEASED_LABELS).includes(label));
+      return Number(isReleasable(b)) - Number(isReleasable(a));
     })
     .map((change) => {
       if (!change.pull) {
