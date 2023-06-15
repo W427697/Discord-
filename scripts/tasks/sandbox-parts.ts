@@ -372,10 +372,13 @@ export const addStories: Task['run'] = async (
   const storiesPath = await findFirstPath([join('src', 'stories'), 'stories'], { cwd });
 
   const mainConfig = await readMainConfig({ cwd });
+  const packageManager = JsPackageManagerFactory.getPackageManager({}, sandboxDir);
 
   // Ensure that we match the right stories in the stories directory
-  const packageJson = await import(join(cwd, 'package.json'));
-  updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
+  updateStoriesField(
+    mainConfig,
+    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT
+  );
 
   const isCoreRenderer =
     template.expected.renderer.startsWith('@storybook/') &&
