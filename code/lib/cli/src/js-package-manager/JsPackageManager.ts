@@ -243,7 +243,7 @@ export abstract class JsPackageManager {
    *   `@storybook/addon-actions`,
    * ]);
    */
-  public removeDependencies(
+  public async removeDependencies(
     options: {
       skipInstall?: boolean;
       packageJson?: PackageJson;
@@ -264,15 +264,15 @@ export abstract class JsPackageManager {
         }
       });
 
-      return this.writePackageJson(packageJson);
-    }
-
-    try {
-      return this.runRemoveDeps(dependencies);
-    } catch (e) {
-      logger.error('An error occurred while removing dependencies.');
-      logger.log(e.message);
-      throw new HandledError(e);
+      await this.writePackageJson(packageJson);
+    } else {
+      try {
+        await this.runRemoveDeps(dependencies);
+      } catch (e) {
+        logger.error('An error occurred while removing dependencies.');
+        logger.log(e.message);
+        throw new HandledError(e);
+      }
     }
   }
 
