@@ -49,7 +49,7 @@ const options = {
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [
     { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
-    { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
+    { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
   ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
