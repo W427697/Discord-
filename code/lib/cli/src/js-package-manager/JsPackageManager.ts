@@ -249,7 +249,7 @@ export abstract class JsPackageManager {
       packageJson?: PackageJson;
     },
     dependencies: string[]
-  ): void {
+  ): Promise<void> {
     const { skipInstall } = options;
 
     if (skipInstall) {
@@ -264,15 +264,15 @@ export abstract class JsPackageManager {
         }
       });
 
-      this.writePackageJson(packageJson);
-    } else {
-      try {
-        this.runRemoveDeps(dependencies);
-      } catch (e) {
-        logger.error('An error occurred while removing dependencies.');
-        logger.log(e.message);
-        throw new HandledError(e);
-      }
+      return this.writePackageJson(packageJson);
+    }
+
+    try {
+      return this.runRemoveDeps(dependencies);
+    } catch (e) {
+      logger.error('An error occurred while removing dependencies.');
+      logger.log(e.message);
+      throw new HandledError(e);
     }
   }
 
