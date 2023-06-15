@@ -32,7 +32,6 @@ const Desktop = Object.assign(
     height = 0,
     panelCount,
   }) {
-    console.log({ pages });
     return (
       <Fragment>
         <Notifications
