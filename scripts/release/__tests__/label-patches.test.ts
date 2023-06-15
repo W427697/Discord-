@@ -118,6 +118,7 @@ test('it should label the PR associated with cheery picks in the current branch'
         ? text
             .replace(ansiRegex(), '')
             .replace(/[^\x20-\x7E]/g, '')
+            .replaceAll('-', '')
             .trim()
         : text
     )
