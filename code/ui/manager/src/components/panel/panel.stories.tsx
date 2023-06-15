@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Badge, Spaced } from '@storybook/components';
+import { Badge, Icons, Spaced } from '@storybook/components';
 import Panel from './panel';
 import { panels, shortcuts } from '../layout/app.mockdata';
 
@@ -45,8 +45,24 @@ export const JSXTitles = () => {
           title: () => (
             <div>
               <Spaced col={1}>
-                <div style={{ display: 'inline-block' }}>Test 1</div>
+                <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>Test 1</div>
                 <Badge status="critical">4</Badge>
+              </Spaced>
+            </div>
+          ),
+          render: ({ active, key }) =>
+            active ? (
+              <div id="test1" key={key}>
+                TEST with label
+              </div>
+            ) : null,
+        },
+        'function-jsx-icon': {
+          title: () => (
+            <div>
+              <Spaced col={1}>
+                <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>Alert!</div>
+                <Icons icon="bell" />
               </Spaced>
             </div>
           ),
