@@ -49,6 +49,7 @@ const CHANGE_TITLES_TO_IGNORE = [
   /^merge branch.*/i,
   /\[skip ci\]/i,
   /\[ci skip\]/i,
+  /^Update CHANGELOG\.md for.*/i,
 ];
 
 export const mapToChangelist = ({
