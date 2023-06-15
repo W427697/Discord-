@@ -7273,7 +7273,6 @@ __metadata:
     node-gyp: ^9.3.1
     nx: 16.2.1
     nx-cloud: 16.0.5
-    playwright-core: ^1.35.0
     prettier: 2.8.0
     process: ^0.11.10
     raf: ^3.4.1
@@ -7601,12 +7600,12 @@ __metadata:
     "@vitejs/plugin-vue": ^4.0.0
     magic-string: ^0.30.0
     typescript: ~4.9.3
+    vite: ^4.0.0
     vue-docgen-api: ^4.40.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vite: ^3.0.0 || ^4.0.0
-    vue: ^3.3.0
   languageName: unknown
   linkType: soft
 
@@ -7648,11 +7647,12 @@ __metadata:
     lodash: ^4.17.21
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
-    typescript: ^5.0.0
+    typescript: ~4.9.3
+    vue: ^3.2.47
     vue-component-type-helpers: latest
     vue-tsc: latest
   peerDependencies:
-    lodash: "*"
+    "@vue/compiler-core": ^3.0.0
     vue: ^3.0.0
   languageName: unknown
   linkType: soft
@@ -29587,7 +29587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.0.0, typescript@npm:^5.0.3, typescript@npm:^5.0.4":
+"typescript@npm:^5.0.3, typescript@npm:^5.0.4":
   version: 5.1.3
   resolution: "typescript@npm:5.1.3"
   bin:
@@ -29617,7 +29617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.0.0#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@^5.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>":
   version: 5.1.3
   resolution: "typescript@patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=77c9e2"
   bin:
@@ -30721,7 +30721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.33":
+"vue@npm:^3.2.33, vue@npm:^3.2.47":
   version: 3.3.4
   resolution: "vue@npm:3.3.4"
   dependencies:

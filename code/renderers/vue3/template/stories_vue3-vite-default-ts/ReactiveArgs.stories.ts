@@ -69,28 +69,21 @@ export const ReactiveHtmlWrapper: Story = {
     await new Promise((resolve) => {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
-    await expect(canvas.getByTestId('header-slot').innerText).toContain(
-      'Header title from the slot'
-    );
-    await expect(canvas.getByTestId('default-slot').innerText).toContain('Default Text Slot');
-    await expect(canvas.getByTestId('footer-slot').innerText).toContain('Footer VNode Slot');
+    const reactiveButton = await canvas.getByRole('button');
+    await expect(reactiveButton).toHaveTextContent('Wrapped Button 0');
 
+    await userEvent.click(reactiveButton); // click to update the label to increment the count + 1
     await channel.emit(UPDATE_STORY_ARGS, {
       storyId: id,
-      updatedArgs: {
-        default: () => 'Default Text Slot Updated',
-        footer: () => h('p', 'Footer VNode Slot Updated'),
-      },
+      updatedArgs: { label: 'updated Wrapped Button' },
     });
     await new Promise((resolve) => {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
-    await expect(canvas.getByTestId('default-slot').innerText).toContain(
-      'Default Text Slot Updated'
-    );
-    await expect(canvas.getByTestId('footer-slot').innerText).toContain(
-      'Footer VNode Slot Updated'
-    );
+    await expect(canvas.getByRole('button')).toHaveTextContent('updated Wrapped Button 1');
+
+    await userEvent.click(reactiveButton); // click to update the label to increment the count + 1
+    await expect(reactiveButton).toHaveTextContent('updated Wrapped Button 2');
   },
 };
 

@@ -30,31 +30,15 @@ defineProps<{ label: string }>();
 </template>
 
 <style>
+header,
 footer {
   background-color: #fff0ff;
   padding: 20px;
 }
 
-h3,
-wrapper {
-
-  font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular", "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif
-}
-
 main,
 #content {
-  background-color: #f8d4ae;
+  background-color: #f0f0f0;
   padding: 20px;
-}
-
-h3,
-h4 {
-  color: black;
-  padding: 5px 20px;
-}
-
-slot {
-  border: 1px solid black;
-  color: gray;
 }
 </style>
