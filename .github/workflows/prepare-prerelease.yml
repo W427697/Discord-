@@ -147,6 +147,7 @@ jobs:
             gh pr create \
               --repo "${{github.repository }}"\
               --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
+              --label "maintenance" \
               --base next-release \
               --head version-prerelease-from-${{ steps.bump-version.outputs.current-version }} \
               --body "${{ steps.description.outputs.description }}"
