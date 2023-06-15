@@ -65,6 +65,8 @@
     "@storybook/telemetry": "7.1.0-alpha.35",
     "@storybook/types": "7.1.0-alpha.35",
     "@types/semver": "^7.3.4",
+    "@yarnpkg/fslib": "^2.10.3",
+    "@yarnpkg/libzip": "^2.3.0",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
     "cross-spawn": "^7.0.3",

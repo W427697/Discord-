@@ -6022,6 +6022,8 @@ __metadata:
     "@types/puppeteer-core": ^2.1.0
     "@types/semver": ^7.3.4
     "@types/util-deprecate": ^1.0.0
+    "@yarnpkg/fslib": ^2.10.3
+    "@yarnpkg/libzip": ^2.3.0
     boxen: ^5.1.2
     chalk: ^4.1.0
     commander: ^6.2.1
@@ -8253,6 +8255,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/emscripten@npm:^1.39.6":
+  version: 1.39.6
+  resolution: "@types/emscripten@npm:1.39.6"
+  checksum: cb1ea8ccddada1d304bdf11a54daa0d1e87f29cea947eceff54c1e0a752d2cc185eeffdcf52042f24420aa8e1fa9bbfdbab1231fb2531eefcfdc788199fee2de
+  languageName: node
+  linkType: hard
+
 "@types/escodegen@npm:^0.0.6":
   version: 0.0.6
   resolution: "@types/escodegen@npm:0.0.6"
@@ -9782,6 +9791,26 @@ __metadata:
   peerDependencies:
     esbuild: ">=0.10.0"
   checksum: 5095bc316862971add31ca1fadb0095b6ad15f25120f6ab3a06086bb6a7be93c2f3c45bff80d5976689fc89b0e9bf82bd3d410e205c852739874d32d050c4e57
+  languageName: node
+  linkType: hard
+
+"@yarnpkg/fslib@npm:^2.10.3":
+  version: 2.10.3
+  resolution: "@yarnpkg/fslib@npm:2.10.3"
+  dependencies:
+    "@yarnpkg/libzip": ^2.3.0
+    tslib: ^1.13.0
+  checksum: c4fbbed99e801f17c381204e9699d9ea4fb51b14e99968985f477bdbc7b02b61e026860173f3f46bd60d9f46ae6a06f420a3edb3c02c3a45ae83779095928094
+  languageName: node
+  linkType: hard
+
+"@yarnpkg/libzip@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@yarnpkg/libzip@npm:2.3.0"
+  dependencies:
+    "@types/emscripten": ^1.39.6
+    tslib: ^1.13.0
+  checksum: 0c2361ccb002e28463ed98541f3bdaab54f52aad6a2080666c2a9ea605ebd9cdfb7b0340b1db6f105820d05bcb803cdfb3ce755a8f6034657298c291bf884f81
   languageName: node
   linkType: hard
 
@@ -29459,7 +29488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.10.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
+"tslib@npm:^1.10.0, tslib@npm:^1.13.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: 69ae09c49eea644bc5ebe1bca4fa4cc2c82b7b3e02f43b84bd891504edf66dbc6b2ec0eef31a957042de2269139e4acff911e6d186a258fb14069cd7f6febce2
