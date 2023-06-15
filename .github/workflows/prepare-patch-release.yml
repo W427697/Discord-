@@ -144,8 +144,8 @@ jobs:
             gh pr create \
               --repo "${{github.repository }}" \
               --title "Release: Patch ${{ steps.versions.outputs.next }}" \
+              --label "maintenance" \
               --base latest-release \
-              --label "maintenance"
               --head version-patch-from-${{ steps.versions.outputs.current }} \
               --body "${{ steps.description.outputs.description }}"
           fi
@@ -164,8 +164,8 @@ jobs:
             gh pr create \
               --repo "${{github.repository }}"\
               --title "Release: Merge patches to \`main\` (without version bump)" \
-              --base latest-release \
               --label "build" \
+              --base latest-release \
               --head version-patch-from-${{ steps.versions.outputs.current }} \
               --body "${{ steps.description.outputs.description }}"
           fi
