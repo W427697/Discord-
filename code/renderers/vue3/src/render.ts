@@ -15,7 +15,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return h(Component, props, generateSlots(context));
+  return h(Component, props, createOrUpdateSlots(context));
 };
 
 // set of setup functions that will be called when story is created
@@ -125,6 +125,26 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   });
   // update currentArgs with nextArgs
   Object.assign(currentArgs, cloneDeep(nextArgs));
+}
+
+const slotsMap = new Map<
+  StoryID,
+  {
+    component?: Omit<ConcreteComponent<any>, 'props'>;
+    reactiveSlots?: Args;
+  }
+>();
+
+function createOrUpdateSlots(context: StoryContext<VueRenderer, Args>) {
+  const { id: storyID, component } = context;
+  const slots = generateSlots(context);
+  if (slotsMap.has(storyID)) {
+    const app = slotsMap.get(storyID);
+    if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
+    return app?.reactiveSlots;
+  }
+  slotsMap.set(storyID, { component, reactiveSlots: slots });
+  return slots;
 }
 
 /**
