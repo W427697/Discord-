@@ -93,17 +93,37 @@ export class AddonStore {
     return this.elements[type];
   };
 
-  addPanel = (name: string, options: Addon_Type): void => {
-    this.add(name, {
+  /**
+   * Adds a panel to the addon store.
+   * @param {string} id - The id of the panel.
+   * @param {Addon_Type} options - The options for the panel.
+   * @returns {void}
+   *
+   * @deprecated Use the 'add' method instead.
+   * @example
+   * addons.add('My Panel', {
+   *   title: 'My Title',
+   *   type: types.PANEL,
+   *   render: () => <div>My Content</div>,
+   * });
+   */
+  addPanel = (id: string, options: Addon_Type): void => {
+    this.add(id, {
       type: Addon_TypesEnum.PANEL,
       ...options,
     });
   };
 
-  add = (name: string, addon: Addon_Type) => {
+  /**
+   * Adds an addon to the addon store.
+   * @param {string} id - The id of the addon.
+   * @param {Addon_Type} addon - The addon to add.
+   * @returns {void}
+   */
+  add = (id: string, addon: Addon_Type) => {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[name] = { id: name, ...addon };
+    collection[id] = { id, ...addon };
   };
 
   setConfig = (value: Addon_Config) => {
@@ -119,11 +139,18 @@ export class AddonStore {
 
   getConfig = () => this.config;
 
-  register = (name: string, registerCallback: (api: API) => void): void => {
-    if (this.loaders[name]) {
-      logger.warn(`${name} was loaded twice, this could have bad side-effects`);
+  /**
+   * Registers an addon loader function.
+   *
+   * @param {string} id - The id of the addon loader.
+   * @param {(api: API) => void} callback - The function that will be called to register the addon.
+   * @returns {void}
+   */
+  register = (id: string, callback: (api: API) => void): void => {
+    if (this.loaders[id]) {
+      logger.warn(`${id} was loaded twice, this could have bad side-effects`);
     }
-    this.loaders[name] = registerCallback;
+    this.loaders[id] = callback;
   };
 
   loadAddons = (api: any) => {

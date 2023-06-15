@@ -342,11 +342,36 @@ export interface Addon_Config {
 }
 
 export enum Addon_TypesEnum {
+  /**
+   * This API is used to create a tab the toolbar above the canvas, This API might be removed in the future.
+   * @unstable
+   */
   TAB = 'tab',
+  /**
+   * This adds panels to the addons side panel.
+   */
   PANEL = 'panel',
+  /**
+   * This adds items in the toolbar above the canvas - on the right side.
+   */
   TOOL = 'tool',
+  /**
+   * This adds items in the toolbar above the canvas - on the right side.
+   */
   TOOLEXTRA = 'toolextra',
+  /**
+   * This adds wrapper components around the canvas/iframe component storybook renders.
+   * @unstable
+   */
   PREVIEW = 'preview',
+  /**
+   * This adds pages that render instead of the canvas.
+   * @unstable
+   */
   MAIN = 'main',
+
+  /**
+   * @deprecated This property does nothing, and will be removed in Storybook 8.0.
+   */
   NOTES_ELEMENT = 'notes-element',
 }

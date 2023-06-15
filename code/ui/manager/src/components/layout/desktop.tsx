@@ -35,7 +35,6 @@ const Desktop = Object.assign(
     height = 0,
     panelCount,
   }) {
-    console.log({ pages });
     return (
       <Fragment>
         <Notifications
@@ -58,7 +57,7 @@ const Desktop = Object.assign(
                   <Sidebar />
                 </S.Sidebar>
                 <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
-                  <Route path={/story|docs/} hideOnly>
+                  <Route path={/^\/story|docs\//} hideOnly>
                     <S.Preview {...previewProps} hidden={false}>
                       <Preview id="main" />
                     </S.Preview>

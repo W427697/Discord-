@@ -15,8 +15,6 @@ import Preview from './containers/preview';
 import Panel from './containers/panel';
 import Notifications from './containers/notifications';
 
-import SettingsPages from './settings';
-
 const View = styled.div({
   position: 'fixed',
   overflow: 'hidden',
@@ -48,25 +46,7 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, mains }) => {
   if (!width || !height) {
     content = <div />;
   } else if (width < 600) {
-    content = (
-      <Mobile
-        {...props}
-        viewMode={viewMode}
-        options={layout}
-        pages={[
-          ...mains,
-          {
-            key: 'settings',
-            render: () => <SettingsPages />,
-            route: (({ children }) => (
-              <Route path="/settings/" startsWith>
-                {children}
-              </Route>
-            )) as FC,
-          },
-        ]}
-      />
-    );
+    content = <Mobile {...props} viewMode={viewMode} options={layout} pages={mains} />;
   } else {
     content = (
       <Desktop
@@ -76,18 +56,7 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, mains }) => {
         width={width}
         height={height}
         panelCount={panelCount}
-        pages={[
-          ...mains,
-          {
-            key: 'settings',
-            render: () => <SettingsPages />,
-            route: (({ children }) => (
-              <Route path="/settings/" startsWith>
-                {children}
-              </Route>
-            )) as FC,
-          },
-        ]}
+        pages={mains}
       />
     );
   }

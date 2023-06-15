@@ -16,7 +16,6 @@ interface MatchingData {
 interface LocationProps {
   children: (renderData: RenderData) => any;
 }
-type MatchProps = MatchPropsStartsWith | MatchPropsDefault;
 
 interface MatchPropsStartsWith {
   path: string;
@@ -29,10 +28,9 @@ interface MatchPropsDefault {
   children: (matchingData: MatchingData) => ReactNode;
 }
 
-type RouteProps = RoutePropsStartsWith | RoutePropsDefault;
 interface RoutePropsStartsWith {
   path: string;
-  startsWith?: true;
+  startsWith: true;
   hideOnly?: boolean;
   children: ReactNode;
 }
@@ -42,6 +40,12 @@ interface RoutePropsDefault {
   hideOnly?: boolean;
   children: ReactNode;
 }
+
+const isRoutePropsDefault = (
+  props: RoutePropsDefault | RoutePropsStartsWith
+): props is RoutePropsDefault => {
+  return !props.startsWith;
+};
 
 const getBase = () => `${document.location.pathname}?`;
 
@@ -124,14 +128,20 @@ Match.displayName = 'QueryMatch';
 // A component to conditionally render children based on matching a target path
 function Route(props: RoutePropsDefault): ReactElement;
 function Route(props: RoutePropsStartsWith): ReactElement;
-function Route({
-  path,
-  children,
-  startsWith = false,
-  hideOnly = false,
-}: RoutePropsDefault | RoutePropsStartsWith) {
+function Route(input: RoutePropsDefault | RoutePropsStartsWith) {
+  let propsA: RoutePropsStartsWith = input as RoutePropsStartsWith;
+  let propsB: RoutePropsDefault = input as RoutePropsDefault;
+
+  if (isRoutePropsDefault(input)) {
+    propsB = { ...input };
+    propsB.startsWith = false;
+  } else {
+    propsA = input;
+  }
+
+  const { children, hideOnly = false } = propsA || propsB;
   return (
-    <Match path={path} startsWith={!!startsWith}>
+    <Match {...(propsA || propsB)}>
       {({ match }) => {
         if (hideOnly) {
           return <ToggleVisibility hidden={!match}>{children}</ToggleVisibility>;

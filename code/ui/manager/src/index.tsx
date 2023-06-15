@@ -11,6 +11,7 @@ import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { HelmetProvider } from 'react-helmet-async';
 
 import App from './app';
+import SettingsPages from './settings';
 
 import Provider from './provider';
 import type { Page } from './components/layout/mobile';
@@ -47,28 +48,36 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
         >
           {({ state, api }: Combo) => {
             const panelCount = Object.keys(api.getElements(types.PANEL)).length;
-            const mains = Object.values(api.getElements(types.MAIN)).map((v) => {
-              const out: Page = {
-                key: v.id,
-                render: () => (
-                  <>
-                    <v.render active key={v.id} />
-                  </>
+            const mains: Page[] = [
+              {
+                key: 'settings',
+                render: () => <SettingsPages />,
+                route: ({ children }) => (
+                  <Route path="/settings/" startsWith>
+                    {children}
+                  </Route>
                 ),
-                route: (({ children }) => {
-                  console.log({ v });
-                  return (
-                    <Route path={v.title as string} startsWith>
-                      {children}
-                    </Route>
-                  );
-                }) as FC,
-              };
+              },
+              ...Object.values(api.getElements(types.MAIN)).map<Page>((v) => {
+                return {
+                  key: v.id,
+                  render: () => (
+                    <>
+                      <v.render active key={v.id} />
+                    </>
+                  ),
+                  route: ({ children }) => {
+                    console.log({ v });
+                    return (
+                      <Route path={v.title as string} startsWith>
+                        {children}
+                      </Route>
+                    );
+                  },
+                };
+              }),
+            ];
 
-              return out;
-            });
-
-            console.log({ mains });
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story
               ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
