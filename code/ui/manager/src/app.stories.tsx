@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { API } from '@storybook/manager-api';
 import { Consumer, Provider as ManagerProvider } from '@storybook/manager-api';
-import { LocationProvider } from '@storybook/router';
+import { BaseLocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
 import App from './app';
@@ -12,25 +12,26 @@ export default {
   component: App,
   parameters: {
     layout: 'fullscreen',
+    theme: 'light',
   },
   decorators: [
     (StoryFn: any) => (
       <HelmetProvider key="helmet.Provider">
-        <LocationProvider>
-          <ThemeStack>
+        <BaseLocationProvider location="/?path=/story/my-id" navigator={{} as any}>
+          <Background>
             <StoryFn />
-          </ThemeStack>
-        </LocationProvider>
+          </Background>
+        </BaseLocationProvider>
       </HelmetProvider>
     ),
   ],
 };
 
-const ThemeStack = styled.div(
+const Background = styled.div(
   {
     position: 'relative',
-    minHeight: '50vh',
-    height: '100%',
+    minHeight: '100vh',
+    height: '100vw',
   },
   ({ theme }) => ({
     background: theme.background.app,
@@ -68,6 +69,7 @@ export const Default = () => {
           showPanel: true,
           showTabs: true,
         }}
+        mains={[]}
         panelCount={0}
       />
     </ManagerProvider>
@@ -96,7 +98,13 @@ export const LoadingState = () => (
         showPanel: true,
         showTabs: true,
       }}
+      mains={[]}
       panelCount={0}
     />
   </ManagerProvider>
 );
+
+export const Dark = () => LoadingState();
+Dark.parameters = {
+  theme: 'dark',
+};

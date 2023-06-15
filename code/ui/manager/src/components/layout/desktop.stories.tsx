@@ -3,6 +3,7 @@ import type { DecoratorFn } from '@storybook/react';
 
 import isChromatic from 'chromatic/isChromatic';
 
+import { BaseLocationProvider } from '@storybook/router';
 import type { DesktopProps } from './desktop';
 import { Desktop } from './desktop';
 
@@ -12,7 +13,25 @@ import { mockProps, realProps, MockPage } from './app.mockdata';
 export default {
   title: 'Layout/Desktop',
   component: Desktop,
-  parameters: { passArgsFirst: false },
+  parameters: {
+    passArgsFirst: false,
+    path: 'story/my-id',
+    layout: 'fullscreen',
+    viewport: {
+      viewports: {
+        tablet: {
+          name: 'Tablet',
+          styles: {
+            height: '1112px',
+            width: '834px',
+          },
+          type: 'tablet',
+        },
+      },
+      defaultViewport: 'tablet',
+      defaultOrientation: 'landscape',
+    },
+  },
   decorators: [
     ((StoryFn, c) => {
       const mocked = true;
@@ -24,9 +43,11 @@ export default {
       const props = mocked ? mockProps : realProps;
 
       return (
-        <div style={{ minHeight: 900, minWidth: 1200 }}>
-          <StoryFn props={props} {...c} />;
-        </div>
+        <BaseLocationProvider location={`/?path=/${c.parameters.path}`} navigator={{} as any}>
+          <div style={{ height: '100vh', width: '100vw', position: 'absolute', top: 0, left: 0 }}>
+            <StoryFn props={props} {...c} />
+          </div>
+        </BaseLocationProvider>
       );
     }) as DecoratorFn,
   ],
@@ -56,11 +77,11 @@ export const Page = ({ props }: { props: DesktopProps }) => (
     {...props}
     pages={[
       {
-        key: 'settings',
+        key: '/settings/',
         route: ({ children }) => <Fragment>{children}</Fragment>,
         render: () => <MockPage />,
       },
     ]}
-    viewMode="settings"
   />
 );
+Page.parameters = { path: '/settings/' };

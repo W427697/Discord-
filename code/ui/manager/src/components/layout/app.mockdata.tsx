@@ -162,8 +162,8 @@ export const mockProps: DesktopProps = {
   },
   viewMode: 'story',
   panelCount: 2,
-  width: 900,
-  height: 600,
+  width: 1112,
+  height: 834,
 };
 
 export const realProps: DesktopProps = {

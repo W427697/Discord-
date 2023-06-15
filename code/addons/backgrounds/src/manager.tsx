@@ -25,7 +25,7 @@ addons.register(ADDON_ID, () => {
 
 // TODO: remove after API is completed
 
-export const Toolbar = styled(
+const Toolbar = styled(
   ({ shown = true, ...props }: ComponentProps<typeof Bar> & { shown: boolean }) => (
     <Bar {...props} />
   )
@@ -41,7 +41,7 @@ export const Toolbar = styled(
     transform: shown ? 'translateY(0px)' : 'translateY(-40px)',
   })
 );
-export const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
+const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
   position: 'absolute',
   overflow: 'auto',
   left: 0,
@@ -53,7 +53,7 @@ export const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
   height: `calc(100% - ${offset}px)`,
   background: 'transparent',
 }));
-export const Centered = styled.div({
+const Centered = styled.div({
   position: 'relative',
 
   width: '100%',

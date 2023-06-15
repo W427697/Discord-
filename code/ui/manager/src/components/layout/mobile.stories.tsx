@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { ActiveTabs } from '@storybook/manager-api';
 import type { DecoratorFn } from '@storybook/react';
 
+import { BaseLocationProvider } from '@storybook/router';
 import type { MobileProps } from './mobile';
 import { Mobile } from './mobile';
 
@@ -10,16 +11,38 @@ import { mockProps, realProps, MockPage } from './app.mockdata';
 export default {
   title: 'Layout/Mobile',
   component: Mobile,
-  parameters: { passArgsFirst: false },
+  parameters: {
+    passArgsFirst: false,
+    path: 'story/my-id',
+    layout: 'fullscreen',
+    viewport: {
+      viewports: {
+        mobile1: {
+          name: 'Small mobile',
+          styles: {
+            height: '568px',
+            width: '320px',
+          },
+          type: 'mobile',
+        },
+      },
+      defaultViewport: 'mobile1',
+      defaultOrientation: 'portrait',
+    },
+  },
   decorators: [
-    ((storyFn, c) => {
+    ((StoryFn, c) => {
       const mocked = true;
 
-      const props = {
-        ...(mocked ? mockProps : realProps),
-      };
+      const props = mocked ? mockProps : realProps;
 
-      return storyFn({ props, ...c });
+      return (
+        <BaseLocationProvider location={`/?path=/${c.parameters.path}`} navigator={{} as any}>
+          <div style={{ height: '100vh', width: '100vw', position: 'absolute', top: 0, left: 0 }}>
+            <StoryFn props={props} {...c} />
+          </div>
+        </BaseLocationProvider>
+      );
     }) as DecoratorFn,
   ],
 };
@@ -50,7 +73,7 @@ export const Page = ({ props }: { props: MobileProps }) => (
     options={{ ...props.options, initialActive: ActiveTabs.CANVAS }}
     pages={[
       {
-        key: 'settings',
+        key: '/settings/',
         route: ({ children }) => <Fragment>{children}</Fragment>,
         render: () => <MockPage />,
       },
@@ -58,3 +81,6 @@ export const Page = ({ props }: { props: MobileProps }) => (
     viewMode="settings"
   />
 );
+Page.parameters = {
+  path: '/settings/',
+};

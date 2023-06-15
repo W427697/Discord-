@@ -1,9 +1,10 @@
-import type { ComponentType, FC } from 'react';
+import type { ComponentType } from 'react';
 import React, { Fragment } from 'react';
 
 import type { State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
 import * as S from './container';
+import type { Page } from './mobile';
 
 export interface DesktopProps {
   width: number;
@@ -13,11 +14,7 @@ export interface DesktopProps {
   Preview: ComponentType<any>;
   Panel: ComponentType<any>;
   Notifications: ComponentType<any>;
-  pages: {
-    key: string;
-    route: FC;
-    render: ComponentType;
-  }[];
+  pages: Page[];
   options: State['layout'];
   viewMode: string;
 }
@@ -35,6 +32,7 @@ const Desktop = Object.assign(
     height = 0,
     panelCount,
   }) {
+    console.log({ pages });
     return (
       <Fragment>
         <Notifications
