@@ -52,10 +52,10 @@ const CHANGE_TITLES_TO_IGNORE = [
 
 export const mapToChangelist = ({
   changes,
-  isRelease,
+  unpickedPatches,
 }: {
   changes: Change[];
-  isRelease: boolean;
+  unpickedPatches: boolean;
 }): string => {
   return changes
     .filter((change) => {
@@ -68,13 +68,8 @@ export const mapToChangelist = ({
       return true;
     })
     .map((change) => {
-      const lines: string[] = [];
       if (!change.pull) {
-        lines.push(`- **⚠️ Direct commit**: ${change.title} ${change.links.commit}`);
-        if (isRelease) {
-          lines.push('\t- [ ] The change is appropriate for the version bump');
-        }
-        return lines.join('\n');
+        return `- [ ] **⚠️ Direct commit**: ${change.title} ${change.links.commit}`;
       }
 
       const label = (change.labels
@@ -85,14 +80,9 @@ export const mapToChangelist = ({
             Object.keys(LABELS_BY_IMPORTANCE).indexOf(b)
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
-      lines.push(`- **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}`);
-
-      if (isRelease) {
-        lines.push('\t- [ ] The change is appropriate for the version bump');
-        lines.push('\t- [ ] The PR is labeled correctly');
-        lines.push('\t- [ ] The PR title is correct');
-      }
-      return lines.join('\n');
+      return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
+        !unpickedPatches && change.labels.includes('patch') ? ' (will also be patched)' : ''
+      }`;
     })
     .join('\n');
 };
@@ -171,10 +161,10 @@ export const generateReleaseDescription = ({
   ${manualCherryPicks || ''}
 
   If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
-  
+
   When everything above is done:
-  - [ ] Merge this PR
-  - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
+  - Merge this PR
+  - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
   
   ---
   
@@ -206,8 +196,8 @@ export const generateNonReleaseDescription = (
   If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
   
   When everything above is done:
-  - [ ] Merge this PR
-  - [ ] [Approve the publish workflow run](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`
+  - Merge this PR
+  - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`
       // don't mention contributors in the release PR, to avoid spamming them
       .replaceAll('[@', '[@ ')
       .replaceAll('"', '\\"')
@@ -248,7 +238,7 @@ export const run = async (rawOptions: unknown) => {
     ? generateReleaseDescription({
         currentVersion,
         nextVersion,
-        changeList: mapToChangelist({ changes, isRelease: true }),
+        changeList: mapToChangelist({ changes, unpickedPatches }),
         changelogText,
         ...(hasCherryPicks && {
           manualCherryPicks: mapCherryPicksToTodo({
@@ -259,7 +249,7 @@ export const run = async (rawOptions: unknown) => {
         }),
       })
     : generateNonReleaseDescription(
-        mapToChangelist({ changes, isRelease: false }),
+        mapToChangelist({ changes, unpickedPatches }),
         hasCherryPicks
           ? mapCherryPicksToTodo({
               commits: manualCherryPicks,
