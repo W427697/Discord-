@@ -20,7 +20,7 @@ addons.register(ADDON_ID, (api) => {
       const violationsNb = addonState?.violations?.length || 0;
       const incompleteNb = addonState?.incomplete?.length || 0;
       const totalNb = violationsNb + incompleteNb;
-      return <span>{totalNb !== 0 ? `Accessibility (${totalNb})` : 'Accessibility'}</span>;
+      return totalNb !== 0 ? `Accessibility (${totalNb})` : 'Accessibility';
     },
     id: 'accessibility',
     type: types.PANEL,
