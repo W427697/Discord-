@@ -13,6 +13,7 @@ import {
   userEvent,
 } from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
+import type { ChildrenList } from './tabs.helpers';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
   Math.floor((1 / 15) * i * 16777215)
@@ -41,13 +42,7 @@ function fibonacci(num: number, memo?: FibonacciMap): number {
   /* eslint-enable no-param-reassign */
 }
 
-interface Panels {
-  [key: string]: {
-    title: string;
-    color?: string;
-    render: ({ active, key }: { active: boolean; key: Key }) => JSX.Element;
-  };
-}
+type Panels = Record<string, Omit<ChildrenList[0], 'id'>>;
 
 const panels: Panels = {
   test1: {
@@ -121,7 +116,7 @@ const panels: Panels = {
 const onSelect = action('onSelect');
 
 const content = Object.entries(panels).map(([k, v]) => (
-  <div key={k} id={k} title={v.title}>
+  <div key={k} id={k} title={v.title as any}>
     {v.render}
   </div>
 ));
@@ -243,7 +238,7 @@ export const StatefulDynamicWithOpenTooltip = {
   render: (args) => (
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
-        <div key={k} id={k} title={v.title}>
+        <div key={k} id={k} title={v.title as any}>
           {v.render}
         </div>
       ))}
@@ -273,7 +268,7 @@ export const StatefulDynamicWithSelectedAddon = {
   render: (args) => (
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
-        <div key={k} id={k} title={v.title}>
+        <div key={k} id={k} title={v.title as any}>
           {v.render}
         </div>
       ))}

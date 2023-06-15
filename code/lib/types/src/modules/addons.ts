@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import type { FC, ReactElement, ReactNode } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
@@ -301,6 +302,9 @@ export interface Addon_RenderOptions {
   key?: string;
 }
 
+/**
+ * @deprecated This type is deprecated and will be removed in 8.0.
+ */
 export type ReactJSXElement = {
   type: any;
   props: any;
@@ -308,12 +312,12 @@ export type ReactJSXElement = {
 };
 
 export interface Addon_Type {
-  title: (() => string) | string | ReactJSXElement;
+  title: FC | string | ReactElement | ReactNode;
   type?: Addon_Types;
   id?: string;
   route?: (routeOptions: RouterData) => string;
   match?: (matchOptions: RouterData) => boolean;
-  render: (renderOptions: Addon_RenderOptions) => any | null;
+  render: FC<Addon_RenderOptions>;
   paramKey?: string;
   disabled?: boolean;
   hidden?: boolean;
