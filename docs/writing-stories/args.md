@@ -211,37 +211,16 @@ Args specified through the URL will extend and override any default values of ar
 
 Components with interactivity often need their containing component, or page, to respond to events, modify their state, then pass a changed arg back to the rendered component to reflect the change. For example, you would want a Switch component to be checked by a user and the arg shown in Storybook to reflect the change. This can be accomplished by using the `useArgs` hook exported by `@storybook/preview-api`:
 
-```ts
-// my-component/component.stories.tsx
+<!-- prettier-ignore-start -->
 
-import { StoryObj, Meta } from "@storybook/react";
-import { useArgs } from "@storybook/preview-api";
-import { Switch } from ".";
+<CodeSnippets
+  paths={[
+    'react/this-pr-example-snippet.js.mdx',
+    'react/page-story-args-within-story.ts.mdx',
+  ]}
+/>
 
-const meta: Meta<typeof Switch> = {
-    title: "Inputs/Switch",
-    component: Switch
-};
-export default meta;
-
-type Story = StoryObj<typeof Switch>;
-
-export const Example = {    
-    args: {
-        isChecked: false,
-        label: "Switch Me!"
-    },
-    render: function Render(args) {      
-      const [{ isChecked }, updateArgs] = UseArgs();
-
-      function onChange() {
-          updateArgs({ isChecked: !isChecked });
-      }
-
-      return <Switch {...args} onChange={onChange} isChecked={isChecked} />;
-    }
-};
-```
+<!-- prettier-ignore-end -->
 
 ## Mapping to complex arg values
 

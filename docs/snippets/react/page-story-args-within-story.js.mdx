@@ -1,0 +1,27 @@
+```ts
+// my-component/component.stories.js|jsx
+
+import { useArgs } from '@storybook/preview-api';
+import { Switch } from '.';
+
+export const meta = {
+  title: 'Inputs/Switch',
+  component: Switch,
+};
+
+export const Example = {
+  args: {
+    isChecked: false,
+    label: 'Switch Me!',
+  },
+  render: function Render(args) {
+    const [{ isChecked }, updateArgs] = UseArgs();
+
+    function onChange() {
+      updateArgs({ isChecked: !isChecked });
+    }
+
+    return <Switch {...args} onChange={onChange} isChecked={isChecked} />;
+  },
+};
+```

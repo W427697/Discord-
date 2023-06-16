@@ -1,0 +1,31 @@
+```ts
+// my-component/component.stories.ts|tsx
+
+import { StoryObj, Meta } from '@storybook/react';
+import { useArgs } from '@storybook/preview-api';
+import { Switch } from '.';
+
+const meta: Meta<typeof Switch> = {
+  title: 'Inputs/Switch',
+  component: Switch,
+};
+export default meta;
+
+type Story = StoryObj<typeof Switch>;
+
+export const Example = {
+  args: {
+    isChecked: false,
+    label: 'Switch Me!',
+  },
+  render: function Render(args) {
+    const [{ isChecked }, updateArgs] = UseArgs();
+
+    function onChange() {
+      updateArgs({ isChecked: !isChecked });
+    }
+
+    return <Switch {...args} onChange={onChange} isChecked={isChecked} />;
+  },
+};
+```
