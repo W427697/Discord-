@@ -8,7 +8,7 @@ import { Panel } from './Panel';
 import { TabIcon } from './components/TabStatus';
 
 function Title() {
-  const [addonState] = useAddonState(ADDON_ID, {});
+  const [addonState = {}] = useAddonState(ADDON_ID);
   const { hasException, interactionsCount } = addonState as any;
 
   return (
