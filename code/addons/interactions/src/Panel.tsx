@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import * as React from 'react';
-import { useChannel, useParameter } from '@storybook/manager-api';
+import { useAddonState, useChannel, useParameter } from '@storybook/manager-api';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -18,7 +18,7 @@ import {
 
 import type { StoryId } from '@storybook/types';
 import { InteractionsPanel } from './components/InteractionsPanel';
-import { TabIcon, TabStatus } from './components/TabStatus';
+import { ADDON_ID } from './constants';
 
 interface Interaction extends Call {
   status: Call['status'];
@@ -81,6 +81,9 @@ export const getInteractions = ({
 };
 
 export const Panel: React.FC<{ active: boolean }> = (props) => {
+  const [addonState, setAddonState] = useAddonState(ADDON_ID, {});
+  console.log('addonState:Panel', addonState);
+
   const [storyId, setStoryId] = React.useState<StoryId>();
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
   const [pausedAt, setPausedAt] = React.useState<Call['id']>();
@@ -119,6 +122,7 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         setInteractions(
           getInteractions({ log: payload.logItems, calls: calls.current, collapsed, setCollapsed })
         );
+        setAddonState(payload);
         log.current = payload.logItems;
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {

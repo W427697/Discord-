@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons, types, useChannel } from '@storybook/manager-api';
+import { addons, types, useAddonState, useChannel } from '@storybook/manager-api';
 import { AddonPanel, Badge, Spaced } from '@storybook/components';
 
 import {
@@ -22,6 +22,9 @@ interface Interaction extends Call {
 }
 
 function Title() {
+  const [addonState, setAddonState] = useAddonState(ADDON_ID, {});
+  console.log('addonState:Title', addonState);
+
   const [isPlaying, setPlaying] = React.useState(false);
   const [collapsed, setCollapsed] = React.useState<Set<Call['id']>>(new Set());
   const [caughtException, setCaughtException] = React.useState<Error>();
