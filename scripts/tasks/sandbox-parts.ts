@@ -353,7 +353,7 @@ async function addExtraDependencies({
   // web-components doesn't install '@storybook/testing-library' by default
   const extraDeps = [
     '@storybook/jest@future',
-    '@storybook/testing-library@future',
+    '@storybook/testing-library@0.1.1--canary.958fe40.0',
     '@storybook/test-runner@future',
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
