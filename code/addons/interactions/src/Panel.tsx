@@ -16,7 +16,6 @@ import {
   type LogItem,
 } from '@storybook/instrumenter';
 
-import type { StoryId } from '@storybook/types';
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { ADDON_ID } from './constants';
 
@@ -82,7 +81,7 @@ export const getInteractions = ({
 
 export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ storyId }) {
   // TODO: all state should be in the addon state
-  const [addonState, setAddonState] = useAddonState(ADDON_ID, {});
+  const [, setAddonState] = useAddonState(ADDON_ID, {});
 
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
   const [pausedAt, setPausedAt] = React.useState<Call['id']>();

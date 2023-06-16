@@ -60,7 +60,7 @@ test.describe('addon-interactions', () => {
     await expect(formInput).toHaveValue('final value');
 
     const interactionsTab = await page.locator('#tabbutton-storybook-interactions-panel');
-    await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab.textContent()).toContain(/(3)/);
     await expect(interactionsTab).toBeVisible();
 
     const panel = sbPage.panelContent();
@@ -97,7 +97,7 @@ test.describe('addon-interactions', () => {
     await interactionsRow.first().isVisible();
     await interactionsRow.nth(1).isVisible();
     await interactionsRow.nth(2).isVisible();
-    await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab.textContent()).toContain(/(3)/);
     await expect(interactionsTab).toBeVisible();
 
     // Test remount state (from toolbar) - Interactions have rerun, count is correct and values are as expected
@@ -106,7 +106,7 @@ test.describe('addon-interactions', () => {
     await interactionsRow.first().isVisible();
     await interactionsRow.nth(1).isVisible();
     await interactionsRow.nth(2).isVisible();
-    await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab.textContent()).toContain(/(3)/);
     await expect(interactionsTab).toBeVisible();
   });
 });
