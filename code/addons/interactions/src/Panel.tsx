@@ -1,5 +1,6 @@
 import { global } from '@storybook/global';
-import * as React from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAddonState, useChannel, useParameter } from '@storybook/manager-api';
 import {
   FORCE_REMOUNT,
@@ -44,7 +45,7 @@ export const getInteractions = ({
   log: LogItem[];
   calls: Map<Call['id'], Call>;
   collapsed: Set<Call['id']>;
-  setCollapsed: React.Dispatch<React.SetStateAction<Set<string>>>;
+  setCollapsed: Dispatch<SetStateAction<Set<string>>>;
 }) => {
   const callsById = new Map<Call['id'], Call>();
   const childCallMap = new Map<Call['id'], Call['id'][]>();
@@ -79,36 +80,73 @@ export const getInteractions = ({
     });
 };
 
-export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ storyId }) {
+export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId }) {
   // TODO: all state should be in the addon state
-  const [addonState, setAddonState] = useAddonState<any>(ADDON_ID, {
+  const [addonState, set] = useAddonState(ADDON_ID, {
     controlStates: INITIAL_CONTROL_STATES,
+    isErrored: false,
+    pausedAt: undefined,
+    interactions: [],
+    isPlaying: false,
+    isRerunAnimating: false,
+    scrollTarget: undefined,
+    collapsed: new Set() as Set<Call['id']>,
+    hasException: false,
+    caughtException: undefined,
+    interactionsCount: 0,
   });
-  const setControlStates = React.useCallback(
-    (controlStates: ControlStates) => setAddonState({ controlStates }),
+  const setControlStates = useCallback(
+    (controlStates: ControlStates) => set((s) => ({ ...s, controlStates })),
+    []
+  );
+  const setErrored = useCallback((isErrored: boolean) => set((s) => ({ ...s, isErrored })), []);
+  const setPausedAt = useCallback((pausedAt: Call['id']) => set((s) => ({ ...s, pausedAt })), []);
+  const setInteractions = useCallback(
+    (interactions: Interaction[]) => set((s) => ({ ...s, interactions })),
+    []
+  );
+  const setPlaying = useCallback((isPlaying: boolean) => set((s) => ({ ...s, isPlaying })), []);
+  const setIsRerunAnimating = useCallback(
+    (isRerunAnimating: boolean) => set((s) => ({ ...s, isRerunAnimating })),
+    []
+  );
+  const setScrollTarget = useCallback(
+    (scrollTarget: HTMLElement) => set((s) => ({ ...s, scrollTarget })),
+    []
+  );
+  const setCollapsed = useCallback(
+    (collapsed: Set<Call['id']>) => set((s) => ({ ...s, collapsed })),
+    []
+  );
+  const setCaughtException = useCallback(
+    (caughtException: Error) => set((s) => ({ ...s, caughtException })),
+    []
+  );
+  const setInteractionsCount = useCallback(
+    (interactionsCount: number) => set((s) => ({ ...s, interactionsCount })),
     []
   );
 
-  const { controlStates = INITIAL_CONTROL_STATES } = addonState;
-
-  // const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
-  const [pausedAt, setPausedAt] = React.useState<Call['id']>();
-  const [isErrored, setErrored] = React.useState(false);
-  const [isPlaying, setPlaying] = React.useState(false);
-  const [isRerunAnimating, setIsRerunAnimating] = React.useState(false);
-  const [scrollTarget, setScrollTarget] = React.useState<HTMLElement>();
-  const [collapsed, setCollapsed] = React.useState<Set<Call['id']>>(new Set());
-  const [caughtException, setCaughtException] = React.useState<Error>();
-  const [interactions, setInteractions] = React.useState<Interaction[]>([]);
-  const [interactionsCount, setInteractionsCount] = React.useState<number>();
+  const {
+    controlStates = INITIAL_CONTROL_STATES,
+    isErrored = false,
+    pausedAt = undefined,
+    interactions = [],
+    isPlaying = false,
+    isRerunAnimating = false,
+    scrollTarget = undefined,
+    collapsed = new Set() as Set<Call['id']>,
+    caughtException = undefined,
+    interactionsCount = 0,
+  } = addonState;
 
   // Log and calls are tracked in a ref so we don't needlessly rerender.
-  const log = React.useRef<LogItem[]>([]);
-  const calls = React.useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
+  const log = useRef<LogItem[]>([]);
+  const calls = useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
   const setCall = ({ status, ...call }: Call) => calls.current.set(call.id, call);
 
-  const endRef = React.useRef();
-  React.useEffect(() => {
+  const endRef = useRef();
+  useEffect(() => {
     let observer: IntersectionObserver;
     if (global.IntersectionObserver) {
       observer = new global.IntersectionObserver(
@@ -129,10 +167,25 @@ export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ st
         setInteractions(
           getInteractions({ log: payload.logItems, calls: calls.current, collapsed, setCollapsed })
         );
-        setAddonState(payload);
         log.current = payload.logItems;
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
+        if (event.newPhase === 'preparing') {
+          set((s) => ({
+            controlStates: INITIAL_CONTROL_STATES,
+            isErrored: false,
+            pausedAt: undefined,
+            interactions: [],
+            isPlaying: false,
+            isRerunAnimating: false,
+            scrollTarget: s.scrollTarget,
+            collapsed: new Set() as Set<Call['id']>,
+            hasException: false,
+            caughtException: undefined,
+            interactionsCount: 0,
+          }));
+          return;
+        }
         setPlaying(event.newPhase === 'playing');
         setPausedAt(undefined);
         if (event.newPhase === 'rendering') {
@@ -144,25 +197,28 @@ export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ st
         setErrored(true);
       },
       [PLAY_FUNCTION_THREW_EXCEPTION]: (e) => {
-        if (e?.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
-        else setCaughtException(undefined);
+        if (e?.message !== IGNORED_EXCEPTION.message) {
+          setCaughtException(e);
+        } else {
+          setCaughtException(undefined);
+        }
       },
     },
     [collapsed]
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setInteractions(
       getInteractions({ log: log.current, calls: calls.current, collapsed, setCollapsed })
     );
   }, [collapsed]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isPlaying || isRerunAnimating) return;
     setInteractionsCount(interactions.filter(({ method }) => method !== 'step').length);
   }, [interactions, isPlaying, isRerunAnimating]);
 
-  const controls = React.useMemo(
+  const controls = useMemo(
     () => ({
       start: () => emit(EVENTS.START, { storyId }),
       back: () => emit(EVENTS.BACK, { storyId }),
@@ -183,8 +239,9 @@ export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ st
 
   const hasException = !!caughtException || interactions.some((v) => v.status === CallStates.ERROR);
 
-  React.useEffect(() => {
-    setAddonState({
+  useEffect(() => {
+    set({
+      controlStates,
       interactions,
       hasException,
       caughtException,
@@ -192,15 +249,18 @@ export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ st
       pausedAt,
       isRerunAnimating,
       interactionsCount,
+      collapsed,
+      isErrored,
+      scrollTarget,
     });
-  }, [interactions, hasException, caughtException, isPlaying, pausedAt, isRerunAnimating]);
+  }, [interactions, hasException, caughtException, isPlaying, pausedAt, isRerunAnimating, controlStates, interactionsCount]);
 
   if (isErrored) {
-    return <React.Fragment key="interactions" />;
+    return <Fragment key="interactions" />;
   }
 
   return (
-    <React.Fragment key="interactions">
+    <Fragment key="interactions">
       <InteractionsPanel
         calls={calls.current}
         controls={controls}
@@ -216,6 +276,6 @@ export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ st
         isRerunAnimating={isRerunAnimating}
         setIsRerunAnimating={setIsRerunAnimating}
       />
-    </React.Fragment>
+    </Fragment>
   );
 });

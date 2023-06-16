@@ -10,6 +10,7 @@ import {
   screen,
   getByText,
   userEvent,
+  findByText,
 } from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 import type { ChildrenList } from './tabs.helpers';
@@ -218,9 +219,8 @@ export const StatefulDynamicWithOpenTooltip = {
       await expect(canvas.getByRole('tab', { name: /Addons/ })).toBeInTheDocument();
     });
 
-    const addonsTab = await canvas.findByRole('tab', { name: /Addons/ });
-
     await waitFor(async () => {
+      const addonsTab = await canvas.findByRole('tab', { name: /Addons/ });
       const tooltip = await screen.queryByTestId('tooltip');
 
       if (!tooltip) {
@@ -230,9 +230,9 @@ export const StatefulDynamicWithOpenTooltip = {
       if (!tooltip) {
         throw new Error('Tooltip not found');
       }
-    });
 
-    expect(screen.queryByTestId('tooltip')).toBeInTheDocument();
+      await expect(screen.queryByTestId('tooltip')).toBeInTheDocument();
+    });
   },
   render: (args) => (
     <TabsState initial="test1" {...args}>
@@ -256,10 +256,12 @@ export const StatefulDynamicWithSelectedAddon = {
   play: async (context) => {
     await StatefulDynamicWithOpenTooltip.play(context);
 
-    const popperContainer = screen.getByTestId('tooltip');
-    const tab4 = getByText(popperContainer, 'Tab title #4', {});
-    fireEvent(tab4, new MouseEvent('click', { bubbles: true }));
-    await waitFor(() => screen.getByText('CONTENT 4'));
+    await waitFor(async () => {
+      const popperContainer = await screen.findByTestId('tooltip');
+      const tab4 = await findByText(popperContainer, 'Tab title #4', {});
+      fireEvent(tab4, new MouseEvent('click', { bubbles: true }));
+      await waitFor(() => screen.findByText('CONTENT 4'));
+    });
 
     // reopen the tooltip
     await StatefulDynamicWithOpenTooltip.play(context);
