@@ -5,7 +5,7 @@ import useResizeObserver from 'use-resize-observer';
 import { TabButton } from '../bar/button';
 import { TooltipLinkList } from '../tooltip/TooltipLinkList';
 import { WithTooltip } from '../tooltip/WithTooltip';
-import type { ChildrenList, ChildrenListComplete } from './tabs.helpers';
+import type { ChildrenListComplete } from './tabs.helpers';
 import type { Link } from '../tooltip/TooltipLinkList';
 
 const CollapseIcon = styled.span<{ isActive: boolean }>(({ theme, isActive }) => ({

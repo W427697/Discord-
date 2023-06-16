@@ -5,7 +5,6 @@ import { styled } from '@storybook/theming';
 
 import { TabButton } from '@storybook/components';
 import { Location } from '@storybook/router';
-import { replace } from 'lodash';
 import { Root } from './Root';
 
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Badge, Icons, Spaced } from '@storybook/components';
 import Panel from './panel';
