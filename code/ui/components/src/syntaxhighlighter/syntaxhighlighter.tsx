@@ -135,6 +135,7 @@ const Code = styled.div(({ theme }) => ({
   paddingLeft: 2, // TODO: To match theming/global.ts for now
   paddingRight: theme.layoutMargin,
   opacity: 1,
+  fontFamily: theme.typography.fonts.mono,
 }));
 
 const processLineNumber = (row: any) => {
