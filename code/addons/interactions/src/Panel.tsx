@@ -80,11 +80,9 @@ export const getInteractions = ({
     });
 };
 
-export const Panel: React.FC<{ active: boolean }> = (props) => {
+export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ storyId }) {
   const [addonState, setAddonState] = useAddonState(ADDON_ID, {});
-  console.log('addonState:Panel', addonState);
 
-  const [storyId, setStoryId] = React.useState<StoryId>();
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
   const [pausedAt, setPausedAt] = React.useState<Call['id']>();
   const [isErrored, setErrored] = React.useState(false);
@@ -94,6 +92,7 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const [collapsed, setCollapsed] = React.useState<Set<Call['id']>>(new Set());
   const [caughtException, setCaughtException] = React.useState<Error>();
   const [interactions, setInteractions] = React.useState<Interaction[]>([]);
+  const [interactionsCount, setInteractionsCount] = React.useState<number>();
 
   // Log and calls are tracked in a ref so we don't needlessly rerender.
   const log = React.useRef<LogItem[]>([]);
@@ -126,7 +125,6 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         log.current = payload.logItems;
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
-        setStoryId(event.storyId);
         setPlaying(event.newPhase === 'playing');
         setPausedAt(undefined);
         if (event.newPhase === 'rendering') {
@@ -151,6 +149,11 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
     );
   }, [collapsed]);
 
+  React.useEffect(() => {
+    if (isPlaying || isRerunAnimating) return;
+    setInteractionsCount(interactions.filter(({ method }) => method !== 'step').length);
+  }, [interactions, isPlaying, isRerunAnimating]);
+
   const controls = React.useMemo(
     () => ({
       start: () => emit(EVENTS.START, { storyId }),
@@ -172,16 +175,24 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
 
   const hasException = !!caughtException || interactions.some((v) => v.status === CallStates.ERROR);
 
+  React.useEffect(() => {
+    setAddonState({
+      interactions,
+      hasException,
+      caughtException,
+      isPlaying,
+      pausedAt,
+      isRerunAnimating,
+      interactionsCount,
+    });
+  }, [interactions, hasException, caughtException, isPlaying, pausedAt, isRerunAnimating]);
+
   if (isErrored) {
     return <React.Fragment key="interactions" />;
   }
 
   return (
     <React.Fragment key="interactions">
-      {/* <TabStatus>
-        {showStatus &&
-          (hasException ? <TabIcon status={CallStates.ERROR} /> : ` (${interactionsCount})`)}
-      </TabStatus> */}
       <InteractionsPanel
         calls={calls.current}
         controls={controls}
@@ -196,8 +207,7 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         onScrollToEnd={scrollTarget && scrollToTarget}
         isRerunAnimating={isRerunAnimating}
         setIsRerunAnimating={setIsRerunAnimating}
-        {...props}
       />
     </React.Fragment>
   );
-};
+});
