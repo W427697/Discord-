@@ -31,6 +31,8 @@ export default {
       defaultViewport: 'tablet',
       defaultOrientation: 'landscape',
     },
+    theme: 'light',
+    chromatic: { viewports: [1112] },
   },
   decorators: [
     ((StoryFn, c) => {

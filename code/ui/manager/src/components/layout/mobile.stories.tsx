@@ -29,6 +29,8 @@ export default {
       defaultViewport: 'mobile1',
       defaultOrientation: 'portrait',
     },
+    theme: 'light',
+    chromatic: { viewports: [320] },
   },
   decorators: [
     ((StoryFn, c) => {

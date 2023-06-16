@@ -13,6 +13,21 @@ export default {
   parameters: {
     layout: 'fullscreen',
     theme: 'light',
+    viewport: {
+      viewports: {
+        tablet: {
+          name: 'Tablet',
+          styles: {
+            height: '1112px',
+            width: '834px',
+          },
+          type: 'tablet',
+        },
+      },
+      defaultViewport: 'tablet',
+      defaultOrientation: 'landscape',
+    },
+    chromatic: { viewports: [1112] },
   },
   decorators: [
     (StoryFn: any) => (
@@ -61,7 +76,7 @@ export const Default = () => {
         key="app"
         viewMode="story"
         layout={{
-          initialActive: 'addons',
+          initialActive: 'sidebar',
           isFullscreen: false,
           showToolbar: true,
           panelPosition: 'right',
@@ -90,7 +105,7 @@ export const LoadingState = () => (
       key="app"
       viewMode="story"
       layout={{
-        initialActive: 'addons',
+        initialActive: 'sidebar',
         isFullscreen: false,
         showToolbar: true,
         panelPosition: 'right',
@@ -107,4 +122,22 @@ export const LoadingState = () => (
 export const Dark = () => LoadingState();
 Dark.parameters = {
   theme: 'dark',
+};
+export const Mobile = () => LoadingState();
+Mobile.parameters = {
+  theme: 'light',
+  viewport: {
+    viewports: {
+      mobile1: {
+        name: 'Small mobile',
+        styles: {
+          height: '568px',
+          width: '320px',
+        },
+        type: 'mobile',
+      },
+    },
+    defaultViewport: 'mobile1',
+    defaultOrientation: 'portrait',
+  },
 };

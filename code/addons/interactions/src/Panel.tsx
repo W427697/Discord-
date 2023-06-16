@@ -91,7 +91,6 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const [collapsed, setCollapsed] = React.useState<Set<Call['id']>>(new Set());
   const [caughtException, setCaughtException] = React.useState<Error>();
   const [interactions, setInteractions] = React.useState<Interaction[]>([]);
-  const [interactionsCount, setInteractionsCount] = React.useState<number>();
 
   // Log and calls are tracked in a ref so we don't needlessly rerender.
   const log = React.useRef<LogItem[]>([]);
@@ -148,11 +147,6 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
     );
   }, [collapsed]);
 
-  React.useEffect(() => {
-    if (isPlaying || isRerunAnimating) return;
-    setInteractionsCount(interactions.filter(({ method }) => method !== 'step').length);
-  }, [interactions, isPlaying, isRerunAnimating]);
-
   const controls = React.useMemo(
     () => ({
       start: () => emit(EVENTS.START, { storyId }),
@@ -172,7 +166,6 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const [fileName] = storyFilePath.toString().split('/').slice(-1);
   const scrollToTarget = () => scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
-  const showStatus = interactionsCount > 0 || !!caughtException || isRerunAnimating;
   const hasException = !!caughtException || interactions.some((v) => v.status === CallStates.ERROR);
 
   if (isErrored) {
@@ -181,10 +174,10 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
 
   return (
     <React.Fragment key="interactions">
-      <TabStatus>
+      {/* <TabStatus>
         {showStatus &&
           (hasException ? <TabIcon status={CallStates.ERROR} /> : ` (${interactionsCount})`)}
-      </TabStatus>
+      </TabStatus> */}
       <InteractionsPanel
         calls={calls.current}
         controls={controls}
