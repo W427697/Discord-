@@ -81,6 +81,7 @@ export const getInteractions = ({
 };
 
 export const Panel = React.memo<{ storyId: string }>(function PanelMemoized({ storyId }) {
+  // TODO: all state should be in the addon state
   const [addonState, setAddonState] = useAddonState(ADDON_ID, {});
 
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
