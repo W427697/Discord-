@@ -1,10 +1,10 @@
-```ts
+```js
 // my-component/component.stories.js|jsx
 
 import { useArgs } from '@storybook/preview-api';
 import { Switch } from '.';
 
-export const meta = {
+export default {
   title: 'Inputs/Switch',
   component: Switch,
 };
@@ -14,8 +14,13 @@ export const Example = {
     isChecked: false,
     label: 'Switch Me!',
   },
+  /**
+   * 👇 React things the Storybook function "useArgs" is a hook, but it's really not.
+   * Using a named capital-letter function prevents an ESLint warning related to this.
+   * Don't lint? You can use an arrow function instead.
+   */
   render: function Render(args) {
-    const [{ isChecked }, updateArgs] = UseArgs();
+    const [{ isChecked }, updateArgs] = useArgs();
 
     function onChange() {
       updateArgs({ isChecked: !isChecked });
