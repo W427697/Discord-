@@ -9,13 +9,7 @@ import {
   STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import {
-  EVENTS,
-  type Call,
-  CallStates,
-  type ControlStates,
-  type LogItem,
-} from '@storybook/instrumenter';
+import { EVENTS, type Call, CallStates, type LogItem } from '@storybook/instrumenter';
 
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { ADDON_ID } from './constants';
@@ -49,11 +43,14 @@ export const getInteractions = ({
 }) => {
   const callsById = new Map<Call['id'], Call>();
   const childCallMap = new Map<Call['id'], Call['id'][]>();
+
   return log
     .map<Call & { isHidden: boolean }>(({ callId, ancestors, status }) => {
       let isHidden = false;
       ancestors.forEach((ancestor) => {
-        if (collapsed.has(ancestor)) isHidden = true;
+        if (collapsed.has(ancestor)) {
+          isHidden = true;
+        }
         childCallMap.set(ancestor, (childCallMap.get(ancestor) || []).concat(callId));
       });
       return { ...calls.get(callId), status, isHidden };
@@ -72,8 +69,11 @@ export const getInteractions = ({
         isCollapsed: collapsed.has(call.id),
         toggleCollapsed: () =>
           setCollapsed((ids) => {
-            if (ids.has(call.id)) ids.delete(call.id);
-            else ids.add(call.id);
+            if (ids.has(call.id)) {
+              ids.delete(call.id);
+            } else {
+              ids.add(call.id);
+            }
             return new Set(ids);
           }),
       };
@@ -88,44 +88,17 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
     pausedAt: undefined,
     interactions: [],
     isPlaying: false,
-    isRerunAnimating: false,
     scrollTarget: undefined,
-    collapsed: new Set() as Set<Call['id']>,
     hasException: false,
     caughtException: undefined,
     interactionsCount: 0,
   });
-  const setControlStates = useCallback(
-    (controlStates: ControlStates) => set((s) => ({ ...s, controlStates })),
-    []
-  );
-  const setErrored = useCallback((isErrored: boolean) => set((s) => ({ ...s, isErrored })), []);
-  const setPausedAt = useCallback((pausedAt: Call['id']) => set((s) => ({ ...s, pausedAt })), []);
-  const setInteractions = useCallback(
-    (interactions: Interaction[]) => set((s) => ({ ...s, interactions })),
-    []
-  );
-  const setPlaying = useCallback((isPlaying: boolean) => set((s) => ({ ...s, isPlaying })), []);
-  const setIsRerunAnimating = useCallback(
-    (isRerunAnimating: boolean) => set((s) => ({ ...s, isRerunAnimating })),
-    []
-  );
   const setScrollTarget = useCallback(
     (scrollTarget: HTMLElement) => set((s) => ({ ...s, scrollTarget })),
     []
   );
-  const setCollapsed = useCallback(
-    (collapsed: Set<Call['id']>) => set((s) => ({ ...s, collapsed })),
-    []
-  );
-  const setCaughtException = useCallback(
-    (caughtException: Error) => set((s) => ({ ...s, caughtException })),
-    []
-  );
-  const setInteractionsCount = useCallback(
-    (interactionsCount: number) => set((s) => ({ ...s, interactionsCount })),
-    []
-  );
+
+  const [collapsed, setCollapsed] = useState<Set<Call['id']>>(new Set());
 
   const {
     controlStates = INITIAL_CONTROL_STATES,
@@ -133,11 +106,8 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
     pausedAt = undefined,
     interactions = [],
     isPlaying = false,
-    isRerunAnimating = false,
     scrollTarget = undefined,
-    collapsed = new Set() as Set<Call['id']>,
     caughtException = undefined,
-    interactionsCount = 0,
   } = addonState;
 
   // Log and calls are tracked in a ref so we don't needlessly rerender.
@@ -162,11 +132,22 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
     {
       [EVENTS.CALL]: setCall,
       [EVENTS.SYNC]: (payload) => {
-        setControlStates(payload.controlStates);
-        setPausedAt(payload.pausedAt);
-        setInteractions(
-          getInteractions({ log: payload.logItems, calls: calls.current, collapsed, setCollapsed })
-        );
+        set((s) => {
+          const list = getInteractions({
+            log: payload.logItems,
+            calls: calls.current,
+            collapsed,
+            setCollapsed,
+          });
+          return {
+            ...s,
+            controlStates: payload.controlStates,
+            pausedAt: payload.pausedAt,
+            interactions: list,
+            interactionsCount: list.filter(({ method }) => method !== 'step').length,
+          };
+        });
+
         log.current = payload.logItems;
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
@@ -186,21 +167,26 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
           }));
           return;
         }
-        setPlaying(event.newPhase === 'playing');
-        setPausedAt(undefined);
-        if (event.newPhase === 'rendering') {
-          setErrored(false);
-          setCaughtException(undefined);
-        }
+        set((s) => ({
+          ...s,
+          isPlaying: event.newPhase === 'playing',
+          pausedAt: undefined,
+          ...(event.newPhase === 'rendering'
+            ? {
+                isErrored: false,
+                caughtException: undefined,
+              }
+            : {}),
+        }));
       },
       [STORY_THREW_EXCEPTION]: () => {
-        setErrored(true);
+        set((s) => ({ ...s, isErrored: true }));
       },
       [PLAY_FUNCTION_THREW_EXCEPTION]: (e) => {
         if (e?.message !== IGNORED_EXCEPTION.message) {
-          setCaughtException(e);
+          set((s) => ({ ...s, caughtException: e }));
         } else {
-          setCaughtException(undefined);
+          set((s) => ({ ...s, caughtException: undefined }));
         }
       },
     },
@@ -208,15 +194,20 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
   );
 
   useEffect(() => {
-    setInteractions(
-      getInteractions({ log: log.current, calls: calls.current, collapsed, setCollapsed })
-    );
+    set((s) => {
+      const list = getInteractions({
+        log: log.current,
+        calls: calls.current,
+        collapsed,
+        setCollapsed,
+      });
+      return {
+        ...s,
+        interactions: list,
+        interactionsCount: list.filter(({ method }) => method !== 'step').length,
+      };
+    });
   }, [collapsed]);
-
-  useEffect(() => {
-    if (isPlaying || isRerunAnimating) return;
-    setInteractionsCount(interactions.filter(({ method }) => method !== 'step').length);
-  }, [interactions, isPlaying, isRerunAnimating]);
 
   const controls = useMemo(
     () => ({
@@ -226,7 +217,6 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
       next: () => emit(EVENTS.NEXT, { storyId }),
       end: () => emit(EVENTS.END, { storyId }),
       rerun: () => {
-        setIsRerunAnimating(true);
         emit(FORCE_REMOUNT, { storyId });
       },
     }),
@@ -238,22 +228,6 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
   const scrollToTarget = () => scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
   const hasException = !!caughtException || interactions.some((v) => v.status === CallStates.ERROR);
-
-  useEffect(() => {
-    set({
-      controlStates,
-      interactions,
-      hasException,
-      caughtException,
-      isPlaying,
-      pausedAt,
-      isRerunAnimating,
-      interactionsCount,
-      collapsed,
-      isErrored,
-      scrollTarget,
-    });
-  }, [interactions, hasException, caughtException, isPlaying, pausedAt, isRerunAnimating, controlStates, interactionsCount]);
 
   if (isErrored) {
     return <Fragment key="interactions" />;
@@ -273,8 +247,6 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
         pausedAt={pausedAt}
         endRef={endRef}
         onScrollToEnd={scrollTarget && scrollToTarget}
-        isRerunAnimating={isRerunAnimating}
-        setIsRerunAnimating={setIsRerunAnimating}
       />
     </Fragment>
   );

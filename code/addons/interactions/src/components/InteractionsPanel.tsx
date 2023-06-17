@@ -35,8 +35,6 @@ interface InteractionsPanelProps {
   calls: Map<string, any>;
   endRef?: React.Ref<HTMLDivElement>;
   onScrollToEnd?: () => void;
-  isRerunAnimating: boolean;
-  setIsRerunAnimating: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Container = styled.div<{ withException: boolean }>(({ theme, withException }) => ({
@@ -90,12 +88,10 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
     pausedAt,
     onScrollToEnd,
     endRef,
-    isRerunAnimating,
-    setIsRerunAnimating,
   }) {
     return (
       <Container withException={!!caughtException}>
-        {(interactions.length > 0 || hasException || isRerunAnimating) && (
+        {(interactions.length > 0 || hasException) && (
           <Subnav
             controls={controls}
             controlStates={controlStates}
@@ -105,8 +101,6 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
             }
             storyFileName={fileName}
             onScrollToEnd={onScrollToEnd}
-            isRerunAnimating={isRerunAnimating}
-            setIsRerunAnimating={setIsRerunAnimating}
           />
         )}
         <div aria-label="Interactions list">
