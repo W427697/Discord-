@@ -6111,7 +6111,7 @@ __metadata:
     prettier: ^2.8.0
     recast: ^0.23.1
     remark: ^14.0.2
-    remark-mdx: ^2.2.1
+    remark-mdx: ^2.3.0
     ts-dedent: ^2.2.0
     typescript: ~4.9.3
     unist-util-is: ^5.2.0
@@ -26573,7 +26573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remark-mdx@npm:^2.2.1":
+"remark-mdx@npm:^2.3.0":
   version: 2.3.0
   resolution: "remark-mdx@npm:2.3.0"
   dependencies:
