@@ -81,23 +81,20 @@ export const getInteractions = ({
 };
 
 export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId }) {
-  // TODO: all state should be in the addon state
+  // shared state
   const [addonState, set] = useAddonState(ADDON_ID, {
     controlStates: INITIAL_CONTROL_STATES,
     isErrored: false,
     pausedAt: undefined,
     interactions: [],
     isPlaying: false,
-    scrollTarget: undefined,
     hasException: false,
     caughtException: undefined,
     interactionsCount: 0,
   });
-  const setScrollTarget = useCallback(
-    (scrollTarget: HTMLElement) => set((s) => ({ ...s, scrollTarget })),
-    []
-  );
 
+  // local state
+  const [scrollTarget, setScrollTarget] = useState<HTMLElement | undefined>(undefined);
   const [collapsed, setCollapsed] = useState<Set<Call['id']>>(new Set());
 
   const {
@@ -106,7 +103,6 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
     pausedAt = undefined,
     interactions = [],
     isPlaying = false,
-    scrollTarget = undefined,
     caughtException = undefined,
   } = addonState;
 
@@ -159,7 +155,7 @@ export const Panel = memo<{ storyId: string }>(function PanelMemoized({ storyId 
             interactions: [],
             isPlaying: false,
             isRerunAnimating: false,
-            scrollTarget: s.scrollTarget,
+            scrollTarget,
             collapsed: new Set() as Set<Call['id']>,
             hasException: false,
             caughtException: undefined,
