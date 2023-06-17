@@ -14,7 +14,7 @@
       <div>
         <span class="welcome" v-if="user">Welcome, <b>{{ user.name }}</b>!</span>
         <my-button size="small" @click="onLogout" label="Log out" v-if="user" />
-        <my-button size="small" @click="onLogin" label="Log in" v-if="!user" />
+        <my-button size="small" @click="login" label="Log in" v-if="!user" />
         <my-button primary size="small" @click="onCreateAccount" label="Sign up" v-if="!user" />
       </div>
     </div>
@@ -38,7 +38,8 @@ export default {
   },
 
   methods: {
-    onLogin() {
+    login() {
+
       this.$emit('onLogin');
     },
     onLogout() {

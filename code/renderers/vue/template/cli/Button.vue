@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
+  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}..</button>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ import './button.css';
 
 export default {
   name: 'my-button',
-  emits: ['onClick'],
+  emits: ['click'],
   props: {
     /**
      * label description
@@ -59,7 +59,8 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit('onClick', 'clicked');
+      console.log(" button onClick --")
+      this.$emit('click', 'clicked');
     },
   },
 };
