@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.21",
+  "version": "7.0.22",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -43,8 +43,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/node-logger": "7.0.21",
-    "@storybook/types": "7.0.21",
+    "@storybook/node-logger": "7.0.22",
+    "@storybook/types": "7.0.22",
     "@types/node": "^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
