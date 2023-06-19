@@ -96,3 +96,24 @@ export const Validation = {
     await expect(args.onSuccess).not.toHaveBeenCalled();
   },
 };
+
+export const UserEventSetup = {
+  play: async (context) => {
+    const { args, canvasElement, step } = context;
+    const user = userEvent.setup();
+    const canvas = within(canvasElement);
+    await step('Select, type and paste on input using user-event v14 setup', async () => {
+      const input = await canvas.getByRole('textbox');
+      await user.click(input);
+      await user.type(input, 'Pasting: ');
+      await user.paste('foobar');
+    });
+    await step('Tab and press enter on submit button', async () => {
+      await user.tab();
+      await user.keyboard('{enter}');
+      const submitButton = await canvas.findByRole('button');
+      await expect(submitButton).toHaveFocus();
+      await expect(args.onSuccess).toHaveBeenCalled();
+    });
+  },
+};
