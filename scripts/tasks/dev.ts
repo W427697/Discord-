@@ -3,7 +3,7 @@ import waitOn from 'wait-on';
 
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
-import { now, saveBench } from '../bench';
+import { now, saveBench } from '../bench/utils';
 
 export const PORT = process.env.STORYBOOK_SERVE_PORT
   ? parseInt(process.env.STORYBOOK_SERVE_PORT, 10)

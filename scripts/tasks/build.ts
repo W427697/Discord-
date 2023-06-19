@@ -1,7 +1,7 @@
 import { pathExists } from 'fs-extra';
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
-import { now, saveBench } from '../bench';
+import { now, saveBench } from '../bench/utils';
 
 export const build: Task = {
   description: 'Build the static version of the sandbox',
@@ -18,6 +18,7 @@ export const build: Task = {
     );
 
     const time = now() - start;
+
     await saveBench({ time }, { key: 'build', rootDir: sandboxDir });
 
     return result;

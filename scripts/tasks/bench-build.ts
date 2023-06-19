@@ -1,6 +1,5 @@
 import { PORT } from './serve';
 import type { Task } from '../task';
-import { browse, saveBench, storybookConfig } from '../bench';
 
 export const benchBuild: Task & { port: number } = {
   description: 'Run benchmarks against a sandbox in prod mode',
@@ -10,6 +9,7 @@ export const benchBuild: Task & { port: number } = {
     return false;
   },
   async run({ sandboxDir, selectedTask }) {
+    const { browse, saveBench, storybookConfig } = await import('../bench');
     const url = `http://localhost:${this.port}?path=/story/example-button--primary`;
     const result = await browse(url, storybookConfig);
 
