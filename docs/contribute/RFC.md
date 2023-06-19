@@ -18,7 +18,7 @@ Open a new GitHub discussion in the [“RFC” category](https://github.com/stor
 
 Details matter — RFCs that do not present convincing motivation, demonstrate lack of understanding of the design's impact, or are disingenuous about the drawbacks or alternatives tend to be poorly-received.
 
-2. `Status: In review` 
+#### 2. `Status: In review` 
 
 The Storybook core team will review open RFCs regularly, and if appropriate, a core team member will be assigned as the "champion" of the RFC. The champion will work with the RFC author and guide them through the RFC process.
 
