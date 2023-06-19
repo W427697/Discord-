@@ -23,7 +23,7 @@ export const serve: Task = {
       // If aborted, we want to make sure the rejection is handled.
       if (!err.killed) throw err;
     });
-    const waitOn = await import('wait-on');
+    const { waitOn } = await import('wait-on');
     await waitOn({ resources: [`http://localhost:${PORT}`], interval: 50 });
 
     return controller;

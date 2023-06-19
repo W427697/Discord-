@@ -1,5 +1,4 @@
 import detectFreePort from 'detect-port';
-import waitOn from 'wait-on';
 
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
@@ -29,6 +28,7 @@ export const dev: Task = {
       // If aborted, we want to make sure the rejection is handled.
       if (!err.killed) throw err;
     });
+    const { waitOn } = await import('wait-on');
     await waitOn({ resources: [`http://localhost:${PORT}/iframe.html`], interval: 50 });
 
     const time = now() - start;
