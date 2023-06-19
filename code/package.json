@@ -184,7 +184,7 @@
     "@storybook/svelte": "workspace:*",
     "@storybook/svelte-webpack5": "workspace:*",
     "@storybook/telemetry": "workspace:*",
-    "@storybook/testing-library": "future",
+    "@storybook/testing-library": "0.1.1--canary.958fe40.0",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "@storybook/vue": "workspace:*",
