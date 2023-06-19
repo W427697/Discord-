@@ -1,3 +1,4 @@
+import dedent from 'ts-dedent';
 import { Yarn1Proxy } from './Yarn1Proxy';
 
 describe('Yarn 1 Proxy', () => {
@@ -12,93 +13,101 @@ describe('Yarn 1 Proxy', () => {
   });
 
   describe('initPackageJson', () => {
-    it('should run `yarn init -y`', () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+    it('should run `yarn init -y`', async () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('');
 
-      yarn1Proxy.initPackageJson();
+      await yarn1Proxy.initPackageJson();
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', ['init', '-y']);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ command: 'yarn', args: ['init', '-y'] })
+      );
     });
   });
 
   describe('setRegistryUrl', () => {
-    it('should run `yarn config set npmRegistryServer https://foo.bar`', () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+    it('should run `yarn config set npmRegistryServer https://foo.bar`', async () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('');
 
-      yarn1Proxy.setRegistryURL('https://foo.bar');
+      await yarn1Proxy.setRegistryURL('https://foo.bar');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
-        'config',
-        'set',
-        'registry',
-        'https://foo.bar',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'npm',
+          args: ['config', 'set', 'registry', 'https://foo.bar'],
+        })
+      );
     });
   });
 
   describe('installDependencies', () => {
-    it('should run `yarn`', () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+    it('should run `yarn`', async () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('');
 
-      yarn1Proxy.installDependencies();
+      await yarn1Proxy.installDependencies();
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        'yarn',
-        ['install', '--ignore-workspace-root-check'],
-        expect.any(String)
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['install', '--ignore-workspace-root-check'],
+        })
       );
     });
   });
 
   describe('runScript', () => {
-    it('should execute script `yarn compodoc -- -e json -d .`', () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('7.1.0');
+    it('should execute script `yarn compodoc -- -e json -d .`', async () => {
+      const executeCommandSpy = jest
+        .spyOn(yarn1Proxy, 'executeCommand')
+        .mockResolvedValueOnce('7.1.0');
 
-      yarn1Proxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+      await yarn1Proxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
-        'yarn',
-        ['compodoc', '-e', 'json', '-d', '.'],
-        undefined,
-        undefined
+        expect.objectContaining({ command: 'yarn', args: ['compodoc', '-e', 'json', '-d', '.'] })
       );
     });
   });
 
   describe('addDependencies', () => {
-    it('with devDep it should run `yarn install -D --ignore-workspace-root-check @storybook/preview-api`', () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+    it('with devDep it should run `yarn install -D --ignore-workspace-root-check @storybook/preview-api`', async () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('');
 
-      yarn1Proxy.addDependencies({ installAsDevDependencies: true }, ['@storybook/preview-api']);
+      await yarn1Proxy.addDependencies({ installAsDevDependencies: true }, [
+        '@storybook/preview-api',
+      ]);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        'yarn',
-        ['add', '--ignore-workspace-root-check', '-D', '@storybook/preview-api'],
-        expect.any(String)
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['add', '--ignore-workspace-root-check', '-D', '@storybook/preview-api'],
+        })
       );
     });
   });
 
   describe('removeDependencies', () => {
-    it('should run `yarn remove --ignore-workspace-root-check @storybook/preview-api`', () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+    it('should run `yarn remove --ignore-workspace-root-check @storybook/preview-api`', async () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('');
 
       yarn1Proxy.removeDependencies({}, ['@storybook/preview-api']);
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
-        'yarn',
-        ['remove', '--ignore-workspace-root-check', '@storybook/preview-api'],
-        expect.any(String)
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['remove', '--ignore-workspace-root-check', '@storybook/preview-api'],
+        })
       );
     });
 
-    it('skipInstall should only change package.json without running install', () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('7.0.0');
+    it('skipInstall should only change package.json without running install', async () => {
+      const executeCommandSpy = jest
+        .spyOn(yarn1Proxy, 'executeCommand')
+        .mockResolvedValueOnce('7.0.0');
       const writePackageSpy = jest
         .spyOn(yarn1Proxy, 'writePackageJson')
-        .mockImplementation(jest.fn);
+        .mockImplementation(jest.fn());
 
-      yarn1Proxy.removeDependencies(
+      await yarn1Proxy.removeDependencies(
         {
           skipInstall: true,
           packageJson: {
@@ -124,50 +133,50 @@ describe('Yarn 1 Proxy', () => {
     it('without constraint it returns the latest version', async () => {
       const executeCommandSpy = jest
         .spyOn(yarn1Proxy, 'executeCommand')
-        .mockReturnValue('{"type":"inspect","data":"5.3.19"}');
+        .mockResolvedValueOnce('{"type":"inspect","data":"5.3.19"}');
 
       const version = await yarn1Proxy.latestVersion('@storybook/preview-api');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
-        'info',
-        '@storybook/preview-api',
-        'version',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['info', '@storybook/preview-api', 'version', '--json'],
+        })
+      );
       expect(version).toEqual('5.3.19');
     });
 
     it('with constraint it returns the latest version satisfying the constraint', async () => {
       const executeCommandSpy = jest
         .spyOn(yarn1Proxy, 'executeCommand')
-        .mockReturnValue('{"type":"inspect","data":["4.25.3","5.3.19","6.0.0-beta.23"]}');
+        .mockResolvedValueOnce('{"type":"inspect","data":["4.25.3","5.3.19","6.0.0-beta.23"]}');
 
       const version = await yarn1Proxy.latestVersion('@storybook/preview-api', '5.X');
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
-        'info',
-        '@storybook/preview-api',
-        'versions',
-        '--json',
-      ]);
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          command: 'yarn',
+          args: ['info', '@storybook/preview-api', 'versions', '--json'],
+        })
+      );
       expect(version).toEqual('5.3.19');
     });
 
     it('throws an error if command output is not a valid JSON', async () => {
-      jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('NOT A JSON');
+      jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
       await expect(yarn1Proxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
     });
   });
 
   describe('addPackageResolutions', () => {
-    it('adds resolutions to package.json and account for existing resolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', async () => {
       const writePackageSpy = jest
         .spyOn(yarn1Proxy, 'writePackageJson')
-        .mockImplementation(jest.fn);
+        .mockImplementation(jest.fn());
 
       jest.spyOn(yarn1Proxy, 'retrievePackageJson').mockImplementation(
-        jest.fn(() => ({
+        jest.fn(async () => ({
           dependencies: {},
           devDependencies: {},
           resolutions: {
@@ -179,7 +188,7 @@ describe('Yarn 1 Proxy', () => {
       const versions = {
         foo: 'x.x.x',
       };
-      yarn1Proxy.addPackageResolutions(versions);
+      await yarn1Proxy.addPackageResolutions(versions);
 
       expect(writePackageSpy).toHaveBeenCalledWith({
         dependencies: {},
@@ -195,7 +204,7 @@ describe('Yarn 1 Proxy', () => {
   describe('mapDependencies', () => {
     it('should display duplicated dependencies based on yarn output', async () => {
       // yarn list --pattern "@storybook/*" "@storybook/react" --recursive --json
-      jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue(`
+      jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce(`
         {
           "type": "tree",
           "data": {
@@ -265,6 +274,31 @@ describe('Yarn 1 Proxy', () => {
           "infoCommand": "yarn why",
         }
       `);
+    });
+  });
+
+  describe('parseErrors', () => {
+    it('should parse yarn1 errors', () => {
+      const YARN1_ERROR_SAMPLE = dedent`
+        yarn add v1.22.19
+        [1/4] Resolving packages...
+        error Couldn't find any versions for "react" that matches "28.2.0"
+        info Visit https://yarnpkg.com/en/docs/cli/add for documentation about this command.
+      `;
+
+      expect(yarn1Proxy.parseErrorFromLogs(YARN1_ERROR_SAMPLE)).toEqual(
+        `YARN1 error: Couldn't find any versions for "react" that matches "28.2.0"`
+      );
+    });
+
+    it('should show unknown yarn1 error', () => {
+      const YARN1_ERROR_SAMPLE = dedent`
+        yarn install v1.22.19
+        [1/4] 🔍  Resolving packages...
+        info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.
+      `;
+
+      expect(yarn1Proxy.parseErrorFromLogs(YARN1_ERROR_SAMPLE)).toEqual(`YARN1 error`);
     });
   });
 });

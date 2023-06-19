@@ -22,6 +22,10 @@ jest.mock('fs-extra', () => ({
   pathExists: jest.fn(),
 }));
 
+jest.mock('find-up', () => ({
+  sync: jest.fn(),
+}));
+
 jest.mock('path', () => {
   const path = jest.requireActual('path');
   return {
@@ -33,7 +37,7 @@ jest.mock('path', () => {
 });
 
 const packageManagerMock = {
-  retrievePackageJson: () => ({ dependencies: {}, devDependencies: {} }),
+  retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {} }),
 } as JsPackageManager;
 
 describe('Helpers', () => {

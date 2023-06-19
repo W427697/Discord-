@@ -3,13 +3,13 @@
 declare module 'jest-preset-angular/*';
 declare module 'preact-render-to-string/jsx';
 declare module 'react-test-renderer*';
-declare module 'rax-test-renderer*';
 
 declare module '@storybook/babel-plugin-require-context-hook/register';
 
 declare var STORYBOOK_ENV: any;
 declare var STORIES: any;
 
+declare var CONFIG_TYPE: 'DEVELOPMENT' | 'PRODUCTION';
 declare var FEATURES:
   | {
       storyStoreV7?: boolean;

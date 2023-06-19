@@ -6,6 +6,7 @@ import chalk from 'chalk';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
+import findUp from 'find-up';
 import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
@@ -17,16 +18,6 @@ import { SupportedLanguage } from './project_types';
 import storybookMonorepoPackages from './versions';
 
 const logger = console;
-
-export function getBowerJson() {
-  const bowerJsonPath = path.resolve('bower.json');
-  if (!fs.existsSync(bowerJsonPath)) {
-    return false;
-  }
-
-  const jsonContent = fs.readFileSync(bowerJsonPath, 'utf8');
-  return JSON.parse(jsonContent);
-}
 
 export function readFileAsJson(jsonPath: string, allowComments?: boolean) {
   const filePath = path.resolve(jsonPath);
@@ -119,6 +110,7 @@ export function codeLog(codeLines: string[], leftPadAmount?: number) {
 
 /**
  * Detect if any babel dependencies need to be added to the project
+ * This is currently used by react-native generator
  * @param {Object} packageJson The current package.json so we can inspect its contents
  * @returns {Array} Contains the packages and versions that need to be installed
  * @example
@@ -210,7 +202,7 @@ export async function copyTemplateFiles({
   };
   const templatePath = async () => {
     const baseDir = await getRendererDir(packageManager, renderer);
-    const assetsDir = join(baseDir, 'template/cli');
+    const assetsDir = join(baseDir, 'template', 'cli');
 
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
     const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
@@ -249,7 +241,7 @@ export async function copyTemplateFiles({
 
   const destinationPath = destination ?? (await targetPath());
   if (includeCommonAssets) {
-    await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+    await fse.copy(join(getCliDir(), 'rendererAssets', 'common'), destinationPath, {
       overwrite: true,
     });
   }
@@ -273,6 +265,7 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
   return allDeps[storybookPackage];
 }
 
-export function isNxProject(packageJSON: PackageJson) {
-  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
+export async function isNxProject(packageManager: JsPackageManager) {
+  const nxVersion = await packageManager.getPackageVersion('nx');
+  return !!nxVersion ?? findUp.sync('nx.json');
 }
