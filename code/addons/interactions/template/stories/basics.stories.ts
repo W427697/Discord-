@@ -47,7 +47,7 @@ export const Callback = {
       await fireEvent.click(canvas.getByRole('button'));
     });
 
-    await expect(args.onSuccess).toHaveBeenCalled();
+    await expect(args.onSuccess).toHaveBeenCalledWith('test');
   },
 };
 
@@ -113,7 +113,7 @@ export const UserEventSetup = {
       await user.keyboard('{enter}');
       const submitButton = await canvas.findByRole('button');
       await expect(submitButton).toHaveFocus();
-      await expect(args.onSuccess).toHaveBeenCalled();
+      await expect(args.onSuccess).toHaveBeenCalledWith('Pasting: foobar');
     });
   },
 };
