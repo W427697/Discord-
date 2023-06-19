@@ -246,7 +246,7 @@ export async function baseGenerator(
     addons.push('@storybook/addon-interactions');
     addonPackages.push(
       '@storybook/addon-interactions',
-      '@storybook/testing-library@^0.0.14-next.1'
+      '@storybook/testing-library@^0.1.1-future.2'
     );
   }
 
