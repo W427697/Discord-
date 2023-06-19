@@ -7560,7 +7560,7 @@ __metadata:
     magic-string: ^0.30.0
     typescript: ~4.9.3
     vite: ^4.0.0
-    vue-component-meta: ^1.7.14
+    vue-component-meta: ^1.8.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7604,7 +7604,7 @@ __metadata:
     magic-string: ^0.30.0
     typescript: ~4.9.3
     vite: ^4.0.0
-    vue-component-meta: ^1.7.14
+    vue-component-meta: ^1.8.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9524,9 +9524,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/language-core@npm:1.7.14":
-  version: 1.7.14
-  resolution: "@vue/language-core@npm:1.7.14"
+"@vue/language-core@npm:1.8.0":
+  version: 1.8.0
+  resolution: "@vue/language-core@npm:1.8.0"
   dependencies:
     "@volar/language-core": 1.7.6
     "@volar/source-map": 1.7.6
@@ -9541,7 +9541,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: afb8c620044e5b50b462da4132a36b21a2e7b3372c1992a393e7e222bc0a7135bd74554ca8040aa5baf4ae4700de44634a5d1a4f7d8967975948c4799ccc400d
+  checksum: b26f7e9c7aa872f900508044f529477df19bd974b58f428bba5b165b0de7b797d484b6a2f2740e1e5ad902a91d0fadf337b07286e9d7948b3e2ed7ec351429e7
   languageName: node
   linkType: hard
 
@@ -30619,27 +30619,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-component-meta@npm:^1.7.14":
-  version: 1.7.14
-  resolution: "vue-component-meta@npm:1.7.14"
+"vue-component-meta@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "vue-component-meta@npm:1.8.0"
   dependencies:
     "@volar/typescript": 1.7.6
-    "@vue/language-core": 1.7.14
+    "@vue/language-core": 1.8.0
     typesafe-path: ^0.2.2
-    vue-component-type-helpers: 1.7.14
+    vue-component-type-helpers: 1.8.0
   peerDependencies:
     typescript: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 5aee94d362150fd2dff6c0b9c6371ac7fb2b7260e539ceaa9a36ffe8d4999325f37c1a58d3c4ba4a999fb51177ee5e2384320a753d3314044483c6025e46fd65
+  checksum: 4c8445a071163c7707ed0030c5fafb319be250e936cdef1bebe56b5bbb1eb306f2093dd17fc86ff9ed57847c25e9431506e5aa8e0c86fc1b89416e35174e7a77
   languageName: node
   linkType: hard
 
-"vue-component-type-helpers@npm:1.7.14":
-  version: 1.7.14
-  resolution: "vue-component-type-helpers@npm:1.7.14"
-  checksum: a8d768f51ecb770a03ca493ee516608018c7580568bf0c6e7477ee0cab031c33fa22b57526383f6372e4068c028398e5ad988f9cabec121a98edccbc099b09b1
+"vue-component-type-helpers@npm:1.8.0":
+  version: 1.8.0
+  resolution: "vue-component-type-helpers@npm:1.8.0"
+  checksum: 18331838b354366eb8a7b22a423f8096bb28334f33ebd87622959a7178a55e065ca7d06b6a9f23734b0f24f361c389e0c6c5049a2e26ab49cbe100b241308068
   languageName: node
   linkType: hard
 
