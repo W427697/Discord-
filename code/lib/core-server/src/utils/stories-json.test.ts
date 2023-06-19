@@ -225,6 +225,17 @@ describe('useStoriesJson', () => {
               "title": "first-nested/deeply/F",
               "type": "story",
             },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "name": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
+              "type": "story",
+            },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
@@ -455,6 +466,23 @@ describe('useStoriesJson', () => {
               ],
               "title": "first-nested/deeply/F",
             },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "kind": "H",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "h--story-one",
+                "docsOnly": false,
+                "fileName": "./src/H.stories.mjs",
+              },
+              "story": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
+            },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
@@ -616,6 +644,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "first-nested/deeply/F",
+            },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "kind": "H",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "h--story-one",
+                "docsOnly": false,
+                "fileName": "./src/H.stories.mjs",
+              },
+              "story": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
@@ -790,6 +835,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "first-nested/deeply/F",
+            },
+            "h--story-one": Object {
+              "id": "h--story-one",
+              "importPath": "./src/H.stories.mjs",
+              "kind": "H",
+              "name": "Story One",
+              "parameters": Object {
+                "__id": "h--story-one",
+                "docsOnly": false,
+                "fileName": "./src/H.stories.mjs",
+              },
+              "story": "Story One",
+              "tags": Array [
+                "autodocs",
+                "story",
+              ],
+              "title": "H",
             },
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",

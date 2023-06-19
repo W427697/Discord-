@@ -200,6 +200,17 @@ describe('StoryIndexGenerator', () => {
                 "title": "first-nested/deeply/F",
                 "type": "story",
               },
+              "h--story-one": Object {
+                "id": "h--story-one",
+                "importPath": "./src/H.stories.mjs",
+                "name": "Story One",
+                "tags": Array [
+                  "autodocs",
+                  "story",
+                ],
+                "title": "H",
+                "type": "story",
+              },
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
@@ -357,6 +368,29 @@ describe('StoryIndexGenerator', () => {
                 "title": "first-nested/deeply/F",
                 "type": "story",
               },
+              "h--docs": Object {
+                "id": "h--docs",
+                "importPath": "./src/H.stories.mjs",
+                "name": "docs",
+                "storiesImports": Array [],
+                "tags": Array [
+                  "autodocs",
+                  "docs",
+                ],
+                "title": "H",
+                "type": "docs",
+              },
+              "h--story-one": Object {
+                "id": "h--story-one",
+                "importPath": "./src/H.stories.mjs",
+                "name": "Story One",
+                "tags": Array [
+                  "autodocs",
+                  "story",
+                ],
+                "title": "H",
+                "type": "story",
+              },
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
@@ -408,6 +442,8 @@ describe('StoryIndexGenerator', () => {
             "b--story-one",
             "d--docs",
             "d--story-one",
+            "h--docs",
+            "h--story-one",
             "first-nested-deeply-f--docs",
             "first-nested-deeply-f--story-one",
             "nested-button--docs",
@@ -1148,6 +1184,7 @@ describe('StoryIndexGenerator', () => {
           "second-nested-g--story-one",
           "componentreference--docs",
           "notitle--docs",
+          "h--story-one",
           "first-nested-deeply-f--story-one",
         ]
       `);
@@ -1166,7 +1203,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(6);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
         loadCsfMock.mockClear();
         await generator.getIndex();
@@ -1223,7 +1260,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(6);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', false);
 
@@ -1308,7 +1345,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(6);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
@@ -1347,7 +1384,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(6);
+        expect(loadCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
