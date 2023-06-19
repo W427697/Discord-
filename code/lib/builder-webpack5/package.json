@@ -55,7 +55,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.12.10",
+    "@babel/core": "^7.20.2",
     "@storybook/addons": "7.0.22",
     "@storybook/api": "7.0.22",
     "@storybook/channel-postmessage": "7.0.22",

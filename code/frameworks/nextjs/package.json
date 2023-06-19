@@ -97,7 +97,7 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
+    "@babel/core": "^7.20.2",
     "@babel/types": "^7.20.5",
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
@@ -107,7 +107,7 @@
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.11.5",
+    "@babel/core": "^7.20.2",
     "@next/font": "^13.0.0",
     "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
