@@ -149,7 +149,7 @@
     "ora": "^5.4.1",
     "p-limit": "^3.1.0",
     "p-retry": "^5.1.2",
-    "playwright": "1.32.3",
+    "playwright": "^1.35.0",
     "prettier": "^2.8.0",
     "pretty-hrtime": "^1.0.0",
     "process": "^0.11.10",
