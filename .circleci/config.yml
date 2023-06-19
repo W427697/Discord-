@@ -633,19 +633,19 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 11
+          parallelism: 9
           requires:
             - build
       - build-sandboxes:
-          parallelism: 11
+          parallelism: 9
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 11
+          parallelism: 9
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 11
+          parallelism: 9
           requires:
             - build-sandboxes
       - e2e-dev:

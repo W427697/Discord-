@@ -284,7 +284,7 @@ const baseTemplates = {
       renderer: '@storybook/angular',
       builder: '@storybook/builder-webpack5',
     },
-    skipTasks: ['e2e-tests-dev'],
+    skipTasks: ['e2e-tests-dev', 'bench-dev', 'bench-build'],
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
@@ -453,6 +453,7 @@ const internalTemplates = {
         },
       },
     },
+    skipTasks: ['bench-dev', 'bench-build'],
   },
   'internal/ssv6-webpack': {
     ...baseTemplates['cra/default-ts'],
@@ -466,6 +467,7 @@ const internalTemplates = {
         },
       },
     },
+    skipTasks: ['bench-dev', 'bench-build'],
   },
   'internal/swc-webpack': {
     ...baseTemplates['react-webpack/18-ts'],
@@ -484,6 +486,7 @@ const internalTemplates = {
         },
       },
     },
+    skipTasks: ['bench-dev', 'bench-build'],
   },
   'internal/server-webpack5': {
     name: 'Server Webpack5',
@@ -494,6 +497,7 @@ const internalTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     isInternal: true,
+    skipTasks: ['bench-dev', 'bench-build'],
   },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
@@ -512,7 +516,7 @@ const benchTemplates = {
     modifications: {
       skipTemplateStories: true,
     },
-    skipTasks: ['e2e-tests-dev'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
   },
   'bench/react-webpack-18-ts': {
     ...baseTemplates['react-webpack/18-ts'],
@@ -521,7 +525,7 @@ const benchTemplates = {
     modifications: {
       skipTemplateStories: true,
     },
-    skipTasks: ['e2e-tests-dev'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
   },
 } satisfies Record<`bench/${string}`, Template & { isInternal: true }>;
 
