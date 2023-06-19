@@ -633,11 +633,11 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build
       - build-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
