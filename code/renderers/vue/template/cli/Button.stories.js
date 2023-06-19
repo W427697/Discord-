@@ -12,11 +12,6 @@ export default {
       options: ['small', 'medium', 'large'],
     },
   },
-  render: (args, { argTypes }) => ({
-    props: Object.keys(argTypes),
-    components: { MyButton },
-    template: '<my-button @click="onClick" v-bind="$props" />',
-  }),
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/vue/writing-stories/args
