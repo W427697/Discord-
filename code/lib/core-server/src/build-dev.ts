@@ -159,16 +159,17 @@ export async function buildDevStandalone(
       frameworkName.split('@storybook/').length > 1
         ? frameworkName.split('@storybook/')[1]
         : frameworkName;
-
-    outputStartupInformation({
-      updateInfo: versionCheck,
-      version,
-      name,
-      address,
-      networkAddress,
-      managerTotalTime,
-      previewTotalTime,
-    });
+    if (!options.quiet) {
+      outputStartupInformation({
+        updateInfo: versionCheck,
+        version,
+        name,
+        address,
+        networkAddress,
+        managerTotalTime,
+        previewTotalTime,
+      });
+    }
   }
   return { port, address, networkAddress };
 }
