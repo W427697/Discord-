@@ -151,88 +151,6 @@ jobs:
             - code/renderers
             - code/presets
             - .verdaccio-cache
-  cra-bench:
-    executor:
-      class: large
-      name: sb_playwright
-    working_directory: /tmp/storybook
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: |
-            cd code
-            yarn local-registry --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: |
-            cd code
-            yarn wait-on http://localhost:6001
-      - run:
-          name: set up cra repro, skip tests
-          command: |
-            cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=never  --no-link
-      - run:
-          name: Run @storybook/bench on repro
-          command: |
-            cd bench/cra-default-ts
-            rm -rf node_modules
-            mkdir node_modules
-            ../../code/node_modules/.bin/sb-bench 'yarn install' --label cra
-      - report-workflow-on-failure
-      - run:
-          name: prep artifacts
-          when: always
-          command: tar cvzf /tmp/cra-default-ts-bench.tar.gz bench/cra-default-ts
-      - store_artifacts:
-          path: /tmp/cra-default-ts-bench.tar.gz
-          destination: cra-default-ts-bench.tar.gz
-  react-vite-bench:
-    executor:
-      class: large
-      name: sb_playwright
-    working_directory: /tmp/storybook
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Running local registry
-          command: |
-            cd code
-            yarn local-registry --open
-          background: true
-      - run:
-          name: Wait for registry
-          command: |
-            cd code
-            yarn wait-on http://localhost:6001
-      - run:
-          name: set up react-vite repro, skip tests
-          command: |
-            cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=never  --no-link
-      - run:
-          name: Run @storybook/bench on repro
-          command: |
-            cd bench/react-vite-default-ts
-            rm -rf node_modules
-            mkdir node_modules
-            ../../code/node_modules/.bin/sb-bench 'yarn install' --label react-vite
-      - report-workflow-on-failure
-      - run:
-          name: prep artifacts
-          when: always
-          command: tar cvzf /tmp/react-vite-default-ts-bench.tar.gz bench/react-vite-default-ts
-      - store_artifacts:
-          path: /tmp/react-vite-default-ts-bench.tar.gz
-          destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
       class: large
@@ -626,12 +544,6 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - cra-bench:
-          requires:
-            - build
-      - react-vite-bench:
-          requires:
-            - build
       - create-sandboxes:
           parallelism: 11
           requires:
@@ -687,12 +599,6 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - cra-bench:
-          requires:
-            - build
-      - react-vite-bench:
-          requires:
-            - build
       - create-sandboxes:
           parallelism: 20
           requires:
