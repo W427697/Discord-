@@ -24,7 +24,7 @@ const normalizedStories = [
     {
       titlePrefix: '',
       directory: './src',
-      files: '**/*.stories.@(ts|js|jsx)',
+      files: '**/*.stories.@(ts|js|mjs|jsx)',
     },
     { workingDir, configDir: workingDir }
   ),
