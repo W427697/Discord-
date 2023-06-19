@@ -11,6 +11,7 @@ import {
   useNpmWarning,
   type PackageManagerName,
 } from './js-package-manager';
+import { getStorybookVersion } from './utils';
 
 const logger = console;
 
@@ -80,27 +81,28 @@ export async function add(
     pkgMgr = 'npm';
   }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
-  const packageJson = packageManager.retrievePackageJson();
+  const packageJson = await packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 
-  const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
+  const { mainConfig } = getStorybookInfo(packageJson);
   if (!mainConfig) {
     logger.error('Unable to find storybook main.js config');
     return;
   }
   const main = await readConfig(mainConfig);
   logger.log(`Verifying ${addonName}`);
-  const latestVersion = packageManager.latestVersion(addonName);
+  const latestVersion = await packageManager.latestVersion(addonName);
   if (!latestVersion) {
     logger.error(`Unknown addon ${addonName}`);
   }
 
   // add to package.json
   const isStorybookAddon = addonName.startsWith('@storybook/');
+  const storybookVersion = await getStorybookVersion(packageManager);
   const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
-  const addonWithVersion = `${addonName}@${version}`;
+  const addonWithVersion = `${addonName}@^${version}`;
   logger.log(`Installing ${addonWithVersion}`);
-  packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
+  await packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
 
   // add to main.js
   logger.log(`Adding '${addon}' to main.js addons field.`);

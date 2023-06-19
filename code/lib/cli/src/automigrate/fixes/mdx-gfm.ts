@@ -3,7 +3,8 @@ import semver from 'semver';
 import { join } from 'path';
 import slash from 'slash';
 import glob from 'globby';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import { commonGlobOptions } from '@storybook/core-common';
+import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 
@@ -18,9 +19,7 @@ interface Options {
 export const mdxgfm: Fix<Options> = {
   id: 'github-flavored-markdown-mdx',
 
-  async check({ configDir, packageManager }) {
-    const { mainConfig, storybookVersion } = await getStorybookData({ packageManager, configDir });
-
+  async check({ configDir, mainConfig, storybookVersion }) {
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
@@ -37,7 +36,7 @@ export const mdxgfm: Fix<Options> = {
           ? slash(join(configDir, item))
           : slash(join(configDir, item.directory, item.files));
 
-      const files = await glob(pattern);
+      const files = await glob(pattern, commonGlobOptions(pattern));
 
       return files.some((f) => f.endsWith('.mdx'));
     }, Promise.resolve(false));
@@ -81,8 +80,10 @@ export const mdxgfm: Fix<Options> = {
 
   async run({ packageManager, dryRun, mainConfigPath, skipInstall }) {
     if (!dryRun) {
-      const packageJson = packageManager.retrievePackageJson();
-      const versionToInstall = getStorybookVersionSpecifier(packageManager.retrievePackageJson());
+      const packageJson = await packageManager.retrievePackageJson();
+      const versionToInstall = getStorybookVersionSpecifier(
+        await packageManager.retrievePackageJson()
+      );
       await packageManager.addDependencies(
         { installAsDevDependencies: true, skipInstall, packageJson },
         [`@storybook/addon-mdx-gfm@${versionToInstall}`]

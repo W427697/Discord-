@@ -41,6 +41,8 @@ const checkEslint = async ({
   });
   return eslintPlugin.check({
     packageManager: makePackageManager(packageJson),
+    mainConfig: {} as any,
+    storybookVersion: '7.0.0',
   });
 };
 
@@ -52,6 +54,7 @@ describe('eslint-plugin fix', () => {
       await expect(
         checkEslint({
           packageJson,
+          hasEslint: false,
         })
       ).resolves.toBeFalsy();
     });
