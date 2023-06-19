@@ -33,3 +33,7 @@ Eventually, the team will decide whether the RFC is a candidate for inclusion in
 The author of an RFC is not obligated to implement it. Of course, the RFC author (like any other developer) is welcome to post an implementation for review after the RFC has been accepted. However, note that the “accepted” status does not indicate priority nor whether it’s being actively worked on. 
 
 If you are interested in working on the implementation for an "active" RFC, but cannot determine if someone else is already working on it, feel free to ask (e.g. by leaving a comment on the associated issue).
+
+-----
+
+This RFC process took heavy inspiration from the RFC processes from [Rust](https://github.com/rust-lang/rfcs) and [Gatsby](https://www.gatsbyjs.com/contributing/rfc-process/).
