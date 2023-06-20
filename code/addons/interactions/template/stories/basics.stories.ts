@@ -109,6 +109,10 @@ export const UserEventSetup = {
       await user.paste('foobar');
     });
     await step('Tab and press enter on submit button', async () => {
+      await user.pointer([
+        { keys: '[TouchA>]', target: await canvas.getByRole('textbox') },
+        { keys: '[/TouchA]' },
+      ]);
       await user.tab();
       await user.keyboard('{enter}');
       const submitButton = await canvas.findByRole('button');
