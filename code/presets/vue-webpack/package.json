@@ -78,8 +78,7 @@
     "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "css-loader": "*",
     "vue": "^2.6.8",
-    "vue-loader": "^15.7.0",
-    "vue-template-compiler": "^2.0.0"
+    "vue-loader": "^15.7.0"
   },
   "engines": {
     "node": ">=16.0.0"
