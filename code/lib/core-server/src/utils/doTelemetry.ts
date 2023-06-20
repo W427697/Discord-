@@ -10,12 +10,12 @@ import { sendTelemetryError } from '../withTelemetry';
 
 export async function doTelemetry(
   core: CoreConfig,
-  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>,
+  initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined>,
   options: Options
 ) {
   if (!core?.disableTelemetry) {
     initializedStoryIndexGenerator.then(async (generator) => {
-      let storyIndex: StoryIndex;
+      let storyIndex: StoryIndex | undefined;
       try {
         storyIndex = await generator?.getIndex();
       } catch (err) {

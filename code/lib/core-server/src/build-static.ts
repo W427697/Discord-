@@ -153,7 +153,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   );
   effects.push(copy(coreServerPublicDir, options.outputDir));
 
-  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
+    Promise.resolve(undefined);
   if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
@@ -169,17 +170,21 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       storyStoreV7: !!features?.storyStoreV7,
     });
 
-    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+    const initializedStoryIndexGeneratorPromise = generator.initialize().then(() => generator);
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator,
+        initializedStoryIndexGeneratorPromise,
         convertToIndexV3
       )
     );
     effects.push(
-      extractStoriesJson(join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
+      extractStoriesJson(
+        join(options.outputDir, 'index.json'),
+        initializedStoryIndexGeneratorPromise
+      )
     );
+    initializedStoryIndexGenerator = initializedStoryIndexGeneratorPromise;
   }
 
   if (!core?.disableProjectJson) {

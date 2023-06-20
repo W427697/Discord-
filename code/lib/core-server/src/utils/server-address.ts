@@ -5,7 +5,7 @@ import detectFreePort from 'detect-port';
 
 export function getServerAddresses(
   port: number,
-  host: string,
+  host: string | undefined,
   proto: string,
   initialPath?: string
 ) {

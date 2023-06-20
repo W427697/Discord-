@@ -129,7 +129,11 @@ export async function buildDevStandalone(
   );
 
   const previewTotalTime = previewResult && previewResult.totalTime;
+<<<<<<< HEAD
   const managerTotalTime = managerResult?.totalTime;
+=======
+  const managerTotalTime = managerResult ? managerResult.totalTime : undefined;
+>>>>>>> 07413c6d49 (migrate core-server to strict types)
   const previewStats = previewResult && previewResult.stats;
   const managerStats = managerResult && managerResult.stats;
 
