@@ -9,6 +9,7 @@ import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import { SourceContainer } from './SourceContainer';
 import { scrollToElement } from './utils';
+import { useOf } from './useOf';
 
 const { document, window: globalWindow } = global;
 
@@ -22,6 +23,15 @@ export const DocsContainer: FC<PropsWithChildren<DocsContainerProps>> = ({
   theme,
   children,
 }) => {
+  let toc;
+  try {
+    const meta = useOf('meta', ['meta']);
+    toc = meta.preparedMeta.parameters?.docs?.toc || {};
+  } catch (err) {
+    // No meta, falling back to project annotations
+    toc = context?.projectAnnotations?.parameters?.docs?.toc || {};
+  }
+
   useEffect(() => {
     let url;
     try {
@@ -44,7 +54,7 @@ export const DocsContainer: FC<PropsWithChildren<DocsContainerProps>> = ({
     <DocsContext.Provider value={context}>
       <SourceContainer channel={context.channel}>
         <ThemeProvider theme={ensureTheme(theme)}>
-          <DocsPageWrapper>{children}</DocsPageWrapper>
+          <DocsPageWrapper toc={toc}>{children}</DocsPageWrapper>
         </ThemeProvider>
       </SourceContainer>
     </DocsContext.Provider>
