@@ -10,7 +10,7 @@ import { hasDocgen, extractComponentProps } from '@storybook/docs-tools';
 
 type Schema = { kind: string; schema: [] | object; type?: string } | string;
 type MetaDocgenInfo = DocgenInfo & {
-  type: string;
+  type: string | { name: string; value: string[] };
   default: string;
   global: boolean;
   name: string;
@@ -48,7 +48,10 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
 
       const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
 
-      const definedTypes = `${type.replace(' | undefined', '')}`;
+      const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
+        ' | undefined',
+        ''
+      )}`;
       const descriptions = `${
         tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
       }${description}`; // nestedTypes
