@@ -300,6 +300,10 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     }
   }
 
+  if (!options.skipInstall) {
+    await packageManager.installDependencies();
+  }
+
   const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
 
   if (!options.skipInstall) {
