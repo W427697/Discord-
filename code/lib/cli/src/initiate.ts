@@ -38,7 +38,6 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions } from './generators/types';
 import { HandledError } from './HandledError';
-import { dev } from './dev';
 
 const logger = console;
 
