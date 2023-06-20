@@ -1,10 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_vnode"] }] */
 
-import { addons, useEffect } from '@storybook/preview-api';
+import { addons } from '@storybook/preview-api';
 import { logger } from '@storybook/client-logger';
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
-import { h, type ComponentOptions, ref, watch } from 'vue';
+import { type ComponentOptions } from 'vue';
 import type Vue from 'vue';
 import type { StoryContext } from '../types';
 
@@ -24,7 +24,7 @@ export const skipSourceRender = (context: StoryContext) => {
 
 export const sourceDecorator = (storyFn: any, context: StoryContext) => {
   const story = storyFn();
-  const source = ref<string | undefined>(undefined);
+  const source = '';
 
   // See ../react/jsxDecorator.tsx
   const skip = skipSourceRender(context);
@@ -33,18 +33,9 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
   }
 
   const channel = addons.getChannel();
-  watch(
-    () => source,
-    () => {
-      if (!skip) {
-        channel.emit(SNIPPET_RENDERED, (context || {}).id, `<template>${source.value}</template>`);
-      }
-    },
-    { immediate: true, deep: true }
-  );
 
   const storyComponent = getStoryComponent(story.options.STORYBOOK_WRAPS);
-  const generateSource = (vueInstance: Vue) => {
+  const generateSource = (vueInstance: any) => {
     try {
       // console.log('updateSource():', vueInstance.$vnode);
       const storyNode = lookupStoryInstance(vueInstance, storyComponent);
@@ -52,25 +43,28 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
         logger.warn(`Failed to find story component in the rendered tree: ${storyComponent}`);
         return;
       }
-
-      // eslint-disable-next-line consistent-return
-      return vnodeToString(storyNode._vnode);
+      // eslint-disable-next-line no-param-reassign
+      vueInstance.source = vnodeToString(storyNode._vnode);
     } catch (e) {
       logger.warn(`Failed to generate dynamic story source: ${e}`);
     }
-    // eslint-disable-next-line consistent-return
-    return undefined;
   };
 
   return {
     components: {
       Story: story,
     },
+    data() {
+      return { source };
+    },
     updated() {
-      source.value = generateSource(this);
+      generateSource(this);
     },
     mounted() {
-      source.value = generateSource(this);
+      this.$watch('source', (val) =>
+        channel.emit(SNIPPET_RENDERED, context.id, `<template>${val}</template>`, 'vue')
+      );
+      generateSource(this);
     },
     template: '<story />',
   } as ComponentOptions<Vue> & ThisType<Vue>;
