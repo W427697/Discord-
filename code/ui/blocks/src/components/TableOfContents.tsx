@@ -30,74 +30,85 @@ export interface TocParameters {
   unsafeTocbotOptions?: tocbot.IStaticOptions;
 }
 
-const space = (n: number) => `${n * 10}px`;
+const Wrapper = styled.div(({ theme }) => ({
+  width: '10rem',
 
-const Container = styled('div')`
-  font-family: ${(p) => p.theme.typography.fonts.base};
-  height: 100%;
-  display: none;
-  width: 10rem;
+  '@media (max-width: 768px)': {
+    display: 'none',
+  },
+}));
 
-  @media only screen and (min-width: 1200px) {
-    display: block;
-  }
-`;
+const Content = styled.div(({ theme }) => ({
+  position: 'fixed',
+  top: 0,
+  width: '10rem',
+  paddingTop: '4rem',
 
-const Content = styled('div')`
-  position: fixed;
-  top: 0;
-  width: 10rem;
-  padding-top: 4rem;
+  fontFamily: theme.typography.fonts.base,
+  fontSize: theme.typography.size.s2,
 
-  & > .toc-wrapper > .toc-list {
-    padding-left: 0;
-    border-left: solid 2px ${(p) => p.theme.color.mediumlight};
+  WebkitFontSmoothing: 'antialiased',
+  MozOsxFontSmoothing: 'grayscale',
+  WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+  WebkitOverflowScrolling: 'touch',
 
-    .toc-list {
-      padding-left: 0;
-      border-left: solid 2px ${(p) => p.theme.color.mediumlight};
+  '& *': {
+    boxSizing: 'border-box',
+  },
 
-      .toc-list {
-        padding-left: 0;
-        border-left: solid 2px ${(p) => p.theme.color.mediumlight};
-      }
-    }
-  }
-  & .toc-list-item {
-    position: relative;
-    list-style-type: none;
-    margin-left: ${space(2)};
-  }
-  & .toc-list-item::before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    top: 0;
-    left: 0;
-    transform: translateX(calc(-2px - ${space(2)}));
-    border-left: solid 2px ${(p) => p.theme.color.mediumdark};
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  & .toc-list-item.is-active-li::before {
-    opacity: 1;
-  }
-  & .toc-list-item > a {
-    color: ${(p) => p.theme.color.defaultText};
-  }
-  & .toc-list-item.is-active-li > a {
-    font-weight: 600;
-    color: ${(p) => p.theme.color.secondary};
-  }
-`;
+  '& > .toc-wrapper > .toc-list': {
+    paddingLeft: 0,
+    borderLeft: `solid 2px ${theme.color.mediumlight}`,
 
-const Heading = styled('p')`
-  font-weight: 600;
-  font-size: 0.875em;
-  color: ${(p) => p.theme.textColor};
-  text-transform: uppercase;
-  margin-bottom: ${space(1)};
-`;
+    '.toc-list': {
+      paddingLeft: 0,
+      borderLeft: `solid 2px ${theme.color.mediumlight}`,
+
+      '.toc-list': {
+        paddingLeft: 0,
+        borderLeft: `solid 2px ${theme.color.mediumlight}`,
+      },
+    },
+  },
+  '& .toc-list-item': {
+    position: 'relative',
+    listStyleType: 'none',
+    marginLeft: 20,
+    paddingTop: 3,
+    paddingBottom: 3,
+  },
+  '& .toc-list-item::before': {
+    content: '""',
+    position: 'absolute',
+    height: '100%',
+    top: 0,
+    left: 0,
+    transform: `translateX(calc(-2px - 20px))`,
+    borderLeft: `solid 2px ${theme.color.mediumdark}`,
+    opacity: 0,
+    transition: 'opacity 0.2s',
+  },
+  '& .toc-list-item.is-active-li::before': {
+    opacity: 1,
+  },
+  '& .toc-list-item > a': {
+    color: theme.color.defaultText,
+    textDecoration: 'none',
+  },
+  '& .toc-list-item.is-active-li > a': {
+    fontWeight: 600,
+    color: theme.color.secondary,
+    textDecoration: 'none',
+  },
+}));
+
+const Heading = styled.p(({ theme }) => ({
+  fontWeight: 600,
+  fontSize: '0.875em',
+  color: theme.textColor,
+  textTransform: 'uppercase',
+  marginBottom: 10,
+}));
 
 type TableOfContentsProps = React.PropsWithChildren<
   TocParameters & {
@@ -106,8 +117,12 @@ type TableOfContentsProps = React.PropsWithChildren<
 >;
 
 const OptionalTitle: FC<{ title: TableOfContentsProps['title'] }> = ({ title }) => {
-  if (title === null) return null;
-  if (typeof title === 'string') return <Heading>{title}</Heading>;
+  if (title === null) {
+    return null;
+  }
+  if (typeof title === 'string') {
+    return <Heading>{title}</Heading>;
+  }
   return title;
 };
 
@@ -119,7 +134,6 @@ export const TableOfContents = ({
   ignoreSelector,
   unsafeTocbotOptions,
 }: TableOfContentsProps) => {
-  console.log({ title, disable, headingSelector, ignoreSelector, unsafeTocbotOptions });
   useEffect(() => {
     const configuration = {
       tocSelector: '.toc-wrapper',
@@ -141,22 +155,27 @@ export const TableOfContents = ({
       onClick: () => false,
       ...unsafeTocbotOptions,
     };
-    console.log({ configuration });
 
     /**
      * Wait for the DOM to be ready.
      */
-    setTimeout(() => tocbot.init(configuration), 100);
+    const timeout = setTimeout(() => tocbot.init(configuration), 100);
+    return () => {
+      clearTimeout(timeout);
+      tocbot.destroy();
+    };
   }, [disable]);
 
   return (
-    <Container>
-      {!disable && (
-        <Content>
-          <OptionalTitle title={title || null} />
-          <div className="toc-wrapper" />
-        </Content>
-      )}
-    </Container>
+    <>
+      <Wrapper>
+        {!disable ? (
+          <Content>
+            <OptionalTitle title={title || null} />
+            <div className="toc-wrapper" />
+          </Content>
+        ) : null}
+      </Wrapper>
+    </>
   );
 };

@@ -10,6 +10,7 @@ import { DocsContext } from './DocsContext';
 import { SourceContainer } from './SourceContainer';
 import { scrollToElement } from './utils';
 import { useOf } from './useOf';
+import { TableOfContents } from '../components/TableOfContents';
 
 const { document, window: globalWindow } = global;
 
@@ -54,7 +55,11 @@ export const DocsContainer: FC<PropsWithChildren<DocsContainerProps>> = ({
     <DocsContext.Provider value={context}>
       <SourceContainer channel={context.channel}>
         <ThemeProvider theme={ensureTheme(theme)}>
-          <DocsPageWrapper toc={toc}>{children}</DocsPageWrapper>
+          <DocsPageWrapper
+            toc={toc ? <TableOfContents className="sbdocs sbdocs-toc--custom" {...toc} /> : null}
+          >
+            {children}
+          </DocsPageWrapper>
         </ThemeProvider>
       </SourceContainer>
     </DocsContext.Provider>

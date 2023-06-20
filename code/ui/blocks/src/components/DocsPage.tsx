@@ -4,7 +4,6 @@ import { transparentize } from 'polished';
 import { withReset } from '@storybook/components';
 import type { CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
-import { TableOfContents } from './TableOfContents';
 import type { TocParameters } from './TableOfContents';
 
 /**
@@ -431,35 +430,19 @@ export const DocsWrapper = styled.div(({ theme }) => ({
   padding: '4rem 20px',
   minHeight: '100vh',
   boxSizing: 'border-box',
+  gap: '3rem',
 
   [`@media (min-width: ${breakpoint}px)`]: {},
 }));
 
-const TocWrapper = styled.div`
-  display: flex;
-  gap: 0rem;
-
-  @media only screen and (min-width: 1200px) {
-    gap: 3rem;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  width: 100%;
-`;
-
 interface DocsPageWrapperProps {
   children?: React.ReactNode;
-  toc?: TocParameters;
+  toc?: React.ReactNode;
 }
 
 export const DocsPageWrapper: FC<DocsPageWrapperProps> = ({ children, toc }) => (
   <DocsWrapper className="sbdocs sbdocs-wrapper">
-    <DocsContent className="sbdocs sbdocs-content">
-      <TocWrapper>
-        <ContentWrapper>{children}</ContentWrapper>
-        {toc ? <TableOfContents className="sbdocs sbdocs-toc--custom" {...toc} /> : null}
-      </TocWrapper>
-    </DocsContent>
+    <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
+    {toc}
   </DocsWrapper>
 );
