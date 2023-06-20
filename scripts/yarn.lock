@@ -3051,6 +3051,7 @@ __metadata:
     "@types/semver": ^7.3.4
     "@types/serve-static": ^1.13.8
     "@types/uuid": ^9.0.1
+    "@types/wait-on": ^5.3.1
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/experimental-utils": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
@@ -3991,6 +3992,15 @@ __metadata:
   version: 9.0.2
   resolution: "@types/uuid@npm:9.0.2"
   checksum: 4c4834f9738575a69db1179589cf397830dc205850b491216697afb254764c79c96a63b92f76e81b6d03515bed9227adf184fa4d33bb04970e6377e2f7c5bab9
+  languageName: node
+  linkType: hard
+
+"@types/wait-on@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "@types/wait-on@npm:5.3.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: fae18fa11910e0471582b762839d198852ed1b9fc75b2feae388f9f27502c16609514121fb2d9c9a63e2f973037b878b84635ac00cc8de345b5f286d26f03fc1
   languageName: node
   linkType: hard
 
