@@ -91,13 +91,15 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
   const { renderer } = await presets.apply<CoreConfig>('core', {});
-
+  const resolvedRenderer = renderer
+    ? resolveAddonName(options.configDir, renderer, options)
+    : undefined;
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
-      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
+      ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],

@@ -26,7 +26,7 @@ export function getServerAddresses(
   };
 }
 
-export const getServerPort = (port: number) =>
+export const getServerPort = (port?: number) =>
   detectFreePort(port).catch((error) => {
     logger.error(error);
     process.exit(-1);
