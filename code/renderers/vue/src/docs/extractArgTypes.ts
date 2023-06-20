@@ -45,7 +45,10 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
 
       const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
 
-      c;
+      const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
+        ' | undefined',
+        ''
+      )}`;
       const descriptions = `${
         tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
       }${description}`;
