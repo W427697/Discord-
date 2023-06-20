@@ -6,9 +6,14 @@
 ## Table of Contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
-- [How To Release](#how-to-release)
+  - [Branches](#branches)
+- [The Release Pull Requests](#the-release-pull-requests)
   - [Prereleases](#prereleases)
   - [Patch releases](#patch-releases)
+  - [Publishing](#publishing)
+- [How To Release](#how-to-release)
+  - [Prereleases](#prereleases-1)
+  - [Patch releases](#patch-releases-1)
   - [Manual Changes](#manual-changes)
 - [Releasing Locally in Case of Emergency 🚨](#releasing-locally-in-case-of-emergency-)
 - [Versioning Scenarios](#versioning-scenarios)
@@ -17,23 +22,144 @@
   - [Minor/major releases - `7.1.0-rc.2` -\> `7.1.0` or `8.0.0-rc.3` -\> `8.0.0`](#minormajor-releases---710-rc2---710-or-800-rc3---800)
   - [Patch releases to stable - subset of `7.1.0-alpha.13` -\> `7.0.14`](#patch-releases-to-stable---subset-of-710-alpha13---7014)
   - [Patch releases to earlier versions - subset of `7.1.0-alpha.13` -\> `6.5.14`](#patch-releases-to-earlier-versions---subset-of-710-alpha13---6514)
+  - [Prerelease of upcoming patch release - `7.0.20` -\> `7.0.21-alpha.0`](#prerelease-of-upcoming-patch-release---7020---7021-alpha0)
 - [FAQ](#faq)
   - [How do I make changes to the release scripts?](#how-do-i-make-changes-to-the-release-scripts)
   - [Why do I need to re-trigger workflows to update the changelog?](#why-do-i-need-to-re-trigger-workflows-to-update-the-changelog)
   - [Why are no release PRs being prepared?](#why-are-no-release-prs-being-prepared)
+  - [Why do we need separate release branches?](#why-do-we-need-separate-release-branches)
 
 ## Introduction
 
-- what this document describes
--
-- branches
+This document describes how the release process for the Storybook monorepo is set up. There are mainly two different types of releases:
+
+1. Prereleases and major/minor releases - releasing any content that is on the `next` branch
+2. Patch releases - picking any content from `next` to `main`, that needs to be patched back to the current stable minor release
+
+The release process is based on automatically created "Release Pull Requests", that when merged will trigger a new version to be released. A designated Releaser - can be a different team member from time to time - will go through the release process in the current Release PR.
+
+The process is implemented with a set of NodeJS scripts at [`scripts/release`](../scripts/release/), invoked by three GitHub Actions workflows:
+
+- [Prepare Prerelease PR](../.github/workflows/prepare-prerelease.yml)
+- [Prepare Patch PR](../.github/workflows/prepare-patch-release.yml)
+- [Publish](../.github/workflows/publish.yml)
+
+### Branches
+
+To understand how all of this fits together in the repository, it's important to understand the branching strategy used.
+
+All development is done against the default `next` branch, and any new features/bugfixes will almost always target that branch. The `next` branch contains the content ready to be released in the next prerelease. Any upcoming prerelease (eg. `v7.1.0-alpha.22`) will release the content of `next`.
+
+The `main` branch contains the content for the current stable release, eg. `v7.0.20`.
+
+Sometimes we're making changes that both needs to be in the next major/minor release, and in the current patch release. That might be bugfixes or small quality-of-life improvements. Making all changes target `next` ensures that the bugfix will land in the upcoming prerelease. To also get the change patched back to the current minor version (eg. from `7.1.0-alpha.20` to `7.0.18`), the PR containing the fix will get the **"patch"** label. That label tells the release workflow that it should pick that PR for the next patch release.
+This structure ensures that the changes are safely tried out in a prerelease, before being released to stable.
+
+There are many nuances to the process defined above, which are described in greater detail in [the "Versioning Scenarios" section](#versioning-scenarios) below.
+
+The actual (pre)releases aren't actually released from `next` nor `main`, but from `next-release` and `latest-release` respectively. That means that `next-release` and `latest-release` follow `next` and `main` closely, but they are not always in complete sync - which is on purpose. The reason for this indirection is described in [the "Why do we need separate release branches?" section](#why-do-we-need-separate-release-branches) below.
+
+At a high level, the branches in the monorepo can be described in this diagram (greatly simplified):
+
+```mermaid
+%%{init: { 'gitGraph': { 'showCommitLabel': false } } }%%
+gitGraph
+    commit
+    branch latest-release
+    branch next
+    checkout next
+    commit
+    branch next-release
+    checkout next-release
+    commit
+    commit tag: "7.1.0-alpha.18"
+    checkout next
+    merge next-release
+    commit id: "bugfix"
+    commit
+    checkout latest-release
+    cherry-pick id: "bugfix"
+    commit tag: "7.0.20"
+    checkout next-release
+    merge next
+    commit tag: "7.1.0-alpha.19"
+    checkout next
+    merge next-release
+    commit
+    checkout main
+    merge latest-release
+```
+
+```mermaid
+gitGraph
+    commit
+    branch latest-release
+    branch next
+    checkout next
+    commit
+    branch next-release
+    branch new-feature
+    checkout new-feature
+    commit
+    commit
+    checkout next
+    merge new-feature
+    commit
+    branch some-patched-bugfix
+    checkout some-patched-bugfix
+    commit
+    commit id: "patched-bugfix"
+    checkout next
+    merge some-patched-bugfix
+    commit
+    branch version-from-7.1.0-alpha.20
+    checkout version-from-7.1.0-alpha.20
+    commit
+    checkout next-release
+    merge version-from-7.1.0-alpha.20 tag: "7.1.0-alpha.21"
+    checkout next
+    merge next-release
+    checkout main
+    branch version-from-7.0.18
+    commit
+    cherry-pick id: "patched-bugfix"
+    checkout latest-release
+    merge version-from-7.0.18 tag: "7.0.19"
+    checkout main
+    merge latest-release
+```
+
+## The Release Pull Requests
+
+The release pull requests are automatically created by two different GitHub Actions workflows, one for each type of release. These pull requests are the "interface" for the Releaser to create a new release. The behavior between the two is very similar, with some minor differences described in the subsections. The high-level flow is:
+
+1. When a PR is merged to `next` (or a commit is pushed), both release pull requests are (re)generated
+2. They create a new branch - `version-(patch|prerelease)-from-<CURRENT-VERSION>`
+3. Bump all versions according to the version strategy (more on that below)
+4. Update `CHANGELOG(.prerelease).md` with all changes detected
+5. Commit everything
+6. **Force push**
+7. Open/edit pull request towards `next-release` or `latest-release`
+
+A few important things to note in this flow:
+
+- The PRs are regenerated on any changes to `next`, and a re-generation can be manually triggered as well (more on that in [How To Release](#how-to-release))
+- The changes are force pushed to the branch. Combining that with the bullet above, it means that if you commit any manual changes on the release branch before merging it, they risk being overwritten if a new change is merged to `next`, triggering the workflow. To mitigate this, [apply the **"freeze"** label to the pull request](#how-to-release).
+- The version bumps and changelogs are committed during the preparation, but the packages are _not actually published_ until later. This is a non-standard paradigm, where usually bumping versions and publishing packages happens at the same time.
+- The release pull requests don't target their working branches (`next` and `main`), but rather the release-focused `next-release` and `latest-release`.
+
+### Prereleases
+
+### Patch releases
+
+### Publishing
 
 ## How To Release
 
 ### Prereleases
 
 > **Note**
-> This actually also covers how to promote a prerelease to stable. This is basically any other releases than backported patch releases
+> This actually also covers how to promote a prerelease to stable. This is basically any other releases than backported patch releases, which are described in the next section
 
 ### Patch releases
 
@@ -106,6 +232,8 @@ These happen 2-3 times a year
 
 Given that this happens so rarely on a case by case basis, I'm okay with this being a completely manual process. The only thing we then need to keep in mind, is that all these versioning and publishing scripts needs to be executable locally, outside of a GitHub Action.
 
+### Prerelease of upcoming patch release - `7.0.20` -> `7.0.21-alpha.0`
+
 ## FAQ
 
 ### How do I make changes to the release scripts?
@@ -115,3 +243,5 @@ Given that this happens so rarely on a case by case basis, I'm okay with this be
 ### Why do I need to re-trigger workflows to update the changelog?
 
 ### Why are no release PRs being prepared?
+
+### Why do we need separate release branches?
