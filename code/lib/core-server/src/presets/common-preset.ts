@@ -44,7 +44,7 @@ export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) =>
 ];
 
 export const favicon = async (
-  value: string,
+  value: string | undefined,
   options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
 ) => {
   if (value) {
