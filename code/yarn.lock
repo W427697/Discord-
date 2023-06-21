@@ -5318,10 +5318,10 @@ __metadata:
     "@storybook/core-events": 7.1.0-alpha.37
     "@storybook/global": ^5.0.0
     "@storybook/instrumenter": 7.1.0-alpha.37
-    "@storybook/jest": future
+    "@storybook/jest": next
     "@storybook/manager-api": 7.1.0-alpha.37
     "@storybook/preview-api": 7.1.0-alpha.37
-    "@storybook/testing-library": future
+    "@storybook/testing-library": next
     "@storybook/theming": 7.1.0-alpha.37
     "@storybook/types": 7.1.0-alpha.37
     "@types/node": ^16.0.0
@@ -5955,21 +5955,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/channel-postmessage@npm:7.1.0-alpha.29":
-  version: 7.1.0-alpha.29
-  resolution: "@storybook/channel-postmessage@npm:7.1.0-alpha.29"
-  dependencies:
-    "@storybook/channels": 7.1.0-alpha.29
-    "@storybook/client-logger": 7.1.0-alpha.29
-    "@storybook/core-events": 7.1.0-alpha.29
-    "@storybook/global": ^5.0.0
-    qs: ^6.10.0
-    telejson: ^7.0.3
-    tiny-invariant: ^1.3.1
-  checksum: 1e3002cc791026923d5961ce373b8208a95c50d11e3ea8b748a79c05a5744128aac42d9a3d1cdd9f9ad61827e64227fd0b4246cc7b42c834e3702a3182e87eab
-  languageName: node
-  linkType: hard
-
 "@storybook/channel-websocket@workspace:*, @storybook/channel-websocket@workspace:deprecated/channel-websocket":
   version: 0.0.0-use.local
   resolution: "@storybook/channel-websocket@workspace:deprecated/channel-websocket"
@@ -5994,13 +5979,6 @@ __metadata:
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
-
-"@storybook/channels@npm:7.1.0-alpha.29":
-  version: 7.1.0-alpha.29
-  resolution: "@storybook/channels@npm:7.1.0-alpha.29"
-  checksum: 62c4b7f3852354dfc9013b5d2f51524325351772690765abefaba720c573abae230149c793d3424c62f58cf8ea0897fbd73aeb17daa511fa18fab142dcf31e82
-  languageName: node
-  linkType: hard
 
 "@storybook/cli@7.1.0-alpha.37, @storybook/cli@workspace:*, @storybook/cli@workspace:lib/cli":
   version: 0.0.0-use.local
@@ -6076,15 +6054,6 @@ __metadata:
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
-
-"@storybook/client-logger@npm:7.1.0-alpha.29":
-  version: 7.1.0-alpha.29
-  resolution: "@storybook/client-logger@npm:7.1.0-alpha.29"
-  dependencies:
-    "@storybook/global": ^5.0.0
-  checksum: 928cf347346cf85a747216f2387cc240ed2395d508358be4ed93d0319af1a25e326f8456125feef923f6d014000a2bf95cf43140cc4fcddd510a852478f05f39
-  languageName: node
-  linkType: hard
 
 "@storybook/codemod@7.1.0-alpha.37, @storybook/codemod@workspace:*, @storybook/codemod@workspace:lib/codemod":
   version: 0.0.0-use.local
@@ -6204,13 +6173,6 @@ __metadata:
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
-
-"@storybook/core-events@npm:7.1.0-alpha.29":
-  version: 7.1.0-alpha.29
-  resolution: "@storybook/core-events@npm:7.1.0-alpha.29"
-  checksum: 6a266433427b06aa99f0e02dbaad9d545a22e6e3c0487e1bbcc78d3782bee91e8062ed08b44461749069dd519d2cec9af76dbeb03ee452e4bcc78b0c04fc64e5
-  languageName: node
-  linkType: hard
 
 "@storybook/core-server@7.1.0-alpha.37, @storybook/core-server@workspace:*, @storybook/core-server@workspace:lib/core-server":
   version: 0.0.0-use.local
@@ -6472,28 +6434,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/instrumenter@npm:future":
-  version: 7.1.0-alpha.29
-  resolution: "@storybook/instrumenter@npm:7.1.0-alpha.29"
-  dependencies:
-    "@storybook/channels": 7.1.0-alpha.29
-    "@storybook/client-logger": 7.1.0-alpha.29
-    "@storybook/core-events": 7.1.0-alpha.29
-    "@storybook/global": ^5.0.0
-    "@storybook/preview-api": 7.1.0-alpha.29
-  checksum: a401ad429008be2c06eead8e52f4d1db73fcbb0e5a4ba406e82a034d46057752c8bdad9912cb2df2b48954fc4c75ba96a6895fe33f1df934ae12b0e2bec4d46c
-  languageName: node
-  linkType: hard
-
-"@storybook/jest@npm:future":
-  version: 0.1.1-future.2
-  resolution: "@storybook/jest@npm:0.1.1-future.2"
+"@storybook/jest@npm:next":
+  version: 0.1.1-next.1
+  resolution: "@storybook/jest@npm:0.1.1-next.1"
   dependencies:
     "@storybook/expect": storybook-jest
-    "@storybook/instrumenter": future
     "@testing-library/jest-dom": ^5.16.2
     jest-mock: ^27.3.0
-  checksum: bfecca13ba3d32e7b37eee7c6cb272c18b8dc79b25a1381627bfeb33efc881f0780a32d1acf4a92c058148728923718cee92e588d44290f26f4d428b480187d5
+  checksum: 09ffd8f56def15bb79e897cad6eb9a2157af223a876936a27b7082de2f3891cccdbaeac1b1e81481e9d50bc7d2837f8029f5b1a4e9f1a3f4aa6314222f4c17be
   languageName: node
   linkType: hard
 
@@ -6961,29 +6909,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preview-api@npm:7.1.0-alpha.29":
-  version: 7.1.0-alpha.29
-  resolution: "@storybook/preview-api@npm:7.1.0-alpha.29"
-  dependencies:
-    "@storybook/channel-postmessage": 7.1.0-alpha.29
-    "@storybook/channels": 7.1.0-alpha.29
-    "@storybook/client-logger": 7.1.0-alpha.29
-    "@storybook/core-events": 7.1.0-alpha.29
-    "@storybook/csf": ^0.1.0
-    "@storybook/global": ^5.0.0
-    "@storybook/types": 7.1.0-alpha.29
-    "@types/qs": ^6.9.5
-    dequal: ^2.0.2
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    qs: ^6.10.0
-    synchronous-promise: ^2.0.15
-    ts-dedent: ^2.0.0
-    util-deprecate: ^1.0.2
-  checksum: be648b02a0b3218e837f7b15389487da2d146174e0aa919c4383b09630a541abf850595b74642a1e409ad5a96fba6224af03bd87f5de556dcc51f380cf34c1d3
-  languageName: node
-  linkType: hard
-
 "@storybook/preview-web@7.1.0-alpha.37, @storybook/preview-web@workspace:*, @storybook/preview-web@workspace:deprecated/preview-web":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:deprecated/preview-web"
@@ -7183,7 +7108,7 @@ __metadata:
     "@storybook/html-vite": "workspace:*"
     "@storybook/html-webpack5": "workspace:*"
     "@storybook/instrumenter": "workspace:*"
-    "@storybook/jest": future
+    "@storybook/jest": next
     "@storybook/linter-config": ^3.1.2
     "@storybook/manager": "workspace:*"
     "@storybook/manager-api": "workspace:*"
@@ -7216,7 +7141,7 @@ __metadata:
     "@storybook/svelte": "workspace:*"
     "@storybook/svelte-webpack5": "workspace:*"
     "@storybook/telemetry": "workspace:*"
-    "@storybook/testing-library": future
+    "@storybook/testing-library": next
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@storybook/vue": "workspace:*"
@@ -7485,14 +7410,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/testing-library@npm:future":
-  version: 0.2.0-future.0
-  resolution: "@storybook/testing-library@npm:0.2.0-future.0"
+"@storybook/testing-library@npm:next":
+  version: 0.2.0-next.0
+  resolution: "@storybook/testing-library@npm:0.2.0-next.0"
   dependencies:
-    "@testing-library/dom": ^8.3.0
-    "@testing-library/user-event": ^13.2.1
+    "@testing-library/dom": ^9.3.1
+    "@testing-library/user-event": ^14.4.3
     ts-dedent: ^2.2.0
-  checksum: 5327898a2effe0a55877c54b5dc80c5db664f62b5f4c56693cbd1ee9665b02300839280cdd1b5f1d715fff89063462c8d23b873f67bc6c06b8599cde10c52059
+  checksum: 342ee91530b77db13c2691c36d7a00efead1af6453b58bbcca4d01afcdbe8e2b12dcaef734bea165838b6e6dd5af7d12032039c12e53955d7026190e56f6dc1b
   languageName: node
   linkType: hard
 
@@ -7534,18 +7459,6 @@ __metadata:
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
-
-"@storybook/types@npm:7.1.0-alpha.29":
-  version: 7.1.0-alpha.29
-  resolution: "@storybook/types@npm:7.1.0-alpha.29"
-  dependencies:
-    "@storybook/channels": 7.1.0-alpha.29
-    "@types/babel__core": ^7.0.0
-    "@types/express": ^4.7.0
-    file-system-cache: ^2.0.0
-  checksum: 29c94d3ba0b0bc4759893640e02cc83d0682f5c97dbefb1c5903a99d0341161f65eb0a65175123970a1176ff13e0f0b1661f5460583ea8de15c1b7ef18f73aeb
-  languageName: node
-  linkType: hard
 
 "@storybook/vue-vite@workspace:frameworks/vue-vite":
   version: 0.0.0-use.local
@@ -7945,19 +7858,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.3.0":
-  version: 8.20.0
-  resolution: "@testing-library/dom@npm:8.20.0"
+"@testing-library/dom@npm:^9.3.1":
+  version: 9.3.1
+  resolution: "@testing-library/dom@npm:9.3.1"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
     "@types/aria-query": ^5.0.1
-    aria-query: ^5.0.0
+    aria-query: 5.1.3
     chalk: ^4.1.0
     dom-accessibility-api: ^0.5.9
-    lz-string: ^1.4.4
+    lz-string: ^1.5.0
     pretty-format: ^27.0.2
-  checksum: 454c71f65708d1504256ae055f060adf8ed9eadcc7ddbf6d07a528045beceb842783c1253871759f5c137eca58e5e32700dc64b130cbb37e10e7a52ab08d7b44
+  checksum: 25d1deddba014c107fd9703181fbb7063ed376d3ad42d7918ee752e7e677edfb5abaf672b22afc5257ffe760c9c7e5cc981656297c328bc61578d23c6b65b4dc
   languageName: node
   linkType: hard
 
@@ -7999,6 +7912,15 @@ __metadata:
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
   checksum: ff57edaeab31322c80c3f01d55404b4cebb907b9ec7672b96a1a14d053f172046b01c5f27b45677927ebee8ed91bce695a7d09edec9a48875cfacabe39d0426a
+  languageName: node
+  linkType: hard
+
+"@testing-library/user-event@npm:^14.4.3":
+  version: 14.4.3
+  resolution: "@testing-library/user-event@npm:14.4.3"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: 28e1e4ed2fdaa9486e203c6789386be228e305abd3fa41f38c828af415fd4a4e80f4de88de0e502ff11c4b4926f221b874a2a45bcc8170d30714e12dad2c1bd0
   languageName: node
   linkType: hard
 
@@ -10293,6 +10215,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aria-query@npm:5.1.3, aria-query@npm:^5.0.0, aria-query@npm:^5.1.3":
+  version: 5.1.3
+  resolution: "aria-query@npm:5.1.3"
+  dependencies:
+    deep-equal: ^2.0.5
+  checksum: edcbc8044c4663d6f88f785e983e6784f98cb62b4ba1e9dd8d61b725d0203e4cfca38d676aee984c31f354103461102a3d583aa4fbe4fd0a89b679744f4e5faf
+  languageName: node
+  linkType: hard
+
 "aria-query@npm:^4.2.2":
   version: 4.2.2
   resolution: "aria-query@npm:4.2.2"
@@ -10300,15 +10231,6 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@babel/runtime-corejs3": ^7.10.2
   checksum: 7e224fbbb4de8210c5d8cbaf0e1a22caa78f2068bf231f4c75302bd77eeba1c3e3b97912080535140be60174720d2ac817e5d6fec18592951b4b6488d4da7cdc
-  languageName: node
-  linkType: hard
-
-"aria-query@npm:^5.0.0, aria-query@npm:^5.1.3":
-  version: 5.1.3
-  resolution: "aria-query@npm:5.1.3"
-  dependencies:
-    deep-equal: ^2.0.5
-  checksum: edcbc8044c4663d6f88f785e983e6784f98cb62b4ba1e9dd8d61b725d0203e4cfca38d676aee984c31f354103461102a3d583aa4fbe4fd0a89b679744f4e5faf
   languageName: node
   linkType: hard
 
@@ -21012,7 +20934,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lz-string@npm:^1.4.4":
+"lz-string@npm:^1.4.4, lz-string@npm:^1.5.0":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
   bin:
