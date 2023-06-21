@@ -11,7 +11,7 @@
   - [Prereleases](#prereleases)
   - [Patch releases](#patch-releases)
   - [Publishing](#publishing)
-- [How To Release](#how-to-release)
+- [👉 How To Release](#-how-to-release)
   - [Prereleases](#prereleases-1)
   - [Patch releases](#patch-releases-1)
   - [Making Manual Changes](#making-manual-changes)
@@ -47,15 +47,18 @@ The process is implemented with a set of NodeJS scripts at [`scripts/release`](.
 - [Prepare Patch PR](../.github/workflows/prepare-patch-release.yml)
 - [Publish](../.github/workflows/publish.yml)
 
+> **Note**
+> Throughout this document the distinction between **patch** release and **prereleases** are made. This is a simplification, since stable major and minor releases work the exact same way as **prereleases**, so that term covers those two cases as well. The distinction reflects the difference between releases updating the existing minor version on `main` with a new patch, or releasing a new minor/major/prerelease from `next`.
+
 ### Branches
 
 To understand how all of this fits together in the repository, it's important to understand the branching strategy used.
 
-All development is done against the default `next` branch, and any new features/bugfixes will almost always target that branch. The `next` branch contains the content ready to be released in the next prerelease. Any upcoming prerelease (eg. `v7.1.0-alpha.22`) will release the content of `next`.
+All development is done against the default `next` branch, and any new features/bug fixes will almost always target that branch. The `next` branch contains the content ready to be released in the next prerelease. Any upcoming prerelease (eg. `v7.1.0-alpha.22`) will release the content of `next`.
 
 The `main` branch contains the content for the current stable release, eg. `v7.0.20`.
 
-Sometimes we're making changes that both needs to be in the next major/minor release, and in the current patch release. That might be bugfixes or small quality-of-life improvements. Making all changes target `next` ensures that the bugfix will land in the upcoming prerelease. To also get the change patched back to the current minor version (eg. from `7.1.0-alpha.20` to `7.0.18`), the PR containing the fix will get the **"patch"** label. That label tells the release workflow that it should pick that PR for the next patch release.
+Sometimes we're making changes that both need to be in the next major/minor release, and in the current patch release. That might be bug fixes or small quality-of-life improvements. Making all changes target `next` ensures that the bugfix will land in the upcoming prerelease. To also get the change patched back to the current minor version (eg. from `7.1.0-alpha.20` to `7.0.18`), the PR containing the fix will get the **"patch"** label. That label tells the release workflow that it should pick that PR for the next patch release.
 This structure ensures that the changes are safely tried out in a prerelease, before being released to stable.
 
 There are many nuances to the process defined above, which are described in greater detail in [the "Versioning Scenarios" section](#versioning-scenarios) below.
@@ -160,11 +163,11 @@ Prereleases are prepared with all content from `next`. The changelog is generate
 
 The default versioning strategy is to bump the current prerelease number, as described in [Prereleases - `7.1.0-alpha.12` -> `7.1.0-alpha.13`](#prereleases---710-alpha12---710-alpha13). If there is no prerelease number (ie. we just released a new stable minor/major) it will add one to a patch bump, so it would go from `7.2.0` to `7.2.1-0` per default.
 
-Prerelease PRs are only prepared if there are actual changes to release, otherwise the workflow will be cancelled. `next` can have new content which is only labeled with "build" or "documentation", which isn't user-facing so it's [not considered "releasable"](#which-changes-are-considered-releasable-and-what-does-it-mean). In that case it doesn't make sense to create a release, as it won't bump versions nor write changelogs so it would just merge the same content back to `next`. This is explained more deeply in [Why are no release PRs being prepared?](#why-are-no-release-prs-being-prepared).
+Prerelease PRs are only prepared if there are actual changes to release, otherwise, the workflow will be canceled. `next` can have new content which is only labeled with "build" or "documentation", which isn't user-facing so it's [not considered "releasable"](#which-changes-are-considered-releasable-and-what-does-it-mean). In that case, it doesn't make sense to create a release, as it won't bump versions nor write changelogs so it would just merge the same content back to `next`. This is explained more deeply in [Why are no release PRs being prepared?](#why-are-no-release-prs-being-prepared).
 
 The preparation workflow will create a new branch from `next` called `version-from-<CURRENT-PRERELEASE-VERSION>`, and open a pull request that targets `next-release`. When that is merged by the Releaser, the [publish workflow](#publishing) will eventually merge `next-release` into `next`.
 
-Here's an example of a workflow where a feature and a bugfix have been created and then released to the a new `7.1.0-alpha.29` version. All the highlighted commits (square dots) are the ones that will be considered when generating the changelog.
+Here's an example of a workflow where a feature and a bugfix have been created and then released to a new `7.1.0-alpha.29` version. All the highlighted commits (square dots) are the ones that will be considered when generating the changelog.
 
 ```mermaid
 %%{init: { 'gitGraph': { 'mainBranchName': 'next' } } }%%
@@ -201,17 +204,17 @@ gitGraph
 > **Note**
 > Workflow: [`prepare-patch-release.yml`](../.github/workflows/prepare-patch-release.yml)
 
-Patch releases are prepared by [cherry picking](https://www.atlassian.com/git/tutorials/cherry-pick) any merged, unreleased pull requests to `next` that have the "**patch**" label applied. The merge commit of said pull requests are cherry picked.
+Patch releases are prepared by [cherry-picking](https://www.atlassian.com/git/tutorials/cherry-pick) any merged, unreleased pull requests to `next` that have the "**patch**" label applied. The merge commit of said pull requests are cherry-picked.
 
-Sometimes it's desired to pick pull requests back to `main` even if they are [not considered "releasable"](#which-changes-are-considered-releasable-and-what-does-it-mean), so opposite of the prerelease preparation, patch releases will _not cancel_ if the content os not releasable.
-On the surface it might not make sense to create a new patch release if the changes are only for documentation and/or internal build systems. But getting the changes back to `main` is the only way to get the documentation deployed to the production docs site. You also might want to cherry pick changes to internal CI to fix issues or similar. Both of these cases are valid scenarios where you want to cherry pick the changes in without being blocked on "releasable" content to be ready. In these cases where all cherry picks are non-releasable, the preparation workflow creates a "merging" pull request instead of a "releasing" pull request. In this state it doesn't bump versions and it doesn't update changelogs, it just cherry picks the changes and allows you to merge them into `main-release` -> `main`.
+Sometimes it's desired to pick pull requests back to `main` even if they are [not considered "releasable"](#which-changes-are-considered-releasable-and-what-does-it-mean), so opposite of the prerelease preparation, patch releases will _not cancel_ if the content is not releasable.
+On the surface, it might not make sense to create a new patch release if the changes are only for documentation and/or internal build systems. But getting the changes back to `main` is the only way to get the documentation deployed to the production docs site. You also might want to cherry-pick changes to internal CI to fix issues or similar. Both of these cases are valid scenarios where you want to cherry-pick the changes without being blocked on "releasable" content to be ready. In these cases where all cherry picks are non-releasable, the preparation workflow creates a "merging" pull request instead of a "releasing" pull request. In this state, it doesn't bump versions and it doesn't update changelogs, it just cherry-picks the changes and allows you to merge them into `latest-release` -> `main`.
 
-The preparation workflow sequentially cherry picks each patch pull request to it's branch. Sometimes this cherry picking fails because of conflicts or for other reasons, in which case it ignores it and moves on to the next. All the failing cherry picks are finally listed in the release pull request's description, for the Releaser to manually cherry pick during the release process.
+The preparation workflow sequentially cherry-picks each patch pull request to its branch. Sometimes this cherry-picking fails because of conflicts or for other reasons, in which case it ignores it and moves on to the next. All the failing cherry-picks are finally listed in the release pull request's description, for the Releaser to manually cherry-pick during the release process.
 This problem occurs more often the more `main` and `next` diverges, ie. the longer it has been since a stable major/minor release.
 
-Similar to the prerelease flow, the preparation workflow for patches will create a new branch from `main` called `version-from-<CURRENT-STABLE-VERSION>`, and open a pull request that targets `main-release`. When that is merged by the Releaser, the [publish workflow](#publishing) will eventually merge `main-release` into `main`.
+Similar to the prerelease flow, the preparation workflow for patches will create a new branch from `main` called `version-from-<CURRENT-STABLE-VERSION>`, and open a pull request that targets `latest-release`. When that is merged by the Releaser, the [publish workflow](#publishing) will eventually merge `latest-release` into `main`.
 
-Here's an example of a workflow where a feature and two bugfixes have been merged to `next`. Only the bugfixes have the "**patch**" label, so only those two goes into the new `7.0.19` release. Note that while the diagram shows the commits _on_ the bugfix branches being cherry-picked, it's actually their merge commits to `next` that gets picked - this is a limitation of mermaid graphs.
+Here's an example of a workflow where a feature and two bug fixes have been merged to `next`. Only the bug fixes have the "**patch**" label, so only those two go into the new `7.0.19` release. Note that while the diagram shows the commits _on_ the bugfix branches being cherry-picked, it's actually their merge commits to `next` that gets picked - this is a limitation of mermaid graphs.
 
 ```mermaid
 gitGraph
@@ -256,12 +259,29 @@ gitGraph
 > **Note**
 > Workflow: [`publish.yml`](../.github/workflows/publish.yml)
 
-## How To Release
+When either a prerelease or a patch release branch is merged to `main|next-release`, the publishing workflow is triggered. This workflow does the following on a high level:
+
+1. Install dependencies and build all packages
+2. Publish packages to npm
+3. (If this is a patch release, add the "**picked**" label to all picked pull requests)
+4. Create a new GitHub Release - also creating a version tag at the release branch (`latest-release` or `next-release`)
+5. Merge the release branch into the core branch (`main` or `next`)
+6. (If this is a patch release, copy the `CHANGELOG.md` changes from `main` to `next`)
+7. (If this is [a promotion from a prerelease to a stable release](#minormajor-releases---710-rc2---710-or-800-rc3---800), force push `next` onto `main`)
+
+The publish workflow runs in the "release" GitHub environment, which has the npm token needed to publish packages to the `@storybook` npm organization. For security reasons this environment can only be entered from the four "core" branches: `main`, `next`, `latest-release` and `next-release`.
+
+## 👉 How To Release
+
+This section describes what to do as a Releaser when it's time to release. Most of what's described here is also described in the release pull requests, in an attempt at making them a guide/to-do list for inexperienced Releasers.
+
+First, you locate the release pull request that has been prepared for the type of release you're about to release:
+
+- "Release: Prerelease 7.1.0-alpha.38" for prereleases
+- "Release: Patch 7.0.23" for patch releases
+- "Release: Merge patches to \`main\` (without version bump)" for patches without releases
 
 ### Prereleases
-
-> **Note**
-> This actually also covers how to promote a prerelease to stable. This is basically any other releases than backported patch releases, which are described in the next section
 
 ### Patch releases
 
@@ -330,7 +350,7 @@ This process is a bit different from the above because it needs to merge to the 
 6. When all is done, the description for the release PR will contain a list of PRs that couldn't be cherry picked, for the Releaser to manually do that and solve any merge conflicts.
 7. An important additional step for the Releaser is to check that all PRs are actually patches/fixes, and not new features, and that everything actually works, given that some cherry picked PRs could rely on functionality not yet found in stable.
 
-When the PR has been merged to `main-release` by the Releaser, after the usual publishing steps, the action will also label all patched PRs with "picked" so they are ignored for the next patch release.
+When the PR has been merged to `latest-release` by the Releaser, after the usual publishing steps, the action will also label all patched PRs with "picked" so they are ignored for the next patch release.
 
 ### Patch releases to earlier versions - subset of `7.1.0-alpha.13` -> `6.5.14`
 
