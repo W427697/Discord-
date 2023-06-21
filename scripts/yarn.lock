@@ -2951,9 +2951,11 @@ __metadata:
     "@types/escodegen": ^0.0.6
     "@types/express": ^4.17.11
     "@types/fs-extra": ^11.0.1
+    "@types/http-server": ^0.12.1
     "@types/lodash": ^4
     "@types/node": ^16.0.0
     "@types/node-fetch": ^2.5.7
+    "@types/pretty-hrtime": ^1.0.0
     "@types/prompts": 2.0.11
     "@types/react": ^16.14.34
     "@types/react-dom": ^16.9.17
@@ -3020,7 +3022,9 @@ __metadata:
     playwright: ^1.35.0
     playwright-core: ^1.35.0
     prettier: ^2.8.0
+    pretty-bytes: ^6.1.0
     pretty-hrtime: ^1.0.0
+    pretty-ms: ^8.0.0
     process: ^0.11.10
     prompts: ^2.4.0
     react: 16.14.0
@@ -3530,6 +3534,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/http-server@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "@types/http-server@npm:0.12.1"
+  dependencies:
+    "@types/connect": "*"
+  checksum: 9b2397640b961589b23c98c5b1ed9f507fe07413f5723b3b4f447740d70ed702a356ec32dfa7e77fc477505f65758e423ee8745b879efb1fdddc23a840c29534
+  languageName: node
+  linkType: hard
+
 "@types/is-empty@npm:^1.0.0":
   version: 1.2.1
   resolution: "@types/is-empty@npm:1.2.1"
@@ -3708,6 +3721,13 @@ __metadata:
   version: 2.7.3
   resolution: "@types/prettier@npm:2.7.3"
   checksum: 0960b5c1115bb25e979009d0b44c42cf3d792accf24085e4bfce15aef5794ea042e04e70c2139a2c3387f781f18c89b5706f000ddb089e9a4a2ccb7536a2c5f0
+  languageName: node
+  linkType: hard
+
+"@types/pretty-hrtime@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@types/pretty-hrtime@npm:1.0.1"
+  checksum: e990110a3626e987319092c5149d5ea244785b83fbbd8e62605714ec1fa4317a3524ae0b6381cdc2ca92619d9a451b3fe9ff4085c42826f5398e3380d3031bff
   languageName: node
   linkType: hard
 
@@ -12787,6 +12807,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parse-ms@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "parse-ms@npm:3.0.0"
+  checksum: 056b4a32a9d3749f3f4cfffefb45c45540491deaa8e1d8ad43c2ddde7ba04edd076bd1b298f521238bb5fb084a9b2c4a2ebb78aefa651afbc4c2b0af4232fc54
+  languageName: node
+  linkType: hard
+
 "parse-passwd@npm:^1.0.0":
   version: 1.0.0
   resolution: "parse-passwd@npm:1.0.0"
@@ -13159,6 +13186,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pretty-bytes@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "pretty-bytes@npm:6.1.0"
+  checksum: 717ed82f8d4bbf038b623062d360bf71fe9107c3f2c43de7d0fd3e9610780306e38059d8d8356bc2c151d2929fada934c051f7d51be2587ebe8f426268b43112
+  languageName: node
+  linkType: hard
+
 "pretty-format@npm:^27.0.2":
   version: 27.5.1
   resolution: "pretty-format@npm:27.5.1"
@@ -13185,6 +13219,15 @@ __metadata:
   version: 1.0.3
   resolution: "pretty-hrtime@npm:1.0.3"
   checksum: 67cb3fc283a72252b49ac488647e6a01b78b7aa1b8f2061834aa1650691229081518ef3ca940f77f41cc8a8f02ba9eeb74b843481596670209e493062f2e89e0
+  languageName: node
+  linkType: hard
+
+"pretty-ms@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "pretty-ms@npm:8.0.0"
+  dependencies:
+    parse-ms: ^3.0.0
+  checksum: e960d633ecca45445cf5c6dffc0f5e4bef6744c92449ab0e8c6c704800675ab71e181c5e02ece5265e02137a33e313d3f3e355fbf8ea30b4b5b23de423329f8d
   languageName: node
   linkType: hard
 

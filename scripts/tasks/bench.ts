@@ -3,6 +3,9 @@ import type { Task } from '../task';
 import { PORT, dev } from './dev';
 import { serve } from './serve';
 
+// eslint-disable-next-line @typescript-eslint/no-implied-eval
+const dynamicImport = new Function('specifier', 'return import(specifier)');
+
 export const bench: Task = {
   description: 'Run benchmarks against a sandbox in dev mode',
   dependsOn: ['build'],
@@ -11,35 +14,60 @@ export const bench: Task = {
   },
 
   async run(details, options) {
-    const { browse, saveBench, storybookConfig } = await import('../bench');
-    const url = `http://localhost:${PORT}?path=/story/example-button--primary`;
+    const controllers: AbortController[] = [];
+    try {
+      const { browse, saveBench, loadBench } = await import('../bench');
+      const { default: prettyBytes } = await dynamicImport('pretty-bytes');
+      const { default: prettyTime } = await dynamicImport('pretty-ms');
 
-    const devController = await dev.run(details, options);
-    if (!devController) {
-      throw new Error('dev: controller is null');
-    }
+      const url = `http://localhost:${PORT}`;
 
-    const devBrowseResult = await browse(url, storybookConfig);
-    devController.abort();
-
-    const serveController = await serve.run(details, options);
-    if (!serveController) {
-      throw new Error('serve: controller is null');
-    }
-
-    const buildBrowseResult = await browse(url, storybookConfig);
-    serveController.abort();
-
-    await saveBench(
-      {
-        devManagerLoaded: devBrowseResult.managerLoaded,
-        devPreviewLoaded: devBrowseResult.previewLoaded,
-        buildManagerLoaded: buildBrowseResult.managerLoaded,
-        buildPreviewLoaded: buildBrowseResult.previewLoaded,
-      },
-      {
-        rootDir: details.sandboxDir,
+      const devController = await dev.run(details, { ...options, debug: false });
+      if (!devController) {
+        throw new Error('dev: controller is null');
       }
-    );
+      controllers.push(devController);
+
+      const devBrowseResult = await browse(url);
+      devController.abort();
+
+      const serveController = await serve.run(details, { ...options, debug: false });
+      if (!serveController) {
+        throw new Error('serve: controller is null');
+      }
+      controllers.push(serveController);
+
+      const buildBrowseResult = await browse(url);
+      serveController.abort();
+
+      await saveBench(
+        {
+          devManagerHeaderVisible: devBrowseResult.managerHeaderVisible,
+          devManagerIndexVisible: devBrowseResult.managerIndexVisible,
+          devStoryVisible: devBrowseResult.storyVisible,
+          devDocsVisible: devBrowseResult.docsVisible,
+
+          buildManagerHeaderVisible: buildBrowseResult.managerHeaderVisible,
+          buildManagerIndexVisible: buildBrowseResult.managerIndexVisible,
+          buildPreviewVisible: buildBrowseResult.storyVisible,
+          buildDocsVisible: buildBrowseResult.docsVisible,
+        },
+        {
+          rootDir: details.sandboxDir,
+        }
+      );
+
+      const data = await loadBench({ rootDir: details.sandboxDir });
+      Object.entries(data).forEach(([key, value]) => {
+        if (key.includes('Size')) {
+          console.log(`${key}: ${prettyBytes(value)}`);
+        } else {
+          console.log(`${key}: ${prettyTime(value)}`);
+        }
+      });
+    } catch (e) {
+      controllers.forEach((c) => c.abort());
+      throw e;
+    }
   },
 };
