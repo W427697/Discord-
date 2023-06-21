@@ -1,3 +1,13 @@
+## 7.1.0-alpha.38
+
+- CLI: Fix installing user's project before init - [#23145](https://github.com/storybookjs/storybook/pull/23145), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Fix storybook dev after storybook init via subprocess - [#23144](https://github.com/storybookjs/storybook/pull/23144), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Suppress dev-server info table when `--quiet` is true - [#23133](https://github.com/storybookjs/storybook/pull/23133), thanks [@syabro](https://github.com/syabro)!
+- Core: Allow `.mjs` extension for CSF stories - [#23125](https://github.com/storybookjs/storybook/pull/23125), thanks [@idesigncode](https://github.com/idesigncode)!
+- Core: Fix compat by disabling name mangling in `esbuild` require - [#22486](https://github.com/storybookjs/storybook/pull/22486), thanks [@youngboy](https://github.com/youngboy)!
+- Docs: Fix scroll location on docs navigation - [#22714](https://github.com/storybookjs/storybook/pull/22714), thanks [@gitstart-storybook](https://github.com/gitstart-storybook)!
+- Interactions: Fix deeply nested nodes in the panel debugger - [#23108](https://github.com/storybookjs/storybook/pull/23108), thanks [@yannbf](https://github.com/yannbf)!
+
 ## 7.1.0-alpha.37
 
 - Ecosystem: Prebundle node-logger and make it CJS only - [#23109](https://github.com/storybookjs/storybook/pull/23109), thanks [@ndelangen](https://github.com/ndelangen)!
