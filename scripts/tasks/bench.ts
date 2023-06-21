@@ -3,7 +3,7 @@ import type { Task } from '../task';
 import { PORT, dev } from './dev';
 import { serve } from './serve';
 
-export const benchDev: Task & { port: number } = {
+export const bench: Task = {
   description: 'Run benchmarks against a sandbox in dev mode',
   dependsOn: ['build'],
   async ready() {
