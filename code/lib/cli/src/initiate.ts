@@ -355,11 +355,18 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
           projectType === ProjectType.REACT_PROJECT ||
           projectType === ProjectType.NEXTJS;
 
-        const flags = ['--quiet'];
+        const flags = [];
+
+        // npm needs extra -- to pass flags to the command
+        if (packageManager.type === 'npm') {
+          flags.push('--');
+        }
 
         if (isReactWebProject) {
           flags.push('--initial-path=/onboarding');
         }
+
+        flags.push('--quiet');
 
         // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
         // executed directly in the user's project directory. This avoid potential issues
