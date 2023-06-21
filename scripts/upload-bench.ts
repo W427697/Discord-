@@ -37,13 +37,13 @@ export interface BenchResults {
 }
 
 const uploadBench = async () => {
-  const keys = ['build', 'dev', 'bench-build', 'bench-dev'] as SaveBenchOptions['key'][];
+  const keys = ['build', 'dev', 'bench'] as SaveBenchOptions['key'][];
   const results = {} as Record<string, any>;
 
   await Promise.all(
     keys.map(async (key) => {
       try {
-        const val = await loadBench({ key, rootDir: templateSandboxDir });
+        const val = await loadBench({ rootDir: templateSandboxDir });
         results[key] = val;
         console.log({ key, val });
       } catch (err) {
@@ -61,11 +61,11 @@ const uploadBench = async () => {
     installSize: 0,
     startManagerBuild: 0,
     startPreviewBuild: results.dev?.time || 0,
-    startManagerRender: results['bench-dev']?.managerLoaded || 0,
-    startPreviewRender: results['bench-dev']?.previewLoaded || 0,
+    startManagerRender: results.bench?.managerLoaded || 0,
+    startPreviewRender: results.bench?.previewLoaded || 0,
     buildTime: results.build?.time || 0,
-    browseManagerRender: results['bench-build']?.managerLoaded || 0,
-    browsePreviewRender: results['bench-build']?.previewLoaded || 0,
+    browseManagerRender: results.bench?.managerLoaded || 0,
+    browsePreviewRender: results.bench?.previewLoaded || 0,
     browseSizeTotal: 0,
     browseSizeManagerTotal: 0,
     browseSizeManagerVendors: 0,

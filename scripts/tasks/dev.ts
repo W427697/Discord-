@@ -18,6 +18,7 @@ export const dev: Task = {
   async run({ sandboxDir, selectedTask }, { dryRun, debug }) {
     const controller = new AbortController();
     const devCommand = `yarn storybook --port ${PORT}${selectedTask === 'dev' ? '' : ' --ci'}`;
+    const { default: waitOn } = await import('wait-on');
     const start = now();
 
     exec(
@@ -26,13 +27,20 @@ export const dev: Task = {
       { dryRun, debug, signal: controller.signal as AbortSignal }
     ).catch((err) => {
       // If aborted, we want to make sure the rejection is handled.
-      if (!err.killed) throw err;
+      if (!err.killed) {
+        throw err;
+      }
     });
-    const { default: waitOn } = await import('wait-on');
-    await waitOn({ resources: [`http://localhost:${PORT}/iframe.html`], interval: 50 });
+    const [devPreviewResponsive, devManagerResponsive] = await Promise.all([
+      waitOn({ resources: [`http://localhost:${PORT}/iframe.html`], interval: 16 }).then(() => {
+        return now() - start;
+      }),
+      waitOn({ resources: [`http://localhost:${PORT}/index.html`], interval: 16 }).then(() => {
+        return now() - start;
+      }),
+    ]);
 
-    const time = now() - start;
-    await saveBench({ time }, { key: 'dev', rootDir: sandboxDir });
+    await saveBench({ devPreviewResponsive, devManagerResponsive }, { rootDir: sandboxDir });
 
     return controller;
   },

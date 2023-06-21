@@ -24,7 +24,7 @@ export const serve: Task = {
       if (!err.killed) throw err;
     });
     const { default: waitOn } = await import('wait-on');
-    await waitOn({ resources: [`http://localhost:${PORT}`], interval: 50 });
+    await waitOn({ resources: [`http://localhost:${PORT}`], interval: 16 });
 
     return controller;
   },

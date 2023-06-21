@@ -458,18 +458,13 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          # NOTE: this assumes that the bench-dev key represents BOTH tasks since they are run at the same time.
-          # Update if we ever run these separately!
-          name: Running Dev Bench
-          command: yarn task --task bench-dev --template $(yarn get-template << pipeline.parameters.workflow >> bench-dev) --no-link --start-from=never --junit
-      - run:
-          name: Running Prod Bench
-          command: yarn task --task bench-build --template $(yarn get-template << pipeline.parameters.workflow >> bench-dev) --no-link --start-from=never --junit
+          name: Running Bench
+          command: yarn task --task bench --template $(yarn get-template << pipeline.parameters.workflow >> bench) --no-link --start-from=never --junit
       - run:
           name: Uploading results
-          command: yarn upload-bench $(yarn get-template << pipeline.parameters.workflow >> bench-dev)
+          command: yarn upload-bench $(yarn get-template << pipeline.parameters.workflow >> bench)
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> bench-dev)
+          template: $(yarn get-template << pipeline.parameters.workflow >> bench)
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/bench-results/
           destination: bench-results

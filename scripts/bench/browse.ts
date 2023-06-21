@@ -2,7 +2,7 @@
 import type { Page, FrameLocator } from 'playwright';
 import { chromium } from 'playwright';
 
-import type { Config } from './config';
+import type { Config } from './types';
 
 const now = () => new Date().getTime();
 const TIMEOUT = 20000;

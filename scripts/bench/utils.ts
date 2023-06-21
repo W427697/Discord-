@@ -4,17 +4,18 @@ import { ensureDir, writeJSON, readJSON } from 'fs-extra';
 export const now = () => new Date().getTime();
 
 export interface SaveBenchOptions {
-  key: 'build' | 'dev' | 'bench-build' | 'bench-dev';
   rootDir?: string;
 }
 
 export const saveBench = async (data: any, options: SaveBenchOptions) => {
-  const dirname = join(options.rootDir || process.cwd(), 'bench-results');
-  await ensureDir(dirname);
-  await writeJSON(join(dirname, `${options.key}.json`), data, { spaces: 2 });
+  const dirname = options.rootDir || process.cwd();
+  const existing = await ensureDir(dirname).then(() => {
+    return loadBench(options).catch(() => ({}));
+  });
+  await writeJSON(join(dirname, `bench.json`), { ...existing, ...data }, { spaces: 2 });
 };
 
 export const loadBench = async (options: SaveBenchOptions) => {
-  const dirname = join(options.rootDir || process.cwd(), 'bench-results');
-  return readJSON(join(dirname, `${options.key}.json`));
+  const dirname = options.rootDir || process.cwd();
+  return readJSON(join(dirname, `bench.json`));
 };
