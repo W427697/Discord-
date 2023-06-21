@@ -103,5 +103,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   );
 };
 function getControlTypesFromArgType(argType: ArgType) {
-  return argType.control.types.length === 0 ? [argType.control.type] : argType.control.types;
+  return !argType.control.types || argType.control.types.length === 0
+    ? [argType.control.type]
+    : argType.control.types;
 }
