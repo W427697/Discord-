@@ -159,6 +159,7 @@ export async function buildDevStandalone(
       frameworkName.split('@storybook/').length > 1
         ? frameworkName.split('@storybook/')[1]
         : frameworkName;
+
     if (!options.quiet) {
       outputStartupInformation({
         updateInfo: versionCheck,
