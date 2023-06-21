@@ -1,6 +1,6 @@
 ## Goal
 
-The goal of the RFC process is to establish a consistent and controlled path for introducing new features into the project.
+The goal of the RFC (Request for Comment) process is to establish a consistent and controlled path for introducing new features into the project.
 
 Many changes, such as bug fixes and documentation improvements, can be implemented and reviewed via the normal GitHub pull request workflow. Some changes, however, are considered “substantial”, and we ask that these undergo a design process, solicit community input, and reach a consensus among the Storybook core team.
 
