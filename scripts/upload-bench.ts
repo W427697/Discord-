@@ -3,7 +3,6 @@ import { join } from 'path';
 import { BigQuery } from '@google-cloud/bigquery';
 
 import { loadBench } from './bench';
-import type { SaveBenchOptions } from './bench';
 import { SANDBOX_DIRECTORY, CODE_DIRECTORY } from './utils/constants';
 import { execaCommand } from './utils/exec';
 
@@ -18,75 +17,87 @@ export interface BenchResults {
   commit: string;
   timestamp: string;
   label: string;
-  installTime: number;
-  installSize: number;
-  startManagerBuild: number;
-  startPreviewBuild: number;
-  startManagerRender: number;
-  startPreviewRender: number;
+
+  createTime: number;
+  generateTime: number;
+  initTime: number;
+  createSize: number;
+  generateSize: number;
+  initSize: number;
+  diffSize: number;
   buildTime: number;
-  browseManagerRender: number;
-  browsePreviewRender: number;
-  browseSizeTotal: number;
-  browseSizeManagerTotal: number;
-  browseSizeManagerVendors: number;
-  browseSizeManagerUiDll: number;
-  browseSizePreviewTotal: number;
-  browseSizePreviewVendors: number;
-  browseSizePreviewDocsDll: number;
+  buildSize: number;
+  buildSbAddonsSize: number;
+  buildSbCommonSize: number;
+  buildSbManagerSize: number;
+  buildSbPreviewSize: number;
+  buildStaticSize: number;
+  buildPrebuildSize: number;
+  buildPreviewSize: number;
+  devPreviewResponsive: number;
+  devManagerResponsive: number;
+  devManagerLoaded: number;
+  devPreviewLoaded: number;
+  buildManagerLoaded: number;
+  buildPreviewLoaded: number;
 }
+const defaults: Record<keyof BenchResults, null> = {
+  branch: null,
+  commit: null,
+  timestamp: null,
+  label: null,
+
+  createTime: null,
+  generateTime: null,
+  initTime: null,
+  createSize: null,
+  generateSize: null,
+  initSize: null,
+  diffSize: null,
+  buildTime: null,
+  buildSize: null,
+  buildSbAddonsSize: null,
+  buildSbCommonSize: null,
+  buildSbManagerSize: null,
+  buildSbPreviewSize: null,
+  buildStaticSize: null,
+  buildPrebuildSize: null,
+  buildPreviewSize: null,
+  devPreviewResponsive: null,
+  devManagerResponsive: null,
+  devManagerLoaded: null,
+  devPreviewLoaded: null,
+  buildManagerLoaded: null,
+  buildPreviewLoaded: null,
+};
 
 const uploadBench = async () => {
-  const keys = ['build', 'dev', 'bench'] as SaveBenchOptions['key'][];
-  const results = {} as Record<string, any>;
+  const results = await loadBench({ rootDir: templateSandboxDir });
 
-  await Promise.all(
-    keys.map(async (key) => {
-      try {
-        const val = await loadBench({ rootDir: templateSandboxDir });
-        results[key] = val;
-        console.log({ key, val });
-      } catch (err) {
-        console.log(`Failed to load bench for the key ${key}:`, err);
-      }
-    })
-  );
   const row = {
+    ...defaults,
     branch:
       process.env.CIRCLE_BRANCH || (await execaCommand('git rev-parse --abbrev-ref HEAD')).stdout,
     commit: process.env.CIRCLE_SHA1 || (await execaCommand('git rev-parse HEAD')).stdout,
     timestamp: new Date().toISOString(),
     label: templateKey,
-    installTime: 0,
-    installSize: 0,
-    startManagerBuild: 0,
-    startPreviewBuild: results.dev?.time || 0,
-    startManagerRender: results.bench?.managerLoaded || 0,
-    startPreviewRender: results.bench?.previewLoaded || 0,
-    buildTime: results.build?.time || 0,
-    browseManagerRender: results.bench?.managerLoaded || 0,
-    browsePreviewRender: results.bench?.previewLoaded || 0,
-    browseSizeTotal: 0,
-    browseSizeManagerTotal: 0,
-    browseSizeManagerVendors: 0,
-    browseSizeManagerUiDll: 0,
-    browseSizePreviewTotal: 0,
-    browseSizePreviewVendors: 0,
-    browseSizePreviewDocsDll: 0,
+    ...results,
   } as BenchResults;
 
-  const bigquery = new BigQuery({
+  const store = new BigQuery({
     projectId: GCP_CREDENTIALS.project_id,
     credentials: GCP_CREDENTIALS,
   });
-  const dataset = bigquery.dataset('benchmark_results');
+  const dataset = store.dataset('benchmark_results');
   const appTable = dataset.table('bench_new');
 
-  console.log('inserting', row);
   await appTable.insert([row]);
-  console.log('inserted');
 
-  await copy(`${templateSandboxDir}/bench-results`, `${CODE_DIRECTORY}/bench-results`);
+  // for CI artifacts
+  await copy(
+    `${templateSandboxDir}/bench.json`,
+    `${CODE_DIRECTORY}/bench-results/${templateSandboxDir}.json`
+  );
 };
 
 uploadBench().then(() => {
