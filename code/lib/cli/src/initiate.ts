@@ -351,7 +351,12 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
         // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
         // executed directly in the user's project directory. This avoid potential issues
         // with packages running in npxs' node_modules
-        packageManager.runPackageCommandSync(storybookCommand, ['--quiet'], undefined, 'inherit');
+        packageManager.runPackageCommandSync(
+          storybookCommand.replace(/^yarn /, ''),
+          ['--quiet'],
+          undefined,
+          'inherit'
+        );
       } catch (e) {
         const isCtrlC =
           e.message.includes('Command failed with exit code 129') &&
