@@ -7566,7 +7566,6 @@ __metadata:
     vue-component-type-helpers: latest
     vue-tsc: latest
   peerDependencies:
-    "@vue/compiler-core": ^3.0.0
     vue: ^3.0.0
   languageName: unknown
   linkType: soft
