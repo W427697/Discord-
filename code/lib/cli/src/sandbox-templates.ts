@@ -459,6 +459,24 @@ const internalTemplates = {
       },
     },
   },
+  'internal/swc-webpack': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'SWC (react-webpack/18-ts)',
+    isInternal: true,
+    inDevelopment: true,
+    modifications: {
+      mainConfig: {
+        framework: {
+          name: '@storybook/react-webpack5',
+          options: {
+            builder: {
+              useSWC: true,
+            },
+          },
+        },
+      },
+    },
+  },
   'internal/server-webpack5': {
     name: 'Server Webpack5',
     script: 'yarn init -y && echo "module.exports = {}" > webpack.config.js',
@@ -468,7 +486,6 @@ const internalTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     isInternal: true,
-    inDevelopment: true,
   },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],

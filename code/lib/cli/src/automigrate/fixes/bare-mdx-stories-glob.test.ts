@@ -3,7 +3,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
 import { ansiRegex } from '../helpers/cleanLog';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
+import { makePackageManager } from '../helpers/testing-helpers';
 import type { BareMdxStoriesGlobRunOptions } from './bare-mdx-stories-glob';
 import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
 
@@ -16,10 +16,10 @@ const checkBareMdxStoriesGlob = async ({
   main?: Partial<StorybookConfig> & Record<string, unknown>;
   storybookVersion?: string;
 }) => {
-  mockStorybookData({ mainConfig, storybookVersion });
-
   return bareMdxStoriesGlob.check({
+    mainConfig: mainConfig as StorybookConfig,
     packageManager: makePackageManager(packageJson),
+    storybookVersion,
   });
 };
 
@@ -59,8 +59,8 @@ describe('bare-mdx fix', () => {
         };
         const main = {
           stories: [
-            '../src/**/*.stories.@(js|jsx|ts|tsx)',
-            { directory: '../**', files: '*.stories.@(js|jsx|ts|tsx)' },
+            '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+            { directory: '../**', files: '*.stories.@(js|jsx|mjs|ts|tsx)' },
             { directory: '../**' },
           ],
         };
