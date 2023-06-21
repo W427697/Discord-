@@ -14,11 +14,8 @@ export const build: Task = {
   },
   async run({ sandboxDir }, { dryRun, debug }) {
     const start = now();
-    const result = await exec(
-      `yarn build-storybook --quiet`,
-      { cwd: sandboxDir },
-      { dryRun, debug }
-    );
+
+    await exec(`yarn build-storybook --quiet`, { cwd: sandboxDir }, { dryRun, debug });
 
     const buildTime = now() - start;
     const dir = join(sandboxDir, 'storybook-static');
@@ -31,7 +28,7 @@ export const build: Task = {
     const buildPrebuildSize =
       buildSbAddonsSize + buildSbCommonSize + buildSbManagerSize + buildSbPreviewSize;
 
-    const buildStaticSize = await getSize(join(dir, 'static'));
+    const buildStaticSize = await getSize(join(dir, 'static')).catch(() => 0);
     const buildPreviewSize = buildSize - buildPrebuildSize - buildStaticSize;
 
     await saveBench(
@@ -48,7 +45,5 @@ export const build: Task = {
       },
       { rootDir: sandboxDir }
     );
-
-    return result;
   },
 };
