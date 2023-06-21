@@ -12,9 +12,13 @@
   - [Patch releases](#patch-releases)
   - [Publishing](#publishing)
 - [👉 How To Release](#-how-to-release)
-  - [Prereleases](#prereleases-1)
-  - [Patch releases](#patch-releases-1)
-  - [Making Manual Changes](#making-manual-changes)
+  - [1. Find the Prepared Pull Request](#1-find-the-prepared-pull-request)
+  - [2. Freeze the Pull Request](#2-freeze-the-pull-request)
+  - [3. QA Each Merged Pull Request](#3-qa-each-merged-pull-request)
+  - [4. Re-trigger the Workflow](#4-re-trigger-the-workflow)
+  - [5. Make Manual Changes](#5-make-manual-changes)
+  - [6. Merge](#6-merge)
+  - [7. See the "Publish" Workflow Finish](#7-see-the-publish-workflow-finish)
 - [Releasing Locally in Case of Emergency 🚨](#releasing-locally-in-case-of-emergency-)
 - [Canary Releases](#canary-releases)
 - [Versioning Scenarios](#versioning-scenarios)
@@ -275,90 +279,206 @@ The publish workflow runs in the "release" GitHub environment, which has the npm
 
 This section describes what to do as a Releaser when it's time to release. Most of what's described here is also described in the release pull requests, in an attempt at making them a guide/to-do list for inexperienced Releasers.
 
-First, you locate the release pull request that has been prepared for the type of release you're about to release:
+The high-level workflow for a Releaser is:
 
-- "Release: Prerelease 7.1.0-alpha.38" for prereleases
-- "Release: Patch 7.0.23" for patch releases
-- "Release: Merge patches to \`main\` (without version bump)" for patches without releases
+1. Find the prepared pull request
+2. Freeze the pull request
+3. Make changes to merged pull requests (revert, rename, relabel)
+4. Re-trigger the workflow to get changes from step 3 in
+5. Make any manual changes necessary
+6. Merge
+7. See that the "publish" workflow finished successfully
 
-### Prereleases
+### 1. Find the Prepared Pull Request
 
-### Patch releases
+Find the release pull request that has been prepared for the type of release you're about to release:
 
-All changes should already have been prereleased
+- "Release: Prerelease `<NEXT-VERSION>`" for prereleases
+- "Release: Patch `<NEXT-VERSION>`" for patch releases
+- "Release: Merge patches to `main` (without version bump)" for patches without releases
 
-### Making Manual Changes
+Here's an example of such a pull request: https://github.com/storybookjs/storybook/pull/23148
+
+### 2. Freeze the Pull Request
+
+Freeze the pull request by adding the "**freeze**" label to it.
+
+This instructs the preparation workflows to cancel and not do anything when new changes to `next` are merged. That way, you can make any changes you want to without needing to worry about other's work overriding your changes.
+
+Crucially this "**freeze**" label doesn't cancel the workflows when they are triggered manually, allowing you - the Releaser - to run the workflow even when it's frozen.
+
+### 3. QA Each Merged Pull Request
+
+You need to ensure that the release contains the correct stuff. The main things to check for are:
+
+1. Is the change appropriate for the version bump?
+
+This usually means checking if it's a breaking change that is not allowed in a minor prerelease, or if it's a new feature in a patch release.
+If it's not appropriate, revert the pull request and notify the author.
+
+2. Is the pull request title correct?
+
+The title of pull requests are added to the user-facing changelogs, so they must be correct and understandable. They should follow the pattern "[Area]: [Summary]", where [Area] is which part of the repo that has been changed, and the summary is what has changed.
+
+It's common to confuse [Area] with labels, but they are not the same. Eg. the "**build**" label describes that the changes are only internal, but a "build" [Area] is _not_ correct. The area could be "Core" or "CI", but very rarely is the area being changed actually the "build" area.
+It can be hard to pick an area when a pull request changes multiple places - this is often common when upgrading dependencies - so use your best judgement. There's no hard rule, but a good guideline is that the more precise it is, the more useful it is to read later.
+
+3. Is the pull request labeled correctly?
+
+Some labels have special meaning when it comes to releases. It's important that each pull request has labels that correctly identify the change, because labels can determine if a pull request is included in the changelog or not. A deeper explanation of this concept is given in the [Which changes are considered "releasable", and what does it mean?](#which-changes-are-considered-releasable-and-what-does-it-mean) section.
+
+4. Patches: has it already been released in a prerelease?
+
+If this is a patch release, it's best that you make sure that all pull requests have already been released in a prerelease. If some haven't, create a new prerelease first.
+
+There's no technical reason for this, it's purely a good practice to ensure that a change doesn't break a prerelease before releasing it to stable.
+
+### 4. Re-trigger the Workflow
+
+Any changes you made to pull requests' titles, labels or even reverts won't be reflected in the release pull request, because:
+
+A. It's hopefully frozen at this point
+B. Even if it isn't, the workflow only triggers on pushes to `next`, it doesn't trigger when pull request meta data is changed
+
+Therefore if you've made any changes in step 3, you need to re-trigger the workflow manually to regenerate the changelog and the version bump. If you haven't made any changes previously this step can be skipped.
+
+It's important to know that triggering the workflow will force push changes to the branch, so you need to do this before comitting any changes manually (which is the next step), as they will otherwise get overwritten.
+
+> ** Warning **
+> When re-triggering the workflow, any new content merged to `next` will also become part of the release pull request. You can't just assume that you'll see the same content again but with fixes, as there could have been merged new content in since you froze the pull request.
+
+When triggering the workflows, always choose the `next` branch as the base unless you know exactly what you're doing.
+
+The workflows can be triggered here:
+
+- [Prepare prerelease PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml)
+- [Prepare patch PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml)
+
+Crucially for prereleases, this is also where you change the versioning strategy if you need something else than the default as described in [Preparing - Prereleases](#prereleases). When triggering the prerelease workflow manually, you can optionally add inputs:
+
+![Screenshot of triggering the prerelease workflow in GitHub Actions, with a form that shows a release type selector and a prerelease identifier text field](prerelease-workflow-inputs.png)
+
+See [Versioning Scenarios](#versioning-scenarios) for a description of each version bump scenario, how to activate it and what it does, and [Which combination of inputs creates the version bump I need?](#which-combination-of-inputs-creates-the-version-bump-i-need) for a detailed description of the workflow inputs.
+
+### 5. Make Manual Changes
+
+It's possible and perfectly valid to push manual changes directly on the release branch when needed. Maybe you need to alter the changelog in a way that can't be done purely automatical, or there's another critical change that is needed for the release to work. Any change you make will eventually be merged to `next|main` when the release has been published.
+
+This can be used as a quick and dirty way to fix a changelog without needing to change pull requests and waiting for workflows to finish. However it is recommended that you try to use the automated process as much as possible for this, to ensure that the information in GitHub is the single source of truth, and that pull requests and changelogs are in sync.
+
+### 6. Merge
+
+When you froze the pull request you also triggered a CI run on the branch. If it's green it's time to merge the pull request.
+
+If CI is failing for some reason consult with the rest of the core team. These release pull requests are almost exact copies of `next|main` so CI should only fail if they fail too.
+
+### 7. See the "Publish" Workflow Finish
+
+Merging the pull request will trigger [the publish workflow](https://github.com/storybookjs/storybook/actions/workflows/publish.yml), which does the final publishing. As a Releaser you're responsible for this to finish succesfully, so you should watch it till the end.
+If it fails it will notify in Discord, so you can monitor that instead if you want to.
+
+Done! 🚀
 
 ## Releasing Locally in Case of Emergency 🚨
 
+Things fail. Code breaks. Bugs exists.
+
+Sometimes we need an emergency escape hatch to release new fixes, even if the automation is broken.
+
+In those situations it's perfectly valid to run the whole release process locally instead of relying on the pull requests and workflows as usual. When doing this you don't need to create the pull requests either, or split preparation and publishing, you're free to do it all at the same time, but you need to make sure that you follow the correct branching strategy still.
+
+You need a token to the npm registry to be able to publish (set as `YARN_NPM_AUTH_TOKEN` below). Currently @shilman and @ndelangen holds the keys to that castle.
+
+You can always inspect the workflows to see exactly what they are running and copy that, but below is a general sequence of steps you can take to mimic the automated workflow. Feel free to diverge from this however you need to succeed.
+
+1. Create a new branch from either `next` (prereleases) or `main` (patches)
+2. Get all tags: `git fetch --tags origin`
+3. `cd scripts`
+4. (if patch release) Cherry pick:
+   1. `yarn release:pick-patches`
+   2. manually cherry pick any patches necessary based on the previous output
+5. Bump versions: `yarn release:version --verbose --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
+6. To see a list of changes (for your own todo list), run `yarn release:generate-pr-description --current-version <CURRENT_VERSION> --next-version <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
+7. Write changelogs: `yarn release:write-changelog <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
+8. `git add .`
+9. Commit changes: `git commit -m "Bump version from <CURRENT_VERSION> to <NEXT_VERSION_FROM_PREVIOUS_STEP> MANUALLY"`
+10. Merge changes to the release branch:
+    1. `git checkout <"latest-release" | "next-release">`
+    2. `git merge <PREVIOUS_BRANCH>`
+    3. `git push origin`
+11. (if automatic publishing is still working it should kick in now and the rest of the steps can be skipped)
+12. `cd ..`
+13. Install dependencies: `yarn task --task=install --start-from=install`
+14. Publish to the registry: `YARN_NPM_AUTH_TOKEN=<NPM_TOKEN> yarn release:publish --tag <"next" OR "latest"> --verbose`
+15. (if patch release) `yarn release:label-patches`
+16. [Manually create a GitHub Release](https://github.com/storybookjs/storybook/releases/new) with a tag that is the new version and the target being `latest-release` or `next-release`.
+17. Merge to core branch:
+    1. `git checkout <"next"|"main">`
+    2. `git merge <"next-release"|"latest-release">`
+    3. `git push origin`
+18. (if patch release) sync `CHANGELOG.md` to `next` with:
+    1. `git checkout next`
+    2. `git pull`
+    3. `git checkout origin/main ./CHANGELOG.md`
+    4. `git add ./CHANGELOG.md`
+    5. `git commit -m "Update CHANGELOG.md for v<NEXT_VERSION>"`
+    6. `git push origin`
+
 ## Canary Releases
 
-Not implemented yet.
+Not implemented yet. Still work in progress, stay tuned.
 
 ## Versioning Scenarios
 
-There are five types of releases that will be handled somewhat differently, but following the overall same principles as described above.
+There are six types of releases that are done somewhat differently, but following the overall same principles as described previously.
 
 ### Prereleases - `7.1.0-alpha.12` -> `7.1.0-alpha.13`
 
-These happen multiple times a week
+**Cadence: Multiple times a week**
 
-1. A PR will automatically be opened from a fresh branch `version-from-7.1.0-alpha.16` to `next-release` on every push to `next`. If the PR is already open, it will be kept up-to-date with description changes and force pushing commits. This process can also be manually triggered if needed.
-2. The PR will consist of:
-   1. Version bumps in all `package.json`s and other files like `versions.ts`
-   2. Changes to `CHANGELOG.md` generated as specced below
-   3. Changes listed in the PR description, along with a checklist to go through manually
-3. When we're ready to release, a Releaser will go through the check list:
-   1. Freeze the PR by applying the "freeze" label on it, stopping any actions from modifying it further
-   2. QA each PR that is part of the release:
-      1. Is the changelog high quality - it's based on PR titles, which are usually bad.
-      2. Change any PR titles necessary
-      3. Check that each PR content is high quality, has it been tested, are we sure it's not a breaking change, etc.
-      4. revert any bad PRs
-   3. If necessary, manually trigger the workflow again, to reflect changes to PR titles and reverts (manual triggers should ignore the "freeze" label)
-   4. Merge the PR to `next-release`
-4. When the PR is merged, an action will:
-   1. publish all packages
-   2. create a GitHub Release
-   3. tag the commit
-   4. merge `next-release` back to `next`. If this causes a merge conflict, this will have to be done manually
-5. ... the cycle starts over
+This is the default strategy for prereleases, there's nothing special needed to trigger this scenario.
 
 ### Prerelease promotions - `7.1.0-alpha.13` -> `7.1.0-beta.0`
 
-These happen once every 1-2 months
+**Cadence: Once every 1-2 months**
 
-Same process as above, except before merging, the Releaser manually triggers the Action with a "tag: beta" input, that will change versions from the proposed `7.1.0-alpha.14` to `7.1.0-beta.0`.
+To promote a prerelease to a new prerelease ID, during the [Re-trigger the Workflow](#4-re-trigger-the-workflow) step, choose:
+
+- Release type: Prerelease
+- Prerelease ID: The ID to promote to. Eg. for alpha -> beta, write "beta"
 
 ### Minor/major releases - `7.1.0-rc.2` -> `7.1.0` or `8.0.0-rc.3` -> `8.0.0`
 
-These happen once every quarter
+**Cadence: Once every quarter**
 
-Same process as above, except before merging, the Releaser manually triggers the Action with a "tag: stable" input, that will change versions from the proposed `7.1.0-rc.3` to `7.1.0`. When the PR is merged, the action will do the usual publishing work, and **force merge `next` into `main`**. The following GitHub Action that triggers on a push to `next` will generate a release PR with `7.2.0-alpha.0`, to start the cycle over.
+To promote a prerelease to a new prerelease ID, during the [Re-trigger the Workflow](#4-re-trigger-the-workflow) step, choose:
+
+- Release type: Patch
+- Prerelease ID: Leave empty
+
+The "Patch" release type ensures the current prerelease version gets promoted to a stable version without any major/minor/patch bumps.
+
+This scenario is special in that it turns the `next` branch into a stable branch (until the next prerelease). Therefore this will also force push `next` to `main`, to ensure that `main` contains the latest stable release. Consequently, the history for `main` is lost.
 
 ### Patch releases to stable - subset of `7.1.0-alpha.13` -> `7.0.14`
 
-These happen roughly every second week
+**Cadence: Every second week**
 
-This process is a bit different from the above because it needs to merge to the `main` branch and not `next`, but the principle is the same.
-
-1. Any PR to `next` that needs to be patched back to stable, needs to have a "patch" label
-2. On pushes to `next`, an action check for any such PRs with the "patch" label
-3. It will create a release branch (`version-from-7.0.11`) and PR similar to the one for prereleases, except that it targets `main`.
-4. Each "patch" PR that it finds it will attempt to cherry-pick to the `version-from-7.0.11` branch
-5. Sometimes it might cause merge conflicts, in which case the PR will be skipped
-6. When all is done, the description for the release PR will contain a list of PRs that couldn't be cherry picked, for the Releaser to manually do that and solve any merge conflicts.
-7. An important additional step for the Releaser is to check that all PRs are actually patches/fixes, and not new features, and that everything actually works, given that some cherry picked PRs could rely on functionality not yet found in stable.
-
-When the PR has been merged to `latest-release` by the Releaser, after the usual publishing steps, the action will also label all patched PRs with "picked" so they are ignored for the next patch release.
+This is the default patch release scenario, that cherry picks patches to `main`.
 
 ### Patch releases to earlier versions - subset of `7.1.0-alpha.13` -> `6.5.14`
 
-These happen 2-3 times a year
+**Cadence: 2-3 times a year**
 
-Given that this happens so rarely on a case by case basis, I'm okay with this being a completely manual process. The only thing we then need to keep in mind, is that all these versioning and publishing scripts needs to be executable locally, outside of a GitHub Action.
+This happens so rarely on a case by case basis, so this is a completely manual process that isn't accounted for in the automation. The Releaser will find the git tag that matches the patch to bump, eg. `v6.5.14`, check it out, make the necessary changes and follow [the manual release process](#releasing-locally-in-case-of-emergency-🚨).
 
 ### Prerelease of upcoming patch release - `7.0.20` -> `7.0.21-alpha.0`
+
+**Cadence: Very rare**
+
+In some cases a patch change is so big and complex that it makes sense to first release it as a prerelease of the current patch stable version to see if it works, before releasing it to stable shortly thereafter.
+
+There is no process defined for this.
 
 ## FAQ
 
