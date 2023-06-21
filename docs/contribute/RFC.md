@@ -26,7 +26,7 @@ RFCs tend to remain in this stage for a while, giving the community and core tea
 
 #### 3. `Status: accepted/rejected`
 
-Eventually, the team will decide whether the RFC is a candidate for inclusion in Storybook. n the other hand, an RFC may be rejected by the team after public discussion has settled and comments have been made summarizing the rationale for rejection. 
+Eventually, the team will decide whether the RFC is a candidate for inclusion in Storybook. On the other hand, an RFC may be rejected by the team after public discussion has settled and comments have been made summarizing the rationale for rejection. 
 
 ### Implementing an accepted RFC
 
