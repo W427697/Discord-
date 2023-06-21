@@ -138,15 +138,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          RELEASE_TYPE=${{ inputs.release-type || 'prerelease' }}
+          CAPITALIZED_RELEASE_TYPE=${RELEASE_TYPE^}
           if PR_STATE=$(gh pr view --json state --jq .state 2>/dev/null) && [[ -n "$PR_STATE" && "$PR_STATE" == *"OPEN"* ]]; then
             gh pr edit \
               --repo "${{github.repository }}" \
-              --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
+              --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
               --body "${{ steps.description.outputs.description }}"
           else
             gh pr create \
               --repo "${{github.repository }}"\
-              --title "Bump version on \`next\`: ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('({0})', inputs.pre-id) }} from ${{ steps.bump-version.outputs.current-version }} to ${{ steps.bump-version.outputs.next-version }}" \
+              --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
+              --label "maintenance" \
               --base next-release \
               --head version-prerelease-from-${{ steps.bump-version.outputs.current-version }} \
               --body "${{ steps.description.outputs.description }}"
