@@ -68,6 +68,40 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   // row.name is a display name and not a suitable DOM input id or name - i might contain whitespace etc.
   // row.key is a hash key and therefore a much safer choice
   const props = { name: key, argType: row, value: boxedValue.value, onChange, onBlur, onFocus };
-  const Control = Controls[control.type] || NoControl;
-  return <Control {...props} {...control} controlType={control.type} />;
+
+  const controls = getControlTypesFromArgType(props.argType);
+
+  const tsTypes: string[] = row.table.type.summary.split('|').map((t: string) => t.trim());
+
+  return (
+    <div style={{ display: 'flex', gap: 10 }}>
+      {controls
+        .filter((controlType: string) =>
+          ['boolean', 'text', 'number', 'range', 'object', 'radio', 'select'].includes(controlType)
+        )
+        .map((controlType: string) => {
+          const UninonControl = Controls[controlType] || NoControl;
+          const argValueType = typeof boxedValue.value;
+          const controlValue = [tsTypes.shift(), controlType].includes(argValueType)
+            ? boxedValue.value
+            : undefined;
+
+          const controlKey = controls.length > 1 ? `${controlType}-${key}` : key;
+
+          return (
+            <UninonControl
+              {...props}
+              {...control}
+              key={controlKey}
+              name={controlKey}
+              value={controlValue}
+              controlType={controlType}
+            />
+          );
+        })}
+    </div>
+  );
 };
+function getControlTypesFromArgType(argType: ArgType) {
+  return argType.control.types.length === 0 ? [argType.control.type] : argType.control.types;
+}
