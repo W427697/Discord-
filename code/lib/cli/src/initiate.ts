@@ -352,7 +352,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
         // executed directly in the user's project directory. This avoid potential issues
         // with packages running in npxs' node_modules
         packageManager.runPackageCommandSync(
-          storybookCommand.replace(/yarn|pnpm|npm/, ''),
+          storybookCommand.replace(/^(yarn|pnpm|npm) /, ''),
           ['--quiet'],
           undefined,
           'inherit'
