@@ -4,7 +4,6 @@ import { transparentize } from 'polished';
 import { withReset } from '@storybook/components';
 import type { CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
-import type { TocParameters } from './TableOfContents';
 
 /**
  * This selector styles all raw elements inside the DocsPage like this example with a `<div/>`:
