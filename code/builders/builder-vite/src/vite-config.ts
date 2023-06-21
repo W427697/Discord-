@@ -68,7 +68,7 @@ export async function commonConfig(
     envPrefix: userConfig.envPrefix ? ['STORYBOOK_'] : ['VITE_', 'STORYBOOK_'],
     // Pass build.target option from user's vite config
     build: {
-      target: buildProperty?.target
+      target: buildProperty?.target,
     },
   };
 
