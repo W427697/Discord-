@@ -1,7 +1,8 @@
+import killPort from 'kill-port';
 import type { Task } from '../task';
 
-import { PORT, dev } from './dev';
-import { serve } from './serve';
+import { PORT as devPort, dev } from './dev';
+import { PORT as servePort, serve } from './serve';
 
 // eslint-disable-next-line @typescript-eslint/no-implied-eval
 const dynamicImport = new Function('specifier', 'return import(specifier)');
@@ -21,25 +22,25 @@ export const bench: Task = {
       const { default: prettyBytes } = await dynamicImport('pretty-bytes');
       const { default: prettyTime } = await dynamicImport('pretty-ms');
 
-      const url = `http://localhost:${PORT}`;
-
+      await killPort(devPort).catch(() => {});
       const devController = await dev.run(details, { ...options, debug: false });
       if (!devController) {
         throw new Error('dev: controller is null');
       }
       controllers.push(devController);
-
-      const devBrowseResult = await browse(url);
+      const devBrowseResult = await browse(`http://localhost:${devPort}`);
       devController.abort();
+      await killPort(devPort).catch(() => {});
 
+      await killPort(servePort).catch(() => {});
       const serveController = await serve.run(details, { ...options, debug: false });
       if (!serveController) {
         throw new Error('serve: controller is null');
       }
       controllers.push(serveController);
-
-      const buildBrowseResult = await browse(url);
+      const buildBrowseResult = await browse(`http://localhost:${servePort}`);
       serveController.abort();
+      await killPort(servePort).catch(() => {});
 
       await saveBench(
         {
