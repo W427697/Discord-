@@ -25,11 +25,12 @@
   - [Prereleases - `7.1.0-alpha.12` -\> `7.1.0-alpha.13`](#prereleases---710-alpha12---710-alpha13)
   - [Prerelease promotions - `7.1.0-alpha.13` -\> `7.1.0-beta.0`](#prerelease-promotions---710-alpha13---710-beta0)
   - [Minor/major releases - `7.1.0-rc.2` -\> `7.1.0` or `8.0.0-rc.3` -\> `8.0.0`](#minormajor-releases---710-rc2---710-or-800-rc3---800)
+  - [First prerelease of new major/minor - `7.1.0` -\> `7.2.0-alpha.0` or `8.0.0-alpha.0`](#first-prerelease-of-new-majorminor---710---720-alpha0-or-800-alpha0)
   - [Patch releases to stable - subset of `7.1.0-alpha.13` -\> `7.0.14`](#patch-releases-to-stable---subset-of-710-alpha13---7014)
   - [Patch releases to earlier versions - subset of `7.1.0-alpha.13` -\> `6.5.14`](#patch-releases-to-earlier-versions---subset-of-710-alpha13---6514)
   - [Prerelease of upcoming patch release - `7.0.20` -\> `7.0.21-alpha.0`](#prerelease-of-upcoming-patch-release---7020---7021-alpha0)
 - [FAQ](#faq)
-  - [How do I make changes to the release scripts?](#how-do-i-make-changes-to-the-release-scripts)
+  - [How do I make changes to the release tooling/process?](#how-do-i-make-changes-to-the-release-toolingprocess)
   - [Why do I need to re-trigger workflows to update the changelog?](#why-do-i-need-to-re-trigger-workflows-to-update-the-changelog)
   - [Which combination of inputs creates the version bump I need?](#which-combination-of-inputs-creates-the-version-bump-i-need)
   - [Which changes are considered "releasable", and what does it mean?](#which-changes-are-considered-releasable-and-what-does-it-mean)
@@ -77,10 +78,8 @@ gitGraph
     commit
     branch latest-release
     branch next
-    checkout next
     commit
     branch next-release
-    checkout next-release
     commit
     commit tag: "7.1.0-alpha.18"
     checkout next
@@ -105,36 +104,32 @@ gitGraph
     commit
     branch latest-release
     branch next
-    checkout next
     commit
     branch next-release
     branch new-feature
-    checkout new-feature
     commit
     commit
     checkout next
     merge new-feature
     commit
     branch some-patched-bugfix
-    checkout some-patched-bugfix
     commit
     commit id: "patched-bugfix"
     checkout next
     merge some-patched-bugfix
     commit
-    branch version-from-7.1.0-alpha.20
-    checkout version-from-7.1.0-alpha.20
+    branch version-prerelease-from-7.1.0-alpha.20
     commit
     checkout next-release
-    merge version-from-7.1.0-alpha.20 tag: "7.1.0-alpha.21"
+    merge version-prerelease-from-7.1.0-alpha.20 tag: "7.1.0-alpha.21"
     checkout next
     merge next-release
     checkout main
-    branch version-from-7.0.18
+    branch version-patch-from-7.0.18
     commit
     cherry-pick id: "patched-bugfix"
     checkout latest-release
-    merge version-from-7.0.18 tag: "7.0.19"
+    merge version-patch-from-7.0.18 tag: "7.0.19"
     checkout main
     merge latest-release
 ```
@@ -169,7 +164,7 @@ The default versioning strategy is to bump the current prerelease number, as des
 
 Prerelease PRs are only prepared if there are actual changes to release, otherwise, the workflow will be canceled. `next` can have new content which is only labeled with "build" or "documentation", which isn't user-facing so it's [not considered "releasable"](#which-changes-are-considered-releasable-and-what-does-it-mean). In that case, it doesn't make sense to create a release, as it won't bump versions nor write changelogs so it would just merge the same content back to `next`. This is explained more deeply in [Why are no release PRs being prepared?](#why-are-no-release-prs-being-prepared).
 
-The preparation workflow will create a new branch from `next` called `version-from-<CURRENT-PRERELEASE-VERSION>`, and open a pull request that targets `next-release`. When that is merged by the Releaser, the [publish workflow](#publishing) will eventually merge `next-release` into `next`.
+The preparation workflow will create a new branch from `next` called `version-prerelease-from-<CURRENT-PRERELEASE-VERSION>`, and open a pull request that targets `next-release`. When that is merged by the Releaser, the [publish workflow](#publishing) will eventually merge `next-release` into `next`.
 
 Here's an example of a workflow where a feature and a bugfix have been created and then released to a new `7.1.0-alpha.29` version. All the highlighted commits (square dots) are the ones that will be considered when generating the changelog.
 
@@ -178,27 +173,23 @@ Here's an example of a workflow where a feature and a bugfix have been created a
 gitGraph
     commit
     branch next-release
-    checkout next-release
     commit tag: "7.1.0-alpha.28"
     checkout next
     merge next-release
     commit type: HIGHLIGHT id: "direct commit"
     branch new-feature
-    checkout new-feature
     commit
     commit
     checkout next
     merge new-feature type: HIGHLIGHT
     branch some-bugfix
-    checkout some-bugfix
     commit
     checkout next
     merge some-bugfix type: HIGHLIGHT
-    branch version-from-7.1.0-alpha.28
-    checkout version-from-7.1.0-alpha.28
+    branch version-prerelease-from-7.1.0-alpha.28
     commit id: "bump version"
     checkout next-release
-    merge version-from-7.1.0-alpha.28 tag: "7.1.0-alpha.29"
+    merge version-prerelease-from-7.1.0-alpha.28 tag: "7.1.0-alpha.29"
     checkout next
     merge next-release
 ```
@@ -216,7 +207,7 @@ On the surface, it might not make sense to create a new patch release if the cha
 The preparation workflow sequentially cherry-picks each patch pull request to its branch. Sometimes this cherry-picking fails because of conflicts or for other reasons, in which case it ignores it and moves on to the next. All the failing cherry-picks are finally listed in the release pull request's description, for the Releaser to manually cherry-pick during the release process.
 This problem occurs more often the more `main` and `next` diverges, ie. the longer it has been since a stable major/minor release.
 
-Similar to the prerelease flow, the preparation workflow for patches will create a new branch from `main` called `version-from-<CURRENT-STABLE-VERSION>`, and open a pull request that targets `latest-release`. When that is merged by the Releaser, the [publish workflow](#publishing) will eventually merge `latest-release` into `main`.
+Similar to the prerelease flow, the preparation workflow for patches will create a new branch from `main` called `version-patch-from-<CURRENT-STABLE-VERSION>`, and open a pull request that targets `latest-release`. When that is merged by the Releaser, the [publish workflow](#publishing) will eventually merge `latest-release` into `main`.
 
 Here's an example of a workflow where a feature and two bug fixes have been merged to `next`. Only the bug fixes have the "**patch**" label, so only those two go into the new `7.0.19` release. Note that while the diagram shows the commits _on_ the bugfix branches being cherry-picked, it's actually their merge commits to `next` that gets picked - this is a limitation of mermaid graphs.
 
@@ -232,28 +223,25 @@ gitGraph
     checkout next
     commit
     branch some-patched-bugfix
-    checkout some-patched-bugfix
     commit
     commit id: "patch1"
     checkout next
     merge some-patched-bugfix
     branch new-feature
-    checkout new-feature
     commit
     checkout next
     merge new-feature
     branch other-patched-bugfix
-    checkout other-patched-bugfix
     commit id: "patch2"
     checkout next
     merge other-patched-bugfix
     checkout main
-    branch version-from-7.0.18
+    branch version-patch-from-7.0.18
     cherry-pick id: "patch1"
     cherry-pick id: "patch2"
     commit id: "version bump"
     checkout latest-release
-    merge version-from-7.0.18 tag: "v7.0.19"
+    merge version-patch-from-7.0.18 tag: "v7.0.19"
     checkout main
     merge latest-release
 ```
@@ -430,7 +418,7 @@ Not implemented yet. Still work in progress, stay tuned.
 
 ## Versioning Scenarios
 
-There are six types of releases that are done somewhat differently, but following the overall same principles as described previously.
+There are seven types of releases that are done somewhat differently, but following the overall same principles as described previously.
 
 ### Prereleases - `7.1.0-alpha.12` -> `7.1.0-alpha.13`
 
@@ -460,6 +448,15 @@ The "Patch" release type ensures the current prerelease version gets promoted to
 
 This scenario is special in that it turns the `next` branch into a stable branch (until the next prerelease). Therefore this will also force push `next` to `main`, to ensure that `main` contains the latest stable release. Consequently, the history for `main` is lost.
 
+### First prerelease of new major/minor - `7.1.0` -> `7.2.0-alpha.0` or `8.0.0-alpha.0`
+
+**Cadence: Once every quarter**
+
+This is the first prerelease after a stable major/minor has been released. In this case the default versioning strategy for prereleases won't work, because it will do `7.1.0` -> `7.1.1-0`. You need to use the workflow inputs to bump the major/minor correctly:
+
+- Release type: Premajor for `8.0.0-alpha.0` or Preminor for `7.2.0-alpha.0`
+- Prerelease ID: "alpha"
+
 ### Patch releases to stable - subset of `7.1.0-alpha.13` -> `7.0.14`
 
 **Cadence: Every second week**
@@ -482,20 +479,126 @@ There is no process defined for this.
 
 ## FAQ
 
-### How do I make changes to the release scripts?
+### How do I make changes to the release tooling/process?
 
-(patch script changes back to main, either manually or via the patching flow)
+The whole process is based on [GitHub Action workflows](../.github/workflows/) and [scripts](../scripts/release/), so it's possible to change them as long as you know what you're doing.
+
+The short answer to "how", is to make changes as a regular pull request that is also patched back to `main`.
+
+There's a longer answer too, but it's pretty confusing:
+
+Depending on which workflow runs, the scripts are either being runned from `main` or `next`, so if you're making changes to a release script, you want that change in `main` as well for it to have an affect on patch releases. Patching the change back during the normal workflow will mean that the first patch release _will not_ use your change, since it runs before the change has been patched.
+If you need it to run as part of the very next patch workflow, you need to manually cherry pick you change to `main`, so that it gets used by the automation immediately.
+
+The case isn't the same for changes to workflow files, as they almost always run from `next`, so you don't need to patch them back, but it doesn't hurt. **We recommend always patching any changes back anyway, to be consistent**. The "publish" workflow _does_ run from `latest-release` and `next-release`, so you want changes to _that_ to always be patched back. 🙃
 
 ### Why do I need to re-trigger workflows to update the changelog?
 
+Any changes you made to pull requests' titles, labels or even reverts won't be reflected in the release pull request, because:
+
+A. It's hopefully frozen
+B. Even if it isn't, the workflow only triggers on pushes to `next`, it doesn't trigger when pull request meta data is changed
+
+Therefore if you've made any changes to pull requests, you need to re-trigger the workflow manually to regenerate the changelog and the version bump.
+
+You could also just make the changes to the changelog manually, which isn't totally out of the question, but it means that the pull requests and their title/lables are no longer the single source of truth.
+
 ### Which combination of inputs creates the version bump I need?
 
-Link to tests, and to version strategies above.
+Each versioning scenario including how to trigger it with inputs is described in [Versioning Scenarios](#versioning-scenarios).
+
+You can also see [the tests for the versioning script](https://github.com/storybookjs/storybook/blob/next/scripts/release/__tests__/version.test.ts#L137-L161) to see which inputs creates which outputs.
 
 ### Which changes are considered "releasable", and what does it mean?
 
-link to the enums
+A specific set of labels define which kind of change a pull request is, and if it is a "releasable" change or not.
+
+Releasable changes will appear in the changelog and will trigger version bumps, while unreleasable changes will not.
+
+The exact list of labels and their type is written [here](https://github.com/storybookjs/storybook/blob/next/scripts/release/utils/get-changes.ts#L9-L21).
+
+Currently releasable labels are:
+
+- BREAKING CHANGE
+- feature request
+- bug
+- maintenance
+- dependencies
+
+And unreleasable labels are:
+
+- documentation
+- build
+
+If a pull request doesn't have any of the above labels at the time of release, it is considered an unreleasable change.
+
+unreleasable changes are changes that don't affect the user through releases. Documentation-only changes are unreleasable, because they're not part of packages and they don't change behavior. Similarly "build" changes are only internal-facing and doesn't change behavior. This could be tests, CI, etc.
 
 ### Why are no release PRs being prepared?
 
+This most likely happens because `next` only contains [unreleasable changes](#which-changes-are-considered-releasable-and-what-does-it-mean), which causes the preparation workflow to cancel itself. That's because it doesn't make sense to prepare a new release if all the changes are unreleasable, as that wouldn't bump the version nor write a new changelog entry, so "releasing" it would just merge it back to `next` without any differences.
+
+You can always see the workflows and if they've been cancelled [here for prereleases](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and [here for patch releases](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml)
+
 ### Why do we need separate release branches?
+
+A simpler branching approach would be to merge the versioning branches back to `main` or `next` instead of `latest-release` or `next-release`, and then trigger the publishing directly on that branch. After all that is what tools like [Changesets](https://github.com/changesets/changesets) does.
+
+The problem with that, is that you could end up publishing changes that wasn't part of the prepared pull request, and thus not part of QA nor the changelog.
+
+Take the following scenario, where the Releaser is creating a new release with the frozen branch, and another team member merges a new pull request - "some-simultaneous-bugfix - to `next` _during_ the QA steps:
+
+```mermaid
+%%{init: { 'gitGraph': { 'mainBranchName': 'next' } } }%%
+gitGraph
+    commit type: HIGHLIGHT
+    branch new-feature
+    commit
+    commit
+    checkout next
+    merge new-feature type: HIGHLIGHT
+    branch some-simultaneous-bugfix
+    commit
+    checkout next
+    branch version-prerelease-from-7.1.0-alpha.28
+    commit id: "bump version"
+    checkout next
+    merge some-simultanous-bugfix type: HIGHLIGHT id: "whoops!"
+    merge version-prerelease-from-7.1.0-alpha.28 tag: "v7.1.0-alpha.29"
+
+```
+
+When publishing at the last commit with tag `v7.1.0-alpha.29`, it will publish whatever the content is at that point (all the square dots), which includes the "whoops!" commit from merging the bugfix. But the bugfix was never part of the release pull request because it got prepared before the bugfix was merged in. It essentially becomes a hidden change, hidden from the Releaser and the changelog.
+
+If we instead publish from `next-release` and then merge to `next`, will see that the bugfix won't be part of the current release, but the next one:
+
+```mermaid
+%%{init: { 'gitGraph': { 'mainBranchName': 'next' } } }%%
+gitGraph
+    commit type: HIGHLIGHT
+    branch next-release
+    branch new-feature
+    commit
+    commit
+    checkout next
+    merge new-feature type: HIGHLIGHT
+    branch some-simultanous-bugfix
+    commit
+    checkout next
+    branch version-prerelease-from-7.1.0-alpha.28
+    commit id: "bump version"
+    checkout next
+    merge some-simultanous-bugfix id: "whoops!"
+    checkout next-release
+    merge version-prerelease-from-7.1.0-alpha.28 tag: "v7.1.0-alpha.29"
+    checkout next
+    merge next-release
+    branch version-prerelease-from-7.1.0-alpha.29
+    commit id: "bump version again"
+    checkout next-release
+    merge version-prerelease-from-7.1.0-alpha.29 tag: "v7.1.0-alpha.30"
+    checkout next
+    merge next-release
+```
+
+This is because the way that "unreleased" changes are found is to list all the commits that are part of the current history of `HEAD`, _except_ for the commits that are part of the history of the latest version tag. And since the bugfix is not part of the history of the previous version, it will be included.
