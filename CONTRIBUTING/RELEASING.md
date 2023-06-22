@@ -261,6 +261,8 @@ You need to check that the release contains the correct stuff. The main things t
 
 For example, check if it's a breaking change that isn't allowed in a minor prerelease, or if it's a new feature in a patch release. If it's not suitable, revert the pull request and notify the author.
 
+Sometimes when doing a patch release, a pull request can have the "patch" label but you don't want that change to be part of this release. Maybe you're not confident in the change, or you require more input from maintainers before releasing it. In those situations you should remove the "patch" label from the pull request and follow through with the release (make sure to re-trigger the workflow). When the release is done, add the patch label back again, so it will be part of the next release.
+
 2. Is the pull request title correct?
 
 The title of pull requests is added to the user-facing changelogs, so it must be accurate and understandable. It should follow the pattern "[Area]: [Summary]", where [Area] is the part of the repo that has been changed, and the summary is what has changed.
