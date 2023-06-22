@@ -2935,7 +2935,6 @@ __metadata:
     "@types/express": ^4.17.11
     "@types/fs-extra": ^11.0.1
     "@types/http-server": ^0.12.1
-    "@types/kill-port": ^2.0.0
     "@types/lodash": ^4
     "@types/node": ^16.0.0
     "@types/node-fetch": ^2.5.7
@@ -2959,6 +2958,7 @@ __metadata:
     codecov: ^3.8.1
     commander: ^6.2.1
     cross-env: ^7.0.3
+    cross-port-killer: ^1.4.0
     cross-spawn: ^7.0.3
     danger: ^11.2.6
     dataloader: ^2.2.2
@@ -2992,7 +2992,6 @@ __metadata:
     jest-watch-typeahead: ^2.2.1
     json5: ^2.2.3
     junit-xml: ^1.2.0
-    kill-port: ^2.0.1
     lint-staged: ^10.5.4
     lodash: ^4.17.21
     memoizerific: ^1.11.3
@@ -3594,16 +3593,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: ff8f54fc49621210291f815fe5b15d809fd7d032941b3180743440bd507ecdf08b9e844625fa346af568c84bf34114eb378dcdc3e921a08ba1e2a08d7e3c809c
-  languageName: node
-  linkType: hard
-
-"@types/kill-port@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@types/kill-port@npm:2.0.0"
-  dependencies:
-    "@types/node": "*"
-    shell-exec: ^1
-  checksum: 33fa3cee58477a5ee3ce086d5ddfc80dc32d26933c0d4f2e1a8a5aa9dac6bd641c800d1ea85ad7847972f7fc8d0b76e1b0eb61a8ce07c3e20291234ff8cf245b
   languageName: node
   linkType: hard
 
@@ -6037,6 +6026,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-port-killer@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "cross-port-killer@npm:1.4.0"
+  bin:
+    kill-port: source/cli.js
+  checksum: 6057d2f2f8b30d1abab70118f55dd0b49e95da9cc8c9ded849f20220bbdf3e56c1f9b362112f89bc948f22521fb4b8b2ff8522d1f607f88c276c6ba44dfa9310
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^6.0.0":
   version: 6.0.5
   resolution: "cross-spawn@npm:6.0.5"
@@ -8381,13 +8379,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-them-args@npm:1.3.2":
-  version: 1.3.2
-  resolution: "get-them-args@npm:1.3.2"
-  checksum: a75e26d7369a00f596dc9c3c7b4259a219d4486a0beef51d991867103cc8c07d22814a24210d9c9f56cefb35f9848e16fe120b57b3ec1ea333054e715059d586
-  languageName: node
-  linkType: hard
-
 "getpass@npm:^0.1.1":
   version: 0.1.7
   resolution: "getpass@npm:0.1.7"
@@ -10677,18 +10668,6 @@ __metadata:
   dependencies:
     json-buffer: 3.0.1
   checksum: b633bf53a5afa5591f383d326746226e110e59f13c7e1e8d3e3c9580d2c2345c5eefc21cce168cd5be7fa34b9163e391927146fbd2b7ee7aa2f3aa02b7f0a7de
-  languageName: node
-  linkType: hard
-
-"kill-port@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "kill-port@npm:2.0.1"
-  dependencies:
-    get-them-args: 1.3.2
-    shell-exec: 1.0.2
-  bin:
-    kill-port: cli.js
-  checksum: fcbcea8e950f564e0a0b3a986390ecbd8ef1cac00f365cc2bf1f42dd972dc3a714fc2fbe362068deba2bec11cf10a7d3edb7aaf2d12e48390a2c26d73f85b4f7
   languageName: node
   linkType: hard
 
@@ -14679,13 +14658,6 @@ __metadata:
   version: 3.0.0
   resolution: "shebang-regex@npm:3.0.0"
   checksum: 1dbed0726dd0e1152a92696c76c7f06084eb32a90f0528d11acd764043aacf76994b2fb30aa1291a21bd019d6699164d048286309a278855ee7bec06cf6fb690
-  languageName: node
-  linkType: hard
-
-"shell-exec@npm:1.0.2, shell-exec@npm:^1":
-  version: 1.1.2
-  resolution: "shell-exec@npm:1.1.2"
-  checksum: d03cdcaf1a7462397d70efde4f43df46a6776bff27d46c83a9f985898b738366236185e79958717356f19b54a1766597d86dfab4d1d8dbe18c07cd5586d2d27c
   languageName: node
   linkType: hard
 

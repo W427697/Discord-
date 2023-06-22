@@ -1,4 +1,4 @@
-import killPort from 'kill-port';
+import { kill as killPort } from 'cross-port-killer';
 import type { Task } from '../task';
 
 import { PORT as devPort, dev } from './dev';

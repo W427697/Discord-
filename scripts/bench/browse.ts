@@ -1,10 +1,7 @@
-/* eslint-disable no-await-in-loop */
-import type { Page, FrameLocator, Browser } from 'playwright';
+import type { Page, FrameLocator } from 'playwright';
 import { chromium } from 'playwright';
 
 import { now } from './utils';
-
-const TIMEOUT = 20000;
 
 interface Result {
   managerHeaderVisible?: number;
@@ -14,21 +11,29 @@ interface Result {
 }
 
 export const browse = async (url: string) => {
-  const start = now();
   const result: Result = {};
 
-  const browser = await chromium.launch(/* { headless: false } */);
+  /* Heat up time for playwright and the builder
+   * This is to avoid the first run being slower than the rest
+   * which can happen due to vite or webpack lazy compilation
+   * We visit the story and the docs page, so those should be fully cached
+   *
+   * We instantiate a new browser for each run to avoid any caching happening in the browser itself
+   */
+  await benchStory(url);
+  await benchDocs(url);
 
-  Object.assign(result, await benchStory(browser, url, start));
-  Object.assign(result, await benchDocs(browser, url, start));
-
-  await browser.close();
+  Object.assign(result, await benchStory(url));
+  Object.assign(result, await benchDocs(url));
 
   return result;
 };
 
-async function benchDocs(browser: Browser, url: string, start: number) {
+async function benchDocs(url: string) {
+  const browser = await chromium.launch(/* { headless: false } */);
+  await browser.newContext();
   const page = await browser.newPage();
+  const start = now();
   const result: Result = {};
   await page.goto(`${url}?path=/docs/example-button--docs`);
 
@@ -37,11 +42,8 @@ async function benchDocs(browser: Browser, url: string, start: number) {
       let previewFrame: FrameLocator | Page = page;
       previewFrame = await page.frameLocator('#storybook-preview-iframe');
 
-      let actualText;
-      while (now() - start < TIMEOUT && (!actualText || !actualText.length)) {
-        const preview = await previewFrame.getByText('Primary UI component for user interaction');
-        actualText = await preview.innerText();
-      }
+      const preview = await previewFrame.getByText('Primary UI component for user interaction');
+      const actualText = await preview.innerText();
 
       if (!actualText?.includes('Primary UI component for user interaction')) {
         throw new Error('docs not visible in time');
@@ -58,7 +60,10 @@ async function benchDocs(browser: Browser, url: string, start: number) {
   return result;
 }
 
-async function benchStory(browser: Browser, url: string, start: number) {
+async function benchStory(url: string) {
+  const browser = await chromium.launch(/* { headless: false } */);
+  const start = now();
+  await browser.newContext();
   const page = await browser.newPage();
   const result: Result = {};
   await page.goto(`${url}?path=/story/example-button--primary`);
@@ -74,14 +79,12 @@ async function benchStory(browser: Browser, url: string, start: number) {
       result.managerIndexVisible = now() - start;
     },
     async () => {
-      let previewFrame: FrameLocator | Page = page;
-      previewFrame = await page.frameLocator('#storybook-preview-iframe');
+      const previewFrame: FrameLocator | Page = await page.frameLocator(
+        '#storybook-preview-iframe'
+      );
 
-      let actualText;
-      while (now() - start < TIMEOUT && (!actualText || !actualText.length)) {
-        const preview = await previewFrame.getByText('Button');
-        actualText = await preview.innerText();
-      }
+      const preview = await previewFrame.getByText('Button');
+      const actualText = await preview.innerText();
 
       if (!actualText?.includes('Button')) {
         throw new Error('preview not visible in time');
