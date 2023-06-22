@@ -12,6 +12,8 @@ const GCP_CREDENTIALS = JSON.parse(process.env.GCP_CREDENTIALS || '{}');
 const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
 
+// NOTE: this must be kept in sync with ./bench/bench.schema, which defines
+// the table schema in BigQuery
 export interface BenchResults {
   branch: string;
   commit: string;
@@ -41,6 +43,7 @@ export interface BenchResults {
   buildManagerLoaded: number;
   buildPreviewLoaded: number;
 }
+
 const defaults: Record<keyof BenchResults, null> = {
   branch: null,
   commit: null,
@@ -89,7 +92,7 @@ const uploadBench = async () => {
     credentials: GCP_CREDENTIALS,
   });
   const dataset = store.dataset('benchmark_results');
-  const appTable = dataset.table('bench_new');
+  const appTable = dataset.table('bench2');
 
   await appTable.insert([row]);
 
