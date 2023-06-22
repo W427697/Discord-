@@ -8,7 +8,6 @@ import {
   fireEvent,
   waitFor,
   screen,
-  getByText,
   userEvent,
   findByText,
 } from '@storybook/testing-library';
