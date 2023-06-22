@@ -7,7 +7,9 @@ interface Result {
   managerHeaderVisible?: number;
   managerIndexVisible?: number;
   storyVisible?: number;
-  docsVisible?: number;
+  storyVisibleUncached?: number;
+  autodocsVisible?: number;
+  mdxVisible?: number;
 }
 
 export const browse = async (url: string) => {
@@ -20,16 +22,19 @@ export const browse = async (url: string) => {
    *
    * We instantiate a new browser for each run to avoid any caching happening in the browser itself
    */
-  await benchStory(url);
-  await benchDocs(url);
+  const x = await benchStory(url);
+  await benchAutodocs(url);
 
+  result.storyVisibleUncached = x.storyVisible;
+
+  Object.assign(result, await benchMDX(url));
   Object.assign(result, await benchStory(url));
-  Object.assign(result, await benchDocs(url));
+  Object.assign(result, await benchAutodocs(url));
 
   return result;
 };
 
-async function benchDocs(url: string) {
+async function benchAutodocs(url: string) {
   const browser = await chromium.launch(/* { headless: false } */);
   await browser.newContext();
   const page = await browser.newPage();
@@ -49,7 +54,38 @@ async function benchDocs(url: string) {
         throw new Error('docs not visible in time');
       }
 
-      result.docsVisible = now() - start;
+      result.autodocsVisible = now() - start;
+    },
+  ];
+
+  await Promise.all(tasks.map((t) => t()));
+
+  await page.close();
+
+  return result;
+}
+
+async function benchMDX(url: string) {
+  const browser = await chromium.launch(/* { headless: false } */);
+  await browser.newContext();
+  const page = await browser.newPage();
+  const start = now();
+  const result: Result = {};
+  await page.goto(`${url}?path=/docs/configure-your-project--docs`);
+
+  const tasks = [
+    async () => {
+      let previewFrame: FrameLocator | Page = page;
+      previewFrame = await page.frameLocator('#storybook-preview-iframe');
+
+      const preview = await previewFrame.getByText('Configure your project');
+      const actualText = await preview.innerText();
+
+      if (!actualText?.includes('Configure your project')) {
+        throw new Error('docs not visible in time');
+      }
+
+      result.mdxVisible = now() - start;
     },
   ];
 

@@ -109,7 +109,6 @@
     "codecov": "^3.8.1",
     "commander": "^6.2.1",
     "cross-env": "^7.0.3",
-    "cross-port-killer": "^1.4.0",
     "cross-spawn": "^7.0.3",
     "danger": "^11.2.6",
     "dataloader": "^2.2.2",

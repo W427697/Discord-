@@ -23,8 +23,11 @@ devManagerResponsive: INTEGER,
 devManagerHeaderVisible: INTEGER,
 devManagerIndexVisible: INTEGER,
 devStoryVisible: INTEGER,
-devDocsVisible: INTEGER,
+devStoryVisibleUncached: INTEGER,
+devAutodocsVisible: INTEGER,
+devMDXVisible: INTEGER,
 buildManagerHeaderVisible: INTEGER,
 buildManagerIndexVisible: INTEGER,
 buildStoryVisible: INTEGER,
-buildDocsVisible: INTEGER
+buildAutodocsVisible: INTEGER
+buildMDXVisible: INTEGER,

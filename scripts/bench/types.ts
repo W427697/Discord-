@@ -46,10 +46,14 @@ export interface BenchResults {
   devManagerHeaderVisible: number;
   /** Time to browse to index.html and load the story index */
   devManagerIndexVisible: number;
+  /** Time to browse to index.html and load iframe content and the story is rendered, for the very first run */
+  devStoryVisibleUncached: number;
   /** Time to browse to index.html and load iframe content and the story is rendered */
   devStoryVisible: number;
   /** Time to browse to index.html and load iframe content and the docs page is rendered */
-  devDocsVisible: number;
+  devAutodocsVisible: number;
+  /** Time to browse to index.html and load iframe content and the MDX page is rendered */
+  devMDXVisible: number;
   /** Time to browse to index.html and view the SB logo */
   buildManagerHeaderVisible: number;
   /** Time to browse to index.html and load the story index */
@@ -57,5 +61,7 @@ export interface BenchResults {
   /** Time to browse to index.html and load iframe content and the story is rendered */
   buildStoryVisible: number;
   /** Time to browse to index.html and load iframe content and the docs page is rendered */
-  buildDocsVisible: number;
+  buildAutodocsVisible: number;
+  /** Time to browse to index.html and load iframe content and the MDX page is rendered */
+  buildMDXVisible: number;
 }

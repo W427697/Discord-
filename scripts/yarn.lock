@@ -2958,7 +2958,6 @@ __metadata:
     codecov: ^3.8.1
     commander: ^6.2.1
     cross-env: ^7.0.3
-    cross-port-killer: ^1.4.0
     cross-spawn: ^7.0.3
     danger: ^11.2.6
     dataloader: ^2.2.2
@@ -6023,15 +6022,6 @@ __metadata:
     cross-env: src/bin/cross-env.js
     cross-env-shell: src/bin/cross-env-shell.js
   checksum: f3765c25746c69fcca369655c442c6c886e54ccf3ab8c16847d5ad0e91e2f337d36eedc6599c1227904bf2a228d721e690324446876115bc8e7b32a866735ecf
-  languageName: node
-  linkType: hard
-
-"cross-port-killer@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "cross-port-killer@npm:1.4.0"
-  bin:
-    kill-port: source/cli.js
-  checksum: 6057d2f2f8b30d1abab70118f55dd0b49e95da9cc8c9ded849f20220bbdf3e56c1f9b362112f89bc948f22521fb4b8b2ff8522d1f607f88c276c6ba44dfa9310
   languageName: node
   linkType: hard
 
