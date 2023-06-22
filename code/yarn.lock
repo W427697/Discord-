@@ -7565,12 +7565,11 @@ __metadata:
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
     typescript: ~4.9.3
-    vue: ^3.2.47
     vue-component-type-helpers: latest
     vue-tsc: latest
   peerDependencies:
     "@vue/compiler-core": ^3.0.0
-    vue: ^3.0.0
+    vue: ^3.2.47
   languageName: unknown
   linkType: soft
 
@@ -30674,7 +30673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.2.33, vue@npm:^3.2.47":
+"vue@npm:^3.2.33":
   version: 3.3.4
   resolution: "vue@npm:3.3.4"
   dependencies:
