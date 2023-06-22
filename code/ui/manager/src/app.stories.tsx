@@ -140,4 +140,5 @@ Mobile.parameters = {
     defaultViewport: 'mobile1',
     defaultOrientation: 'portrait',
   },
+  chromatic: { viewports: [320] },
 };
