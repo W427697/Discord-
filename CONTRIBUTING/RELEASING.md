@@ -494,7 +494,7 @@ gitGraph
     branch version-prerelease-from-7.1.0-alpha.28
     commit id: "bump version"
     checkout next
-    merge some-simultanous-bugfix type: HIGHLIGHT id: "whoops!"
+    merge some-simultaneous-bugfix type: HIGHLIGHT id: "whoops!"
     merge version-prerelease-from-7.1.0-alpha.28 tag: "v7.1.0-alpha.29"
 ```
 
