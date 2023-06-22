@@ -1,3 +1,9 @@
+## 7.1.0-alpha.39
+
+- CLI: Add new Configure page to templates - [#23171](https://github.com/storybookjs/storybook/pull/23171), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Fix storybook package manager command in init - [#23169](https://github.com/storybookjs/storybook/pull/23169), thanks [@yannbf](https://github.com/yannbf)!
+- React: Add addon-onboarding as part of init - [#22972](https://github.com/storybookjs/storybook/pull/22972), thanks [@yannbf](https://github.com/yannbf)!
+
 ## 7.1.0-alpha.38
 
 - CLI: Fix installing user's project before init - [#23145](https://github.com/storybookjs/storybook/pull/23145), thanks [@ndelangen](https://github.com/ndelangen)!
