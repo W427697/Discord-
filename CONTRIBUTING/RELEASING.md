@@ -324,24 +324,26 @@ You need a token to the npm registry to publish (set as `YARN_NPM_AUTH_TOKEN`). 
 
 You can inspect the workflows to see what they are running and copy that, but here is a general sequence of steps to mimic the automated workflow. Feel free to deviate from this as needed.
 
+Before you start you should make sure that your working tree is clean and the repository is in a clean state by running `git clean -xdf`.
+
 1. Create a new branch from either `next` (prereleases) or `main` (patches)
 2. Get all tags: `git fetch --tags origin`
-3. `cd scripts`
-4. (If patch release) Cherry pick:
+3. Install dependencies: `yarn task --task=install --start-from=install`
+4. `cd scripts`
+5. (If patch release) Cherry pick:
    1. `yarn release:pick-patches`
    2. Manually cherry pick any necessary patches based on the previous output
-5. Bump versions: `yarn release:version --verbose --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
-6. To see a list of changes (for your own to-do list), run `yarn release:generate-pr-description --current-version <CURRENT_VERSION> --next-version <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
-7. Write changelogs: `yarn release:write-changelog <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
-8. `git add .`.
-9. Commit changes: `git commit -m "Bump version from <CURRENT_VERSION> to <NEXT_VERSION_FROM_PREVIOUS_STEP> MANUALLY"`
-10. Merge changes to the release branch:
+6. Bump versions: `yarn release:version --verbose --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
+7. To see a list of changes (for your own to-do list), run `yarn release:generate-pr-description --current-version <CURRENT_VERSION> --next-version <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
+8. Write changelogs: `yarn release:write-changelog <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
+9. `git add .`.
+10. Commit changes: `git commit -m "Bump version from <CURRENT_VERSION> to <NEXT_VERSION_FROM_PREVIOUS_STEP> MANUALLY"`
+11. Merge changes to the release branch:
     1. `git checkout <"latest-release" | "next-release">`
     2. `git merge <PREVIOUS_BRANCH>`
     3. `git push origin`
-11. (If automatic publishing is still working, it should kick in now and the rest of the steps can be skipped)
-12. `cd ..`
-13. Install dependencies: `yarn task --task=install --start-from=install`
+12. (If automatic publishing is still working, it should kick in now and the rest of the steps can be skipped)
+13. `cd ..`
 14. Publish to the registry: `YARN_NPM_AUTH_TOKEN=<NPM_TOKEN> yarn release:publish --tag <"next" OR "latest"> --verbose`
 15. (If patch release) `yarn release:label-patches`
 16. Manually create a GitHub Release with a tag that is the new version and the target being `latest-release` or `next-release`.
