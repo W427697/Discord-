@@ -53,10 +53,11 @@
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "7.1.0-alpha.38",
     "@storybook/types": "7.1.0-alpha.38",
-    "@vue/compiler-core": "^3.0.0",
+    "@vue/compiler-core": "^3.2.47",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0",
-    "type-fest": "^3.11.0"
+    "type-fest": "^3.11.0",
+    "vue": "3.3.4"
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",

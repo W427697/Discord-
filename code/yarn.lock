@@ -7556,11 +7556,13 @@ __metadata:
     "@storybook/preview-api": 7.1.0-alpha.38
     "@storybook/types": 7.1.0-alpha.38
     "@types/prettier": 2.7.2
+    "@vue/compiler-core": ^3.2.47
     "@vue/vue3-jest": 29
     lodash: ^4.17.21
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
     typescript: ~4.9.3
+    vue: 3.3.4
     vue-component-type-helpers: latest
     vue-tsc: latest
   peerDependencies:
@@ -9305,20 +9307,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-core@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@vue/compiler-core@npm:3.0.0"
-  dependencies:
-    "@babel/parser": ^7.11.5
-    "@babel/types": ^7.11.5
-    "@vue/shared": 3.0.0
-    estree-walker: ^2.0.1
-    source-map: ^0.6.1
-  checksum: 3829ea72a07292fce792b56252428d44fe46512bf017e4056ec761ccca82e9912e60416bc0bf54d2d627878e29d6108902b0b5d87afda8a23ef0a7d5cbbd7586
-  languageName: node
-  linkType: hard
-
-"@vue/compiler-core@npm:3.3.4":
+"@vue/compiler-core@npm:3.3.4, @vue/compiler-core@npm:^3.2.47":
   version: 3.3.4
   resolution: "@vue/compiler-core@npm:3.3.4"
   dependencies:
@@ -30532,17 +30521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^2.6.12, vue@npm:^2.7.0":
-  version: 2.7.14
-  resolution: "vue@npm:2.7.14"
-  dependencies:
-    "@vue/compiler-sfc": 2.7.14
-    csstype: ^3.1.0
-  checksum: 8eb326718c445eb5900d08e2f5a2d86b493d475d3a79f49695066092afa3176d2aad4db98682b3c5432f6fffb92719a124b7e137264e71d5b9be14d5193222c6
-  languageName: node
-  linkType: hard
-
-"vue@npm:^3.2.33":
+"vue@npm:3.3.4":
   version: 3.3.4
   resolution: "vue@npm:3.3.4"
   dependencies:
@@ -30552,6 +30531,16 @@ __metadata:
     "@vue/server-renderer": 3.3.4
     "@vue/shared": 3.3.4
   checksum: cc1a3ae13bd66a84ed6c45af33f8045ec551ac44bdd44ad5b25b08ef34d1737c3d43584d84ac19108f58602b5ba8f2483eee65d51760715589ff118b0c14d6df
+  languageName: node
+  linkType: hard
+
+"vue@npm:^2.6.12, vue@npm:^2.7.0":
+  version: 2.7.14
+  resolution: "vue@npm:2.7.14"
+  dependencies:
+    "@vue/compiler-sfc": 2.7.14
+    csstype: ^3.1.0
+  checksum: 8eb326718c445eb5900d08e2f5a2d86b493d475d3a79f49695066092afa3176d2aad4db98682b3c5432f6fffb92719a124b7e137264e71d5b9be14d5193222c6
   languageName: node
   linkType: hard
 
