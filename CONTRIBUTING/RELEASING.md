@@ -29,7 +29,9 @@
   - [Patch releases to stable - subset of `7.1.0-alpha.13` -\> `7.0.14`](#patch-releases-to-stable---subset-of-710-alpha13---7014)
   - [Patch releases to earlier versions - subset of `7.1.0-alpha.13` -\> `6.5.14`](#patch-releases-to-earlier-versions---subset-of-710-alpha13---6514)
   - [Prerelease of upcoming patch release - `7.0.20` -\> `7.0.21-alpha.0`](#prerelease-of-upcoming-patch-release---7020---7021-alpha0)
+  - [Merges to `main` without versioning](#merges-to-main-without-versioning)
 - [FAQ](#faq)
+  - [When should I use the "patch" label?](#when-should-i-use-the-patch-label)
   - [How do I make changes to the release tooling/process?](#how-do-i-make-changes-to-the-release-toolingprocess)
   - [Why do I need to re-trigger workflows to update the changelog?](#why-do-i-need-to-re-trigger-workflows-to-update-the-changelog)
   - [Which combination of inputs creates the version bump I need?](#which-combination-of-inputs-creates-the-version-bump-i-need)
@@ -365,7 +367,7 @@ Not implemented yet. Still work in progress, stay tuned.
 
 ## Versioning Scenarios
 
-There are seven types of releases that use the same principles, but are done somewhat differently.
+There are multiple types of releases that use the same principles, but are done somewhat differently.
 
 ### Prereleases - `7.1.0-alpha.12` -> `7.1.0-alpha.13`
 
@@ -424,7 +426,21 @@ In some cases, a patch change is so big and complex that it makes sense to first
 
 No process is defined for this.
 
+### Merges to `main` without versioning
+
+As described in more details in [the Patch Releases section](#patch-releases), there are scenarios where you want to patch [unreleasable](#which-changes-are-considered-releasable-and-what-does-it-mean) content back to `main` without bumping versions or publishing a new release. This happens automatically as long as all the unpicked patch pull requests have unreleasable labels. In that case the prepared patch pull request will change form slighty, to just cherry-picking the patches without bumping the versions.
+
 ## FAQ
+
+### When should I use the "patch" label?
+
+Not all pull requests need to be patched back to the stable release, which is why only those with the **"patch"** label gets that treatment. But how do you decide whether or not a give pull requests should have that label?
+
+First of all, patches are only for fixes and minor improvements, and not completely new features. A pull request that introduces a new feature shouldn't be patched back to the stable release.
+
+Second, any destabilizing changes shouldn't be patched back either. Breaking changes are reserved for major releases, but changes can be destabilizing without being strictly breaking, and those shouldn't be patched back either. An example is moving the settings panel in the manager to a completely different place, but with the same functionality. Many wouldn't consider this breaking because no usage will stop working because of this, but it can be considered a destabilizing change because user behavior have to change as a result of this.
+
+When in doubt ask the core team for their input.
 
 ### How do I make changes to the release tooling/process?
 
