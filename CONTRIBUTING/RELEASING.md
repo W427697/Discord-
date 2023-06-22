@@ -46,9 +46,9 @@ This document explains the release process for the Storybook monorepo. There are
 1. Prereleases and major/minor releases - releasing any content that is on the `next` branch
 2. Patch releases - picking any content from `next` to `main`, that needs to be patched back to the current stable minor release
 
-The release process is based on automatically created "Release Pull Requests", that when merged will trigger a new version to be released. A designated Releaser - can be a different team member from time to time - will go through the release process in the current Release PR.
+The release process is based on automatically created "Release Pull Requests", that when merged will trigger a new version to be released.
 
-A designated Releaser - which may change - will go through the release process in the current Release PR. This process is implemented with NodeJS scripts in [`scripts/release`](../scripts/release/) and three GitHub Actions workflows:
+A designated Releaser -- which may rotate between core team members -- will go through the release process in the current Release PR. This process is implemented with NodeJS scripts in [`scripts/release`](../scripts/release/) and three GitHub Actions workflows:
 
 - [Prepare Prerelease PR](../.github/workflows/prepare-prerelease.yml)
 - [Prepare Patch PR](../.github/workflows/prepare-patch-release.yml)
