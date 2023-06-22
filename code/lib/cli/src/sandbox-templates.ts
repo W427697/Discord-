@@ -248,8 +248,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
-    script:
-      'npm create vite@latest --yes {{beforeDir}} -- --template svelte && cd {{beforeDir}} && npm install --save-dev svelte@next',
+    script: 'npm create vite@latest --yes {{beforeDir}} -- --template svelte',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -259,8 +258,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-ts': {
     name: 'Svelte Vite (TS)',
-    script:
-      'npm create vite@latest --yes {{beforeDir}} -- --template svelte-ts && cd {{beforeDir}} && npm install --save-dev svelte@next',
+    script: 'npm create vite@latest --yes {{beforeDir}} -- --template svelte-ts',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -305,7 +303,7 @@ const baseTemplates = {
   'svelte-kit/skeleton-js': {
     name: 'Svelte Kit (JS)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest && cd {{beforeDir}} && npm install --save-dev svelte@next',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -316,7 +314,7 @@ const baseTemplates = {
   'svelte-kit/skeleton-ts': {
     name: 'Svelte Kit (TS)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest && cd {{beforeDir}} && npm install --save-dev svelte@next',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
