@@ -16,7 +16,8 @@ export const bench: Task = {
   async run(details, options) {
     const controllers: AbortController[] = [];
     try {
-      const { browse, saveBench, loadBench } = await import('../bench');
+      const { browse } = await import('../bench/browse');
+      const { saveBench, loadBench } = await import('../bench/utils');
       const { default: prettyBytes } = await dynamicImport('pretty-bytes');
       const { default: prettyTime } = await dynamicImport('pretty-ms');
 
@@ -49,7 +50,7 @@ export const bench: Task = {
 
           buildManagerHeaderVisible: buildBrowseResult.managerHeaderVisible,
           buildManagerIndexVisible: buildBrowseResult.managerIndexVisible,
-          buildPreviewVisible: buildBrowseResult.storyVisible,
+          buildStoryVisible: buildBrowseResult.storyVisible,
           buildDocsVisible: buildBrowseResult.docsVisible,
         },
         {
@@ -59,6 +60,10 @@ export const bench: Task = {
 
       const data = await loadBench({ rootDir: details.sandboxDir });
       Object.entries(data).forEach(([key, value]) => {
+        if (typeof value !== 'number') {
+          return;
+        }
+
         if (key.includes('Size')) {
           console.log(`${key}: ${prettyBytes(value)}`);
         } else {
