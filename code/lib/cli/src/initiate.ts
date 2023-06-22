@@ -348,12 +348,32 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
       logger.log('\nRunning Storybook');
 
       try {
+        const isReactWebProject =
+          projectType === ProjectType.REACT_SCRIPTS ||
+          projectType === ProjectType.REACT ||
+          projectType === ProjectType.WEBPACK_REACT ||
+          projectType === ProjectType.REACT_PROJECT ||
+          projectType === ProjectType.NEXTJS;
+
+        const flags = [];
+
+        // npm needs extra -- to pass flags to the command
+        if (packageManager.type === 'npm') {
+          flags.push('--');
+        }
+
+        if (isReactWebProject) {
+          flags.push('--initial-path=/onboarding');
+        }
+
+        flags.push('--quiet');
+
         // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
         // executed directly in the user's project directory. This avoid potential issues
         // with packages running in npxs' node_modules
         packageManager.runPackageCommandSync(
           storybookCommand.replace(/^yarn /, ''),
-          ['--quiet'],
+          flags,
           undefined,
           'inherit'
         );
