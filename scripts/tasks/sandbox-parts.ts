@@ -267,8 +267,9 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
   // If the project is a JS project, let's make sure any linked in TS stories from the
   // renderer inside src|stories are simply ignored.
+  // TODO: We should definitely improve the logic here, as it will break every time the stories field change format in the generated sandboxes.
   const updatedStories = isJs
-    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    ? stories.map((specifier) => specifier.replace('|ts|tsx', ''))
     : stories;
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
@@ -352,9 +353,9 @@ async function addExtraDependencies({
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
   const extraDeps = [
-    '@storybook/jest@future',
-    '@storybook/testing-library@future',
-    '@storybook/test-runner@future',
+    '@storybook/jest@next',
+    '@storybook/testing-library@next',
+    '@storybook/test-runner@next',
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
