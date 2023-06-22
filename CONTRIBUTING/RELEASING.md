@@ -373,13 +373,9 @@ There are multiple types of releases that use the same principles, but are done 
 
 ### Prereleases - `7.1.0-alpha.12` -> `7.1.0-alpha.13`
 
-**Cadence: Multiple times a week**
-
 This is the default strategy for prereleases, there's nothing special needed to trigger this scenario.
 
 ### Prerelease promotions - `7.1.0-alpha.13` -> `7.1.0-beta.0`
-
-**Cadence: Once every 1-2 months**
 
 To promote a prerelease to a new prerelease ID, during the [Re-trigger the Workflow](#4-re-trigger-the-workflow) step, choose:
 
@@ -387,8 +383,6 @@ To promote a prerelease to a new prerelease ID, during the [Re-trigger the Workf
 - Prerelease ID: The ID to promote to. For example, for alpha to beta, write "beta".
 
 ### Minor/major releases - `7.1.0-rc.2` -> `7.1.0` or `8.0.0-rc.3` -> `8.0.0`
-
-**Cadence: Once every quarter**
 
 To promote a prerelease to a new prerelease ID, during the [Re-trigger the Workflow](#4-re-trigger-the-workflow) step, choose:
 
@@ -401,8 +395,6 @@ This scenario is special as it turns the `next` branch into a stable branch (unt
 
 ### First prerelease of new major/minor - `7.1.0` -> `7.2.0-alpha.0` or `8.0.0-alpha.0`
 
-**Cadence: Once every quarter**
-
 This is the first prerelease after a stable major/minor has been released. The default versioning strategy for prereleases won't work here, because it will do `7.1.0` -> `7.1.1-0`. You need to use the workflow inputs to bump the major/minor correctly:
 
 - Release type: Premajor for `8.0.0-alpha.0` or Preminor for `7.2.0-alpha.0`
@@ -410,19 +402,13 @@ This is the first prerelease after a stable major/minor has been released. The d
 
 ### Patch releases to stable - subset of `7.1.0-alpha.13` -> `7.0.14`
 
-**Cadence: Every second week**
-
 This is the default patch release scenario, which cherry picks patches to `main`.
 
 ### Patch releases to earlier versions - subset of `7.1.0-alpha.13` -> `6.5.14`
 
-**Cadence: 2-3 times a year**
-
 This happens so rarely on a case by case basis, so this is a completely manual process. The Releaser will find the git tag that matches the patch to bump, eg. `v6.5.14`, check it out, make the necessary changes and follow [the manual release process](#releasing-locally-in-case-of-emergency-🚨).
 
 ### Prerelease of upcoming patch release - `7.0.20` -> `7.0.21-alpha.0`
-
-**Cadence: Very rare**
 
 In some cases, a patch change is so big and complex that it makes sense to first release it as a prerelease of the current patch stable version to see if it works, before releasing it to stable shortly thereafter.
 
