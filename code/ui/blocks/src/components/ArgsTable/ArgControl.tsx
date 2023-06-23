@@ -72,7 +72,9 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   const controls = getControlTypesFromArgType(row);
 
   const tsTypes: string[] =
-    row.type?.name === 'union' ? row.type.value.map((t: { name: any }) => t.name) : [];
+    row.type?.name === 'union'
+      ? row.type.value.map((t: { name: any }) => t.name)
+      : [row.type?.name];
 
   return (
     <div style={{ display: 'flex', gap: 10 }}>
