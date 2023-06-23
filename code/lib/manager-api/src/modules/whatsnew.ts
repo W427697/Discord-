@@ -41,7 +41,9 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
       }
     },
     whatsNewNotificationsEnabled() {
-      return global.FEATURES.whatsNewNotifications ?? false;
+      return (
+        (global.CONFIG_TYPE === 'DEVELOPMENT' && global.FEATURES.whatsNewNotifications) ?? false
+      );
     },
   };
 
@@ -58,11 +60,8 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
   }
 
   const initModule = async () => {
-    const isDevelopment = global.CONFIG_TYPE === 'DEVELOPMENT';
-
     const whatsNewEnabled = api.whatsNewNotificationsEnabled();
-
-    if (!isDevelopment || !whatsNewEnabled) return;
+    if (!whatsNewEnabled) return;
 
     const whatsNewData = await getLatestWhatsNewPost();
     setWhatsNewState(whatsNewData);
