@@ -76,30 +76,26 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
 
   return (
     <div style={{ display: 'flex', gap: 10 }}>
-      {controls
-        .filter((controlType: string) =>
-          ['boolean', 'text', 'number', 'range', 'object', 'radio', 'select'].includes(controlType)
-        )
-        .map((controlType: string) => {
-          const UninonControl = Controls[controlType] || NoControl;
-          const argValueType = typeof boxedValue.value;
-          const controlValue = [tsTypes.shift(), controlType].includes(argValueType)
-            ? boxedValue.value
-            : undefined;
+      {controls.map((controlType: string) => {
+        const UninonControl = Controls[controlType] || NoControl;
+        const argValueType = typeof boxedValue.value;
+        const controlValue = [tsTypes.shift(), controlType].includes(argValueType)
+          ? boxedValue.value
+          : undefined;
 
-          const controlKey = controls.length > 1 ? `${controlType}-${key}` : key;
+        const controlKey = controls.length > 1 ? `${controlType}-${key}` : key;
 
-          return (
-            <UninonControl
-              {...props}
-              {...control}
-              key={controlKey}
-              name={controlKey}
-              value={controlValue}
-              controlType={controlType}
-            />
-          );
-        })}
+        return (
+          <UninonControl
+            {...props}
+            {...control}
+            key={controlKey}
+            name={controlKey}
+            value={controlValue}
+            controlType={controlType}
+          />
+        );
+      })}
     </div>
   );
 };
@@ -110,7 +106,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
  * @returns
  */
 function getControlTypesFromArgType(argType: ArgType) {
-  return argType.type?.value && argType.type?.name === 'union'
+  return argType.type?.value && argType.type?.name === 'union' && !argType.options
     ? argType.type.value.map((t: { name: any }) => {
         switch (t.name) {
           case 'string':
@@ -120,5 +116,5 @@ function getControlTypesFromArgType(argType: ArgType) {
             return t.name;
         }
       })
-    : [argType.type.name];
+    : [argType.control.type];
 }

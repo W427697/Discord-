@@ -64,9 +64,13 @@ export const NumberControl: FC<NumberProps> = ({
     if (inputValue !== newInputValue) {
       setInputValue(value);
     }
+    console.log('useEffect', value, newInputValue, inputValue);
+    if (!value && newInputValue === '') {
+      setForceVisible(false);
+    }
   }, [value]);
 
-  if (value === undefined) {
+  if (!forceVisible && value === undefined) {
     return (
       <Form.Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
         Set number

@@ -33,6 +33,11 @@ const styles = ({ theme }: { theme: Theme }): CSSObject => ({
   lineHeight: '20px',
   padding: '6px 10px', // 32
 
+  '&[type="number"]': {
+    /* without this we will have inconsistant height  */
+    padding: '0px 10px',
+  },
+
   '&:focus': {
     boxShadow: `${theme.color.secondary} 0 0 0 1px inset`,
     outline: 'none',
