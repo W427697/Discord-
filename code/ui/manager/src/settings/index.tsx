@@ -62,7 +62,8 @@ const Pages: FC<{
   onClose: () => void;
   enableShortcuts?: boolean;
   changeTab: (tab: string) => void;
-}> = ({ changeTab, onClose, enableShortcuts = true }) => {
+  enableWhatsNew: boolean;
+}> = ({ changeTab, onClose, enableShortcuts = true, enableWhatsNew }) => {
   React.useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (!enableShortcuts || event.repeat) return;
@@ -80,7 +81,9 @@ const Pages: FC<{
       <FlexBar border>
         <TabBar role="tablist">
           <TabBarButton id="about" title="About" changeTab={changeTab} />
-          <TabBarButton id="whats-new" title="What's new" changeTab={changeTab} />
+          {enableWhatsNew && (
+            <TabBarButton id="whats-new" title="What's new?" changeTab={changeTab} />
+          )}
           <TabBarButton id="shortcuts" title="Keyboard shortcuts" changeTab={changeTab} />
         </TabBar>
         <IconButton
@@ -115,6 +118,7 @@ const SettingsPages: FC = () => {
 
   return (
     <Pages
+      enableWhatsNew={api.whatsNewNotificationsEnabled()}
       enableShortcuts={state.ui.enableShortcuts}
       changeTab={changeTab}
       onClose={api.closeSettings}

@@ -263,16 +263,6 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
   channel.on(GET_WHATS_NEW_DATA, async () => {
     try {
       const post = (await fetch(WHATS_NEW_URL).then(async (response) => {
-        // TODO remove this
-        return {
-          title: 'Some title',
-          excerpt: 'Some excerpt',
-          showNotification: true,
-          status: 'SUCCESS',
-          publishedAt: 'asdf',
-          url: 'https://storybook.js.org/blog/whats-new-april-2023/',
-        };
-
         if (response.ok) return response.json();
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw response;
@@ -283,15 +273,14 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
       } else {
         const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE);
 
-        channel.emit(GET_WHATS_NEW_DATA_RESULT, {
-          data: {
-            ...post,
-            status: 'SUCCESS',
-            postIsRead: post.url === cache.lastReadPost,
-            showNotification:
-              post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
-          } satisfies WhatsNewData,
-        });
+        const data = {
+          ...post,
+          status: 'SUCCESS',
+          postIsRead: post.url === cache.lastReadPost,
+          showNotification: post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
+        } satisfies WhatsNewData;
+
+        channel.emit(GET_WHATS_NEW_DATA_RESULT, { data });
       }
     } catch (e) {
       // TODO track in telemetry when this goes wrong

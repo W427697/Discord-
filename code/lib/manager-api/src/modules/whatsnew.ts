@@ -60,16 +60,18 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
   const initModule = async () => {
     const isDevelopment = global.CONFIG_TYPE === 'DEVELOPMENT';
 
-    // TODO Not sure how, but we don't want to intervene with onboarding.
-    const isNewStoryBookUser = false;
+    const whatsNewEnabled = api.whatsNewNotificationsEnabled();
 
-    if (!isDevelopment) return;
+    if (!isDevelopment || !whatsNewEnabled) return;
 
     const whatsNewData = await getLatestWhatsNewPost();
     setWhatsNewState(whatsNewData);
 
+    // TODO Not sure how, but we don't want to intervene with onboarding.
+    const isNewStoryBookUser = false;
+
     if (
-      api.whatsNewNotificationsEnabled() &&
+      whatsNewEnabled &&
       !isNewStoryBookUser &&
       whatsNewData.status === 'SUCCESS' &&
       whatsNewData.showNotification

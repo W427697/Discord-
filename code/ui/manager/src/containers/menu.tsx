@@ -68,15 +68,18 @@ export const useMenu = (
     [api]
   );
 
-  const showWhatsNewBadge = api.whatsNewNotificationsEnabled() && api.isWhatsNewUnread();
+  const whatsNewNotificationsEnabled = api.whatsNewNotificationsEnabled();
+  const isWhatsNewUnread = api.isWhatsNewUnread();
   const whatsNew = useMemo(
     () => ({
       id: 'whats-new',
-      title: "What's new",
+      title: "What's new?",
       onClick: () => api.navigateToSettingsPage('/settings/whats-new'),
-      right: showWhatsNewBadge && <Badge status="positive">Check it out</Badge>,
+      right: whatsNewNotificationsEnabled && isWhatsNewUnread && (
+        <Badge status="positive">Check it out</Badge>
+      ),
     }),
-    [api, showWhatsNewBadge]
+    [api, whatsNewNotificationsEnabled, isWhatsNewUnread]
   );
 
   const shortcuts = useMemo(
@@ -226,7 +229,7 @@ export const useMenu = (
   return useMemo(
     () => [
       about,
-      whatsNew,
+      ...(whatsNewNotificationsEnabled ? [whatsNew] : []),
       shortcuts,
       sidebarToggle,
       toolbarToogle,
