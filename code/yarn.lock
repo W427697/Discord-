@@ -7373,7 +7373,7 @@ __metadata:
     type-fest: ^3.11.0
     typescript: ^5.0.4
   peerDependencies:
-    svelte: ^3.59.1 || ^4.0.0
+    svelte: ^3.1.0 || ^4.0.0
   languageName: unknown
   linkType: soft
 
