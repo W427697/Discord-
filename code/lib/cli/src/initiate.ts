@@ -311,8 +311,6 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
 
-  console.log({ projectType, installResult });
-
   if (!options.skipInstall) {
     await packageManager.installDependencies();
   }
