@@ -82,7 +82,7 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
           headline: whatsNewData.excerpt,
           subHeadline: "Click to learn what's new in Storybook",
         },
-        icon: { name: 'heart' },
+        icon: { name: 'hearthollow' },
         onClear() {
           setWhatsNewCache({ lastDismissedPost: whatsNewData.url });
         },
