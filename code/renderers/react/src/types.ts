@@ -1,4 +1,4 @@
-import type { ComponentType, ReactElement } from 'react';
+import type { ComponentType } from 'react';
 import type { WebRenderer } from '@storybook/types';
 
 export type { RenderContext } from '@storybook/types';
@@ -18,4 +18,4 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type StoryFnReactReturnType = ReactElement<unknown>;
+export type StoryFnReactReturnType = JSX.Element;
