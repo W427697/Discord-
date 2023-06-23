@@ -216,7 +216,7 @@ const projectTypeInquirer = async (
       ]);
 
   if (manualAnswer !== true && manualAnswer.manual) {
-    const frameworkAnswer = await prompts([
+    const { manualFramework } = await prompts([
       {
         type: 'select',
         name: 'manualFramework',
@@ -227,9 +227,15 @@ const projectTypeInquirer = async (
         })),
       },
     ]);
-    return installStorybook(frameworkAnswer.manualFramework, packageManager, options);
+
+    if (manualFramework) {
+      return installStorybook(manualFramework, packageManager, options);
+    }
   }
-  return Promise.resolve();
+
+  logger.log();
+  logger.log('For more information about installing Storybook: https://storybook.js.org/docs');
+  process.exit(0);
 };
 
 async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
@@ -304,6 +310,8 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
 
   const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
+
+  console.log({ projectType, installResult });
 
   if (!options.skipInstall) {
     await packageManager.installDependencies();
