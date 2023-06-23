@@ -255,7 +255,7 @@ The "**freeze**" label does not cancel the workflows when they are triggered man
 
 ### 3. QA Each Merged Pull Request
 
-You need to check that the release contains the correct stuff. The main things to check for are:
+It is important to verify that the release includes the right content. Key elements to account for are:
 
 1. Is the change suitable for the version bump?
 
@@ -324,7 +324,7 @@ Done! 🚀
 
 Things can fail, code can break, and bugs can exist. When automation is broken, there may be a need for an emergency escape hatch to release new fixes. In such a situation, it's valid to run the whole release process locally instead of relying on pull requests and workflows. You don't need to create pull requests or split preparation and publishing; you can do it all at once, but make sure you still follow the correct branching strategy.
 
-You need a token to the npm registry to publish (set as `YARN_NPM_AUTH_TOKEN`). Currently, @shilman and @ndelangen hold the keys to that castle.
+You need a token to the npm registry to publish (set as `YARN_NPM_AUTH_TOKEN`), which you can get from @shilman or @ndelangen.
 
 You can inspect the workflows to see what they are running and copy that, but here is a general sequence of steps to mimic the automated workflow. Feel free to deviate from this as needed.
 
