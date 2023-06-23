@@ -69,9 +69,10 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   // row.key is a hash key and therefore a much safer choice
   const props = { name: key, argType: row, value: boxedValue.value, onChange, onBlur, onFocus };
 
-  const controls = getControlTypesFromArgType(props.argType);
+  const controls = getControlTypesFromArgType(row);
 
-  const tsTypes: string[] = row.table.type.summary.split('|').map((t: string) => t.trim());
+  const tsTypes: string[] =
+    row.type.name === 'union' ? row.type.value.map((t: { name: any }) => t.name) : [];
 
   return (
     <div style={{ display: 'flex', gap: 10 }}>
@@ -103,7 +104,15 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   );
 };
 function getControlTypesFromArgType(argType: ArgType) {
-  return !argType.control.types || argType.control.types.length === 0
-    ? [argType.control.type]
-    : argType.control.types;
+  return argType.type.value && argType.type.name === 'union'
+    ? argType.type.value.map((t: { name: any }) => {
+        switch (t.name) {
+          case 'string':
+            return 'text';
+
+          default:
+            return t.name;
+        }
+      })
+    : [argType.type.name];
 }
