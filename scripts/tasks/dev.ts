@@ -40,7 +40,14 @@ export const dev: Task = {
       }),
     ]);
 
-    await saveBench({ devPreviewResponsive, devManagerResponsive }, { rootDir: sandboxDir });
+    await saveBench(
+      'dev',
+      {
+        devPreviewResponsive,
+        devManagerResponsive,
+      },
+      { rootDir: sandboxDir }
+    );
 
     return controller;
   },

@@ -1,6 +1,4 @@
-import type { Page, FrameLocator } from 'playwright';
 import { chromium } from 'playwright';
-
 import { now } from './utils';
 
 interface Result {
@@ -23,85 +21,79 @@ export const browse = async (url: string) => {
    * We instantiate a new browser for each run to avoid any caching happening in the browser itself
    */
   const x = await benchStory(url);
-  // FIXME await benchAutodocs(url);
+  await benchAutodocs(url);
 
   result.storyVisibleUncached = x.storyVisible;
 
-  // FIXME Object.assign(result, await benchMDX(url));
+  Object.assign(result, await benchMDX(url));
   Object.assign(result, await benchStory(url));
-  // FIXME Object.assign(result, await benchAutodocs(url));
+  Object.assign(result, await benchAutodocs(url));
 
   return result;
 };
 
 async function benchAutodocs(url: string) {
+  const result: Result = {};
   const browser = await chromium.launch(/* { headless: false } */);
   await browser.newContext();
   const page = await browser.newPage();
+  await page.setDefaultTimeout(40000);
+
   const start = now();
-  const result: Result = {};
   await page.goto(`${url}?path=/docs/example-button--docs`);
 
   const tasks = [
     async () => {
-      let previewFrame: FrameLocator | Page = page;
-      previewFrame = await page.frameLocator('#storybook-preview-iframe');
+      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      await previewPage.setDefaultTimeout(40000);
 
-      const preview = await previewFrame.getByText('Primary UI component for user interaction');
-      const actualText = await preview.innerText();
-
-      if (!actualText?.includes('Primary UI component for user interaction')) {
-        throw new Error('docs not visible in time');
-      }
+      await previewPage.waitForLoadState('load');
+      await previewPage.getByText('Primary UI component for user interaction');
 
       result.autodocsVisible = now() - start;
     },
   ];
 
   await Promise.all(tasks.map((t) => t()));
-
   await page.close();
 
   return result;
 }
 
 async function benchMDX(url: string) {
+  const result: Result = {};
   const browser = await chromium.launch(/* { headless: false } */);
   await browser.newContext();
   const page = await browser.newPage();
+
   const start = now();
-  const result: Result = {};
   await page.goto(`${url}?path=/docs/configure-your-project--docs`);
 
   const tasks = [
     async () => {
-      let previewFrame: FrameLocator | Page = page;
-      previewFrame = await page.frameLocator('#storybook-preview-iframe');
+      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      await previewPage.setDefaultTimeout(40000);
 
-      const preview = await previewFrame.getByText('Configure your project');
-      const actualText = await preview.innerText();
-
-      if (!actualText?.includes('Configure your project')) {
-        throw new Error('docs not visible in time');
-      }
+      await previewPage.waitForLoadState('load');
+      await previewPage.getByText('Configure your project');
 
       result.mdxVisible = now() - start;
     },
   ];
 
   await Promise.all(tasks.map((t) => t()));
-
   await page.close();
 
   return result;
 }
 
 async function benchStory(url: string) {
+  const result: Result = {};
   const browser = await chromium.launch(/* { headless: false } */);
-  const start = now();
   await browser.newContext();
   const page = await browser.newPage();
-  const result: Result = {};
+
+  const start = now();
   await page.goto(`${url}?path=/story/example-button--primary`);
 
   const tasks = [
@@ -115,23 +107,17 @@ async function benchStory(url: string) {
       result.managerIndexVisible = now() - start;
     },
     async () => {
-      const previewFrame: FrameLocator | Page = await page.frameLocator(
-        '#storybook-preview-iframe'
-      );
+      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      await previewPage.setDefaultTimeout(40000);
 
-      const preview = await previewFrame.getByText('Button');
-      const actualText = await preview.innerText();
-
-      if (!actualText?.includes('Button')) {
-        throw new Error('preview not visible in time');
-      }
+      await previewPage.waitForLoadState('load');
+      await previewPage.getByText('Button');
 
       result.storyVisible = now() - start;
     },
   ];
 
   await Promise.all(tasks.map((t) => t()));
-
   await page.close();
 
   return result;

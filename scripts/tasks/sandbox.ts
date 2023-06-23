@@ -55,6 +55,7 @@ export const sandbox: Task = {
     const initSize = await promisify(dirSize)(join(details.sandboxDir, 'node_modules'));
 
     await saveBench(
+      'sandbox',
       {
         createTime,
         generateTime,

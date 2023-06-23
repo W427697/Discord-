@@ -38,6 +38,7 @@ export const bench: Task = {
       serveController.abort();
 
       await saveBench(
+        'browse',
         {
           devManagerHeaderVisible: devBrowseResult.managerHeaderVisible,
           devManagerIndexVisible: devBrowseResult.managerIndexVisible,

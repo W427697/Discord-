@@ -332,7 +332,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - sandbox/*/bench.json
+            - sandbox/*/bench/*.json
             - sandbox/*/storybook-static
   test-runner-production:
     parameters:
