@@ -150,6 +150,7 @@ export const generateReleaseDescription = ({
   Before merging the PR, there are a few QA steps to go through:
 
   - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
   
   And for each change below:
   
@@ -201,7 +202,7 @@ export const generateNonReleaseDescription = (
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
   
   When everything above is done:
   - Merge this PR
