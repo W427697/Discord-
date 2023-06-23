@@ -242,7 +242,8 @@ export const managerHead = async (_: any, options: Options) => {
 };
 
 const WHATS_NEW_CACHE = 'whats-new-cache';
-const WHATS_NEW_URL = 'https://storybook-dx.netlify.app/.netlify/functions/whats-new';
+const WHATS_NEW_URL =
+  'https://gist.githubusercontent.com/kasperpeulen/11560542fd731162bfbd391449d3eb15/raw/ddbeb1dbf7f554df399371210b5556259bbcc3c5/test.json';
 
 // Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
 type WhatsNewResponse =
@@ -253,8 +254,10 @@ type WhatsNewResponse =
 export const experimental_serverChannel = (channel: Channel, options: Options) => {
   channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
     const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE).catch((e) => {
-      // TODO Do we want to track this in telemetry? Somehow I get errors here a couple of times, with corrupted cache data.
-      console.error(e);
+      if (options.loglevel === 'verbose') {
+        // TODO Add telemetry event
+        console.error(e);
+      }
       return {};
     });
     await options.cache.set(WHATS_NEW_CACHE, { ...cache, ...data });
@@ -283,10 +286,10 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
         channel.emit(GET_WHATS_NEW_DATA_RESULT, { data });
       }
     } catch (e) {
-      // TODO track in telemetry when this goes wrong
-      // TODO only log to the console when in verbose mode? Otherwise we will show errors whenever the user is offline.
-      console.error(e.message);
-
+      if (options.loglevel === 'verbose') {
+        // TODO Add telemetry event
+        console.error(e);
+      }
       channel.emit(GET_WHATS_NEW_DATA_RESULT, {
         data: { status: 'ERROR' } satisfies WhatsNewData,
       });
