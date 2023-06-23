@@ -12,7 +12,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ampproject/remapping@npm:2.2.1, @ampproject/remapping@npm:^2.2.0":
+"@ampproject/remapping@npm:2.2.1, @ampproject/remapping@npm:^2.2.0, @ampproject/remapping@npm:^2.2.1":
   version: 2.2.1
   resolution: "@ampproject/remapping@npm:2.2.1"
   dependencies:
@@ -3769,7 +3769,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/sourcemap-codec@npm:^1.4.10, @jridgewell/sourcemap-codec@npm:^1.4.13, @jridgewell/sourcemap-codec@npm:^1.4.14":
+"@jridgewell/sourcemap-codec@npm:^1.4.10, @jridgewell/sourcemap-codec@npm:^1.4.13, @jridgewell/sourcemap-codec@npm:^1.4.14, @jridgewell/sourcemap-codec@npm:^1.4.15":
   version: 1.4.15
   resolution: "@jridgewell/sourcemap-codec@npm:1.4.15"
   checksum: 0c6b5ae663087558039052a626d2d7ed5208da36cfd707dcc5cea4a07cfc918248403dcb5989a8f7afaf245ce0573b7cc6fd94c4a30453bd10e44d9363940ba5
@@ -3786,7 +3786,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/trace-mapping@npm:^0.3.12, @jridgewell/trace-mapping@npm:^0.3.15, @jridgewell/trace-mapping@npm:^0.3.17, @jridgewell/trace-mapping@npm:^0.3.9":
+"@jridgewell/trace-mapping@npm:^0.3.12, @jridgewell/trace-mapping@npm:^0.3.15, @jridgewell/trace-mapping@npm:^0.3.17, @jridgewell/trace-mapping@npm:^0.3.18, @jridgewell/trace-mapping@npm:^0.3.9":
   version: 0.3.18
   resolution: "@jridgewell/trace-mapping@npm:0.3.18"
   dependencies:
@@ -7321,17 +7321,16 @@ __metadata:
     "@storybook/builder-vite": 7.1.0-alpha.39
     "@storybook/node-logger": 7.1.0-alpha.39
     "@storybook/svelte": 7.1.0-alpha.39
-    "@sveltejs/vite-plugin-svelte": ^2.0.0
+    "@sveltejs/vite-plugin-svelte": ^2.4.1
     "@types/node": ^16.0.0
     magic-string: ^0.30.0
-    svelte: ^3.0.0
+    svelte: ^4.0.0
     sveltedoc-parser: ^4.2.1
     ts-dedent: ^2.2.0
     typescript: ~4.9.3
     vite: ^4.0.0
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    svelte: ^3.0.0 || ^4.0.0
     vite: ^3.0.0 || ^4.0.0
   languageName: unknown
   linkType: soft
@@ -7368,13 +7367,13 @@ __metadata:
     "@storybook/preview-api": 7.1.0-alpha.39
     "@storybook/types": 7.1.0-alpha.39
     expect-type: ^0.15.0
-    svelte: ^3.59.1
+    svelte: ^4.0.0
     svelte-check: ^3.4.3
     sveltedoc-parser: ^4.2.1
     type-fest: ^3.11.0
     typescript: ^5.0.4
   peerDependencies:
-    svelte: ^3.1.0
+    svelte: ^3.1.0 || ^4.0.0
   languageName: unknown
   linkType: soft
 
@@ -7389,6 +7388,7 @@ __metadata:
     typescript: ^4.9.3
     vite: ^4.0.0
   peerDependencies:
+    svelte: ^3.0.0 || ^4.0.0
     vite: ^4.0.0
   languageName: unknown
   linkType: soft
@@ -7680,7 +7680,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte@npm:^2.0.0":
+"@sveltejs/vite-plugin-svelte@npm:^2.4.1":
   version: 2.4.1
   resolution: "@sveltejs/vite-plugin-svelte@npm:2.4.1"
   dependencies:
@@ -10234,6 +10234,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aria-query@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "aria-query@npm:5.2.1"
+  dependencies:
+    dequal: ^2.0.3
+  checksum: 898031f69f8e9d63c914b73f45e50316fef157aae41af682fe64e8f10c9a9d623952929df01f6524b4ce37c3b21806b04e7617e38909720fbc0fad3f207d9e09
+  languageName: node
+  linkType: hard
+
 "arr-diff@npm:^4.0.0":
   version: 4.0.0
   resolution: "arr-diff@npm:4.0.0"
@@ -10662,6 +10671,15 @@ __metadata:
   dependencies:
     deep-equal: ^2.0.5
   checksum: fff3175a22fd1f41fceb7ae0cd25f6594a0d7fba28c2335dd904538b80eb4e1040432564a3c643025cd2bb748f68d35aaabffb780b794da97ecfc748810b25ad
+  languageName: node
+  linkType: hard
+
+"axobject-query@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "axobject-query@npm:3.2.1"
+  dependencies:
+    dequal: ^2.0.3
+  checksum: f7debc2012e456139b57d888c223f6d3cb4b61eb104164a85e3d346273dd6ef0bc9a04b6660ca9407704a14a8e05fa6b6eb9d55f44f348c7210de7ffb350c3a7
   languageName: node
   linkType: hard
 
@@ -12438,6 +12456,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"code-red@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "code-red@npm:1.0.3"
+  dependencies:
+    "@jridgewell/sourcemap-codec": ^1.4.14
+    "@types/estree": ^1.0.0
+    acorn: ^8.8.2
+    estree-walker: ^3.0.3
+    periscopic: ^3.1.0
+  checksum: d8722c5bb5898fe0723211d07067179cd0befe70b4b4115752d207b4703816bf146298fa0bfe6b1aaa94e16387bd80945bba2b7271d0ebd3b2e9d10e0b9f1e2a
+  languageName: node
+  linkType: hard
+
 "collapse-white-space@npm:^1.0.4":
   version: 1.0.6
   resolution: "collapse-white-space@npm:1.0.6"
@@ -13247,7 +13278,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-tree@npm:^2.0.1":
+"css-tree@npm:^2.0.1, css-tree@npm:^2.3.1":
   version: 2.3.1
   resolution: "css-tree@npm:2.3.1"
   dependencies:
@@ -13747,7 +13778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dequal@npm:^2.0.0, dequal@npm:^2.0.2":
+"dequal@npm:^2.0.0, dequal@npm:^2.0.2, dequal@npm:^2.0.3":
   version: 2.0.3
   resolution: "dequal@npm:2.0.3"
   checksum: f98860cdf58b64991ae10205137c0e97d384c3a4edc7f807603887b7c4b850af1224a33d88012009f150861cbee4fa2d322c4cc04b9313bee312e47f6ecaa888
@@ -15443,6 +15474,15 @@ __metadata:
   version: 2.0.2
   resolution: "estree-walker@npm:2.0.2"
   checksum: 53a6c54e2019b8c914dc395890153ffdc2322781acf4bd7d1a32d7aedc1710807bdcd866ac133903d5629ec601fbb50abe8c2e5553c7f5a0afdd9b6af6c945af
+  languageName: node
+  linkType: hard
+
+"estree-walker@npm:^3.0.0, estree-walker@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "estree-walker@npm:3.0.3"
+  dependencies:
+    "@types/estree": ^1.0.0
+  checksum: c12e3c2b2642d2bcae7d5aa495c60fa2f299160946535763969a1c83fc74518ffa9c2cd3a8b69ac56aea547df6a8aac25f729a342992ef0bbac5f1c73e78995d
   languageName: node
   linkType: hard
 
@@ -18747,6 +18787,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-reference@npm:^3.0.0, is-reference@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "is-reference@npm:3.0.1"
+  dependencies:
+    "@types/estree": "*"
+  checksum: 003af01fd96c4300111853d68b048e2f094e27ccd70eb66fdb7bb3cd7f7a9e6ad3f633387b2b453c85134fcc1ba0473dca55349a0162312d9fd127306d9f5a9b
+  languageName: node
+  linkType: hard
+
 "is-regex@npm:^1.0.3, is-regex@npm:^1.0.5, is-regex@npm:^1.1.0, is-regex@npm:^1.1.4":
   version: 1.1.4
   resolution: "is-regex@npm:1.1.4"
@@ -20619,6 +20668,13 @@ __metadata:
     emojis-list: ^3.0.0
     json5: ^2.1.2
   checksum: d5654a77f9d339ec2a03d88221a5a695f337bf71eb8dea031b3223420bb818964ba8ed0069145c19b095f6c8b8fd386e602a3fc7ca987042bd8bb1dcc90d7100
+  languageName: node
+  linkType: hard
+
+"locate-character@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "locate-character@npm:3.0.0"
+  checksum: 9da917622395002eb1336fca8cbef1c19904e3dc0b3b8078abe8ff390106d947a86feccecd0346f0e0e19fa017623fb4ccb65263d72a76dfa36e20cc18766b6c
   languageName: node
   linkType: hard
 
@@ -24362,6 +24418,17 @@ __metadata:
   version: 2.1.0
   resolution: "performance-now@npm:2.1.0"
   checksum: 22c54de06f269e29f640e0e075207af57de5052a3d15e360c09b9a8663f393f6f45902006c1e71aa8a5a1cdfb1a47fe268826f8496d6425c362f00f5bc3e85d9
+  languageName: node
+  linkType: hard
+
+"periscopic@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "periscopic@npm:3.1.0"
+  dependencies:
+    "@types/estree": ^1.0.0
+    estree-walker: ^3.0.0
+    is-reference: ^3.0.0
+  checksum: fb5ce7cd810c49254cdf1cd3892811e6dd1a1dfbdf5f10a0a33fb7141baac36443c4cad4f0e2b30abd4eac613f6ab845c2bc1b7ce66ae9694c7321e6ada5bd96
   languageName: node
   linkType: hard
 
@@ -28672,10 +28739,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^3.0.0, svelte@npm:^3.31.2, svelte@npm:^3.48.0, svelte@npm:^3.59.1":
+"svelte@npm:^3.31.2, svelte@npm:^3.48.0":
   version: 3.59.1
   resolution: "svelte@npm:3.59.1"
   checksum: 12a250de5c359d3a184f15727d5e61e45103a795adb32e8c4100a40929d987832ab7edcbfe357d86863c0819ad4edbd69bfc83ac33bf9b5e47a233a621fbcc3e
+  languageName: node
+  linkType: hard
+
+"svelte@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "svelte@npm:4.0.0"
+  dependencies:
+    "@ampproject/remapping": ^2.2.1
+    "@jridgewell/sourcemap-codec": ^1.4.15
+    "@jridgewell/trace-mapping": ^0.3.18
+    acorn: ^8.8.2
+    aria-query: ^5.2.1
+    axobject-query: ^3.2.1
+    code-red: ^1.0.3
+    css-tree: ^2.3.1
+    estree-walker: ^3.0.3
+    is-reference: ^3.0.1
+    locate-character: ^3.0.0
+    magic-string: ^0.30.0
+    periscopic: ^3.1.0
+  checksum: fb0bf76904d3f5c4a72a91d6db7fbbabf1bfbeaeb99e4cd29a90bfc5d9cb784f994fc4249c7635f27cb1890e7313de533e0d7931ff409297cdd2a2374d0f9d53
   languageName: node
   linkType: hard
 
