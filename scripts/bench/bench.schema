@@ -29,5 +29,5 @@ devMDXVisible: INTEGER,
 buildManagerHeaderVisible: INTEGER,
 buildManagerIndexVisible: INTEGER,
 buildStoryVisible: INTEGER,
-buildAutodocsVisible: INTEGER
-buildMDXVisible: INTEGER,
+buildAutodocsVisible: INTEGER,
+buildMDXVisible: INTEGER
