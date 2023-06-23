@@ -72,7 +72,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   const controls = getControlTypesFromArgType(row);
 
   const tsTypes: string[] =
-    row.type.name === 'union' ? row.type.value.map((t: { name: any }) => t.name) : [];
+    row.type?.name === 'union' ? row.type.value.map((t: { name: any }) => t.name) : [];
 
   return (
     <div style={{ display: 'flex', gap: 10 }}>
@@ -104,7 +104,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   );
 };
 function getControlTypesFromArgType(argType: ArgType) {
-  return argType.type.value && argType.type.name === 'union'
+  return argType.type?.value && argType.type?.name === 'union'
     ? argType.type.value.map((t: { name: any }) => {
         switch (t.name) {
           case 'string':
