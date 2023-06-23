@@ -23,13 +23,13 @@ export const browse = async (url: string) => {
    * We instantiate a new browser for each run to avoid any caching happening in the browser itself
    */
   const x = await benchStory(url);
-  await benchAutodocs(url);
+  // FIXME await benchAutodocs(url);
 
   result.storyVisibleUncached = x.storyVisible;
 
-  Object.assign(result, await benchMDX(url));
+  // FIXME Object.assign(result, await benchMDX(url));
   Object.assign(result, await benchStory(url));
-  Object.assign(result, await benchAutodocs(url));
+  // FIXME Object.assign(result, await benchAutodocs(url));
 
   return result;
 };
