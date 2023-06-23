@@ -271,7 +271,7 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
       if (typeof post === 'string') {
         throw new Error(`${WHATS_NEW_URL} responded with: ${post}`);
       } else {
-        const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE);
+        const cache: WhatsNewCache = (await options.cache.get(WHATS_NEW_CACHE)) ?? {};
 
         const data = {
           ...post,
