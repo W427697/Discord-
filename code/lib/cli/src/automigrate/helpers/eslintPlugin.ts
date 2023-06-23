@@ -52,6 +52,7 @@ export async function configureEslintPlugin(eslintFile: string, packageManager: 
     paddedLog(`Configuring Storybook ESLint plugin at ${eslintFile}`);
     if (eslintFile.endsWith('json')) {
       const eslintConfig = (await readJson(eslintFile)) as { extends?: string[] };
+      eslintConfig.extends = eslintConfig.extends || [];
       const existingConfigValue = Array.isArray(eslintConfig.extends)
         ? eslintConfig.extends
         : [eslintConfig.extends].filter(Boolean);
