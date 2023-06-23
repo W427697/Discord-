@@ -13,18 +13,19 @@ export const saveBench = async (
   data: Partial<BenchResults>,
   options: SaveBenchOptions
 ) => {
-  const dirname = options.rootDir || process.cwd();
-  const existing = await ensureDir(dirname).then(() => {
-    return loadBench(options).catch(() => ({}));
+  const dirName = join(options.rootDir || process.cwd(), 'bench');
+  const fileName = `${key}.json`;
+  const existing = await ensureDir(dirName).then(() => {
+    return readJSON(join(dirName, fileName)).catch(() => ({}));
   });
-  await writeJSON(join(dirname, `bench/${key}.json`), { ...existing, ...data }, { spaces: 2 });
+  await writeJSON(join(dirName, fileName), { ...existing, ...data }, { spaces: 2 });
 };
 
 export const loadBench = async (options: SaveBenchOptions): Promise<Partial<BenchResults>> => {
-  const dirname = options.rootDir || process.cwd();
-  const files = await readdir(join(dirname, `bench`));
-  return files.reduce(async (acc, file) => {
-    const data = await readJSON(join(dirname, `bench/${file}`));
+  const dirName = join(options.rootDir || process.cwd(), 'bench');
+  const files = await readdir(dirName);
+  return files.reduce(async (acc, fileName) => {
+    const data = await readJSON(join(dirName, fileName));
     return { ...(await acc), ...data };
   }, Promise.resolve({}));
   // return readJSON(join(dirname, `bench.json`));
