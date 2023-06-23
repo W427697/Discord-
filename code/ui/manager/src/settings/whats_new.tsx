@@ -56,14 +56,14 @@ const WhatsNewLoader: FC = () => (
     <LoaderWrapper>
       <Loader />
     </LoaderWrapper>
-    <Message>Loading What's new?</Message>
+    <Message>Loading...</Message>
   </Centered>
 );
 
 const MaxWaitTimeMessaging: FC = () => (
   <Centered>
     <AlertIcon />
-    <Message>What's new? couldn't be loaded. Check your internet connection and try again.</Message>
+    <Message>The page couldn't be loaded. Check your internet connection and try again.</Message>
   </Centered>
 );
 

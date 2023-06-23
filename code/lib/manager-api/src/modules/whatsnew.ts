@@ -66,8 +66,7 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
     const whatsNewData = await getLatestWhatsNewPost();
     setWhatsNewState(whatsNewData);
 
-    // TODO Not sure how, but we don't want to intervene with onboarding.
-    const isNewStoryBookUser = false;
+    const isNewStoryBookUser = fullAPI.getUrlState().path.includes('onboarding');
 
     if (
       whatsNewEnabled &&

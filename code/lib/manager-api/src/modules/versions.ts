@@ -44,7 +44,7 @@ export interface SubAPI {
   versionUpdateAvailable: () => boolean;
 }
 
-export const init: ModuleFn = ({ store, mode, fullAPI }) => {
+export const init: ModuleFn = ({ store }) => {
   const { dismissedVersionNotification } = store.getState();
 
   const state = {
