@@ -40,11 +40,14 @@ const defaults: Record<keyof BenchResults, null> = {
   devManagerHeaderVisible: null,
   devManagerIndexVisible: null,
   devStoryVisible: null,
-  devDocsVisible: null,
+  devStoryVisibleUncached: null,
+  devAutodocsVisible: null,
+  devMDXVisible: null,
   buildManagerHeaderVisible: null,
   buildManagerIndexVisible: null,
-  buildDocsVisible: null,
+  buildAutodocsVisible: null,
   buildStoryVisible: null,
+  buildMDXVisible: null,
 };
 
 const uploadBench = async () => {
@@ -76,6 +79,16 @@ const uploadBench = async () => {
   );
 };
 
-uploadBench().then(() => {
-  console.log('done');
-});
+uploadBench()
+  .catch((err) => {
+    console.error(err);
+    if (err.errors) {
+      err.errors.forEach((elt: any) => {
+        console.log(elt);
+      });
+    }
+    process.exit(1);
+  })
+  .then(() => {
+    console.log('done');
+  });
