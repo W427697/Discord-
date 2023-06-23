@@ -103,6 +103,12 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
     </div>
   );
 };
+/**
+ * function to get control types from union arg type
+ * example : argType = { name: 'union', value: [{ name: 'string' }, { name: 'number' }] }
+ * @param argType
+ * @returns
+ */
 function getControlTypesFromArgType(argType: ArgType) {
   return argType.type?.value && argType.type?.name === 'union'
     ? argType.type.value.map((t: { name: any }) => {
