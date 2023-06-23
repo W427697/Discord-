@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import program from 'commander';
 import { z } from 'zod';
 import dedent from 'ts-dedent';
+import semver from 'semver';
 import { setOutput } from '@actions/core';
 import type { Change } from './utils/get-changes';
 import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
@@ -139,6 +140,9 @@ export const generateReleaseDescription = ({
   changelogText: string;
   manualCherryPicks?: string;
 }): string => {
+  const workflow = semver.prerelease(nextVersion) ? 'prepare-prerelease' : 'prepare-patch-release';
+  const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
+
   return (
     dedent`This is an automated pull request that bumps the version from \`${currentVersion}\` to \`${nextVersion}\`.
   Once this pull request is merged, it will trigger a new release of version \`${nextVersion}\`.
@@ -167,7 +171,7 @@ export const generateReleaseDescription = ({
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](${workflowUrl}) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
   When everything above is done:
   - Merge this PR
