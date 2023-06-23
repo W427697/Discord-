@@ -1,10 +1,9 @@
-import { copy } from 'fs-extra';
 import { join } from 'path';
 import { BigQuery } from '@google-cloud/bigquery';
 
 import type { BenchResults } from './bench/types';
 import { loadBench } from './bench/utils';
-import { SANDBOX_DIRECTORY, CODE_DIRECTORY } from './utils/constants';
+import { SANDBOX_DIRECTORY } from './utils/constants';
 import { execaCommand } from './utils/exec';
 
 const templateKey = process.argv[2];
@@ -71,12 +70,6 @@ const uploadBench = async () => {
   const appTable = dataset.table('bench2');
 
   await appTable.insert([row]);
-
-  // for CI artifacts
-  await copy(
-    `${templateSandboxDir}/bench.json`,
-    `${CODE_DIRECTORY}/bench-results/${templateSandboxDir}.json`
-  );
 };
 
 uploadBench()

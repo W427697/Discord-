@@ -466,9 +466,6 @@ jobs:
           command: yarn upload-bench $(yarn get-template << pipeline.parameters.workflow >> bench)
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> bench)
-      - store_artifacts: # this is where playwright puts more complex stuff
-          path: code/bench-results/
-          destination: bench-results
 
 workflows:
   ci:
