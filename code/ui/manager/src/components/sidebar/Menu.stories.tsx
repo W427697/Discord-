@@ -51,7 +51,6 @@ export const Expanded: Story = {
         getShortcutKeys: () => ({}),
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
-        releaseNotesVersion: () => '6.0.0',
       },
       false,
       false,
@@ -82,39 +81,4 @@ export const Expanded: Story = {
       </div>
     ),
   ],
-};
-
-export const ExpandedWithoutReleaseNotes: Story = {
-  ...Expanded,
-  render: () => {
-    const menu = useMenu(
-      {
-        // @ts-expect-error (invalid)
-        getShortcutKeys: () => ({}),
-        getAddonsShortcuts: () => ({}),
-        versionUpdateAvailable: () => false,
-        releaseNotesVersion: () => undefined,
-      },
-      false,
-      false,
-      false,
-      false,
-      false
-    );
-
-    return (
-      <DoubleThemeRenderingHack>
-        <SidebarMenu menu={menu} />
-      </DoubleThemeRenderingHack>
-    );
-  },
-  play: async (context) => {
-    const canvas = within(context.canvasElement);
-    await new Promise((res) => {
-      setTimeout(res, 500);
-    });
-    await Expanded.play(context);
-    const releaseNotes = await canvas.queryByText(/Release notes/);
-    await expect(releaseNotes).not.toBeInTheDocument();
-  },
 };

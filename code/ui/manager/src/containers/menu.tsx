@@ -64,18 +64,19 @@ export const useMenu = (
       id: 'about',
       title: 'About your Storybook',
       onClick: () => api.navigateToSettingsPage('/settings/about'),
-      right: api.versionUpdateAvailable() && <Badge status="positive">Update</Badge>,
     }),
     [api]
   );
 
-  const releaseNotes = useMemo(
+  const showWhatsNewBadge = api.whatsNewNotificationsEnabled() && api.isWhatsNewUnread();
+  const whatsNew = useMemo(
     () => ({
-      id: 'release-notes',
-      title: 'Release notes',
-      onClick: () => api.navigateToSettingsPage('/settings/release-notes'),
+      id: 'whats-new',
+      title: "What's new",
+      onClick: () => api.navigateToSettingsPage('/settings/whats-new'),
+      right: showWhatsNewBadge && <Badge status="positive">Check it out</Badge>,
     }),
-    [api]
+    [api, showWhatsNewBadge]
   );
 
   const shortcuts = useMemo(
@@ -225,7 +226,7 @@ export const useMenu = (
   return useMemo(
     () => [
       about,
-      ...(api.releaseNotesVersion() ? [releaseNotes] : []),
+      whatsNew,
       shortcuts,
       sidebarToggle,
       toolbarToogle,
@@ -243,7 +244,7 @@ export const useMenu = (
     [
       about,
       api,
-      releaseNotes,
+      whatsNew,
       shortcuts,
       sidebarToggle,
       toolbarToogle,

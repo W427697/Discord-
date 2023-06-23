@@ -8,16 +8,24 @@ import {
 } from '@storybook/core-common';
 import type {
   CLIOptions,
-  IndexerOptions,
-  StoryIndexer,
   CoreConfig,
+  IndexerOptions,
   Options,
-  StorybookConfig,
   PresetPropertyFn,
+  StorybookConfig,
+  StoryIndexer,
 } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
+import fetch from 'node-fetch';
+import type { Channel } from '@storybook/channels';
+import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
+import {
+  GET_WHATS_NEW_DATA,
+  GET_WHATS_NEW_DATA_RESULT,
+  SET_WHATS_NEW_CACHE,
+} from '@storybook/core-events';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 
@@ -231,4 +239,70 @@ export const managerHead = async (_: any, options: Options) => {
   }
 
   return '';
+};
+
+const WHATS_NEW_CACHE = 'whats-new-cache';
+const WHATS_NEW_URL = 'https://storybook-dx.netlify.app/.netlify/functions/whats-new';
+
+// Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
+type WhatsNewResponse =
+  | { title: string; url: string; publishedAt: string; excerpt: string }
+  | 'Post not found';
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_serverChannel = (channel: Channel, options: Options) => {
+  channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
+    const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE).catch((e) => {
+      // TODO Do we want to track this in telemetry? Somehow I get errors here a couple of times, with corrupted cache data.
+      console.error(e);
+      return {};
+    });
+    await options.cache.set(WHATS_NEW_CACHE, { ...cache, ...data });
+  });
+
+  channel.on(GET_WHATS_NEW_DATA, async () => {
+    try {
+      const post = (await fetch(WHATS_NEW_URL).then(async (response) => {
+        // TODO remove this
+        return {
+          title: 'Some title',
+          excerpt: 'Some excerpt',
+          showNotification: true,
+          status: 'SUCCESS',
+          publishedAt: 'asdf',
+          url: 'https://storybook.js.org/blog/whats-new-april-2023/',
+        };
+
+        if (response.ok) return response.json();
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw response;
+      })) as WhatsNewResponse;
+
+      if (typeof post === 'string') {
+        throw new Error(`${WHATS_NEW_URL} responded with: ${post}`);
+      } else {
+        const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE);
+
+        channel.emit(GET_WHATS_NEW_DATA_RESULT, {
+          data: {
+            ...post,
+            status: 'SUCCESS',
+            postIsRead: post.url === cache.lastReadPost,
+            showNotification:
+              post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
+          } satisfies WhatsNewData,
+        });
+      }
+    } catch (e) {
+      // TODO track in telemetry when this goes wrong
+      // TODO only log to the console when in verbose mode? Otherwise we will show errors whenever the user is offline.
+      console.error(e.message);
+
+      channel.emit(GET_WHATS_NEW_DATA_RESULT, {
+        data: { status: 'ERROR' } satisfies WhatsNewData,
+      });
+    }
+  });
+
+  return channel;
 };

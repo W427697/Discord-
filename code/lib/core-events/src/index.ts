@@ -64,6 +64,10 @@ enum events {
   SHARED_STATE_SET = 'sharedStateSet',
   NAVIGATE_URL = 'navigateUrl',
   UPDATE_QUERY_PARAMS = 'updateQueryParams',
+
+  GET_WHATS_NEW_DATA = 'getWhatsNewData',
+  GET_WHATS_NEW_DATA_RESULT = 'getWhatsNewDataResult',
+  SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
 }
 
 // Enables: `import Events from ...`
@@ -111,7 +115,29 @@ export const {
   UPDATE_GLOBALS,
   UPDATE_QUERY_PARAMS,
   UPDATE_STORY_ARGS,
+  GET_WHATS_NEW_DATA,
+  GET_WHATS_NEW_DATA_RESULT,
+  SET_WHATS_NEW_CACHE,
 } = events;
 
 // Used to break out of the current render without showing a redbox
 export const IGNORED_EXCEPTION = new Error('ignoredException');
+
+export interface WhatsNewCache {
+  lastDismissedPost?: string;
+  lastReadPost?: string;
+}
+
+export type WhatsNewData =
+  | {
+      status: 'SUCCESS';
+      title: string;
+      url: string;
+      publishedAt: string;
+      excerpt: string;
+      postIsRead: boolean;
+      showNotification: boolean;
+    }
+  | {
+      status: 'ERROR';
+    };

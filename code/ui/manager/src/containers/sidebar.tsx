@@ -35,7 +35,7 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       viewMode,
       menu,
-      menuHighlighted: api.versionUpdateAvailable(),
+      menuHighlighted: api.whatsNewNotificationsEnabled() && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };
