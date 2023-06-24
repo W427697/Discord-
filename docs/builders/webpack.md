@@ -136,7 +136,7 @@ However, if you're working with a framework that provides a default aliasing con
   paths={[
     'common/storybook-main-ts-module-resolution-atsign-import.js.mdx',
     'common/storybook-main-ts-module-resolution-atsign-import.ts.mdx',
-  ]}****
+  ]}
 />
 
 <!-- prettier-ignore-end -->
