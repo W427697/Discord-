@@ -13,7 +13,7 @@
   - [Publishing](#publishing)
 - [👉 How to Release](#-how-to-release)
   - [1. Find the Prepared Pull Request](#1-find-the-prepared-pull-request)
-  - [2. Freeze the Pull Request](#2-freeze-the-pull-request)
+  - [2. Freeze the Pull Request and run CI](#2-freeze-the-pull-request-and-run-ci)
   - [3. QA Each Merged Pull Request](#3-qa-each-merged-pull-request)
   - [4. Re-trigger the Workflow](#4-re-trigger-the-workflow)
   - [5. Make Manual Changes](#5-make-manual-changes)
@@ -247,11 +247,13 @@ Look for the release pull request that has been prepared for the type of release
 
 For example: https://github.com/storybookjs/storybook/pull/23148
 
-### 2. Freeze the Pull Request
+### 2. Freeze the Pull Request and run CI
 
 Add the "**freeze**" label to the pull request. This will stop the preparation workflows from running when new changes to `next` are merged. This allows you to make changes without worrying about other people's work overriding yours.
 
 The "**freeze**" label does not cancel the workflows when they are triggered manually, so you can still run the workflow.
+
+You also need to add the "**ci:daily**" label to the pull request to trigger CI runs. This will start a full CI run and re-run on any changes. CI does not run by default to avoid unnecessary re-runs until a new release is being created.
 
 ### 3. QA Each Merged Pull Request
 
