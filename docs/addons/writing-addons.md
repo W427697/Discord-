@@ -111,7 +111,7 @@ import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 import { Icons, IconButton } from '@storybook/components';
 ```
 
-The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package are used to render the icons and buttons in the toolbar.
+The [`useGlobals`](./addons-api.md#useglobals) and [`useStorybookApi`](./addons-api.md#usestorybookapi) hooks from the `manager-api` package are used to access the Storybook's APIs, allowing users to interact with the addon, such as enabling or disabling it. The `Icons` and `IconButtons` components from the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package render the icons and buttons in the toolbar.
 
 ```ts
 export const Tool = memo(function MyAddonSelector() {
@@ -163,7 +163,7 @@ Moving onto the manager, here we register the addon with Storybook using a uniqu
 
 <!-- prettier-ignore-end -->
 
-Notice the `match` property. It allows you to control the view mode where the addon is visible. If you only want to show it in a single mode, you'll need to adjust the property to match the specific mode you aim for. In this case, it will be available in both story and documentation.
+Notice the `match` property. It allows you to control the view mode where the addon is visible. If you only want to show it in a single mode, you must adjust the property to match the specific mode you aim for. In this case, it will be available in both story and documentation.
 
 Run the `start` script to build and start Storybook and verify that the addon is registered correctly and showing in the UI.
 
@@ -209,7 +209,7 @@ Since the addon can be active in both the story and documentation modes, the DOM
 
 ## Packaging and publishing
 
-Storybook addons, similar to most packages in the JavaScript ecosystem, are distributed as NPM packages. However, they have specific criteria that need to be met in order to be published to NPM and crawled by the integration catalog:
+Storybook addons, similar to most packages in the JavaScript ecosystem, are distributed as NPM packages. However, they have specific criteria that need to be met to be published to NPM and crawled by the integration catalog:
 
 1. Have a `dist` folder with the transpiled code.
 2. A `package.json` file declaring:
@@ -282,15 +282,21 @@ The second metadata category is related to the [integration catalog](https://sto
 }
 ```
 
+<div class="aside">
+
+ℹ️ The `storybook` configuration element includes additional properties that help customize the addon's searchability and indexing. For more information, see the [Integration catalog documentation](./integration-catalog.md).
+
+</div>
+
 One essential item to note is the `keywords` property as it maps to the catalog's tag system. Adding the `storybook-addons` ensures that the addon is discoverable in the catalog when searching for addons. The remaining keywords help with the searchability and categorization of the addon.
 
 ### Publishing to NPM
 
-Once you're ready to publish your addon to NPM, the Addon Kit comes pre-configured with the [Auto](https://github.com/intuit/auto) for release management. It generates a changelog and uploads the package to NPM and GitHub automatically. Therefore, you need to configure access to both.
+Once you're ready to publish your addon to NPM, the Addon Kit comes pre-configured with the [Auto](https://github.com/intuit/auto) package for release management. It generates a changelog and uploads the package to NPM and GitHub automatically. Therefore, you need to configure access to both.
 
 1. Authenticate using [npm adduser](https://docs.npmjs.com/cli/v9/commands/npm-adduser)
 2. Generate a [access token](https://docs.npmjs.com/creating-and-viewing-access-tokens#creating-access-tokens) with both `read` and `publish` permissions.
-3. Create a [personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo` scoped permissions.
+3. Create a [personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `repo` and `workflow` scoped permissions.
 4. Create a `.env` file in the root of your project and add the following:
 
 ```plaintext
@@ -316,3 +322,19 @@ Finally, run the following command to create a release for your addon. This will
 />
 
 <!-- prettier-ignore-end -->
+
+### CI automation
+
+By default, the Addon Kit comes pre-configured with a GitHub Actions workflow, enabling you to automate the release management process. This ensures that the package is always up to date with the latest changes and that the changelog is updated accordingly. However, you'll need additional configuration to use your NPM and GitHub tokens to publish the package successfully. In your repository, click the **Settings** tab, then the **Secrets and variables** dropdown, followed by the **Actions** item. You should see the following screen:
+
+![GitHub secrets page](./github-secrets-screen.png)
+
+Then, click the **New repository secret**, name it `NPM_TOKEN`, and paste the token you generated earlier. Whenever you merge a pull request to the default branch, the workflow will run and publish a new release, automatically incrementing the version number and updating the changelog.
+
+## Learn more about the Storybook addon ecosystem
+
+- [Addon types](./addon-types.md) for other types of addons
+- Writing addons for the basics of addon development
+- [Presets](./writing-presets.md) for preset development
+- [Integration catalog](./integration-catalog.md) for requirements and available recipes
+- [API reference](./addons-api.md) to learn about the available APIs
