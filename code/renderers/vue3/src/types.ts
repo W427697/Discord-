@@ -1,9 +1,10 @@
 import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
-import type { Component, DefineComponent } from 'vue';
+import type { ConcreteComponent } from 'vue';
 
-export type { RenderContext } from '@storybook/types';
-
+export type RenderContext = RenderContextBase<VueRenderer>;
+export type { Args };
 export type StoryID = string;
+export type ArgsStoryFn = RenderArgsFn<VueRenderer>;
 
 export interface ShowErrorArgs {
   title: string;

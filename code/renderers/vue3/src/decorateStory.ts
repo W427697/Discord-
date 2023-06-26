@@ -1,8 +1,8 @@
 import type { Component, ComponentOptions, ConcreteComponent } from 'vue';
 import { h } from 'vue';
-import type { DecoratorFunction, LegacyStoryFn, StoryContext } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-import type { VueRenderer } from './types';
+import type { VueRenderer, StoryContext, StoryFnVueReturnType } from './types';
+import type { LegacyStoryFn, Decorator } from './public-types';
 
 /*
   This normalizes a functional component into a render method in ComponentOptions.
@@ -15,10 +15,7 @@ function normalizeFunctionalComponent(options: ConcreteComponent): ComponentOpti
   return typeof options === 'function' ? { render: options, name: options.name } : options;
 }
 
-function prepare(
-  rawStory: VueRenderer['storyResult'],
-  innerStory?: ConcreteComponent
-): Component | null {
+function prepare(rawStory: StoryFnVueReturnType, innerStory?: ConcreteComponent): Component | null {
   const story = rawStory as ComponentOptions;
   if (story === null) {
     return null;
@@ -40,12 +37,12 @@ function prepare(
 }
 
 export function decorateStory(
-  storyFn: LegacyStoryFn<VueRenderer>,
-  decorators: DecoratorFunction<VueRenderer>[]
+  storyFn: LegacyStoryFn,
+  decorators: Decorator[]
 ): LegacyStoryFn<VueRenderer> {
   return decorators.reduce(
-    (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
-      let story: VueRenderer['storyResult'] | undefined;
+    (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext) => {
+      let story: StoryFnVueReturnType | undefined;
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
         const sanitizedUpdate = sanitizeStoryContextUpdate(update);
@@ -62,8 +59,8 @@ export function decorateStory(
       }
 
       const innerStory = () => h(story!);
-      return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
+      return prepare(decoratedStory, innerStory) as StoryFnVueReturnType;
     },
-    (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
+    (context) => prepare(storyFn(context)) as LegacyStoryFn
   );
 }
