@@ -2,7 +2,7 @@ import { styled } from '@storybook/theming';
 import type { Color, Theme } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import { transparentize } from 'polished';
-import type { FunctionComponent, ComponentProps } from 'react';
+import type { FC, ComponentProps } from 'react';
 import React from 'react';
 
 export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
@@ -153,7 +153,7 @@ const InvisibleText = styled.p({
 });
 
 // Make the content have a min-height equal to one line of text
-export const IconsWrapper: FunctionComponent<{ children?: React.ReactNode }> = ({ children }) => {
+export const IconsWrapper: FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <Wrapper>
       <InvisibleText>&nbsp;</InvisibleText>
@@ -162,7 +162,7 @@ export const IconsWrapper: FunctionComponent<{ children?: React.ReactNode }> = (
   );
 };
 
-export const GroupNode: FunctionComponent<
+export const GroupNode: FC<
   ComponentProps<typeof BranchNode> & { isExpanded?: boolean; isExpandable?: boolean }
 > = React.memo(function GroupNode({
   children,
@@ -181,7 +181,7 @@ export const GroupNode: FunctionComponent<
   );
 });
 
-export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>> = React.memo(
+export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
   function ComponentNode({ theme, children, isExpanded, isExpandable, isSelected, ...props }) {
     return (
       <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
@@ -195,7 +195,7 @@ export const ComponentNode: FunctionComponent<ComponentProps<typeof BranchNode>>
   }
 );
 
-export const DocumentNode: FunctionComponent<
+export const DocumentNode: FC<
   ComponentProps<typeof LeafNode> & { docsMode: boolean }
 > = React.memo(function DocumentNode({ theme, children, docsMode, ...props }) {
   return (
@@ -208,7 +208,7 @@ export const DocumentNode: FunctionComponent<
   );
 });
 
-export const StoryNode: FunctionComponent<ComponentProps<typeof LeafNode>> = React.memo(
+export const StoryNode: FC<ComponentProps<typeof LeafNode>> = React.memo(
   function StoryNode({ theme, children, ...props }) {
     return (
       <LeafNode tabIndex={-1} {...props}>
