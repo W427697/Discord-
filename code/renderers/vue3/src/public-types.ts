@@ -11,9 +11,10 @@ import type {
   StoryContext as GenericStoryContext,
   StrictArgs,
 } from '@storybook/types';
-import type { Constructor, RemoveIndexSignature, SetOptional, Simplify } from 'type-fest';
+import type { Constructor, OmitIndexSignature, SetOptional, Simplify } from 'type-fest';
 import type { FunctionalComponent, VNodeChild } from 'vue';
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers';
+import type { LegacyStoryFn as ContextStoryFn } from '@storybook/csf';
 import type { VueRenderer } from './types';
 
 export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
@@ -46,11 +47,11 @@ export type StoryFn<TCmpOrArgs = Args> = AnnotatedStoryFn<
  */
 export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
   render?: ArgsStoryFn<VueRenderer, any>;
-  component?: infer Component;
+  component?: infer TComponent;
   args?: infer DefaultArgs;
 }
   ? Simplify<
-      ComponentPropsAndSlots<Component> & ArgsFromMeta<VueRenderer, TMetaOrCmpOrArgs>
+      ComponentPropsAndSlots<TComponent> & ArgsFromMeta<VueRenderer, TMetaOrCmpOrArgs>
     > extends infer TArgs
     ? StoryAnnotations<
         VueRenderer,
@@ -60,7 +61,7 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
     : never
   : StoryAnnotations<VueRenderer, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
 
-type ExtractSlots<C> = AllowNonFunctionSlots<Partial<RemoveIndexSignature<ComponentSlots<C>>>>;
+type ExtractSlots<C> = AllowNonFunctionSlots<Partial<OmitIndexSignature<ComponentSlots<C>>>>;
 
 type AllowNonFunctionSlots<Slots> = {
   [K in keyof Slots]: Slots[K] | VNodeChild;
@@ -84,6 +85,7 @@ type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends Constructor<any>
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
+export type LegacyStoryFn<TArgs = Args> = ContextStoryFn<VueRenderer, TArgs>;
 
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<VueRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<VueRenderer, TArgs>;

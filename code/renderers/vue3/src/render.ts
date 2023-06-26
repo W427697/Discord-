@@ -1,12 +1,11 @@
 /* eslint-disable no-param-reassign */
-import type { App } from 'vue';
-import { createApp, h, reactive, isVNode, isReactive } from 'vue';
-import type { ArgsStoryFn, RenderContext } from '@storybook/types';
-import type { Args, StoryContext } from '@storybook/csf';
+import type { App, ConcreteComponent } from 'vue';
+import { createApp, h, reactive, isReactive } from 'vue';
 
-import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';
+import { cloneDeep } from 'lodash';
+import type { VueRenderer, StoryID, RenderContext, StoryContext, ArgsStoryFn } from './types';
 
-export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
+export const render: ArgsStoryFn = (props, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(
@@ -14,20 +13,20 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return () => h(Component, props, generateSlots(context));
+  return h(Component, props, createOrUpdateSlots(context));
 };
 
 // set of setup functions that will be called when story is created
-const setupFunctions = new Set<(app: App, storyContext?: StoryContext<VueRenderer>) => void>();
+const setupFunctions = new Set<(app: App, storyContext?: StoryContext) => void>();
 /** add a setup function to set that will be call when story is created a d
  *
  * @param fn
  */
-export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => void) => {
+export const setup = (fn: (app: App, storyContext?: StoryContext) => void) => {
   setupFunctions.add(fn);
 };
 
-const runSetupFunctions = (app: App, storyContext: StoryContext<VueRenderer>) => {
+const runSetupFunctions = (app: App, storyContext: StoryContext) => {
   setupFunctions.forEach((fn) => fn(app, storyContext));
 };
 
@@ -41,7 +40,7 @@ const map = new Map<
 >();
 
 export function renderToCanvas(
-  { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
+  { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext,
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
@@ -51,10 +50,9 @@ export function renderToCanvas(
     // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
     // we need to call here to run the decorators again
     // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
-    const element = storyFn(); // call the story function to get the root element with all the decorators
-    const args = getArgs(element, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
+    storyFn(); // call the story function to get the root element with all the decorators
 
-    updateArgs(existingApp.reactiveArgs, args);
+    updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -66,17 +64,17 @@ export function renderToCanvas(
     setup() {
       storyContext.args = reactive(storyContext.args);
       const rootElement = storyFn(); // call the story function to get the root element with all the decorators
-      const args = getArgs(rootElement, storyContext); // get args in case they are altered by decorators otherwise use the args from the context
+
       const appState = {
         vueApp,
-        reactiveArgs: reactive(args),
+        reactiveArgs: reactive(storyContext.args),
       };
       map.set(canvasElement, appState);
 
       return () => {
         // not passing args here as props
         // treat the rootElement as a component without props
-        return h(rootElement);
+        return h(rootElement, appState.reactiveArgs);
       };
     },
   });
@@ -96,7 +94,7 @@ export function renderToCanvas(
  * @param context
  */
 
-function generateSlots(context: StoryContext<VueRenderer, Args>) {
+function generateSlots(context: StoryContext) {
   const { argTypes } = context;
   const slots = Object.entries(argTypes)
     .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
@@ -106,15 +104,6 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
     });
 
   return reactive(Object.fromEntries(slots));
-}
-/**
- * get the args from the root element props if it is a vnode otherwise from the context
- * @param element is the root element of the story
- * @param storyContext is the story context
- */
-
-function getArgs(element: StoryFnVueReturnType, storyContext: StoryContext<VueRenderer, Args>) {
-  return element.props && isVNode(element) ? element.props : storyContext.args;
 }
 
 /**
@@ -133,7 +122,27 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
     }
   });
   // update currentArgs with nextArgs
-  Object.assign(currentArgs, nextArgs);
+  Object.assign(currentArgs, cloneDeep(nextArgs));
+}
+
+const slotsMap = new Map<
+  StoryID,
+  {
+    component?: Omit<ConcreteComponent<any>, 'props'>;
+    reactiveSlots?: Args;
+  }
+>();
+
+function createOrUpdateSlots(context: StoryContext) {
+  const { id: storyID, component } = context;
+  const slots = generateSlots(context);
+  if (slotsMap.has(storyID)) {
+    const app = slotsMap.get(storyID);
+    if (app?.reactiveSlots) updateArgs(app.reactiveSlots, slots);
+    return app?.reactiveSlots;
+  }
+  slotsMap.set(storyID, { component, reactiveSlots: slots });
+  return slots;
 }
 
 /**
