@@ -269,9 +269,9 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> sandbox)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
       - persist_to_workspace:
           root: .
           paths:
@@ -294,9 +294,9 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template << pipeline.parameters.workflow >> smoke-test) --no-link --start-from=never --junit
+          command: yarn task --task smoke-test --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> smoke-test)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test)
       - store_test_results:
           path: test-results
   build-sandboxes:
@@ -320,13 +320,13 @@ jobs:
           background: true
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+          command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
       - run:
           name: Verifying Telemetry
-          command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> build)
+          command: yarn ts-node ./event-log-checker build $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
           working_directory: scripts
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> build)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
       - store_test_results:
           path: test-results
       - persist_to_workspace:
@@ -350,9 +350,9 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template << pipeline.parameters.workflow >> test-runner) --no-link --start-from=never --junit
+          command: yarn task --task test-runner --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> test-runner)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner)
       - store_test_results:
           path: test-results
   test-runner-dev:
@@ -371,9 +371,9 @@ jobs:
           at: .
       - run:
           name: Running Test Runner in Dev mode
-          command: yarn task --task test-runner-dev --template $(yarn get-template << pipeline.parameters.workflow >> test-runner-dev) --no-link --start-from=never --junit
+          command: yarn task --task test-runner-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> test-runner-dev)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task test-runner-dev)
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
@@ -391,9 +391,9 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
+          command: yarn task --task chromatic --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task chromatic) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> chromatic)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task chromatic)
       - store_test_results:
           path: test-results
   e2e-production:
@@ -412,9 +412,9 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests)
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
@@ -436,9 +436,9 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests-dev --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests-dev) --no-link --start-from=never --junit
+          command: yarn task --task e2e-tests-dev --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev) --no-link --start-from=never --junit
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests-dev)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task e2e-tests-dev)
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
@@ -460,12 +460,12 @@ jobs:
           at: .
       - run:
           name: Running Bench
-          command: yarn task --task bench --template $(yarn get-template << pipeline.parameters.workflow >> bench) --no-link --start-from=never --junit
+          command: yarn task --task bench --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench) --no-link --start-from=never --junit
       - run:
           name: Uploading results
-          command: yarn upload-bench $(yarn get-template << pipeline.parameters.workflow >> bench)
+          command: yarn upload-bench $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
       - report-workflow-on-failure:
-          template: $(yarn get-template << pipeline.parameters.workflow >> bench)
+          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
 
 workflows:
   ci:
@@ -601,11 +601,11 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 20
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 20
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -613,7 +613,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 20
+          parallelism: 18
           requires:
             - build-sandboxes
       - bench:
@@ -647,14 +647,14 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 32
+          parallelism: 34
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 32
+          parallelism: 34
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
