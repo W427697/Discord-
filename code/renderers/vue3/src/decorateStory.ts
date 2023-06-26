@@ -1,7 +1,7 @@
 import type { Component, ComponentOptions, ConcreteComponent } from 'vue';
 import { h } from 'vue';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-import type { VueRenderer, StoryContext, StoryFnVueReturnType } from './types';
+import type { StoryContext, StoryFnVueReturnType } from './types';
 import type { LegacyStoryFn, Decorator } from './public-types';
 
 /*
@@ -36,15 +36,12 @@ function prepare(rawStory: StoryFnVueReturnType, innerStory?: ConcreteComponent)
   };
 }
 
-export function decorateStory(
-  storyFn: LegacyStoryFn,
-  decorators: Decorator[]
-): LegacyStoryFn<VueRenderer> {
+export function decorateStory(storyFn: LegacyStoryFn, decorators: Decorator[]): LegacyStoryFn {
   return decorators.reduce(
-    (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext) => {
+    (decorated: LegacyStoryFn, decorator) => (context: StoryContext) => {
       let story: StoryFnVueReturnType | undefined;
 
-      const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
+      const decoratedStory: StoryFnVueReturnType = decorator((update) => {
         const sanitizedUpdate = sanitizeStoryContextUpdate(update);
         // update the args in a reactive way
         if (update) sanitizedUpdate.args = Object.assign(context.args, sanitizedUpdate.args);
