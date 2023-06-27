@@ -72,10 +72,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async (
-  { sandboxDir, template },
-  { link, dryRun, debug, addon: addons, skipTemplateStories }
-) => {
+export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
@@ -106,10 +103,20 @@ export const install: Task['run'] = async (
       }
     );
   }
+};
+
+export const init: Task['run'] = async (
+  { sandboxDir, template },
+  { dryRun, debug, addon: addons, skipTemplateStories }
+) => {
+  const cwd = sandboxDir;
 
   let extra = {};
-  if (template.expected.renderer === '@storybook/html') extra = { type: 'html' };
-  else if (template.expected.renderer === '@storybook/server') extra = { type: 'server' };
+  if (template.expected.renderer === '@storybook/html') {
+    extra = { type: 'html' };
+  } else if (template.expected.renderer === '@storybook/server') {
+    extra = { type: 'server' };
+  }
 
   await executeCLIStep(steps.init, {
     cwd,
