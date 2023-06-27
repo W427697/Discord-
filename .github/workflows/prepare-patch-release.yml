@@ -164,8 +164,8 @@ jobs:
             gh pr create \
               --repo "${{github.repository }}"\
               --title "Release: Merge patches to \`main\` (without version bump)" \
+              --label "release" \
               --base latest-release \
-              --label "build" \
               --head version-patch-from-${{ steps.versions.outputs.current }} \
               --body "${{ steps.description.outputs.description }}"
           fi
