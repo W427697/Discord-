@@ -4,7 +4,7 @@ import semver from 'semver';
 import { loadPartialConfigAsync } from '@babel/core';
 import type { Fix } from '../types';
 import { generateStorybookBabelConfigInCWD } from '../../babel-config';
-import { getStorybookData } from '../helpers/mainConfigFile';
+import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
 interface MissingBabelRcOptions {
   needsBabelRc: boolean;
@@ -17,29 +17,34 @@ const frameworksThatNeedBabelConfig = [
   '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
   '@storybook/html-webpack5',
+  '@storybook/web-components-webpack5',
 ];
 
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {
   id: 'missing-babelrc',
 
-  async check({ configDir, packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { mainConfig, storybookVersion } = await getStorybookData({ configDir, packageManager });
+  async check({ packageManager, mainConfig, storybookVersion }) {
+    const packageJson = await packageManager.retrievePackageJson();
 
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    const { framework, addons } = mainConfig;
-
-    const frameworkPackage = typeof framework === 'string' ? framework : framework.name;
+    const { addons } = mainConfig;
 
     const hasCraPreset =
-      addons && addons.find((addon) => addon === '@storybook/preset-create-react-app');
+      addons &&
+      addons.find((addon) =>
+        typeof addon === 'string'
+          ? addon.endsWith('@storybook/preset-create-react-app')
+          : addon.name.endsWith('@storybook/preset-create-react-app')
+      );
+
+    const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
     if (
-      frameworkPackage &&
-      frameworksThatNeedBabelConfig.includes(frameworkPackage) &&
+      frameworkPackageName &&
+      frameworksThatNeedBabelConfig.includes(frameworkPackageName) &&
       !hasCraPreset
     ) {
       const config = await loadPartialConfigAsync({
@@ -64,20 +69,19 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
 
       If your project does not have a babel configuration file, we can generate one that's equivalent to the 6.x defaults for you. Keep in mind that this can affect your project if it uses babel, and you may need to make additional changes based on your projects needs.
 
-      ${chalk.bold(
-        'Note:'
-      )} This automatic setup doesn't work in a monorepo, see the babel documentation for how to setup babel manually:
-      ${chalk.yellow('https://babeljs.io/docs')}
-
       We can create a ${chalk.blue(
         '.babelrc.json'
       )} file with some basic configuration and add any necessary package devDependencies.
-      
+
+      ${chalk.bold(
+        'Note:'
+      )} After installing the necessary presets, if it does not work in a monorepo, see the babel documentation for reference:
+      ${chalk.yellow('https://babeljs.io/docs')}
+
       Please see the migration guide for more information:
       ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#babel-mode-v7-exclusively'
       )}
-     
     `;
   },
   async run() {

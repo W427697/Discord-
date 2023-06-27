@@ -9,6 +9,8 @@ export type GeneratorOptions = {
   linkable: boolean;
   pnp: boolean;
   frameworkPreviewParts?: FrameworkPreviewParts;
+  // skip prompting the user
+  yes: boolean;
 };
 
 export interface FrameworkOptions {
@@ -18,8 +20,7 @@ export interface FrameworkOptions {
   addScripts?: boolean;
   addMainFile?: boolean;
   addComponents?: boolean;
-  addBabel?: boolean;
-  addESLint?: boolean;
+  skipBabel?: boolean;
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;

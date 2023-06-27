@@ -16,6 +16,7 @@ import { publish } from './tasks/publish';
 import { runRegistryTask } from './tasks/run-registry';
 import { generate } from './tasks/generate';
 import { sandbox } from './tasks/sandbox';
+import { syncDocs } from './tasks/sync-docs';
 import { dev } from './tasks/dev';
 import { smokeTest } from './tasks/smoke-test';
 import { build } from './tasks/build';
@@ -25,6 +26,7 @@ import { testRunnerDev } from './tasks/test-runner-dev';
 import { chromatic } from './tasks/chromatic';
 import { e2eTestsBuild } from './tasks/e2e-tests-build';
 import { e2eTestsDev } from './tasks/e2e-tests-dev';
+import { bench } from './tasks/bench';
 
 import {
   allTemplates as TEMPLATES,
@@ -92,6 +94,7 @@ export const tasks = {
   compile,
   check,
   publish,
+  'sync-docs': syncDocs,
   'run-registry': runRegistryTask,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
   generate,
@@ -105,11 +108,12 @@ export const tasks = {
   chromatic,
   'e2e-tests': e2eTestsBuild,
   'e2e-tests-dev': e2eTestsDev,
+  bench,
 };
 type TaskKey = keyof typeof tasks;
 
 function isSandboxTask(taskKey: TaskKey) {
-  return !['install', 'compile', 'publish', 'run-registry', 'check'].includes(taskKey);
+  return !['install', 'compile', 'publish', 'run-registry', 'check', 'sync-docs'].includes(taskKey);
 }
 
 export const options = createOptions({
@@ -298,7 +302,11 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   const { junitFilename } = details;
   const startTime = new Date();
   try {
-    const controller = await task.run(details, optionValues);
+    let updatedOptions = optionValues;
+    if (details.template?.modifications?.skipTemplateStories) {
+      updatedOptions = { ...optionValues, skipTemplateStories: true };
+    }
+    const controller = await task.run(details, updatedOptions);
 
     if (junitFilename && !task.junit) await writeJunitXml(getTaskKey(task), details.key, startTime);
 
@@ -323,6 +331,9 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 const controllers: AbortController[] = [];
 
 async function run() {
+  // useful for other scripts to know whether they're running in the creation of a sandbox in the monorepo
+  process.env.IN_STORYBOOK_SANDBOX = 'true';
+
   const allOptionValues = await getOptionsOrPrompt('yarn task', options);
 
   const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;

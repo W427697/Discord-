@@ -32,11 +32,12 @@ If you want to change the default set of viewports, you can set the global `para
 
 The viewport global can take an object with the following keys:
 
-| Field               |  Type   |                Description                | Default Value  |
-| ------------------- | :-----: | :---------------------------------------: | :------------: |
-| **defaultViewport** | String  |         Sets the default viewport         | `'responsive'` |
-| **disable**         | Boolean |           Disables the viewport           |      N/A       |
-| **viewports**       | Object  | The configuration object for the viewport |      `{}`      |
+| Field                  |  Type   |                Description                                | Default Value  |
+| ---------------------- | :-----: | :-------------------------------------------------------: | :------------: |
+| **defaultViewport**    | String  | Sets the default viewport                                 | `'responsive'` |
+| **defaultOrientation** | String  | Sets the default orientation (e.g. portrait or landscape) | `'portrait'`   |
+| **disable**            | Boolean | Disables the viewport                                     |      N/A       |
+| **viewports**          | Object  | The configuration object for the viewport                 |      `{}`      |
 
 The viewports object needs the following keys:
 
@@ -131,6 +132,8 @@ Update your story through [parameters](../writing-stories/parameters.md) to incl
     'web-components/my-component-story-configure-viewports.js.mdx',
     'web-components/my-component-story-configure-viewports.ts.mdx',
     'svelte/my-component-story-configure-viewports.js.mdx',
+    'solid/my-component-story-configure-viewports.js.mdx',
+    'solid/my-component-story-configure-viewports.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/viewport#snippet-my-component-story-configure-viewports"

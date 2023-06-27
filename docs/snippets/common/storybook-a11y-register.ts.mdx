@@ -1,11 +1,12 @@
 ```ts
 // .storybook/main.ts
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
     // Other Storybook addons
     '@storybook/addon-a11y', //👈 The a11y addon goes here

@@ -1,11 +1,11 @@
 {
   "name": "@storybook/components",
-  "version": "7.1.0-alpha.7",
+  "version": "7.1.0-alpha.40",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/ui/components",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/ui/components",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,15 +22,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./html": {
+      "types": "./dist/html.d.ts",
       "require": "./dist/html.js",
-      "import": "./dist/html.mjs",
-      "types": "./dist/html.d.ts"
+      "import": "./dist/html.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -48,22 +48,22 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.7",
+    "@storybook/client-logger": "7.1.0-alpha.40",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/theming": "7.1.0-alpha.7",
-    "@storybook/types": "7.1.0-alpha.7",
+    "@storybook/theming": "7.1.0-alpha.40",
+    "@storybook/types": "7.1.0-alpha.40",
     "memoizerific": "^1.11.3",
     "use-resize-observer": "^9.1.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
-    "@types/overlayscrollbars": "^1.12.0",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
-    "overlayscrollbars": "^1.13.1",
+    "overlayscrollbars": "^2.2.0",
+    "overlayscrollbars-react": "^0.5.0",
     "polished": "^4.2.2",
     "prettier": "^2.8.0",
     "react-popper-tooltip": "^4.4.2",
@@ -85,5 +85,5 @@
     ],
     "platform": "neutral"
   },
-  "gitHead": "ab6f997ca1ff37b0711a7e12c12af8d76d85f0fc"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

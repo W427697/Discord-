@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 
-import StackAlt from '../../assets/colors.svg';
+import Accessibility from '../../assets/accessibility.svg';
 
 export default {
   component: Image,
   args: {
-    src: StackAlt,
-    alt: 'Stack Alt',
+    src: Accessibility,
+    alt: 'Accessibility',
   },
 };
 
@@ -46,5 +46,32 @@ export const Sized = {
     decorator: [
       (Story) => <div style={{ width: 800, height: 800, position: 'relative' }}>{Story()}</div>,
     ],
+  },
+};
+
+export const Lazy = {
+  args: {
+    src: 'https://storybook.js.org/images/placeholders/50x50.png',
+    width: 50,
+    height: 50,
+  },
+  decorators: [
+    (Story) => (
+      <>
+        <div style={{ height: '200vh' }} />
+        {Story()}
+      </>
+    ),
+  ],
+};
+
+export const Eager = {
+  ...Lazy,
+  parameters: {
+    nextjs: {
+      image: {
+        loading: 'eager',
+      },
+    },
   },
 };
