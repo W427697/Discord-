@@ -5881,7 +5881,7 @@ __metadata:
     chalk: ^4.1.0
     esbuild: ^0.17.0
     esbuild-register: ^3.4.0
-    file-system-cache: ^2.0.0
+    file-system-cache: 2.3.0
     find-up: ^5.0.0
     fs-extra: ^11.1.0
     glob: ^8.1.0
@@ -7196,7 +7196,7 @@ __metadata:
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     "@types/node": ^16.0.0
-    file-system-cache: ^2.0.0
+    file-system-cache: 2.3.0
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
@@ -15765,13 +15765,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-system-cache@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "file-system-cache@npm:2.0.2"
+"file-system-cache@npm:2.3.0":
+  version: 2.3.0
+  resolution: "file-system-cache@npm:2.3.0"
   dependencies:
     fs-extra: ^11.1.0
     ramda: ^0.28.0
-  checksum: e82fb68e224f7cda9ae2315a5b795470ac225082d8913059d841e1e141d1b370cb75bdc8215f46ab28bfc7e37c0892d8ea8123d31590229282796134dbed1c84
+  checksum: 43de19f0db32e6546bb7abeecb1d6ea83c1eca23b38905c9415a29f6219cc9d6d87b0c1a6aca92c46a0f1bc276241a339f2f68b8aa0ca5c2eb64b6e1e3e4da01
   languageName: node
   linkType: hard
 
