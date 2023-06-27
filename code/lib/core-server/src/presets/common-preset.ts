@@ -242,8 +242,7 @@ export const managerHead = async (_: any, options: Options) => {
 };
 
 const WHATS_NEW_CACHE = 'whats-new-cache';
-const WHATS_NEW_URL =
-  'https://gist.githubusercontent.com/kasperpeulen/11560542fd731162bfbd391449d3eb15/raw/ddbeb1dbf7f554df399371210b5556259bbcc3c5/test.json';
+const WHATS_NEW_URL = 'https://storybook-dx.netlify.app/.netlify/functions/whats-new';
 
 // Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
 type WhatsNewResponse =
