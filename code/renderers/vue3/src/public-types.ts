@@ -2,7 +2,6 @@ import type {
   AnnotatedStoryFn,
   Args,
   ArgsFromMeta,
-  ArgsStoryFn,
   ComponentAnnotations,
   DecoratorFunction,
   LoaderFunction,
@@ -10,6 +9,7 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ArgsStoryFn,
 } from '@storybook/types';
 import type { Constructor, OmitIndexSignature, SetOptional, Simplify } from 'type-fest';
 import type { FunctionalComponent, VNodeChild } from 'vue';
@@ -18,7 +18,7 @@ import type { LegacyStoryFn as ContextStoryFn } from '@storybook/csf';
 import type { VueRenderer } from './types';
 
 export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
-export type { VueRenderer };
+export type { VueRenderer, ArgsStoryFn } from './types';
 
 /**
  * Metadata to configure the stories for a component.
@@ -46,7 +46,7 @@ export type StoryFn<TCmpOrArgs = Args> = AnnotatedStoryFn<
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
-  render?: ArgsStoryFn<VueRenderer, any>;
+  render?: ArgsStoryFn;
   component?: infer TComponent;
   args?: infer DefaultArgs;
 }

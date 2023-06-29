@@ -43,10 +43,7 @@ export const Hooks = {
       return storyFn({ args: { ...context.args, text: `story ${context.args['text']}` } });
     },
     // conditional decorator, runs before the above
-    (storyFn: PartialStoryFn, context: StoryContext) =>
-      context.args.condition
-        ? storyFn()
-        : (context.originalStoryFn as ArgsStoryFn)(context.args, context),
+    (storyFn: PartialStoryFn, context: StoryContext) => (context.args.condition ? storyFn() : null),
   ],
   args: {
     text: 'text',
