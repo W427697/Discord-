@@ -1,17 +1,24 @@
-import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
-import type { ConcreteComponent } from 'vue';
+import type {
+  StoryContext as StoryContextBase,
+  WebRenderer,
+  RenderContext as RenderContextBase,
+  ArgsStoryFn as RenderArgsFn,
+} from '@storybook/types';
+import type { Args } from '@storybook/csf';
+import type { Component, h } from 'vue';
 
 export type RenderContext = RenderContextBase<VueRenderer>;
 export type { Args };
 export type StoryID = string;
-export type ArgsStoryFn = RenderArgsFn<VueRenderer>;
+export type ArgsStoryFn = RenderArgsFn<VueRenderer, any>; // user uses it in custom render function StoryObj
+export type VueRenderArgsFn = (...args: Parameters<ArgsStoryFn>) => ReturnType<typeof h>; //  Vue Renderer render function to render component with  props
 
 export interface ShowErrorArgs {
   title: string;
   description: string;
 }
 
-export type StoryFnVueReturnType = DefineComponent<any> | Component<any> | JSX.Element;
+export type StoryFnVueReturnType = ReturnType<typeof h> | Component;
 
 export type StoryContext = StoryContextBase<VueRenderer>;
 

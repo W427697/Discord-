@@ -1,11 +1,17 @@
 /* eslint-disable no-param-reassign */
-import type { App, ConcreteComponent } from 'vue';
+import type { App, Component } from 'vue';
 import { createApp, h, reactive, isReactive } from 'vue';
-
 import { cloneDeep } from 'lodash';
-import type { VueRenderer, StoryID, RenderContext, StoryContext, ArgsStoryFn } from './types';
+import type {
+  Args,
+  VueRenderer,
+  StoryID,
+  RenderContext,
+  StoryContext,
+  VueRenderArgsFn,
+} from './types';
 
-export const render: ArgsStoryFn = (props, context) => {
+export const render: VueRenderArgsFn = (props, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(
@@ -49,9 +55,8 @@ export function renderToCanvas(
   if (existingApp && !forceRemount) {
     // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
     // we need to call here to run the decorators again
-    // i may wrap each decorator in memoized function to avoid calling it if the args are not changed
-    storyFn(); // call the story function to get the root element with all the decorators
-
+    // call storyFn to decorate the story with the decorators and prepare it for rendering
+    storyFn();
     updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
@@ -59,7 +64,6 @@ export function renderToCanvas(
   }
   if (existingApp && forceRemount) teardown(existingApp.vueApp, canvasElement);
 
-  // create vue app for the story
   const vueApp = createApp({
     setup() {
       storyContext.args = reactive(storyContext.args);
@@ -128,7 +132,7 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
 const slotsMap = new Map<
   StoryID,
   {
-    component?: Omit<ConcreteComponent<any>, 'props'>;
+    component?: Component;
     reactiveSlots?: Args;
   }
 >();

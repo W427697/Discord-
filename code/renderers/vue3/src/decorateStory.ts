@@ -1,63 +1,52 @@
-import type { Component, ComponentOptions, ConcreteComponent } from 'vue';
-import { h } from 'vue';
+import type { Component } from 'vue';
+import { h, isVNode } from 'vue';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 import type { StoryContext, StoryFnVueReturnType } from './types';
 import type { LegacyStoryFn, Decorator } from './public-types';
 
-/*
-  This normalizes a functional component into a render method in ComponentOptions.
-
-  The concept is taken from Vue 3's `defineComponent` but changed from creating a `setup`
-  method on the ComponentOptions so end-users don't need to specify a "thunk" as a decorator.
- */
-
-function normalizeFunctionalComponent(options: ConcreteComponent): ComponentOptions {
-  return typeof options === 'function' ? { render: options, name: options.name } : options;
-}
-
-function prepare(rawStory: StoryFnVueReturnType, innerStory?: ConcreteComponent): Component | null {
-  const story = rawStory as ComponentOptions;
+function prepare(story: StoryFnVueReturnType, innerStory?: StoryFnVueReturnType): Component {
   if (story === null) {
-    return null;
+    return () => null;
   }
   if (typeof story === 'function') return story; // we don't need to wrap a functional component nor to convert it to a component options
-  if (innerStory) {
-    return {
-      // Normalize so we can always spread an object
-      ...normalizeFunctionalComponent(story),
-      components: { ...(story.components || {}), story: innerStory },
-    };
-  }
 
-  return {
+  const storyComponent = {
     render() {
       return h(story);
     },
+    inheritAttrs: false,
   };
+
+  if (innerStory) {
+    return {
+      ...storyComponent,
+      components: { story: (args) => h(innerStory, args) },
+    };
+  }
+  return storyComponent;
 }
 
-export function decorateStory(storyFn: LegacyStoryFn, decorators: Decorator[]): LegacyStoryFn {
-  return decorators.reduce(
-    (decorated: LegacyStoryFn, decorator) => (context: StoryContext) => {
-      let story: StoryFnVueReturnType | undefined;
+export function decorateStory(storyFn: LegacyStoryFn, decorators: Decorator[]) {
+  const decoratedStoryFn = decorators.reduce((decorated, decorator) => {
+    let storyResult: StoryFnVueReturnType;
 
-      const decoratedStory: StoryFnVueReturnType = decorator((update) => {
-        const sanitizedUpdate = sanitizeStoryContextUpdate(update);
-        // update the args in a reactive way
-        if (update) sanitizedUpdate.args = Object.assign(context.args, sanitizedUpdate.args);
-        story = decorated({ ...context, ...sanitizedUpdate });
-        return story;
+    const decoratedStory = (context: StoryContext) =>
+      decorator((update) => {
+        const mergedContext = { ...context, ...sanitizeStoryContextUpdate(update) };
+        storyResult = decorated(mergedContext);
+        context.args = mergedContext.args;
+        return storyResult;
       }, context);
 
-      if (!story) story = decorated(context);
+    return (context: StoryContext) => {
+      const story = decoratedStory(context);
+      if (!storyResult) storyResult = decorated(context);
+      if (!story || !isVNode(storyResult)) return storyResult;
+      if (story === storyResult) return storyResult;
 
-      if (decoratedStory === story) {
-        return story;
-      }
+      return prepare(story, h(storyResult, context.args));
+    };
+  }, storyFn);
 
-      const innerStory = () => h(story!);
-      return prepare(decoratedStory, innerStory) as StoryFnVueReturnType;
-    },
-    (context) => prepare(storyFn(context)) as LegacyStoryFn
-  );
+  return (context: StoryContext) => prepare(decoratedStoryFn(context));
 }
