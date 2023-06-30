@@ -195,7 +195,7 @@ However, if you need, you can also customize the template used by Storybook to r
 
 As Storybook relies on [esbuild](https://esbuild.github.io/) instead of Webpack to build the UI, presets that depend on the `managerWebpack` API to configure the manager or load additional files other than CSS or images will no longer work. We recommend removing it from your preset and adjusting your configuration to convert any additional files to JavaScript.
 
-- [Addon types](./addon-types.md) for other types of addons
+- [Types of addons](./addon-types.md) for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development
 - Presets for preset development
 - [Integration catalog](./integration-catalog.md) for requirements and available recipes

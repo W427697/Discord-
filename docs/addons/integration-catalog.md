@@ -104,7 +104,7 @@ If you'd like to request a recipe, head over to the [#maintenance channel](https
 
 ## Learn more about the Storybook addon ecosystem
 
-- [Addon types](./addon-types.md) for other types of addons
+- [Types of addons](./addon-types.md) for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development
 - [Presets](./writing-presets.md) for preset development
 - Integration catalog for requirements and available recipes

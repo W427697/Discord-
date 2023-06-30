@@ -57,6 +57,7 @@ Clone the repository you just created and install its dependencies. When the ins
   paths={[
     'common/storybook-addon-run-dev-mode.yarn.js.mdx',
     'common/storybook-addon-run-dev-mode.npm.js.mdx',
+    'common/storybook-addon-run-dev-mode.pnpm.js.mdx',
   ]}
 />
 
@@ -318,6 +319,7 @@ Finally, run the following command to create a release for your addon. This will
   paths={[
     'common/storybook-addon-release.yarn.js.mdx',
     'common/storybook-addon-release.npm.js.mdx',
+    'common/storybook-addon-release.pnpm.js.mdx',
   ]}
 />
 
@@ -333,7 +335,7 @@ Then, click the **New repository secret**, name it `NPM_TOKEN`, and paste the to
 
 ## Learn more about the Storybook addon ecosystem
 
-- [Addon types](./addon-types.md) for other types of addons
+- [Types of addons](./addon-types.md) for other types of addons
 - Writing addons for the basics of addon development
 - [Presets](./writing-presets.md) for preset development
 - [Integration catalog](./integration-catalog.md) for requirements and available recipes

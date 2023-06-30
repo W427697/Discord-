@@ -90,7 +90,7 @@ Use this boilerplate code while writing your own preset addon.
 
 ## Learn more about the Storybook addon ecosystem
 
-- Addon types for other types of addons
+- Types of addons for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development
 - [Presets](./writing-presets.md) for preset development
 - [Integration catalog](./integration-catalog.md) for requirements and available recipes

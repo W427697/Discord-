@@ -377,7 +377,7 @@ Hook that allows you to retrieve or update a story's [`args`](../writing-stories
 
 ## Learn more about the Storybook addon ecosystem
 
-- [Addon types](./addon-types.md) for other types of addons
+- [Types of addons](./addon-types.md) for other types of addons
 - [Writing addons](./writing-addons.md) for the basics of addon development
 - [Presets](./writing-presets.md) for preset development
 - [Integration catalog](./integration-catalog.md) for requirements and available recipes
