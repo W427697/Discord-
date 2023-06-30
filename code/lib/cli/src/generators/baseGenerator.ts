@@ -244,10 +244,7 @@ export async function baseGenerator(
 
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');
-    addonPackages.push(
-      '@storybook/addon-interactions',
-      '@storybook/testing-library@^0.0.14-next.1'
-    );
+    addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library@^0.2.0-next.0');
   }
 
   const files = await fse.readdir(process.cwd());
@@ -277,17 +274,17 @@ export async function baseGenerator(
     );
   }
 
-  const packages = [
+  const allPackages = [
     'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
-  ]
-    .filter(Boolean)
-    .filter(
-      (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
-    );
+  ].filter(Boolean);
+
+  const packages = [...new Set(allPackages)].filter(
+    (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
+  );
 
   logger.log();
   const versionedPackagesSpinner = ora({
@@ -298,30 +295,6 @@ export async function baseGenerator(
     packageManager.getVersionedPackages(packages)
   );
   versionedPackagesSpinner.succeed();
-
-  await fse.ensureDir(`./${storybookConfigFolder}`);
-
-  if (addMainFile) {
-    await configureMain({
-      framework: { name: frameworkInclude, options: options.framework || {} },
-      storybookConfigFolder,
-      docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
-      extensions,
-      language,
-      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
-      ...extraMain,
-      ...(type !== 'framework'
-        ? {
-            core: {
-              builder: builderInclude,
-            },
-          }
-        : {}),
-    });
-  }
-
-  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
 
   const depsToInstall = [...versionedPackages];
 
@@ -384,6 +357,30 @@ export async function baseGenerator(
     );
     addDependenciesSpinner.succeed();
   }
+
+  await fse.ensureDir(`./${storybookConfigFolder}`);
+
+  if (addMainFile) {
+    await configureMain({
+      framework: { name: frameworkInclude, options: options.framework || {} },
+      storybookConfigFolder,
+      docs: { autodocs: 'tag' },
+      addons: pnp ? addons.map(wrapForPnp) : addons,
+      extensions,
+      language,
+      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
+      ...extraMain,
+      ...(type !== 'framework'
+        ? {
+            core: {
+              builder: builderInclude,
+            },
+          }
+        : {}),
+    });
+  }
+
+  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
 
   if (addScripts) {
     await stopIfExiting(async () =>

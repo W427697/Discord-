@@ -25,6 +25,7 @@
     - [Deploying build artifacts](#deploying-build-artifacts)
       - [Dropped support for file URLs](#dropped-support-for-file-urls)
       - [Serving with nginx](#serving-with-nginx)
+      - [Ignore story files from node\_modules](#ignore-story-files-from-node_modules)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -833,6 +834,28 @@ With [nginx](https://www.nginx.com/), you need to extend [the MIME type handling
 
 It would otherwise default to serving the `.mjs` files as `application/octet-stream`.
 
+##### Ignore story files from node_modules
+
+In 6.x Storybook literally followed the glob patterns specified in your `.storybook/main.js` `stories` field. Storybook 7.0 ignores files from `node_modules` unless your glob pattern includes the string `"node_modules"`.
+
+Given the following `main.js`:
+
+```js
+export default {
+  stories: ['../**/*.stories.*']
+}
+```
+
+If you want to restore the previous behavior to include `node_modules`, you can update it to:
+
+```js
+export default {
+  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*']
+}
+```
+
+The first glob would have node_modules automatically excluded by Storybook, and the second glob would include all stories that are under a nested `node_modules` directory.
+
 ### 7.0 Core changes
 
 #### 7.0 feature flags removed
@@ -1110,7 +1133,7 @@ In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2
 
 #### Create React App: dropped CRA4 support
 
-Since v7 [drops webpack4 support](#webpack4-support-discontinued), it longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
+Since v7 [drops webpack4 support](#webpack4-support-discontinued), it no longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
 
 #### HTML: No longer auto-dedents source code
 
@@ -1187,8 +1210,8 @@ This can result in errors if you are using experimental JS features in your addo
 or using babel dependent features such as Component selectors in Emotion.
 
 ESbuild also places some constraints on things you can import into your addon's manager code: only woff2 files are supported, and not all image file types are supported.
-Here's the list of supported file types:
-https://github.com/storybookjs/storybook/blob/4a37372f649e85e7a0c35b0493da016dbb5dee17/code/lib/builder-manager/src/index.ts#L54-L64
+Here's the [list](https://github.com/storybookjs/storybook/blob/next/code/builders/builder-manager/src/index.ts#L53-L70) of supported file types.
+
 This is not configurable.
 
 If this is a problem for your addon, you need to pre-compile your addon's manager code to ensure it works.
