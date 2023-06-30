@@ -33,14 +33,7 @@ function findMatchingPackage(packageJson: PackageJson, suffixes: string[]) {
   return suffixes.map((suffix) => `@storybook/${suffix}`).find((pkg) => allDependencies[pkg]);
 }
 
-export const getFrameworkPackageName = (mainConfig?: StorybookConfig) => {
-  const packageNameOrPath =
-    typeof mainConfig?.framework === 'string' ? mainConfig.framework : mainConfig?.framework?.name;
-
-  if (!packageNameOrPath) {
-    return null;
-  }
-
+export const getFrameworkPackageName = (packageNameOrPath: string) => {
   const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
 
   const knownFramework = Object.keys(frameworkPackages).find((pkg) => normalizedPath.endsWith(pkg));
@@ -49,11 +42,15 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfig) => {
 };
 
 export async function getFrameworkInfo(mainConfig: StorybookConfig) {
-  if (!mainConfig?.framework) return {};
+  if (!mainConfig?.framework) {
+    return {};
+  }
 
   const rawName =
     typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
-  if (!rawName) return {};
+  if (!rawName) {
+    return {};
+  }
 
   const frameworkPackageJson = await getActualPackageJson(rawName);
 
@@ -61,7 +58,7 @@ export async function getFrameworkInfo(mainConfig: StorybookConfig) {
   const renderer = findMatchingPackage(frameworkPackageJson, knownRenderers);
 
   // parse framework name and strip off pnp paths etc.
-  const sanitizedFrameworkName = getFrameworkPackageName(mainConfig);
+  const sanitizedFrameworkName = getFrameworkPackageName(rawName);
 
   const frameworkOptions =
     typeof mainConfig.framework === 'object' ? mainConfig.framework.options : {};
