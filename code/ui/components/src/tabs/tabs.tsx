@@ -65,6 +65,7 @@ const Content = styled.div<ContentProps>(
   {
     display: 'block',
     position: 'relative',
+    container: 'tab-content / size'
   },
   ({ theme }) => ({
     fontSize: theme.typography.size.s2 - 1,
