@@ -49,21 +49,26 @@ export const getFrameworkPackageName = (mainConfig?: StorybookConfig) => {
 };
 
 export async function getFrameworkInfo(mainConfig: StorybookConfig) {
-  if (!mainConfig.framework) return {};
+  if (!mainConfig?.framework) return {};
 
-  const frameworkName = getFrameworkPackageName(mainConfig);
-  if (!frameworkName) return {};
-  const frameworkOptions =
-    typeof mainConfig.framework === 'object' ? mainConfig.framework.options : {};
+  const rawName =
+    typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
+  if (!rawName) return {};
 
-  const frameworkPackageJson = await getActualPackageJson(frameworkName);
+  const frameworkPackageJson = await getActualPackageJson(rawName);
 
   const builder = findMatchingPackage(frameworkPackageJson, knownBuilders);
   const renderer = findMatchingPackage(frameworkPackageJson, knownRenderers);
 
+  // parse framework name and strip off pnp paths etc.
+  const sanitizedFrameworkName = getFrameworkPackageName(mainConfig);
+
+  const frameworkOptions =
+    typeof mainConfig.framework === 'object' ? mainConfig.framework.options : {};
+
   return {
     framework: {
-      name: frameworkName,
+      name: sanitizedFrameworkName,
       options: frameworkOptions,
     },
     builder,
