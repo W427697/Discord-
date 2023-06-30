@@ -195,28 +195,30 @@ export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
   }
 );
 
-export const DocumentNode: FC<
-  ComponentProps<typeof LeafNode> & { docsMode: boolean }
-> = React.memo(function DocumentNode({ theme, children, docsMode, ...props }) {
-  return (
-    <LeafNode tabIndex={-1} {...props}>
-      <IconsWrapper>
-        <TypeIcon icon="document" useSymbol docsMode={docsMode} />
-      </IconsWrapper>
-      {children}
-    </LeafNode>
-  );
-});
-
-export const StoryNode: FC<ComponentProps<typeof LeafNode>> = React.memo(
-  function StoryNode({ theme, children, ...props }) {
+export const DocumentNode: FC<ComponentProps<typeof LeafNode> & { docsMode: boolean }> = React.memo(
+  function DocumentNode({ theme, children, docsMode, ...props }) {
     return (
       <LeafNode tabIndex={-1} {...props}>
         <IconsWrapper>
-          <TypeIcon icon="bookmarkhollow" useSymbol />
+          <TypeIcon icon="document" useSymbol docsMode={docsMode} />
         </IconsWrapper>
         {children}
       </LeafNode>
     );
   }
 );
+
+export const StoryNode: FC<ComponentProps<typeof LeafNode>> = React.memo(function StoryNode({
+  theme,
+  children,
+  ...props
+}) {
+  return (
+    <LeafNode tabIndex={-1} {...props}>
+      <IconsWrapper>
+        <TypeIcon icon="bookmarkhollow" useSymbol />
+      </IconsWrapper>
+      {children}
+    </LeafNode>
+  );
+});
