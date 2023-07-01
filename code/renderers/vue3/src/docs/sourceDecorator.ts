@@ -166,7 +166,6 @@ function getTemplateComponents(
     if (!template) return [h(story, context?.args)];
     return getComponents(template);
   } catch (e) {
-    console.log('error', e);
     return [];
   }
 }
@@ -247,7 +246,7 @@ export function generateTemplateSource(
               .map((child) => child.content)
               .join('')
         : '';
-      console.log(' vnode ', vnode, ' childSources ', childSources, ' attributes ', attributes);
+
       const name =
         typeof type === 'string'
           ? type

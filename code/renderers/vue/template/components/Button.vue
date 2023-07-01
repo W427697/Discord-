@@ -7,6 +7,7 @@ import './button.css';
 
 export default {
   name: 'my-button',
+  emits: ['onClick'],
 
   props: {
     label: {
@@ -47,7 +48,7 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit('onClick');
+      this.$emit('onClick', 'clicked');
     },
   },
 };

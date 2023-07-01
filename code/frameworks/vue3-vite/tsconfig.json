@@ -2,10 +2,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
+    "target": "ESNext",
+    "module": "ESNext",
     "types": ["node"],
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "strict": false
+    "strict": true
   },
   "include": ["src/**/*"]
 }

@@ -7,16 +7,25 @@ import './button.css';
 
 export default {
   name: 'my-button',
-
+  emits: ['onClick'],
   props: {
+    /**
+     * label description
+     */
     label: {
       type: String,
       required: true,
     },
+    /**
+     * primary description
+     */
     primary: {
       type: Boolean,
       default: false,
     },
+    /**
+     * size description 
+     */
     size: {
       type: String,
       default: 'medium',
@@ -24,6 +33,9 @@ export default {
         return ['small', 'medium', 'large'].indexOf(value) !== -1;
       },
     },
+    /**
+     * background description
+     */
     backgroundColor: {
       type: String,
     },
@@ -47,7 +59,8 @@ export default {
 
   methods: {
     onClick() {
-      this.$emit('onClick');
+
+      this.$emit('onClick', 'clicked');
     },
   },
 };

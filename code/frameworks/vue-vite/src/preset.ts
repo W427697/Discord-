@@ -2,7 +2,7 @@ import path from 'path';
 import type { PresetProperty } from '@storybook/types';
 import { mergeConfig } from 'vite';
 import type { StorybookConfig } from './types';
-import { vueDocgen } from './plugins/vue-docgen';
+import { vueComponentMeta } from './plugins/vue-component-meta';
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
   const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
@@ -26,7 +26,7 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   return mergeConfig(config, {
-    plugins: [vueDocgen()],
+    plugins: [vueComponentMeta()],
     resolve: {
       alias: {
         vue: 'vue/dist/vue.esm.js',
