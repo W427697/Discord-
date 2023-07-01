@@ -68,6 +68,55 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   // row.name is a display name and not a suitable DOM input id or name - i might contain whitespace etc.
   // row.key is a hash key and therefore a much safer choice
   const props = { name: key, argType: row, value: boxedValue.value, onChange, onBlur, onFocus };
-  const Control = Controls[control.type] || NoControl;
-  return <Control {...props} {...control} controlType={control.type} />;
+
+  const controls = getControlTypesFromArgType(row);
+
+  const tsTypes: string[] =
+    row.type?.name === 'union'
+      ? row.type.value.map((t: { name: any }) => t.name)
+      : [row.type?.name];
+
+  return (
+    <div style={{ display: 'flex', gap: 10 }}>
+      {controls.map((controlType: string) => {
+        const UninonControl = Controls[controlType] || NoControl;
+        const argValueType = typeof boxedValue.value;
+        const controlValue = [tsTypes.shift(), controlType].includes(argValueType)
+          ? boxedValue.value
+          : undefined;
+
+        const controlKey = controls.length > 1 ? `${controlType}-${key}` : key;
+
+        return (
+          <UninonControl
+            {...props}
+            {...control}
+            key={controlKey}
+            name={controlKey}
+            value={controlValue}
+            controlType={controlType}
+          />
+        );
+      })}
+    </div>
+  );
 };
+/**
+ * function to get control types from union arg type
+ * example : argType = { name: 'union', value: [{ name: 'string' }, { name: 'number' }] }
+ * @param argType
+ * @returns
+ */
+function getControlTypesFromArgType(argType: ArgType) {
+  return argType.type?.value && argType.type?.name === 'union' && !argType.options
+    ? argType.type.value.map((t: { name: any }) => {
+        switch (t.name) {
+          case 'string':
+            return 'text';
+
+          default:
+            return t.name;
+        }
+      })
+    : [argType.control.type];
+}

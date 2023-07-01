@@ -64,6 +64,10 @@ export const NumberControl: FC<NumberProps> = ({
     if (inputValue !== newInputValue) {
       setInputValue(value);
     }
+    console.log('useEffect', value, newInputValue, inputValue);
+    if (!value && newInputValue === '') {
+      setForceVisible(false);
+    }
   }, [value]);
 
   if (!forceVisible && value === undefined) {
