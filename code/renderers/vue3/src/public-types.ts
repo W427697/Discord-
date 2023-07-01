@@ -1,6 +1,7 @@
 import type {
   AnnotatedStoryFn,
   Args,
+  ArgTypes,
   ArgsFromMeta,
   ComponentAnnotations,
   DecoratorFunction,
@@ -9,15 +10,15 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
-  ArgsStoryFn,
+  Parameters,
 } from '@storybook/types';
 import type { Constructor, OmitIndexSignature, SetOptional, Simplify } from 'type-fest';
 import type { FunctionalComponent, VNodeChild } from 'vue';
 import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers';
 import type { LegacyStoryFn as ContextStoryFn } from '@storybook/csf';
-import type { VueRenderer } from './types';
+import type { VueRenderer, ArgsStoryFn } from './types';
 
-export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs };
 export type { VueRenderer, ArgsStoryFn } from './types';
 
 /**

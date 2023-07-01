@@ -7580,8 +7580,8 @@ __metadata:
     vue-component-type-helpers: latest
     vue-tsc: latest
   peerDependencies:
-    "@vue/compiler-core": ^3.0.0
-    vue: ^3.0.0
+    "@vue/compiler-core": ^3.2.47
+    vue: ^3.2.47
   peerDependenciesMeta:
     "@vue/compiler-core":
       optional: true
@@ -9327,19 +9327,6 @@ __metadata:
   peerDependencies:
     typescript: "*"
   checksum: 3b90e266d5ae67c4b94a57dba501ff890cc42ce41fcb9827bcd97041bbab574c70ac7f2331e3f60e7b41e82a33606ca3f3d0027a2d2fe081489889ba0e83f18e
-  languageName: node
-  linkType: hard
-
-"@vue/compiler-core@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@vue/compiler-core@npm:3.0.0"
-  dependencies:
-    "@babel/parser": ^7.11.5
-    "@babel/types": ^7.11.5
-    "@vue/shared": 3.0.0
-    estree-walker: ^2.0.1
-    source-map: ^0.6.1
-  checksum: 3829ea72a07292fce792b56252428d44fe46512bf017e4056ec761ccca82e9912e60416bc0bf54d2d627878e29d6108902b0b5d87afda8a23ef0a7d5cbbd7586
   languageName: node
   linkType: hard
 
