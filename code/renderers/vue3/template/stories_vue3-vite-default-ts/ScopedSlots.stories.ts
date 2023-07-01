@@ -1,9 +1,9 @@
 import { expect } from '@storybook/jest';
-import { global as globalThis } from '@storybook/global';
+import { global } from '@storybook/global';
 import { within } from '@storybook/testing-library';
 import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
 
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from 'renderers/vue3';
 import type { PlayFunctionContext } from '@storybook/csf';
 import MySlotComponent from './MySlotComponent.vue';
 
