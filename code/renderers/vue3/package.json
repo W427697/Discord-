@@ -78,6 +78,14 @@
       "optional": true
     }
   },
+  "peerDependenciesMeta": {
+    "@vue/compiler-core": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=16.0.0"
   },
