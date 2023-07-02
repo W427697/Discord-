@@ -7,6 +7,8 @@ import type { Meta, StoryObj } from 'renderers/vue3';
 import type { PlayFunctionContext } from '@storybook/csf';
 import MySlotComponent from './MySlotComponent.vue';
 
+const globalThis = global as any;
+
 const meta = {
   component: MySlotComponent,
   args: {
