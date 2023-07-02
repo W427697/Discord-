@@ -6,9 +6,11 @@ import MagicString from 'magic-string';
 
 import type { MetaCheckerOptions } from 'vue-component-meta';
 import { TypeMeta, createComponentMetaChecker } from 'vue-component-meta';
+// eslint-disable-next-line import/no-unresolved
+import { getProjectRoot } from 'lib/core-common/src';
 
 export function vueComponentMeta(): PluginOption {
-  const include = /\.(vue|ts)$/;
+  const include = /\.(vue|ts|js|jsx|tsx)$/;
   const filter = createFilter(include);
 
   const checkerOptions: MetaCheckerOptions = {
@@ -18,7 +20,7 @@ export function vueComponentMeta(): PluginOption {
   };
 
   const checker = createComponentMetaChecker(
-    path.join(__dirname, '../../../../tsconfig.json'),
+    path.join(getProjectRoot(), 'tsconfig.json'),
     checkerOptions
   );
 
@@ -37,7 +39,7 @@ export function vueComponentMeta(): PluginOption {
             .split(path.sep)
             .slice(-1)
             .join('')
-            .replace(/\.(vue|ts)/, ''),
+            .replace(/\.(vue|ts|js|jsx|tsx)/, ''),
           ...meta,
           sourceFiles: id,
         };
