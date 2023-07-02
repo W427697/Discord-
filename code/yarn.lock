@@ -7517,8 +7517,10 @@ __metadata:
     "@storybook/builder-vite": 7.1.0-alpha.41
     "@storybook/core-server": 7.1.0-alpha.41
     "@storybook/vue3": 7.1.0-alpha.41
+    "@types/find-package-json": ^1.2.3
     "@types/node": ^16.0.0
     "@vitejs/plugin-vue": ^4.0.0
+    find-package-json: ^1.2.0
     magic-string: ^0.30.0
     vite: ^4.0.0
     vue-component-meta: ^1.8.3
@@ -8276,6 +8278,15 @@ __metadata:
   version: 3.2.1
   resolution: "@types/find-cache-dir@npm:3.2.1"
   checksum: 68059aec88ef776a689c1711a881fd91a9ce1b03dd5898ea1d2ac5d77d7b0235f21fdf210f380c13deca8b45e4499841a63aaf31fd2123af687f2c6b472f41ce
+  languageName: node
+  linkType: hard
+
+"@types/find-package-json@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@types/find-package-json@npm:1.2.3"
+  dependencies:
+    "@types/node": "*"
+  checksum: f1774f56aa8bb4f2e024b09749e176c97d019e3dc8cc74bc04756606650c1525d4cc1df9c4754fa7889494c877d5c3fed1028d3b988fbded085bfc19e297e15e
   languageName: node
   linkType: hard
 
@@ -16064,6 +16075,13 @@ __metadata:
   version: 1.1.1
   resolution: "find-index@npm:1.1.1"
   checksum: 9e5b73714b5b4e5af71872f25e1b97e23a9db58529350543f7dba11f109fc7f4047d69abbf76fe3dba25f638fda8ebe4df3d6a12ad7da93014d15ce28dbc564e
+  languageName: node
+  linkType: hard
+
+"find-package-json@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "find-package-json@npm:1.2.0"
+  checksum: 85d6c97afb9f8f0deb0d344a1c4eb8027347cf4d61666c28d3ac3f913e916684441218682b3dd6f8ad570e5d43c96a7db521f70183d70df559d07e1f99cdc635
   languageName: node
   linkType: hard
 

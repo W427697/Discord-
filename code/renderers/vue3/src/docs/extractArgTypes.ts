@@ -1,4 +1,4 @@
-import type { SBType, StrictArgTypes } from '@storybook/types';
+import type { SBScalarType, SBType, StrictArgTypes } from '@storybook/types';
 import type { ArgTypesExtractor, DocgenInfo } from '@storybook/docs-tools';
 import { hasDocgen, extractComponentProps } from '@storybook/docs-tools';
 
@@ -42,9 +42,12 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       const sbType =
         section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type.toString() };
 
-      const definedTypes = sbType.value
-        ? sbType.value.map((item) => item.toString()).join(' | ')
-        : sbType.name;
+      console.log('--- sbType', sbType);
+
+      const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
+        ' | undefined',
+        ''
+      )}`;
 
       const descriptions = `${
         tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
@@ -70,6 +73,9 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
 };
 
 export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
+  if (typeof schemaType !== 'object') {
+    return { name: schemaType } as SBScalarType;
+  }
   if (
     typeof schemaType === 'object' &&
     schemaType.kind === 'enum' &&
@@ -82,10 +88,9 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
         .filter((item) => item !== 'undefined' && item !== null) || [];
 
     const sbType = { name: 'enum', value: values };
-    const isBoolean = values.length === 1 && values[0] === 'boolean';
     const isUnion =
       values.length > 1 && values.some((item) => !(item.startsWith('"') && item.endsWith('"')));
-    if (isBoolean) return { name: 'boolean' };
+    if (values.length === 1) return { name: values[0] };
     if (isUnion) return { name: 'union', value: values };
 
     const hasObject = values.find((item) =>
@@ -112,7 +117,7 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
     );
     return {
       name: 'object',
-      value: [props],
+      value: props,
     };
   }
   return { name: schemaType };
