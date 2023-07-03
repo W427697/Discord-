@@ -66,6 +66,7 @@ export const Default = () => {
       key="manager"
       provider={provider}
       path="/story/ui-app--loading-state"
+      viewMode="story"
       storyId="ui-app--loading-state"
       location={{ search: '' }}
       navigate={() => {}}
