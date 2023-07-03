@@ -1,17 +1,15 @@
 import type { Annotation } from 'doctrine';
 import doctrine from 'doctrine';
+import type { JsDocParam, JsDocReturns } from './docgen';
 
-export interface ExtractedJsDocParam {
-  name?: string;
+export interface ExtractedJsDocParam extends JsDocParam {
   type?: any;
-  description?: string | null;
   getPrettyName: () => string | undefined;
   getTypeName: () => string | null;
 }
 
-export interface ExtractedJsDocReturns {
+export interface ExtractedJsDocReturns extends JsDocReturns {
   type?: any;
-  description?: string | null;
   getTypeName: () => string | null;
 }
 

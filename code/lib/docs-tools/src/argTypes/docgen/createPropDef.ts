@@ -1,4 +1,4 @@
-import type { JsDocTags, PropDefaultValue } from './PropDef';
+import type { JsDocParam, PropDefaultValue } from './PropDef';
 import type { PropDef, DocgenInfo, DocgenType, DocgenPropDefaultValue } from './types';
 import { TypeSystem } from './types';
 import type { JsDocParsingResult } from '../jsdocParser';
@@ -90,12 +90,14 @@ function applyJsDocResult(propDef: PropDef, jsDocParsingResult?: JsDocParsingRes
       propDef.description = jsDocParsingResult.description;
     }
 
-    const value: JsDocTags = {
-      returns: extractedTags?.returns,
-      params: extractedTags?.params?.map((x) => ({
-        name: x.getPrettyName(),
-        description: x.description,
-      })),
+    const value = {
+      ...extractedTags,
+      params: extractedTags?.params?.map(
+        (x): JsDocParam => ({
+          name: x.getPrettyName(),
+          description: x.description,
+        })
+      ),
     };
 
     if (Object.values(value).filter(Boolean).length > 0) {
