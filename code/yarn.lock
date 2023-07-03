@@ -5722,6 +5722,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
     ember-source: "npm:~3.28.1"
+    find-up: "npm:^5.0.0"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:^5.3.2"
   peerDependencies:
