@@ -16,7 +16,7 @@ function Title() {
 
 addons.register(ADDON_ID, (api) => {
   addons.add(ADDON_ID, {
-    title: Title,
+    title: <Title />,
     id: 'controls',
     type: types.PANEL,
     paramKey: PARAM_KEY,
