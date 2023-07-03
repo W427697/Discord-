@@ -46,7 +46,7 @@
     "@storybook/channels": "7.1.0-alpha.42",
     "@types/babel__core": "^7.0.0",
     "@types/express": "^4.7.0",
-    "file-system-cache": "2.3.0"
+    "file-system-cache": "^2.4.1"
   },
   "devDependencies": {
     "@storybook/csf": "^0.1.0",
