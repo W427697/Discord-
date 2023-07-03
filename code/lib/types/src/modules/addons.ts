@@ -21,7 +21,7 @@ import type {
 } from './csf';
 import type { IndexEntry } from './storyIndex';
 
-export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
+export type Addon_Types = Addon_TypesEnum;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -380,11 +380,6 @@ export enum Addon_TypesEnum {
    * @unstable
    */
   PREVIEW = 'preview',
-  /**
-   * This adds pages that render instead of the canvas.
-   * DO NOT USE
-   */
-  experimental_PAGE = 'main',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.
