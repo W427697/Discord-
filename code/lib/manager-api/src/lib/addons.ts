@@ -93,17 +93,17 @@ export class AddonStore {
     return this.elements[type];
   };
 
-  addPanel = (name: string, options: Addon_Type): void => {
-    this.add(name, {
+  addPanel = (id: string, options: Omit<Addon_Type, 'type' | 'id'>): void => {
+    this.add(id, {
       type: Addon_TypesEnum.PANEL,
       ...options,
     });
   };
 
-  add = (name: string, addon: Addon_Type) => {
+  add = (id: string, addon: Omit<Addon_Type, 'id'>) => {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[name] = { id: name, ...addon };
+    collection[id] = { id, ...addon };
   };
 
   setConfig = (value: Addon_Config) => {
