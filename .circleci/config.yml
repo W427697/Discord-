@@ -268,14 +268,26 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=never --junit
+          name: Starting Event Collector
+          command: yarn ts-node ./event-log-collector.ts
+          working_directory: scripts
+          background: true
+      - run:
+          name: Building Sandboxes
+          command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox) --no-link --start-from=sandbox --junit
+      - run:
+          name: Verifying Telemetry
+          command: yarn ts-node ./event-log-checker build $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
+          working_directory: scripts
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task sandbox)
+      - store_test_results:
+          path: test-results
       - persist_to_workspace:
           root: .
           paths:
-            - sandbox
+            - sandbox/*/bench/*.json
+            - sandbox/*/storybook-static
       - store_test_results:
           path: test-results
   smoke-test-sandboxes:
@@ -299,41 +311,6 @@ jobs:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task smoke-test)
       - store_test_results:
           path: test-results
-  build-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-        default: 2
-    executor:
-      class: large
-      name: sb_node_16_browsers
-    parallelism: << parameters.parallelism >>
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Starting Event Collector
-          command: yarn ts-node ./event-log-collector.ts
-          working_directory: scripts
-          background: true
-      - run:
-          name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
-      - run:
-          name: Verifying Telemetry
-          command: yarn ts-node ./event-log-checker build $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
-          working_directory: scripts
-      - report-workflow-on-failure:
-          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
-      - store_test_results:
-          path: test-results
-      - persist_to_workspace:
-          root: .
-          paths:
-            - sandbox/*/bench/*.json
-            - sandbox/*/storybook-static
   test-runner-production:
     parameters:
       parallelism:
@@ -494,21 +471,18 @@ workflows:
       - create-sandboxes:
           requires:
             - build
-      - build-sandboxes:
-          requires:
-            - create-sandboxes
       - chromatic-sandboxes:
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-production:
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-dev:
           requires:
             - create-sandboxes
       - test-runner-production:
           requires:
-            - build-sandboxes
+            - create-sandboxes
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -541,29 +515,25 @@ workflows:
           parallelism: 11
           requires:
             - build
-      - build-sandboxes:
-          parallelism: 11
-          requires:
-            - create-sandboxes
       - chromatic-sandboxes:
           parallelism: 9
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-production:
           parallelism: 9
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-dev:
           requires:
             - create-sandboxes
       - test-runner-production:
           parallelism: 9
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - bench:
           parallelism: 2
           requires:
-            - build-sandboxes
+            - create-sandboxes
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -596,18 +566,14 @@ workflows:
           parallelism: 20
           requires:
             - build
-      - build-sandboxes:
-          parallelism: 20
-          requires:
-            - create-sandboxes
       - chromatic-sandboxes:
           parallelism: 18
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-production:
           parallelism: 18
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-dev:
           parallelism: 4
           requires:
@@ -615,11 +581,11 @@ workflows:
       - test-runner-production:
           parallelism: 18
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - bench:
           parallelism: 2
           requires:
-            - build-sandboxes
+            - create-sandboxes
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     parallelism: 4
@@ -653,18 +619,14 @@ workflows:
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
-      - build-sandboxes:
-          parallelism: 34
-          requires:
-            - create-sandboxes
       - chromatic-sandboxes:
           parallelism: 32
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-production:
           parallelism: 32
           requires:
-            - build-sandboxes
+            - create-sandboxes
       - e2e-dev:
           parallelism: 4
           requires:
@@ -672,7 +634,7 @@ workflows:
       - test-runner-production:
           parallelism: 32
           requires:
-            - build-sandboxes
+            - create-sandboxes
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     parallelism: 4
