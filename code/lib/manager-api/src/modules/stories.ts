@@ -601,7 +601,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         if (sourceType === 'local') {
           const state = store.getState();
-          if (state.viewMode !== 'story' && state.viewMode !== 'docs') {
+          if (
+            state.location.pathname !== '/' &&
+            state.viewMode !== 'story' &&
+            state.viewMode !== 'docs'
+          ) {
             return;
           }
 
