@@ -24,10 +24,10 @@ export interface AppProps {
   viewMode: State['viewMode'];
   layout: State['layout'];
   panelCount: number;
-  mains: Page[];
+  pages: Page[];
 }
 
-const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, mains }) => {
+const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {
   const { width, height, ref } = useResizeDetector();
   let content;
 
@@ -44,7 +44,7 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, mains }) => {
   if (!width || !height) {
     content = <div />;
   } else if (width < 600) {
-    content = <Mobile {...props} viewMode={viewMode} options={layout} pages={mains} />;
+    content = <Mobile {...props} viewMode={viewMode} options={layout} pages={pages} />;
   } else {
     content = (
       <Desktop
@@ -54,7 +54,7 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, mains }) => {
         width={width}
         height={height}
         panelCount={panelCount}
-        pages={mains}
+        pages={pages}
       />
     );
   }

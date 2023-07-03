@@ -21,7 +21,9 @@ import type {
 } from './csf';
 import type { IndexEntry } from './storyIndex';
 
-export type Addon_Types = Addon_TypesEnum | string;
+type OrString<T extends string> = T | (string & {});
+
+export type Addon_Types = OrString<Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -311,9 +313,22 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export interface Addon_Type {
+export type Addon_Type = BaseAddonType | PageAddonType;
+interface BaseAddonType {
   title: FC | string | ReactElement | ReactNode;
   type?: Addon_Types;
+  id?: string;
+  route?: (routeOptions: RouterData) => string;
+  match?: (matchOptions: RouterData) => boolean;
+  render: FC<Addon_RenderOptions>;
+  paramKey?: string;
+  disabled?: boolean;
+  hidden?: boolean;
+}
+
+interface PageAddonType {
+  title: FC | string | ReactElement | ReactNode;
+  type?: Addon_TypesEnum.experimental_PAGE;
   id?: string;
   route?: (routeOptions: RouterData) => string;
   match?: (matchOptions: RouterData) => boolean;
@@ -372,10 +387,16 @@ export enum Addon_TypesEnum {
    * This adds pages that render instead of the canvas.
    * DO NOT USE
    */
-  experimental_MAIN = 'main',
+  experimental_PAGE = 'main',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.
    */
   NOTES_ELEMENT = 'notes-element',
 }
+
+// type A = OrString<'bla' | 'foo'>;
+
+// type OrString<T extends string> = T | (string & {});
+
+// const x: A = 'ffffff';

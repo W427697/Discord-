@@ -48,7 +48,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
         >
           {({ state, api }: Combo) => {
             const panelCount = Object.keys(api.getElements(types.PANEL)).length;
-            const mains: Page[] = [
+            const pages: Page[] = [
               {
                 key: '/settings/',
                 render: () => <SettingsPages />,
@@ -58,7 +58,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                   </Route>
                 ),
               },
-              ...Object.values(api.getElements(types.experimental_MAIN)).map<Page>((v) => {
+              ...Object.values(api.getElements(types.experimental_PAGE)).map<Page>((v) => {
                 return {
                   key: (v.title as string) || v.id,
                   render: () => (
@@ -89,7 +89,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                   viewMode={state.viewMode}
                   layout={isLoading ? { ...state.layout, showPanel: false } : state.layout}
                   panelCount={panelCount}
-                  mains={mains}
+                  pages={pages}
                 />
               </ThemeProvider>
             );

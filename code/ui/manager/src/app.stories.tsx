@@ -84,7 +84,7 @@ export const Default = () => {
           showPanel: true,
           showTabs: true,
         }}
-        mains={[]}
+        pages={[]}
         panelCount={0}
       />
     </ManagerProvider>
@@ -113,7 +113,7 @@ export const LoadingState = () => (
         showPanel: true,
         showTabs: true,
       }}
-      mains={[]}
+      pages={[]}
       panelCount={0}
     />
   </ManagerProvider>
