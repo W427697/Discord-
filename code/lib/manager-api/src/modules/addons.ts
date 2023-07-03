@@ -1,4 +1,5 @@
 import type {
+  Addon_BaseType,
   Addon_Type,
   Addon_Types,
   API_Collection,
@@ -91,7 +92,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
     getElements: (type) => provider.getElements(type),
     getPanels: () => api.getElements(Addon_TypesEnum.PANEL),
     getStoryPanels: () => {
-      const allPanels = api.getElements(Addon_TypesEnum.PANEL);
+      const allPanels: API_Collection<Addon_BaseType> = api.getElements(Addon_TypesEnum.PANEL);
       const { storyId } = store.getState();
       const story = fullAPI.getData(storyId);
 
@@ -101,7 +102,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       const { parameters } = story;
 
-      const filteredPanels: API_Collection = {};
+      const filteredPanels: API_Collection<Addon_BaseType> = {};
       Object.entries(allPanels).forEach(([id, panel]) => {
         const { paramKey } = panel;
         if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {

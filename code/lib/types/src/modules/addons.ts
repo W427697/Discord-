@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode, ValidationMap, WeakValidationMap } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
@@ -321,10 +321,20 @@ export interface Addon_BaseType {
   id?: string;
   route?: (routeOptions: RouterData) => string;
   match?: (matchOptions: RouterData) => boolean;
-  render: FC<Addon_RenderOptions>;
+  render: (renderOptions: Addon_RenderOptions) => any | null;
   paramKey?: string;
   disabled?: boolean;
   hidden?: boolean;
+}
+
+// This is a copy of FC from react/index.d.ts, but has the PropsWithChildren type removed
+// this is correct and more type strict, and future compatible with React.FC in React 18+
+interface MyFC<P = {}> {
+  (props: P, context?: any): ReactElement<any, any> | null;
+  propTypes?: WeakValidationMap<P> | undefined;
+  contextTypes?: ValidationMap<any> | undefined;
+  defaultProps?: Partial<P> | undefined;
+  displayName?: string | undefined;
 }
 
 export interface Addon_PageType {
@@ -357,7 +367,7 @@ export interface Addon_PageType {
    *   );
    * };
    */
-  render: FC;
+  render: MyFC;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
