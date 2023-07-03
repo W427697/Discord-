@@ -1,26 +1,25 @@
-import type { Component } from 'vue';
 import { h, isVNode } from 'vue';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 import type { StoryContext, StoryFnVueReturnType } from './types';
 import type { LegacyStoryFn, Decorator } from './public-types';
 
-function prepare(story: StoryFnVueReturnType, innerStory?: StoryFnVueReturnType): Component {
-  if (story === null) {
+function prepare(decoratedStory: StoryFnVueReturnType, story?: StoryFnVueReturnType) {
+  if (decoratedStory === null) {
     return () => null;
   }
-  if (typeof story === 'function') return story; // we don't need to wrap a functional component nor to convert it to a component options
+  if (typeof decoratedStory === 'function') return decoratedStory;
 
-  const storyComponent = {
-    render() {
-      return h(story);
-    },
-    inheritAttrs: false,
-  };
+  const storyComponent = isVNode(decoratedStory)
+    ? {
+        render: () => decoratedStory,
+      }
+    : decoratedStory;
 
-  if (innerStory) {
+  if (story) {
     return {
       ...storyComponent,
-      components: { story: (args) => h(innerStory, args) },
+      components: { story },
+      inheritAttrs: false,
     };
   }
   return storyComponent;
@@ -44,7 +43,7 @@ export function decorateStory(storyFn: LegacyStoryFn, decorators: Decorator[]) {
       if (!story || !isVNode(storyResult)) return storyResult;
       if (story === storyResult) return storyResult;
 
-      return prepare(story, h(storyResult, context.args));
+      return prepare(story, () => h(storyResult, context.args));
     };
   }, storyFn);
 
