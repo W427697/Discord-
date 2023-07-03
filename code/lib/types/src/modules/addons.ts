@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import type { ReactElement, ReactNode, ValidationMap, WeakValidationMap } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
@@ -20,7 +21,7 @@ import type {
 } from './csf';
 import type { IndexEntry } from './storyIndex';
 
-export type Addon_Types = Addon_TypesEnum | string;
+export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -122,9 +123,10 @@ export interface Addon_AddStoryArgs<StoryFnReturnType = unknown> {
   parameters: Parameters;
 }
 
-export interface Addon_ClientApiAddon<StoryFnReturnType = unknown> extends Addon_Type {
+export type Addon_ClientApiAddon<StoryFnReturnType = unknown> = Addon_Type & {
   apply: (a: Addon_StoryApi<StoryFnReturnType>, b: any[]) => any;
-}
+};
+
 export interface Addon_ClientApiAddons<StoryFnReturnType> {
   [key: string]: Addon_ClientApiAddon<StoryFnReturnType>;
 }
@@ -301,15 +303,19 @@ export interface Addon_RenderOptions {
   key?: string;
 }
 
+/**
+ * @deprecated This type is deprecated and will be removed in 8.0.
+ */
 export type ReactJSXElement = {
   type: any;
   props: any;
   key: any;
 };
 
-export interface Addon_Type {
-  title: (() => string) | string | ReactJSXElement;
-  type?: Addon_Types;
+export type Addon_Type = Addon_BaseType;
+export interface Addon_BaseType {
+  title: MyFC | string | ReactElement | ReactNode;
+  type: Addon_Types;
   id?: string;
   route?: (routeOptions: RouterData) => string;
   match?: (matchOptions: RouterData) => boolean;
@@ -319,13 +325,23 @@ export interface Addon_Type {
   hidden?: boolean;
 }
 
+// This is a copy of FC from react/index.d.ts, but has the PropsWithChildren type removed
+// this is correct and more type strict, and future compatible with React.FC in React 18+
+interface MyFC<P = {}> {
+  (props: P, context?: any): ReactElement<any, any> | null;
+  propTypes?: WeakValidationMap<P> | undefined;
+  contextTypes?: ValidationMap<any> | undefined;
+  defaultProps?: Partial<P> | undefined;
+  displayName?: string | undefined;
+}
+
 export type Addon_Loader<API> = (api: API) => void;
 
 export interface Addon_Loaders<API> {
   [key: string]: Addon_Loader<API>;
 }
-export interface Addon_Collection {
-  [key: string]: Addon_Type;
+export interface Addon_Collection<T = Addon_Type> {
+  [key: string]: T;
 }
 export interface Addon_Elements {
   [key: string]: Addon_Collection;
@@ -342,10 +358,36 @@ export interface Addon_Config {
 }
 
 export enum Addon_TypesEnum {
+  /**
+   * This API is used to create a tab the toolbar above the canvas, This API might be removed in the future.
+   * @unstable
+   */
   TAB = 'tab',
+  /**
+   * This adds panels to the addons side panel.
+   */
   PANEL = 'panel',
+  /**
+   * This adds items in the toolbar above the canvas - on the right side.
+   */
   TOOL = 'tool',
+  /**
+   * This adds items in the toolbar above the canvas - on the right side.
+   */
   TOOLEXTRA = 'toolextra',
+  /**
+   * This adds wrapper components around the canvas/iframe component storybook renders.
+   * @unstable
+   */
   PREVIEW = 'preview',
+  /**
+   * This adds pages that render instead of the canvas.
+   * DO NOT USE
+   */
+  experimental_PAGE = 'main',
+
+  /**
+   * @deprecated This property does nothing, and will be removed in Storybook 8.0.
+   */
   NOTES_ELEMENT = 'notes-element',
 }

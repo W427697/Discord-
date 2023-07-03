@@ -1,5 +1,4 @@
 import { expect } from '@storybook/jest';
-import type { Key } from 'react';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
@@ -9,10 +8,11 @@ import {
   fireEvent,
   waitFor,
   screen,
-  getByText,
   userEvent,
+  findByText,
 } from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
+import type { ChildrenList } from './tabs.helpers';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
   Math.floor((1 / 15) * i * 16777215)
@@ -41,13 +41,7 @@ function fibonacci(num: number, memo?: FibonacciMap): number {
   /* eslint-enable no-param-reassign */
 }
 
-interface Panels {
-  [key: string]: {
-    title: string;
-    color?: string;
-    render: ({ active, key }: { active: boolean; key: Key }) => JSX.Element;
-  };
-}
+type Panels = Record<string, Omit<ChildrenList[0], 'id'>>;
 
 const panels: Panels = {
   test1: {
@@ -121,7 +115,7 @@ const panels: Panels = {
 const onSelect = action('onSelect');
 
 const content = Object.entries(panels).map(([k, v]) => (
-  <div key={k} id={k} title={v.title}>
+  <div key={k} id={k} title={v.title as any}>
     {v.render}
   </div>
 ));
@@ -224,9 +218,8 @@ export const StatefulDynamicWithOpenTooltip = {
       await expect(canvas.getByRole('tab', { name: /Addons/ })).toBeInTheDocument();
     });
 
-    const addonsTab = await canvas.findByRole('tab', { name: /Addons/ });
-
     await waitFor(async () => {
+      const addonsTab = await canvas.findByRole('tab', { name: /Addons/ });
       const tooltip = await screen.queryByTestId('tooltip');
 
       if (!tooltip) {
@@ -236,14 +229,14 @@ export const StatefulDynamicWithOpenTooltip = {
       if (!tooltip) {
         throw new Error('Tooltip not found');
       }
-    });
 
-    expect(screen.queryByTestId('tooltip')).toBeInTheDocument();
+      await expect(screen.queryByTestId('tooltip')).toBeInTheDocument();
+    });
   },
   render: (args) => (
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
-        <div key={k} id={k} title={v.title}>
+        <div key={k} id={k} title={v.title as any}>
           {v.render}
         </div>
       ))}
@@ -262,10 +255,12 @@ export const StatefulDynamicWithSelectedAddon = {
   play: async (context) => {
     await StatefulDynamicWithOpenTooltip.play(context);
 
-    const popperContainer = screen.getByTestId('tooltip');
-    const tab4 = getByText(popperContainer, 'Tab title #4', {});
-    fireEvent(tab4, new MouseEvent('click', { bubbles: true }));
-    await waitFor(() => screen.getByText('CONTENT 4'));
+    await waitFor(async () => {
+      const popperContainer = await screen.findByTestId('tooltip');
+      const tab4 = await findByText(popperContainer, 'Tab title #4', {});
+      fireEvent(tab4, new MouseEvent('click', { bubbles: true }));
+      await waitFor(() => screen.findByText('CONTENT 4'));
+    });
 
     // reopen the tooltip
     await StatefulDynamicWithOpenTooltip.play(context);
@@ -273,7 +268,7 @@ export const StatefulDynamicWithSelectedAddon = {
   render: (args) => (
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
-        <div key={k} id={k} title={v.title}>
+        <div key={k} id={k} title={v.title as any}>
           {v.render}
         </div>
       ))}
