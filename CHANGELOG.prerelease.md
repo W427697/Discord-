@@ -1,3 +1,12 @@
+## 7.1.0-alpha.42
+
+- CLI: Fix pnp paths logic in storybook metadata - [#23259](https://github.com/storybookjs/storybook/pull/23259), thanks [@yannbf](https://github.com/yannbf)!
+
+## 7.1.0-alpha.41
+
+- Controls: Fix UI to add array items - [#22993](https://github.com/storybookjs/storybook/pull/22993), thanks [@sookmax](https://github.com/sookmax)!
+- Next.js: Support disableStaticImages setting - [#23167](https://github.com/storybookjs/storybook/pull/23167), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 7.1.0-alpha.40
 
 - CLI: Parse pnp paths in storybook metadata - [#23199](https://github.com/storybookjs/storybook/pull/23199), thanks [@yannbf](https://github.com/yannbf)!
