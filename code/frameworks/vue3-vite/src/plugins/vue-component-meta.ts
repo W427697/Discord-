@@ -39,22 +39,14 @@ export function vueComponentMeta(): PluginOption {
       try {
         const exportNames = checker.getExportNames(id);
         const componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
-
         const metaSources: MetaSource[] = [];
         componentsMeta.forEach((meta) => {
           const exportName = exportNames[componentsMeta.indexOf(meta)];
 
-          if (meta.type !== TypeMeta.Unknown) {
+          if (meta.type in [TypeMeta.Class, TypeMeta.Function]) {
             metaSources.push({
               exportName,
-              displayName:
-                exportName === 'default'
-                  ? id
-                      .split(path.sep)
-                      .slice(-1)
-                      .join('')
-                      .replace(/\.(vue|ts|tsx|jsx)/, '')
-                  : exportName,
+              displayName: exportName === 'default' ? getNameFromFile(id).name : exportName,
               ...meta,
               sourceFiles: id,
             });
@@ -69,7 +61,7 @@ export function vueComponentMeta(): PluginOption {
           if (
             !id.endsWith('.vue') &&
             metaSources[0].exportName === 'default' &&
-            metaSources[0].type !== TypeMeta.Unknown
+            metaSources[0].type in [TypeMeta.Class, TypeMeta.Function]
           ) {
             s.replace('export default defineComponent', 'const _sfc_main = defineComponent');
             s.append(`\nexport default _sfc_main`);
@@ -100,6 +92,8 @@ export function vueComponentMeta(): PluginOption {
   };
 }
 
+/** utility functions  */
+
 function getProjectRoot() {
   const projectRoot = findPackageJson().next().value?.path ?? '';
 
@@ -108,4 +102,10 @@ function getProjectRoot() {
   const absolutePathToProjectRoot = path.resolve(currentFileDir, relativePathToProjectRoot);
 
   return { relativePathToProjectRoot, absolutePathToProjectRoot };
+}
+
+function getNameFromFile(filename: string) {
+  const fileName = path.basename(filename);
+  const name = fileName.replace(/\.(vue|ts|js|tsx|jsx)/, '');
+  return { fileName, name };
 }
