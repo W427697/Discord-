@@ -1,9 +1,10 @@
-import type { ComponentProps } from 'react';
-import React, { Fragment } from 'react';
+import type { ComponentProps, FC } from 'react';
+import React, { memo, Fragment } from 'react';
 import { addons, types } from '@storybook/manager-api';
 
 import { Icons, IconButton, Bar, TabButton } from '@storybook/components';
 import { styled } from '@storybook/theming';
+import { Route } from '@storybook/router';
 import { ADDON_ID } from './constants';
 import { BackgroundSelector } from './containers/BackgroundSelector';
 import { GridSelector } from './containers/GridSelector';
@@ -66,7 +67,6 @@ const Centered = styled.div({
 addons.register('@storybook/addon-debugger', (api) => {
   addons.add(ADDON_ID, {
     title: 'Backgrounds',
-    id: 'backgrounds',
     type: types.TOOLEXTRA,
     match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
     render: () => (
@@ -83,30 +83,33 @@ addons.register('@storybook/addon-debugger', (api) => {
       </Fragment>
     ),
   });
+
+  const DebuggerPage: FC = () => {
+    return (
+      <Route path="/debugger" startsWith>
+        <Toolbar shown border>
+          <TabButton active>A tab</TabButton>
+          <IconButton
+            key="first"
+            title="Go to first story, for some reason. It's just a demo."
+            onClick={() => api.selectFirstStory()}
+          >
+            <Icons icon="star" />
+          </IconButton>
+        </Toolbar>
+        <FrameWrap offset={40}>
+          <Centered>
+            This is the contents of my addon, in a full viewport experience, what a joy!
+          </Centered>
+        </FrameWrap>
+      </Route>
+    );
+  };
+
   addons.add('@storybook/addon-debugger/panel', {
-    // TODO: I hacked it so title is the route this activates on
-    title: '/debugger/',
-    type: types.experimental_MAIN,
-    render: () => {
-      return (
-        <>
-          <Toolbar shown border>
-            <TabButton active>A tab</TabButton>
-            <IconButton
-              key="first"
-              title="Go to first story, for some reason. It's just a demo."
-              onClick={() => api.selectFirstStory()}
-            >
-              <Icons icon="star" />
-            </IconButton>
-          </Toolbar>
-          <FrameWrap offset={40}>
-            <Centered>
-              This is the contents of my addon, in a full viewport experience, what a joy!
-            </Centered>
-          </FrameWrap>
-        </>
-      );
-    },
+    title: 'Debugger',
+    type: types.experimental_PAGE,
+    url: '/debugger',
+    render: memo(DebuggerPage),
   });
 });

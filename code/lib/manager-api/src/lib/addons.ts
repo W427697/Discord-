@@ -8,6 +8,8 @@ import type {
   Addon_Elements,
   Addon_Loaders,
   Addon_Type,
+  Addon_BaseType,
+  Addon_PageType,
   Addon_Types,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
@@ -120,11 +122,13 @@ export class AddonStore {
    * @param {Addon_Type} addon - The addon to add.
    * @returns {void}
    */
-  add = (id: string, addon: Addon_Type) => {
+  add(id: string, addon: Addon_BaseType): void;
+  add(id: string, addon: Omit<Addon_PageType, 'id'>): void;
+  add(id: string, addon: Addon_Type): void {
     const { type } = addon;
     const collection = this.getElements(type);
     collection[id] = { id, ...addon };
-  };
+  }
 
   setConfig = (value: Addon_Config) => {
     Object.assign(this.config, value);

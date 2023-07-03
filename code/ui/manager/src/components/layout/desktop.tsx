@@ -3,8 +3,8 @@ import React, { Fragment } from 'react';
 
 import type { State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
+import type { Addon_PageType } from '@storybook/types';
 import * as S from './container';
-import type { Page } from './mobile';
 
 export interface DesktopProps {
   width: number;
@@ -14,7 +14,7 @@ export interface DesktopProps {
   Preview: ComponentType<any>;
   Panel: ComponentType<any>;
   Notifications: ComponentType<any>;
-  pages: Page[];
+  pages: Addon_PageType[];
   options: State['layout'];
   viewMode: string;
 }
@@ -66,10 +66,10 @@ const Desktop = Object.assign(
                     </Route>
                   </Route>
 
-                  {pages.map(({ key, route: Wrapper, render: Content }) => (
-                    <Wrapper key={key}>
+                  {pages.map(({ id, render: Content }) => (
+                    <Fragment key={id}>
                       <Content />
-                    </Wrapper>
+                    </Fragment>
                   ))}
                 </S.Main>
               </Fragment>

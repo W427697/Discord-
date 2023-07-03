@@ -184,7 +184,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       location,
       path,
       refId,
-      viewMode = props.docsOptions.docsMode ? 'docs' : 'story',
+      viewMode = props.docsOptions.docsMode ? 'docs' : props.viewMode,
       singleStory,
       storyId,
       docsOptions,

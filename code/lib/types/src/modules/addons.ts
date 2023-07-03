@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { FC, ReactElement, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
@@ -314,8 +314,8 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export type Addon_Type = BaseAddonType | PageAddonType;
-interface BaseAddonType {
+export type Addon_Type = Addon_BaseType | Addon_PageType;
+export interface Addon_BaseType {
   title: FC | string | ReactElement | ReactNode;
   type?: Addon_Types;
   id?: string;
@@ -327,16 +327,37 @@ interface BaseAddonType {
   hidden?: boolean;
 }
 
-interface PageAddonType {
-  title: FC | string | ReactElement | ReactNode;
+export interface Addon_PageType {
   type?: Addon_TypesEnum.experimental_PAGE;
-  id?: string;
-  route?: (routeOptions: RouterData) => string;
-  match?: (matchOptions: RouterData) => boolean;
-  render: FC<Addon_RenderOptions>;
-  paramKey?: string;
-  disabled?: boolean;
-  hidden?: boolean;
+  /**
+   * The unique id of the page.
+   */
+  id: string;
+  /**
+   * The URL to navigate to when Storybook needs to navigate to this page.
+   */
+  url: string;
+  /**
+   * The title is used in mobile mode to represent the page in the navigation.
+   */
+  title: FC | string | ReactElement | ReactNode;
+  /**
+   * The main content of the addon, a function component without any props.
+   * Storybook will render your component always.
+   *
+   * If you want to render your component only when the URL matches, use the `Route` component.
+   * @example
+   * import { Route } from '@storybook/router';
+   *
+   * render: () => {
+   *   return (
+   *     <Route path="/my-addon">
+   *       <MyAddonContent />
+   *     </Route>
+   *   );
+   * };
+   */
+  render: FC;
 }
 
 export type Addon_Loader<API> = (api: API) => void;

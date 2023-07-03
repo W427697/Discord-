@@ -5,7 +5,7 @@ import { type State } from '@storybook/manager-api';
 import { Symbols } from '@storybook/components';
 import { Global, createGlobal, styled } from '@storybook/theming';
 
-import type { Page } from './components/layout/mobile';
+import type { Addon_PageType } from '@storybook/types';
 import { Mobile } from './components/layout/mobile';
 import { Desktop } from './components/layout/desktop';
 import Sidebar from './containers/sidebar';
@@ -24,7 +24,7 @@ export interface AppProps {
   viewMode: State['viewMode'];
   layout: State['layout'];
   panelCount: number;
-  pages: Page[];
+  pages: Addon_PageType[];
 }
 
 const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {

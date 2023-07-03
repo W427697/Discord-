@@ -1,10 +1,11 @@
 import type { ComponentType, FC, ReactNode } from 'react';
-import React, { Children, useCallback, useState } from 'react';
+import React, { Fragment, Children, useCallback, useState } from 'react';
 import { type State, ActiveTabs, useStorybookApi } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 
 import { TabButton } from '@storybook/components';
 import { Location } from '@storybook/router';
+import type { Addon_PageType } from '@storybook/types';
 import { Root } from './Root';
 
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
@@ -128,12 +129,6 @@ const Bar = styled.nav(
   })
 );
 
-export interface Page {
-  key: string;
-  route: FC;
-  render: FC;
-}
-
 export interface MobileProps {
   options: Pick<State['layout'], 'isFullscreen' | 'showPanel' | 'initialActive' | 'showToolbar'>;
   Sidebar: ComponentType<any>;
@@ -141,7 +136,7 @@ export interface MobileProps {
   Panel: ComponentType<any>;
   Notifications: ComponentType<any>;
   viewMode: State['viewMode'];
-  pages: Page[];
+  pages: Addon_PageType[];
 }
 
 export interface MobileState {
@@ -198,10 +193,10 @@ export const Mobile = ({
           <div hidden={viewMode !== 'docs' && viewMode !== 'story'}>
             <Preview showToolbar={options.showToolbar} id="main" viewMode={viewMode} />
           </div>
-          {pages.map(({ key, route: Route, render: Content }) => (
-            <Route key={key}>
+          {pages.map(({ id, render: Content }) => (
+            <Fragment key={id}>
               <Content />
-            </Route>
+            </Fragment>
           ))}
         </div>
         <Panel hidden={viewMode !== 'story'} />
@@ -220,16 +215,16 @@ export const Mobile = ({
           <Location>
             {({ path }) => (
               <>
-                {pages.map(({ key }) => (
+                {pages.map(({ id, title, url }) => (
                   <TabButton
-                    key={key}
+                    key={id}
                     onClick={() => {
                       setState({ active: CANVAS });
-                      api.navigateUrl(key, { plain: false });
+                      api.navigateUrl(url, { plain: false });
                     }}
-                    active={active === CANVAS && path.startsWith(key)}
+                    active={active === CANVAS && path.startsWith(url)}
                   >
-                    {key.replace(/\//g, '')}
+                    {title}
                   </TabButton>
                 ))}
               </>

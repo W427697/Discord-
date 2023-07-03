@@ -82,6 +82,7 @@
     "@storybook/global": "^5.0.0",
     "@storybook/manager-api": "7.1.0-alpha.42",
     "@storybook/preview-api": "7.1.0-alpha.42",
+    "@storybook/router": "7.1.0-alpha.42",
     "@storybook/theming": "7.1.0-alpha.42",
     "@storybook/types": "7.1.0-alpha.42",
     "memoizerific": "^1.11.3",
