@@ -38,13 +38,19 @@ const ThemeStack = styled.div(
   })
 );
 
+let initialized = false;
+
 function setPreviewInitialized({ api }: { api: API }) {
-  api.setPreviewInitialized();
-  return {};
+  if (!initialized) {
+    api.setPreviewInitialized();
+  }
+  initialized = true;
+  return { api };
 }
 
 export const Default = () => {
   const provider = new FakeProvider();
+
   return (
     <ManagerProvider
       key="manager"
