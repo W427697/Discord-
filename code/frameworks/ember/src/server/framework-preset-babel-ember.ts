@@ -1,7 +1,7 @@
 import type { TransformOptions } from '@babel/core';
 import { precompile } from 'ember-source/dist/ember-template-compiler';
-import { findDistEsm } from '@storybook/core-common';
 import type { StorybookConfig, Options } from '@storybook/types';
+import { findDistFile } from '../util';
 
 let emberOptions: any;
 
@@ -51,5 +51,5 @@ export function babel(config: TransformOptions, options: Options): TransformOpti
 }
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => {
-  return [...entry, findDistEsm(__dirname, 'client/preview/config')];
+  return [...entry, findDistFile(__dirname, 'client/preview/config')];
 };
