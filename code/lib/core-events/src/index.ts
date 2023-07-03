@@ -65,8 +65,8 @@ enum events {
   NAVIGATE_URL = 'navigateUrl',
   UPDATE_QUERY_PARAMS = 'updateQueryParams',
 
-  GET_WHATS_NEW_DATA = 'getWhatsNewData',
-  GET_WHATS_NEW_DATA_RESULT = 'getWhatsNewDataResult',
+  REQUEST_WHATS_NEW_DATA = 'requestWhatsNewData',
+  RESULT_WHATS_NEW_DATA = 'resultWhatsNewData',
   SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
 }
 
@@ -115,8 +115,8 @@ export const {
   UPDATE_GLOBALS,
   UPDATE_QUERY_PARAMS,
   UPDATE_STORY_ARGS,
-  GET_WHATS_NEW_DATA,
-  GET_WHATS_NEW_DATA_RESULT,
+  REQUEST_WHATS_NEW_DATA,
+  RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
 } = events;
 

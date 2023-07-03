@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
 import { Badge, Icons } from '@storybook/components';
-import type { API } from '@storybook/manager-api';
-import { styled, useTheme } from '@storybook/theming';
-
+import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
+import { styled, useTheme } from '@storybook/theming';
+import { global } from '@storybook/global';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',
@@ -49,6 +49,7 @@ export const Shortcut: FC<{ keys: string[] }> = ({ keys }) => (
 );
 
 export const useMenu = (
+  state: State,
   api: API,
   showToolbar: boolean,
   isFullscreen: boolean,
@@ -68,7 +69,7 @@ export const useMenu = (
     [api]
   );
 
-  const whatsNewNotificationsEnabled = api.whatsNewNotificationsEnabled();
+  const whatsNewNotificationsEnabled = global.FEATURES.whatsNewNotifications;
   const isWhatsNewUnread = api.isWhatsNewUnread();
   const whatsNew = useMemo(
     () => ({
@@ -229,7 +230,7 @@ export const useMenu = (
   return useMemo(
     () => [
       about,
-      ...(whatsNewNotificationsEnabled ? [whatsNew] : []),
+      ...(state.whatsNewData?.status === 'SUCCESS' ? [whatsNew] : []),
       shortcuts,
       sidebarToggle,
       toolbarToogle,
@@ -246,7 +247,7 @@ export const useMenu = (
     ],
     [
       about,
-      api,
+      state,
       whatsNew,
       shortcuts,
       sidebarToggle,

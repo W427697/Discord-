@@ -130,7 +130,7 @@ const NotificationItem: FC<{
   const dismissNotificationItem = () => {
     onDismissNotification(id);
     if (onClear) {
-      onClear();
+      onClear({ dismissed: true });
     }
   };
   return link ? (

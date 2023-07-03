@@ -22,8 +22,8 @@ import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
 import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
-  GET_WHATS_NEW_DATA,
-  GET_WHATS_NEW_DATA_RESULT,
+  REQUEST_WHATS_NEW_DATA,
+  RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
 } from '@storybook/core-events';
 import { parseStaticDir } from '../utils/server-statics';
@@ -188,6 +188,7 @@ export const features = async (
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
+  whatsNewNotifications: false,
 });
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {
@@ -242,27 +243,22 @@ export const managerHead = async (_: any, options: Options) => {
 };
 
 const WHATS_NEW_CACHE = 'whats-new-cache';
-const WHATS_NEW_URL = 'https://storybook-dx.netlify.app/.netlify/functions/whats-new';
+const WHATS_NEW_URL = 'https://storybook.js.org/whats-new/v1';
 
 // Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
-type WhatsNewResponse =
-  | { title: string; url: string; publishedAt: string; excerpt: string }
-  | 'Post not found';
+type WhatsNewResponse = { title: string; url: string; publishedAt: string; excerpt: string };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const experimental_serverChannel = (channel: Channel, options: Options) => {
   channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
     const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE).catch((e) => {
-      if (options.loglevel === 'verbose') {
-        // TODO Add telemetry event
-        console.error(e);
-      }
+      logger.verbose(e);
       return {};
     });
     await options.cache.set(WHATS_NEW_CACHE, { ...cache, ...data });
   });
 
-  channel.on(GET_WHATS_NEW_DATA, async () => {
+  channel.on(REQUEST_WHATS_NEW_DATA, async () => {
     try {
       const post = (await fetch(WHATS_NEW_URL).then(async (response) => {
         if (response.ok) return response.json();
@@ -270,26 +266,17 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
         throw response;
       })) as WhatsNewResponse;
 
-      if (typeof post === 'string') {
-        throw new Error(`${WHATS_NEW_URL} responded with: ${post}`);
-      } else {
-        const cache: WhatsNewCache = (await options.cache.get(WHATS_NEW_CACHE)) ?? {};
-
-        const data = {
-          ...post,
-          status: 'SUCCESS',
-          postIsRead: post.url === cache.lastReadPost,
-          showNotification: post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
-        } satisfies WhatsNewData;
-
-        channel.emit(GET_WHATS_NEW_DATA_RESULT, { data });
-      }
+      const cache: WhatsNewCache = (await options.cache.get(WHATS_NEW_CACHE)) ?? {};
+      const data = {
+        ...post,
+        status: 'SUCCESS',
+        postIsRead: post.url === cache.lastReadPost,
+        showNotification: post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
+      } satisfies WhatsNewData;
+      channel.emit(RESULT_WHATS_NEW_DATA, { data });
     } catch (e) {
-      if (options.loglevel === 'verbose') {
-        // TODO Add telemetry event
-        console.error(e);
-      }
-      channel.emit(GET_WHATS_NEW_DATA_RESULT, {
+      logger.verbose(e);
+      channel.emit(RESULT_WHATS_NEW_DATA, {
         data: { status: 'ERROR' } satisfies WhatsNewData,
       });
     }

@@ -1,8 +1,8 @@
 import { global } from '@storybook/global';
 import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
-  GET_WHATS_NEW_DATA,
-  GET_WHATS_NEW_DATA_RESULT,
+  REQUEST_WHATS_NEW_DATA,
+  RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
 } from '@storybook/core-events';
 import type { ModuleFn } from '../index';
@@ -14,7 +14,6 @@ export type SubState = {
 export type SubAPI = {
   isWhatsNewUnread(): boolean;
   whatsNewHasBeenRead(): void;
-  whatsNewNotificationsEnabled(): boolean;
 };
 
 const WHATS_NEW_NOTIFICATION_ID = 'whats-new';
@@ -37,21 +36,16 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
       if (state.whatsNewData?.status === 'SUCCESS') {
         setWhatsNewCache({ lastReadPost: state.whatsNewData.url });
         setWhatsNewState({ ...state.whatsNewData, postIsRead: true });
-        fullAPI.removeNotification(WHATS_NEW_NOTIFICATION_ID);
+        fullAPI.clearNotification(WHATS_NEW_NOTIFICATION_ID);
       }
-    },
-    whatsNewNotificationsEnabled() {
-      return (
-        (global.CONFIG_TYPE === 'DEVELOPMENT' && global.FEATURES.whatsNewNotifications) ?? false
-      );
     },
   };
 
   function getLatestWhatsNewPost(): Promise<WhatsNewData> {
-    fullAPI.emit(GET_WHATS_NEW_DATA);
+    fullAPI.emit(REQUEST_WHATS_NEW_DATA);
 
     return new Promise((resolve) =>
-      fullAPI.once(GET_WHATS_NEW_DATA_RESULT, ({ data }: { data: WhatsNewData }) => resolve(data))
+      fullAPI.once(RESULT_WHATS_NEW_DATA, ({ data }: { data: WhatsNewData }) => resolve(data))
     );
   }
 
@@ -60,8 +54,8 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
   }
 
   const initModule = async () => {
-    const whatsNewEnabled = api.whatsNewNotificationsEnabled();
-    if (!whatsNewEnabled) return;
+    // The server channel doesn't exist in production, and we don't want to show what's new in production storybooks.
+    if (global.CONFIG_TYPE !== 'DEVELOPMENT') return;
 
     const whatsNewData = await getLatestWhatsNewPost();
     setWhatsNewState(whatsNewData);
@@ -69,7 +63,7 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
     const isNewStoryBookUser = fullAPI.getUrlState().path.includes('onboarding');
 
     if (
-      whatsNewEnabled &&
+      global.FEATURES.whatsNewNotifications &&
       !isNewStoryBookUser &&
       whatsNewData.status === 'SUCCESS' &&
       whatsNewData.showNotification
@@ -82,8 +76,8 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
           subHeadline: "Click to learn what's new in Storybook",
         },
         icon: { name: 'hearthollow' },
-        onClear() {
-          setWhatsNewCache({ lastDismissedPost: whatsNewData.url });
+        onClear({ dismissed }) {
+          if (dismissed) setWhatsNewCache({ lastDismissedPost: whatsNewData.url });
         },
       });
     }

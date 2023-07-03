@@ -21,12 +21,6 @@ export interface SubAPI {
    * @param id - The ID of the notification to remove.
    */
   clearNotification: (id: string) => void;
-
-  /**
-   * Removes a notification from the list of notifications.
-   * @param id - The ID of the notification to remove.
-   */
-  removeNotification: (id: string) => void;
 }
 
 export const init: ModuleFn = ({ store }) => {
@@ -41,17 +35,14 @@ export const init: ModuleFn = ({ store }) => {
     },
 
     clearNotification: (id) => {
-      api.removeNotification(id);
       const { notifications } = store.getState();
+
+      store.setState({ notifications: notifications.filter((n) => n.id !== id) });
+
       const notification = notifications.find((n) => n.id === id);
       if (notification && notification.onClear) {
-        notification.onClear();
+        notification.onClear({ dismissed: false });
       }
-    },
-
-    removeNotification: (id) => {
-      const { notifications } = store.getState();
-      store.setState({ notifications: notifications.filter((n) => n.id !== id) });
     },
   };
 

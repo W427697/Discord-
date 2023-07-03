@@ -118,7 +118,7 @@ const SettingsPages: FC = () => {
 
   return (
     <Pages
-      enableWhatsNew={api.whatsNewNotificationsEnabled()}
+      enableWhatsNew={state.whatsNewData?.status === 'SUCCESS'}
       enableShortcuts={state.ui.enableShortcuts}
       changeTab={changeTab}
       onClose={api.closeSettings}
