@@ -88,12 +88,17 @@ export class AddonStore {
     this.serverChannel = channel;
   };
 
-  getElements = (type: Addon_Types): Addon_Collection => {
+  getElements<T extends Addon_Types | Addon_TypesEnum.experimental_PAGE>(
+    type: T
+  ): T extends Addon_TypesEnum.experimental_PAGE
+    ? Addon_Collection<Addon_PageType>
+    : Addon_Collection<Addon_BaseType> {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
+    // @ts-expect-error (Kaspar told me to do this)
     return this.elements[type];
-  };
+  }
 
   /**
    * Adds a panel to the addon store.
@@ -109,7 +114,7 @@ export class AddonStore {
    *   render: () => <div>My Content</div>,
    * });
    */
-  addPanel = (id: string, options: Addon_Type): void => {
+  addPanel = (id: string, options: Omit<Addon_BaseType, 'type'>): void => {
     this.add(id, {
       type: Addon_TypesEnum.PANEL,
       ...options,
@@ -122,9 +127,10 @@ export class AddonStore {
    * @param {Addon_Type} addon - The addon to add.
    * @returns {void}
    */
-  add(id: string, addon: Addon_BaseType): void;
-  add(id: string, addon: Omit<Addon_PageType, 'id'>): void;
-  add(id: string, addon: Addon_Type): void {
+  // add(id: string, addon: Addon_Type): void;
+  // add(id: string, addon: Addon_BaseType): void;
+  // add(id: string, addon: Omit<Addon_PageType, 'id'>): void;
+  add(id: string, addon: Addon_BaseType | Omit<Addon_PageType, 'id'>): void {
     const { type } = addon;
     const collection = this.getElements(type);
     collection[id] = { id, ...addon };

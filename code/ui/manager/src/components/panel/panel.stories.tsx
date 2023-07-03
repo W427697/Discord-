@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Badge, Icons, Spaced } from '@storybook/components';
+import { Addon_TypesEnum } from '@storybook/types';
 import Panel from './panel';
 import { panels, shortcuts } from '../layout/app.mockdata';
 
@@ -33,6 +34,7 @@ export const JSXTitles = () => {
       absolute={false}
       panels={{
         'function-string': {
+          type: Addon_TypesEnum.PANEL,
           title: () => 'Test 1',
           render: ({ active, key }) =>
             active ? (
@@ -42,6 +44,7 @@ export const JSXTitles = () => {
             ) : null,
         },
         'function-jsx': {
+          type: Addon_TypesEnum.PANEL,
           title: () => (
             <div>
               <Spaced col={1}>
@@ -58,6 +61,7 @@ export const JSXTitles = () => {
             ) : null,
         },
         'function-jsx-icon': {
+          type: Addon_TypesEnum.PANEL,
           title: () => (
             <div>
               <Spaced col={1}>
@@ -74,6 +78,7 @@ export const JSXTitles = () => {
             ) : null,
         },
         'function-jsx-state': {
+          type: Addon_TypesEnum.PANEL,
           title: () => {
             const MAX = 10;
             const [count, setCount] = useState(0);

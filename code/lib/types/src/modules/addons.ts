@@ -21,9 +21,7 @@ import type {
 } from './csf';
 import type { IndexEntry } from './storyIndex';
 
-type OrString<T extends string> = T | (string & {});
-
-export type Addon_Types = OrString<Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>>;
+export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -317,7 +315,7 @@ export type ReactJSXElement = {
 export type Addon_Type = Addon_BaseType | Addon_PageType;
 export interface Addon_BaseType {
   title: FC | string | ReactElement | ReactNode;
-  type?: Addon_Types;
+  type: Addon_Types;
   id?: string;
   route?: (routeOptions: RouterData) => string;
   match?: (matchOptions: RouterData) => boolean;
@@ -338,7 +336,7 @@ interface MyFC<P = {}> {
 }
 
 export interface Addon_PageType {
-  type?: Addon_TypesEnum.experimental_PAGE;
+  type: Addon_TypesEnum.experimental_PAGE;
   /**
    * The unique id of the page.
    */
@@ -375,8 +373,8 @@ export type Addon_Loader<API> = (api: API) => void;
 export interface Addon_Loaders<API> {
   [key: string]: Addon_Loader<API>;
 }
-export interface Addon_Collection {
-  [key: string]: Addon_Type;
+export interface Addon_Collection<T = Addon_Type> {
+  [key: string]: T;
 }
 export interface Addon_Elements {
   [key: string]: Addon_Collection;

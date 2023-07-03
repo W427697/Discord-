@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import type { DecoratorFn } from '@storybook/react';
 
 import isChromatic from 'chromatic/isChromatic';
 
 import { BaseLocationProvider } from '@storybook/router';
+import { types } from '@storybook/manager-api';
 import type { DesktopProps } from './desktop';
 import { Desktop } from './desktop';
 
@@ -79,8 +80,10 @@ export const Page = ({ props }: { props: DesktopProps }) => (
     {...props}
     pages={[
       {
-        key: '/settings/',
-        route: ({ children }) => <Fragment>{children}</Fragment>,
+        id: '/settings/',
+        title: 'Settings',
+        url: '/settings/',
+        type: types.experimental_PAGE,
         render: () => <MockPage />,
       },
     ]}

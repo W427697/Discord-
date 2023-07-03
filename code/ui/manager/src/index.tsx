@@ -49,11 +49,8 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           {({ state, api }: Combo) => {
             const panelCount = Object.keys(api.getElements(types.PANEL)).length;
             const pages: Addon_PageType[] = useMemo(
-              () => [
-                settingsPageAddon,
-                ...Object.values(api.getElements<Addon_PageType>(types.experimental_PAGE)),
-              ],
-              [Object.keys(api.getElements<Addon_PageType>(types.experimental_PAGE)).join()]
+              () => [settingsPageAddon, ...Object.values(api.getElements(types.experimental_PAGE))],
+              [Object.keys(api.getElements(types.experimental_PAGE)).join()]
             );
 
             const story = api.getData(state.storyId, state.refId);

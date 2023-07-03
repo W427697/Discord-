@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ActiveTabs } from '@storybook/manager-api';
 import type { DecoratorFn } from '@storybook/react';
 
 import { BaseLocationProvider } from '@storybook/router';
+import { Addon_TypesEnum } from '@storybook/types';
 import type { MobileProps } from './mobile';
 import { Mobile } from './mobile';
 
@@ -75,8 +76,10 @@ export const Page = ({ props }: { props: MobileProps }) => (
     options={{ ...props.options, initialActive: ActiveTabs.CANVAS }}
     pages={[
       {
-        key: '/settings/',
-        route: ({ children }) => <Fragment>{children}</Fragment>,
+        id: 'settings',
+        url: '/settings',
+        title: 'Settings',
+        type: Addon_TypesEnum.experimental_PAGE,
         render: () => <MockPage />,
       },
     ]}
