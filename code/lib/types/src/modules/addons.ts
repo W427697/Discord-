@@ -314,7 +314,7 @@ export type ReactJSXElement = {
 
 export type Addon_Type = Addon_BaseType;
 export interface Addon_BaseType {
-  title: MyFC | string | ReactElement | ReactNode;
+  title: FCWithoutChildren | string | ReactElement | ReactNode;
   type: Addon_Types;
   id?: string;
   route?: (routeOptions: RouterData) => string;
@@ -325,9 +325,13 @@ export interface Addon_BaseType {
   hidden?: boolean;
 }
 
-// This is a copy of FC from react/index.d.ts, but has the PropsWithChildren type removed
-// this is correct and more type strict, and future compatible with React.FC in React 18+
-interface MyFC<P = {}> {
+/**
+ * This is a copy of FC from react/index.d.ts, but has the PropsWithChildren type removed
+ * this is correct and more type strict, and future compatible with React.FC in React 18+
+ *
+ * @deprecated This type is deprecated and will be removed in 8.0. (assuming the manager uses React 18 is out by then)
+ */
+interface FCWithoutChildren<P = {}> {
   (props: P, context?: any): ReactElement<any, any> | null;
   propTypes?: WeakValidationMap<P> | undefined;
   contextTypes?: ValidationMap<any> | undefined;
