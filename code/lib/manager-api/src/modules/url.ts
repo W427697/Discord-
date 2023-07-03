@@ -157,7 +157,7 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
       }
     },
     navigateUrl(url, options) {
-      navigate(url, { ...options, plain: true });
+      navigate(url, { plain: true, ...options });
     },
   };
 
