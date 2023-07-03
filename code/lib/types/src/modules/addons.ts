@@ -125,9 +125,10 @@ export interface Addon_AddStoryArgs<StoryFnReturnType = unknown> {
   parameters: Parameters;
 }
 
-export interface Addon_ClientApiAddon<StoryFnReturnType = unknown> extends Addon_Type {
+export type Addon_ClientApiAddon<StoryFnReturnType = unknown> = Addon_Type & {
   apply: (a: Addon_StoryApi<StoryFnReturnType>, b: any[]) => any;
-}
+};
+
 export interface Addon_ClientApiAddons<StoryFnReturnType> {
   [key: string]: Addon_ClientApiAddon<StoryFnReturnType>;
 }
