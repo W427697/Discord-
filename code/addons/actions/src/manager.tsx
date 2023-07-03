@@ -42,7 +42,6 @@ addons.register(ADDON_ID, (api) => {
 
   addons.add(PANEL_ID, {
     title: <Title count={countRef} />,
-    id: 'actions',
     type: types.PANEL,
     render: ({ active, key }) => <ActionLogger key={key} api={api} active={!!active} />,
     paramKey: PARAM_KEY,
