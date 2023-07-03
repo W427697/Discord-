@@ -31,7 +31,6 @@ describe('extractArgTypes', () => {
         "array": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -49,14 +48,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "MyNestedProps[]",
             "required": true,
           },
         },
         "arrayOptional": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -74,16 +72,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "MyNestedProps[] | undefined",
             "required": false,
           },
         },
         "bar": Object {
           "control": Object {
             "disable": true,
-            "types": Array [
-              "number",
-            ],
           },
           "defaultValue": Object {
             "summary": "1",
@@ -101,14 +96,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "number | undefined",
             "required": false,
           },
         },
         "baz": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": "[\\"foo\\", \\"bar\\"]",
@@ -126,14 +120,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "string[] | undefined",
             "required": false,
           },
         },
         "enumValue": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -151,16 +144,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "MyEnum",
             "required": true,
           },
         },
         "foo": Object {
           "control": Object {
             "disable": true,
-            "types": Array [
-              "text",
-            ],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -195,14 +185,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "string",
             "required": true,
           },
         },
         "inlined": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -220,14 +209,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "{ foo: string; }",
             "required": true,
           },
         },
         "literalFromContext": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -245,14 +233,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "\\"Uncategorized\\" | \\"Content\\" | \\"Interaction\\" | \\"Display\\" | \\"Forms\\" | \\"Addons\\"",
             "required": true,
           },
         },
         "nested": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -270,14 +257,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "MyNestedProps",
             "required": true,
           },
         },
         "nestedIntersection": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -295,14 +281,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "MyNestedProps & { additionalProp: string; }",
             "required": true,
           },
         },
         "nestedOptional": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -320,14 +305,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "MyNestedProps | MyIgnoredNestedProps | undefined",
             "required": false,
           },
         },
         "recursive": Object {
           "control": Object {
             "disable": true,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -345,17 +329,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "MyNestedRecursiveProps",
             "required": true,
           },
         },
         "union": Object {
           "control": Object {
             "disable": true,
-            "types": Array [
-              "text",
-              "number",
-            ],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -373,17 +353,13 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "string | number",
             "required": true,
           },
         },
         "unionOptional": Object {
           "control": Object {
             "disable": true,
-            "types": Array [
-              "text",
-              "number",
-            ],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -401,7 +377,7 @@ describe('extractArgTypes', () => {
             },
           },
           "type": Object {
-            "name": "void",
+            "name": "string | number | undefined",
             "required": false,
           },
         },
@@ -421,7 +397,6 @@ describe('extractArgTypes', () => {
         "bar": Object {
           "control": Object {
             "disable": false,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -489,7 +464,6 @@ describe('extractArgTypes', () => {
         "baz": Object {
           "control": Object {
             "disable": false,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -514,7 +488,6 @@ describe('extractArgTypes', () => {
         "foo": Object {
           "control": Object {
             "disable": false,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -584,7 +557,6 @@ describe('extractArgTypes', () => {
         "default": Object {
           "control": Object {
             "disable": false,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -621,7 +593,6 @@ describe('extractArgTypes', () => {
         "named": Object {
           "control": Object {
             "disable": false,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -658,7 +629,6 @@ describe('extractArgTypes', () => {
         "no-bind": Object {
           "control": Object {
             "disable": false,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,
@@ -684,7 +654,6 @@ describe('extractArgTypes', () => {
         "vbind": Object {
           "control": Object {
             "disable": false,
-            "types": Array [],
           },
           "defaultValue": Object {
             "summary": undefined,

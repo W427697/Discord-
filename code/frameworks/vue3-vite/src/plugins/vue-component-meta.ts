@@ -39,7 +39,6 @@ export function vueComponentMeta(): PluginOption {
       try {
         const exportNames = checker.getExportNames(id);
         const componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
-        console.log('---- componentsMeta', { componentsMeta });
         const metaSources: MetaSource[] = [];
         componentsMeta.forEach((meta) => {
           const exportName = exportNames[componentsMeta.indexOf(meta)];
@@ -47,14 +46,7 @@ export function vueComponentMeta(): PluginOption {
           if (meta.type in [TypeMeta.Class, TypeMeta.Function]) {
             metaSources.push({
               exportName,
-              displayName:
-                exportName === 'default'
-                  ? id
-                      .split(path.sep)
-                      .slice(-1)
-                      .join('')
-                      .replace(/\.(vue|ts|tsx|jsx)/, '')
-                  : exportName,
+              displayName: exportName === 'default' ? getNameFromFile(id).name : exportName,
               ...meta,
               sourceFiles: id,
             });
@@ -100,6 +92,8 @@ export function vueComponentMeta(): PluginOption {
   };
 }
 
+/** utility functions  */
+
 function getProjectRoot() {
   const projectRoot = findPackageJson().next().value?.path ?? '';
 
@@ -108,4 +102,10 @@ function getProjectRoot() {
   const absolutePathToProjectRoot = path.resolve(currentFileDir, relativePathToProjectRoot);
 
   return { relativePathToProjectRoot, absolutePathToProjectRoot };
+}
+
+function getNameFromFile(filename: string) {
+  const fileName = path.basename(filename);
+  const name = fileName.replace(/\.(vue|ts|js|tsx|jsx)/, '');
+  return { fileName, name };
 }
