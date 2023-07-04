@@ -610,8 +610,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
            * - If the user started storybook with a specific page-URL like "/settings/about"
            */
           if (state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs') {
-            if (viewMode && storyId) {
-              fullAPI.emit(SET_CURRENT_STORY, { storyId, viewMode });
+            if (state.viewMode && state.storyId) {
+              fullAPI.emit(SET_CURRENT_STORY, { storyId: state.storyId, viewMode: state.viewMode });
             } else {
               navigate(`/${viewMode}/${storyId}`);
             }

@@ -2,7 +2,7 @@ import type { ComponentType } from 'react';
 import React, { Fragment } from 'react';
 
 import type { State } from '@storybook/manager-api';
-import { Route, Location } from '@storybook/router';
+import { Route } from '@storybook/router';
 import type { Addon_PageType } from '@storybook/types';
 import * as S from './container';
 
