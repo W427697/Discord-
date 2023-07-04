@@ -165,8 +165,8 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
     const { id: storyId, type: viewMode } = entry;
     this.selectionStore.setSelection({ storyId, viewMode });
-    this.channel.emit(STORY_SPECIFIED, this.selectionStore.selection);
 
+    this.channel.emit(STORY_SPECIFIED, this.selectionStore.selection);
     this.channel.emit(CURRENT_STORY_WAS_SET, this.selectionStore.selection);
 
     await this.renderSelection({ persistedArgs: args });
@@ -220,9 +220,15 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   async onSetCurrentStory(selection: { storyId: StoryId; viewMode?: ViewMode }) {
+    /**
+     * set state immediately.
+     * If the store is still in the init phase, we'll read it from the URL.
+     * But we might be receiving a SET_CURRENT_STORY event and we should load that story when we init.
+     */
+    this.selectionStore.setSelection({ viewMode: 'story', ...selection });
+
     await this.storyStore.initializationPromise;
 
-    this.selectionStore.setSelection({ viewMode: 'story', ...selection });
     this.channel.emit(CURRENT_STORY_WAS_SET, this.selectionStore.selection);
     this.renderSelection();
   }

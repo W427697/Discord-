@@ -35,6 +35,7 @@ import {
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
   DOCS_PREPARED,
+  SET_CURRENT_STORY,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
@@ -601,18 +602,19 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         if (sourceType === 'local') {
           const state = store.getState();
-          if (
-            state.location?.pathname !== '/' &&
-            state.viewMode !== 'story' &&
-            state.viewMode !== 'docs'
-          ) {
-            return;
-          }
-
-          // Special case -- if we are already at the story being specified (i.e. the user started at a given story),
-          // we don't need to change URL. See https://github.com/storybookjs/storybook/issues/11677
-          if (state.storyId !== storyId || state.viewMode !== viewMode) {
-            navigate(`/${viewMode}/${storyId}`);
+          /**
+           * When storybook starts, we want to navigate to the first story.
+           * But there are a few exceptions:
+           * - If the current storyId and viewMode are already set/correct.
+           * - If the user has navigated away already.
+           * - If the user started storybook with a specific page-URL like "/settings/about"
+           */
+          if (state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs') {
+            if (viewMode && storyId) {
+              fullAPI.emit(SET_CURRENT_STORY, { storyId, viewMode });
+            } else {
+              navigate(`/${viewMode}/${storyId}`);
+            }
           }
         }
       }

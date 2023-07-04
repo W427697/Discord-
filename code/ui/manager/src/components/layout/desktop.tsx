@@ -2,7 +2,7 @@ import type { ComponentType } from 'react';
 import React, { Fragment } from 'react';
 
 import type { State } from '@storybook/manager-api';
-import { Route } from '@storybook/router';
+import { Route, Location } from '@storybook/router';
 import type { Addon_PageType } from '@storybook/types';
 import * as S from './container';
 
@@ -54,7 +54,7 @@ const Desktop = Object.assign(
                   <Sidebar />
                 </S.Sidebar>
                 <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
-                  <Route path={/^\/story|docs\//} hideOnly>
+                  <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
                     <S.Preview {...previewProps} hidden={false}>
                       <Preview id="main" />
                     </S.Preview>
