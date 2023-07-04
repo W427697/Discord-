@@ -1,47 +1,40 @@
 import React, { useState } from 'react';
 import { addons, types, useChannel } from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
+import { Badge, Spaced } from '@storybook/components';
 import ActionLogger from './containers/ActionLogger';
 import { ADDON_ID, CLEAR_ID, EVENT_ID, PANEL_ID, PARAM_KEY } from './constants';
 
-function Title({ count }: { count: { current: number } }) {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const [_, setRerender] = useState(false);
+function Title() {
+  const [count, setCount] = useState(0);
 
-  // Reactivity hack - force re-render on STORY_CHANGED, EVENT_ID and CLEAR_ID events
   useChannel({
     [EVENT_ID]: () => {
-      setRerender((r) => !r);
+      setCount((c) => c + 1);
     },
     [STORY_CHANGED]: () => {
-      setRerender((r) => !r);
+      setCount(0);
     },
     [CLEAR_ID]: () => {
-      setRerender((r) => !r);
+      setCount(0);
     },
   });
 
-  const suffix = count.current === 0 ? '' : ` (${count.current})`;
-  return <>Actions{suffix}</>;
+  const suffix = count === 0 ? '' : <Badge status="neutral">{count}</Badge>;
+
+  return (
+    <div>
+      <Spaced col={1}>
+        <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>Actions</span>
+        {suffix}
+      </Spaced>
+    </div>
+  );
 }
 
 addons.register(ADDON_ID, (api) => {
-  const countRef = { current: 0 };
-
-  api.on(STORY_CHANGED, (id) => {
-    countRef.current = 0;
-  });
-
-  api.on(EVENT_ID, () => {
-    countRef.current += 1;
-  });
-
-  api.on(CLEAR_ID, () => {
-    countRef.current = 0;
-  });
-
   addons.add(PANEL_ID, {
-    title: <Title count={countRef} />,
+    title: Title,
     type: types.PANEL,
     render: ({ active, key }) => <ActionLogger key={key} api={api} active={!!active} />,
     paramKey: PARAM_KEY,
