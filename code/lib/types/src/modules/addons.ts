@@ -314,14 +314,57 @@ export type ReactJSXElement = {
 
 export type Addon_Type = Addon_BaseType | Addon_PageType;
 export interface Addon_BaseType {
+  /**
+   * The title of the addon.
+   * This can be a simple string, but it can also be a React.FunctionComponent or a React.ReactElement.
+   */
   title: FCWithoutChildren | string | ReactElement | ReactNode;
+  /**
+   * The type of the addon.
+   * @example Addon_TypesEnum.PANEL
+   */
   type: Addon_Types;
+  /**
+   * The unique id of the addon.
+   * @warn This will become non-optional in 8.0
+   *
+   * This needs to be globally unique, so we recommend prefixing it with your org name or npm package name.
+   *
+   * Do not prefix with `storybook`, this is reserved for core storybook feature and core addons.
+   *
+   * @example 'my-org-name/my-addon-name'
+   */
   id?: string;
+  /**
+   * This component will wrap your `render` function.
+   *
+   * With it you can determine if you want your addon to be rendered or not.
+   *
+   * This is to facilitate addons keeping state, and keep listening for events even when they are not currently on screen/rendered.
+   */
   route?: (routeOptions: RouterData) => string;
+  /**
+   * This will determine the value of `active` prop of your render function.
+   */
   match?: (matchOptions: RouterData) => boolean;
-  render: (renderOptions: Addon_RenderOptions) => any | null;
+  /**
+   * The actual contents of your addon.
+   *
+   * This is called as a function, so if you want to use hooks,
+   * your function needs to return a JSX.Element within which components are rendered
+   */
+  render: (renderOptions: Addon_RenderOptions) => ReactElement<any, any> | null;
+  /**
+   * @unstable
+   */
   paramKey?: string;
+  /**
+   * @unstable
+   */
   disabled?: boolean;
+  /**
+   * @unstable
+   */
   hidden?: boolean;
 }
 
