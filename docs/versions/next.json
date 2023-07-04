@@ -1,1 +1,1 @@
-{"version":"7.1.0-alpha.29","info":{"plain":"#### Bug Fixes\n\n-   CLI: Fix upgrade notification message [#22933](https://github.com/storybooks/storybook/pull/22933)\n-   Core: Fix indexing errors by excluding node_modules stories [#22873](https://github.com/storybooks/storybook/pull/22873)"}}
+{"version":"7.1.0-alpha.44","info":{"plain":"- Next.js: Fix next/image usage in latest Next.js release - [#23296](https://github.com/storybookjs/storybook/pull/23296), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!"}}
