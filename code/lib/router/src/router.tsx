@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import React, { useCallback } from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 
 import * as R from 'react-router-dom';
 import { ToggleVisibility } from './visibility';
@@ -16,17 +16,36 @@ interface MatchingData {
 interface LocationProps {
   children: (renderData: RenderData) => any;
 }
-interface MatchProps {
+
+interface MatchPropsStartsWith {
   path: string;
-  startsWith: boolean;
+  startsWith: true;
   children: (matchingData: MatchingData) => ReactNode;
 }
-interface RouteProps {
+interface MatchPropsDefault {
+  path: string | RegExp;
+  startsWith: false;
+  children: (matchingData: MatchingData) => ReactNode;
+}
+
+interface RoutePropsStartsWith {
   path: string;
-  startsWith?: boolean;
+  startsWith: true;
   hideOnly?: boolean;
   children: ReactNode;
 }
+interface RoutePropsDefault {
+  path: string | RegExp;
+  startsWith?: false;
+  hideOnly?: boolean;
+  children: ReactNode;
+}
+
+const isRoutePropsDefault = (
+  props: RoutePropsDefault | RoutePropsStartsWith
+): props is RoutePropsDefault => {
+  return !props.startsWith;
+};
 
 const getBase = () => `${document.location.pathname}?`;
 
@@ -86,30 +105,55 @@ Location.displayName = 'QueryLocation';
 // A render-prop component for rendering when a certain path is hit.
 // It's immensely similar to `Location` but it receives an addition data property: `match`.
 // match has a truthy value when the path is hit.
-export const Match = ({ children, path: targetPath, startsWith = false }: MatchProps) => (
-  <Location>
-    {({ path: urlPath, ...rest }) =>
-      children({
-        match: getMatch(urlPath, targetPath, startsWith),
-        ...rest,
-      })
-    }
-  </Location>
-);
+function Match(props: MatchPropsStartsWith): ReactElement;
+function Match(props: MatchPropsDefault): ReactElement;
+function Match({
+  children,
+  path: targetPath,
+  startsWith = false,
+}: MatchPropsStartsWith | MatchPropsDefault) {
+  return (
+    <Location>
+      {({ path: urlPath, ...rest }) =>
+        children({
+          match: getMatch(urlPath, targetPath, startsWith),
+          ...rest,
+        })
+      }
+    </Location>
+  );
+}
 Match.displayName = 'QueryMatch';
 
 // A component to conditionally render children based on matching a target path
-export const Route = ({ path, children, startsWith = false, hideOnly = false }: RouteProps) => (
-  <Match path={path} startsWith={startsWith}>
-    {({ match }) => {
-      if (hideOnly) {
-        return <ToggleVisibility hidden={!match}>{children}</ToggleVisibility>;
-      }
-      return match ? children : null;
-    }}
-  </Match>
-);
+function Route(props: RoutePropsDefault): ReactElement;
+function Route(props: RoutePropsStartsWith): ReactElement;
+function Route(input: RoutePropsDefault | RoutePropsStartsWith) {
+  let propsA: RoutePropsStartsWith = input as RoutePropsStartsWith;
+  let propsB: RoutePropsDefault = input as RoutePropsDefault;
+
+  if (isRoutePropsDefault(input)) {
+    propsB = { ...input };
+    propsB.startsWith = false;
+  } else {
+    propsA = input;
+  }
+
+  const { children, hideOnly = false } = propsA || propsB;
+  return (
+    <Match {...(propsA || propsB)}>
+      {({ match }) => {
+        if (hideOnly) {
+          return <ToggleVisibility hidden={!match}>{children}</ToggleVisibility>;
+        }
+        return match ? children : null;
+      }}
+    </Match>
+  );
+}
 Route.displayName = 'Route';
+
+export { Route, Match };
 
 export const LocationProvider: typeof R.BrowserRouter = (...args) => R.BrowserRouter(...args);
 export const BaseLocationProvider: typeof R.Router = (...args) => R.Router(...args);
