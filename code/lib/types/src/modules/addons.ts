@@ -448,7 +448,7 @@ export enum Addon_TypesEnum {
    */
   PANEL = 'panel',
   /**
-   * This adds items in the toolbar above the canvas - on the right side.
+   * This adds items in the toolbar above the canvas - on the left side.
    */
   TOOL = 'tool',
   /**
@@ -457,7 +457,7 @@ export enum Addon_TypesEnum {
   TOOLEXTRA = 'toolextra',
   /**
    * This adds wrapper components around the canvas/iframe component storybook renders.
-   * @unstable
+   * @unstable this API is not stable yet, and is likely to change in 8.0.
    */
   PREVIEW = 'preview',
   /**
