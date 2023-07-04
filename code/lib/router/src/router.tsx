@@ -85,7 +85,7 @@ export const Location = ({ children }: LocationProps) => {
   return (
     <>
       {children({
-        path,
+        path: path || '/',
         location,
         viewMode,
         storyId,
