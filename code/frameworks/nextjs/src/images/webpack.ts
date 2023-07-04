@@ -30,7 +30,7 @@ const configureImageDefaults = (baseConfig: WebpackConfig): void => {
     resolve.alias = {
       ...resolve.alias,
       'sb-original/next/future/image': require.resolve('next/future/image'),
-      'next/future/image': path.resolve(__dirname, './images/next-legacy-image'),
+      'next/future/image': path.resolve(__dirname, './images/next-future-image'),
     };
   }
 };
