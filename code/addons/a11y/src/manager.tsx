@@ -1,5 +1,6 @@
 import React from 'react';
 import { addons, types } from '@storybook/manager-api';
+import { Badge, Spaced } from '@storybook/components';
 import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 import { VisionSimulator } from './components/VisionSimulator';
 import { A11YPanel } from './components/A11YPanel';
@@ -19,8 +20,18 @@ addons.register(ADDON_ID, (api) => {
       const addonState: Results = api?.getAddonState(ADDON_ID);
       const violationsNb = addonState?.violations?.length || 0;
       const incompleteNb = addonState?.incomplete?.length || 0;
-      const totalNb = violationsNb + incompleteNb;
-      return totalNb !== 0 ? `Accessibility (${totalNb})` : 'Accessibility';
+      const count = violationsNb + incompleteNb;
+
+      const suffix = count === 0 ? '' : <Badge status="neutral">{count}</Badge>;
+
+      return (
+        <div>
+          <Spaced col={1}>
+            <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>Accessibility</span>
+            {suffix}
+          </Spaced>
+        </div>
+      );
     },
     type: types.PANEL,
     render: ({ active = true, key }) => (
