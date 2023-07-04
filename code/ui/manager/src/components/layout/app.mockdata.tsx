@@ -5,7 +5,6 @@ import { styled } from '@storybook/theming';
 import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
-import { types } from '@storybook/manager-api';
 import type { SidebarProps } from '../sidebar/Sidebar';
 import { Sidebar } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';
@@ -41,7 +40,6 @@ export const shortcuts: State['shortcuts'] = {
 
 export const panels: Addon_Collection<Addon_BaseType> = {
   test1: {
-    type: types.PANEL,
     title: 'Test 1',
     type: Addon_TypesEnum.PANEL,
     render: ({ active, key }) =>
@@ -52,7 +50,6 @@ export const panels: Addon_Collection<Addon_BaseType> = {
       ) : null,
   },
   test2: {
-    type: types.PANEL,
     title: 'Test 2',
     type: Addon_TypesEnum.PANEL,
     render: ({ active, key }) =>
