@@ -121,6 +121,7 @@ jobs:
 
       - name: Sync CHANGELOG.md from `main` to `next`
         if: github.ref_name == 'latest-release'
+        working-directory: .
         run: |
           git fetch origin next
           git checkout next
@@ -132,6 +133,7 @@ jobs:
 
       - name: Sync versions/next.json from `next` to `main`
         if: github.ref_name == 'next-release'
+        working-directory: .
         run: |
           git fetch origin main
           git checkout main
