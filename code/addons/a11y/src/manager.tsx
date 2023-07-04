@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons, types, useStorybookApi } from '@storybook/manager-api';
+import { addons, types, useAddonState } from '@storybook/manager-api';
 import { Badge, Spaced } from '@storybook/components';
 import { ADDON_ID, PANEL_ID, PARAM_KEY } from './constants';
 import { VisionSimulator } from './components/VisionSimulator';
@@ -8,8 +8,7 @@ import type { Results } from './components/A11yContext';
 import { A11yContextProvider } from './components/A11yContext';
 
 const Title = () => {
-  const api = useStorybookApi();
-  const addonState: Results = api?.getAddonState(ADDON_ID);
+  const [addonState] = useAddonState<Results>(ADDON_ID);
   const violationsNb = addonState?.violations?.length || 0;
   const incompleteNb = addonState?.incomplete?.length || 0;
   const count = violationsNb + incompleteNb;
