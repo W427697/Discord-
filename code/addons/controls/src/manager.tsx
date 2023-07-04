@@ -23,7 +23,7 @@ function Title() {
 
 addons.register(ADDON_ID, (api) => {
   addons.add(ADDON_ID, {
-    title: <Title />,
+    title: Title,
     type: types.PANEL,
     paramKey: PARAM_KEY,
     render: ({ key, active }) => {
