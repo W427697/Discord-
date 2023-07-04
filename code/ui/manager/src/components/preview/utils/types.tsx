@@ -1,12 +1,10 @@
 import type { FunctionComponent, ReactNode } from 'react';
 import type { State, API, LeafEntry } from '@storybook/manager-api';
-import type { StoryId } from '@storybook/types';
-
-export type ViewMode = State['viewMode'];
+import type { API_ViewMode, StoryId } from '@storybook/types';
 
 export interface PreviewProps {
   api: API;
-  viewMode: ViewMode;
+  viewMode: API_ViewMode;
   refs: State['refs'];
   storyId: StoryId;
   entry: LeafEntry;
@@ -60,7 +58,7 @@ export interface FramesRendererProps {
   refId: string;
   baseUrl: string;
   scale: number;
-  viewMode: ViewMode;
+  viewMode: API_ViewMode;
   queryParams: State['customQueryParams'];
   refs: State['refs'];
 }

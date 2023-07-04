@@ -15,13 +15,12 @@ import { defaultWrappers, ApplyWrappers } from './wrappers';
 import { ToolbarComp } from './toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
-import type { PreviewProps } from './utils/types';
+import type { PreviewProps, Wrapper } from './utils/types';
 
 const { FEATURES } = global;
 
-const getWrappers = (getFn: API['getElements']) =>
-  Object.values(getFn<Addon_BaseType>(types.PREVIEW));
-const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon_BaseType>(types.TAB));
+const getWrappers = (getFn: API['getElements']) => Object.values(getFn(types.PREVIEW));
+const getTabs = (getFn: API['getElements']) => Object.values(getFn(types.TAB));
 
 const canvasMapper = ({ state, api }: Combo) => ({
   storyId: state.storyId,
@@ -58,7 +57,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           active,
         }) => {
           const wrappers = useMemo(
-            () => [...defaultWrappers, ...getWrappers(getElements)],
+            () => [...defaultWrappers, ...getWrappers(getElements)] as Wrapper[],
             [getElements, ...defaultWrappers]
           );
 
@@ -211,7 +210,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
             const key = t.id || t.key || i;
             return (
               <Fragment key={key}>
-                <Location>{(lp) => <Render active={match(lp)} />}</Location>
+                <Location>{(lp) => <Render key={key} active={match(lp)} />}</Location>
               </Fragment>
             );
           })}

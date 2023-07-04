@@ -3,19 +3,17 @@
 import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
-import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
 import type { API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_Collection, Addon_Type } from './addons';
+import type { Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
 import type { StoryIndex } from './storyIndex';
 
-export type API_ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
+type OrString<T extends string> = T | (string & {});
 
-export interface API_RenderOptions {
-  active: boolean;
-  key: string;
-}
+export type API_ViewMode = OrString<'story' | 'docs' | 'settings'> | undefined;
+
+export type API_RenderOptions = Addon_RenderOptions;
 
 export interface API_RouteOptions {
   storyId: string;
@@ -62,7 +60,7 @@ export interface API_Provider<API> {
 
 export type API_IframeRenderer = (
   storyId: string,
-  viewMode: ViewMode,
+  viewMode: API_ViewMode,
   id: string,
   baseUrl: string,
   scale: number,

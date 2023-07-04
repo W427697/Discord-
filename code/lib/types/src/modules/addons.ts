@@ -299,8 +299,8 @@ export type BaseStory<TArgs, StoryFnReturnType> =
   | Addon_BaseStoryObject<TArgs, StoryFnReturnType>;
 
 export interface Addon_RenderOptions {
-  active?: boolean;
-  key?: string;
+  active: boolean;
+  key: string;
 }
 
 /**
@@ -471,9 +471,3 @@ export enum Addon_TypesEnum {
    */
   NOTES_ELEMENT = 'notes-element',
 }
-
-// type A = OrString<'bla' | 'foo'>;
-
-// type OrString<T extends string> = T | (string & {});
-
-// const x: A = 'ffffff';
