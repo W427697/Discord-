@@ -30,7 +30,7 @@ interface MatchPropsDefault {
 
 interface RoutePropsStartsWith {
   path: string;
-  startsWith: boolean;
+  startsWith?: boolean;
   hideOnly?: boolean;
   children: ReactNode;
 }
