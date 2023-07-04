@@ -19,7 +19,7 @@ interface LocationProps {
 
 interface MatchPropsStartsWith {
   path: string;
-  startsWith: true;
+  startsWith: boolean;
   children: (matchingData: MatchingData) => ReactNode;
 }
 interface MatchPropsDefault {
@@ -30,7 +30,7 @@ interface MatchPropsDefault {
 
 interface RoutePropsStartsWith {
   path: string;
-  startsWith: true;
+  startsWith?: boolean;
   hideOnly?: boolean;
   children: ReactNode;
 }
