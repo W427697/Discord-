@@ -130,6 +130,17 @@ jobs:
           git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }}"
           git push origin next
 
+      - name: Sync versions/next.json from `next` to `main`
+        if: github.ref_name == 'next-release'
+        run: |
+          git fetch origin main
+          git checkout main
+          git pull
+          git checkout origin/next ./docs/versions/next.json
+          git add ./docs/versions/next.json
+          git commit -m "Update versions/next.json for v${{ steps.version.outputs.current-version }}"
+          git push origin main
+
       # Force push from next to main if it is not a prerelease, and this release is from next-release
       # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
       # This will keep release-next, next and main all tracking v7.1.0
