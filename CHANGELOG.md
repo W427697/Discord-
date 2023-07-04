@@ -2,6 +2,7 @@
 
 - Next.js: Fix next/image usage in latest Next.js release - [#23296](https://github.com/storybookjs/storybook/pull/23296), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
 - NextJS: Fix `useParams` support - [#22946](https://github.com/storybookjs/storybook/pull/22946), thanks [@gitstart-storybook](https://github.com/gitstart-storybook)!
+- NextJS: Allow disabling next/image lazy loading - [#21909](https://github.com/storybookjs/storybook/pull/21909), thanks [@martinnabhan](https://github.com/martinnabhan)
 
 ## 7.0.25
 
