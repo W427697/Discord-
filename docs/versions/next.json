@@ -1,1 +1,1 @@
-{"version":"7.1.0-alpha.44","info":{"plain":"- Next.js: Fix next/image usage in latest Next.js release - [#23296](https://github.com/storybookjs/storybook/pull/23296), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!"}}
+{"version":"7.1.0-beta.0","info":{"plain":"- Settings: Add what's new page, remove release notes - [#23202](https://github.com/storybookjs/storybook/pull/23202), thanks [@kasperpeulen](https://github.com/kasperpeulen)!"}}
