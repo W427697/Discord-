@@ -20,7 +20,7 @@ export const WorkingStory = () => (
     active
     id="iframe"
     title="Missing"
-    src="/iframe.html?id=ui-panel--default"
+    src="/iframe.html?id=storybook-components-icon--basic"
     allowFullScreen
     style={style}
     scale={1.0}

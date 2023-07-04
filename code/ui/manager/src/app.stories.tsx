@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { API } from '@storybook/manager-api';
 import { Consumer, Provider as ManagerProvider } from '@storybook/manager-api';
-import { LocationProvider } from '@storybook/router';
+import { BaseLocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
 import App from './app';
@@ -12,25 +12,41 @@ export default {
   component: App,
   parameters: {
     layout: 'fullscreen',
+    theme: 'light',
+    viewport: {
+      viewports: {
+        tablet: {
+          name: 'Tablet',
+          styles: {
+            height: '1112px',
+            width: '834px',
+          },
+          type: 'tablet',
+        },
+      },
+      defaultViewport: 'tablet',
+      defaultOrientation: 'landscape',
+    },
+    chromatic: { viewports: [1112] },
   },
   decorators: [
     (StoryFn: any) => (
       <HelmetProvider key="helmet.Provider">
-        <LocationProvider>
-          <ThemeStack>
+        <BaseLocationProvider location="/?path=/story/my-id" navigator={{} as any}>
+          <Background>
             <StoryFn />
-          </ThemeStack>
-        </LocationProvider>
+          </Background>
+        </BaseLocationProvider>
       </HelmetProvider>
     ),
   ],
 };
 
-const ThemeStack = styled.div(
+const Background = styled.div(
   {
     position: 'relative',
-    minHeight: '50vh',
-    height: '100%',
+    minHeight: '100vh',
+    height: '100vw',
   },
   ({ theme }) => ({
     background: theme.background.app,
@@ -50,6 +66,7 @@ export const Default = () => {
       key="manager"
       provider={provider}
       path="/story/ui-app--loading-state"
+      viewMode="story"
       storyId="ui-app--loading-state"
       location={{ search: '' }}
       navigate={() => {}}
@@ -60,7 +77,7 @@ export const Default = () => {
         key="app"
         viewMode="story"
         layout={{
-          initialActive: 'addons',
+          initialActive: 'sidebar',
           isFullscreen: false,
           showToolbar: true,
           panelPosition: 'right',
@@ -68,6 +85,7 @@ export const Default = () => {
           showPanel: true,
           showTabs: true,
         }}
+        pages={[]}
         panelCount={0}
       />
     </ManagerProvider>
@@ -88,7 +106,7 @@ export const LoadingState = () => (
       key="app"
       viewMode="story"
       layout={{
-        initialActive: 'addons',
+        initialActive: 'sidebar',
         isFullscreen: false,
         showToolbar: true,
         panelPosition: 'right',
@@ -96,7 +114,32 @@ export const LoadingState = () => (
         showPanel: true,
         showTabs: true,
       }}
+      pages={[]}
       panelCount={0}
     />
   </ManagerProvider>
 );
+
+export const Dark = () => LoadingState();
+Dark.parameters = {
+  theme: 'dark',
+};
+export const Mobile = () => LoadingState();
+Mobile.parameters = {
+  theme: 'light',
+  viewport: {
+    viewports: {
+      mobile1: {
+        name: 'Small mobile',
+        styles: {
+          height: '568px',
+          width: '320px',
+        },
+        type: 'mobile',
+      },
+    },
+    defaultViewport: 'mobile1',
+    defaultOrientation: 'portrait',
+  },
+  chromatic: { viewports: [320] },
+};

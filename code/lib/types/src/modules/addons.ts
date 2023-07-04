@@ -21,7 +21,7 @@ import type {
 } from './csf';
 import type { IndexEntry } from './storyIndex';
 
-export type Addon_Types = Addon_TypesEnum;
+export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -312,7 +312,7 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export type Addon_Type = Addon_BaseType;
+export type Addon_Type = Addon_BaseType | Addon_PageType;
 export interface Addon_BaseType {
   title: FCWithoutChildren | string | ReactElement | ReactNode;
   type: Addon_Types;
@@ -337,6 +337,39 @@ interface FCWithoutChildren<P = {}> {
   contextTypes?: ValidationMap<any> | undefined;
   defaultProps?: Partial<P> | undefined;
   displayName?: string | undefined;
+}
+
+export interface Addon_PageType {
+  type: Addon_TypesEnum.experimental_PAGE;
+  /**
+   * The unique id of the page.
+   */
+  id: string;
+  /**
+   * The URL to navigate to when Storybook needs to navigate to this page.
+   */
+  url: string;
+  /**
+   * The title is used in mobile mode to represent the page in the navigation.
+   */
+  title: FCWithoutChildren | string | ReactElement | ReactNode;
+  /**
+   * The main content of the addon, a function component without any props.
+   * Storybook will render your component always.
+   *
+   * If you want to render your component only when the URL matches, use the `Route` component.
+   * @example
+   * import { Route } from '@storybook/router';
+   *
+   * render: () => {
+   *   return (
+   *     <Route path="/my-addon">
+   *       <MyAddonContent />
+   *     </Route>
+   *   );
+   * };
+   */
+  render: FCWithoutChildren;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -384,9 +417,20 @@ export enum Addon_TypesEnum {
    * @unstable
    */
   PREVIEW = 'preview',
+  /**
+   * This adds pages that render instead of the canvas.
+   * DO NOT USE
+   */
+  experimental_PAGE = 'main',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.
    */
   NOTES_ELEMENT = 'notes-element',
 }
+
+// type A = OrString<'bla' | 'foo'>;
+
+// type OrString<T extends string> = T | (string & {});
+
+// const x: A = 'ffffff';

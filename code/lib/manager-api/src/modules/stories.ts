@@ -600,11 +600,17 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         const { sourceType } = getEventMetadata(this, fullAPI);
 
         if (sourceType === 'local') {
-          if (fullAPI.isSettingsScreenActive()) return;
+          const state = store.getState();
+          if (
+            state.location?.pathname !== '/' &&
+            state.viewMode !== 'story' &&
+            state.viewMode !== 'docs'
+          ) {
+            return;
+          }
 
           // Special case -- if we are already at the story being specified (i.e. the user started at a given story),
           // we don't need to change URL. See https://github.com/storybookjs/storybook/issues/11677
-          const state = store.getState();
           if (state.storyId !== storyId || state.viewMode !== viewMode) {
             navigate(`/${viewMode}/${storyId}`);
           }
