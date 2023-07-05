@@ -19,7 +19,7 @@ export interface SubAPI {
   /**
    * Returns a collection of elements of a specific type.
    * @protected This is used internally in storybook's manager.
-   * @template FAKE - The type of the elements in the collection.
+   * @template FAKE - LEGACY for backwards compatibility, should be removed in 8.0.
    * @template T - The type of the elements in the collection.
    * @param {Addon_Types | Addon_TypesEnum.experimental_PAGE} type - The type of the elements to retrieve.
    * @returns {API_Collection<T>} - A collection of elements of the specified type.
@@ -60,7 +60,7 @@ export interface SubAPI {
    * Sets the state of an addon with the given ID.
    * @template S - The type of the addon state.
    * @param {string} addonId - The ID of the addon to set the state for.
-   * @param {S | API_StateMerger<S>} newStateOrMerger - The new state to set, or a function that merges the current state with the new state.
+   * @param {S | API_StateMerger<S>} newStateOrMerger - The new state to set, or a function which receives the current state and returns the new state.
    * @param {Options} [options] - Optional options for the state update.
    * @deprecated This API might get dropped, if you are using this, please file an issue.
    * @returns {Promise<S>} - A promise that resolves with the new state after it has been set.
