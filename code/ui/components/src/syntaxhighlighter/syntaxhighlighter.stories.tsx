@@ -5,9 +5,6 @@ import React from 'react';
 import scss from 'react-syntax-highlighter/dist/esm/languages/prism/scss';
 import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
 
-// Register custom language
-SyntaxHighlighter.registerLanguage('scss', scss);
-
 export default {
   component: SyntaxHighlighter,
 };
@@ -123,6 +120,7 @@ div.parent {
   }
 }`,
   },
+  loaders: [() => SyntaxHighlighter.registerLanguage('scss', scss)],
 };
 
 export const Unsupported = {
