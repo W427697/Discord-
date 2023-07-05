@@ -88,21 +88,6 @@ const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   paddingLeft: `${18 + depth * 16}px`,
   fontSize: `${theme.typography.size.s2 - 1}px`,
   textDecoration: 'none',
-  color: theme.color.defaultText,
-  background: 'transparent',
-  '&:hover, &:focus': {
-    outline: 'none',
-    background: theme.background.hoverable,
-  },
-  '&[data-selected="true"]': {
-    color: theme.color.lightest,
-    background: theme.color.secondary,
-    fontWeight: theme.typography.weight.bold,
-    '&:hover, &:focus': {
-      background: theme.color.secondary,
-    },
-    svg: { color: theme.color.lightest },
-  },
 }));
 
 export const Path = styled.span(({ theme }) => ({

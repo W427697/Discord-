@@ -106,22 +106,47 @@ const CollapseButton = styled.button(({ theme }) => ({
 
 const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   position: 'relative',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingRight: 20,
+
+  color: theme.color.defaultText,
+  background: 'transparent',
+  '&:hover, &:focus': {
+    outline: 'none',
+    background: theme.background.hoverable,
+  },
+  '&[data-selected="true"]': {
+    color: theme.color.lightest,
+    background: theme.color.secondary,
+    fontWeight: theme.typography.weight.bold,
+    '&:hover, &:focus': {
+      background: theme.color.secondary,
+    },
+    svg: { color: theme.color.lightest },
+  },
+  a: { color: 'currentColor' },
 }));
 
 const SkipToContentLink = styled(Button)(({ theme }) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'block',
-    zIndex: -1,
-    position: 'absolute',
-    top: 1,
-    right: 20,
-    height: '20px',
     fontSize: '10px',
-    padding: '5px 10px',
+    overflow: 'hidden',
+    width: 1,
+    height: '20px',
+    boxSizing: 'border-box',
+    opacity: 0,
+    padding: 0,
+
     '&:focus': {
+      opacity: 1,
+      padding: '5px 10px',
       background: 'white',
-      zIndex: 1,
+      color: theme.color.secondary,
+      width: 'auto',
     },
   },
 }));
@@ -160,7 +185,7 @@ const Node = React.memo<NodeProps>(function Node({
   if (item.type === 'story' || item.type === 'docs') {
     const LeafNode = item.type === 'docs' ? DocumentNode : StoryNode;
     return (
-      <LeafNodeStyleWrapper>
+      <LeafNodeStyleWrapper data-selected={isSelected}>
         <LeafNode
           key={id}
           id={id}
