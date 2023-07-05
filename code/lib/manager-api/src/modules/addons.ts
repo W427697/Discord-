@@ -1,8 +1,8 @@
 import type {
   Addon_BaseType,
   Addon_Collection,
-  Addon_PageType,
   Addon_Types,
+  Addon_TypesMapping,
   API_Panels,
   API_StateMerger,
 } from '@storybook/types';
@@ -29,9 +29,7 @@ export interface SubAPI {
     T extends Addon_Types | Addon_TypesEnum.experimental_PAGE = Addon_Types
   >(
     type: T
-  ) => T extends Addon_TypesEnum.experimental_PAGE
-    ? Addon_Collection<Addon_PageType>
-    : Addon_Collection<Addon_BaseType>;
+  ) => Addon_Collection<Addon_TypesMapping[T]>;
   /**
    * Returns a collection of all panels.
    * This is the same as calling getElements('panel')

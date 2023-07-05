@@ -210,7 +210,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
             const key = t.id || t.key || i;
             return (
               <Fragment key={key}>
-                <Location>{(lp) => <Render key={key} active={match(lp)} />}</Location>
+                <Location>{(lp) => <Render active={match(lp)} />}</Location>
               </Fragment>
             );
           })}

@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { ReactElement, ReactNode, ValidationMap, WeakValidationMap } from 'react';
+import type {
+  FC,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  ValidationMap,
+  WeakValidationMap,
+} from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
@@ -312,7 +319,7 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export type Addon_Type = Addon_BaseType | Addon_PageType;
+export type Addon_Type = Addon_BaseType | Addon_PageType | Addon_WrapperType;
 export interface Addon_BaseType {
   /**
    * The title of the addon.
@@ -323,7 +330,7 @@ export interface Addon_BaseType {
    * The type of the addon.
    * @example Addon_TypesEnum.PANEL
    */
-  type: Addon_Types;
+  type: Exclude<Addon_Types, Addon_TypesEnum.PREVIEW>;
   /**
    * The unique id of the addon.
    * @warn This will become non-optional in 8.0
@@ -353,7 +360,7 @@ export interface Addon_BaseType {
    * This is called as a function, so if you want to use hooks,
    * your function needs to return a JSX.Element within which components are rendered
    */
-  render: (renderOptions: Addon_RenderOptions) => ReactElement<any, any> | null;
+  render: (renderOptions: Partial<Addon_RenderOptions>) => ReactElement<any, any> | null;
   /**
    * @unstable
    */
@@ -413,6 +420,30 @@ export interface Addon_PageType {
    * };
    */
   render: FCWithoutChildren;
+}
+
+export interface Addon_WrapperType {
+  type: Addon_TypesEnum.PREVIEW;
+  /**
+   * The unique id of the page.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent that wraps the story.
+   *
+   * This component must accept a children prop, and render it.
+   */
+  render: FC<PropsWithChildren<{}>>;
+}
+
+type Addon_TypeBaseNames = Exclude<
+  Addon_TypesEnum,
+  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE
+>;
+
+export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
+  [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
+  [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;

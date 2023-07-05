@@ -11,6 +11,7 @@ import type {
   Addon_BaseType,
   Addon_PageType,
   Addon_Types,
+  Addon_TypesMapping,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -97,9 +98,7 @@ export class AddonStore {
 
   getElements<T extends Addon_Types | Addon_TypesEnum.experimental_PAGE>(
     type: T
-  ): T extends Addon_TypesEnum.experimental_PAGE
-    ? Addon_Collection<Addon_PageType>
-    : Addon_Collection<Addon_BaseType> {
+  ): Addon_Collection<Addon_TypesMapping[T]> {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }

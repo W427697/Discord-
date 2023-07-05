@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import type { FC } from 'react';
 import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
 import type { DocsOptions } from './core-common';
 import type { API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
+import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
 import type { StoryIndex } from './storyIndex';
 
 type OrString<T extends string> = T | (string & {});
@@ -28,11 +29,20 @@ export interface API_MatchOptions {
   path: string;
 }
 
+/**
+ * @deprecated this is synonymous with `Addon_Type`. This interface will be removed in 8.0
+ */
 export type API_Addon = Addon_Type;
 
+/**
+ * @deprecated this is synonymous with `Addon_Collection`. This interface will be removed in 8.0
+ */
 export type API_Collection<T = Addon_Type> = Addon_Collection<T>;
 
-export type API_Panels = Addon_Collection<Addon_Type>;
+/**
+ * @deprecated This interface will be removed in 8.0
+ */
+export type API_Panels = Addon_Collection<Addon_BaseType>;
 
 export type API_StateMerger<S> = (input: S) => S;
 
@@ -58,14 +68,14 @@ export interface API_Provider<API> {
   [key: string]: any;
 }
 
-export type API_IframeRenderer = (
-  storyId: string,
-  viewMode: API_ViewMode,
-  id: string,
-  baseUrl: string,
-  scale: number,
-  queryParams: Record<string, any>
-) => any;
+export type API_IframeRenderer = FC<{
+  storyId: string;
+  viewMode: API_ViewMode;
+  id: string;
+  baseUrl: string;
+  scale: number;
+  queryParams: Record<string, any>;
+}>;
 
 export interface API_UIOptions {
   name?: string;
@@ -87,7 +97,7 @@ export interface API_Layout {
   showTabs: boolean;
   showToolbar: boolean;
   /**
-   * @deprecated
+   * @deprecated, will be removed in 8.0 - this API no longer works
    */
   isToolshown?: boolean;
 }
@@ -107,6 +117,13 @@ export interface API_SidebarOptions {
   renderLabel?: (item: API_HashEntry) => any;
 }
 
+interface OnClearOptions {
+  /**
+   *  True when the user dismissed the notification.
+   */
+  dismissed: boolean;
+}
+
 export interface API_Notification {
   id: string;
   link: string;
@@ -114,14 +131,11 @@ export interface API_Notification {
     headline: string;
     subHeadline?: string | any;
   };
-
   icon?: {
     name: string;
     color?: string;
   };
-  onClear?: (options: {
-    /** True when the user dismissed the notification. */ dismissed: boolean;
-  }) => void;
+  onClear?: (options: OnClearOptions) => void;
 }
 
 type API_Versions = Record<string, string>;
