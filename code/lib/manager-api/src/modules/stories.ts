@@ -574,13 +574,14 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     /* EXPERIMENTAL APIs */
     experimental_updateStatus: async (id, update) => {
       const { status } = store.getState();
-      const addition = Object.entries(update).reduce<StatusState>((acc, [storyId, value]) => {
-        acc[storyId] = acc[storyId] || {};
-        acc[storyId][id] = value;
+      const newStatus = { ...status };
 
-        return acc;
-      }, {});
-      await store.setState({ status: merge(status, addition) }, { persistence: 'session' });
+      Object.entries(update).forEach(([storyId, value]) => {
+        newStatus[storyId] = { ...(newStatus[storyId] || {}) };
+        newStatus[storyId][id] = value;
+      });
+
+      await store.setState({ status: newStatus }, { persistence: 'session' });
     },
   };
 

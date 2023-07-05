@@ -1,16 +1,16 @@
-import { Consumer, useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi } from '@storybook/manager-api';
 import type {
   StoriesHash,
   GroupEntry,
   ComponentEntry,
   StoryEntry,
-  Combo,
   State,
+  API,
 } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
-import type { MutableRefObject } from 'react';
+import type { ComponentProps, MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
@@ -29,6 +29,16 @@ import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
 
 import { isStoryHoistable, createId, getAncestorIds, getDescendantIds, getLink } from './utils';
+
+type StoryStateKey = State['status'][keyof State['status']][0]['status'];
+const order: StoryStateKey[] = ['unknown', 'pending', 'success', 'warn', 'error'];
+const mapping: Record<StoryStateKey, null | [ComponentProps<typeof Icons>['icon'], string]> = {
+  unknown: null,
+  pending: ['watch', 'currentColor'],
+  success: ['passed', 'green'],
+  warn: ['changed', 'orange'],
+  error: ['failed', 'red'],
+};
 
 export const Action = styled.button(({ theme }) => ({
   display: 'inline-flex',
@@ -171,6 +181,7 @@ interface NodeProps {
   setFullyExpanded?: () => void;
   onSelectStoryId: (itemId: string) => void;
   status: State['status'][keyof State['status']];
+  api: API;
 }
 
 const Node = React.memo<NodeProps>(function Node({
@@ -186,13 +197,25 @@ const Node = React.memo<NodeProps>(function Node({
   isExpanded,
   setExpanded,
   onSelectStoryId,
+  api,
 }) {
-  const api = useStorybookApi();
-  if (!isDisplayed) return null;
+  if (!isDisplayed) {
+    return null;
+  }
 
   const id = createId(item.id, refId);
   if (item.type === 'story' || item.type === 'docs') {
     const LeafNode = item.type === 'docs' ? DocumentNode : StoryNode;
+
+    const statusIcon = Object.values(status || {}).reduce<
+      typeof status[keyof typeof status]['status']
+    >((acc, s) => {
+      if (order.indexOf(s.status) > order.indexOf(acc)) {
+        return s.status;
+      }
+      return acc;
+    }, 'unknown');
+    const mapped = mapping[statusIcon];
 
     return (
       <LeafNodeStyleWrapper data-selected={isSelected}>
@@ -221,7 +244,7 @@ const Node = React.memo<NodeProps>(function Node({
             Skip to canvas
           </SkipToContentLink>
         )}
-        {status ? <Icons icon="add" /> : null}
+        {mapped ? <Icons icon={mapped[0]} style={{ color: mapped[1] }} /> : null}
       </LeafNodeStyleWrapper>
     );
   }
@@ -352,6 +375,7 @@ export const Tree = React.memo<{
   onSelectStoryId,
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const api = useStorybookApi();
 
   // Find top-level nodes and group them so we can hoist any orphans and expand any roots.
   const [rootIds, orphanIds, initialExpanded] = useMemo(
@@ -482,6 +506,7 @@ export const Tree = React.memo<{
         const isDisplayed = !item.parent || ancestry[itemId].every((a: string) => expanded[a]);
         return (
           <Node
+            api={api}
             key={id}
             item={item}
             status={status?.[itemId]}
