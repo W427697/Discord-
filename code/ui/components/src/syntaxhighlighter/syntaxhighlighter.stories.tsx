@@ -1,7 +1,12 @@
+import { ThemeProvider, ensure, themes } from '@storybook/theming';
+
 import type { ComponentProps } from 'react';
 import React from 'react';
-import { ThemeProvider, themes, ensure } from '@storybook/theming';
+import scss from 'react-syntax-highlighter/dist/esm/languages/prism/scss';
 import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
+
+// Register custom language
+SyntaxHighlighter.registerLanguage('scss', scss);
 
 export default {
   component: SyntaxHighlighter,
@@ -105,6 +110,18 @@ export const GraphQL = {
     }
   }
 `,
+  },
+};
+
+export const CustomSyntax = {
+  args: {
+    language: 'scss',
+    children: `// Custom language syntax registered
+div.parent {
+  div.child {
+    color: $red;
+  }
+}`,
   },
 };
 
