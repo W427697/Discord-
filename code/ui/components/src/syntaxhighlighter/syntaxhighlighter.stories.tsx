@@ -2,7 +2,6 @@ import { ThemeProvider, ensure, themes } from '@storybook/theming';
 
 import type { ComponentProps } from 'react';
 import React from 'react';
-import scss from 'react-syntax-highlighter/dist/esm/languages/prism/scss';
 import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
 
 export default {
@@ -120,7 +119,12 @@ div.parent {
   }
 }`,
   },
-  loaders: [() => SyntaxHighlighter.registerLanguage('scss', scss)],
+  loaders: [
+    async () => {
+      const scss = (await import('react-syntax-highlighter/dist/esm/languages/prism/scss')).default;
+      SyntaxHighlighter.registerLanguage('scss', scss);
+    },
+  ],
 };
 
 export const Unsupported = {
