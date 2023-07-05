@@ -29,11 +29,8 @@ import { menuTool } from './tools/menu';
 import { addonsTool } from './tools/addons';
 import { remountTool } from './tools/remount';
 
-export const getTools = (getFn: API['getElements']) =>
-  Object.values(getFn<Addon_BaseType>(types.TOOL));
-
-export const getToolsExtra = (getFn: API['getElements']) =>
-  Object.values(getFn<Addon_BaseType>(types.TOOLEXTRA));
+export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
+export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
 
 const Bar: FunctionComponent<{ shown: boolean } & Record<string, any>> = ({ shown, ...props }) => (
   <FlexBar {...props} />
