@@ -29,7 +29,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
   ARG_TYPE_SECTIONS.forEach((section) => {
     const props = extractComponentProps(component, section);
 
-    props.forEach(({ docgenInfo }) => {
+    props.forEach(({ docgenInfo, propDef }) => {
       const {
         name,
         description,
@@ -45,7 +45,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       }
 
       const sbType =
-        section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type.toString() };
+        section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type?.toString() };
 
       const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
         ' | undefined',

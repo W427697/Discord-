@@ -45,9 +45,9 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       }
 
       const sbType =
-        section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type.toString() };
+        section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type?.toString() };
 
-      const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
+      const definedTypes = `${(type ? type.name ?? type.toString() : ' ').replace(
         ' | undefined',
         ''
       )}`;
