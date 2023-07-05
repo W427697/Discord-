@@ -6,6 +6,7 @@ export default {
   tags: ['autodocs'],
   parameters: {
     chromatic: { disable: true },
+    // Select all the headings in the document
     docs: { toc: { headingSelector: 'h1, h2, h3' } },
   },
 };

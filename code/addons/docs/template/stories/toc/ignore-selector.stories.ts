@@ -6,6 +6,7 @@ export default {
   tags: ['autodocs'],
   parameters: {
     chromatic: { disable: true },
+    // Skip the first story in the TOC
     docs: { toc: { ignoreSelector: '#one' } },
   },
 };

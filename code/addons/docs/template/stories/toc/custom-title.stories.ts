@@ -6,6 +6,7 @@ export default {
   tags: ['autodocs'],
   parameters: {
     chromatic: { disable: true },
+    // Custom title label
     docs: { toc: { title: 'Contents' } },
   },
 };

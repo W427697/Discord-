@@ -9,7 +9,6 @@ import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import { SourceContainer } from './SourceContainer';
 import { scrollToElement } from './utils';
-import { useOf } from './useOf';
 import { TableOfContents } from '../components/TableOfContents';
 
 const { document, window: globalWindow } = global;
