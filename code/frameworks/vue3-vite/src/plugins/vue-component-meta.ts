@@ -6,7 +6,7 @@ import { createFilter } from 'vite';
 import MagicString from 'magic-string';
 
 import type { ComponentMeta, MetaCheckerOptions } from 'vue-component-meta';
-import { TypeMeta, createComponentMetaChecker } from 'vue-component-meta';
+import { TypeMeta, createComponentMetaCheckerByJsonConfig } from 'vue-component-meta';
 
 type MetaSource = {
   exportName: string;
@@ -25,8 +25,12 @@ export function vueComponentMeta(): PluginOption {
     printer: { newLine: 1 },
   };
 
-  const checker = createComponentMetaChecker(
-    path.join(getProjectRoot().absolutePathToProjectRoot, 'tsconfig.json'),
+  const checker = createComponentMetaCheckerByJsonConfig(
+    path.resolve(getProjectRoot().absolutePathToProjectRoot),
+    {
+      extends: '../../tsconfig.json',
+      include: ['**/*'],
+    },
     checkerOptions
   );
 
