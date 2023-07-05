@@ -25,12 +25,13 @@ export const DocsContainer: FC<PropsWithChildren<DocsContainerProps>> = ({
   children,
 }) => {
   let toc;
+
   try {
     const meta = useOf('meta', ['meta']);
-    toc = meta.preparedMeta.parameters?.docs?.toc || {};
+    toc = meta.preparedMeta.parameters?.docs?.toc;
   } catch (err) {
     // No meta, falling back to project annotations
-    toc = context?.projectAnnotations?.parameters?.docs?.toc || {};
+    toc = context?.projectAnnotations?.parameters?.docs?.toc;
   }
 
   useEffect(() => {
