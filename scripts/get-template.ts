@@ -26,10 +26,14 @@ async function getDirectories(source: string) {
 export async function getTemplate(
   cadence: Cadence,
   scriptName: string,
-  { index, total }: { index: number; total: number }
+  {
+    index,
+    total,
+    skipExistingSandboxes,
+  }: { index: number; total: number; skipExistingSandboxes: boolean }
 ) {
   let potentialTemplateKeys: TemplateKey[] = [];
-  if (await pathExists(sandboxDir)) {
+  if ((await pathExists(sandboxDir)) && skipExistingSandboxes !== true) {
     const sandboxes = await getDirectories(sandboxDir);
     potentialTemplateKeys = sandboxes
       .map((dirName) => {
@@ -117,8 +121,13 @@ async function getParallelismSummary(cadence?: Cadence, scriptName?: string) {
   return summary.concat('\n').join('\n');
 }
 
-type RunOptions = { cadence?: Cadence; task?: string; debug: boolean };
-async function run({ cadence, task, debug }: RunOptions) {
+type RunOptions = {
+  cadence?: Cadence;
+  task?: string;
+  debug: boolean;
+  skipExistingSandboxes: boolean;
+};
+async function run({ cadence, task, debug, skipExistingSandboxes }: RunOptions) {
   if (debug) {
     if (task && !tasks.includes(task)) {
       throw new Error(
@@ -138,6 +147,7 @@ async function run({ cadence, task, debug }: RunOptions) {
     await getTemplate(cadence as Cadence, task, {
       index: +CIRCLE_NODE_INDEX,
       total: +CIRCLE_NODE_TOTAL,
+      skipExistingSandboxes,
     })
   );
 }
@@ -147,6 +157,7 @@ if (require.main === module) {
     .description('Retrieve the template to run for a given cadence and task')
     .option('--cadence <cadence>', 'Which cadence you want to run the script for')
     .option('--task <task>', 'Which task you want to run the script for')
+    .option('--skip-existing-sandboxes', 'Skip existing sandboxes when determining the template')
     .option('--debug', 'Whether to list the parallelism counts for tasks by cadence', false);
 
   program.parse(process.argv);
