@@ -27,7 +27,7 @@ export const DocsContainer: FC<PropsWithChildren<DocsContainerProps>> = ({
   let toc;
 
   try {
-    const meta = useOf('meta', ['meta']);
+    const meta = context.resolveOf('meta', ['meta']);
     toc = meta.preparedMeta.parameters?.docs?.toc;
   } catch (err) {
     // No meta, falling back to project annotations
