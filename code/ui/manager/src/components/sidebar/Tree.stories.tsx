@@ -1,5 +1,5 @@
 // @TODO: use addon-interactions and remove the rule disable above
-import React from 'react';
+import React, { useState } from 'react';
 import type { ComponentEntry, IndexHash } from '@storybook/manager-api';
 import { action } from '@storybook/addon-actions';
 
@@ -52,7 +52,7 @@ export const Full: Story = {
     setHighlightedItemId: action('setHighlightedItemId'),
   },
   render: (args) => {
-    const [selectedId, setSelectedId] = React.useState(storyId);
+    const [selectedId, setSelectedId] = useState(storyId);
     return (
       <Tree
         {...args}
@@ -78,7 +78,7 @@ export const SingleStoryComponents: Story = {
     setHighlightedItemId: action('setHighlightedItemId'),
   },
   render: (args) => {
-    const [selectedId, setSelectedId] = React.useState('tooltip-tooltipbuildlist--default');
+    const [selectedId, setSelectedId] = useState('tooltip-tooltipbuildlist--default');
     return (
       <Tree
         {...args}
@@ -148,7 +148,7 @@ export const SingleStoryComponents: Story = {
 
 export const DocsOnlySingleStoryComponents = {
   render: () => {
-    const [selectedId, setSelectedId] = React.useState('tooltip-tooltipbuildlist--default');
+    const [selectedId, setSelectedId] = useState('tooltip-tooltipbuildlist--default');
     return (
       <Tree
         docsMode={false}
