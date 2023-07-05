@@ -60,16 +60,19 @@
   },
   "devDependencies": {
     "css-loader": "*",
-    "typescript": "~4.9.3",
     "vue-tsc": "latest"
   },
   "peerDependencies": {
     "@babel/core": "*",
     "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
+    "typescript": "*",
     "vue": "^2.7.0"
   },
   "peerDependenciesMeta": {
     "babel-loader": {
+      "optional": true
+    },
+    "typescript": {
       "optional": true
     }
   },
