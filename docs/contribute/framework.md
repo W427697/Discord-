@@ -130,7 +130,7 @@ The [preset API](../addons/writing-presets) is where you will configure the Stor
 
 #### `preview.js` ([example](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/preview.tsx))
 
-The (optional) [preview API](../configure/overview#configure-story-rendering) is where you configure the rendering of stories, such as global decorators or initializing some runtime config needed for your framework to behave as expected. If your framework requires this file, note that you also need to [configure the `previewAnnotations` in `preset.js`](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/preset.ts#L66-L69).
+The (optional) [preview API](../configure/overview#configure-story-rendering) is where you configure the rendering of stories, such as global decorators or initializing some runtime config needed for your framework to behave as expected. If your framework requires this file, note that you also need to [configure the `previewAnnotations` in `preset.js`](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/preset.ts#L71-L74).
 
 #### `types.ts` ([example](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/src/types.ts))
 
