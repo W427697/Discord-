@@ -10,6 +10,7 @@ import type {
 } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
+import type { API_ViewMode } from './api';
 import type {
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
@@ -433,7 +434,15 @@ export interface Addon_WrapperType {
    *
    * This component must accept a children prop, and render it.
    */
-  render: FC<PropsWithChildren<{}>>;
+  render: FC<
+    PropsWithChildren<{
+      index: number;
+      children: ReactNode;
+      id: string;
+      storyId: StoryId;
+      active: boolean;
+    }>
+  >;
 }
 
 type Addon_TypeBaseNames = Exclude<

@@ -68,14 +68,14 @@ export interface API_Provider<API> {
   [key: string]: any;
 }
 
-export type API_IframeRenderer = FC<{
-  storyId: string;
-  viewMode: API_ViewMode;
-  id: string;
-  baseUrl: string;
-  scale: number;
-  queryParams: Record<string, any>;
-}>;
+export type API_IframeRenderer = (
+  storyId: string,
+  viewMode: API_ViewMode,
+  id: string,
+  baseUrl: string,
+  scale: number,
+  queryParams: Record<string, any>
+) => React.ReactElement<any, any> | null;
 
 export interface API_UIOptions {
   name?: string;

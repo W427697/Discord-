@@ -1,6 +1,6 @@
-import type { FunctionComponent, ReactNode } from 'react';
+import type { ReactElement } from 'react';
 import type { State, API, LeafEntry } from '@storybook/manager-api';
-import type { API_ViewMode, StoryId } from '@storybook/types';
+import type { Addon_WrapperType, API_ViewMode, StoryId } from '@storybook/types';
 
 export interface PreviewProps {
   api: API;
@@ -23,20 +23,8 @@ export interface PreviewProps {
   withLoader: boolean;
 }
 
-export interface WrapperProps {
-  index: number;
-  children: ReactNode;
-  id: string;
-  storyId: StoryId;
-  active: boolean;
-}
-
-export interface Wrapper {
-  render: FunctionComponent<WrapperProps>;
-}
-
 export interface ApplyWrappersProps {
-  wrappers: Wrapper[];
+  wrappers: Addon_WrapperType[];
   viewMode: State['viewMode'];
   id: string;
   storyId: StoryId;
@@ -50,7 +38,7 @@ export type CustomCanvasRenderer = (
   baseUrl: string,
   scale: number,
   queryParams: Record<string, any>
-) => ReactNode;
+) => ReactElement<any, any> | null;
 
 export interface FramesRendererProps {
   entry: LeafEntry;
