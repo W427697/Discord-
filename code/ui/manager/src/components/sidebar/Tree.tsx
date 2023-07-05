@@ -1,5 +1,12 @@
-import { useStorybookApi } from '@storybook/manager-api';
-import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/manager-api';
+import { Consumer, useStorybookApi } from '@storybook/manager-api';
+import type {
+  StoriesHash,
+  GroupEntry,
+  ComponentEntry,
+  StoryEntry,
+  Combo,
+  State,
+} from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
@@ -163,10 +170,12 @@ interface NodeProps {
   setExpanded: (action: ExpandAction) => void;
   setFullyExpanded?: () => void;
   onSelectStoryId: (itemId: string) => void;
+  status: State['status'][keyof State['status']];
 }
 
 const Node = React.memo<NodeProps>(function Node({
   item,
+  status,
   refId,
   docsMode,
   isOrphan,
@@ -184,6 +193,7 @@ const Node = React.memo<NodeProps>(function Node({
   const id = createId(item.id, refId);
   if (item.type === 'story' || item.type === 'docs') {
     const LeafNode = item.type === 'docs' ? DocumentNode : StoryNode;
+
     return (
       <LeafNodeStyleWrapper data-selected={isSelected}>
         <LeafNode
@@ -211,6 +221,7 @@ const Node = React.memo<NodeProps>(function Node({
             Skip to canvas
           </SkipToContentLink>
         )}
+        {status ? <Icons icon="add" /> : null}
       </LeafNodeStyleWrapper>
     );
   }
@@ -320,6 +331,7 @@ const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
 export const Tree = React.memo<{
   isBrowsing: boolean;
   isMain: boolean;
+  status?: State['status'];
   refId: string;
   data: StoriesHash;
   docsMode: boolean;
@@ -332,6 +344,7 @@ export const Tree = React.memo<{
   isMain,
   refId,
   data,
+  status,
   docsMode,
   highlightedRef,
   setHighlightedItemId,
@@ -471,6 +484,7 @@ export const Tree = React.memo<{
           <Node
             key={id}
             item={item}
+            status={status?.[itemId]}
             refId={refId}
             docsMode={docsMode}
             isOrphan={orphanIds.some((oid) => itemId === oid || itemId.startsWith(`${oid}-`))}

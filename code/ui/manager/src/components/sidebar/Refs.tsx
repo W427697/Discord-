@@ -1,5 +1,6 @@
 import type { FC, MutableRefObject } from 'react';
 import React, { useMemo, useState, useRef, useCallback } from 'react';
+import type { State } from '@storybook/manager-api';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -95,7 +96,9 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
+export const Ref: FC<RefType & RefProps & { status?: State['status'] }> = React.memo(function Ref(
+  props
+) {
   const { docsOptions } = useStorybookState();
   const api = useStorybookApi();
   const {
@@ -161,6 +164,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
           {state === 'empty' && <EmptyBlock isMain={isMain} />}
           {state === 'ready' && (
             <Tree
+              status={props.status}
               isBrowsing={isBrowsing}
               isMain={isMain}
               refId={refId}
