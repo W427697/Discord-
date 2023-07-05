@@ -16,7 +16,7 @@ type MetaSource = {
   MetaCheckerOptions['schema'];
 
 export function vueComponentMeta(): PluginOption {
-  const include = /\.(vue|ts|tsx|jsx)$/;
+  const include = /\.(vue|ts|js|tsx|jsx)$/;
   const filter = createFilter(include);
 
   const checkerOptions: MetaCheckerOptions = {
@@ -43,7 +43,7 @@ export function vueComponentMeta(): PluginOption {
         componentsMeta.forEach((meta) => {
           const exportName = exportNames[componentsMeta.indexOf(meta)];
 
-          if (meta.type in [TypeMeta.Class, TypeMeta.Function]) {
+          if (meta.type === TypeMeta.Class || meta.type === TypeMeta.Function) {
             metaSources.push({
               exportName,
               displayName: exportName === 'default' ? getNameFromFile(id).name : exportName,
@@ -61,7 +61,7 @@ export function vueComponentMeta(): PluginOption {
           if (
             !id.endsWith('.vue') &&
             metaSources[0].exportName === 'default' &&
-            metaSources[0].type in [TypeMeta.Class, TypeMeta.Function]
+            (metaSources[0].type === TypeMeta.Function || metaSources[0].type === TypeMeta.Class)
           ) {
             s.replace('export default defineComponent', 'const _sfc_main = defineComponent');
             s.append(`\nexport default _sfc_main`);
