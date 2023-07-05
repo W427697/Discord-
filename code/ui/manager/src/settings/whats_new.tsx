@@ -2,6 +2,7 @@ import type { FC, ComponentProps } from 'react';
 import React, { useEffect, useState, Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import { Icons, Loader } from '@storybook/components';
+import { useStorybookApi } from '@storybook/manager-api';
 
 const Centered = styled.div({
   top: '50%',
@@ -50,62 +51,46 @@ const AlertIcon = styled(((props) => <Icons icon="alert" {...props} />) as FC<
   margin: '0 auto',
 }));
 
-const getIframeUrl = (version: string) => {
-  const [major, minor] = version.split('.');
-  return `https://storybook.js.org/releases/iframe/${major}.${minor}`;
-};
-
-const ReleaseNotesLoader: FC = () => (
+const WhatsNewLoader: FC = () => (
   <Centered>
     <LoaderWrapper>
       <Loader />
     </LoaderWrapper>
-    <Message>Loading release notes</Message>
+    <Message>Loading...</Message>
   </Centered>
 );
 
 const MaxWaitTimeMessaging: FC = () => (
   <Centered>
     <AlertIcon />
-    <Message>
-      The release notes couldn't be loaded. Check your internet connection and try again.
-    </Message>
+    <Message>The page couldn't be loaded. Check your internet connection and try again.</Message>
   </Centered>
 );
 
-export interface ReleaseNotesProps {
+export interface WhatsNewProps {
   didHitMaxWaitTime: boolean;
   isLoaded: boolean;
-  setLoaded: (isLoaded: boolean) => void;
-  version: string;
+  onLoad: () => void;
+  url?: string;
 }
 
-const PureReleaseNotesScreen: FC<ReleaseNotesProps> = ({
-  didHitMaxWaitTime,
-  isLoaded,
-  setLoaded,
-  version,
-}) => (
+const PureWhatsNewScreen: FC<WhatsNewProps> = ({ didHitMaxWaitTime, isLoaded, onLoad, url }) => (
   <Fragment>
-    {!isLoaded && !didHitMaxWaitTime && <ReleaseNotesLoader />}
+    {!isLoaded && !didHitMaxWaitTime && <WhatsNewLoader />}
     {didHitMaxWaitTime ? (
       <MaxWaitTimeMessaging />
     ) : (
-      <Iframe
-        isLoaded={isLoaded}
-        onLoad={() => setLoaded(true)}
-        src={getIframeUrl(version)}
-        title={`Release notes for Storybook version ${version}`}
-      />
+      <Iframe isLoaded={isLoaded} onLoad={onLoad} src={url} title={`What's new?`} />
     )}
   </Fragment>
 );
 
 const MAX_WAIT_TIME = 10000; // 10 seconds
 
-const ReleaseNotesScreen: FC<
-  Omit<ReleaseNotesProps, 'isLoaded' | 'setLoaded' | 'didHitMaxWaitTime'>
-> = ({ version }) => {
+const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxWaitTime'>> = ({
+  url,
+}) => {
+  const api = useStorybookApi();
   const [isLoaded, setLoaded] = useState(false);
   const [didHitMaxWaitTime, setDidHitMaxWaitTime] = useState(false);
 
@@ -115,13 +100,16 @@ const ReleaseNotesScreen: FC<
   }, [isLoaded]);
 
   return (
-    <PureReleaseNotesScreen
+    <PureWhatsNewScreen
       didHitMaxWaitTime={didHitMaxWaitTime}
       isLoaded={isLoaded}
-      setLoaded={setLoaded}
-      version={version}
+      onLoad={() => {
+        api.whatsNewHasBeenRead();
+        setLoaded(true);
+      }}
+      url={url}
     />
   );
 };
 
-export { ReleaseNotesScreen, PureReleaseNotesScreen };
+export { WhatsNewScreen, PureWhatsNewScreen };
