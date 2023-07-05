@@ -1,12 +1,11 @@
-import type {
-  SBEnumType,
-  SBObjectType,
-  SBScalarType,
-  SBType,
-  StrictArgTypes,
-} from '@storybook/types';
-import type { ArgTypesExtractor, DocgenInfo } from '@storybook/docs-tools';
-import { hasDocgen, extractComponentProps } from '@storybook/docs-tools';
+import type { SBType, StrictArgTypes } from '@storybook/types';
+
+import {
+  hasDocgen,
+  extractComponentProps,
+  type ArgTypesExtractor,
+  type DocgenInfo,
+} from '@storybook/docs-tools';
 
 type Schema = { kind: string; schema: [] | object; type?: string } | string;
 type MetaDocgenInfo = DocgenInfo & {
@@ -18,21 +17,23 @@ type MetaDocgenInfo = DocgenInfo & {
   tags: { name: string; text: string }[];
 };
 
-const argTypeSections = ['props', 'events', 'slots', 'methods'];
+const ARG_TYPE_SECTIONS = ['props', 'events', 'slots', 'methods', 'exposed'];
 
 export const extractArgTypes: ArgTypesExtractor = (component) => {
   if (!hasDocgen(component)) {
     return null;
   }
+
   const argTypes: StrictArgTypes = {};
-  argTypeSections.forEach((section) => {
+
+  ARG_TYPE_SECTIONS.forEach((section) => {
     const props = extractComponentProps(component, section);
 
     props.forEach(({ docgenInfo }) => {
       const {
         name,
-        type,
         description,
+        type,
         default: defaultSummary,
         required,
         tags = [],
@@ -43,25 +44,21 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
         return; // skip duplicate and global props
       }
 
-      const sbType = section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: 'void' };
+      const sbType =
+        section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type.toString() };
 
       const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
         ' | undefined',
         ''
       )}`;
-      const descriptions = `${
-        tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
-      }${description}`;
 
-      // enalble control only for props and slots
-      const control: { disable?: boolean; type?: string } = {};
-      if (section !== 'props' && section !== 'slots') {
-        control.disable = true;
-      }
-      // set control to boolean if type is boolean
-      if (definedTypes === 'boolean') {
-        control.type = 'boolean';
-      }
+      const descriptions = `${
+        tags.length
+          ? `${tags
+              .map((tag: { name: any; text: any }) => `@${tag.name}: ${tag.text}`)
+              .join('<br>')}<br><br>`
+          : ''
+      }${description}`; // nestedTypes
 
       argTypes[name] = {
         name,
@@ -74,50 +71,51 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
           defaultValue: { summary: defaultSummary },
           category: section,
         },
-        control,
+        control: { disable: !['props', 'slots'].includes(section) },
       };
     });
   });
+
   return argTypes;
 };
 
-export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
-  if (typeof schemaType !== 'object') {
-    return { name: schemaType } as SBScalarType;
-  }
+export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
   if (
     typeof schemaType === 'object' &&
     schemaType.kind === 'enum' &&
     Array.isArray(schemaType.schema)
   ) {
-    const values = schemaType.schema
-      .filter((item) => item !== 'undefined' && item !== null)
-      .map((item) => (typeof item === 'string' ? item.replace(/"/g, '') : item));
+    const values: string[] =
+      schemaType.schema
+        .filter(
+          (item: Schema) =>
+            item !== 'undefined' &&
+            ((item !== null && typeof item === 'object' && item.kind !== 'array') ||
+              typeof item === 'string')
+        )
+        .map((item: Schema) => (typeof item !== 'string' ? item.schema.toString() : item))
+        .map((item: string) => item.replace(/'/g, '"')) || [];
 
-    const sbType: SBType = { name: 'enum', value: values };
-    const stringIndex = values.indexOf('string');
-    const numberIndex = values.indexOf('number');
-    const booleanIndex = values.indexOf('boolean');
-    const RecordIndex = values.indexOf('Record');
+    const isSingle = values.length === 1;
+    const isBoolean =
+      values.length === 2 && values.every((item: string) => item === 'true' || item === 'false');
+    const isLateralUnion =
+      values.length > 1 &&
+      values.every((item: string) => item.startsWith('"') && item.endsWith('"'));
+    const isEnum =
+      values.length > 1 &&
+      values.every(
+        (item: string) => !item.startsWith('"') && typeof item === 'string' && item.includes('.')
+      );
 
-    if (stringIndex !== -1 || numberIndex !== -1 || booleanIndex !== -1 || RecordIndex !== -1) {
-      const typeName =
-        values[
-          (stringIndex + 1 || numberIndex + 1 || booleanIndex + 1 || RecordIndex + 1 || 1) - 1
-        ];
-      return { ...sbType, name: typeName, value: undefined } as SBScalarType;
-    }
-    const hasObject = values.find((item) =>
-      ['object', 'Record', '[]', 'array', 'Array'].some((substring) => {
-        return item.toString().includes(substring);
-      })
-    );
+    const sbType = { name: 'enum', value: values.map((item: string) => item.replace(/"/g, '')) };
+    if (isSingle) return { name: values[0] };
+    if (isBoolean) return { ...sbType, name: 'boolean' };
+    if (isLateralUnion || isEnum) return { ...sbType, name: 'enum' };
+
     return {
-      ...sbType,
-      name: hasObject ? 'array' : 'enum',
-      value: hasObject ? undefined : values,
-      type: hasObject ? 'array' : values.length === 2,
-    } as SBEnumType;
+      name: values.length ? values[0] : 'array',
+    };
   }
   if (
     typeof schemaType === 'object' &&
@@ -130,11 +128,10 @@ export const convert = ({ schema: schemaType }: MetaDocgenInfo): SBType => {
         return [key, value as MetaDocgenInfo];
       })
     );
-
     return {
       name: 'object',
       value: props,
-    } as SBObjectType;
+    };
   }
-  return { name: schemaType } as unknown as SBType;
+  return { name: schemaType };
 };

@@ -1,6 +1,11 @@
-import type { SBScalarType, SBType, StrictArgTypes } from '@storybook/types';
-import type { ArgTypesExtractor, DocgenInfo } from '@storybook/docs-tools';
-import { hasDocgen, extractComponentProps } from '@storybook/docs-tools';
+import type { SBType, StrictArgTypes } from '@storybook/types';
+
+import {
+  hasDocgen,
+  extractComponentProps,
+  type ArgTypesExtractor,
+  type DocgenInfo,
+} from '@storybook/docs-tools';
 
 type Schema = { kind: string; schema: [] | object; type?: string } | string;
 type MetaDocgenInfo = DocgenInfo & {
@@ -24,7 +29,7 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
   ARG_TYPE_SECTIONS.forEach((section) => {
     const props = extractComponentProps(component, section);
 
-    props.forEach(({ docgenInfo, propDef }) => {
+    props.forEach(({ docgenInfo }) => {
       const {
         name,
         description,
@@ -42,15 +47,17 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
       const sbType =
         section === 'props' ? convert(docgenInfo as MetaDocgenInfo) : { name: type.toString() };
 
-      console.log('--- sbType', sbType);
-
       const definedTypes = `${(type ? type.name || type.toString() : ' ').replace(
         ' | undefined',
         ''
       )}`;
 
       const descriptions = `${
-        tags.length ? `${tags.map((tag) => `@${tag.name}: ${tag.text}`).join('<br>')}<br><br>` : ''
+        tags.length
+          ? `${tags
+              .map((tag: { name: any; text: any }) => `@${tag.name}: ${tag.text}`)
+              .join('<br>')}<br><br>`
+          : ''
       }${description}`; // nestedTypes
 
       argTypes[name] = {
@@ -73,35 +80,41 @@ export const extractArgTypes: ArgTypesExtractor = (component) => {
 };
 
 export const convert = ({ schema: schemaType }: MetaDocgenInfo) => {
-  if (typeof schemaType !== 'object') {
-    return { name: schemaType } as SBScalarType;
-  }
   if (
     typeof schemaType === 'object' &&
     schemaType.kind === 'enum' &&
     Array.isArray(schemaType.schema)
   ) {
-    const values =
-      schemaType.type
-        ?.split('|')
-        .map((item) => item.trim())
-        .filter((item) => item !== 'undefined' && item !== null) || [];
+    const values: string[] =
+      schemaType.schema
+        .filter(
+          (item: Schema) =>
+            item !== 'undefined' &&
+            ((item !== null && typeof item === 'object' && item.kind !== 'array') ||
+              typeof item === 'string')
+        )
+        .map((item: Schema) => (typeof item !== 'string' ? item.schema.toString() : item))
+        .map((item: string) => item.replace(/'/g, '"')) || [];
 
-    const sbType = { name: 'enum', value: values };
-    const isUnion =
-      values.length > 1 && values.some((item) => !(item.startsWith('"') && item.endsWith('"')));
-    if (values.length === 1) return { name: values[0] };
-    if (isUnion) return { name: 'union', value: values };
+    const isSingle = values.length === 1;
+    const isBoolean =
+      values.length === 2 && values.every((item: string) => item === 'true' || item === 'false');
+    const isLateralUnion =
+      values.length > 1 &&
+      values.every((item: string) => item.startsWith('"') && item.endsWith('"'));
+    const isEnum =
+      values.length > 1 &&
+      values.every(
+        (item: string) => !item.startsWith('"') && typeof item === 'string' && item.includes('.')
+      );
 
-    const hasObject = values.find((item) =>
-      ['object', 'Record', '[]', 'array', 'Array'].some((substring) => {
-        return item.toString().includes(substring);
-      })
-    );
+    const sbType = { name: 'enum', value: values.map((item: string) => item.replace(/"/g, '')) };
+    if (isSingle) return { name: values[0] };
+    if (isBoolean) return { ...sbType, name: 'boolean' };
+    if (isLateralUnion || isEnum) return { ...sbType, name: 'enum' };
+
     return {
-      ...sbType,
-      name: hasObject ? 'array' : 'enum',
-      value: hasObject ? undefined : values,
+      name: values.length ? values[0] : 'array',
     };
   }
   if (
