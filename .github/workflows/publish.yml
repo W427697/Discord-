@@ -53,6 +53,8 @@ jobs:
         run: |
           yarn install
 
+      # TODO: apply deferred version
+
       - name: Get current version
         id: version
         run: yarn release:get-current-version

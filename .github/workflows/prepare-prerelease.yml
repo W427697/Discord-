@@ -107,7 +107,7 @@ jobs:
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
 
-      - name: Bump version
+      - name: Bump version # TODO: defer
         id: bump-version
         run: |
           yarn release:version --release-type ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('{0} {1}', '--pre-id', inputs.pre-id) || '' }} --verbose

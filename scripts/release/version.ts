@@ -22,8 +22,16 @@ program
     '-E, --exact <version>',
     'Use exact version instead of calculating from current version, eg. "7.2.0-canary.123". Can not be combined with --release-type or --pre-id'
   )
+  .option(
+    '-D, --deferred',
+    'Do not bump versions everywhere, instead set it in code/package.json#deferredNextVersion'
+  )
+  .option('-A, --apply', 'Apply a deferred version bump')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
+/**
+ * @see tocbot docs {@link https://tscanlin.github.io/tocbot/#usage}
+ */
 const optionsSchema = z
   .object({
     releaseType: z
@@ -36,12 +44,29 @@ const optionsSchema = z
       .refine((version) => (version ? semver.valid(version) !== null : true), {
         message: '--exact version has to be a valid semver string',
       }),
+    deferred: z.boolean().optional(),
+    apply: z.boolean().optional(),
     verbose: z.boolean().optional(),
   })
   .superRefine((schema, ctx) => {
     // manual union validation because zod + commander is not great in this case
     const hasExact = 'exact' in schema && schema.exact;
     const hasReleaseType = 'releaseType' in schema && schema.releaseType;
+    const hasDeferred = 'deferred' in schema && schema.deferred;
+    const hasApply = 'apply' in schema && schema.apply;
+    if (hasDeferred && hasApply) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '--deferred cannot be combined with --apply',
+      });
+    }
+    if (hasApply && (hasExact || hasReleaseType)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          '--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion',
+      });
+    }
     if ((hasExact && hasReleaseType) || (!hasExact && !hasReleaseType)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -63,11 +88,16 @@ type BaseOptions = { verbose: boolean };
 type BumpOptions = BaseOptions & {
   releaseType: semver.ReleaseType;
   preId?: string;
+  deferred?: boolean;
 };
 type ExactOptions = BaseOptions & {
   exact: semver.ReleaseType;
+  deferred?: boolean;
 };
-type Options = BumpOptions | ExactOptions;
+type ApplyOptions = BaseOptions & {
+  apply: boolean;
+};
+type Options = BumpOptions | ExactOptions | ApplyOptions;
 
 const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
 const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
@@ -92,12 +122,6 @@ const bumpCodeVersion = async (nextVersion: string) => {
   await writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
 
   console.log(`✅ Bumped version of ${chalk.cyan('code')}'s package.json`);
-};
-
-const bumpAllPackageVersions = async (nextVersion: string, verbose?: boolean) => {
-  console.log(`🤜 Bumping version of ${chalk.cyan('all packages')}...`);
-
-  console.log(`✅ Bumped version of ${chalk.cyan('all packages')}`);
 };
 
 const bumpVersionSources = async (currentVersion: string, nextVersion: string) => {
@@ -194,6 +218,8 @@ export const run = async (options: unknown) => {
   }
   const { verbose } = options;
 
+  // TODO: if apply, set next version from deferred and removed deferred version
+
   console.log(`🚛 Finding Storybook packages...`);
 
   const [packages, currentVersion] = await Promise.all([getWorkspaces(), getCurrentVersion()]);
@@ -231,6 +257,8 @@ export const run = async (options: unknown) => {
       } results in version: ${chalk.bgGreenBright.bold(nextVersion)}`
     );
   }
+
+  // TODO: if deferred, just bump in code package.json
 
   console.log(`⏭ Bumping all packages to ${chalk.blue(nextVersion)}...`);
 
