@@ -143,12 +143,13 @@ export const Tabs: FC<TabsProps> = memo(
     menuName,
   }) => {
     const idList = childrenToList(children).map((i) => i.id);
-    const primeList = useMemo<ChildrenList>(() => childrenToList(children), [...idList]);
-
     const list = useMemo(
       () =>
-        primeList.map((i, index) => ({ ...i, active: selected ? i.id === selected : index === 0 })),
-      [selected, primeList]
+        childrenToList(children).map((i, index) => ({
+          ...i,
+          active: selected ? i.id === selected : index === 0,
+        })),
+      [selected, ...idList]
     );
 
     const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);

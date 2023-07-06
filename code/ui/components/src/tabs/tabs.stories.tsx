@@ -13,6 +13,8 @@ import {
 } from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 import type { ChildrenList } from './tabs.helpers';
+import { IconButton } from '../bar/button';
+import { Icons } from '../icon/icon';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
   Math.floor((1 / 15) * i * 16777215)
@@ -122,20 +124,6 @@ const content = Object.entries(panels).map(([k, v]) => (
 
 export default {
   title: 'Tabs',
-  decorators: [
-    (story) => (
-      <div
-        style={{
-          position: 'relative',
-          height: 'calc(100vh - 20px)',
-          width: 'calc(100vw - 20px)',
-          margin: 10,
-        }}
-      >
-        {story()}
-      </div>
-    ),
-  ],
   args: {
     menuName: 'Addons',
   },
@@ -193,11 +181,11 @@ export const StatefulStaticWithSetBackgroundColor = {
 } satisfies Story;
 
 const customViewports = {
-  chromatic: {
-    name: 'Chromatic',
+  sized: {
+    name: 'Sized',
     styles: {
       width: '380px',
-      height: '963px',
+      height: '500px',
     },
   },
 };
@@ -205,7 +193,7 @@ const customViewports = {
 export const StatefulDynamicWithOpenTooltip = {
   parameters: {
     viewport: {
-      defaultViewport: 'chromatic',
+      defaultViewport: 'sized',
       viewports: customViewports,
     },
     chromatic: { viewports: [380] },
@@ -254,12 +242,14 @@ export const StatefulDynamicWithSelectedAddon = {
   },
   play: async (context) => {
     await StatefulDynamicWithOpenTooltip.play(context);
+    const canvas = within(context.canvasElement);
 
     await waitFor(async () => {
       const popperContainer = await screen.findByTestId('tooltip');
       const tab4 = await findByText(popperContainer, 'Tab title #4', {});
       fireEvent(tab4, new MouseEvent('click', { bubbles: true }));
-      await waitFor(() => screen.findByText('CONTENT 4'));
+      const content4 = await canvas.findByText('CONTENT 4');
+      await expect(content4).toBeVisible();
     });
 
     // reopen the tooltip
@@ -300,6 +290,7 @@ export const StatelessBordered = {
 export const StatelessWithTools = {
   render: (args) => (
     <Tabs
+      bordered
       selected="test3"
       menuName="Addons"
       actions={{
@@ -307,12 +298,12 @@ export const StatelessWithTools = {
       }}
       tools={
         <Fragment>
-          <button type="button" onClick={() => logger.log('1')}>
-            1
-          </button>
-          <button type="button" onClick={() => logger.log('2')}>
-            2
-          </button>
+          <IconButton title="Tool 1">
+            <Icons icon="memory" />
+          </IconButton>
+          <IconButton title="Tool 2">
+            <Icons icon="cpu" />
+          </IconButton>
         </Fragment>
       }
       {...args}
@@ -323,6 +314,9 @@ export const StatelessWithTools = {
 } satisfies Story;
 
 export const StatelessAbsolute = {
+  parameters: {
+    layout: 'fullscreen',
+  },
   render: (args) => (
     <Tabs
       absolute
@@ -339,6 +333,9 @@ export const StatelessAbsolute = {
 } satisfies Story;
 
 export const StatelessAbsoluteBordered = {
+  parameters: {
+    layout: 'fullscreen',
+  },
   render: (args) => (
     <Tabs
       absolute
@@ -356,6 +353,9 @@ export const StatelessAbsoluteBordered = {
 } satisfies Story;
 
 export const StatelessEmpty = {
+  parameters: {
+    layout: 'fullscreen',
+  },
   render: (args) => (
     <Tabs
       actions={{
