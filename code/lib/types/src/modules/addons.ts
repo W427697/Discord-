@@ -325,7 +325,7 @@ export interface Addon_BaseType {
    * The title of the addon.
    * This can be a simple string, but it can also be a React.FunctionComponent or a React.ReactElement.
    */
-  title: FCWithoutChildren | string | ReactElement | ReactNode;
+  title: FCWithoutChildren | ReactNode;
   /**
    * The type of the addon.
    * @example Addon_TypesEnum.PANEL
