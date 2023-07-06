@@ -21,6 +21,13 @@ export function isSupportedType(type: Addon_Types): boolean {
   return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
 }
 
+interface DeprecatedAddonWithId {
+  /**
+   * @deprecated will be removed in 8.0, when registering addons, please use the addon id as the first argument
+   */
+  id?: string;
+}
+
 export class AddonStore {
   constructor() {
     this.promise = new Promise((res) => {
@@ -93,17 +100,20 @@ export class AddonStore {
     return this.elements[type];
   };
 
-  addPanel = (name: string, options: Addon_Type): void => {
-    this.add(name, {
+  addPanel = (
+    id: string,
+    options: Omit<Addon_Type, 'type' | 'id'> & DeprecatedAddonWithId
+  ): void => {
+    this.add(id, {
       type: Addon_TypesEnum.PANEL,
       ...options,
     });
   };
 
-  add = (name: string, addon: Addon_Type) => {
+  add = (id: string, addon: Omit<Addon_Type, 'id'> & DeprecatedAddonWithId) => {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[name] = { id: name, ...addon };
+    collection[id] = { id, ...addon };
   };
 
   setConfig = (value: Addon_Config) => {
