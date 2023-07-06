@@ -259,7 +259,7 @@ jobs:
         type: integer
         default: 2
     executor:
-      class: medium
+      class: medium+
       name: sb_node_16_browsers
     parallelism: << parameters.parallelism >>
     steps:
