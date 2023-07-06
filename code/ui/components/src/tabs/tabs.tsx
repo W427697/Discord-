@@ -7,7 +7,6 @@ import type { Addon_RenderOptions } from '@storybook/types';
 import { Placeholder } from '../placeholder/placeholder';
 import { TabButton } from '../bar/button';
 import { FlexBar } from '../bar/bar';
-import type { ChildrenList } from './tabs.helpers';
 import { childrenToList, VisuallyHidden } from './tabs.helpers';
 import { useList } from './tabs.hooks';
 
