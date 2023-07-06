@@ -1,7 +1,6 @@
 import { expect } from '@storybook/jest';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
-import { logger } from '@storybook/client-logger';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   within,
