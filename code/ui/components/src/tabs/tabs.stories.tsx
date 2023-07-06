@@ -233,14 +233,7 @@ export const StatefulDynamicWithOpenTooltip = {
 } satisfies Story;
 
 export const StatefulDynamicWithSelectedAddon = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'sized',
-      viewports: customViewports,
-    },
-    theme: 'light',
-    chromatic: { viewports: [380] },
-  },
+  ...StatefulDynamicWithOpenTooltip,
   play: async (context) => {
     await StatefulDynamicWithOpenTooltip.play(context);
     const canvas = within(context.canvasElement);
