@@ -124,7 +124,7 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
+export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',

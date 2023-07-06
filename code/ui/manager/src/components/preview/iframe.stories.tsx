@@ -20,6 +20,7 @@ export default {
         },
       },
     },
+    theme: 'light',
     chromatic: { viewports: [700] },
   },
 };
