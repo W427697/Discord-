@@ -314,7 +314,7 @@ export type ReactJSXElement = {
 
 export type Addon_Type = Addon_BaseType | Addon_PageType;
 export interface Addon_BaseType {
-  title: FCWithoutChildren | string | ReactElement | ReactNode;
+  title: FCWithoutChildren | ReactNode;
   type: Addon_Types;
   id?: string;
   route?: (routeOptions: RouterData) => string;
