@@ -5802,6 +5802,7 @@ __metadata:
     polished: ^4.2.2
     react-colorful: ^5.1.2
     telejson: ^7.0.3
+    tocbot: ^4.20.1
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -29215,6 +29216,13 @@ __metadata:
     is-buffer: ^2.0.0
     vfile: ^4.0.0
   checksum: 769591736463332c8c99c418fd94ef0810cf53ae24bdcb7e78b7ce7b0daff5ddf8425e02045e47a722afef538b8986307cf32aee4e36b2568a727b5b6514f81e
+  languageName: node
+  linkType: hard
+
+"tocbot@npm:^4.20.1":
+  version: 4.21.0
+  resolution: "tocbot@npm:4.21.0"
+  checksum: 877d99df40c07ec5e5c2259b820be9c8af9a9f52d582a61b7bed3d43daff820f23031bc613a5cc3bb14ecc34b79c1a45349dcbae8f3a79de7ecc127f366ed3c6
   languageName: node
   linkType: hard
 
