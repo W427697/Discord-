@@ -50,7 +50,6 @@ import {
 } from '../lib/stories';
 
 import type { ComposedRef, ModuleFn } from '../index';
-import { merge } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
