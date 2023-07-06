@@ -1,3 +1,32 @@
+## 7.1.0-beta.0
+
+- Settings: Add what's new page, remove release notes - [#23202](https://github.com/storybookjs/storybook/pull/23202), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
+## 7.1.0-alpha.44
+
+- Next.js: Fix next/image usage in latest Next.js release - [#23296](https://github.com/storybookjs/storybook/pull/23296), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 7.1.0-alpha.43
+
+- Addons: Remove deprecated addPanel use and misc improvements - [#23284](https://github.com/storybookjs/storybook/pull/23284), thanks [@ndelangen](https://github.com/ndelangen)!
+- CSF-tools: Allow type checking in story title - [#22791](https://github.com/storybookjs/storybook/pull/22791), thanks [@honzahruby](https://github.com/honzahruby)!
+
+## 7.1.0-alpha.42
+
+- CLI: Fix pnp paths logic in storybook metadata - [#23259](https://github.com/storybookjs/storybook/pull/23259), thanks [@yannbf](https://github.com/yannbf)!
+
+## 7.1.0-alpha.41
+
+- Controls: Fix UI to add array items - [#22993](https://github.com/storybookjs/storybook/pull/22993), thanks [@sookmax](https://github.com/sookmax)!
+- Next.js: Support disableStaticImages setting - [#23167](https://github.com/storybookjs/storybook/pull/23167), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 7.1.0-alpha.40
+
+- CLI: Parse pnp paths in storybook metadata - [#23199](https://github.com/storybookjs/storybook/pull/23199), thanks [@yannbf](https://github.com/yannbf)!
+- Dependencies: Pin `file-system-cache` to 2.3.0 - [#23221](https://github.com/storybookjs/storybook/pull/23221), thanks [@JReinhold](https://github.com/JReinhold)!
+- PNPM: Hide ModuleNotFound error in pnpm pnp mode - [#23195](https://github.com/storybookjs/storybook/pull/23195), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Svelte: Support v4 - [#22905](https://github.com/storybookjs/storybook/pull/22905), thanks [@JReinhold](https://github.com/JReinhold)!
+
 ## 7.1.0-alpha.39
 
 - CLI: Add new Configure page to templates - [#23171](https://github.com/storybookjs/storybook/pull/23171), thanks [@yannbf](https://github.com/yannbf)!
