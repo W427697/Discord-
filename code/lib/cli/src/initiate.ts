@@ -204,6 +204,7 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
+  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true
