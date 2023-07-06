@@ -83,6 +83,7 @@ const BranchNode = styled.button<{
 const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   cursor: 'pointer',
   display: 'flex',
+  flex: 1,
   alignItems: 'start',
   padding: 3,
   paddingLeft: `${18 + depth * 16}px`,

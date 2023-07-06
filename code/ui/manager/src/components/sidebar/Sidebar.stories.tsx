@@ -153,7 +153,7 @@ export const LoadingWithRefError: Story = {
   ),
 };
 
-export const Statuses: Story = {
+export const StatusesCollapsed: Story = {
   args: {
     previewInitialized: true,
     status: Object.entries(index).reduce<State['status']>((acc, [id, item]) => {
@@ -161,7 +161,16 @@ export const Statuses: Story = {
         return acc;
       }
 
-      return { ...acc, [id]: { something: { status: 'pending', title: '', description: '' } } };
+      if (item.name.includes('B')) {
+        return {
+          ...acc,
+          [id]: {
+            addonA: { status: 'warn', title: 'Addon A', description: 'We just wanted you to know' },
+            addonB: { status: 'error', title: 'Addon B', description: 'This is a big deal!' },
+          },
+        };
+      }
+      return acc;
     }, {}),
   },
   render: (args) => (
@@ -174,4 +183,24 @@ export const Statuses: Story = {
       refs={{}}
     />
   ),
+};
+export const StatusesOpen: Story = {
+  ...StatusesCollapsed,
+  args: {
+    ...StatusesCollapsed.args,
+    status: Object.entries(index).reduce<State['status']>((acc, [id, item]) => {
+      if (item.type !== 'story') {
+        return acc;
+      }
+
+      return {
+        ...acc,
+        [id]: {
+          addonA: { status: 'warn', title: 'Addon A', description: 'We just wanted you to know' },
+          addonB: { status: 'error', title: 'Addon B', description: 'This is a big deal!' },
+        },
+      };
+      return acc;
+    }, {}),
+  },
 };
