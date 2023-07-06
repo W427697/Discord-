@@ -6000,8 +6000,8 @@ __metadata:
     "@types/puppeteer-core": ^2.1.0
     "@types/semver": ^7.3.4
     "@types/util-deprecate": ^1.0.0
-    "@yarnpkg/fslib": ^3.0.0-rc.48
-    "@yarnpkg/libzip": ^3.0.0-rc.48
+    "@yarnpkg/fslib": 3.0.0-rc.46
+    "@yarnpkg/libzip": 3.0.0-rc.46
     boxen: ^5.1.2
     chalk: ^4.1.0
     commander: ^6.2.1
@@ -9714,7 +9714,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/fslib@npm:^3.0.0-rc.48":
+"@yarnpkg/fslib@npm:3.0.0-rc.46":
+  version: 3.0.0-rc.46
+  resolution: "@yarnpkg/fslib@npm:3.0.0-rc.46"
+  dependencies:
+    tslib: ^2.4.0
+  checksum: 6b768a511ef65fe2d503580bc5e1b8810c61b0e37b05672f4dcfcdca4c9f515bd08cb26f269f65a56efe6f3ebdba26489f8ac09e4882aa58d3eede50ee472fdc
+  languageName: node
+  linkType: hard
+
+"@yarnpkg/fslib@npm:^3.0.0-rc.46":
   version: 3.0.0-rc.48
   resolution: "@yarnpkg/fslib@npm:3.0.0-rc.48"
   dependencies:
@@ -9723,16 +9732,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/libzip@npm:^3.0.0-rc.48":
-  version: 3.0.0-rc.48
-  resolution: "@yarnpkg/libzip@npm:3.0.0-rc.48"
+"@yarnpkg/libzip@npm:3.0.0-rc.46":
+  version: 3.0.0-rc.46
+  resolution: "@yarnpkg/libzip@npm:3.0.0-rc.46"
   dependencies:
     "@types/emscripten": ^1.39.6
-    "@yarnpkg/fslib": ^3.0.0-rc.48
+    "@yarnpkg/fslib": ^3.0.0-rc.46
     tslib: ^2.4.0
   peerDependencies:
-    "@yarnpkg/fslib": ^3.0.0-rc.48
-  checksum: ec9930d8ef1d3faceae2e52aa500e87de4a6aeaef92cf65c3df51c60b7da3cbef539339e5b14ee2138e5e06b814393f28ab2ae52d7ea53288ae5e70c7fb9aab5
+    "@yarnpkg/fslib": ^3.0.0-rc.46
+  checksum: 6217994646e25d64a04e8ad34693fdadeee57979bb61f44031537758950206219c3e201f9c7d6fa724296dcfa2e26072289cb00e5d8bb7232176eea8e2b87841
   languageName: node
   linkType: hard
 
