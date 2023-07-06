@@ -5,7 +5,6 @@ parameters:
     description: Which workflow to run
     type: enum
     enum: ['pr', 'merged', 'daily']
-    default: 'pr'
 
 executors:
   sb_node_16_classic:
