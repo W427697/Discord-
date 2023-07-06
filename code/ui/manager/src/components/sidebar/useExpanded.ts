@@ -4,7 +4,6 @@ import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events
 import { global } from '@storybook/global';
 import throttle from 'lodash/throttle.js';
 import type { Dispatch, MutableRefObject, Reducer } from 'react';
-import type React from 'react';
 import { useCallback, useEffect, useReducer } from 'react';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import type { Highlight } from './types';
