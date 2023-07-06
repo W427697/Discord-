@@ -25,7 +25,7 @@ export interface TocParameters {
 
   /**
    * TocBot options, not guaranteed to be available in future versions.
-   * See [tocbot docs](https://tscanlin.github.io/tocbot/#usage)
+   * @see tocbot docs {@link https://tscanlin.github.io/tocbot/#usage}
    */
   unsafeTocbotOptions?: tocbot.IStaticOptions;
 }
