@@ -195,6 +195,7 @@ export const StatefulDynamicWithOpenTooltip = {
       defaultViewport: 'sized',
       viewports: customViewports,
     },
+    theme: 'light',
     chromatic: { viewports: [380] },
   },
   play: async ({ canvasElement }) => {
@@ -232,13 +233,7 @@ export const StatefulDynamicWithOpenTooltip = {
 } satisfies Story;
 
 export const StatefulDynamicWithSelectedAddon = {
-  parameters: {
-    viewport: {
-      defaultViewport: 'chromatic',
-      viewports: customViewports,
-    },
-    chromatic: { viewports: [380] },
-  },
+  ...StatefulDynamicWithOpenTooltip,
   play: async (context) => {
     await StatefulDynamicWithOpenTooltip.play(context);
     const canvas = within(context.canvasElement);
