@@ -1,3 +1,78 @@
+## 7.1.0-beta.1
+
+- Addon-docs: Add opt-in table of contents - [#23142](https://github.com/storybookjs/storybook/pull/23142), thanks [@shilman](https://github.com/shilman)!
+- SyntaxHighlighter: Expose registerLanguage - [#23166](https://github.com/storybookjs/storybook/pull/23166), thanks [@ndelangen](https://github.com/ndelangen)!
+- Yarn: Fix pnp package resolution on Windows - [#23274](https://github.com/storybookjs/storybook/pull/23274), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Yarn: Pin version of @yarnpkg packages to support Node 16 - [#23330](https://github.com/storybookjs/storybook/pull/23330), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 7.1.0-beta.0
+
+- Settings: Add what's new page, remove release notes - [#23202](https://github.com/storybookjs/storybook/pull/23202), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
+## 7.1.0-alpha.44
+
+- Next.js: Fix next/image usage in latest Next.js release - [#23296](https://github.com/storybookjs/storybook/pull/23296), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 7.1.0-alpha.43
+
+- Addons: Remove deprecated addPanel use and misc improvements - [#23284](https://github.com/storybookjs/storybook/pull/23284), thanks [@ndelangen](https://github.com/ndelangen)!
+- CSF-tools: Allow type checking in story title - [#22791](https://github.com/storybookjs/storybook/pull/22791), thanks [@honzahruby](https://github.com/honzahruby)!
+
+## 7.1.0-alpha.42
+
+- CLI: Fix pnp paths logic in storybook metadata - [#23259](https://github.com/storybookjs/storybook/pull/23259), thanks [@yannbf](https://github.com/yannbf)!
+
+## 7.1.0-alpha.41
+
+- Controls: Fix UI to add array items - [#22993](https://github.com/storybookjs/storybook/pull/22993), thanks [@sookmax](https://github.com/sookmax)!
+- Next.js: Support disableStaticImages setting - [#23167](https://github.com/storybookjs/storybook/pull/23167), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 7.1.0-alpha.40
+
+- CLI: Parse pnp paths in storybook metadata - [#23199](https://github.com/storybookjs/storybook/pull/23199), thanks [@yannbf](https://github.com/yannbf)!
+- Dependencies: Pin `file-system-cache` to 2.3.0 - [#23221](https://github.com/storybookjs/storybook/pull/23221), thanks [@JReinhold](https://github.com/JReinhold)!
+- PNPM: Hide ModuleNotFound error in pnpm pnp mode - [#23195](https://github.com/storybookjs/storybook/pull/23195), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Svelte: Support v4 - [#22905](https://github.com/storybookjs/storybook/pull/22905), thanks [@JReinhold](https://github.com/JReinhold)!
+
+## 7.1.0-alpha.39
+
+- CLI: Add new Configure page to templates - [#23171](https://github.com/storybookjs/storybook/pull/23171), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Fix storybook package manager command in init - [#23169](https://github.com/storybookjs/storybook/pull/23169), thanks [@yannbf](https://github.com/yannbf)!
+- React: Add addon-onboarding as part of init - [#22972](https://github.com/storybookjs/storybook/pull/22972), thanks [@yannbf](https://github.com/yannbf)!
+
+## 7.1.0-alpha.38
+
+- CLI: Fix installing user's project before init - [#23145](https://github.com/storybookjs/storybook/pull/23145), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Fix storybook dev after storybook init via subprocess - [#23144](https://github.com/storybookjs/storybook/pull/23144), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Suppress dev-server info table when `--quiet` is true - [#23133](https://github.com/storybookjs/storybook/pull/23133), thanks [@syabro](https://github.com/syabro)!
+- Core: Allow `.mjs` extension for CSF stories - [#23125](https://github.com/storybookjs/storybook/pull/23125), thanks [@idesigncode](https://github.com/idesigncode)!
+- Core: Fix compat by disabling name mangling in `esbuild` require - [#22486](https://github.com/storybookjs/storybook/pull/22486), thanks [@youngboy](https://github.com/youngboy)!
+- Docs: Fix scroll location on docs navigation - [#22714](https://github.com/storybookjs/storybook/pull/22714), thanks [@gitstart-storybook](https://github.com/gitstart-storybook)!
+- Interactions: Fix deeply nested nodes in the panel debugger - [#23108](https://github.com/storybookjs/storybook/pull/23108), thanks [@yannbf](https://github.com/yannbf)!
+
+## 7.1.0-alpha.37
+
+- Ecosystem: Prebundle node-logger and make it CJS only - [#23109](https://github.com/storybookjs/storybook/pull/23109), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Fix `useParams` support - [#22946](https://github.com/storybookjs/storybook/pull/22946), thanks [@gitstart-storybook](https://github.com/gitstart-storybook)!
+- NextJS: Fix fonts not loading with 3+ words in name - [#23121](https://github.com/storybookjs/storybook/pull/23121), thanks [@ygkn](https://github.com/ygkn)!
+- Webpack: Fix channel format for loading status - [#23139](https://github.com/storybookjs/storybook/pull/23139), thanks [@ndelangen](https://github.com/ndelangen)!
+
+## 7.1.0-alpha.36
+
+- CLI: Fix "Invalid version null" issues by improved version detection - [#22642](https://github.com/storybookjs/storybook/pull/22642), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Prebundle boxen to resolve a ESM/CJS incompatibility - [#23080](https://github.com/storybookjs/storybook/pull/23080), thanks [@ndelangen](https://github.com/ndelangen)!
+- Telemetry: Count onboarding stories - [#23092](https://github.com/storybookjs/storybook/pull/23092), thanks [@shilman](https://github.com/shilman)!
+
+## 7.1.0-alpha.35
+
+- CLI: Skip builder selection for react native - [#23042](https://github.com/storybookjs/storybook/pull/23042), thanks [@dannyhw](https://github.com/dannyhw)!
+- Core: Fix core-common to use node-fetch - [#23077](https://github.com/storybookjs/storybook/pull/23077), thanks [@ndelangen](https://github.com/ndelangen)!
+
+## 7.1.0-alpha.34
+
+- Angular: Fix ivy preset - [#23070](https://github.com/storybookjs/storybook/pull/23070), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Change Button stories layout for React starter templates - [#22951](https://github.com/storybookjs/storybook/pull/22951), thanks [@yannbf](https://github.com/yannbf)!
+
 ## 7.1.0-alpha.33
 
 - Bug: Fix for angular 16.1 compatibility - [#23064](https://github.com/storybookjs/storybook/pull/23064), thanks [@ndelangen](https://github.com/ndelangen)!

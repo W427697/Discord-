@@ -3,10 +3,12 @@ import chalk from 'chalk';
 import program from 'commander';
 import { z } from 'zod';
 import dedent from 'ts-dedent';
+import semver from 'semver';
 import { setOutput } from '@actions/core';
 import type { Change } from './utils/get-changes';
-import { getChanges, LABELS_BY_IMPORTANCE } from './utils/get-changes';
+import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';
+import type { PullRequestInfo } from './utils/get-github-info';
 
 program
   .name('generate-pr-description')
@@ -48,14 +50,16 @@ const CHANGE_TITLES_TO_IGNORE = [
   /^merge branch.*/i,
   /\[skip ci\]/i,
   /\[ci skip\]/i,
+  /^Update CHANGELOG\.md for.*/i,
+  /^Release: (Pre)?(Patch|Minor|Major|Release).*\d+$/i,
 ];
 
 export const mapToChangelist = ({
   changes,
-  isRelease,
+  unpickedPatches,
 }: {
   changes: Change[];
-  isRelease: boolean;
+  unpickedPatches: boolean;
 }): string => {
   return changes
     .filter((change) => {
@@ -67,14 +71,14 @@ export const mapToChangelist = ({
       }
       return true;
     })
+    .sort((a, b) => {
+      const isReleasable = (pr: PullRequestInfo) =>
+        (pr.labels ?? []).some((label) => Object.keys(RELEASED_LABELS).includes(label));
+      return Number(isReleasable(b)) - Number(isReleasable(a));
+    })
     .map((change) => {
-      const lines: string[] = [];
       if (!change.pull) {
-        lines.push(`- **⚠️ Direct commit**: ${change.title} ${change.links.commit}`);
-        if (isRelease) {
-          lines.push('\t- [ ] The change is appropriate for the version bump');
-        }
-        return lines.join('\n');
+        return `- [ ] **⚠️ Direct commit**: ${change.title} ${change.links.commit}`;
       }
 
       const label = (change.labels
@@ -85,14 +89,9 @@ export const mapToChangelist = ({
             Object.keys(LABELS_BY_IMPORTANCE).indexOf(b)
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
-      lines.push(`- **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}`);
-
-      if (isRelease) {
-        lines.push('\t- [ ] The change is appropriate for the version bump');
-        lines.push('\t- [ ] The PR is labeled correctly');
-        lines.push('\t- [ ] The PR title is correct');
-      }
-      return lines.join('\n');
+      return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
+        !unpickedPatches && change.labels.includes('patch') ? ' (will also be patched)' : ''
+      }`;
     })
     .join('\n');
 };
@@ -142,6 +141,9 @@ export const generateReleaseDescription = ({
   changelogText: string;
   manualCherryPicks?: string;
 }): string => {
+  const workflow = semver.prerelease(nextVersion) ? 'prepare-prerelease' : 'prepare-patch-release';
+  const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
+
   return (
     dedent`This is an automated pull request that bumps the version from \`${currentVersion}\` to \`${nextVersion}\`.
   Once this pull request is merged, it will trigger a new release of version \`${nextVersion}\`.
@@ -152,6 +154,7 @@ export const generateReleaseDescription = ({
   Before merging the PR, there are a few QA steps to go through:
 
   - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
   
   And for each change below:
   
@@ -170,11 +173,11 @@ export const generateReleaseDescription = ({
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
-  
+  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](${workflowUrl}) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+
   When everything above is done:
-  - [ ] Merge this PR
-  - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
+  - Merge this PR
+  - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
   
   ---
   
@@ -197,17 +200,24 @@ export const generateNonReleaseDescription = (
     dedent`This is an automated pull request. None of the changes requires a version bump, they are only internal or documentation related. Merging this PR will not trigger a new release, but documentation will be updated.
   If you're not a core maintainer with permissions to release you can ignore this pull request.
   
+  ## To do
+
+  Before merging the PR:
+
+  - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
+
   This is a list of all the PRs merged and commits pushed directly to \`next\` since the last release:
   
   ${changeList}
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
   
   When everything above is done:
-  - [ ] Merge this PR
-  - [ ] [Approve the publish workflow run](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`
+  - Merge this PR
+  - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`
       // don't mention contributors in the release PR, to avoid spamming them
       .replaceAll('[@', '[@ ')
       .replaceAll('"', '\\"')
@@ -248,7 +258,7 @@ export const run = async (rawOptions: unknown) => {
     ? generateReleaseDescription({
         currentVersion,
         nextVersion,
-        changeList: mapToChangelist({ changes, isRelease: true }),
+        changeList: mapToChangelist({ changes, unpickedPatches }),
         changelogText,
         ...(hasCherryPicks && {
           manualCherryPicks: mapCherryPicksToTodo({
@@ -259,7 +269,7 @@ export const run = async (rawOptions: unknown) => {
         }),
       })
     : generateNonReleaseDescription(
-        mapToChangelist({ changes, isRelease: false }),
+        mapToChangelist({ changes, unpickedPatches }),
         hasCherryPicks
           ? mapCherryPicksToTodo({
               commits: manualCherryPicks,

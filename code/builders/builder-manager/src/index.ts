@@ -189,6 +189,9 @@ const starter: StarterFunction = async function* starterGeneratorFn({
       next();
     }
   });
+  router.use(`/index.html`, ({ path }, res) => {
+    res.status(200).send(html);
+  });
 
   return {
     bail,
