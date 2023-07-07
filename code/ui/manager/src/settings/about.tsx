@@ -1,10 +1,10 @@
 /* eslint-disable no-nested-ternary */
 import type { FC } from 'react';
 import React, { useState } from 'react';
-import { styled, typography } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import type { State } from '@storybook/manager-api';
 
-import { Button as BaseButton, Icons, StorybookIcon, Link } from '@storybook/components';
+import { Button as BaseButton, Icons, Link, StorybookIcon } from '@storybook/components';
 
 const Header = styled.header(({ theme }) => ({
   marginBottom: 32,
@@ -36,16 +36,16 @@ const UpgradeBlock = styled.div(({ theme }) => {
     padding: 20,
     margin: 20,
     maxWidth: 400,
-    borderColor: theme.color.border,
+    borderColor: theme.appBorderColor,
     fontSize: theme.typography.size.s2,
   };
 });
 
-const Code = styled.pre`
-  background: rgba(0, 0, 0, 0.05);
-  font-size: ${typography.size.s2 - 1}px;
-  margin: 4px 0 16px;
-`;
+const Code = styled.pre(({ theme }) => ({
+  background: theme.base === 'light' ? 'rgba(0, 0, 0, 0.05)' : theme.appBorderColor,
+  fontSize: theme.typography.size.s2 - 1,
+  margin: '4px 0 16px',
+}));
 
 const Footer = styled.div(({ theme }) => ({
   marginBottom: 24,
