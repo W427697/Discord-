@@ -9,7 +9,7 @@ export const configureImages = (baseConfig: WebpackConfig, nextConfig: NextConfi
   configureImageDefaults(baseConfig);
 };
 
-const fallbackFilename = 'static/media/[path][name][ext]'
+const fallbackFilename = 'static/media/[path][name][ext]';
 
 const configureImageDefaults = (baseConfig: WebpackConfig): void => {
   const version = getNextjsVersion();
