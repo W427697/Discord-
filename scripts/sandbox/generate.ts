@@ -46,14 +46,13 @@ const withLocalRegistry = async (packageManager: JsPackageManager, action: () =>
     await action();
   } catch (e) {
     error = e;
-  } finally {
-    console.log(`📦 Restoring registry: ${prevUrl}`);
-    await packageManager.setRegistryURL(prevUrl);
+  }
 
-    if (error) {
-      // eslint-disable-next-line no-unsafe-finally
-      throw error;
-    }
+  console.log(`📦 Restoring registry: ${prevUrl}`);
+  await packageManager.setRegistryURL(prevUrl);
+
+  if (error) {
+    throw error;
   }
 };
 
