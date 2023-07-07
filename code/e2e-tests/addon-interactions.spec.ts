@@ -103,10 +103,19 @@ test.describe('addon-interactions', () => {
     await interactionsRow.nth(2).isVisible();
     await expect(interactionsTab.getByText('3')).toBeVisible();
     await expect(interactionsTab).toBeVisible();
+    await expect(interactionsTab.getByText('3')).toBeVisible();
+
+    // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
+    // if the toolbar is hidden, this will toggle the toolbar
+    if (await page.locator('[offset="40"]').isHidden()) {
+      await page.locator('[aria-label="Shortcuts"]').click();
+      await page.locator('#list-item-T').click();
+    }
 
     // Test remount state (from toolbar) - Interactions have rerun, count is correct and values are as expected
     const remountComponentButton = await page.locator('[title="Remount component"]');
     await remountComponentButton.click();
+
     await interactionsRow.first().isVisible();
     await interactionsRow.nth(1).isVisible();
     await interactionsRow.nth(2).isVisible();
