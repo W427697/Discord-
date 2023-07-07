@@ -9,14 +9,6 @@ export default {
   },
 };
 
-export const One = {
-  args: { label: 'One' },
-};
-
-export const Two = {
-  args: { label: 'Two' },
-};
-
-export const Three = {
-  args: { label: 'Two' },
-};
+export const One = { args: { label: 'One' } };
+export const Two = { args: { label: 'Two' } };
+export const Three = { args: { label: 'Three' } };
