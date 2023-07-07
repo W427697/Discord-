@@ -71,17 +71,17 @@ export type Template = {
 };
 
 const baseTemplates = {
-  'cra/default-js': {
-    name: 'Create React App (Javascript)',
-    script: 'npx create-react-app {{beforeDir}}',
-    expected: {
-      // TODO: change this to @storybook/cra once that package is created
-      framework: '@storybook/react-webpack5',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
-    },
-    skipTasks: ['e2e-tests-dev', 'bench'],
-  },
+  // 'cra/default-js': {
+  //   name: 'Create React App (Javascript)',
+  //   script: 'npx create-react-app {{beforeDir}}',
+  //   expected: {
+  //     // TODO: change this to @storybook/cra once that package is created
+  //     framework: '@storybook/react-webpack5',
+  //     renderer: '@storybook/react',
+  //     builder: '@storybook/builder-webpack5',
+  //   },
+  //   skipTasks: ['e2e-tests-dev', 'bench'],
+  // },
   'cra/default-ts': {
     name: 'Create React App (Typescript)',
     script: 'npx create-react-app {{beforeDir}} --template typescript',
