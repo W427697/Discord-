@@ -29,7 +29,7 @@ const Container = styled.div({
   flexDirection: 'column',
 });
 
-export const UpgradeBlock = styled.div(({ theme }) => {
+const UpgradeBlock = styled.div(({ theme }) => {
   return {
     border: '1px solid',
     borderRadius: 5,
@@ -57,7 +57,7 @@ const Footer = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2,
 }));
 
-export const SquareButton = styled(BaseButton)(({ theme }) => ({
+const SquareButton = styled(BaseButton)(({ theme }) => ({
   '&&': {
     borderRadius: 4,
     fontSize: '13px',
@@ -83,7 +83,7 @@ const TabButton = styled(BaseButton)<{ active: boolean }>(({ theme, active }) =>
   },
 }));
 
-export const StyledLink = styled(Link)(({ theme }) => ({
+const StyledLink = styled(Link as any)(({ theme }) => ({
   '&&': {
     fontWeight: theme.typography.weight.bold,
     color: theme.base === 'light' ? theme.color.dark : theme.color.light,
