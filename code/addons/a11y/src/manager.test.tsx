@@ -5,7 +5,7 @@ import './manager';
 
 jest.mock('@storybook/manager-api');
 const mockedApi = api as unknown as jest.Mocked<api.API>;
-mockedApi.getAddonState = jest.fn();
+mockedApi.useAddonState = jest.fn();
 const mockedAddons = api.addons as jest.Mocked<typeof api.addons>;
 const registrationImpl = mockedAddons.register.mock.calls[0][1];
 
@@ -32,23 +32,68 @@ describe('A11yManager', () => {
 
   it('should compute title with no issues', () => {
     // given
-    mockedApi.getAddonState.mockImplementation(() => undefined);
+    mockedApi.useAddonState.mockImplementation(() => [undefined]);
     registrationImpl(api as unknown as api.API);
     const title = mockedAddons.add.mock.calls.map(([_, def]) => def).find(isPanel)
       ?.title as Function;
 
     // when / then
-    expect(title()).toBe('Accessibility');
+    expect(title()).toMatchInlineSnapshot(`
+      <div>
+        <Spaced
+          col={1}
+        >
+          <span
+            style={
+              Object {
+                "display": "inline-block",
+                "verticalAlign": "middle",
+              }
+            }
+          >
+            Accessibility
+          </span>
+          
+        </Spaced>
+      </div>
+    `);
   });
 
   it('should compute title with issues', () => {
     // given
-    mockedApi.getAddonState.mockImplementation(() => ({ violations: [{}], incomplete: [{}, {}] }));
+    mockedApi.useAddonState.mockImplementation(() => [
+      {
+        violations: [{}],
+        incomplete: [{}, {}],
+      },
+    ]);
     registrationImpl(mockedApi);
     const title = mockedAddons.add.mock.calls.map(([_, def]) => def).find(isPanel)
       ?.title as Function;
 
     // when / then
-    expect(title()).toBe('Accessibility (3)');
+    expect(title()).toMatchInlineSnapshot(`
+      <div>
+        <Spaced
+          col={1}
+        >
+          <span
+            style={
+              Object {
+                "display": "inline-block",
+                "verticalAlign": "middle",
+              }
+            }
+          >
+            Accessibility
+          </span>
+          <Badge
+            status="neutral"
+          >
+            3
+          </Badge>
+        </Spaced>
+      </div>
+    `);
   });
 });
