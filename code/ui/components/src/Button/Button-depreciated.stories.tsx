@@ -6,12 +6,12 @@ import { Icons } from '../icon/icon';
 import { Form } from '../form/index';
 
 export default {
-  title: 'Button',
+  title: 'Button (Depreciated)',
   component: Button,
   tags: ['autodocs'],
 };
 
-export const Default = { args: { children: 'Hello World' } };
+export const Default = { args: { children: 'Default' } };
 
 export const FormButton = {
   render: (args: Args) => <Form.Button {...args} />,
