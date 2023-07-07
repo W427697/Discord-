@@ -47,6 +47,13 @@ const checkRequiredLabels = (labels: string[]) => {
   } else if (foundLabels.length > 1) {
     fail(`Please choose only one of these labels: ${JSON.stringify(foundLabels)}`);
   }
+
+  const patchLabels = ['patch:no', 'patch:yes', 'patch:done'];
+  if (isEmpty(intersection(patchLabels, labels))) {
+    fail(`PR is not labeled with one of: ${JSON.stringify(patchLabels)}`);
+  } else if (foundLabels.length > 1) {
+    fail(`Please choose only one of these labels: ${JSON.stringify(foundLabels)}`);
+  }
 };
 
 const checkPrTitle = (title: string) => {
