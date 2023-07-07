@@ -428,9 +428,3 @@ export enum Addon_TypesEnum {
    */
   NOTES_ELEMENT = 'notes-element',
 }
-
-// type A = OrString<'bla' | 'foo'>;
-
-// type OrString<T extends string> = T | (string & {});
-
-// const x: A = 'ffffff';
