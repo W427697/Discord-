@@ -127,7 +127,7 @@ const runGenerators = async (
 ) => {
   console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
 
-  const limit = pLimit(maxConcurrentTasks);
+  const limit = pLimit(1);
 
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
