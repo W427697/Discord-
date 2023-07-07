@@ -1,11 +1,11 @@
-import type { FC, ComponentProps, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import React, { forwardRef } from 'react';
-import { ButtonWrapper } from './styles';
+import { ButtonWrapper, ButtonWrapper2 } from './styles';
 
-interface ButtonProps {
+export interface ButtonProps {
   children?: ReactNode;
   href?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md';
   variant?: 'solid' | 'outline';
   color?: 'blue' | 'gray';
   leftIcon?: ReactNode;
@@ -60,7 +60,7 @@ interface ButtonProps {
 
 const ButtonLink = ButtonWrapper.withComponent('a');
 
-export const Button: FC<ComponentProps<typeof ButtonWrapper>> = forwardRef<any, ButtonProps>(
+export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
   (
     {
       isLink = false,
@@ -72,12 +72,18 @@ export const Button: FC<ComponentProps<typeof ButtonWrapper>> = forwardRef<any, 
       small,
       outline,
       containsIcon,
+      size = 'md',
+      color = 'blue',
+      variant = 'solid',
       children,
       ...props
     },
     ref
   ) => {
-    if (isLink) {
+    const isDepreciated =
+      primary || secondary || tertiary || gray || inForm || small || outline || containsIcon;
+
+    if (!!isDepreciated && isLink) {
       return (
         <ButtonLink
           ref={ref}
@@ -96,22 +102,31 @@ export const Button: FC<ComponentProps<typeof ButtonWrapper>> = forwardRef<any, 
         </ButtonLink>
       );
     }
+
+    if (isDepreciated) {
+      return (
+        <ButtonWrapper
+          ref={ref}
+          isLink={isLink}
+          gray={gray}
+          primary={primary}
+          secondary={secondary}
+          tertiary={tertiary}
+          inForm={inForm}
+          small={small}
+          outline={outline}
+          containsIcon={containsIcon}
+          {...props}
+        >
+          {children}
+        </ButtonWrapper>
+      );
+    }
+
     return (
-      <ButtonWrapper
-        ref={ref}
-        isLink={isLink}
-        gray={gray}
-        primary={primary}
-        secondary={secondary}
-        tertiary={tertiary}
-        inForm={inForm}
-        small={small}
-        outline={outline}
-        containsIcon={containsIcon}
-        {...props}
-      >
+      <ButtonWrapper2 size={size} color={color} variant={variant}>
         {children}
-      </ButtonWrapper>
+      </ButtonWrapper2>
     );
   }
 );
