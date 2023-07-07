@@ -387,7 +387,7 @@ export abstract class JsPackageManager {
   public async addPackageResolutions(versions: Record<string, string>) {
     const packageJson = await this.retrievePackageJson();
     const resolutions = this.getResolutions(packageJson, versions);
-    this.writePackageJson({ ...packageJson, ...resolutions });
+    await this.writePackageJson({ ...packageJson, ...resolutions });
   }
 
   protected abstract runInstall(): Promise<void>;

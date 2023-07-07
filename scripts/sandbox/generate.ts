@@ -42,7 +42,7 @@ const withLocalRegistry = async (packageManager: JsPackageManager, action: () =>
   let error;
   try {
     console.log(`📦 Configuring local registry: ${LOCAL_REGISTRY_URL}`);
-    packageManager.setRegistryURL(LOCAL_REGISTRY_URL);
+    await packageManager.setRegistryURL(LOCAL_REGISTRY_URL);
     await action();
   } catch (e) {
     error = e;
