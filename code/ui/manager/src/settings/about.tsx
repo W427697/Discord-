@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { styled, typography } from '@storybook/theming';
 import type { State } from '@storybook/manager-api';
 
-import { Button as BaseButton, Icons, StorybookIcon } from '@storybook/components';
+import { Button as BaseButton, Icons, StorybookIcon, Link } from '@storybook/components';
 
 const Header = styled.header(({ theme }) => ({
   marginBottom: 32,
@@ -57,7 +57,7 @@ const Footer = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2,
 }));
 
-export const Button = styled(BaseButton)(({ theme }) => ({
+export const SquareButton = styled(BaseButton)(({ theme }) => ({
   '&&': {
     borderRadius: 4,
     fontSize: '13px',
@@ -70,7 +70,7 @@ export const Button = styled(BaseButton)(({ theme }) => ({
   },
 }));
 
-const Tab = styled(Button)<{ active: boolean }>(({ theme, active }) => ({
+const TabButton = styled(BaseButton)<{ active: boolean }>(({ theme, active }) => ({
   '&&': {
     padding: 2,
     paddingRight: 8,
@@ -83,20 +83,8 @@ const Tab = styled(Button)<{ active: boolean }>(({ theme, active }) => ({
   },
 }));
 
-const BlueLinkButton = styled(Button)(({ theme }) => ({
+export const StyledLink = styled(Link)(({ theme }) => ({
   '&&': {
-    padding: 0,
-    paddingRight: 8,
-    margin: 0,
-    color: theme.color.secondary,
-    fontSize: theme.typography.size.s2,
-    fontWeight: theme.typography.weight.regular,
-  },
-}));
-
-export const StyledA = styled.a(({ theme }) => ({
-  '&&': {
-    textDecoration: 'none',
     fontWeight: theme.typography.weight.bold,
     color: theme.base === 'light' ? theme.color.dark : theme.color.light,
   },
@@ -120,12 +108,12 @@ const AboutScreen: FC<{
         <strong>You are on Storybook {current.version}</strong>
         <p>Run the following script to check for updates and upgrade to the latest version.</p>
         <div>
-          <Tab small active={activeTab === 'npm'} onClick={() => setActiveTab('npm')}>
+          <TabButton active={activeTab === 'npm'} onClick={() => setActiveTab('npm')}>
             npm
-          </Tab>
-          <Tab active={activeTab === 'pnpm'} small onClick={() => setActiveTab('pnpm')}>
+          </TabButton>
+          <TabButton active={activeTab === 'pnpm'} onClick={() => setActiveTab('pnpm')}>
             pnpm
-          </Tab>
+          </TabButton>
         </div>
 
         <Code>
@@ -134,16 +122,15 @@ const AboutScreen: FC<{
             : 'pnpm dlx storybook@latest upgrade'}
         </Code>
         {onNavigateToWhatsNew && (
-          <BlueLinkButton onClick={onNavigateToWhatsNew}>
-            See what's new in Storybook
-          </BlueLinkButton>
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+          <Link onClick={onNavigateToWhatsNew}>See what's new in Storybook</Link>
         )}
       </UpgradeBlock>
 
       <div style={{ flex: '1.2' }} />
       <Footer>
         <div style={{ marginBottom: 12 }}>
-          <Button
+          <SquareButton
             isLink
             outline
             small
@@ -152,19 +139,19 @@ const AboutScreen: FC<{
           >
             <Icons icon="github" style={{ display: 'inline', marginRight: 5 }} />
             GitHub
-          </Button>
+          </SquareButton>
 
-          <Button isLink outline small href="https://storybook.js.org/docs">
+          <SquareButton isLink outline small href="https://storybook.js.org/docs">
             <Icons icon="document" style={{ display: 'inline', marginRight: 5 }} />
             Documentation
-          </Button>
+          </SquareButton>
         </div>
         <div>
           Open source software maintained by{' '}
-          <StyledA href="https://www.chromatic.com/">Chromatic</StyledA> and the{' '}
-          <StyledA href="https://github.com/storybookjs/storybook/graphs/contributors">
+          <StyledLink href="https://www.chromatic.com/">Chromatic</StyledLink> and the{' '}
+          <StyledLink href="https://github.com/storybookjs/storybook/graphs/contributors">
             Storybook Community
-          </StyledA>
+          </StyledLink>
         </div>
       </Footer>
     </Container>
