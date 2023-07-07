@@ -1,5 +1,4 @@
 import { global as globalThis } from '@storybook/global';
-import { One, Two, Three } from './basic.stories';
 
 export default {
   component: globalThis.Components.Button,
@@ -11,4 +10,6 @@ export default {
   },
 };
 
-export { One, Two, Three };
+export const One = { args: { label: 'One' } };
+export const Two = { args: { label: 'Two' } };
+export const Three = { args: { label: 'Three' } };
