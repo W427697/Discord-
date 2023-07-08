@@ -136,7 +136,7 @@ export function transform(source: string, baseName: string): [string, string] {
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
-          parent?.children.splice(index, 0, newNode);
+          parent?.children.splice(index as number, 0, newNode);
           // current index is the new comment, and index + 1 is current node
           // SKIP traversing current node, and continue with the node after that
           return [SKIP, (index as number) + 2];
@@ -162,7 +162,7 @@ export function transform(source: string, baseName: string): [string, string] {
 
           storiesMap.set(name ?? '', { type: 'reference' });
         } else {
-          parent?.children.splice(index, 1);
+          parent?.children.splice(index as number, 1);
           // Do not traverse `node`, continue at the node *now* at `index`.
           return [SKIP, index];
         }
