@@ -5,13 +5,13 @@ import type { BaseAnnotations, ModuleExports } from '@storybook/types';
 import { Anchor } from './Anchor';
 import { DocsContext } from './DocsContext';
 
-type MetaProps = BaseAnnotations & { of?: ModuleExports };
+type MetaProps = BaseAnnotations & { of?: ModuleExports; title?: string };
 
 /**
  * This component is used to declare component metadata in docs
  * and gets transformed into a default export underneath the hood.
  */
-export const Meta: FC<MetaProps> = ({ of }) => {
+export const Meta: FC<MetaProps> = ({ of, title }) => {
   const context = useContext(DocsContext);
   if (of) {
     context.referenceMeta(of, true);
