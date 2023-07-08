@@ -22,7 +22,6 @@ import prettier from 'prettier';
 import * as fs from 'node:fs';
 import camelCase from 'lodash/camelCase';
 import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
-import invariant from 'tiny-invariant';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
@@ -137,11 +136,10 @@ export function transform(source: string, baseName: string): [string, string] {
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> see: https://storybook.js.org/migration-guides/7.0 */`,
           };
           storiesMap.set(idAttribute.value as string, { type: 'id' });
-          invariant(index, 'Index cannnot be null');
           parent?.children.splice(index, 0, newNode);
           // current index is the new comment, and index + 1 is current node
           // SKIP traversing current node, and continue with the node after that
-          return [SKIP, index + 2];
+          return [SKIP, (index as number) + 2];
         } else if (
           storyAttribute?.type === 'mdxJsxAttribute' &&
           typeof storyAttribute.value === 'object' &&
@@ -164,7 +162,6 @@ export function transform(source: string, baseName: string): [string, string] {
 
           storiesMap.set(name ?? '', { type: 'reference' });
         } else {
-          invariant(index, 'Index cannot be null');
           parent?.children.splice(index, 1);
           // Do not traverse `node`, continue at the node *now* at `index`.
           return [SKIP, index];
