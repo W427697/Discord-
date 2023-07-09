@@ -1,3 +1,27 @@
+## 7.1.0-beta.1
+
+- Addon-docs: Add opt-in table of contents - [#23142](https://github.com/storybookjs/storybook/pull/23142), thanks [@shilman](https://github.com/shilman)!
+- SyntaxHighlighter: Expose registerLanguage - [#23166](https://github.com/storybookjs/storybook/pull/23166), thanks [@ndelangen](https://github.com/ndelangen)!
+- Yarn: Fix pnp package resolution on Windows - [#23274](https://github.com/storybookjs/storybook/pull/23274), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Yarn: Pin version of @yarnpkg packages to support Node 16 - [#23330](https://github.com/storybookjs/storybook/pull/23330), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 7.1.0-beta.0
+
+- Settings: Add what's new page, remove release notes - [#23202](https://github.com/storybookjs/storybook/pull/23202), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
+## 7.1.0-alpha.44
+
+- Next.js: Fix next/image usage in latest Next.js release - [#23296](https://github.com/storybookjs/storybook/pull/23296), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
+## 7.1.0-alpha.43
+
+- Addons: Remove deprecated addPanel use and misc improvements - [#23284](https://github.com/storybookjs/storybook/pull/23284), thanks [@ndelangen](https://github.com/ndelangen)!
+- CSF-tools: Allow type checking in story title - [#22791](https://github.com/storybookjs/storybook/pull/22791), thanks [@honzahruby](https://github.com/honzahruby)!
+
+## 7.1.0-alpha.42
+
+- CLI: Fix pnp paths logic in storybook metadata - [#23259](https://github.com/storybookjs/storybook/pull/23259), thanks [@yannbf](https://github.com/yannbf)!
+
 ## 7.1.0-alpha.41
 
 - Controls: Fix UI to add array items - [#22993](https://github.com/storybookjs/storybook/pull/22993), thanks [@sookmax](https://github.com/sookmax)!

@@ -20,7 +20,7 @@ export const ReferenceTypeProps: Story = {
     stringArray: ['Foo', 'Bar', 'Baz'],
     bar: 1,
     unionOptional: 'Foo',
-    union: 10,
+    union: 'Foo',
     inlined: { foo: 'Foo' },
     nested: { nestedProp: 'Nested Prop' },
     nestedIntersection: { nestedProp: 'Nested Prop', additionalProp: 'Additional Prop' },
