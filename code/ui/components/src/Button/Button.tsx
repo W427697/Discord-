@@ -59,6 +59,7 @@ export interface ButtonProps {
 }
 
 const ButtonLink = ButtonWrapperDepreciated.withComponent('a');
+const NewButtonLink = ButtonWrapper.withComponent('a');
 
 export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
   (
@@ -76,6 +77,7 @@ export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
       type = 'primary',
       variant = 'solid',
       disabled = false,
+      href,
       children,
       ...props
     },
@@ -124,8 +126,22 @@ export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
       );
     }
 
+    if (href)
+      return (
+        <NewButtonLink
+          ref={ref}
+          size={size}
+          btnType={type}
+          variant={variant}
+          disabled={disabled}
+          href={href}
+        >
+          {children}
+        </NewButtonLink>
+      );
+
     return (
-      <ButtonWrapper size={size} btnType={type} variant={variant} disabled={disabled}>
+      <ButtonWrapper ref={ref} size={size} btnType={type} variant={variant} disabled={disabled}>
         {children}
       </ButtonWrapper>
     );
