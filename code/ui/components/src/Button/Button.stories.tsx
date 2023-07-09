@@ -7,6 +7,17 @@ const meta: Meta<typeof Button> = {
   title: 'Button',
   component: Button,
   tags: ['autodocs'],
+  argTypes: {
+    isLink: { table: { disable: true } },
+    primary: { table: { disable: true } },
+    secondary: { table: { disable: true } },
+    tertiary: { table: { disable: true } },
+    gray: { table: { disable: true } },
+    inForm: { table: { disable: true } },
+    small: { table: { disable: true } },
+    outline: { table: { disable: true } },
+    containsIcon: { table: { disable: true } },
+  },
 };
 
 export default meta;
@@ -62,4 +73,13 @@ export const Disabled: Story = {
     disabled: true,
     children: 'Disabled Button',
   },
+};
+
+export const Link: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button onClick={() => console.log('Hello')}>I am a button</Button>
+      <Button href="https://storybook.js.org/">I am a link</Button>
+    </div>
+  ),
 };
