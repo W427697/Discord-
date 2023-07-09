@@ -11,7 +11,8 @@ export const ButtonWrapper = styled.button<{
 }>(({ theme, btnType, size, variant, disabled }) => ({
   border: 0,
   cursor: disabled ? 'not-allowed !important' : 'pointer',
-  display: 'inline-block',
+  display: 'inline-flex',
+  alignItems: 'center',
   overflow: 'hidden',
   padding: '0 16px',
   height: size === 'small' ? '28px' : '32px',
@@ -40,7 +41,10 @@ export const ButtonWrapper = styled.button<{
     if (variant === 'outline') return theme.color.darkest;
     return theme.color.darkest;
   })()}`,
-  boxShadow: `${theme.button.border} 0 0 0 1px inset`,
+  boxShadow:
+    variant === 'solid' && btnType === 'primary'
+      ? 'none'
+      : `${theme.button.border} 0 0 0 1px inset`,
   borderRadius: theme.input.borderRadius,
 
   '&:hover': {
