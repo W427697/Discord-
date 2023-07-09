@@ -3,8 +3,7 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "allowJs": true,
-    "strict": false
+    "strict": true
   },
   "include": ["src/**/*"]
 }
