@@ -4,6 +4,75 @@ import { darken, lighten, rgba, transparentize } from 'polished';
 import type { ButtonProps } from './Button';
 
 export const ButtonWrapper = styled.button<{
+  btnType: ButtonProps['type'];
+  size: ButtonProps['size'];
+  variant: ButtonProps['variant'];
+  disabled: ButtonProps['disabled'];
+}>(({ theme, btnType, size, variant, disabled }) => ({
+  border: 0,
+  cursor: disabled ? 'not-allowed !important' : 'pointer',
+  display: 'inline-block',
+  overflow: 'hidden',
+  padding: '0 16px',
+  height: size === 'small' ? '28px' : '32px',
+  position: 'relative',
+  textAlign: 'center',
+  textDecoration: 'none',
+  transitionProperty: 'background, box-shadow',
+  transitionDuration: '150ms',
+  transitionTimingFunction: 'ease-out',
+  verticalAlign: 'top',
+  whiteSpace: 'nowrap',
+  userSelect: 'none',
+  opacity: disabled ? 0.5 : 1,
+  margin: 0,
+  fontSize: `${theme.typography.size.s1}px`,
+  fontWeight: theme.typography.weight.bold,
+  lineHeight: '1',
+  background: `${(() => {
+    if (btnType === 'primary' && variant === 'solid') return theme.color.secondary;
+    if (btnType === 'secondary' && variant === 'solid') return theme.button.background;
+    return 'transparent';
+  })()}`,
+  color: `${(() => {
+    if (btnType === 'primary' && variant === 'solid') return theme.color.lightest;
+    if (btnType === 'secondary') return theme.color.darkest;
+    if (variant === 'outline') return theme.color.darkest;
+    return theme.color.darkest;
+  })()}`,
+  boxShadow: `${theme.button.border} 0 0 0 1px inset`,
+  borderRadius: theme.input.borderRadius,
+
+  '&:hover': {
+    background: `${(() => {
+      let bgColor = theme.color.secondary;
+      if (btnType === 'primary' && variant === 'solid') bgColor = theme.color.secondary;
+      if (btnType === 'secondary' && variant === 'solid') bgColor = theme.button.background;
+      if (btnType === 'primary' && variant === 'outline') bgColor = theme.button.background;
+      if (btnType === 'secondary' && variant === 'outline') bgColor = theme.button.background;
+
+      return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
+    })()}`,
+  },
+
+  '&:active': {
+    // background: theme.button.background,
+    background: `${(() => {
+      let bgColor = theme.color.secondary;
+      if (btnType === 'primary' && variant === 'solid') bgColor = theme.color.secondary;
+      if (btnType === 'secondary') bgColor = theme.button.background;
+
+      return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
+    })()}`,
+  },
+
+  '&:focus': {
+    boxShadow: `${rgba(theme.color.secondary, 1)} 0 0 0 1px inset`,
+    outline: 'none',
+  },
+}));
+
+export const ButtonWrapperDepreciated = styled.button<{
   isLink?: boolean;
   primary?: boolean;
   secondary?: boolean;
@@ -230,59 +299,3 @@ export const ButtonWrapper = styled.button<{
       : {};
   }
 );
-
-export const ButtonWrapper2 = styled.button<{
-  color: ButtonProps['color'];
-  size: ButtonProps['size'];
-  variant: ButtonProps['variant'];
-}>(({ theme, color, size, variant }) => ({
-  border: 0,
-  cursor: 'pointer',
-  display: 'inline-block',
-  overflow: 'hidden',
-  padding: '0 16px',
-  height: size === 'sm' ? '28px' : '32px',
-  position: 'relative',
-  textAlign: 'center',
-  textDecoration: 'none',
-  transitionProperty: 'background, box-shadow',
-  transitionDuration: '150ms',
-  transitionTimingFunction: 'ease-out',
-  verticalAlign: 'top',
-  whiteSpace: 'nowrap',
-  userSelect: 'none',
-  opacity: 1,
-  margin: 0,
-  fontSize: `${theme.typography.size.s1}px`,
-  fontWeight: theme.typography.weight.bold,
-  lineHeight: '1',
-  background: `${(() => {
-    if (color === 'blue' && variant === 'solid') return theme.color.secondary;
-    if (color === 'gray') return theme.button.background;
-    return 'transparent';
-  })()}`,
-  color: `${(() => {
-    if (color === 'blue' && variant === 'solid') return theme.color.lightest;
-    if (color === 'gray') return theme.color.darkest;
-    if (variant === 'outline') return theme.color.darkest;
-    return theme.color.darkest;
-  })()}`,
-  boxShadow: `${theme.button.border} 0 0 0 1px inset`,
-  borderRadius: theme.input.borderRadius,
-
-  '&:hover': {
-    background:
-      theme.base === 'light'
-        ? darken(0.02, theme.button.background)
-        : lighten(0.03, theme.button.background),
-  },
-
-  '&:active': {
-    background: theme.button.background,
-  },
-
-  '&:focus': {
-    boxShadow: `${rgba(theme.color.secondary, 1)} 0 0 0 1px inset`,
-    outline: 'none',
-  },
-}));

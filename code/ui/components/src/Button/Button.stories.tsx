@@ -12,54 +12,54 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Base = { args: { children: 'Hello World' } };
+export const Base = {
+  args: { children: 'Button' },
+};
 
-export const Sizes: Story = {
-  args: {
-    ...Base.args,
-  },
+export const Types: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="sm">Button Small</Button>
-      <Button size="md">Button Medium</Button>
+      <Button type="primary">Primary Button</Button>
+      <Button type="secondary">Secondary Button</Button>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button size="small">Small Button</Button>
+      <Button size="medium">Medium Button</Button>
     </div>
   ),
 };
 
 export const Variants: Story = {
-  args: {
-    ...Base.args,
-  },
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Button variant="solid" size="sm">
-          Button Solid
+        <Button variant="solid" type="primary">
+          Button Primary Solid
         </Button>
-        <Button variant="solid" size="md">
-          Button Solid
+        <Button variant="solid" type="secondary">
+          Button Secondary Solid
         </Button>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Button variant="outline" size="sm">
-          Button Outline
+        <Button variant="outline" type="primary">
+          Button Primary Outline
         </Button>
-        <Button variant="outline" size="md">
-          Button Outline
+        <Button variant="outline" type="secondary">
+          Button Secondary Outline
         </Button>
       </div>
     </div>
   ),
 };
 
-export const Colors: Story = {
+export const Disabled: Story = {
   args: {
-    ...Base.args,
+    disabled: true,
+    children: 'Disabled Button',
   },
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button color="blue">Button Blue</Button>
-      <Button color="gray">Button Gray</Button>
-    </div>
-  ),
 };

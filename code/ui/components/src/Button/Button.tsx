@@ -1,13 +1,13 @@
 import type { FC, ReactNode } from 'react';
 import React, { forwardRef } from 'react';
-import { ButtonWrapper, ButtonWrapper2 } from './styles';
+import { ButtonWrapper, ButtonWrapperDepreciated } from './styles';
 
 export interface ButtonProps {
   children?: ReactNode;
   href?: string;
-  size?: 'sm' | 'md';
+  size?: 'small' | 'medium';
   variant?: 'solid' | 'outline';
-  color?: 'blue' | 'gray';
+  type?: 'primary' | 'secondary';
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   onClick?: () => void;
@@ -58,7 +58,7 @@ export interface ButtonProps {
   containsIcon?: boolean;
 }
 
-const ButtonLink = ButtonWrapper.withComponent('a');
+const ButtonLink = ButtonWrapperDepreciated.withComponent('a');
 
 export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
   (
@@ -72,9 +72,10 @@ export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
       small,
       outline,
       containsIcon,
-      size = 'md',
-      color = 'blue',
+      size = 'medium',
+      type = 'primary',
       variant = 'solid',
+      disabled = false,
       children,
       ...props
     },
@@ -105,7 +106,7 @@ export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
 
     if (isDepreciated) {
       return (
-        <ButtonWrapper
+        <ButtonWrapperDepreciated
           ref={ref}
           isLink={isLink}
           gray={gray}
@@ -119,14 +120,14 @@ export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
           {...props}
         >
           {children}
-        </ButtonWrapper>
+        </ButtonWrapperDepreciated>
       );
     }
 
     return (
-      <ButtonWrapper2 size={size} color={color} variant={variant}>
+      <ButtonWrapper size={size} btnType={type} variant={variant} disabled={disabled}>
         {children}
-      </ButtonWrapper2>
+      </ButtonWrapper>
     );
   }
 );
