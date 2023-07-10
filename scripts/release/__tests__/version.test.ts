@@ -189,6 +189,20 @@ describe('Version', () => {
     `);
   });
 
+  it('should throw when applying without a "deferredNextVersion" set', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+    });
+
+    await expect(version({ apply: true })).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"The 'deferredNextVersion' property in code/package.json is unset. This is necessary to apply a deferred version bump"`
+    );
+
+    expect(fsExtra.writeJson).not.toHaveBeenCalled();
+    expect(fsExtra.writeFile).not.toHaveBeenCalled();
+    expect(execaCommand).not.toHaveBeenCalled();
+  });
+
   it.each([
     // prettier-ignore
     { releaseType: 'major', currentVersion: '1.1.1', expectedVersion: '2.0.0' },
