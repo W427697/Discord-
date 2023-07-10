@@ -6857,14 +6857,14 @@ __metadata:
   dependencies:
     "@storybook/core-webpack": 7.1.0-beta.2
     "@storybook/node-logger": 7.1.0-beta.2
-    svelte: ^3.31.2
-    svelte-loader: ^3.1.2
+    svelte: ^4.0.0
+    svelte-loader: ^3.1.9
     sveltedoc-parser: ^4.2.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   peerDependencies:
     "@babel/core": "*"
-    svelte: ^3.1.0
+    svelte: ^3.1.0 || ^4.0.0
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -7044,11 +7044,11 @@ __metadata:
     "@storybook/react": 7.1.0-beta.2
     "@types/node": ^16.0.0
     jest-specific-snapshot: ^8.0.0
-    typescript: ~4.9.3
   peerDependencies:
     "@babel/core": ^7.22.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    typescript: "*"
   peerDependenciesMeta:
     "@babel/core":
       optional: true
@@ -7086,11 +7086,11 @@ __metadata:
     require-from-string: ^2.0.2
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
-    typescript: ~4.9.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    typescript: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -7396,14 +7396,14 @@ __metadata:
     "@storybook/core-common": 7.1.0-beta.2
     "@storybook/preset-svelte-webpack": 7.1.0-beta.2
     "@storybook/svelte": 7.1.0-beta.2
-    svelte: ^3.48.0
-    svelte-loader: ^3.1.2
+    svelte: ^4.0.0
+    svelte-loader: ^3.1.9
     typescript: ~4.9.3
   peerDependencies:
     "@babel/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    svelte: ^3.48.0
+    svelte: ^3.48.0 || ^4.0.0
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -28745,16 +28745,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-loader@npm:^3.1.2":
-  version: 3.1.8
-  resolution: "svelte-loader@npm:3.1.8"
+"svelte-loader@npm:^3.1.9":
+  version: 3.1.9
+  resolution: "svelte-loader@npm:3.1.9"
   dependencies:
     loader-utils: ^2.0.4
     svelte-dev-helper: ^1.1.9
     svelte-hmr: ^0.14.2
   peerDependencies:
-    svelte: ^3.0.0 || 4.0.0-next.0 || 4.0.0-next.1 || ^4.0.0
-  checksum: a0a1da03dbac8f708f621c7934f7a9b0b7ae06f52c07a1703bb330068ced0fd710492c7fa134f6f6267d0eb1e3b002f805b3d54e1c614a4f9fe968f45ffeecb3
+    svelte: ^3.0.0 || ^4.0.0-next.0
+  checksum: b71593c06756882f0d6e690d050af497dd4b51074699d33dbc7016c7ea21858619d55fc087c7a205178f92e0ded7b3c3f68ec1a7645847098199d40377afb1ef
   languageName: node
   linkType: hard
 
@@ -28801,13 +28801,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 1ed64b96a91327a47992df0b82df708b5cda92e1da211edbedaf411e633a0be5a8425d19f996abc8dcef52dadd26b5474924dd9eeb30a7b409bf60c33b689d6c
-  languageName: node
-  linkType: hard
-
-"svelte@npm:^3.31.2, svelte@npm:^3.48.0":
-  version: 3.59.1
-  resolution: "svelte@npm:3.59.1"
-  checksum: 12a250de5c359d3a184f15727d5e61e45103a795adb32e8c4100a40929d987832ab7edcbfe357d86863c0819ad4edbd69bfc83ac33bf9b5e47a233a621fbcc3e
   languageName: node
   linkType: hard
 
