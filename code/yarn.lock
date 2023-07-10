@@ -5778,7 +5778,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/api@7.1.0-beta.2, @storybook/api@workspace:*, @storybook/api@workspace:deprecated/manager-api-shim":
+"@storybook/api@workspace:*, @storybook/api@workspace:deprecated/manager-api-shim":
   version: 0.0.0-use.local
   resolution: "@storybook/api@workspace:deprecated/manager-api-shim"
   dependencies:
@@ -5937,8 +5937,6 @@ __metadata:
   dependencies:
     "@babel/core": ^7.22.0
     "@storybook/addons": 7.1.0-beta.2
-    "@storybook/api": 7.1.0-beta.2
-    "@storybook/channel-postmessage": 7.1.0-beta.2
     "@storybook/channels": 7.1.0-beta.2
     "@storybook/client-api": 7.1.0-beta.2
     "@storybook/client-logger": 7.1.0-beta.2
@@ -5997,7 +5995,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/channel-postmessage@7.1.0-beta.2, @storybook/channel-postmessage@workspace:*, @storybook/channel-postmessage@workspace:deprecated/channel-postmessage":
+"@storybook/channel-postmessage@workspace:*, @storybook/channel-postmessage@workspace:deprecated/channel-postmessage":
   version: 0.0.0-use.local
   resolution: "@storybook/channel-postmessage@workspace:deprecated/channel-postmessage"
   dependencies:
@@ -6427,7 +6425,6 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.1.0-beta.2
     "@storybook/builder-vite": 7.1.0-beta.2
-    "@storybook/channel-postmessage": 7.1.0-beta.2
     "@storybook/client-api": 7.1.0-beta.2
     "@storybook/core-server": 7.1.0-beta.2
     "@storybook/html": 7.1.0-beta.2
@@ -6562,8 +6559,6 @@ __metadata:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/addon-designs": ^7.0.0
     "@storybook/addons": 7.1.0-beta.2
-    "@storybook/api": 7.1.0-beta.2
-    "@storybook/channel-postmessage": 7.1.0-beta.2
     "@storybook/channels": 7.1.0-beta.2
     "@storybook/client-logger": 7.1.0-beta.2
     "@storybook/components": 7.1.0-beta.2
@@ -6940,7 +6935,6 @@ __metadata:
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
     "@jest/globals": ^29.5.0
-    "@storybook/channel-postmessage": 7.1.0-beta.2
     "@storybook/channels": 7.1.0-beta.2
     "@storybook/client-logger": 7.1.0-beta.2
     "@storybook/core-common": 7.1.0-beta.2
