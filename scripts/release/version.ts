@@ -209,6 +209,20 @@ const bumpAllPackageJsons = async ({
   console.log(`✅ Bumped peer dependency versions in ${chalk.cyan('all packages')}`);
 };
 
+const bumpDeferred = async (nextVersion: string) => {
+  console.log(
+    `⏳ Setting a ${chalk.cyan(
+      'deferred'
+    )} version bump with code/package.json#deferredNextVersion = ${chalk.yellow(nextVersion)}...`
+  );
+  const codePkgJson = await readJson(CODE_PACKAGE_JSON_PATH);
+
+  codePkgJson.deferredNextVersion = nextVersion;
+  await writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
+
+  console.log(`✅ Set a ${chalk.cyan('deferred')} version bump. Not bumping any packages.`);
+};
+
 export const run = async (options: unknown) => {
   if (!validateOptions(options)) {
     return;
@@ -255,20 +269,22 @@ export const run = async (options: unknown) => {
     );
   }
 
-  // TODO: if deferred, just bump in code package.json
+  if ('deferred' in options && options.deferred) {
+    await bumpDeferred(nextVersion);
+  } else {
+    console.log(`⏭ Bumping all packages to ${chalk.blue(nextVersion)}...`);
 
-  console.log(`⏭ Bumping all packages to ${chalk.blue(nextVersion)}...`);
+    await bumpCodeVersion(nextVersion);
+    await bumpVersionSources(currentVersion, nextVersion);
+    await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
 
-  await bumpCodeVersion(nextVersion);
-  await bumpVersionSources(currentVersion, nextVersion);
-  await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
-
-  console.log(`⬆️ Updating lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
-  await execaCommand(`yarn install --mode=update-lockfile`, {
-    cwd: path.join(CODE_DIR_PATH),
-    stdio: verbose ? 'inherit' : undefined,
-  });
-  console.log(`✅ Updated lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
+    console.log(`⬆️ Updating lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
+    await execaCommand(`yarn install --mode=update-lockfile`, {
+      cwd: path.join(CODE_DIR_PATH),
+      stdio: verbose ? 'inherit' : undefined,
+    });
+    console.log(`✅ Updated lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
+  }
 
   if (process.env.GITHUB_ACTIONS === 'true') {
     setOutput('current-version', currentVersion);

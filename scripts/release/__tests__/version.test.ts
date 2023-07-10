@@ -293,4 +293,21 @@ describe('Version', () => {
       });
     }
   );
+
+  it('should only set version in "deferredNextVersion" when using --deferred', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+    });
+
+    await version({ releaseType: 'premajor', preId: 'beta', deferred: true });
+
+    expect(fsExtra.writeJson).toHaveBeenCalledTimes(1);
+    expect(fsExtra.writeJson).toHaveBeenCalledWith(
+      CODE_PACKAGE_JSON_PATH,
+      { version: '1.0.0', deferredNextVersion: '2.0.0-beta.0' },
+      { spaces: 2 }
+    );
+    expect(fsExtra.writeFile).not.toHaveBeenCalled();
+    expect(execaCommand).not.toHaveBeenCalled();
+  });
 });
