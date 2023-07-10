@@ -112,8 +112,8 @@ jobs:
 
       - name: Merge ${{ github.ref_name }} into ${{ steps.target.outputs.target }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "storybook-bot"
+          git config --global user.email "32066757+storybook-bot@users.noreply.github.com"
           git fetch origin ${{ steps.target.outputs.target }}
           git checkout ${{ steps.target.outputs.target }}
           git merge ${{ github.ref_name }}
@@ -121,6 +121,7 @@ jobs:
 
       - name: Sync CHANGELOG.md from `main` to `next`
         if: github.ref_name == 'latest-release'
+        working-directory: .
         run: |
           git fetch origin next
           git checkout next
@@ -129,6 +130,18 @@ jobs:
           git add ./CHANGELOG.md
           git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }}"
           git push origin next
+
+      - name: Sync versions/next.json from `next` to `main`
+        if: github.ref_name == 'next-release'
+        working-directory: .
+        run: |
+          git fetch origin main
+          git checkout main
+          git pull
+          git checkout origin/next ./docs/versions/next.json
+          git add ./docs/versions/next.json
+          git commit -m "Update versions/next.json for v${{ steps.version.outputs.current-version }}"
+          git push origin main
 
       # Force push from next to main if it is not a prerelease, and this release is from next-release
       # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
