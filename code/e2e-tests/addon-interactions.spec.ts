@@ -11,6 +11,10 @@ test.describe('addon-interactions', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
+  });
 
   // FIXME: skip xxx
   test('should have interactions', async ({ page }) => {
