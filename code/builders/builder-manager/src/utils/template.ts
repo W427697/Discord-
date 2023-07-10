@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 
 import { render } from 'ejs';
 
-import type { DocsOptions, Options, Ref } from '@storybook/types';
+import type { CoreConfig, DocsOptions, Options, Ref } from '@storybook/types';
 
 export const getTemplatePath = async (template: string) => {
   return join(
@@ -34,10 +34,12 @@ export const renderHTML = async (
   refs: Promise<Record<string, Ref>>,
   logLevel: Promise<string>,
   docsOptions: Promise<DocsOptions>,
+  managerGlobals: Promise<CoreConfig>,
   { versionCheck, previewUrl, configType }: Options
 ) => {
   const titleRef = await title;
   const templateRef = await template;
+  const managerGlobalsRef = await managerGlobals;
 
   return render(templateRef, {
     title: titleRef ? `${titleRef} - Storybook` : 'Storybook',
@@ -52,6 +54,13 @@ export const renderHTML = async (
       // These two need to be double stringified because the UI expects a string
       VERSIONCHECK: JSON.stringify(JSON.stringify(versionCheck), null, 2),
       PREVIEW_URL: JSON.stringify(previewUrl, null, 2), // global preview URL
+      ...Object.entries(managerGlobalsRef).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: JSON.stringify(value, null, 2),
+        }),
+        {}
+      ),
     },
     head: (await customHead) || '',
   });

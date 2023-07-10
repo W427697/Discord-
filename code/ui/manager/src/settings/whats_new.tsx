@@ -1,7 +1,7 @@
 import type { ComponentProps, FC } from 'react';
 import React, { Fragment, useEffect, useState } from 'react';
 import { styled, useTheme } from '@storybook/theming';
-import { IconButton, Icons, Loader } from '@storybook/components';
+import { Button, IconButton, Icons, Loader } from '@storybook/components';
 import { useStorybookApi } from '@storybook/manager-api';
 import { global } from '@storybook/global';
 
@@ -46,7 +46,7 @@ const ToggleNotificationButton = styled(IconButton)(({ theme }) => ({
   margin: 0,
 }));
 
-const CopyButton = styled(IconButton)(() => ({
+const CopyButton = styled(Button)(() => ({
   margin: 0,
   padding: 0,
   borderRadius: 0,
@@ -141,6 +141,7 @@ export interface WhatsNewProps {
   isLoaded: boolean;
   onLoad: () => void;
   url?: string;
+  isNotificationsDisabled: boolean;
   onCopyLink?: () => void;
   onToggleNotifications?: () => void;
 }
@@ -152,6 +153,7 @@ const PureWhatsNewScreen: FC<WhatsNewProps> = ({
   url,
   onCopyLink,
   onToggleNotifications,
+  isNotificationsDisabled,
 }) => (
   <Fragment>
     {!isLoaded && !didHitMaxWaitTime && <WhatsNewLoader />}
@@ -161,7 +163,7 @@ const PureWhatsNewScreen: FC<WhatsNewProps> = ({
       <>
         <Iframe isLoaded={isLoaded} onLoad={onLoad} src={url} title={`What's new?`} />
         <WhatsNewFooter
-          isNotificationsDisabled
+          isNotificationsDisabled={isNotificationsDisabled}
           onToggleNotifications={onToggleNotifications}
           onCopyLink={onCopyLink}
         />
@@ -193,6 +195,7 @@ const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxW
         setLoaded(true);
       }}
       url={url}
+      isNotificationsDisabled={global.SB_CORE_CONFIG.disableWhatsNewNotifications}
       onCopyLink={() => {
         navigator.clipboard.writeText(url);
       }}

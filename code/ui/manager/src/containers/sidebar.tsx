@@ -44,7 +44,8 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       viewMode,
       menu,
-      menuHighlighted: global.FEATURES.whatsNewNotifications && api.isWhatsNewUnread(),
+      menuHighlighted:
+        !global.SB_CORE_CONFIG.disableWhatsNewNotifications && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };

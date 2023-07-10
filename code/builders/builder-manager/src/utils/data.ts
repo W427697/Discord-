@@ -16,6 +16,7 @@ export const getData = async (options: Options) => {
   const docsOptions = options.presets.apply<DocsOptions>('docs', {});
   const template = readTemplate('template.ejs');
   const customHead = options.presets.apply<string>('managerHead');
+  const managerGlobals = options.presets.apply('managerGlobals', {});
 
   // we await these, because crucially if these fail, we want to bail out asap
   const [instance, config] = await Promise.all([
@@ -35,5 +36,6 @@ export const getData = async (options: Options) => {
     config,
     logLevel,
     favicon,
+    managerGlobals,
   };
 };

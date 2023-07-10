@@ -13,3 +13,8 @@ declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
 declare var REFS: any;
 declare var VERSIONCHECK: any;
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;
+
+declare var SB_CORE_CONFIG: Pick<
+  import('@storybook/types').StorybookConfig['core'],
+  'disableWhatsNewNotifications'
+>;

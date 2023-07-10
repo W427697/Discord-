@@ -188,7 +188,6 @@ export const features = async (
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
-  whatsNewNotifications: false,
 });
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {
@@ -229,6 +228,17 @@ export const docs = (
   ...docsOptions,
   docsMode,
 });
+
+export const managerGlobals = async (existing: Record<string, unknown>, options: Options) => {
+  const coreConfig = await options.presets.apply('core');
+  const { disableWhatsNewNotifications = false } = coreConfig ?? {};
+  return {
+    ...existing,
+    SB_CORE_CONFIG: {
+      disableWhatsNewNotifications,
+    },
+  };
+};
 
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');

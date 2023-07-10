@@ -68,7 +68,7 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
     const isNewStoryBookUser = fullAPI.getUrlState().path.includes('onboarding');
 
     if (
-      global.FEATURES.whatsNewNotifications &&
+      !global.SB_CORE_CONFIG.disableWhatsNewNotifications &&
       !isNewStoryBookUser &&
       whatsNewData.status === 'SUCCESS' &&
       whatsNewData.showNotification

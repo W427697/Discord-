@@ -69,7 +69,7 @@ export const useMenu = (
     [api]
   );
 
-  const whatsNewNotificationsEnabled = global.FEATURES.whatsNewNotifications;
+  const whatsNewNotificationsEnabled = !global.SB_CORE_CONFIG.disableWhatsNewNotifications;
   const isWhatsNewUnread = api.isWhatsNewUnread();
   const whatsNew = useMemo(
     () => ({

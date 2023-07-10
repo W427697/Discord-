@@ -1,11 +1,11 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ComponentProps } from 'react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { within, userEvent, screen } from '@storybook/testing-library';
+import { screen, userEvent, within } from '@storybook/testing-library';
 import type { State } from '@storybook/manager-api';
 import { SidebarMenu, ToolbarMenu } from './Menu';
 import { useMenu } from '../../containers/menu';
@@ -46,7 +46,7 @@ const DoubleThemeRenderingHack = styled.div({
 
 export const Expanded: Story = {
   render: () => {
-    window.FEATURES.whatsNewNotifications = true;
+    window.SB_CORE_CONFIG.disableWhatsNewNotifications = false;
     const menu = useMenu(
       { whatsNewData: { status: 'SUCCESS' } } as State,
       {
