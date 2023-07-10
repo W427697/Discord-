@@ -26,7 +26,6 @@ import type {
   API_RootEntry,
   API_StateMerger,
   API_StoryEntry,
-  Parameters,
   StoryId,
 } from '@storybook/types';
 
@@ -145,7 +144,7 @@ export type ManagerProviderProps = RouterData &
   };
 
 // This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
-export const combineParameters = (...parameterSets: Parameters[]) =>
+export const combineParameters = (...parameterSets: any[]) =>
   mergeWith({}, ...parameterSets, (objValue: any, srcValue: any) => {
     // Treat arrays as scalars:
     if (Array.isArray(srcValue)) return srcValue;

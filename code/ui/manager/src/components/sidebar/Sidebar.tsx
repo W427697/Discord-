@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
-import type { State } from '@storybook/manager-api';
-
 import type { API_LoadedRefData } from 'lib/types/src';
+import type { State } from '../../api';
+
 import { Heading } from './Heading';
 
 // eslint-disable-next-line import/no-cycle

@@ -1,8 +1,8 @@
 import type { ReactElement } from 'react';
 import React, { Component, Fragment } from 'react';
 import { Tabs, Icons, IconButton } from '@storybook/components';
-import type { State } from '@storybook/manager-api';
-import { shortcutToHumanString } from '@storybook/manager-api';
+import type { State } from '../../api';
+import { shortcutToHumanString } from '../../api';
 import useMediaQuery from '../hooks/useMedia';
 
 export interface SafeTabProps {

@@ -43,39 +43,16 @@
   },
   "dependencies": {
     "@storybook/channels": "7.1.0-beta.2",
-    "@storybook/client-logger": "7.1.0-beta.2",
-    "@storybook/core-events": "7.1.0-beta.2",
-    "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/router": "7.1.0-beta.2",
     "@storybook/theming": "7.1.0-beta.2",
-    "@storybook/types": "7.1.0-beta.2",
-    "dequal": "^2.0.2",
-    "lodash": "^4.17.21",
-    "memoizerific": "^1.11.3",
-    "semver": "^7.3.7",
-    "store2": "^2.14.2",
-    "telejson": "^7.0.3",
-    "ts-dedent": "^2.0.0"
-  },
-  "devDependencies": {
-    "@jest/globals": "^29.3.1",
-    "@types/lodash": "^4.14.167",
-    "@types/qs": "^6",
-    "flush-promises": "^1.0.2",
-    "qs": "^6.10.0",
-    "typescript": "~4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@storybook/types": "7.1.0-beta.2"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
     "entries": [
-      "./src/index.tsx"
+      "./src/index.ts"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

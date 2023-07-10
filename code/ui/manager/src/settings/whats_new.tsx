@@ -2,7 +2,7 @@ import type { FC, ComponentProps } from 'react';
 import React, { useEffect, useState, Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import { Icons, Loader } from '@storybook/components';
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi } from '../api';
 
 const Centered = styled.div({
   top: '50%',

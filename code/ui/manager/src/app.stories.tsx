@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { Provider as ManagerProvider, useStorybookApi } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
+import { Provider as ManagerProvider, useStorybookApi } from './api';
 import App from './app';
 import { FakeProvider, PrettyFakeProvider } from './FakeProvider';
 

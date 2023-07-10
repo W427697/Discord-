@@ -6,7 +6,7 @@ import type { ComponentProps } from 'react';
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { within, userEvent, screen } from '@storybook/testing-library';
-import type { State } from '@storybook/manager-api';
+import type { State } from '../../api';
 import { SidebarMenu, ToolbarMenu } from './Menu';
 import { useMenu } from '../../containers/menu';
 

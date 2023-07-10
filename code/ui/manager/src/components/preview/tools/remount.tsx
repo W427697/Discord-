@@ -1,10 +1,10 @@
 import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
 import { IconButton, Icons } from '@storybook/components';
-import { Consumer } from '@storybook/manager-api';
-import type { Addon, Combo } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { FORCE_REMOUNT } from '@storybook/core-events';
+import { Consumer } from '../../../api';
+import type { Addon, Combo } from '../../../api';
 
 interface AnimatedButtonProps {
   animating?: boolean;

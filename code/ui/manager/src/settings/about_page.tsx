@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { Component, useCallback } from 'react';
 
-import { type API, useStorybookApi, useStorybookState } from '@storybook/manager-api';
+import { type API, useStorybookApi, useStorybookState } from '../api';
 
 import { AboutScreen } from './about';
 

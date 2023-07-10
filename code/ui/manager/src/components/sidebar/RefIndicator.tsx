@@ -6,7 +6,7 @@ import type { TooltipLinkListLink } from '@storybook/components';
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi } from '../../api';
 
 import type { RefType } from './types';
 

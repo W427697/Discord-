@@ -1,5 +1,4 @@
 import { global } from '@storybook/global';
-import type { API_KeyCollection } from '../modules/shortcuts';
 
 const { navigator } = global;
 
@@ -77,7 +76,7 @@ export const eventToShortcut = (e: KeyboardEventLike): (string | string[])[] | n
 
 export const shortcutMatchesShortcut = (
   inputShortcut: (string | string[])[],
-  shortcut: API_KeyCollection
+  shortcut: string[]
 ): boolean => {
   if (!inputShortcut || !shortcut) return false;
   if (inputShortcut.join('').startsWith('shift/')) inputShortcut.shift(); // shift is optional for `/`
@@ -88,10 +87,7 @@ export const shortcutMatchesShortcut = (
 };
 
 // Should this keyboard event trigger this keyboard shortcut?
-export const eventMatchesShortcut = (
-  e: KeyboardEventLike,
-  shortcut: API_KeyCollection
-): boolean => {
+export const eventMatchesShortcut = (e: KeyboardEventLike, shortcut: string[]): boolean => {
   return shortcutMatchesShortcut(eventToShortcut(e), shortcut);
 };
 
@@ -133,6 +129,6 @@ export const keyToSymbol = (key: string): string => {
 };
 
 // Display the shortcut as a human readable string
-export const shortcutToHumanString = (shortcut: API_KeyCollection): string => {
+export const shortcutToHumanString = (shortcut: string[]): string => {
   return shortcut.map(keyToSymbol).join(' ');
 };

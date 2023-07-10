@@ -2,9 +2,8 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
-import type { State } from '@storybook/manager-api';
-
 import { Button as BaseButton, Icons, Link, StorybookIcon } from '@storybook/components';
+import type { State } from '../api';
 
 const Header = styled.header(({ theme }) => ({
   marginBottom: 32,

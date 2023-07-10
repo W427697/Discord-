@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import React, { Component } from 'react';
 import { styled } from '@storybook/theming';
 import type { Addon_Collection } from '@storybook/types';
-import type { State } from '@storybook/manager-api';
+import type { State } from '../../api';
 import type { SidebarProps } from '../sidebar/Sidebar';
 import { Sidebar } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';
