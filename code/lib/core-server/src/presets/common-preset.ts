@@ -4,6 +4,7 @@ import {
   getDirectoryFromWorkingDir,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
+  getStorybookInfo,
   loadEnvs,
 } from '@storybook/core-common';
 import type {
@@ -15,7 +16,7 @@ import type {
   StorybookConfig,
   StoryIndexer,
 } from '@storybook/types';
-import { loadCsf } from '@storybook/csf-tools';
+import { loadCsf, readConfig, writeConfig } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
@@ -27,6 +28,7 @@ import {
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
+import { JsPackageManagerFactory } from '@storybook/cli';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 
@@ -293,9 +295,21 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
     }
   });
 
-  channel.on(TOGGLE_WHATS_NEW_NOTIFICATIONS, async (enable: boolean) => {
-    console.log(`${enable ? 'disabling' : 'enabling'}whats new`);
-  });
+  channel.on(
+    TOGGLE_WHATS_NEW_NOTIFICATIONS,
+    async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
+      try {
+        const packageManager = JsPackageManagerFactory.getPackageManager();
+        const info = getStorybookInfo(await packageManager.retrievePackageJson());
+        const main = await readConfig(info.mainConfig);
+        main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
+        await writeConfig(main);
+      } catch (e) {
+        console.log(e);
+        // TODO: telemetry
+      }
+    }
+  );
 
   return channel;
 };

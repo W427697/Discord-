@@ -2,7 +2,7 @@ import type { ComponentProps, FC } from 'react';
 import React, { Fragment, useEffect, useState } from 'react';
 import { styled, useTheme } from '@storybook/theming';
 import { Button, IconButton, Icons, Loader } from '@storybook/components';
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { global } from '@storybook/global';
 
 const Centered = styled.div({
@@ -174,15 +174,14 @@ const PureWhatsNewScreen: FC<WhatsNewProps> = ({
 
 const MAX_WAIT_TIME = 10000; // 10 seconds
 
-const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxWaitTime'>> = ({
-  url,
-}) => {
+const WhatsNewScreen: FC<
+  Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxWaitTime' | 'isNotificationsEnabled'>
+> = ({ url }) => {
   const api = useStorybookApi();
+  const state = useStorybookState();
   const [isLoaded, setLoaded] = useState(false);
   const [didHitMaxWaitTime, setDidHitMaxWaitTime] = useState(false);
-  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(
-    global.SB_CORE_CONFIG.disableWhatsNewNotifications !== true
-  );
+  const isNotificationsEnabled = !state.disableWhatsNewNotifications;
 
   useEffect(() => {
     const timer = setTimeout(() => !isLoaded && setDidHitMaxWaitTime(true), MAX_WAIT_TIME);
@@ -207,11 +206,9 @@ const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxW
           isNotificationsEnabled &&
           global.confirm('All update notifications will no longer be shown. Are you sure?')
         ) {
-          api.toggleWhatsNewNotifications(false);
-          setIsNotificationsEnabled(false);
+          api.toggleWhatsNewNotifications();
         } else {
-          api.toggleWhatsNewNotifications(true);
-          setIsNotificationsEnabled(true);
+          api.toggleWhatsNewNotifications();
         }
       }}
     />

@@ -10,12 +10,13 @@ import type { ModuleFn } from '../index';
 
 export type SubState = {
   whatsNewData?: WhatsNewData;
+  disableWhatsNewNotifications: boolean;
 };
 
 export type SubAPI = {
   isWhatsNewUnread(): boolean;
   whatsNewHasBeenRead(): void;
-  toggleWhatsNewNotifications(enable: boolean): void;
+  toggleWhatsNewNotifications(): void;
 };
 
 const WHATS_NEW_NOTIFICATION_ID = 'whats-new';
@@ -23,6 +24,7 @@ const WHATS_NEW_NOTIFICATION_ID = 'whats-new';
 export const init: ModuleFn = ({ fullAPI, store }) => {
   const state: SubState = {
     whatsNewData: undefined,
+    disableWhatsNewNotifications: global.SB_CORE_CONFIG.disableWhatsNewNotifications,
   };
 
   function setWhatsNewState(newState: WhatsNewData) {
@@ -41,8 +43,12 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
         fullAPI.clearNotification(WHATS_NEW_NOTIFICATION_ID);
       }
     },
-    toggleWhatsNewNotifications(enable: boolean) {
-      fullAPI.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, enable);
+    toggleWhatsNewNotifications() {
+      state.disableWhatsNewNotifications = !state.disableWhatsNewNotifications;
+      store.setState({ disableWhatsNewNotifications: state.disableWhatsNewNotifications });
+      fullAPI.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, {
+        disableWhatsNewNotifications: state.disableWhatsNewNotifications,
+      });
     },
   };
 
@@ -68,7 +74,7 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
     const isNewStoryBookUser = fullAPI.getUrlState().path.includes('onboarding');
 
     if (
-      !global.SB_CORE_CONFIG.disableWhatsNewNotifications &&
+      !state.disableWhatsNewNotifications &&
       !isNewStoryBookUser &&
       whatsNewData.status === 'SUCCESS' &&
       whatsNewData.showNotification

@@ -3,7 +3,6 @@ import React from 'react';
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
-import { global } from '@storybook/global';
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './menu';
 
@@ -44,8 +43,7 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       viewMode,
       menu,
-      menuHighlighted:
-        !global.SB_CORE_CONFIG.disableWhatsNewNotifications && api.isWhatsNewUnread(),
+      menuHighlighted: !state.disableWhatsNewNotifications && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };
