@@ -32,6 +32,9 @@ const Sidebar = React.memo(function Sideber() {
       enableShortcuts
     );
 
+    const whatsNewNotificationsEnabled =
+      state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
+
     return {
       title: name,
       url,
@@ -43,7 +46,7 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       viewMode,
       menu,
-      menuHighlighted: !state.disableWhatsNewNotifications && api.isWhatsNewUnread(),
+      menuHighlighted: whatsNewNotificationsEnabled && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };

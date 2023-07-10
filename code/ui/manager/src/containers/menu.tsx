@@ -68,7 +68,8 @@ export const useMenu = (
     [api]
   );
 
-  const whatsNewNotificationsEnabled = !state.disableWhatsNewNotifications;
+  const whatsNewNotificationsEnabled =
+    state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
   const isWhatsNewUnread = api.isWhatsNewUnread();
   const whatsNew = useMemo(
     () => ({

@@ -47,7 +47,7 @@ const DoubleThemeRenderingHack = styled.div({
 export const Expanded: Story = {
   render: () => {
     const menu = useMenu(
-      { whatsNewData: { status: 'SUCCESS' }, disableWhatsNewNotifications: false } as State,
+      { whatsNewData: { status: 'SUCCESS', disableWhatsNewNotifications: false } } as State,
       {
         // @ts-expect-error (Converted from ts-ignore)
         getShortcutKeys: () => ({}),

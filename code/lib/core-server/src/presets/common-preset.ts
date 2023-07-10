@@ -2,10 +2,10 @@ import { pathExists, readFile } from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
+  findConfigFile,
   getDirectoryFromWorkingDir,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
-  getStorybookInfo,
   loadEnvs,
 } from '@storybook/core-common';
 import type {
@@ -29,7 +29,6 @@ import {
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
-import { JsPackageManagerFactory } from '@storybook/cli';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
@@ -234,17 +233,6 @@ export const docs = (
   docsMode,
 });
 
-export const managerGlobals = async (existing: Record<string, unknown>, options: Options) => {
-  const coreConfig = await options.presets.apply('core');
-  const { disableWhatsNewNotifications = false } = coreConfig ?? {};
-  return {
-    ...existing,
-    SB_CORE_CONFIG: {
-      disableWhatsNewNotifications,
-    },
-  };
-};
-
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');
   if (await pathExists(location)) {
@@ -289,12 +277,19 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
         throw response;
       })) as WhatsNewResponse;
 
+      const main = await readConfig(findConfigFile('main', options.configDir));
+      const disableWhatsNewNotifications = main.getFieldValue([
+        'core',
+        'disableWhatsNewNotifications',
+      ]);
+
       const cache: WhatsNewCache = (await options.cache.get(WHATS_NEW_CACHE)) ?? {};
       const data = {
         ...post,
         status: 'SUCCESS',
         postIsRead: post.url === cache.lastReadPost,
         showNotification: post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
+        disableWhatsNewNotifications,
       } satisfies WhatsNewData;
       channel.emit(RESULT_WHATS_NEW_DATA, { data });
     } catch (e) {
@@ -310,12 +305,7 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
     async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
       const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
       try {
-        const packageManager = JsPackageManagerFactory.getPackageManager();
-        const { mainConfig } = getStorybookInfo(
-          await packageManager.retrievePackageJson(),
-          options.configDir
-        );
-        const main = await readConfig(mainConfig);
+        const main = await readConfig(findConfigFile('main', options.configDir));
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
         await writeConfig(main);
 

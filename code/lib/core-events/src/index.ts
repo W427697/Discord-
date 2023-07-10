@@ -140,6 +140,7 @@ export type WhatsNewData =
       excerpt: string;
       postIsRead: boolean;
       showNotification: boolean;
+      disableWhatsNewNotifications: boolean;
     }
   | {
       status: 'ERROR';

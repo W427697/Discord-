@@ -4,7 +4,6 @@ import { styled, useTheme } from '@storybook/theming';
 import { Button, IconButton, Icons, Loader } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { global } from '@storybook/global';
-import type { WhatsNewData } from '@storybook/core-events';
 
 const Centered = styled.div({
   top: '50%',
@@ -175,12 +174,12 @@ const PureWhatsNewScreen: FC<WhatsNewProps> = ({
 
 const MAX_WAIT_TIME = 10000; // 10 seconds
 
-const WhatsNewScreen: FC<{ whatsNewData: WhatsNewData }> = ({ whatsNewData }) => {
+const WhatsNewScreen: FC = () => {
   const api = useStorybookApi();
   const state = useStorybookState();
+  const { whatsNewData } = state;
   const [isLoaded, setLoaded] = useState(false);
   const [didHitMaxWaitTime, setDidHitMaxWaitTime] = useState(false);
-  const isNotificationsEnabled = !state.disableWhatsNewNotifications;
 
   useEffect(() => {
     const timer = setTimeout(() => !isLoaded && setDidHitMaxWaitTime(true), MAX_WAIT_TIME);
@@ -188,6 +187,8 @@ const WhatsNewScreen: FC<{ whatsNewData: WhatsNewData }> = ({ whatsNewData }) =>
   }, [isLoaded]);
 
   if (whatsNewData?.status !== 'SUCCESS') return null;
+
+  const isNotificationsEnabled = !whatsNewData.disableWhatsNewNotifications;
 
   return (
     <PureWhatsNewScreen
@@ -203,11 +204,10 @@ const WhatsNewScreen: FC<{ whatsNewData: WhatsNewData }> = ({ whatsNewData }) =>
         navigator.clipboard?.writeText(whatsNewData.blogUrl ?? whatsNewData.url);
       }}
       onToggleNotifications={() => {
-        if (
-          isNotificationsEnabled &&
-          global.confirm('All update notifications will no longer be shown. Are you sure?')
-        ) {
-          api.toggleWhatsNewNotifications();
+        if (isNotificationsEnabled) {
+          if (global.confirm('All update notifications will no longer be shown. Are you sure?')) {
+            api.toggleWhatsNewNotifications();
+          }
         } else {
           api.toggleWhatsNewNotifications();
         }
