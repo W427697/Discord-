@@ -4,8 +4,8 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['noop', 'pr', 'merged', 'daily']
-    default: 'noop'
+    enum: ['normal', 'merged', 'daily']
+    default: 'normal'
 
 executors:
   sb_node_16_classic:
@@ -82,14 +82,6 @@ commands:
           fail_only: true
           failure_message: $(yarn get-report-message << pipeline.parameters.workflow >> << parameters.template >>)
 jobs:
-  noop:
-    executor:
-      class: small
-      name: sb_node_16_classic
-    steps:
-      - run:
-          name: Noop
-          command: echo "Noop"
   pretty-docs:
     executor:
       class: small
@@ -467,14 +459,9 @@ jobs:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
 
 workflows:
-  noop:
+  normal:
     when:
-      equal: [noop, << pipeline.parameters.workflow >>]
-    jobs:
-      - noop
-  pr:
-    when:
-      equal: [pr, << pipeline.parameters.workflow >>]
+      equal: [normal, << pipeline.parameters.workflow >>]
     jobs:
       - pretty-docs
       - build
