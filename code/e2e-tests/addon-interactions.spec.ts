@@ -11,6 +11,10 @@ test.describe('addon-interactions', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
+  });
 
   // FIXME: skip xxx
   test('should have interactions', async ({ page }) => {
@@ -104,6 +108,12 @@ test.describe('addon-interactions', () => {
     await expect(interactionsTab.getByText('3')).toBeVisible();
     await expect(interactionsTab).toBeVisible();
     await expect(interactionsTab.getByText('3')).toBeVisible();
+
+    // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
+    // if the toolbar is hidden, this will toggle the toolbar
+    if (await page.locator('[offset="40"]').isHidden()) {
+      await page.locator('html').press('t');
+    }
 
     // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
     // if the toolbar is hidden, this will toggle the toolbar
