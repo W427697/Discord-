@@ -301,8 +301,11 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
     async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
       try {
         const packageManager = JsPackageManagerFactory.getPackageManager();
-        const info = getStorybookInfo(await packageManager.retrievePackageJson());
-        const main = await readConfig(info.mainConfig);
+        const { mainConfig } = getStorybookInfo(
+          await packageManager.retrievePackageJson(),
+          options.configDir
+        );
+        const main = await readConfig(mainConfig);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
         await writeConfig(main);
 
