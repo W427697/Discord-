@@ -190,7 +190,7 @@ export interface SyntaxHighlighterState {
 
 // copied from @types/react-syntax-highlighter/index.d.ts
 
-export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
+export const SyntaxHighlighter = ({
   children,
   language = 'jsx',
   copyable = false,
@@ -201,7 +201,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
   className = null,
   showLineNumbers = false,
   ...rest
-}) => {
+}: SyntaxHighlighterProps) => {
   if (typeof children !== 'string' || !children.trim()) {
     return null;
   }
@@ -254,5 +254,9 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
     </Wrapper>
   );
 };
+
+SyntaxHighlighter.registerLanguage = (
+  ...args: Parameters<typeof ReactSyntaxHighlighter.registerLanguage>
+) => ReactSyntaxHighlighter.registerLanguage(...args);
 
 export default SyntaxHighlighter;
