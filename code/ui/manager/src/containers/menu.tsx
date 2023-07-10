@@ -3,7 +3,6 @@ import React, { useCallback, useMemo } from 'react';
 
 import { Badge, Icons } from '@storybook/components';
 import { styled, useTheme } from '@storybook/theming';
-import { global } from '@storybook/global';
 import type { API, State } from '../api';
 import { shortcutToHumanString } from '../api';
 
@@ -27,16 +26,14 @@ const Key = styled.span(({ theme }) => ({
   padding: '0 6px',
 }));
 
-const KeyChild = styled.code(
-  ({ theme }) => `
-  padding: 0;
-  vertical-align: middle;
+const KeyChild = styled.code({
+  padding: 0,
+  verticalAlign: 'middle',
 
-  & + & {
-    margin-left: 6px;
-  }
-`
-);
+  '& + &': {
+    marginLeft: 6,
+  },
+});
 
 export const Shortcut: FC<{ keys: string[] }> = ({ keys }) => (
   <>
@@ -69,7 +66,8 @@ export const useMenu = (
     [api]
   );
 
-  const whatsNewNotificationsEnabled = global.FEATURES.whatsNewNotifications;
+  const whatsNewNotificationsEnabled =
+    state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
   const isWhatsNewUnread = api.isWhatsNewUnread();
   const whatsNew = useMemo(
     () => ({

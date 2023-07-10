@@ -1,7 +1,8 @@
 import React from 'react';
 import { IconButton, Icons, Separator } from '@storybook/components';
-import { Consumer } from '../../../api';
-import type { Addon, Combo } from '../../../api';
+import type { Addon_BaseType } from '@storybook/types';
+import { Consumer, types } from '../../../api';
+import type { Combo } from '../../../api';
 
 const menuMapper = ({ api, state }: Combo) => ({
   isVisible: state.layout.showNav,
@@ -9,9 +10,10 @@ const menuMapper = ({ api, state }: Combo) => ({
   toggle: () => api.toggleNav(),
 });
 
-export const menuTool: Addon = {
+export const menuTool: Addon_BaseType = {
   title: 'menu',
   id: 'menu',
+  type: types.TOOL,
   match: ({ viewMode }) => ['story', 'docs'].includes(viewMode),
   render: () => (
     <Consumer filter={menuMapper}>

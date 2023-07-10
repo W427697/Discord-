@@ -1,8 +1,9 @@
 import { global } from '@storybook/global';
 import React from 'react';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
-import { Consumer } from '../../../api';
-import type { Addon, Combo } from '../../../api';
+import type { Addon_BaseType } from '@storybook/types';
+import type { Combo } from '../../../api';
+import { Consumer, types } from '../../../api';
 
 const { PREVIEW_URL } = global;
 
@@ -18,9 +19,10 @@ const ejectMapper = ({ state }: Combo) => {
   };
 };
 
-export const ejectTool: Addon = {
+export const ejectTool: Addon_BaseType = {
   title: 'eject',
   id: 'eject',
+  type: types.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={ejectMapper}>

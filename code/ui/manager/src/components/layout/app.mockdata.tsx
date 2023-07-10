@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { styled } from '@storybook/theming';
 import type { Addon_Collection } from '@storybook/types';
 import type { State } from '../../api';
+import { types } from '../../api';
 import type { SidebarProps } from '../sidebar/Sidebar';
 import { Sidebar } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';
@@ -39,6 +40,7 @@ export const shortcuts: State['shortcuts'] = {
 
 export const panels: Addon_Collection = {
   test1: {
+    type: types.PANEL,
     title: 'Test 1',
     render: ({ active, key }) =>
       active ? (
@@ -48,6 +50,7 @@ export const panels: Addon_Collection = {
       ) : null,
   },
   test2: {
+    type: types.PANEL,
     title: 'Test 2',
     render: ({ active, key }) =>
       active ? (

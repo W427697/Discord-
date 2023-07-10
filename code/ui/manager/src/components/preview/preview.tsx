@@ -2,11 +2,12 @@ import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { global } from '@storybook/global';
 
+import { type Addon_BaseType } from '@storybook/types';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 
 import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';
-import { type API, Consumer, type Combo, merge, addons, types, type Addon } from '../../api';
+import { type API, Consumer, type Combo, merge, addons, types } from '../../api';
 
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';
@@ -18,8 +19,9 @@ import type { PreviewProps } from './utils/types';
 
 const { FEATURES } = global;
 
-const getWrappers = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.PREVIEW));
-const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.TAB));
+const getWrappers = (getFn: API['getElements']) =>
+  Object.values(getFn<Addon_BaseType>(types.PREVIEW));
+const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon_BaseType>(types.TAB));
 
 const canvasMapper = ({ state, api }: Combo) => ({
   storyId: state.storyId,
@@ -34,8 +36,9 @@ const canvasMapper = ({ state, api }: Combo) => ({
   active: !!(state.viewMode && state.viewMode.match(/^(story|docs)$/)),
 });
 
-const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): Addon => ({
+const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): Addon_BaseType => ({
   id: 'canvas',
+  type: types.PREVIEW,
   title: 'Canvas',
   route: ({ storyId, refId }) => (refId ? `/story/${refId}_${storyId}` : `/story/${storyId}`),
   match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
@@ -220,7 +223,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
 
 export { Preview };
 
-function filterTabs(panels: Addon[], parameters: Record<string, any>) {
+function filterTabs(panels: Addon_BaseType[], parameters: Record<string, any>) {
   const { previewTabs } = addons.getConfig();
   const parametersTabs = parameters ? parameters.previewTabs : undefined;
 
@@ -237,7 +240,7 @@ function filterTabs(panels: Addon[], parameters: Record<string, any>) {
         const t = arrTabs.find((tab) => tab.id === panel.id);
         return t === undefined || t.id === 'canvas' || !t.hidden;
       })
-      .map((panel, index) => ({ ...panel, index } as Addon))
+      .map((panel, index) => ({ ...panel, index } as Addon_BaseType))
       .sort((p1, p2) => {
         /* eslint-disable @typescript-eslint/naming-convention */
         const tab_1 = arrTabs.find((tab) => tab.id === p1.id);
@@ -257,7 +260,7 @@ function filterTabs(panels: Addon[], parameters: Record<string, any>) {
             title: t.title || panel.title,
             disabled: t.disabled,
             hidden: t.hidden,
-          } as Addon;
+          } as Addon_BaseType;
         }
         return panel;
       });

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { global } from '@storybook/global';
 import type { Combo, StoriesHash } from '../api';
 import { Consumer } from '../api';
 
@@ -33,6 +32,9 @@ const Sidebar = React.memo(function Sideber() {
       enableShortcuts
     );
 
+    const whatsNewNotificationsEnabled =
+      state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
+
     return {
       title: name,
       url,
@@ -44,7 +46,7 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       viewMode,
       menu,
-      menuHighlighted: global.FEATURES.whatsNewNotifications && api.isWhatsNewUnread(),
+      menuHighlighted: whatsNewNotificationsEnabled && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };

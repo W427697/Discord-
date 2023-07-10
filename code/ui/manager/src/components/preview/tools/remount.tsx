@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { IconButton, Icons } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { FORCE_REMOUNT } from '@storybook/core-events';
-import { Consumer } from '../../../api';
-import type { Addon, Combo } from '../../../api';
+import type { Addon_BaseType } from '@storybook/types';
+import { Consumer, types } from '../../../api';
+import type { Combo } from '../../../api';
 
 interface AnimatedButtonProps {
   animating?: boolean;
@@ -28,9 +29,10 @@ const menuMapper = ({ api, state }: Combo) => {
   };
 };
 
-export const remountTool: Addon = {
+export const remountTool: Addon_BaseType = {
   title: 'remount',
   id: 'remount',
+  type: types.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>

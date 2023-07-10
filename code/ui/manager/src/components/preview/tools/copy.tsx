@@ -2,8 +2,9 @@ import { global } from '@storybook/global';
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
-import { Consumer } from '../../../api';
-import type { Addon, Combo } from '../../../api';
+import type { Addon_BaseType } from '@storybook/types';
+import type { Combo } from '../../../api';
+import { Consumer, types } from '../../../api';
 
 const { PREVIEW_URL, document } = global;
 
@@ -22,9 +23,10 @@ const copyMapper = ({ state }: Combo) => {
   };
 };
 
-export const copyTool: Addon = {
+export const copyTool: Addon_BaseType = {
   title: 'copy',
   id: 'copy',
+  type: types.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={copyMapper}>

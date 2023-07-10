@@ -1,7 +1,7 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ComponentProps } from 'react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
@@ -46,9 +46,8 @@ const DoubleThemeRenderingHack = styled.div({
 
 export const Expanded: Story = {
   render: () => {
-    window.FEATURES.whatsNewNotifications = true;
     const menu = useMenu(
-      { whatsNewData: { status: 'SUCCESS' } } as State,
+      { whatsNewData: { status: 'SUCCESS', disableWhatsNewNotifications: false } } as State,
       {
         // @ts-expect-error (Converted from ts-ignore)
         getShortcutKeys: () => ({}),
