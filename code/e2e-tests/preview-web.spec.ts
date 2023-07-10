@@ -7,7 +7,12 @@ const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 test.describe('preview-web', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
+
     await new SbPage(page).waitUntilLoaded();
+  });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
   });
 
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
