@@ -22,44 +22,23 @@ import { DocsPageWrapper } from '../blocks/src/components';
 
 const { document } = global;
 
-const ThemeBlock = styled.div<{ side: 'left' | 'right' }>(
-  {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: '50vw',
-    width: '50vw',
-    height: '100vh',
-    bottom: 0,
-    overflow: 'auto',
-    padding: 10,
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-    color: theme.color.defaultText,
-  }),
-  ({ side }) =>
-    side === 'left'
-      ? {
-          left: 0,
-          right: '50vw',
-        }
-      : {
-          right: 0,
-          left: '50vw',
-        }
-);
+const ThemeContainer = styled.div({
+  display: 'flex',
+});
 
-const ThemeStack = styled.div(
-  {
-    position: 'relative',
-    minHeight: 'calc(50vh - 15px)',
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-    color: theme.color.defaultText,
-  })
-);
+const ThemeBlock = styled.div(({ theme }) => ({
+  flex: 1,
+  padding: '1rem',
+  background: theme.background.content,
+  color: theme.color.defaultText,
+}));
+
+const ThemeStack = styled.div(({ theme }) => ({
+  flex: 1,
+  padding: '1rem',
+  background: theme.background.content,
+  color: theme.color.defaultText,
+}));
 
 const PlayFnNotice = styled.div(
   {
@@ -177,7 +156,7 @@ export const decorators = [
     switch (theme) {
       case 'side-by-side': {
         return (
-          <Fragment>
+          <ThemeContainer>
             <ThemeProvider theme={convert(themes.light)}>
               <Global styles={createReset} />
             </ThemeProvider>
@@ -191,7 +170,7 @@ export const decorators = [
                 <StoryFn />
               </ThemeBlock>
             </ThemeProvider>
-          </Fragment>
+          </ThemeContainer>
         );
       }
       case 'stacked': {
@@ -216,22 +195,26 @@ export const decorators = [
       case 'default':
       default: {
         return (
-          <ThemeProvider theme={convert(themes[theme])}>
-            <Global styles={createReset} />
-            <ThemedSetRoot />
-            {!parameters.theme && isChromatic() && playFunction && (
-              <>
-                <PlayFnNotice>
-                  <span>
-                    Detected play function in Chromatic. Rendering only light theme to avoid
-                    multiple play functions in the same story.
-                  </span>
-                </PlayFnNotice>
-                <div style={{ marginBottom: 20 }} />
-              </>
-            )}
-            <StoryFn />
-          </ThemeProvider>
+          <ThemeContainer>
+            <ThemeProvider theme={convert(themes[theme])}>
+              <Global styles={createReset} />
+              <ThemedSetRoot />
+              {!parameters.theme && isChromatic() && playFunction && (
+                <>
+                  <PlayFnNotice>
+                    <span>
+                      Detected play function in Chromatic. Rendering only light theme to avoid
+                      multiple play functions in the same story.
+                    </span>
+                  </PlayFnNotice>
+                  <div style={{ marginBottom: 20 }} />
+                </>
+              )}
+              <ThemeBlock>
+                <StoryFn />
+              </ThemeBlock>
+            </ThemeProvider>
+          </ThemeContainer>
         );
       }
     }
@@ -306,6 +289,7 @@ export const parameters = {
       'slategray',
     ],
   },
+  layout: 'fullscreen',
 };
 
 export const globalTypes = {
