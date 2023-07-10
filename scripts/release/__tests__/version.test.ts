@@ -132,6 +132,68 @@ describe('Version', () => {
     `);
   });
 
+  it('should throw when apply is combined with releaseType', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ apply: true, releaseType: 'prerelease' })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+          "path": []
+        }
+      ]"
+    `);
+  });
+
+  it('should throw when apply is combined with exact', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ apply: true, exact: '1.0.0' })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+          "path": []
+        }
+      ]"
+    `);
+  });
+
+  it('should throw when apply is combined with deferred', async () => {
+    fsExtra.__setMockFiles({
+      [CODE_PACKAGE_JSON_PATH]: JSON.stringify({ version: '1.0.0' }),
+      [MANAGER_API_VERSION_PATH]: `export const version = "1.0.0";`,
+      [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "1.0.0" };`,
+    });
+
+    await expect(version({ apply: true, deferred: true })).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[
+        {
+          "code": "custom",
+          "message": "--deferred cannot be combined with --apply",
+          "path": []
+        },
+        {
+          "code": "custom",
+          "message": "Combining --exact with --release-type is invalid, but having one of them is required",
+          "path": []
+        }
+      ]"
+    `);
+  });
+
   it.each([
     // prettier-ignore
     { releaseType: 'major', currentVersion: '1.1.1', expectedVersion: '2.0.0' },

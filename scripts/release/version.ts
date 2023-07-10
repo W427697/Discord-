@@ -29,9 +29,6 @@ program
   .option('-A, --apply', 'Apply a deferred version bump')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
-/**
- * @see tocbot docs {@link https://tscanlin.github.io/tocbot/#usage}
- */
 const optionsSchema = z
   .object({
     releaseType: z
