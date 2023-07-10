@@ -14,11 +14,6 @@ import { EVENTS, type Call, CallStates, type LogItem } from '@storybook/instrume
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { ADDON_ID } from './constants';
 
-jest.mock('@storybook/manager-api', () => {
-  const m = jest.requireActual('../../../ui/manager/src/api');
-  return m;
-});
-
 interface Interaction extends Call {
   status: Call['status'];
   childCallIds: Call['id'][];
