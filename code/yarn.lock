@@ -2922,6 +2922,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@figspec/components@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@figspec/components@npm:1.0.1"
+  dependencies:
+    lit: ^2.1.3
+  checksum: 74e2c4c6959355efc5d89f224b32ed8207c4885b7d4bbdc2c7c9de6e5ef3e5b80a553fc26ca51eac77b03b6414ec645b147ba64211cf1165e2bcce49ced67fc8
+  languageName: node
+  linkType: hard
+
+"@figspec/react@npm:^1.0.0":
+  version: 1.0.3
+  resolution: "@figspec/react@npm:1.0.3"
+  dependencies:
+    "@figspec/components": ^1.0.1
+    "@lit-labs/react": ^1.0.2
+  peerDependencies:
+    react: ^16.14.0 || ^17.0.0 || ^18.0.0
+  checksum: d5bbb79e106f522f5b867d0f55de01391edd1011e3f5d5a966ac07a5fca75f499d1d4d40a6186cf0afdc4fc4b49d808eb5d4fcbaf1784401a1ace2865dbc19be
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -3912,6 +3933,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lit-labs/react@npm:^1.0.2":
+  version: 1.2.1
+  resolution: "@lit-labs/react@npm:1.2.1"
+  checksum: c92364101348400a06c3eb45a6384ca7d47c32765fdcad892827b360d0bad6cef7916f9a17744f2f471a5da3d7d73750767b885fc1521cd5e5e724badb71f014
+  languageName: node
+  linkType: hard
+
 "@lit-labs/ssr-dom-shim@npm:^1.0.0, @lit-labs/ssr-dom-shim@npm:^1.1.0":
   version: 1.1.1
   resolution: "@lit-labs/ssr-dom-shim@npm:1.1.1"
@@ -3919,7 +3947,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lit/reactive-element@npm:^1.3.0, @lit/reactive-element@npm:^1.4.0":
+"@lit/reactive-element@npm:^1.3.0, @lit/reactive-element@npm:^1.4.0, @lit/reactive-element@npm:^1.6.0":
   version: 1.6.2
   resolution: "@lit/reactive-element@npm:1.6.2"
   dependencies:
@@ -5237,6 +5265,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/addon-designs@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@storybook/addon-designs@npm:7.0.0"
+  dependencies:
+    "@figspec/react": ^1.0.0
+  peerDependencies:
+    "@storybook/addon-docs": ^7.0.0
+    "@storybook/addons": ^7.0.0
+    "@storybook/components": ^7.0.0
+    "@storybook/manager-api": ^7.0.0
+    "@storybook/preview-api": ^7.0.0
+    "@storybook/theming": ^7.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 7e532334ddd94051e4ada81fffc75ad17f955e5c1a2b1c03a7c6895000b1bade18906069497e4e8cdad960da650273fd95ca9ed6f5cfaad365c4d60bd640438a
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-docs@7.1.0-beta.2, @storybook/addon-docs@workspace:*, @storybook/addon-docs@workspace:addons/docs":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-docs@workspace:addons/docs"
@@ -6509,6 +6560,7 @@ __metadata:
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
+    "@storybook/addon-designs": ^7.0.0
     "@storybook/addons": 7.1.0-beta.2
     "@storybook/api": 7.1.0-beta.2
     "@storybook/channel-postmessage": 7.1.0-beta.2
@@ -20571,7 +20623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit-element@npm:^3.2.0":
+"lit-element@npm:^3.2.0, lit-element@npm:^3.3.0":
   version: 3.3.2
   resolution: "lit-element@npm:3.3.2"
   dependencies:
@@ -20599,6 +20651,17 @@ __metadata:
     lit-element: ^3.2.0
     lit-html: ^2.3.0
   checksum: 7ca5dde792bd03bf2a1f162f4d376d191913b3e8fc37c7bafb36cdde5c3b81e934a1a9a3c38efd92aacd2ca4858b40434e49c90b370da9802caaa92c05fb3b63
+  languageName: node
+  linkType: hard
+
+"lit@npm:^2.1.3":
+  version: 2.7.6
+  resolution: "lit@npm:2.7.6"
+  dependencies:
+    "@lit/reactive-element": ^1.6.0
+    lit-element: ^3.3.0
+    lit-html: ^2.7.0
+  checksum: bfd629c6eff8e6086200d0c0904c7a20a4d1dab21d1016d40cc8591d00d972171537e8466ca4eae8c5f227f2c5d2ef2ab9a9fe3587e024a493c93614c928b6fe
   languageName: node
   linkType: hard
 

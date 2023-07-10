@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@storybook/addon-designs": "^7.0.0",
     "@storybook/addons": "7.1.0-beta.2",
     "@storybook/api": "7.1.0-beta.2",
     "@storybook/channel-postmessage": "7.1.0-beta.2",
