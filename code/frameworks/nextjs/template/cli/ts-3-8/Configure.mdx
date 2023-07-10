@@ -29,10 +29,12 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
   </div>
   <div className="sb-section">
     <div className="sb-section-item">
-      <Image 
-        fill
+      <Image
         src={Styling}
         alt="A wall of logos representing different styling technologies"
+        width={0}
+        height={0}
+        style={{ width: '100%', height: 'auto' }}
       />
       <h4 className="sb-section-item-heading">Add styling and CSS</h4>
       <p className="sb-section-item-paragraph">Like with web applications, there are many ways to include CSS within Storybook. Learn more about setting up styling within Storybook.</p>
@@ -43,7 +45,9 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
     </div>
     <div className="sb-section-item">
       <Image 
-        fill
+        width={0}
+        height={0}
+        style={{ width: '100%', height: 'auto' }}
         src={Context}
         alt="An abstraction representing the composition of data for a component"
       />
@@ -55,7 +59,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
       >Learn more<RightArrow /></a>
     </div>
     <div className="sb-section-item">
-      <Image fill src={Assets} alt="A representation of typography and image assets" />
+      <Image 
+        width={0}
+        height={0}
+        style={{ width: '100%', height: 'auto' }} 
+        src={Assets} 
+        alt="A representation of typography and image assets" 
+      />
       <div>
         <h4 className="sb-section-item-heading">Load assets and resources</h4>
         <p className="sb-section-item-paragraph">To link static files (like fonts) to your projects and stories, use the
@@ -79,7 +89,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
   <div className="sb-section">
     <div className="sb-features-grid">
       <div className="sb-grid-item">
-        <Image fill src={Docs} alt="A screenshot showing the autodocs tag being set, pointing a docs page being generated" />
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Docs} 
+          alt="A screenshot showing the autodocs tag being set, pointing a docs page being generated" 
+        />
         <h4 className="sb-section-item-heading">Autodocs</h4>
         <p className="sb-section-item-paragraph">Auto-generate living,
           interactive reference documentation from your components and stories.</p>
@@ -89,7 +105,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
         >Learn more<RightArrow /></a>
       </div>
       <div className="sb-grid-item">
-        <Image fill src={Share} alt="A browser window showing a Storybook being published to a chromatic.com URL" />
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Share} 
+          alt="A browser window showing a Storybook being published to a chromatic.com URL" 
+        />
         <h4 className="sb-section-item-heading">Publish to Chromatic</h4>
         <p className="sb-section-item-paragraph">Publish your Storybook to review and collaborate with your entire team.</p>
         <a
@@ -98,7 +120,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
         >Learn more<RightArrow /></a>
       </div>
       <div className="sb-grid-item">
-        <Image fill src={FigmaPlugin} alt="Windows showing the Storybook plugin in Figma" />
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={FigmaPlugin} 
+          alt="Windows showing the Storybook plugin in Figma" 
+        />
         <h4 className="sb-section-item-heading">Figma Plugin</h4>
         <p className="sb-section-item-paragraph">Embed your stories into Figma to cross-reference the design and live
           implementation in one place.</p>
@@ -108,7 +136,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
         >Learn more<RightArrow /></a>
       </div>
       <div className="sb-grid-item">
-        <Image fill src={Testing} alt="Screenshot of tests passing and failing" />
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Testing} 
+          alt="Screenshot of tests passing and failing" 
+        />
         <h4 className="sb-section-item-heading">Testing</h4>
         <p className="sb-section-item-paragraph">Use stories to test a component in all its variations, no matter how
           complex.</p>
@@ -118,7 +152,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
         >Learn more<RightArrow /></a>
       </div>
       <div className="sb-grid-item">
-        <Image fill src={Accessibility} alt="Screenshot of accessibility tests passing and failing" />
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Accessibility} 
+          alt="Screenshot of accessibility tests passing and failing" 
+        />
         <h4 className="sb-section-item-heading">Accessibility</h4>
         <p className="sb-section-item-paragraph">Automatically test your components for a11y issues as you develop.</p>
         <a
@@ -127,7 +167,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
         >Learn more<RightArrow /></a>
       </div>
       <div className="sb-grid-item">
-        <Image fill src={Theming} alt="Screenshot of Storybook in light and dark mode" />
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Theming} 
+          alt="Screenshot of Storybook in light and dark mode" 
+        />
         <h4 className="sb-section-item-heading">Theming</h4>
         <p className="sb-section-item-paragraph">Theme Storybook's UI to personalize it to your project.</p>
         <a
@@ -148,13 +194,24 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
       >Discover all addons<RightArrow /></a>
   </div>
   <div className='sb-addon-img'>
-    <Image fill src={AddonLibrary} alt="Integrate your tools with Storybook to connect workflows." />
+    <Image 
+      width={650}
+      height={347}
+      src={AddonLibrary} 
+      alt="Integrate your tools with Storybook to connect workflows." 
+    />
   </div>
 </div>
 
 <div className="sb-section sb-socials">
     <div className="sb-section-item">
-      <Image fill src={Github} alt="Github logo" className="sb-explore-image"/>
+      <Image 
+        width={32}
+        height={32}
+        src={Github} 
+        alt="Github logo" 
+        className="sb-explore-image"
+      />
       Join our contributors building the future of UI development.
 
       <a
@@ -163,7 +220,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
       >Star on GitHub<RightArrow /></a>
     </div>
     <div className="sb-section-item">
-      <Image fill src={Discord} alt="Discord logo" className="sb-explore-image"/>
+      <Image 
+        width={33}
+        height={32}
+        src={Discord} 
+        alt="Discord logo" 
+        className="sb-explore-image"
+      />
       <div>
         Get support and chat with frontend developers.
 
@@ -174,7 +237,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
       </div>
     </div>
     <div className="sb-section-item">
-      <Image fill src={Youtube} alt="Youtube logo" className="sb-explore-image"/>
+      <Image 
+        width={32}
+        height={32}
+        src={Youtube} 
+        alt="Youtube logo" 
+        className="sb-explore-image"
+      />
       <div>
         Watch tutorials, feature previews and interviews.
 
@@ -185,7 +254,13 @@ export const RightArrow = () => <Icons icon="arrowright" width="8px" style={{ ma
       </div>
     </div>
     <div className="sb-section-item">
-      <Image fill src={Tutorials} alt="A book" className="sb-explore-image"/>
+      <Image 
+        width={33}
+        height={32}
+        src={Tutorials} 
+        alt="A book" 
+        className="sb-explore-image"
+      />
       <p>Follow guided walkthroughs on for key workflows.</p>
 
       <a
