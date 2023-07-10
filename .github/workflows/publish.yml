@@ -53,6 +53,7 @@ jobs:
         run: |
           yarn install
 
+      # TODO: test this locally
       - name: Apply deferred version bump and commit
         id: version-bump
         working-directory: .
