@@ -70,38 +70,6 @@ export const WithIcon: Story = {
   ),
 };
 
-export const IconOnly: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary" iconOnly icon={<Icons icon="bell" />}>
-        Primary
-      </Button>
-      <Button type="secondary" iconOnly icon={<Icons icon="bell" />}>
-        Secondary
-      </Button>
-      <Button type="tertiary" iconOnly icon={<Icons icon="bell" />}>
-        Tertiary
-      </Button>
-    </div>
-  ),
-};
-
-export const IconOnlyActive: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary" iconOnly icon={<Icons icon="bell" />} active>
-        Primary
-      </Button>
-      <Button type="secondary" iconOnly icon={<Icons icon="bell" />} active>
-        Secondary
-      </Button>
-      <Button type="tertiary" iconOnly icon={<Icons icon="bell" />} active>
-        Tertiary
-      </Button>
-    </div>
-  ),
-};
-
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -121,6 +89,56 @@ export const Sizes: Story = {
   ),
 };
 
+export const IconOnly: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button size="small" type="primary" iconOnly icon={<Icons icon="bell" />}>
+        Primary
+      </Button>
+      <Button size="small" type="secondary" iconOnly icon={<Icons icon="bell" />}>
+        Secondary
+      </Button>
+      <Button size="small" type="tertiary" iconOnly icon={<Icons icon="bell" />}>
+        Tertiary
+      </Button>
+      <Button size="medium" type="primary" iconOnly icon={<Icons icon="bell" />}>
+        Primary
+      </Button>
+      <Button size="medium" type="secondary" iconOnly icon={<Icons icon="bell" />}>
+        Secondary
+      </Button>
+      <Button size="medium" type="tertiary" iconOnly icon={<Icons icon="bell" />}>
+        Tertiary
+      </Button>
+    </div>
+  ),
+};
+
+export const IconOnlyActive: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button size="small" type="primary" iconOnly icon={<Icons icon="bell" />} active>
+        Primary
+      </Button>
+      <Button size="small" type="secondary" iconOnly icon={<Icons icon="bell" />} active>
+        Secondary
+      </Button>
+      <Button size="small" type="tertiary" iconOnly icon={<Icons icon="bell" />} active>
+        Tertiary
+      </Button>
+      <Button size="medium" type="primary" iconOnly icon={<Icons icon="bell" />} active>
+        Primary
+      </Button>
+      <Button size="medium" type="secondary" iconOnly icon={<Icons icon="bell" />} active>
+        Secondary
+      </Button>
+      <Button size="medium" type="tertiary" iconOnly icon={<Icons icon="bell" />} active>
+        Tertiary
+      </Button>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: {
     disabled: true,
@@ -128,11 +146,11 @@ export const Disabled: Story = {
   },
 };
 
-export const Link: Story = {
+export const WithHref: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button onClick={() => console.log('Hello')}>I am a button</Button>
-      <Button href="https://storybook.js.org/">I am a link</Button>
+      <Button onClick={() => console.log('Hello')}>I am a button using onClick</Button>
+      <Button href="https://storybook.js.org/">I am an anchor using Href</Button>
     </div>
   ),
 };
