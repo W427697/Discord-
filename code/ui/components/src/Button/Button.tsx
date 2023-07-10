@@ -6,12 +6,12 @@ export interface ButtonProps {
   children?: ReactNode;
   href?: string;
   size?: 'small' | 'medium';
-  variant?: 'solid' | 'outline';
-  type?: 'primary' | 'secondary';
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  type?: 'primary' | 'secondary' | 'tertiary';
+  icon?: ReactNode;
+  iconOnly?: boolean;
   onClick?: () => void;
   disabled?: boolean;
+  active?: boolean;
   /**
    * @deprecated This property will be removed in SB 8.0
    * Use `as='a'` property instead.
@@ -75,8 +75,10 @@ export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
       containsIcon,
       size = 'medium',
       type = 'primary',
-      variant = 'solid',
+      icon,
+      iconOnly = false,
       disabled = false,
+      active = false,
       href,
       children,
       ...props
@@ -128,21 +130,16 @@ export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
 
     if (href)
       return (
-        <NewButtonLink
-          ref={ref}
-          size={size}
-          btnType={type}
-          variant={variant}
-          disabled={disabled}
-          href={href}
-        >
-          {children}
+        <NewButtonLink ref={ref} size={size} btnType={type} disabled={disabled} active={active}>
+          {icon}
+          {!iconOnly && children}
         </NewButtonLink>
       );
 
     return (
-      <ButtonWrapper ref={ref} size={size} btnType={type} variant={variant} disabled={disabled}>
-        {children}
+      <ButtonWrapper ref={ref} size={size} btnType={type} disabled={disabled} active={active}>
+        {icon}
+        {!iconOnly && children}
       </ButtonWrapper>
     );
   }

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
 import { Button } from './Button';
+import { Icons } from '../icon/icon';
 
 const meta: Meta<typeof Button> = {
   title: 'Button',
@@ -30,8 +31,73 @@ export const Base = {
 export const Types: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary">Primary Button</Button>
-      <Button type="secondary">Secondary Button</Button>
+      <Button type="primary">Primary</Button>
+      <Button type="secondary">Secondary</Button>
+      <Button type="tertiary">Tertiary</Button>
+    </div>
+  ),
+};
+
+export const Active: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button type="primary" active>
+        Primary
+      </Button>
+      <Button type="secondary" active>
+        Secondary
+      </Button>
+      <Button type="tertiary" active>
+        Tertiary
+      </Button>
+    </div>
+  ),
+};
+
+export const WithIcon: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button type="primary" icon={<Icons icon="bell" />}>
+        Primary
+      </Button>
+      <Button type="secondary" icon={<Icons icon="bell" />}>
+        Secondary
+      </Button>
+      <Button type="tertiary" icon={<Icons icon="bell" />}>
+        Tertiary
+      </Button>
+    </div>
+  ),
+};
+
+export const IconOnly: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button type="primary" iconOnly icon={<Icons icon="bell" />}>
+        Primary
+      </Button>
+      <Button type="secondary" iconOnly icon={<Icons icon="bell" />}>
+        Secondary
+      </Button>
+      <Button type="tertiary" iconOnly icon={<Icons icon="bell" />}>
+        Tertiary
+      </Button>
+    </div>
+  ),
+};
+
+export const IconOnlyActive: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button type="primary" iconOnly icon={<Icons icon="bell" />} active>
+        Primary
+      </Button>
+      <Button type="secondary" iconOnly icon={<Icons icon="bell" />} active>
+        Secondary
+      </Button>
+      <Button type="tertiary" iconOnly icon={<Icons icon="bell" />} active>
+        Tertiary
+      </Button>
     </div>
   ),
 };
@@ -39,35 +105,18 @@ export const Types: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small">Small Button</Button>
-      <Button size="medium">Medium Button</Button>
-    </div>
-  ),
-};
-
-export const Variants: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-      <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1rem' }}
-      >
-        <Button variant="solid" type="primary">
-          Button Primary Solid
-        </Button>
-        <Button variant="solid" type="secondary">
-          Button Secondary Solid
-        </Button>
-      </div>
-      <div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1rem' }}
-      >
-        <Button variant="outline" type="primary">
-          Button Primary Outline
-        </Button>
-        <Button variant="outline" type="secondary">
-          Button Secondary Outline
-        </Button>
-      </div>
+      <Button size="small" icon={<Icons icon="bell" />}>
+        Small Button
+      </Button>
+      <Button size="small" icon={<Icons icon="bell" />} iconOnly>
+        Small Button
+      </Button>
+      <Button size="medium" icon={<Icons icon="bell" />}>
+        Medium Button
+      </Button>
+      <Button size="medium" icon={<Icons icon="bell" />} iconOnly>
+        Medium Button
+      </Button>
     </div>
   ),
 };

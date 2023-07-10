@@ -6,9 +6,9 @@ import type { ButtonProps } from './Button';
 export const ButtonWrapper = styled.button<{
   btnType: ButtonProps['type'];
   size: ButtonProps['size'];
-  variant: ButtonProps['variant'];
   disabled: ButtonProps['disabled'];
-}>(({ theme, btnType, size, variant, disabled }) => ({
+  active: ButtonProps['active'];
+}>(({ theme, btnType, size, disabled, active }) => ({
   border: 0,
   cursor: disabled ? 'not-allowed !important' : 'pointer',
   display: 'inline-flex',
@@ -31,29 +31,25 @@ export const ButtonWrapper = styled.button<{
   fontWeight: theme.typography.weight.bold,
   lineHeight: '1',
   background: `${(() => {
-    if (btnType === 'primary' && variant === 'solid') return theme.color.secondary;
-    if (btnType === 'secondary' && variant === 'solid') return theme.button.background;
+    if (btnType === 'primary') return theme.color.secondary;
+    if (btnType === 'secondary') return theme.button.background;
+    if (btnType === 'tertiary' && active) return theme.background.hoverable;
     return 'transparent';
   })()}`,
   color: `${(() => {
-    if (btnType === 'primary' && variant === 'solid') return theme.color.lightest;
+    if (btnType === 'primary') return theme.color.lightest;
     if (btnType === 'secondary') return theme.input.color;
-    if (variant === 'outline') return theme.input.color;
+    if (btnType === 'tertiary') return theme.color.mediumdark;
     return theme.input.color;
   })()}`,
-  boxShadow:
-    variant === 'solid' && btnType === 'primary'
-      ? 'none'
-      : `${theme.button.border} 0 0 0 1px inset`,
+  boxShadow: btnType === 'primary' ? 'none' : `${theme.button.border} 0 0 0 1px inset`,
   borderRadius: theme.input.borderRadius,
 
   '&:hover': {
     background: `${(() => {
       let bgColor = theme.color.secondary;
-      if (btnType === 'primary' && variant === 'solid') bgColor = theme.color.secondary;
-      if (btnType === 'secondary' && variant === 'solid') bgColor = theme.button.background;
-      if (btnType === 'primary' && variant === 'outline') bgColor = theme.button.background;
-      if (btnType === 'secondary' && variant === 'outline') bgColor = theme.button.background;
+      if (btnType === 'primary') bgColor = theme.color.secondary;
+      if (btnType === 'secondary') bgColor = theme.button.background;
 
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
     })()}`,
@@ -62,7 +58,7 @@ export const ButtonWrapper = styled.button<{
   '&:active': {
     background: `${(() => {
       let bgColor = theme.color.secondary;
-      if (btnType === 'primary' && variant === 'solid') bgColor = theme.color.secondary;
+      if (btnType === 'primary') bgColor = theme.color.secondary;
       if (btnType === 'secondary') bgColor = theme.button.background;
 
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
