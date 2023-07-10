@@ -4,6 +4,7 @@ import { styled, useTheme } from '@storybook/theming';
 import { Button, IconButton, Icons, Loader } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { global } from '@storybook/global';
+import type { WhatsNewData } from '@storybook/core-events';
 
 const Centered = styled.div({
   top: '50%',
@@ -174,9 +175,7 @@ const PureWhatsNewScreen: FC<WhatsNewProps> = ({
 
 const MAX_WAIT_TIME = 10000; // 10 seconds
 
-const WhatsNewScreen: FC<
-  Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxWaitTime' | 'isNotificationsEnabled'>
-> = ({ url }) => {
+const WhatsNewScreen: FC<{ whatsNewData: WhatsNewData }> = ({ whatsNewData }) => {
   const api = useStorybookApi();
   const state = useStorybookState();
   const [isLoaded, setLoaded] = useState(false);
@@ -188,6 +187,8 @@ const WhatsNewScreen: FC<
     return () => clearTimeout(timer);
   }, [isLoaded]);
 
+  if (whatsNewData?.status !== 'SUCCESS') return null;
+
   return (
     <PureWhatsNewScreen
       didHitMaxWaitTime={didHitMaxWaitTime}
@@ -196,10 +197,10 @@ const WhatsNewScreen: FC<
         api.whatsNewHasBeenRead();
         setLoaded(true);
       }}
-      url={url}
+      url={whatsNewData.url}
       isNotificationsEnabled={isNotificationsEnabled}
       onCopyLink={() => {
-        navigator.clipboard.writeText(url);
+        navigator.clipboard?.writeText(whatsNewData.blogUrl ?? whatsNewData.url);
       }}
       onToggleNotifications={() => {
         if (

@@ -32,6 +32,7 @@ import {
 import { JsPackageManagerFactory } from '@storybook/cli';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
+import { sendTelemetryError } from '../withTelemetry';
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
@@ -260,10 +261,18 @@ const WHATS_NEW_CACHE = 'whats-new-cache';
 const WHATS_NEW_URL = 'https://storybook.js.org/whats-new/v1';
 
 // Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
-type WhatsNewResponse = { title: string; url: string; publishedAt: string; excerpt: string };
+type WhatsNewResponse = {
+  title: string;
+  url: string;
+  blogUrl?: string;
+  publishedAt: string;
+  excerpt: string;
+};
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_serverChannel = (channel: Channel, options: Options) => {
+export const experimental_serverChannel = async (channel: Channel, options: Options) => {
+  const coreOptions = await options.presets.apply('core');
+
   channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
     const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE).catch((e) => {
       logger.verbose(e);
@@ -299,6 +308,7 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
   channel.on(
     TOGGLE_WHATS_NEW_NOTIFICATIONS,
     async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
+      const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
       try {
         const packageManager = JsPackageManagerFactory.getPackageManager();
         const { mainConfig } = getStorybookInfo(
@@ -309,9 +319,17 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
         await writeConfig(main);
 
-        await telemetry('core-config', { disableWhatsNewNotifications });
-      } catch (e) {
-        await telemetry('core-config', { disableWhatsNewNotifications: 'error' });
+        if (isTelemetryEnabled) {
+          await telemetry('core-config', { disableWhatsNewNotifications });
+        }
+      } catch (error) {
+        if (isTelemetryEnabled) {
+          await sendTelemetryError(error, 'core-config', {
+            cliOptions: options,
+            presetOptions: { ...options, corePresets: [], overridePresets: [] },
+            skipPrompt: true,
+          });
+        }
       }
     }
   );
