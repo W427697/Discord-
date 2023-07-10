@@ -64,7 +64,7 @@ const optionsSchema = z
           '--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion',
       });
     }
-    if ((hasExact && hasReleaseType) || (!hasExact && !hasReleaseType)) {
+    if (!hasApply && ((hasExact && hasReleaseType) || (!hasExact && !hasReleaseType))) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message:
@@ -211,9 +211,9 @@ const bumpAllPackageJsons = async ({
 
 const bumpDeferred = async (nextVersion: string) => {
   console.log(
-    `⏳ Setting a ${chalk.cyan(
-      'deferred'
-    )} version bump with code/package.json#deferredNextVersion = ${chalk.yellow(nextVersion)}...`
+    `⏳ Setting a ${chalk.cyan('deferred')} version bump with ${chalk.blue(
+      'code/package.json#deferredNextVersion'
+    )} = ${chalk.yellow(nextVersion)}...`
   );
   const codePkgJson = await readJson(CODE_PACKAGE_JSON_PATH);
 
@@ -223,13 +223,39 @@ const bumpDeferred = async (nextVersion: string) => {
   console.log(`✅ Set a ${chalk.cyan('deferred')} version bump. Not bumping any packages.`);
 };
 
+const applyDeferredVersionBump = async () => {
+  console.log(
+    `⏩ Applying previously deferred version bump set at ${chalk.blue(
+      'code/package.json#deferredNextVersion'
+    )}...`
+  );
+  const codePkgJson = await readJson(CODE_PACKAGE_JSON_PATH);
+
+  const { deferredNextVersion } = codePkgJson;
+
+  if (!deferredNextVersion) {
+    throw new Error(
+      "The 'deferredNextVersion' property in code/package.json is unset. This is necessary to apply a deferred version bump"
+    );
+  }
+
+  delete codePkgJson.deferredNextVersion;
+  await writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
+
+  console.log(
+    `✅ Extracted and removed deferred version ${chalk.green(
+      deferredNextVersion
+    )} from ${chalk.blue('code/package.json#deferredNextVersion')}`
+  );
+
+  return deferredNextVersion;
+};
+
 export const run = async (options: unknown) => {
   if (!validateOptions(options)) {
     return;
   }
   const { verbose } = options;
-
-  // TODO: if apply, set next version from deferred and removed deferred version
 
   console.log(`🚛 Finding Storybook packages...`);
 
@@ -248,7 +274,9 @@ export const run = async (options: unknown) => {
 
   let nextVersion: string;
 
-  if ('exact' in options && options.exact) {
+  if ('apply' in options && options.apply) {
+    nextVersion = await applyDeferredVersionBump();
+  } else if ('exact' in options && options.exact) {
     console.log(`📈 Exact version selected: ${chalk.green(options.exact)}`);
     nextVersion = options.exact;
   } else {
