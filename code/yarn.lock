@@ -7044,11 +7044,11 @@ __metadata:
     "@storybook/react": 7.1.0-beta.2
     "@types/node": ^16.0.0
     jest-specific-snapshot: ^8.0.0
-    typescript: ~4.9.3
   peerDependencies:
     "@babel/core": ^7.22.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    typescript: "*"
   peerDependenciesMeta:
     "@babel/core":
       optional: true
@@ -7086,11 +7086,11 @@ __metadata:
     require-from-string: ^2.0.2
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
-    typescript: ~4.9.3
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    typescript: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
