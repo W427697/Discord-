@@ -53,11 +53,11 @@ const CopyButton = styled(Button)(() => ({
 }));
 
 export const WhatsNewFooter = ({
-  isNotificationsDisabled,
+  isNotificationsEnabled,
   onToggleNotifications,
   onCopyLink,
 }: {
-  isNotificationsDisabled: boolean;
+  isNotificationsEnabled: boolean;
   onToggleNotifications?: () => void;
   onCopyLink?: () => void;
 }) => {
@@ -79,15 +79,15 @@ export const WhatsNewFooter = ({
         </CopyButton>
       </div>
       <ToggleNotificationButton onClick={onToggleNotifications}>
-        {isNotificationsDisabled ? (
-          <>
-            <Icons icon="eye" />
-            &nbsp;Show notifications
-          </>
-        ) : (
+        {isNotificationsEnabled ? (
           <>
             <Icons icon="eyeclose" />
             &nbsp;Hide notifications
+          </>
+        ) : (
+          <>
+            <Icons icon="eye" />
+            &nbsp;Show notifications
           </>
         )}
       </ToggleNotificationButton>
@@ -141,7 +141,7 @@ export interface WhatsNewProps {
   isLoaded: boolean;
   onLoad: () => void;
   url?: string;
-  isNotificationsDisabled: boolean;
+  isNotificationsEnabled: boolean;
   onCopyLink?: () => void;
   onToggleNotifications?: () => void;
 }
@@ -153,7 +153,7 @@ const PureWhatsNewScreen: FC<WhatsNewProps> = ({
   url,
   onCopyLink,
   onToggleNotifications,
-  isNotificationsDisabled,
+  isNotificationsEnabled,
 }) => (
   <Fragment>
     {!isLoaded && !didHitMaxWaitTime && <WhatsNewLoader />}
@@ -163,7 +163,7 @@ const PureWhatsNewScreen: FC<WhatsNewProps> = ({
       <>
         <Iframe isLoaded={isLoaded} onLoad={onLoad} src={url} title={`What's new?`} />
         <WhatsNewFooter
-          isNotificationsDisabled={isNotificationsDisabled}
+          isNotificationsEnabled={isNotificationsEnabled}
           onToggleNotifications={onToggleNotifications}
           onCopyLink={onCopyLink}
         />
@@ -180,6 +180,9 @@ const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxW
   const api = useStorybookApi();
   const [isLoaded, setLoaded] = useState(false);
   const [didHitMaxWaitTime, setDidHitMaxWaitTime] = useState(false);
+  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(
+    global.SB_CORE_CONFIG.disableWhatsNewNotifications !== true
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => !isLoaded && setDidHitMaxWaitTime(true), MAX_WAIT_TIME);
@@ -195,13 +198,20 @@ const WhatsNewScreen: FC<Omit<WhatsNewProps, 'isLoaded' | 'onLoad' | 'didHitMaxW
         setLoaded(true);
       }}
       url={url}
-      isNotificationsDisabled={global.SB_CORE_CONFIG.disableWhatsNewNotifications}
+      isNotificationsEnabled={isNotificationsEnabled}
       onCopyLink={() => {
         navigator.clipboard.writeText(url);
       }}
       onToggleNotifications={() => {
-        if (global.confirm('All update notifications will no longer be shown. Are you sure?')) {
-          api.toggleWhatsNewNotifications();
+        if (
+          isNotificationsEnabled &&
+          global.confirm('All update notifications will no longer be shown. Are you sure?')
+        ) {
+          api.toggleWhatsNewNotifications(false);
+          setIsNotificationsEnabled(false);
+        } else {
+          api.toggleWhatsNewNotifications(true);
+          setIsNotificationsEnabled(true);
         }
       }}
     />

@@ -15,7 +15,7 @@ export type SubState = {
 export type SubAPI = {
   isWhatsNewUnread(): boolean;
   whatsNewHasBeenRead(): void;
-  toggleWhatsNewNotifications(): void;
+  toggleWhatsNewNotifications(enable: boolean): void;
 };
 
 const WHATS_NEW_NOTIFICATION_ID = 'whats-new';
@@ -41,8 +41,8 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
         fullAPI.clearNotification(WHATS_NEW_NOTIFICATION_ID);
       }
     },
-    toggleWhatsNewNotifications() {
-      fullAPI.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS);
+    toggleWhatsNewNotifications(enable: boolean) {
+      fullAPI.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS, enable);
     },
   };
 

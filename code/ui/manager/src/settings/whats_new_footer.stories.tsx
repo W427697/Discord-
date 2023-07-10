@@ -11,7 +11,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    isNotificationsDisabled: false,
+    isNotificationsEnabled: false,
   },
   parameters: {
     design: {

@@ -25,6 +25,7 @@ import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
+  TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
@@ -290,6 +291,10 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
         data: { status: 'ERROR' } satisfies WhatsNewData,
       });
     }
+  });
+
+  channel.on(TOGGLE_WHATS_NEW_NOTIFICATIONS, async (enable: boolean) => {
+    console.log(`${enable ? 'disabling' : 'enabling'}whats new`);
   });
 
   return channel;
