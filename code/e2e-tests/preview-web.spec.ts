@@ -18,6 +18,10 @@ test.describe('preview-web', () => {
 
     await sbPage.previewRoot().locator('button').press('s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
+
+    // restore the sidebar back to visible, because it is persisted in localStorage
+    await page.locator('html').press('s');
+    await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
   });
 
   test('should pass over shortcuts, but not from play functions, docs', async ({ page }) => {
@@ -28,5 +32,9 @@ test.describe('preview-web', () => {
 
     await sbPage.previewRoot().getByRole('button').getByText('Submit').first().press('s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
+
+    // restore the sidebar back to visible, because it is persisted in localStorage
+    await page.locator('html').press('s');
+    await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
   });
 });
