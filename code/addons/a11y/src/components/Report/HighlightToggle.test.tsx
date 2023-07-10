@@ -4,6 +4,11 @@ import type { NodeResult } from 'axe-core';
 import HighlightToggle from './HighlightToggle';
 import { A11yContext } from '../A11yContext';
 
+jest.mock('@storybook/manager-api', () => {
+  const m = jest.requireActual('../../../../../ui/manager/src/api');
+  return m;
+});
+
 const nodeResult = (target: string): NodeResult => ({
   html: '',
   target: [target],

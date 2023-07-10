@@ -20,6 +20,11 @@ import type { StoryId } from '@storybook/types';
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { TabIcon, TabStatus } from './components/TabStatus';
 
+jest.mock('@storybook/manager-api', () => {
+  const m = jest.requireActual('../../../ui/manager/src/api');
+  return m;
+});
+
 interface Interaction extends Call {
   status: Call['status'];
   childCallIds: Call['id'][];

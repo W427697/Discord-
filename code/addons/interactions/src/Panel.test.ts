@@ -1,6 +1,11 @@
 import { type Call, CallStates, type LogItem } from '@storybook/instrumenter';
 import { getInteractions } from './Panel';
 
+jest.mock('@storybook/manager-api', () => {
+  const m = jest.requireActual('../../../ui/manager/src/api');
+  return m;
+});
+
 describe('Panel', () => {
   describe('getInteractions', () => {
     const log: LogItem[] = [

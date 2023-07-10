@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
 import { render, act } from '@testing-library/react';
@@ -8,7 +9,12 @@ import { HIGHLIGHT } from '@storybook/addon-highlight';
 import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/manager-api');
+jest.mock('../../../../ui/manager/src/api');
+jest.mock('@storybook/manager-api', () => {
+  const m = require('../../../../ui/manager/src/api');
+  return m;
+});
+
 const mockedApi = api as jest.Mocked<typeof api>;
 
 const storyId = 'jest';

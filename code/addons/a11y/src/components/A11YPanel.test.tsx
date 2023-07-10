@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import { render, waitFor, fireEvent, act } from '@testing-library/react';
 
@@ -7,7 +8,11 @@ import * as api from '@storybook/manager-api';
 import { A11YPanel } from './A11YPanel';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/manager-api');
+jest.mock('../../../../ui/manager/src/api');
+jest.mock('@storybook/manager-api', () => {
+  const m = require('../../../../ui/manager/src/api');
+  return m;
+});
 
 global.ResizeObserver = require('resize-observer-polyfill');
 
