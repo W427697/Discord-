@@ -48,7 +48,9 @@ export const Sizes: Story = {
 export const Variants: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1rem' }}
+      >
         <Button variant="solid" type="primary">
           Button Primary Solid
         </Button>
@@ -56,7 +58,9 @@ export const Variants: Story = {
           Button Secondary Solid
         </Button>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1rem' }}
+      >
         <Button variant="outline" type="primary">
           Button Primary Outline
         </Button>

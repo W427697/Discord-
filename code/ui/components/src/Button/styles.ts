@@ -37,9 +37,9 @@ export const ButtonWrapper = styled.button<{
   })()}`,
   color: `${(() => {
     if (btnType === 'primary' && variant === 'solid') return theme.color.lightest;
-    if (btnType === 'secondary') return theme.color.darkest;
-    if (variant === 'outline') return theme.color.darkest;
-    return theme.color.darkest;
+    if (btnType === 'secondary') return theme.input.color;
+    if (variant === 'outline') return theme.input.color;
+    return theme.input.color;
   })()}`,
   boxShadow:
     variant === 'solid' && btnType === 'primary'
@@ -60,7 +60,6 @@ export const ButtonWrapper = styled.button<{
   },
 
   '&:active': {
-    // background: theme.button.background,
     background: `${(() => {
       let bgColor = theme.color.secondary;
       if (btnType === 'primary' && variant === 'solid') bgColor = theme.color.secondary;
