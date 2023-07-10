@@ -15,9 +15,7 @@ import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
-
 import { DocsContext } from '@storybook/blocks';
-
 import { DocsPageWrapper } from '../blocks/src/components';
 
 const { document } = global;
@@ -40,25 +38,21 @@ const ThemeStack = styled.div(({ theme }) => ({
   color: theme.color.defaultText,
 }));
 
-const PlayFnNotice = styled.div(
-  {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    borderBottom: '1px solid #ccc',
-    padding: '3px 8px',
-    fontSize: '10px',
-    fontWeight: 'bold',
-    '> *': {
-      display: 'block',
-    },
+const PlayFnNotice = styled.div(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  borderBottom: '1px solid #ccc',
+  padding: '3px 8px',
+  fontSize: '10px',
+  fontWeight: 'bold',
+  '> *': {
+    display: 'block',
   },
-  ({ theme }) => ({
-    background: '#fffbd9',
-    color: theme.color.defaultText,
-  })
-);
+  background: '#fffbd9',
+  color: theme.color.defaultText,
+}));
 
 const ThemedSetRoot = () => {
   const theme = useTheme();
@@ -161,12 +155,12 @@ export const decorators = [
               <Global styles={createReset} />
             </ThemeProvider>
             <ThemeProvider theme={convert(themes.light)}>
-              <ThemeBlock side="left" data-side="left">
+              <ThemeBlock data-side="left">
                 <StoryFn />
               </ThemeBlock>
             </ThemeProvider>
             <ThemeProvider theme={convert(themes.dark)}>
-              <ThemeBlock side="right" data-side="right">
+              <ThemeBlock data-side="right">
                 <StoryFn />
               </ThemeBlock>
             </ThemeProvider>
