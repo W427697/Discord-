@@ -111,6 +111,12 @@ test.describe('addon-interactions', () => {
       await page.locator('html').press('t');
     }
 
+    // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
+    // if the toolbar is hidden, this will toggle the toolbar
+    if (await page.locator('[offset="40"]').isHidden()) {
+      await page.locator('html').press('t');
+    }
+
     // Test remount state (from toolbar) - Interactions have rerun, count is correct and values are as expected
     const remountComponentButton = await page.locator('[title="Remount component"]');
     await remountComponentButton.click();
