@@ -4,6 +4,7 @@ import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
+  TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
 import type { ModuleFn } from '../index';
 
@@ -14,6 +15,7 @@ export type SubState = {
 export type SubAPI = {
   isWhatsNewUnread(): boolean;
   whatsNewHasBeenRead(): void;
+  toggleWhatsNewNotifications(): void;
 };
 
 const WHATS_NEW_NOTIFICATION_ID = 'whats-new';
@@ -38,6 +40,9 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
         setWhatsNewState({ ...state.whatsNewData, postIsRead: true });
         fullAPI.clearNotification(WHATS_NEW_NOTIFICATION_ID);
       }
+    },
+    toggleWhatsNewNotifications() {
+      fullAPI.emit(TOGGLE_WHATS_NEW_NOTIFICATIONS);
     },
   };
 
