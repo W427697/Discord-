@@ -4,6 +4,7 @@ import type { StoryContext, StoryFnVueReturnType } from './types';
 import type { LegacyStoryFn, Decorator } from './public-types';
 
 function prepare(decoratedStory: StoryFnVueReturnType, story?: StoryFnVueReturnType) {
+  // console.log('--prepare', decoratedStory, story);
   if (decoratedStory === null) {
     return () => null;
   }
@@ -26,6 +27,7 @@ function prepare(decoratedStory: StoryFnVueReturnType, story?: StoryFnVueReturnT
 }
 
 export function decorateStory(storyFn: LegacyStoryFn, decorators: Decorator[]) {
+  console.log('\n\n\n--decorateStory--------------------------------------------\n');
   const decoratedStoryFn = decorators.reduce((decorated, decorator) => {
     let storyResult: StoryFnVueReturnType;
 
@@ -40,8 +42,10 @@ export function decorateStory(storyFn: LegacyStoryFn, decorators: Decorator[]) {
     return (context: StoryContext) => {
       const story = decoratedStory(context);
       if (!storyResult) storyResult = decorated(context);
-      if (!story || !isVNode(storyResult)) return storyResult;
-      if (story === storyResult) return storyResult;
+
+      if ((!story && !isVNode(storyResult)) || story === storyResult) {
+        return storyResult;
+      }
 
       return prepare(story, () => h(storyResult, context.args));
     };
