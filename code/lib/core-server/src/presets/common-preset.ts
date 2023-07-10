@@ -1,5 +1,6 @@
 import { pathExists, readFile } from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
+import { telemetry } from '@storybook/telemetry';
 import {
   getDirectoryFromWorkingDir,
   getPreviewBodyTemplate,
@@ -304,9 +305,10 @@ export const experimental_serverChannel = (channel: Channel, options: Options) =
         const main = await readConfig(info.mainConfig);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
         await writeConfig(main);
+
+        await telemetry('core-config', { disableWhatsNewNotifications });
       } catch (e) {
-        console.log(e);
-        // TODO: telemetry
+        await telemetry('core-config', { disableWhatsNewNotifications: 'error' });
       }
     }
   );
