@@ -53,7 +53,7 @@ describe('Generate PR Description', () => {
       id: 'pr-id-11',
       user: 'shilman',
       title: 'Another PR `title` for docs',
-      labels: ['another label', 'documentation', 'patch'],
+      labels: ['another label', 'documentation', 'patch:yes'],
       commit: 'ddd222',
       pull: 11,
       links: {
