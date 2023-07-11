@@ -13,7 +13,7 @@ program
     'write changelog based on merged PRs and commits. the <version> argument describes the changelog entry heading, but NOT which commits/PRs to include, must be a semver string'
   )
   .arguments('<version>')
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option(
     '-F, --from <tag>',
     'Which tag or commit to generate changelog from, eg. "7.0.7". Leave unspecified to select latest released tag in git history'
