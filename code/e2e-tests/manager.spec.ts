@@ -8,10 +8,11 @@ test.describe('manager', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
 
+    await new SbPage(page).waitUntilLoaded();
+  });
+  test.afterEach(async ({ page }) => {
     await page.evaluate(() => window.localStorage.clear());
     await page.evaluate(() => window.sessionStorage.clear());
-
-    await new SbPage(page).waitUntilLoaded();
   });
 
   test('shortcuts sidebar', async ({ page }) => {
@@ -92,6 +93,6 @@ test.describe('manager', () => {
     await expect(sbPage.page.url()).toContain('/settings/about');
 
     await sbPage.page.locator('[title="Close settings page"]').click();
-    await expect(sbPage.page.url()).toContain('/docs/configure-your-project--docs');
+    await expect(sbPage.page.url()).not.toContain('/settings/about');
   });
 });

@@ -326,7 +326,7 @@ Done! 🚀
 
 Things can fail, code can break, and bugs can exist. When automation is broken, there may be a need for an emergency escape hatch to release new fixes. In such a situation, it's valid to run the whole release process locally instead of relying on pull requests and workflows. You don't need to create pull requests or split preparation and publishing; you can do it all at once, but make sure you still follow the correct branching strategy.
 
-You need a token to the npm registry to publish (set as `YARN_NPM_AUTH_TOKEN`), which you can get from @shilman or @ndelangen.
+You can either prepare the release locally and use the automatic workflow for publishing it or you can do the whole release workflow locally. If you choose the latter approach, you need a token to the npm registry to publish (set as `YARN_NPM_AUTH_TOKEN`), which you can get from @shilman or @ndelangen.
 
 You can inspect the workflows to see what they are running and copy that, but here is a general sequence of steps to mimic the automated workflow. Feel free to deviate from this as needed.
 
@@ -355,8 +355,9 @@ Before you start you should make sure that your working tree is clean and the re
 16. Manually create a GitHub Release with a tag that is the new version and the target being `latest-release` or `next-release`.
 17. Merge to core branch:
     1. `git checkout <"next"|"main">`
-    2. `git merge <"next-release"|"latest-release">`
-    3. `git push origin`
+    2. `git pull`
+    3. `git merge <"next-release"|"latest-release">`
+    4. `git push origin`
 18. (If patch release) Sync `CHANGELOG.md` to `next` with:
     1. `git checkout next`
     2. `git pull`
@@ -364,6 +365,13 @@ Before you start you should make sure that your working tree is clean and the re
     4. `git add ./CHANGELOG.md`
     5. `git commit -m "Update CHANGELOG.md for v<NEXT_VERSION>"`
     6. `git push origin`
+19. (If prerelease) Sync `versions/next.json` from `next` to `main`
+    1. `git checkout main`
+    2. `git pull`
+    3. `git checkout origin/next ./docs/versions/next.json`
+    4. `git add ./docs/versions/next.json`
+    5. `git commit -m "Update versions/next.json for v<NEXT_VERSION_FROM_PREVIOUS_STEP>"`
+    6. `git push origin main`
 
 ## Canary Releases
 
