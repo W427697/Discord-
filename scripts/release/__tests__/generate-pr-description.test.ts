@@ -53,7 +53,7 @@ describe('Generate PR Description', () => {
       id: 'pr-id-11',
       user: 'shilman',
       title: 'Another PR `title` for docs',
-      labels: ['another label', 'documentation', 'patch'],
+      labels: ['another label', 'documentation', 'patch:yes'],
       commit: 'ddd222',
       pull: 11,
       links: {
@@ -104,7 +104,7 @@ describe('Generate PR Description', () => {
         "- [ ] **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42) (will also be patched)
         - [ ] **✨ Feature Request**: Some PR title for a 'new' feature [#48](https://github.com/storybookjs/storybook/pull/48)
         - [ ] **⚠️ Direct commit**: Some title for a "direct commit" [22bb11](https://github.com/storybookjs/storybook/commit/22bb11)
-        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11)
+        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11) (will also be patched)
         - [ ] **❔ Missing Label**: Some PR title with a missing label [#77](https://github.com/storybookjs/storybook/pull/77)"
       `);
     });
