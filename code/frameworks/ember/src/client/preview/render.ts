@@ -9,14 +9,16 @@ declare let Ember: any;
 
 const rootEl = document.getElementById('storybook-root');
 
-console.log(globalWindow);
-const config = globalWindow.require(`${global.STORYBOOK_NAME}/config/environment`);
-const app = globalWindow.require(`${global.STORYBOOK_NAME}/app`).default.create({
-  autoboot: false,
-  rootElement: rootEl,
-  ...config.APP,
-});
+function loadEmberApp() {
+  const config = globalWindow.require(`${global.STORYBOOK_NAME}/config/environment`);
+  return globalWindow.require(`${global.STORYBOOK_NAME}/app`).default.create({
+    autoboot: false,
+    rootElement: rootEl,
+    ...config.APP,
+  });
+}
 
+const app = loadEmberApp();
 let lastPromise = app.boot();
 let hasRendered = false;
 let isRendering = false;
