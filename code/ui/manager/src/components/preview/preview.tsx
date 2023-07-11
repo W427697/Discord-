@@ -19,9 +19,8 @@ import type { PreviewProps } from './utils/types';
 
 const { FEATURES } = global;
 
-const getWrappers = (getFn: API['getElements']) =>
-  Object.values(getFn<Addon_BaseType>(types.PREVIEW));
-const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon_BaseType>(types.TAB));
+const getWrappers = (getFn: API['getElements']) => Object.values(getFn(types.PREVIEW));
+const getTabs = (getFn: API['getElements']) => Object.values(getFn(types.TAB));
 
 const canvasMapper = ({ state, api }: Combo) => ({
   storyId: state.storyId,
