@@ -217,6 +217,14 @@ const bumpDeferred = async (nextVersion: string) => {
   );
   const codePkgJson = await readJson(CODE_PACKAGE_JSON_PATH);
 
+  if (codePkgJson.deferredNextVersion) {
+    console.warn(
+      `❗ A "deferredNextVersion" property already exists with the value of ${chalk.cyan(
+        codePkgJson.deferredNextVersion
+      )}. This will be overwritten and ignored.`
+    );
+  }
+
   codePkgJson.deferredNextVersion = nextVersion;
   await writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
 
