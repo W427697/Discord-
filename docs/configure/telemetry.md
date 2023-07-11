@@ -34,7 +34,7 @@ Specifically, we track the following information in our telemetry events:
   - Supported view layers (e.g., React, Vue, Angular, Svelte).
   - Builder (e.g., Webpack5, Vite).
   - Meta framework (e.g., [Next](https://nextjs.org/), [Gatsby](https://www.gatsbyjs.com/), [CRA](https://create-react-app.dev/)).
-  - [Addons](https://storybook.js.org/addons/) (e.g., [Essentials](../essentials/introduction.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
+  - [Addons](https://storybook.js.org/integrations) (e.g., [Essentials](../essentials/introduction.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
   - [Feature flags](./overview.md#feature-flags) (e.g., `buildStoriesJson`).
 - Package manager information (e.g., `npm`, `yarn`).
 - Monorepo information (e.g., [NX](https://nx.dev/), [Turborepo](https://turborepo.org/)).
@@ -149,57 +149,7 @@ Additionally, if Storybook's guided tour is enabled, it will generate the follow
     "addonVersion": "1.0.6"
   },
   "metadata": {
-    "generatedAt": 1689007841223,
-    "hasCustomBabel": false,
-    "hasCustomWebpack": false,
-    "hasStaticDirs": false,
-    "hasStorybookEslint": false,
-    "refCount": 0,
-    "packageManager": {
-      "type": "yarn",
-      "version": "3.1.1"
-    },
-    "framework": {
-      "name": "@storybook/react-vite",
-      "options": {}
-    },
-    "builder": "@storybook/builder-vite",
-    "renderer": "@storybook/react",
-    "storybookVersion": "7.1.0",
-    "storybookVersionSpecifier": "^7.1.0",
-    "language": "javascript",
-    "storybookPackages": {
-      "@storybook/blocks": {
-        "version": "7.1.0"
-      },
-      "@storybook/react": {
-        "version": "7.1.0"
-      },
-      "@storybook/react-vite": {
-        "version": "7.1.0"
-      },
-      "@storybook/testing-library": {
-        "version": "0.2.0"
-      },
-      "storybook": {
-        "version": "7.1.0"
-      }
-    },
-    "addons": {
-      "@storybook/addon-links": {
-        "version": "7.1.0"
-      },
-      "@storybook/addon-essentials": {
-        "version": "7.1.0"
-      },
-      "@storybook/addon-onboarding": {
-        "version": "1.0.6"
-      },
-      "@storybook/addon-interactions": {
-        "version": "7.1.0"
-      }
-    }
-  }
+   "_comment": "See above for metadata that's collected.",
 }
 ```
 
