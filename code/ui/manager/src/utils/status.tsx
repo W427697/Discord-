@@ -1,6 +1,6 @@
 import type { Icons } from '@storybook/components';
 import type { ComponentProps } from 'react';
-import type { API_StatusState, API_StatusValue } from '@storybook/types';
+import type { API_HashEntry, API_StatusState, API_StatusValue } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { getDescendantIds } from './tree';
 
@@ -25,15 +25,13 @@ export const getHighestStatus = (statuses: API_StatusValue[]): API_StatusValue =
 
 export function getGroupStatus(
   collapsedData: {
-    [
-      x: string
-    ]: import('/Users/me/Projects/Storybook/core/code/lib/manager-api/dist/index').HashEntry;
+    [x: string]: Partial<API_HashEntry>;
   },
   status: API_StatusState
 ): Record<string, string> {
   return Object.values(collapsedData).reduce<Record<string, string>>((acc, item) => {
     if (item.type === 'group' || item.type === 'component') {
-      const leafs = getDescendantIds(collapsedData, item.id, false)
+      const leafs = getDescendantIds(collapsedData as any, item.id, false)
         .map((id) => collapsedData[id])
         .filter((i) => i.type === 'story');
 
