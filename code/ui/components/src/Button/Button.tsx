@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import { ButtonWrapper, ButtonWrapperDepreciated } from './styles';
 
@@ -61,7 +61,7 @@ export interface ButtonProps {
 const ButtonLink = ButtonWrapperDepreciated.withComponent('a');
 const NewButtonLink = ButtonWrapper.withComponent('a');
 
-export const Button: FC<ButtonProps> = forwardRef<any, ButtonProps>(
+export const Button = forwardRef<any, ButtonProps>(
   (
     {
       isLink = false,
