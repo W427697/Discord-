@@ -6421,7 +6421,6 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.1.0-rc.0
     "@storybook/theming": 7.1.0-rc.0
-    chromatic: ^6.19.9
     polished: ^4.2.2
     prettier: ^2.8.0
     typescript: ~4.9.3
@@ -12253,17 +12252,6 @@ __metadata:
     chromatic: bin/main.cjs
     chromatic-cli: bin/main.cjs
   checksum: 9692af67638cd90be498f9fcbca5b2397204faf04b5ccdc97118950412ebe1140a240955426e174dfcfdecb9483db8236aa70af3c26dc9c17ef73d8415d4e229
-  languageName: node
-  linkType: hard
-
-"chromatic@npm:^6.19.9":
-  version: 6.19.9
-  resolution: "chromatic@npm:6.19.9"
-  bin:
-    chroma: dist/bin.js
-    chromatic: dist/bin.js
-    chromatic-cli: dist/bin.js
-  checksum: a97814f0d67584e1fec5609a65c81ba4d536aa47a27df91b045de89571412d443b53931ee7c1cb15ef9687c45c20ac4bb2d0c3e16236bfe70a5d514062f373ec
   languageName: node
   linkType: hard
 
