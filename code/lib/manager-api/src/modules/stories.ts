@@ -602,6 +602,10 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         if (sourceType === 'local') {
           const state = store.getState();
+          const isCanvasRoute =
+            state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs';
+          const stateHasSelection = state.viewMode && state.storyId;
+          const stateSelectionDifferent = state.viewMode !== viewMode || state.storyId !== storyId;
           /**
            * When storybook starts, we want to navigate to the first story.
            * But there are a few exceptions:
@@ -609,15 +613,12 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
            * - If the user has navigated away already.
            * - If the user started storybook with a specific page-URL like "/settings/about"
            */
-          if (state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs') {
-            if (
-              state.viewMode &&
-              state.storyId &&
-              state.viewMode !== viewMode &&
-              state.storyId !== storyId
-            ) {
+          if (isCanvasRoute) {
+            if (stateHasSelection && stateSelectionDifferent) {
+              // The manager state is correct, the preview state is lagging behind
               fullAPI.emit(SET_CURRENT_STORY, { storyId: state.storyId, viewMode: state.viewMode });
-            } else if (state.storyId !== storyId || state.viewMode !== viewMode) {
+            } else if (stateSelectionDifferent) {
+              // The preview state is correct, the manager state is lagging behind
               navigate(`/${viewMode}/${storyId}`);
             }
           }

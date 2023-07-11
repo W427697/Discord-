@@ -36,8 +36,8 @@ addons.register(ADDON_ID, (api) => {
   addons.add(PANEL_ID, {
     title: Title,
     type: types.PANEL,
-    render: ({ active = true, key }) => (
-      <A11yContextProvider key={key} active={active}>
+    render: ({ active = true }) => (
+      <A11yContextProvider active={active}>
         <A11YPanel />
       </A11yContextProvider>
     ),

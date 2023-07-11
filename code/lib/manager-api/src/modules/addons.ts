@@ -19,15 +19,11 @@ export interface SubAPI {
   /**
    * Returns a collection of elements of a specific type.
    * @protected This is used internally in storybook's manager.
-   * @template FAKE - LEGACY for backwards compatibility, should be removed in 8.0.
    * @template T - The type of the elements in the collection.
    * @param {Addon_Types | Addon_TypesEnum.experimental_PAGE} type - The type of the elements to retrieve.
    * @returns {API_Collection<T>} - A collection of elements of the specified type.
    */
-  getElements: <
-    FAKE = any,
-    T extends Addon_Types | Addon_TypesEnum.experimental_PAGE = Addon_Types
-  >(
+  getElements: <T extends Addon_Types | Addon_TypesEnum.experimental_PAGE = Addon_Types>(
     type: T
   ) => Addon_Collection<Addon_TypesMapping[T]>;
   /**
