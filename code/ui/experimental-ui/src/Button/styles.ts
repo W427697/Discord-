@@ -16,7 +16,6 @@ export const ButtonWrapper = styled.button<{
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
-  // padding: iconOnly ? 0 : '0 16px',
   padding: `${(() => {
     if (!iconOnly && size === 'small') return '0 10px';
     if (!iconOnly && size === 'medium') return '0 12px';

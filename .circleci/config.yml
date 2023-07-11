@@ -248,6 +248,7 @@ jobs:
           command: |
             cd code
             yarn storybook:ui:chromatic
+            yarn storybook:experimental-ui:chromatic
             yarn storybook:blocks:chromatic
       - report-workflow-on-failure
       - store_test_results:
