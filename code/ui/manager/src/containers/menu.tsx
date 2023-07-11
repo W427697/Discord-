@@ -71,6 +71,12 @@ export const useMenu = (
   const whatsNewNotificationsEnabled =
     state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
   const isWhatsNewUnread = api.isWhatsNewUnread();
+
+  const separatorStyle = useMemo(
+    () => ({ borderBottom: `4px solid ${theme.appBorderColor}` }),
+    [theme.appBorderColor]
+  );
+
   const whatsNew = useMemo(
     () => ({
       id: 'whats-new',
@@ -79,8 +85,9 @@ export const useMenu = (
       right: whatsNewNotificationsEnabled && isWhatsNewUnread && (
         <Badge status="positive">Check it out</Badge>
       ),
+      style: { ...(enableShortcuts ? {} : separatorStyle) },
     }),
-    [api, whatsNewNotificationsEnabled, isWhatsNewUnread]
+    [api, whatsNewNotificationsEnabled, isWhatsNewUnread, enableShortcuts, separatorStyle]
   );
 
   const shortcuts = useMemo(
@@ -89,11 +96,9 @@ export const useMenu = (
       title: 'Keyboard shortcuts',
       onClick: () => api.navigateToSettingsPage('/settings/shortcuts'),
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.shortcutsPage} /> : null,
-      style: {
-        borderBottom: `4px solid ${theme.appBorderColor}`,
-      },
+      style: { ...(enableShortcuts ? separatorStyle : {}) },
     }),
-    [api, enableShortcuts, shortcutKeys.shortcutsPage, theme.appBorderColor]
+    [api, enableShortcuts, shortcutKeys.shortcutsPage, separatorStyle]
   );
 
   const sidebarToggle = useMemo(
@@ -231,7 +236,7 @@ export const useMenu = (
     () => [
       about,
       ...(state.whatsNewData?.status === 'SUCCESS' ? [whatsNew] : []),
-      shortcuts,
+      ...(enableShortcuts ? [shortcuts] : []),
       sidebarToggle,
       toolbarToogle,
       addonsToggle,
@@ -262,6 +267,7 @@ export const useMenu = (
       next,
       collapse,
       getAddonsShortcuts,
+      enableShortcuts,
     ]
   );
 };
