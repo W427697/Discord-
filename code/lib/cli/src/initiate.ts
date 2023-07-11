@@ -210,6 +210,7 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
+  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true
@@ -222,7 +223,7 @@ const projectTypeInquirer = async (
       ]);
 
   if (manualAnswer !== true && manualAnswer.manual) {
-    const frameworkAnswer = await prompts([
+    const { manualFramework } = await prompts([
       {
         type: 'select',
         name: 'manualFramework',
@@ -233,9 +234,15 @@ const projectTypeInquirer = async (
         })),
       },
     ]);
-    return installStorybook(frameworkAnswer.manualFramework, packageManager, options);
+
+    if (manualFramework) {
+      return installStorybook(manualFramework, packageManager, options);
+    }
   }
-  return Promise.resolve();
+
+  logger.log();
+  logger.log('For more information about installing Storybook: https://storybook.js.org/docs');
+  process.exit(0);
 };
 
 async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
