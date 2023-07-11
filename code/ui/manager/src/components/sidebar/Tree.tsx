@@ -10,7 +10,7 @@ import type {
 import { styled } from '@storybook/theming';
 import { Button, Icons, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
-import type { ComponentProps, MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
@@ -29,19 +29,7 @@ import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
 
 import { isStoryHoistable, createId, getAncestorIds, getDescendantIds, getLink } from './utils';
-
-type StoryStateKey = State['status'][keyof State['status']][0]['status'];
-const order: StoryStateKey[] = ['unknown', 'pending', 'success', 'warn', 'error'];
-const mapping: Record<
-  StoryStateKey,
-  [ComponentProps<typeof Icons>['icon'] | null, string | null, string | null]
-> = {
-  unknown: [null, null, null],
-  pending: ['watch', 'currentColor', 'currentColor'],
-  success: ['passed', 'green', 'currentColor'],
-  warn: ['changed', 'orange', '#A15C20'],
-  error: ['failed', 'red', 'brown'],
-};
+import { statusPriority, statusMapping } from '../../utils/status';
 
 export const Action = styled.button(({ theme }) => ({
   display: 'inline-flex',
@@ -215,12 +203,12 @@ const Node = React.memo<NodeProps>(function Node({
     const statusIcon = Object.values(status || {}).reduce<
       typeof status[keyof typeof status]['status']
     >((acc, s) => {
-      if (order.indexOf(s.status) > order.indexOf(acc)) {
+      if (statusPriority.indexOf(s.status) > statusPriority.indexOf(acc)) {
         return s.status;
       }
       return acc;
     }, 'unknown');
-    const [icon, iconColor, textColor] = mapping[statusIcon];
+    const [icon, iconColor, textColor] = statusMapping[statusIcon];
 
     return (
       <LeafNodeStyleWrapper
@@ -262,7 +250,10 @@ const Node = React.memo<NodeProps>(function Node({
                     title: v.title,
                     description: v.description,
                     right: (
-                      <Icons icon={mapping[v.status][0]} style={{ color: mapping[v.status][1] }} />
+                      <Icons
+                        icon={statusMapping[v.status][0]}
+                        style={{ color: statusMapping[v.status][1] }}
+                      />
                     ),
                   }))}
                 />
@@ -519,7 +510,7 @@ export const Tree = React.memo<{
         const combinedStatus = leafs
           .flatMap((story) => Object.values(status?.[story.id] || {}))
           .reduce<typeof status[keyof typeof status]['status']['status']>((sacc, s) => {
-            if (order.indexOf(s.status) > order.indexOf(sacc)) {
+            if (statusPriority.indexOf(s.status) > statusPriority.indexOf(sacc)) {
               return s.status;
             }
             return sacc;
@@ -527,7 +518,7 @@ export const Tree = React.memo<{
 
         if (combinedStatus) {
           // eslint-disable-next-line prefer-destructuring
-          acc[item.id] = mapping[combinedStatus][2];
+          acc[item.id] = statusMapping[combinedStatus][2];
         }
       }
       return acc;
