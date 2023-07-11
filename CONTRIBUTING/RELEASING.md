@@ -342,15 +342,18 @@ Before you start you should make sure that your working tree is clean and the re
 5. (If patch release) Cherry pick:
    1. `yarn release:pick-patches`
    2. Manually cherry pick any necessary patches based on the previous output
-6. Bump versions: `yarn release:version --verbose --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
+6. Bump versions:
+   1. If you plan on using automatic publishing (ie. stop at step 12), bump with deferred: `yarn release:version --verbose --deferred --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
+   2. If doing the whole release locally, **do not** defer the bump: `yarn release:version --verbose --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
 7. To see a list of changes (for your own to-do list), run `yarn release:generate-pr-description --current-version <CURRENT_VERSION> --next-version <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
 8. Write changelogs: `yarn release:write-changelog <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
 9. `git add .`.
 10. Commit changes: `git commit -m "Bump version from <CURRENT_VERSION> to <NEXT_VERSION_FROM_PREVIOUS_STEP> MANUALLY"`
 11. Merge changes to the release branch:
     1. `git checkout <"latest-release" | "next-release">`
-    2. `git merge <PREVIOUS_BRANCH>`
-    3. `git push origin`
+    2. `git pull`
+    3. `git merge <PREVIOUS_BRANCH>`
+    4. `git push origin`
 12. (If automatic publishing is still working, it should kick in now and the rest of the steps can be skipped)
 13. `cd ..`
 14. Publish to the registry: `YARN_NPM_AUTH_TOKEN=<NPM_TOKEN> yarn release:publish --tag <"next" OR "latest"> --verbose`
