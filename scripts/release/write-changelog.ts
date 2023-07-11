@@ -4,7 +4,7 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readFile, writeFile, writeJSON } from 'fs-extra';
+import { readFile, writeFile, writeJson } from 'fs-extra';
 import { getChanges } from './utils/get-changes';
 
 program
@@ -103,7 +103,7 @@ const writeToDocsVersionFile = async ({
     },
   };
 
-  await writeJSON(filepath, content);
+  await writeJson(filepath, content);
 };
 
 export const run = async (args: unknown[], options: unknown) => {
