@@ -28,8 +28,14 @@ import type { ExpandAction, ExpandedState } from './useExpanded';
 import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
 
-import { isStoryHoistable, createId, getAncestorIds, getDescendantIds, getLink } from './utils';
-import { statusPriority, statusMapping } from '../../utils/status';
+import {
+  isStoryHoistable,
+  createId,
+  getAncestorIds,
+  getDescendantIds,
+  getLink,
+} from '../../utils/tree';
+import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
 
 export const Action = styled.button(({ theme }) => ({
   display: 'inline-flex',
@@ -200,15 +206,8 @@ const Node = React.memo<NodeProps>(function Node({
   if (item.type === 'story' || item.type === 'docs') {
     const LeafNode = item.type === 'docs' ? DocumentNode : StoryNode;
 
-    const statusIcon = Object.values(status || {}).reduce<
-      typeof status[keyof typeof status]['status']
-    >((acc, s) => {
-      if (statusPriority.indexOf(s.status) > statusPriority.indexOf(acc)) {
-        return s.status;
-      }
-      return acc;
-    }, 'unknown');
-    const [icon, iconColor, textColor] = statusMapping[statusIcon];
+    const statusValue = getHighestStatus(Object.values(status || {}).map((s) => s.status));
+    const [icon, iconColor, textColor] = statusMapping[statusValue];
 
     return (
       <LeafNodeStyleWrapper
@@ -242,23 +241,21 @@ const Node = React.memo<NodeProps>(function Node({
         {icon ? (
           <WithTooltip
             placement="top"
-            tooltip={() => {
-              return (
-                <TooltipLinkList
-                  links={Object.entries(status || {}).map(([k, v]) => ({
-                    id: k,
-                    title: v.title,
-                    description: v.description,
-                    right: (
-                      <Icons
-                        icon={statusMapping[v.status][0]}
-                        style={{ color: statusMapping[v.status][1] }}
-                      />
-                    ),
-                  }))}
-                />
-              );
-            }}
+            tooltip={() => (
+              <TooltipLinkList
+                links={Object.entries(status || {}).map(([k, v]) => ({
+                  id: k,
+                  title: v.title,
+                  description: v.description,
+                  right: (
+                    <Icons
+                      icon={statusMapping[v.status][0]}
+                      style={{ color: statusMapping[v.status][1] }}
+                    />
+                  ),
+                }))}
+              />
+            )}
             closeOnOutsideClick
           >
             <Icons icon={icon} style={{ color: iconColor }} />
@@ -452,9 +449,10 @@ export const Tree = React.memo<{
   }, [data]);
 
   // Omit single-story components from the list of nodes.
-  const collapsedItems = useMemo(() => {
-    return Object.keys(data).filter((id) => !singleStoryComponentIds.includes(id));
-  }, [singleStoryComponentIds]);
+  const collapsedItems = useMemo(
+    () => Object.keys(data).filter((id) => !singleStoryComponentIds.includes(id)),
+    [singleStoryComponentIds]
+  );
 
   // Rewrite the dataset to place the child story in place of the component.
   const collapsedData = useMemo(() => {
@@ -500,30 +498,7 @@ export const Tree = React.memo<{
     onSelectStoryId,
   });
 
-  const groupStatus = useMemo(() => {
-    return Object.values(collapsedData).reduce<Record<string, string>>((acc, item) => {
-      if (item.type === 'group' || item.type === 'component') {
-        const leafs = getDescendantIds(collapsedData, item.id, false)
-          .map((id) => collapsedData[id])
-          .filter((i) => i.type === 'story');
-
-        const combinedStatus = leafs
-          .flatMap((story) => Object.values(status?.[story.id] || {}))
-          .reduce<typeof status[keyof typeof status]['status']['status']>((sacc, s) => {
-            if (statusPriority.indexOf(s.status) > statusPriority.indexOf(sacc)) {
-              return s.status;
-            }
-            return sacc;
-          }, 'unknown');
-
-        if (combinedStatus) {
-          // eslint-disable-next-line prefer-destructuring
-          acc[item.id] = statusMapping[combinedStatus][2];
-        }
-      }
-      return acc;
-    }, {});
-  }, [collapsedData, status]);
+  const groupStatus = useMemo(() => getGroupStatus(collapsedData, status), [collapsedData, status]);
 
   return (
     <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>

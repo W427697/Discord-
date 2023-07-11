@@ -8,6 +8,7 @@ import { transparentize } from 'polished';
 import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
 
 import { RefIndicator } from './RefIndicator';
+
 // eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
@@ -15,7 +16,7 @@ import { CollapseIcon } from './TreeNode';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type { Highlight, RefType } from './types';
 
-import { getStateType } from './utils';
+import { getStateType } from '../../utils/tree';
 
 export interface RefProps {
   isLoading: boolean;
