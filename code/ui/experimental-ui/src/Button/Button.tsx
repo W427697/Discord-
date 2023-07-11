@@ -2,50 +2,62 @@ import type { ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import { ButtonWrapper } from './styles';
 
-export interface ButtonProps {
+export type ButtonProps = (
+  | React.ButtonHTMLAttributes<HTMLButtonElement>
+  | React.AnchorHTMLAttributes<HTMLAnchorElement>
+) & {
   children: string;
-  href?: string;
   size?: 'small' | 'medium';
-  type?: 'primary' | 'secondary' | 'tertiary';
+  variant?: 'primary' | 'secondary' | 'tertiary';
   icon?: ReactNode;
   iconOnly?: boolean;
   onClick?: () => void;
   disabled?: boolean;
   active?: boolean;
-  as?: any;
-}
+};
 
 const ButtonLink = ButtonWrapper.withComponent('a');
 
-export const Button = forwardRef<any, ButtonProps>(
-  (
-    {
-      size = 'medium',
-      type = 'primary',
-      icon,
-      iconOnly = false,
-      disabled = false,
-      active = false,
-      href,
-      children,
-    },
-    ref
-  ) => {
-    if (href)
-      return (
-        <ButtonLink ref={ref} size={size} btnType={type} disabled={disabled} active={active}>
-          {icon}
-          {!iconOnly && children}
-        </ButtonLink>
-      );
-
+export const Button = forwardRef<any, ButtonProps>((props, ref) => {
+  const {
+    size = 'medium',
+    variant = 'primary',
+    icon,
+    iconOnly = false,
+    disabled = false,
+    active = false,
+    children,
+  } = props;
+  if ('href' in props)
     return (
-      <ButtonWrapper ref={ref} size={size} btnType={type} disabled={disabled} active={active}>
+      <ButtonLink
+        ref={ref}
+        size={size}
+        variant={variant}
+        disabled={disabled}
+        active={active}
+        iconOnly={iconOnly}
+        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
         {icon}
         {!iconOnly && children}
-      </ButtonWrapper>
+      </ButtonLink>
     );
-  }
-);
+
+  return (
+    <ButtonWrapper
+      ref={ref}
+      size={size}
+      variant={variant}
+      disabled={disabled}
+      active={active}
+      iconOnly={iconOnly}
+      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+    >
+      {icon}
+      {!iconOnly && children}
+    </ButtonWrapper>
+  );
+});
 
 Button.displayName = 'Button';

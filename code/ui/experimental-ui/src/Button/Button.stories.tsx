@@ -16,12 +16,28 @@ export const Base = {
   args: { children: 'Button' },
 };
 
+const Icon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={14}
+    height={14}
+    viewBox="0 0 14 14"
+    fill="currentColor"
+  >
+    <path d="M3.97 8.75a.5.5 0 0 0-.87.5 4.5 4.5 0 0 0 7.8 0 .5.5 0 1 0-.87-.5 3.5 3.5 0 0 1-6.06 0ZM5.5 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9.5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
+    <path
+      fillRule="evenodd"
+      d="M14 7A7 7 0 1 1 0 7a7 7 0 0 1 14 0Zm-1 0A6 6 0 1 1 1 7a6 6 0 0 1 12 0Z"
+    />
+  </svg>
+);
+
 export const Types: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary">Primary</Button>
-      <Button type="secondary">Secondary</Button>
-      <Button type="tertiary">Tertiary</Button>
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="tertiary">Tertiary</Button>
     </div>
   ),
 };
@@ -29,13 +45,13 @@ export const Types: Story = {
 export const Active: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary" active>
+      <Button variant="primary" active>
         Primary
       </Button>
-      <Button type="secondary" active>
+      <Button variant="secondary" active>
         Secondary
       </Button>
-      <Button type="tertiary" active>
+      <Button variant="tertiary" active>
         Tertiary
       </Button>
     </div>
@@ -45,13 +61,13 @@ export const Active: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary" icon={<div>Hello</div>}>
+      <Button variant="primary" icon={<Icon />}>
         Primary
       </Button>
-      <Button type="secondary" icon={<div>Hello</div>}>
+      <Button variant="secondary" icon={<Icon />}>
         Secondary
       </Button>
-      <Button type="tertiary" icon={<div>Hello</div>}>
+      <Button variant="tertiary" icon={<Icon />}>
         Tertiary
       </Button>
     </div>
@@ -61,16 +77,16 @@ export const WithIcon: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" icon={<div>Hello</div>}>
+      <Button size="small" icon={<Icon />}>
         Small Button
       </Button>
-      <Button size="small" icon={<div>Hello</div>} iconOnly>
+      <Button size="small" icon={<Icon />} iconOnly>
         Small Button
       </Button>
-      <Button size="medium" icon={<div>Hello</div>}>
+      <Button size="medium" icon={<Icon />}>
         Medium Button
       </Button>
-      <Button size="medium" icon={<div>Hello</div>} iconOnly>
+      <Button size="medium" icon={<Icon />} iconOnly>
         Medium Button
       </Button>
     </div>
@@ -90,22 +106,22 @@ export const IconOnly: Story = {
   },
   render: () => (
     <>
-      <Button size="small" type="primary" iconOnly icon={<div>Hello</div>}>
+      <Button size="small" variant="primary" iconOnly icon={<Icon />}>
         Primary
       </Button>
-      <Button size="small" type="secondary" iconOnly icon={<div>Hello</div>}>
+      <Button size="small" variant="secondary" iconOnly icon={<Icon />}>
         Secondary
       </Button>
-      <Button size="small" type="tertiary" iconOnly icon={<div>Hello</div>}>
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon />}>
         Tertiary
       </Button>
-      <Button size="medium" type="primary" iconOnly icon={<div>Hello</div>}>
+      <Button size="medium" variant="primary" iconOnly icon={<Icon />}>
         Primary
       </Button>
-      <Button size="medium" type="secondary" iconOnly icon={<div>Hello</div>}>
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon />}>
         Secondary
       </Button>
-      <Button size="medium" type="tertiary" iconOnly icon={<div>Hello</div>}>
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon />}>
         Tertiary
       </Button>
     </>
@@ -118,22 +134,22 @@ export const IconOnly: Story = {
 export const IconOnlyActive: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" type="primary" iconOnly icon={<div>Hello</div>} active>
+      <Button size="small" variant="primary" iconOnly icon={<Icon />} active>
         Primary
       </Button>
-      <Button size="small" type="secondary" iconOnly icon={<div>Hello</div>} active>
+      <Button size="small" variant="secondary" iconOnly icon={<Icon />} active>
         Secondary
       </Button>
-      <Button size="small" type="tertiary" iconOnly icon={<div>Hello</div>} active>
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon />} active>
         Tertiary
       </Button>
-      <Button size="medium" type="primary" iconOnly icon={<div>Hello</div>} active>
+      <Button size="medium" variant="primary" iconOnly icon={<Icon />} active>
         Primary
       </Button>
-      <Button size="medium" type="secondary" iconOnly icon={<div>Hello</div>} active>
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon />} active>
         Secondary
       </Button>
-      <Button size="medium" type="tertiary" iconOnly icon={<div>Hello</div>} active>
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon />} active>
         Tertiary
       </Button>
     </div>

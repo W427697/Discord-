@@ -3,17 +3,30 @@ import { darken, lighten, rgba, transparentize } from 'polished';
 import type { ButtonProps } from './Button';
 
 export const ButtonWrapper = styled.button<{
-  btnType: ButtonProps['type'];
+  variant: ButtonProps['variant'];
   size: ButtonProps['size'];
   disabled: ButtonProps['disabled'];
   active: ButtonProps['active'];
-}>(({ theme, btnType, size, disabled, active }) => ({
+  iconOnly: ButtonProps['iconOnly'];
+}>(({ theme, variant, size, disabled, active, iconOnly }) => ({
   border: 0,
   cursor: disabled ? 'not-allowed' : 'pointer',
   display: 'inline-flex',
+  gap: '6px',
   alignItems: 'center',
+  justifyContent: 'center',
   overflow: 'hidden',
-  padding: '0 16px',
+  // padding: iconOnly ? 0 : '0 16px',
+  padding: `${(() => {
+    if (!iconOnly && size === 'small') return '0 10px';
+    if (!iconOnly && size === 'medium') return '0 12px';
+    return 0;
+  })()}`,
+  width: `${(() => {
+    if (iconOnly && size === 'small') return '28px';
+    if (iconOnly && size === 'medium') return '32px';
+    return 'auto';
+  })()}`,
   height: size === 'small' ? '28px' : '32px',
   position: 'relative',
   textAlign: 'center',
@@ -30,41 +43,41 @@ export const ButtonWrapper = styled.button<{
   fontWeight: theme.typography.weight.bold,
   lineHeight: '1',
   background: `${(() => {
-    if (btnType === 'primary') return theme.color.secondary;
-    if (btnType === 'secondary') return theme.button.background;
-    if (btnType === 'tertiary' && active) return theme.background.hoverable;
+    if (variant === 'primary') return theme.color.secondary;
+    if (variant === 'secondary') return theme.button.background;
+    if (variant === 'tertiary' && active) return theme.background.hoverable;
     return 'transparent';
   })()}`,
   color: `${(() => {
-    if (btnType === 'primary') return theme.color.lightest;
-    if (btnType === 'secondary') return theme.input.color;
-    if (btnType === 'tertiary' && active) return theme.color.secondary;
-    if (btnType === 'tertiary') return theme.color.mediumdark;
+    if (variant === 'primary') return theme.color.lightest;
+    if (variant === 'secondary') return theme.input.color;
+    if (variant === 'tertiary' && active) return theme.color.secondary;
+    if (variant === 'tertiary') return theme.color.mediumdark;
     return theme.input.color;
   })()}`,
-  boxShadow: btnType === 'secondary' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
+  boxShadow: variant === 'secondary' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
   borderRadius: theme.input.borderRadius,
 
   '&:hover': {
-    color: btnType === 'tertiary' ? theme.color.secondary : null,
+    color: variant === 'tertiary' ? theme.color.secondary : null,
     background: `${(() => {
       let bgColor = theme.color.secondary;
-      if (btnType === 'primary') bgColor = theme.color.secondary;
-      if (btnType === 'secondary') bgColor = theme.button.background;
+      if (variant === 'primary') bgColor = theme.color.secondary;
+      if (variant === 'secondary') bgColor = theme.button.background;
 
-      if (btnType === 'tertiary') return transparentize(0.86, theme.color.secondary);
+      if (variant === 'tertiary') return transparentize(0.86, theme.color.secondary);
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
     })()}`,
   },
 
   '&:active': {
-    color: btnType === 'tertiary' ? theme.color.secondary : null,
+    color: variant === 'tertiary' ? theme.color.secondary : null,
     background: `${(() => {
       let bgColor = theme.color.secondary;
-      if (btnType === 'primary') bgColor = theme.color.secondary;
-      if (btnType === 'secondary') bgColor = theme.button.background;
+      if (variant === 'primary') bgColor = theme.color.secondary;
+      if (variant === 'secondary') bgColor = theme.button.background;
 
-      if (btnType === 'tertiary') return theme.background.hoverable;
+      if (variant === 'tertiary') return theme.background.hoverable;
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
     })()}`,
   },
