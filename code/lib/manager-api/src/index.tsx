@@ -425,7 +425,7 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
   );
 
-  if (api.getAddonState(stateId) !== state) {
+  if (api.getAddonState(stateId) && api.getAddonState(stateId) !== state) {
     api.setAddonState<S>(stateId, state).then((s) => {
       addonStateCache[stateId] = s;
     });
