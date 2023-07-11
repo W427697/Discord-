@@ -35,6 +35,10 @@ const styles = ({ theme }: { theme: Theme }): CSSObject => ({
   boxSizing: 'border-box',
   height: 32,
 
+  '&[type="file"]': {
+    height: 'auto',
+  },
+
   '&:focus': {
     boxShadow: `${theme.color.secondary} 0 0 0 1px inset`,
     outline: 'none',
