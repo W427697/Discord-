@@ -12,7 +12,7 @@ describe('Generate PR Description', () => {
       user: 'JReinhold',
       id: 'pr-id-42',
       title: 'Some PR title for a bug',
-      labels: ['bug', 'build', 'other label', 'patch'],
+      labels: ['bug', 'build', 'other label', 'patch:yes'],
       commit: 'abc123',
       pull: 42,
       links: {
@@ -104,7 +104,7 @@ describe('Generate PR Description', () => {
         "- [ ] **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42) (will also be patched)
         - [ ] **✨ Feature Request**: Some PR title for a 'new' feature [#48](https://github.com/storybookjs/storybook/pull/48)
         - [ ] **⚠️ Direct commit**: Some title for a "direct commit" [22bb11](https://github.com/storybookjs/storybook/commit/22bb11)
-        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11) (will also be patched)
+        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11)
         - [ ] **❔ Missing Label**: Some PR title with a missing label [#77](https://github.com/storybookjs/storybook/pull/77)"
       `);
     });
@@ -116,7 +116,7 @@ describe('Generate PR Description', () => {
         "## 🍒 Manual cherry picking needed!
 
         The following pull requests could not be cherry-picked automatically because it resulted in merge conflicts.
-        For each pull request below, you need to either manually cherry pick it, or discard it by removing the "patch" label from the PR and re-generate this PR.
+        For each pull request below, you need to either manually cherry pick it, or discard it by replacing the "patch:yes" label with "patch:no" on the PR and re-generate this PR.
 
         - [ ] [#42](https://github.com/storybookjs/storybook/pull/42): \`git cherry-pick -m1 -x abc123\`"
       `);
