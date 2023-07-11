@@ -7,17 +7,6 @@ const meta: Meta<typeof Button> = {
   title: 'Button',
   component: Button,
   tags: ['autodocs'],
-  argTypes: {
-    isLink: { table: { disable: true } },
-    primary: { table: { disable: true } },
-    secondary: { table: { disable: true } },
-    tertiary: { table: { disable: true } },
-    gray: { table: { disable: true } },
-    inForm: { table: { disable: true } },
-    small: { table: { disable: true } },
-    outline: { table: { disable: true } },
-    containsIcon: { table: { disable: true } },
-  },
 };
 
 export default meta;

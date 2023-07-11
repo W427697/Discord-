@@ -1,169 +1,82 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
+import type { Args } from '@storybook/types';
 
 import { Button } from './Button';
 import { Icons } from '../icon/icon';
+import { Form } from '../form/index';
 
-const meta: Meta<typeof Button> = {
-  title: 'Button',
+export default {
   component: Button,
-  tags: ['autodocs'],
-  argTypes: {
-    isLink: { table: { disable: true } },
-    primary: { table: { disable: true } },
-    secondary: { table: { disable: true } },
-    tertiary: { table: { disable: true } },
-    gray: { table: { disable: true } },
-    inForm: { table: { disable: true } },
-    small: { table: { disable: true } },
-    outline: { table: { disable: true } },
-    containsIcon: { table: { disable: true } },
-  },
 };
 
-export default meta;
-type Story = StoryObj<typeof Button>;
+export const Default = { args: { children: 'Default' } };
 
-export const Base = {
-  args: { children: 'Button' },
+export const FormButton = {
+  render: (args: Args) => <Form.Button {...args} />,
+  args: { children: 'Form.Button' },
 };
 
-export const Types: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary">Primary</Button>
-      <Button type="secondary">Secondary</Button>
-      <Button type="tertiary">Tertiary</Button>
-    </div>
-  ),
+export const Primary = { args: { primary: true, children: 'Primary' } };
+export const Secondary = { args: { secondary: true, children: 'Secondary' } };
+export const Tertiary = { args: { tertiary: true, children: 'Tertiary' } };
+export const Gray = { args: { gray: true, children: 'Gray' } };
+
+export const Outline = { args: { outline: true, children: 'Outline' } };
+export const OutlinePrimary = {
+  args: { outline: true, primary: true, children: 'Outline Primary' },
+};
+export const OutlineSecondary = {
+  args: { outline: true, secondary: true, children: 'Outline Secondary' },
+};
+export const OutlineTertiary = {
+  args: { outline: true, tertiary: true, children: 'Outline Tertiary' },
 };
 
-export const Active: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary" active>
-        Primary
-      </Button>
-      <Button type="secondary" active>
-        Secondary
-      </Button>
-      <Button type="tertiary" active>
-        Tertiary
-      </Button>
-    </div>
-  ),
+export const Disabled = { args: { disabled: true, children: 'Disabled' } };
+export const DisabledPrimary = {
+  args: { disabled: true, primary: true, children: 'Disabled Priary' },
+};
+export const DisabledSecondary = {
+  args: { disabled: true, secondary: true, children: 'Disabled Secondary' },
+};
+export const DisabledTertiary = {
+  args: { disabled: true, tertiary: true, children: 'Disabled Tertiary' },
+};
+export const DisabledGray = {
+  args: { disabled: true, gray: true, children: 'Disabled Gray' },
 };
 
-export const WithIcon: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button type="primary" icon={<Icons icon="bell" />}>
-        Primary
-      </Button>
-      <Button type="secondary" icon={<Icons icon="bell" />}>
-        Secondary
-      </Button>
-      <Button type="tertiary" icon={<Icons icon="bell" />}>
-        Tertiary
-      </Button>
-    </div>
-  ),
+export const Small = { args: { small: true, children: 'Small' } };
+export const SmallPrimary = {
+  args: { small: true, primary: true, children: 'Small Priary' },
+};
+export const SmallSecondary = {
+  args: { small: true, secondary: true, children: 'Small Secondary' },
+};
+export const SmallTertiary = {
+  args: { small: true, tertiary: true, children: 'Small Tertiary' },
+};
+export const SmallGray = {
+  args: { small: true, gray: true, children: 'Small Gray' },
 };
 
-export const Sizes: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" icon={<Icons icon="bell" />}>
-        Small Button
-      </Button>
-      <Button size="small" icon={<Icons icon="bell" />} iconOnly>
-        Small Button
-      </Button>
-      <Button size="medium" icon={<Icons icon="bell" />}>
-        Medium Button
-      </Button>
-      <Button size="medium" icon={<Icons icon="bell" />} iconOnly>
-        Medium Button
-      </Button>
-    </div>
-  ),
-};
-
-export const IconOnly: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story: 'This is a story that shows how to use the `iconOnly` prop.',
-      },
-      source: {
-        type: 'dynamic',
-      },
-    },
-  },
-  render: () => (
-    <>
-      <Button size="small" type="primary" iconOnly icon={<Icons icon="bell" />}>
-        Primary
-      </Button>
-      <Button size="small" type="secondary" iconOnly icon={<Icons icon="bell" />}>
-        Secondary
-      </Button>
-      <Button size="small" type="tertiary" iconOnly icon={<Icons icon="bell" />}>
-        Tertiary
-      </Button>
-      <Button size="medium" type="primary" iconOnly icon={<Icons icon="bell" />}>
-        Primary
-      </Button>
-      <Button size="medium" type="secondary" iconOnly icon={<Icons icon="bell" />}>
-        Secondary
-      </Button>
-      <Button size="medium" type="tertiary" iconOnly icon={<Icons icon="bell" />}>
-        Tertiary
-      </Button>
-    </>
-  ),
-  decorators: [
-    (Story) => <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>{Story()}</div>,
-  ],
-};
-
-export const IconOnlyActive: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" type="primary" iconOnly icon={<Icons icon="bell" />} active>
-        Primary
-      </Button>
-      <Button size="small" type="secondary" iconOnly icon={<Icons icon="bell" />} active>
-        Secondary
-      </Button>
-      <Button size="small" type="tertiary" iconOnly icon={<Icons icon="bell" />} active>
-        Tertiary
-      </Button>
-      <Button size="medium" type="primary" iconOnly icon={<Icons icon="bell" />} active>
-        Primary
-      </Button>
-      <Button size="medium" type="secondary" iconOnly icon={<Icons icon="bell" />} active>
-        Secondary
-      </Button>
-      <Button size="medium" type="tertiary" iconOnly icon={<Icons icon="bell" />} active>
-        Tertiary
-      </Button>
-    </div>
-  ),
-};
-
-export const Disabled: Story = {
+export const IconPrimary = {
   args: {
-    disabled: true,
-    children: 'Disabled Button',
+    primary: true,
+    containsIcon: true,
+    title: 'link',
+    children: <Icons icon="link" />,
   },
 };
-
-export const WithHref: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button onClick={() => console.log('Hello')}>I am a button using onClick</Button>
-      <Button href="https://storybook.js.org/">I am an anchor using Href</Button>
-    </div>
-  ),
+export const IconOutline = {
+  args: { outline: true, containsIcon: true, title: 'link', children: <Icons icon="link" /> },
+};
+export const IconOutlineSmall = {
+  args: {
+    outline: true,
+    containsIcon: true,
+    small: true,
+    title: 'link',
+    children: <Icons icon="link" />,
+  },
 };
