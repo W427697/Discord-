@@ -1,5 +1,5 @@
 import { styled } from '@storybook/theming';
-import { darken, lighten, rgba } from 'polished';
+import { darken, lighten, rgba, transparentize } from 'polished';
 import type { ButtonProps } from './Button';
 
 export const ButtonWrapper = styled.button<{
@@ -9,7 +9,7 @@ export const ButtonWrapper = styled.button<{
   active: ButtonProps['active'];
 }>(({ theme, btnType, size, disabled, active }) => ({
   border: 0,
-  cursor: disabled ? 'not-allowed !important' : 'pointer',
+  cursor: disabled ? 'not-allowed' : 'pointer',
   display: 'inline-flex',
   alignItems: 'center',
   overflow: 'hidden',
@@ -38,28 +38,33 @@ export const ButtonWrapper = styled.button<{
   color: `${(() => {
     if (btnType === 'primary') return theme.color.lightest;
     if (btnType === 'secondary') return theme.input.color;
+    if (btnType === 'tertiary' && active) return theme.color.secondary;
     if (btnType === 'tertiary') return theme.color.mediumdark;
     return theme.input.color;
   })()}`,
-  boxShadow: btnType === 'primary' ? 'none' : `${theme.button.border} 0 0 0 1px inset`,
+  boxShadow: btnType === 'secondary' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
   borderRadius: theme.input.borderRadius,
 
   '&:hover': {
+    color: btnType === 'tertiary' ? theme.color.secondary : null,
     background: `${(() => {
       let bgColor = theme.color.secondary;
       if (btnType === 'primary') bgColor = theme.color.secondary;
       if (btnType === 'secondary') bgColor = theme.button.background;
 
+      if (btnType === 'tertiary') return transparentize(0.86, theme.color.secondary);
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
     })()}`,
   },
 
   '&:active': {
+    color: btnType === 'tertiary' ? theme.color.secondary : null,
     background: `${(() => {
       let bgColor = theme.color.secondary;
       if (btnType === 'primary') bgColor = theme.color.secondary;
       if (btnType === 'secondary') bgColor = theme.button.background;
 
+      if (btnType === 'tertiary') return theme.background.hoverable;
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
     })()}`,
   },
