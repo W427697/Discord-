@@ -48,6 +48,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/global": "^5.0.0",
     "@storybook/theming": "7.1.0-rc.0"
   },
   "devDependencies": {

@@ -90,8 +90,18 @@ export const Sizes: Story = {
 };
 
 export const IconOnly: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'This is a story that shows how to use the `iconOnly` prop.',
+      },
+      source: {
+        type: 'dynamic',
+      },
+    },
+  },
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+    <>
       <Button size="small" type="primary" iconOnly icon={<Icons icon="bell" />}>
         Primary
       </Button>
@@ -110,8 +120,11 @@ export const IconOnly: Story = {
       <Button size="medium" type="tertiary" iconOnly icon={<Icons icon="bell" />}>
         Tertiary
       </Button>
-    </div>
+    </>
   ),
+  decorators: [
+    (Story) => <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>{Story()}</div>,
+  ],
 };
 
 export const IconOnlyActive: Story = {
