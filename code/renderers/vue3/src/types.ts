@@ -18,7 +18,7 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type StoryFnVueReturnType = ReturnType<typeof h> | Component;
+export type StoryFnVueReturnType = ReturnType<typeof h> | Component<any>;
 
 export type StoryContext = StoryContextBase<VueRenderer>;
 

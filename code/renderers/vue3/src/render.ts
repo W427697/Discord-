@@ -67,7 +67,7 @@ export function renderToCanvas(
   const vueApp = createApp({
     setup() {
       storyContext.args = reactive(storyContext.args);
-      const rootElement = storyFn(); // call the story function to get the root element with all the decorators
+      const story = storyFn(); // call the story function to get the root element with all the decorators
 
       const appState = {
         vueApp,
@@ -76,9 +76,7 @@ export function renderToCanvas(
       map.set(canvasElement, appState);
 
       return () => {
-        // not passing args here as props
-        // treat the rootElement as a component without props
-        return h(rootElement, appState.reactiveArgs);
+        return h(story, appState.reactiveArgs);
       };
     },
   });
@@ -153,8 +151,6 @@ function createOrUpdateSlots(context: StoryContext) {
  * unmount the vue app
  * @param storybookApp
  * @param canvasElement
- * @returns void
- * @private
  * */
 
 function teardown(
