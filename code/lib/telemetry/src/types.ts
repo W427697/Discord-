@@ -12,7 +12,8 @@ export type EventType =
   | 'canceled'
   | 'error'
   | 'error-metadata'
-  | 'version-update';
+  | 'version-update'
+  | 'core-config';
 
 export interface Dependency {
   version: string | undefined;
