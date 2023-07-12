@@ -1552,6 +1552,32 @@ describe('PreviewWeb', () => {
       jest.useRealTimers();
     });
 
+    it('listens for events during setup', async () => {
+      document.location.search = '?id=component-one--a';
+
+      const initialized = new PreviewWeb().initialize({
+        importFn,
+        getProjectAnnotations,
+      });
+
+      emitter.emit(SET_CURRENT_STORY, {
+        storyId: 'component-one--b',
+        viewMode: 'story',
+      });
+
+      await initialized;
+
+      await waitForRender();
+
+      await waitForSetCurrentStory();
+
+      expect(history.replaceState).toHaveBeenCalledWith(
+        {},
+        '',
+        'pathname?id=component-one--b&viewMode=story'
+      );
+    });
+
     it('updates URL', async () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
