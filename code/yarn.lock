@@ -7374,7 +7374,7 @@ __metadata:
     "@storybook/builder-vite": 7.1.0-rc.1
     "@storybook/node-logger": 7.1.0-rc.1
     "@storybook/svelte": 7.1.0-rc.1
-    "@sveltejs/vite-plugin-svelte": ^2.4.1
+    "@sveltejs/vite-plugin-svelte": ^2.4.2
     "@types/node": ^16.0.0
     magic-string: ^0.30.0
     svelte: ^4.0.0
@@ -7720,34 +7720,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte-inspector@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@sveltejs/vite-plugin-svelte-inspector@npm:1.0.2"
+"@sveltejs/vite-plugin-svelte-inspector@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@sveltejs/vite-plugin-svelte-inspector@npm:1.0.3"
   dependencies:
     debug: ^4.3.4
   peerDependencies:
     "@sveltejs/vite-plugin-svelte": ^2.2.0
-    svelte: ^3.54.0 || ^4.0.0-next.0
+    svelte: ^3.54.0 || ^4.0.0
     vite: ^4.0.0
-  checksum: b94d8e6f9fcca6ff5a3c1a07c6bcc3e952410845adbd8f69ec0afc9b7b8c1823b20d92cc90ce00cf38c69d1b5bcbe2a05a54941e30d171b8b3df5ea9782b1c32
+  checksum: a64f9a8742cde3f601f6480b56128df8cab553043deab1f96884e34f153ca5020233348ce7ba624900d26b0da4324fef82f4b6a3deec33f9eca7f5938c33c1d7
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "@sveltejs/vite-plugin-svelte@npm:2.4.1"
+"@sveltejs/vite-plugin-svelte@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "@sveltejs/vite-plugin-svelte@npm:2.4.2"
   dependencies:
-    "@sveltejs/vite-plugin-svelte-inspector": ^1.0.2
+    "@sveltejs/vite-plugin-svelte-inspector": ^1.0.3
     debug: ^4.3.4
     deepmerge: ^4.3.1
     kleur: ^4.1.5
     magic-string: ^0.30.0
-    svelte-hmr: ^0.15.1
+    svelte-hmr: ^0.15.2
     vitefu: ^0.2.4
   peerDependencies:
-    svelte: ^3.54.0 || ^4.0.0-next.0
+    svelte: ^3.54.0 || ^4.0.0
     vite: ^4.0.0
-  checksum: c5799b9cef9725ca906f8e21f042ac9e5a7023596442eb2fa82b4c9169fa999e2a16b3ef096e8439d09b22acd253ffcbc30a38823807705f213683cf0c771b96
+  checksum: 303401055cb4f31407a51e8adaabf9a68dbc9977fa1cf0a9353baadecd4fd0d67ccfc881e29160907d6a3a738a25e6feab9dd638099ff4ced4909f612616850b
   languageName: node
   linkType: hard
 
@@ -28736,7 +28736,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-hmr@npm:^0.15.1":
+"svelte-hmr@npm:^0.15.2":
   version: 0.15.2
   resolution: "svelte-hmr@npm:0.15.2"
   peerDependencies:
