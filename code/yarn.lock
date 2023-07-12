@@ -7516,10 +7516,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue-vite@workspace:frameworks/vue-vite"
   dependencies:
+    "@babel/core": ^7.15.0
     "@storybook/builder-vite": 7.1.0-rc.1
     "@storybook/core-common": 7.1.0-rc.1
     "@storybook/core-server": 7.1.0-rc.1
     "@storybook/vue": 7.1.0-rc.1
+    css-loader: ^6.2.0
     magic-string: ^0.30.0
     typescript: ^5.0.0
     vite: ^4.0.0
@@ -7569,6 +7571,7 @@ __metadata:
     "@storybook/builder-vite": 7.1.0-rc.1
     "@storybook/core-server": 7.1.0-rc.1
     "@storybook/vue3": 7.1.0-rc.1
+    "@types/find-package-json": ^1.2.3
     "@types/node": ^16.0.0
     "@vitejs/plugin-vue": ^4.0.0
     find-package-json: ^1.2.0
@@ -7652,6 +7655,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.1.0-rc.1
     "@storybook/types": 7.1.0-rc.1
+    css-loader: "*"
     ts-dedent: ^2.0.0
     type-fest: ^3.11.0
     vue: ^2.7.0
