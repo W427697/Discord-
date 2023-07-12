@@ -167,7 +167,9 @@ export const WithHref: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <Button onClick={() => console.log('Hello')}>I am a button using onClick</Button>
-      <Button href="https://storybook.js.org/">I am an anchor using Href</Button>
+      <Button as="a" href="https://storybook.js.org/">
+        I am an anchor using Href
+      </Button>
     </div>
   ),
 };

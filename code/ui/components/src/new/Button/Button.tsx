@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import React, { forwardRef } from 'react';
+import { css } from '@storybook/theming';
 import { ButtonWrapper } from './styles';
 
 type PropsOf<T extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>> =
@@ -17,22 +18,23 @@ export interface ButtonProps<T extends React.ElementType = React.ElementType> {
   active?: boolean;
 }
 
+const superStyles = css`
+  background-color: aliceblue;
+`;
+
 export const Button: {
   <E extends React.ElementType = 'button'>(
     props: ButtonProps<E> & Omit<PropsOf<E>, keyof ButtonProps>
   ): JSX.Element;
   displayName?: string;
-} = forwardRef(
-  ({ as, children, icon, iconOnly, ...props }: ButtonProps, ref: React.Ref<Element>) => {
-    const Component = as ?? ButtonWrapper;
-
-    return (
-      <Component ref={ref} {...props}>
-        {icon}
-        {!iconOnly && children}
-      </Component>
-    );
-  }
-);
+} = forwardRef(({ as, children, icon, ...props }: ButtonProps, ref: React.Ref<Element>) => {
+  const Component = as ?? 'button';
+  return (
+    <Component className={superStyles} as={as} ref={ref} {...props}>
+      {icon}
+      {!props.iconOnly && children}
+    </Component>
+  );
+});
 
 Button.displayName = 'Button';
