@@ -7,11 +7,15 @@ const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
   {
+    directory: '../components/src/new',
+    titlePrefix: '@storybook-ui',
+  },
+  {
     directory: '../manager/src',
     titlePrefix: '@storybook-manager',
   },
   {
-    directory: '../components/src',
+    directory: '../components/src/legacy',
     titlePrefix: '@storybook-components',
   },
   {

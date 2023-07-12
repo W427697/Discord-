@@ -22,16 +22,16 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/legacy.d.ts",
-      "node": "./dist/legacy.js",
-      "require": "./dist/legacy.js",
-      "import": "./dist/legacy.mjs"
-    },
-    "./experimental": {
       "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
+    },
+    "./experimental": {
+      "types": "./dist/experimantal.d.ts",
+      "node": "./dist/experimantal.js",
+      "require": "./dist/experimantal.js",
+      "import": "./dist/experimantal.mjs"
     },
     "./html": {
       "types": "./dist/html.d.ts",
@@ -40,19 +40,19 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/legacy.js",
-  "module": "dist/legacy.mjs",
-  "types": "dist/legacy.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
       "*": [
-        "dist/legacy.d.ts"
+        "dist/index.d.ts"
       ],
       "html": [
         "dist/html.d.ts"
       ],
       "experimental": [
-        "dist/index.d.ts"
+        "dist/experimantal.d.ts"
       ]
     }
   },
@@ -100,8 +100,8 @@
   },
   "bundler": {
     "entries": [
-      "./src/legacy.ts",
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/experimantal.ts"
     ],
     "platform": "neutral"
   },
