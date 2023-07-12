@@ -18,6 +18,8 @@ import type {
   StoryPreparedPayload,
   DocsPreparedPayload,
   API_DocsEntry,
+  API_StatusState,
+  API_StatusUpdate,
 } from '@storybook/types';
 import {
   PRELOAD_ENTRIES,
@@ -50,7 +52,6 @@ import {
 } from '../lib/stories';
 
 import type { ComposedRef, ModuleFn } from '../index';
-import { merge } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -62,22 +63,13 @@ type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
 type StoryUpdate = Partial<
   Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
 >;
-interface StatusObject {
-  status: 'pending' | 'success' | 'error' | 'warn' | 'unknown';
-  title: string;
-  description: string;
-  data?: any;
-}
-
-type StatusState = Record<StoryId, Record<string, StatusObject>>;
-type StatusUpdate = Record<StoryId, StatusObject>;
 
 type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
-  status: StatusState;
+  status: API_StatusState;
 }
 
 export interface SubAPI {
@@ -265,7 +257,7 @@ export interface SubAPI {
    * @param {StatusUpdate} update - An object containing the updated status information.
    * @returns {Promise<void>} A promise that resolves when the status has been updated.
    */
-  experimental_updateStatus: (addonId: string, update: StatusUpdate) => Promise<void>;
+  experimental_updateStatus: (addonId: string, update: API_StatusUpdate) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
@@ -574,13 +566,14 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     /* EXPERIMENTAL APIs */
     experimental_updateStatus: async (id, update) => {
       const { status } = store.getState();
-      const addition = Object.entries(update).reduce<StatusState>((acc, [storyId, value]) => {
-        acc[storyId] = acc[storyId] || {};
-        acc[storyId][id] = value;
+      const newStatus = { ...status };
 
-        return acc;
-      }, {});
-      await store.setState({ status: merge(status, addition) }, { persistence: 'session' });
+      Object.entries(update).forEach(([storyId, value]) => {
+        newStatus[storyId] = { ...(newStatus[storyId] || {}) };
+        newStatus[storyId][id] = value;
+      });
+
+      await store.setState({ status: newStatus }, { persistence: 'session' });
     },
   };
 

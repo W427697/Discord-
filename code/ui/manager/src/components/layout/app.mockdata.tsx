@@ -65,6 +65,7 @@ const realSidebarProps: SidebarProps = {
   index: mockDataset.withRoot as SidebarProps['index'],
   menu: [],
   refs: {},
+  status: {},
   previewInitialized: true,
 };
 
