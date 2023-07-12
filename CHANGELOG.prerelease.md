@@ -1,3 +1,10 @@
+## 7.1.0-rc.1
+
+- Angular: Enable prod mode when Storybook is built - [#23404](https://github.com/storybookjs/storybook/pull/23404), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Angular: Fix esm issue in combination with rxjs v6 - [#23405](https://github.com/storybookjs/storybook/pull/23405), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Fix chevron icon on Configure.mdx page - [#23397](https://github.com/storybookjs/storybook/pull/23397), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Settings: Fix dark mode for what's new page - [#23398](https://github.com/storybookjs/storybook/pull/23398), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
 ## 7.1.0-rc.0
 
 Promote beta to rc without any changes. 🎉

@@ -300,8 +300,6 @@ const baseTemplates = {
     name: 'Angular CLI (Version 15)',
     script:
       'npx -p @angular/cli@15 ng new angular-v15 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
-    // TODO: Remove as soon as available
-    inDevelopment: true,
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
