@@ -6,6 +6,7 @@ import * as t from '@babel/types';
 import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
+import * as recast from 'recast';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -613,8 +614,7 @@ export const loadConfig = (code: string, fileName?: string) => {
 };
 
 export const formatConfig = (config: ConfigFile) => {
-  const { code } = generate.default(config._ast, {});
-  return code;
+  return recast.print(config._ast, {}).code;
 };
 
 export const readConfig = async (fileName: string) => {

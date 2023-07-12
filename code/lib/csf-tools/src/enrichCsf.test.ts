@@ -16,7 +16,7 @@ const enrich = (code: string, options?: EnrichCsfOptions) => {
 
   const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
   enrichCsf(csf, options);
-  return formatCsf(csf);
+  return formatCsf(csf).code;
 };
 
 describe('enrichCsf', () => {
