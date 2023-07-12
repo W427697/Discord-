@@ -37,6 +37,7 @@ const Container = styled.div(({ theme }) => ({
   borderColor: theme.appBorderColor,
   padding: '8px 12px',
   display: 'flex',
+  alignItems: 'center',
   justifyContent: 'space-between',
 }));
 
@@ -46,10 +47,14 @@ const ToggleNotificationButton = styled(IconButton)(({ theme }) => ({
   margin: 0,
 }));
 
-const CopyButton = styled(Button)(() => ({
-  margin: 0,
-  padding: 0,
-  borderRadius: 0,
+const CopyButton = styled(Button)(({ theme }) => ({
+  '&&': {
+    fontSize: `13px`,
+    color: theme.color.defaultText,
+    margin: 0,
+    padding: 0,
+    borderRadius: 0,
+  },
 }));
 
 export const WhatsNewFooter = ({
@@ -107,6 +112,7 @@ const Iframe = styled.iframe<{ isLoaded: boolean }>(
     padding: 0,
     width: '100%',
     height: 'calc(100% - 80px)',
+    background: 'white',
   },
   ({ isLoaded }) => ({ visibility: isLoaded ? 'visible' : 'hidden' })
 );
