@@ -7,7 +7,7 @@ import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
 import type { API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_Type } from './addons';
+import type { Addon_Collection, Addon_Type } from './addons';
 import type { StoryIndex } from './storyIndex';
 
 export type API_ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
@@ -32,11 +32,9 @@ export interface API_MatchOptions {
 
 export type API_Addon = Addon_Type;
 
-export interface API_Collection<T = API_Addon> {
-  [key: string]: T;
-}
+export type API_Collection<T = Addon_Type> = Addon_Collection<T>;
 
-export type API_Panels = API_Collection<API_Addon>;
+export type API_Panels = Addon_Collection<Addon_Type>;
 
 export type API_StateMerger<S> = (input: S) => S;
 

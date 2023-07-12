@@ -11,7 +11,7 @@ import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNo
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isCloseType, isClearType, isExpandType } from './types';
 // eslint-disable-next-line import/no-cycle
-import { getLink } from './utils';
+import { getLink } from '../../utils/tree';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
 const { document } = global;
