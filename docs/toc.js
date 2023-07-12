@@ -693,6 +693,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'RFC',
+          title: 'RFC Process',
+          type: 'link',
+        },
+        {
           pathSegment: 'code',
           title: 'Code',
           type: 'link',
