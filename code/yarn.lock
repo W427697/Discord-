@@ -4582,19 +4582,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.35.0":
-  version: 1.35.0
-  resolution: "@playwright/test@npm:1.35.0"
+"@playwright/test@npm:1.36.0":
+  version: 1.36.0
+  resolution: "@playwright/test@npm:1.36.0"
   dependencies:
     "@types/node": "*"
     fsevents: 2.3.2
-    playwright-core: 1.35.0
+    playwright-core: 1.36.0
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 77594d876632e9ce8a33851fed0a9ffe1034ca216811a3b5c3925c371eddb20ceb6848f3e9b10234a025dcf7be979cddcd0285ad627ad30afbc0cf246ab74c4d
+  checksum: 9d06764f55ae10569981d518838d588d820678a4e6a8a1bbfab78b7b4b4245cf055e94a0dea90fe2ecf1ce4559d06e02986757270e7c54a52d0bdf1963cb03e6
   languageName: node
   linkType: hard
 
@@ -6511,14 +6511,14 @@ __metadata:
   dependencies:
     "@storybook/core-webpack": 7.0.26
     "@storybook/node-logger": 7.0.26
-    svelte: ^3.31.2
-    svelte-loader: ^3.1.2
+    svelte: ^4.0.0
+    svelte-loader: ^3.1.9
     sveltedoc-parser: ^4.2.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   peerDependencies:
     "@babel/core": "*"
-    svelte: ^3.1.0
+    svelte: ^3.1.0 || ^4.0.0
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -6768,7 +6768,7 @@ __metadata:
     "@nrwl/cli": ^15.4.5
     "@nrwl/nx-cloud": ^15.0.2
     "@nrwl/workspace": ^15.4.5
-    "@playwright/test": ^1.35.0
+    "@playwright/test": 1.36.0
     "@storybook/addon-a11y": "workspace:*"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/addon-backgrounds": "workspace:*"
@@ -7054,14 +7054,14 @@ __metadata:
     "@storybook/core-common": 7.0.26
     "@storybook/preset-svelte-webpack": 7.0.26
     "@storybook/svelte": 7.0.26
-    svelte: ^3.48.0
-    svelte-loader: ^3.1.2
+    svelte: ^4.0.0
+    svelte-loader: ^3.1.9
     typescript: ~4.9.3
   peerDependencies:
     "@babel/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    svelte: ^3.48.0
+    svelte: ^3.48.0 || ^4.0.0
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -24595,23 +24595,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.35.0":
-  version: 1.35.0
-  resolution: "playwright-core@npm:1.35.0"
+"playwright-core@npm:1.36.0":
+  version: 1.36.0
+  resolution: "playwright-core@npm:1.36.0"
   bin:
     playwright-core: cli.js
-  checksum: 157257f0950190903d75ff6af70258fe1b1c6bf44f144a063428a594c09b4631d4c151ff65e28e1d9fc13edd8bd51c4720a7d87fc755c2afba47f41919bf5875
+  checksum: 5b5d32495e222ddd4351d1d8b116a25a7d93ea5f3439dceaceeb916d0abdce6d5b0b84f80df0b239168d55a100e7aecc9db4774ff20ba0210d8de027f258b544
   languageName: node
   linkType: hard
 
-"playwright@npm:1.35.0":
-  version: 1.35.0
-  resolution: "playwright@npm:1.35.0"
+"playwright@npm:1.36.0":
+  version: 1.36.0
+  resolution: "playwright@npm:1.36.0"
   dependencies:
-    playwright-core: 1.35.0
+    playwright-core: 1.36.0
   bin:
     playwright: cli.js
-  checksum: efe6a7c74fff1fe30b952e3d80a6da42779579174ae4ced83e24ebd07d9388f0a43d5188106f08874e645128e27b020c0c8e118948d607328d37a38b20c57c19
+  checksum: dc39eb6271b22901cb6219a8ecdd44736169edd789d2a8be5885ded5414ee2a9e2c73a19e24d55336ddbae6f9d69522b46f1fe92998740745f1cb78d58b6cb6e
   languageName: node
   linkType: hard
 
@@ -28778,16 +28778,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-loader@npm:^3.1.2":
-  version: 3.1.7
-  resolution: "svelte-loader@npm:3.1.7"
+"svelte-loader@npm:^3.1.9":
+  version: 3.1.9
+  resolution: "svelte-loader@npm:3.1.9"
   dependencies:
     loader-utils: ^2.0.4
     svelte-dev-helper: ^1.1.9
     svelte-hmr: ^0.14.2
   peerDependencies:
-    svelte: ">3.0.0"
-  checksum: 8b10ce8a0bf840c47811392f3da1143610f3450a965613f8aa6526e25f8c6fb4e4f18eb95d4981b906c6b258dc3391f9af2ea8478049365176942d385773c7f0
+    svelte: ^3.0.0 || ^4.0.0-next.0
+  checksum: b71593c06756882f0d6e690d050af497dd4b51074699d33dbc7016c7ea21858619d55fc087c7a205178f92e0ded7b3c3f68ec1a7645847098199d40377afb1ef
   languageName: node
   linkType: hard
 
@@ -28834,13 +28834,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 1ed64b96a91327a47992df0b82df708b5cda92e1da211edbedaf411e633a0be5a8425d19f996abc8dcef52dadd26b5474924dd9eeb30a7b409bf60c33b689d6c
-  languageName: node
-  linkType: hard
-
-"svelte@npm:^3.31.2, svelte@npm:^3.48.0":
-  version: 3.59.1
-  resolution: "svelte@npm:3.59.1"
-  checksum: 12a250de5c359d3a184f15727d5e61e45103a795adb32e8c4100a40929d987832ab7edcbfe357d86863c0819ad4edbd69bfc83ac33bf9b5e47a233a621fbcc3e
   languageName: node
   linkType: hard
 

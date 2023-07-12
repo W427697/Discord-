@@ -43,7 +43,7 @@ executors:
         default: 'small'
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.35.0-focal
+      - image: mcr.microsoft.com/playwright:v1.36.0-focal
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -658,19 +658,19 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 18
+          parallelism: 17
           requires:
             - build
       - build-sandboxes:
-          parallelism: 18
+          parallelism: 17
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 18
+          parallelism: 17
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 18
+          parallelism: 17
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -678,7 +678,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 18
+          parallelism: 17
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
