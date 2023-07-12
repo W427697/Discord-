@@ -4902,19 +4902,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.35.0":
-  version: 1.35.0
-  resolution: "@playwright/test@npm:1.35.0"
+"@playwright/test@npm:1.36.0":
+  version: 1.36.0
+  resolution: "@playwright/test@npm:1.36.0"
   dependencies:
     "@types/node": "*"
     fsevents: 2.3.2
-    playwright-core: 1.35.0
+    playwright-core: 1.36.0
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 77594d876632e9ce8a33851fed0a9ffe1034ca216811a3b5c3925c371eddb20ceb6848f3e9b10234a025dcf7be979cddcd0285ad627ad30afbc0cf246ab74c4d
+  checksum: 9d06764f55ae10569981d518838d588d820678a4e6a8a1bbfab78b7b4b4245cf055e94a0dea90fe2ecf1ce4559d06e02986757270e7c54a52d0bdf1963cb03e6
   languageName: node
   linkType: hard
 
@@ -7109,7 +7109,7 @@ __metadata:
     "@emotion/jest": ^11.10.0
     "@jest/globals": ^29.3.1
     "@nx/workspace": 16.2.1
-    "@playwright/test": ^1.35.0
+    "@playwright/test": 1.36.0
     "@storybook/addon-a11y": "workspace:*"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/addon-backgrounds": "workspace:*"
@@ -7374,7 +7374,7 @@ __metadata:
     "@storybook/builder-vite": 7.1.0-rc.1
     "@storybook/node-logger": 7.1.0-rc.1
     "@storybook/svelte": 7.1.0-rc.1
-    "@sveltejs/vite-plugin-svelte": ^2.4.1
+    "@sveltejs/vite-plugin-svelte": ^2.4.2
     "@types/node": ^16.0.0
     magic-string: ^0.30.0
     svelte: ^4.0.0
@@ -7720,34 +7720,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte-inspector@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@sveltejs/vite-plugin-svelte-inspector@npm:1.0.2"
+"@sveltejs/vite-plugin-svelte-inspector@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@sveltejs/vite-plugin-svelte-inspector@npm:1.0.3"
   dependencies:
     debug: ^4.3.4
   peerDependencies:
     "@sveltejs/vite-plugin-svelte": ^2.2.0
-    svelte: ^3.54.0 || ^4.0.0-next.0
+    svelte: ^3.54.0 || ^4.0.0
     vite: ^4.0.0
-  checksum: b94d8e6f9fcca6ff5a3c1a07c6bcc3e952410845adbd8f69ec0afc9b7b8c1823b20d92cc90ce00cf38c69d1b5bcbe2a05a54941e30d171b8b3df5ea9782b1c32
+  checksum: a64f9a8742cde3f601f6480b56128df8cab553043deab1f96884e34f153ca5020233348ce7ba624900d26b0da4324fef82f4b6a3deec33f9eca7f5938c33c1d7
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte@npm:^2.4.1":
-  version: 2.4.1
-  resolution: "@sveltejs/vite-plugin-svelte@npm:2.4.1"
+"@sveltejs/vite-plugin-svelte@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "@sveltejs/vite-plugin-svelte@npm:2.4.2"
   dependencies:
-    "@sveltejs/vite-plugin-svelte-inspector": ^1.0.2
+    "@sveltejs/vite-plugin-svelte-inspector": ^1.0.3
     debug: ^4.3.4
     deepmerge: ^4.3.1
     kleur: ^4.1.5
     magic-string: ^0.30.0
-    svelte-hmr: ^0.15.1
+    svelte-hmr: ^0.15.2
     vitefu: ^0.2.4
   peerDependencies:
-    svelte: ^3.54.0 || ^4.0.0-next.0
+    svelte: ^3.54.0 || ^4.0.0
     vite: ^4.0.0
-  checksum: c5799b9cef9725ca906f8e21f042ac9e5a7023596442eb2fa82b4c9169fa999e2a16b3ef096e8439d09b22acd253ffcbc30a38823807705f213683cf0c771b96
+  checksum: 303401055cb4f31407a51e8adaabf9a68dbc9977fa1cf0a9353baadecd4fd0d67ccfc881e29160907d6a3a738a25e6feab9dd638099ff4ced4909f612616850b
   languageName: node
   linkType: hard
 
@@ -24647,23 +24647,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.35.0":
-  version: 1.35.0
-  resolution: "playwright-core@npm:1.35.0"
+"playwright-core@npm:1.36.0":
+  version: 1.36.0
+  resolution: "playwright-core@npm:1.36.0"
   bin:
     playwright-core: cli.js
-  checksum: 157257f0950190903d75ff6af70258fe1b1c6bf44f144a063428a594c09b4631d4c151ff65e28e1d9fc13edd8bd51c4720a7d87fc755c2afba47f41919bf5875
+  checksum: 5b5d32495e222ddd4351d1d8b116a25a7d93ea5f3439dceaceeb916d0abdce6d5b0b84f80df0b239168d55a100e7aecc9db4774ff20ba0210d8de027f258b544
   languageName: node
   linkType: hard
 
-"playwright@npm:1.35.0":
-  version: 1.35.0
-  resolution: "playwright@npm:1.35.0"
+"playwright@npm:1.36.0":
+  version: 1.36.0
+  resolution: "playwright@npm:1.36.0"
   dependencies:
-    playwright-core: 1.35.0
+    playwright-core: 1.36.0
   bin:
     playwright: cli.js
-  checksum: efe6a7c74fff1fe30b952e3d80a6da42779579174ae4ced83e24ebd07d9388f0a43d5188106f08874e645128e27b020c0c8e118948d607328d37a38b20c57c19
+  checksum: dc39eb6271b22901cb6219a8ecdd44736169edd789d2a8be5885ded5414ee2a9e2c73a19e24d55336ddbae6f9d69522b46f1fe92998740745f1cb78d58b6cb6e
   languageName: node
   linkType: hard
 
@@ -28736,7 +28736,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-hmr@npm:^0.15.1":
+"svelte-hmr@npm:^0.15.2":
   version: 0.15.2
   resolution: "svelte-hmr@npm:0.15.2"
   peerDependencies:
