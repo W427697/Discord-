@@ -41,11 +41,18 @@ const checkRequiredLabels = (labels: string[]) => {
     );
   }
 
-  const foundLabels = intersection(requiredLabels, labels);
-  if (isEmpty(foundLabels)) {
+  const foundRequiredLabels = intersection(requiredLabels, labels);
+  if (isEmpty(foundRequiredLabels)) {
     fail(`PR is not labeled with one of: ${JSON.stringify(requiredLabels)}`);
-  } else if (foundLabels.length > 1) {
-    fail(`Please choose only one of these labels: ${JSON.stringify(foundLabels)}`);
+  } else if (foundRequiredLabels.length > 1) {
+    fail(`Please choose only one of these labels: ${JSON.stringify(foundRequiredLabels)}`);
+  }
+
+  const foundPatchLabels = intersection(['patch:no', 'patch:yes'], labels);
+  if (isEmpty(foundPatchLabels)) {
+    fail(`PR is not labeled with one of: ${JSON.stringify(foundPatchLabels)}`);
+  } else if (foundPatchLabels.length > 1) {
+    fail(`Please choose only one of these labels: ${JSON.stringify(foundPatchLabels)}`);
   }
 };
 
