@@ -82,6 +82,7 @@ const BranchNode = styled.button<{
 
 const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   cursor: 'pointer',
+  color: 'inherit',
   display: 'flex',
   flex: 1,
   alignItems: 'start',
