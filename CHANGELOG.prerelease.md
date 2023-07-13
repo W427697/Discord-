@@ -1,3 +1,36 @@
+## 7.1.0-rc.2
+
+- CLI: Exit when user does not select a storybook project type - [#23201](https://github.com/storybookjs/storybook/pull/23201), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Fix Javascript language detection - [#23426](https://github.com/storybookjs/storybook/pull/23426), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Fix onboarding detection in what's new module - [#23424](https://github.com/storybookjs/storybook/pull/23424), thanks [@yannbf](https://github.com/yannbf)!
+- Dependencies: Bump `@sveltejs/vite-plugin-svelte` - [#23233](https://github.com/storybookjs/storybook/pull/23233), thanks [@JReinhold](https://github.com/JReinhold)!
+- Telemetry: Add globals usage to project.json - [#23431](https://github.com/storybookjs/storybook/pull/23431), thanks [@shilman](https://github.com/shilman)!
+
+## 7.1.0-rc.1
+
+- Angular: Enable prod mode when Storybook is built - [#23404](https://github.com/storybookjs/storybook/pull/23404), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Angular: Fix esm issue in combination with rxjs v6 - [#23405](https://github.com/storybookjs/storybook/pull/23405), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Fix chevron icon on Configure.mdx page - [#23397](https://github.com/storybookjs/storybook/pull/23397), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Settings: Fix dark mode for what's new page - [#23398](https://github.com/storybookjs/storybook/pull/23398), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
+## 7.1.0-rc.0
+
+Promote beta to rc without any changes. 🎉
+
+## 7.1.0-beta.3
+
+- CLI: Update Configure.mdx - [#23340](https://github.com/storybookjs/storybook/pull/23340), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- React: Move `typescript` from devDependencies to peerDependencies - [#23179](https://github.com/storybookjs/storybook/pull/23179), thanks [@chakAs3](https://github.com/chakAs3)!
+- Settings: Add disable whatsnew UI - [#23381](https://github.com/storybookjs/storybook/pull/23381), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Settings: New about page design - [#23357](https://github.com/storybookjs/storybook/pull/23357), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Svelte-Webpack: Support Svelte v4 - [#23336](https://github.com/storybookjs/storybook/pull/23336), thanks [@JReinhold](https://github.com/JReinhold)!
+- UI: Remove css zoom - [#21303](https://github.com/storybookjs/storybook/pull/21303), thanks [@Luk-z](https://github.com/Luk-z)!
+
+## 7.1.0-beta.2
+
+- Next.js: Fix for @nx/react/plugin/storybook with stories containing SVGs - [#23210](https://github.com/storybookjs/storybook/pull/23210), thanks [@daves28](https://github.com/daves28)!
+- Yarn: Downgrade yarnpkg packages and support virtual files properly - [#23354](https://github.com/storybookjs/storybook/pull/23354), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 7.1.0-beta.1
 
 - Addon-docs: Add opt-in table of contents - [#23142](https://github.com/storybookjs/storybook/pull/23142), thanks [@shilman](https://github.com/shilman)!
@@ -102,7 +135,7 @@
 - Dependencies: Upgrade Jest related packages - [#22979](https://github.com/storybookjs/storybook/pull/22979), thanks [@ndelangen](https://github.com/ndelangen)!
 - Core: Fix `builder-manager` adding multiple dashes to relative path - [#22974](https://github.com/storybookjs/storybook/pull/22974), thanks [@MarioCadenas](https://github.com/MarioCadenas)!
 - Core: Add JSDoc comments to `preview-api` APIs - [#22975](https://github.com/storybookjs/storybook/pull/22975), thanks [@ndelangen](https://github.com/ndelangen)!
-- Vue3: Fix source decorator to generate correct story code  - [#22518](https://github.com/storybookjs/storybook/pull/22518), thanks [@chakAs3](https://github.com/chakAs3)!
+- Vue3: Fix source decorator to generate correct story code - [#22518](https://github.com/storybookjs/storybook/pull/22518), thanks [@chakAs3](https://github.com/chakAs3)!
 - Core: Add JSDoc comments to `manager-api` APIs - [#22968](https://github.com/storybookjs/storybook/pull/22968), thanks [@ndelangen](https://github.com/ndelangen)!
 - Core: Improve `of={...}` DocBlock error in story index - [#22782](https://github.com/storybookjs/storybook/pull/22782), thanks [@shilman](https://github.com/shilman)!
 - UI: Simplify `overlayscrollbars` component - [#22963](https://github.com/storybookjs/storybook/pull/22963), thanks [@ndelangen](https://github.com/ndelangen)!
@@ -111,4 +144,3 @@
 - React: Fix decorators to conditionally render children - [#22336](https://github.com/storybookjs/storybook/pull/22336), thanks [@redbugz](https://github.com/redbugz)!
 - Addon-measure: Migrate to strict TS - [#22402](https://github.com/storybookjs/storybook/pull/22402), thanks [@efrenaragon96](https://github.com/efrenaragon96)!
 - Feature: Add experimental status API - [#22890](https://github.com/storybookjs/storybook/pull/22890), thanks [@ndelangen](https://github.com/ndelangen)!
-
