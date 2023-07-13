@@ -28,8 +28,8 @@ export function getGroupStatus(
     [x: string]: Partial<API_HashEntry>;
   },
   status: API_StatusState
-): Record<string, string> {
-  return Object.values(collapsedData).reduce<Record<string, string>>((acc, item) => {
+): Record<string, API_StatusValue> {
+  return Object.values(collapsedData).reduce<Record<string, API_StatusValue>>((acc, item) => {
     if (item.type === 'group' || item.type === 'component') {
       const leafs = getDescendantIds(collapsedData as any, item.id, false)
         .map((id) => collapsedData[id])
@@ -40,8 +40,7 @@ export function getGroupStatus(
       );
 
       if (combinedStatus) {
-        // eslint-disable-next-line prefer-destructuring
-        acc[item.id] = statusMapping[combinedStatus][2];
+        acc[item.id] = combinedStatus;
       }
     }
     return acc;

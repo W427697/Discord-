@@ -101,10 +101,11 @@ export const Sidebar = React.memo(function Sidebar({
   refs = {},
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
-
   const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
+
+  console.log({ dataset });
 
   return (
     <Container className="container sidebar-container">

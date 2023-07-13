@@ -7,12 +7,14 @@ import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import type { API_StatusValue } from 'lib/types/src';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isCloseType, isClearType, isExpandType } from './types';
 // eslint-disable-next-line import/no-cycle
 import { getLink } from '../../utils/tree';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
+import { statusMapping } from '../../utils/status';
 
 const { document } = global;
 
@@ -25,14 +27,18 @@ const ResultsList = styled.ol({
 });
 
 const ResultRow = styled.li<{ isHighlighted: boolean }>(({ theme, isHighlighted }) => ({
-  display: 'block',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
   margin: 0,
   padding: 0,
+  paddingRight: 20,
   background: isHighlighted ? theme.background.hoverable : 'transparent',
   cursor: 'pointer',
   'a:hover, button:hover': {
     background: 'transparent',
   },
+  gap: 10,
 }));
 
 const NoResults = styled.div(({ theme }) => ({
@@ -109,7 +115,12 @@ const Highlight: FC<{ match?: Match }> = React.memo(function Highlight({ childre
 });
 
 const Result: FC<
-  SearchResult & { icon: string; isHighlighted: boolean; onClick: MouseEventHandler }
+  SearchResult & {
+    icon: string;
+    isHighlighted: boolean;
+    onClick: MouseEventHandler;
+    status: API_StatusValue;
+  }
 > = React.memo(function Result({ item, matches, icon, onClick, ...props }) {
   const click: MouseEventHandler = useCallback(
     (event) => {
@@ -163,7 +174,17 @@ const Result: FC<
     node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
   }
 
-  return <ResultRow {...props}>{node}</ResultRow>;
+  console.log(item.status);
+  console.log(statusMapping[item.status]);
+
+  const [i, iconColor] = item.status ? statusMapping[item.status] : [];
+
+  return (
+    <ResultRow {...props}>
+      {node}
+      {item.status ? <Icons icon={i} style={{ color: iconColor }} /> : null}
+    </ResultRow>
+  );
 });
 
 export const SearchResults: FC<{
@@ -202,6 +223,9 @@ export const SearchResults: FC<{
   }, [closeMenu, enableShortcuts, isLoading]);
 
   const mouseOverHandler = useCallback((event: MouseEvent) => {
+    if (!api) {
+      return;
+    }
     const currentTarget = event.currentTarget as HTMLElement;
     const storyId = currentTarget.getAttribute('data-id');
     const refId = currentTarget.getAttribute('data-refid');
