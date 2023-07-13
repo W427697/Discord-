@@ -130,6 +130,13 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     if (!this.storyStore.storyIndex)
       throw new Error(`Cannot call selectSpecifiedStory before initialization`);
 
+    // If the story has been selected during initialization - if `SET_CURRENT_STORY` is
+    // emitted while we are loading the preview, we don't need to do any selection now.
+    if (this.selectionStore.selection) {
+      await this.renderSelection();
+      return;
+    }
+
     if (!this.selectionStore.selectionSpecifier) {
       this.renderMissingStory();
       return;
