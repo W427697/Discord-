@@ -25,7 +25,8 @@ export * from './types';
  */
 export type StorybookViteConfig = StorybookBaseConfig & StorybookConfigVite;
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const wrapForPnP = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
 
 function iframeMiddleware(options: Options, server: ViteDevServer): RequestHandler {
   return async (req, res, next) => {

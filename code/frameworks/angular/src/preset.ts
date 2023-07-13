@@ -2,7 +2,8 @@ import { dirname, join } from 'path';
 import { PresetProperty } from '@storybook/types';
 import { StorybookConfig } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const wrapForPnP = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   require.resolve('./server/framework-preset-angular-cli'),
@@ -29,7 +30,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-webpack5') as '@storybook/builder-webpack5',
+      name: wrapForPnP('@storybook/builder-webpack5'),
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
   };

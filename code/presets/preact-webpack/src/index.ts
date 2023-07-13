@@ -3,7 +3,8 @@ import type { StorybookConfig } from './types';
 
 export * from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const wrapForPnP = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
 
 export const babel: StorybookConfig['babelDefault'] = (config) => {
   return {

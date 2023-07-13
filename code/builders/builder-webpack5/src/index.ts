@@ -20,7 +20,8 @@ export const printDuration = (startTime: [number, number]) =>
     .replace(' s', ' seconds')
     .replace(' m', ' minutes');
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const wrapForPnP = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
 
 let compilation: ReturnType<typeof webpackDevMiddleware> | undefined;
 let reject: (reason?: any) => void;

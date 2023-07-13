@@ -4,7 +4,8 @@ import { dirname, join } from 'path';
 import type { PresetProperty, Options } from '@storybook/types';
 import type { FrameworkOptions, StorybookConfig } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const wrapForPnP = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   wrapForPnP('@storybook/preset-react-webpack'),
@@ -28,7 +29,7 @@ export const frameworkOptions = async (
   }
   if (typeof config === 'undefined') {
     return {
-      name: wrapForPnP('@storybook/react-webpack5') as '@storybook/react-webpack5',
+      name: wrapForPnP('@storybook/react-webpack5'),
       options: defaultFrameworkOptions,
     };
   }

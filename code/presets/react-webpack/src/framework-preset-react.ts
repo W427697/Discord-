@@ -6,7 +6,8 @@ import { logger } from '@storybook/node-logger';
 import type { Options, Preset } from '@storybook/core-webpack';
 import type { StorybookConfig, ReactOptions } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const wrapForPnP = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
 
 const applyFastRefresh = async (options: Options) => {
   const isDevelopment = options.configType === 'DEVELOPMENT';

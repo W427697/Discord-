@@ -4,10 +4,11 @@ import { hasVitePlugins } from '@storybook/builder-vite';
 import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const wrapForPnP = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as I;
 
 export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
+  builder: wrapForPnP('@storybook/builder-vite'),
   renderer: wrapForPnP('@storybook/react'),
 };
 

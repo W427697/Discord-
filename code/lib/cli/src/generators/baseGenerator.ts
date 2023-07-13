@@ -99,13 +99,19 @@ const getRendererPackage = (framework: string, renderer: string) => {
   return `@storybook/${renderer}`;
 };
 
-const wrapForPnp = (packageName: string) =>
-  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
+const wrapForPnp = <I>(packageName: I, language: SupportedLanguage): I => {
+  if (language === SupportedLanguage.JAVASCRIPT) {
+    return `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%` as I;
+  }
+
+  return `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json'))) as '${packageName}' %%` as I;
+};
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
   pnp: boolean,
+  language: SupportedLanguage,
   framework?: SupportedFrameworks
 ): {
   type: 'framework' | 'renderer';
@@ -117,13 +123,13 @@ const getFrameworkDetails = (
 } => {
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
 
-  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
+  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage, language) : frameworkPackage;
 
   const rendererPackage = getRendererPackage(framework, renderer);
-  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
+  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage, language) : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
+  const builderPackagePath = pnp ? wrapForPnp(builderPackage, language) : builderPackage;
 
   const isExternalFramework = !!getExternalFramework(frameworkPackage);
   const isKnownFramework =
@@ -226,7 +232,7 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp, framework);
+  } = getFrameworkDetails(renderer, builder, pnp, language, framework);
 
   // added to main.js
   const addons = [
@@ -365,7 +371,7 @@ export async function baseGenerator(
       framework: { name: frameworkInclude, options: options.framework || {} },
       storybookConfigFolder,
       docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
+      addons: pnp ? addons.map((addon) => wrapForPnp(addon, language)) : addons,
       extensions,
       language,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
