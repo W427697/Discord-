@@ -1,3 +1,11 @@
+## 7.1.0-rc.2
+
+- CLI: Exit when user does not select a storybook project type - [#23201](https://github.com/storybookjs/storybook/pull/23201), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Fix Javascript language detection - [#23426](https://github.com/storybookjs/storybook/pull/23426), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Fix onboarding detection in what's new module - [#23424](https://github.com/storybookjs/storybook/pull/23424), thanks [@yannbf](https://github.com/yannbf)!
+- Dependencies: Bump `@sveltejs/vite-plugin-svelte` - [#23233](https://github.com/storybookjs/storybook/pull/23233), thanks [@JReinhold](https://github.com/JReinhold)!
+- Telemetry: Add globals usage to project.json - [#23431](https://github.com/storybookjs/storybook/pull/23431), thanks [@shilman](https://github.com/shilman)!
+
 ## 7.1.0-rc.1
 
 - Angular: Enable prod mode when Storybook is built - [#23404](https://github.com/storybookjs/storybook/pull/23404), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
