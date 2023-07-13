@@ -29,7 +29,7 @@ addons.register(ADDON_ID, (api) => {
     type: types.PANEL,
     title: Title,
     match: ({ viewMode }) => viewMode === 'story',
-    render: ({ key, active }) => {
+    render: ({ active }) => {
       const newLocal = useCallback(({ state }: Combo) => {
         return {
           storyId: state.storyId,
@@ -37,7 +37,7 @@ addons.register(ADDON_ID, (api) => {
       }, []);
 
       return (
-        <AddonPanel key={key} active={active}>
+        <AddonPanel active={active}>
           <Consumer filter={newLocal}>{({ storyId }) => <Panel storyId={storyId} />}</Consumer>
         </AddonPanel>
       );

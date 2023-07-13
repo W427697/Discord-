@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { ReactElement, ReactNode, ValidationMap, WeakValidationMap } from 'react';
+import type {
+  FC,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  ValidationMap,
+  WeakValidationMap,
+} from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
@@ -21,7 +28,7 @@ import type {
 } from './csf';
 import type { IndexEntry } from './storyIndex';
 
-export type Addon_Types = Addon_TypesEnum;
+export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -299,8 +306,8 @@ export type BaseStory<TArgs, StoryFnReturnType> =
   | Addon_BaseStoryObject<TArgs, StoryFnReturnType>;
 
 export interface Addon_RenderOptions {
-  active?: boolean;
-  key?: string;
+  active: boolean;
+  key: string;
 }
 
 /**
@@ -312,16 +319,59 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export type Addon_Type = Addon_BaseType;
+export type Addon_Type = Addon_BaseType | Addon_PageType | Addon_WrapperType;
 export interface Addon_BaseType {
+  /**
+   * The title of the addon.
+   * This can be a simple string, but it can also be a React.FunctionComponent or a React.ReactElement.
+   */
   title: FCWithoutChildren | ReactNode;
-  type: Addon_Types;
+  /**
+   * The type of the addon.
+   * @example Addon_TypesEnum.PANEL
+   */
+  type: Exclude<Addon_Types, Addon_TypesEnum.PREVIEW>;
+  /**
+   * The unique id of the addon.
+   * @warn This will become non-optional in 8.0
+   *
+   * This needs to be globally unique, so we recommend prefixing it with your org name or npm package name.
+   *
+   * Do not prefix with `storybook`, this is reserved for core storybook feature and core addons.
+   *
+   * @example 'my-org-name/my-addon-name'
+   */
   id?: string;
+  /**
+   * This component will wrap your `render` function.
+   *
+   * With it you can determine if you want your addon to be rendered or not.
+   *
+   * This is to facilitate addons keeping state, and keep listening for events even when they are not currently on screen/rendered.
+   */
   route?: (routeOptions: RouterData) => string;
+  /**
+   * This will determine the value of `active` prop of your render function.
+   */
   match?: (matchOptions: RouterData) => boolean;
-  render: (renderOptions: Addon_RenderOptions) => any | null;
+  /**
+   * The actual contents of your addon.
+   *
+   * This is called as a function, so if you want to use hooks,
+   * your function needs to return a JSX.Element within which components are rendered
+   */
+  render: (renderOptions: Partial<Addon_RenderOptions>) => ReactElement<any, any> | null;
+  /**
+   * @unstable
+   */
   paramKey?: string;
+  /**
+   * @unstable
+   */
   disabled?: boolean;
+  /**
+   * @unstable
+   */
   hidden?: boolean;
 }
 
@@ -337,6 +387,71 @@ interface FCWithoutChildren<P = {}> {
   contextTypes?: ValidationMap<any> | undefined;
   defaultProps?: Partial<P> | undefined;
   displayName?: string | undefined;
+}
+
+export interface Addon_PageType {
+  type: Addon_TypesEnum.experimental_PAGE;
+  /**
+   * The unique id of the page.
+   */
+  id: string;
+  /**
+   * The URL to navigate to when Storybook needs to navigate to this page.
+   */
+  url: string;
+  /**
+   * The title is used in mobile mode to represent the page in the navigation.
+   */
+  title: FCWithoutChildren | string | ReactElement | ReactNode;
+  /**
+   * The main content of the addon, a function component without any props.
+   * Storybook will render your component always.
+   *
+   * If you want to render your component only when the URL matches, use the `Route` component.
+   * @example
+   * import { Route } from '@storybook/router';
+   *
+   * render: () => {
+   *   return (
+   *     <Route path="/my-addon">
+   *       <MyAddonContent />
+   *     </Route>
+   *   );
+   * };
+   */
+  render: FCWithoutChildren;
+}
+
+export interface Addon_WrapperType {
+  type: Addon_TypesEnum.PREVIEW;
+  /**
+   * The unique id of the page.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent that wraps the story.
+   *
+   * This component must accept a children prop, and render it.
+   */
+  render: FC<
+    PropsWithChildren<{
+      index: number;
+      children: ReactNode;
+      id: string;
+      storyId: StoryId;
+      active: boolean;
+    }>
+  >;
+}
+
+type Addon_TypeBaseNames = Exclude<
+  Addon_TypesEnum,
+  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE
+>;
+
+export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
+  [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
+  [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -372,7 +487,7 @@ export enum Addon_TypesEnum {
    */
   PANEL = 'panel',
   /**
-   * This adds items in the toolbar above the canvas - on the right side.
+   * This adds items in the toolbar above the canvas - on the left side.
    */
   TOOL = 'tool',
   /**
@@ -381,9 +496,14 @@ export enum Addon_TypesEnum {
   TOOLEXTRA = 'toolextra',
   /**
    * This adds wrapper components around the canvas/iframe component storybook renders.
-   * @unstable
+   * @unstable this API is not stable yet, and is likely to change in 8.0.
    */
   PREVIEW = 'preview',
+  /**
+   * This adds pages that render instead of the canvas.
+   * @unstable
+   */
+  experimental_PAGE = 'page',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.

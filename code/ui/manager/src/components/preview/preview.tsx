@@ -1,8 +1,9 @@
+import type { FC } from 'react';
 import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { global } from '@storybook/global';
 
-import { type Addon_BaseType } from '@storybook/types';
+import type { Addon_BaseType } from '@storybook/types';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 
 import { Loader } from '@storybook/components';
@@ -19,9 +20,8 @@ import type { PreviewProps } from './utils/types';
 
 const { FEATURES } = global;
 
-const getWrappers = (getFn: API['getElements']) =>
-  Object.values(getFn<Addon_BaseType>(types.PREVIEW));
-const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon_BaseType>(types.TAB));
+const getWrappers = (getFn: API['getElements']) => Object.values(getFn(types.PREVIEW));
+const getTabs = (getFn: API['getElements']) => Object.values(getFn(types.TAB));
 
 const canvasMapper = ({ state, api }: Combo) => ({
   storyId: state.storyId,
@@ -36,118 +36,26 @@ const canvasMapper = ({ state, api }: Combo) => ({
   active: !!(state.viewMode && state.viewMode.match(/^(story|docs)$/)),
 });
 
-const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): Addon_BaseType => ({
+const createCanvasTab = (): Addon_BaseType => ({
   id: 'canvas',
-  type: types.PREVIEW,
+  type: types.TAB,
   title: 'Canvas',
   route: ({ storyId, refId }) => (refId ? `/story/${refId}_${storyId}` : `/story/${storyId}`),
   match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
-  render: () => {
-    return (
-      <Consumer filter={canvasMapper}>
-        {({
-          entry,
-          refs,
-          customCanvas,
-          storyId,
-          refId,
-          viewMode,
-          queryParams,
-          getElements,
-          previewInitialized,
-          active,
-        }) => {
-          const wrappers = useMemo(
-            () => [...defaultWrappers, ...getWrappers(getElements)],
-            [getElements, ...defaultWrappers]
-          );
-
-          const [progress, setProgress] = useState(undefined);
-          useEffect(() => {
-            if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
-              try {
-                const channel = addons.getServerChannel();
-
-                channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
-                  setProgress(options);
-                });
-              } catch {
-                //
-              }
-            }
-          }, []);
-          // A ref simply depends on its readiness
-          const refLoading = !!refs[refId] && !refs[refId].previewInitialized;
-          // The root also might need to wait on webpack
-          const isBuilding = !(progress?.value === 1 || progress === undefined);
-          const rootLoading = !refId && (!previewInitialized || isBuilding);
-          const isLoading = entry ? refLoading || rootLoading : rootLoading;
-
-          return (
-            <ZoomConsumer>
-              {({ value: scale }) => {
-                return (
-                  <>
-                    {withLoader && isLoading && (
-                      <S.LoaderWrapper>
-                        <Loader id="preview-loader" role="progressbar" progress={progress} />
-                      </S.LoaderWrapper>
-                    )}
-                    <ApplyWrappers
-                      id={id}
-                      storyId={storyId}
-                      viewMode={viewMode}
-                      active={active}
-                      wrappers={wrappers}
-                    >
-                      {customCanvas ? (
-                        customCanvas(storyId, viewMode, id, baseUrl, scale, queryParams)
-                      ) : (
-                        <FramesRenderer
-                          baseUrl={baseUrl}
-                          refs={refs}
-                          scale={scale}
-                          entry={entry}
-                          viewMode={viewMode}
-                          refId={refId}
-                          queryParams={queryParams}
-                          storyId={storyId}
-                        />
-                      )}
-                    </ApplyWrappers>
-                  </>
-                );
-              }}
-            </ZoomConsumer>
-          );
-        }}
-      </Consumer>
-    );
-  },
+  render: () => null,
 });
 
-const useTabs = (
-  id: PreviewProps['id'],
-  baseUrl: PreviewProps['baseUrl'],
-  withLoader: PreviewProps['withLoader'],
-  getElements: API['getElements'],
-  entry: PreviewProps['entry']
-) => {
-  const canvas = useMemo(() => {
-    return createCanvas(id, baseUrl, withLoader);
-  }, [id, baseUrl, withLoader]);
-
-  const tabsFromConfig = useMemo(() => {
-    return getTabs(getElements);
-  }, [getElements]);
+const useTabs = (getElements: API['getElements'], entry: PreviewProps['entry']) => {
+  const canvasTab = useMemo(() => createCanvasTab(), []);
+  const tabsFromConfig = useMemo(() => getTabs(getElements), [getElements]);
 
   return useMemo(() => {
     if (entry?.type === 'story' && entry.parameters) {
-      return filterTabs([canvas, ...tabsFromConfig], entry.parameters);
+      return filterTabs([canvasTab, ...tabsFromConfig], entry.parameters);
     }
 
-    return [canvas, ...tabsFromConfig];
-  }, [entry, canvas, ...tabsFromConfig]);
+    return [canvasTab, ...tabsFromConfig];
+  }, [entry, ...tabsFromConfig]);
 };
 
 const Preview = React.memo<PreviewProps>(function Preview(props) {
@@ -164,7 +72,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
   } = props;
   const { getElements } = api;
 
-  const tabs = useTabs(previewId, baseUrl, withLoader, getElements, entry);
+  const tabs = useTabs(getElements, entry);
 
   const shouldScale = viewMode === 'story';
   const { showToolbar, showTabs = true } = options;
@@ -206,6 +114,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
           tabs={visibleTabsInToolbar}
         />
         <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
+          <Canvas {...{ withLoader, baseUrl }} />
           {tabs.map(({ render: Render, match, ...t }, i) => {
             // @ts-expect-error (Converted from ts-ignore)
             const key = t.id || t.key || i;
@@ -222,6 +131,93 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
 });
 
 export { Preview };
+
+const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = ({
+  baseUrl,
+  withLoader,
+}) => {
+  return (
+    <Consumer filter={canvasMapper}>
+      {({
+        entry,
+        refs,
+        customCanvas,
+        storyId,
+        refId,
+        viewMode,
+        queryParams,
+        getElements,
+        previewInitialized,
+        active,
+      }) => {
+        const id = 'canvas';
+        const wrappers = useMemo(
+          () => [...defaultWrappers, ...getWrappers(getElements)],
+          [getElements, ...defaultWrappers]
+        );
+
+        const [progress, setProgress] = useState(undefined);
+        useEffect(() => {
+          if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
+            try {
+              const channel = addons.getServerChannel();
+
+              channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
+                setProgress(options);
+              });
+            } catch {
+              //
+            }
+          }
+        }, []);
+        // A ref simply depends on its readiness
+        const refLoading = !!refs[refId] && !refs[refId].previewInitialized;
+        // The root also might need to wait on webpack
+        const isBuilding = !(progress?.value === 1 || progress === undefined);
+        const rootLoading = !refId && (!previewInitialized || isBuilding);
+        const isLoading = entry ? refLoading || rootLoading : rootLoading;
+
+        return (
+          <ZoomConsumer>
+            {({ value: scale }) => {
+              return (
+                <>
+                  {withLoader && isLoading && (
+                    <S.LoaderWrapper>
+                      <Loader id="preview-loader" role="progressbar" progress={progress} />
+                    </S.LoaderWrapper>
+                  )}
+                  <ApplyWrappers
+                    id={id}
+                    storyId={storyId}
+                    viewMode={viewMode}
+                    active={active}
+                    wrappers={wrappers}
+                  >
+                    {customCanvas ? (
+                      customCanvas(storyId, viewMode, id, baseUrl, scale, queryParams)
+                    ) : (
+                      <FramesRenderer
+                        baseUrl={baseUrl}
+                        refs={refs}
+                        scale={scale}
+                        entry={entry}
+                        viewMode={viewMode}
+                        refId={refId}
+                        queryParams={queryParams}
+                        storyId={storyId}
+                      />
+                    )}
+                  </ApplyWrappers>
+                </>
+              );
+            }}
+          </ZoomConsumer>
+        );
+      }}
+    </Consumer>
+  );
+};
 
 function filterTabs(panels: Addon_BaseType[], parameters: Record<string, any>) {
   const { previewTabs } = addons.getConfig();

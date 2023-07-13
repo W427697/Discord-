@@ -20,7 +20,7 @@ import type {
 } from './types';
 import { isSearchResult, isExpandType, isClearType, isCloseType } from './types';
 
-import { scrollIntoView, searchItem } from './utils';
+import { scrollIntoView, searchItem } from '../../utils/tree';
 
 const { document } = global;
 

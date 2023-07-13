@@ -10,7 +10,7 @@ import { useStorybookApi } from '../../api';
 
 import type { RefType } from './types';
 
-import type { getStateType } from './utils';
+import type { getStateType } from '../../utils/tree';
 
 const { document, window: globalWindow } = global;
 

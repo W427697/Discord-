@@ -4,7 +4,8 @@ import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
-import { useStorybookApi, useStorybookState } from '../api';
+import type { Addon_PageType } from '@storybook/types';
+import { useStorybookApi, useStorybookState, types } from '../api';
 
 import { AboutPage } from './about_page';
 import { WhatsNewPage } from './whats_new_page';
@@ -126,4 +127,14 @@ const SettingsPages: FC = () => {
   );
 };
 
-export { SettingsPages as default };
+export const settingsPageAddon: Addon_PageType = {
+  id: 'settings',
+  url: '/settings/',
+  title: 'Settings',
+  type: types.experimental_PAGE,
+  render: () => (
+    <Route path="/settings/" startsWith>
+      <SettingsPages />
+    </Route>
+  ),
+};
