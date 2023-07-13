@@ -128,7 +128,7 @@ Storybook's auto-generated documentation pages can be quite long and difficult t
 
 ### Configure the table of contents
 
-To simplify navigation, the table of contents on the documentation page will only show the `h3` headings that are automatically generated. However, if you want to customize the table of contents, you can add more parameters to the `toc` property. The following options and examples of how to use them are available.
+By default, the table of contents on the documentation page will only show the `h3` headings that are automatically generated. However, if you want to customize the table of contents, you can add more parameters to the `toc` property. The following options and examples of how to use them are available.
 
 | Option                | Description                                                                                                                                          |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
