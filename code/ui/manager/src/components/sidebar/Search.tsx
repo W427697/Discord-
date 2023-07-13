@@ -181,17 +181,18 @@ export const Search = React.memo<{
 
   const list: SearchItem[] = useMemo(() => {
     return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
-      const groupStatus = getGroupStatus(index, status);
+      const groupStatus = getGroupStatus(index || {}, status);
 
       if (index) {
         acc.push(
           ...Object.values(index).map((item) => {
-            const statusValue = status[item.id]
-              ? getHighestStatus(Object.values(status[item.id] || {}).map((s) => s.status))
-              : null;
+            const statusValue =
+              status && status[item.id]
+                ? getHighestStatus(Object.values(status[item.id] || {}).map((s) => s.status))
+                : null;
             return {
               ...searchItem(item, dataset.hash[refId]),
-              status: statusValue || groupStatus[item.id],
+              status: statusValue || groupStatus[item.id] || null,
             };
           })
         );

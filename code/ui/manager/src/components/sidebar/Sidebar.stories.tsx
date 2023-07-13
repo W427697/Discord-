@@ -2,6 +2,7 @@ import React from 'react';
 
 import type { IndexHash, State } from 'lib/manager-api/src';
 import type { StoryObj, Meta } from '@storybook/react';
+import { within, userEvent } from '@storybook/testing-library';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
@@ -184,6 +185,7 @@ export const StatusesCollapsed: Story = {
     />
   ),
 };
+
 export const StatusesOpen: Story = {
   ...StatusesCollapsed,
   args: {
@@ -202,5 +204,16 @@ export const StatusesOpen: Story = {
       };
       return acc;
     }, {}),
+  },
+};
+
+export const Searching: Story = {
+  ...StatusesOpen,
+  parameters: { theme: 'light' },
+  play: async ({ canvasElement }) => {
+    const canvas = await within(canvasElement);
+    const search = await canvas.getByPlaceholderText('Find components');
+    userEvent.clear(search);
+    userEvent.type(search, 'B2');
   },
 };
