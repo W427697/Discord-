@@ -1636,6 +1636,7 @@ describe('PreviewWeb', () => {
 
         emitter.emit(SET_CURRENT_STORY, { storyId: 'component-one--b', viewMode: 'story' });
 
+        await initialized;
         await waitForEvents([STORY_RENDERED]);
 
         // If we emitted CURRENT_STORY_WAS_SET for the original selection, the manager might
