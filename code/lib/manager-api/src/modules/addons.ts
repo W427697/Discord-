@@ -1,8 +1,8 @@
 import type {
   Addon_BaseType,
   Addon_Collection,
-  Addon_PageType,
   Addon_Types,
+  Addon_TypesMapping,
   API_Panels,
   API_StateMerger,
 } from '@storybook/types';
@@ -25,9 +25,7 @@ export interface SubAPI {
    */
   getElements: <T extends Addon_Types | Addon_TypesEnum.experimental_PAGE = Addon_Types>(
     type: T
-  ) => T extends Addon_TypesEnum.experimental_PAGE
-    ? Addon_Collection<Addon_PageType>
-    : Addon_Collection<Addon_BaseType>;
+  ) => Addon_Collection<Addon_TypesMapping[T]>;
   /**
    * Returns a collection of all panels.
    * This is the same as calling getElements('panel')
@@ -58,7 +56,7 @@ export interface SubAPI {
    * Sets the state of an addon with the given ID.
    * @template S - The type of the addon state.
    * @param {string} addonId - The ID of the addon to set the state for.
-   * @param {S | API_StateMerger<S>} newStateOrMerger - The new state to set, or a function that merges the current state with the new state.
+   * @param {S | API_StateMerger<S>} newStateOrMerger - The new state to set, or a function which receives the current state and returns the new state.
    * @param {Options} [options] - Optional options for the state update.
    * @deprecated This API might get dropped, if you are using this, please file an issue.
    * @returns {Promise<S>} - A promise that resolves with the new state after it has been set.

@@ -1,4 +1,5 @@
 import * as api from '@storybook/manager-api';
+import type { Addon_BaseType } from '@storybook/types';
 import { PANEL_ID } from './constants';
 import './manager';
 
@@ -8,6 +9,8 @@ mockedApi.useAddonState = jest.fn();
 const mockedAddons = api.addons as jest.Mocked<typeof api.addons>;
 const registrationImpl = mockedAddons.register.mock.calls[0][1];
 
+const isPanel = (input: Parameters<typeof mockedAddons.add>[1]): input is Addon_BaseType =>
+  input.type === api.types.PANEL;
 describe('A11yManager', () => {
   it('should register the panels', () => {
     // when
@@ -31,9 +34,8 @@ describe('A11yManager', () => {
     // given
     mockedApi.useAddonState.mockImplementation(() => [undefined]);
     registrationImpl(api as unknown as api.API);
-    const title = mockedAddons.add.mock.calls
-      .map(([_, def]) => def)
-      .find(({ type }) => type === api.types.PANEL)?.title as Function;
+    const title = mockedAddons.add.mock.calls.map(([_, def]) => def).find(isPanel)
+      ?.title as Function;
 
     // when / then
     expect(title()).toMatchInlineSnapshot(`
@@ -66,9 +68,8 @@ describe('A11yManager', () => {
       },
     ]);
     registrationImpl(mockedApi);
-    const title = mockedAddons.add.mock.calls
-      .map(([_, def]) => def)
-      .find(({ type }) => type === api.types.PANEL)?.title as Function;
+    const title = mockedAddons.add.mock.calls.map(([_, def]) => def).find(isPanel)
+      ?.title as Function;
 
     // when / then
     expect(title()).toMatchInlineSnapshot(`

@@ -2,13 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
-import type { Addon_Type } from '@storybook/types';
+import type { Addon_BaseType } from '@storybook/types';
 import useMediaQuery from '../hooks/useMedia';
 
 export interface SafeTabProps {
-  title: Addon_Type['title'];
+  title: Addon_BaseType['title'];
   id: string;
-  children: Addon_Type['render'];
+  children: Addon_BaseType['render'];
 }
 
 class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
@@ -36,7 +36,7 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
 const AddonPanel = React.memo<{
   selectedPanel?: string;
   actions: { onSelect: (id: string) => void } & Record<string, any>;
-  panels: Record<string, Addon_Type>;
+  panels: Record<string, Addon_BaseType>;
   shortcuts: State['shortcuts'];
   panelPosition?: 'bottom' | 'right';
   absolute?: boolean;

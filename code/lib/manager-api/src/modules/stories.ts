@@ -18,6 +18,7 @@ import type {
   StoryPreparedPayload,
   DocsPreparedPayload,
   API_DocsEntry,
+  API_ViewMode,
   API_StatusState,
   API_StatusUpdate,
 } from '@storybook/types';
@@ -60,7 +61,6 @@ const STORY_INDEX_PATH = './index.json';
 type Direction = -1 | 1;
 type ParameterName = string;
 
-type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
 type StoryUpdate = Partial<
   Pick<API_StoryEntry, 'prepared' | 'parameters' | 'initialArgs' | 'argTypes' | 'args'>
 >;
@@ -69,7 +69,7 @@ type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
-  viewMode: ViewMode;
+  viewMode: API_ViewMode;
   status: API_StatusState;
 }
 
@@ -102,13 +102,13 @@ export interface SubAPI {
    * @param {StoryId} [story] - The ID of the story to select.
    * @param {Object} [obj] - An optional object containing additional options.
    * @param {string} [obj.ref] - The ref ID of the story to select.
-   * @param {ViewMode} [obj.viewMode] - The view mode to display the story in.
+   * @param {API_ViewMode} [obj.viewMode] - The view mode to display the story in.
    * @returns {void}
    */
   selectStory: (
     kindOrId?: string,
     story?: StoryId,
-    obj?: { ref?: string; viewMode?: ViewMode }
+    obj?: { ref?: string; viewMode?: API_ViewMode }
   ) => void;
   /**
    * Returns the current story's data, including its ID, kind, name, and parameters.
@@ -588,7 +588,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         viewMode,
       }: {
         storyId: string;
-        viewMode: ViewMode;
+        viewMode: API_ViewMode;
         [k: string]: any;
       }) {
         const { sourceType } = getEventMetadata(this, fullAPI);
@@ -714,7 +714,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         story?: StoryName;
         name?: StoryName;
         storyId: string;
-        viewMode: ViewMode;
+        viewMode: API_ViewMode;
       }) {
         const { ref } = getEventMetadata(this, fullAPI);
 

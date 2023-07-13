@@ -11,6 +11,8 @@ import type {
   Addon_BaseType,
   Addon_PageType,
   Addon_Types,
+  Addon_TypesMapping,
+  Addon_WrapperType,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -97,9 +99,7 @@ export class AddonStore {
 
   getElements<T extends Addon_Types | Addon_TypesEnum.experimental_PAGE>(
     type: T
-  ): T extends Addon_TypesEnum.experimental_PAGE
-    ? Addon_Collection<Addon_PageType>
-    : Addon_Collection<Addon_BaseType> {
+  ): Addon_Collection<Addon_TypesMapping[T]> {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
@@ -139,7 +139,10 @@ export class AddonStore {
    */
   add(
     id: string,
-    addon: Addon_BaseType | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
+    addon:
+      | Addon_BaseType
+      | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
+      | (Omit<Addon_WrapperType, 'id'> & DeprecatedAddonWithId)
   ): void {
     const { type } = addon;
     const collection = this.getElements(type);
