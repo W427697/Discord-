@@ -9,6 +9,11 @@ import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
 
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
 const meta = {
   component: Sidebar,
   title: 'Sidebar/Sidebar',
@@ -202,17 +207,17 @@ export const StatusesOpen: Story = {
           addonB: { status: 'error', title: 'Addon B', description: 'This is a big deal!' },
         },
       };
-      return acc;
     }, {}),
   },
 };
 
 export const Searching: Story = {
   ...StatusesOpen,
-  parameters: { theme: 'light' },
-  play: async ({ canvasElement }) => {
+  parameters: { theme: 'light', chromatic: { delay: 2200 } },
+  play: async ({ canvasElement, step }) => {
+    await step('wait 2000ms', () => wait(2000));
     const canvas = await within(canvasElement);
-    const search = await canvas.getByPlaceholderText('Find components');
+    const search = await canvas.findByPlaceholderText('Find components');
     userEvent.clear(search);
     userEvent.type(search, 'B2');
   },
