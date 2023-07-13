@@ -7,7 +7,6 @@ import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
-import type { API_StatusValue } from 'lib/types/src';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isCloseType, isClearType, isExpandType } from './types';
