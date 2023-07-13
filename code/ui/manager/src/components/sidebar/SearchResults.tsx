@@ -177,7 +177,9 @@ const Result: FC<
   return (
     <ResultRow {...props}>
       {node}
-      {item.status ? <Icons icon={i} style={{ color: iconColor }} /> : null}
+      {item.status ? (
+        <Icons width="8px" height="8px" icon={i} style={{ color: iconColor }} />
+      ) : null}
     </ResultRow>
   );
 });

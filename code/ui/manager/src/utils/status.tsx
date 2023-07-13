@@ -11,9 +11,9 @@ export const statusMapping: Record<
 > = {
   unknown: [null, null, null],
   pending: ['watch', 'currentColor', 'currentColor'],
-  success: ['passed', 'green', 'currentColor'],
-  warn: ['changed', 'orange', '#A15C20'],
-  error: ['failed', 'red', 'brown'],
+  success: ['circle', 'green', 'currentColor'],
+  warn: ['circle', 'orange', '#A15C20'],
+  error: ['circle', 'red', 'brown'],
 };
 
 export const getHighestStatus = (statuses: API_StatusValue[]): API_StatusValue => {
