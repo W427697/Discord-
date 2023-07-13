@@ -529,7 +529,6 @@ export const Tree = React.memo<{
 
         const isDisplayed = !item.parent || ancestry[itemId].every((a: string) => expanded[a]);
         const color = groupStatus[itemId] ? statusMapping[groupStatus[itemId]][2] : null;
-        console.log({ color });
 
         return (
           <Node

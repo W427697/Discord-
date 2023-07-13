@@ -119,7 +119,6 @@ const Result: FC<
     icon: string;
     isHighlighted: boolean;
     onClick: MouseEventHandler;
-    status: API_StatusValue;
   }
 > = React.memo(function Result({ item, matches, icon, onClick, ...props }) {
   const click: MouseEventHandler = useCallback(
@@ -173,9 +172,6 @@ const Result: FC<
     // @ts-expect-error (TODO)
     node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
   }
-
-  console.log(item.status);
-  console.log(statusMapping[item.status]);
 
   const [i, iconColor] = item.status ? statusMapping[item.status] : [];
 

@@ -105,8 +105,6 @@ export const Sidebar = React.memo(function Sidebar({
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
 
-  console.log({ dataset });
-
   return (
     <Container className="container sidebar-container">
       <CustomScrollArea vertical>

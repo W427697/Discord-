@@ -180,10 +180,8 @@ export const Search = React.memo<{
   );
 
   const list: SearchItem[] = useMemo(() => {
-    return dataset.entries.reduce((acc: SearchItem[], [refId, { index, status }]) => {
+    return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
       const groupStatus = getGroupStatus(index, status);
-
-      console.log({ groupStatus });
 
       if (index) {
         acc.push(
