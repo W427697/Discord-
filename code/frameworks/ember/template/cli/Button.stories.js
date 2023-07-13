@@ -55,7 +55,7 @@ export const ButtonWithLinkToAnotherStory = {
     </button>
   `,
     context: {
-      onClick: linkTo('example-introduction--page'),
+      onClick: linkTo('Example/Introduction'),
     },
   }),
   name: 'button with link to another story',
