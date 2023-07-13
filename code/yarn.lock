@@ -7354,6 +7354,7 @@ __metadata:
   dependencies:
     "@storybook/client-logger": 7.1.0-rc.1
     "@storybook/core-common": 7.1.0-rc.1
+    "@storybook/csf-tools": 7.1.0-rc.1
     chalk: ^4.1.0
     detect-package-manager: ^2.0.1
     fetch-retry: ^5.0.2
