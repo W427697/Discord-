@@ -26,12 +26,12 @@ addons.register(ADDON_ID, (api) => {
     title: Title,
     type: types.PANEL,
     paramKey: PARAM_KEY,
-    render: ({ key, active }) => {
+    render: ({ active }) => {
       if (!active || !api.getCurrentStoryData()) {
         return null;
       }
       return (
-        <AddonPanel key={key} active={active}>
+        <AddonPanel active={active}>
           <ControlsPanel />
         </AddonPanel>
       );

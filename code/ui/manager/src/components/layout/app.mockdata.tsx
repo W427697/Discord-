@@ -2,9 +2,9 @@ import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { Component } from 'react';
 import { styled } from '@storybook/theming';
-import type { Addon_Collection } from '@storybook/types';
+import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
-import { types } from '@storybook/manager-api';
 import type { SidebarProps } from '../sidebar/Sidebar';
 import { Sidebar } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';
@@ -38,10 +38,10 @@ export const shortcuts: State['shortcuts'] = {
   remount: ['alt', 'R'],
 };
 
-export const panels: Addon_Collection = {
+export const panels: Addon_Collection<Addon_BaseType> = {
   test1: {
-    type: types.PANEL,
     title: 'Test 1',
+    type: Addon_TypesEnum.PANEL,
     render: ({ active, key }) =>
       active ? (
         <div id="test1" key={key}>
@@ -50,8 +50,8 @@ export const panels: Addon_Collection = {
       ) : null,
   },
   test2: {
-    type: types.PANEL,
     title: 'Test 2',
+    type: Addon_TypesEnum.PANEL,
     render: ({ active, key }) =>
       active ? (
         <div id="test2" key={key}>
@@ -166,8 +166,8 @@ export const mockProps: DesktopProps = {
   },
   viewMode: 'story',
   panelCount: 2,
-  width: 900,
-  height: 600,
+  width: 1112,
+  height: 834,
 };
 
 export const realProps: DesktopProps = {
