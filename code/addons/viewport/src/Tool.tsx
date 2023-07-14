@@ -6,9 +6,9 @@ import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
-import { useStorybookApi, useParameter, useAddonState, useGlobals } from '@storybook/manager-api';
+import { useStorybookApi, useParameter, useGlobals } from '@storybook/manager-api';
 import { registerShortcuts } from './shortcuts';
-import { PARAM_KEY, ADDON_ID } from './constants';
+import { PARAM_KEY } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
 import type { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
 
@@ -98,10 +98,6 @@ const IconButtonLabel = styled.div(({ theme }) => ({
   marginLeft: 10,
 }));
 
-interface ViewportToolState {
-  isRotated: boolean;
-}
-
 const getStyles = (
   prevStyles: ViewportStyles | undefined,
   styles: Styles,
@@ -118,15 +114,13 @@ const getStyles = (
 export const ViewportTool: FC = memo(
   withTheme(({ theme }: { theme: Theme }) => {
     const [globals, updateGlobals] = useGlobals();
+
     const {
       viewports = MINIMAL_VIEWPORTS,
       defaultOrientation = 'portrait',
       defaultViewport = globals.viewport || responsiveViewport.id,
       disable,
     } = useParameter<ViewportAddonParameter>(PARAM_KEY, {});
-    const [state, setState] = useAddonState<ViewportToolState>(ADDON_ID, {
-      isRotated: defaultOrientation === 'landscape',
-    });
 
     const list = toList(viewports);
     const api = useStorybookApi();
@@ -140,8 +134,8 @@ export const ViewportTool: FC = memo(
     }
 
     useEffect(() => {
-      registerShortcuts(api, setState, Object.keys(viewports));
-    }, [viewports]);
+      registerShortcuts(api, globals, updateGlobals, Object.keys(viewports));
+    }, [viewports, globals.viewport]);
 
     useEffect(() => {
       updateGlobals({
@@ -150,13 +144,10 @@ export const ViewportTool: FC = memo(
           (globals.viewport && viewports[globals.viewport]
             ? globals.viewport
             : responsiveViewport.id),
-      });
-      setState({
-        isRotated: defaultOrientation === 'landscape',
+        viewportRotated: defaultOrientation === 'landscape',
       });
     }, [defaultOrientation, defaultViewport]);
 
-    const { isRotated } = state;
     const item =
       list.find((i) => i.id === globals.viewport) ||
       list.find((i) => i.id === defaultViewport) ||
@@ -165,7 +156,7 @@ export const ViewportTool: FC = memo(
 
     const ref = useRef<ViewportStyles>();
 
-    const styles = getStyles(ref.current, item.styles, isRotated);
+    const styles = getStyles(ref.current, item.styles, globals.viewportRotated);
 
     useEffect(() => {
       ref.current = styles;
@@ -196,7 +187,7 @@ export const ViewportTool: FC = memo(
             <Icons icon="grow" />
             {styles ? (
               <IconButtonLabel>
-                {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
+                {globals.viewportRotated ? `${item.title} (L)` : `${item.title} (P)`}
               </IconButtonLabel>
             ) : null}
           </IconButtonWithLabel>
@@ -236,7 +227,7 @@ export const ViewportTool: FC = memo(
               key="viewport-rotate"
               title="Rotate viewport"
               onClick={() => {
-                setState({ ...state, isRotated: !isRotated });
+                updateGlobals({ viewportRotated: !globals.viewportRotated });
               }}
             >
               <Icons icon="transfer" />
