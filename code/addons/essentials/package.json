@@ -103,6 +103,11 @@
       "require": "./dist/viewport/manager.js",
       "import": "./dist/viewport/manager.mjs"
     },
+    "./viewport/preview": {
+      "types": "./dist/viewport/preview.d.ts",
+      "require": "./dist/viewport/preview.js",
+      "import": "./dist/viewport/preview.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -162,7 +167,8 @@
       "./src/outline/preview.ts",
       "./src/outline/manager.ts",
       "./src/toolbars/manager.ts",
-      "./src/viewport/manager.ts"
+      "./src/viewport/manager.ts",
+      "./src/viewport/preview.ts"
     ],
     "platform": "node"
   },
