@@ -658,19 +658,19 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build
       - build-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -678,7 +678,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
