@@ -345,9 +345,13 @@ export const Search = React.memo<{
           onBlur: () => setPlaceholder('Find components'),
         });
 
+        const labelProps = getLabelProps({
+          htmlFor: 'storybook-explorer-searchfield',
+        });
+
         return (
           <>
-            <ScreenReaderLabel {...getLabelProps()}>Search for components</ScreenReaderLabel>
+            <ScreenReaderLabel {...labelProps}>Search for components</ScreenReaderLabel>
             <SearchField
               {...getRootProps({ refKey: '' }, { suppressRefError: true })}
               className="search-field"
