@@ -106,7 +106,8 @@ const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
   pnp: boolean,
-  framework?: SupportedFrameworks
+  framework?: SupportedFrameworks,
+  isStorybookInMonorepository?: boolean
 ): {
   type: 'framework' | 'renderer';
   packages: string[];
@@ -115,15 +116,18 @@ const getFrameworkDetails = (
   renderer?: string;
   rendererId: SupportedRenderers;
 } => {
+  const applyRequireWrapper = pnp || isStorybookInMonorepository;
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
 
-  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
+  const frameworkPackagePath = applyRequireWrapper
+    ? wrapForPnp(frameworkPackage)
+    : frameworkPackage;
 
   const rendererPackage = getRendererPackage(framework, renderer);
-  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
+  const rendererPackagePath = applyRequireWrapper ? wrapForPnp(rendererPackage) : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
+  const builderPackagePath = applyRequireWrapper ? wrapForPnp(builderPackage) : builderPackage;
 
   const isExternalFramework = !!getExternalFramework(frameworkPackage);
   const isKnownFramework =
@@ -187,6 +191,8 @@ export async function baseGenerator(
   };
   process.on('SIGINT', setNodeProcessExiting);
 
+  const isStorybookInMonorepository = packageManager.isStorybookInMonorepo();
+
   const stopIfExiting = async <T>(callback: () => Promise<T>) => {
     if (isNodeProcessExiting) {
       throw new HandledError('Canceled by the user');
@@ -226,7 +232,7 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp, framework);
+  } = getFrameworkDetails(renderer, builder, pnp, framework, isStorybookInMonorepository);
 
   // added to main.js
   const addons = [
@@ -365,7 +371,7 @@ export async function baseGenerator(
       framework: { name: frameworkInclude, options: options.framework || {} },
       storybookConfigFolder,
       docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
+      addons: pnp || isStorybookInMonorepository ? addons.map(wrapForPnp) : addons,
       extensions,
       language,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
