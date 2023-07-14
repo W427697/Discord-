@@ -149,7 +149,7 @@ Additionally, if Storybook's guided tour is enabled, it will generate the follow
     "addonVersion": "1.0.6"
   },
   "metadata": {
-    "_comment": "See above for metadata that's collected."
+    // See above for metadata that's collected.
   }
 }
 ```
