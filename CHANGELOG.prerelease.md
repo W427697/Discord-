@@ -163,7 +163,7 @@ Promote beta to rc without any changes. 🎉
 
 #### Features
 
--   Webpack: Add option toinify using swc [#22843](https://github.com/storybooks/storybook/pull/22843)
+-   Webpack: Add option to minify using swc [#22843](https://github.com/storybooks/storybook/pull/22843)
 
 #### Bug Fixes
 
