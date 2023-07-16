@@ -1,28 +1,27 @@
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 
-interface TextFieldProps {
+interface InputProps {
   disabled?: boolean;
   placeholder?: string;
   value?: string;
 }
 
-export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(({ ...props }, ref) => {
-  return <StyledTextField ref={ref} {...props} />;
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ ...props }, ref) => {
+  return <StyledInput ref={ref} {...props} />;
 });
 
-TextField.displayName = 'TextField';
+Input.displayName = 'Input';
 
-const StyledTextField = styled.input(({ theme }) => ({
+const StyledInput = styled.input(({ theme }) => ({
   // resets
   appearance: 'none',
   border: '0 none',
+  display: 'block',
   margin: ' 0',
   position: 'relative',
 
   // styles
-  display: 'flex',
-  alignItems: 'center',
   width: '100%',
   height: '32px',
   transition: 'box-shadow 200ms ease-out, opacity 200ms ease-out',
@@ -31,8 +30,9 @@ const StyledTextField = styled.input(({ theme }) => ({
   boxShadow: `${theme.input.border} 0 0 0 1px inset`,
   borderRadius: theme.input.borderRadius,
   fontSize: theme.typography.size.s2 - 1,
-  padding: '0 10px',
+  padding: '6px 10px',
   boxSizing: 'border-box',
+  lineHeight: '20px',
 
   '&:focus': {
     boxShadow: `${theme.color.secondary} 0 0 0 1px inset`,
