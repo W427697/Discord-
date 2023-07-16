@@ -534,9 +534,9 @@ export const allTemplates: Record<TemplateKey, Template> = {
   ...benchTemplates,
 };
 
-export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
-export const pr: TemplateKey[] = [
-  ...ci,
+export const normal: TemplateKey[] = [
+  'cra/default-ts',
+  'react-vite/default-ts',
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
@@ -548,7 +548,7 @@ export const pr: TemplateKey[] = [
   'bench/react-webpack-18-ts',
 ];
 export const merged: TemplateKey[] = [
-  ...pr,
+  ...normal,
   'react-webpack/18-ts',
   'react-webpack/17-ts',
   'angular-cli/15-ts',
@@ -578,4 +578,4 @@ export const daily: TemplateKey[] = [
   'html-vite/default-js',
 ];
 
-export const templatesByCadence = { ci, pr, merged, daily };
+export const templatesByCadence = { normal, merged, daily };
