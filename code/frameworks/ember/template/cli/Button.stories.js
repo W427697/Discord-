@@ -6,7 +6,7 @@ import { linkTo } from '@storybook/addon-links';
 export default {
   title: 'Example/Button',
   render: (args) => ({
-    template: hbs`<button {{action onClick}}>{{label}}</button>`,
+    template: hbs`<button {{action this.onClick}}>{{this.label}}</button>`,
     context: args,
   }),
   argTypes: {
@@ -27,13 +27,14 @@ export const Text = {
 export const Emoji = {
   args: {
     label: '😀 😎 👍 💯',
+    onClick: action('onClick'),
   },
 };
 
 export const TextWithAction = {
   render: () => ({
     template: hbs`
-    <button {{action onClick}}>
+    <button {{action this.onClick}}>
       Trigger Action
     </button>
   `,
@@ -50,12 +51,12 @@ export const TextWithAction = {
 export const ButtonWithLinkToAnotherStory = {
   render: () => ({
     template: hbs`
-    <button {{action onClick}}>
+    <button {{action this.onClick}}>
       Go to Welcome Story
     </button>
   `,
     context: {
-      onClick: linkTo('Example/Introduction'),
+      onClick: linkTo('Configure your project'),
     },
   }),
   name: 'button with link to another story',
