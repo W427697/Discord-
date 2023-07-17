@@ -89,11 +89,18 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           }),
         ],
         external: externals,
+        replaceNodeEnv: true,
+        shims: false,
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
           c.conditions = ['module'];
           c.platform = 'browser';
+
+          c.alias = {
+            lodash: 'lodash-es',
+          };
+
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
