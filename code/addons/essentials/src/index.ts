@@ -4,7 +4,6 @@ import { serverRequire } from '@storybook/core-common';
 
 interface PresetOptions {
   configDir: string;
-  docs?: boolean;
   controls?: boolean;
   actions?: boolean;
   backgrounds?: boolean;
@@ -38,7 +37,6 @@ export function addons(options: PresetOptions) {
 
   const main = requireMain(options.configDir);
   return [
-    'docs',
     'controls',
     'actions',
     'backgrounds',

@@ -53,21 +53,6 @@
       "require": "./dist/controls/manager.js",
       "import": "./dist/controls/manager.mjs"
     },
-    "./docs/preview": {
-      "types": "./dist/docs/preview.d.ts",
-      "require": "./dist/docs/preview.js",
-      "import": "./dist/docs/preview.mjs"
-    },
-    "./docs/preset": {
-      "types": "./dist/docs/preset.d.ts",
-      "require": "./dist/docs/preset.js",
-      "import": "./dist/docs/preset.mjs"
-    },
-    "./docs/mdx-react-shim": {
-      "types": "./dist/docs/mdx-react-shim.d.ts",
-      "require": "./dist/docs/mdx-react-shim.js",
-      "import": "./dist/docs/mdx-react-shim.mjs"
-    },
     "./highlight/preview": {
       "types": "./dist/highlight/preview.d.ts",
       "require": "./dist/highlight/preview.js",
@@ -122,7 +107,6 @@
     "@storybook/addon-actions": "7.1.0-rc.2",
     "@storybook/addon-backgrounds": "7.1.0-rc.2",
     "@storybook/addon-controls": "7.1.0-rc.2",
-    "@storybook/addon-docs": "7.1.0-rc.2",
     "@storybook/addon-highlight": "7.1.0-rc.2",
     "@storybook/addon-measure": "7.1.0-rc.2",
     "@storybook/addon-outline": "7.1.0-rc.2",
@@ -153,9 +137,6 @@
       "./src/backgrounds/preview.ts",
       "./src/backgrounds/manager.ts",
       "./src/controls/manager.ts",
-      "./src/docs/preview.ts",
-      "./src/docs/preset.ts",
-      "./src/docs/mdx-react-shim.ts",
       "./src/highlight/preview.ts",
       "./src/measure/preview.ts",
       "./src/measure/manager.ts",
