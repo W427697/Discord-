@@ -3,7 +3,7 @@ import { Header } from './Header';
 export default {
   title: 'Example/Header',
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/web-components/vue/writing-docs/autodocs
-  tags: ['autodocs'],
+  tags: [],
   render: (args) => Header(args),
 };
 

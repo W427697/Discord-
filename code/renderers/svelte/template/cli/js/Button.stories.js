@@ -4,7 +4,7 @@ import Button from './Button.svelte';
 export default {
   title: 'Example/Button',
   component: Button,
-  tags: ['autodocs'],
+  tags: [],
   argTypes: {
     backgroundColor: { control: 'color' },
     size: {

@@ -6,7 +6,7 @@ const Component: FC = () => <p>Story</p>;
 
 export default {
   component: Component,
-  tags: ['autodocs'],
+  tags: [],
   decorators: [
     (Story) => (
       <>

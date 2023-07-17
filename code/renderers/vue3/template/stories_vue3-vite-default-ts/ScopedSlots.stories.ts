@@ -19,7 +19,7 @@ const meta = {
     year: 2022,
     default: ({ text, year }) => `${text}, ${year}`,
   },
-  tags: ['autodocs'],
+  tags: [],
 } satisfies Meta<typeof MySlotComponent>;
 
 export default meta;

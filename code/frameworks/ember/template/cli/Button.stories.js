@@ -13,7 +13,7 @@ export default {
     label: { control: 'text' },
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs'],
+  tags: [],
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/ember/writing-stories/args
