@@ -87,7 +87,9 @@ export abstract class JsPackageManager {
     while (true) {
       try {
         const turboJsonPath = `${cwd}/turbo.json`;
-        if (fs.existsSync(turboJsonPath)) {
+        const rushJsonPath = `${cwd}/rush.json`;
+
+        if (fs.existsSync(turboJsonPath) || fs.existsSync(rushJsonPath)) {
           return true;
         }
 

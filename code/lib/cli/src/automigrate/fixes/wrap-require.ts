@@ -2,41 +2,94 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import * as t from '@babel/types';
+import type { ConfigFile } from '@storybook/csf-tools';
+import { readConfig } from '@storybook/csf-tools';
 import type { Fix } from '../types';
 import { detectPnp } from '../../detect';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 
 interface WrapRequireRunOptions {
   storybookVersion: string;
+  isStorybookInMonorepo: boolean;
+  isPnp: boolean;
 }
+
+/**
+ * Check if the node needs to be wrapped with require wrapper.
+ */
+const isRequireWrapperNecessary = (
+  node: t.Node,
+  cb: (node: t.StringLiteral | t.ObjectProperty) => void = () => {}
+) => {
+  if (t.isStringLiteral(node)) {
+    // value will be converted from StringLiteral to CallExpression.
+    cb(node);
+    return true;
+  }
+
+  if (t.isObjectExpression(node)) {
+    const nameProperty = node.properties.find(
+      (property) =>
+        t.isObjectProperty(property) && t.isIdentifier(property.key) && property.key.name === 'name'
+    ) as t.ObjectProperty;
+
+    if (nameProperty && t.isStringLiteral(nameProperty.value)) {
+      cb(nameProperty);
+      return true;
+    }
+  }
+
+  return false;
+};
+
+/**
+ * Get all fields that need to be wrapped with require wrapper.
+ * @returns Array of fields that need to be wrapped with require wrapper.
+ */
+const getFieldsForRequireWrapper = (config: ConfigFile) => {
+  const frameworkNode = config.getFieldNode(['framework']);
+  const builderNode = config.getFieldNode(['core', 'builder']);
+  const addons = config.getFieldNode(['addons']);
+
+  const fieldsWithRequireWrapper = [
+    ...(frameworkNode ? [frameworkNode] : []),
+    ...(builderNode ? [builderNode] : []),
+    ...(addons && t.isArrayExpression(addons) ? addons.elements : []),
+  ];
+
+  return fieldsWithRequireWrapper;
+};
 
 export const wrapRequire: Fix<WrapRequireRunOptions> = {
   id: 'wrap-require',
 
-  async check({ packageManager, storybookVersion }) {
+  async check({ packageManager, storybookVersion, mainConfigPath }) {
     const isStorybookInMonorepo = await packageManager.isStorybookInMonorepo();
     const isPnp = await detectPnp();
+
+    const config = await readConfig(mainConfigPath);
 
     if (!isStorybookInMonorepo && !isPnp) {
       return null;
     }
 
-    return { storybookVersion };
+    if (!getFieldsForRequireWrapper(config).some((node) => isRequireWrapperNecessary(node))) {
+      return null;
+    }
+
+    return { storybookVersion, isStorybookInMonorepo, isPnp };
   },
 
-  prompt({ storybookVersion }) {
+  prompt({ storybookVersion, isStorybookInMonorepo }) {
     const sbFormatted = chalk.cyan(`Storybook ${storybookVersion}`);
 
-    return dedent`We've have detected, that you're using ${sbFormatted} in a monorepo or with PnP enabled. 
-    We will apply some tweaks in your main config file to make it work in this special environment.`;
+    return dedent`We have detected that you're using ${sbFormatted} in a ${
+      isStorybookInMonorepo ? 'monorepo' : 'PnP'
+    } project. We will apply some tweaks in your main config file to make it work in this special environment.`;
   },
 
   async run({ dryRun, mainConfigPath }) {
     updateMainConfig({ dryRun, mainConfigPath }, (mainConfig) => {
-      const frameworkNode = mainConfig.getFieldNode(['framework']);
-      const builderNode = mainConfig.getFieldNode(['core', 'builder']);
-      const addons = mainConfig.getFieldNode(['addons']);
-
       const getRequireWrapperAsCallExpression = (value: string) => {
         // callExpression for "dirname(require.resolve(join(value, 'package.json')))""
         return t.callExpression(t.identifier('dirname'), [
@@ -50,34 +103,20 @@ export const wrapRequire: Fix<WrapRequireRunOptions> = {
       };
 
       const wrapValueWithRequireWrapper = (node: t.Node) => {
-        if (t.isStringLiteral(node)) {
-          // value will be converted from StringLiteral to CallExpression.
-          node.value = getRequireWrapperAsCallExpression(node.value) as any;
-        } else if (t.isObjectExpression(node)) {
-          const nameProperty = node.properties.find(
-            (property) =>
-              t.isObjectProperty(property) &&
-              t.isIdentifier(property.key) &&
-              property.key.name === 'name'
-          ) as t.ObjectProperty;
-
-          if (nameProperty && t.isStringLiteral(nameProperty.value)) {
-            nameProperty.value = getRequireWrapperAsCallExpression(nameProperty.value.value);
+        isRequireWrapperNecessary(node, (n) => {
+          if (t.isStringLiteral(n)) {
+            n.value = getRequireWrapperAsCallExpression(n.value) as any;
           }
-        }
+
+          if (t.isObjectProperty(n) && t.isStringLiteral(n.value)) {
+            n.value = getRequireWrapperAsCallExpression(n.value.value) as any;
+          }
+        });
       };
 
-      if (frameworkNode) {
-        wrapValueWithRequireWrapper(frameworkNode);
-      }
-
-      if (builderNode) {
-        wrapValueWithRequireWrapper(builderNode);
-      }
-
-      if (addons && t.isArrayExpression(addons)) {
-        addons.elements.forEach(wrapValueWithRequireWrapper);
-      }
+      getFieldsForRequireWrapper(mainConfig).forEach((node) => {
+        wrapValueWithRequireWrapper(node);
+      });
 
       mainConfig.setImport(['dirname, join'], 'path');
     });
