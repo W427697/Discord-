@@ -94,6 +94,10 @@
     "access": "public"
   },
   "bundler": {
+    "externals": [
+      "react",
+      "react-dom"
+    ],
     "entries": [
       "./src/index.ts",
       "./src/addons.ts",

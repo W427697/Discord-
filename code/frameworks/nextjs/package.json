@@ -110,8 +110,6 @@
     "@babel/core": "^7.22.0",
     "@next/font": "^13.0.0",
     "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "webpack": "^5.0.0"
   },
   "peerDependenciesMeta": {
@@ -150,6 +148,8 @@
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts"
     ],
     "externals": [
+      "react",
+      "react-dom",
       "sb-original/next/image",
       "sb-original/next/future/image",
       "sb-original/next/legacy/image"

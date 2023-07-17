@@ -57,8 +57,6 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.22.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "typescript": "*"
   },
   "peerDependenciesMeta": {
@@ -76,6 +74,10 @@
     "access": "public"
   },
   "bundler": {
+    "externals": [
+      "react",
+      "react-dom"
+    ],
     "entries": [
       "./src/index.ts",
       "./src/preset.ts"

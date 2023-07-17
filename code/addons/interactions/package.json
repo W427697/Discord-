@@ -28,39 +28,14 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
-    "./register.js": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
+    "./manager": "./dist/manager.js",
+    "./preview": "./dist/preview.js",
+    "./register.js": "./dist/manager.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "dist/index.d.ts"
-      ],
-      "manager": [
-        "dist/manager.d.ts"
-      ],
-      "preview": [
-        "dist/preview.d.ts"
-      ]
-    }
-  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -69,18 +44,9 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-rc.2",
-    "@storybook/components": "7.1.0-rc.2",
-    "@storybook/core-common": "7.1.0-rc.2",
-    "@storybook/core-events": "7.1.0-rc.2",
-    "@storybook/global": "^5.0.0",
-    "@storybook/instrumenter": "7.1.0-rc.2",
-    "@storybook/manager-api": "7.1.0-rc.2",
-    "@storybook/preview-api": "7.1.0-rc.2",
-    "@storybook/theming": "7.1.0-rc.2",
     "@storybook/types": "7.1.0-rc.2",
     "jest-mock": "^29.5.0",
     "polished": "^4.2.2",
@@ -88,32 +54,33 @@
   },
   "devDependencies": {
     "@devtools-ds/object-inspector": "^1.1.2",
+    "@storybook/client-logger": "7.1.0-rc.2",
+    "@storybook/components": "7.1.0-rc.2",
+    "@storybook/core-common": "7.1.0-rc.2",
+    "@storybook/core-events": "7.1.0-rc.2",
+    "@storybook/global": "^5.0.0",
+    "@storybook/instrumenter": "7.1.0-rc.2",
     "@storybook/jest": "next",
+    "@storybook/manager-api": "7.1.0-rc.2",
+    "@storybook/preview-api": "7.1.0-rc.2",
     "@storybook/testing-library": "next",
+    "@storybook/theming": "7.1.0-rc.2",
     "@types/node": "^16.0.0",
     "formik": "^2.2.9",
     "typescript": "~4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/index.ts",
+    "interfaceEntries": [
+      "./src/index.ts"
+    ],
+    "browserEntries": [
       "./src/manager.tsx",
-      "./src/preview.ts",
+      "./src/preview.ts"
+    ],
+    "nodeEntries": [
       "./src/preset.ts"
     ]
   },

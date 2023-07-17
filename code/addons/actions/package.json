@@ -33,21 +33,9 @@
       "require": "./dist/decorator.js",
       "import": "./dist/decorator.mjs"
     },
-    "./manager": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
-    "./register.js": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
+    "./manager": "./dist/manager.js",
+    "./preview": "./dist/preview.js",
+    "./register.js": "./dist/manager.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -58,14 +46,8 @@
       "*": [
         "dist/index.d.ts"
       ],
-      "manager": [
-        "dist/manager.d.ts"
-      ],
       "decorator": [
         "dist/decorator.d.ts"
-      ],
-      "preview": [
-        "dist/preview.d.ts"
       ]
     }
   },
@@ -77,50 +59,36 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
+    "@storybook/global": "^5.0.0",
+    "@storybook/types": "7.1.0-rc.2",
+    "polished": "^4.2.2",
+    "telejson": "^7.0.3"
+  },
+  "devDependencies": {
     "@storybook/client-logger": "7.1.0-rc.2",
     "@storybook/components": "7.1.0-rc.2",
     "@storybook/core-events": "7.1.0-rc.2",
-    "@storybook/global": "^5.0.0",
     "@storybook/manager-api": "7.1.0-rc.2",
     "@storybook/preview-api": "7.1.0-rc.2",
     "@storybook/theming": "7.1.0-rc.2",
-    "@storybook/types": "7.1.0-rc.2",
-    "dequal": "^2.0.2",
-    "lodash": "^4.17.21",
-    "polished": "^4.2.2",
-    "prop-types": "^15.7.2",
-    "react-inspector": "^6.0.0",
-    "telejson": "^7.0.3",
-    "ts-dedent": "^2.0.0",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.14.167",
     "@types/uuid": "^9.0.1",
-    "typescript": "~4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
+    "dequal": "^2.0.2",
+    "react-inspector": "^6.0.0",
+    "typescript": "~4.9.3",
+    "uuid": "^9.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/index.ts",
+    "interfaceEntries": [
       "./src/decorator.ts",
+      "./src/index.ts"
+    ],
+    "browserEntries": [
       "./src/manager.tsx",
       "./src/preview.ts"
     ]
