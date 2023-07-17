@@ -28,66 +28,6 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./actions/preview": {
-      "types": "./dist/actions/preview.d.ts",
-      "require": "./dist/actions/preview.js",
-      "import": "./dist/actions/preview.mjs"
-    },
-    "./actions/manager": {
-      "types": "./dist/actions/manager.d.ts",
-      "require": "./dist/actions/manager.js",
-      "import": "./dist/actions/manager.mjs"
-    },
-    "./backgrounds/preview": {
-      "types": "./dist/backgrounds/preview.d.ts",
-      "require": "./dist/backgrounds/preview.js",
-      "import": "./dist/backgrounds/preview.mjs"
-    },
-    "./backgrounds/manager": {
-      "types": "./dist/backgrounds/manager.d.ts",
-      "require": "./dist/backgrounds/manager.js",
-      "import": "./dist/backgrounds/manager.mjs"
-    },
-    "./controls/manager": {
-      "types": "./dist/controls/manager.d.ts",
-      "require": "./dist/controls/manager.js",
-      "import": "./dist/controls/manager.mjs"
-    },
-    "./highlight/preview": {
-      "types": "./dist/highlight/preview.d.ts",
-      "require": "./dist/highlight/preview.js",
-      "import": "./dist/highlight/preview.mjs"
-    },
-    "./measure/preview": {
-      "types": "./dist/measure/preview.d.ts",
-      "require": "./dist/measure/preview.js",
-      "import": "./dist/measure/preview.mjs"
-    },
-    "./measure/manager": {
-      "types": "./dist/measure/manager.d.ts",
-      "require": "./dist/measure/manager.js",
-      "import": "./dist/measure/manager.mjs"
-    },
-    "./outline/preview": {
-      "types": "./dist/outline/preview.d.ts",
-      "require": "./dist/outline/preview.js",
-      "import": "./dist/outline/preview.mjs"
-    },
-    "./outline/manager": {
-      "types": "./dist/outline/manager.d.ts",
-      "require": "./dist/outline/manager.js",
-      "import": "./dist/outline/manager.mjs"
-    },
-    "./toolbars/manager": {
-      "types": "./dist/toolbars/manager.d.ts",
-      "require": "./dist/toolbars/manager.js",
-      "import": "./dist/toolbars/manager.mjs"
-    },
-    "./viewport/manager": {
-      "types": "./dist/viewport/manager.d.ts",
-      "require": "./dist/viewport/manager.js",
-      "import": "./dist/viewport/manager.mjs"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -131,19 +71,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/actions/preview.ts",
-      "./src/actions/manager.ts",
-      "./src/backgrounds/preview.ts",
-      "./src/backgrounds/manager.ts",
-      "./src/controls/manager.ts",
-      "./src/highlight/preview.ts",
-      "./src/measure/preview.ts",
-      "./src/measure/manager.ts",
-      "./src/outline/preview.ts",
-      "./src/outline/manager.ts",
-      "./src/toolbars/manager.ts",
-      "./src/viewport/manager.ts"
+      "./src/index.ts"
     ],
     "platform": "node"
   },
