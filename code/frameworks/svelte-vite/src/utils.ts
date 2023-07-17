@@ -1,7 +1,6 @@
 import type { PluginOption } from 'vite';
 import type { Options } from '@storybook/types';
 import dedent from 'ts-dedent';
-import { logger } from '@storybook/node-logger';
 import { hasVitePlugins } from '@storybook/builder-vite';
 
 /**
