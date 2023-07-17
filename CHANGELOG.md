@@ -1,3 +1,8 @@
+## 7.1.0
+
+- Svelte-vite: Improve error when sveltekit plugins found in non-sveltekit projects - [#23472](https://github.com/storybookjs/storybook/pull/23472), thanks [@yannbf](https://github.com/yannbf)!
+- Svelte-vite: Remove unused import - [#23475](https://github.com/storybookjs/storybook/pull/23475), thanks [@yannbf](https://github.com/yannbf)!
+
 ## 7.0.27
 
 - Angular: Enable prod mode when Storybook is built - [#23404](https://github.com/storybookjs/storybook/pull/23404), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
