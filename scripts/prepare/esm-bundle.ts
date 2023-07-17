@@ -13,7 +13,8 @@ import { exec } from '../utils/exec';
 /* TYPES */
 
 type BundlerConfig = {
-  entries: string[];
+  browserEntries: string[];
+  nodeEntries: string[];
   externals: string[];
   pre: string;
   post: string;
@@ -72,6 +73,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       build({
         silent: true,
         entry: allEntries,
+        treeshake: true,
         watch,
         outDir,
         format: ['esm'],
