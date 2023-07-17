@@ -43,7 +43,6 @@ export const essentialsAddons = [
   'actions',
   'backgrounds',
   'controls',
-  'docs',
   'highlight',
   'measure',
   'outline',
