@@ -59,7 +59,7 @@ export async function configureMain({
   const srcPath = path.resolve(storybookConfigFolder, '../src');
   const prefix = (await fse.pathExists(srcPath)) ? '../src' : '../stories';
   const config = {
-    stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
+    stories: [`${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
     ...custom,
   };
