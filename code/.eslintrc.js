@@ -70,7 +70,6 @@ module.exports = {
     {
       // these packages use pre-bundling, dependencies will be bundled, and will be in devDepenencies
       files: [
-        'addons/**/*',
         'frameworks/**/*',
         'lib/**/*',
         'builders/**/*',
@@ -86,6 +85,13 @@ module.exports = {
         ],
       },
     },
+    {
+      files: ['**/addons/**/*.tsx', '**/addons/**/*.ts'],
+      rules: {
+        'import/no-extraneous-dependencies': ['warn', { devDependencies: true }],
+      },
+    },
+
     {
       files: ['**/ui/*', '**/ui/.storybook/*'],
       rules: {
