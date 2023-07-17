@@ -67,6 +67,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@radix-ui/react-select": "^1.2.2",
     "@storybook/client-logger": "7.1.0-rc.2",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
