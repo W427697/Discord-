@@ -1,70 +1,79 @@
-import * as RadixSelect from '@radix-ui/react-select';
-import type { ElementRef, FC, ReactNode } from 'react';
-import React, { forwardRef } from 'react';
+import * as React from 'react';
+import * as SelectPrimitive from '@radix-ui/react-select';
 import { styled } from '@storybook/theming';
+import ExpandAlt from './icons/ExpandAlt';
+import Arrowup from './icons/Arrowup';
+import Arrowdown from './icons/Arrowdown';
+import Check from './icons/Check';
 
-interface SelectProps {
-  placeholder?: string;
-}
+const SelectTrigger = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <StyledTrigger ref={ref} {...props}>
+    {children}
+    <SelectPrimitive.Icon asChild>
+      <ExpandAlt size={12} />
+    </SelectPrimitive.Icon>
+  </StyledTrigger>
+));
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
-const FakeIcon = styled.div(({ theme }) => ({
-  width: 12,
-  height: 12,
-  backgroundColor: theme.color.mediumdark,
-}));
+const SelectContent = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Portal>
+    <StyledContent ref={ref} {...props}>
+      <StyledScrollUpButton>
+        <Arrowup size={12} />
+      </StyledScrollUpButton>
+      <StyledViewport>{children}</StyledViewport>
+      <StyledScrollDownButton>
+        <Arrowdown size={12} />
+      </StyledScrollDownButton>
+    </StyledContent>
+  </SelectPrimitive.Portal>
+));
+SelectContent.displayName = SelectPrimitive.Content.displayName;
 
-interface SelectItemProps {
-  children: ReactNode;
-  value: string;
-}
+const SelectLabel = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+>(({ className, ...props }, ref) => <SelectPrimitive.Label ref={ref} {...props} />);
+SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
-const Item = forwardRef<HTMLDivElement, SelectItemProps>(({ children, ...props }, forwardedRef) => {
-  return (
-    <StyledItem {...props} ref={forwardedRef}>
-      <RadixSelect.ItemText>{children}</RadixSelect.ItemText>
-      <StyledItemIndicator className="SelectItemIndicator">
-        <FakeIcon />
-      </StyledItemIndicator>
-    </StyledItem>
-  );
-});
+const SelectItem = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+>(({ className, children, ...props }, ref) => (
+  <StyledItem ref={ref} {...props}>
+    <StyledItemIndicator>
+      <Check size={12} />
+    </StyledItemIndicator>
+    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+  </StyledItem>
+));
+SelectItem.displayName = SelectPrimitive.Item.displayName;
 
-Item.displayName = 'SelectItem';
+const SelectSeparator = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+>(({ className, ...props }, ref) => <SelectPrimitive.Separator ref={ref} {...props} />);
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
-export const Select: FC<SelectProps> = Object.assign(
-  forwardRef<ElementRef<typeof RadixSelect.Root>, SelectProps>(function Select(
-    { placeholder, children, ...props },
-    ref
-  ) {
-    return (
-      <RadixSelect.Root {...props}>
-        <StyledTrigger>
-          <RadixSelect.Value placeholder={placeholder} />
-          <RadixSelect.Icon>
-            <FakeIcon />
-          </RadixSelect.Icon>
-        </StyledTrigger>
-        <RadixSelect.Portal>
-          <StyledContent>
-            <StyledScrollUpButton>
-              <FakeIcon />
-            </StyledScrollUpButton>
-            <StyledViewport>{children}</StyledViewport>
-            <StyledScrollDownButton>
-              <FakeIcon />
-            </StyledScrollDownButton>
-            <RadixSelect.Arrow />
-          </StyledContent>
-        </RadixSelect.Portal>
-      </RadixSelect.Root>
-    );
-  }),
-  { displayName: 'Select', Item }
-);
+export const Select = {
+  Root: SelectPrimitive.Root,
+  Group: SelectPrimitive.Group,
+  Value: SelectPrimitive.Value,
+  Trigger: SelectTrigger,
+  Content: SelectContent,
+  Label: SelectLabel,
+  Item: SelectItem,
+  Separator: SelectSeparator,
+};
 
-Select.displayName = 'Select';
-
-const StyledTrigger = styled(RadixSelect.Trigger)(({ theme }) => ({
+const StyledTrigger = styled(SelectPrimitive.Trigger)(({ theme }) => ({
   all: 'unset',
   display: 'flex',
   width: '100%',
@@ -100,42 +109,47 @@ const StyledTrigger = styled(RadixSelect.Trigger)(({ theme }) => ({
   },
 }));
 
-const StyledContent = styled(RadixSelect.Content)(({ theme }) => ({
+const StyledContent = styled(SelectPrimitive.Content)(({ theme }) => ({
+  boxSizing: 'border-box',
   overflow: 'hidden',
-  backgroundColor: 'white',
+  backgroundColor: theme.input.background,
   borderRadius: '6px',
+  border: theme.base === 'dark' ? `1px solid ${theme.input.border}` : 'none',
+  width: '100%',
   boxShadow:
     '0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)',
 }));
 
-const StyledViewport = styled(RadixSelect.Viewport)(({ theme }) => ({
+const StyledViewport = styled(SelectPrimitive.Viewport)(() => ({
+  boxSizing: 'border-box',
+  width: '100%',
   padding: '5px',
 }));
 
-const StyledScrollUpButton = styled(RadixSelect.ScrollUpButton)(({ theme }) => ({
+const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: '25px',
-  backgroundColor: 'white',
-  color: 'blue',
+  backgroundColor: theme.input.background,
+  color: theme.input.color,
   cursor: 'default',
 }));
 
-const StyledScrollDownButton = styled(RadixSelect.ScrollDownButton)(({ theme }) => ({
+const StyledScrollDownButton = styled(SelectPrimitive.ScrollDownButton)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: '25px',
-  backgroundColor: 'white',
-  color: 'blue',
+  backgroundColor: theme.input.background,
+  color: theme.input.color,
   cursor: 'default',
 }));
 
-const StyledItem = styled(RadixSelect.Item)(({ theme }) => ({
+const StyledItem = styled(SelectPrimitive.Item)(({ theme }) => ({
   fontSize: '13px',
   lineHeight: 1,
-  color: 'blue',
+  color: theme.input.color,
   borderRadius: '3px',
   display: 'flex',
   alignItems: 'center',
@@ -151,12 +165,12 @@ const StyledItem = styled(RadixSelect.Item)(({ theme }) => ({
 
   '&[data-highlighted]': {
     outline: 'none',
-    backgroundColor: 'green',
-    color: 'white',
+    backgroundColor: theme.barSelectedColor,
+    color: theme.barBg,
   },
 }));
 
-const StyledItemIndicator = styled(RadixSelect.ItemIndicator)(({ theme }) => ({
+const StyledItemIndicator = styled(SelectPrimitive.ItemIndicator)(() => ({
   position: 'absolute',
   left: 0,
   width: '25px',
