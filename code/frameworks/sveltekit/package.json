@@ -46,7 +46,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
