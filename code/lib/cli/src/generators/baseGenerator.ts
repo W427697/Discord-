@@ -99,13 +99,16 @@ const getRendererPackage = (framework: string, renderer: string) => {
   return `@storybook/${renderer}`;
 };
 
-const wrapForPnp = (packageName: string) =>
-  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
+const getAbsolutePath = (packageName: string, language: SupportedLanguage) =>
+  language === SupportedLanguage.JAVASCRIPT
+    ? `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`
+    : `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json'))) as any%%`;
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
   pnp: boolean,
+  language: SupportedLanguage,
   framework?: SupportedFrameworks,
   isStorybookInMonorepository?: boolean
 ): {
@@ -120,14 +123,18 @@ const getFrameworkDetails = (
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
 
   const frameworkPackagePath = applyRequireWrapper
-    ? wrapForPnp(frameworkPackage)
+    ? getAbsolutePath(frameworkPackage, language)
     : frameworkPackage;
 
   const rendererPackage = getRendererPackage(framework, renderer);
-  const rendererPackagePath = applyRequireWrapper ? wrapForPnp(rendererPackage) : rendererPackage;
+  const rendererPackagePath = applyRequireWrapper
+    ? getAbsolutePath(rendererPackage, language)
+    : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = applyRequireWrapper ? wrapForPnp(builderPackage) : builderPackage;
+  const builderPackagePath = applyRequireWrapper
+    ? getAbsolutePath(builderPackage, language)
+    : builderPackage;
 
   const isExternalFramework = !!getExternalFramework(frameworkPackage);
   const isKnownFramework =
@@ -232,7 +239,7 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp, framework, isStorybookInMonorepository);
+  } = getFrameworkDetails(renderer, builder, pnp, language, framework, isStorybookInMonorepository);
 
   // added to main.js
   const addons = [
@@ -371,7 +378,10 @@ export async function baseGenerator(
       framework: { name: frameworkInclude, options: options.framework || {} },
       storybookConfigFolder,
       docs: { autodocs: 'tag' },
-      addons: pnp || isStorybookInMonorepository ? addons.map(wrapForPnp) : addons,
+      addons:
+        pnp || isStorybookInMonorepository
+          ? addons.map((addon) => getAbsolutePath(addon, language))
+          : addons,
       extensions,
       language,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
