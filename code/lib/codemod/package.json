@@ -82,7 +82,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.js",
+      "./src/index.ts",
       "./src/transforms/add-component-parameters.js",
       "./src/transforms/csf-2-to-3.ts",
       "./src/transforms/csf-hoist-story-annotations.js",
