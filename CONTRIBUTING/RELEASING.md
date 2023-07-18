@@ -317,6 +317,7 @@ It's recommended to use the automated process as much as possible to ensure that
 
 > **Warning**
 > If you make manual changes to the changelog, you also need to make those changes in either [`./docs/versions/latest.json`](../docs/versions/latest.json) or [`./docs/versions/next.json`](../docs/versions/next.json). The `"plain"` property should match the changelog entry, **without the heading** and with all new lines replaces with `\n`.
+> This is common for custom release notes when releasing majors and minors.
 
 ### 6. Merge
 
