@@ -249,8 +249,6 @@ const Node = React.memo<NodeProps>(function Node({
                   description: v.description,
                   right: (
                     <Icons
-                      width="8px"
-                      height="8px"
                       icon={statusMapping[v.status][0]}
                       style={{ color: statusMapping[v.status][1] }}
                     />
@@ -260,7 +258,9 @@ const Node = React.memo<NodeProps>(function Node({
             )}
             closeOnOutsideClick
           >
-            <Icons width="8px" height="8px" icon={icon} style={{ color: iconColor }} />
+            <Action type="button">
+              <Icons icon={icon} style={{ color: iconColor }} />
+            </Action>
           </WithTooltip>
         ) : null}
       </LeafNodeStyleWrapper>
