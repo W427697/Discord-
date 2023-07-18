@@ -173,13 +173,25 @@ jobs:
           git commit -m "Update versions/next.json for v${{ steps.version.outputs.current-version }}"
           git push origin main
 
-      # Force push from next to main if it is not a prerelease, and this release is from next-release
+      # Sync next-release to main if it is not a prerelease, and this release is from next-release
       # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
-      # This will keep release-next, next and main all tracking v7.1.0
-      # - name: Force push ${{ steps.target.outputs.target }} to main
-      #   if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease
-      #   run: |
-      #     git push --force origin ${{ steps.target.outputs.target }}:main
+      # This will keep next-release, next and main all tracking v7.1.0
+      # See "Alternative merge strategies" in https://stackoverflow.com/a/36321787
+      - name: Sync next-release to main
+        if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease
+        working-directory: .
+        run: |
+          git fetch origin next-release
+          git checkout next-release
+          git pull
+          git fetch origin main
+          git checkout main
+          git pull
+          git merge --no-commit -s ours next-release
+          git rm -rf .
+          git checkout next-release -- .
+          git commit -m "Sync next-release to main"
+          git push origin main
 
       - name: Report job failure to Discord
         if: failure()
