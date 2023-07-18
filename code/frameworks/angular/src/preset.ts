@@ -1,6 +1,7 @@
 import { dirname, join } from 'path';
 import { PresetProperty } from '@storybook/types';
 import { StorybookConfig } from './types';
+import { StandaloneOptions } from './builders/utils/standalone-options';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
@@ -16,7 +17,7 @@ export const previewAnnotations: StorybookConfig['previewAnnotations'] = (
 ) => {
   const annotations = [...entries, require.resolve('./client/config')];
 
-  if (options.configType === 'PRODUCTION') {
+  if ((options as any as StandaloneOptions).enableProdMode) {
     annotations.unshift(require.resolve('./client/preview-prod'));
   }
 
