@@ -471,8 +471,18 @@ const baseTemplates = {
     // TODO: The community template does not provide standard stories, which is required for e2e tests.
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
   },
+  'ember/3-js': {
+    name: 'Create Ember 3 app (Javascript)',
+    script: 'npx --package ember-cli@3.28.1 ember new {{beforeDir}}',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/ember',
+      renderer: '@storybook/ember',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
   'ember/default-js': {
-    name: 'Create Ember app (Javascript)',
+    name: 'Create Ember 4 app (Javascript)',
     script: 'npx --package ember-cli@4.12.1 ember new {{beforeDir}}',
     inDevelopment: true,
     expected: {
