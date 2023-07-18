@@ -100,6 +100,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
             util: require.resolve('../node_modules/util/util.js'),
             assert: require.resolve('browser-assert'),
           }),
+          globalExternals(globals),
         ],
         // noExternal: deps,
         external: externals,
