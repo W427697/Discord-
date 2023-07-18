@@ -259,7 +259,7 @@ const Node = React.memo<NodeProps>(function Node({
             closeOnOutsideClick
           >
             <Action type="button">
-              <Icons icon={icon} style={{ color: iconColor }} />
+              <Icons icon={icon} style={{ color: isSelected ? 'white' : iconColor }} />
             </Action>
           </WithTooltip>
         ) : null}
