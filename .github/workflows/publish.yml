@@ -121,6 +121,8 @@ jobs:
         if: github.ref_name == 'latest-release'
         run: git fetch --tags origin
 
+      # when this is a patch release from main, label any patch PRs included in the release
+      # when this is a stable release from next, label ALL patch PRs found, as they will per definition be "patched" now
       - name: Label patch PRs as picked
         if: github.ref_name == 'latest-release' || (steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease)
         env:
