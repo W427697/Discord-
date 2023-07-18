@@ -114,6 +114,7 @@ export default {
     'resetComponents',
     'withReset',
   ],
+  '@storybook/components/experimental': ['Button'],
   '@storybook/channels': [
     'Channel',
     'PostMessageTransport',
@@ -163,6 +164,7 @@ export default {
     'STORY_SPECIFIED',
     'STORY_THREW_EXCEPTION',
     'STORY_UNCHANGED',
+    'TOGGLE_WHATS_NEW_NOTIFICATIONS',
     'UPDATE_GLOBALS',
     'UPDATE_QUERY_PARAMS',
     'UPDATE_STORY_ARGS',
