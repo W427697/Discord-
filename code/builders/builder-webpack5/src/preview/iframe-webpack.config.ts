@@ -31,19 +31,29 @@ const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'packa
 
 const storybookPaths: Record<string, string> = {
   ...[
-    // these packages are not pre-bundled because of react dependencies
+    // these packages are not pre-bundled because of react dependencies.
+    // these are not dependencies of the builder anymore, thus resolving them can fail.
+    // we should remove the aliases in 8.0, I'm not sure why they are here in the first place.
     'components',
     'global',
     'manager-api',
     'router',
     'theming',
-  ].reduce(
-    (acc, sbPackage) => ({
-      ...acc,
-      [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
-    }),
-    {}
-  ),
+  ].reduce((acc, sbPackage) => {
+    let packagePath;
+    try {
+      packagePath = wrapForPnP(`@storybook/${sbPackage}`);
+    } catch (e) {
+      // ignore
+    }
+    if (packagePath) {
+      return {
+        ...acc,
+        [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
+      };
+    }
+    return acc;
+  }, {}),
   // deprecated, remove in 8.0
   [`@storybook/api`]: wrapForPnP(`@storybook/manager-api`),
 };
