@@ -59,6 +59,19 @@ export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   );
 };
 
+export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => {
+  logger.info(`🔢 Adding resolutions for workarounds`);
+  if (dryRun) return;
+
+  const packageJsonPath = path.join(cwd, 'package.json');
+  const packageJson = await readJSON(packageJsonPath);
+  packageJson.resolutions = {
+    ...packageJson.resolutions,
+    '@vitejs/plugin-react': '^4.0.0', // due to conflicting version in @storybook/vite-react
+  };
+  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+};
+
 export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOptions) => {
   const command = [
     // We don't want to use the cache or we might get older copies of our built packages
@@ -74,7 +87,8 @@ export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOpt
     // We need to be able to update lockfile when bootstrapping the examples
     `yarn config set enableImmutableInstalls false`,
     // Discard all YN0013 - FETCH_NOT_CACHED messages
-    `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`,
+    // Error on YN0060 - INCOMPATIBLE_PEER_DEPENDENCY
+    `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" }, { "code": "YN0060", "level": "error" } ]'`,
   ];
 
   await exec(

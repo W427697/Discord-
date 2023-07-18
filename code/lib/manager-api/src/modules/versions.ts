@@ -24,12 +24,27 @@ const getVersionCheckData = memoize(1)((): API_Versions => {
 });
 
 export interface SubAPI {
+  /**
+   * Returns the current version of the Storybook Manager.
+   *
+   * @returns {API_Version} The current version of the Storybook Manager.
+   */
   getCurrentVersion: () => API_Version;
+  /**
+   * Returns the latest version of the Storybook Manager.
+   *
+   * @returns {API_Version} The latest version of the Storybook Manager.
+   */
   getLatestVersion: () => API_Version;
+  /**
+   * Checks if an update is available for the Storybook Manager.
+   *
+   * @returns {boolean} True if an update is available, false otherwise.
+   */
   versionUpdateAvailable: () => boolean;
 }
 
-export const init: ModuleFn = ({ store, mode, fullAPI }) => {
+export const init: ModuleFn = ({ store }) => {
   const { dismissedVersionNotification } = store.getState();
 
   const state = {
@@ -97,34 +112,6 @@ export const init: ModuleFn = ({ store, mode, fullAPI }) => {
     await store.setState({
       versions: { ...versions, latest, next },
     });
-
-    if (api.versionUpdateAvailable()) {
-      const latestVersion = api.getLatestVersion().version;
-      const diff = semver.diff(versions.current.version, versions.latest.version);
-
-      if (
-        latestVersion !== dismissedVersionNotification &&
-        diff !== 'patch' &&
-        !semver.prerelease(latestVersion) &&
-        mode !== 'production'
-      ) {
-        fullAPI.addNotification({
-          id: 'update',
-          link: '/settings/about',
-          content: {
-            headline: `Storybook ${latestVersion} is available!`,
-            subHeadline: `Your current version is: ${versions.current.version}`,
-          },
-          icon: { name: 'book' },
-          onClear() {
-            store.setState(
-              { dismissedVersionNotification: latestVersion },
-              { persistence: 'permanent' }
-            );
-          },
-        });
-      }
-    }
   };
 
   return { init: initModule, state, api };

@@ -1,3 +1,4 @@
+import invariant from 'tiny-invariant';
 import type { InputType, ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';
@@ -91,6 +92,7 @@ function mapData(data: TagItem[], category: string) {
         switch (category) {
           case 'events':
             mapEvent(item).forEach((argType) => {
+              invariant(argType.name, `${argType} should have a name property.`);
               acc[argType.name] = argType;
             });
             break;
