@@ -6312,9 +6312,7 @@ __metadata:
   resolution: "@storybook/builder-webpack5@workspace:builders/builder-webpack5"
   dependencies:
     "@babel/core": ^7.22.0
-    "@storybook/addons": 7.1.0
     "@storybook/channels": 7.1.0
-    "@storybook/client-api": 7.1.0
     "@storybook/client-logger": 7.1.0
     "@storybook/components": 7.1.0
     "@storybook/core-common": 7.1.0
@@ -6326,7 +6324,6 @@ __metadata:
     "@storybook/preview": 7.1.0
     "@storybook/preview-api": 7.1.0
     "@storybook/router": 7.1.0
-    "@storybook/store": 7.1.0
     "@storybook/theming": 7.1.0
     "@swc/core": ^1.3.49
     "@types/node": ^16.0.0
@@ -7729,7 +7726,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/store@7.1.0, @storybook/store@workspace:*, @storybook/store@workspace:deprecated/store":
+"@storybook/store@workspace:*, @storybook/store@workspace:deprecated/store":
   version: 0.0.0-use.local
   resolution: "@storybook/store@workspace:deprecated/store"
   dependencies:
