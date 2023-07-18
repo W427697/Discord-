@@ -28,7 +28,7 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
 
 SelectItem.displayName = 'SelectItem';
 
-const StyledItem = styled(RadixSelect.Item)(({ theme }) => ({
+const StyledItem = styled(RadixSelect.Item)(() => ({
   fontSize: '13px',
   lineHeight: 1,
   color: 'blue',
@@ -52,7 +52,7 @@ const StyledItem = styled(RadixSelect.Item)(({ theme }) => ({
   },
 }));
 
-const StyledItemIndicator = styled(RadixSelect.ItemIndicator)(({ theme }) => ({
+const StyledItemIndicator = styled(RadixSelect.ItemIndicator)(() => ({
   position: 'absolute',
   left: 0,
   width: '25px',

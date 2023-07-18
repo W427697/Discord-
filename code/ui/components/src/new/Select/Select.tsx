@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { styled } from '@storybook/theming';
-import ExpandAlt from './icons/ExpandAlt';
-import Arrowup from './icons/Arrowup';
-import Arrowdown from './icons/Arrowdown';
-import Check from './icons/Check';
+import { ExpandAlt } from './icons/ExpandAlt';
+import { Arrowup } from './icons/Arrowup';
+import { Arrowdown } from './icons/Arrowdown';
+import { Check } from './icons/Check';
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
@@ -114,7 +114,7 @@ const StyledContent = styled(SelectPrimitive.Content)(({ theme }) => ({
   overflow: 'hidden',
   backgroundColor: theme.input.background,
   borderRadius: '6px',
-  border: theme.base === 'dark' ? `1px solid ${theme.input.border}` : 'none',
+  border: theme.base === 'dark' ? `1px solid ${theme.input.border}` : '1px solid transparent',
   width: '100%',
   boxShadow:
     '0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)',
