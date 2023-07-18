@@ -258,7 +258,9 @@ const Node = React.memo<NodeProps>(function Node({
             )}
             closeOnOutsideClick
           >
-            <Icons icon={icon} style={{ color: iconColor }} />
+            <Action type="button">
+              <Icons icon={icon} style={{ color: isSelected ? 'white' : iconColor }} />
+            </Action>
           </WithTooltip>
         ) : null}
       </LeafNodeStyleWrapper>
@@ -528,7 +530,7 @@ export const Tree = React.memo<{
         }
 
         const isDisplayed = !item.parent || ancestry[itemId].every((a: string) => expanded[a]);
-        const color = groupStatus[itemId];
+        const color = groupStatus[itemId] ? statusMapping[groupStatus[itemId]][2] : null;
 
         return (
           <Node

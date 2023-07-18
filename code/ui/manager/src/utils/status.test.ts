@@ -23,10 +23,10 @@ describe('getGroupStatus', () => {
       })
     ).toMatchInlineSnapshot(`
       Object {
-        "group-1": "#A15C20",
-        "root-1-child-a1": null,
-        "root-1-child-a2": null,
-        "root-3-child-a2": null,
+        "group-1": "warn",
+        "root-1-child-a1": "unknown",
+        "root-1-child-a2": "unknown",
+        "root-3-child-a2": "unknown",
       }
     `);
   });
@@ -40,10 +40,10 @@ describe('getGroupStatus', () => {
       })
     ).toMatchInlineSnapshot(`
       Object {
-        "group-1": "brown",
-        "root-1-child-a1": null,
-        "root-1-child-a2": null,
-        "root-3-child-a2": null,
+        "group-1": "error",
+        "root-1-child-a1": "unknown",
+        "root-1-child-a2": "unknown",
+        "root-3-child-a2": "unknown",
       }
     `);
   });

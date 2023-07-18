@@ -2,11 +2,17 @@ import React from 'react';
 
 import type { IndexHash, State } from 'lib/manager-api/src';
 import type { StoryObj, Meta } from '@storybook/react';
+import { within, userEvent } from '@storybook/testing-library';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
+
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, ms);
+  });
 
 const meta = {
   component: Sidebar,
@@ -184,6 +190,7 @@ export const StatusesCollapsed: Story = {
     />
   ),
 };
+
 export const StatusesOpen: Story = {
   ...StatusesCollapsed,
   args: {
@@ -200,7 +207,18 @@ export const StatusesOpen: Story = {
           addonB: { status: 'error', title: 'Addon B', description: 'This is a big deal!' },
         },
       };
-      return acc;
     }, {}),
+  },
+};
+
+export const Searching: Story = {
+  ...StatusesOpen,
+  parameters: { theme: 'light', chromatic: { delay: 2200 } },
+  play: async ({ canvasElement, step }) => {
+    await step('wait 2000ms', () => wait(2000));
+    const canvas = await within(canvasElement);
+    const search = await canvas.findByPlaceholderText('Find components');
+    userEvent.clear(search);
+    userEvent.type(search, 'B2');
   },
 };
