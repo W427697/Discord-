@@ -6440,6 +6440,8 @@ __metadata:
     "@babel/core": ^7.22.0
     "@next/font": ^13.0.0
     next: ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     webpack: ^5.0.0
   peerDependenciesMeta:
     "@babel/core":
@@ -6811,6 +6813,8 @@ __metadata:
     typescript: ~4.9.3
     vite: ^4.0.0
   peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vite: ^3.0.0 || ^4.0.0
   languageName: unknown
   linkType: soft
@@ -6826,6 +6830,8 @@ __metadata:
     jest-specific-snapshot: ^8.0.0
   peerDependencies:
     "@babel/core": ^7.22.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     typescript: "*"
   peerDependenciesMeta:
     "@babel/core":
