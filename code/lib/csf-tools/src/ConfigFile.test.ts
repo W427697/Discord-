@@ -1057,10 +1057,13 @@ describe('ConfigFile', () => {
         const config: StorybookConfig = { };
         export default config;
       `;
+
       const config = loadConfig(source).parse();
       config.setImport('path', 'path');
+
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
+
       expect(parsed).toMatchInlineSnapshot(`
         import path from 'path';
         const config: StorybookConfig = { };
@@ -1073,10 +1076,13 @@ describe('ConfigFile', () => {
         const config: StorybookConfig = { };
         export default config;
       `;
+
       const config = loadConfig(source).parse();
       config.setImport('path', 'path');
+
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
+
       expect(parsed).toMatchInlineSnapshot(`
         import path from 'path';
         const config: StorybookConfig = { };
@@ -1089,10 +1095,13 @@ describe('ConfigFile', () => {
         const config: StorybookConfig = { };
         export default config;
       `;
+
       const config = loadConfig(source).parse();
       config.setImport(['dirname'], 'path');
+
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
+
       expect(parsed).toMatchInlineSnapshot(`
         import { dirname } from 'path';
         const config: StorybookConfig = { };
@@ -1100,17 +1109,20 @@ describe('ConfigFile', () => {
       `);
     });
 
-    it(`supports setting a named import for a filed where the source already exists`, () => {
+    it(`supports setting a named import for a field where the source already exists`, () => {
       const source = dedent`
         import { dirname } from 'path';
 
         const config: StorybookConfig = { };
         export default config;
       `;
+
       const config = loadConfig(source).parse();
       config.setImport(['dirname'], 'path');
+
       // eslint-disable-next-line no-underscore-dangle
       const parsed = babelPrint(config._ast);
+
       expect(parsed).toMatchInlineSnapshot(`
         import { dirname } from 'path';
 

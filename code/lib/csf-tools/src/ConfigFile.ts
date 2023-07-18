@@ -515,6 +515,14 @@ export class ConfigFile {
     this.setFieldNode(path, valueNode);
   }
 
+  getBodyDeclarations() {
+    return this._ast.program.body;
+  }
+
+  setBodyDeclaration(declaration: t.Declaration) {
+    this._ast.program.body.push(declaration);
+  }
+
   /**
    * Set import specifiers for a given import statement.
    * @description Does not support setting type imports (yet)
@@ -559,7 +567,7 @@ export class ConfigFile {
       (node) => t.isImportDeclaration(node) && node.source.value === fromImport
     ) as t.ImportDeclaration | undefined;
 
-    // if the import specifier is an string, we're dealing with default imports
+    // if the import specifier is a string, we're dealing with default imports
     if (typeof importSpecifier === 'string') {
       // If the import declaration with the given source exists
       if (importDeclaration) {
