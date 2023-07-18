@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { simpleGit } from 'simple-git';
 import { setOutput } from '@actions/core';
-import { getUnpickedPRs } from './utils/get-unpicked-prs';
+import { getUnpickedPRs } from './utils/github-client';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
 
@@ -41,7 +41,6 @@ export const run = async (_: unknown) => {
 
   const spinner = ora('Searching for patch PRs to cherry-pick').start();
 
-  // const labelToId = await getLabelIds(Object.values(LABEL));
   const patchPRs = await getUnpickedPRs(sourceBranch);
 
   if (patchPRs.length > 0) {

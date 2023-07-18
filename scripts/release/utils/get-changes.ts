@@ -3,8 +3,8 @@ import chalk from 'chalk';
 import semver from 'semver';
 import type { PullRequestInfo } from './get-github-info';
 import { getPullInfoFromCommit } from './get-github-info';
-import { getUnpickedPRs } from './get-unpicked-prs';
 import { git } from './git-client';
+import { getUnpickedPRs } from './github-client';
 
 export const RELEASED_LABELS = {
   'BREAKING CHANGE': '❗ Breaking Change',
