@@ -39,7 +39,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     {
       noEmit: false,
       outDir: join(process.cwd(), 'dist'),
-      target: ts.ScriptTarget.ES2020,
+      target: ts.ScriptTarget.ES2022,
       declaration: true,
     }
   );
@@ -54,7 +54,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   } else {
     ts.createProgram({
       rootNames: out.fileNames,
-      options: { ...compilerOptions, module: ts.ModuleKind.ES2020, declaration: false },
+      options: { ...compilerOptions, module: ts.ModuleKind.ES2022, declaration: false },
     }).emit();
 
     const files = globSync(join(process.cwd(), 'dist', '*.js'));
