@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.1.0-rc.2",
+  "version": "7.1.0",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -63,17 +63,17 @@
   },
   "dependencies": {
     "@storybook/global": "^5.0.0",
-    "@storybook/types": "7.1.0-rc.2",
+    "@storybook/types": "7.1.0",
     "polished": "^4.2.2",
     "telejson": "^7.0.3"
   },
   "devDependencies": {
-    "@storybook/client-logger": "7.1.0-rc.2",
-    "@storybook/components": "7.1.0-rc.2",
-    "@storybook/core-events": "7.1.0-rc.2",
-    "@storybook/manager-api": "7.1.0-rc.2",
-    "@storybook/preview-api": "7.1.0-rc.2",
-    "@storybook/theming": "7.1.0-rc.2",
+    "@storybook/client-logger": "7.1.0",
+    "@storybook/components": "7.1.0",
+    "@storybook/core-events": "7.1.0",
+    "@storybook/manager-api": "7.1.0",
+    "@storybook/preview-api": "7.1.0",
+    "@storybook/theming": "7.1.0",
     "@types/uuid": "^9.0.1",
     "dequal": "^2.0.2",
     "react-inspector": "^6.0.0",
