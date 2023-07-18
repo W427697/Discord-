@@ -122,10 +122,10 @@ jobs:
         run: git fetch --tags origin
 
       - name: Label patch PRs as picked
-        if: github.ref_name == 'latest-release'
+        if: github.ref_name == 'latest-release' || (steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:label-patches
+        run: yarn release:label-patches ${{ steps.target.outputs.target == 'next' && '--all' || '' }}
 
       - name: Create GitHub Release
         if: steps.publish-needed.outputs.published == 'false'
