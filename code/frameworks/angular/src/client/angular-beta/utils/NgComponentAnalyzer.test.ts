@@ -155,7 +155,7 @@ describe('getComponentInputsOutputs', () => {
     })
     class FooComponent extends BarComponent {
       @Input()
-      public b: string;
+      public b = '';
 
       @Input()
       public c: string;
