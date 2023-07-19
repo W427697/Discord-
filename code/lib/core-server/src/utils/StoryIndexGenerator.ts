@@ -273,7 +273,7 @@ export class StoryIndexGenerator {
       //  b) we have docs page enabled for this file
       if (componentTags.includes(STORIES_MDX_TAG) || autodocsOptedIn) {
         const name = this.options.docs.defaultName;
-        const id = toId(csf.meta.title, name);
+        const id = toId(csf.meta.id || csf.meta.title, name);
         entries.unshift({
           id,
           title: csf.meta.title,
