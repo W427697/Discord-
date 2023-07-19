@@ -24,11 +24,11 @@ export default {
 
 For tool-specific setup, check out the recipes below
 
-- [`@emotion/styled`](https://github.com/storybookjs/storybook/tree/main/docs/getting-started/emotion.md)
-- [`@mui/material`](https://github.com/storybookjs/storybook/tree/main/docs/getting-started/material-ui.md)
-- [`bootstrap`](https://github.com/storybookjs/storybook/tree/main/docs/getting-started/bootstrap.md)
-- [`styled-components`](https://github.com/storybookjs/storybook/tree/main/docs/getting-started/styled-components.md)
-- [`tailwind`](https://github.com/storybookjs/storybook/tree/main/docs/getting-started/tailwind.md)
+- [`@emotion/styled`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/emotion.md)
+- [`@mui/material`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/material-ui.md)
+- [`bootstrap`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/bootstrap.md)
+- [`styled-components`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/styled-components.md)
+- [`tailwind`](https://github.com/storybookjs/storybook/tree/next/code/addons/themes/docs/getting-started/tailwind.md)
 - [`vuetify@3.x`](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md#writing-a-custom-decorator)
 
 Don't see your favorite tool listed? Don't worry! That doesn't mean this addon isn't for you. Check out the ["Writing a custom decorator"](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md#writing-a-custom-decorator) section of the [api reference](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md).
