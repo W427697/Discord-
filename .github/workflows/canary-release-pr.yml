@@ -45,7 +45,7 @@ jobs:
           done
           echo "repository=$(echo "$PR_INFO" | jq -r ".owner")/$(echo "$PR_INFO" | jq -r ".repoName")" >> $GITHUB_OUTPUT
           echo "distTag=pr-${{ inputs.pr }}" >> $GITHUB_OUTPUT
-          echo "shortSha=$(git rev-parse --short $(echo "$PR_INFO" | jq -r ".sha"))" >> $GITHUB_OUTPUT
+          echo "shortSha=$(echo "$PR_INFO" | jq -r ".sha" | cut -c 1-8)" >> $GITHUB_OUTPUT
           echo "date=$(date)" >> $GITHUB_OUTPUT
           echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
 
@@ -89,25 +89,24 @@ jobs:
           find: 'CANARY_RELEASE_SECTION'
           isHtmlCommentTag: true
           replace: |
-            This pull request has been released at the npm dist tag \`${{ steps.info.outputs.distTag }}\`. Install it by pinning all your Storybook dependencies to that tag.
+            This pull request has been released at the npm dist tag `${{ steps.info.outputs.distTag }}`. Install it by pinning all your Storybook dependencies to that tag.
             <details>
             <summary>More information</summary>
 
             | | |
             | --- | --- |
-            | **Published version** | [\`${{ steps.version.outputs.next-version }}\`](https://npmjs.com/package/@storybook/cli/v/${{ steps.version.outputs.next-version }}) |
-            | **npm dist tag** | \`@storybook/cli@${{ steps.info.outputs.distTag }}\` |
+            | **Published version** | [`${{ steps.version.outputs.next-version }}`](https://npmjs.com/package/@storybook/cli/v/${{ steps.version.outputs.next-version }}) |
+            | **npm dist tag** | `@storybook/cli@${{ steps.info.outputs.distTag }}` |
             | **Triggered by** | @${{ github.triggering_actor }} |
-            | **Pull request** | [#${{ inputs.pr }}](https://github.com/storybookjs/storybook/pull/${{ inputs.pr }}) |
             | **Repository** | [${{ steps.info.outputs.repository }}](https://github.com/${{ steps.info.outputs.repository }}) |
-            | **Branch** | [\`${{ steps.info.outputs.branch }}\`](https://github.com/${{ steps.info.outputs.repository }}/tree/${{ steps.info.outputs.branch }}) |
-            | **Commit** | [\`${{ steps.info.outputs.shortSha }}\`](https://github.com/${{ steps.info.outputs.repository }}/commit/${{ steps.info.outputs.sha }}) |
-            | **Datetime** | ${{ steps.info.outputs.date }} (\`${{ steps.info.outputs.timestamp }}\`) |
+            | **Branch** | [`${{ steps.info.outputs.branch }}`](https://github.com/${{ steps.info.outputs.repository }}/tree/${{ steps.info.outputs.branch }}) |
+            | **Commit** | [`${{ steps.info.outputs.shortSha }}`](https://github.com/${{ steps.info.outputs.repository }}/commit/${{ steps.info.outputs.sha }}) |
+            | **Datetime** | ${{ steps.info.outputs.date }} (`${{ steps.info.outputs.timestamp }}`) |
             | **Workflow run** | [${{ github.run_id }}](https://github.com/storybookjs/storybook/actions/runs/${{ github.run_id }}) |
 
-            To request a new release of this PR ping the \`@storybookjs/core\` team.
+            To request a new release of this PR ping the `@storybookjs/core` team.
 
-            _core team members can create a new canary release [here](https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml) or locally with \`gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=${{ inputs.pr }}\`_
+            _core team members can create a new canary release [here](https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml) or locally with `gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=${{ inputs.pr }}`_
             </details>
 
       - name: Publish v${{ steps.version.outputs.next-version }}
