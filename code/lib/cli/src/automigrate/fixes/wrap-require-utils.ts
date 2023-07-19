@@ -101,11 +101,13 @@ export function isRequireWrapperNecessary(
 export function getFieldsForRequireWrapper(config: ConfigFile) {
   const frameworkNode = config.getFieldNode(['framework']);
   const builderNode = config.getFieldNode(['core', 'builder']);
+  const rendererNode = config.getFieldNode(['core', 'renderer']);
   const addons = config.getFieldNode(['addons']);
 
   const fieldsWithRequireWrapper = [
     ...(frameworkNode ? [frameworkNode] : []),
     ...(builderNode ? [builderNode] : []),
+    ...(rendererNode ? [rendererNode] : []),
     ...(addons && t.isArrayExpression(addons) ? [addons] : []),
   ];
 
