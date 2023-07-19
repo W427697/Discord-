@@ -37,3 +37,11 @@ Closes #
 Everybody: Please submit all PRs to the `next` branch unless they are specific to the current release. Storybook maintainers cherry-pick bug and documentation fixes into the `main` branch as part of the release process, so you shouldn't need to worry about this. For additional guidance: https://storybook.js.org/docs/react/contribute/how-to-contribute
 
 -->
+
+### 🦋 Canary release
+
+<!-- CANARY_RELEASE_SECTION -->
+
+This PR does not have a canary release associated. You can request a canary release of this PR by pinging the `@storybookjs/core` team here.
+
+<!-- CANARY_RELEASE_SECTION -->

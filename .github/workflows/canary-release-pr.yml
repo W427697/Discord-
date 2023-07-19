@@ -36,18 +36,23 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_INFO=$(gh pr view ${{ inputs.pr }} --repo ${{ github.repository }} --json isCrossRepository,headRefOid,headRefName,headRepository,headRepositoryOwner --jq '{isFork: .isCrossRepository, owner: .headRepositoryOwner.login, name: .headRepository.name, branch: .headRefName, sha: .headRefOid}')
+          PR_INFO=$(gh pr view ${{ inputs.pr }} --repo ${{ github.repository }} --json isCrossRepository,headRefOid,headRefName,headRepository,headRepositoryOwner --jq '{isFork: .isCrossRepository, owner: .headRepositoryOwner.login, repoName: .headRepository.name, branch: .headRefName, sha: .headRefOid}')
           echo $PR_INFO
           # Loop through each key-value pair in PR_INFO and set as step output
           for key in $(echo "$PR_INFO" | jq -r 'keys[]'); do
-              value=$(echo "$PR_INFO" | jq -r ".$key")
-              echo "$key=$value" >> "$GITHUB_OUTPUT"
+            value=$(echo "$PR_INFO" | jq -r ".$key")
+            echo "$key=$value" >> "$GITHUB_OUTPUT"
           done
+          echo "repository=$(echo "$PR_INFO" | jq -r ".owner"))/$(echo "$PR_INFO" | jq -r ".repoName"))" >> $GITHUB_OUTPUT
+          echo "distTag=pr-${{ inputs.pr }}" >> $GITHUB_OUTPUT
+          echo "shortSha=$(git rev-parse --short $(echo "$PR_INFO" | jq -r ".sha"))" >> $GITHUB_OUTPUT
+          echo "date=$(date)" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
 
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: ${{ steps.info.outputs.isFork == 'true' && format('{0}/{1}', steps.info.outputs.owner, steps.info.outputs.repository) || null }}
+          repository: ${{ steps.info.outputs.isFork == 'true' && steps.info.outputs.repository || null }}
           ref: ${{ steps.info.outputs.sha }}
           token: ${{ secrets.GH_TOKEN }}
 
@@ -74,27 +79,43 @@ jobs:
         id: version
         working-directory: scripts
         run: |
-          TIMESTAMP=$(date +%s)
-          SHORT_SHA=$(git rev-parse --short ${{ steps.info.outputs.sha }})
-          yarn release:version --release-type prerelease --pre-id pr-${{ inputs.pr }}-$SHORT_SHA-$TIMESTAMP --verbose
+          yarn release:version --release-type prerelease --pre-id ${{ steps.info.outputs.distTag }}-${{ steps.info.outputs.shortSha }}-${{ steps.info.outputs.timestamp }} --verbose
+
+      - name: Write Summary
+        id: summary
+        run: |
+          echo "This PR has been released at the npm dist tag \`${{ steps.info.outputs.distTag }}\`. Install it by pinning all your Storybook dependencies to that tag." >> $GITHUB_STEP_SUMMARY
+          echo "<details>" >> $GITHUB_STEP_SUMMARY
+          echo "<summary>More information</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| | |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Triggered by** | @${{ github.triggering_actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Pull request** | #${{ inputs.pr }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Repository** | [${{ steps.info.outputs.repository }}](https://github.com/${{ steps.info.outputs.repository }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Branch** | [\`${{ steps.info.outputs.branch }}\`](https://github.com/${{ steps.info.outputs.repository }}/tree/${{ steps.info.outputs.branch }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit** | [\`${{ steps.info.outputs.shortSha }}\`](https://github.com/${{ steps.info.outputs.repository }}/commit/${{ steps.info.outputs.sha }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Date** | ${{ steps.info.outputs.date }} (\`${{ steps.info.outputs.timestamp }}\`) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Workflow run** | [${{ github.run_id }}](https://github.com/storybookjs/storybook/actions/runs/${{ github.run_id }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Published version** | [\`${{ steps.version.outputs.next-version }}\`](https://npmjs.com/package/@storybook/cli/v/${{ steps.version.outputs.next-version }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **npm dist tag** | \`@storybook/cli@${{ steps.info.outputs.distTag }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "To request a new release of this PR ping the \`@storybookjs/core\` team." >> $GITHUB_STEP_SUMMARY
+          echo "summary=$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
+
+      - name: Replace Pull Request Body
+        uses: ivangabriele/find-and-replace-pull-request-body@v1.1.5
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          find: 'CANARY_RELEASE_SECTION'
+          isHtmlCommentTag: true
+          replace: ${{ steps.summary.outputs.summary }}
 
       - name: Publish v${{ steps.version.outputs.next-version }}
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: scripts
-        run: yarn release:publish --tag pr-${{ inputs.pr }} --verbose
-
-      # TODO: build summary table
-
-      # TODO: change PR description instead
-      - name: Create comment on PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr comment ${{ inputs.pr }}\
-            --repo "${{github.repository }}"\
-            --body "🚀 This pull request has been published as version \`${{ steps.version.outputs.next-version }}\` and with the tag \`pr-${{ inputs.pr }}\` (at commit \`${{ steps.info.outputs.sha }}\`).
-          [You can see it on the npm registry here](https://npmjs.com/package/@storybook/cli/v/${{ steps.version.outputs.next-version }})".
+        run: yarn release:publish --tag ${{ steps.info.outputs.distTag }} --verbose
 
       - name: Create failing comment on PR
         if: failure()
