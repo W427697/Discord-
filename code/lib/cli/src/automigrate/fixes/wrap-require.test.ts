@@ -34,6 +34,7 @@ describe('wrapRequire', () => {
       } as any);
 
       await expect(check).resolves.toEqual({
+        isConfigTypescript: false,
         isPnp: true,
         isStorybookInMonorepo: false,
         storybookVersion: '7.0.0',
@@ -52,6 +53,7 @@ describe('wrapRequire', () => {
       } as any);
 
       await expect(check).resolves.toEqual({
+        isConfigTypescript: false,
         isPnp: false,
         isStorybookInMonorepo: true,
         storybookVersion: '7.0.0',

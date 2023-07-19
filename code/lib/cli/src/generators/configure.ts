@@ -97,7 +97,7 @@ export async function configureMain({
   }
 
   const mainJsContents = mainConfigTemplate
-    .replace('<<import>>', `${imports.join('\n\n')}\n`)
+    .replace('<<import>>', `${imports.join('\n\n')}\n\n`)
     .replace('<<prefix>>', finalPrefixes.length > 0 ? `${finalPrefixes.join('\n\n')}\n` : '')
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
