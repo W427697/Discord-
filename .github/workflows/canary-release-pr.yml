@@ -36,7 +36,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_INFO=$(gh pr view ${{ inputs.pr }} --json isCrossRepository,headRefOid,headRefName,headRepository,headRepositoryOwner --jq '{isFork: .isCrossRepository, owner: .headRepositoryOwner.login, name: .headRepository.name, branch: .headRefName, sha: .headRefOid}')
+          PR_INFO=$(gh pr view ${{ inputs.pr }} --repo ${{ github.repository }} --json isCrossRepository,headRefOid,headRefName,headRepository,headRepositoryOwner --jq '{isFork: .isCrossRepository, owner: .headRepositoryOwner.login, name: .headRepository.name, branch: .headRefName, sha: .headRefOid}')
           echo $PR_INFO
           # Loop through each key-value pair in PR_INFO and set as step output
           for key in $(echo "$PR_INFO" | jq -r 'keys[]'); do
