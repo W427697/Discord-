@@ -2,6 +2,8 @@
 title: 'MDX'
 ---
 
+<YouTubeCallout id="YeIvFke5_5Y" title="MDX Storybook Quick Tips" />
+
 [MDX](https://mdxjs.com/) files mix Markdown and Javascript/JSX to create rich interactive documentation. You can use Markdown’s readable syntax (such as `# heading`) for your documentation, include stories defined in [Component Story Format (CSF)](../api/csf.md), and freely embed JSX component blocks at any point in the file. All at once.
 
 In addition, you can write pure documentation pages in MDX and add them to Storybook alongside your stories.
@@ -10,7 +12,7 @@ In addition, you can write pure documentation pages in MDX and add them to Story
 
 <div class="aside">
 
-Writing stories directly in MDX was deprecated in Storybook 7. Please reference the <LinkWithVersion version="6.5" href="./mdx.md">previous documentation</LinkWithVersion> for guidance on that feature.
+Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
 
 </div>
 
@@ -382,7 +384,7 @@ As Storybook relies on MDX 2 to render documentation, some technical limitations
 
 #### Storybook doesn't create documentation for my component stories
 
-If you run into a situation where Storybook is not able to able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|ts|tsx)`).
+If you run into a situation where Storybook is not able to able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
 
 #### The documentation doesn't render using `stories.mdx`
 
@@ -412,8 +414,8 @@ Update your Storybook configuration (in `.storybook/main.js|ts`), and provide th
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-fallback-mdx.js.mdx',
-    'common/storybook-main-fallback-mdx.ts.mdx',
+    'common/main-config-features-legacy-mdx-1.js.mdx',
+    'common/main-config-features-legacy-mdx-1.ts.mdx',
   ]}
 />
 

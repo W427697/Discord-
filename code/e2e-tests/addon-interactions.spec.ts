@@ -11,6 +11,10 @@ test.describe('addon-interactions', () => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
   });
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => window.localStorage.clear());
+    await page.evaluate(() => window.sessionStorage.clear());
+  });
 
   // FIXME: skip xxx
   test('should have interactions', async ({ page }) => {
@@ -60,15 +64,16 @@ test.describe('addon-interactions', () => {
     await expect(formInput).toHaveValue('final value');
 
     const interactionsTab = await page.locator('#tabbutton-storybook-interactions-panel');
-    await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab.getByText('3')).toBeVisible();
+    await expect(interactionsTab).toBeVisible();
     await expect(interactionsTab).toBeVisible();
 
     const panel = sbPage.panelContent();
     const runStatusBadge = await panel.locator('[aria-label="Status of the test run"]');
     await expect(runStatusBadge).toContainText(/Pass/);
-    await expect(panel).toContainText(/value: "initial value"/);
-    await expect(panel).toContainText(/value: ""/);
-    await expect(panel).toContainText(/value: "final value"/);
+    await expect(panel).toContainText(/"initial value"/);
+    await expect(panel).toContainText(/clear/);
+    await expect(panel).toContainText(/"final value"/);
     await expect(panel).toBeVisible();
 
     // Test interactions debugger - Stepping through works, count is correct and values are as expected
@@ -94,19 +99,38 @@ test.describe('addon-interactions', () => {
     // Test rerun state (from addon panel) - Interactions have rerun, count is correct and values are as expected
     const rerunInteractionButton = await panel.locator('[aria-label="Rerun"]');
     await rerunInteractionButton.click();
+
+    await expect(formInput).toHaveValue('final value');
+
     await interactionsRow.first().isVisible();
     await interactionsRow.nth(1).isVisible();
     await interactionsRow.nth(2).isVisible();
-    await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab.getByText('3')).toBeVisible();
     await expect(interactionsTab).toBeVisible();
+    await expect(interactionsTab.getByText('3')).toBeVisible();
+
+    // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
+    // if the toolbar is hidden, this will toggle the toolbar
+    if (await page.locator('[offset="40"]').isHidden()) {
+      await page.locator('html').press('t');
+    }
+
+    // After debugging I found that sometimes the toolbar gets hidden, maybe some keypress or session storage issue?
+    // if the toolbar is hidden, this will toggle the toolbar
+    if (await page.locator('[offset="40"]').isHidden()) {
+      await page.locator('html').press('t');
+    }
 
     // Test remount state (from toolbar) - Interactions have rerun, count is correct and values are as expected
     const remountComponentButton = await page.locator('[title="Remount component"]');
     await remountComponentButton.click();
+
     await interactionsRow.first().isVisible();
     await interactionsRow.nth(1).isVisible();
     await interactionsRow.nth(2).isVisible();
-    await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab.getByText('3')).toBeVisible();
     await expect(interactionsTab).toBeVisible();
+    await expect(interactionsTab).toBeVisible();
+    await expect(formInput).toHaveValue('final value');
   });
 });

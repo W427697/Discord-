@@ -1,6 +1,10 @@
 import sort from 'semver/functions/sort';
 import { platform } from 'os';
 import dedent from 'ts-dedent';
+import { sync as findUpSync } from 'find-up';
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
+import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -21,7 +25,7 @@ export type NpmListOutput = {
   dependencies: NpmDependencies;
 };
 
-const NPM_ERROR_REGEX = /\bERR! code\s+([A-Z]+)\b/;
+const NPM_ERROR_REGEX = /npm ERR! code (\w+)/;
 const NPM_ERROR_CODES = {
   E401: 'Authentication failed or is required.',
   E403: 'Access to the resource is forbidden.',
@@ -75,6 +79,31 @@ export class NPMProxy extends JsPackageManager {
 
   async getNpmVersion(): Promise<string> {
     return this.executeCommand({ command: 'npm', args: ['--version'] });
+  }
+
+  public async getPackageJSON(
+    packageName: string,
+    basePath = this.cwd
+  ): Promise<PackageJson | null> {
+    const packageJsonPath = await findUpSync(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson;
+  }
+
+  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJson = await this.getPackageJSON(packageName, basePath);
+    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
   }
 
   getInstallArgs(): string[] {
@@ -248,7 +277,6 @@ export class NPMProxy extends JsPackageManager {
 
   public parseErrorFromLogs(logs: string): string {
     let finalMessage = 'NPM error';
-    console.log({ logs });
     const match = logs.match(NPM_ERROR_REGEX);
 
     if (match) {

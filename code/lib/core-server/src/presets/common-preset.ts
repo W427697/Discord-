@@ -1,6 +1,8 @@
 import { pathExists, readFile } from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
+import { telemetry } from '@storybook/telemetry';
 import {
+  findConfigFile,
   getDirectoryFromWorkingDir,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
@@ -8,18 +10,31 @@ import {
 } from '@storybook/core-common';
 import type {
   CLIOptions,
-  IndexerOptions,
-  StoryIndexer,
   CoreConfig,
+  IndexerOptions,
   Options,
-  StorybookConfig,
   PresetPropertyFn,
+  StorybookConfig,
+  StoryIndexer,
 } from '@storybook/types';
-import { loadCsf } from '@storybook/csf-tools';
+import { loadCsf, readConfig, writeConfig } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
+import fetch from 'node-fetch';
+import type { Channel } from '@storybook/channels';
+import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
+import {
+  REQUEST_WHATS_NEW_DATA,
+  RESULT_WHATS_NEW_DATA,
+  SET_WHATS_NEW_CACHE,
+  TOGGLE_WHATS_NEW_NOTIFICATIONS,
+} from '@storybook/core-events';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
+import { sendTelemetryError } from '../withTelemetry';
+
+const interpolate = (string: string, data: Record<string, string> = {}) =>
+  Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
 
@@ -186,7 +201,7 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
   };
   return [
     {
-      test: /(stories|story)\.[tj]sx?$/,
+      test: /(stories|story)\.(m?js|ts)x?$/,
       indexer: csfIndexer,
     },
     ...(indexers || []),
@@ -217,3 +232,97 @@ export const docs = (
   ...docsOptions,
   docsMode,
 });
+
+export const managerHead = async (_: any, options: Options) => {
+  const location = join(options.configDir, 'manager-head.html');
+  if (await pathExists(location)) {
+    const contents = readFile(location, 'utf-8');
+    const interpolations = options.presets.apply<Record<string, string>>('env');
+
+    return interpolate(await contents, await interpolations);
+  }
+
+  return '';
+};
+
+const WHATS_NEW_CACHE = 'whats-new-cache';
+const WHATS_NEW_URL = 'https://storybook.js.org/whats-new/v1';
+
+// Grabbed from the implementation: https://github.com/storybookjs/dx-functions/blob/main/netlify/functions/whats-new.ts
+type WhatsNewResponse = {
+  title: string;
+  url: string;
+  blogUrl?: string;
+  publishedAt: string;
+  excerpt: string;
+};
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_serverChannel = async (channel: Channel, options: Options) => {
+  const coreOptions = await options.presets.apply('core');
+
+  channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
+    const cache: WhatsNewCache = await options.cache.get(WHATS_NEW_CACHE).catch((e) => {
+      logger.verbose(e);
+      return {};
+    });
+    await options.cache.set(WHATS_NEW_CACHE, { ...cache, ...data });
+  });
+
+  channel.on(REQUEST_WHATS_NEW_DATA, async () => {
+    try {
+      const post = (await fetch(WHATS_NEW_URL).then(async (response) => {
+        if (response.ok) return response.json();
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw response;
+      })) as WhatsNewResponse;
+
+      const main = await readConfig(findConfigFile('main', options.configDir));
+      const disableWhatsNewNotifications = main.getFieldValue([
+        'core',
+        'disableWhatsNewNotifications',
+      ]);
+
+      const cache: WhatsNewCache = (await options.cache.get(WHATS_NEW_CACHE)) ?? {};
+      const data = {
+        ...post,
+        status: 'SUCCESS',
+        postIsRead: post.url === cache.lastReadPost,
+        showNotification: post.url !== cache.lastDismissedPost && post.url !== cache.lastReadPost,
+        disableWhatsNewNotifications,
+      } satisfies WhatsNewData;
+      channel.emit(RESULT_WHATS_NEW_DATA, { data });
+    } catch (e) {
+      logger.verbose(e);
+      channel.emit(RESULT_WHATS_NEW_DATA, {
+        data: { status: 'ERROR' } satisfies WhatsNewData,
+      });
+    }
+  });
+
+  channel.on(
+    TOGGLE_WHATS_NEW_NOTIFICATIONS,
+    async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
+      const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
+      try {
+        const main = await readConfig(findConfigFile('main', options.configDir));
+        main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
+        await writeConfig(main);
+
+        if (isTelemetryEnabled) {
+          await telemetry('core-config', { disableWhatsNewNotifications });
+        }
+      } catch (error) {
+        if (isTelemetryEnabled) {
+          await sendTelemetryError(error, 'core-config', {
+            cliOptions: options,
+            presetOptions: { ...options, corePresets: [], overridePresets: [] },
+            skipPrompt: true,
+          });
+        }
+      }
+    }
+  );
+
+  return channel;
+};
