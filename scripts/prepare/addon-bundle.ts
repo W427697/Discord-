@@ -19,7 +19,8 @@ import { definitions as managerGlobalsDefinitions } from '../../code/ui/manager/
 
 type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
-  browserEntries: string[];
+  previewEntries: string[];
+  managerEntries: string[];
   nodeEntries: string[];
   interfaceEntries: string[];
   externals: string[];
@@ -41,7 +42,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     dependencies,
     peerDependencies,
     bundler: {
-      browserEntries = [],
+      previewEntries = [],
+      managerEntries = [],
       nodeEntries = [],
       externals: extraExternals = [],
       interfaceEntries = [],
@@ -144,8 +146,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     }
   }
 
-  if (browserEntries.length > 0) {
-    const allEntries = browserEntries.map((e: string) => slash(join(cwd, e)));
+  if (managerEntries.length > 0) {
+    const allEntries = managerEntries.map((e: string) => slash(join(cwd, e)));
 
     tasks.push(
       build({
@@ -167,7 +169,44 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
             util: require.resolve('../node_modules/util/util.js'),
             assert: require.resolve('browser-assert'),
           }),
-          globalExternals(globals),
+          globalExternals(managerGlobalsDefinitions),
+        ],
+        external: externals,
+
+        esbuildOptions: (c) => {
+          /* eslint-disable no-param-reassign */
+          c.conditions = ['module'];
+          c.platform = 'browser';
+          Object.assign(c, getESBuildOptions(optimized));
+          /* eslint-enable no-param-reassign */
+        },
+      })
+    );
+  }
+  if (previewEntries.length > 0) {
+    const allEntries = previewEntries.map((e: string) => slash(join(cwd, e)));
+
+    tasks.push(
+      build({
+        silent: true,
+        entry: allEntries,
+        treeshake: true,
+        watch,
+        outDir,
+        outExtension: () => ({
+          js: '.js',
+        }),
+        format: ['esm'],
+        target: 'chrome100',
+        clean: false,
+        platform: 'browser',
+        esbuildPlugins: [
+          aliasPlugin({
+            process: require.resolve('../node_modules/process/browser.js'),
+            util: require.resolve('../node_modules/util/util.js'),
+            assert: require.resolve('browser-assert'),
+          }),
+          globalExternals(previewGlobalsDefinitions),
         ],
         external: externals,
 

@@ -69,7 +69,7 @@
     "interfaceEntries": [
       "./src/index.ts"
     ],
-    "browserEntries": [
+    "managerEntries": [
       "./src/manager.tsx"
     ],
     "nodeEntries": [

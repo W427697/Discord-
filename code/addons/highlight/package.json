@@ -62,7 +62,7 @@
     "interfaceEntries": [
       "./src/index.ts"
     ],
-    "browserEntries": [
+    "previewEntries": [
       "./src/preview.ts"
     ]
   },

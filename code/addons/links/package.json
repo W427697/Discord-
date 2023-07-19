@@ -86,8 +86,10 @@
       "./src/react/index.ts",
       "./src/index.ts"
     ],
-    "browserEntries": [
-      "./src/manager.ts",
+    "managerEntries": [
+      "./src/manager.ts"
+    ],
+    "previewEntries": [
       "./src/preview.ts"
     ],
     "post": "./scripts/fix-preview-api-reference.ts"
