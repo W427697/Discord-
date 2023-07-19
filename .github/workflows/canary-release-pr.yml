@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       pr:
-        description: 'Which pull request number to create a canary release for'
+        description: 'Pull request number to create a canary release for'
         required: true
         type: number
 

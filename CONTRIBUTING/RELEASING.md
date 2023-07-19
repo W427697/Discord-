@@ -381,7 +381,33 @@ Before you start you should make sure that your working tree is clean and the re
 
 ## Canary Releases
 
-Not implemented yet. Still work in progress, stay tuned.
+It's possible to release any pull request as a canary release, multiple times during development. This is an effective way to try out changes in standalone projects without needing to link projects together via package managers.
+
+To create a canary release a core team member (or anyone else with administrator privileges) must manually trigger the canary release workflow. This can be either be done via the GitHub UI or the `gh` CLI:
+
+**Trigger via GitHub UI**
+
+1. Open the workflow UI at https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml
+2. Click "Run workflow", top right corner
+3. For "branch", **always select `next`**, irregardless of which branch your pull request is on.
+4. For pull request number, input the number for the pull request **without a leading #**
+
+**Trigger with `gh` CLI**
+
+The following command will trigger a workflow run - replace `<PR_NUMBER>` with the actual pull request number:
+
+```bash
+gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<PR_NUMBER>
+```
+
+When the release succeeds, it will update the "Canary release" section of the pull request with information about the release and how to use it (see example [here](https://github.com/storybookjs/storybook/pull/23508)). If it fails, it will create a comment on the pull request, tagging the triggering actor to let them know that it failed (see example [here](https://github.com/storybookjs/storybook/pull/23508#issuecomment-1642850467)).
+
+The canary release will have the following version format: `<CURRENT_VERSION>-pr-<PR_NUMBER>-<TIMESTAMP>-<COMMIT_SHA>.0`, eg. `7.1.1-pr-23508-1689802571-5ec8c1c3.0`.
+
+- The current version has no actual meaning, but it softly indicates which version the pull request is based on. Eg. a pull request based on v7.1.0 will get released as a canary version of v7.1.1.
+- The timestamp ensures that any subsequent releases are always considered newer.
+- The commit hash is an indicator of which exact code has been released.
+- The releases will get the npm dist tag `pr-<PR_NUMBER>`, to make it installable as eg. `npm install @storybook/cli@pr-23508` or in `package.json`: `"@storybook/cli": "pr-23508"`
 
 ## Versioning Scenarios
 
