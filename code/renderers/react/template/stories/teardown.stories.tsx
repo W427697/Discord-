@@ -13,7 +13,7 @@ const LoggingComponent = () => {
 
 export default {
   component: LoggingComponent,
-  tags: [],
+  tags: ['autodocs'],
   parameters: {
     storyshots: { disable: true },
     chromatic: { disable: true },

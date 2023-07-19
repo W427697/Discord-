@@ -232,12 +232,14 @@ export async function baseGenerator(
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@storybook/addon-docs',
     ...stripVersions(extraAddonPackages),
   ];
   // added to package.json
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@storybook/addon-docs',
     '@storybook/blocks',
     ...extraAddonPackages,
   ];

@@ -21,7 +21,7 @@ const meta: Meta<typeof MyHeader> = {
     layout: 'fullscreen',
   },
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/vue/writing-docs/autodocs
-  tags: [],
+  tags: ['autodocs'],
 };
 
 export default meta;

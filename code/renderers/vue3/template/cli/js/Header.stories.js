@@ -4,7 +4,7 @@ export default {
   title: 'Example/Header',
   component: MyHeader,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/vue/writing-docs/autodocs
-  tags: [],
+  tags: ['autodocs'],
   render: (args) => ({
     // Components used in your story `template` are defined in the `components` object
     components: {
