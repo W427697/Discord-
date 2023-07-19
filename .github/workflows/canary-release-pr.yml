@@ -34,7 +34,7 @@ jobs:
       - name: Get pull request information
         id: info
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           PR_INFO=$(gh pr view ${{ inputs.pr }} --repo ${{ github.repository }} --json isCrossRepository,headRefOid,headRefName,headRepository,headRepositoryOwner --jq '{isFork: .isCrossRepository, owner: .headRepositoryOwner.login, repoName: .headRepository.name, branch: .headRefName, sha: .headRefOid}')
           echo $PR_INFO
@@ -79,12 +79,18 @@ jobs:
         id: version
         working-directory: scripts
         run: |
-          yarn release:version --release-type prerelease --pre-id ${{ steps.info.outputs.distTag }}-${{ steps.info.outputs.shortSha }}-${{ steps.info.outputs.timestamp }} --verbose
+          yarn release:version --release-type prerelease --pre-id ${{ steps.info.outputs.distTag }}-${{ steps.info.outputs.timestamp }}-${{ steps.info.outputs.shortSha }} --verbose
+
+      - name: Publish v${{ steps.version.outputs.next-version }}
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: scripts
+        run: yarn release:publish --tag ${{ steps.info.outputs.distTag }} --verbose
 
       - name: Replace Pull Request Body
         uses: mcky/find-and-replace-pull-request-body@v1.1.6-mcky
         with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GH_TOKEN }}
           prNumber: ${{ inputs.pr }}
           find: 'CANARY_RELEASE_SECTION'
           isHtmlCommentTag: true
@@ -109,17 +115,11 @@ jobs:
             _core team members can create a new canary release [here](https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml) or locally with `gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=${{ inputs.pr }}`_
             </details>
 
-      - name: Publish v${{ steps.version.outputs.next-version }}
-        env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        working-directory: scripts
-        run: yarn release:publish --tag ${{ steps.info.outputs.distTag }} --verbose
-
       - name: Create failing comment on PR
         if: failure()
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           gh pr comment ${{ inputs.pr }}\
             --repo "${{github.repository }}"\
-            --body "Failed to publish canary version of this pull request at commit \`${{ steps.info.outputs.sha }}\`. See the failed workflow run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            --body "Failed to publish canary version of this pull request, triggered by @${{ github.triggering_actor }}. See the failed workflow run at: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
