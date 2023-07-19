@@ -28,4 +28,5 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 export const configure: ClientApi['configure'] = (...args) => api.configure(RENDERER, ...args);
 export const { forceReRender } = api;
 export const { raw } = api.clientApi;
-export { setup } from './render';
+export { setup, render, renderToCanvas } from './render';
+export { decorateStory } from './decorateStory';
