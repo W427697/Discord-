@@ -32,18 +32,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./manager": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.js"
-    },
-    "./preview": {
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.js"
-    },
-    "./register": {
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.js"
-    },
+    "./manager": "./dist/manager.js",
+    "./preview": "./dist/preview.js",
+    "./register": "./dist/manager.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
