@@ -70,7 +70,9 @@
       "./src/index.ts"
     ],
     "browserEntries": [
-      "./src/manager.tsx",
+      "./src/manager.tsx"
+    ],
+    "nodeEntries": [
       "./src/preset.ts"
     ]
   },
