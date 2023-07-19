@@ -31,28 +31,10 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
-    "./preset": {
-      "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js"
-    },
     "./blocks": {
       "types": "./dist/blocks.d.ts",
       "require": "./dist/blocks.js",
       "import": "./dist/blocks.mjs"
-    },
-    "./dist/preview": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
-    "./dist/preset": {
-      "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js"
     },
     "./dist/shims/mdx-react-shim": {
       "types": "./dist/shims/mdx-react-shim.d.ts",
@@ -64,6 +46,10 @@
       "require": "./dist/shims/mdx-react-shim.js",
       "import": "./dist/shims/mdx-react-shim.mjs"
     },
+    "./preview": "./dist/preview.js",
+    "./dist/preview": "./dist/preview.js",
+    "./preset": "./dist/preset.js",
+    "./dist/preset": "./dist/preset.js",
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",
     "./ember/index.js": "./ember/index.js",
@@ -94,7 +80,7 @@
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
@@ -130,12 +116,16 @@
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/index.ts",
-      "./src/preset.ts",
-      "./src/preview.ts",
+    "interfaceEntries": [
       "./src/blocks.ts",
+      "./src/index.ts",
       "./src/shims/mdx-react-shim.ts"
+    ],
+    "previewEntries": [
+      "./src/preview.ts"
+    ],
+    "nodeEntries": [
+      "./src/preset.ts"
     ],
     "externals": [
       "@storybook/mdx1-csf"
