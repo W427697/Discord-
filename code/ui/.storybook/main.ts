@@ -51,6 +51,7 @@ const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
   addons: [
     '@storybook/addon-links',
+    '@storybook/addon-docs',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
