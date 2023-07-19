@@ -9,7 +9,8 @@ import {
   STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { EVENTS, type Call, CallStates, type LogItem } from '@storybook/instrumenter';
+import type { Call, LogItem } from '@storybook/instrumenter';
+import { EVENTS, CallStates } from '@storybook/instrumenter/events';
 
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { ADDON_ID } from './constants';

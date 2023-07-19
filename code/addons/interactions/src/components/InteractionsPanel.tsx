@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link, Placeholder } from '@storybook/components';
-import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
+import { type Call, type ControlStates } from '@storybook/instrumenter';
+import { CallStates } from '@storybook/instrumenter/events';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 

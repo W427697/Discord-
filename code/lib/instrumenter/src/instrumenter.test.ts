@@ -10,7 +10,8 @@ import {
 } from '@storybook/core-events';
 import { global } from '@storybook/global';
 
-import { EVENTS, Instrumenter } from './instrumenter';
+import { Instrumenter } from './instrumenter';
+import { EVENTS } from './events';
 import type { Options } from './types';
 
 jest.mock('@storybook/client-logger');

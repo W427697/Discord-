@@ -27,11 +27,27 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./events": {
+      "types": "./dist/events.d.ts",
+      "node": "./dist/events.js",
+      "require": "./dist/events.js",
+      "import": "./dist/events.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "events": [
+        "dist/events.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -57,7 +73,8 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/events.ts"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

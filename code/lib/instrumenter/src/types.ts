@@ -1,4 +1,5 @@
 import type { StoryId } from '@storybook/types';
+import type { CallStates } from './events';
 
 export interface Call {
   id: string;
@@ -17,13 +18,6 @@ export interface Call {
     stack: Error['stack'];
     callId: Call['id'];
   };
-}
-
-export enum CallStates {
-  DONE = 'done',
-  ERROR = 'error',
-  ACTIVE = 'active',
-  WAITING = 'waiting',
 }
 
 export interface CallRef {
