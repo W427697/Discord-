@@ -3,7 +3,7 @@ import { gt, satisfies } from 'semver';
 import type { CommonOptions } from 'execa';
 import { command as execaCommand, sync as execaCommandSync } from 'execa';
 import path from 'path';
-import fs, { read } from 'fs';
+import fs from 'fs';
 
 import dedent from 'ts-dedent';
 import { readFile, readFileSync, writeFile } from 'fs-extra';
