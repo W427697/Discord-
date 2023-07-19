@@ -383,7 +383,11 @@ Before you start you should make sure that your working tree is clean and the re
 
 It's possible to release any pull request as a canary release, multiple times during development. This is an effective way to try out changes in standalone projects without needing to link projects together via package managers.
 
-To create a canary release a core team member (or anyone else with administrator privileges) must manually trigger the canary release workflow. This can be either be done via the GitHub UI or the `gh` CLI:
+To create a canary release a core team member (or anyone else with administrator privileges) must manually trigger the canary release workflow.
+
+**Before creating a canary release from contributors, the core team member must ensure that the code being released is not malicious.**
+
+Creating a canary release can be either be done via the GitHub UI or the `gh` CLI:
 
 **Trigger via GitHub UI**
 
@@ -408,6 +412,19 @@ The canary release will have the following version format: `<CURRENT_VERSION>-pr
 - The timestamp ensures that any subsequent releases are always considered newer.
 - The commit hash is an indicator of which exact code has been released.
 - The releases will get the npm dist tag `pr-<PR_NUMBER>`, to make it installable as eg. `npm install @storybook/cli@pr-23508` or in `package.json`: `"@storybook/cli": "pr-23508"`
+
+<details>
+  <summary>Isn't there a simpler/smarter way to do this?</summary>
+
+The simple approach to this would be to automatically release canaries for all pull requests, however this would be insecure. Any contributor with Write privileges to the repository (200+ users) would be able to create a malicious pull request that alters the release script to release a malicious release (eg. release a patch version that adds a crypto miner).
+
+To alleviate this, we only allow the "Release" GitHub environment that contains the npm token to be accessible from workflows running on the protected branches (`next`, `main`, etc.).
+
+You could also be tempted to require approval from admins before running the workflows, but this would spam the core team with GitHub notifications for workflow runs seeking approval - even when a core team member triggered the workflow. Therefore we are doing it the other way around, requiring contributors and maintainers to explicitly ask for a canary release to be created.
+
+Instead of triggering the workflow manually, you could also do something smart like trigger it when there's a certain label on the pull request, or when someone writes a specific comment on the pull request. However this would create a lot of unnecessary workflow runs, because there isn't a way to filter workflow runs based on labels or comment content. The only way to achieve this would be to trigger the workflow on every single comment/labelling, and then cancel it if it didn't contain the expected content, which is inefficient.
+
+</details>
 
 ## Versioning Scenarios
 
