@@ -101,7 +101,7 @@ jobs:
           echo "| **npm dist tag** | \`@storybook/cli@${{ steps.info.outputs.distTag }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "To request a new release of this PR ping the \`@storybookjs/core\` team." >> $GITHUB_STEP_SUMMARY
-          echo "summary=$GITHUB_STEP_SUMMARY" >> $GITHUB_OUTPUT
+          echo "summary=$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
 
       - name: Replace Pull Request Body
         uses: mcky/find-and-replace-pull-request-body@v1.1.6-mcky
