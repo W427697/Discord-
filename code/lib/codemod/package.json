@@ -41,7 +41,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
@@ -82,7 +82,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.js",
+      "./src/index.ts",
       "./src/transforms/add-component-parameters.js",
       "./src/transforms/csf-2-to-3.ts",
       "./src/transforms/csf-hoist-story-annotations.js",
