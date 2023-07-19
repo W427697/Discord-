@@ -304,11 +304,11 @@
 
 ## From version 7.0.0 to 7.2.0
 
-#### Addon API are more type-strict
+#### Addon API is more type-strict
 
-When registering an addon using `@storybook/manager-api`, the addon API is now more type-strict. This means if you use typescript to compile your addon before publishing it might start giving you errors.
+When registering an addon using `@storybook/manager-api`, the addon API is now more type-strict. This means if you use TypeScript to compile your addon before publishing, it might start giving you errors.
 
-The `type` property is now required field, and the `id` property should not be set anymore.
+The `type` property is now a required field, and the `id` property should not be set anymore.
 
 Here's a correct example:
 ```tsx
