@@ -6,7 +6,7 @@ import GlobalSetup from './GlobalSetup.vue';
 const meta: Meta = {
   component: GlobalUsage,
   argTypes: {},
-  tags: [],
+  tags: ['autodocs'],
 } satisfies Meta<typeof GlobalUsage>;
 
 export default meta;
