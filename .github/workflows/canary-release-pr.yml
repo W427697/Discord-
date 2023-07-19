@@ -111,7 +111,7 @@ jobs:
             | **Datetime** | ${{ steps.info.outputs.date }} (`${{ steps.info.outputs.timestamp }}`) |
             | **Workflow run** | [${{ github.run_id }}](https://github.com/storybookjs/storybook/actions/runs/${{ github.run_id }}) |
 
-            To request a new release of this PR ping the `@storybookjs/core` team.
+            To request a new release of this pull request, mention the `@storybookjs/core` team.
 
             _core team members can create a new canary release [here](https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml) or locally with `gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=${{ inputs.pr }}`_
             </details>
