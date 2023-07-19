@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "strict": true,
+    "module": "CommonJS",
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
