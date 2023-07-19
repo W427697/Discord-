@@ -25,9 +25,6 @@ jobs:
     name: Release canary version
     runs-on: ubuntu-latest
     environment: release
-    defaults:
-      run:
-        working-directory: scripts
     steps:
       - name: Fail if triggerer is not administrator
         uses: prince-chrismc/check-actor-permissions-action@v2.0.4
@@ -69,11 +66,11 @@ jobs:
             yarn-v1
 
       - name: Install dependencies
-        working-directory: .
         run: yarn task --task=install --start-from=install
 
       - name: Set version
         id: version
+        working-directory: scripts
         run: |
           TIMESTAMP=$(date +%s)
           SHORT_SHA=$(git rev-parse --short ${{ steps.info.outputs.sha }})
@@ -82,6 +79,7 @@ jobs:
       - name: Publish v${{ steps.version.outputs.next-version }}
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: scripts
         run: yarn release:publish --tag pr-${{ inputs.pr }} --verbose
 
       # TODO: build summary table
