@@ -32,7 +32,6 @@ const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'packa
 const storybookPaths: Record<string, string> = {
   ...[
     // these packages are not pre-bundled because of react dependencies
-    'api',
     'components',
     'global',
     'manager-api',

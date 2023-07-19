@@ -63,11 +63,10 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.1.0",
     "@storybook/channels": "7.1.0",
     "@storybook/client-logger": "7.1.0",
     "@storybook/core-events": "7.1.0",
