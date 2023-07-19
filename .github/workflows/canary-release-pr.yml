@@ -30,4 +30,4 @@ jobs:
         working-directory: scripts
     steps:
       - name: Do nothing
-        run: "I'm not doing anything"
+        run: echo "I'm not doing anything"
