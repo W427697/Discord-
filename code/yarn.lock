@@ -6796,6 +6796,11 @@ __metadata:
     telejson: ^7.0.3
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -7543,6 +7548,11 @@ __metadata:
     react-router-dom: 6.0.2
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -7728,6 +7738,11 @@ __metadata:
     polished: ^4.2.2
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
   languageName: unknown
   linkType: soft
 

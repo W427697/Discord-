@@ -66,14 +66,18 @@
     "ts-dedent": "^2.0.0",
     "typescript": "~4.9.3"
   },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "externals": [
-      "react",
-      "react-dom"
-    ],
     "entries": [
       "./src/index.ts",
       "./src/create.ts"
