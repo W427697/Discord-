@@ -44,4 +44,6 @@ Everybody: Please submit all PRs to the `next` branch unless they are specific t
 
 This PR does not have a canary release associated. You can request a canary release of this PR by pinging the `@storybookjs/core` team here.
 
+_core team members can create a canary release [here](https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml) or locally with `gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<PR_NUMBER>`_
+
 <!-- CANARY_RELEASE_SECTION -->

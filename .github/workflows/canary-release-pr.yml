@@ -101,7 +101,10 @@ jobs:
           echo "| **npm dist tag** | \`@storybook/cli@${{ steps.info.outputs.distTag }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "To request a new release of this PR ping the \`@storybookjs/core\` team." >> $GITHUB_STEP_SUMMARY
-          echo "summary=$(cat $GITHUB_STEP_SUMMARY)" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_core team members can create a canary release [here](https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml) or locally with `gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<PR_NUMBER>`_" >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          echo "summary='$(cat $GITHUB_STEP_SUMMARY)'" >> $GITHUB_OUTPUT
 
       - name: Replace Pull Request Body
         uses: mcky/find-and-replace-pull-request-body@v1.1.6-mcky
