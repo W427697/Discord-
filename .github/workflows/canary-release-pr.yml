@@ -29,9 +29,12 @@ jobs:
       run:
         working-directory: scripts
     steps:
-      # TODO: check triggering permssions
+      - name: Fail if triggerer is not administrator
+        uses: prince-chrismc/check-actor-permissions-action@v2.0.4
+        with:
+          permission: admin
 
-      - name: Get Pull Request information
+      - name: Get pull request information
         id: info
         run: |
           PR_INFO=$(gh pr view ${{ inputs.pr }} --json isCrossRepository,headRefOid,headRefName,headRepository,headRepositoryOwner --jq '{isFork: .isCrossRepository, owner: .headRepositoryOwner.login, name: .headRepository.name, branch: .headRefName, sha: .headRefOid}')
