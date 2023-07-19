@@ -57,8 +57,8 @@ export const wrapRequire: Fix<WrapRequireRunOptions> = {
             wrapValueWithRequireWrapper(mainConfig, node);
           });
 
-          mainConfig.setImport(['dirname', 'join'], 'path');
           if (getRequireWrapperName(mainConfig) === null) {
+            mainConfig.setImport(['dirname', 'join'], 'path');
             mainConfig.setBodyDeclaration(
               getRequireWrapperAsCallExpression(result.isConfigTypescript)
             );
