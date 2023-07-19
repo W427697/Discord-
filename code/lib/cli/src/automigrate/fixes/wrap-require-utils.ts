@@ -124,7 +124,7 @@ export function getFieldsForRequireWrapper(config: ConfigFile) {
 export function getRequireWrapperAsCallExpression(
   isConfigTypescript: boolean
 ): t.FunctionDeclaration {
-  return {
+  const functionDeclaration = {
     ...t.functionDeclaration(
       t.identifier(defaultRequireWrapperName),
       [
@@ -150,6 +150,14 @@ export function getRequireWrapperAsCallExpression(
     ),
     ...(isConfigTypescript ? { returnType: t.tSTypeAnnotation(t.tsAnyKeyword()) } : {}),
   };
+
+  t.addComment(
+    functionDeclaration,
+    'leading',
+    '*\n * This function is used to resolve the absolute path of a package.\n * It is needed in projects that use Yarn PnP or are set up within a monorepo.\n'
+  );
+
+  return functionDeclaration;
 }
 
 export function wrapValueWithRequireWrapper(config: ConfigFile, node: t.Node) {
