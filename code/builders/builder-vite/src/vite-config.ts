@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { loadConfigFromFile, mergeConfig } from 'vite';
+import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
   InlineConfig as ViteInlineConfig,
@@ -53,7 +54,7 @@ export async function commonConfig(
 
   const sbConfig: InlineConfig = {
     configFile: false,
-    cacheDir: 'node_modules/.cache/.vite-storybook',
+    cacheDir: findCacheDirectory({ name: 'sb-vite' }),
     root: projectRoot,
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',

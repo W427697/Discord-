@@ -557,6 +557,16 @@ module.exports = {
           ],
         },
         {
+          pathSegment: 'arg-types',
+          title: 'ArgTypes',
+          type: 'link',
+        },
+        {
+          pathSegment: 'csf',
+          title: 'Component Story Format (CSF)',
+          type: 'link',
+        },
+        {
           title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
@@ -649,23 +659,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Stories',
-          pathSegment: '',
-          type: 'menu',
-          children: [
-            {
-              pathSegment: 'csf',
-              title: 'Component Story Format',
-              type: 'link',
-            },
-            {
-              pathSegment: 'argtypes',
-              title: 'ArgTypes',
-              type: 'link',
-            },
-          ],
-        },
-        {
           pathSegment: 'new-frameworks',
           title: 'Frameworks',
           type: 'link',
@@ -685,6 +678,11 @@ module.exports = {
         {
           pathSegment: 'how-to-contribute',
           title: 'How to',
+          type: 'link',
+        },
+        {
+          pathSegment: 'RFC',
+          title: 'RFC Process',
           type: 'link',
         },
         {

@@ -6,7 +6,24 @@ import { getPullInfoFromCommit } from './get-github-info';
 import { getUnpickedPRs } from './get-unpicked-prs';
 import { git } from './git-client';
 
-const LABELS_FOR_CHANGELOG = ['BREAKING CHANGE', 'feature request', 'bug', 'maintenance'];
+export const RELEASED_LABELS = {
+  'BREAKING CHANGE': '❗ Breaking Change',
+  'feature request': '✨ Feature Request',
+  bug: '🐛 Bug',
+  maintenance: '🔧 Maintenance',
+  dependencies: '📦 Dependencies',
+} as const;
+
+export const UNRELEASED_LABELS = {
+  documentation: '📝 Documentation',
+  build: '🏗️ Build',
+  unknown: '❔ Missing Label',
+} as const;
+
+export const LABELS_BY_IMPORTANCE = {
+  ...RELEASED_LABELS,
+  ...UNRELEASED_LABELS,
+} as const;
 
 const getCommitAt = async (id: string, verbose?: boolean) => {
   if (!semver.valid(id)) {
@@ -69,7 +86,7 @@ export const getAllCommitsBetween = async ({
   to?: string;
   verbose?: boolean;
 }) => {
-  const logResult = await git.log({ from, to });
+  const logResult = await git.log({ from, to, '--first-parent': null });
   if (verbose) {
     console.log(
       `🔍 Found ${chalk.blue(logResult.total)} commits between ${chalk.green(
@@ -159,7 +176,7 @@ export const mapToChanges = ({
       return;
     }
     // filter out any entries that are not patches if unpickedPatches is set. this will also filter out direct commits
-    if (unpickedPatches && !entry.labels?.includes('patch')) {
+    if (unpickedPatches && !entry.labels?.includes('patch:yes')) {
       return;
     }
     changes.push(entry);
@@ -187,7 +204,7 @@ export const getChangelogText = ({
         return false;
       }
       // only include PRs that with labels listed in LABELS_FOR_CHANGELOG
-      return entry.labels?.some((label) => LABELS_FOR_CHANGELOG.includes(label));
+      return entry.labels?.some((label) => Object.keys(RELEASED_LABELS).includes(label));
     })
     .map((entry) => {
       const { title, links } = entry;
@@ -195,7 +212,8 @@ export const getChangelogText = ({
       return pull
         ? `- ${title} - ${pull}, thanks ${user}!`
         : `- ⚠️ _Direct commit_ ${title} - ${commit} by ${user}`;
-    });
+    })
+    .sort();
   const text = [heading, '', ...formattedEntries].join('\n');
 
   console.log(`✅ Generated Changelog:`);
@@ -221,7 +239,7 @@ export const getChanges = async ({
 
   let commits;
   if (unpickedPatches) {
-    commits = (await getUnpickedPRs('next-v2', verbose)).map((it) => ({ hash: it.mergeCommit }));
+    commits = (await getUnpickedPRs('next', verbose)).map((it) => ({ hash: it.mergeCommit }));
   } else {
     commits = await getAllCommitsBetween({
       from: await getFromCommit(from, verbose),

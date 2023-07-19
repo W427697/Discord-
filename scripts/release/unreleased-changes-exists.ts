@@ -1,6 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
@@ -8,7 +5,7 @@ import { z } from 'zod';
 import { setOutput } from '@actions/core';
 import { intersection } from 'lodash';
 import type { Change } from './utils/get-changes';
-import { getChanges } from './utils/get-changes';
+import { RELEASED_LABELS, getChanges } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';
 
 program
@@ -18,7 +15,7 @@ program
     '-F, --from <version>',
     'Which version/tag/commit to go back and check changes from. Defaults to latest release tag'
   )
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const optionsSchema = z.object({
@@ -38,8 +35,6 @@ const validateOptions = (options: { [key: string]: any }): options is Options =>
   return true;
 };
 
-const LABELS_TO_RELEASE = ['BREAKING CHANGE', 'feature request', 'bug', 'maintenance'] as const;
-
 export const run = async (
   options: unknown
 ): Promise<{ changesToRelease: Change[]; hasChangesToRelease: boolean }> => {
@@ -51,9 +46,7 @@ export const run = async (
 
   const currentVersion = await getCurrentVersion();
 
-  console.log(
-    `📐 Checking if there are any unreleased changes...`
-  );
+  console.log(`📐 Checking if there are any unreleased changes...`);
 
   const { changes } = await getChanges({
     version: currentVersion,
@@ -63,8 +56,9 @@ export const run = async (
     verbose,
   });
 
-  const changesToRelease = changes
-    .filter(({ labels }) => intersection(LABELS_TO_RELEASE, labels).length > 0);
+  const changesToRelease = changes.filter(
+    ({ labels }) => intersection(Object.keys(RELEASED_LABELS), labels).length > 0
+  );
 
   const hasChangesToRelease = changesToRelease.length > 0;
 

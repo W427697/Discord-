@@ -18,8 +18,8 @@ const remoteMock = [
   {
     name: 'origin',
     refs: {
-      fetch: 'https://github.com/storybookjs/monorepo-release-tooling-prototype.git',
-      push: 'https://github.com/storybookjs/monorepo-release-tooling-prototype.git',
+      fetch: 'https://github.com/storybookjs/storybook.git',
+      push: 'https://github.com/storybookjs/storybook.git',
     },
   },
 ];
@@ -30,7 +30,7 @@ const gitLogMock: LogResult = {
       hash: 'some-hash',
       date: '2023-06-07T09:45:11+02:00',
       message: 'Something else',
-      refs: 'HEAD -> main-v2',
+      refs: 'HEAD -> main',
       body: '',
       author_name: 'Jeppe Reinhold',
       author_email: 'jeppe@chromatic.com',
@@ -39,7 +39,7 @@ const gitLogMock: LogResult = {
       hash: 'b75879c4d3d72f7830e9c5fca9f75a303ddb194d',
       date: '2023-06-07T09:45:11+02:00',
       message: 'Merge pull request #55 from storybookjs/fixes',
-      refs: 'HEAD -> main-v2',
+      refs: 'HEAD -> main',
       body:
         'Legal: Fix license\n' +
         '(cherry picked from commit 930b47f011f750c44a1782267d698ccdd3c04da3)\n',
@@ -57,11 +57,11 @@ const pullInfoMock = {
   pull: 55,
   commit: '930b47f011f750c44a1782267d698ccdd3c04da3',
   title: 'Legal: Fix license',
-  labels: ['documentation', 'patch', 'picked'],
+  labels: ['documentation', 'patch:yes', 'patch:done'],
   links: {
     commit:
-      '[`930b47f011f750c44a1782267d698ccdd3c04da3`](https://github.com/storybookjs/monorepo-release-tooling-prototype/commit/930b47f011f750c44a1782267d698ccdd3c04da3)',
-    pull: '[#55](https://github.com/storybookjs/monorepo-release-tooling-prototype/pull/55)',
+      '[`930b47f011f750c44a1782267d698ccdd3c04da3`](https://github.com/storybookjs/storybook/commit/930b47f011f750c44a1782267d698ccdd3c04da3)',
+    pull: '[#55](https://github.com/storybookjs/storybook/pull/55)',
     user: '[@JReinhold](https://github.com/JReinhold)',
   },
 };
@@ -73,7 +73,7 @@ beforeEach(() => {
   gitClient.git.log.mockResolvedValue(gitLogMock);
   gitClient.git.getRemotes.mockResolvedValue(remoteMock);
   githubInfo.getPullInfoFromCommit.mockResolvedValue(pullInfoMock);
-  github.getLabelIds.mockResolvedValue({ picked: 'pick-id' });
+  github.getLabelIds.mockResolvedValue({ 'patch:done': 'pick-id' });
 });
 
 test('it should fail early when no GH_TOKEN is set', async () => {
@@ -101,7 +101,7 @@ test('it should label the PR associated with cheery picks in the current branch'
         ",
         {
           "input": {
-            "clientMutationId": "111db3d5-7ad7-5d3b-a8a9-efa7e7e9de57",
+            "clientMutationId": "7efda802-d7d1-5d76-97d6-cc16a9f3e357",
             "labelIds": [
               "pick-id",
             ],
@@ -112,22 +112,26 @@ test('it should label the PR associated with cheery picks in the current branch'
     ]
   `);
 
-  expect.addSnapshotSerializer({
-    serialize: (value) => {
-      const stripAnsi = value.map((it: string) => it.replace(ansiRegex(), ''));
-      return JSON.stringify(stripAnsi, null, 2);
-    },
-    test: () => true,
-  });
+  const stderrCalls = writeStderr.mock.calls
+    .map(([text]) =>
+      typeof text === 'string'
+        ? text
+            .replace(ansiRegex(), '')
+            .replace(/[^\x20-\x7E]/g, '')
+            .replaceAll('-', '')
+            .trim()
+        : text
+    )
+    .filter((it) => it !== '');
 
-  expect(writeStderr.mock.calls.map(([text]) => text)).toMatchInlineSnapshot(`
+  expect(stderrCalls).toMatchInlineSnapshot(`
     [
-      "- Looking for latest tag\\n",
-      "✔ Found latest tag: v7.2.1\\n",
-      "- Looking at cherry pick commits since v7.2.1\\n",
-      "✔ Found the following picks 🍒:\\n Commit: 930b47f011f750c44a1782267d698ccdd3c04da3\\n PR: [#55](https://github.com/storybookjs/monorepo-release-tooling-prototype/pull/55)\\n",
-      "- Labeling the PRs with the picked label...\\n",
-      "✔ Successfully labeled all PRs with the picked label.\\n"
+      "Looking for latest tag",
+      "Found latest tag: v7.2.1",
+      "Looking at cherry pick commits since v7.2.1",
+      "Found the following picks : Commit: 930b47f011f750c44a1782267d698ccdd3c04da3 PR: [#55](https://github.com/storybookjs/storybook/pull/55)",
+      "Labeling the PRs with the patch:done label...",
+      "Successfully labeled all PRs with the patch:done label.",
     ]
   `);
 });

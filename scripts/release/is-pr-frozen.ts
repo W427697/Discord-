@@ -1,6 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
@@ -51,7 +48,7 @@ export const run = async (options: unknown) => {
   const { verbose, patch } = options as { verbose?: boolean; patch?: boolean };
 
   const version = await getCurrentVersion();
-  const branch = `version-from-${patch ? 'patch' : 'prerelease'}-${version}`;
+  const branch = `version-${patch ? 'patch' : 'prerelease'}-from-${version}`;
 
   console.log(`💬 Determining if pull request from branch '${chalk.blue(branch)}' is frozen`);
 

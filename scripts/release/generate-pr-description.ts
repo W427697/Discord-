@@ -1,15 +1,14 @@
-/* eslint-disable no-continue */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import chalk from 'chalk';
 import program from 'commander';
 import { z } from 'zod';
 import dedent from 'ts-dedent';
+import semver from 'semver';
 import { setOutput } from '@actions/core';
 import type { Change } from './utils/get-changes';
-import { getChanges } from './utils/get-changes';
+import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';
+import type { PullRequestInfo } from './utils/get-github-info';
 
 program
   .name('generate-pr-description')
@@ -46,24 +45,21 @@ type Options = {
   verbose: boolean;
 };
 
-const LABELS_BY_IMPORTANCE = {
-  'BREAKING CHANGE': '❗ Breaking Change',
-  'feature request': '✨ Feature Request',
-  bug: '🐛 Bug',
-  maintenance: '🔧 Maintenance',
-  documentation: '📝 Documentation',
-  build: '🏗️ Build',
-  unknown: '❔ Missing Label',
-} as const;
-
-const CHANGE_TITLES_TO_IGNORE = [/^bump version on.*/i, /^merge branch.*/i];
+const CHANGE_TITLES_TO_IGNORE = [
+  /^bump version.*/i,
+  /^merge branch.*/i,
+  /\[skip ci\]/i,
+  /\[ci skip\]/i,
+  /^Update CHANGELOG\.md for.*/i,
+  /^Release: (Pre)?(Patch|Minor|Major|Release).*\d+$/i,
+];
 
 export const mapToChangelist = ({
   changes,
-  isRelease,
+  unpickedPatches,
 }: {
   changes: Change[];
-  isRelease: boolean;
+  unpickedPatches: boolean;
 }): string => {
   return changes
     .filter((change) => {
@@ -75,14 +71,14 @@ export const mapToChangelist = ({
       }
       return true;
     })
+    .sort((a, b) => {
+      const isReleasable = (pr: PullRequestInfo) =>
+        (pr.labels ?? []).some((label) => Object.keys(RELEASED_LABELS).includes(label));
+      return Number(isReleasable(b)) - Number(isReleasable(a));
+    })
     .map((change) => {
-      const lines: string[] = [];
       if (!change.pull) {
-        lines.push(`- **⚠️ Direct commit**: ${change.title} ${change.links.commit}`);
-        if (isRelease) {
-          lines.push('\t- [ ] The change is appropriate for the version bump');
-        }
-        return lines.join('\n');
+        return `- [ ] **⚠️ Direct commit**: ${change.title} ${change.links.commit}`;
       }
 
       const label = (change.labels
@@ -93,14 +89,9 @@ export const mapToChangelist = ({
             Object.keys(LABELS_BY_IMPORTANCE).indexOf(b)
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
-      lines.push(`- **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}`);
-
-      if (isRelease) {
-        lines.push('\t- [ ] The change is appropriate for the version bump');
-        lines.push('\t- [ ] The PR is labeled correctly');
-        lines.push('\t- [ ] The PR title is correct');
-      }
-      return lines.join('\n');
+      return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
+        !unpickedPatches && change.labels.includes('patch:yes') ? ' (will also be patched)' : ''
+      }`;
     })
     .join('\n');
 };
@@ -116,13 +107,13 @@ export const mapCherryPicksToTodo = ({
 }): string => {
   const list = commits
     .map((commit) => {
-      const change = changes.find((change) => change.commit === commit.substring(0, 7));
-      if (!change) {
+      const foundChange = changes.find((change) => change.commit === commit);
+      if (!foundChange) {
         throw new Error(
           `Cherry pick commit "${commit}" not found in changes, this should not happen?!`
         );
       }
-      return `- [ ] ${change.links.pull}: \`git cherry-pick -m1 -x ${commit}\``;
+      return `- [ ] ${foundChange.links.pull}: \`git cherry-pick -m1 -x ${commit}\``;
     })
     .join('\n');
 
@@ -132,7 +123,7 @@ export const mapCherryPicksToTodo = ({
   return dedent`## 🍒 Manual cherry picking needed!
 
   The following pull requests could not be cherry-picked automatically because it resulted in merge conflicts.
-  For each pull request below, you need to either manually cherry pick it, or discard it by removing the "patch" label from the PR and re-generate this PR.
+  For each pull request below, you need to either manually cherry pick it, or discard it by replacing the "patch:yes" label with "patch:no" on the PR and re-generate this PR.
   
   ${list}`;
 };
@@ -150,6 +141,9 @@ export const generateReleaseDescription = ({
   changelogText: string;
   manualCherryPicks?: string;
 }): string => {
+  const workflow = semver.prerelease(nextVersion) ? 'prepare-prerelease' : 'prepare-patch-release';
+  const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
+
   return (
     dedent`This is an automated pull request that bumps the version from \`${currentVersion}\` to \`${nextVersion}\`.
   Once this pull request is merged, it will trigger a new release of version \`${nextVersion}\`.
@@ -160,11 +154,14 @@ export const generateReleaseDescription = ({
   Before merging the PR, there are a few QA steps to go through:
 
   - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
   
   And for each change below:
   
   1. Ensure the change is appropriate for the version bump. E.g. patch release should only contain patches, not new or de-stabilizing features. If a change is not appropriate, revert the PR.
-  2. Ensure the PR is labeled correctly with "BREAKING CHANGE", "feature request", "maintainance", "bug", "build" or "documentation".
+  2. Ensure the PR is labeled correctly with one of: ${Object.keys(LABELS_BY_IMPORTANCE)
+    .map((label) => `"${label}"`)
+    .join(', ')}.
   3. Ensure the PR title is correct, and follows the format "[Area]: [Summary]", e.g. *"React: Fix hooks in CSF3 render functions"*. If it is not correct, change the title in the PR.
       - Areas include: React, Vue, Core, Docs, Controls, etc.
       - First word of summary indicates the type: “Add”, “Fix”, “Upgrade”, etc.
@@ -174,13 +171,13 @@ export const generateReleaseDescription = ({
   
   ${changeList}
 
-  ${manualCherryPicks ? manualCherryPicks : ''}
+  ${manualCherryPicks || ''}
 
-  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
-  
+  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](${workflowUrl}) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+
   When everything above is done:
-  - [ ] Merge this PR
-  - [ ] [Follow the publish workflow run and see it finishes succesfully](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)
+  - Merge this PR
+  - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
   
   ---
   
@@ -203,17 +200,24 @@ export const generateNonReleaseDescription = (
     dedent`This is an automated pull request. None of the changes requires a version bump, they are only internal or documentation related. Merging this PR will not trigger a new release, but documentation will be updated.
   If you're not a core maintainer with permissions to release you can ignore this pull request.
   
+  ## To do
+
+  Before merging the PR:
+
+  - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
+
   This is a list of all the PRs merged and commits pushed directly to \`next\` since the last release:
   
   ${changeList}
 
-  ${manualCherryPicks ? manualCherryPicks : ''}
+  ${manualCherryPicks || ''}
 
-  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
   
   When everything above is done:
-  - [ ] Merge this PR
-  - [ ] [Approve the publish workflow run](https://github.com/storybookjs/monorepo-release-tooling-prototype/actions/workflows/publish.yml)`
+  - Merge this PR
+  - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`
       // don't mention contributors in the release PR, to avoid spamming them
       .replaceAll('[@', '[@ ')
       .replaceAll('"', '\\"')
@@ -254,7 +258,7 @@ export const run = async (rawOptions: unknown) => {
     ? generateReleaseDescription({
         currentVersion,
         nextVersion,
-        changeList: mapToChangelist({ changes, isRelease: true }),
+        changeList: mapToChangelist({ changes, unpickedPatches }),
         changelogText,
         ...(hasCherryPicks && {
           manualCherryPicks: mapCherryPicksToTodo({
@@ -265,12 +269,14 @@ export const run = async (rawOptions: unknown) => {
         }),
       })
     : generateNonReleaseDescription(
-        mapToChangelist({ changes, isRelease: false }),
-        hasCherryPicks ? mapCherryPicksToTodo({
-          commits: manualCherryPicks,
-          changes,
-          verbose,
-        }) : undefined
+        mapToChangelist({ changes, unpickedPatches }),
+        hasCherryPicks
+          ? mapCherryPicksToTodo({
+              commits: manualCherryPicks,
+              changes,
+              verbose,
+            })
+          : undefined
       );
 
   if (process.env.GITHUB_ACTIONS === 'true') {
