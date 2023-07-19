@@ -16,12 +16,12 @@ declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' |
 
 declare var __REACT__: any;
 declare var __REACTDOM__: any;
-declare var __STORYBOOKCOMPONENTS__: any;
-declare var __STORYBOOKCOMPONENTSEXPERIMENTAL__: any;
-declare var __STORYBOOKCHANNELS__: any;
-declare var __STORYBOOKCOREEVENTS__: any;
-declare var __STORYBOOKROUTER__: any;
-declare var __STORYBOOKTHEMING__: any;
-declare var __STORYBOOKAPI__: any;
-declare var __STORYBOOKADDONS__: any;
-declare var __STORYBOOKCLIENTLOGGER__: any;
+declare var __STORYBOOK_MODULE_COMPONENTS__: any;
+declare var __STORYBOOK_MODULE_COMPONENTS_EXPERIMENTAL__: any;
+declare var __STORYBOOK_MODULE_CHANNELS__: any;
+declare var __STORYBOOK_MODULE_CORE_EVENTS__: any;
+declare var __STORYBOOK_MODULE_ROUTER__: any;
+declare var __STORYBOOK_MODULE_THEMING__: any;
+declare var __STORYBOOK_MODULE_API__: any;
+declare var __STORYBOOK_MODULE_ADDONS__: any;
+declare var __STORYBOOK_MODULE_CLIENT_LOGGER__: any;
