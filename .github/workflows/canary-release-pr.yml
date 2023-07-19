@@ -14,7 +14,7 @@ env:
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
 
 concurrency:
-  group: ${{ github.workflow }}-${{ inputs.pr }}
+  group: ${{ github.workflow }}-${{ github.event.inputs.pr }}
   cancel-in-progress: true
 
 permissions:
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     steps:
-      - name: Fail if triggerer is not administrator
+      - name: Fail if triggering actor is not administrator
         uses: prince-chrismc/check-actor-permissions-action@v2.0.4
         with:
           permission: admin
@@ -88,6 +88,7 @@ jobs:
         run: yarn release:publish --tag ${{ steps.info.outputs.distTag }} --verbose
 
       - name: Replace Pull Request Body
+        # TODO: replace with ivangabriele/find-and-replace-pull-request-body@vX when https://github.com/ivangabriele/find-and-replace-pull-request-body/pull/11 has been merged
         uses: mcky/find-and-replace-pull-request-body@v1.1.6-mcky
         with:
           githubToken: ${{ secrets.GH_TOKEN }}
