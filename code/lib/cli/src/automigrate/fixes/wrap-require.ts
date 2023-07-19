@@ -46,7 +46,10 @@ export const wrapRequire: Fix<WrapRequireRunOptions> = {
 
     return dedent`We have detected that you're using ${sbFormatted} in a ${
       isStorybookInMonorepo ? 'monorepo' : 'PnP'
-    } project. We will apply some tweaks in your main config file to make it work in this special environment.`;
+    } project. 
+    For Storybook to work correctly, some fields in your main config must be updated. We can do this for you automatically.
+    
+    More info: https://storybook.js.org/docs/react/faq#how-do-i-fix-module-resolution-in-special-environments`;
   },
 
   async run({ dryRun, mainConfigPath, result }) {
