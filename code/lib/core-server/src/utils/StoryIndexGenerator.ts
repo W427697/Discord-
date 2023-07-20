@@ -260,7 +260,15 @@ export class StoryIndexGenerator {
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
       if (!parameters?.docsOnly) {
         const tags = [...(storyTags || componentTags), 'story'];
-        entries.push({ id, title: csf.meta.title, name, importPath, tags, type: 'story' });
+        entries.push({
+          id,
+          title: csf.meta.title,
+          name,
+          importPath,
+          tags,
+          type: 'story',
+          meta: csf.meta,
+        });
       }
     });
 
@@ -373,7 +381,7 @@ export class StoryIndexGenerator {
       const name =
         result.name ||
         (csfEntry ? autoName(importPath, csfEntry.importPath, defaultName) : defaultName);
-      const id = toId(title, name);
+      const id = toId(csfEntry?.meta?.id || title, name);
 
       const docsEntry: DocsCacheEntry = {
         id,
