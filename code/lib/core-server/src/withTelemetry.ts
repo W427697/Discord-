@@ -126,7 +126,7 @@ export async function withTelemetry<T>(
   try {
     return await run();
   } catch (error) {
-    if (error?.message === 'Canceled by the user') {
+    if (error?.message.includes('Command was killed with SIGINT')) {
       return undefined;
     }
 

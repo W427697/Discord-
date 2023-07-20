@@ -451,13 +451,19 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });
 
       return commandResult.stdout ?? '';
     } catch (err) {
-      if (ignoreError !== true) {
+      if (
+        ignoreError !== true &&
+        err.killed !== true &&
+        err.isCanceled !== true &&
+        !err.message?.includes('Command was killed with SIGINT')
+      ) {
         throw err;
       }
       return '';
@@ -484,13 +490,19 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });
 
       return commandResult.stdout ?? '';
     } catch (err) {
-      if (ignoreError !== true) {
+      if (
+        ignoreError !== true &&
+        err.killed !== true &&
+        err.isCanceled !== true &&
+        !err.message?.includes('Command was killed with SIGINT')
+      ) {
         throw err;
       }
       return '';
