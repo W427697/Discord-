@@ -57,5 +57,3 @@ For libraries that rely on data attributes on a parent element to determine the 
 />
 
 <!-- prettier-ignore-end -->
-
-## DIY decorator
