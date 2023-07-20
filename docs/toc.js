@@ -252,6 +252,11 @@ module.exports = {
           title: 'Interactions',
           type: 'link',
         },
+        {
+          pathSegment: 'themes',
+          title: 'Themes',
+          type: 'link',
+        },
       ],
     },
     {
