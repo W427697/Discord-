@@ -4,15 +4,15 @@ title: 'Essential addons'
 
 A major strength of Storybook are [addons](https://storybook.js.org/addons) that extend Storybook’s UI and behavior. Storybook ships by default with a set of “essential” addons that add to the initial user experience. There are many third-party addons as well as “official” addons developed by the Storybook core team.
 
-- [Docs](../writing-docs/introduction.md)
-- [Controls](./controls.md)
 - [Actions](./actions.md)
-- [Viewport](./viewport.md)
 - [Backgrounds](./backgrounds.md)
-- [Toolbars & globals](./toolbars-and-globals.md)
-- [Measure & outline](./measure-and-outline.md)
+- [Controls](./controls.md)
+- [Docs](../writing-docs/introduction.md)
 - [Highlight](./highlight.md)
+- [Measure & outline](./measure-and-outline.md)
 - [Themes](./themes.md)
+- [Toolbars & globals](./toolbars-and-globals.md)
+- [Viewport](./viewport.md)
 
 ### Installation
 
