@@ -3,15 +3,16 @@ import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 
 interface PresetOptions {
-  configDir: string;
-  docs?: boolean;
-  controls?: boolean;
   actions?: boolean;
   backgrounds?: boolean;
-  viewport?: boolean;
-  toolbars?: boolean;
+  configDir: string;
+  controls?: boolean;
+  docs?: boolean;
   measure?: boolean;
   outline?: boolean;
+  themes?: boolean;
+  toolbars?: boolean;
+  viewport?: boolean;
 }
 
 const requireMain = (configDir: string) => {
@@ -38,15 +39,16 @@ export function addons(options: PresetOptions) {
 
   const main = requireMain(options.configDir);
   return [
-    'docs',
-    'controls',
     'actions',
     'backgrounds',
-    'viewport',
-    'toolbars',
+    'controls',
+    'docs',
+    'highlight',
     'measure',
     'outline',
-    'highlight',
+    'themes',
+    'toolbars',
+    'viewport',
   ]
     .filter((key) => (options as any)[key] !== false)
     .filter((addon) => !checkInstalled(addon, main))
