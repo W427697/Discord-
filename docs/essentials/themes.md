@@ -14,75 +14,48 @@ To make your themes accessible to your stories, `@storybook/addon-themes` expose
 
 For libraries that expose themes to components through providers, such as [Material UI](https://storybook.js.org/recipes/@mui/material/), [Styled-components](https://storybook.js.org/recipes/styled-components/), and [Emotion](https://storybook.js.org/recipes/@emotion/styled/), use the `withThemeFromJSXProvider`.
 
-```ts
-// .storybook/preview.ts
-import type { Renderer } from '@storybook/your-framework'
-import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+<!-- prettier-ignore-start -->
 
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from '../src/themes';
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-themes-jsx-provider-decorator.js.mdx',
+    'common/storybook-addon-themes-jsx-provider-decorator.ts.mdx',
+    'common/storybook-addon-themes-jsx-provider-decorator.ts-4-9.mdx',
+  ]}
+/>
 
-/* snipped for brevity */
-
-export const decorators = [
-  withThemeFromJSXProvider<Renderer>({
-  themes: {
-    light: lightTheme,
-    dark: darkTheme,
-  }
-  defaultTheme: 'light',
-  Provider: ThemeProvider,
-  GlobalStyles,
-})];
-```
+<!-- prettier-ignore-end -->
 
 ### CSS classes
 
 For libraries that rely on CSS classes on a parent element to determine the theme, you can use the `withThemeByClassName` decorator.
 
-```ts
-// .storybook/preview.ts
-import type { Renderer } from '@storybook/your-framework';
-import { withThemeByClassName } from '@storybook/addon-themes';
+<!-- prettier-ignore-start -->
 
-import '../src/index.css';
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-themes-classname-decorator.js.mdx',
+    'common/storybook-addon-themes-classname-decorator.ts.mdx',
+    'common/storybook-addon-themes-classname-decorator.ts-4-9.mdx',
+  ]}
+/>
 
-/* snipped for brevity */
-
-export const decorators = [
-  withThemeByClassName<Renderer>({
-    themes: {
-      light: '',
-      dark: 'dark',
-    },
-    defaultTheme: 'light',
-  }),
-];
-```
+<!-- prettier-ignore-end -->
 
 ### Data attributes
 
 For libraries that rely on data attributes on a parent element to determine the theme, you can use the `withThemeByDataAttribute` decorator.
 
-```ts
-// .storybook/preview.ts
-import type { Renderer } from '@storybook/your-framework';
-import { withThemeByDataAttribute } from '@storybook/addon-themes';
+<!-- prettier-ignore-start -->
 
-import '../src/index.css';
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-themes-data-attribute-decorator.js.mdx',
+    'common/storybook-addon-themes-data-attribute-decorator.ts.mdx',
+    'common/storybook-addon-themes-data-attribute-decorator.ts-4-9.mdx',
+  ]}
+/>
 
-/* snipped for brevity */
-
-export const decorators = [
-  withThemeByDataAttribute<Renderer>({
-    themes: {
-      light: 'light',
-      dark: 'dark',
-    },
-    defaultTheme: 'light',
-    attributeName: 'data-bs-theme',
-  }),
-];
-```
+<!-- prettier-ignore-end -->
 
 ## DIY decorator

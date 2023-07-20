@@ -1,0 +1,25 @@
+```js
+// .storybook/preview.js
+
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { lightTheme, darkTheme } from '../src/themes';
+
+const preview = {
+  decorators: [
+    withThemeFromJSXProvider({
+      themes: {
+        light: lightTheme,
+        dark: darkTheme,
+      }
+      defaultTheme: 'light',
+      Provider: ThemeProvider,
+      GlobalStyles,
+    })
+  ]
+};
+
+export default preview;
+```
+
