@@ -1,12 +1,23 @@
 import { hasVitePlugins } from '@storybook/builder-vite';
 import type { PresetProperty } from '@storybook/types';
 import { mergeConfig, type PluginOption } from 'vite';
+import { dirname, join } from 'path';
 import type { StorybookConfig } from './types';
 import { vueDocgen } from './plugins/vue-docgen';
 
-export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/vue3',
+const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+
+export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
+  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
+
+  return {
+    ...config,
+    builder: {
+      name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
+      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
+    },
+    renderer: wrapForPnP('@storybook/vue3'),
+  };
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

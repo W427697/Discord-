@@ -2,12 +2,23 @@
 import { viteFinal as svelteViteFinal } from '@storybook/svelte-vite/preset';
 import type { PresetProperty } from '@storybook/types';
 import { withoutVitePlugins } from '@storybook/builder-vite';
+import { dirname, join } from 'path';
 import { configOverrides } from './plugins/config-overrides';
 import { type StorybookConfig } from './types';
 
-export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/svelte',
+const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+
+export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
+  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
+
+  return {
+    ...config,
+    builder: {
+      name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
+      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
+    },
+    renderer: wrapForPnP('@storybook/svelte'),
+  };
 };
 
 export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (config, options) => {

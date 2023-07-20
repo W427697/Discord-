@@ -6,9 +6,17 @@ import type { StorybookConfig } from './types';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
-export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
-  renderer: wrapForPnP('@storybook/react'),
+export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
+  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
+
+  return {
+    ...config,
+    builder: {
+      name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
+      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
+    },
+    renderer: wrapForPnP('@storybook/react'),
+  };
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

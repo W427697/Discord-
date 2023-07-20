@@ -18,6 +18,8 @@ import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
 import { configureNodePolyfills } from './nodePolyfills/webpack';
 
+const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
   dirname(require.resolve(join('@storybook/builder-webpack5', 'package.json'))),
@@ -59,12 +61,10 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: dirname(
-        require.resolve(join('@storybook/builder-webpack5', 'package.json'))
-      ) as '@storybook/builder-webpack5',
-      options: typeof framework === 'string' ? {} : framework.options.builder || {},
+      name: wrapForPnP('@storybook/builder-webpack5') as '@storybook/builder-webpack5',
+      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
     },
-    renderer: dirname(require.resolve(join('@storybook/react', 'package.json'))),
+    renderer: wrapForPnP('@storybook/react'),
   };
 };
 
