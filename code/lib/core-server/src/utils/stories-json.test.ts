@@ -149,6 +149,13 @@ describe('useStoriesJson', () => {
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "A",
+              },
               "name": "Story One",
               "tags": Array [
                 "story-tag",
@@ -160,6 +167,13 @@ describe('useStoriesJson', () => {
             "b--story-one": Object {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "B",
+              },
               "name": "Story One",
               "tags": Array [
                 "autodocs",
@@ -171,6 +185,13 @@ describe('useStoriesJson', () => {
             "d--story-one": Object {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "D",
+              },
               "name": "Story One",
               "tags": Array [
                 "autodocs",
@@ -218,6 +239,10 @@ describe('useStoriesJson', () => {
             "first-nested-deeply-f--story-one": Object {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
+              "meta": Object {
+                "component": "component",
+                "title": "first-nested/deeply/F",
+              },
               "name": "Story One",
               "tags": Array [
                 "story",
@@ -228,6 +253,13 @@ describe('useStoriesJson', () => {
             "h--story-one": Object {
               "id": "h--story-one",
               "importPath": "./src/H.stories.mjs",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "H",
+              },
               "name": "Story One",
               "tags": Array [
                 "autodocs",
@@ -239,6 +271,13 @@ describe('useStoriesJson', () => {
             "nested-button--story-one": Object {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "nested/Button",
+              },
               "name": "Story One",
               "tags": Array [
                 "component-tag",
@@ -262,6 +301,16 @@ describe('useStoriesJson', () => {
             "nested-page--story-one": Object {
               "id": "nested-page--story-one",
               "importPath": "./src/nested/Page.stories.mdx",
+              "meta": Object {
+                "component": "{}",
+                "includeStories": Array [
+                  "storyOne",
+                ],
+                "tags": Array [
+                  "stories-mdx",
+                ],
+                "title": "nested/Page",
+              },
               "name": "StoryOne",
               "tags": Array [
                 "stories-mdx",
@@ -273,6 +322,10 @@ describe('useStoriesJson', () => {
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
+              "meta": Object {
+                "component": "component",
+                "title": "second-nested/G",
+              },
               "name": "Story One",
               "tags": Array [
                 "story",
@@ -349,6 +402,13 @@ describe('useStoriesJson', () => {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
               "kind": "A",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "A",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "a--story-one",
@@ -366,6 +426,13 @@ describe('useStoriesJson', () => {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
               "kind": "B",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "B",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "b--story-one",
@@ -383,6 +450,13 @@ describe('useStoriesJson', () => {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
               "kind": "D",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "D",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "d--story-one",
@@ -454,6 +528,10 @@ describe('useStoriesJson', () => {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
               "kind": "first-nested/deeply/F",
+              "meta": Object {
+                "component": "component",
+                "title": "first-nested/deeply/F",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "first-nested-deeply-f--story-one",
@@ -470,6 +548,13 @@ describe('useStoriesJson', () => {
               "id": "h--story-one",
               "importPath": "./src/H.stories.mjs",
               "kind": "H",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "H",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "h--story-one",
@@ -487,6 +572,13 @@ describe('useStoriesJson', () => {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
               "kind": "nested/Button",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "nested/Button",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "nested-button--story-one",
@@ -522,6 +614,16 @@ describe('useStoriesJson', () => {
               "id": "nested-page--story-one",
               "importPath": "./src/nested/Page.stories.mdx",
               "kind": "nested/Page",
+              "meta": Object {
+                "component": "{}",
+                "includeStories": Array [
+                  "storyOne",
+                ],
+                "tags": Array [
+                  "stories-mdx",
+                ],
+                "title": "nested/Page",
+              },
               "name": "StoryOne",
               "parameters": Object {
                 "__id": "nested-page--story-one",
@@ -539,6 +641,10 @@ describe('useStoriesJson', () => {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
               "kind": "second-nested/G",
+              "meta": Object {
+                "component": "component",
+                "title": "second-nested/G",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "second-nested-g--story-one",
@@ -582,6 +688,13 @@ describe('useStoriesJson', () => {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
               "kind": "A",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "A",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "a--story-one",
@@ -599,6 +712,13 @@ describe('useStoriesJson', () => {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
               "kind": "B",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "B",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "b--story-one",
@@ -616,6 +736,13 @@ describe('useStoriesJson', () => {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
               "kind": "D",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "D",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "d--story-one",
@@ -633,6 +760,10 @@ describe('useStoriesJson', () => {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
               "kind": "first-nested/deeply/F",
+              "meta": Object {
+                "component": "component",
+                "title": "first-nested/deeply/F",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "first-nested-deeply-f--story-one",
@@ -649,6 +780,13 @@ describe('useStoriesJson', () => {
               "id": "h--story-one",
               "importPath": "./src/H.stories.mjs",
               "kind": "H",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "H",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "h--story-one",
@@ -666,6 +804,13 @@ describe('useStoriesJson', () => {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
               "kind": "nested/Button",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "nested/Button",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "nested-button--story-one",
@@ -683,6 +828,16 @@ describe('useStoriesJson', () => {
               "id": "nested-page--story-one",
               "importPath": "./src/nested/Page.stories.mdx",
               "kind": "nested/Page",
+              "meta": Object {
+                "component": "{}",
+                "includeStories": Array [
+                  "storyOne",
+                ],
+                "tags": Array [
+                  "stories-mdx",
+                ],
+                "title": "nested/Page",
+              },
               "name": "StoryOne",
               "parameters": Object {
                 "__id": "nested-page--story-one",
@@ -700,6 +855,10 @@ describe('useStoriesJson', () => {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
               "kind": "second-nested/G",
+              "meta": Object {
+                "component": "component",
+                "title": "second-nested/G",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "second-nested-g--story-one",
@@ -773,6 +932,13 @@ describe('useStoriesJson', () => {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
               "kind": "A",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "A",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "a--story-one",
@@ -790,6 +956,13 @@ describe('useStoriesJson', () => {
               "id": "b--story-one",
               "importPath": "./src/B.stories.ts",
               "kind": "B",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "B",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "b--story-one",
@@ -807,6 +980,13 @@ describe('useStoriesJson', () => {
               "id": "d--story-one",
               "importPath": "./src/D.stories.jsx",
               "kind": "D",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "D",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "d--story-one",
@@ -824,6 +1004,10 @@ describe('useStoriesJson', () => {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
               "kind": "first-nested/deeply/F",
+              "meta": Object {
+                "component": "component",
+                "title": "first-nested/deeply/F",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "first-nested-deeply-f--story-one",
@@ -840,6 +1024,13 @@ describe('useStoriesJson', () => {
               "id": "h--story-one",
               "importPath": "./src/H.stories.mjs",
               "kind": "H",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "autodocs",
+                ],
+                "title": "H",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "h--story-one",
@@ -857,6 +1048,13 @@ describe('useStoriesJson', () => {
               "id": "nested-button--story-one",
               "importPath": "./src/nested/Button.stories.ts",
               "kind": "nested/Button",
+              "meta": Object {
+                "component": "component",
+                "tags": Array [
+                  "component-tag",
+                ],
+                "title": "nested/Button",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "nested-button--story-one",
@@ -874,6 +1072,10 @@ describe('useStoriesJson', () => {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
               "kind": "second-nested/G",
+              "meta": Object {
+                "component": "component",
+                "title": "second-nested/G",
+              },
               "name": "Story One",
               "parameters": Object {
                 "__id": "second-nested-g--story-one",
