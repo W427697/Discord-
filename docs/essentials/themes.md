@@ -20,7 +20,6 @@ For libraries that expose themes to components through providers, such as [Mater
   paths={[
     'common/storybook-addon-themes-jsx-provider-decorator.js.mdx',
     'common/storybook-addon-themes-jsx-provider-decorator.ts.mdx',
-    'common/storybook-addon-themes-jsx-provider-decorator.ts-4-9.mdx',
   ]}
 />
 
@@ -36,7 +35,6 @@ For libraries that rely on CSS classes on a parent element to determine the them
   paths={[
     'common/storybook-addon-themes-classname-decorator.js.mdx',
     'common/storybook-addon-themes-classname-decorator.ts.mdx',
-    'common/storybook-addon-themes-classname-decorator.ts-4-9.mdx',
   ]}
 />
 
@@ -52,7 +50,6 @@ For libraries that rely on data attributes on a parent element to determine the 
   paths={[
     'common/storybook-addon-themes-data-attribute-decorator.js.mdx',
     'common/storybook-addon-themes-data-attribute-decorator.ts.mdx',
-    'common/storybook-addon-themes-data-attribute-decorator.ts-4-9.mdx',
   ]}
 />
 
