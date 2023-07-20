@@ -12,6 +12,7 @@ A major strength of Storybook are [addons](https://storybook.js.org/addons) that
 - [Toolbars & globals](./toolbars-and-globals.md)
 - [Measure & outline](./measure-and-outline.md)
 - [Highlight](./highlight.md)
+- [Themes](./themes.md)
 
 ### Installation
 
@@ -97,6 +98,7 @@ Below is an abridged configuration and table with all the available options for 
 | `@storybook/addon-backgrounds` | N/A                | N/A                                                                                                                                                      |
 | `@storybook/addon-toolbars`    | N/A                | N/A                                                                                                                                                      |
 | `@storybook/addon-measure`     | N/A                | N/A                                                                                                                                                      |
+| `@storybook/addon-themes`      | N/A                | Provide and switch between multiple themes for components inside the preview in [Storybook](https://storybook.js.org).                                   |
 
 When you start Storybook, your custom configuration will override the default.
 
@@ -119,6 +121,6 @@ For example, if you wanted to disable the [backgrounds addon](./backgrounds.md),
 
 <div class="aside">
 
-💡 You can use the following keys for each individual addon: `actions`, `backgrounds`, `controls`, `docs`, `viewport`, `toolbars`, `measure`, `outline`, `highlight`.
+💡 You can use the following keys for each individual addon: `actions`, `backgrounds`, `controls`, `docs`, `viewport`, `toolbars`, `measure`, `outline`, `highlight`, `themes`.
 
 </div>
