@@ -317,7 +317,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
 
   if (!options.disableTelemetry) {
-    telemetry('init', { projectType });
+    await telemetry('init', { projectType });
   }
 
   if (projectType === ProjectType.REACT_NATIVE) {
