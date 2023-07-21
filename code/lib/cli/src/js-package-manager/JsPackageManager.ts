@@ -496,6 +496,7 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });
@@ -529,6 +530,7 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });
