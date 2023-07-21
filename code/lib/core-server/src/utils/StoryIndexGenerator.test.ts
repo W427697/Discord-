@@ -89,13 +89,6 @@ describe('StoryIndexGenerator', () => {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story-tag",
@@ -126,13 +119,6 @@ describe('StoryIndexGenerator', () => {
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "nested/Button",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "component-tag",
@@ -144,10 +130,6 @@ describe('StoryIndexGenerator', () => {
               "second-nested-g--story-one": Object {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "title": "second-nested/G",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story",
@@ -178,13 +160,6 @@ describe('StoryIndexGenerator', () => {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story-tag",
@@ -196,13 +171,6 @@ describe('StoryIndexGenerator', () => {
               "b--story-one": Object {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "B",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -214,13 +182,6 @@ describe('StoryIndexGenerator', () => {
               "d--story-one": Object {
                 "id": "d--story-one",
                 "importPath": "./src/D.stories.jsx",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "D",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -232,10 +193,6 @@ describe('StoryIndexGenerator', () => {
               "first-nested-deeply-f--story-one": Object {
                 "id": "first-nested-deeply-f--story-one",
                 "importPath": "./src/first-nested/deeply/F.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "title": "first-nested/deeply/F",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story",
@@ -246,13 +203,6 @@ describe('StoryIndexGenerator', () => {
               "h--story-one": Object {
                 "id": "h--story-one",
                 "importPath": "./src/H.stories.mjs",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "H",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -264,13 +214,6 @@ describe('StoryIndexGenerator', () => {
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "nested/Button",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "component-tag",
@@ -282,10 +225,6 @@ describe('StoryIndexGenerator', () => {
               "second-nested-g--story-one": Object {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "title": "second-nested/G",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story",
@@ -330,16 +269,6 @@ describe('StoryIndexGenerator', () => {
               "page--story-one": Object {
                 "id": "page--story-one",
                 "importPath": "./src/nested/Page.stories.mdx",
-                "meta": Object {
-                  "component": "{}",
-                  "includeStories": Array [
-                    "storyOne",
-                  ],
-                  "tags": Array [
-                    "stories-mdx",
-                  ],
-                  "title": "Page",
-                },
                 "name": "StoryOne",
                 "tags": Array [
                   "stories-mdx",
@@ -375,13 +304,6 @@ describe('StoryIndexGenerator', () => {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story-tag",
@@ -405,13 +327,6 @@ describe('StoryIndexGenerator', () => {
               "b--story-one": Object {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "B",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -435,13 +350,6 @@ describe('StoryIndexGenerator', () => {
               "d--story-one": Object {
                 "id": "d--story-one",
                 "importPath": "./src/D.stories.jsx",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "D",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -453,10 +361,6 @@ describe('StoryIndexGenerator', () => {
               "first-nested-deeply-f--story-one": Object {
                 "id": "first-nested-deeply-f--story-one",
                 "importPath": "./src/first-nested/deeply/F.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "title": "first-nested/deeply/F",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story",
@@ -479,13 +383,6 @@ describe('StoryIndexGenerator', () => {
               "h--story-one": Object {
                 "id": "h--story-one",
                 "importPath": "./src/H.stories.mjs",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "H",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -497,13 +394,6 @@ describe('StoryIndexGenerator', () => {
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "nested/Button",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "component-tag",
@@ -515,10 +405,6 @@ describe('StoryIndexGenerator', () => {
               "second-nested-g--story-one": Object {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "title": "second-nested/G",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story",
@@ -667,13 +553,6 @@ describe('StoryIndexGenerator', () => {
               "b--story-one": Object {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "B",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -733,13 +612,6 @@ describe('StoryIndexGenerator', () => {
               "b--story-one": Object {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "B",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -791,13 +663,6 @@ describe('StoryIndexGenerator', () => {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story-tag",
@@ -841,13 +706,6 @@ describe('StoryIndexGenerator', () => {
               "duplicate-a--story-one": Object {
                 "id": "duplicate-a--story-one",
                 "importPath": "./duplicate/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "duplicate/A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
@@ -859,13 +717,6 @@ describe('StoryIndexGenerator', () => {
               "duplicate-a--story-two": Object {
                 "id": "duplicate-a--story-two",
                 "importPath": "./duplicate/SecondA.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "duplicate/A",
-                },
                 "name": "Story Two",
                 "tags": Array [
                   "autodocs",
@@ -938,13 +789,6 @@ describe('StoryIndexGenerator', () => {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story-tag",
@@ -1067,13 +911,6 @@ describe('StoryIndexGenerator', () => {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story-tag",
@@ -1140,13 +977,6 @@ describe('StoryIndexGenerator', () => {
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "component-tag",
-                  ],
-                  "title": "A",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "story-tag",
@@ -1158,13 +988,6 @@ describe('StoryIndexGenerator', () => {
               "b--story-one": Object {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
-                "meta": Object {
-                  "component": "component",
-                  "tags": Array [
-                    "autodocs",
-                  ],
-                  "title": "B",
-                },
                 "name": "Story One",
                 "tags": Array [
                   "autodocs",
