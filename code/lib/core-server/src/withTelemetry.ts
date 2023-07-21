@@ -109,9 +109,12 @@ export async function withTelemetry<T>(
   options: TelemetryOptions,
   run: () => Promise<T>
 ): Promise<T> {
+  let canceled = false;
+
   if (eventType === 'init') {
     // We catch Ctrl+C user interactions to be able to detect a cancel event
     process.on('SIGINT', async () => {
+      canceled = true;
       if (!options.cliOptions.disableTelemetry) {
         await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
       }
@@ -126,7 +129,7 @@ export async function withTelemetry<T>(
   try {
     return await run();
   } catch (error) {
-    if (error?.message.includes('Command was killed with SIGINT')) {
+    if (canceled) {
       return undefined;
     }
 
