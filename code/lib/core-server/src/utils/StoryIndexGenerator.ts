@@ -217,7 +217,13 @@ export class StoryIndexGenerator {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
         if (entry.type === 'error') return [entry];
-        return entry.entries;
+
+        return entry.entries.map((item) => {
+          if (item.type === 'docs') return item;
+          // Drop the meta as it isn't part of the index, we just used it for record keeping in `extractDocs`
+          const { meta, ...existing } = item;
+          return existing;
+        });
       });
     });
   }
@@ -267,6 +273,7 @@ export class StoryIndexGenerator {
           importPath,
           tags,
           type: 'story',
+          // We need to keep track of the csf meta so we know the component id when referencing docs below in `extractDocs`
           meta: csf.meta,
         });
       }
