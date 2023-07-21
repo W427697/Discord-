@@ -1,3 +1,10 @@
+## 7.2.0-alpha.0
+
+- Angular: Make enableProdMode optional - [#23489](https://github.com/storybookjs/storybook/pull/23489), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Features: For 7.2 - [#23446](https://github.com/storybookjs/storybook/pull/23446), thanks [@ndelangen](https://github.com/ndelangen)!
+- Svelte-vite: Improve error when sveltekit plugins found in non-sveltekit projects - [#23472](https://github.com/storybookjs/storybook/pull/23472), thanks [@yannbf](https://github.com/yannbf)!
+- Svelte-vite: Remove unused import - [#23475](https://github.com/storybookjs/storybook/pull/23475), thanks [@yannbf](https://github.com/yannbf)!
+
 ## 7.1.0-rc.2
 
 - CLI: Exit when user does not select a storybook project type - [#23201](https://github.com/storybookjs/storybook/pull/23201), thanks [@yannbf](https://github.com/yannbf)!
