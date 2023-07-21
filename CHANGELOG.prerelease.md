@@ -14,6 +14,7 @@
 - Dependencies: Remove references to api and the 2 deprecated channel packages - [#23384](https://github.com/storybookjs/storybook/pull/23384), thanks [@ndelangen](https://github.com/ndelangen)!
 - UI: Show the story status in the search results - [#23441](https://github.com/storybookjs/storybook/pull/23441), thanks [@ndelangen](https://github.com/ndelangen)!
 - UI: Create new form elements in the new Core UI (Input, TextArea, Select) - [#23469](https://github.com/storybookjs/storybook/pull/23469), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- CLI: Improve support of mono repositories - [#23458](https://github.com/storybookjs/storybook/pull/23458), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
 
 ## 7.1.0-rc.2
 
