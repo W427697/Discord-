@@ -1,6 +1,7 @@
 import { dirname, join } from 'path';
 import { PresetProperty } from '@storybook/types';
 import { StorybookConfig } from './types';
+import { StandaloneOptions } from './builders/utils/standalone-options';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
@@ -10,10 +11,18 @@ export const addons: PresetProperty<'addons', StorybookConfig> = [
   require.resolve('./server/framework-preset-angular-docs'),
 ];
 
-export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entries = []) => [
-  ...entries,
-  require.resolve('./client/config'),
-];
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (
+  entries = [],
+  options
+) => {
+  const annotations = [...entries, require.resolve('./client/config')];
+
+  if ((options as any as StandaloneOptions).enableProdMode) {
+    annotations.unshift(require.resolve('./client/preview-prod'));
+  }
+
+  return annotations;
+};
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
   const framework = await options.presets.apply<StorybookConfig['framework']>('framework');

@@ -32,7 +32,7 @@ export const run = async (_: unknown) => {
   spinner.succeed(`Found latest tag: ${latestTag}`);
 
   const spinner2 = ora(`Looking at cherry pick commits since ${latestTag}`).start();
-  const commitsSinceLatest = await git.log({ from: latestTag, '--first-parent': null });
+  const commitsSinceLatest = await git.log({ from: latestTag });
   console.log(commitsSinceLatest);
   const cherryPicked = commitsSinceLatest.all.flatMap((it) => {
     const result = it.body.match(/\(cherry picked from commit (\b[0-9a-f]{7,40}\b)\)/);
@@ -63,11 +63,11 @@ export const run = async (_: unknown) => {
 
   spinner2.succeed(`Found the following picks 🍒:\n ${commitWithPr.join('\n')}`);
 
-  const spinner3 = ora(`Labeling the PRs with the picked label...`).start();
+  const spinner3 = ora(`Labeling the PRs with the patch:done label...`).start();
   try {
-    const labelToId = await getLabelIds({ repo, labelNames: ['picked'] });
-    await Promise.all(pullRequests.map((pr) => labelPR(pr.id, labelToId.picked)));
-    spinner3.succeed(`Successfully labeled all PRs with the picked label.`);
+    const labelToId = await getLabelIds({ repo, labelNames: ['patch:done'] });
+    await Promise.all(pullRequests.map((pr) => labelPR(pr.id, labelToId['patch:done'])));
+    spinner3.succeed(`Successfully labeled all PRs with the patch:done label.`);
   } catch (e) {
     spinner3.fail(`Something went wrong when labelling the PRs.`);
     console.error(e);

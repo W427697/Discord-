@@ -38,7 +38,6 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions } from './generators/types';
 import { HandledError } from './HandledError';
-import { dev } from './dev';
 
 const logger = console;
 
@@ -205,6 +204,7 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
+  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true
@@ -217,7 +217,7 @@ const projectTypeInquirer = async (
       ]);
 
   if (manualAnswer !== true && manualAnswer.manual) {
-    const frameworkAnswer = await prompts([
+    const { manualFramework } = await prompts([
       {
         type: 'select',
         name: 'manualFramework',
@@ -228,9 +228,15 @@ const projectTypeInquirer = async (
         })),
       },
     ]);
-    return installStorybook(frameworkAnswer.manualFramework, packageManager, options);
+
+    if (manualFramework) {
+      return installStorybook(manualFramework, packageManager, options);
+    }
   }
-  return Promise.resolve();
+
+  logger.log();
+  logger.log('For more information about installing Storybook: https://storybook.js.org/docs');
+  process.exit(0);
 };
 
 async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
@@ -300,6 +306,10 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     }
   }
 
+  if (!options.skipInstall) {
+    await packageManager.installDependencies();
+  }
+
   const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
 
   if (!options.skipInstall) {
@@ -344,34 +354,44 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     if (shouldRunDev) {
       logger.log('\nRunning Storybook');
 
-      switch (projectType) {
-        case ProjectType.ANGULAR: {
-          try {
-            // for angular specifically, we have to run the `ng` command, and to stream the output
-            // it has to be a sync command.
-            packageManager.runPackageCommandSync(
-              `ng run ${installResult.projectName}:storybook`,
-              ['--quiet'],
-              undefined,
-              'inherit'
-            );
-          } catch (e) {
-            if (e.message.includes('Command failed with exit code 129')) {
-              // catch ctrl + c error
-            } else {
-              throw e;
-            }
-          }
-          break;
+      try {
+        const isReactWebProject =
+          projectType === ProjectType.REACT_SCRIPTS ||
+          projectType === ProjectType.REACT ||
+          projectType === ProjectType.WEBPACK_REACT ||
+          projectType === ProjectType.REACT_PROJECT ||
+          projectType === ProjectType.NEXTJS;
+
+        const flags = [];
+
+        // npm needs extra -- to pass flags to the command
+        if (packageManager.type === 'npm') {
+          flags.push('--');
         }
 
-        default: {
-          await dev({
-            ...options,
-            port: 6006,
-            open: true,
-            quiet: true,
-          });
+        if (isReactWebProject) {
+          flags.push('--initial-path=/onboarding');
+        }
+
+        flags.push('--quiet');
+
+        // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
+        // executed directly in the user's project directory. This avoid potential issues
+        // with packages running in npxs' node_modules
+        packageManager.runPackageCommandSync(
+          storybookCommand.replace(/^yarn /, ''),
+          flags,
+          undefined,
+          'inherit'
+        );
+      } catch (e) {
+        const isCtrlC =
+          e.message.includes('Command failed with exit code 129') &&
+          e.message.includes('CTRL+C') &&
+          e.message.includes('SIGINT');
+        if (!isCtrlC) {
+          // only throw if it's not ctrl + c
+          throw e;
         }
       }
     }
