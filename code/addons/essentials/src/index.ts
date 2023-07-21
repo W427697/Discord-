@@ -38,17 +38,19 @@ export function addons(options: PresetOptions) {
   };
 
   const main = requireMain(options.configDir);
+
+  // NOTE: The order of these addons is important.
   return [
+    'docs',
+    'controls',
     'actions',
     'backgrounds',
-    'controls',
-    'docs',
-    'highlight',
+    'viewport',
+    'toolbars',
     'measure',
     'outline',
+    'highlight',
     'themes',
-    'toolbars',
-    'viewport',
   ]
     .filter((key) => (options as any)[key] !== false)
     .filter((addon) => !checkInstalled(addon, main))
