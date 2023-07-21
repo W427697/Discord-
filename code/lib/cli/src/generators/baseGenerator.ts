@@ -99,14 +99,15 @@ const getRendererPackage = (framework: string, renderer: string) => {
   return `@storybook/${renderer}`;
 };
 
-const wrapForPnp = (packageName: string) =>
-  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
+const applyRequireWrapper = (packageName: string) => `%%getAbsolutePath('${packageName}')%%`;
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
   pnp: boolean,
-  framework?: SupportedFrameworks
+  language: SupportedLanguage,
+  framework?: SupportedFrameworks,
+  shouldApplyRequireWrapperOnPackageNames?: boolean
 ): {
   type: 'framework' | 'renderer';
   packages: string[];
@@ -117,13 +118,19 @@ const getFrameworkDetails = (
 } => {
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
 
-  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
+  const frameworkPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(frameworkPackage)
+    : frameworkPackage;
 
   const rendererPackage = getRendererPackage(framework, renderer);
-  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
+  const rendererPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(rendererPackage)
+    : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
+  const builderPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(builderPackage)
+    : builderPackage;
 
   const isExternalFramework = !!getExternalFramework(frameworkPackage);
   const isKnownFramework =
@@ -187,6 +194,9 @@ export async function baseGenerator(
   };
   process.on('SIGINT', setNodeProcessExiting);
 
+  const isStorybookInMonorepository = packageManager.isStorybookInMonorepo();
+  const shouldApplyRequireWrapperOnPackageNames = isStorybookInMonorepository || pnp;
+
   const stopIfExiting = async <T>(callback: () => Promise<T>) => {
     if (isNodeProcessExiting) {
       throw new HandledError('Canceled by the user');
@@ -226,7 +236,14 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp, framework);
+  } = getFrameworkDetails(
+    renderer,
+    builder,
+    pnp,
+    language,
+    framework,
+    shouldApplyRequireWrapperOnPackageNames
+  );
 
   // added to main.js
   const addons = [
@@ -361,11 +378,35 @@ export async function baseGenerator(
   await fse.ensureDir(`./${storybookConfigFolder}`);
 
   if (addMainFile) {
+    const prefixes = shouldApplyRequireWrapperOnPackageNames
+      ? [
+          'import { join, dirname } from "path"',
+          language === SupportedLanguage.JAVASCRIPT
+            ? dedent`/**
+            * This function is used to resolve the absolute path of a package.
+            * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+            */ 
+            function getAbsolutePath(value) {
+              return dirname(require.resolve(join(value, 'package.json')))
+            }`
+            : dedent`/**
+          * This function is used to resolve the absolute path of a package.
+          * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+          */ 
+          function getAbsolutePath(value: string): any {
+            return dirname(require.resolve(join(value, 'package.json')))
+          }`,
+        ]
+      : [];
+
     await configureMain({
       framework: { name: frameworkInclude, options: options.framework || {} },
+      prefixes,
       storybookConfigFolder,
       docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
+      addons: shouldApplyRequireWrapperOnPackageNames
+        ? addons.map((addon) => applyRequireWrapper(addon))
+        : addons,
       extensions,
       language,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
@@ -380,7 +421,12 @@ export async function baseGenerator(
     });
   }
 
-  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
+  await configurePreview({
+    frameworkPreviewParts,
+    storybookConfigFolder,
+    language,
+    rendererId,
+  });
 
   if (addScripts) {
     await stopIfExiting(async () =>
