@@ -48,8 +48,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.21.0",
-    "@babel/preset-typescript": "^7.21.0",
+    "@babel/plugin-transform-react-jsx": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
     "@storybook/core-webpack": "7.1.0",
     "@types/node": "^16.0.0"
   },

@@ -63,8 +63,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/preset-flow": "^7.21.0",
-    "@babel/preset-react": "^7.22.0",
+    "@babel/preset-flow": "^7.22.5",
+    "@babel/preset-react": "^7.22.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@storybook/core-webpack": "7.1.0",
     "@storybook/docs-tools": "7.1.0",
