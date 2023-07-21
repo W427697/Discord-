@@ -417,7 +417,7 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
         'inherit'
       );
     } catch (e) {
-      //
+      // Do nothing here, as the command above will spawn a `storybook dev` process which does the error handling already. Else, the error will get bubbled up and sent to crash reports twice
     }
   }
 }
