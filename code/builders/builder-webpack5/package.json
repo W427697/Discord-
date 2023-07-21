@@ -51,14 +51,12 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.22.0",
     "@storybook/addons": "7.1.0",
-    "@storybook/api": "7.1.0",
-    "@storybook/channel-postmessage": "7.1.0",
     "@storybook/channels": "7.1.0",
     "@storybook/client-api": "7.1.0",
     "@storybook/client-logger": "7.1.0",
