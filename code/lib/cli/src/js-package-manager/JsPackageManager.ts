@@ -445,29 +445,17 @@ export abstract class JsPackageManager {
     cwd?: string;
     ignoreError?: boolean;
   }): string {
-    try {
-      const commandResult = execaCommandSync(command, args, {
-        cwd: cwd ?? this.cwd,
-        stdio: stdio ?? 'pipe',
-        encoding: 'utf-8',
-        shell: true,
-        cleanup: true,
-        env,
-        ...execaOptions,
-      });
+    const commandResult = execaCommandSync(command, args, {
+      cwd: cwd ?? this.cwd,
+      stdio: stdio ?? 'pipe',
+      encoding: 'utf-8',
+      shell: true,
+      cleanup: true,
+      env,
+      ...execaOptions,
+    });
 
-      return commandResult.stdout ?? '';
-    } catch (err) {
-      if (
-        ignoreError !== true &&
-        err.killed !== true &&
-        err.isCanceled !== true &&
-        !err.message?.includes('Command was killed with SIGINT')
-      ) {
-        throw err;
-      }
-      return '';
-    }
+    return commandResult.stdout ?? '';
   }
 
   public async executeCommand({
