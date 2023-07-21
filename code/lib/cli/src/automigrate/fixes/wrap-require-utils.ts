@@ -163,7 +163,13 @@ export function getRequireWrapperAsCallExpression(
 export function wrapValueWithRequireWrapper(config: ConfigFile, node: t.Node) {
   isRequireWrapperNecessary(node, (n) => {
     if (t.isStringLiteral(n)) {
-      n.value = getReferenceToRequireWrapper(config, n.value) as any;
+      const wrapperNode = getReferenceToRequireWrapper(config, n.value);
+      Object.keys(n).forEach((k: keyof typeof n) => {
+        delete n[k];
+      });
+      Object.keys(wrapperNode).forEach((k: keyof typeof wrapperNode) => {
+        (n as any)[k] = wrapperNode[k];
+      });
     }
 
     if (t.isObjectProperty(n) && t.isStringLiteral(n.value)) {
