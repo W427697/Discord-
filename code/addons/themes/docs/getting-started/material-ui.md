@@ -2,6 +2,8 @@
 
 ## 📦 Install addon
 
+**NOTE:** As of Storybook 7.2, `@storybook/addon-themes` ships in `@storybook/addon-essentials`. Only follow this step if you are using Storybook >= 7.0 && < 7.2
+
 To get started, **install the package** as a dev dependency
 
 yarn:
