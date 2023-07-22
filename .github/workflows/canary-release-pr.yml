@@ -44,7 +44,6 @@ jobs:
             echo "$key=$value" >> "$GITHUB_OUTPUT"
           done
           echo "repository=$(echo "$PR_INFO" | jq -r ".owner")/$(echo "$PR_INFO" | jq -r ".repoName")" >> $GITHUB_OUTPUT
-          echo "distTag=pr-${{ inputs.pr }}" >> $GITHUB_OUTPUT
           echo "shortSha=$(echo "$PR_INFO" | jq -r ".sha" | cut -c 1-8)" >> $GITHUB_OUTPUT
           echo "date=$(date)" >> $GITHUB_OUTPUT
           echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
@@ -79,16 +78,16 @@ jobs:
         id: version
         working-directory: scripts
         run: |
-          yarn release:version --release-type prerelease --pre-id ${{ steps.info.outputs.distTag }}-${{ steps.info.outputs.timestamp }}-${{ steps.info.outputs.shortSha }} --verbose
+          yarn release:version --release-type prerelease --pre-id canary-${{ inputs.pr }}-${{ steps.info.outputs.timestamp }}-${{ steps.info.outputs.shortSha }} --verbose
 
       - name: Publish v${{ steps.version.outputs.next-version }}
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: scripts
-        run: yarn release:publish --tag ${{ steps.info.outputs.distTag }} --verbose
+        run: yarn release:publish --tag canary --verbose
 
       - name: Replace Pull Request Body
-        # TODO: replace with ivangabriele/find-and-replace-pull-request-body@vX when https://github.com/ivangabriele/find-and-replace-pull-request-body/pull/11 has been merged
+        # TODO: replace with ivangabriele/find-and-replace-pull-request-body@vX when https://github.com/ivangabriele/find-and-replace-pull-request-body/pull/11 has been released
         uses: mcky/find-and-replace-pull-request-body@v1.1.6-mcky
         with:
           githubToken: ${{ secrets.GH_TOKEN }}
@@ -96,14 +95,13 @@ jobs:
           find: 'CANARY_RELEASE_SECTION'
           isHtmlCommentTag: true
           replace: |
-            This pull request has been released at the npm dist tag `${{ steps.info.outputs.distTag }}`. Install it by pinning all your Storybook dependencies to that tag.
+            This pull request has been released as version [`${{ steps.version.outputs.next-version }}`](https://npmjs.com/package/@storybook/cli/v/${{ steps.version.outputs.next-version }}). Install it by pinning all your Storybook dependencies to that version.
             <details>
             <summary>More information</summary>
 
             | | |
             | --- | --- |
             | **Published version** | [`${{ steps.version.outputs.next-version }}`](https://npmjs.com/package/@storybook/cli/v/${{ steps.version.outputs.next-version }}) |
-            | **npm dist tag** | `@storybook/cli@${{ steps.info.outputs.distTag }}` |
             | **Triggered by** | @${{ github.triggering_actor }} |
             | **Repository** | [${{ steps.info.outputs.repository }}](https://github.com/${{ steps.info.outputs.repository }}) |
             | **Branch** | [`${{ steps.info.outputs.branch }}`](https://github.com/${{ steps.info.outputs.repository }}/tree/${{ steps.info.outputs.branch }}) |

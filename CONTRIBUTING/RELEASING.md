@@ -406,12 +406,14 @@ gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<P
 
 When the release succeeds, it will update the "Canary release" section of the pull request with information about the release and how to use it (see example [here](https://github.com/storybookjs/storybook/pull/23508)). If it fails, it will create a comment on the pull request, tagging the triggering actor to let them know that it failed (see example [here](https://github.com/storybookjs/storybook/pull/23508#issuecomment-1642850467)).
 
-The canary release will have the following version format: `<CURRENT_VERSION>-pr-<PR_NUMBER>-<TIMESTAMP>-<COMMIT_SHA>.0`, eg. `7.1.1-pr-23508-1689802571-5ec8c1c3.0`.
+The canary release will have the following version format: `<CURRENT_VERSION>-canary-<PR_NUMBER>-<TIMESTAMP>-<COMMIT_SHA>.0`, eg. `7.1.1-canary-23508-1689802571-5ec8c1c3.0`.
 
 - The current version has no actual meaning, but it softly indicates which version the pull request is based on. Eg. a pull request based on v7.1.0 will get released as a canary version of v7.1.1.
 - The timestamp ensures that any subsequent releases are always considered newer.
 - The commit hash is an indicator of which exact code has been released.
-- The releases will get the npm dist tag `pr-<PR_NUMBER>`, to make it installable as eg. `npm install @storybook/cli@pr-23508` or in `package.json`: `"@storybook/cli": "pr-23508"`
+
+> ** Note **
+> All canary releases are released under the same "canary" dist tag. This means that you'll technically be able to install it with eg. `npm install @storybook/cli@canary`, however this doesn't make sense, as releases from other pull requests will overwrite that tag quickly. Therefore you should always install the specific version string, eg. `npm install @storybook/cli@7.1.1-canary-23508-1689802571-5ec8c1c3.0
 
 <details>
   <summary>Isn't there a simpler/smarter way to do this?</summary>
