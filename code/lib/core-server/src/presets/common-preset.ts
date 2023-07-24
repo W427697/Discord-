@@ -11,11 +11,9 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
-  IndexerOptions,
   Options,
   PresetPropertyFn,
   StorybookConfig,
-  Indexer,
   StoryIndexer,
 } from '@storybook/types';
 import { loadCsf, readConfig, writeConfig } from '@storybook/csf-tools';
