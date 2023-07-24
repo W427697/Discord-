@@ -60,7 +60,7 @@ jobs:
     needs: get-branch
     if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.labels.*.name, 'ci:docs')
     steps:
-      - name: Trigger Normal tests
+      - name: Trigger docs tests
         run: >
           curl -X POST --location "https://circleci.com/api/v2/project/gh/storybookjs/storybook/pipeline" \
             -H "Content-Type: application/json" \
