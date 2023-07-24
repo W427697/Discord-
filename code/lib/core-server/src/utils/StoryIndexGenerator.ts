@@ -44,6 +44,8 @@ type ErrorEntry = {
 };
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry | ErrorEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
+// Extended type to keep track of the csf meta so we know the component id when referencing docs in `extractDocs`
+type StoryIndexEntryWithMeta = StoryIndexEntry & { meta?: any };
 
 export const AUTODOCS_TAG = 'autodocs';
 export const STORIES_MDX_TAG = 'stories-mdx';
@@ -221,7 +223,7 @@ export class StoryIndexGenerator {
         return entry.entries.map((item) => {
           if (item.type === 'docs') return item;
           // Drop the meta as it isn't part of the index, we just used it for record keeping in `extractDocs`
-          const { meta, ...existing } = item;
+          const { meta, ...existing } = item as StoryIndexEntryWithMeta;
           return existing;
         });
       });
@@ -275,7 +277,7 @@ export class StoryIndexGenerator {
           type: 'story',
           // We need to keep track of the csf meta so we know the component id when referencing docs below in `extractDocs`
           meta: csf.meta,
-        });
+        } as StoryIndexEntryWithMeta);
       }
     });
 
@@ -347,7 +349,7 @@ export class StoryIndexGenerator {
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
-      let csfEntry: StoryIndexEntry;
+      let csfEntry: StoryIndexEntryWithMeta;
       if (result.of) {
         const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
         dependencies.forEach((dep) => {

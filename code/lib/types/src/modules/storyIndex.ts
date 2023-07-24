@@ -56,7 +56,6 @@ export interface BaseIndexEntry {
 }
 export type StoryIndexEntry = BaseIndexEntry & {
   type: 'story';
-  [index: string]: any;
 };
 
 export type DocsIndexEntry = BaseIndexEntry & {
