@@ -2,9 +2,9 @@
 /* eslint-disable no-underscore-dangle */
 
 import { dedent } from 'ts-dedent';
-import { loadCsf, formatCsf } from './CsfFile';
-import { enrichCsf, extractSource } from './enrichCsf';
+import { loadCsf, printCsf } from './CsfFile';
 import type { EnrichCsfOptions } from './enrichCsf';
+import { enrichCsf, extractSource } from './enrichCsf';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -16,7 +16,7 @@ const enrich = (code: string, options?: EnrichCsfOptions) => {
 
   const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
   enrichCsf(csf, options);
-  return formatCsf(csf).code;
+  return printCsf(csf).code;
 };
 
 describe('enrichCsf', () => {
