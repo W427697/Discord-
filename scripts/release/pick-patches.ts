@@ -3,8 +3,8 @@
 import program from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { simpleGit } from 'simple-git';
 import { setOutput } from '@actions/core';
+import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
@@ -14,8 +14,6 @@ const logger = console;
 const OWNER = 'storybookjs';
 const REPO = 'storybook';
 const SOURCE_BRANCH = 'next';
-
-const git = simpleGit();
 
 interface PR {
   number: number;
