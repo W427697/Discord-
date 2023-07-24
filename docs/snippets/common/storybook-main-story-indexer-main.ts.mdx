@@ -9,7 +9,7 @@ import type { StorybookConfig } from '@storybook/your-framework';
 import { parseCode } from './parseCode';
 
 const config: StorybookConfig = {
-  indexers: (existingIndexers, addonOptions) => {
+  storyIndexers: (existingIndexers, addonOptions) => {
     const indexer = async (fileName, compilationOptions) => {
       const code = parseCode(fileName, addonOptions);
       const makeTitle = (userTitle) => {

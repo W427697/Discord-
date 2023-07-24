@@ -3,7 +3,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type { Indexer, DocsOptions, Options, StorybookConfig } from '@storybook/types';
+import type { DocsOptions, Options, StorybookConfig, StoryIndexer } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
@@ -129,8 +129,8 @@ async function webpack(
   return result;
 }
 
-const indexers = (existingIndexers: Indexer[] | null): Indexer[] => {
-  const mdxIndexer: Indexer['index'] = async (fileName, opts) => {
+const storyIndexers: StorybookConfig['storyIndexers'] = (existingIndexers) => {
+  const mdxIndexer: StoryIndexer['indexer'] = async (fileName, opts) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = global.FEATURES?.legacyMdx1
       ? await import('@storybook/mdx1-csf')
@@ -141,7 +141,7 @@ const indexers = (existingIndexers: Indexer[] | null): Indexer[] => {
   return [
     {
       test: /(stories|story)\.mdx$/,
-      index: mdxIndexer,
+      indexer: mdxIndexer,
     },
     ...(existingIndexers || []),
   ];
@@ -164,9 +164,9 @@ export const addons: StorybookConfig['addons'] = [
  * something down the dependency chain is using typescript namespaces, which are not supported by rollup-plugin-dts
  */
 const webpackX = webpack as any;
-const indexersX = indexers as any;
+const storyIndexersX = storyIndexers as any;
 const docsX = docs as any;
 
 ensureReactPeerDeps();
 
-export { webpackX as webpack, indexersX as indexers, docsX as docs };
+export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };

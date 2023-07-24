@@ -6,7 +6,7 @@ import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { Indexer, StoryIndex } from '@storybook/types';
+import type { StoryIndex, StoryIndexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -55,10 +55,10 @@ const getInitializedStoryIndexGenerator = async (
   inputNormalizedStories = normalizedStories
 ) => {
   const generator = new StoryIndexGenerator(inputNormalizedStories, {
-    indexers: [
+    storyIndexers: [
       { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
       { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-    ] as Indexer[],
+    ] as StoryIndexer[],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,

@@ -30,7 +30,7 @@ export async function getStoryIndexGenerator(
 
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      indexers: (await deprecatedStoryIndexers).concat(await indexers),
+      storyIndexers: await deprecatedStoryIndexers,
       docs: await docsOptions,
       workingDir,
       storiesV2Compatibility: !features?.storyStoreV7,
