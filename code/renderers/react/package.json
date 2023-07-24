@@ -71,7 +71,7 @@
     "prop-types": "^15.7.2",
     "react-element-to-jsx-string": "^15.0.0",
     "ts-dedent": "^2.0.0",
-    "type-fest": "^3.11.0",
+    "type-fest": "~2.19",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
