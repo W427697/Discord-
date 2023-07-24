@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { NormalizedStoriesSpecifier, Indexer, StoryIndexEntry } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, StoryIndexEntry, StoryIndexer } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger, once } from '@storybook/node-logger';
@@ -48,15 +48,15 @@ const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
   indexers: [
-    { test: /\.stories\.mdx$/, index: storiesMdxIndexer },
-    { test: /\.stories\.(m?js|ts)x?$/, index: csfIndexer },
-  ] as Indexer[],
+    { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+    { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
+  ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
 
-describe('StoryIndexGenerator', () => {
+describe('StoryIndexGenerator with deprecated indexer API', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
@@ -1149,52 +1149,6 @@ describe('StoryIndexGenerator', () => {
         `);
 
         expect(logger.warn).not.toHaveBeenCalled();
-      });
-    });
-    describe('deprecated story indexer api', () => {
-      it('extracts stories from the right files', async () => {
-        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/*/*.stories.(ts|js|mjs|jsx)',
-          options
-        );
-
-        const generator = new StoryIndexGenerator([specifier], {
-          ...options,
-          indexers: [
-            { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
-            { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-          ],
-        });
-        await generator.initialize();
-
-        expect(await generator.getIndex()).toMatchInlineSnapshot(`
-          Object {
-            "entries": Object {
-              "nested-button--story-one": Object {
-                "id": "nested-button--story-one",
-                "importPath": "./src/nested/Button.stories.ts",
-                "name": "Story One",
-                "tags": Array [
-                  "component-tag",
-                  "story",
-                ],
-                "title": "nested/Button",
-                "type": "story",
-              },
-              "second-nested-g--story-one": Object {
-                "id": "second-nested-g--story-one",
-                "importPath": "./src/second-nested/G.stories.ts",
-                "name": "Story One",
-                "tags": Array [
-                  "story",
-                ],
-                "title": "second-nested/G",
-                "type": "story",
-              },
-            },
-            "v": 4,
-          }
-        `);
       });
     });
   });

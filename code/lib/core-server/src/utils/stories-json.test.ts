@@ -56,8 +56,8 @@ const getInitializedStoryIndexGenerator = async (
 ) => {
   const generator = new StoryIndexGenerator(inputNormalizedStories, {
     indexers: [
-      { test: /\.stories\.mdx$/, index: storiesMdxIndexer },
-      { test: /\.stories\.(m?js|ts)x?$/, index: csfIndexer },
+      { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+      { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
     ] as Indexer[],
     configDir: workingDir,
     workingDir,

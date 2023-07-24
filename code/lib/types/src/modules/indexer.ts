@@ -1,5 +1,7 @@
 import type { StoryId, ComponentTitle, StoryName, Parameters, Tag, Path } from './csf';
 
+type ExportKey = string;
+
 interface StoriesSpecifier {
   /**
    * When auto-titling, what to prefix all generated titles with (default: '')
@@ -42,6 +44,10 @@ export interface IndexedCSFFile {
   stories: IndexedStory[];
 }
 
+/**
+ * FIXME: This is a temporary type to allow us to deprecate the old indexer API.
+ * We should remove this type and the deprecated indexer API in 8.0.
+ */
 type BaseIndexer = {
   /**
    * A regular expression that should match all files to be handled by this indexer
@@ -59,7 +65,7 @@ export type Indexer = BaseIndexer & {
    * @param options Options for indexing the file.
    * @returns A promise that resolves to an object containing the indexed stories.
    */
-  index: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
+  index: (fileName: string, options: IndexerOptions) => Promise<NewIndexEntry[]>;
   /**
    * @deprecated Use {@link index} instead
    */
@@ -67,7 +73,7 @@ export type Indexer = BaseIndexer & {
 };
 
 type DeprecatedIndexer = BaseIndexer & {
-  indexer: Indexer['index'];
+  indexer: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
   index?: never;
 };
 
@@ -93,6 +99,32 @@ export type DocsIndexEntry = BaseIndexEntry & {
 };
 
 export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
+
+export interface NewBaseIndexEntry {
+  /** the key to import from the file e.g. the story export for this entry */
+  key: ExportKey;
+  /** the file to import from e.g. the story file */
+  importPath: Path;
+  /** the location in the sidebar, auto-generated from importPath if unspecified */
+  title?: ComponentTitle;
+  /** the name of the story, auto-generated from `key` if unspecified */
+  name?: StoryName;
+  /** the unique story ID, auto-generated from `title` and `name` if unspecified */
+  id?: StoryId;
+  /** tags for filtering entries in storybook and its tools */
+  tags?: Tag[];
+}
+export type NewStoryIndexEntry = BaseIndexEntry & {
+  type: 'story';
+};
+
+export type NewDocsIndexEntry = BaseIndexEntry & {
+  type: 'docs';
+  /** paths to story files that must be pre-loaded for this docs entry */
+  storiesImports: Path[];
+};
+
+export type NewIndexEntry = StoryIndexEntry | DocsIndexEntry;
 
 export interface V3CompatIndexEntry extends Omit<StoryIndexEntry, 'type' | 'tags'> {
   kind: ComponentTitle;
