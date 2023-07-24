@@ -5,10 +5,10 @@ import chalk from 'chalk';
 import { v4 as uuidv4 } from 'uuid';
 import type { GraphQlQueryResponseData } from '@octokit/graphql';
 import ora from 'ora';
-import { simpleGit } from 'simple-git';
 import { setOutput } from '@actions/core';
 import { getUnpickedPRs } from './utils/get-unpicked-prs';
 import { githubGraphQlClient } from './utils/github-client';
+import { git } from './utils/git-client';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
 
@@ -17,8 +17,6 @@ const logger = console;
 const OWNER = 'storybookjs';
 const REPO = 'storybook';
 const SOURCE_BRANCH = 'next';
-
-const git = simpleGit();
 
 interface PR {
   number: number;
