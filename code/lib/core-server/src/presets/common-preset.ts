@@ -1,4 +1,4 @@
-import { pathExists, readFile } from 'fs-extra';
+import fs, { pathExists, readFile } from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
@@ -17,7 +17,7 @@ import type {
   StorybookConfig,
   StoryIndexer,
 } from '@storybook/types';
-import { loadCsf, readConfig, writeConfig } from '@storybook/csf-tools';
+import { loadCsf, printConfig, readConfig } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
@@ -318,7 +318,7 @@ export const experimental_serverChannel = async (
           throw new Error(`unable to find storybook main file in ${options.configDir}`);
         const main = await readConfig(configFileName);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await writeConfig(main);
+        await fs.writeFile(main.fileName, printConfig(main).code);
 
         if (isTelemetryEnabled) {
           await telemetry('core-config', { disableWhatsNewNotifications });

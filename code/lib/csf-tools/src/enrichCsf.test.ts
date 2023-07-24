@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { dedent } from 'ts-dedent';
-import { loadCsf, printCsf } from './CsfFile';
+import { formatCsf, loadCsf } from './CsfFile';
 import type { EnrichCsfOptions } from './enrichCsf';
 import { enrichCsf, extractSource } from './enrichCsf';
 
@@ -16,7 +16,7 @@ const enrich = (code: string, options?: EnrichCsfOptions) => {
 
   const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
   enrichCsf(csf, options);
-  return printCsf(csf).code;
+  return formatCsf(csf);
 };
 
 describe('enrichCsf', () => {

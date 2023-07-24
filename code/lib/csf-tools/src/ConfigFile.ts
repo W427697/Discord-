@@ -7,6 +7,9 @@ import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
 import * as recast from 'recast';
+import prettier from 'prettier';
+
+import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -614,7 +617,24 @@ export const loadConfig = (code: string, fileName?: string) => {
 };
 
 export const formatConfig = (config: ConfigFile) => {
-  return recast.print(config._ast, {}).code;
+  const { code } = generate.default(config._ast, {});
+  return code;
+};
+
+export const printConfig = (config: ConfigFile, options: Options = {}) => {
+  const result = recast.print(config._ast, options);
+  const prettierConfig = prettier.resolveConfig.sync('.');
+
+  if (prettierConfig) {
+    let pretty: string;
+    try {
+      pretty = prettier.format(result.code, { ...prettierConfig, filepath: config.fileName });
+    } catch (_) {
+      pretty = result.code;
+    }
+    return { ...result, code: pretty };
+  }
+  return result;
 };
 
 export const readConfig = async (fileName: string) => {
@@ -625,5 +645,5 @@ export const readConfig = async (fileName: string) => {
 export const writeConfig = async (config: ConfigFile, fileName?: string) => {
   const fname = fileName || config.fileName;
   if (!fname) throw new Error('Please specify a fileName for writeConfig');
-  await fs.writeFile(fname, await formatConfig(config));
+  await fs.writeFile(fname, formatConfig(config));
 };
