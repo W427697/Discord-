@@ -9,6 +9,7 @@ type TelemetryOptions = {
   cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
   printError?: (err: any) => void;
+  skipPrompt?: boolean;
 };
 
 const promptCrashReports = async () => {
@@ -30,7 +31,11 @@ const promptCrashReports = async () => {
 
 type ErrorLevel = 'none' | 'error' | 'full';
 
-async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): Promise<ErrorLevel> {
+async function getErrorLevel({
+  cliOptions,
+  presetOptions,
+  skipPrompt,
+}: TelemetryOptions): Promise<ErrorLevel> {
   if (cliOptions.disableTelemetry) return 'none';
 
   // If we are running init or similar, we just have to go with true here
@@ -53,6 +58,10 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
   const valueFromCache =
     (await cache.get('enableCrashReports')) ?? (await cache.get('enableCrashreports'));
   if (valueFromCache !== undefined) return valueFromCache ? 'full' : 'error';
+
+  if (skipPrompt) {
+    return 'error';
+  }
 
   const valueFromPrompt = await promptCrashReports();
   if (valueFromPrompt !== undefined) return valueFromPrompt ? 'full' : 'error';
@@ -100,15 +109,20 @@ export async function withTelemetry<T>(
   options: TelemetryOptions,
   run: () => Promise<T>
 ): Promise<T> {
+  let canceled = false;
+
+  async function cancelTelemetry() {
+    canceled = true;
+    if (!options.cliOptions.disableTelemetry) {
+      await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
+    }
+
+    process.exit(0);
+  }
+
   if (eventType === 'init') {
     // We catch Ctrl+C user interactions to be able to detect a cancel event
-    process.on('SIGINT', async () => {
-      if (!options.cliOptions.disableTelemetry) {
-        await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
-      }
-
-      process.exit(0);
-    });
+    process.on('SIGINT', cancelTelemetry);
   }
 
   if (!options.cliOptions.disableTelemetry)
@@ -117,7 +131,7 @@ export async function withTelemetry<T>(
   try {
     return await run();
   } catch (error) {
-    if (error?.message === 'Canceled by the user') {
+    if (canceled) {
       return undefined;
     }
 
@@ -126,5 +140,7 @@ export async function withTelemetry<T>(
     await sendTelemetryError(error, eventType, options);
 
     throw error;
+  } finally {
+    process.off('SIGINIT', cancelTelemetry);
   }
 }

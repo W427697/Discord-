@@ -53,16 +53,17 @@ import * as channel from './modules/channel';
 
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
-import * as releaseNotes from './modules/release-notes';
 // eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
 
+// eslint-disable-next-line import/no-cycle
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
 
 import * as url from './modules/url';
 import * as version from './modules/versions';
+import * as whatsnew from './modules/whatsnew';
 
 import * as globals from './modules/globals';
 
@@ -91,9 +92,9 @@ export type State = layout.SubState &
   version.SubState &
   url.SubState &
   shortcuts.SubState &
-  releaseNotes.SubState &
   settings.SubState &
   globals.SubState &
+  whatsnew.SubState &
   RouterData &
   API_OptionsData &
   DeprecatedState &
@@ -108,10 +109,10 @@ export type API = addons.SubAPI &
   layout.SubAPI &
   notifications.SubAPI &
   shortcuts.SubAPI &
-  releaseNotes.SubAPI &
   settings.SubAPI &
   version.SubAPI &
   url.SubAPI &
+  whatsnew.SubAPI &
   Other;
 
 interface DeprecatedState {
@@ -213,13 +214,13 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       layout,
       notifications,
       settings,
-      releaseNotes,
       shortcuts,
       stories,
       refs,
       globals,
       url,
       version,
+      whatsnew,
     ].map((m) =>
       m.init({ ...routeData, ...optionsData, ...apiData, state: this.state, fullAPI: this.api })
     );

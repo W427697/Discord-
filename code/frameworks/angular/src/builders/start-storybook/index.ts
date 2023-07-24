@@ -32,6 +32,7 @@ export type StorybookBuilderOptions = JsonObject & {
   tsConfig?: string;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
@@ -49,6 +50,7 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'ci'
     | 'quiet'
     | 'disableTelemetry'
+    | 'initialPath'
     | 'open'
     | 'docs'
   >;
@@ -92,12 +94,14 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         https,
         port,
         quiet,
+        enableProdMode = false,
         smokeTest,
         sslCa,
         sslCert,
         sslKey,
         disableTelemetry,
         assets,
+        initialPath,
         open,
       } = options;
 
@@ -110,6 +114,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
         https,
         port,
         quiet,
+        enableProdMode,
         smokeTest,
         sslCa,
         sslCert,
@@ -123,6 +128,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, cont
           ...(assets ? { assets } : {}),
         },
         tsConfig,
+        initialPath,
         open,
       };
 

@@ -22,7 +22,7 @@ export const getStackblitzUrl = (path: string, branch = 'next') => {
   return `https://stackblitz.com/github/storybookjs/sandboxes/tree/${branch}/${path}/after-storybook?preset=node`;
 };
 
-export async function getTemplatesData() {
+export async function getTemplatesData(branch: string) {
   type TemplatesData = Record<
     string,
     Record<
@@ -42,7 +42,7 @@ export async function getTemplatesData() {
       acc[groupName] = acc[groupName] || {};
       acc[groupName][templateName] = {
         ...generatorData,
-        stackblitzUrl: getStackblitzUrl(curr),
+        stackblitzUrl: getStackblitzUrl(curr, branch),
       };
       return acc;
     },

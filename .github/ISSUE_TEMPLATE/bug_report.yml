@@ -24,8 +24,7 @@ body:
         [documentation](https://storybook.js.org/docs/react/contribute/how-to-reproduce)
         to learn more about creating reproductions.
       placeholder: >-
-        Paste your repository and deployed reproduction here. We prioritize
-        issues with reproductions over those without.
+        Paste a link to your reproduction here. We prioritize issues with reproductions over those without.
   - type: textarea
     id: system
     attributes:

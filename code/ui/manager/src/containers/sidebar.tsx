@@ -22,7 +22,18 @@ const Sidebar = React.memo(function Sideber() {
       refs,
     } = state;
 
-    const menu = useMenu(api, showToolbar, isFullscreen, showPanel, showNav, enableShortcuts);
+    const menu = useMenu(
+      state,
+      api,
+      showToolbar,
+      isFullscreen,
+      showPanel,
+      showNav,
+      enableShortcuts
+    );
+
+    const whatsNewNotificationsEnabled =
+      state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
 
     return {
       title: name,
@@ -35,7 +46,7 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       viewMode,
       menu,
-      menuHighlighted: api.versionUpdateAvailable(),
+      menuHighlighted: whatsNewNotificationsEnabled && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };
