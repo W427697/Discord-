@@ -315,6 +315,10 @@ It's possible and valid to push manual changes directly on the release branch wh
 
 It's recommended to use the automated process as much as possible to ensure that the information in GitHub is the single source of truth, and that pull requests and changelogs are in sync.
 
+> **Warning**
+> If you make manual changes to the changelog, you also need to make those changes in either [`./docs/versions/latest.json`](../docs/versions/latest.json) or [`./docs/versions/next.json`](../docs/versions/next.json). The `"plain"` property should match the changelog entry, **without the heading** and with all new lines replaces with `\n`.
+> This is common for custom release notes when releasing majors and minors.
+
 ### 6. Merge
 
 When the pull request was frozen, a CI run was triggered on the branch. If it's green, it's time to merge the pull request. If CI is failing for some reason, consult with the rest of the core team. These release pull requests are almost exact copies of `next|main` so CI should only fail if they fail too.
