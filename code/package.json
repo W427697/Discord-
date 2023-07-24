@@ -326,5 +326,6 @@
         "Dependency Upgrades"
       ]
     ]
-  }
+  },
+  "deferredNextVersion": "7.1.1"
 }
