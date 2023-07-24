@@ -6,7 +6,7 @@ import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { StoriesEntry, StoryIndexer } from './indexer';
+import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -376,7 +376,7 @@ export interface StorybookConfig {
   /**
    * Process CSF files for the story index.
    */
-  indexers?: PresetValue<StoryIndexer[]>;
+  indexers?: PresetValue<Indexer[]>;
 
   /**
    * Docs related features in index generation

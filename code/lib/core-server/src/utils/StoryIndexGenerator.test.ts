@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { NormalizedStoriesSpecifier, StoryIndexer, StoryIndexEntry } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, Indexer, StoryIndexEntry } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger, once } from '@storybook/node-logger';
@@ -48,9 +48,9 @@ const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
   indexers: [
-    { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
-    { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-  ] as StoryIndexer[],
+    { test: /\.stories\.mdx$/, index: storiesMdxIndexer },
+    { test: /\.stories\.(m?js|ts)x?$/, index: csfIndexer },
+  ] as Indexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },

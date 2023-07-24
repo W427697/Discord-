@@ -15,7 +15,7 @@ import type {
   Options,
   PresetPropertyFn,
   StorybookConfig,
-  StoryIndexer,
+  Indexer,
 } from '@storybook/types';
 import { loadCsf, readConfig, writeConfig } from '@storybook/csf-tools';
 import { join } from 'path';
@@ -194,15 +194,15 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
-export const indexers = async (existingIndexers?: StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
+export const indexers = async (existingIndexers?: Indexer[]): Promise<Indexer[]> => {
+  const csfIndexer: Indexer['index'] = async (fileName, opts) => {
     const code = (await readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
   };
   return [
     {
       test: /(stories|story)\.(m?js|ts)x?$/,
-      indexer: csfIndexer,
+      index: csfIndexer,
     },
     ...(existingIndexers || []),
   ];

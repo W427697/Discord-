@@ -42,14 +42,17 @@ export interface IndexedCSFFile {
   stories: IndexedStory[];
 }
 
-/**
- * An indexer describes which filenames it handles, and how to index each individual file - turning it into an entry in the index.
- */
-export interface Indexer {
+type BaseIndexer = {
   /**
    * A regular expression that should match all files to be handled by this indexer
    */
   test: RegExp;
+};
+
+/**
+ * An indexer describes which filenames it handles, and how to index each individual file - turning it into an entry in the index.
+ */
+export type Indexer = BaseIndexer & {
   /**
    * Indexes a file containing stories or docs.
    * @param fileName The name of the file to index.
@@ -58,16 +61,20 @@ export interface Indexer {
    */
   index: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
   /**
-   * @deprecated Use {@link index} instead with the same signature.
+   * @deprecated Use {@link index} instead
    */
-  indexer: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
-}
+  indexer?: never;
+};
+
+type DeprecatedIndexer = BaseIndexer & {
+  indexer: Indexer['index'];
+  index?: never;
+};
 
 /**
  * @deprecated Use {@link Indexer} instead
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface -- keep it as interface to not break existing usage
-export interface StoryIndexer extends Indexer {}
+export type StoryIndexer = Indexer | DeprecatedIndexer;
 
 export interface BaseIndexEntry {
   id: StoryId;
