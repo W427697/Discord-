@@ -8,11 +8,12 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { NormalizedStoriesSpecifier, StoryIndexEntry, StoryIndexer } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger, once } from '@storybook/node-logger';
 
+import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
@@ -44,13 +45,14 @@ const storiesMdxIndexer = async (fileName: string, opts: any) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
-const options = {
+const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [
     { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
     { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-  ] as StoryIndexer[],
+  ],
+  indexers: [],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },

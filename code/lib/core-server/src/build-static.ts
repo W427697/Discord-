@@ -164,6 +164,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
       storyIndexers: deprecatedStoryIndexers,
+      indexers,
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
