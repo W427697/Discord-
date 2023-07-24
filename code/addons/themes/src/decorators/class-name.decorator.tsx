@@ -28,6 +28,10 @@ export const withThemeByClassName = <TRenderer extends Renderer = Renderer>({
       const selectedThemeName = themeOverride || selected || defaultTheme;
       const parentElement = document.querySelector(parentSelector);
 
+      if (!parentElement) {
+        return;
+      }
+
       Object.entries(themes)
         .filter(([themeName]) => themeName !== selectedThemeName)
         .forEach(([themeName, className]) => {

@@ -75,6 +75,8 @@ While Material UI comes with a default theme that works out of the box. You can 
 Make the following changes to your `.storybook/preview.js`
 
 ```diff
+-import { Preview } from "@storybook/your-framework";
++import { Preview, Renderer } from "@storybook/your-framework";
 +import { withThemeFromJSXProvider } from "@storybook/addon-themes";
 +import { CssBaseline, ThemeProvider } from "@mui/material";
 +import { lightTheme, darkTheme } from "../src/themes"; // import your custom theme configs
@@ -86,27 +88,20 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@fontsource/material-icons";
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    expanded: true,
-    hideNoControlsWarning: true,
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
+const preview: Preview = {
+  parameters: { /* ... */ },
++ decorators: [
++   withThemeFromJSXProvider<Renderer>({
++     themes: {
++       light: lightTheme,
++       dark: darkTheme,
++     },
++     defaultTheme: "light",
++     Provider: ThemeProvider,
++     GlobalStyles: CssBaseline,
++   }),
++ ],
 };
 
-+export const decorators = [
-+  withThemeFromJSXProvider({
-+    themes: {
-+      light: lightTheme,
-+      dark: darkTheme,
-+    },
-+    defaultTheme: "light",
-+    Provider: ThemeProvider,
-+    GlobalStyles: CssBaseline,
-+  }),
-+];
+export default preview;
 ```

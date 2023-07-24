@@ -173,7 +173,9 @@
       "./src/outline/preview.ts",
       "./src/outline/manager.ts",
       "./src/toolbars/manager.ts",
-      "./src/viewport/manager.ts"
+      "./src/viewport/manager.ts",
+      "./src/themes/manager.ts",
+      "./src/themes/preview.ts"
     ],
     "platform": "node"
   },

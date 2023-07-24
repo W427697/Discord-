@@ -27,7 +27,9 @@ export const withThemeByDataAttribute = <TRenderer extends Renderer = Renderer>(
       const parentElement = document.querySelector(parentSelector);
       const themeKey = themeOverride || selected || defaultTheme;
 
-      parentElement.setAttribute(attributeName, themes[themeKey]);
+      if (parentElement) {
+        parentElement.setAttribute(attributeName, themes[themeKey]);
+      }
     }, [themeOverride, selected, parentSelector, attributeName]);
 
     return storyFn();

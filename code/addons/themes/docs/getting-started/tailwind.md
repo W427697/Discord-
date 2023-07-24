@@ -68,6 +68,8 @@ Tailwind supports light and dark color modes out of the box. These modes can be 
 To enable switching between these modes in a click for your stories, use our `withThemeByClassName` decorator by adding the following code to your `.storybook/preview.js` file.
 
 ```diff
+-import { Preview } from "@storybook/your-framework";
++import { Preview, Renderer } from "@storybook/your-framework";
 +import { withThemeByClassName } from "@storybook/addon-themes";
 import "../src/index.css";
 
@@ -100,6 +102,8 @@ export const parameters = {
 If you've configured Tailwind to toggle themes with a data attribute, use our `withThemeByDataAttribute` decorator by adding the following code to your `.storybook/preview.js` file.
 
 ```diff
+-import { Preview } from "@storybook/your-framework";
++import { Preview, Renderer } from "@storybook/your-framework";
 +import { withThemeByDataAttribute } from "@storybook/addon-themes";
 import "../src/index.css";
 

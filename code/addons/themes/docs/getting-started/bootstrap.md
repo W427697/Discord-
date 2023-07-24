@@ -46,6 +46,8 @@ module.exports = {
 To give your stories access to Bootstrap's styles and JavaScript, import them into your `.storybook/preview.js` file.
 
 ```diff
+-import { Preview } from "@storybook/your-framework";
++import { Preview, Renderer } from "@storybook/your-framework";
 +import "bootstrap/dist/css/bootstrap.min.css";
 +import "bootstrap/dist/js/bootstrap.bundle";
 
