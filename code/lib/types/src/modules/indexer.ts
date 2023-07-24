@@ -62,8 +62,8 @@ export type Indexer = BaseIndexer & {
   /**
    * Indexes a file containing stories or docs.
    * @param fileName The name of the file to index.
-   * @param options Options for indexing the file.
-   * @returns A promise that resolves to an object containing the indexed stories.
+   * @param options {@link IndexerOptions} for indexing the file.
+   * @returns A promise that resolves to an array of {@link NewIndexEntry} objects.
    */
   index: (fileName: string, options: IndexerOptions) => Promise<NewIndexEntry[]>;
   /**
@@ -98,20 +98,22 @@ export type DocsIndexEntry = BaseIndexEntry & {
   type: 'docs';
 };
 
+/**
+ * @deprecated This type is deprecated and will be replaced with {@link NewIndexEntry} in 8.0.
+ */
 export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
-
 export interface NewBaseIndexEntry {
-  /** the key to import from the file e.g. the story export for this entry */
-  key: ExportKey;
   /** the file to import from e.g. the story file */
   importPath: Path;
-  /** the location in the sidebar, auto-generated from importPath if unspecified */
+  /** the key to import from the file e.g. the story export for this entry */
+  key: ExportKey;
+  /** the location in the sidebar, auto-generated from {@link importPath} if unspecified */
   title?: ComponentTitle;
-  /** the name of the story, auto-generated from `key` if unspecified */
+  /** the name of the story, auto-generated from {@link key} if unspecified */
   name?: StoryName;
-  /** the unique story ID, auto-generated from `title` and `name` if unspecified */
+  /** the unique story ID, auto-generated from {@link title} and {@link name} if unspecified */
   id?: StoryId;
-  /** tags for filtering entries in storybook and its tools */
+  /** tags for filtering entries in Storybook and its tools */
   tags?: Tag[];
 }
 export type NewStoryIndexEntry = BaseIndexEntry & {
@@ -121,7 +123,7 @@ export type NewStoryIndexEntry = BaseIndexEntry & {
 export type NewDocsIndexEntry = BaseIndexEntry & {
   type: 'docs';
   /** paths to story files that must be pre-loaded for this docs entry */
-  storiesImports: Path[];
+  storiesImports?: Path[];
 };
 
 export type NewIndexEntry = StoryIndexEntry | DocsIndexEntry;
