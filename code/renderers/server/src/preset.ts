@@ -4,7 +4,7 @@ import { toId } from '@storybook/csf';
 import type { StaticMeta } from '@storybook/csf-tools';
 import type { IndexerOptions, IndexedStory, StoryIndexer } from '@storybook/types';
 
-export const storyIndexers = (indexers: StoryIndexer[] | null) => {
+export const indexers = (existingIndexers: StoryIndexer[] | null) => {
   const serverIndexer = async (fileName: string, opts: IndexerOptions) => {
     const json = fileName.endsWith('.json')
       ? await fs.readJson(fileName, 'utf-8')
@@ -31,6 +31,6 @@ export const storyIndexers = (indexers: StoryIndexer[] | null) => {
       test: /(stories|story)\.(json|ya?ml)$/,
       indexer: serverIndexer,
     },
-    ...(indexers || []),
+    ...(existingIndexers || []),
   ];
 };

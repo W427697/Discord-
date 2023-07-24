@@ -135,7 +135,7 @@ async function webpack(
   return result;
 }
 
-const storyIndexers = (indexers: StoryIndexer[] | null) => {
+const indexers = (existingIndexers: StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = global.FEATURES?.legacyMdx1
@@ -149,7 +149,7 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
       test: /(stories|story)\.mdx$/,
       indexer: mdxIndexer,
     },
-    ...(indexers || []),
+    ...(existingIndexers || []),
   ];
 };
 
@@ -170,9 +170,9 @@ export const addons: StorybookConfig['addons'] = [
  * something down the dependency chain is using typescript namespaces, which are not supported by rollup-plugin-dts
  */
 const webpackX = webpack as any;
-const storyIndexersX = storyIndexers as any;
+const indexersX = indexers as any;
 const docsX = docs as any;
 
 ensureReactPeerDeps();
 
-export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };
+export { webpackX as webpack, indexersX as indexers, docsX as docs };

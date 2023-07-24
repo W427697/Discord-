@@ -9,7 +9,7 @@ import type { StorybookConfig } from '@storybook/your-framework';
 import { parseCode } from './parseCode';
 
 const config: StorybookConfig = {
-  storyIndexers: (indexers, addonOptions) => {
+  indexers: (existingIndexers, addonOptions) => {
     const indexer = async (fileName, compilationOptions) => {
       const code = parseCode(fileName, addonOptions);
       const makeTitle = (userTitle) => {
@@ -26,7 +26,7 @@ const config: StorybookConfig = {
         test: /\.(md|html)$/,
         indexer,
       },
-      ...(indexers || []),
+      ...(existingIndexers || []),
     ];
   },
 };

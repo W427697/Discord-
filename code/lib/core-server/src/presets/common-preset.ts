@@ -194,7 +194,7 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
+export const indexers = async (existingIndexers?: StoryIndexer[]) => {
   const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
     const code = (await readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
@@ -204,7 +204,7 @@ export const storyIndexers = async (indexers?: StoryIndexer[]) => {
       test: /(stories|story)\.(m?js|ts)x?$/,
       indexer: csfIndexer,
     },
-    ...(indexers || []),
+    ...(existingIndexers || []),
   ];
 };
 

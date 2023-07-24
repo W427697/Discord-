@@ -47,7 +47,7 @@ const storiesMdxIndexer = async (fileName: string, opts: any) => {
 const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
-  storyIndexers: [
+  indexers: [
     { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
     { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
   ] as StoryIndexer[],

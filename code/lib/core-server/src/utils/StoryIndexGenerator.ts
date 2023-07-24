@@ -106,7 +106,7 @@ export class StoryIndexGenerator {
       configDir: Path;
       storiesV2Compatibility: boolean;
       storyStoreV7: boolean;
-      storyIndexers: StoryIndexer[];
+      indexers: StoryIndexer[];
       docs: DocsOptions;
     }
   ) {
@@ -248,13 +248,11 @@ export class StoryIndexGenerator {
       return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
     };
 
-    const storyIndexer = this.options.storyIndexers.find((indexer) =>
-      indexer.test.exec(absolutePath)
-    );
-    if (!storyIndexer) {
-      throw new Error(`No matching story indexer found for ${absolutePath}`);
+    const indexer = this.options.indexers.find((ind) => ind.test.exec(absolutePath));
+    if (!indexer) {
+      throw new Error(`No matching indexer found for ${absolutePath}`);
     }
-    const csf = await storyIndexer.indexer(absolutePath, { makeTitle });
+    const csf = await indexer.indexer(absolutePath, { makeTitle });
 
     const componentTags = csf.meta.tags || [];
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {

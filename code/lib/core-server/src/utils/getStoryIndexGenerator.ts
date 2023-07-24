@@ -23,13 +23,14 @@ export async function getStoryIndexGenerator(
       workingDir,
     };
     const stories = options.presets.apply('stories');
-    const storyIndexers = options.presets.apply('storyIndexers', []);
+    const deprecatedStoryIndexers = options.presets.apply('storyIndexers', []);
+    const indexers = options.presets.apply('indexers', []);
     const docsOptions = options.presets.apply<DocsOptions>('docs', {});
     const normalizedStories = normalizeStories(await stories, directories);
 
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      storyIndexers: await storyIndexers,
+      indexers: (await deprecatedStoryIndexers).concat(await indexers),
       docs: await docsOptions,
       workingDir,
       storiesV2Compatibility: !features?.storyStoreV7,
