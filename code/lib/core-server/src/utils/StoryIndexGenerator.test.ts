@@ -143,7 +143,6 @@ describe('StoryIndexGenerator', () => {
         `);
       });
     });
-
     describe('recursive specifier', () => {
       it('extracts stories from the right files', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
@@ -1150,6 +1149,52 @@ describe('StoryIndexGenerator', () => {
         `);
 
         expect(logger.warn).not.toHaveBeenCalled();
+      });
+    });
+    describe('deprecated story indexer api', () => {
+      it('extracts stories from the right files', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/*/*.stories.(ts|js|mjs|jsx)',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...options,
+          indexers: [
+            { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+            { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
+          ],
+        });
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "nested-button--story-one": Object {
+                "id": "nested-button--story-one",
+                "importPath": "./src/nested/Button.stories.ts",
+                "name": "Story One",
+                "tags": Array [
+                  "component-tag",
+                  "story",
+                ],
+                "title": "nested/Button",
+                "type": "story",
+              },
+              "second-nested-g--story-one": Object {
+                "id": "second-nested-g--story-one",
+                "importPath": "./src/second-nested/G.stories.ts",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "second-nested/G",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
       });
     });
   });
