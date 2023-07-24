@@ -252,7 +252,8 @@ export class StoryIndexGenerator {
     if (!indexer) {
       throw new Error(`No matching indexer found for ${absolutePath}`);
     }
-    const csf = await indexer.indexer(absolutePath, { makeTitle });
+    const index = indexer.indexer ?? indexer.index;
+    const csf = await index(absolutePath, { makeTitle });
 
     const componentTags = csf.meta.tags || [];
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
