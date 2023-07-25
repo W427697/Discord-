@@ -11,7 +11,7 @@ import type {
   StepLabel,
 } from '@storybook/types';
 import { instrument } from '@storybook/instrumenter';
-import { ModuleMocker } from 'jest-mock';
+import { ModuleMocker } from './jest-mock';
 
 const JestMock = new ModuleMocker(global);
 const fn = JestMock.fn.bind(JestMock);
