@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { loadConfigFromFile, mergeConfig } from 'vite';
 import findCacheDirectory from 'find-cache-dir';
 import type {
@@ -8,7 +7,12 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
+import {
+  isPreservingSymlinks,
+  getFrameworkName,
+  getBuilderOptions,
+  getProjectRoot,
+} from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
@@ -44,7 +48,7 @@ export async function commonConfig(
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
   const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
 
-  const projectRoot = path.resolve(options.configDir, '..');
+  const projectRoot = await getProjectRoot();
 
   // I destructure away the `build` property from the user's config object
   // I do this because I can contain config that breaks storybook, such as we had in a lit project.
