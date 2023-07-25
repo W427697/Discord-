@@ -46,19 +46,15 @@ module.exports = {
 To give your stories access to Tailwind styles, import them into your `.storybook/preview.js` file.
 
 ```diff
+import { Preview } from "@storybook/your-renderer";
+
 +import "../src/index.css";
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    expanded: true,
-    hideNoControlsWarning: true,
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
+const preview: Preview = {
+  parameters: { /* ... */ },
 };
+
+export default preview;
 ```
 
 ## 🎨 Provide your theme(s)
@@ -68,33 +64,27 @@ Tailwind supports light and dark color modes out of the box. These modes can be 
 To enable switching between these modes in a click for your stories, use our `withThemeByClassName` decorator by adding the following code to your `.storybook/preview.js` file.
 
 ```diff
--import { Preview } from "@storybook/your-framework";
-+import { Preview, Renderer } from "@storybook/your-framework";
+-import { Preview } from "@storybook/your-renderer";
++import { Preview, Renderer } from "@storybook/your-renderer";
 +import { withThemeByClassName } from "@storybook/addon-themes";
+
 import "../src/index.css";
 
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    expanded: true,
-    hideNoControlsWarning: true,
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
-};
-
-+export const decorators = [
-+  withThemeByClassName({
+const preview: Preview = {
+  parameters: { /* ... */ },
++ decorators: [
++  withThemeByClassName<Renderer>({
 +    themes: {
 +      light: "",
 +      dark: "dark",
 +    },
 +    defaultTheme: "light",
 +  }),
-+];
++ ]
+};
+
+export default preview;
 ```
 
 ## 🏷️ Using a data-attribute for theme?
@@ -102,26 +92,17 @@ export const parameters = {
 If you've configured Tailwind to toggle themes with a data attribute, use our `withThemeByDataAttribute` decorator by adding the following code to your `.storybook/preview.js` file.
 
 ```diff
--import { Preview } from "@storybook/your-framework";
-+import { Preview, Renderer } from "@storybook/your-framework";
+-import { Preview } from "@storybook/your-renderer";
++import { Preview, Renderer } from "@storybook/your-renderer";
 +import { withThemeByDataAttribute } from "@storybook/addon-themes";
+
 import "../src/index.css";
 
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    expanded: true,
-    hideNoControlsWarning: true,
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
-};
-
-+export const decorators = [
-+  withThemeByDataAttribute({
+const preview: Preview = {
+  parameters: { /* ... */ },
++ decorators: [
++  withThemeByDataAttribute<Renderer>({
 +    themes: {
 +      light: "light",
 +      dark: "dark",
@@ -129,5 +110,8 @@ export const parameters = {
 +    defaultTheme: "light",
 +    attributeName: "data-theme",
 +  }),
-+];
++ ]
+};
+
+export default preview;
 ```

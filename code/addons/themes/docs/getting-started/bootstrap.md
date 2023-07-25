@@ -46,22 +46,16 @@ module.exports = {
 To give your stories access to Bootstrap's styles and JavaScript, import them into your `.storybook/preview.js` file.
 
 ```diff
--import { Preview } from "@storybook/your-framework";
-+import { Preview, Renderer } from "@storybook/your-framework";
+import { Preview } from "@storybook/your-renderer";
+
 +import "bootstrap/dist/css/bootstrap.min.css";
 +import "bootstrap/dist/js/bootstrap.bundle";
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    expanded: true,
-    hideNoControlsWarning: true,
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
+const preview: Preview = {
+  parameters: { /* ... */ },
 };
+
+export default preview;
 ```
 
 ## 🎨 Provide your theme(s)
@@ -71,25 +65,17 @@ Bootstrap now supports light and dark color modes out of the box as well as the 
 To enable switching between these modes in a click for your stories, use our `withThemeByDataAttribute` decorator by adding the following code to your `.storybook/preview.js` file.
 
 ```diff
+-import { Preview } from "@storybook/your-renderer";
++import { Preview, Renderer } from "@storybook/your-renderer";
 +import { withThemeByDataAttribute } from "@storybook/addon-themes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    expanded: true,
-    hideNoControlsWarning: true,
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
-};
-
-+export const decorators = [
-+  withThemeByDataAttribute({
+const preview: Preview = {
+  parameters: { /* ... */ },
++ decorators: [
++  withThemeByDataAttribute<Renderer>({
 +    themes: {
 +      light: "light",
 +      dark: "dark",
@@ -97,5 +83,8 @@ export const parameters = {
 +    defaultTheme: "light",
 +    attributeName: "data-bs-theme",
 +  }),
-+];
++ ]
+};
+
+export default preview;
 ```

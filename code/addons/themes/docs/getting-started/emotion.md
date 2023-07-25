@@ -48,27 +48,17 @@ Finally, provide your theme(s) and global styles component to your stories with 
 Make the following changes to your `.storybook/preview.js`
 
 ```diff
--import { Preview } from "@storybook/your-framework";
-+import { Preview, Renderer } from "@storybook/your-framework";
+-import { Preview } from "@storybook/your-renderer";
++import { Preview, Renderer } from "@storybook/your-renderer";
 +import { withThemeFromJSXProvider } from "@storybook/addon-themes";
 +import { ThemeProvider } from '@emotion/react';
 +import { GlobalStyles, lightTheme, darkTheme } from "../src/themes"; // import your custom theme configs
 
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    expanded: true,
-    hideNoControlsWarning: true,
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
-};
-
-+export const decorators = [
-+  withThemeFromJSXProvider({
+const preview: Preview = {
+  parameters: { /* ... */ },
++ decorators: [
++  withThemeFromJSXProvider<Renderer>({
 +    themes: {
 +      light: lightTheme,
 +      dark: darkTheme,
@@ -77,5 +67,8 @@ export const parameters = {
 +    Provider: ThemeProvider,
 +    GlobalStyles: GlobalStyles,
 +  }),
-+];
++ ]
+};
+
+export default preview;
 ```
