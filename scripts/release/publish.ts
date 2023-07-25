@@ -124,7 +124,7 @@ const publishAllPackages = async ({
   dryRun?: boolean;
 }) => {
   console.log(`📦 Publishing all packages...`);
-  const command = `yarn workspaces foreach --parallel --no-private --verbose exec "yarn pack && npm publish ./package.tgz --tolerate-republish --tag ${tag} && rm package.tgz"`;
+  const command = `yarn workspaces foreach --parallel --no-private --verbose exec "yarn npm publish --tolerate-republish --tag ${tag}"`;
   if (verbose) {
     console.log(`📦 Executing: ${command}`);
   }
