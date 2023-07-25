@@ -63,9 +63,9 @@ export type Indexer = BaseIndexer & {
    * Indexes a file containing stories or docs.
    * @param fileName The name of the file to index.
    * @param options {@link IndexerOptions} for indexing the file.
-   * @returns A promise that resolves to an array of {@link NewIndexEntry} objects.
+   * @returns A promise that resolves to an array of {@link IndexInput} objects.
    */
-  index: (fileName: string, options: IndexerOptions) => Promise<NewIndexEntry[]>;
+  index: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
   /**
    * @deprecated Use {@link index} instead
    */
@@ -98,11 +98,9 @@ export type DocsIndexEntry = BaseIndexEntry & {
   type: 'docs';
 };
 
-/**
- * @deprecated This type is deprecated and will be replaced with {@link NewIndexEntry} in 8.0.
- */
 export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
-export interface NewBaseIndexEntry {
+
+export interface BaseIndexInput {
   /** the file to import from e.g. the story file */
   importPath: Path;
   /** the key to import from the file e.g. the story export for this entry */
@@ -116,17 +114,17 @@ export interface NewBaseIndexEntry {
   /** tags for filtering entries in Storybook and its tools */
   tags?: Tag[];
 }
-export type NewStoryIndexEntry = BaseIndexEntry & {
+export type StoryIndexInput = BaseIndexInput & {
   type: 'story';
 };
 
-export type NewDocsIndexEntry = BaseIndexEntry & {
+export type DocsIndexInput = BaseIndexInput & {
   type: 'docs';
   /** paths to story files that must be pre-loaded for this docs entry */
   storiesImports?: Path[];
 };
 
-export type NewIndexEntry = StoryIndexEntry | DocsIndexEntry;
+export type IndexInput = StoryIndexEntry | DocsIndexEntry;
 
 export interface V3CompatIndexEntry extends Omit<StoryIndexEntry, 'type' | 'tags'> {
   kind: ComponentTitle;

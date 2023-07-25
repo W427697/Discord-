@@ -8,7 +8,7 @@ import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { Tag, StoryAnnotations, ComponentAnnotations, IndexedStory } from '@storybook/types';
+import type { Tag, StoryAnnotations, ComponentAnnotations, IndexedCSFFile } from '@storybook/types';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 
@@ -234,8 +234,7 @@ export class CsfFile {
     return node;
   }
 
-  // TODO: is there a better way to type this correctly?
-  parse(): CsfFile & { meta: StaticMeta; stories: IndexedStory[] } {
+  parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     traverse.default(this._ast, {
@@ -515,7 +514,7 @@ export class CsfFile {
       }
     }
 
-    return self as CsfFile & { meta: StaticMeta; stories: IndexedStory[] };
+    return self as CsfFile & IndexedCSFFile;
   }
 
   public get meta() {
