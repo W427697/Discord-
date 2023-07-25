@@ -20,7 +20,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (
   const plugins: PluginOption[] = [];
 
   // Add vue plugin if not present
-  if (!(await hasVitePlugins(config.plugins, ['vite:vue']))) {
+  if (!(config.plugins && (await hasVitePlugins(config.plugins, ['vite:vue'])))) {
     const { default: vue } = await import('@vitejs/plugin-vue');
     plugins.push(vue());
   }

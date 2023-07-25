@@ -6146,7 +6146,7 @@ __metadata:
     "@storybook/types": 7.2.0-alpha.0
     "@types/node": ^16.0.0
     formik: ^2.2.9
-    jest-mock: ^29.5.0
+    jest-mock: ^27.0.6
     polished: ^4.2.2
     ts-dedent: ^2.2.0
     typescript: ~4.9.3
@@ -20244,7 +20244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-mock@npm:^27.3.0":
+"jest-mock@npm:^27.0.6, jest-mock@npm:^27.3.0":
   version: 27.5.1
   resolution: "jest-mock@npm:27.5.1"
   dependencies:
