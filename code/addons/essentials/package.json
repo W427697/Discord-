@@ -93,6 +93,16 @@
       "require": "./dist/outline/manager.js",
       "import": "./dist/outline/manager.mjs"
     },
+    "./themes/manager": {
+      "types": "./dist/themes/manager.d.ts",
+      "require": "./dist/themes/manager.js",
+      "import": "./dist/themes/manager.mjs"
+    },
+    "./themes/preview": {
+      "types": "./dist/themes/preview.d.ts",
+      "require": "./dist/themes/preview.js",
+      "import": "./dist/themes/preview.mjs"
+    },
     "./toolbars/manager": {
       "types": "./dist/toolbars/manager.d.ts",
       "require": "./dist/toolbars/manager.js",
@@ -126,6 +136,7 @@
     "@storybook/addon-highlight": "7.2.0-alpha.0",
     "@storybook/addon-measure": "7.2.0-alpha.0",
     "@storybook/addon-outline": "7.2.0-alpha.0",
+    "@storybook/addon-themes": "7.2.0-alpha.0",
     "@storybook/addon-toolbars": "7.2.0-alpha.0",
     "@storybook/addon-viewport": "7.2.0-alpha.0",
     "@storybook/core-common": "7.2.0-alpha.0",
@@ -162,7 +173,9 @@
       "./src/outline/preview.ts",
       "./src/outline/manager.ts",
       "./src/toolbars/manager.ts",
-      "./src/viewport/manager.ts"
+      "./src/viewport/manager.ts",
+      "./src/themes/manager.ts",
+      "./src/themes/preview.ts"
     ],
     "platform": "node"
   },
