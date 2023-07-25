@@ -27,14 +27,23 @@ Closes #
 
 #### Maintainers
 
-- [ ] If this PR should be tested against many or all sandboxes,
-      make sure to add the `ci:merged` or `ci:daily` GH label to it.
+- [ ] When this PR is ready for testing, make sure to add `ci:normal`, `ci:merged` or `ci:daily` GH label to it to run a specific set of sandboxes. The particular set of sandboxes can be found in `code/lib/cli/src/sandbox-templates.ts`
 - [ ] Make sure this PR contains **one** of the labels below.
 
-`["cleanup", "BREAKING CHANGE", "feature request", "bug", "documentation", "maintenance", "dependencies", "other"]`
+`["cleanup", "BREAKING CHANGE", "feature request", "bug", "build", "documentation", "maintenance", "dependencies", "other"]`
 
 <!--
 
 Everybody: Please submit all PRs to the `next` branch unless they are specific to the current release. Storybook maintainers cherry-pick bug and documentation fixes into the `main` branch as part of the release process, so you shouldn't need to worry about this. For additional guidance: https://storybook.js.org/docs/react/contribute/how-to-contribute
 
 -->
+
+### 🦋 Canary release
+
+<!-- CANARY_RELEASE_SECTION -->
+
+This PR does not have a canary release associated. You can request a canary release of this pull request by mentioning the `@storybookjs/core` team here.
+
+_core team members can create a canary release [here](https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml) or locally with `gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<PR_NUMBER>`_
+
+<!-- CANARY_RELEASE_SECTION -->
