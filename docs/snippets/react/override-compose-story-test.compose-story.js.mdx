@@ -3,9 +3,9 @@
 
 import { composeStory } from '@storybook/react';
 
-import * as FormStories from './LoginForm.stories';
+import Meta, { ValidForm as ValidFormStory } from './LoginForm.stories';
 
-const FormValidation = composeStory(FormStories.ValidForm, FormStories.default, {
+const FormValidation = composeStory(ValidFormStory, Meta, {
   decorators: [
     // Define your story-level decorators here
   ],

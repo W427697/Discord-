@@ -6,7 +6,35 @@ Teams test a variety of UI characteristics using different tools. Each tool requ
 
 Storybook enables you to isolate a component and capture its use cases in a `*.stories.js|ts` file. Stories are standard JavaScript modules cross-compatible with the whole JavaScript ecosystem—no API lock-in.
 
-Stories are a practical starting point for UI testing. Import stories into tools like [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/), [Puppeteer](https://pptr.dev/), to save time and maintenance work.
+Stories are a practical starting point for UI testing. Import stories into tools like [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/), [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/), to save time and maintenance work.
+
+<IfRenderer renderer='vue'>
+
+## Set up the testing addon
+
+Write introduction here.
+
+Run the following command to add Storybook's testing addon to your environment:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'vue/storybook-testing-library-install.yarn.js.mdx',
+    'vue/storybook-testing-library-install.npm.js.mdx',
+    'vue/storybook-testing-library-install.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<div class="aside">
+
+ℹ️ If you're using Storybook 7 or higher, the `@storybook/testing-vue3` addon is the only one we support. For Vue 2 users, refer to the [troubleshooting section](#troubleshooting) for additional guidance.
+
+</div>
+
+</IfRenderer>
 
 ## Write a test with Testing Library
 
@@ -108,7 +136,7 @@ If you intend to test multiple stories in a single test, use the `composeStories
 
 ### Run tests in other frameworks
 
-Storybook provides community-led addons for other frameworks like [Vue 2](https://storybook.js.org/addons/@storybook/testing-vue), [Vue 3](https://storybook.js.org/addons/@storybook/testing-vue3) and [Angular](https://storybook.js.org/addons/@storybook/testing-angular). However, these addons still lack support for the latest stable Storybook release. If you're interested in helping out, we recommend reaching out to the maintainers using the default communication channels (GitHub and [Discord server](https://discord.com/channels/486522875931656193/839297503446695956)).
+Storybook provides community-led addons for other frameworks like [Vue 2](https://storybook.js.org/addons/@storybook/testing-vue) and [Angular](https://storybook.js.org/addons/@storybook/testing-angular). However, these addons still lack support for the latest stable Storybook release. If you're interested in helping out, we recommend reaching out to the maintainers using the default communication channels (GitHub and [Discord server](https://discord.com/channels/486522875931656193/839297503446695956)).
 
 ### The args are not being passed to the test
 
