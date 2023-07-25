@@ -1,7 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
-    - [Addon API are more type-strict](#addon-api-are-more-type-strict)
+    - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
