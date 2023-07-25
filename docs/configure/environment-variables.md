@@ -82,7 +82,7 @@ Then you can access this environment variable anywhere, even within your stories
 
 #### With Vite
 
-Out of the box, Storybook provides a [Vite builder](../builders/vite.md), so using environment variables here will be quite different from using environment variables in other frameworks that use other build tools. To access environment variables in Storybook (e.g., `STORYBOOK_`, `VITE_`), you can use the `import.meta.env`, which is specific to Vite. For example:
+Out of the box, Storybook provides a [Vite builder](../builders/vite.md), which does not output Node.js globals like `process.env`. To access environment variables in Storybook (e.g., `STORYBOOK_`, `VITE_`), you can use `import.meta.env`. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -162,4 +162,4 @@ The table below lists the available options:
 
 ### Environment variables are not working
 
-If you're trying to use framework-specific environment variables (e.g.,`VUE_APP_`), you may run into issues primarily due to the fact that Storybook and your framework may have specific configurations and may not be able to recognize and use those environment variables. If you run into a similar situation and are interested in helping us improving support for this feature, we encourage you to reach out to the maintainers using the default communication channels (e.g., [Discord server](https://discord.com/channels/486522875931656193/570426522528382976), [GitHub issues](https://github.com/storybookjs/storybook/issues)).
+If you're trying to use framework-specific environment variables (e.g.,`VUE_APP_`), you may run into issues primarily due to the fact that Storybook and your framework may have specific configurations and may not be able to recognize and use those environment variables. If you run into a similar situation, you may need to adjust your framework configuration to make sure that it can recognize and use those environment variables. For example, if you're working with a Vite-based framework, you can extend the configuration file and enable the [`envPrefix`](https://vitejs.dev/config/shared-options.html#envprefix) option. Other frameworks may require a similar approach.
