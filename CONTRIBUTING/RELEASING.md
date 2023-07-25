@@ -385,7 +385,52 @@ Before you start you should make sure that your working tree is clean and the re
 
 ## Canary Releases
 
-Not implemented yet. Still work in progress, stay tuned.
+It's possible to release any pull request as a canary release multiple times during development. This is an effective way to try out changes in standalone projects without linking projects together via package managers.
+
+To create a canary release, a core team member (or anyone else with administrator privileges) must manually trigger the canary release workflow.
+
+**Before creating a canary release from contributors, the core team member must ensure that the code being released is not malicious.**
+
+Creating a canary release can either be done via GitHub's UI or the [CLI](https://cli.github.com/):
+
+### With GitHub UI
+
+1. Open the workflow UI at https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml
+2. On the top right corner, click "Run workflow"
+3. For "branch", **always select `next`**, regardless of which branch your pull request is on
+4. For the pull request number, input the number for the pull request **without a leading #**
+
+### With the CLI
+
+The following command will trigger a workflow run - replace `<PR_NUMBER>` with the actual pull request number:
+
+```bash
+gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<PR_NUMBER>
+```
+
+When the release succeeds, it will update the "Canary release" section of the pull request with information about the release and how to use it (see example [here](https://github.com/storybookjs/storybook/pull/23508)). If it fails, it will create a comment on the pull request, tagging the triggering actor to let them know that it failed (see example [here](https://github.com/storybookjs/storybook/pull/23508#issuecomment-1642850467)).
+
+The canary release will have the following version format: `<CURRENT_VERSION>-canary-<PR_NUMBER>-<TIMESTAMP>-<COMMIT_SHA>.0`, e.g., `7.1.1-canary-23508-1689802571-5ec8c1c3.0`.
+
+- The current version has no actual meaning but softly indicates which version the pull request is based on (e.g., a pull request based on v7.1.0 will get released as a canary version of v7.1.1).
+- The timestamp ensures that any subsequent releases are always considered newer.
+- The commit hash indicates which exact code has been released.
+
+> ** Note **
+> All canary releases are released under the same "canary" dist tag. This means you'll technically be able to install it with `npm install @storybook/cli@canary`. However, this doesn't make sense, as releases from subsequent pull requests will overwrite that tag quickly. Therefore you should always install the specific version string, e.g., `npm install @storybook/cli@7.1.1-canary-23508-1689802571-5ec8c1c3.0.
+
+<details>
+  <summary>Isn't there a simpler/smarter way to do this?</summary>
+
+The simple approach would be to release canaries for all pull requests automatically; however, this would be insecure as any contributor with Write privileges to the repository (200+ users) could create a malicious pull request that alters the release script to release a malicious release (e.g., release a patch version that adds a crypto miner).
+
+To alleviate this, we only allow the "Release" GitHub environment that contains the npm token to be accessible from workflows running on the protected branches (`next`, `main`, etc.).
+
+You could also be tempted to require approval from admins before running the workflows. However, this would spam the core team with GitHub notifications for workflow runs seeking approval - even when a core team member triggered the workflow. Therefore we are doing it the other way around, requiring contributors and maintainers to ask for a canary release to be created explicitly.
+
+Instead of triggering the workflow manually, you could also do something smart, like trigger it when there's a specific label on the pull request or when someone writes a specific comment on the pull request. However, this would create a lot of unnecessary workflow runs because there isn't a way to filter workflow runs based on labels or comment content. The only way to achieve this would be to trigger the workflow on every comment/labeling, then cancel it if it didn't contain the expected content, which is inefficient.
+
+</details>
 
 ## Versioning Scenarios
 
