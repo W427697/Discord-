@@ -6,6 +6,12 @@ import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../src/themes';
 
+const GlobalStyles = createGlobalStyle`
+  body {
+    font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+`;
+
 const preview = {
   decorators: [
     withThemeFromJSXProvider({
