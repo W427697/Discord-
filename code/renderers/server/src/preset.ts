@@ -2,10 +2,10 @@ import fs from 'fs-extra';
 import yaml from 'yaml';
 import { toId } from '@storybook/csf';
 import type { StaticMeta } from '@storybook/csf-tools';
-import type { IndexerOptions, IndexedStory, StoryIndexer } from '@storybook/types';
+import type { IndexedStory, StoryIndexer, StorybookConfig } from '@storybook/types';
 
-export const storyIndexers = (indexers: StoryIndexer[] | null) => {
-  const serverIndexer = async (fileName: string, opts: IndexerOptions) => {
+export const storyIndexers: StorybookConfig['storyIndexers'] = (existingIndexers) => {
+  const serverIndexer: StoryIndexer['indexer'] = async (fileName) => {
     const json = fileName.endsWith('.json')
       ? await fs.readJson(fileName, 'utf-8')
       : yaml.parse((await fs.readFile(fileName, 'utf-8')).toString());
@@ -31,6 +31,6 @@ export const storyIndexers = (indexers: StoryIndexer[] | null) => {
       test: /(stories|story)\.(json|ya?ml)$/,
       indexer: serverIndexer,
     },
-    ...(indexers || []),
+    ...(existingIndexers || []),
   ];
 };

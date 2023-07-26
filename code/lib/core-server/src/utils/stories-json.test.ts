@@ -6,12 +6,13 @@ import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { StoryIndex, StoryIndexer } from '@storybook/types';
+import type { StoryIndex } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import type { ServerChannel } from './get-server-channel';
+import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('watchpack');
@@ -54,18 +55,20 @@ const getInitializedStoryIndexGenerator = async (
   overrides: any = {},
   inputNormalizedStories = normalizedStories
 ) => {
-  const generator = new StoryIndexGenerator(inputNormalizedStories, {
+  const options: StoryIndexGeneratorOptions = {
     storyIndexers: [
       { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
       { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-    ] as StoryIndexer[],
+    ],
+    indexers: [],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,
     storyStoreV7: true,
     docs: { defaultName: 'docs', autodocs: false },
     ...overrides,
-  });
+  };
+  const generator = new StoryIndexGenerator(inputNormalizedStories, options);
   await generator.initialize();
   return generator;
 };

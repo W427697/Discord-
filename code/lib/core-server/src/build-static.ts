@@ -105,14 +105,16 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
   });
 
-  const [features, core, staticDirs, storyIndexers, stories, docsOptions] = await Promise.all([
-    presets.apply<StorybookConfig['features']>('features'),
-    presets.apply<CoreConfig>('core'),
-    presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
-    presets.apply('storyIndexers', []),
-    presets.apply('stories'),
-    presets.apply<DocsOptions>('docs', {}),
-  ]);
+  const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
+    await Promise.all([
+      presets.apply<StorybookConfig['features']>('features'),
+      presets.apply<CoreConfig>('core'),
+      presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
+      presets.apply('indexers', []),
+      presets.apply('storyIndexers', []),
+      presets.apply('stories'),
+      presets.apply<DocsOptions>('docs', {}),
+    ]);
 
   const fullOptions: Options = {
     ...options,
@@ -161,7 +163,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     const normalizedStories = normalizeStories(stories, directories);
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      storyIndexers,
+      storyIndexers: deprecatedStoryIndexers,
+      indexers,
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,

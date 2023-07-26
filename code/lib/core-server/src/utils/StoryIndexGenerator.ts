@@ -19,10 +19,11 @@ import type {
   V3CompatIndexEntry,
   StoryId,
   StoryName,
+  Indexer,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
-import { logger, once } from '@storybook/node-logger';
+import { deprecate, logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
@@ -44,6 +45,16 @@ type ErrorEntry = {
 };
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry | ErrorEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
+
+export type StoryIndexGeneratorOptions = {
+  workingDir: Path;
+  configDir: Path;
+  storiesV2Compatibility: boolean;
+  storyStoreV7: boolean;
+  storyIndexers: StoryIndexer[];
+  indexers: Indexer[];
+  docs: DocsOptions;
+};
 
 export const AUTODOCS_TAG = 'autodocs';
 export const STORIES_MDX_TAG = 'stories-mdx';
@@ -101,16 +112,15 @@ export class StoryIndexGenerator {
 
   constructor(
     public readonly specifiers: NormalizedStoriesSpecifier[],
-    public readonly options: {
-      workingDir: Path;
-      configDir: Path;
-      storiesV2Compatibility: boolean;
-      storyStoreV7: boolean;
-      storyIndexers: StoryIndexer[];
-      docs: DocsOptions;
-    }
+    public readonly options: StoryIndexGeneratorOptions
   ) {
     this.specifierToCache = new Map();
+    if (options.storyIndexers.length > 1) {
+      // TODO: write migration notes
+      deprecate(
+        "'storyIndexers' is deprecated, please use 'indexers' instead. See migration notes at XXX"
+      );
+    }
   }
 
   async initialize() {
@@ -248,11 +258,9 @@ export class StoryIndexGenerator {
       return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
     };
 
-    const storyIndexer = this.options.storyIndexers.find((indexer) =>
-      indexer.test.exec(absolutePath)
-    );
+    const storyIndexer = this.options.storyIndexers.find((ind) => ind.test.exec(absolutePath));
     if (!storyIndexer) {
-      throw new Error(`No matching story indexer found for ${absolutePath}`);
+      throw new Error(`No matching indexer found for ${absolutePath}`);
     }
     const csf = await storyIndexer.indexer(absolutePath, { makeTitle });
 

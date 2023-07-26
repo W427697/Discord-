@@ -8,7 +8,7 @@ import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
+import type { Tag, StoryAnnotations, ComponentAnnotations, IndexedCSFFile } from '@storybook/types';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 
@@ -514,7 +514,7 @@ export class CsfFile {
       }
     }
 
-    return self;
+    return self as CsfFile & IndexedCSFFile;
   }
 
   public get meta() {

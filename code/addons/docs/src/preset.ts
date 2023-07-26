@@ -3,13 +3,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type {
-  IndexerOptions,
-  StoryIndexer,
-  DocsOptions,
-  Options,
-  StorybookConfig,
-} from '@storybook/types';
+import type { DocsOptions, Options, StorybookConfig, StoryIndexer } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
@@ -135,8 +129,8 @@ async function webpack(
   return result;
 }
 
-const storyIndexers = (indexers: StoryIndexer[] | null) => {
-  const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
+const storyIndexers: StorybookConfig['storyIndexers'] = (existingIndexers) => {
+  const mdxIndexer: StoryIndexer['indexer'] = async (fileName, opts) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = global.FEATURES?.legacyMdx1
       ? await import('@storybook/mdx1-csf')
@@ -149,7 +143,7 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
       test: /(stories|story)\.mdx$/,
       indexer: mdxIndexer,
     },
-    ...(indexers || []),
+    ...(existingIndexers || []),
   ];
 };
 
