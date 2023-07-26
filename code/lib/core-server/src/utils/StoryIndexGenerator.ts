@@ -20,6 +20,7 @@ import type {
   StoryId,
   StoryName,
   Indexer,
+  IndexerOptions,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
@@ -252,17 +253,42 @@ export class StoryIndexGenerator {
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as IndexEntry[];
     const importPath = slash(normalizeStoryPath(relativePath));
     const makeTitle = (userTitle?: string) => {
       return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
     };
 
-    const storyIndexer = this.options.storyIndexers.find((ind) => ind.test.exec(absolutePath));
-    if (!storyIndexer) {
+    const indexer = (this.options.indexers as StoryIndexer[])
+      .concat(this.options.storyIndexers)
+      .find((ind) => ind.test.exec(absolutePath));
+    // TODO: Do we want to throw when both a deprecated and a new indexer match?
+    if (!indexer) {
       throw new Error(`No matching indexer found for ${absolutePath}`);
     }
-    const csf = await storyIndexer.indexer(absolutePath, { makeTitle });
+    if (indexer.indexer) {
+      return this.extractStoriesFromDeprecatedIndexer({
+        indexer: indexer.indexer,
+        indexerOptions: { makeTitle },
+        absolutePath,
+        importPath,
+      });
+    }
+  }
+
+  async extractStoriesFromDeprecatedIndexer({
+    indexer,
+    indexerOptions,
+    absolutePath,
+    importPath,
+  }: {
+    indexer: StoryIndexer['indexer'];
+    indexerOptions: IndexerOptions;
+    absolutePath: Path;
+    importPath: Path;
+  }) {
+    const csf = await indexer(absolutePath, indexerOptions);
+
+    const entries = [];
 
     const componentTags = csf.meta.tags || [];
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {

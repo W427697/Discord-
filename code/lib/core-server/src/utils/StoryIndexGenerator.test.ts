@@ -58,17 +58,19 @@ const storiesMdxIndexer: StoryIndexer = {
 
 const plainStoryIndexer: Indexer = {
   test: /\.stories\.(m?js|ts)x?$/,
-  index: (fileName, opts) => {
+  index: async (fileName) => {
     return [
       {
         type: 'story',
         importPath: fileName,
-        key: 'default',
+        key: 'primary',
+      },
+      {
+        type: 'story',
+        importPath: fileName,
+        key: 'secondary',
       },
     ];
-
-    const code = (await fs.readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
   },
 };
 
@@ -77,7 +79,7 @@ const options: StoryIndexGeneratorOptions = {
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [],
   indexers: [
-    plainIndexer,
+    plainStoryIndexer,
     // storiesMdxIndexer,
     // csfIndexer,
   ],
@@ -86,7 +88,7 @@ const options: StoryIndexGeneratorOptions = {
   docs: { defaultName: 'docs', autodocs: false },
 };
 
-describe('StoryIndexGenerator with deprecated indexer API', () => {
+describe('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);

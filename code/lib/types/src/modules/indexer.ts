@@ -124,7 +124,7 @@ export type DocsIndexInput = BaseIndexInput & {
   storiesImports?: Path[];
 };
 
-export type IndexInput = StoryIndexEntry | DocsIndexEntry;
+export type IndexInput = StoryIndexInput | DocsIndexInput;
 
 export interface V3CompatIndexEntry extends Omit<StoryIndexEntry, 'type' | 'tags'> {
   kind: ComponentTitle;
