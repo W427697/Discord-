@@ -269,7 +269,7 @@ const scaffoldProject = async ({
       message: '🌈 Select a template',
       name: 'template',
       choices: templateEntries.map(([key, value]) => ({
-        title: key,
+        title: value.name,
         value: { key, projectType: value.projectType },
       })),
     },
