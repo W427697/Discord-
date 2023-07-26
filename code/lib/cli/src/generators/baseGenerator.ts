@@ -17,7 +17,6 @@ import {
   extractEslintInfo,
   suggestESLintPlugin,
 } from '../automigrate/helpers/eslintPlugin';
-import { HandledError } from '../HandledError';
 
 const logger = console;
 
@@ -185,33 +184,8 @@ export async function baseGenerator(
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
 ) {
-  // This is added so that we can handle the scenario where the user presses Ctrl+C and report a canceled event.
-  // Given that there are subprocesses running as part of this function, we need to handle the signal ourselves otherwise it might run into race conditions.
-  // TODO: This should be revisited once we have a better way to handle this.
-  let isNodeProcessExiting = false;
-  const setNodeProcessExiting = () => {
-    isNodeProcessExiting = true;
-  };
-  process.on('SIGINT', setNodeProcessExiting);
-
   const isStorybookInMonorepository = packageManager.isStorybookInMonorepo();
   const shouldApplyRequireWrapperOnPackageNames = isStorybookInMonorepository || pnp;
-
-  const stopIfExiting = async <T>(callback: () => Promise<T>) => {
-    if (isNodeProcessExiting) {
-      throw new HandledError('Canceled by the user');
-    }
-
-    try {
-      return await callback();
-    } catch (error) {
-      if (isNodeProcessExiting) {
-        throw new HandledError('Canceled by the user');
-      }
-
-      throw error;
-    }
-  };
 
   const {
     extraAddons: extraAddonPackages,
@@ -308,9 +282,7 @@ export async function baseGenerator(
     indent: 2,
     text: `Getting the correct version of ${packages.length} packages`,
   }).start();
-  const versionedPackages = await stopIfExiting(async () =>
-    packageManager.getVersionedPackages(packages)
-  );
+  const versionedPackages = await packageManager.getVersionedPackages(packages);
   versionedPackagesSpinner.succeed();
 
   const depsToInstall = [...versionedPackages];
@@ -369,9 +341,7 @@ export async function baseGenerator(
       indent: 2,
       text: 'Installing Storybook dependencies',
     }).start();
-    await stopIfExiting(async () =>
-      packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall)
-    );
+    await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
     addDependenciesSpinner.succeed();
   }
 
@@ -429,24 +399,18 @@ export async function baseGenerator(
   });
 
   if (addScripts) {
-    await stopIfExiting(async () =>
-      packageManager.addStorybookCommandInScripts({
-        port: 6006,
-      })
-    );
+    await packageManager.addStorybookCommandInScripts({
+      port: 6006,
+    });
   }
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
-    await stopIfExiting(async () =>
-      copyTemplateFiles({
-        renderer: templateLocation,
-        packageManager,
-        language,
-        destination: componentsDestinationPath,
-      })
-    );
+    await copyTemplateFiles({
+      renderer: templateLocation,
+      packageManager,
+      language,
+      destination: componentsDestinationPath,
+    });
   }
-
-  process.off('SIGINT', setNodeProcessExiting);
 }
