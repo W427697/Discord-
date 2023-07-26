@@ -1152,6 +1152,40 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
 
         expect(logger.warn).not.toHaveBeenCalled();
       });
+
+      it('DOES NOT throw when the same CSF file is indexed by both a deprecated and current indexer', async () => {
+        const generator = new StoryIndexGenerator([storiesSpecifier], {
+          ...options,
+          indexers: [
+            {
+              test: /\.stories\.(m?js|ts)x?$/,
+              index: async (fileName, options) => {
+                const code = (await fs.readFile(fileName, 'utf-8')).toString();
+                const csf = loadCsf(code, { ...options, fileName }).parse();
+
+                // eslint-disable-next-line no-underscore-dangle
+                return Object.entries(csf._stories).map(([key, story]) => ({
+                  key,
+                  id: story.id,
+                  name: story.name,
+                  title: csf.meta.title,
+                  importPath: fileName,
+                  type: 'story',
+                  tags: story.tags ?? csf.meta.tags,
+                }));
+              },
+            },
+          ],
+        });
+        await generator.initialize();
+        expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+          Array [
+            "a--story-one",
+          ]
+        `);
+
+        expect(logger.warn).not.toHaveBeenCalled();
+      });
     });
   });
 
