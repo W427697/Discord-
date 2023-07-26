@@ -18,8 +18,8 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-default-setup.js.mdx',
-    'common/storybook-main-baseline-setup.ts.mdx',
+    'common/main-config-typical.js.mdx',
+    'common/main-config-typical.ts.mdx',
   ]}
 />
 
@@ -35,12 +35,12 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `stories`             | The array of globs that indicates the [location of your story files](#configure-story-loading), relative to `main.js`                                                                                    |
 | `staticDirs`          | Sets a list of directories of [static files](./images-and-assets.md#serving-static-files-via-storybook-configuration) to be loaded by Storybook <br/> `staticDirs: ['../public']`                        |
-| `addons`              | Sets the list of [addons](https://storybook.js.org/addons/) loaded by Storybook <br/> `addons: ['@storybook/addon-essentials']`                                                                          |
+| `addons`              | Sets the list of [addons](https://storybook.js.org/integrations) loaded by Storybook <br/> `addons: ['@storybook/addon-essentials']`                                                                     |
 | `typescript`          | Configures how Storybook handles [TypeScript files](./typescript.md) <br/> `typescript: { check: false, checkOptions: {} }`                                                                              |
 | `framework`           | Configures Storybook based on a set of [framework-specific](./frameworks.md) settings <br/> `framework: { name: '@storybook/svelte-vite', options:{} }`                                                  |
-| `core`                | Configures Storybook's internal features<br/> `core: { disableTelemetry: true, }`                                                                                                                        |
+| `core`                | Configures Storybook's [internal features](../api/main-config-core.md) <br/> `core: { disableTelemetry: true, }`                                                                                         |
 | `docs`                | Configures Storybook's [auto-generated documentation](../writing-docs/autodocs.md)<br/> `docs: { autodocs: 'tag' }`                                                                                      |
-| `features`            | Enables Storybook's additional features<br/> See table below for a list of available features `features: { storyStoreV7: true }`                                                                         |
+| `features`            | Enables Storybook's [additional features](../api/main-config-features.md)<br/> See table below for a list of available features `features: { storyStoreV7: true }`                                       |
 | `refs`                | Configures [Storybook composition](../sharing/storybook-composition.md) <br/> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                                              |
 | `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br/> `logLevel: 'debug'`                                                                                                      |
 | `webpackFinal`        | Customize Storybook's [Webpack](../builders/webpack.md) setup <br/> `webpackFinal: async (config:any) => { return config; }`                                                                             |
@@ -85,20 +85,20 @@ For example, if you wanted to pull both `.md` and `.js` files from the `my-proje
 
 ### With a configuration object
 
-Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages` directory, you could adjust your `stories` configuration field into the following:
+Additionally, you can customize your Storybook configuration to load your stories based on a configuration object. For example, if you wanted to load your stories from a `packages/components` directory, you could adjust your `stories` configuration field into the following:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-with-custom-object.js.mdx',
-    'common/storybook-storyloading-with-custom-object.ts.mdx',
+    'common/main-config-stories-with-object.js.mdx',
+    'common/main-config-stories-with-object.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/stories` directory and generate the titles for your stories.
+When Storybook starts, it will look for any file containing the `stories` extension inside the `packages/components` directory and generate the titles for your stories.
 
 ### With a directory
 
@@ -123,8 +123,8 @@ You can also adjust your Storybook configuration and implement custom logic to l
 
 <CodeSnippets
   paths={[
-    'common/storybook-storyloading-custom-logic.js.mdx',
-    'common/storybook-storyloading-custom-logic.ts.mdx',
+    'common/main-config-stories-with-logic.js.mdx',
+    'common/main-config-stories-with-logic.ts.mdx',
   ]}
 />
 
@@ -138,8 +138,8 @@ As your Storybook grows, it gets challenging to load all of your stories perform
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
-    'common/storybook-on-demand-story-loading.ts.mdx',
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx',
   ]}
 />
 

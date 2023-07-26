@@ -9,6 +9,7 @@ type TelemetryOptions = {
   cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
   printError?: (err: any) => void;
+  skipPrompt?: boolean;
 };
 
 const promptCrashReports = async () => {
@@ -30,18 +31,18 @@ const promptCrashReports = async () => {
 
 type ErrorLevel = 'none' | 'error' | 'full';
 
-async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): Promise<ErrorLevel> {
+async function getErrorLevel({
+  cliOptions,
+  presetOptions,
+  skipPrompt,
+}: TelemetryOptions): Promise<ErrorLevel> {
   if (cliOptions.disableTelemetry) return 'none';
 
   // If we are running init or similar, we just have to go with true here
   if (!presetOptions) return 'full';
 
   // should we load the preset?
-  const presets = await loadAllPresets({
-    corePresets: [require.resolve('@storybook/core-server/dist/presets/common-preset')],
-    overridePresets: [],
-    ...presetOptions,
-  });
+  const presets = await loadAllPresets(presetOptions);
 
   // If the user has chosen to enable/disable crash reports in main.js
   // or disabled telemetry, we can return that
@@ -53,6 +54,10 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
   const valueFromCache =
     (await cache.get('enableCrashReports')) ?? (await cache.get('enableCrashreports'));
   if (valueFromCache !== undefined) return valueFromCache ? 'full' : 'error';
+
+  if (skipPrompt) {
+    return 'error';
+  }
 
   const valueFromPrompt = await promptCrashReports();
   if (valueFromPrompt !== undefined) return valueFromPrompt ? 'full' : 'error';
@@ -99,17 +104,39 @@ export async function withTelemetry<T>(
   eventType: EventType,
   options: TelemetryOptions,
   run: () => Promise<T>
-): Promise<T> {
+): Promise<T | undefined> {
+  let canceled = false;
+
+  async function cancelTelemetry() {
+    canceled = true;
+    if (!options.cliOptions.disableTelemetry) {
+      await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
+    }
+
+    process.exit(0);
+  }
+
+  if (eventType === 'init') {
+    // We catch Ctrl+C user interactions to be able to detect a cancel event
+    process.on('SIGINT', cancelTelemetry);
+  }
+
   if (!options.cliOptions.disableTelemetry)
     telemetry('boot', { eventType }, { stripMetadata: true });
 
   try {
     return await run();
   } catch (error) {
-    const { printError = logger.error } = options;
-    printError(error);
+    if (canceled) {
+      return undefined;
+    }
 
-    await sendTelemetryError(error, eventType, options);
+    const { printError = logger.error } = options;
+    printError(error instanceof Error ? error.message : String(error));
+    if (error instanceof Error) await sendTelemetryError(error, eventType, options);
+
     throw error;
+  } finally {
+    process.off('SIGINIT', cancelTelemetry);
   }
 }

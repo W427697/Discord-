@@ -7,7 +7,6 @@ import type {
   StorybookConfig,
 } from '@storybook/types';
 import {
-  cache,
   loadAllPresets,
   loadMainConfig,
   resolveAddonName,
@@ -15,12 +14,12 @@ import {
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
+import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
 import { storybookDevServer } from './dev-server';
-import { getReleaseNotesData, getReleaseNotesFailedState } from './utils/release-notes';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
@@ -31,18 +30,15 @@ import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
 export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
 ): Promise<{ port: number; address: string; networkAddress: string }> {
-  const { packageJson, versionUpdates, releaseNotes } = options;
+  const { packageJson, versionUpdates } = options;
   const { version } = packageJson;
-
-  // updateInfo and releaseNotesData are cached, so this is typically pretty fast
-  const [port, versionCheck, releaseNotesData] = await Promise.all([
+  invariant(version !== undefined, 'Expected package.json version to be defined.');
+  // updateInfo are cached, so this is typically pretty fast
+  const [port, versionCheck] = await Promise.all([
     getServerPort(options.port),
     versionUpdates
       ? updateCheck(version)
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
-    releaseNotes
-      ? getReleaseNotesData(version, cache)
-      : Promise.resolve(getReleaseNotesFailedState(version)),
   ]);
 
   if (!options.ci && !options.smokeTest && options.port != null && port !== options.port) {
@@ -58,7 +54,6 @@ export async function buildDevStandalone(
   /* eslint-disable no-param-reassign */
   options.port = port;
   options.versionCheck = versionCheck;
-  options.releaseNotesData = releaseNotesData;
   options.configType = 'DEVELOPMENT';
   options.configDir = resolve(options.configDir);
   options.outputDir = options.smokeTest
@@ -69,9 +64,10 @@ export async function buildDevStandalone(
 
   const config = await loadMainConfig(options);
   const { framework } = config;
+  invariant(framework, 'framework is required in Storybook v7');
   const corePresets = [];
 
-  const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  const frameworkName = typeof framework === 'string' ? framework : framework.name;
   validateFrameworkName(frameworkName);
 
   corePresets.push(join(frameworkName, 'preset'));
@@ -88,6 +84,7 @@ export async function buildDevStandalone(
   });
 
   const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
+  invariant(builder, 'no builder configured!');
 
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {
@@ -95,23 +92,26 @@ export async function buildDevStandalone(
     }
   }
 
-  const builderName = typeof builder === 'string' ? builder : builder?.name;
+  const builderName = typeof builder === 'string' ? builder : builder.name;
   const [previewBuilder, managerBuilder] = await Promise.all([
     getPreviewBuilder(builderName, options.configDir),
     getManagerBuilder(),
   ]);
 
+  const resolvedRenderer = renderer
+    ? resolveAddonName(options.configDir, renderer, options)
+    : undefined;
   // Load second pass: all presets are applied in order
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
-      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
+      ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets,
+    overridePresets: previewBuilder.overridePresets ?? [],
     ...options,
   });
 
@@ -129,8 +129,7 @@ export async function buildDevStandalone(
   );
 
   const previewTotalTime = previewResult && previewResult.totalTime;
-  const managerTotalTime = managerResult && managerResult.totalTime;
-
+  const managerTotalTime = managerResult ? managerResult.totalTime : undefined;
   const previewStats = previewResult && previewResult.stats;
   const managerStats = managerResult && managerResult.stats;
 
@@ -160,15 +159,17 @@ export async function buildDevStandalone(
         ? frameworkName.split('@storybook/')[1]
         : frameworkName;
 
-    outputStartupInformation({
-      updateInfo: versionCheck,
-      version,
-      name,
-      address,
-      networkAddress,
-      managerTotalTime,
-      previewTotalTime,
-    });
+    if (!options.quiet) {
+      outputStartupInformation({
+        updateInfo: versionCheck,
+        version,
+        name,
+        address,
+        networkAddress,
+        managerTotalTime,
+        previewTotalTime,
+      });
+    }
   }
   return { port, address, networkAddress };
 }

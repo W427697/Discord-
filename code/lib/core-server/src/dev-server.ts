@@ -1,5 +1,6 @@
 import express from 'express';
 import compression from 'compression';
+import invariant from 'tiny-invariant';
 
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
@@ -29,18 +30,18 @@ export async function storybookDevServer(options: Options) {
     options.presets.apply<CoreConfig>('core'),
   ]);
 
-  const serverChannel = getServerChannel(server);
+  const serverChannel = await options.presets.apply(
+    'experimental_serverChannel',
+    getServerChannel(server)
+  );
 
-  let indexError: Error;
+  let indexError: Error | undefined;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
-  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
-    features,
-    options,
-    serverChannel
-  ).catch((err) => {
-    indexError = err;
-    return undefined;
-  });
+  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
+    getStoryIndexGenerator(features ?? {}, options, serverChannel).catch((err) => {
+      indexError = err;
+      return undefined;
+    });
 
   app.use(compression({ level: 1 }));
 
@@ -48,22 +49,24 @@ export async function storybookDevServer(options: Options) {
     options.extendServer(server);
   }
 
-  app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
+  app.use(getAccessControlMiddleware(core?.crossOriginIsolated ?? false));
   app.use(getCachingMiddleware());
 
   getMiddleware(options.configDir)(router);
 
   app.use(router);
 
-  const { port, host } = options;
+  const { port, host, initialPath } = options;
+  invariant(port, 'expected options to have a port');
   const proto = options.https ? 'https' : 'http';
-  const { address, networkAddress } = getServerAddresses(port, host, proto);
+  const { address, networkAddress } = getServerAddresses(port, host, proto, initialPath);
 
   const listening = new Promise<void>((resolve, reject) => {
     // @ts-expect-error (Following line doesn't match TypeScript signature at all 🤔)
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
+  invariant(core?.builder, 'no builder configured!');
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 
   const [previewBuilder, managerBuilder] = await Promise.all([
