@@ -41,7 +41,7 @@ export class ServerChannelTransport {
   }
 
   send(event: any) {
-    const data = stringify(event, { maxDepth: 15, allowFunction: true });
+    const data = stringify(event, { maxDepth: 15, allowFunction: false, allowClass: false });
 
     Array.from(this.socket.clients)
       .filter((c) => c.readyState === WebSocket.OPEN)
