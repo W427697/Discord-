@@ -410,14 +410,10 @@ gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<P
 
 When the release succeeds, it will update the "Canary release" section of the pull request with information about the release and how to use it (see example [here](https://github.com/storybookjs/storybook/pull/23508)). If it fails, it will create a comment on the pull request, tagging the triggering actor to let them know that it failed (see example [here](https://github.com/storybookjs/storybook/pull/23508#issuecomment-1642850467)).
 
-The canary release will have the following version format: `<CURRENT_VERSION>-canary-<PR_NUMBER>-<TIMESTAMP>-<COMMIT_SHA>.0`, e.g., `7.1.1-canary-23508-1689802571-5ec8c1c3.0`.
-
-- The current version has no actual meaning but softly indicates which version the pull request is based on (e.g., a pull request based on v7.1.0 will get released as a canary version of v7.1.1).
-- The timestamp ensures that any subsequent releases are always considered newer.
-- The commit hash indicates which exact code has been released.
+The canary release will have the following version format: `0.0.0-pr-<PR_NUMBER>-sha-<COMMIT_SHA>`, e.g., `0.0.0-pr-23508-5ec8c1c3`. Using v0.0.0 ensures that no user will accidentally get the canary release when using a canary with prereleases, eg. `^7.2.0-alpha.0`
 
 > ** Note **
-> All canary releases are released under the same "canary" dist tag. This means you'll technically be able to install it with `npm install @storybook/cli@canary`. However, this doesn't make sense, as releases from subsequent pull requests will overwrite that tag quickly. Therefore you should always install the specific version string, e.g., `npm install @storybook/cli@7.1.1-canary-23508-1689802571-5ec8c1c3.0.
+> All canary releases are released under the same "canary" dist tag. This means you'll technically be able to install it with `npm install @storybook/cli@canary`. However, this doesn't make sense, as releases from subsequent pull requests will overwrite that tag quickly. Therefore you should always install the specific version string, e.g., `npm install @storybook/cli@0.0.0-pr-23508-sha-5ec8c1c3`.
 
 <details>
   <summary>Isn't there a simpler/smarter way to do this?</summary>
