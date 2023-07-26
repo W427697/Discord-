@@ -125,13 +125,7 @@ export abstract class JsPackageManager {
    * Install dependencies listed in `package.json`
    */
   public async installDependencies() {
-    let done = commandLog('Preparing to install dependencies');
-    done();
-
-    logger.log();
-    logger.log();
-
-    done = commandLog('Installing dependencies');
+    const done = commandLog('Installing dependencies\n');
 
     try {
       await this.runInstall();

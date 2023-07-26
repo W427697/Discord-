@@ -142,6 +142,7 @@ command('sandbox [filterValue]')
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
+  .option('-s --silent', 'Do not log any information to the console', false)
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
     sandbox({ filterValue, ...options }).catch((e) => {

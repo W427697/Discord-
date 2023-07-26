@@ -6,6 +6,7 @@ import { withTelemetry } from '@storybook/core-server';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
+import { readdirSync } from 'fs-extra';
 import { installableProjectTypes, ProjectType } from './project_types';
 import {
   detect,
@@ -38,8 +39,13 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions } from './generators/types';
 import { HandledError } from './HandledError';
+import { baseTemplates } from './sandbox-templates';
+import { sandbox } from './sandbox';
 
 const logger = console;
+
+const SHOULD_RUN_DEV_AFTER_INIT =
+  process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true';
 
 const installStorybook = async <Project extends ProjectType>(
   projectType: Project,
@@ -239,10 +245,93 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-async function doInitiate(
-  options: CommandOptions,
-  pkg: PackageJson
-): Promise<
+const scaffoldProject = async ({
+  packageManager,
+  skipInstall,
+}: {
+  packageManager: JsPackageManager;
+  skipInstall?: boolean;
+}): InitiateResult => {
+  logger.log();
+  logger.log(
+    chalk.yellow(
+      dedent`
+        We've detected that your project is empty. We will scaffold a project for you with a pre-configured storybook setup.
+      `
+    )
+  );
+  logger.log();
+  const templateEntries = Object.entries(baseTemplates);
+  const result = await prompts(
+    {
+      type: 'select',
+      message: '🌈 Select a template',
+      name: 'template',
+      choices: templateEntries.map(([key, value]) => ({
+        title: key,
+        value: { key, projectType: value.projectType },
+      })),
+    },
+    {
+      onCancel: () => {
+        logger.log('Command cancelled by the user. Exiting...');
+        process.exit(1);
+      },
+    }
+  );
+
+  const logSuccessfulBootstrapMessage = () => {
+    logger.log(
+      boxen(
+        dedent`
+            You have successfully bootstrapped a Storybook for ${template.key} project! 🎉
+            ${
+              skipInstall
+                ? 'Please install your package.json dependencies manually before continuing.'
+                : ''
+            }
+            To run Storybook manually, run ${packageManager.getRunStorybookCommand()}. CTRL+C to stop.
+            
+            Wanna know more about Storybook? Check out ${chalk.cyan('https://storybook.js.org/')}
+            Having trouble or want to chat? Join us at ${chalk.cyan(
+              'https://discord.gg/storybook/'
+            )}
+          `,
+        { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
+      )
+    );
+  };
+
+  const template = result.template as { key: string; projectType: ProjectType };
+
+  await sandbox({
+    filterValue: template.key,
+    silent: true,
+    output: '.',
+    branch: 'next',
+    init: true,
+  });
+
+  logger.log(`\nSuccessfully cloned ${template.key} into your working directory! 🎉\n`);
+
+  if (skipInstall || template.projectType === ProjectType.REACT_NATIVE) {
+    logSuccessfulBootstrapMessage();
+    return { shouldRunDev: false };
+  }
+
+  await packageManager.installDependencies();
+
+  logSuccessfulBootstrapMessage();
+
+  return {
+    shouldRunDev: true,
+    packageManager,
+    projectType: template.projectType,
+    storybookCommand: packageManager.getRunStorybookCommand(),
+  };
+};
+
+type InitiateResult = Promise<
   | {
       shouldRunDev: true;
       projectType: ProjectType;
@@ -250,7 +339,9 @@ async function doInitiate(
       storybookCommand: string;
     }
   | { shouldRunDev: false }
-> {
+>;
+
+async function doInitiate(options: CommandOptions, pkg: PackageJson): InitiateResult {
   let { packageManager: pkgMgr } = options;
   if (options.useNpm) {
     useNpmWarning();
@@ -267,6 +358,12 @@ async function doInitiate(
     pkg: pkg as any,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
+
+  const cwdFolderEntries = readdirSync(process.cwd());
+
+  if (cwdFolderEntries.length === 0 || cwdFolderEntries.every((entry) => entry.startsWith('.'))) {
+    return scaffoldProject({ packageManager, skipInstall: options.skipInstall });
+  }
 
   let projectType: ProjectType;
   const projectTypeProvided = options.type;
@@ -365,7 +462,7 @@ async function doInitiate(
   );
 
   return {
-    shouldRunDev: process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true',
+    shouldRunDev: SHOULD_RUN_DEV_AFTER_INIT,
     projectType,
     packageManager,
     storybookCommand,

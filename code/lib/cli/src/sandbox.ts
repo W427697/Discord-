@@ -11,13 +11,15 @@ import { allTemplates as TEMPLATES } from './sandbox-templates';
 
 const logger = console;
 
+type Choice = keyof typeof TEMPLATES;
+
 interface SandboxOptions {
   filterValue?: string;
   output?: string;
   branch?: string;
   init?: boolean;
+  silent?: boolean;
 }
-type Choice = keyof typeof TEMPLATES;
 
 const toChoices = (c: Choice): prompts.Choice => ({ title: TEMPLATES[c].name, value: c });
 
@@ -26,6 +28,7 @@ export const sandbox = async ({
   filterValue,
   branch,
   init,
+  silent,
 }: SandboxOptions) => {
   // Either get a direct match when users pass a template id, or filter through all templates
   let selectedConfig: Template | undefined = TEMPLATES[filterValue as TemplateKey];
@@ -80,21 +83,23 @@ export const sandbox = async ({
     if (choices.length === 1) {
       [selectedTemplate] = choices;
     } else {
-      logger.info(
-        boxen(
-          dedent`
-            🤗 Welcome to ${chalk.yellow('sb sandbox')}! 🤗
-
-            Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
-
-            1. select an environment that most closely matches your project setup.
-            2. select a location for the reproduction, outside of your project.
-
-            After the reproduction is ready, we'll guide you through the next steps.
-            `.trim(),
-          { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
-        )
-      );
+      if (!silent) {
+        logger.info(
+          boxen(
+            dedent`
+              🤗 Welcome to ${chalk.yellow('storybook sandbox')}! 🤗
+  
+              Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
+  
+              1. select an environment that most closely matches your project setup.
+              2. select a location for the reproduction, outside of your project.
+  
+              After the reproduction is ready, we'll guide you through the next steps.
+              `.trim(),
+            { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
+          )
+        );
+      }
 
       selectedTemplate = await promptSelectedTemplate(choices);
     }
@@ -114,7 +119,7 @@ export const sandbox = async ({
 
   let selectedDirectory = outputDirectory;
   const outputDirectoryName = outputDirectory || selectedTemplate;
-  if (selectedDirectory && existsSync(`${selectedDirectory}`)) {
+  if (selectedDirectory && existsSync(`${selectedDirectory}`) && !silent) {
     logger.info(`⚠️  ${selectedDirectory} already exists! Overwriting...`);
   }
 
@@ -145,9 +150,12 @@ export const sandbox = async ({
       ? selectedDirectory
       : path.join(process.cwd(), selectedDirectory);
 
-    logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
+    if (!silent) {
+      logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
 
-    logger.log('📦 Downloading sandbox template...');
+      logger.log('📦 Downloading sandbox template...');
+    }
+
     try {
       const templateType = init ? 'after-storybook' : 'before-storybook';
       // Download the sandbox based on subfolder "after-storybook" and selected branch
@@ -174,25 +182,27 @@ export const sandbox = async ({
       ? chalk.yellow(`yarn install\nyarn storybook`)
       : `Recreate your setup, then ${chalk.yellow(`npx storybook@latest init`)}`;
 
-    logger.info(
-      boxen(
-        dedent`
-        🎉 Your Storybook reproduction project is ready to use! 🎉
-
-        ${chalk.yellow(`cd ${selectedDirectory}`)}
-        ${initMessage}
-
-        Once you've recreated the problem you're experiencing, please:
-
-        1. Document any additional steps in ${chalk.cyan('README.md')}
-        2. Publish the repository to github
-        3. Link to the repro repository in your issue
-
-        Having a clean repro helps us solve your issue faster! 🙏
-      `.trim(),
-        { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
-      )
-    );
+    if (!silent) {
+      logger.info(
+        boxen(
+          dedent`
+            🎉 Your Storybook reproduction project is ready to use! 🎉
+    
+            ${chalk.yellow(`cd ${selectedDirectory}`)}
+            ${initMessage}
+    
+            Once you've recreated the problem you're experiencing, please:
+    
+            1. Document any additional steps in ${chalk.cyan('README.md')}
+            2. Publish the repository to github
+            3. Link to the repro repository in your issue
+    
+            Having a clean repro helps us solve your issue faster! 🙏
+          `.trim(),
+          { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
+        )
+      );
+    }
   } catch (error) {
     logger.error('🚨 Failed to create sandbox');
     throw error;
