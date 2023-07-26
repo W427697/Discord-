@@ -265,8 +265,6 @@ export class StoryIndexGenerator {
       .concat(this.options.storyIndexers)
       .find((ind) => ind.test.exec(absolutePath));
 
-    // TODO: Do we want to throw when both a deprecated and a new indexer match?
-
     if (!indexer) {
       throw new Error(`No matching indexer found for ${absolutePath}`);
     }
