@@ -6,7 +6,7 @@ import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { StoryIndex } from '@storybook/types';
+import type { Indexer, StoryIndex } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -39,16 +39,44 @@ const normalizedStories = [
   ),
 ];
 
-const csfIndexer = async (fileName: string, opts: any) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
-  return loadCsf(code, { ...opts, fileName }).parse();
+const storiesMdxIndexer: Indexer = {
+  test: /\.stories\.mdx$/,
+  index: async (fileName, opts) => {
+    let code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const { compile } = await import('@storybook/mdx2-csf');
+    code = await compile(code, {});
+    const csf = loadCsf(code, { ...opts, fileName }).parse();
+
+    // eslint-disable-next-line no-underscore-dangle
+    return Object.entries(csf._stories).map(([key, story]) => ({
+      key,
+      id: story.id,
+      name: story.name,
+      title: csf.meta.title,
+      importPath: fileName,
+      type: 'story',
+      tags: story.tags ?? csf.meta.tags,
+    }));
+  },
 };
 
-const storiesMdxIndexer = async (fileName: string, opts: any) => {
-  let code = (await fs.readFile(fileName, 'utf-8')).toString();
-  const { compile } = await import('@storybook/mdx2-csf');
-  code = await compile(code, {});
-  return loadCsf(code, { ...opts, fileName }).parse();
+const csfIndexer: Indexer = {
+  test: /\.stories\.(m?js|ts)x?$/,
+  index: async (fileName, options) => {
+    const code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const csf = loadCsf(code, { ...options, fileName }).parse();
+
+    // eslint-disable-next-line no-underscore-dangle
+    return Object.entries(csf._stories).map(([key, story]) => ({
+      key,
+      id: story.id,
+      name: story.name,
+      title: csf.meta.title,
+      importPath: fileName,
+      type: 'story',
+      tags: story.tags ?? csf.meta.tags,
+    }));
+  },
 };
 
 const getInitializedStoryIndexGenerator = async (
@@ -56,11 +84,8 @@ const getInitializedStoryIndexGenerator = async (
   inputNormalizedStories = normalizedStories
 ) => {
   const options: StoryIndexGeneratorOptions = {
-    storyIndexers: [
-      { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
-      { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-    ],
-    indexers: [],
+    storyIndexers: [],
+    indexers: [csfIndexer, storiesMdxIndexer],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,

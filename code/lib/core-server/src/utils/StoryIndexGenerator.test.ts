@@ -8,12 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type {
-  Indexer,
-  NormalizedStoriesSpecifier,
-  StoryIndexEntry,
-  StoryIndexer,
-} from '@storybook/types';
+import type { Indexer, NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger, once } from '@storybook/node-logger';
@@ -38,7 +33,7 @@ const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
 >;
 
-const storiesMdxIndexer: StoryIndexer = {
+const storiesMdxIndexer: Indexer = {
   test: /\.stories\.mdx$/,
   index: async (fileName, opts) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
