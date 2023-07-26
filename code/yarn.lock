@@ -6027,6 +6027,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/addon-themes@workspace:addons/themes":
+  version: 0.0.0-use.local
+  resolution: "@storybook/addon-themes@workspace:addons/themes"
+  dependencies:
+    "@storybook/client-logger": 7.2.0-rc.0
+    "@storybook/components": 7.2.0-rc.0
+    "@storybook/core-events": 7.2.0-rc.0
+    "@storybook/manager-api": 7.2.0-rc.0
+    "@storybook/preview-api": 7.2.0-rc.0
+    "@storybook/theming": 7.2.0-rc.0
+    "@storybook/types": 7.2.0-rc.0
+    ts-dedent: ^2.0.0
+    typescript: ~4.9.3
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@storybook/addon-toolbars@workspace:*, @storybook/addon-toolbars@workspace:addons/toolbars":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-toolbars@workspace:addons/toolbars"
@@ -6422,7 +6446,7 @@ __metadata:
     "@babel/preset-env": ^7.22.9
     "@babel/types": ^7.22.5
     "@ndelangen/get-tarball": ^3.0.7
-    "@storybook/client-api": 7.2.0-alpha.0
+    "@storybook/client-api": 7.2.0-rc.0
     "@storybook/codemod": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-server": "workspace:*"
@@ -6472,7 +6496,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-api@7.2.0-alpha.0, @storybook/client-api@workspace:*, @storybook/client-api@workspace:deprecated/client-api":
+"@storybook/client-api@7.2.0-rc.0, @storybook/client-api@workspace:*, @storybook/client-api@workspace:deprecated/client-api":
   version: 0.0.0-use.local
   resolution: "@storybook/client-api@workspace:deprecated/client-api"
   dependencies:
@@ -6481,7 +6505,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@7.2.0-alpha.0, @storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
+"@storybook/client-logger@7.2.0-rc.0, @storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
   version: 0.0.0-use.local
   resolution: "@storybook/client-logger@workspace:lib/client-logger"
   dependencies:
@@ -6526,7 +6550,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/components@workspace:*, @storybook/components@workspace:ui/components":
+"@storybook/components@7.2.0-rc.0, @storybook/components@workspace:*, @storybook/components@workspace:ui/components":
   version: 0.0.0-use.local
   resolution: "@storybook/components@workspace:ui/components"
   dependencies:
@@ -6602,7 +6626,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-events@workspace:*, @storybook/core-events@workspace:lib/core-events":
+"@storybook/core-events@7.2.0-rc.0, @storybook/core-events@workspace:*, @storybook/core-events@workspace:lib/core-events":
   version: 0.0.0-use.local
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
@@ -6907,7 +6931,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/manager-api@workspace:*, @storybook/manager-api@workspace:lib/manager-api":
+"@storybook/manager-api@7.2.0-rc.0, @storybook/manager-api@workspace:*, @storybook/manager-api@workspace:lib/manager-api":
   version: 0.0.0-use.local
   resolution: "@storybook/manager-api@workspace:lib/manager-api"
   dependencies:
@@ -7316,7 +7340,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preview-api@workspace:*, @storybook/preview-api@workspace:lib/preview-api":
+"@storybook/preview-api@7.2.0-rc.0, @storybook/preview-api@workspace:*, @storybook/preview-api@workspace:lib/preview-api":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
@@ -7672,7 +7696,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/router@workspace:lib/router"
   dependencies:
-    "@storybook/client-logger": 7.2.0-alpha.0
+    "@storybook/client-logger": 7.2.0-rc.0
     "@storybook/global": ^5.0.0
     dequal: ^2.0.2
     lodash: ^4.17.21
@@ -7855,7 +7879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@workspace:*, @storybook/theming@workspace:lib/theming":
+"@storybook/theming@7.2.0-rc.0, @storybook/theming@workspace:*, @storybook/theming@workspace:lib/theming":
   version: 0.0.0-use.local
   resolution: "@storybook/theming@workspace:lib/theming"
   dependencies:
@@ -7880,7 +7904,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/types@workspace:*, @storybook/types@workspace:lib/types":
+"@storybook/types@7.2.0-rc.0, @storybook/types@workspace:*, @storybook/types@workspace:lib/types":
   version: 0.0.0-use.local
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:

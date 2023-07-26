@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.2.0-alpha.0",
+  "version": "7.2.0-rc.0",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -93,6 +93,16 @@
       "require": "./dist/outline/manager.js",
       "import": "./dist/outline/manager.mjs"
     },
+    "./themes/manager": {
+      "types": "./dist/themes/manager.d.ts",
+      "require": "./dist/themes/manager.js",
+      "import": "./dist/themes/manager.mjs"
+    },
+    "./themes/preview": {
+      "types": "./dist/themes/preview.d.ts",
+      "require": "./dist/themes/preview.js",
+      "import": "./dist/themes/preview.mjs"
+    },
     "./toolbars/manager": {
       "types": "./dist/toolbars/manager.d.ts",
       "require": "./dist/toolbars/manager.js",
@@ -162,7 +172,9 @@
       "./src/outline/preview.ts",
       "./src/outline/manager.ts",
       "./src/toolbars/manager.ts",
-      "./src/viewport/manager.ts"
+      "./src/viewport/manager.ts",
+      "./src/themes/manager.ts",
+      "./src/themes/preview.ts"
     ],
     "platform": "node"
   },
