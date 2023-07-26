@@ -6,15 +6,10 @@ import { logger } from '@storybook/node-logger';
 import { resolve } from 'path';
 import prompts from 'prompts';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
-import {
-  ProjectType,
-  supportedTemplates,
-  SupportedLanguage,
-  unsupportedTemplate,
-  CoreBuilder,
-} from './project_types';
+import { ProjectType, SupportedLanguage, CoreBuilder } from './project_types';
 import { commandLog, isNxProject } from './helpers';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
+import { supportedTemplates, unsupportedTemplate } from './templates';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 const webpackConfigFiles = ['webpack.config.js'];
