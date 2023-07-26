@@ -41,6 +41,7 @@ import type { CommandOptions } from './generators/types';
 import { HandledError } from './HandledError';
 import { baseTemplates } from './sandbox-templates';
 import { sandbox } from './sandbox';
+import versions from './versions';
 
 const logger = console;
 
@@ -303,12 +304,15 @@ const scaffoldProject = async ({
   };
 
   const template = result.template as { key: string; projectType: ProjectType };
+  const storybookVersion = versions.storybook;
+
+  const isStableVersion = storybookVersion.match(/^\d+\.\d+\.\d+$/);
 
   await sandbox({
     filterValue: template.key,
     silent: true,
     output: '.',
-    branch: 'next',
+    branch: isStableVersion ? 'main' : 'next',
     init: true,
   });
 
