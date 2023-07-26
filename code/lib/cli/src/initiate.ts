@@ -256,7 +256,7 @@ const scaffoldProject = async ({
   logger.log(
     chalk.yellow(
       dedent`
-        We've detected that your project is empty. We will scaffold a project for you with a pre-configured storybook setup.
+        You're trying to initialize Storybook in an empty project. We will provide you a list of pre-configured Storybook setups to choose and scaffold a project based on your choice.
       `
     )
   );
