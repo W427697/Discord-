@@ -302,17 +302,16 @@ export class StoryIndexGenerator {
     //  a) autodocs is globally enabled
     //  b) we have autodocs enabled for this file
     //  c) it is a stories.mdx transpiled to CSF
+    const hasAutodocsTag = entries.some((entry) => entry.tags.includes(AUTODOCS_TAG));
     const isStoriesMdx = entries.some((entry) => entry.tags.includes(STORIES_MDX_TAG));
     const createDocEntry =
-      autodocs === true ||
-      (autodocs === 'tag' && entries.some((entry) => entry.tags.includes(AUTODOCS_TAG))) ||
-      isStoriesMdx;
+      autodocs === true || (autodocs === 'tag' && hasAutodocsTag) || isStoriesMdx;
 
     if (createDocEntry) {
       const name = this.options.docs.defaultName;
       // TODO: how to get "component title" or "component tags" when we only have direct stories here?
       const { title } = entries[0];
-      const { tags } = indexInputs[0];
+      const tags = indexInputs[0].tags || [];
       const id = toId(title, name);
       entries.unshift({
         id,
@@ -320,7 +319,7 @@ export class StoryIndexGenerator {
         name,
         importPath,
         type: 'docs',
-        tags: [...tags, 'docs', ...(!isStoriesMdx ? [AUTODOCS_TAG] : [])],
+        tags: [...tags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
         storiesImports: [],
       });
     }
