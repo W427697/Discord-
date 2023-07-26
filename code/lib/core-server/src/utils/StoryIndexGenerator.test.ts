@@ -56,19 +56,27 @@ const storiesMdxIndexer: StoryIndexer = {
   },
 };
 
-const plainStoryIndexer: Indexer = {
+const fullStoryIndexer: Indexer = {
   test: /\.stories\.(m?js|ts)x?$/,
   index: async (fileName) => {
     return [
       {
-        type: 'story',
+        key: 'StoryOne',
+        id: 'a--story-one',
+        name: 'Story One',
+        title: 'A',
+        tags: ['story-tag-from-indexer'],
         importPath: fileName,
-        key: 'primary',
+        type: 'story',
       },
       {
-        type: 'story',
+        key: 'StoryOne',
+        id: 'a--story-two',
+        name: 'Story Two',
+        title: 'A',
+        tags: ['story-tag-from-indexer'],
         importPath: fileName,
-        key: 'secondary',
+        type: 'story',
       },
     ];
   },
@@ -79,7 +87,7 @@ const options: StoryIndexGeneratorOptions = {
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [],
   indexers: [
-    plainStoryIndexer,
+    fullStoryIndexer,
     // storiesMdxIndexer,
     // csfIndexer,
   ],
@@ -92,8 +100,7 @@ describe('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
-    jest.mocked(logger.warn).mockClear();
-    jest.mocked(once.warn).mockClear();
+    jest.clearAllMocks();
   });
   describe('extraction', () => {
     const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
@@ -104,6 +111,275 @@ describe('StoryIndexGenerator', () => {
       './src/docs2/*.mdx',
       options
     );
+
+    describe.only('indexers', () => {
+      it('extracts stories from full indexer inputs', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.js',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...options,
+          indexers: [fullStoryIndexer],
+        });
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story-tag-from-indexer",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+              "a--story-two": Object {
+                "id": "a--story-two",
+                "importPath": "./src/A.stories.js",
+                "name": "Story Two",
+                "tags": Array [
+                  "story-tag-from-indexer",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+
+      it('extracts stories from minimal indexer inputs', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.js',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...options,
+          indexers: [
+            {
+              test: /\.stories\.(m?js|ts)x?$/,
+              index: async (fileName) => [
+                {
+                  key: 'StoryOne',
+                  importPath: fileName,
+                  type: 'story',
+                },
+              ],
+            },
+          ],
+        });
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+
+      it('auto-generates title from indexer inputs without title', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.js',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...options,
+          indexers: [
+            {
+              test: /\.stories\.(m?js|ts)x?$/,
+              index: async (fileName) => [
+                {
+                  key: 'StoryOne',
+                  id: 'a--story-one',
+                  name: 'Story One',
+                  tags: ['story-tag-from-indexer'],
+                  importPath: fileName,
+                  type: 'story',
+                },
+              ],
+            },
+          ],
+        });
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story-tag-from-indexer",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+
+      it('auto-generates name from indexer inputs without name', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.js',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...options,
+          indexers: [
+            {
+              test: /\.stories\.(m?js|ts)x?$/,
+              index: async (fileName) => [
+                {
+                  key: 'StoryOne',
+                  id: 'a--story-one',
+                  title: 'A',
+                  tags: ['story-tag-from-indexer'],
+                  importPath: fileName,
+                  type: 'story',
+                },
+              ],
+            },
+          ],
+        });
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+                  Object {
+                    "entries": Object {
+                      "a--story-one": Object {
+                        "id": "a--story-one",
+                        "importPath": "./src/A.stories.js",
+                        "name": "Story One",
+                        "tags": Array [
+                          "story-tag-from-indexer",
+                          "story",
+                        ],
+                        "title": "A",
+                        "type": "story",
+                      },
+                    },
+                    "v": 4,
+                  }
+              `);
+      });
+
+      it('auto-generates id from name and title inputs', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.js',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...options,
+          indexers: [
+            {
+              test: /\.stories\.(m?js|ts)x?$/,
+              index: async (fileName) => [
+                {
+                  key: 'StoryOne',
+                  name: 'Story One',
+                  title: 'A',
+                  tags: ['story-tag-from-indexer'],
+                  importPath: fileName,
+                  type: 'story',
+                },
+              ],
+            },
+          ],
+        });
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story-tag-from-indexer",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+
+      it('auto-generates id, title and name from key input', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/A.stories.js',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], {
+          ...options,
+          indexers: [
+            {
+              test: /\.stories\.(m?js|ts)x?$/,
+              index: async (fileName) => [
+                {
+                  key: 'StoryOne',
+                  tags: ['story-tag-from-indexer'],
+                  importPath: fileName,
+                  type: 'story',
+                },
+              ],
+            },
+          ],
+        });
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "a--story-one": Object {
+                "id": "a--story-one",
+                "importPath": "./src/A.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story-tag-from-indexer",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+    });
 
     describe('single file specifier', () => {
       it('extracts stories from the right files', async () => {
@@ -123,7 +399,18 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
-                  "story-tag",
+                  "story-tag-from-indexer",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+              "a--story-two": Object {
+                "id": "a--story-two",
+                "importPath": "./src/A.stories.js",
+                "name": "Story Two",
+                "tags": Array [
+                  "story-tag-from-indexer",
                   "story",
                 ],
                 "title": "A",

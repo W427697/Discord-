@@ -26,7 +26,7 @@ import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { deprecate, logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
-import { toId } from '@storybook/csf';
+import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';
 import { autoName } from './autoName';
@@ -251,28 +251,55 @@ export class StoryIndexGenerator {
     );
   }
 
-  async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
+  async extractStories(
+    specifier: NormalizedStoriesSpecifier,
+    absolutePath: Path
+  ): Promise<StoriesCacheEntry> {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const importPath = slash(normalizeStoryPath(relativePath));
-    const makeTitle = (userTitle?: string) => {
+    const defaultMakeTitle = (userTitle?: string) => {
       return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
     };
 
     const indexer = (this.options.indexers as StoryIndexer[])
       .concat(this.options.storyIndexers)
       .find((ind) => ind.test.exec(absolutePath));
+
     // TODO: Do we want to throw when both a deprecated and a new indexer match?
+
     if (!indexer) {
       throw new Error(`No matching indexer found for ${absolutePath}`);
     }
     if (indexer.indexer) {
       return this.extractStoriesFromDeprecatedIndexer({
         indexer: indexer.indexer,
-        indexerOptions: { makeTitle },
+        indexerOptions: { makeTitle: defaultMakeTitle },
         absolutePath,
         importPath,
       });
     }
+
+    const indexInputs = await indexer.index(importPath, { makeTitle: defaultMakeTitle });
+
+    const entries: StoryIndexEntry[] = indexInputs.map((input) => {
+      const name = input.name ?? storyNameFromExport(input.key);
+      const title = input.title ?? defaultMakeTitle();
+      const id = input.id ?? toId(title, name);
+      return {
+        type: 'story',
+        id,
+        name,
+        title,
+        importPath,
+        tags: (input.tags || []).concat('story'),
+      };
+    });
+
+    return {
+      entries,
+      dependents: [],
+      type: 'stories',
+    };
   }
 
   async extractStoriesFromDeprecatedIndexer({
