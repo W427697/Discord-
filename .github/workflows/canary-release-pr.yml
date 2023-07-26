@@ -78,7 +78,7 @@ jobs:
         id: version
         working-directory: scripts
         run: |
-          yarn release:version --release-type prerelease --pre-id canary-${{ inputs.pr }}-${{ steps.info.outputs.timestamp }}-${{ steps.info.outputs.shortSha }} --verbose
+          yarn release:version --exact 0.0.0-pr-${{ inputs.pr }}-sha-${{ steps.info.outputs.shortSha }} --verbose
 
       - name: Publish v${{ steps.version.outputs.next-version }}
         env:
