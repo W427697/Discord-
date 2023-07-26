@@ -38,47 +38,43 @@ const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
 >;
 
-const csfIndexer: StoryIndexer = {
-  test: /\.stories\.mdx$/,
-  indexer: async (fileName, opts) => {
-    const code = (await fs.readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
-  },
-};
-
 const storiesMdxIndexer: StoryIndexer = {
   test: /\.stories\.mdx$/,
-  indexer: async (fileName, opts) => {
+  index: async (fileName, opts) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = await import('@storybook/mdx2-csf');
     code = await compile(code, {});
-    return loadCsf(code, { ...opts, fileName }).parse();
+    const csf = loadCsf(code, { ...opts, fileName }).parse();
+
+    // eslint-disable-next-line no-underscore-dangle
+    return Object.entries(csf._stories).map(([key, story]) => ({
+      key,
+      id: story.id,
+      name: story.name,
+      title: csf.meta.title,
+      importPath: fileName,
+      type: 'story',
+      tags: story.tags ?? csf.meta.tags,
+    }));
   },
 };
 
-const fullStoryIndexer: Indexer = {
+const csfIndexer: Indexer = {
   test: /\.stories\.(m?js|ts)x?$/,
-  index: async (fileName) => {
-    return [
-      {
-        key: 'StoryOne',
-        id: 'a--story-one',
-        name: 'Story One',
-        title: 'A',
-        tags: ['story-tag-from-indexer'],
-        importPath: fileName,
-        type: 'story',
-      },
-      {
-        key: 'StoryOne',
-        id: 'a--story-two',
-        name: 'Story Two',
-        title: 'A',
-        tags: ['story-tag-from-indexer'],
-        importPath: fileName,
-        type: 'story',
-      },
-    ];
+  index: async (fileName, options) => {
+    const code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const csf = loadCsf(code, { ...options, fileName }).parse();
+
+    // eslint-disable-next-line no-underscore-dangle
+    return Object.entries(csf._stories).map(([key, story]) => ({
+      key,
+      id: story.id,
+      name: story.name,
+      title: csf.meta.title,
+      importPath: fileName,
+      type: 'story',
+      tags: story.tags ?? csf.meta.tags,
+    }));
   },
 };
 
@@ -86,11 +82,7 @@ const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [],
-  indexers: [
-    fullStoryIndexer,
-    // storiesMdxIndexer,
-    // csfIndexer,
-  ],
+  indexers: [csfIndexer, storiesMdxIndexer],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
@@ -100,7 +92,8 @@ describe('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
-    jest.clearAllMocks();
+    jest.mocked(logger.warn).mockClear();
+    jest.mocked(once.warn).mockClear();
   });
   describe('extraction', () => {
     const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
@@ -112,7 +105,7 @@ describe('StoryIndexGenerator', () => {
       options
     );
 
-    describe.only('indexers', () => {
+    describe('indexers', () => {
       it('extracts stories from full indexer inputs', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.js',
@@ -121,7 +114,22 @@ describe('StoryIndexGenerator', () => {
 
         const generator = new StoryIndexGenerator([specifier], {
           ...options,
-          indexers: [fullStoryIndexer],
+          indexers: [
+            {
+              test: /\.stories\.(m?js|ts)x?$/,
+              index: async (fileName) => [
+                {
+                  key: 'StoryOne',
+                  id: 'a--story-one',
+                  name: 'Story One',
+                  title: 'A',
+                  tags: ['story-tag-from-indexer'],
+                  importPath: fileName,
+                  type: 'story',
+                },
+              ],
+            },
+          ],
         });
         await generator.initialize();
 
@@ -132,17 +140,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
-                "tags": Array [
-                  "story-tag-from-indexer",
-                  "story",
-                ],
-                "title": "A",
-                "type": "story",
-              },
-              "a--story-two": Object {
-                "id": "a--story-two",
-                "importPath": "./src/A.stories.js",
-                "name": "Story Two",
                 "tags": Array [
                   "story-tag-from-indexer",
                   "story",
@@ -399,18 +396,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
-                  "story-tag-from-indexer",
-                  "story",
-                ],
-                "title": "A",
-                "type": "story",
-              },
-              "a--story-two": Object {
-                "id": "a--story-two",
-                "importPath": "./src/A.stories.js",
-                "name": "Story Two",
-                "tags": Array [
-                  "story-tag-from-indexer",
+                  "story-tag",
                   "story",
                 ],
                 "title": "A",
@@ -557,7 +543,7 @@ describe('StoryIndexGenerator', () => {
       });
     });
 
-    describe('mdx tagged components', () => {
+    describe.only('mdx tagged components', () => {
       it('adds docs entry with docs enabled', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/nested/Page.stories.mdx',

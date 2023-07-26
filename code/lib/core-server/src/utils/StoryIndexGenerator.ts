@@ -279,7 +279,7 @@ export class StoryIndexGenerator {
       });
     }
 
-    const indexInputs = await indexer.index(importPath, { makeTitle: defaultMakeTitle });
+    const indexInputs = await indexer.index(absolutePath, { makeTitle: defaultMakeTitle });
 
     const entries: StoryIndexEntry[] = indexInputs.map((input) => {
       const name = input.name ?? storyNameFromExport(input.key);
@@ -559,6 +559,7 @@ export class StoryIndexGenerator {
 
     try {
       const errorEntries = storiesList.filter((entry) => entry.type === 'error');
+      console.dir(errorEntries);
       if (errorEntries.length)
         throw new MultipleIndexingError(errorEntries.map((entry) => (entry as ErrorEntry).err));
 
