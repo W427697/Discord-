@@ -628,7 +628,10 @@ export const printConfig = (config: ConfigFile, options: Options = {}) => {
   if (prettierConfig) {
     let pretty: string;
     try {
-      pretty = prettier.format(result.code, { ...prettierConfig, filepath: config.fileName });
+      pretty = prettier.format(result.code, {
+        ...prettierConfig,
+        filepath: config.fileName ?? 'main.ts',
+      });
     } catch (_) {
       pretty = result.code;
     }
