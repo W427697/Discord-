@@ -48,7 +48,12 @@ export const useNavigate = () => {
 
   return useCallback((to: R.To | number, { plain, ...options } = {} as NavigateOptions) => {
     if (typeof to === 'string' && to.startsWith('#')) {
-      document.location.hash = to;
+      if (!to.substring(1)) {
+        // if only '#' symbol is found, remove the hash entirely.
+        navigate(document.location.search);
+      } else {
+        document.location.hash = to;
+      }
       return undefined;
     }
     if (typeof to === 'string') {
