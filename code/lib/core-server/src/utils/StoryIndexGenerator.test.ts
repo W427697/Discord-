@@ -543,7 +543,7 @@ describe('StoryIndexGenerator', () => {
       });
     });
 
-    describe.only('mdx tagged components', () => {
+    describe('mdx tagged components', () => {
       it('adds docs entry with docs enabled', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/nested/Page.stories.mdx',

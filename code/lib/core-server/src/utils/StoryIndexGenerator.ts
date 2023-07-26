@@ -254,7 +254,7 @@ export class StoryIndexGenerator {
   async extractStories(
     specifier: NormalizedStoriesSpecifier,
     absolutePath: Path
-  ): Promise<StoriesCacheEntry> {
+  ): Promise<StoriesCacheEntry | DocsCacheEntry> {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const importPath = slash(normalizeStoryPath(relativePath));
     const defaultMakeTitle = (userTitle?: string) => {
@@ -281,19 +281,49 @@ export class StoryIndexGenerator {
 
     const indexInputs = await indexer.index(absolutePath, { makeTitle: defaultMakeTitle });
 
-    const entries: StoryIndexEntry[] = indexInputs.map((input) => {
+    const entries: (StoryIndexEntry | DocsCacheEntry)[] = indexInputs.map((input) => {
       const name = input.name ?? storyNameFromExport(input.key);
       const title = input.title ?? defaultMakeTitle();
       const id = input.id ?? toId(title, name);
+      const tags = (input.tags || []).concat('story');
+
       return {
         type: 'story',
         id,
         name,
         title,
         importPath,
-        tags: (input.tags || []).concat('story'),
+        tags,
       };
     });
+
+    const { autodocs } = this.options.docs;
+    // We need a docs entry attached to the CSF file if either:
+    //  a) autodocs is globally enabled
+    //  b) we have autodocs enabled for this file
+    //  c) it is a stories.mdx transpiled to CSF
+    const isStoriesMdx = entries.some((entry) => entry.tags.includes(STORIES_MDX_TAG));
+    const createDocEntry =
+      autodocs === true ||
+      (autodocs === 'tag' && entries.some((entry) => entry.tags.includes(AUTODOCS_TAG))) ||
+      isStoriesMdx;
+
+    if (createDocEntry) {
+      const name = this.options.docs.defaultName;
+      // TODO: how to get "component title" or "component tags" when we only have direct stories here?
+      const { title } = entries[0];
+      const { tags } = indexInputs[0];
+      const id = toId(title, name);
+      entries.unshift({
+        id,
+        title,
+        name,
+        importPath,
+        type: 'docs',
+        tags: [...tags, 'docs', ...(!isStoriesMdx ? [AUTODOCS_TAG] : [])],
+        storiesImports: [],
+      });
+    }
 
     return {
       entries,
@@ -559,7 +589,7 @@ export class StoryIndexGenerator {
 
     try {
       const errorEntries = storiesList.filter((entry) => entry.type === 'error');
-      console.dir(errorEntries);
+
       if (errorEntries.length)
         throw new MultipleIndexingError(errorEntries.map((entry) => (entry as ErrorEntry).err));
 
