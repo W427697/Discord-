@@ -3,17 +3,13 @@ import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
 
-const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
+const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:6006';
 const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
 test.describe('addon-interactions', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
     await new SbPage(page).waitUntilLoaded();
-  });
-  test.afterEach(async ({ page }) => {
-    await page.evaluate(() => window.localStorage.clear());
-    await page.evaluate(() => window.sessionStorage.clear());
   });
 
   // FIXME: skip xxx
@@ -56,7 +52,7 @@ test.describe('addon-interactions', () => {
 
     const sbPage = new SbPage(page);
 
-    await sbPage.navigateToStory('addons/interactions/basics', 'type-and-clear');
+    await sbPage.deepLinkToStory(storybookUrl, 'addons/interactions/basics', 'type-and-clear');
     await sbPage.viewAddonPanel('Interactions');
 
     // Test initial state - Interactions have run, count is correct and values are as expected

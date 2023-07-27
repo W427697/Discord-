@@ -24,6 +24,14 @@ export class SbPage {
     }
   }
 
+  async deepLinkToStory(baseURL: string, title: string, name: 'docs' | string) {
+    const titleId = toId(title);
+    const storyId = toId(name);
+    const storyLinkId = `${titleId}--${storyId}`;
+    const viewMode = name === 'docs' ? 'docs' : 'story';
+    await this.page.goto(`${baseURL}/?path=/${viewMode}/${storyLinkId}`);
+  }
+
   async navigateToStory(title: string, name: string) {
     await this.openComponent(title);
 
