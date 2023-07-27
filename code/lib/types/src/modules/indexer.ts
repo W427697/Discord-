@@ -72,7 +72,7 @@ export type Indexer = BaseIndexer & {
   indexer?: never;
 };
 
-type DeprecatedIndexer = BaseIndexer & {
+export type DeprecatedIndexer = BaseIndexer & {
   indexer: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
   index?: never;
 };
