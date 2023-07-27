@@ -56,7 +56,7 @@ describe('ServerChannelTransport', () => {
     // @ts-expect-error (an internal API)
     transport.socket.emit('connection', socket);
 
-    const input = { a: 1 };
+    const input: any = { a: 1 };
     input.b = input;
     socket.emit('message', stringify(input));
 
