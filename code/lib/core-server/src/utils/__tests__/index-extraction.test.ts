@@ -7,7 +7,6 @@
 import path from 'path';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier } from '@storybook/types';
-import { logger, once } from '@storybook/node-logger';
 
 import type { StoryIndexGeneratorOptions } from '../StoryIndexGenerator';
 import { AUTODOCS_TAG, STORIES_MDX_TAG, StoryIndexGenerator } from '../StoryIndexGenerator';
