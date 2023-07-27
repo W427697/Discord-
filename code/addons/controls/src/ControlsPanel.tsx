@@ -7,12 +7,7 @@ import {
   useParameter,
   useStorybookState,
 } from '@storybook/manager-api';
-import {
-  PureArgsTable as ArgsTable,
-  NoControlsWarning,
-  type PresetColor,
-  type SortType,
-} from '@storybook/blocks';
+import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 
 import type { ArgTypes } from '@storybook/types';
 import { PARAM_KEY } from './constants';
@@ -29,16 +24,11 @@ export const ControlsPanel: FC = () => {
   const [globals] = useGlobals();
   const rows = useArgTypes();
   const isArgsStory = useParameter<boolean>('__isArgsStory', false);
-  const {
-    expanded,
-    sort,
-    presetColors,
-    hideNoControlsWarning = false,
-  } = useParameter<ControlsParameters>(PARAM_KEY, {});
+  const isLoading = !isArgsStory;
+  const { expanded, sort, presetColors } = useParameter<ControlsParameters>(PARAM_KEY, {});
   const { path } = useStorybookState();
 
   const hasControls = Object.values(rows).some((arg) => arg?.control);
-  const showWarning = !(hasControls && isArgsStory) && !hideNoControlsWarning;
 
   const withPresetColors = Object.entries(rows).reduce((acc, [key, arg]) => {
     if (arg?.control?.type !== 'color' || arg?.control?.presetColors) acc[key] = arg;
@@ -46,22 +36,22 @@ export const ControlsPanel: FC = () => {
     return acc;
   }, {} as ArgTypes);
 
+  console.log('isLoading in ControlsPanel', isLoading);
+
   return (
-    <>
-      {showWarning && <NoControlsWarning />}
-      <ArgsTable
-        {...{
-          key: path, // resets state when switching stories
-          compact: !expanded && hasControls,
-          rows: withPresetColors,
-          args,
-          globals,
-          updateArgs,
-          resetArgs,
-          inAddonPanel: true,
-          sort,
-        }}
-      />
-    </>
+    <ArgsTable
+      {...{
+        key: path, // resets state when switching stories
+        compact: !expanded && hasControls,
+        rows: withPresetColors,
+        args,
+        globals,
+        updateArgs,
+        resetArgs,
+        inAddonPanel: true,
+        sort,
+      }}
+      isLoading={isLoading}
+    />
   );
 };

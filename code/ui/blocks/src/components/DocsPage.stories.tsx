@@ -43,7 +43,6 @@ export const Loading = () => (
     </Subtitle>
     <MarkdownComponent {...markdown.Text.args} />
     <Preview.Loading />
-    <ArgsTable {...(argsTable.Loading.args as ComponentProps<typeof ArgsTable>)} />
     <Source {...source.Loading.args} />
   </DocsPageWrapper>
 );
