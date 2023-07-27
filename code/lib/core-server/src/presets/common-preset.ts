@@ -29,6 +29,7 @@ import {
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
+import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
@@ -313,19 +314,18 @@ export const experimental_serverChannel = async (
     async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
       const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
       try {
-        const configFileName = findConfigFile('main', options.configDir);
-        if (!configFileName)
-          throw new Error(`unable to find storybook main file in ${options.configDir}`);
-        const main = await readConfig(configFileName);
+        const mainPath = findConfigFile('main', options.configDir);
+        invariant(mainPath, `unable to find storybook main file in ${options.configDir}`);
+        const main = await readConfig(mainPath);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await fs.writeFile(main.fileName, printConfig(main).code);
-
+        await fs.writeFile(mainPath, printConfig(main).code);
         if (isTelemetryEnabled) {
           await telemetry('core-config', { disableWhatsNewNotifications });
         }
       } catch (error) {
+        invariant(error instanceof Error);
         if (isTelemetryEnabled) {
-          await sendTelemetryError(error as Error, 'core-config', {
+          await sendTelemetryError(error, 'core-config', {
             cliOptions: options,
             presetOptions: { ...options, corePresets: [], overridePresets: [] },
             skipPrompt: true,
