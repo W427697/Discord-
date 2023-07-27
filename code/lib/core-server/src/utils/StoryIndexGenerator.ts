@@ -183,10 +183,12 @@ export class StoryIndexGenerator {
     await Promise.all(
       this.specifiers.map(async (specifier) => {
         const entry = this.specifierToCache.get(specifier);
-        if (!entry)
-          throw new Error(
-            `specifier ${specifier} does not have a matching cache entry in specifierToCache`
-          );
+        invariant(
+          entry,
+          `specifier does not have a matching cache entry in specifierToCache: ${JSON.stringify(
+            specifier
+          )}`
+        );
         return Promise.all(
           Object.keys(entry).map(async (absolutePath) => {
             if (entry[absolutePath] && !overwrite) return;
@@ -233,10 +235,12 @@ export class StoryIndexGenerator {
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
-      if (!cache)
-        throw new Error(
-          `specifier ${specifier} does not have a matching cache entry in specifierToCache`
-        );
+      invariant(
+        cache,
+        `specifier does not have a matching cache entry in specifierToCache: ${JSON.stringify(
+          specifier
+        )}`
+      );
       return Object.values(cache).flatMap((entry): (IndexEntry | ErrorEntry)[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
@@ -272,10 +276,10 @@ export class StoryIndexGenerator {
     const importPath = slash(normalizeStoryPath(relativePath));
     const defaultMakeTitle = (userTitle?: string) => {
       const title = userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
-      if (!title)
-        throw new Error(
-          "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
-        );
+      invariant(
+        title,
+        "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
+      );
       return title;
     };
 
@@ -283,9 +287,8 @@ export class StoryIndexGenerator {
       .concat(this.options.storyIndexers)
       .find((ind) => ind.test.exec(absolutePath));
 
-    if (!indexer) {
-      throw new Error(`No matching indexer found for ${absolutePath}`);
-    }
+    invariant(indexer, `No matching indexer found for ${absolutePath}`);
+
     if (indexer.indexer) {
       return this.extractStoriesFromDeprecatedIndexer({
         indexer: indexer.indexer,
@@ -407,9 +410,10 @@ export class StoryIndexGenerator {
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
-      if (!this.options.storyStoreV7) {
-        throw new Error(`You cannot use \`.mdx\` files without using \`storyStoreV7\`.`);
-      }
+      invariant(
+        this.options.storyStoreV7,
+        `You cannot use \`.mdx\` files without using \`storyStoreV7\`.`
+      );
 
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
@@ -462,15 +466,15 @@ export class StoryIndexGenerator {
           sortedDependencies = [dep, ...dependencies.filter((d) => d !== dep)];
         });
 
-        if (!csfEntry)
-          throw new Error(
-            dedent`Could not find or load CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+        invariant(
+          csfEntry,
+          dedent`Could not find or load CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
             
-              - Does that file exist?
-              - If so, is it a CSF file (\`.stories.*\`)?
-              - If so, is it matched by the \`stories\` glob in \`main.js\`?
-              - If so, has the file successfully loaded in Storybook and are its stories visible?`
-          );
+        - Does that file exist?
+        - If so, is it a CSF file (\`.stories.*\`)?
+        - If so, is it matched by the \`stories\` glob in \`main.js\`?
+        - If so, has the file successfully loaded in Storybook and are its stories visible?`
+        );
       }
 
       // Track that we depend on this for easy invalidation later.
@@ -480,12 +484,12 @@ export class StoryIndexGenerator {
 
       const title =
         csfEntry?.title || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
-      if (!title)
-        throw new Error(
-          "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
-        );
+      invariant(
+        title,
+        "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
+      );
       const { defaultName } = this.options.docs;
-      if (!defaultName) throw new Error('expected a defaultName property in options.docs');
+      invariant(defaultName, 'expected a defaultName property in options.docs');
 
       const name =
         result.name ||
@@ -680,7 +684,12 @@ export class StoryIndexGenerator {
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
-    if (!cache) throw new Error(`no `);
+    invariant(
+      cache,
+      `specifier does not have a matching cache entry in specifierToCache: ${JSON.stringify(
+        specifier
+      )}`
+    );
     const cacheEntry = cache[absolutePath];
     if (cacheEntry && cacheEntry.type === 'stories') {
       const { dependents } = cacheEntry;
