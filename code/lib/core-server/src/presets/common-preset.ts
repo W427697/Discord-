@@ -43,7 +43,7 @@ export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) =>
 ];
 
 export const favicon = async (
-  value: string,
+  value: string | undefined,
   options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
 ) => {
   if (value) {
@@ -256,8 +256,13 @@ type WhatsNewResponse = {
   excerpt: string;
 };
 
+type OptionsWithRequiredCache = Exclude<Options, 'cache'> & Required<Pick<Options, 'cache'>>;
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_serverChannel = async (channel: Channel, options: Options) => {
+export const experimental_serverChannel = async (
+  channel: Channel,
+  options: OptionsWithRequiredCache
+) => {
   const coreOptions = await options.presets.apply('core');
 
   channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
@@ -276,7 +281,10 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
         throw response;
       })) as WhatsNewResponse;
 
-      const main = await readConfig(findConfigFile('main', options.configDir));
+      const configFileName = findConfigFile('main', options.configDir);
+      if (!configFileName)
+        throw new Error(`unable to find storybook main file in ${options.configDir}`);
+      const main = await readConfig(configFileName);
       const disableWhatsNewNotifications = main.getFieldValue([
         'core',
         'disableWhatsNewNotifications',
@@ -292,7 +300,7 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
       } satisfies WhatsNewData;
       channel.emit(RESULT_WHATS_NEW_DATA, { data });
     } catch (e) {
-      logger.verbose(e);
+      logger.verbose(e instanceof Error ? e.message : String(e));
       channel.emit(RESULT_WHATS_NEW_DATA, {
         data: { status: 'ERROR' } satisfies WhatsNewData,
       });
@@ -304,7 +312,10 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
     async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
       const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
       try {
-        const main = await readConfig(findConfigFile('main', options.configDir));
+        const configFileName = findConfigFile('main', options.configDir);
+        if (!configFileName)
+          throw new Error(`unable to find storybook main file in ${options.configDir}`);
+        const main = await readConfig(configFileName);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
         await writeConfig(main);
 
@@ -313,7 +324,7 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
         }
       } catch (error) {
         if (isTelemetryEnabled) {
-          await sendTelemetryError(error, 'core-config', {
+          await sendTelemetryError(error as Error, 'core-config', {
             cliOptions: options,
             presetOptions: { ...options, corePresets: [], overridePresets: [] },
             skipPrompt: true,
