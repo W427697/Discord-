@@ -8,7 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
+import type { Indexer, NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger, once } from '@storybook/node-logger';
@@ -33,32 +33,57 @@ const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
 >;
 
-const csfIndexer = async (fileName: string, opts: any) => {
-  const code = (await fs.readFile(fileName, 'utf-8')).toString();
-  return loadCsf(code, { ...opts, fileName }).parse();
+const storiesMdxIndexer: Indexer = {
+  test: /\.stories\.mdx$/,
+  index: async (fileName, opts) => {
+    let code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const { compile } = await import('@storybook/mdx2-csf');
+    code = await compile(code, {});
+    const csf = loadCsf(code, { ...opts, fileName }).parse();
+
+    // eslint-disable-next-line no-underscore-dangle
+    return Object.entries(csf._stories).map(([key, story]) => ({
+      key,
+      id: story.id,
+      name: story.name,
+      title: csf.meta.title,
+      importPath: fileName,
+      type: 'story',
+      tags: story.tags ?? csf.meta.tags,
+    }));
+  },
 };
 
-const storiesMdxIndexer = async (fileName: string, opts: any) => {
-  let code = (await fs.readFile(fileName, 'utf-8')).toString();
-  const { compile } = await import('@storybook/mdx2-csf');
-  code = await compile(code, {});
-  return loadCsf(code, { ...opts, fileName }).parse();
+const csfIndexer: Indexer = {
+  test: /\.stories\.(m?js|ts)x?$/,
+  index: async (fileName, options) => {
+    const code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const csf = loadCsf(code, { ...options, fileName }).parse();
+
+    // eslint-disable-next-line no-underscore-dangle
+    return Object.entries(csf._stories).map(([key, story]) => ({
+      key,
+      id: story.id,
+      name: story.name,
+      title: csf.meta.title,
+      importPath: fileName,
+      type: 'story',
+      tags: story.tags ?? csf.meta.tags,
+    }));
+  },
 };
 
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
-  storyIndexers: [
-    { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
-    { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
-  ],
-  indexers: [],
+  storyIndexers: [],
+  indexers: [csfIndexer, storiesMdxIndexer],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
 
-describe('StoryIndexGenerator with deprecated indexer API', () => {
+describe('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
@@ -1142,40 +1167,6 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
       it('DOES NOT throw when the same CSF file matches two specifiers', async () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, storiesSpecifier], {
           ...options,
-        });
-        await generator.initialize();
-        expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
-          Array [
-            "a--story-one",
-          ]
-        `);
-
-        expect(logger.warn).not.toHaveBeenCalled();
-      });
-
-      it('DOES NOT throw when the same CSF file is indexed by both a deprecated and current indexer', async () => {
-        const generator = new StoryIndexGenerator([storiesSpecifier], {
-          ...options,
-          indexers: [
-            {
-              test: /\.stories\.(m?js|ts)x?$/,
-              index: async (fileName, options) => {
-                const code = (await fs.readFile(fileName, 'utf-8')).toString();
-                const csf = loadCsf(code, { ...options, fileName }).parse();
-
-                // eslint-disable-next-line no-underscore-dangle
-                return Object.entries(csf._stories).map(([key, story]) => ({
-                  key,
-                  id: story.id,
-                  name: story.name,
-                  title: csf.meta.title,
-                  importPath: fileName,
-                  type: 'story',
-                  tags: story.tags ?? csf.meta.tags,
-                }));
-              },
-            },
-          ],
         });
         await generator.initialize();
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`

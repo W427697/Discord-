@@ -20,12 +20,14 @@ import type {
   StoryId,
   StoryName,
   Indexer,
+  IndexerOptions,
+  DeprecatedIndexer,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
 import { deprecate, logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
-import { toId } from '@storybook/csf';
+import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 import dedent from 'ts-dedent';
 import { autoName } from './autoName';
@@ -181,10 +183,12 @@ export class StoryIndexGenerator {
     await Promise.all(
       this.specifiers.map(async (specifier) => {
         const entry = this.specifierToCache.get(specifier);
-        if (!entry)
-          throw new Error(
-            `specifier ${specifier} does not have a matching cache entry in specifierToCache`
-          );
+        invariant(
+          entry,
+          `specifier does not have a matching cache entry in specifierToCache: ${JSON.stringify(
+            specifier
+          )}`
+        );
         return Promise.all(
           Object.keys(entry).map(async (absolutePath) => {
             if (entry[absolutePath] && !overwrite) return;
@@ -231,10 +235,12 @@ export class StoryIndexGenerator {
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
-      if (!cache)
-        throw new Error(
-          `specifier ${specifier} does not have a matching cache entry in specifierToCache`
-        );
+      invariant(
+        cache,
+        `specifier does not have a matching cache entry in specifierToCache: ${JSON.stringify(
+          specifier
+        )}`
+      );
       return Object.values(cache).flatMap((entry): (IndexEntry | ErrorEntry)[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
@@ -262,24 +268,105 @@ export class StoryIndexGenerator {
     );
   }
 
-  async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
+  async extractStories(
+    specifier: NormalizedStoriesSpecifier,
+    absolutePath: Path
+  ): Promise<StoriesCacheEntry | DocsCacheEntry> {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as IndexEntry[];
     const importPath = slash(normalizeStoryPath(relativePath));
-    const makeTitle = (userTitle?: string) => {
+    const defaultMakeTitle = (userTitle?: string) => {
       const title = userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
-      if (!title)
-        throw new Error(
-          "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
-        );
+      invariant(
+        title,
+        "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
+      );
       return title;
     };
 
-    const storyIndexer = this.options.storyIndexers.find((ind) => ind.test.exec(absolutePath));
-    if (!storyIndexer) {
-      throw new Error(`No matching indexer found for ${absolutePath}`);
+    const indexer = (this.options.indexers as StoryIndexer[])
+      .concat(this.options.storyIndexers)
+      .find((ind) => ind.test.exec(absolutePath));
+
+    invariant(indexer, `No matching indexer found for ${absolutePath}`);
+
+    if (indexer.indexer) {
+      return this.extractStoriesFromDeprecatedIndexer({
+        indexer: indexer.indexer,
+        indexerOptions: { makeTitle: defaultMakeTitle },
+        absolutePath,
+        importPath,
+      });
     }
-    const csf = await storyIndexer.indexer(absolutePath, { makeTitle });
+
+    const indexInputs = await indexer.index(absolutePath, { makeTitle: defaultMakeTitle });
+
+    const entries: ((StoryIndexEntry | DocsCacheEntry) & { tags: Tag[] })[] = indexInputs.map(
+      (input) => {
+        const name = input.name ?? storyNameFromExport(input.key);
+        const title = input.title ?? defaultMakeTitle();
+        const id = input.id ?? toId(title, name);
+        const tags = (input.tags || []).concat('story');
+
+        return {
+          type: 'story',
+          id,
+          name,
+          title,
+          importPath,
+          tags,
+        };
+      }
+    );
+
+    const { autodocs } = this.options.docs;
+    // We need a docs entry attached to the CSF file if either:
+    //  a) autodocs is globally enabled
+    //  b) we have autodocs enabled for this file
+    //  c) it is a stories.mdx transpiled to CSF
+    const hasAutodocsTag = entries.some((entry) => entry.tags.includes(AUTODOCS_TAG));
+    const isStoriesMdx = entries.some((entry) => entry.tags.includes(STORIES_MDX_TAG));
+    const createDocEntry =
+      autodocs === true || (autodocs === 'tag' && hasAutodocsTag) || isStoriesMdx;
+
+    if (createDocEntry) {
+      const name = this.options.docs.defaultName;
+      invariant(name, 'expected a defaultName property in options.docs');
+      const { title } = entries[0];
+      const tags = indexInputs[0].tags || [];
+      const id = toId(title, name);
+      entries.unshift({
+        id,
+        title,
+        name,
+        importPath,
+        type: 'docs',
+        tags: [...tags, 'docs', ...(!hasAutodocsTag && !isStoriesMdx ? [AUTODOCS_TAG] : [])],
+        storiesImports: [],
+      });
+    }
+
+    return {
+      entries,
+      dependents: [],
+      type: 'stories',
+    };
+  }
+
+  async extractStoriesFromDeprecatedIndexer({
+    indexer,
+    indexerOptions,
+    absolutePath,
+    importPath,
+  }: {
+    indexer: DeprecatedIndexer['indexer'];
+    indexerOptions: IndexerOptions;
+    absolutePath: Path;
+    importPath: Path;
+  }) {
+    const csf = await indexer(absolutePath, indexerOptions);
+
+    const entries = [];
+
     const componentTags = csf.meta.tags || [];
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
       if (!parameters?.docsOnly) {
@@ -298,8 +385,8 @@ export class StoryIndexGenerator {
       //  b) we have docs page enabled for this file
       if (componentTags.includes(STORIES_MDX_TAG) || autodocsOptedIn) {
         const name = this.options.docs.defaultName;
-        if (!name) throw new Error('expected a defaultName property in options.docs');
-        invariant(csf.meta.title);
+        invariant(name, 'expected a defaultName property in options.docs');
+        invariant(csf.meta.title, 'expected a title property in csf.meta');
         const id = toId(csf.meta.title, name);
         entries.unshift({
           id,
@@ -323,9 +410,10 @@ export class StoryIndexGenerator {
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
-      if (!this.options.storyStoreV7) {
-        throw new Error(`You cannot use \`.mdx\` files without using \`storyStoreV7\`.`);
-      }
+      invariant(
+        this.options.storyStoreV7,
+        `You cannot use \`.mdx\` files without using \`storyStoreV7\`.`
+      );
 
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
@@ -378,15 +466,15 @@ export class StoryIndexGenerator {
           sortedDependencies = [dep, ...dependencies.filter((d) => d !== dep)];
         });
 
-        if (!csfEntry)
-          throw new Error(
-            dedent`Could not find or load CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+        invariant(
+          csfEntry,
+          dedent`Could not find or load CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
             
-              - Does that file exist?
-              - If so, is it a CSF file (\`.stories.*\`)?
-              - If so, is it matched by the \`stories\` glob in \`main.js\`?
-              - If so, has the file successfully loaded in Storybook and are its stories visible?`
-          );
+        - Does that file exist?
+        - If so, is it a CSF file (\`.stories.*\`)?
+        - If so, is it matched by the \`stories\` glob in \`main.js\`?
+        - If so, has the file successfully loaded in Storybook and are its stories visible?`
+        );
       }
 
       // Track that we depend on this for easy invalidation later.
@@ -396,12 +484,12 @@ export class StoryIndexGenerator {
 
       const title =
         csfEntry?.title || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
-      if (!title)
-        throw new Error(
-          "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
-        );
+      invariant(
+        title,
+        "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
+      );
       const { defaultName } = this.options.docs;
-      if (!defaultName) throw new Error('expected a defaultName property in options.docs');
+      invariant(defaultName, 'expected a defaultName property in options.docs');
 
       const name =
         result.name ||
@@ -531,6 +619,7 @@ export class StoryIndexGenerator {
 
     try {
       const errorEntries = storiesList.filter((entry) => entry.type === 'error');
+
       if (errorEntries.length)
         throw new MultipleIndexingError(errorEntries.map((entry) => (entry as ErrorEntry).err));
 
@@ -595,7 +684,12 @@ export class StoryIndexGenerator {
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
-    if (!cache) throw new Error(`no `);
+    invariant(
+      cache,
+      `specifier does not have a matching cache entry in specifierToCache: ${JSON.stringify(
+        specifier
+      )}`
+    );
     const cacheEntry = cache[absolutePath];
     if (cacheEntry && cacheEntry.type === 'stories') {
       const { dependents } = cacheEntry;
