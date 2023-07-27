@@ -6,7 +6,8 @@ import { withTelemetry } from '@storybook/core-server';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import { readdirSync } from 'fs-extra';
+import { readdirSync, readFile, readJson, unlink, writeFile, writeJson } from 'fs-extra';
+import path from 'path';
 import { installableProjectTypes, ProjectType } from './project_types';
 import {
   detect,
@@ -270,7 +271,7 @@ const scaffoldProject = async ({
       name: 'template',
       choices: templateEntries.map(([key, value]) => ({
         title: value.name,
-        value: { key, projectType: value.projectType },
+        value: { key, projectType: value.projectType, name: value.name },
       })),
     },
     {
@@ -303,7 +304,7 @@ const scaffoldProject = async ({
     );
   };
 
-  const template = result.template as { key: string; projectType: ProjectType };
+  const template = result.template as { key: string; projectType: ProjectType; name: string };
   const storybookVersion = versions.storybook;
 
   const isStableVersion = storybookVersion.match(/^\d+\.\d+\.\d+$/);
@@ -317,6 +318,29 @@ const scaffoldProject = async ({
   });
 
   logger.log(`\nSuccessfully cloned ${template.key} into your working directory! 🎉\n`);
+
+  const packageJson = await readJson(path.join(process.cwd(), 'package.json'), 'utf8');
+
+  delete packageJson.resolutions;
+  packageJson.name = template.key;
+
+  await unlink(path.join(process.cwd(), '.stackblitzrc'));
+  await writeJson(path.join(process.cwd(), 'package.json'), packageJson, { spaces: 2 });
+
+  const readmePath = path.join(process.cwd(), 'README.md');
+  // Write new content to readme to explain how to run Storybook
+
+  const readmeContentTemplate = await readFile(
+    path.join(__dirname, 'scaffolding-readme-template.md'),
+    'utf8'
+  );
+
+  const readme = readmeContentTemplate
+    .replace('{{template.name}}', template.name)
+    .replace('{{template.scripts.start}}', packageManager.getRunStorybookCommand())
+    .replace('{{template.scripts.build}}', packageManager.getRunCommand('build-storybook'));
+
+  await writeFile(readmePath, readme, { encoding: 'utf-8' });
 
   if (skipInstall || template.projectType === ProjectType.REACT_NATIVE) {
     logSuccessfulBootstrapMessage();

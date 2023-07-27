@@ -113,7 +113,8 @@
   "bundler": {
     "entries": [
       "./src/generate.ts",
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/scaffolding-readme-template.md"
     ],
     "platform": "node"
   },

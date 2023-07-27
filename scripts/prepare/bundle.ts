@@ -28,6 +28,8 @@ type DtsConfigSection = Pick<Options, 'dts' | 'tsconfig'>;
 
 /* MAIN */
 
+const fileEndingsForDTSExtraction = ['ts', 'tsx', 'd.ts', 'cts', 'd.cts', 'mts', 'd.mts'];
+
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const {
     name,
@@ -91,6 +93,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         format: ['esm'],
         target: 'chrome100',
         clean: false,
+        loader: {
+          '.md': 'copy',
+        },
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
         esbuildPlugins: [
@@ -125,6 +130,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         clean: false,
         external: externals,
+        loader: {
+          '.md': 'copy',
+        },
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
@@ -137,7 +145,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   }
 
   if (tsConfigExists && !optimized) {
-    tasks.push(...entries.map(generateDTSMapperFile));
+    tasks.push(
+      ...entries
+        .filter((entry) => fileEndingsForDTSExtraction.some((ending) => entry.endsWith(ending)))
+        .map(generateDTSMapperFile)
+    );
   }
 
   await Promise.all(tasks);
@@ -172,7 +184,9 @@ async function getDTSConfigs({
   const dtsConfig: DtsConfigSection = {
     tsconfig: tsConfigPath,
     dts: {
-      entry: entries,
+      entry: entries.filter((entry) =>
+        fileEndingsForDTSExtraction.some((ending) => entry.endsWith(ending))
+      ),
       resolve: true,
     },
   };
