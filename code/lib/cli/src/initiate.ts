@@ -254,14 +254,9 @@ const scaffoldProject = async ({
   packageManager: JsPackageManager;
   skipInstall?: boolean;
 }): InitiateResult => {
-  logger.log();
-  logger.log(
-    chalk.yellow(
-      dedent`
-        You're trying to initialize Storybook in an empty project. We will provide you a list of pre-configured Storybook setups to choose and scaffold a project based on your choice.
-      `
-    )
-  );
+  logger.log(dedent`
+      I see that you're trying to start a new project with Storybook. Take a look at the options below and choose the best one for your project. Let's get started! 🚀
+      `);
   logger.log();
   const templateEntries = Object.entries(baseTemplates).filter(
     ([key]) => key !== 'angular-cli/prerelease'
@@ -270,7 +265,7 @@ const scaffoldProject = async ({
   const result = await prompts(
     {
       type: 'select',
-      message: '🌈 Select a template',
+      message: 'Select',
       name: 'template',
       choices: templateEntries.map(([key, value]) => ({
         title: value.name,
@@ -289,19 +284,17 @@ const scaffoldProject = async ({
     logger.log(
       boxen(
         dedent`
-            You have successfully bootstrapped a Storybook for ${template.key} project! 🎉
-            ${
-              skipInstall
-                ? 'Please install your package.json dependencies manually before continuing.'
-                : ''
-            }
-            To run Storybook manually, run ${packageManager.getRunStorybookCommand()}. CTRL+C to stop.
+        Your new ${template.key} Storybook project is now ready to go. 🚀${
+          skipInstall ? '\nRemember to install dependencies after setup.\n' : ''
+        }
+        
+        Run ${chalk.cyan(
+          packageManager.getRunStorybookCommand()
+        )} to start the dev server. ${chalk.cyan('CTRL+C')} to stop.
             
-            Wanna know more about Storybook? Check out ${chalk.cyan('https://storybook.js.org/')}
-            Having trouble or want to chat? Join us at ${chalk.cyan(
-              'https://discord.gg/storybook/'
-            )}
-          `,
+        Wanna know more about Storybook? Check out ${chalk.cyan('https://storybook.js.org/')}
+        Having trouble or want to chat? Join us at ${chalk.cyan('https://discord.gg/storybook/')}
+        `,
         { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
       )
     );
