@@ -7,6 +7,7 @@ import { Location, LocationProvider, useNavigate } from '@storybook/router';
 import { Provider as ManagerProvider, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
+import { PROVIDER_DOES_NOT_EXTEND_BASE_PROVIDER } from '@storybook/core-events/manager-errors';
 
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -83,7 +84,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
 
 export function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
   if (!(provider instanceof Provider)) {
-    throw new Error('provider is not extended from the base Provider');
+    throw PROVIDER_DOES_NOT_EXTEND_BASE_PROVIDER.error();
   }
 
   ReactDOM.render(<Root key="root" provider={provider} />, domNode);

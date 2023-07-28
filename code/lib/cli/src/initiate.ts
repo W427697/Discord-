@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
+import { NX_PROJECT_DETECTED } from '@storybook/core-events/server-errors';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
@@ -156,11 +157,7 @@ const installStorybook = async <Project extends ProjectType>(
         );
 
       case ProjectType.NX:
-        throw new Error(dedent`
-          We have detected Nx in your project. Please use "nx g @nrwl/storybook:configuration" to add Storybook to your project.
-          
-          For more information, please see https://nx.dev/packages/storybook
-        `);
+        throw NX_PROJECT_DETECTED.error();
 
       case ProjectType.SOLID:
         return solidGenerator(packageManager, npmOptions, generatorOptions).then(
