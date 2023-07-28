@@ -247,11 +247,11 @@ module.exports = {
           title: 'Measure & Outline',
           type: 'link',
         },
-        {
-          pathSegment: 'themes',
-          title: 'Themes',
-          type: 'link',
-        },
+        // {
+        //   pathSegment: 'themes',
+        //   title: 'Themes',
+        //   type: 'link',
+        // },
         {
           pathSegment: 'toolbars-and-globals',
           title: 'Toolbars & globals',
