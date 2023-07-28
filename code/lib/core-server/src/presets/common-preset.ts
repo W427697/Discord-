@@ -25,6 +25,7 @@ import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
+  SEND_TELEMETRY_EVENT,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
@@ -328,6 +329,23 @@ export const experimental_serverChannel = async (
       }
     }
   );
+
+  channel.on(SEND_TELEMETRY_EVENT, async ({ payload, isError }) => {
+    const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
+
+    if (isTelemetryEnabled) {
+      if (isError) {
+        await sendTelemetryError(payload, 'error', {
+          cliOptions: options,
+          presetOptions: { ...options, corePresets: [], overridePresets: [] },
+          skipPrompt: true,
+        });
+      } else {
+        // TODO: figure event type out. Maybe we need a new one?
+        await telemetry('dev', payload);
+      }
+    }
+  });
 
   return channel;
 };

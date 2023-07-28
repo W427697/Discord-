@@ -5,7 +5,7 @@ import type { AddonStore } from '@storybook/manager-api';
 import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import { createBrowserChannel } from '@storybook/channels';
-import { CHANNEL_CREATED } from '@storybook/core-events';
+import { CHANNEL_CREATED, SEND_TELEMETRY_EVENT } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
@@ -64,3 +64,8 @@ renderStorybookUI(rootEl, new ReactProvider());
 Object.keys(Keys).forEach((key: keyof typeof Keys) => {
   global[Keys[key]] = values[key];
 });
+
+global.telemetry = (data) => {
+  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
+  channel.emit(SEND_TELEMETRY_EVENT, data);
+};
