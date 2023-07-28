@@ -6733,6 +6733,7 @@ __metadata:
     "@types/js-yaml": ^4.0.5
     fs-extra: ^11.1.0
     js-yaml: ^4.1.0
+    prettier: ^2.8.0
     recast: ^0.23.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
