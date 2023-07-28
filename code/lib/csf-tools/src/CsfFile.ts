@@ -317,12 +317,21 @@ export class CsfFile {
                 } else {
                   self._storyAnnotations[exportName] = {};
                 }
+                let storyNode;
+                if (t.isVariableDeclarator(decl)) {
+                  storyNode =
+                    t.isTSAsExpression(decl.init) || t.isTSSatisfiesExpression(decl.init)
+                      ? decl.init.expression
+                      : decl.init;
+                } else {
+                  storyNode = decl;
+                }
                 let parameters;
-                if (t.isVariableDeclarator(decl) && t.isObjectExpression(decl.init)) {
+                if (t.isObjectExpression(storyNode)) {
                   // eslint-disable-next-line @typescript-eslint/naming-convention
                   let __isArgsStory = true; // assume default render is an args story
                   // CSF3 object export
-                  (decl.init.properties as t.ObjectProperty[]).forEach((p) => {
+                  (storyNode.properties as t.ObjectProperty[]).forEach((p) => {
                     if (t.isIdentifier(p.key)) {
                       if (p.key.name === 'render') {
                         __isArgsStory = isArgsStory(p.value as t.Expression, parent, self);
@@ -338,11 +347,10 @@ export class CsfFile {
                   });
                   parameters = { __isArgsStory };
                 } else {
-                  const fn = t.isVariableDeclarator(decl) ? decl.init : decl;
                   parameters = {
                     // __id: toId(self._meta.title, name),
                     // FIXME: Template.bind({});
-                    __isArgsStory: isArgsStory(fn as t.Node, parent, self),
+                    __isArgsStory: isArgsStory(storyNode as t.Node, parent, self),
                   };
                 }
                 self._stories[exportName] = {
