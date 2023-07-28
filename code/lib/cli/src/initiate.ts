@@ -263,7 +263,10 @@ const scaffoldProject = async ({
     )
   );
   logger.log();
-  const templateEntries = Object.entries(baseTemplates);
+  const templateEntries = Object.entries(baseTemplates).filter(
+    ([key]) => key !== 'angular-cli/prerelease'
+  );
+
   const result = await prompts(
     {
       type: 'select',
