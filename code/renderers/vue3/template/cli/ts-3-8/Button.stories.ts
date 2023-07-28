@@ -50,3 +50,10 @@ export const Small: Story = {
     size: 'small',
   },
 };
+
+export const WithIcon: Story = {
+  args: {
+    label: 'Button',
+    icon: '✅',
+  },
+};

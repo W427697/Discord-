@@ -46,3 +46,10 @@ export const Small = {
     label: 'Button',
   },
 };
+
+export const WithIcon = {
+  args: {
+    label: 'Button',
+    icon: '✅',
+  },
+};

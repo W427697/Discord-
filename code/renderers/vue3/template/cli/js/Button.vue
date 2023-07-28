@@ -1,5 +1,10 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
+  <button type="button" :class="classes" @click="onClick" :style="style">
+    <span v-if="$slots.icon" :style="{ paddingRight: '0.5rem' }">
+      <slot name="icon"></slot>
+    </span>
+    {{ label }}
+  </button>
 </template>
 
 <script>
