@@ -135,3 +135,13 @@ Cannot render story
 ```
 no builder configured!
 ```
+
+## What's the motivation for this errors framework?
+
+Centralizing and categorizing errors offers several advantages:
+
+Better understanding of what is actually failing: By defining categories, error origins become more evident, easing the debugging process for developers and providing users with actionable insights.
+
+Improved Telemetry: Aggregating and filtering errors allows better assessment of their impact, which helps in prioritization and tackling the issues.
+
+Improved Documentation: Categorized errors lead to the creation of a helpful errors page on the Storybook website, benefiting users with better guidance and improving overall accessibility and user experience.
