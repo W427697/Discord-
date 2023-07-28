@@ -69,6 +69,7 @@ enum events {
   RESULT_WHATS_NEW_DATA = 'resultWhatsNewData',
   SET_WHATS_NEW_CACHE = 'setWhatsNewCache',
   TOGGLE_WHATS_NEW_NOTIFICATIONS = 'toggleWhatsNewNotifications',
+  SEND_TELEMETRY_EVENT = 'sendTelemetryEvent',
 }
 
 // Enables: `import Events from ...`
@@ -120,6 +121,7 @@ export const {
   RESULT_WHATS_NEW_DATA,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
+  SEND_TELEMETRY_EVENT,
 } = events;
 
 // Used to break out of the current render without showing a redbox
