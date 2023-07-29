@@ -173,21 +173,20 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       storyStoreV7: !!features?.storyStoreV7,
     });
 
-    const initializedStoryIndexGeneratorPromise = generator.initialize().then(() => generator);
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGeneratorPromise,
+        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
         convertToIndexV3
       )
     );
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'index.json'),
-        initializedStoryIndexGeneratorPromise
+        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>
       )
     );
-    initializedStoryIndexGenerator = initializedStoryIndexGeneratorPromise;
   }
 
   if (!core?.disableProjectJson) {
