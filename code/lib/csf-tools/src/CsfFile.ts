@@ -326,32 +326,41 @@ export class CsfFile {
                 } else {
                   storyNode = decl;
                 }
-                let parameters;
+                const parameters: { [key: string]: any } = {};
                 if (t.isObjectExpression(storyNode)) {
-                  // eslint-disable-next-line @typescript-eslint/naming-convention
-                  let __isArgsStory = true; // assume default render is an args story
+                  parameters.__isArgsStory = true; // assume default render is an args story
                   // CSF3 object export
                   (storyNode.properties as t.ObjectProperty[]).forEach((p) => {
                     if (t.isIdentifier(p.key)) {
                       if (p.key.name === 'render') {
-                        __isArgsStory = isArgsStory(p.value as t.Expression, parent, self);
+                        parameters.__isArgsStory = isArgsStory(
+                          p.value as t.Expression,
+                          parent,
+                          self
+                        );
                       } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
                         name = p.value.value;
                       } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
                         logger.warn(
                           `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
                         );
+                      } else if (p.key.name === 'parameters' && t.isObjectExpression(p.value)) {
+                        const idProperty = p.value.properties.find(
+                          (property) =>
+                            t.isObjectProperty(property) &&
+                            t.isIdentifier(property.key) &&
+                            property.key.name === '__id'
+                        ) as t.ObjectProperty | undefined;
+                        if (idProperty) {
+                          parameters.__id = (idProperty.value as t.StringLiteral).value;
+                        }
                       }
+
                       self._storyAnnotations[exportName][p.key.name] = p.value;
                     }
                   });
-                  parameters = { __isArgsStory };
                 } else {
-                  parameters = {
-                    // __id: toId(self._meta.title, name),
-                    // FIXME: Template.bind({});
-                    __isArgsStory: isArgsStory(storyNode as t.Node, parent, self),
-                  };
+                  parameters.__isArgsStory = isArgsStory(storyNode as t.Node, parent, self);
                 }
                 self._stories[exportName] = {
                   id: 'FIXME',
@@ -477,27 +486,31 @@ export class CsfFile {
       self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
     }
     self._stories = entries.reduce((acc, [key, story]) => {
-      if (isExportStory(key, self._meta as StaticMeta)) {
-        const id = toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
-        const parameters: Record<string, any> = { ...story.parameters, __id: id };
-        const { includeStories } = self._meta || {};
-        if (
-          key === '__page' &&
-          (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
-        ) {
-          parameters.docsOnly = true;
-        }
-        acc[key] = { ...story, id, parameters };
-        const { tags, play } = self._storyAnnotations[key];
-        if (tags) {
-          const node = t.isIdentifier(tags)
-            ? findVarInitialization(tags.name, this._ast.program)
-            : tags;
-          acc[key].tags = parseTags(node);
-        }
-        if (play) {
-          acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
-        }
+      if (!isExportStory(key, self._meta as StaticMeta)) {
+        return acc;
+      }
+      const id =
+        story.parameters?.__id ??
+        toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
+      const parameters: Record<string, any> = { ...story.parameters, __id: id };
+
+      const { includeStories } = self._meta || {};
+      if (
+        key === '__page' &&
+        (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
+      ) {
+        parameters.docsOnly = true;
+      }
+      acc[key] = { ...story, id, parameters };
+      const { tags, play } = self._storyAnnotations[key];
+      if (tags) {
+        const node = t.isIdentifier(tags)
+          ? findVarInitialization(tags.name, this._ast.program)
+          : tags;
+        acc[key].tags = parseTags(node);
+      }
+      if (play) {
+        acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
       }
       return acc;
     }, {} as Record<string, StaticStory>);
