@@ -55,7 +55,7 @@ describe('story extraction', () => {
               title: 'Custom Title',
               metaId: 'custom-id',
               tags: ['story-tag-from-indexer'],
-              __id: 'some-custom-id--the-first-story',
+              __id: 'some-fully-custom-id',
             },
           ],
         },
@@ -79,7 +79,7 @@ describe('story extraction', () => {
             "type": "story",
           },
           Object {
-            "id": "some-custom-id--the-first-story",
+            "id": "some-fully-custom-id",
             "importPath": "./src/A.stories.js",
             "name": "Another Story Name",
             "tags": Array [
