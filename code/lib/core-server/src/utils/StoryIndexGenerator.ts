@@ -302,9 +302,10 @@ export class StoryIndexGenerator {
 
     const entries: ((StoryIndexEntry | DocsCacheEntry) & { tags: Tag[] })[] = indexInputs.map(
       (input) => {
-        const name = input.name ?? storyNameFromExport(input.key);
+        const name = input.name ?? storyNameFromExport(input.exportName);
         const title = input.title ?? defaultMakeTitle();
-        const id = input.id ?? toId(title, name);
+        // eslint-disable-next-line no-underscore-dangle
+        const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
         const tags = (input.tags || []).concat('story');
 
         return {
