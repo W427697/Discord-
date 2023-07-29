@@ -229,7 +229,7 @@ describe('story extraction', () => {
     `);
   });
 
-  it('auto-generates id from name, title and/or metaId inputs', async () => {
+  it('auto-generates id', async () => {
     const relativePath = './src/A.stories.js';
     const absolutePath = path.join(options.workingDir, relativePath);
     const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(relativePath, options);
@@ -240,6 +240,7 @@ describe('story extraction', () => {
         {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
+            // exportName + title -> id
             {
               exportName: 'StoryOne',
               name: 'Story One',
@@ -248,6 +249,7 @@ describe('story extraction', () => {
               importPath: fileName,
               type: 'story',
             },
+            // exportName + custom title (ignoring custom name) -> id
             {
               exportName: 'StoryTwo',
               name: 'Custom Name For Second Story',
@@ -256,6 +258,7 @@ describe('story extraction', () => {
               importPath: fileName,
               type: 'story',
             },
+            // exportName + custom metaId (ignoring custom title and name) -> id
             {
               exportName: 'StoryThree',
               metaId: 'custom-meta-id',
