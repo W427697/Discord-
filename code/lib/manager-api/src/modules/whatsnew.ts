@@ -73,10 +73,12 @@ export const init: ModuleFn = ({ fullAPI, store }) => {
     const whatsNewData = await getLatestWhatsNewPost();
     setWhatsNewState(whatsNewData);
 
-    const isNewStoryBookUser = fullAPI.getUrlState().path.includes('onboarding');
+    const urlState = fullAPI.getUrlState();
+    const isOnboardingView =
+      urlState?.path === '/onboarding' || urlState.queryParams?.onboarding === 'true';
 
     if (
-      !isNewStoryBookUser &&
+      !isOnboardingView &&
       whatsNewData.status === 'SUCCESS' &&
       !whatsNewData.disableWhatsNewNotifications &&
       whatsNewData.showNotification
