@@ -113,6 +113,9 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   const webpackConfig = findUp.sync(webpackConfigFiles);
   const dependencies = await packageManager.getAllDependencies();
 
+  console.log(' detectBuilder viteConfig', viteConfig, projectType);
+  console.log(' dependencies', dependencies);
+
   if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
     commandLog('Detected Vite project. Setting builder to Vite')();
     return CoreBuilder.Vite;
@@ -127,12 +130,14 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
     case ProjectType.SFC_VUE:
+    case ProjectType.NUXT:
       return CoreBuilder.Vite;
     case ProjectType.REACT_SCRIPTS:
     case ProjectType.ANGULAR:
     case ProjectType.REACT_NATIVE: // technically react native doesn't use webpack, we just want to set something
     case ProjectType.NEXTJS:
       return CoreBuilder.Webpack5;
+
     default:
       // eslint-disable-next-line no-case-declarations
       const { builder } = await prompts({

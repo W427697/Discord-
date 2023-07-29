@@ -73,7 +73,7 @@
     "@storybook/preview-api": "7.2.0-rc.0",
     "@storybook/theming": "7.2.0-rc.0",
     "@storybook/types": "7.2.0-rc.0",
-    "axe-core": "^4.2.0",
+    "axe-core": "^4.7.0",
     "lodash": "^4.17.21",
     "react-resize-detector": "^7.1.2"
   },

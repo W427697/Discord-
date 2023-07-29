@@ -26,10 +26,11 @@ export type ExternalFramework = {
 export const externalFrameworks: ExternalFramework[] = [
   { name: 'qwik', packageName: 'storybook-framework-qwik' },
   { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
+  { name: 'nuxt', packageName: '@storybook-vue/nuxt' },
 ];
 
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid' | 'nuxt';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -83,6 +84,7 @@ export enum ProjectType {
   SERVER = 'SERVER',
   NX = 'NX',
   SOLID = 'SOLID',
+  NUXT = 'NUXT',
 }
 
 export enum CoreBuilder {
@@ -122,6 +124,13 @@ export type TemplateConfiguration = {
  * therefore WEBPACK_REACT has to come first, as it's more specific.
  */
 export const supportedTemplates: TemplateConfiguration[] = [
+  {
+    preset: ProjectType.NUXT,
+    dependencies: ['nuxt'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
   {
     preset: ProjectType.SFC_VUE,
     dependencies: {
@@ -176,6 +185,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
       return dependencies.every(Boolean);
     },
   },
+
   {
     preset: ProjectType.REACT_PROJECT,
     peerDependencies: ['react'],
@@ -268,7 +278,7 @@ export const unsupportedTemplate: TemplateConfiguration = {
   preset: ProjectType.UNSUPPORTED,
   dependencies: {
     // TODO(blaine): Remove when we support Nuxt 3
-    nuxt: (versionRange) => eqMajor(versionRange, 3),
+    // nuxt: (versionRange) => eqMajor(versionRange, 3), this wasted 2 hours of my life
   },
   matcherFunction: ({ dependencies }) => {
     return dependencies.some(Boolean);

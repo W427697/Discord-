@@ -201,6 +201,7 @@ const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, Supp
   sveltekit: 'svelte',
   vue: 'vue',
   vue3: 'vue',
+  nuxt: 'vue',
   'web-components': 'web-components',
 };
 

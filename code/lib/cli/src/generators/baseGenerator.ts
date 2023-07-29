@@ -286,7 +286,7 @@ export async function baseGenerator(
   versionedPackagesSpinner.succeed();
 
   const depsToInstall = [...versionedPackages];
-
+  logger.log(`=>1 depsToInstall: |\n\n`, depsToInstall);
   // Add basic babel config for a select few frameworks that need it, if they do not have a babel config file already
   if (builder !== CoreBuilder.Vite && !skipBabel) {
     const frameworksThatNeedBabelConfig = [

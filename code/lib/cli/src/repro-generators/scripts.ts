@@ -97,11 +97,12 @@ const addPackageResolutions = async ({ cwd }: Options) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   packageJson.resolutions = storybookVersions;
+  logger.info({ resolutions: packageJson.resolutions });
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 const addLocalPackageResolutions = async ({ cwd }: Options) => {
-  logger.info(`🔢 Adding package resolutions:`);
+  logger.info(`🔢 Adding local package resolutions:`);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
@@ -118,6 +119,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
       [key]: path.join(workspaceDir, workspaces.find((item: any) => item.name === key).location),
     };
   }, {});
+  logger.info({ resolutions: packageJson.resolutions });
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
