@@ -48,16 +48,20 @@ const storiesMdxIndexer: Indexer = {
     const csf = loadCsf(code, { ...opts, fileName }).parse();
 
     // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => ({
-      exportName,
-      __id: story.id,
-      metaId: csf.meta.id,
-      name: story.name,
-      title: csf.meta.title,
-      importPath: fileName,
-      type: 'story',
-      tags: story.tags ?? csf.meta.tags,
-    }));
+    return Object.entries(csf._stories).map(([exportName, story]) => {
+      const docsOnly = story.parameters?.docsOnly;
+      const tags = (story.tags ?? csf.meta.tags ?? []).concat(docsOnly ? 'docsOnly' : []);
+      return {
+        type: 'story',
+        importPath: fileName,
+        exportName,
+        name: story.name,
+        title: csf.meta.title,
+        metaId: csf.meta.id,
+        tags,
+        __id: story.id,
+      };
+    });
   },
 };
 
