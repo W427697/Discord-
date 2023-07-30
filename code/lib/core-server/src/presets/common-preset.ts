@@ -14,9 +14,8 @@ import type {
   Options,
   PresetPropertyFn,
   StorybookConfig,
-  StoryIndexer,
 } from '@storybook/types';
-import { loadCsf, printConfig, readConfig } from '@storybook/csf-tools';
+import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
@@ -194,19 +193,27 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
-export const storyIndexers: StorybookConfig['storyIndexers'] = async (existingIndexers) => {
-  const csfIndexer: StoryIndexer['indexer'] = async (fileName, opts) => {
-    const code = (await readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
-  };
-  return [
-    {
-      test: /(stories|story)\.(m?js|ts)x?$/,
-      indexer: csfIndexer,
+export const indexers: StorybookConfig['indexers'] = (existingIndexers) => [
+  {
+    test: /\.stories\.(m?js|ts)x?$/,
+    index: async (fileName, options) => {
+      const csf = (await readCsf(fileName, options)).parse();
+
+      // eslint-disable-next-line no-underscore-dangle
+      return Object.entries(csf._stories).map(([exportName, story]) => ({
+        type: 'story',
+        importPath: fileName,
+        exportName,
+        name: story.name,
+        title: csf.meta.title,
+        metaId: csf.meta.id,
+        tags: story.tags ?? csf.meta.tags,
+        __id: story.id,
+      }));
     },
-    ...(existingIndexers || []),
-  ];
-};
+  },
+  ...(existingIndexers || []),
+];
 
 export const frameworkOptions = async (
   _: never,
