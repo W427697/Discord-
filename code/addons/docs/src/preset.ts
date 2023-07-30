@@ -3,7 +3,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type { DocsOptions, Options, StorybookConfig, StoryIndexer } from '@storybook/types';
+import type { DocsOptions, Options, StorybookConfig } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
@@ -129,23 +129,36 @@ async function webpack(
   return result;
 }
 
-const storyIndexers: StorybookConfig['storyIndexers'] = (existingIndexers) => {
-  const mdxIndexer: StoryIndexer['indexer'] = async (fileName, opts) => {
-    let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    const { compile } = global.FEATURES?.legacyMdx1
-      ? await import('@storybook/mdx1-csf')
-      : await import('@storybook/mdx2-csf');
-    code = await compile(code, {});
-    return loadCsf(code, { ...opts, fileName }).parse();
-  };
-  return [
-    {
-      test: /(stories|story)\.mdx$/,
-      indexer: mdxIndexer,
+const indexers: StorybookConfig['indexers'] = (existingIndexers) => [
+  {
+    test: /(stories|story)\.mdx$/,
+    index: async (fileName, opts) => {
+      let code = (await fs.readFile(fileName, 'utf-8')).toString();
+      const { compile } = global.FEATURES?.legacyMdx1
+        ? await import('@storybook/mdx1-csf')
+        : await import('@storybook/mdx2-csf');
+      code = await compile(code, {});
+      const csf = loadCsf(code, { ...opts, fileName }).parse();
+
+      // eslint-disable-next-line no-underscore-dangle
+      return Object.entries(csf._stories).map(([exportName, story]) => {
+        const docsOnly = story.parameters?.docsOnly;
+        const tags = (story.tags ?? csf.meta.tags ?? []).concat(docsOnly ? 'docsOnly' : []);
+        return {
+          type: 'story',
+          importPath: fileName,
+          exportName,
+          name: story.name,
+          title: csf.meta.title,
+          metaId: csf.meta.id,
+          tags,
+          __id: story.id,
+        };
+      });
     },
-    ...(existingIndexers || []),
-  ];
-};
+  },
+  ...(existingIndexers || []),
+];
 
 const docs = (docsOptions: DocsOptions) => {
   return {
@@ -164,9 +177,9 @@ export const addons: StorybookConfig['addons'] = [
  * something down the dependency chain is using typescript namespaces, which are not supported by rollup-plugin-dts
  */
 const webpackX = webpack as any;
-const storyIndexersX = storyIndexers as any;
+const indexersX = indexers as any;
 const docsX = docs as any;
 
 ensureReactPeerDeps();
 
-export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };
+export { webpackX as webpack, indexersX as indexers, docsX as docs };

@@ -591,4 +591,53 @@ describe('docs entries from story extraction', () => {
       }
     `);
   });
+  it(`Only adds a docs entry and not a story entry when an input has the "docsOnly" tag`, async () => {
+    const relativePath = './src/nested/Page.stories.mdx';
+    const absolutePath = path.join(options.workingDir, relativePath);
+    const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(relativePath, options);
+
+    const generator = new StoryIndexGenerator([specifier], {
+      ...options,
+      docs: { defaultName: 'docs', autodocs: false },
+      indexers: [
+        {
+          test: /\.stories\.mdx?$/,
+          index: async (fileName) => [
+            {
+              exportName: '__page',
+              __id: 'page--page',
+              name: 'Page',
+              title: 'Page',
+              tags: [STORIES_MDX_TAG, 'docsOnly'],
+              importPath: fileName,
+              type: 'story',
+            },
+          ],
+        },
+      ],
+    });
+    const result = await generator.extractStories(specifier, absolutePath);
+
+    expect(result).toMatchInlineSnapshot(`
+      Object {
+        "dependents": Array [],
+        "entries": Array [
+          Object {
+            "id": "page--docs",
+            "importPath": "./src/nested/Page.stories.mdx",
+            "name": "docs",
+            "storiesImports": Array [],
+            "tags": Array [
+              "stories-mdx",
+              "docsOnly",
+              "docs",
+            ],
+            "title": "Page",
+            "type": "docs",
+          },
+        ],
+        "type": "stories",
+      }
+    `);
+  });
 });
