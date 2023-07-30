@@ -48,9 +48,10 @@ const storiesMdxIndexer: Indexer = {
     const csf = loadCsf(code, { ...opts, fileName }).parse();
 
     // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([key, story]) => ({
-      key,
-      id: story.id,
+    return Object.entries(csf._stories).map(([exportName, story]) => ({
+      exportName,
+      __id: story.id,
+      metaId: csf.meta.id,
       name: story.name,
       title: csf.meta.title,
       importPath: fileName,
@@ -67,10 +68,11 @@ const csfIndexer: Indexer = {
     const csf = loadCsf(code, { ...options, fileName }).parse();
 
     // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([key, story]) => ({
-      key,
-      id: story.id,
+    return Object.entries(csf._stories).map(([exportName, story]) => ({
+      exportName,
+      __id: story.id,
       name: story.name,
+      metaId: csf.meta.id,
       title: csf.meta.title,
       importPath: fileName,
       type: 'story',

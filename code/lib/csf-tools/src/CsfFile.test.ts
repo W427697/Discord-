@@ -202,6 +202,27 @@ describe('CsfFile', () => {
       `);
     });
 
+    it('custom parameters.__id', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar', id: 'custom-meta-id' };
+          export const JustCustomMetaId = {};
+          export const CustomParemetersId = { parameters: { __id: 'custom-id' } };
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          id: custom-meta-id
+        stories:
+          - id: custom-meta-id--just-custom-meta-id
+            name: Just Custom Meta Id
+          - id: custom-id
+            name: Custom Paremeters Id
+      `);
+    });
+
     it('typescript', () => {
       expect(
         parse(

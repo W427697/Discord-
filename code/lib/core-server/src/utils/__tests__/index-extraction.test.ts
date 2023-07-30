@@ -35,14 +35,27 @@ describe('story extraction', () => {
         {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
+            // properties identical to the auto-generated ones, eg. 'StoryOne' -> 'Story One'
             {
-              key: 'StoryOne',
-              id: 'a--story-one',
+              type: 'story',
+              importPath: fileName,
+              exportName: 'StoryOne',
               name: 'Story One',
               title: 'A',
+              metaId: 'a',
               tags: ['story-tag-from-indexer'],
-              importPath: fileName,
+              __id: 'a--story-one',
+            },
+            // properties different from the auto-generated ones, eg. 'StoryOne' -> 'Another Story Name'
+            {
               type: 'story',
+              importPath: fileName,
+              exportName: 'StoryOne',
+              name: 'Another Story Name',
+              title: 'Custom Title',
+              metaId: 'custom-id',
+              tags: ['story-tag-from-indexer'],
+              __id: 'some-fully-custom-id',
             },
           ],
         },
@@ -65,6 +78,17 @@ describe('story extraction', () => {
             "title": "A",
             "type": "story",
           },
+          Object {
+            "id": "some-fully-custom-id",
+            "importPath": "./src/A.stories.js",
+            "name": "Another Story Name",
+            "tags": Array [
+              "story-tag-from-indexer",
+              "story",
+            ],
+            "title": "Custom Title",
+            "type": "story",
+          },
         ],
         "type": "stories",
       }
@@ -83,7 +107,7 @@ describe('story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
+              exportName: 'StoryOne',
               importPath: fileName,
               type: 'story',
             },
@@ -125,8 +149,8 @@ describe('story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
-              id: 'a--story-one',
+              exportName: 'StoryOne',
+              __id: 'a--story-one',
               name: 'Story One',
               tags: ['story-tag-from-indexer'],
               importPath: fileName,
@@ -171,8 +195,8 @@ describe('story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
-              id: 'a--story-one',
+              exportName: 'StoryOne',
+              __id: 'a--story-one',
               title: 'A',
               tags: ['story-tag-from-indexer'],
               importPath: fileName,
@@ -205,7 +229,7 @@ describe('story extraction', () => {
     `);
   });
 
-  it('auto-generates id from name and title inputs', async () => {
+  it('auto-generates id', async () => {
     const relativePath = './src/A.stories.js';
     const absolutePath = path.join(options.workingDir, relativePath);
     const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(relativePath, options);
@@ -216,14 +240,33 @@ describe('story extraction', () => {
         {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
+            // exportName + title -> id
             {
-              key: 'StoryOne',
+              exportName: 'StoryOne',
               name: 'Story One',
               title: 'A',
               tags: ['story-tag-from-indexer'],
               importPath: fileName,
               type: 'story',
             },
+            // exportName + custom title (ignoring custom name) -> id
+            {
+              exportName: 'StoryTwo',
+              name: 'Custom Name For Second Story',
+              title: 'Custom Title',
+              tags: ['story-tag-from-indexer'],
+              importPath: fileName,
+              type: 'story',
+            },
+            // exportName + custom metaId (ignoring custom title and name) -> id
+            {
+              exportName: 'StoryThree',
+              metaId: 'custom-meta-id',
+              title: 'Custom Title',
+              tags: ['story-tag-from-indexer'],
+              importPath: fileName,
+              type: 'story',
+            },
           ],
         },
       ],
@@ -245,13 +288,35 @@ describe('story extraction', () => {
             "title": "A",
             "type": "story",
           },
+          Object {
+            "id": "custom-title--story-two",
+            "importPath": "./src/A.stories.js",
+            "name": "Custom Name For Second Story",
+            "tags": Array [
+              "story-tag-from-indexer",
+              "story",
+            ],
+            "title": "Custom Title",
+            "type": "story",
+          },
+          Object {
+            "id": "custom-meta-id--story-three",
+            "importPath": "./src/A.stories.js",
+            "name": "Story Three",
+            "tags": Array [
+              "story-tag-from-indexer",
+              "story",
+            ],
+            "title": "Custom Title",
+            "type": "story",
+          },
         ],
         "type": "stories",
       }
     `);
   });
 
-  it('auto-generates id, title and name from key input', async () => {
+  it('auto-generates id, title and name from exportName input', async () => {
     const relativePath = './src/A.stories.js';
     const absolutePath = path.join(options.workingDir, relativePath);
     const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(relativePath, options);
@@ -263,7 +328,7 @@ describe('story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
+              exportName: 'StoryOne',
               tags: ['story-tag-from-indexer'],
               importPath: fileName,
               type: 'story',
@@ -309,8 +374,8 @@ describe('docs entries from story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
-              id: 'a--story-one',
+              exportName: 'StoryOne',
+              __id: 'a--story-one',
               name: 'Story One',
               title: 'A',
               tags: ['story-tag-from-indexer'],
@@ -369,8 +434,8 @@ describe('docs entries from story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
-              id: 'a--story-one',
+              exportName: 'StoryOne',
+              __id: 'a--story-one',
               name: 'Story One',
               title: 'A',
               tags: [AUTODOCS_TAG, 'story-tag-from-indexer'],
@@ -430,8 +495,8 @@ describe('docs entries from story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
-              id: 'a--story-one',
+              exportName: 'StoryOne',
+              __id: 'a--story-one',
               name: 'Story One',
               title: 'A',
               tags: [AUTODOCS_TAG, 'story-tag-from-indexer'],
@@ -478,8 +543,8 @@ describe('docs entries from story extraction', () => {
           test: /\.stories\.(m?js|ts)x?$/,
           index: async (fileName) => [
             {
-              key: 'StoryOne',
-              id: 'a--story-one',
+              exportName: 'StoryOne',
+              __id: 'a--story-one',
               name: 'Story One',
               title: 'A',
               tags: [STORIES_MDX_TAG, 'story-tag-from-indexer'],

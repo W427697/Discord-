@@ -1,6 +1,7 @@
 import type { StoryId, ComponentTitle, StoryName, Parameters, Tag, Path } from './csf';
 
-type ExportKey = string;
+type ExportName = string;
+type MetaId = string;
 
 interface StoriesSpecifier {
   /**
@@ -100,27 +101,47 @@ export type DocsIndexEntry = BaseIndexEntry & {
 
 export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 
-export interface BaseIndexInput {
-  /** the file to import from e.g. the story file */
+/**
+ * The base input for indexing a story or docs entry.
+ */
+export type BaseIndexInput = {
+  /** The file to import from e.g. the story file. */
   importPath: Path;
-  /** the key to import from the file e.g. the story export for this entry */
-  key: ExportKey;
-  /** the location in the sidebar, auto-generated from {@link importPath} if unspecified */
-  title?: ComponentTitle;
-  /** the name of the story, auto-generated from {@link key} if unspecified */
+  /** The name of the export to import. */
+  exportName: ExportName;
+  /** The name of the entry, auto-generated from {@link exportName} if unspecified. */
   name?: StoryName;
-  /** the unique story ID, auto-generated from {@link title} and {@link name} if unspecified */
-  id?: StoryId;
-  /** tags for filtering entries in Storybook and its tools */
+  /** The location in the sidebar, auto-generated from {@link importPath} if unspecified. */
+  title?: ComponentTitle;
+  /**
+   * The custom id optionally set at `meta.id` if it needs to differ from the id generated via {@link title}.
+   * If unspecified, the meta id will be auto-generated from {@link title}.
+   * If specified, the meta in the CSF file _must_ have a matching id set at `meta.id`, to be correctly matched.
+   */
+  metaId?: MetaId;
+  /** Tags for filtering entries in Storybook and its tools. */
   tags?: Tag[];
-}
+  /**
+   * The id of the entry, auto-generated from {@link title}/{@link metaId} and {@link exportName} if unspecified.
+   * If specified, the story in the CSF file _must_ have a matching id set at `parameters.__id`, to be correctly matched.
+   * Only use this if you need to override the auto-generated id.
+   */
+  __id?: StoryId;
+};
+
+/**
+ * The input for indexing a story entry.
+ */
 export type StoryIndexInput = BaseIndexInput & {
   type: 'story';
 };
 
+/**
+ * The input for indexing a docs entry.
+ */
 export type DocsIndexInput = BaseIndexInput & {
   type: 'docs';
-  /** paths to story files that must be pre-loaded for this docs entry */
+  /** Paths to story files that must be pre-loaded for this docs entry. */
   storiesImports?: Path[];
 };
 

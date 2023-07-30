@@ -42,14 +42,15 @@ const storiesMdxIndexer: Indexer = {
     const csf = loadCsf(code, { ...opts, fileName }).parse();
 
     // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([key, story]) => ({
-      key,
-      id: story.id,
+    return Object.entries(csf._stories).map(([exportName, story]) => ({
+      type: 'story',
+      importPath: fileName,
+      exportName,
       name: story.name,
       title: csf.meta.title,
-      importPath: fileName,
-      type: 'story',
+      metaId: csf.meta.id,
       tags: story.tags ?? csf.meta.tags,
+      __id: story.id,
     }));
   },
 };
@@ -61,14 +62,15 @@ const csfIndexer: Indexer = {
     const csf = loadCsf(code, { ...options, fileName }).parse();
 
     // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([key, story]) => ({
-      key,
-      id: story.id,
+    return Object.entries(csf._stories).map(([exportName, story]) => ({
+      type: 'story',
+      importPath: fileName,
+      exportName,
       name: story.name,
       title: csf.meta.title,
-      importPath: fileName,
-      type: 'story',
+      metaId: csf.meta.id,
       tags: story.tags ?? csf.meta.tags,
+      __id: story.id,
     }));
   },
 };
