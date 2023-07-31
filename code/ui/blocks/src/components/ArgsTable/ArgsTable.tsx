@@ -13,6 +13,7 @@ import type { ArgType, ArgTypes, Args, Globals } from './types';
 // eslint-disable-next-line import/no-cycle
 import { EmptyBlock } from '..';
 import { Skeleton } from './Skeleton';
+import { Empty } from './Empty';
 
 export const TableWrapper = styled.table<{
   compact?: boolean;
@@ -340,6 +341,8 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     Object.entries(groups.sections).length === 0 &&
     Object.entries(groups.ungroupedSubsections).length === 0
   ) {
+    return <Empty />;
+
     return (
       <EmptyBlock>
         No inputs found for this component.&nbsp;

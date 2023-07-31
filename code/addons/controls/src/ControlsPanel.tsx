@@ -1,15 +1,18 @@
 import type { FC } from 'react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useArgs,
   useGlobals,
   useArgTypes,
   useParameter,
   useStorybookState,
+  useChannel,
 } from '@storybook/manager-api';
+import { STORY_CHANGED, STORY_PREPARED } from '@storybook/core-events';
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 
 import type { ArgTypes } from '@storybook/types';
+import { set } from 'lodash';
 import { PARAM_KEY } from './constants';
 
 interface ControlsParameters {
@@ -20,13 +23,23 @@ interface ControlsParameters {
 }
 
 export const ControlsPanel: FC = () => {
+  const [isLoading, setIsLoading] = React.useState(true);
   const [args, updateArgs, resetArgs] = useArgs();
   const [globals] = useGlobals();
   const rows = useArgTypes();
   const isArgsStory = useParameter<boolean>('__isArgsStory', false);
-  const isLoading = !isArgsStory;
   const { expanded, sort, presetColors } = useParameter<ControlsParameters>(PARAM_KEY, {});
   const { path } = useStorybookState();
+
+  // If the story is prepared, then show the args table
+  useChannel({
+    [STORY_PREPARED]: () => setIsLoading(false),
+  });
+
+  // If the story changes, then show the loading state
+  useEffect(() => {
+    setIsLoading(true);
+  }, [path]);
 
   const hasControls = Object.values(rows).some((arg) => arg?.control);
 
@@ -35,8 +48,6 @@ export const ControlsPanel: FC = () => {
     else acc[key] = { ...arg, control: { ...arg.control, presetColors } };
     return acc;
   }, {} as ArgTypes);
-
-  console.log('isLoading in ControlsPanel', isLoading);
 
   return (
     <ArgsTable
@@ -50,8 +61,17 @@ export const ControlsPanel: FC = () => {
         resetArgs,
         inAddonPanel: true,
         sort,
+        isLoading,
       }}
-      isLoading={isLoading}
     />
   );
 };
+
+// storiesOf("Button").add("Basic0", () => <Button label="The Button" />);
+// export const Basic1 = () => <Button label="The Button" />;
+
+// export const AllButtons = () => <>....</>;
+
+// export const Basic2 = (args) => <Button {...args} />;
+// Basic2.args = { label: "The Button" };
+// export const Basic3 = { args: { label: "The Button" } }
