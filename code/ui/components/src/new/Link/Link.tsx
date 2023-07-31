@@ -35,11 +35,12 @@ Link.displayName = 'Link';
 
 const StyledLink = styled.a<Omit<LinkProps, 'children'>>(({ theme, variant = 'primary' }) => ({
   display: 'inline-flex',
-  gap: 5,
+  gap: 10,
   alignItems: 'center',
   fontSize: theme.typography.size.s3,
   transition: 'all 150ms ease-out',
   textDecoration: 'none',
+  lineHeight: 1,
   color: `${(() => {
     if (variant === 'primary') return theme.color.secondary;
     if (variant === 'secondary') return theme.textMutedColor;

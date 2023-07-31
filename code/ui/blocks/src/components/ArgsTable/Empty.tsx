@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { Link } from '@storybook/components/experimental';
+import { Icon, Link } from '@storybook/components/experimental';
 
 const Wrapper = styled.div({
   height: '100%',
@@ -23,17 +23,35 @@ const Title = styled.div(({ theme }) => ({
   fontWeight: theme.typography.weight.bold,
   fontSize: theme.typography.size.s2 - 1,
   textAlign: 'center',
+  color: theme.textColor,
 }));
 
 const Description = styled.div(({ theme }) => ({
   fontWeight: theme.typography.weight.regular,
   fontSize: theme.typography.size.s2 - 1,
   textAlign: 'center',
+  color: theme.textMutedColor,
 }));
 
-const Links = styled.div(({ theme }) => ({
+const Links = styled.div({
   display: 'flex',
   gap: 25,
+});
+
+const Divider = styled.div(({ theme }) => ({
+  width: 1,
+  height: 16,
+  backgroundColor: theme.appBorderColor,
+}));
+
+const VideoIcon = styled.div(({ theme }) => ({
+  width: 24,
+  height: 18,
+  borderRadius: theme.appBorderRadius,
+  border: `1px solid ${theme.color.secondary}`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));
 
 export const Empty: FC = () => (
@@ -46,9 +64,18 @@ export const Empty: FC = () => (
       </Description>
     </Content>
     <Links>
-      <Link href="http://google.com" withArrow>
+      <Link
+        href="http://google.com"
+        icon={
+          <VideoIcon>
+            <Icon.Play size={10} />
+          </VideoIcon>
+        }
+        withArrow
+      >
         Watch 5m video
       </Link>
+      <Divider />
       <Link href="http://google.com" withArrow>
         Read docs
       </Link>
