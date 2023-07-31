@@ -78,7 +78,7 @@ export const Empty: FC = () => (
       </Link>
       <Divider />
       <Link
-        href="https://storybook.js.org/docs/react/writing-stories/args"
+        href="https://storybook.js.org/docs/react/essentials/controls"
         target="_blank"
         withArrow
       >
