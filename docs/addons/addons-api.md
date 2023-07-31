@@ -122,6 +122,7 @@ The `selectStory` API method allows you to select a single story. It accepts the
     'vue/button-story-with-addon-example.ts.mdx',
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
+    'svelte/button-story-with-addon-example.ts.mdx',
     'web-components/button-story-with-addon-example.js.mdx',
     'web-components/button-story-with-addon-example.ts.mdx',
   ]}
