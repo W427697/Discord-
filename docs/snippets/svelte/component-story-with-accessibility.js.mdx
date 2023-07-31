@@ -12,10 +12,6 @@ export default {
 
 // This is an accessible story
 export const Accessible = {
-  render: (args) => ({
-    Component: Button,
-    props: args,
-  }),
   args: {
     primary: false,
     label: 'Button',
@@ -24,10 +20,6 @@ export const Accessible = {
 
 // This is not
 export const Inaccessible = {
-  render: (args) => ({
-    Component: Button,
-    props: args,
-  }),
   args: {
     ...Accessible.args,
     backgroundColor: 'red',

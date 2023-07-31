@@ -7,15 +7,11 @@ import MyComponent from './MyComponent.svelte';
 
 // More on default export: https://storybook.js.org/docs/svelte/writing-stories/introduction#default-export
 export default {
-  component: { MyComponent },
+  component: MyComponent,
   decorators: [withDesign],
 };
 
 export const Example = {
-  render: () => ({
-    Component: MyComponent,
-    props: {},
-  }),
   parameters: {
     design: {
       type: 'figma',
