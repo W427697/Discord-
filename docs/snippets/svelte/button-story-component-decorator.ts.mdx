@@ -1,0 +1,33 @@
+```ts
+// Button.stories.ts
+
+import type { Meta } from '@storybook/svelte';
+
+import Button from './Button.svelte';
+import MarginDecorator from './MarginDecorator.svelte';
+
+const meta: Meta<typeof Button> = {
+  component: Button,
+  decorators: [() => MarginDecorator],
+};
+
+export default meta;
+
+// Your stories here.
+
+// Don't forget to use the component you're testing and not the MarginDecorator component
+```
+
+```html
+<!-- MarginDecorator.svelte -->
+
+<div>
+  <slot />
+</div>
+
+<style>
+  div {
+    margin: 3em;
+  }
+</style>
+```

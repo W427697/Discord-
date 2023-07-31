@@ -1,0 +1,25 @@
+```ts
+// MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/svelte';
+
+import MyComponent from './MyComponent.svelte';
+
+const meta: Meta<typeof MyComponent> = {
+  component: MyComponent,
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Basic: Story = {};
+
+export const WithProp: Story = {
+  render: () => ({
+    Component: MyComponent,
+    props: {
+      prop: 'value',
+    },
+  }),
+};
+```
