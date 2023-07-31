@@ -209,7 +209,12 @@ interface ArgsTableErrorProps {
   error: ArgsTableError;
 }
 
-export type ArgsTableProps = ArgsTableOptionProps & (ArgsTableDataProps | ArgsTableErrorProps);
+export interface ArgsTableLoadingProps {
+  isLoading: true;
+}
+
+export type ArgsTableProps = ArgsTableOptionProps &
+  (ArgsTableDataProps | ArgsTableErrorProps | ArgsTableLoadingProps);
 
 type Rows = ArgType[];
 type Subsection = Rows;

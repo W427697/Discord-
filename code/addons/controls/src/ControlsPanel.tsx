@@ -51,18 +51,16 @@ export const ControlsPanel: FC = () => {
 
   return (
     <ArgsTable
-      {...{
-        key: path, // resets state when switching stories
-        compact: !expanded && hasControls,
-        rows: withPresetColors,
-        args,
-        globals,
-        updateArgs,
-        resetArgs,
-        inAddonPanel: true,
-        sort,
-        isLoading,
-      }}
+      key={path} // resets state when switching stories
+      compact={!expanded && hasControls}
+      rows={withPresetColors}
+      args={args}
+      globals={globals}
+      updateArgs={updateArgs}
+      resetArgs={resetArgs}
+      inAddonPanel
+      sort={sort}
+      isLoading={isLoading}
     />
   );
 };
