@@ -97,7 +97,6 @@ const addPackageResolutions = async ({ cwd }: Options) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   packageJson.resolutions = storybookVersions;
-  logger.info({ resolutions: packageJson.resolutions });
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
