@@ -5716,7 +5716,6 @@ __metadata:
     "@storybook/addon-highlight": "workspace:*"
     "@storybook/addon-measure": "workspace:*"
     "@storybook/addon-outline": "workspace:*"
-    "@storybook/addon-themes": "workspace:*"
     "@storybook/addon-toolbars": "workspace:*"
     "@storybook/addon-viewport": "workspace:*"
     "@storybook/core-common": "workspace:*"
@@ -6029,7 +6028,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-themes@workspace:*, @storybook/addon-themes@workspace:addons/themes":
+"@storybook/addon-themes@workspace:addons/themes":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-themes@workspace:addons/themes"
   dependencies:
@@ -6735,6 +6734,7 @@ __metadata:
     "@types/js-yaml": ^4.0.5
     fs-extra: ^11.1.0
     js-yaml: ^4.1.0
+    prettier: ^2.8.0
     recast: ^0.23.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
