@@ -65,7 +65,8 @@ export const Empty: FC = () => (
     </Content>
     <Links>
       <Link
-        href="http://google.com"
+        href="https://youtu.be/0gOfS6K0x0E"
+        target="_blank"
         icon={
           <VideoIcon>
             <Icon.Play size={10} />
@@ -76,7 +77,11 @@ export const Empty: FC = () => (
         Watch 5m video
       </Link>
       <Divider />
-      <Link href="http://google.com" withArrow>
+      <Link
+        href="https://storybook.js.org/docs/react/writing-stories/args"
+        target="_blank"
+        withArrow
+      >
         Read docs
       </Link>
     </Links>

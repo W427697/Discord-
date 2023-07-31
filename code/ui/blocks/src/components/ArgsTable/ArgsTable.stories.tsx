@@ -141,8 +141,9 @@ export const Error = {
 };
 
 export const Empty = {
-  args: {
-    rows: {},
+  args: {},
+  parameters: {
+    layout: 'centered',
   },
 };
 

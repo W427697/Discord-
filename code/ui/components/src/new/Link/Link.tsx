@@ -37,7 +37,7 @@ const StyledLink = styled.a<Omit<LinkProps, 'children'>>(({ theme, variant = 'pr
   display: 'inline-flex',
   gap: 10,
   alignItems: 'center',
-  fontSize: theme.typography.size.s3,
+  fontSize: theme.typography.size.s2 - 1,
   transition: 'all 150ms ease-out',
   textDecoration: 'none',
   lineHeight: 1,
