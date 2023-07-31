@@ -8,11 +8,10 @@ import {
   useStorybookState,
   useChannel,
 } from '@storybook/manager-api';
-import { STORY_CHANGED, STORY_PREPARED } from '@storybook/core-events';
+import { STORY_PREPARED } from '@storybook/core-events';
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 
 import type { ArgTypes } from '@storybook/types';
-import { set } from 'lodash';
 import { PARAM_KEY } from './constants';
 
 interface ControlsParameters {
@@ -27,7 +26,6 @@ export const ControlsPanel: FC = () => {
   const [args, updateArgs, resetArgs] = useArgs();
   const [globals] = useGlobals();
   const rows = useArgTypes();
-  const isArgsStory = useParameter<boolean>('__isArgsStory', false);
   const { expanded, sort, presetColors } = useParameter<ControlsParameters>(PARAM_KEY, {});
   const { path } = useStorybookState();
 
@@ -64,12 +62,3 @@ export const ControlsPanel: FC = () => {
     />
   );
 };
-
-// storiesOf("Button").add("Basic0", () => <Button label="The Button" />);
-// export const Basic1 = () => <Button label="The Button" />;
-
-// export const AllButtons = () => <>....</>;
-
-// export const Basic2 = (args) => <Button {...args} />;
-// Basic2.args = { label: "The Button" };
-// export const Basic3 = { args: { label: "The Button" } }
