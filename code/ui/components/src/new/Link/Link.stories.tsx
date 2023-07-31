@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import { Icon } from '@storybook/components/experimental';
 import { Link } from './Link';
-import { FakeIcon } from '../FakeIcon';
 
 const meta: Meta<typeof Link> = {
   title: 'Link',
@@ -53,21 +52,13 @@ export const Active: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Link
-        href="https://storybook.js.org/"
-        variant="primary"
-        icon={
-          <Suspense fallback={<div>Loading</div>}>
-            <Icon.Faceneutral />
-          </Suspense>
-        }
-      >
+      <Link href="https://storybook.js.org/" variant="primary" icon={<Icon.Faceneutral />}>
         Primary
       </Link>
-      <Link href="https://storybook.js.org/" variant="secondary" icon={<FakeIcon />}>
+      <Link href="https://storybook.js.org/" variant="secondary" icon={<Icon.Faceneutral />}>
         Secondary
       </Link>
-      <Link href="https://storybook.js.org/" variant="tertiary" icon={<FakeIcon />}>
+      <Link href="https://storybook.js.org/" variant="tertiary" icon={<Icon.Faceneutral />}>
         Tertiary
       </Link>
     </div>
@@ -77,10 +68,10 @@ export const WithIcon: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Link href="https://storybook.js.org/" size="small" icon={<FakeIcon />}>
+      <Link href="https://storybook.js.org/" size="small" icon={<Icon.Faceneutral />}>
         Small Link
       </Link>
-      <Link href="https://storybook.js.org/" size="medium" icon={<FakeIcon />}>
+      <Link href="https://storybook.js.org/" size="medium" icon={<Icon.Faceneutral />}>
         Medium Link
       </Link>
     </div>
