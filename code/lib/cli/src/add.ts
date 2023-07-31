@@ -80,7 +80,7 @@ export async function add(
     useNpmWarning();
     pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+  const packageManager = await JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const packageJson = await packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 

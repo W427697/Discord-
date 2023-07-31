@@ -6,7 +6,7 @@ import { withTelemetry } from '@storybook/core-server';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import { readdirSync, readFile, readJson, unlink, writeFile, writeJson } from 'fs-extra';
+import { readdirSync, readFile, readJson, rm, unlink, writeFile, writeJson } from 'fs-extra';
 import path from 'path';
 import { installableProjectTypes, ProjectType } from './project_types';
 import {
@@ -321,6 +321,8 @@ const scaffoldProject = async ({
   packageJson.name = template.key;
 
   await unlink(path.join(process.cwd(), '.stackblitzrc'));
+  await unlink('.yarnrc.yml');
+  await rm(path.join(process.cwd(), '.yarn'), { recursive: true });
   await writeJson(path.join(process.cwd(), 'package.json'), packageJson, { spaces: 2 });
 
   const readmePath = path.join(process.cwd(), 'README.md');
@@ -372,7 +374,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): InitiateRe
 
     pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+  const packageManager = await JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 

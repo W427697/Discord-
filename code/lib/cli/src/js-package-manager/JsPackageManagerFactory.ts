@@ -9,16 +9,17 @@ import type { JsPackageManager, PackageManagerName } from './JsPackageManager';
 
 import { Yarn2Proxy } from './Yarn2Proxy';
 import { Yarn1Proxy } from './Yarn1Proxy';
+import { getParentProcessName } from '../helpers';
 
 const NPM_LOCKFILE = 'package-lock.json';
 const PNPM_LOCKFILE = 'pnpm-lock.yaml';
 const YARN_LOCKFILE = 'yarn.lock';
 
 export class JsPackageManagerFactory {
-  public static getPackageManager(
+  public static async getPackageManager(
     { force }: { force?: PackageManagerName } = {},
     cwd?: string
-  ): JsPackageManager {
+  ): Promise<JsPackageManager> {
     if (force === 'npm') {
       return new NPMProxy({ cwd });
     }
@@ -48,6 +49,20 @@ export class JsPackageManagerFactory {
 
     if (hasPNPMCommand && closestLockfile === PNPM_LOCKFILE) {
       return new PNPMProxy({ cwd });
+    }
+
+    const parentProcessName = await getParentProcessName();
+
+    const parentProcessArgs = parentProcessName.split(' ');
+
+    // if the command is run on an empty directory with no package manager connected to it
+    // we fallback to inferring the package manager from the command being used
+    if (parentProcessArgs[1].endsWith('pnpm')) {
+      return new PNPMProxy({ cwd });
+    }
+
+    if (parentProcessArgs[1].endsWith('yarn')) {
+      return new Yarn2Proxy({ cwd });
     }
 
     if (hasNPMCommand) {

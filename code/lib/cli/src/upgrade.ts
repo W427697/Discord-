@@ -187,7 +187,7 @@ export const doUpgrade = async ({
     // eslint-disable-next-line no-param-reassign
     pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+  const packageManager = await JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const beforeVersion = await getStorybookCoreVersion();
 

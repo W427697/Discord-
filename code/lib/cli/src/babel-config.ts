@@ -99,7 +99,7 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
   logger.info(`Writing file to ${location}`);
   await writeBabelConfigFile({ location, typescript, jsx });
 
-  const packageManager = JsPackageManagerFactory.getPackageManager();
+  const packageManager = await JsPackageManagerFactory.getPackageManager();
 
   logger.info(`Installing dependencies (${dependencies.join(', ')})`);
   await packageManager.addDependencies({ installAsDevDependencies: true }, dependencies);

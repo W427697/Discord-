@@ -106,7 +106,7 @@ export const automigrate = async ({
   }
 
   if (!hideMigrationSummary) {
-    const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+    const packageManager = await JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
     const installationMetadata = await packageManager.findInstallations([
       '@storybook/*',
       'storybook',
@@ -153,7 +153,7 @@ export async function runFixes({
     pkgMgr = 'npm';
   }
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+  const packageManager = await JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const fixResults = {} as Record<FixId, FixStatus>;
   const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };

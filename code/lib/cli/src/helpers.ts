@@ -7,6 +7,7 @@ import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
 import findUp from 'find-up';
+import findProcess from 'find-process';
 import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
@@ -18,6 +19,24 @@ import { SupportedLanguage } from './project_types';
 import storybookMonorepoPackages from './versions';
 
 const logger = console;
+
+export async function getParentProcessName() {
+  try {
+    const pid = process.ppid; // Get parent process ID
+    const list = await findProcess('pid', pid); // Find parent process by PID
+
+    if (list.length > 0) {
+      const parentProcess = list[0];
+      const command = parentProcess.cmd;
+
+      return command;
+    }
+
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
 
 export function readFileAsJson(jsonPath: string, allowComments?: boolean) {
   const filePath = path.resolve(jsonPath);

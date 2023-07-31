@@ -77,7 +77,7 @@ const addStorybook = async ({
 
   await copy(beforeDir, tmpDir);
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
+  const packageManager = await JsPackageManagerFactory.getPackageManager({}, tmpDir);
   if (localRegistry) {
     await withLocalRegistry(packageManager, async () => {
       await packageManager.addPackageResolutions(storybookVersions);

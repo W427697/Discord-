@@ -1,13 +1,16 @@
 import type { StorybookConfig } from '@storybook/types';
 import semver from 'semver';
 import { getAddonNames } from './mainConfigFile';
+import type { JsPackageManager } from '../../js-package-manager';
 import { JsPackageManagerFactory } from '../../js-package-manager';
 
 export const getIncompatibleAddons = async (
   mainConfig: StorybookConfig,
-  packageManager = JsPackageManagerFactory.getPackageManager()
+  packageManager: JsPackageManager
 ) => {
   // TODO: Keep this up to date with https://github.com/storybookjs/storybook/issues/20529 in case more addons get added
+  const pkgManager = packageManager ?? (await JsPackageManagerFactory.getPackageManager());
+
   const incompatibleList = {
     '@storybook/addon-knobs': '6.4.0',
     '@storybook/addon-postcss': '2.0.0',
@@ -47,7 +50,7 @@ export const getIncompatibleAddons = async (
       async (addon) =>
         ({
           name: addon,
-          version: await packageManager.getPackageVersion(addon),
+          version: await pkgManager.getPackageVersion(addon),
         } as { name: keyof typeof incompatibleList; version: string })
     )
   );
