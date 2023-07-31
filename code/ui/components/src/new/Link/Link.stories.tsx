@@ -33,22 +33,6 @@ export const Variants: Story = {
   ),
 };
 
-export const Active: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Link href="https://storybook.js.org/" variant="primary" active>
-        Primary
-      </Link>
-      <Link href="https://storybook.js.org/" variant="secondary" active>
-        Secondary
-      </Link>
-      <Link href="https://storybook.js.org/" variant="tertiary" active>
-        Tertiary
-      </Link>
-    </div>
-  ),
-};
-
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -65,22 +49,46 @@ export const WithIcon: Story = {
   ),
 };
 
-export const Sizes: Story = {
+export const WithArrow: Story = {
   render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Link href="https://storybook.js.org/" size="small" icon={<Icon.Faceneutral />}>
-        Small Link
-      </Link>
-      <Link href="https://storybook.js.org/" size="medium" icon={<Icon.Faceneutral />}>
-        Medium Link
-      </Link>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <Link href="https://storybook.js.org/" variant="primary" withArrow>
+          Primary
+        </Link>
+        <Link href="https://storybook.js.org/" variant="secondary" withArrow>
+          Secondary
+        </Link>
+        <Link href="https://storybook.js.org/" variant="tertiary" withArrow>
+          Tertiary
+        </Link>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <Link
+          href="https://storybook.js.org/"
+          variant="primary"
+          icon={<Icon.Faceneutral />}
+          withArrow
+        >
+          Primary
+        </Link>
+        <Link
+          href="https://storybook.js.org/"
+          variant="secondary"
+          icon={<Icon.Faceneutral />}
+          withArrow
+        >
+          Secondary
+        </Link>
+        <Link
+          href="https://storybook.js.org/"
+          variant="tertiary"
+          icon={<Icon.Faceneutral />}
+          withArrow
+        >
+          Tertiary
+        </Link>
+      </div>
     </div>
   ),
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    children: 'Disabled Link',
-  },
 };
