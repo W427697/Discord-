@@ -27,8 +27,8 @@ test.describe('manager', () => {
 
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
 
-    // await sbPage.page.locator('html').press('s');
-    // await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
+     await sbPage.page.locator('html').press('s');
+     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
   });
 
   test('shortcuts toolbar', async ({ page }) => {
