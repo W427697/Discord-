@@ -73,7 +73,7 @@ export type Template = {
 const baseTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
-    script: 'npx create-react-app {{beforeDir}}',
+    script: 'npx create-react-app@latest {{beforeDir}}',
     expected: {
       // TODO: change this to @storybook/cra once that package is created
       framework: '@storybook/react-webpack5',
@@ -84,7 +84,7 @@ const baseTemplates = {
   },
   'cra/default-ts': {
     name: 'Create React App (Typescript)',
-    script: 'npx create-react-app {{beforeDir}} --template typescript',
+    script: 'npx create-react-app@latest {{beforeDir}} --template typescript',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'bench'],
     expected: {
@@ -288,7 +288,7 @@ const baseTemplates = {
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
     script:
-      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@latest ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -356,7 +356,7 @@ const baseTemplates = {
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
     script:
-      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
+      'npx -p @vue/cli@latest vue create {{beforeDir}} --default --packageManager=yarn --force --merge && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -368,7 +368,7 @@ const baseTemplates = {
   'vue-cli/vue2-default-js': {
     name: 'Vue-CLI (Vue2 JS)',
     script:
-      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
+      'npx -p @vue/cli@latest vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
@@ -380,7 +380,7 @@ const baseTemplates = {
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
     script:
-      'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
+      'npx preact-cli@latest create default {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -391,7 +391,7 @@ const baseTemplates = {
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
     script:
-      'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
+      'npx preact-cli@latest create typescript {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
