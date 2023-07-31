@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
+import React, { Suspense } from 'react';
 
+import { Icon } from '@storybook/components/experimental';
 import { Link } from './Link';
 import { FakeIcon } from '../FakeIcon';
 
@@ -52,7 +53,15 @@ export const Active: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Link href="https://storybook.js.org/" variant="primary" icon={<FakeIcon />}>
+      <Link
+        href="https://storybook.js.org/"
+        variant="primary"
+        icon={
+          <Suspense fallback={<div>Loading</div>}>
+            <Icon.Faceneutral />
+          </Suspense>
+        }
+      >
         Primary
       </Link>
       <Link href="https://storybook.js.org/" variant="secondary" icon={<FakeIcon />}>
