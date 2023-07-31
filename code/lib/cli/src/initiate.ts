@@ -318,7 +318,7 @@ const scaffoldProject = async ({
   const packageJson = await readJson(path.join(process.cwd(), 'package.json'), 'utf8');
 
   delete packageJson.resolutions;
-  packageJson.name = template.key;
+  packageJson.name = template.key.replace('/', '-').toLowerCase();
 
   await unlink(path.join(process.cwd(), '.stackblitzrc'));
   await unlink('.yarnrc.yml');
@@ -343,6 +343,10 @@ const scaffoldProject = async ({
   if (skipInstall || template.projectType === ProjectType.REACT_NATIVE) {
     logSuccessfulBootstrapMessage();
     return { shouldRunDev: false };
+  }
+
+  if (packageManager.type === 'yarn2') {
+    await packageManager.runPackageCommand('set', ['version', 'berry']);
   }
 
   await packageManager.installDependencies();
