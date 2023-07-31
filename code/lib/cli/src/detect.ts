@@ -113,8 +113,6 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   const webpackConfig = findUp.sync(webpackConfigFiles);
   const dependencies = await packageManager.getAllDependencies();
 
-  console.log(' detectBuilder viteConfig', viteConfig, projectType);
-  console.log(' dependencies', dependencies);
 
   if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
     commandLog('Detected Vite project. Setting builder to Vite')();
