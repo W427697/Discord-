@@ -5715,7 +5715,6 @@ __metadata:
     "@storybook/addon-highlight": "workspace:*"
     "@storybook/addon-measure": "workspace:*"
     "@storybook/addon-outline": "workspace:*"
-    "@storybook/addon-themes": "workspace:*"
     "@storybook/addon-toolbars": "workspace:*"
     "@storybook/addon-viewport": "workspace:*"
     "@storybook/core-common": "workspace:*"
@@ -6028,7 +6027,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-themes@workspace:*, @storybook/addon-themes@workspace:addons/themes":
+"@storybook/addon-themes@workspace:addons/themes":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-themes@workspace:addons/themes"
   dependencies:
