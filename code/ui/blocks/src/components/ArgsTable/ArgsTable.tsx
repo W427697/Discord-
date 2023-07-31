@@ -6,6 +6,7 @@ import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { IconButton, Icons, ResetWrapper } from '@storybook/components';
+import { Link } from '@storybook/components/experimental';
 
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
@@ -321,9 +322,9 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     return (
       <EmptyBlock>
         {error}&nbsp;
-        {/* <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
+        <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
           Read the docs
-        </Link> */}
+        </Link>
       </EmptyBlock>
     );
   }
@@ -351,9 +352,9 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     return (
       <EmptyBlock>
         No inputs found for this component.&nbsp;
-        {/* <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
+        <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
           Read the docs
-        </Link> */}
+        </Link>
       </EmptyBlock>
     );
   }

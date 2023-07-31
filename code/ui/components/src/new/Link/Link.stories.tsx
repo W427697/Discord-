@@ -1,93 +1,86 @@
-import type { ComponentProps } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { action } from '@storybook/addon-actions';
+
 import { Link } from './Link';
 import { FakeIcon } from '../FakeIcon';
 
-const onClick = action('onClick');
-
-export default {
+const meta: Meta<typeof Link> = {
+  title: 'Link',
   component: Link,
+  tags: ['autodocs'],
 };
 
-export const CancelWOnClick = {
-  args: {
-    href: '/',
-    onClick,
-    children: 'Try clicking with different mouse buttons and modifier keys (shift/ctrl/alt/cmd)',
-  },
-  name: 'Cancel w/ onClick',
+export default meta;
+type Story = StoryObj<typeof Link>;
+
+export const Base = {
+  args: { children: 'Link' },
 };
 
-export const CancelWHref = {
-  args: {
-    href: 'http://example.com',
-    children: 'Link',
-  },
-  name: 'Cancel w/ href',
-};
-
-export const NoCancelWOnClick = {
-  args: {
-    href: '/',
-    children: 'Any click will go through',
-    onClick,
-  },
-  name: 'No-cancel w/ onClick',
-};
-
-export const NoCancelWHref = {
-  args: {
-    href: 'http://example.com',
-    children: 'Link',
-  },
-  name: 'No-cancel w/ href',
-};
-
-export const StyledLinks = {
-  render: (args: ComponentProps<typeof Link>) => (
-    <div>
-      <Link href="http://google.com" {...args}>
-        Default
+export const Variants: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link href="https://storybook.js.org/" variant="primary">
+        Primary
       </Link>
-      <br />
-      <Link secondary href="http://google.com" {...args}>
+      <Link href="https://storybook.js.org/" variant="secondary">
         Secondary
       </Link>
-      <br />
-      <Link tertiary href="http://google.com" {...args}>
-        tertiary
+      <Link href="https://storybook.js.org/" variant="tertiary">
+        Tertiary
       </Link>
-      <br />
-      <Link nochrome href="http://google.com" {...args}>
-        nochrome
-      </Link>
-      <br />
-      <Link href="http://google.com" {...args}>
-        <FakeIcon />
-        With icon in front
-      </Link>
-      <br />
-      <Link title="Toggle sidebar" containsIcon href="http://google.com" {...args}>
-        {/* A linked icon by itself   */}
-        <FakeIcon />
-      </Link>
-      <br />
-      <Link containsIcon withArrow href="http://google.com" {...args}>
-        With arrow behind
-      </Link>
-      <br />
-      <span
-        style={{
-          background: '#333',
-        }}
-      >
-        <Link inverse href="http://google.com" {...args}>
-          Inverted colors
-        </Link>
-      </span>
-      <br />
     </div>
   ),
-  name: 'Styled links',
+};
+
+export const Active: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link href="https://storybook.js.org/" variant="primary" active>
+        Primary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" active>
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="tertiary" active>
+        Tertiary
+      </Link>
+    </div>
+  ),
+};
+
+export const WithIcon: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link href="https://storybook.js.org/" variant="primary" icon={<FakeIcon />}>
+        Primary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" icon={<FakeIcon />}>
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="tertiary" icon={<FakeIcon />}>
+        Tertiary
+      </Link>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link href="https://storybook.js.org/" size="small" icon={<FakeIcon />}>
+        Small Link
+      </Link>
+      <Link href="https://storybook.js.org/" size="medium" icon={<FakeIcon />}>
+        Medium Link
+      </Link>
+    </div>
+  ),
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: 'Disabled Link',
+  },
 };
