@@ -118,7 +118,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
       [key]: path.join(workspaceDir, workspaces.find((item: any) => item.name === key).location),
     };
   }, {});
-  logger.info({ resolutions: packageJson.resolutions });
+
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
