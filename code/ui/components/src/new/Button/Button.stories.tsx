@@ -46,13 +46,13 @@ export const Active: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button variant="primary" icon={<Icon.Facehappy />}>
+      <Button variant="primary" icon={<Icon.FaceHappy />}>
         Primary
       </Button>
-      <Button variant="secondary" icon={<Icon.Facehappy />}>
+      <Button variant="secondary" icon={<Icon.FaceHappy />}>
         Secondary
       </Button>
-      <Button variant="tertiary" icon={<Icon.Facehappy />}>
+      <Button variant="tertiary" icon={<Icon.FaceHappy />}>
         Tertiary
       </Button>
     </div>
@@ -62,16 +62,16 @@ export const WithIcon: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" icon={<Icon.Facehappy />}>
+      <Button size="small" icon={<Icon.FaceHappy />}>
         Small Button
       </Button>
-      <Button size="small" icon={<Icon.Facehappy />} iconOnly>
+      <Button size="small" icon={<Icon.FaceHappy />} iconOnly>
         Small Button
       </Button>
-      <Button size="medium" icon={<Icon.Facehappy />}>
+      <Button size="medium" icon={<Icon.FaceHappy />}>
         Medium Button
       </Button>
-      <Button size="medium" icon={<Icon.Facehappy />} iconOnly>
+      <Button size="medium" icon={<Icon.FaceHappy />} iconOnly>
         Medium Button
       </Button>
     </div>
@@ -91,22 +91,22 @@ export const IconOnly: Story = {
   },
   render: () => (
     <>
-      <Button size="small" variant="primary" iconOnly icon={<Icon.Facehappy />}>
+      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />}>
         Primary
       </Button>
-      <Button size="small" variant="secondary" iconOnly icon={<Icon.Facehappy />}>
+      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />}>
         Secondary
       </Button>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon.Facehappy />}>
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />}>
         Tertiary
       </Button>
-      <Button size="medium" variant="primary" iconOnly icon={<Icon.Facehappy />}>
+      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />}>
         Primary
       </Button>
-      <Button size="medium" variant="secondary" iconOnly icon={<Icon.Facehappy />}>
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />}>
         Secondary
       </Button>
-      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.Facehappy />}>
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />}>
         Tertiary
       </Button>
     </>
@@ -119,22 +119,22 @@ export const IconOnly: Story = {
 export const IconOnlyActive: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" variant="primary" iconOnly icon={<Icon.Facehappy />} active>
+      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />} active>
         Primary
       </Button>
-      <Button size="small" variant="secondary" iconOnly icon={<Icon.Facehappy />} active>
+      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active>
         Secondary
       </Button>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon.Facehappy />} active>
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active>
         Tertiary
       </Button>
-      <Button size="medium" variant="primary" iconOnly icon={<Icon.Facehappy />} active>
+      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />} active>
         Primary
       </Button>
-      <Button size="medium" variant="secondary" iconOnly icon={<Icon.Facehappy />} active>
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active>
         Secondary
       </Button>
-      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.Facehappy />} active>
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active>
         Tertiary
       </Button>
     </div>

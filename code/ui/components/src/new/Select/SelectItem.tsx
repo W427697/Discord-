@@ -14,7 +14,7 @@ export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
       <StyledItem {...props} ref={forwardedRef}>
         <RadixSelect.ItemText>{children}</RadixSelect.ItemText>
         <StyledItemIndicator className="SelectItemIndicator">
-          <Icon.Facehappy />
+          <Icon.FaceHappy />
         </StyledItemIndicator>
       </StyledItem>
     );

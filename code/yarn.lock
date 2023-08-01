@@ -6560,7 +6560,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/csf": ^0.1.0
     "@storybook/global": ^5.0.0
-    "@storybook/icons": ^1.0.8
+    "@storybook/icons": ^1.1.0
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/react-syntax-highlighter": 11.0.5
@@ -6883,9 +6883,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/icons@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "@storybook/icons@npm:1.0.8"
+"@storybook/icons@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@storybook/icons@npm:1.1.0"
   dependencies:
     "@svgr/core": 5.5.0
     "@svgr/plugin-prettier": 5.5.0
@@ -6898,7 +6898,7 @@ __metadata:
   peerDependencies:
     react: ">=17"
     react-dom: ">=17"
-  checksum: fc1931f156dc3305fde19ba558e67c1601241293c8186ed8cc54040a15987dec9d5813595c4021c39afca999a524873f8f799ceb5c79181d7e00452463147f1a
+  checksum: 1ed443bdec1be98f5db4a68679a8bdc571e4744638fba922bac12d01f3debac605bf58a6f483f050cf0d44c26ae5f51349c80bfaa3d8a4303a890804f876cb04
   languageName: node
   linkType: hard
 

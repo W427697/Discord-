@@ -36,13 +36,13 @@ export const Variants: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Link href="https://storybook.js.org/" variant="primary" icon={<Icon.Faceneutral />}>
+      <Link href="https://storybook.js.org/" variant="primary" icon={<Icon.FaceHappy />}>
         Primary
       </Link>
-      <Link href="https://storybook.js.org/" variant="secondary" icon={<Icon.Faceneutral />}>
+      <Link href="https://storybook.js.org/" variant="secondary" icon={<Icon.FaceHappy />}>
         Secondary
       </Link>
-      <Link href="https://storybook.js.org/" variant="tertiary" icon={<Icon.Faceneutral />}>
+      <Link href="https://storybook.js.org/" variant="tertiary" icon={<Icon.FaceHappy />}>
         Tertiary
       </Link>
     </div>
@@ -67,7 +67,7 @@ export const WithArrow: Story = {
         <Link
           href="https://storybook.js.org/"
           variant="primary"
-          icon={<Icon.Faceneutral />}
+          icon={<Icon.FaceHappy />}
           withArrow
         >
           Primary
@@ -75,7 +75,7 @@ export const WithArrow: Story = {
         <Link
           href="https://storybook.js.org/"
           variant="secondary"
-          icon={<Icon.Faceneutral />}
+          icon={<Icon.FaceHappy />}
           withArrow
         >
           Secondary
@@ -83,7 +83,7 @@ export const WithArrow: Story = {
         <Link
           href="https://storybook.js.org/"
           variant="tertiary"
-          icon={<Icon.Faceneutral />}
+          icon={<Icon.FaceHappy />}
           withArrow
         >
           Tertiary
