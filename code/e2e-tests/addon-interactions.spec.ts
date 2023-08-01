@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
 
-const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:6006';
+const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
 test.describe('addon-interactions', () => {
