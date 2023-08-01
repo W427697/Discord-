@@ -3,7 +3,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type { DocsOptions, Options, StorybookConfig } from '@storybook/types';
+import type { DocsOptions, Indexer, Options, StorybookConfig } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
@@ -129,36 +129,36 @@ async function webpack(
   return result;
 }
 
-const indexers: StorybookConfig['indexers'] = (existingIndexers) => [
-  {
-    test: /(stories|story)\.mdx$/,
-    index: async (fileName, opts) => {
-      let code = (await fs.readFile(fileName, 'utf-8')).toString();
-      const { compile } = global.FEATURES?.legacyMdx1
-        ? await import('@storybook/mdx1-csf')
-        : await import('@storybook/mdx2-csf');
-      code = await compile(code, {});
-      const csf = loadCsf(code, { ...opts, fileName }).parse();
+export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
+  test: /(stories|story)\.mdx$/,
+  index: async (fileName, opts) => {
+    let code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const { compile } = legacyMdx1
+      ? await import('@storybook/mdx1-csf')
+      : await import('@storybook/mdx2-csf');
+    code = await compile(code, {});
+    const csf = loadCsf(code, { ...opts, fileName }).parse();
 
-      // eslint-disable-next-line no-underscore-dangle
-      return Object.entries(csf._stories).map(([exportName, story]) => {
-        const docsOnly = story.parameters?.docsOnly;
-        const tags = (story.tags ?? csf.meta.tags ?? []).concat(docsOnly ? 'docsOnly' : []);
-        return {
-          type: 'story',
-          importPath: fileName,
-          exportName,
-          name: story.name,
-          title: csf.meta.title,
-          metaId: csf.meta.id,
-          tags,
-          __id: story.id,
-        };
-      });
-    },
+    // eslint-disable-next-line no-underscore-dangle
+    return Object.entries(csf._stories).map(([exportName, story]) => {
+      const docsOnly = story.parameters?.docsOnly;
+      const tags = (story.tags ?? csf.meta.tags ?? []).concat(docsOnly ? 'docsOnly' : []);
+      return {
+        type: 'story',
+        importPath: fileName,
+        exportName,
+        name: story.name,
+        title: csf.meta.title,
+        metaId: csf.meta.id,
+        tags,
+        __id: story.id,
+      };
+    });
   },
-  ...(existingIndexers || []),
-];
+});
+
+const indexers: StorybookConfig['indexers'] = (existingIndexers) =>
+  [createStoriesMdxIndexer(global.FEATURES?.legacyMdx1)].concat(existingIndexers || []);
 
 const docs = (docsOptions: DocsOptions) => {
   return {

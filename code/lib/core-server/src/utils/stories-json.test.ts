@@ -1,19 +1,20 @@
 /// <reference types="@types/jest" />;
 
-import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce.js';
+// @ts-expect-error -- cannot find declaration file
+import { createStoriesMdxIndexer } from '@storybook/addon-docs/preset';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { Indexer, StoryIndex } from '@storybook/types';
-import { loadCsf } from '@storybook/csf-tools';
+import type { StoryIndex } from '@storybook/types';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
 import type { ServerChannel } from './get-server-channel';
 import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
+import { csfIndexer } from '../presets/common-preset';
 
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
@@ -39,59 +40,13 @@ const normalizedStories = [
   ),
 ];
 
-const storiesMdxIndexer: Indexer = {
-  test: /\.stories\.mdx$/,
-  index: async (fileName, opts) => {
-    let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    const { compile } = await import('@storybook/mdx2-csf');
-    code = await compile(code, {});
-    const csf = loadCsf(code, { ...opts, fileName }).parse();
-
-    // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => {
-      const docsOnly = story.parameters?.docsOnly;
-      const tags = (story.tags ?? csf.meta.tags ?? []).concat(docsOnly ? 'docsOnly' : []);
-      return {
-        type: 'story',
-        importPath: fileName,
-        exportName,
-        name: story.name,
-        title: csf.meta.title,
-        metaId: csf.meta.id,
-        tags,
-        __id: story.id,
-      };
-    });
-  },
-};
-
-const csfIndexer: Indexer = {
-  test: /\.stories\.(m?js|ts)x?$/,
-  index: async (fileName, options) => {
-    const code = (await fs.readFile(fileName, 'utf-8')).toString();
-    const csf = loadCsf(code, { ...options, fileName }).parse();
-
-    // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => ({
-      exportName,
-      __id: story.id,
-      name: story.name,
-      metaId: csf.meta.id,
-      title: csf.meta.title,
-      importPath: fileName,
-      type: 'story',
-      tags: story.tags ?? csf.meta.tags,
-    }));
-  },
-};
-
 const getInitializedStoryIndexGenerator = async (
   overrides: any = {},
   inputNormalizedStories = normalizedStories
 ) => {
   const options: StoryIndexGeneratorOptions = {
     storyIndexers: [],
-    indexers: [csfIndexer, storiesMdxIndexer],
+    indexers: [csfIndexer, createStoriesMdxIndexer(false)],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,

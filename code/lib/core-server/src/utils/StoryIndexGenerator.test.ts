@@ -6,17 +6,19 @@
  */
 
 import path from 'path';
-import fs from 'fs-extra';
+// @ts-expect-error -- cannot find declaration file
+import { createStoriesMdxIndexer } from '@storybook/addon-docs/preset';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { Indexer, NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
-import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
+import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
+// import * as csfTools from '@storybook/csf-tools';
+import { readCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger, once } from '@storybook/node-logger';
 
 import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
+import { csfIndexer } from '../presets/common-preset';
 
-jest.mock('@storybook/csf-tools');
 jest.mock('@storybook/csf', () => {
   const csf = jest.requireActual('@storybook/csf');
   return {
@@ -28,62 +30,25 @@ jest.mock('@storybook/csf', () => {
 jest.mock('@storybook/node-logger');
 
 const toIdMock = toId as jest.Mock<ReturnType<typeof toId>>;
-const loadCsfMock = loadCsf as jest.Mock<ReturnType<typeof loadCsf>>;
+jest.mock('@storybook/csf-tools', () => {
+  const csfTools = jest.requireActual('@storybook/csf-tools');
+  return {
+    ...csfTools,
+    readCsf: jest.fn(csfTools.readCsf),
+    getStorySortParameter: jest.fn(csfTools.getStorySortParameter),
+  };
+});
+
+const readCsfMock = readCsf as jest.Mock<ReturnType<typeof readCsf>>;
 const getStorySortParameterMock = getStorySortParameter as jest.Mock<
   ReturnType<typeof getStorySortParameter>
 >;
-
-const storiesMdxIndexer: Indexer = {
-  test: /\.stories\.mdx$/,
-  index: async (fileName, opts) => {
-    let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    const { compile } = await import('@storybook/mdx2-csf');
-    code = await compile(code, {});
-    const csf = loadCsf(code, { ...opts, fileName }).parse();
-
-    // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => {
-      const docsOnly = story.parameters?.docsOnly;
-      const tags = (story.tags ?? csf.meta.tags ?? []).concat(docsOnly ? 'docsOnly' : []);
-      return {
-        type: 'story',
-        importPath: fileName,
-        exportName,
-        name: story.name,
-        title: csf.meta.title,
-        metaId: csf.meta.id,
-        tags,
-        __id: story.id,
-      };
-    });
-  },
-};
-
-const csfIndexer: Indexer = {
-  test: /\.stories\.(m?js|ts)x?$/,
-  index: async (fileName, options) => {
-    const code = (await fs.readFile(fileName, 'utf-8')).toString();
-    const csf = loadCsf(code, { ...options, fileName }).parse();
-
-    // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => ({
-      type: 'story',
-      importPath: fileName,
-      exportName,
-      name: story.name,
-      title: csf.meta.title,
-      metaId: csf.meta.id,
-      tags: story.tags ?? csf.meta.tags,
-      __id: story.id,
-    }));
-  },
-};
 
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
   storyIndexers: [],
-  indexers: [csfIndexer, storiesMdxIndexer],
+  indexers: [csfIndexer, createStoriesMdxIndexer(false)],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
@@ -91,8 +56,6 @@ const options: StoryIndexGeneratorOptions = {
 
 describe('StoryIndexGenerator', () => {
   beforeEach(() => {
-    const actual = jest.requireActual('@storybook/csf-tools');
-    loadCsfMock.mockImplementation(actual.loadCsf);
     jest.mocked(logger.warn).mockClear();
     jest.mocked(once.warn).mockClear();
   });
@@ -1200,7 +1163,7 @@ describe('StoryIndexGenerator', () => {
       const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
       await generator.initialize();
 
-      (getStorySortParameter as jest.Mock).mockReturnValueOnce({
+      getStorySortParameterMock.mockReturnValueOnce({
         order: ['docs2', 'D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
       });
 
@@ -1231,15 +1194,15 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        readCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(readCsfMock).toHaveBeenCalledTimes(7);
 
-        loadCsfMock.mockClear();
+        readCsfMock.mockClear();
         await generator.getIndex();
-        expect(loadCsfMock).not.toHaveBeenCalled();
+        expect(readCsfMock).not.toHaveBeenCalled();
       });
 
       it('does not extract docs files a second time', async () => {
@@ -1288,17 +1251,17 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        readCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(readCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', false);
 
-        loadCsfMock.mockClear();
+        readCsfMock.mockClear();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(1);
+        expect(readCsfMock).toHaveBeenCalledTimes(1);
       });
 
       it('calls extract docs file for just the one file', async () => {
@@ -1373,17 +1336,17 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        readCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(readCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
-        loadCsfMock.mockClear();
+        readCsfMock.mockClear();
         await generator.getIndex();
-        expect(loadCsfMock).not.toHaveBeenCalled();
+        expect(readCsfMock).not.toHaveBeenCalled();
       });
 
       it('does call the sort function a second time', async () => {
@@ -1412,11 +1375,11 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        readCsfMock.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(readCsfMock).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
