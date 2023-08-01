@@ -113,7 +113,6 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   const webpackConfig = findUp.sync(webpackConfigFiles);
   const dependencies = await packageManager.getAllDependencies();
 
-
   if (viteConfig || (dependencies['vite'] && dependencies['webpack'] === undefined)) {
     commandLog('Detected Vite project. Setting builder to Vite')();
     return CoreBuilder.Vite;
@@ -200,6 +199,10 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     } else if (semver.lt(typescriptVersion, '3.8.0')) {
       logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
     }
+  }
+  // project can have tsconfig.json without typescript installed (e.g. nuxt, nx)
+  if (fs.existsSync('tsconfig.json')) {
+    language = SupportedLanguage.TYPESCRIPT_4_9;
   }
 
   return language;

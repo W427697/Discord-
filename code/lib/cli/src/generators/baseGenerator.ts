@@ -168,7 +168,7 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   );
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
-  ['angular', 'nextjs'].includes(framework);
+  ['angular', 'nextjs', 'nuxt'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,
