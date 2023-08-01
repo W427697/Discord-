@@ -5547,7 +5547,7 @@ __metadata:
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@testing-library/react": ^11.2.2
-    axe-core: ^4.7.0
+    axe-core: ^4.2.0
     lodash: ^4.17.21
     react-resize-detector: ^7.1.2
     resize-observer-polyfill: ^1.5.1
@@ -11096,7 +11096,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.6.2, axe-core@npm:^4.7.0":
+"axe-core@npm:^4.2.0, axe-core@npm:^4.6.2, axe-core@npm:^4.7.0":
   version: 4.7.2
   resolution: "axe-core@npm:4.7.2"
   checksum: 8dfc61f038fbd9623ae8a264c8a475d887113a027fb440a2b377b82ffd300e71d1a0bcf042ff13b517a8d548b34c44b4159eff693725c5d7cde240d0aa68feac
