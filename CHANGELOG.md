@@ -1,3 +1,13 @@
+## 7.2.0
+
+- Addon-essentials: Pull addon-themes from essentials - [#23652](https://github.com/storybookjs/storybook/pull/23652), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- Automigration: Fix wrap-require automigration for common js main.js files - [#23644](https://github.com/storybookjs/storybook/pull/23644), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CSF Tools: Use recast for printing in csf-tools - [#23427](https://github.com/storybookjs/storybook/pull/23427), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- CSF-tools: Parse stories using typescript keywords 'satisfies' and 'as' - [#23638](https://github.com/storybookjs/storybook/pull/23638), thanks [@joaonunomota](https://github.com/joaonunomota)!
+- Core: Fix channelOptions for serverChannel - [#23615](https://github.com/storybookjs/storybook/pull/23615), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Add `@babel/core` as a dependency - [#22450](https://github.com/storybookjs/storybook/pull/22450), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Vite: Fix config loading - project directory - [#22240](https://github.com/storybookjs/storybook/pull/22240), thanks [@nVitius](https://github.com/nVitius)!
+
 ## 7.1.1
 
 - Angular: Make enableProdMode optional - [#23489](https://github.com/storybookjs/storybook/pull/23489), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
