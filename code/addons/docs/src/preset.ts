@@ -145,6 +145,10 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
       const tags = (story.tags ?? csf.meta.tags ?? []).concat(
         docsOnly ? 'stories-mdx-docsOnly' : []
       );
+      // the mdx-csf compiler automatically adds the 'stories-mdx' tag to meta, here' we're just making sure it is always there
+      if (!tags.includes('stories-mdx')) {
+        tags.push('stories-mdx');
+      }
       return {
         type: 'story',
         importPath: fileName,
