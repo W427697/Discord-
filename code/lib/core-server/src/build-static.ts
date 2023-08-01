@@ -112,7 +112,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       presets.apply<StorybookConfig['features']>('features'),
       presets.apply<CoreConfig>('core'),
       presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
-      presets.apply('indexers', []),
+      presets.apply('experimental_indexers', []),
       presets.apply('storyIndexers', []),
       presets.apply('stories'),
       presets.apply<DocsOptions>('docs', {}),

@@ -216,7 +216,8 @@ export const csfIndexer: Indexer = {
   },
 };
 
-export const indexers: StorybookConfig['indexers'] = (existingIndexers) =>
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
   [csfIndexer].concat(existingIndexers || []);
 
 export const frameworkOptions = async (
