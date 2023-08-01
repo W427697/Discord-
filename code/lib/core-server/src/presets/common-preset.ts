@@ -1,4 +1,4 @@
-import { pathExists, readFile } from 'fs-extra';
+import fs, { pathExists, readFile } from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
@@ -17,7 +17,7 @@ import type {
   StorybookConfig,
   StoryIndexer,
 } from '@storybook/types';
-import { loadCsf, readConfig, writeConfig } from '@storybook/csf-tools';
+import { loadCsf, printConfig, readConfig } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
@@ -29,6 +29,7 @@ import {
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
+import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
@@ -44,7 +45,7 @@ export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) =>
 ];
 
 export const favicon = async (
-  value: string,
+  value: string | undefined,
   options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
 ) => {
   if (value) {
@@ -257,8 +258,13 @@ type WhatsNewResponse = {
   excerpt: string;
 };
 
+type OptionsWithRequiredCache = Exclude<Options, 'cache'> & Required<Pick<Options, 'cache'>>;
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_serverChannel = async (channel: Channel, options: Options) => {
+export const experimental_serverChannel = async (
+  channel: Channel,
+  options: OptionsWithRequiredCache
+) => {
   const coreOptions = await options.presets.apply('core');
 
   channel.on(SET_WHATS_NEW_CACHE, async (data: WhatsNewCache) => {
@@ -277,7 +283,10 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
         throw response;
       })) as WhatsNewResponse;
 
-      const main = await readConfig(findConfigFile('main', options.configDir));
+      const configFileName = findConfigFile('main', options.configDir);
+      if (!configFileName)
+        throw new Error(`unable to find storybook main file in ${options.configDir}`);
+      const main = await readConfig(configFileName);
       const disableWhatsNewNotifications = main.getFieldValue([
         'core',
         'disableWhatsNewNotifications',
@@ -293,7 +302,7 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
       } satisfies WhatsNewData;
       channel.emit(RESULT_WHATS_NEW_DATA, { data });
     } catch (e) {
-      logger.verbose(e);
+      logger.verbose(e instanceof Error ? e.message : String(e));
       channel.emit(RESULT_WHATS_NEW_DATA, {
         data: { status: 'ERROR' } satisfies WhatsNewData,
       });
@@ -305,14 +314,16 @@ export const experimental_serverChannel = async (channel: Channel, options: Opti
     async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
       const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
       try {
-        const main = await readConfig(findConfigFile('main', options.configDir));
+        const mainPath = findConfigFile('main', options.configDir);
+        invariant(mainPath, `unable to find storybook main file in ${options.configDir}`);
+        const main = await readConfig(mainPath);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await writeConfig(main);
-
+        await fs.writeFile(mainPath, printConfig(main).code);
         if (isTelemetryEnabled) {
           await telemetry('core-config', { disableWhatsNewNotifications });
         }
       } catch (error) {
+        invariant(error instanceof Error);
         if (isTelemetryEnabled) {
           await sendTelemetryError(error, 'core-config', {
             cliOptions: options,
