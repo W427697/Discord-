@@ -2,7 +2,7 @@ import type { MouseEvent, ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
-import { Icon } from '@storybook/components/experimental';
+import { Icon } from '../Icon/Icon';
 import type { PropsOf } from '../utils/types';
 
 export interface LinkProps<T extends React.ElementType = React.ElementType> {
