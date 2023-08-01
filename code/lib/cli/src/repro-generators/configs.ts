@@ -285,11 +285,3 @@ export const svelteKit: Parameters = {
   generator:
     'yarn create svelte-with-args --name={{appName}} --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
 };
-
-export const nuxt_typescript: Parameters = {
-  renderer: 'vue',
-  name: 'nuxt',
-  version: 'latest',
-  generator: 'npx nuxi@latest init {{appName}}',
-  additionalDeps: ['wrap-ansi@^7.0.0'],
-};
