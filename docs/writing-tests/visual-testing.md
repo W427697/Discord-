@@ -88,5 +88,5 @@ Snapshot tests compare the rendered markup of every story against known baseline
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [End-to-end tests](./end-to-end-testing.md) for simulating real user scenarios
-- [Unit tests](./unit-testing.md) for functionality
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

@@ -119,5 +119,5 @@ Visual tests capture images of stories and compare them against image baselines.
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - Snapshot tests for rendering errors and warnings
-- [End-to-end tests](./end-to-end-testing.md) for simulating real user scenarios
-- [Unit tests](./unit-testing.md) for functionality
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

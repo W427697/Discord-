@@ -102,4 +102,4 @@ Once you execute Playwright, it opens a new browser window, loads Storybook's is
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
 - End-to-end tests for simulating real user scenarios
-- [Unit tests](./unit-testing.md) for functionality
+- [Unit tests](./stories-in-unit-tests.md) for functionality

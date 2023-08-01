@@ -25,5 +25,5 @@ Storybook also comes with tools, [a test runner](./test-runner.md), and handy in
 - [**Interaction tests**](./interaction-testing.md) verify component functionality by simulating user behaviour, firing events, and ensuring that state is updated as expected
 - [**Coverage tests**](./test-coverage.md) to measure how much of your code is covered by your tests
 - [**Snapshot tests**](./snapshot-testing.md) detect changes in the rendered markup to surface rendering errors or warnings
-- [**End-to-end tests**](./end-to-end-testing.md) for simulating real user scenarios
-- [**Unit tests**](./unit-testing.md) for functionality
+- [**End-to-end tests**](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [**Unit tests**](./stories-in-unit-tests.md) for functionality

@@ -207,5 +207,5 @@ When using the `composeStories` or `composeStory` functions, the components bein
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [End-to-end tests](./end-to-end-testing.md) for simulating real user scenarios
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
 - Unit tests for functionality
