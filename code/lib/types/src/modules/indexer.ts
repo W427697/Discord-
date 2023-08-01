@@ -41,7 +41,7 @@ export interface IndexedStory {
   parameters?: Parameters;
 }
 export interface IndexedCSFFile {
-  meta: { title?: string; tags?: Tag[] };
+  meta: { id?: string; title?: string; tags?: Tag[] };
   stories: IndexedStory[];
 }
 
@@ -68,7 +68,7 @@ export type Indexer = BaseIndexer & {
    */
   index: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
   /**
-   * @deprecated Use {@link index} instead
+   * @soonDeprecated Use {@link index} instead
    */
   indexer?: never;
 };
@@ -79,7 +79,7 @@ export type DeprecatedIndexer = BaseIndexer & {
 };
 
 /**
- * @deprecated Use {@link Indexer} instead
+ * @soonDeprecated Use {@link Indexer} instead
  */
 export type StoryIndexer = Indexer | DeprecatedIndexer;
 

@@ -70,6 +70,7 @@ describe('story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": "a",
             "name": "Story One",
             "tags": Array [
               "story-tag-from-indexer",
@@ -81,6 +82,7 @@ describe('story extraction', () => {
           Object {
             "id": "some-fully-custom-id",
             "importPath": "./src/A.stories.js",
+            "metaId": "custom-id",
             "name": "Another Story Name",
             "tags": Array [
               "story-tag-from-indexer",
@@ -124,6 +126,7 @@ describe('story extraction', () => {
           Object {
             "id": "f--story-one",
             "importPath": "./src/first-nested/deeply/F.stories.js",
+            "metaId": undefined,
             "name": "Story One",
             "tags": Array [
               "story",
@@ -152,6 +155,7 @@ describe('story extraction', () => {
               exportName: 'StoryOne',
               __id: 'a--story-one',
               name: 'Story One',
+              metaId: 'a',
               tags: ['story-tag-from-indexer'],
               importPath: fileName,
               type: 'story',
@@ -169,6 +173,7 @@ describe('story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/first-nested/deeply/F.stories.js",
+            "metaId": "a",
             "name": "Story One",
             "tags": Array [
               "story-tag-from-indexer",
@@ -198,6 +203,7 @@ describe('story extraction', () => {
               exportName: 'StoryOne',
               __id: 'a--story-one',
               title: 'A',
+              metaId: 'a',
               tags: ['story-tag-from-indexer'],
               importPath: fileName,
               type: 'story',
@@ -215,6 +221,7 @@ describe('story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": "a",
             "name": "Story One",
             "tags": Array [
               "story-tag-from-indexer",
@@ -280,6 +287,7 @@ describe('story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": undefined,
             "name": "Story One",
             "tags": Array [
               "story-tag-from-indexer",
@@ -291,6 +299,7 @@ describe('story extraction', () => {
           Object {
             "id": "custom-title--story-two",
             "importPath": "./src/A.stories.js",
+            "metaId": undefined,
             "name": "Custom Name For Second Story",
             "tags": Array [
               "story-tag-from-indexer",
@@ -302,6 +311,7 @@ describe('story extraction', () => {
           Object {
             "id": "custom-meta-id--story-three",
             "importPath": "./src/A.stories.js",
+            "metaId": "custom-meta-id",
             "name": "Story Three",
             "tags": Array [
               "story-tag-from-indexer",
@@ -346,6 +356,7 @@ describe('story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": undefined,
             "name": "Story One",
             "tags": Array [
               "story-tag-from-indexer",
@@ -408,6 +419,7 @@ describe('docs entries from story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": undefined,
             "name": "Story One",
             "tags": Array [
               "story-tag-from-indexer",
@@ -468,6 +480,7 @@ describe('docs entries from story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": undefined,
             "name": "Story One",
             "tags": Array [
               "autodocs",
@@ -516,6 +529,7 @@ describe('docs entries from story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": undefined,
             "name": "Story One",
             "tags": Array [
               "autodocs",
@@ -577,6 +591,7 @@ describe('docs entries from story extraction', () => {
           Object {
             "id": "a--story-one",
             "importPath": "./src/A.stories.js",
+            "metaId": undefined,
             "name": "Story One",
             "tags": Array [
               "stories-mdx",

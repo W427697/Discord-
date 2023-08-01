@@ -25,7 +25,7 @@ import type {
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
-import { deprecate, logger, once } from '@storybook/node-logger';
+import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
@@ -33,11 +33,13 @@ import dedent from 'ts-dedent';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
 
+// Extended type to keep track of the csf meta id so we know the component id when referencing docs in `extractDocs`
+type StoryIndexEntryWithMetaId = StoryIndexEntry & { metaId?: string };
 /** A .mdx file will produce a docs entry */
 type DocsCacheEntry = DocsIndexEntry;
 /** A *.stories.* file will produce a list of stories and possibly a docs entry */
 type StoriesCacheEntry = {
-  entries: (StoryIndexEntry | DocsIndexEntry)[];
+  entries: (StoryIndexEntryWithMetaId | DocsIndexEntry)[];
   dependents: Path[];
   type: 'stories';
 };
@@ -118,10 +120,10 @@ export class StoryIndexGenerator {
   ) {
     this.specifierToCache = new Map();
     if (options.storyIndexers.length > 1) {
-      // TODO: write migration notes
-      deprecate(
-        "'storyIndexers' is deprecated, please use 'indexers' instead. See migration notes at XXX"
-      );
+      // TODO: write migration notes before enabling this warning
+      // deprecate(
+      //   "'storyIndexers' is deprecated, please use 'indexers' instead. See migration notes at XXX"
+      // );
     }
   }
 
@@ -245,7 +247,13 @@ export class StoryIndexGenerator {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
         if (entry.type === 'error') return [entry];
-        return entry.entries;
+
+        return entry.entries.map((item) => {
+          if (item.type === 'docs') return item;
+          // Drop the meta id as it isn't part of the index, we just used it for record keeping in `extractDocs`
+          const { metaId, ...existing } = item;
+          return existing;
+        });
       });
     });
   }
@@ -300,8 +308,8 @@ export class StoryIndexGenerator {
 
     const indexInputs = await indexer.index(absolutePath, { makeTitle: defaultMakeTitle });
 
-    const entries: ((StoryIndexEntry | DocsCacheEntry) & { tags: Tag[] })[] = indexInputs.map(
-      (input) => {
+    const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
+      indexInputs.map((input) => {
         const name = input.name ?? storyNameFromExport(input.exportName);
         const title = input.title ?? defaultMakeTitle();
         // eslint-disable-next-line no-underscore-dangle
@@ -311,13 +319,13 @@ export class StoryIndexGenerator {
         return {
           type: 'story',
           id,
+          metaId: input.metaId,
           name,
           title,
           importPath,
           tags,
         };
-      }
-    );
+      });
 
     const { autodocs } = this.options.docs;
     // We need a docs entry attached to the CSF file if either:
@@ -332,9 +340,10 @@ export class StoryIndexGenerator {
     if (createDocEntry) {
       const name = this.options.docs.defaultName;
       invariant(name, 'expected a defaultName property in options.docs');
+      const { metaId } = indexInputs[0];
       const { title } = entries[0];
       const tags = indexInputs[0].tags || [];
-      const id = toId(title, name);
+      const id = toId(metaId ?? title, name);
       entries.unshift({
         id,
         title,
@@ -377,7 +386,16 @@ export class StoryIndexGenerator {
       if (!parameters?.docsOnly) {
         const tags = [...(storyTags || componentTags), 'story'];
         invariant(csf.meta.title);
-        entries.push({ id, title: csf.meta.title, name, importPath, tags, type: 'story' });
+        entries.push({
+          id,
+          title: csf.meta.title,
+          name,
+          importPath,
+          tags,
+          type: 'story',
+          // We need to keep track of the csf meta id so we know the component id when referencing docs below in `extractDocs`
+          metaId: csf.meta.id,
+        });
       }
     });
 
@@ -392,7 +410,7 @@ export class StoryIndexGenerator {
         const name = this.options.docs.defaultName;
         invariant(name, 'expected a defaultName property in options.docs');
         invariant(csf.meta.title, 'expected a title property in csf.meta');
-        const id = toId(csf.meta.title, name);
+        const id = toId(csf.meta.id || csf.meta.title, name);
         entries.unshift({
           id,
           title: csf.meta.title,
@@ -452,12 +470,12 @@ export class StoryIndexGenerator {
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
-      let csfEntry: StoryIndexEntry | undefined;
+      let csfEntry: StoryIndexEntryWithMetaId | undefined;
       if (result.of) {
         const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
         dependencies.forEach((dep) => {
           if (dep.entries.length > 0) {
-            const first = dep.entries.find((e) => e.type !== 'docs') as StoryIndexEntry;
+            const first = dep.entries.find((e) => e.type !== 'docs') as StoryIndexEntryWithMetaId;
 
             if (
               path
@@ -499,7 +517,7 @@ export class StoryIndexGenerator {
       const name =
         result.name ||
         (csfEntry ? autoName(importPath, csfEntry.importPath, defaultName) : defaultName);
-      const id = toId(title, name);
+      const id = toId(csfEntry?.metaId || title, name);
 
       const docsEntry: DocsCacheEntry = {
         id,
