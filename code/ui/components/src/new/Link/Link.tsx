@@ -23,8 +23,10 @@ export const Link: {
   ({ as, children, icon, withArrow, ...props }: LinkProps, ref: React.Ref<HTMLAnchorElement>) => {
     return (
       <StyledLink as={as} ref={ref} {...props}>
-        {icon}
-        {children}
+        <StyledLeft>
+          {icon}
+          {children}
+        </StyledLeft>
         {withArrow && <Icon.ChevronRight size={12} />}
       </StyledLink>
     );
@@ -35,7 +37,7 @@ Link.displayName = 'Link';
 
 const StyledLink = styled.a<Omit<LinkProps, 'children'>>(({ theme, variant = 'primary' }) => ({
   display: 'inline-flex',
-  gap: 10,
+  gap: 5,
   alignItems: 'center',
   fontSize: theme.typography.size.s2 - 1,
   transition: 'all 150ms ease-out',
@@ -67,3 +69,9 @@ const StyledLink = styled.a<Omit<LinkProps, 'children'>>(({ theme, variant = 'pr
     })()}`,
   },
 }));
+
+const StyledLeft = styled.span({
+  display: 'inline-flex',
+  gap: 10,
+  alignItems: 'center',
+});
