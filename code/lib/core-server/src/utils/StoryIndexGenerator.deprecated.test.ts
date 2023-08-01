@@ -93,6 +93,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -163,6 +164,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -307,6 +309,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -666,6 +669,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -792,6 +796,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -914,6 +919,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -980,6 +986,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],

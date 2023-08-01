@@ -87,6 +87,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -157,6 +158,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -301,6 +303,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -660,6 +663,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -827,6 +831,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -949,6 +954,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],
@@ -1015,6 +1021,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "component-tag",
                   "story-tag",
                   "story",
                 ],

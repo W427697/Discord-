@@ -384,7 +384,7 @@ export class StoryIndexGenerator {
     const componentTags = csf.meta.tags || [];
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
       if (!parameters?.docsOnly) {
-        const tags = [...(storyTags || componentTags), 'story'];
+        const tags = (csf.meta.tags ?? []).concat(storyTags ?? [], 'story');
         invariant(csf.meta.title);
         entries.push({
           id,
