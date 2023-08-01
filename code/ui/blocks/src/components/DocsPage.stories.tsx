@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
 import { Source, ArgsTable } from '.';
