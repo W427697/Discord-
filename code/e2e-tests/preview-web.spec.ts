@@ -14,10 +14,19 @@ test.describe('preview-web', () => {
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
     const sbPage = new SbPage(page);
     await sbPage.deepLinkToStory(storybookUrl, 'lib/preview-api/shortcuts', 'keydown-during-play');
-
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
-    await sbPage.previewRoot().locator('button').press('s');
+    // wait for the play function to complete
+    await sbPage.viewAddonPanel('Interactions');
+    const interactionsTab = await page.locator('#tabbutton-storybook-interactions-panel');
+    await expect(interactionsTab).toBeVisible();
+    const panel = sbPage.panelContent();
+    const runStatusBadge = await panel.locator('[aria-label="Status of the test run"]');
+    await expect(runStatusBadge).toContainText(/Pass/);
+
+    // click outside, to remove focus from the input of the story, then press S to toggle sidebar
+    await sbPage.previewRoot().click();
+    await sbPage.previewRoot().press('s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
   });
 

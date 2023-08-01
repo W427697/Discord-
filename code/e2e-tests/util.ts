@@ -54,6 +54,17 @@ export class SbPage {
   }
 
   async waitUntilLoaded() {
+    // make sure we start every test with clean state – to avoid possible flakyness
+    await this.page.context().addInitScript(() => {
+      const storeState = {
+        layout: {
+          showToolbar: true,
+          showNav: true,
+          showPanel: true,
+        },
+      };
+      window.sessionStorage.setItem('@storybook/manager/store', JSON.stringify(storeState));
+    }, {});
     const root = this.previewRoot();
     const docsLoadingPage = root.locator('.sb-preparing-docs');
     const storyLoadingPage = root.locator('.sb-preparing-story');
