@@ -141,7 +141,7 @@ Default: `parameters.docs.source.type` or `'auto'`
 
 Specifies how the source code is rendered.
 
-- **auto**: Same as **dynamic**, if supported by the framework in use; otherwise same as **code**
+- **auto**: Same as **dynamic**, if the story's `render` function accepts args inputs and **dynamic** is supported by the framework in use; otherwise same as **code**
 - **code**: Renders the value of [`code` prop](#code), otherwise renders static story source
 - **dynamic**: Renders the story source with dynamically updated arg values
 
