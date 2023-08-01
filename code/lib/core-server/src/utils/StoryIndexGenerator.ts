@@ -347,7 +347,7 @@ export class StoryIndexGenerator {
     }
 
     const entriesWithoutDocsOnlyStories = entries.filter(
-      (entry) => !(entry.type === 'story' && entry.tags.includes('docsOnly'))
+      (entry) => !(entry.type === 'story' && entry.tags.includes('stories-mdx-docsOnly'))
     );
 
     return {

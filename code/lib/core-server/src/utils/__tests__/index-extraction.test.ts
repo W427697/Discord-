@@ -608,7 +608,7 @@ describe('docs entries from story extraction', () => {
               __id: 'page--page',
               name: 'Page',
               title: 'Page',
-              tags: [STORIES_MDX_TAG, 'docsOnly'],
+              tags: [STORIES_MDX_TAG, 'stories-mdx-docsOnly'],
               importPath: fileName,
               type: 'story',
             },
@@ -629,7 +629,7 @@ describe('docs entries from story extraction', () => {
             "storiesImports": Array [],
             "tags": Array [
               "stories-mdx",
-              "docsOnly",
+              "stories-mdx-docsOnly",
               "docs",
             ],
             "title": "Page",

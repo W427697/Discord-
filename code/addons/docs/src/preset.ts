@@ -142,7 +142,9 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
     // eslint-disable-next-line no-underscore-dangle
     return Object.entries(csf._stories).map(([exportName, story]) => {
       const docsOnly = story.parameters?.docsOnly;
-      const tags = (story.tags ?? csf.meta.tags ?? []).concat(docsOnly ? 'docsOnly' : []);
+      const tags = (story.tags ?? csf.meta.tags ?? []).concat(
+        docsOnly ? 'stories-mdx-docsOnly' : []
+      );
       return {
         type: 'story',
         importPath: fileName,
