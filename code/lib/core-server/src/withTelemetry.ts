@@ -42,11 +42,7 @@ async function getErrorLevel({
   if (!presetOptions) return 'full';
 
   // should we load the preset?
-  const presets = await loadAllPresets({
-    corePresets: [require.resolve('@storybook/core-server/dist/presets/common-preset')],
-    overridePresets: [],
-    ...presetOptions,
-  });
+  const presets = await loadAllPresets(presetOptions);
 
   // If the user has chosen to enable/disable crash reports in main.js
   // or disabled telemetry, we can return that
@@ -108,16 +104,21 @@ export async function withTelemetry<T>(
   eventType: EventType,
   options: TelemetryOptions,
   run: () => Promise<T>
-): Promise<T> {
+): Promise<T | undefined> {
+  let canceled = false;
+
+  async function cancelTelemetry() {
+    canceled = true;
+    if (!options.cliOptions.disableTelemetry) {
+      await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
+    }
+
+    process.exit(0);
+  }
+
   if (eventType === 'init') {
     // We catch Ctrl+C user interactions to be able to detect a cancel event
-    process.on('SIGINT', async () => {
-      if (!options.cliOptions.disableTelemetry) {
-        await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
-      }
-
-      process.exit(0);
-    });
+    process.on('SIGINT', cancelTelemetry);
   }
 
   if (!options.cliOptions.disableTelemetry)
@@ -126,14 +127,16 @@ export async function withTelemetry<T>(
   try {
     return await run();
   } catch (error) {
-    if (error?.message === 'Canceled by the user') {
+    if (canceled) {
       return undefined;
     }
 
     const { printError = logger.error } = options;
-    printError(error);
-    await sendTelemetryError(error, eventType, options);
+    printError(error instanceof Error ? error.message : String(error));
+    if (error instanceof Error) await sendTelemetryError(error, eventType, options);
 
     throw error;
+  } finally {
+    process.off('SIGINIT', cancelTelemetry);
   }
 }
