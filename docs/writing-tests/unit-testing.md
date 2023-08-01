@@ -4,7 +4,7 @@ title: 'Unit tests'
 
 Teams test a variety of UI characteristics using different tools. Each tool requires you to replicate the same component state over and over. That’s a maintenance headache. Ideally, you’d set up your tests in the same way and reuse that across tools.
 
-Storybook enables you to isolate a component and capture its use cases in a `*.stories.js|ts` file. Stories are standard JavaScript modules cross-compatible with the whole JavaScript ecosystem—no API lock-in.
+Storybook enables you to isolate a component and capture its use cases in a `*.stories.js|ts` file. Stories are standard JavaScript modules cross-compatible with the whole JavaScript ecosystem.
 
 Stories are a practical starting point for UI testing. Import stories into tools like [Jest](https://jestjs.io/), [Testing Library](https://testing-library.com/), [Vitest](https://vitest.dev/) and [Playwright](https://playwright.dev/), to save time and maintenance work.
 
@@ -12,9 +12,9 @@ Stories are a practical starting point for UI testing. Import stories into tools
 
 ## Set up the testing addon
 
-Write introduction here.
+Storybook's [`@storybook/testing-vue3`](https://storybook.js.org/addons/@storybook/testing-vue3/) addon is a powerful tool that simplifies the testing process by allowing you to reuse your stories inside alongside their associated mocks, dependencies, and context, saving time and ensuring consistency and accuracy in the testing process.
 
-Run the following command to add Storybook's testing addon to your environment:
+Run the following command to install the addon.
 
 <!-- prettier-ignore-start -->
 
@@ -46,6 +46,8 @@ Run the following command to add Storybook's testing addon to your environment:
   paths={[
     'react/component-test-with-testing-library.js.mdx',
     'react/component-test-with-testing-library.ts.mdx',
+    'vue/component-test-with-testing-library.3.js.mdx',
+    'vue/component-test-with-testing-library.3.ts.mdx',
   ]}
 />
 
@@ -61,17 +63,20 @@ Once the test runs, it loads the story and renders it. [Testing Library](https:/
 
 ## Configure
 
-By default, Storybook offers a zero-config setup for React and other frameworks via addons, allowing you to run your stories as tests with Testing Library. However, adding a configuration file can extend your test setup and include additional global [decorators](../writing-stories/decorators.md#global-decorators), [parameters](../writing-stories/parameters.md#global-parameters), and other features. To do so, create a `setup.js|ts` file as follows:
+By default, Storybook offers a zero-config setup for React and other frameworks via addons, allowing you to run your stories as tests with Testing Library. However, if you're running tests and you've set up specific configurations in your Storybook instance (e.g., global [decorators](../writing-stories/decorators.md#global-decorators), [parameters](../writing-stories/parameters.md#global-parameters)) that you want to use in your tests, you'll need to extend your test setup to include these configurations. To do so, create a `setup.js|ts` file as follows:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'react/storybook-testing-addon-optional-config.js.mdx',
+    'vue/storybook-testing-addon-optional-config.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+<IfRenderer renderer='react'>
 
 Update your test script to include the configuration file:
 
@@ -79,11 +84,32 @@ Update your test script to include the configuration file:
 
 <CodeSnippets
   paths={[
-    'react/storybook-testing-addon-optional-config-scripts.json.mdx',
+    'react/react-test-scripts-optional-config-scripts.json.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>
+
+<IfRenderer renderer='vue'>
+
+Update your test configuration file (e.g., `vite.config.js|ts`) if you're using [Vitest](https://vitest.dev/), or your test script if you're using [Jest](https://jestjs.io/):
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'vue/storybook-testing-addon-optional-config.vite.js.mdx',
+    'vue/storybook-testing-addon-optional-config.vite.ts.mdx',
+    'vue/vue-jest-optional-config-scripts.jest.js.mdx',
+    'vue/vue-jest-optional-config-scripts.jest.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 ### Override story properties
 
@@ -95,8 +121,12 @@ By default, the `setProjectAnnotations` function injects into your existing test
   paths={[
     'react/override-compose-story-test.compose-story.js.mdx',
     'react/override-compose-story-test.compose-story.ts.mdx',
+    'vue/override-compose-story-test.compose-story.3.js.mdx',
+    'vue/override-compose-story-test.compose-story.3.ts.mdx',
     'react/override-compose-story-test.compose-stories.js.mdx',
     'react/override-compose-story-test.compose-stories.ts.mdx',
+    'vue/override-compose-story-test.compose-stories.3.js.mdx',
+    'vue/override-compose-story-test.compose-stories.3.ts.mdx',
   ]}
 />
 
@@ -104,7 +134,7 @@ By default, the `setProjectAnnotations` function injects into your existing test
 
 ## Run tests on a single story
 
-You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (e.g., the [default export](../writing-stories/introduction.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
+You can use the `composeStory` function from the appropriate framework or supported addon to allow your tests to run on a single story. However, if you're relying on this method, we recommend that you supply the story metadata (i.e., the [default export](../writing-stories/introduction.md#default-export)) to the `composeStory` function. This ensures that your tests can accurately determine the correct information about the story. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -112,6 +142,8 @@ You can use the `composeStory` function from the appropriate framework or suppor
   paths={[
     'react/single-story-test.js.mdx',
     'react/single-story-test.ts.mdx',
+    'vue/single-story-test.3.js.mdx',
+    'vue/single-story-test.3.ts.mdx',
   ]}
 />
 
@@ -127,6 +159,8 @@ If you intend to test multiple stories in a single test, use the `composeStories
   paths={[
     'react/multiple-stories-test.js.mdx',
     'react/multiple-stories-test.ts.mdx',
+    'vue/multiple-stories-test.3.js.mdx',
+    'vue/multiple-stories-test.3.ts.mdx',
   ]}
 />
 
@@ -140,7 +174,17 @@ Storybook provides community-led addons for other frameworks like [Vue 2](https:
 
 ### The args are not being passed to the test
 
+<IfRenderer renderer='react'>
+
 The components returned by `composeStories` or `composeStory` not only can be rendered as React components but also come with the combined properties from the story, meta, and global configuration. This means that if you want to access args or parameters, for instance, you can do so:
+
+</IfRenderer>
+
+<IfRenderer renderer='vue'>
+
+When using the `composeStories` or `composeStory` functions, the components being rendered will have a combination of properties from the story, meta, and global configuration. Therefore, if you need to access the args or parameters, you can do so as follows:
+
+</IfRenderer>
 
 <!-- prettier-ignore-start -->
 
@@ -148,6 +192,8 @@ The components returned by `composeStories` or `composeStory` not only can be re
   paths={[
     'react/reuse-args-test.js.mdx',
     'react/reuse-args-test.ts.mdx',
+    'vue/reuse-args-test.3.js.mdx',
+    'vue/reuse-args-test.3.ts.mdx',
   ]}
 />
 

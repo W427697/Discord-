@@ -1,16 +1,16 @@
 ```js
-// Form.test.js|jsx
+// tests/Form.test.js
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/vue';
 
-import { composeStory } from '@storybook/react';
+import { composeStory } from '@storybook/testing-vue3';
 
 import Meta, { InvalidForm as InvalidFormStory } from './LoginForm.stories'; //👈 Our stories imported here.
 
 const FormError = composeStory(InvalidFormStory, Meta);
 
 test('Checks if the form is valid', () => {
-  render(<FormError />);
+  render(FormError());
 
   const buttonElement = screen.getByRole('button', {
     name: 'Submit',

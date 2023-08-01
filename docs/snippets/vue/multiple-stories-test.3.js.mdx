@@ -1,16 +1,16 @@
 ```js
-// Form.test.js|jsx
+// tests/Form.test.js
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/vue';
 
-import { composeStories } from '@storybook/react';
+import { composeStories } from '@storybook/testing-vue3';
 
 import * as FormStories from './LoginForm.stories';
 
 const { InvalidForm, ValidForm } = composeStories(FormStories);
 
 test('Tests invalid form state', () => {
-  render(<InvalidForm />);
+  render(InvalidForm());
 
   const buttonElement = screen.getByRole('button', {
     name: 'Submit',
@@ -23,7 +23,7 @@ test('Tests invalid form state', () => {
 });
 
 test('Tests filled form', () => {
-  render(<ValidForm />);
+  render(ValidForm());
 
   const buttonElement = screen.getByRole('button', {
     name: 'Submit',

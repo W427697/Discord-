@@ -1,11 +1,11 @@
 ```js
-// Form.test.js|jsx
+// tests/Form.test.js
 
-import { composeStories } from '@storybook/react';
+import { composeStory } from '@storybook/testing-vue3';
 
-import * as FormStories from './LoginForm.stories';
+import Meta, { ValidForm as ValidFormStory } from './LoginForm.stories';
 
-const { ValidForm } = composeStories(FormStories, {
+const FormValidation = composeStory(ValidFormStory, Meta, {
   decorators: [
     // Define your story-level decorators here
   ],

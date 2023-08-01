@@ -1,16 +1,16 @@
-```ts
-// Button.test.ts|tsx
+```js
+// tests/Button.test.js
 
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/vue';
 
-import { composeStories } from '@storybook/react';
+import { composeStories } from '@storybook/testing-vue3';
 
 import * as stories from './Button.stories';
 
 const { Primary } = composeStories(stories);
 
 test('reuses args from composed story', () => {
-  render(<Primary />);
+  render(Primary());
 
   const buttonElement = screen.getByRole('button');
   // Testing against values coming from the story itself! No need for duplication
