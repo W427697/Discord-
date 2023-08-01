@@ -20,8 +20,6 @@ import { detectRenderer } from '../helpers/detectRenderer';
 
 const logger = console;
 
-const packageResolutionsToAdd = {};
-
 interface NewFrameworkRunOptions {
   mainConfigPath: string;
   dependenciesToAdd: string[];
