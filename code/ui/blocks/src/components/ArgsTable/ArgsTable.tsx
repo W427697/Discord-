@@ -198,6 +198,7 @@ export interface ArgsTableOptionProps {
   inAddonPanel?: boolean;
   initialExpandedArgs?: boolean;
   isLoading?: boolean;
+  isSoftLoading?: boolean;
   sort?: SortType;
 }
 interface ArgsTableDataProps {
@@ -315,6 +316,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     initialExpandedArgs,
     sort = 'none',
     isLoading,
+    isSoftLoading,
   } = props;
 
   if ('error' in props) {
@@ -330,7 +332,12 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   }
 
   // If the story is loading, show a skeleton
+  // This happen when you load the manager and the story is not yet loaded
   if (isLoading) return <Skeleton />;
+
+  // If the story is soft loading, don't show anything
+  // This happens when you switch stories and the story is not yet loaded
+  if (isSoftLoading) return null;
 
   const { rows, args, globals } = 'rows' in props && props;
   const groups = groupRows(
@@ -348,15 +355,6 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     Object.entries(groups.ungroupedSubsections).length === 0
   ) {
     return <Empty />;
-
-    return (
-      <EmptyBlock>
-        No inputs found for this component.&nbsp;
-        <Link href="http://storybook.js.org/docs/" target="_blank" withArrow>
-          Read the docs
-        </Link>
-      </EmptyBlock>
-    );
   }
 
   let colSpan = 1;

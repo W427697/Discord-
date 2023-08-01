@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useArgs,
   useGlobals,
@@ -24,7 +24,8 @@ interface ControlsParameters {
 }
 
 export const ControlsPanel: FC = () => {
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSoftLoading, setIsSoftLoading] = useState(true);
   const [args, updateArgs, resetArgs] = useArgs();
   const [globals] = useGlobals();
   const rows = useArgTypes();
@@ -32,13 +33,17 @@ export const ControlsPanel: FC = () => {
   const { path } = useStorybookState();
 
   // If the story is prepared, then show the args table
+  // and reset the loading states
   useChannel({
-    [STORY_PREPARED]: () => setIsLoading(false),
+    [STORY_PREPARED]: () => {
+      setIsLoading(false);
+      setIsSoftLoading(false);
+    },
   });
 
   // If the story changes, then show the loading state
   useEffect(() => {
-    setIsLoading(true);
+    setIsSoftLoading(true);
   }, [path]);
 
   const hasControls = Object.values(rows).some((arg) => arg?.control);
@@ -61,6 +66,7 @@ export const ControlsPanel: FC = () => {
       inAddonPanel
       sort={sort}
       isLoading={isLoading}
+      isSoftLoading={isSoftLoading}
     />
   );
 };
