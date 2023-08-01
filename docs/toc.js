@@ -174,12 +174,12 @@ module.exports = {
           type: 'menu',
           children: [
             {
-              pathSegment: 'end-to-end-testing',
+              pathSegment: 'stories-in-end-to-end-tests',
               title: 'End-to-end tests',
               type: 'link',
             },
             {
-              pathSegment: 'unit-testing',
+              pathSegment: 'stories-in-unit-tests',
               title: 'Unit tests',
               type: 'link',
             },
