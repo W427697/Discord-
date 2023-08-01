@@ -9,8 +9,8 @@ import type { StorybookConfig } from '@storybook/your-framework';
 import { parseCode } from './parseCode';
 
 const config: StorybookConfig = {
-  indexers: (existingIndexers, addonOptions) => {
-    const index = async (fileName, compilationOptions) => {
+  storyIndexers: (indexers, addonOptions) => {
+    const indexer = async (fileName, compilationOptions) => {
       const code = parseCode(fileName, addonOptions);
       const makeTitle = (userTitle) => {
         // Do something with the auto title retrieved by Storybook
@@ -18,26 +18,15 @@ const config: StorybookConfig = {
       };
 
       // Parse the CSF file with makeTitle as a custom context
-      const csf = (await loadCsf(code, { ...compilationOptions, makeTitle, fileName })).parse();
-
-      return Object.entries(csf._stories).map(([exportName, story]) => ({
-        type: 'story',
-        importPath: fileName,
-        exportName,
-        name: story.name,
-        title: csf.meta.title,
-        metaId: csf.meta.id,
-        tags: story.tags ?? csf.meta.tags,
-        __id: story.id,
-      }));
+      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse();
     };
 
     return [
       {
         test: /\.(md|html)$/,
-        index,
+        indexer,
       },
-      ...(existingIndexers || []),
+      ...(indexers || []),
     ];
   },
 };

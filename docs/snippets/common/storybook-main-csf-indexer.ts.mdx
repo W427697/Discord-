@@ -5,29 +5,18 @@ import { readFileSync } from 'fs';
 import { loadCsf } from '@storybook/csf-tools';
 
 export default {
-  indexers = (existingIndexers) => {
-    const index = async (fileName, opts) => {
+  storyIndexers = (indexers) => {
+    const indexer = async (fileName, opts) => {
       const code = readFileSync(fileName, { encoding: 'utf-8' });
-      const csf = (await loadCsf(code, { ...opts, fileName })).parse();
-
-      return Object.entries(csf._stories).map(([exportName, story]) => ({
-        type: 'story',
-        importPath: fileName,
-        exportName,
-        name: story.name,
-        title: csf.meta.title,
-        metaId: csf.meta.id,
-        tags: story.tags ?? csf.meta.tags,
-        __id: story.id,
-      }));
+      return loadCsf(code, { ...opts, fileName }).parse();
     };
 
     return [
       {
         test: /(stories|story)\.[tj]sx?$/,
-        index,
+        indexer,
       },
-      ...(existingIndexers || []),
+      ...(indexers || []),
     ];
   },
 };
