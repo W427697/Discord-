@@ -1,8 +1,10 @@
+/* eslint-disable jest/no-disabled-tests */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
+const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
 test.describe('preview-web', () => {
   test.beforeEach(async ({ page }) => {
@@ -12,6 +14,12 @@ test.describe('preview-web', () => {
   });
 
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
+    test.skip(
+      // eslint-disable-next-line jest/valid-title
+      /^(lit)/i.test(`${templateName}`),
+      `Skipping ${templateName}, which does not support addon-interactions`
+    );
+
     const sbPage = new SbPage(page);
     await sbPage.deepLinkToStory(storybookUrl, 'lib/preview-api/shortcuts', 'keydown-during-play');
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
@@ -31,6 +39,12 @@ test.describe('preview-web', () => {
   });
 
   test('should pass over shortcuts, but not from play functions, docs', async ({ page }) => {
+    test.skip(
+      // eslint-disable-next-line jest/valid-title
+      /^(lit)/i.test(`${templateName}`),
+      `Skipping ${templateName}, which does not support addon-interactions`
+    );
+
     const sbPage = new SbPage(page);
     await sbPage.deepLinkToStory(storybookUrl, 'lib/preview-api/shortcuts', 'docs');
 
