@@ -200,16 +200,19 @@ export const csfIndexer: Indexer = {
     const csf = (await readCsf(fileName, options)).parse();
 
     // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => ({
-      type: 'story',
-      importPath: fileName,
-      exportName,
-      name: story.name,
-      title: csf.meta.title,
-      metaId: csf.meta.id,
-      tags: story.tags ?? csf.meta.tags,
-      __id: story.id,
-    }));
+    return Object.entries(csf._stories).map(([exportName, story]) => {
+      const tags = (csf.meta.tags ?? []).concat(story.tags ?? []);
+      return {
+        type: 'story',
+        importPath: fileName,
+        exportName,
+        name: story.name,
+        title: csf.meta.title,
+        metaId: csf.meta.id,
+        tags,
+        __id: story.id,
+      };
+    });
   },
 };
 

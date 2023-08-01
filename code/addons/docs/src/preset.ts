@@ -142,9 +142,11 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
     // eslint-disable-next-line no-underscore-dangle
     return Object.entries(csf._stories).map(([exportName, story]) => {
       const docsOnly = story.parameters?.docsOnly;
-      const tags = (story.tags ?? csf.meta.tags ?? []).concat(
+      const tags = (csf.meta.tags ?? []).concat(
+        story.tags ?? [],
         docsOnly ? 'stories-mdx-docsOnly' : []
       );
+
       // the mdx-csf compiler automatically adds the 'stories-mdx' tag to meta, here' we're just making sure it is always there
       if (!tags.includes('stories-mdx')) {
         tags.push('stories-mdx');

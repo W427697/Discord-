@@ -16,14 +16,17 @@ export const indexers: StorybookConfig['indexers'] = (existingIndexers) => [
         ? await fs.readJson(fileName, 'utf-8')
         : yaml.parse((await fs.readFile(fileName, 'utf-8')).toString());
 
-      return content.stories.map((story) => ({
-        importPath: fileName,
-        exportName: story.name,
-        name: story.name,
-        title: content.title,
-        tags: content.tags ?? story.tags ?? [],
-        type: 'story',
-      }));
+      return content.stories.map((story) => {
+        const tags = (content.tags ?? []).concat(story.tags ?? []);
+        return {
+          importPath: fileName,
+          exportName: story.name,
+          name: story.name,
+          title: content.title,
+          tags,
+          type: 'story',
+        };
+      });
     },
   },
   ...(existingIndexers || []),
