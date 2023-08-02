@@ -3,8 +3,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
-import { Icons } from '@storybook/components';
-
+import { Icon } from '@storybook/components/experimental';
 import type { ControlProps, OptionsSelection, NormalizedOptionsConfig } from '../types';
 
 import { selectedKey, selectedKeys, selectedValues } from './helpers';
@@ -104,7 +103,7 @@ const SingleSelect: FC<SelectProps> = ({ name, value, options, onChange }) => {
 
   return (
     <SelectWrapper>
-      <Icons icon="arrowdown" />
+      <Icon.ChevronDown />
       <OptionsSelect id={controlId} value={selection} onChange={handleChange}>
         <option key="no-selection" disabled>
           {NO_SELECTION}
