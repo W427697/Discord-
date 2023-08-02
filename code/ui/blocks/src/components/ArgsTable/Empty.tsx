@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { Icon, Link } from '@storybook/components/experimental';
 
@@ -54,36 +54,53 @@ const VideoIcon = styled.div(({ theme }) => ({
   justifyContent: 'center',
 }));
 
-export const Empty: FC = () => (
-  <Wrapper>
-    <Content>
-      <Title>Interactive story playground</Title>
-      <Description>
-        Controls give you an easy to use interface to test your components. Set your story args and
-        you&apos;ll see controls appearing here automatically.
-      </Description>
-    </Content>
-    <Links>
-      <Link
-        href="https://youtu.be/0gOfS6K0x0E"
-        target="_blank"
-        icon={
-          <VideoIcon>
-            <Icon.Play size={10} />
-          </VideoIcon>
-        }
-        withArrow
-      >
-        Watch 5m video
-      </Link>
-      <Divider />
-      <Link
-        href="https://storybook.js.org/docs/react/essentials/controls"
-        target="_blank"
-        withArrow
-      >
-        Read docs
-      </Link>
-    </Links>
-  </Wrapper>
-);
+export const Empty: FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // We are adding a small delay to avoid flickering when the story is loading.
+  // It takes a bit of time for the controls to appear, so we don't want
+  // to show the empty state for a split second.
+  useEffect(() => {
+    const load = setTimeout(() => {
+      setIsLoading(false);
+    }, 100);
+
+    return () => clearTimeout(load);
+  }, []);
+
+  if (isLoading) return null;
+
+  return (
+    <Wrapper>
+      <Content>
+        <Title>Interactive story playground</Title>
+        <Description>
+          Controls give you an easy to use interface to test your components. Set your story args
+          and you&apos;ll see controls appearing here automatically.
+        </Description>
+      </Content>
+      <Links>
+        <Link
+          href="https://youtu.be/0gOfS6K0x0E"
+          target="_blank"
+          icon={
+            <VideoIcon>
+              <Icon.Play size={10} />
+            </VideoIcon>
+          }
+          withArrow
+        >
+          Watch 5m video
+        </Link>
+        <Divider />
+        <Link
+          href="https://storybook.js.org/docs/react/essentials/controls"
+          target="_blank"
+          withArrow
+        >
+          Read docs
+        </Link>
+      </Links>
+    </Wrapper>
+  );
+};

@@ -1,14 +1,12 @@
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useArgs,
   useGlobals,
   useArgTypes,
   useParameter,
   useStorybookState,
-  useChannel,
 } from '@storybook/manager-api';
-import { STORY_PREPARED } from '@storybook/core-events';
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 
 import type { ArgTypes } from '@storybook/types';
@@ -29,13 +27,13 @@ export const ControlsPanel: FC = () => {
   const [globals] = useGlobals();
   const rows = useArgTypes();
   const { expanded, sort, presetColors } = useParameter<ControlsParameters>(PARAM_KEY, {});
-  const { path } = useStorybookState();
+  const { path, previewInitialized } = useStorybookState();
 
   // If the story is prepared, then show the args table
   // and reset the loading states
-  useChannel({
-    [STORY_PREPARED]: () => setIsLoading(false),
-  });
+  useEffect(() => {
+    if (previewInitialized) setIsLoading(false);
+  }, [previewInitialized]);
 
   const hasControls = Object.values(rows).some((arg) => arg?.control);
 

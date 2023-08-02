@@ -343,13 +343,10 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   );
 
   // If there are no controls, show the empty state
-  if (
-    groups.ungrouped.length === 0 &&
-    Object.entries(groups.sections).length === 0 &&
-    Object.entries(groups.ungroupedSubsections).length === 0
-  ) {
-    return <Empty />;
-  }
+  const hasNoUngrouped = groups.ungrouped.length === 0;
+  const hasNoSections = Object.entries(groups.sections).length === 0;
+  const hasNoUngroupedSubsections = Object.entries(groups.ungroupedSubsections).length === 0;
+  if (hasNoUngrouped && hasNoSections && hasNoUngroupedSubsections) return <Empty />;
 
   let colSpan = 1;
   if (updateArgs) colSpan += 1;
