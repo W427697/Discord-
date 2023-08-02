@@ -143,7 +143,7 @@ export const TableOfContents = ({
        * Ignore headings that did not
        * come from the main markdown code.
        */
-      ignoreSelector: ignoreSelector ?? '.docblock-source *, .docs-story *, .skip-toc',
+      ignoreSelector: ignoreSelector ?? '.docs-story *, .skip-toc',
       headingsOffset: 40,
       scrollSmoothOffset: -40,
       orderedList: false,
