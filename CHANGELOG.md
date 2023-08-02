@@ -1,3 +1,7 @@
+## 7.2.1
+
+- CLI: Fix error logging being swallowed from dev/build failures -[#23689](https://github.com/storybookjs/storybook/pull/23689), thanks [@yannbf](https://github.com/yannbf)
+
 ## 7.2.0
 
 This month, we're going to experiment with our launch cycle by making smaller but more frequent releases. Our goal is to bring you new features more quickly, while also smoothing the upgrade process.
@@ -29,7 +33,6 @@ Storybook 7.2 is the first of these new, faster releases:
 - UI: Show the story status in the search results - [#23441](https://github.com/storybookjs/storybook/pull/23441), thanks [@ndelangen](https://github.com/ndelangen)!
 - UI: Create new form elements in the new Core UI (Input, TextArea, Select) - [#23469](https://github.com/storybookjs/storybook/pull/23469), thanks [@cdedreuille](https://github.com/cdedreuille)!
 
-
 ## 7.1.1
 
 - Angular: Make enableProdMode optional - [#23489](https://github.com/storybookjs/storybook/pull/23489), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
@@ -48,7 +51,7 @@ Storybook 7.1 is here! 🎉
 - 📗 **Vue3 source snippets** and reactivity improvements
 - 💯 **Hundreds more** fixes and improvements
 
-7.1 contains hundreds more fixes, features, and tweaks. Browse the changelogs matching `7.1.0-alpha.*`, `7.1.0-beta.*`, and `7.1.0-rc.*` for the full list of changes.
+  7.1 contains hundreds more fixes, features, and tweaks. Browse the changelogs matching `7.1.0-alpha.*`, `7.1.0-beta.*`, and `7.1.0-rc.*` for the full list of changes.
 
 For a better upgrade experience, please use one of the following commands:
 
