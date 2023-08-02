@@ -355,8 +355,12 @@ export class StoryIndexGenerator {
       });
     }
 
+    const entriesWithoutDocsOnlyStories = entries.filter(
+      (entry) => !(entry.type === 'story' && entry.tags.includes('stories-mdx-docsOnly'))
+    );
+
     return {
-      entries,
+      entries: entriesWithoutDocsOnlyStories,
       dependents: [],
       type: 'stories',
     };
@@ -380,7 +384,7 @@ export class StoryIndexGenerator {
     const componentTags = csf.meta.tags || [];
     csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
       if (!parameters?.docsOnly) {
-        const tags = [...(storyTags || componentTags), 'story'];
+        const tags = (csf.meta.tags ?? []).concat(storyTags ?? [], 'story');
         invariant(csf.meta.title);
         entries.push({
           id,

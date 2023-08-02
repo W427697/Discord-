@@ -11,12 +11,12 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
+  Indexer,
   Options,
   PresetPropertyFn,
   StorybookConfig,
-  StoryIndexer,
 } from '@storybook/types';
-import { loadCsf, printConfig, readConfig } from '@storybook/csf-tools';
+import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
@@ -194,19 +194,13 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
-export const storyIndexers: StorybookConfig['storyIndexers'] = async (existingIndexers) => {
-  const csfIndexer: StoryIndexer['indexer'] = async (fileName, opts) => {
-    const code = (await readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
-  };
-  return [
-    {
-      test: /(stories|story)\.(m?js|ts)x?$/,
-      indexer: csfIndexer,
-    },
-    ...(existingIndexers || []),
-  ];
+export const csfIndexer: Indexer = {
+  test: /\.stories\.(m?js|ts)x?$/,
+  index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
+
+export const indexers: StorybookConfig['indexers'] = (existingIndexers) =>
+  [csfIndexer].concat(existingIndexers || []);
 
 export const frameworkOptions = async (
   _: never,

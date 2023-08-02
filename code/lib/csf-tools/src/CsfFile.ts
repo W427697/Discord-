@@ -9,7 +9,13 @@ import * as recast from 'recast';
 
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { Tag, StoryAnnotations, ComponentAnnotations, IndexedCSFFile } from '@storybook/types';
+import type {
+  Tag,
+  StoryAnnotations,
+  ComponentAnnotations,
+  IndexedCSFFile,
+  IndexInput,
+} from '@storybook/types';
 import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
@@ -546,6 +552,29 @@ export class CsfFile {
 
   public get stories() {
     return Object.values(this._stories);
+  }
+
+  public get indexInputs(): IndexInput[] {
+    if (!this._fileName) {
+      throw new Error(
+        dedent`Cannot automatically create index inputs with CsfFile.indexInputs because the CsfFile instance was created without a the fileName option.
+        Either add the fileName option when creating the CsfFile instance, or create the index inputs manually.`
+      );
+    }
+    return Object.entries(this._stories).map(([exportName, story]) => {
+      // combine meta and story tags, removing any duplicates
+      const tags = Array.from(new Set([...(this._meta?.tags ?? []), ...(story.tags ?? [])]));
+      return {
+        type: 'story',
+        importPath: this._fileName,
+        exportName,
+        name: story.name,
+        title: this.meta?.title,
+        metaId: this.meta?.id,
+        tags,
+        __id: story.id,
+      };
+    });
   }
 }
 
