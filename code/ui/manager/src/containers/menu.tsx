@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import { Badge, Icons } from '@storybook/components';
+import { Badge } from '@storybook/components';
 import { Icon } from '@storybook/components/experimental';
 import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
