@@ -8,7 +8,10 @@ type FileContent = {
   stories: { name: StoryName; tags?: Tag[] }[];
 };
 
-export const indexers: StorybookConfig['indexers'] = (existingIndexers) => [
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_indexers: StorybookConfig['experimental_indexers'] = (
+  existingIndexers
+) => [
   {
     test: /(stories|story)\.(json|ya?ml)$/,
     index: async (fileName) => {

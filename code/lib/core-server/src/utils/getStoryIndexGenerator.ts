@@ -25,7 +25,7 @@ export async function getStoryIndexGenerator(
   };
   const stories = options.presets.apply('stories');
   const deprecatedStoryIndexers = options.presets.apply('storyIndexers', []);
-  const indexers = options.presets.apply('indexers', []);
+  const indexers = options.presets.apply('experimental_indexers', []);
   const docsOptions = options.presets.apply<DocsOptions>('docs', {});
   const normalizedStories = normalizeStories(await stories, directories);
 

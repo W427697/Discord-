@@ -156,7 +156,7 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
   },
 });
 
-const indexers: StorybookConfig['indexers'] = (existingIndexers) =>
+const indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
   [createStoriesMdxIndexer(global.FEATURES?.legacyMdx1)].concat(existingIndexers || []);
 
 const docs = (docsOptions: DocsOptions) => {
@@ -181,4 +181,4 @@ const docsX = docs as any;
 
 ensureReactPeerDeps();
 
-export { webpackX as webpack, indexersX as indexers, docsX as docs };
+export { webpackX as webpack, indexersX as experimental_indexers, docsX as docs };
