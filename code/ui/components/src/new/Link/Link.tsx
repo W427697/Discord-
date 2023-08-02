@@ -27,7 +27,7 @@ export const Link: {
           {icon}
           {children}
         </StyledLeft>
-        {withArrow && <Icon.ChevronRight size={12} />}
+        {withArrow && <Icon.ChevronRight size={8} />}
       </StyledLink>
     );
   }
@@ -37,7 +37,7 @@ Link.displayName = 'Link';
 
 const StyledLink = styled.a<Omit<LinkProps, 'children'>>(({ theme, variant = 'primary' }) => ({
   display: 'inline-flex',
-  gap: 5,
+  gap: 4,
   alignItems: 'center',
   fontSize: theme.typography.size.s2 - 1,
   transition: 'all 150ms ease-out',
@@ -72,6 +72,6 @@ const StyledLink = styled.a<Omit<LinkProps, 'children'>>(({ theme, variant = 'pr
 
 const StyledLeft = styled.span({
   display: 'inline-flex',
-  gap: 10,
+  gap: 6,
   alignItems: 'center',
 });
