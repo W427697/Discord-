@@ -38,7 +38,7 @@ export interface IndexedStory {
   parameters?: Parameters;
 }
 export interface IndexedCSFFile {
-  meta: { title?: string; tags?: Tag[] };
+  meta: { id?: string; title?: string; tags?: Tag[] };
   stories: IndexedStory[];
 }
 
