@@ -196,24 +196,7 @@ export const features = async (
 
 export const csfIndexer: Indexer = {
   test: /\.stories\.(m?js|ts)x?$/,
-  index: async (fileName, options) => {
-    const csf = (await readCsf(fileName, options)).parse();
-
-    // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => {
-      const tags = (csf.meta.tags ?? []).concat(story.tags ?? []);
-      return {
-        type: 'story',
-        importPath: fileName,
-        exportName,
-        name: story.name,
-        title: csf.meta.title,
-        metaId: csf.meta.id,
-        tags,
-        __id: story.id,
-      };
-    });
-  },
+  index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
 
 export const indexers: StorybookConfig['indexers'] = (existingIndexers) =>

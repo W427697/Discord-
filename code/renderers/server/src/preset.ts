@@ -17,7 +17,7 @@ export const indexers: StorybookConfig['indexers'] = (existingIndexers) => [
         : yaml.parse((await fs.readFile(fileName, 'utf-8')).toString());
 
       return content.stories.map((story) => {
-        const tags = (content.tags ?? []).concat(story.tags ?? []);
+        const tags = Array.from(new Set([...(content.tags ?? []), ...(story.tags ?? [])]));
         return {
           importPath: fileName,
           exportName: story.name,

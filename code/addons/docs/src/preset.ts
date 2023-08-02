@@ -139,28 +139,19 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
     code = await compile(code, {});
     const csf = loadCsf(code, { ...opts, fileName }).parse();
 
-    // eslint-disable-next-line no-underscore-dangle
-    return Object.entries(csf._stories).map(([exportName, story]) => {
-      const docsOnly = story.parameters?.docsOnly;
-      const tags = (csf.meta.tags ?? []).concat(
-        story.tags ?? [],
-        docsOnly ? 'stories-mdx-docsOnly' : []
-      );
+    const { indexInputs, stories } = csf;
 
+    return indexInputs.map((input, index) => {
+      const docsOnly = stories[index].parameters?.docsOnly;
+      const tags = input.tags ? input.tags : [];
+      if (docsOnly) {
+        tags.push('stories-mdx-docsOnly');
+      }
       // the mdx-csf compiler automatically adds the 'stories-mdx' tag to meta, here' we're just making sure it is always there
       if (!tags.includes('stories-mdx')) {
         tags.push('stories-mdx');
       }
-      return {
-        type: 'story',
-        importPath: fileName,
-        exportName,
-        name: story.name,
-        title: csf.meta.title,
-        metaId: csf.meta.id,
-        tags,
-        __id: story.id,
-      };
+      return { ...input, tags };
     });
   },
 });
