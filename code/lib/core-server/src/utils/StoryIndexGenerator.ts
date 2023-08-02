@@ -19,6 +19,7 @@ import type {
   V3CompatIndexEntry,
   StoryId,
   StoryName,
+  IndexedCSFFile,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { commonGlobOptions, normalizeStoryPath } from '@storybook/core-common';
@@ -30,11 +31,13 @@ import dedent from 'ts-dedent';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
 
+// Extended type to keep track of the csf meta so we know the component id when referencing docs in `extractDocs`
+type StoryIndexEntryWithMeta = StoryIndexEntry & { meta?: IndexedCSFFile['meta'] };
 /** A .mdx file will produce a docs entry */
 type DocsCacheEntry = DocsIndexEntry;
 /** A *.stories.* file will produce a list of stories and possibly a docs entry */
 type StoriesCacheEntry = {
-  entries: (StoryIndexEntry | DocsIndexEntry)[];
+  entries: (StoryIndexEntryWithMeta | DocsIndexEntry)[];
   dependents: Path[];
   type: 'stories';
 };
@@ -229,7 +232,13 @@ export class StoryIndexGenerator {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
         if (entry.type === 'error') return [entry];
-        return entry.entries;
+
+        return entry.entries.map((item) => {
+          if (item.type === 'docs') return item;
+          // Drop the meta as it isn't part of the index, we just used it for record keeping in `extractDocs`
+          const { meta, ...existing } = item;
+          return existing;
+        });
       });
     });
   }
@@ -254,7 +263,7 @@ export class StoryIndexGenerator {
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as IndexEntry[];
+    const entries = [] as (StoryIndexEntryWithMeta | DocsIndexEntry)[];
     const importPath = slash(normalizeStoryPath(relativePath));
     const makeTitle = (userTitle?: string) => {
       const title = userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
@@ -277,7 +286,16 @@ export class StoryIndexGenerator {
       if (!parameters?.docsOnly) {
         const tags = [...(storyTags || componentTags), 'story'];
         invariant(csf.meta.title);
-        entries.push({ id, title: csf.meta.title, name, importPath, tags, type: 'story' });
+        entries.push({
+          id,
+          title: csf.meta.title,
+          name,
+          importPath,
+          tags,
+          type: 'story',
+          // We need to keep track of the csf meta so we know the component id when referencing docs below in `extractDocs`
+          meta: csf.meta,
+        });
       }
     });
 
@@ -292,7 +310,7 @@ export class StoryIndexGenerator {
         const name = this.options.docs.defaultName;
         if (!name) throw new Error('expected a defaultName property in options.docs');
         invariant(csf.meta.title);
-        const id = toId(csf.meta.title, name);
+        const id = toId(csf.meta.id || csf.meta.title, name);
         entries.unshift({
           id,
           title: csf.meta.title,
@@ -351,12 +369,12 @@ export class StoryIndexGenerator {
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
-      let csfEntry: StoryIndexEntry | undefined;
+      let csfEntry: StoryIndexEntryWithMeta | undefined;
       if (result.of) {
         const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
         dependencies.forEach((dep) => {
           if (dep.entries.length > 0) {
-            const first = dep.entries.find((e) => e.type !== 'docs') as StoryIndexEntry;
+            const first = dep.entries.find((e) => e.type !== 'docs') as StoryIndexEntryWithMeta;
 
             if (
               path
@@ -398,7 +416,7 @@ export class StoryIndexGenerator {
       const name =
         result.name ||
         (csfEntry ? autoName(importPath, csfEntry.importPath, defaultName) : defaultName);
-      const id = toId(title, name);
+      const id = toId(csfEntry?.meta?.id || title, name);
 
       const docsEntry: DocsCacheEntry = {
         id,
