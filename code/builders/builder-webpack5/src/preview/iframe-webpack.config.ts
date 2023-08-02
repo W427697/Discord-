@@ -33,7 +33,6 @@ const getAbsolutePath = <I extends string>(input: I): I =>
 const storybookPaths: Record<string, string> = {
   ...[
     // these packages are not pre-bundled because of react dependencies
-    'api',
     'components',
     'global',
     'manager-api',
