@@ -65,7 +65,16 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages, newLayou
           )}
         </>
       )}
-      {newLayout && <Layout />}
+      {newLayout && (
+        <Layout
+          viewMode={viewMode}
+          options={layout}
+          panelCount={panelCount}
+          pages={pages}
+          isMobile={isMobile}
+          isDesktop={isDesktop}
+        />
+      )}
     </View>
   );
 };
