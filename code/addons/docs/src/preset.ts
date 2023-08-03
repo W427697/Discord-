@@ -99,7 +99,7 @@ async function webpack(
     module: {
       ...module,
       rules: [
-        ...module.rules,
+        ...(module.rules || []),
         {
           test: /(stories|story)\.mdx$/,
           use: [
