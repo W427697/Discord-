@@ -346,7 +346,8 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const hasNoUngrouped = groups.ungrouped.length === 0;
   const hasNoSections = Object.entries(groups.sections).length === 0;
   const hasNoUngroupedSubsections = Object.entries(groups.ungroupedSubsections).length === 0;
-  if (hasNoUngrouped && hasNoSections && hasNoUngroupedSubsections) return <Empty />;
+  if (hasNoUngrouped && hasNoSections && hasNoUngroupedSubsections)
+    return <Empty inAddonPanel={inAddonPanel} />;
 
   let colSpan = 1;
   if (updateArgs) colSpan += 1;
