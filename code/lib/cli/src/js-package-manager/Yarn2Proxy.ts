@@ -177,7 +177,7 @@ export class Yarn2Proxy extends JsPackageManager {
     return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
-  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, any>) {
     return {
       resolutions: {
         ...packageJson.resolutions,

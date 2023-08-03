@@ -19,6 +19,17 @@ program.parse(process.argv);
 
 const logger = console;
 
+const asyncExec = (command: string) =>
+  new Promise((resolve, reject) => {
+    exec(command, (err, stdout, stderr) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ stdout, stderr });
+      }
+    });
+  });
+
 const startVerdaccio = async () => {
   let resolved = false;
   return Promise.race([
@@ -53,7 +64,7 @@ const currentVersion = async () => {
   return version;
 };
 
-const publish = (packages: { name: string; location: string }[], url: string) => {
+const publish = (packages: { name: string; location: string }[]) => {
   logger.log(`Publishing packages with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
@@ -70,8 +81,7 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
                 '.'
               )})`
             );
-            // Run npm publish not in the package's directory, because otherwise npm publish will take the package.json with the workspace references instead of the one, which is ziped in the package.tgz
-            const command = `cd ${location} && yarn pack && cd ${process.cwd()} && npm publish ${location}/package.tgz --tag next --registry ${url} --force --access restricted --ignore-script && rm ${location}/package.tgz`;
+            const command = `cd ${location} && yarn npm publish --access restricted`;
             exec(command, (e) => {
               if (e) {
                 rej(e);
@@ -87,18 +97,10 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
   );
 };
 
-const addUser = (url: string) =>
-  new Promise<void>((res, rej) => {
-    logger.log(`👤 add temp user to verdaccio`);
-
-    exec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`, (e) => {
-      if (e) {
-        rej(e);
-      } else {
-        res();
-      }
-    });
-  });
+const addUser = (url: string) => {
+  logger.log(`👤 add temp user to verdaccio`);
+  return asyncExec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`);
+};
 
 const run = async () => {
   const verdaccioUrl = `http://localhost:6001`;
@@ -134,16 +136,24 @@ const run = async () => {
 
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
+  logger.log(`📦 setting verdaccio as registry for yarn berry`);
+  await asyncExec(`yarn config set npmRegistryServer ${verdaccioUrl}`);
+
   if (program.publish) {
-    await publish(packages, verdaccioUrl);
+    await publish(packages);
   }
+
+  logger.log(`📦 unsetting verdaccio as registry for yarn berry`);
+  await asyncExec('yarn config set npmRegistryServer https://registry.yarnpkg.com');
 
   if (!program.open) {
     verdaccioServer.close();
   }
 };
 
-run().catch((e) => {
+run().catch(async (e) => {
   logger.error(e);
+  logger.log(`📦 unsetting verdaccio as registry for yarn berry`);
+  await asyncExec('yarn config delete npmRegistryServer https://registry.yarnpkg.com');
   process.exit(1);
 });

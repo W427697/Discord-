@@ -6,8 +6,8 @@ import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
 import { existsSync, readdir } from 'fs-extra';
-import type { Template, TemplateKey } from './sandbox-templates';
-import { allTemplates as TEMPLATES } from './sandbox-templates';
+import type { Template } from './sandbox-templates';
+import { sandboxTemplates as TEMPLATES } from './sandbox-templates';
 
 const logger = console;
 
@@ -20,6 +20,8 @@ interface SandboxOptions {
   init?: boolean;
   silent?: boolean;
 }
+
+type TemplateKey = keyof typeof TEMPLATES;
 
 const toChoices = (c: Choice): prompts.Choice => ({ title: TEMPLATES[c].name, value: c });
 
@@ -37,7 +39,15 @@ export const sandbox = async ({
   if (!selectedConfig) {
     const filterRegex = new RegExp(`^${filterValue || ''}`, 'i');
 
-    const keys = Object.keys(TEMPLATES) as Choice[];
+    const keys = (Object.keys(TEMPLATES) as Choice[])
+      .filter((name) => {
+        const template = TEMPLATES[name];
+        const isPrerelease = name.includes('prerelease');
+        const isDevelopment = 'inDevelopment' in template && template.inDevelopment;
+
+        return !isPrerelease && !isDevelopment;
+      })
+      .sort((a, b) => TEMPLATES[a].name.localeCompare(TEMPLATES[b].name));
     // get value from template and reduce through TEMPLATES to filter out the correct template
     const choices = keys.reduce<Choice[]>((acc, group) => {
       const current = TEMPLATES[group];

@@ -101,7 +101,7 @@ export class Yarn1Proxy extends JsPackageManager {
     }
   }
 
-  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, any>) {
     return {
       resolutions: {
         ...packageJson.resolutions,

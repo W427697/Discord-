@@ -1,26 +1,23 @@
 /* eslint-disable no-console */
 import { join, relative } from 'path';
-import type { Options as ExecaOptions } from 'execa';
+import { execSync } from 'child_process';
+import { type Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
-import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
+import { copy, emptyDir, ensureDir, move, remove, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
 import { execaCommand } from '../utils/exec';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
+import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
 import { allTemplates as sandboxTemplates } from '../../code/lib/cli/src/sandbox-templates';
-import storybookVersions from '../../code/lib/cli/src/versions';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
-// eslint-disable-next-line import/no-cycle
-import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import type { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
-import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
 import {
   BEFORE_DIR_NAME,
   AFTER_DIR_NAME,
@@ -28,66 +25,65 @@ import {
   REPROS_DIRECTORY,
   LOCAL_REGISTRY_URL,
 } from '../utils/constants';
+import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
 
 const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
-  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
+  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true', YARN_ENABLE_IMMUTABLE_INSTALLS: 'false' };
   const fullFlags = ['--yes', ...(flags || [])];
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
 };
 
-const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
-  const prevUrl = await packageManager.getRegistryURL();
-  let error;
-  try {
-    console.log(`📦 Configuring local registry: ${LOCAL_REGISTRY_URL}`);
-    packageManager.setRegistryURL(LOCAL_REGISTRY_URL);
-    await action();
-  } catch (e) {
-    error = e;
-  } finally {
-    console.log(`📦 Restoring registry: ${prevUrl}`);
-    await packageManager.setRegistryURL(prevUrl);
-
-    if (error) {
-      // eslint-disable-next-line no-unsafe-finally
-      throw error;
-    }
-  }
+const withLocalRegistry = async (dir: string, action: () => Promise<void>) => {
+  execSync(`npm config set registry ${LOCAL_REGISTRY_URL} --location project`, { cwd: dir });
+  execSync(`npm config set audit false --location project`, { cwd: dir });
+  execSync(`npm config set prefer-offline true --location project`, { cwd: dir });
+  await action();
 };
 
 const addStorybook = async ({
-  baseDir,
+  dir,
   localRegistry,
   flags,
   debug,
+  dirName,
 }: {
-  baseDir: string;
+  dir: string;
   localRegistry: boolean;
   flags?: string[];
   debug?: boolean;
+  dirName: TemplateKey;
 }) => {
-  const beforeDir = join(baseDir, BEFORE_DIR_NAME);
-  const afterDir = join(baseDir, AFTER_DIR_NAME);
-  const tmpDir = join(baseDir, 'tmp');
+  const packageManager = JsPackageManagerFactory.getPackageManager({}, dir);
+  // Prerelease versions of Angular are not allowed per default in the defined peer dependency range of @storybook/angular
+  // Therefore we have to activate the legacy-peer-deps mode for it to allow installation nevertheless
+  if (dirName === 'angular-cli/prerelease') {
+    execSync('npm config set legacy-peer-deps true --location project', { cwd: dir });
+  }
 
-  await ensureDir(tmpDir);
-  await emptyDir(tmpDir);
-
-  await copy(beforeDir, tmpDir);
-
-  const packageManager = await JsPackageManagerFactory.getPackageManager({}, tmpDir);
   if (localRegistry) {
-    await withLocalRegistry(packageManager, async () => {
-      await packageManager.addPackageResolutions(storybookVersions);
-
-      await sbInit(tmpDir, flags, debug);
+    await withLocalRegistry(dir, async () => {
+      // We need to resolve some transitive @storybook/* packages from third-party dependencies to the local registry
+      // otherwise the package manager will try to install them from verdaccio and will fail
+      (await packageManager).addPackageResolutions({
+        '@storybook/addon-onboarding': {
+          '@storybook/telemetry': 'next',
+        },
+        ...(dirName === 'qwik-vite/default-ts'
+          ? {
+              'storybook-framework-qwik': {
+                '@storybook/builder-vite': 'next',
+                '@storybook/docs-tools': 'next',
+              },
+            }
+          : {}),
+      });
+      await sbInit(dir, flags, debug);
     });
   } else {
-    await sbInit(tmpDir, flags, debug);
+    await sbInit(dir, flags, debug);
   }
-  await rename(tmpDir, afterDir);
 };
 
 export const runCommand = async (script: string, options: ExecaOptions, debug = false) => {
@@ -103,21 +99,36 @@ export const runCommand = async (script: string, options: ExecaOptions, debug = 
 };
 
 const addDocumentation = async (
-  baseDir: string,
+  dir: string,
   { name, dirName }: { name: string; dirName: string }
 ) => {
-  const afterDir = join(baseDir, AFTER_DIR_NAME);
   const stackblitzConfigPath = join(__dirname, 'templates', '.stackblitzrc');
   const readmePath = join(__dirname, 'templates', 'item.ejs');
 
-  await copy(stackblitzConfigPath, join(afterDir, '.stackblitzrc'));
+  await copy(stackblitzConfigPath, join(dir, '.stackblitzrc'));
 
   const stackblitzUrl = getStackblitzUrl(dirName);
   const contents = await renderTemplate(readmePath, {
     name,
     stackblitzUrl,
   });
-  await writeFile(join(afterDir, 'README.md'), contents);
+  await writeFile(join(dir, 'README.md'), contents);
+};
+
+const improveNPMPerformance = async (dir: string) => {
+  // write a package.json file into dir with a dummy name property
+  // this will prevent npm from walking up the directory tree to find
+  // a package.json file and the project .npmrc file
+  await writeFile(
+    join(dir, 'package.json'),
+    JSON.stringify({
+      name: 'temp',
+      license: 'MIT',
+    })
+  );
+  // write a npmrc file into dir to set prefer-offline to true and audit to false
+  // this will prevent npm from making unnecessary network requests
+  await writeFile(join(dir, '.npmrc'), 'prefer-offline=true\naudit=false');
 };
 
 const runGenerators = async (
@@ -126,6 +137,7 @@ const runGenerators = async (
   debug = false
 ) => {
   console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
+  process.env.CI = 'true';
 
   const limit = pLimit(maxConcurrentTasks);
 
@@ -141,54 +153,69 @@ const runGenerators = async (
 
         const baseDir = join(REPROS_DIRECTORY, dirName);
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
+        const afterDir = join(baseDir, AFTER_DIR_NAME);
+
         await emptyDir(baseDir);
 
         // We do the creation inside a temp dir to avoid yarn container problems
-        const createBaseDir = directory();
-        if (!script.includes('pnp')) {
-          await setupYarn({ cwd: createBaseDir });
-        }
+        const tempDir = directory();
 
-        const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
+        const tempInitDir = join(tempDir, BEFORE_DIR_NAME);
+
+        await improveNPMPerformance(tempDir);
 
         // Some tools refuse to run inside an existing directory and replace the contents,
         // where as others are very picky about what directories can be called. So we need to
         // handle different modes of operation.
         if (script.includes('{{beforeDir}}')) {
           const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
+
           await runCommand(
             scriptWithBeforeDir,
             {
-              cwd: createBaseDir,
+              cwd: tempDir,
               timeout: SCRIPT_TIMEOUT,
+              stderr: 'inherit',
+              env: {
+                // CRA for example uses npm_config_user_agent to determine if it should use yarn or npm
+                // eslint-disable-next-line no-nested-ternary
+                npm_config_user_agent: scriptWithBeforeDir.startsWith('yarn')
+                  ? 'yarn'
+                  : scriptWithBeforeDir.startsWith('pnpm')
+                  ? 'pnpm'
+                  : 'npm',
+              },
             },
             debug
           );
         } else {
-          await ensureDir(createBeforeDir);
-          await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
+          await ensureDir(tempInitDir);
+          await runCommand(script, { cwd: tempInitDir, timeout: SCRIPT_TIMEOUT }, debug);
         }
 
-        await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
+        // Move the initialized project into the beforeDir without node_modules and .git
+        await copy(tempInitDir, beforeDir, {
+          filter: (src) => {
+            return src.indexOf('node_modules') === -1 && src.indexOf('.git') === -1;
+          },
+        });
 
-        // Now move the created before dir into it's final location and add storybook
-        await move(createBeforeDir, beforeDir);
+        await addStorybook({ dir: tempInitDir, localRegistry, flags, debug, dirName });
 
-        // Make sure there are no git projects in the folder
-        await remove(join(beforeDir, '.git'));
+        await move(tempInitDir, afterDir);
 
-        await addStorybook({ baseDir, localRegistry, flags, debug });
-
-        await addDocumentation(baseDir, { name, dirName });
+        await addDocumentation(afterDir, { name, dirName });
 
         // Remove node_modules to save space and avoid GH actions failing
         // They're not uploaded to the git sandboxes repo anyway
         if (process.env.CLEANUP_SANDBOX_NODE_MODULES) {
-          console.log(`🗑️ Removing ${join(beforeDir, 'node_modules')}`);
-          await remove(join(beforeDir, 'node_modules'));
-          console.log(`🗑️ Removing ${join(baseDir, AFTER_DIR_NAME, 'node_modules')}`);
-          await remove(join(baseDir, AFTER_DIR_NAME, 'node_modules'));
+          console.log(`🗑️ Removing installation artifacts`);
+          await remove(join(afterDir, 'node_modules'));
+          await remove(join(afterDir, '.yarn', 'cache'));
+          await remove(join(afterDir, '.yarn', 'unplugged'));
         }
+
+        await remove(tempDir);
 
         console.log(
           `✅ Created ${dirName} in ./${relative(

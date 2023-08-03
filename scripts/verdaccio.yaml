@@ -14,6 +14,7 @@ uplinks:
   npmjs:
     url: https://registry.npmjs.org/
     cache: true
+    maxage: 30m
 
 packages:
   # storybook's 'legacy' packages

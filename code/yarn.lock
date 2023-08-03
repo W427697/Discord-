@@ -6469,7 +6469,6 @@ __metadata:
     envinfo: ^7.7.3
     execa: ^5.0.0
     express: ^4.17.3
-    find-process: ^1.4.7
     find-up: ^5.0.0
     fs-extra: ^11.1.0
     get-npm-tarball-url: ^2.0.3
@@ -16824,19 +16823,6 @@ __metadata:
   version: 1.1.1
   resolution: "find-index@npm:1.1.1"
   checksum: 9e5b73714b5b4e5af71872f25e1b97e23a9db58529350543f7dba11f109fc7f4047d69abbf76fe3dba25f638fda8ebe4df3d6a12ad7da93014d15ce28dbc564e
-  languageName: node
-  linkType: hard
-
-"find-process@npm:^1.4.7":
-  version: 1.4.7
-  resolution: "find-process@npm:1.4.7"
-  dependencies:
-    chalk: ^4.0.0
-    commander: ^5.1.0
-    debug: ^4.1.1
-  bin:
-    find-process: bin/find-process.js
-  checksum: cea8cd43f41e0a9d26dfb70db73fdbc5d14d3ed0f8975e1688492babfa3a2a5f97f52dd986679ee8ddc0e6ff5e8f0a6013821f15eb9970e8031d44ad3c0b2deb
   languageName: node
   linkType: hard
 

@@ -16,7 +16,6 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     env:
-      YARN_ENABLE_IMMUTABLE_INSTALLS: false
       CLEANUP_SANDBOX_NODE_MODULES: true
     steps:
       - uses: actions/setup-node@v3

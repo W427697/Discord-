@@ -40,7 +40,7 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions } from './generators/types';
 import { HandledError } from './HandledError';
-import { baseTemplates } from './sandbox-templates';
+import { baseTemplates, pnpmTemplates, yarnTemplates } from './sandbox-templates';
 import { sandbox } from './sandbox';
 import versions from './versions';
 
@@ -258,9 +258,16 @@ const scaffoldProject = async ({
       I see that you're trying to start a new project with Storybook. Take a look at the options below and choose the best one for your project. Let's get started! 🚀
       `);
   logger.log();
-  const templateEntries = Object.entries(baseTemplates).filter(
-    ([key]) => key !== 'angular-cli/prerelease'
-  );
+
+  const templateEntries = Object.entries({
+    ...baseTemplates,
+    ...pnpmTemplates,
+    ...yarnTemplates,
+  })
+    .filter(
+      ([key, value]) => key !== 'angular-cli/prerelease' && (value as any).inDevelopment !== true
+    )
+    .sort(([a], [b]) => a.localeCompare(b));
 
   const result = await prompts(
     {
@@ -317,12 +324,20 @@ const scaffoldProject = async ({
 
   const packageJson = await readJson(path.join(process.cwd(), 'package.json'), 'utf8');
 
-  delete packageJson.resolutions;
   packageJson.name = template.key.replace('/', '-').toLowerCase();
 
+  delete packageJson.resolutions;
+
+  /** START: Remove as soon as sandboxes are updated on main branch and contain the proper package manager */
   await unlink(path.join(process.cwd(), '.stackblitzrc'));
   await unlink('.yarnrc.yml');
   await rm(path.join(process.cwd(), '.yarn'), { recursive: true });
+
+  if (packageManager.type === 'yarn2') {
+    await packageManager.runPackageCommand('set', ['version', 'berry']);
+  }
+  /** END */
+
   await writeJson(path.join(process.cwd(), 'package.json'), packageJson, { spaces: 2 });
 
   const readmePath = path.join(process.cwd(), 'README.md');
@@ -343,10 +358,6 @@ const scaffoldProject = async ({
   if (skipInstall || template.projectType === ProjectType.REACT_NATIVE) {
     logSuccessfulBootstrapMessage();
     return { shouldRunDev: false };
-  }
-
-  if (packageManager.type === 'yarn2') {
-    await packageManager.runPackageCommand('set', ['version', 'berry']);
   }
 
   await packageManager.installDependencies();

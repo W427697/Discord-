@@ -1,9 +1,3 @@
-export type GeneratorConfig = {
-  name: string;
-  script: string;
-  expected: {
-    framework: string;
-    renderer: string;
-    builder: string;
-  };
-};
+import type { Template } from '../../../code/lib/cli/src/sandbox-templates';
+
+export type GeneratorConfig = Template;

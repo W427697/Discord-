@@ -152,7 +152,7 @@ export class NPMProxy extends JsPackageManager {
     }
   }
 
-  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, any>) {
     return {
       overrides: {
         ...packageJson.overrides,
