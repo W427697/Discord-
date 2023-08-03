@@ -12,6 +12,7 @@ import Sidebar from './containers/sidebar';
 import Preview from './containers/preview';
 import Panel from './containers/panel';
 import Notifications from './containers/notifications';
+import { Layout } from './components/layoutNew/Layout';
 
 const View = styled.div({
   position: 'fixed',
@@ -25,11 +26,14 @@ export interface AppProps {
   layout: State['layout'];
   panelCount: number;
   pages: Addon_PageType[];
+  newLayout?: boolean;
 }
 
-const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {
+const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages, newLayout = false }) => {
   const { width, height, ref } = useResizeDetector();
-  let content;
+  const isReady = !!width && !!height;
+  const isMobile = isReady ? width < 600 : null;
+  const isDesktop = isReady ? width >= 600 : null;
 
   const props = useMemo(
     () => ({
@@ -41,29 +45,27 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {
     []
   );
 
-  if (!width || !height) {
-    content = <div />;
-  } else if (width < 600) {
-    content = <Mobile {...props} viewMode={viewMode} options={layout} pages={pages} />;
-  } else {
-    content = (
-      <Desktop
-        {...props}
-        viewMode={viewMode}
-        options={layout}
-        width={width}
-        height={height}
-        panelCount={panelCount}
-        pages={pages}
-      />
-    );
-  }
-
   return (
     <View ref={ref}>
       <Global styles={createGlobal} />
       <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
-      {content}
+      {!newLayout && (
+        <>
+          {isMobile && <Mobile {...props} viewMode={viewMode} options={layout} pages={pages} />}
+          {isDesktop && (
+            <Desktop
+              {...props}
+              viewMode={viewMode}
+              options={layout}
+              width={width}
+              height={height}
+              panelCount={panelCount}
+              pages={pages}
+            />
+          )}
+        </>
+      )}
+      {newLayout && <Layout />}
     </View>
   );
 };
