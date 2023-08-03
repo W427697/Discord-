@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { within } from '@storybook/testing-library';
 import { DocsPage } from './DocsPage';
 
 const meta = {
@@ -7,7 +6,7 @@ const meta = {
   parameters: {
     docsStyles: true,
     chromatic: {
-      disableSnapshot: true
+      disableSnapshot: true,
     },
   },
 } satisfies Meta<typeof DocsPage>;
