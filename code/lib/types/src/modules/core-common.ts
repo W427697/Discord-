@@ -317,7 +317,7 @@ export interface StorybookConfig {
    *
    * @example `['./src/*.stories.@(j|t)sx?']`
    */
-  stories: StoriesEntry[];
+  stories: StoriesEntry[] | ((list: StoriesEntry[]) => Promise<StoriesEntry[]>);
 
   /**
    * Framework, e.g. '@storybook/react-vite', required in v7
