@@ -1,12 +1,13 @@
-import type { FC } from 'react';
+import type { ComponentType, FC } from 'react';
 import React, { Fragment } from 'react';
 import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
-import Notifications from '../../containers/notifications';
-import { Wrapper } from './containers/Wrapper';
-import { Main } from './containers/Main';
-import { DesktopLeft } from './containers/DesktopLeft';
-import Sidebar from '../../containers/sidebar';
+import { Route } from '@storybook/router';
+import { Wrapper } from './Wrapper';
+import { Main } from './Main';
+import { DesktopLeft } from './DesktopLeft';
+import { PreviewContainer } from './PreviewContainer';
+import { PanelContainer } from './PanelContainer';
 
 interface LayoutProps {
   isReady: boolean;
@@ -18,6 +19,10 @@ interface LayoutProps {
   viewMode: string;
   width: number;
   height: number;
+  Sidebar: ComponentType<any>;
+  Preview: ComponentType<any>;
+  Panel: ComponentType<any>;
+  Notifications: ComponentType<any>;
 }
 
 export const Layout: FC<LayoutProps> = ({
@@ -28,6 +33,11 @@ export const Layout: FC<LayoutProps> = ({
   height,
   viewMode,
   panelCount,
+  Sidebar,
+  Preview,
+  Panel,
+  Notifications,
+  pages,
 }) => {
   return (
     <Fragment>
@@ -53,7 +63,21 @@ export const Layout: FC<LayoutProps> = ({
                 <Sidebar />
               </DesktopLeft>
               <Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
-                Hello World
+                <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
+                  <PreviewContainer {...previewProps} hidden={false}>
+                    <Preview id="main" />
+                  </PreviewContainer>
+                  <Route path="/story/" startsWith hideOnly>
+                    <PanelContainer {...panelProps} hidden={false}>
+                      <Panel />
+                    </PanelContainer>
+                  </Route>
+                </Route>
+                {pages.map(({ id, render: Content }) => (
+                  <Fragment key={id}>
+                    <Content />
+                  </Fragment>
+                ))}
               </Main>
             </Fragment>
           )}

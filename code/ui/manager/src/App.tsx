@@ -45,8 +45,6 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages, newLayou
     []
   );
 
-  console.log(Sidebar);
-
   return (
     <View ref={ref}>
       <Global styles={createGlobal} />
@@ -78,6 +76,10 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages, newLayou
           isReady={isReady}
           width={width}
           height={height}
+          Sidebar={props.Sidebar}
+          Preview={props.Preview}
+          Panel={props.Panel}
+          Notifications={props.Notifications}
         />
       )}
     </View>

@@ -1,4 +1,7 @@
-import type { Bounds, Coordinates, PanelPosition } from './types';
+import store from 'store2';
+import debounce from 'lodash/debounce.js';
+import memoize from 'memoizerific';
+import type { Bounds, Coordinates, PanelPosition } from './_types';
 
 export const getPreviewPosition = ({
   panelPosition,
@@ -121,3 +124,27 @@ export const getPanelPosition = ({
         width: bounds.width - panelX - margin,
       };
 };
+
+export { store };
+
+export const get = () => {
+  try {
+    const data = store.local.get(`storybook-layout`);
+    return data || false;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+    return false;
+  }
+};
+
+const write = memoize(1)((changes) => {
+  try {
+    store.local.set(`storybook-layout`, changes);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+  }
+});
+
+export const set = debounce(write, 500);
