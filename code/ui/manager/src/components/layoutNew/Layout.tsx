@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React, { Fragment } from 'react';
 import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
+import { styled } from '@storybook/theming';
 import Notifications from '../../containers/notifications';
 import { Wrapper } from './Wrapper';
 
@@ -17,6 +18,22 @@ interface LayoutProps {
   height: number;
 }
 
+export const Root = styled.div({
+  position: 'fixed',
+  left: 0,
+  top: 0,
+  width: '100vw',
+  height: '100vh',
+  overflow: 'hidden',
+
+  '@media (min-width: 600px)': {
+    position: 'relative',
+    width: 'auto',
+    height: 'auto',
+    overflow: 'visible',
+  },
+});
+
 export const Layout: FC<LayoutProps> = ({
   isDesktop,
   isReady,
@@ -27,7 +44,7 @@ export const Layout: FC<LayoutProps> = ({
   panelCount,
 }) => {
   return (
-    <Fragment>
+    <Root>
       {isDesktop && (
         <Notifications
           placement={{
@@ -47,6 +64,6 @@ export const Layout: FC<LayoutProps> = ({
           {({ navProps, mainProps, panelProps, previewProps }) => <Fragment>Hello World</Fragment>}
         </Wrapper>
       )}
-    </Fragment>
+    </Root>
   );
 };
