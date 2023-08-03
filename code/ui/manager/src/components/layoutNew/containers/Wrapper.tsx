@@ -3,8 +3,8 @@ import type { State } from '@storybook/manager-api';
 import type { Theme } from '@storybook/theming';
 import React, { Component, Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
-import type { Bounds, Coordinates, PanelPosition } from './types';
-import * as persistence from './persist';
+import type { Bounds, Coordinates, PanelPosition } from '../types';
+import * as persistence from '../persist';
 import {
   DEFAULT_NAV_WIDTH,
   DEFAULT_PANEL_WIDTH,
@@ -13,10 +13,10 @@ import {
   MIN_NAV_WIDTH,
   MIN_PANEL_HEIGHT,
   MIN_PANEL_WIDTH,
-} from './constants';
-import type { DraggableData, DraggableEvent } from './draggers';
-import { Draggable, Handle } from './draggers';
-import { getMainPosition, getPanelPosition, getPreviewPosition } from './helpers';
+} from '../constants';
+import type { DraggableData, DraggableEvent } from '../draggers';
+import { Draggable, Handle } from '../draggers';
+import { getMainPosition, getPanelPosition, getPreviewPosition } from '../helpers';
 
 export interface BasePanelRenderProps {
   viewMode?: State['viewMode'];

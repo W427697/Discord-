@@ -4,7 +4,8 @@ import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import Notifications from '../../containers/notifications';
-import { Wrapper } from './Wrapper';
+import { Wrapper } from './containers/Wrapper';
+import { Main } from './containers/Main';
 
 interface LayoutProps {
   isReady: boolean;
@@ -61,7 +62,13 @@ export const Layout: FC<LayoutProps> = ({
           viewMode={viewMode}
           panelCount={panelCount}
         >
-          {({ navProps, mainProps, panelProps, previewProps }) => <Fragment>Hello World</Fragment>}
+          {({ navProps, mainProps, panelProps, previewProps }) => (
+            <Fragment>
+              <Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
+                Hello World
+              </Main>
+            </Fragment>
+          )}
         </Wrapper>
       )}
     </Root>
