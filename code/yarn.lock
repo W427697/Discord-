@@ -6641,6 +6641,7 @@ __metadata:
   dependencies:
     "@aw-web-design/x-default-browser": 1.4.126
     "@discoveryjs/json-ext": ^0.5.3
+    "@storybook/addon-docs": "workspace:*"
     "@storybook/builder-manager": "workspace:*"
     "@storybook/channels": "workspace:*"
     "@storybook/core-common": "workspace:*"
