@@ -6428,7 +6428,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/channels@workspace:lib/channels"
   dependencies:
-    "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
