@@ -518,6 +518,11 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
     features: {
       ...templateConfig.features,
     },
+    core: {
+      ...templateConfig.core,
+      // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests
+      disableWhatsNewNotifications: true,
+    },
   };
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));

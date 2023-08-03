@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
+import { Icon } from '@storybook/components/experimental';
 import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
@@ -15,22 +16,6 @@ type Story = StoryObj<typeof Button>;
 export const Base = {
   args: { children: 'Button' },
 };
-
-const Icon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={14}
-    height={14}
-    viewBox="0 0 14 14"
-    fill="currentColor"
-  >
-    <path d="M3.97 8.75a.5.5 0 0 0-.87.5 4.5 4.5 0 0 0 7.8 0 .5.5 0 1 0-.87-.5 3.5 3.5 0 0 1-6.06 0ZM5.5 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9.5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
-    <path
-      fillRule="evenodd"
-      d="M14 7A7 7 0 1 1 0 7a7 7 0 0 1 14 0Zm-1 0A6 6 0 1 1 1 7a6 6 0 0 1 12 0Z"
-    />
-  </svg>
-);
 
 export const Types: Story = {
   render: () => (
@@ -61,13 +46,13 @@ export const Active: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button variant="primary" icon={<Icon />}>
+      <Button variant="primary" icon={<Icon.FaceHappy />}>
         Primary
       </Button>
-      <Button variant="secondary" icon={<Icon />}>
+      <Button variant="secondary" icon={<Icon.FaceHappy />}>
         Secondary
       </Button>
-      <Button variant="tertiary" icon={<Icon />}>
+      <Button variant="tertiary" icon={<Icon.FaceHappy />}>
         Tertiary
       </Button>
     </div>
@@ -77,16 +62,16 @@ export const WithIcon: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" icon={<Icon />}>
+      <Button size="small" icon={<Icon.FaceHappy />}>
         Small Button
       </Button>
-      <Button size="small" icon={<Icon />} iconOnly>
+      <Button size="small" icon={<Icon.FaceHappy />} iconOnly>
         Small Button
       </Button>
-      <Button size="medium" icon={<Icon />}>
+      <Button size="medium" icon={<Icon.FaceHappy />}>
         Medium Button
       </Button>
-      <Button size="medium" icon={<Icon />} iconOnly>
+      <Button size="medium" icon={<Icon.FaceHappy />} iconOnly>
         Medium Button
       </Button>
     </div>
@@ -106,22 +91,22 @@ export const IconOnly: Story = {
   },
   render: () => (
     <>
-      <Button size="small" variant="primary" iconOnly icon={<Icon />}>
+      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />}>
         Primary
       </Button>
-      <Button size="small" variant="secondary" iconOnly icon={<Icon />}>
+      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />}>
         Secondary
       </Button>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon />}>
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />}>
         Tertiary
       </Button>
-      <Button size="medium" variant="primary" iconOnly icon={<Icon />}>
+      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />}>
         Primary
       </Button>
-      <Button size="medium" variant="secondary" iconOnly icon={<Icon />}>
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />}>
         Secondary
       </Button>
-      <Button size="medium" variant="tertiary" iconOnly icon={<Icon />}>
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />}>
         Tertiary
       </Button>
     </>
@@ -134,22 +119,22 @@ export const IconOnly: Story = {
 export const IconOnlyActive: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" variant="primary" iconOnly icon={<Icon />} active>
+      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />} active>
         Primary
       </Button>
-      <Button size="small" variant="secondary" iconOnly icon={<Icon />} active>
+      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active>
         Secondary
       </Button>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon />} active>
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active>
         Tertiary
       </Button>
-      <Button size="medium" variant="primary" iconOnly icon={<Icon />} active>
+      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />} active>
         Primary
       </Button>
-      <Button size="medium" variant="secondary" iconOnly icon={<Icon />} active>
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active>
         Secondary
       </Button>
-      <Button size="medium" variant="tertiary" iconOnly icon={<Icon />} active>
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active>
         Tertiary
       </Button>
     </div>
