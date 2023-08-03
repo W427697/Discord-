@@ -5,20 +5,23 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 import { html } from 'lit';
 
-const meta: Meta = {
+// TODO: How do you extract a web component's props type?
+// type PagePropsAndCustomArgs = Page & { footer?: string };
+
+const meta: Meta<PagePropsAndCustomArgs> = {
   title: 'Page',
   component: 'demo-page',
+  render: ({ footer }) => html`
+    <demo-page>
+      <footer>${footer}</footer>
+    </demo-page>
+  `,
 };
 export default meta;
 
-type Story = StoryObj;
+type Story = StoryObj<PagePropsAndCustomArgs>;
 
 export const CustomFooter: Story = {
-  render: (args) => html`
-    <demo-page>
-      <footer>${args.footer}</footer>
-    </demo-page>
-  `,
   args: {
     footer: 'Built with Storybook',
   },

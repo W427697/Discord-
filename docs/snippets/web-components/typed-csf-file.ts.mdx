@@ -1,0 +1,21 @@
+```ts
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+// TODO: How do you extract a web component's props type?
+
+const meta: Meta = {
+  title: 'Button',
+  component: 'demo-button',
+};
+export default meta;
+
+export const Basic: StoryObj = {};
+
+export const Primary: StoryObj = {
+  args: {
+    primary: true,
+  },
+};
+```

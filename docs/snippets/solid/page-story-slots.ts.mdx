@@ -5,24 +5,22 @@ import type { Meta, StoryObj } from 'storybook-solidjs';
 
 import { Page } from './Page';
 
-const meta: Meta<typeof Page> = {
+// TODO: How do you extract a Solid component's props type?
+// type PagePropsAndCustomArgs = Page & { footer?: string };
+
+const meta: Meta<PagePropsAndCustomArgs> = {
   component: Page,
-};
-
-export default meta;
-type Story = StoryObj<typeof Page>;
-
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/solid/api/csf
- * to learn how to use render functions.
- */
-export const CustomFooter: Story = {
-  render: (args) => (
+  render: ({ footer, ...args }) => (
     <Page {...args}>
-      <footer>{args.footer}</footer>
+      <footer>{footer}</footer>
     </Page>
   ),
+};
+export default meta;
+
+type Story = StoryObj<PagePropsAndCustomArgs>;
+
+export const CustomFooter: Story = {
   args: {
     footer: 'Built with Storybook',
   },
