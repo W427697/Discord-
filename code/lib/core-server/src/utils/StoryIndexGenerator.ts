@@ -286,7 +286,7 @@ export class StoryIndexGenerator {
       const title = userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
       invariant(
         title,
-        "makeTitle created an undefined title. This happens when a specifier's doesn't have any matches in its fileName"
+        "makeTitle created an undefined title. This happens when the fileName doesn't match any specifier from main.js"
       );
       return title;
     };
