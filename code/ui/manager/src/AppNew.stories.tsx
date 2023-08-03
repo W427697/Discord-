@@ -5,7 +5,7 @@ import { useStorybookApi, Provider as ManagerProvider } from '@storybook/manager
 import { BaseLocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
-import App from './App2';
+import App from './App';
 import { FakeProvider, PrettyFakeProvider } from './FakeProvider';
 
 const Background = styled.div(

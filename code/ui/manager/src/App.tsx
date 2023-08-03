@@ -12,7 +12,7 @@ import Sidebar from './containers/sidebar';
 import Preview from './containers/preview';
 import Panel from './containers/panel';
 import Notifications from './containers/notifications';
-import { Layout } from './components/layoutNew/Layout';
+import { Layout } from './components/layout-new/Layout';
 
 const View = styled.div({
   position: 'fixed',
