@@ -73,6 +73,8 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages, newLayou
           pages={pages}
           isMobile={isMobile}
           isDesktop={isDesktop}
+          width={width}
+          height={height}
         />
       )}
     </View>
