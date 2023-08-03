@@ -102,7 +102,10 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
     .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
     .map(([key, value]) => {
       const slotValue = context.args[key];
-      return [key, typeof slotValue === 'function' ? slotValue : () => slotValue];
+      return [
+        key,
+        typeof slotValue === 'function' || slotValue === undefined ? slotValue : () => slotValue,
+      ];
     });
 
   return reactive(Object.fromEntries(slots));
