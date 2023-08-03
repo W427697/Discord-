@@ -250,6 +250,8 @@ class Wrapper extends Component<LayoutProps, LayoutState> {
     const panelX = resizerPanel.x;
     const navX = resizerNav.x;
 
+    console.log(isNavHidden);
+
     return bounds ? (
       <Fragment>
         {isNavHidden ? null : (

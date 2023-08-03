@@ -2,10 +2,11 @@ import type { FC } from 'react';
 import React, { Fragment } from 'react';
 import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
 import Notifications from '../../containers/notifications';
 import { Wrapper } from './containers/Wrapper';
 import { Main } from './containers/Main';
+import { DesktopLeft } from './containers/DesktopLeft';
+import Sidebar from '../../containers/sidebar';
 
 interface LayoutProps {
   isReady: boolean;
@@ -19,22 +20,6 @@ interface LayoutProps {
   height: number;
 }
 
-export const Root = styled.div({
-  position: 'fixed',
-  left: 0,
-  top: 0,
-  width: '100vw',
-  height: '100vh',
-  overflow: 'hidden',
-
-  '@media (min-width: 600px)': {
-    position: 'relative',
-    width: 'auto',
-    height: 'auto',
-    overflow: 'visible',
-  },
-});
-
 export const Layout: FC<LayoutProps> = ({
   isDesktop,
   isReady,
@@ -45,7 +30,7 @@ export const Layout: FC<LayoutProps> = ({
   panelCount,
 }) => {
   return (
-    <Root>
+    <Fragment>
       {isDesktop && (
         <Notifications
           placement={{
@@ -64,6 +49,9 @@ export const Layout: FC<LayoutProps> = ({
         >
           {({ navProps, mainProps, panelProps, previewProps }) => (
             <Fragment>
+              <DesktopLeft {...navProps}>
+                <Sidebar />
+              </DesktopLeft>
               <Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
                 Hello World
               </Main>
@@ -71,6 +59,6 @@ export const Layout: FC<LayoutProps> = ({
           )}
         </Wrapper>
       )}
-    </Root>
+    </Fragment>
   );
 };
