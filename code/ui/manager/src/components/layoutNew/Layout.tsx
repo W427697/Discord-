@@ -6,6 +6,7 @@ import Notifications from '../../containers/notifications';
 import { Wrapper } from './Wrapper';
 
 interface LayoutProps {
+  isReady: boolean;
   isMobile: boolean | null;
   isDesktop: boolean | null;
   panelCount: number;
@@ -18,6 +19,7 @@ interface LayoutProps {
 
 export const Layout: FC<LayoutProps> = ({
   isDesktop,
+  isReady,
   options,
   width,
   height,
@@ -35,7 +37,7 @@ export const Layout: FC<LayoutProps> = ({
           }}
         />
       )}
-      {isDesktop && (
+      {isReady && (
         <Wrapper
           options={options}
           bounds={{ width, height, top: 0, left: 0 }}
