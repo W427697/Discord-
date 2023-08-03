@@ -82,33 +82,50 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
   return (
     <Wrapper inAddonPanel={inAddonPanel}>
       <Content>
-        <Title>Interactive story playground</Title>
+        <Title>
+          {inAddonPanel
+            ? 'Interactive story playground'
+            : "Args table with interactive controls couldn't be auto-generated"}
+        </Title>
         <Description>
           Controls give you an easy to use interface to test your components. Set your story args
           and you&apos;ll see controls appearing here automatically.
         </Description>
       </Content>
       <Links>
-        <Link
-          href="https://youtu.be/0gOfS6K0x0E"
-          target="_blank"
-          icon={
-            <VideoIcon>
-              <Icon.Play size={8} />
-            </VideoIcon>
-          }
-          withArrow
-        >
-          Watch 5m video
-        </Link>
-        <Divider />
-        <Link
-          href="https://storybook.js.org/docs/react/essentials/controls"
-          target="_blank"
-          withArrow
-        >
-          Read docs
-        </Link>
+        {inAddonPanel && (
+          <>
+            <Link
+              href="https://youtu.be/0gOfS6K0x0E"
+              target="_blank"
+              icon={
+                <VideoIcon>
+                  <Icon.Play size={8} />
+                </VideoIcon>
+              }
+              withArrow
+            >
+              Watch 5m video
+            </Link>
+            <Divider />
+            <Link
+              href="https://storybook.js.org/docs/react/essentials/controls"
+              target="_blank"
+              withArrow
+            >
+              Read docs
+            </Link>
+          </>
+        )}
+        {!inAddonPanel && (
+          <Link
+            href="https://storybook.js.org/docs/react/essentials/controls"
+            target="_blank"
+            withArrow
+          >
+            Learn how to set that up
+          </Link>
+        )}
       </Links>
     </Wrapper>
   );
