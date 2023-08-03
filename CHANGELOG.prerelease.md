@@ -1,3 +1,7 @@
+## 7.2.2-alpha.0
+
+- Indexing: Introduce new experimental `indexer` API - NESTED PR! - [#23691](https://github.com/storybookjs/storybook/pull/23691), thanks [@JReinhold](https://github.com/JReinhold)!
+
 ## 7.2.0-rc.0
 
 - Addon: Create @storybook/addon-themes - [#23524](https://github.com/storybookjs/storybook/pull/23524), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
