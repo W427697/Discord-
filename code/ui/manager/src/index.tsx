@@ -11,7 +11,7 @@ import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import { HelmetProvider } from 'react-helmet-async';
 
 import type { Addon_PageType } from '@storybook/types';
-import App from './App2';
+import App from './App';
 
 import Provider from './provider';
 import { settingsPageAddon } from './settings';
