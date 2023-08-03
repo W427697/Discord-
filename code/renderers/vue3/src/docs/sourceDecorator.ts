@@ -57,11 +57,11 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
 export function generateAttributesSource(
   tempArgs: (AttributeNode | DirectiveNode)[],
   args: Args,
+  argTypes: ArgTypes,
   byRef?: boolean
 ): string {
   return Object.keys(tempArgs)
     .map((key: any) => {
-      if (typeof tempArgs[key] === 'string') return `${key}="${tempArgs[key]}"`;
       const source = tempArgs[key].loc.source.replace(/\$props/g, 'args');
       const argKey = (tempArgs[key] as DirectiveNode).arg?.loc.source;
       return byRef && argKey
@@ -191,9 +191,7 @@ export function generateTemplateSource(
   { args, argTypes }: { args: Args; argTypes: ArgTypes },
   byRef = false
 ) {
-  // return is the node is native html element
-  const isElementNode = (node: any) =>
-    node && node.type && (node.type === 1 || typeof node.type === 'string');
+  const isElementNode = (node: any) => node && node.type === 1;
   const isInterpolationNode = (node: any) => node && node.type === 5;
   const isTextNode = (node: any) => node && node.type === 2;
 
@@ -201,19 +199,16 @@ export function generateTemplateSource(
     componentOrNode: ConcreteComponent | TemplateChildNode | VNode
   ) => {
     if (isElementNode(componentOrNode)) {
-      const { type, props, children, tag } = componentOrNode as ElementNode;
-      const name = tag || type;
+      const { tag: name, props: attributes, children } = componentOrNode as ElementNode;
       const childSources: string =
         typeof children === 'string'
           ? children
           : children.map((child: TemplateChildNode) => generateComponentSource(child)).join('');
-      const attributesString = generateAttributesSource(props, args); // 'att="value"';
-      // Object.keys(attributes)
-      //   .map((att) => `${att.name}=${att.loc.source}`)
-      //   .join(' ');
+      const props = generateAttributesSource(attributes, args, argTypes, byRef);
+
       return childSources === ''
-        ? `<${name} ${attributesString} />`
-        : `<${name} ${attributesString}>${childSources}</${name}>`;
+        ? `<${name} ${props} />`
+        : `<${name} ${props}>${childSources}</${name}>`;
     }
 
     if (isTextNode(componentOrNode)) {
@@ -258,8 +253,7 @@ export function generateTemplateSource(
           : (type as FunctionalComponent).name ||
             (type as ConcreteComponent).__name ||
             (type as any).__docgenInfo?.displayName;
-
-      const propsSource = generateAttributesSource(attributes, args, byRef);
+      const propsSource = generateAttributesSource(attributes, args, argTypes, byRef);
       return childSources.trim() === ''
         ? `<${name} ${propsSource}/>`
         : `<${name} ${propsSource}>${childSources}</${name}>`;
