@@ -748,6 +748,47 @@ describe('StoryIndexGenerator', () => {
           }
         `);
       });
+
+      it('prioritizes using the component id over meta.title for generating its id, if provided. (autodocs)', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './docs-id-generation/A.stories.jsx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier], autodocsOptions);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "my-component-a--docs": Object {
+                "id": "my-component-a--docs",
+                "importPath": "./docs-id-generation/A.stories.jsx",
+                "name": "docs",
+                "storiesImports": Array [],
+                "tags": Array [
+                  "autodocs",
+                  "docs",
+                ],
+                "title": "A",
+                "type": "docs",
+              },
+              "my-component-a--story-one": Object {
+                "id": "my-component-a--story-one",
+                "importPath": "./docs-id-generation/A.stories.jsx",
+                "name": "Story One",
+                "tags": Array [
+                  "autodocs",
+                  "story",
+                ],
+                "title": "A",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
     });
 
     describe('docs specifier', () => {
@@ -1010,6 +1051,53 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "title": "B",
                 "type": "docs",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+
+      it('prioritizes using the component id over meta.title for generating its id, if provided. (mdx docs)', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './docs-id-generation/B.stories.jsx',
+          options
+        );
+
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './docs-id-generation/B.docs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], options);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "my-component-b--docs": Object {
+                "id": "my-component-b--docs",
+                "importPath": "./docs-id-generation/B.docs.mdx",
+                "name": "docs",
+                "storiesImports": Array [
+                  "./docs-id-generation/B.stories.jsx",
+                ],
+                "tags": Array [
+                  "attached-mdx",
+                  "docs",
+                ],
+                "title": "B",
+                "type": "docs",
+              },
+              "my-component-b--story-one": Object {
+                "id": "my-component-b--story-one",
+                "importPath": "./docs-id-generation/B.stories.jsx",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "B",
+                "type": "story",
               },
             },
             "v": 4,
