@@ -1,6 +1,9 @@
 ## 7.2.2-alpha.0
 
-- Indexing: Introduce new experimental `indexer` API - NESTED PR! - [#23691](https://github.com/storybookjs/storybook/pull/23691), thanks [@JReinhold](https://github.com/JReinhold)!
+- Indexer: Introduce new experimental `indexer` API - #23691, thanks [@JReinhold](https://github.com/jreinhold)!
+- Addon-docs, Core, Server: Use new `indexer` API - #23660, thanks [@JReinhold](https://github.com/jreinhold)!
+- Server: Add support for tags - #23660, thanks [@JReinhold](https://github.com/jreinhold)!
+- Core-server: Improve internal types - #23632, thanks [@JReinhold](https://github.com/jreinhold)!
 
 ## 7.2.0-rc.0
 
