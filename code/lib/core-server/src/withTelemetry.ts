@@ -132,7 +132,9 @@ export async function withTelemetry<T>(
     }
 
     const { printError = logger.error } = options;
-    printError(error instanceof Error ? error.message : String(error));
+
+    // the type of error can be Error, string, or a Webpack/Vite Object, potentially other things. Therefore we cast to any
+    printError(error as any);
     if (error instanceof Error) await sendTelemetryError(error, eventType, options);
 
     throw error;
