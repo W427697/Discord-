@@ -12,7 +12,7 @@ import { Preview } from '../preview/preview';
 
 import { previewProps } from '../preview/preview.mockdata';
 import { mockDataset } from '../sidebar/mockdata';
-import type { DesktopProps } from './desktop';
+import type { LayoutProps } from './Layout';
 
 const { setInterval } = global;
 
@@ -149,7 +149,7 @@ export const MockPage: FC<any> = (props) => (
   </PlaceholderClock>
 );
 
-export const mockProps: DesktopProps = {
+export const mockProps: LayoutProps = {
   Sidebar: MockSidebar,
   Preview: MockPreview,
   Panel: MockPanel,
@@ -168,9 +168,11 @@ export const mockProps: DesktopProps = {
   panelCount: 2,
   width: 1112,
   height: 834,
+  isDesktop: true,
+  isMobile: false,
 };
 
-export const realProps: DesktopProps = {
+export const realProps: LayoutProps = {
   Sidebar: () => <Sidebar {...realSidebarProps} />,
   Preview: () => <Preview {...previewProps} />,
   Notifications: () => null,
@@ -198,4 +200,6 @@ export const realProps: DesktopProps = {
   panelCount: 2,
   width: 900,
   height: 600,
+  isDesktop: true,
+  isMobile: false,
 };

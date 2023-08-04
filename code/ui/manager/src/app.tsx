@@ -31,8 +31,8 @@ export interface AppProps {
 const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {
   const { width, height, ref } = useResizeDetector();
   const isReady = !!width && !!height;
-  const isMobile: IsMobileProps = isReady ? width < BREAKPOINT : null;
-  const isDesktop: IsDesktopProps = isReady ? width >= BREAKPOINT : null;
+  const isMobile: IsMobileProps | null = isReady ? width < BREAKPOINT : null;
+  const isDesktop: IsDesktopProps | null = isReady ? width >= BREAKPOINT : null;
 
   const props = useMemo(
     () => ({
@@ -59,7 +59,6 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {
           pages={pages}
           isMobile={isMobile}
           isDesktop={isDesktop}
-          isReady={isReady}
         />
       )}
     </View>

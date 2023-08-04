@@ -7,7 +7,6 @@ import type { IsDesktopProps, IsMobileProps } from './_types';
 import * as S from './container';
 
 export interface LayoutProps {
-  isReady: boolean;
   isMobile: IsMobileProps;
   isDesktop: IsDesktopProps;
   panelCount: number;
@@ -34,53 +33,53 @@ const Layout: FC<LayoutProps> = Object.assign(
     width = 0,
     height = 0,
     panelCount,
+    isDesktop,
+    isMobile,
   }) {
     return (
       <Fragment>
-        <Notifications
-          placement={{
-            position: 'fixed',
-            bottom: 20,
-            left: 20,
-          }}
-        />
-        {width && height ? (
-          <S.Layout
-            options={options}
-            bounds={{ width, height, top: 0, left: 0 }}
-            viewMode={viewMode}
-            panelCount={panelCount}
-          >
-            {({ navProps, mainProps, panelProps, previewProps }) => (
-              <Fragment>
-                <S.Sidebar {...navProps}>
-                  <Sidebar />
-                </S.Sidebar>
-                <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
-                  <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
-                    <S.Preview {...previewProps} hidden={false}>
-                      <Preview id="main" />
-                    </S.Preview>
-
-                    <Route path="/story/" startsWith hideOnly>
-                      <S.Panel {...panelProps} hidden={false}>
-                        <Panel />
-                      </S.Panel>
-                    </Route>
-                  </Route>
-
-                  {pages.map(({ id, render: Content }) => (
-                    <Fragment key={id}>
-                      <Content />
-                    </Fragment>
-                  ))}
-                </S.Main>
-              </Fragment>
-            )}
-          </S.Layout>
-        ) : (
-          <div title={JSON.stringify({ width, height })} />
+        {isDesktop && (
+          <Notifications
+            placement={{
+              position: 'fixed',
+              bottom: 20,
+              left: 20,
+            }}
+          />
         )}
+        <S.Layout
+          options={options}
+          bounds={{ width, height, top: 0, left: 0 }}
+          viewMode={viewMode}
+          panelCount={panelCount}
+        >
+          {({ navProps, mainProps, panelProps, previewProps }) => (
+            <Fragment>
+              <S.Sidebar {...navProps}>
+                <Sidebar />
+              </S.Sidebar>
+              <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen} isMobile={isMobile}>
+                <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
+                  <S.Preview {...previewProps} hidden={false}>
+                    <Preview id="main" />
+                  </S.Preview>
+
+                  <Route path="/story/" startsWith hideOnly>
+                    <S.Panel {...panelProps} hidden={false}>
+                      <Panel />
+                    </S.Panel>
+                  </Route>
+                </Route>
+
+                {pages.map(({ id, render: Content }) => (
+                  <Fragment key={id}>
+                    <Content />
+                  </Fragment>
+                ))}
+              </S.Main>
+            </Fragment>
+          )}
+        </S.Layout>
       </Fragment>
     );
   }),

@@ -16,6 +16,7 @@ import {
   MIN_PANEL_HEIGHT,
   MIN_PANEL_WIDTH,
 } from './_constants';
+import type { IsMobileProps } from './_types';
 
 const Pane = styled.div<{
   border?: 'left' | 'right' | 'top' | 'bottom';
@@ -83,6 +84,28 @@ const Pane = styled.div<{
       : {}
 );
 
+export const Sidebar: FC<{ hidden: boolean; position: CSSProperties }> = ({
+  hidden = false,
+  children,
+  position = undefined,
+  ...props
+}) =>
+  hidden ? null : (
+    <Pane style={position} {...props}>
+      {children}
+    </Pane>
+  );
+
+export const MainPane = styled.div({
+  position: 'absolute',
+  boxSizing: 'border-box',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  zIndex: 9,
+});
+
 const Paper = styled.div<{ isFullscreen: boolean }>(
   {
     position: 'absolute',
@@ -98,10 +121,10 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
           borderRadius: 0,
         }
       : {
-          borderTopLeftRadius:
-            theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
-          borderBottomLeftRadius:
-            theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
+          // borderTopLeftRadius:
+          //   theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
+          // borderBottomLeftRadius:
+          //   theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
           overflow: 'hidden',
           boxShadow:
             theme.base === 'light'
@@ -111,25 +134,20 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
         }
 );
 
-export const Sidebar: FC<{ hidden: boolean; position: CSSProperties }> = ({
-  hidden = false,
-  children,
-  position = undefined,
-  ...props
-}) =>
-  hidden ? null : (
-    <Pane style={position} {...props}>
-      {children}
-    </Pane>
-  );
+interface MainProps {
+  isFullscreen: boolean;
+  position: CSSProperties;
+  isMobile?: IsMobileProps;
+}
 
-export const Main: FC<{ isFullscreen: boolean; position: CSSProperties }> = ({
+export const Main: FC<MainProps> = ({
   isFullscreen = false,
   children,
   position = undefined,
+  isMobile,
   ...props
 }) => (
-  <Pane style={position} top {...props} role="main">
+  <Pane style={isMobile ? null : position} top {...props} role="main">
     <Paper isFullscreen={isFullscreen}>{children}</Paper>
   </Pane>
 );

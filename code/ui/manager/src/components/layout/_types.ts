@@ -12,5 +12,5 @@ export interface Coordinates {
 
 export type PanelPosition = 'right' | 'bottom';
 
-export type IsMobileProps = boolean | null;
-export type IsDesktopProps = boolean | null;
+export type IsMobileProps = boolean;
+export type IsDesktopProps = boolean;
