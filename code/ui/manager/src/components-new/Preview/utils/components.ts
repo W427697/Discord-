@@ -1,5 +1,6 @@
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/router';
+import { BREAKPOINT } from '../../Layout/_constants';
 
 export const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
   position: 'absolute',
@@ -10,8 +11,12 @@ export const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
   top: offset,
   zIndex: 3,
   transition: 'all 0.1s linear',
-  height: `calc(100% - ${offset}px)`,
+  height: `calc(100% - ${offset + 40}px)`,
   background: 'transparent',
+
+  [`@media (min-width: ${BREAKPOINT}px)`]: {
+    height: `calc(100% - ${offset}px)`,
+  },
 }));
 
 export const UnstyledLink = styled(Link)({

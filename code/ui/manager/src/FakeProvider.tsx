@@ -93,12 +93,16 @@ const colors = [
   '#330000',
 ];
 
+const reverseColors = [...colors].reverse();
+const joinedColors = [...colors, ...reverseColors];
+
 export class RainbowFakeProvider extends FakeProvider {
   renderPreview(...args: any[]) {
     return (
       <RainbowContainer>
-        {colors.map((color) => (
-          <RainbowLine key={color} bgColor={color} />
+        {joinedColors.map((color, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <RainbowLine key={index} bgColor={color} />
         ))}
       </RainbowContainer>
     );
