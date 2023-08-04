@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Badge, Icons, Spaced } from '@storybook/components';
 import { Addon_TypesEnum } from '@storybook/types';
 import { AddonPanel } from './AddonPanel';
-import { panels, shortcuts } from '../Layout2/app.mockdata';
+import { panels, shortcuts } from '../Layout/app.mockdata';
 
 const onSelect = action('onSelect');
 const toggleVisibility = action('toggleVisibility');

@@ -4,7 +4,7 @@ import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
 import { SidebarInside as SidebarComponent } from './SidebarInside';
-import { useMenu } from '../Menu2/Menu';
+import { useMenu } from '../Menu/Menu';
 
 export type Item = StoriesHash[keyof StoriesHash];
 

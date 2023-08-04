@@ -10,9 +10,9 @@ import Sidebar from './containers/sidebar';
 import Preview from './containers/preview';
 import Panel from './containers/panel';
 import Notifications from './containers/notifications';
-import { Layout } from './components-new/Layout2/Layout';
-import type { IsDesktopProps, IsMobileProps } from './components-new/Layout2/_types';
-import { BREAKPOINT } from './components-new/Layout2/_constants';
+import { Layout } from './components-new/Layout/Layout';
+import type { IsDesktopProps, IsMobileProps } from './components-new/Layout/_types';
+import { BREAKPOINT } from './components-new/Layout/_constants';
 
 const View = styled.div({
   position: 'fixed',

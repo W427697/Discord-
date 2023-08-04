@@ -10,10 +10,10 @@ import { PreviewContainer } from './PreviewContainer';
 import { PanelContainer } from './PanelContainer';
 import type { IsDesktopProps, IsMobileProps } from './_types';
 import { MobileNavigation } from './MobileNavigation';
-import { Panel } from '../Panel2/Panel2';
-import { Notifications } from '../Notifications2/Notifications';
-import { Sidebar } from '../Sidebar2/Sidebar';
-import { Preview } from '../Preview2/Preview2';
+import { Panel } from '../Panel/Panel2';
+import { Notifications } from '../Notifications/Notifications';
+import { Sidebar } from '../Sidebar/Sidebar';
+import { Preview } from '../Preview/Preview2';
 
 export interface LayoutProps {
   isReady: boolean;
