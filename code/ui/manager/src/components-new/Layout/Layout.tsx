@@ -13,7 +13,7 @@ import { MobileNavigation } from './MobileNavigation';
 import { Panel } from '../Panel/Panel2';
 import { Notifications } from '../Notifications/Notifications';
 import { Sidebar } from '../Sidebar/Sidebar';
-import { Preview } from '../Preview/Preview2';
+import { Preview } from '../Preview/Preview';
 
 export interface LayoutProps {
   isReady: boolean;
