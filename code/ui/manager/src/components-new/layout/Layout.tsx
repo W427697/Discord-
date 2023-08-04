@@ -4,15 +4,17 @@ import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
 import { Wrapper } from './Wrapper';
-import { Main } from './Main';
-import { DesktopLeft } from './DesktopLeft';
+import { MainContainer } from './MainContainer';
+import { SidebarContainer } from './SidebarContainer';
 import { PreviewContainer } from './PreviewContainer';
 import { PanelContainer } from './PanelContainer';
+import type { IsDesktopProps, IsMobileProps } from './_types';
+import { MobileNavigation } from './MobileNavigation';
 
-interface LayoutProps {
+export interface LayoutProps {
   isReady: boolean;
-  isMobile: boolean | null;
-  isDesktop: boolean | null;
+  isMobile: IsMobileProps;
+  isDesktop: IsDesktopProps;
   panelCount: number;
   pages: Addon_PageType[];
   options: State['layout'];
@@ -27,6 +29,7 @@ interface LayoutProps {
 
 export const Layout: FC<LayoutProps> = ({
   isDesktop,
+  isMobile,
   isReady,
   options,
   width,
@@ -59,11 +62,16 @@ export const Layout: FC<LayoutProps> = ({
         >
           {({ navProps, mainProps, panelProps, previewProps }) => (
             <Fragment>
-              <DesktopLeft {...navProps}>
+              <SidebarContainer {...navProps}>
                 <Sidebar />
-              </DesktopLeft>
-              <Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
+              </SidebarContainer>
+              <MainContainer
+                {...mainProps}
+                isFullscreen={!!mainProps.isFullscreen}
+                isMobile={isMobile}
+              >
                 <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
+                  {isMobile && <MobileNavigation />}
                   <PreviewContainer {...previewProps} hidden={false}>
                     <Preview id="main" />
                   </PreviewContainer>
@@ -78,7 +86,7 @@ export const Layout: FC<LayoutProps> = ({
                     <Content />
                   </Fragment>
                 ))}
-              </Main>
+              </MainContainer>
             </Fragment>
           )}
         </Wrapper>

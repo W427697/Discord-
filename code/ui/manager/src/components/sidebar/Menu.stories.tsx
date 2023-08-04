@@ -17,7 +17,7 @@ const fakemenu: ComponentProps<typeof TooltipLinkList>['links'] = [
 
 const meta = {
   component: SidebarMenu,
-  title: 'Sidebar/Menu',
+  title: 'Legacy/Sidebar/Menu',
   args: {
     menu: fakemenu,
   },

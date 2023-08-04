@@ -12,7 +12,7 @@ import { store } from './persist';
 import { mockProps, realProps, MockPage } from './app.mockdata';
 
 export default {
-  title: 'Layout/Desktop',
+  title: 'Legacy/Layout/Desktop',
   component: Desktop,
   parameters: {
     passArgsFirst: false,

@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
-
 import { type State } from '@storybook/manager-api';
 import { Symbols } from '@storybook/components';
 import { Global, createGlobal, styled } from '@storybook/theming';
-
 import type { Addon_PageType } from '@storybook/types';
 import { Mobile } from './components/layout/mobile';
 import { Desktop } from './components/layout/desktop';
@@ -12,7 +10,9 @@ import Sidebar from './containers/sidebar';
 import Preview from './containers/preview';
 import Panel from './containers/panel';
 import Notifications from './containers/notifications';
-import { Layout } from './components/layout-new/Layout';
+import { Layout } from './components-new/layout/Layout';
+import type { IsDesktopProps, IsMobileProps } from './components-new/layout/_types';
+import { BREAKPOINT } from './components-new/layout/_constants';
 
 const View = styled.div({
   position: 'fixed',
@@ -32,8 +32,8 @@ export interface AppProps {
 const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages, newLayout = false }) => {
   const { width, height, ref } = useResizeDetector();
   const isReady = !!width && !!height;
-  const isMobile = isReady ? width < 600 : null;
-  const isDesktop = isReady ? width >= 600 : null;
+  const isMobile: IsMobileProps = isReady ? width < BREAKPOINT : null;
+  const isDesktop: IsDesktopProps = isReady ? width >= BREAKPOINT : null;
 
   const props = useMemo(
     () => ({

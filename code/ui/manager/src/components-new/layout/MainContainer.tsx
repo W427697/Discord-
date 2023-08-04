@@ -1,6 +1,13 @@
 import type { CSSProperties, FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
+import type { IsMobileProps } from './_types';
+
+interface MainContainerProps {
+  isFullscreen: boolean;
+  position: CSSProperties;
+  isMobile?: IsMobileProps;
+}
 
 export const Pane = styled.div({
   position: 'absolute',
@@ -40,13 +47,14 @@ export const Paper = styled.div<{ isFullscreen: boolean }>(
         }
 );
 
-export const Main: FC<{ isFullscreen: boolean; position: CSSProperties }> = ({
+export const MainContainer: FC<MainContainerProps> = ({
   isFullscreen = false,
   children,
   position = undefined,
+  isMobile,
   ...props
 }) => (
-  <Pane style={position} {...props} role="main">
+  <Pane style={isMobile ? null : position} {...props} role="main">
     <Paper isFullscreen={isFullscreen}>{children}</Paper>
   </Pane>
 );

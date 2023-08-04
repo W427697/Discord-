@@ -16,7 +16,7 @@ const wait = (ms: number) =>
 
 const meta = {
   component: Sidebar,
-  title: 'Sidebar/Sidebar',
+  title: 'Legacy/Sidebar/Sidebar',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [ExplorerStories.default.decorators[0]],

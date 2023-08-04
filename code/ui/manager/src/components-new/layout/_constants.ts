@@ -5,3 +5,4 @@ export const MIN_PANEL_WIDTH = 220;
 export const MIN_PANEL_HEIGHT = 200; // visually it's 50px less due to the panel toolbar
 export const DEFAULT_NAV_WIDTH = 230;
 export const DEFAULT_PANEL_WIDTH = 400;
+export const BREAKPOINT = 600;

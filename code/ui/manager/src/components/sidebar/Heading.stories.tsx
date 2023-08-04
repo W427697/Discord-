@@ -13,7 +13,7 @@ type Story = ComponentStoryFn<typeof Heading>;
 
 export default {
   component: Heading,
-  title: 'Sidebar/Heading',
+  title: 'Legacy/Sidebar/Heading',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen' },
   decorators: [

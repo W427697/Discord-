@@ -21,7 +21,7 @@ const getLastViewed = () =>
 
 const meta = {
   component: Search,
-  title: 'Sidebar/Search',
+  title: 'Legacy/Sidebar/Search',
   parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [(storyFn: any) => <div style={{ padding: 20, maxWidth: '230px' }}>{storyFn()}</div>],
 } satisfies Meta<typeof Search>;

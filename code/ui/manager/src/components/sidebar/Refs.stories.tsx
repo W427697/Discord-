@@ -8,7 +8,7 @@ import type { RefType } from './types';
 
 export default {
   component: Ref,
-  title: 'Sidebar/Refs',
+  title: 'Legacy/Sidebar/Refs',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [

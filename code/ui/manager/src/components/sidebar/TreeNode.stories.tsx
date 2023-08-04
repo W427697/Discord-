@@ -5,7 +5,7 @@ import { LeafNodeStyleWrapper } from './Tree';
 import { ComponentNode, DocumentNode, GroupNode, StoryNode } from './TreeNode';
 
 export default {
-  title: 'Sidebar/TreeNode',
+  title: 'Legacy/Sidebar/TreeNode',
   parameters: { layout: 'fullscreen', withSymbols: true },
   component: StoryNode,
 };

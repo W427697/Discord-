@@ -31,7 +31,7 @@ const staticNavigator = {
 };
 
 export default {
-  title: 'Preview',
+  title: 'Legacy/Preview',
   component: Preview,
   decorators: [
     ((StoryFn, c) => {

@@ -6,7 +6,7 @@ import { BaseLocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
 import App from './App';
-import { FakeProvider, PrettyFakeProvider } from './FakeProvider';
+import { RainbowFakeProvider } from './FakeProvider';
 
 const Background = styled.div(
   {
@@ -22,7 +22,7 @@ const Background = styled.div(
 
 const meta: Meta<typeof App> = {
   component: App,
-  title: 'App/New',
+  title: 'New/App',
   parameters: {
     layout: 'fullscreen',
     theme: 'light',
@@ -70,40 +70,36 @@ export const Default: Story = {
   args: {
     newLayout: true,
   },
-  render: ({ ...args }) => {
-    const provider = new FakeProvider();
-
-    return (
-      <ManagerProvider
-        key="manager"
-        provider={provider}
-        path="/story/ui-app--loading-state"
+  render: ({ ...args }) => (
+    <ManagerProvider
+      key="manager"
+      provider={new RainbowFakeProvider()}
+      path="/story/ui-app--loading-state"
+      viewMode="story"
+      storyId="ui-app--loading-state"
+      location={{ search: '' }}
+      navigate={() => {}}
+      docsOptions={{ docsMode: false }}
+    >
+      <SetPreviewInitialized />
+      <App
+        key="app"
         viewMode="story"
-        storyId="ui-app--loading-state"
-        location={{ search: '' }}
-        navigate={() => {}}
-        docsOptions={{ docsMode: false }}
-      >
-        <SetPreviewInitialized />
-        <App
-          key="app"
-          viewMode="story"
-          layout={{
-            initialActive: 'sidebar',
-            isFullscreen: false,
-            showToolbar: true,
-            panelPosition: 'right',
-            showNav: true,
-            showPanel: true,
-            showTabs: true,
-          }}
-          pages={[]}
-          panelCount={0}
-          {...args}
-        />
-      </ManagerProvider>
-    );
-  },
+        layout={{
+          initialActive: 'sidebar',
+          isFullscreen: false,
+          showToolbar: true,
+          panelPosition: 'right',
+          showNav: true,
+          showPanel: true,
+          showTabs: true,
+        }}
+        pages={[]}
+        panelCount={0}
+        {...args}
+      />
+    </ManagerProvider>
+  ),
 };
 
 export const LoadingState: Story = {
@@ -113,7 +109,7 @@ export const LoadingState: Story = {
   render: ({ ...args }) => (
     <ManagerProvider
       key="manager"
-      provider={new PrettyFakeProvider()}
+      provider={new RainbowFakeProvider()}
       path=""
       storyId="ui-app--loading-state"
       location={{ search: '' }}
