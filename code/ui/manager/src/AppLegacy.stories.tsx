@@ -22,7 +22,7 @@ const Background = styled.div(
 
 const meta: Meta<typeof App> = {
   component: App,
-  title: 'Legacy/App',
+  title: 'App',
   parameters: {
     layout: 'fullscreen',
     theme: 'light',
