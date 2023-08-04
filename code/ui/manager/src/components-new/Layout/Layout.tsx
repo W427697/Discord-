@@ -10,7 +10,7 @@ import { PreviewContainer } from './PreviewContainer';
 import { PanelContainer } from './PanelContainer';
 import type { IsDesktopProps, IsMobileProps } from './_types';
 import { MobileNavigation } from './MobileNavigation';
-import { Panel } from '../Panel/Panel2';
+import { Panel } from '../Panel/Panel';
 import { Notifications } from '../Notifications/Notifications';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { Preview } from '../Preview/Preview';
