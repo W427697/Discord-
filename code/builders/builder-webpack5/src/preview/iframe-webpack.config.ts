@@ -31,6 +31,10 @@ const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
 const storybookPaths: Record<string, string> = {
+  // this is a temporary hack to get webpack to alias this correctly
+  [`@storybook/components/experimental`]: `${getAbsolutePath(
+    `@storybook/components`
+  )}/dist/experimental`,
   ...[
     // these packages are not pre-bundled because of react dependencies
     'components',
