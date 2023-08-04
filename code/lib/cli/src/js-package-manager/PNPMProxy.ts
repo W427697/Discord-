@@ -4,6 +4,7 @@ import { sync as findUpSync } from 'find-up';
 import path from 'path';
 import fs from 'fs';
 import semver from 'semver';
+import type { NestedDependencyResolution } from './JsPackageManager';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -163,11 +164,41 @@ export class PNPMProxy extends JsPackageManager {
     return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
-  protected getResolutions(packageJson: PackageJson, versions: Record<string, any>) {
+  protected getResolutions(packageJson: PackageJson, versions: NestedDependencyResolution) {
+    function recursivelyExtractProperties(
+      version: NestedDependencyResolution,
+      name: string,
+      acc: Record<string, string>
+    ) {
+      Object.entries(version).forEach(([subName, subVersion]) => {
+        const fullName = `${name}>${subName}`;
+
+        if (typeof subVersion === 'string') {
+          acc[fullName] = subVersion;
+        } else {
+          recursivelyExtractProperties(subVersion, fullName, acc);
+        }
+      });
+
+      return acc;
+    }
+
     return {
-      overrides: {
-        ...packageJson.overrides,
-        ...versions,
+      pnpm: {
+        ...(packageJson.pnpm ?? {}),
+        /**
+         * PNPM supports nested dependencies, but we need to flatten them according to the docs
+         * https://pnpm.io/package_json#pnpmoverrides
+         */
+        overrides: Object.entries(versions).reduce((acc, [name, version]) => {
+          if (typeof version === 'object') {
+            recursivelyExtractProperties(version, name, acc);
+
+            return acc;
+          }
+          acc[name] = version;
+          return acc;
+        }, (packageJson.pnpm?.overrides ?? {}) as Record<string, string>),
       },
     };
   }

@@ -35,10 +35,21 @@ const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
 };
 
-const withLocalRegistry = async (dir: string, action: () => Promise<void>) => {
+const withLocalRegistry = async (
+  { dir, dirName }: { dir: string; dirName: string },
+  action: () => Promise<void>
+) => {
   execSync(`npm config set registry ${LOCAL_REGISTRY_URL} --location project`, { cwd: dir });
   execSync(`npm config set audit false --location project`, { cwd: dir });
   execSync(`npm config set prefer-offline true --location project`, { cwd: dir });
+
+  try {
+    if (dirName.includes('pnpm')) {
+      execSync(`pnpm config set prefer-frozen-lockfile false --location project`, { cwd: dir });
+    }
+  } catch (e) {
+    // ignore, pnpm doesn't seem to be installed
+  }
   await action();
 };
 
@@ -63,7 +74,7 @@ const addStorybook = async ({
   }
 
   if (localRegistry) {
-    await withLocalRegistry(dir, async () => {
+    await withLocalRegistry({ dir, dirName }, async () => {
       // We need to resolve some transitive @storybook/* packages from third-party dependencies to the local registry
       // otherwise the package manager will try to install them from verdaccio and will fail
       (await packageManager).addPackageResolutions({
@@ -132,7 +143,7 @@ const improveNPMPerformance = async (dir: string) => {
 };
 
 const runGenerators = async (
-  generators: (GeneratorConfig & { dirName: string })[],
+  generators: (GeneratorConfig & { dirName: TemplateKey })[],
   localRegistry = true,
   debug = false
 ) => {
@@ -253,7 +264,7 @@ export const generate = async ({
 }: OptionValues<typeof options>) => {
   const generatorConfigs = Object.entries(sandboxTemplates)
     .map(([dirName, configuration]) => ({
-      dirName,
+      dirName: dirName as TemplateKey,
       ...configuration,
     }))
     .filter(({ dirName }) => {

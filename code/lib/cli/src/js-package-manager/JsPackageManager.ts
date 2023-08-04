@@ -38,6 +38,11 @@ export function getPackageDetails(pkg: string): [string, string?] {
 interface JsPackageManagerOptions {
   cwd?: string;
 }
+
+export interface NestedDependencyResolution {
+  [key: string]: NestedDependencyResolution | string;
+}
+
 export abstract class JsPackageManager {
   public abstract readonly type: PackageManagerName;
 
@@ -454,7 +459,7 @@ export abstract class JsPackageManager {
 
   protected abstract getResolutions(
     packageJson: PackageJson,
-    versions: Record<string, any>
+    versions: NestedDependencyResolution
   ): Record<string, any>;
 
   /**

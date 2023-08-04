@@ -6,6 +6,7 @@ import { PosixFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
 import { getLibzipSync } from '@yarnpkg/libzip';
 import semver from 'semver';
 import { createLogStream } from '../utils';
+import type { NestedDependencyResolution } from './JsPackageManager';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -177,7 +178,7 @@ export class Yarn2Proxy extends JsPackageManager {
     return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
-  protected getResolutions(packageJson: PackageJson, versions: Record<string, any>) {
+  protected getResolutions(packageJson: PackageJson, versions: NestedDependencyResolution) {
     return {
       resolutions: {
         ...packageJson.resolutions,

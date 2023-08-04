@@ -5,6 +5,7 @@ import { sync as findUpSync } from 'find-up';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import semver from 'semver';
+import type { NestedDependencyResolution } from './JsPackageManager';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -152,7 +153,7 @@ export class NPMProxy extends JsPackageManager {
     }
   }
 
-  protected getResolutions(packageJson: PackageJson, versions: Record<string, any>) {
+  protected getResolutions(packageJson: PackageJson, versions: NestedDependencyResolution) {
     return {
       overrides: {
         ...packageJson.overrides,
