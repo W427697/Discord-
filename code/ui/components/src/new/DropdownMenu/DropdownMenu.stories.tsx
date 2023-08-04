@@ -22,7 +22,7 @@ export const Default: Story = {
   render: (_, { args }) => (
     <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger asChild>
-        <Button variant="tertiary" iconOnly icon={<Icon.Cog />}>
+        <Button variant="tertiary" iconOnly icon={<Icon.Cog />} aria-label="Settings">
           ''
         </Button>
       </DropdownMenu.Trigger>
@@ -31,7 +31,10 @@ export const Default: Story = {
           <DropdownMenu.Item active>Item #1</DropdownMenu.Item>
           <DropdownMenu.Item>Item #2</DropdownMenu.Item>
           <DropdownMenu.Item disabled>Item #3</DropdownMenu.Item>
-          <DropdownMenu.Item loading>Item #4</DropdownMenu.Item>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Item>Item #4</DropdownMenu.Item>
+          <DropdownMenu.Item loading>Item #5</DropdownMenu.Item>
+          <DropdownMenu.Item>Item #6</DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

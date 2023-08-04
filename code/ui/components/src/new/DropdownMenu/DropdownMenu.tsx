@@ -12,9 +12,6 @@ type DropdownMenuItemProps = React.ComponentProps<typeof DropdownMenuPrimitive.I
 const StyledItem = styled(DropdownMenuPrimitive.Item)<DropdownMenuItemProps>(
   ({ theme }) => ({
     fontSize: theme.typography.size.s1,
-    transition: 'all 150ms ease-out',
-    textDecoration: 'none',
-    cursor: 'pointer',
     justifyContent: 'space-between',
 
     lineHeight: '1.5',
@@ -45,6 +42,14 @@ const StyledItem = styled(DropdownMenuPrimitive.Item)<DropdownMenuItemProps>(
       borderEndStartRadius: theme.appBorderRadius,
       borderEndEndRadius: theme.appBorderRadius,
     },
+
+    '&:hover:not([disabled])': {
+      backgroundColor: theme.background.hoverable,
+    },
+
+    '&:hover:not([disabled]) svg': {
+      opacity: 1,
+    },
   }),
   ({ active, theme }) =>
     active
@@ -66,15 +71,7 @@ const StyledItem = styled(DropdownMenuPrimitive.Item)<DropdownMenuItemProps>(
       ? {
           color: transparentize(0.7, theme.color.defaultText),
         }
-      : {
-          '&:hover': {
-            backgroundColor: theme.background.hoverable,
-          },
-
-          '&:hover svg': {
-            opacity: 1,
-          },
-        }
+      : {}
 );
 
 const DropdownMenuItem = React.forwardRef<
@@ -89,15 +86,12 @@ DropdownMenuItem.displayName = 'DropdownMenuItem';
 
 const StyledContent = styled(DropdownMenuPrimitive.Content)(({ theme }) => ({
   minWidth: 180,
-  overflow: 'hidden',
+  overflowX: 'hidden',
   overflowY: 'auto',
   maxHeight: 15.5 * 32, // 11.5 items
   backgroundColor: theme.base === 'light' ? lighten(theme.background.app) : theme.background.app,
-  filter: `
-        drop-shadow(0px 5px 5px rgba(0,0,0,0.05))
-        drop-shadow(0 1px 3px rgba(0,0,0,0.1))
-      `,
   borderRadius: theme.appBorderRadius,
+  boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.10), 0px 0px 15px 0px rgba(0, 0, 0, 0.05)',
 }));
 
 const DropdownMenuContent = React.forwardRef<
@@ -116,10 +110,16 @@ const StyledTrigger = styled(DropdownMenuPrimitive.Trigger)(({ theme }) => ({
   },
 }));
 
+const StyledSeparator = styled(DropdownMenuPrimitive.Separator)(() => ({
+  height: '4px',
+  backgroundColor: '#E1E5E8',
+}));
+
 export const DropdownMenu = {
   ...DropdownMenuPrimitive,
   Root: DropdownMenuPrimitive.Root,
   Item: DropdownMenuItem,
   Content: DropdownMenuContent,
   Trigger: StyledTrigger,
+  Separator: StyledSeparator,
 };
