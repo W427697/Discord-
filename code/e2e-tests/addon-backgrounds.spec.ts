@@ -3,7 +3,7 @@ import process from 'process';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
-const templateName = process.env.STORYBOOK_TEMPLATE_NAME;
+const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
 test.describe('addon-backgrounds', () => {
   test.beforeEach(async ({ page }) => {
@@ -63,7 +63,7 @@ test.describe('addon-backgrounds', () => {
 
       // We start on the introduction page by default.
       await sbPage.page.waitForURL((url) =>
-        url.search.includes(`path=/docs/example-introduction--docs`)
+        url.search.includes(`path=/docs/configure-your-project--docs`)
       );
 
       await expect(sbPage.page.locator(backgroundToolbarSelector)).toBeVisible();
