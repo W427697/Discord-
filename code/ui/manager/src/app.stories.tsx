@@ -5,7 +5,7 @@ import { BaseLocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
 import App from './app';
-import { FakeProvider, PrettyFakeProvider } from './FakeProvider';
+import { RainbowFakeProvider } from './FakeProvider';
 
 export default {
   component: App,
@@ -62,12 +62,10 @@ function SetPreviewInitialized(): JSX.Element {
 }
 
 export const Default = () => {
-  const provider = new FakeProvider();
-
   return (
     <ManagerProvider
       key="manager"
-      provider={provider}
+      provider={new RainbowFakeProvider()}
       path="/story/ui-app--loading-state"
       viewMode="story"
       storyId="ui-app--loading-state"
@@ -98,7 +96,7 @@ export const Default = () => {
 export const LoadingState = () => (
   <ManagerProvider
     key="manager"
-    provider={new PrettyFakeProvider()}
+    provider={new RainbowFakeProvider()}
     path=""
     storyId="ui-app--loading-state"
     location={{ search: '' }}
