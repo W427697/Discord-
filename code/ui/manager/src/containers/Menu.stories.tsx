@@ -29,6 +29,7 @@ const StoryLinkWrapper: FunctionComponent<StoryLinkWrapperProps> = ({
 
 export default {
   component: TooltipLinkList,
+  title: 'Legacy/Containers/Menu',
   decorators: [
     (storyFn) => (
       <div
