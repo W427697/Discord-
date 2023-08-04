@@ -7,14 +7,15 @@ import * as persistence from './persist';
 
 import type { DraggableData, DraggableEvent } from './draggers';
 import { Draggable, Handle } from './draggers';
-
-const MIN_NAV_WIDTH = 200; // visually there's an additional 10px due to the canvas' left margin
-const MIN_CANVAS_WIDTH = 200;
-const MIN_CANVAS_HEIGHT = 200; // visually it's 50px less due to the canvas toolbar and top margin
-const MIN_PANEL_WIDTH = 220;
-const MIN_PANEL_HEIGHT = 200; // visually it's 50px less due to the panel toolbar
-const DEFAULT_NAV_WIDTH = 230;
-const DEFAULT_PANEL_WIDTH = 400;
+import {
+  DEFAULT_NAV_WIDTH,
+  DEFAULT_PANEL_WIDTH,
+  MIN_CANVAS_HEIGHT,
+  MIN_CANVAS_WIDTH,
+  MIN_NAV_WIDTH,
+  MIN_PANEL_HEIGHT,
+  MIN_PANEL_WIDTH,
+} from './_constants';
 
 const Pane = styled.div<{
   border?: 'left' | 'right' | 'top' | 'bottom';
