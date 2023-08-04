@@ -1,4 +1,4 @@
-import type { ComponentType, FC } from 'react';
+import type { FC } from 'react';
 import React, { Fragment } from 'react';
 import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
@@ -10,6 +10,10 @@ import { PreviewContainer } from './PreviewContainer';
 import { PanelContainer } from './PanelContainer';
 import type { IsDesktopProps, IsMobileProps } from './_types';
 import { MobileNavigation } from './MobileNavigation';
+import { Panel } from '../Panel2/Panel2';
+import { Notifications } from '../Notifications2/Notifications';
+import { Sidebar } from '../Sidebar2/Sidebar';
+import { Preview } from '../Preview2/Preview2';
 
 export interface LayoutProps {
   isReady: boolean;
@@ -21,10 +25,6 @@ export interface LayoutProps {
   viewMode: string;
   width: number;
   height: number;
-  Sidebar: ComponentType<any>;
-  Preview: ComponentType<any>;
-  Panel: ComponentType<any>;
-  Notifications: ComponentType<any>;
 }
 
 export const Layout: FC<LayoutProps> = ({
@@ -36,10 +36,6 @@ export const Layout: FC<LayoutProps> = ({
   height,
   viewMode,
   panelCount,
-  Sidebar,
-  Preview,
-  Panel,
-  Notifications,
   pages,
 }) => {
   return (
@@ -73,7 +69,7 @@ export const Layout: FC<LayoutProps> = ({
                 <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
                   {isMobile && <MobileNavigation />}
                   <PreviewContainer {...previewProps} hidden={false}>
-                    <Preview id="main" />
+                    <Preview id="main" withLoader />
                   </PreviewContainer>
                   <Route path="/story/" startsWith hideOnly>
                     <PanelContainer {...panelProps} hidden={false}>

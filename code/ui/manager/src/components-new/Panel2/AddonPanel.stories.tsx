@@ -2,22 +2,22 @@ import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Badge, Icons, Spaced } from '@storybook/components';
 import { Addon_TypesEnum } from '@storybook/types';
-import Panel from './panel';
-import { panels, shortcuts } from '../layout/app.mockdata';
+import { AddonPanel } from './AddonPanel';
+import { panels, shortcuts } from '../Layout2/app.mockdata';
 
 const onSelect = action('onSelect');
 const toggleVisibility = action('toggleVisibility');
 const togglePosition = action('togglePosition');
 
 export default {
-  title: 'New/Panel',
-  component: Panel,
+  title: 'New/AddonPanel',
+  component: AddonPanel,
 };
 
 export const Default = () => {
   const [selectedPanel, setSelectedPanel] = useState('test2');
   return (
-    <Panel
+    <AddonPanel
       absolute={false}
       panels={panels}
       actions={{ onSelect: setSelectedPanel, toggleVisibility, togglePosition }}
@@ -30,7 +30,7 @@ export const Default = () => {
 export const JSXTitles = () => {
   const [selectedPanel, setSelectedPanel] = useState('function-string');
   return (
-    <Panel
+    <AddonPanel
       absolute={false}
       panels={{
         'function-string': {
@@ -141,7 +141,7 @@ export const JSXTitles = () => {
 };
 
 export const NoPanels = () => (
-  <Panel
+  <AddonPanel
     panels={{}}
     actions={{ onSelect, toggleVisibility, togglePosition }}
     shortcuts={shortcuts}

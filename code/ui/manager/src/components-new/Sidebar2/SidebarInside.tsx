@@ -88,7 +88,7 @@ export interface SidebarProps extends API_LoadedRefData {
   enableShortcuts?: boolean;
 }
 
-export const Sidebar = React.memo(function Sidebar({
+export const SidebarInside = React.memo(function Sidebar({
   storyId = null,
   refId = DEFAULT_REF_ID,
   index,

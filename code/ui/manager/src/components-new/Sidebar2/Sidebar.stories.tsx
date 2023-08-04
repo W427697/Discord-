@@ -3,7 +3,7 @@ import React from 'react';
 import type { IndexHash, State } from 'lib/manager-api/src';
 import type { StoryObj, Meta } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
-import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
+import { SidebarInside, DEFAULT_REF_ID } from './SidebarInside';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
@@ -15,12 +15,12 @@ const wait = (ms: number) =>
   });
 
 const meta = {
-  component: Sidebar,
+  component: SidebarInside,
   title: 'New/Sidebar/Sidebar',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [ExplorerStories.default.decorators[0]],
-} as Meta<typeof Sidebar>;
+} as Meta<typeof SidebarInside>;
 
 export default meta;
 
@@ -57,7 +57,7 @@ const refsError = {
 export const Simple: Story = {
   args: { previewInitialized: true },
   render: (args) => (
-    <Sidebar
+    <SidebarInside
       {...args}
       menu={menu}
       index={index as any}
@@ -72,7 +72,14 @@ export const Simple: Story = {
 export const Loading: Story = {
   args: { previewInitialized: false },
   render: (args) => (
-    <Sidebar {...args} menu={menu} storyId={storyId} refId={DEFAULT_REF_ID} refs={{}} status={{}} />
+    <SidebarInside
+      {...args}
+      menu={menu}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+      status={{}}
+    />
   ),
 };
 
@@ -81,7 +88,7 @@ export const Empty: Story = {
     previewInitialized: true,
   },
   render: (args) => (
-    <Sidebar
+    <SidebarInside
       {...args}
       menu={menu}
       index={{}}
@@ -98,7 +105,7 @@ export const IndexError: Story = {
     previewInitialized: true,
   },
   render: (args) => (
-    <Sidebar
+    <SidebarInside
       {...args}
       indexError={indexError}
       menu={menu}
@@ -115,7 +122,7 @@ export const WithRefs: Story = {
     previewInitialized: true,
   },
   render: (args) => (
-    <Sidebar
+    <SidebarInside
       {...args}
       menu={menu}
       index={index as any}
@@ -132,7 +139,7 @@ export const LoadingWithRefs: Story = {
     previewInitialized: false,
   },
   render: (args) => (
-    <Sidebar
+    <SidebarInside
       {...args}
       menu={menu}
       storyId={storyId}
@@ -148,7 +155,7 @@ export const LoadingWithRefError: Story = {
     previewInitialized: false,
   },
   render: (args) => (
-    <Sidebar
+    <SidebarInside
       {...args}
       menu={menu}
       storyId={storyId}
@@ -180,7 +187,7 @@ export const StatusesCollapsed: Story = {
     }, {}),
   },
   render: (args) => (
-    <Sidebar
+    <SidebarInside
       {...args}
       menu={menu}
       index={index as any}

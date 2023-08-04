@@ -59,7 +59,7 @@ const useTabs = (getElements: API['getElements'], entry: PreviewProps['entry']) 
   }, [entry, ...tabsFromConfig]);
 };
 
-const Preview = React.memo<PreviewProps>(function Preview(props) {
+const PreviewInside = React.memo<PreviewProps>(function Preview(props) {
   const {
     api,
     id: previewId,
@@ -132,7 +132,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
   );
 });
 
-export { Preview };
+export { PreviewInside };
 
 const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = ({
   baseUrl,

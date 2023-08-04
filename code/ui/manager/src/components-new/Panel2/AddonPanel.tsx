@@ -3,7 +3,7 @@ import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
-import useMediaQuery from '../hooks/useMedia';
+import useMediaQuery from '../_hooks/useMedia';
 
 export interface SafeTabProps {
   title: Addon_BaseType['title'];
@@ -92,4 +92,4 @@ const AddonPanel = React.memo<{
 
 AddonPanel.displayName = 'AddonPanel';
 
-export default AddonPanel;
+export { AddonPanel };

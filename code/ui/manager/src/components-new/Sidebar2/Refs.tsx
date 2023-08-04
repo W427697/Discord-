@@ -13,7 +13,7 @@ import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
 
 // eslint-disable-next-line import/no-cycle
-import { DEFAULT_REF_ID } from './Sidebar';
+import { DEFAULT_REF_ID } from './SidebarInside';
 import type { Highlight, RefType } from './types';
 
 import { getStateType } from '../../utils/tree';

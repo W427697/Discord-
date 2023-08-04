@@ -9,7 +9,7 @@ import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { Tree } from './Tree';
 import { index } from './mockdata.large';
-import { DEFAULT_REF_ID } from './Sidebar';
+import { DEFAULT_REF_ID } from './SidebarInside';
 
 const customViewports = {
   sized: {

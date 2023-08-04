@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
@@ -9,7 +8,8 @@ import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
-import { DEFAULT_REF_ID } from './Sidebar';
+// eslint-disable-next-line import/no-cycle
+import { DEFAULT_REF_ID } from './SidebarInside';
 import type {
   CombinedDataset,
   SearchItem,
@@ -176,6 +176,7 @@ export const Search = React.memo<{
       inputRef.current.blur();
       showAllComponents(false);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [api, inputRef, showAllComponents, DEFAULT_REF_ID]
   );
 

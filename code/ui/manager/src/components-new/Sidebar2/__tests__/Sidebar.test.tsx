@@ -6,8 +6,8 @@ import type { HashEntry, Refs } from '@storybook/manager-api';
 import type { Theme } from '@storybook/theming';
 import type { RenderResult } from '@testing-library/react';
 import type { API_IndexHash } from '@storybook/types';
-import { Sidebar } from '../Sidebar';
-import type { SidebarProps } from '../Sidebar';
+import { SidebarInside } from '../SidebarInside';
+import type { SidebarProps } from '../SidebarInside';
 
 const DOCS_NAME = 'Docs';
 
@@ -16,7 +16,7 @@ const factory = (props: Partial<SidebarProps>): RenderResult => {
 
   return render(
     <ThemeProvider theme={theme}>
-      <Sidebar menu={[]} index={{}} previewInitialized refs={{}} status={{}} {...props} />
+      <SidebarInside menu={[]} index={{}} previewInitialized refs={{}} status={{}} {...props} />
     </ThemeProvider>
   );
 };

@@ -113,21 +113,6 @@ class PlaceholderClock extends Component<{ color: string }, { count: number }> {
   }
 }
 
-const MockSidebar: FC<any> = (props) => (
-  <PlaceholderClock color="hotpink">
-    <pre>{JSON.stringify(props, null, 2)}</pre>
-  </PlaceholderClock>
-);
-const MockPreview: FC<any> = (props) => (
-  <PlaceholderClock color="deepskyblue">
-    <pre>{JSON.stringify(props, null, 2)}</pre>
-  </PlaceholderClock>
-);
-const MockPanel: FC<any> = (props) => (
-  <PlaceholderClock color="orangered">
-    <pre>{JSON.stringify(props, null, 2)}</pre>
-  </PlaceholderClock>
-);
 export const MockPage: FC<any> = (props) => (
   <PlaceholderClock color="cyan">
     <pre>{JSON.stringify(props, null, 2)}</pre>
@@ -135,10 +120,6 @@ export const MockPage: FC<any> = (props) => (
 );
 
 export const mockProps: LayoutProps = {
-  Sidebar: MockSidebar,
-  Preview: MockPreview,
-  Panel: MockPanel,
-  Notifications: () => null,
   pages: [],
   options: {
     isFullscreen: false,

@@ -8,7 +8,7 @@ import { Location, BaseLocationProvider } from '@storybook/router';
 import { ThemeProvider, ensure as ensureTheme, themes } from '@storybook/theming';
 
 import type { DecoratorFn } from '@storybook/react';
-import { Preview } from './preview';
+import { PreviewInside } from './PreviewInside';
 
 import { PrettyFakeProvider } from '../../FakeProvider';
 import { previewProps } from './preview.mockdata';
@@ -32,7 +32,7 @@ const staticNavigator = {
 
 export default {
   title: 'New/Preview',
-  component: Preview,
+  component: PreviewInside,
   decorators: [
     ((StoryFn, c) => {
       const locationProp = parsePath('/?path=/story/story--id');
@@ -81,7 +81,7 @@ export const NoTabs = () => (
   <Consumer>
     {({ api }: Combo) => {
       return (
-        <Preview
+        <PreviewInside
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
           entry={{
@@ -98,7 +98,7 @@ export const HideFullscreen = () => (
   <Consumer>
     {({ api }: Combo) => {
       return (
-        <Preview
+        <PreviewInside
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
           entry={{
@@ -115,7 +115,7 @@ export const HideAllDefaultTools = () => (
   <Consumer>
     {({ api }: Combo) => {
       return (
-        <Preview
+        <PreviewInside
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
           entry={{
@@ -140,18 +140,18 @@ export const HideAllDefaultTools = () => (
 export const WithCanvasTab = () => (
   <Consumer>
     {({ api }: Combo) => {
-      return <Preview {...previewProps} api={{ ...api, getElements: () => ({}) }} />;
+      return <PreviewInside {...previewProps} api={{ ...api, getElements: () => ({}) }} />;
     }}
   </Consumer>
 );
 
-export const WithTabs = () => <Preview {...previewProps} />;
+export const WithTabs = () => <PreviewInside {...previewProps} />;
 
 export const WithTabsHidden = () => (
   <Consumer>
     {({ api }: Combo) => {
       return (
-        <Preview
+        <PreviewInside
           {...previewProps}
           options={{ ...previewProps.options, showTabs: false }}
           api={{ ...api, getElements: () => ({}) }}
