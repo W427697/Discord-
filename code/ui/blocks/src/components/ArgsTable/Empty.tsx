@@ -3,14 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { Icon, Link } from '@storybook/components/experimental';
 
-const Wrapper = styled.div({
-  height: '100%',
+interface EmptyProps {
+  inAddonPanel?: boolean;
+}
+
+const Wrapper = styled.div<{ inAddonPanel?: boolean }>(({ inAddonPanel, theme }) => ({
+  height: inAddonPanel ? '100%' : 'auto',
   display: 'flex',
+  border: inAddonPanel ? 'none' : `1px solid ${theme.appBorderColor}`,
+  borderRadius: inAddonPanel ? 0 : theme.appBorderRadius,
+  padding: inAddonPanel ? 0 : 40,
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
   gap: 15,
-});
+  background: theme.background.content,
+  boxShadow: 'rgba(0, 0, 0, 0.10) 0 1px 3px 0',
+}));
 
 const Content = styled.div({
   display: 'flex',
@@ -45,8 +54,8 @@ const Divider = styled.div(({ theme }) => ({
 }));
 
 const VideoIcon = styled.div(({ theme }) => ({
-  width: 24,
-  height: 18,
+  width: 22,
+  height: 16,
   borderRadius: theme.appBorderRadius,
   border: `1px solid ${theme.color.secondary}`,
   display: 'flex',
@@ -54,7 +63,7 @@ const VideoIcon = styled.div(({ theme }) => ({
   justifyContent: 'center',
 }));
 
-export const Empty: FC = () => {
+export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   // We are adding a small delay to avoid flickering when the story is loading.
@@ -71,35 +80,52 @@ export const Empty: FC = () => {
   if (isLoading) return null;
 
   return (
-    <Wrapper>
+    <Wrapper inAddonPanel={inAddonPanel}>
       <Content>
-        <Title>Interactive story playground</Title>
+        <Title>
+          {inAddonPanel
+            ? 'Interactive story playground'
+            : "Args table with interactive controls couldn't be auto-generated"}
+        </Title>
         <Description>
           Controls give you an easy to use interface to test your components. Set your story args
           and you&apos;ll see controls appearing here automatically.
         </Description>
       </Content>
       <Links>
-        <Link
-          href="https://youtu.be/0gOfS6K0x0E"
-          target="_blank"
-          icon={
-            <VideoIcon>
-              <Icon.Play size={10} />
-            </VideoIcon>
-          }
-          withArrow
-        >
-          Watch 5m video
-        </Link>
-        <Divider />
-        <Link
-          href="https://storybook.js.org/docs/react/essentials/controls"
-          target="_blank"
-          withArrow
-        >
-          Read docs
-        </Link>
+        {inAddonPanel && (
+          <>
+            <Link
+              href="https://youtu.be/0gOfS6K0x0E"
+              target="_blank"
+              icon={
+                <VideoIcon>
+                  <Icon.Play size={8} />
+                </VideoIcon>
+              }
+              withArrow
+            >
+              Watch 5m video
+            </Link>
+            <Divider />
+            <Link
+              href="https://storybook.js.org/docs/react/essentials/controls"
+              target="_blank"
+              withArrow
+            >
+              Read docs
+            </Link>
+          </>
+        )}
+        {!inAddonPanel && (
+          <Link
+            href="https://storybook.js.org/docs/react/essentials/controls"
+            target="_blank"
+            withArrow
+          >
+            Learn how to set that up
+          </Link>
+        )}
       </Links>
     </Wrapper>
   );

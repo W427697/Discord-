@@ -1,3 +1,12 @@
+## 7.2.1
+
+- Addon docs: Add safe check in Webpack preset - [#23687](https://github.com/storybookjs/storybook/pull/23687), thanks [@yannbf](https://github.com/yannbf)!
+- Autodocs: Fix docs pages ignoring `meta.id` when calculating their ID - [#23520](https://github.com/storybookjs/storybook/pull/23520), thanks [@sookmax](https://github.com/sookmax)!
+- CLI: Fix error logging being swallowed from dev/build failures - [#23689](https://github.com/storybookjs/storybook/pull/23689), thanks [@yannbf](https://github.com/yannbf)!
+- Channels: Remove self-referencing in `package.json` - [#23681](https://github.com/storybookjs/storybook/pull/23681), thanks [@stof](https://github.com/stof)!
+- UI: Fix ArgsTable empty state on docs - [#23688](https://github.com/storybookjs/storybook/pull/23688), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- UI: Improve controls addon - [#23635](https://github.com/storybookjs/storybook/pull/23635), thanks [@cdedreuille](https://github.com/cdedreuille)!
+
 ## 7.2.0
 
 This month, we're going to experiment with our launch cycle by making smaller but more frequent releases. Our goal is to bring you new features more quickly, while also smoothing the upgrade process.

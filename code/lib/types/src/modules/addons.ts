@@ -26,7 +26,7 @@ import type {
   StoryKind,
   StoryName,
 } from './csf';
-import type { IndexEntry } from './storyIndex';
+import type { IndexEntry } from './indexer';
 
 export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
 
