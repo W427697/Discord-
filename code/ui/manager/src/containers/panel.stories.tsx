@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default {
-  title: 'Legacy/Addon Panel',
+  title: 'Addon Panel',
 };
 
 export const AllAddons = () => <div>By default all addon panels are rendered</div>;
