@@ -8,7 +8,7 @@ import { searchItem } from '../../utils/tree';
 
 export default {
   component: SearchResults,
-  title: 'Legacy/Sidebar/SearchResults',
+  title: 'Sidebar/SearchResults',
   includeStories: /^[A-Z]/,
   parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [

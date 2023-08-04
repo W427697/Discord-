@@ -10,7 +10,7 @@ const toggleVisibility = action('toggleVisibility');
 const togglePosition = action('togglePosition');
 
 export default {
-  title: 'Legacy/Panel',
+  title: 'Panel',
   component: Panel,
 };
 

@@ -5,7 +5,7 @@ import { IFrame } from './iframe';
 
 export default {
   component: IFrame,
-  title: 'Legacy/Iframe',
+  title: 'Iframe',
   parameters: {
     layout: 'fullscreen',
     viewport: {

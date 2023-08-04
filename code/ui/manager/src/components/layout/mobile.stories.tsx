@@ -10,7 +10,7 @@ import { Mobile } from './mobile';
 import { mockProps, realProps, MockPage } from './app.mockdata';
 
 export default {
-  title: 'Legacy/Layout/Mobile',
+  title: 'Layout/Mobile',
   component: Mobile,
   parameters: {
     passArgsFirst: false,

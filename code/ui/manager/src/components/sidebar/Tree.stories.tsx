@@ -23,7 +23,7 @@ const customViewports = {
 
 const meta = {
   component: Tree,
-  title: 'Legacy/Sidebar/Tree',
+  title: 'Sidebar/Tree',
   excludeStories: /.*Data$/,
   parameters: {
     layout: 'fullscreen',
