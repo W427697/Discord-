@@ -5,6 +5,7 @@ import type { State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
 import type { IsDesktopProps, IsMobileProps } from './_types';
 import * as S from './container';
+import { MobileNavigation } from './MobileNavigation';
 
 export interface LayoutProps {
   isMobile: IsMobileProps;
@@ -60,10 +61,10 @@ const Layout: FC<LayoutProps> = Object.assign(
               </S.Sidebar>
               <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen} isMobile={isMobile}>
                 <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
+                  {isMobile && <MobileNavigation />}
                   <S.Preview {...previewProps} hidden={false}>
                     <Preview id="main" />
                   </S.Preview>
-
                   <Route path="/story/" startsWith hideOnly>
                     <S.Panel {...panelProps} hidden={false}>
                       <Panel />
