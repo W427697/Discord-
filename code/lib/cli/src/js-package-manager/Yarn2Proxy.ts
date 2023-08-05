@@ -179,12 +179,33 @@ export class Yarn2Proxy extends JsPackageManager {
   }
 
   protected getResolutions(packageJson: PackageJson, versions: NestedDependencyResolution) {
-    return {
-      resolutions: {
-        ...packageJson.resolutions,
-        ...versions,
-      },
-    };
+    function recursivelyExtractProperties(
+      version: NestedDependencyResolution,
+      name: string,
+      acc: Record<string, string>
+    ) {
+      Object.entries(version).forEach(([subName, subVersion]) => {
+        const fullName = `${name}/${subName}`;
+
+        if (typeof subVersion === 'string') {
+          acc[fullName] = subVersion;
+        } else {
+          recursivelyExtractProperties(subVersion, fullName, acc);
+        }
+      });
+
+      return acc;
+    }
+
+    return Object.entries(versions).reduce((acc, [name, version]) => {
+      if (typeof version === 'object') {
+        recursivelyExtractProperties(version, name, acc);
+
+        return acc;
+      }
+      acc[name] = version;
+      return acc;
+    }, (packageJson.resolutions ?? {}) as Record<string, string>);
   }
 
   protected async runInstall() {
