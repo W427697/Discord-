@@ -324,7 +324,7 @@ export interface BasePanelRenderProps {
   position: Bounds;
 }
 
-export interface LayoutRenderProps {
+export interface WrapperRenderProps {
   mainProps: BasePanelRenderProps;
   previewProps: BasePanelRenderProps & {
     showToolbar: boolean;
@@ -338,13 +338,13 @@ export interface LayoutRenderProps {
   };
 }
 
-export interface LayoutState {
+export interface WrapperState {
   isDragging: 'nav' | 'panel' | false;
   resizerNav: Coordinates;
   resizerPanel: Coordinates;
 }
-export interface LayoutProps {
-  children: (data: LayoutRenderProps) => ReactNode;
+export interface WrapperProps {
+  children: (data: WrapperRenderProps) => ReactNode;
   panelCount: number;
   bounds: {
     width: number;
@@ -363,8 +363,8 @@ export interface LayoutProps {
   theme: Theme;
 }
 
-class Layout extends Component<LayoutProps, LayoutState> {
-  static defaultProps: Partial<LayoutProps> = {
+class Wrapper extends Component<WrapperProps, WrapperState> {
+  static defaultProps: Partial<WrapperProps> = {
     viewMode: undefined,
   };
 
@@ -372,7 +372,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
 
   panelRef: React.RefObject<HTMLDivElement>;
 
-  constructor(props: LayoutProps) {
+  constructor(props: WrapperProps) {
     super(props);
     this.navRef = React.createRef();
     this.panelRef = React.createRef();
@@ -391,7 +391,10 @@ class Layout extends Component<LayoutProps, LayoutState> {
     };
   }
 
-  static getDerivedStateFromProps(props: Readonly<LayoutProps>, state: LayoutState): LayoutState {
+  static getDerivedStateFromProps(
+    props: Readonly<WrapperProps>,
+    state: WrapperState
+  ): WrapperState {
     const { bounds, options } = props;
     const { resizerPanel, resizerNav } = state;
 
@@ -406,7 +409,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     const panelX = resizerPanel.x;
     const panelY = resizerPanel.y;
 
-    const mutation = {} as LayoutState;
+    const mutation = {} as WrapperState;
 
     if (!isNavHidden) {
       const minPanelWidth = !isPanelHidden && isPanelRight ? MIN_PANEL_WIDTH : 0;
@@ -461,7 +464,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     return mutation.resizerPanel || mutation.resizerNav ? { ...state, ...mutation } : state;
   }
 
-  componentDidUpdate(prevProps: LayoutProps, prevState: LayoutState) {
+  componentDidUpdate(prevProps: WrapperProps, prevState: WrapperState) {
     const { resizerPanel, resizerNav } = this.state;
 
     persistence.set({
@@ -662,6 +665,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
   }
 }
 
-const ThemedLayout = withTheme(Layout) as unknown as typeof Layout;
+const ThemedWrapper = withTheme(Wrapper) as unknown as typeof Wrapper;
 
-export { ThemedLayout as Layout };
+export { ThemedWrapper as Wrapper };

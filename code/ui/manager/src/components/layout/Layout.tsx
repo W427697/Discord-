@@ -48,7 +48,7 @@ const Layout: FC<LayoutProps> = Object.assign(
             }}
           />
         )}
-        <S.Layout
+        <S.Wrapper
           options={options}
           bounds={{ width, height, top: 0, left: 0 }}
           viewMode={viewMode}
@@ -80,7 +80,7 @@ const Layout: FC<LayoutProps> = Object.assign(
               </S.Main>
             </Fragment>
           )}
-        </S.Layout>
+        </S.Wrapper>
       </Fragment>
     );
   }),
