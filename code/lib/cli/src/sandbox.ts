@@ -6,6 +6,7 @@ import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
 import { existsSync, readdir } from 'fs-extra';
+import ora from 'ora';
 import type { Template } from './sandbox-templates';
 import { sandboxTemplates as TEMPLATES } from './sandbox-templates';
 import { JsPackageManagerFactory } from './js-package-manager';
@@ -163,9 +164,12 @@ export const sandbox = async ({
 
     if (!silent) {
       logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
-
-      logger.log('📦 Downloading sandbox template...');
     }
+
+    const versionedPackagesSpinner = ora({
+      indent: 2,
+      text: `📦 Downloading sandbox template...`,
+    }).start();
 
     try {
       const templateType = init ? 'after-storybook' : 'before-storybook';
@@ -175,6 +179,7 @@ export const sandbox = async ({
         force: true,
         dir: templateDestination,
       });
+      versionedPackagesSpinner.succeed();
       // throw an error if templateDestination is an empty directory using fs-extra
       if ((await readdir(templateDestination)).length === 0) {
         throw new Error(
@@ -185,7 +190,8 @@ export const sandbox = async ({
         );
       }
     } catch (err) {
-      logger.error(`🚨 Failed to download sandbox template: ${err.message}`);
+      versionedPackagesSpinner.fail(`🚨 Failed to download sandbox template: ${err.message}`);
+
       throw err;
     }
 
