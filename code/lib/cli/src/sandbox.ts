@@ -96,16 +96,15 @@ export const sandbox = async ({
       if (!silent) {
         logger.info(
           boxen(
-            dedent`
-              🤗 Welcome to ${chalk.yellow('storybook sandbox')}! 🤗
-  
-              Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
-  
-              1. select an environment that most closely matches your project setup.
-              2. select a location for the reproduction, outside of your project.
-  
-              After the reproduction is ready, we'll guide you through the next steps.
-              `.trim(),
+            dedent`🤗 Welcome to ${chalk.yellow('storybook sandbox')}! 🤗
+            
+            Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
+
+            1. select an environment that most closely matches your project setup.
+            2. select a location for the reproduction, outside of your project.
+            
+            After the reproduction is ready, we'll guide you through the next steps.
+            `.trim(),
             { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
           )
         );
