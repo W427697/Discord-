@@ -6,7 +6,7 @@ import { withTelemetry } from '@storybook/core-server';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import { readdirSync, readFile, readJson, rm, unlink, writeFile, writeJson } from 'fs-extra';
+import { readdirSync, readFile, readJson, unlink, writeFile, writeJson } from 'fs-extra';
 import path from 'path';
 import { installableProjectTypes, ProjectType } from './project_types';
 import {
@@ -323,17 +323,7 @@ const scaffoldProject = async ({
 
   packageJson.name = template.key.replace('/', '-').toLowerCase();
 
-  delete packageJson.resolutions;
-
-  /** START: Remove as soon as sandboxes are updated on main branch and contain the proper package manager */
   await unlink(path.join(process.cwd(), '.stackblitzrc'));
-  await unlink('.yarnrc.yml');
-  await rm(path.join(process.cwd(), '.yarn'), { recursive: true });
-
-  if (packageManager.type === 'yarn2') {
-    await packageManager.runPackageCommand('set', ['version', 'berry']);
-  }
-  /** END */
 
   await writeJson(path.join(process.cwd(), 'package.json'), packageJson, { spaces: 2 });
 
