@@ -84,6 +84,12 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
+/**
+ * Important note: The installation task will treat npm sandboxes as yarn berry sandboxes, as
+ * otherwise setting up the necessary symlink structure will not work and all npm sandboxes
+ * would have been run in no-link mode. Pnpm sandboxes will be set up in no-link mode automatically.
+ * Potentially link mode could be supported for pnpm sandboxes, but it would require some further investigations
+ */
 export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
 
