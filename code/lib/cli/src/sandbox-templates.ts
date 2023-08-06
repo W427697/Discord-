@@ -477,7 +477,6 @@ export const pnpmTemplates = {
     ...baseTemplates['angular-cli/default-ts'],
     name: 'Angular v16 (Webpack5 | TypeScript | pnpm)',
     // TODO: Enable as soon as available
-    inDevelopment: true,
     script:
       'pnpm --package @angular/cli dlx ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=pnpm --skip-install && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
@@ -485,7 +484,6 @@ export const pnpmTemplates = {
     ...baseTemplates['lit-vite/default-ts'],
     name: 'Lit (Vite | TypeScript | pnpm)',
     // TODO: Enable as soon as available
-    inDevelopment: true,
     script:
       'pnpm create vite@latest {{beforeDir}} --yes --template lit-ts && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
@@ -493,7 +491,6 @@ export const pnpmTemplates = {
     ...baseTemplates['vue3-vite/default-ts'],
     name: 'Vue.js v3 (Vite | TypeScript | pnpm)',
     // TODO: Enable as soon as available
-    inDevelopment: true,
     script:
       'pnpm create vite@latest {{beforeDir}} --yes --template vue-ts && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
@@ -501,7 +498,6 @@ export const pnpmTemplates = {
     ...baseTemplates['react-vite/default-ts'],
     name: 'React v18 (Vite | TypeScript | pnpm)',
     // TODO: Enable as soon as available
-    inDevelopment: true,
     script:
       'pnpm create vite@latest {{beforeDir}} --yes --template react-ts && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
@@ -519,7 +515,6 @@ export const yarnTemplates = {
   'angular-cli-yarn/default-ts': {
     ...baseTemplates['angular-cli/default-ts'],
     name: 'Angular v16 (Webpack5 | TypeScript | yarn)',
-    inDevelopment: true,
     // enable node-linker mode and deactivate pnp mode since it is not supported
     script:
       'yarn dlx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=yarn --skip-install && cd {{beforeDir}} && touch yarn.lock && yarn set version berry && yarn config set nodeLinker node-modules',
@@ -527,14 +522,12 @@ export const yarnTemplates = {
   'lit-vite-yarn/default-ts': {
     ...baseTemplates['lit-vite/default-ts'],
     name: 'Lit (Vite | TypeScript | yarn)',
-    inDevelopment: true,
     script:
       'yarn create vite {{beforeDir}} --yes --template lit-ts && cd {{beforeDir}} && touch yarn.lock && yarn set version berry && yarn config set nodeLinker pnp',
   },
   'vue3-vite-yarn/default-ts': {
     ...baseTemplates['vue3-vite/default-ts'],
     name: 'Vue.js v3 (Vite | TypeScript | yarn)',
-    inDevelopment: true,
     // enable node-linker mode and deactivate pnp mode since it is not supported
     script:
       'yarn create vite {{beforeDir}} --yes --template vue-ts && cd {{beforeDir}} && touch yarn.lock && yarn set version berry && yarn config set nodeLinker node-modules',
@@ -542,7 +535,6 @@ export const yarnTemplates = {
   'react-vite-yarn/default-ts': {
     ...baseTemplates['react-vite/default-ts'],
     name: 'React v18 (Vite | TypeScript | yarn)',
-    inDevelopment: true,
     script:
       'yarn create vite {{beforeDir}} --yes --template react-ts && cd {{beforeDir}} && touch yarn.lock && yarn set version berry && yarn config set nodeLinker pnp',
   },
