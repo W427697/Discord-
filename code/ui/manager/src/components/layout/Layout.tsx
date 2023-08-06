@@ -61,7 +61,7 @@ const Layout: FC<LayoutProps> = Object.assign(
               </S.Sidebar>
               <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen} isMobile={isMobile}>
                 <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
-                  {isMobile && <MobileNavigation />}
+                  {isMobile && <MobileNavigation Sidebar={Sidebar} />}
                   <S.Preview {...previewProps} hidden={false}>
                     <Preview id="main" />
                   </S.Preview>

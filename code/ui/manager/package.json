@@ -49,6 +49,9 @@
     "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
+  "dependencies": {
+    "framer-motion": "6.5.1"
+  },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@storybook/addon-designs": "^7.0.0",
