@@ -87,7 +87,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
 export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
 
-  const packageManager = await JsPackageManagerFactory.getPackageManager(undefined, cwd);
+  const packageManager = JsPackageManagerFactory.getPackageManager(undefined, cwd);
 
   if (!isPnpmTemplate(template.name)) {
     await installYarn2({ cwd, dryRun, debug, packageManager });
@@ -388,7 +388,7 @@ async function addExtraDependencies({
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
-    const packageManager = await JsPackageManagerFactory.getPackageManager({}, cwd);
+    const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
     await packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }
@@ -402,7 +402,7 @@ export const addStories: Task['run'] = async (
   const storiesPath = await findFirstPath([join('src', 'stories'), 'stories'], { cwd });
 
   const mainConfig = await readMainConfig({ cwd });
-  const packageManager = await JsPackageManagerFactory.getPackageManager({}, sandboxDir);
+  const packageManager = JsPackageManagerFactory.getPackageManager({}, sandboxDir);
 
   // Ensure that we match the right stories in the stories directory
   updateStoriesField(
