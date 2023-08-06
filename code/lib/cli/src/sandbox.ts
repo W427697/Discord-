@@ -8,6 +8,8 @@ import { downloadTemplate } from 'giget';
 import { existsSync, readdir } from 'fs-extra';
 import type { Template } from './sandbox-templates';
 import { sandboxTemplates as TEMPLATES } from './sandbox-templates';
+import { JsPackageManagerFactory } from './js-package-manager';
+import { assertNever } from './helpers';
 
 const logger = console;
 
@@ -97,7 +99,7 @@ export const sandbox = async ({
         logger.info(
           boxen(
             dedent`🤗 Welcome to ${chalk.yellow('storybook sandbox')}! 🤗
-            
+
             Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
 
             1. select an environment that most closely matches your project setup.
@@ -187,9 +189,28 @@ export const sandbox = async ({
       throw err;
     }
 
-    const initMessage = init
-      ? chalk.yellow(`yarn install\nyarn storybook`)
-      : `Recreate your setup, then ${chalk.yellow(`npx storybook@latest init`)}`;
+    const getInitMessage = () => {
+      if (init) {
+        const packageManager = JsPackageManagerFactory.getPackageManager(
+          undefined,
+          templateDestination
+        );
+
+        switch (packageManager.type) {
+          case 'npm':
+            return chalk.yellow(`npm install\nnpm run storybook`);
+          case 'yarn1':
+          case 'yarn2':
+            return chalk.yellow(`yarn install\nyarn storybook`);
+          case 'pnpm':
+            return chalk.yellow(`pnpm install\npnpm run storybook`);
+          default:
+            return assertNever(packageManager.type);
+        }
+      }
+
+      return `Recreate your setup, then ${chalk.yellow(`npx storybook@latest init`)}`;
+    };
 
     if (!silent) {
       logger.info(
@@ -198,7 +219,7 @@ export const sandbox = async ({
             🎉 Your Storybook reproduction project is ready to use! 🎉
     
             ${chalk.yellow(`cd ${selectedDirectory}`)}
-            ${initMessage}
+            ${getInitMessage()}
     
             Once you've recreated the problem you're experiencing, please:
     

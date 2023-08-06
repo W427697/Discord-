@@ -303,3 +303,7 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
 export async function isNxProject() {
   return findUp.sync('nx.json');
 }
+
+export function assertNever(x: never): never {
+  throw new Error(`Unexpected object: ${x}`);
+}
