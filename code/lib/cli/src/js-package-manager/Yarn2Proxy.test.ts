@@ -185,7 +185,10 @@ describe('Yarn 2 Proxy', () => {
       );
 
       const versions = {
-        foo: 'x.x.x',
+        foobar: 'y.y.y',
+        foo: {
+          bar: 'z.z.z',
+        },
       };
 
       await yarn2Proxy.addPackageResolutions(versions);
@@ -194,8 +197,9 @@ describe('Yarn 2 Proxy', () => {
         dependencies: {},
         devDependencies: {},
         resolutions: {
-          ...versions,
           bar: 'x.x.x',
+          foobar: 'y.y.y',
+          'foo/bar': 'z.z.z',
         },
       });
     });

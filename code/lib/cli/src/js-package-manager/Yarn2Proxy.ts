@@ -197,15 +197,17 @@ export class Yarn2Proxy extends JsPackageManager {
       return acc;
     }
 
-    return Object.entries(versions).reduce((acc, [name, version]) => {
-      if (typeof version === 'object') {
-        recursivelyExtractProperties(version, name, acc);
+    return {
+      resolutions: Object.entries(versions).reduce((acc, [name, version]) => {
+        if (typeof version === 'object') {
+          recursivelyExtractProperties(version, name, acc);
 
+          return acc;
+        }
+        acc[name] = version;
         return acc;
-      }
-      acc[name] = version;
-      return acc;
-    }, (packageJson.resolutions ?? {}) as Record<string, string>);
+      }, (packageJson.resolutions ?? {}) as Record<string, string>),
+    };
   }
 
   protected async runInstall() {

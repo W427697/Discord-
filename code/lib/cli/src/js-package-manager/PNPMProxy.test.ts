@@ -216,21 +216,29 @@ describe('PNPM Proxy', () => {
       jest.spyOn(pnpmProxy, 'retrievePackageJson').mockImplementation(
         // @ts-expect-error (not strict)
         jest.fn(() => ({
-          overrides: {
-            bar: 'x.x.x',
+          pnpm: {
+            overrides: {
+              bar: 'x.x.x',
+            },
           },
         }))
       );
 
       const versions = {
-        foo: 'x.x.x',
+        foobar: 'y.y.y',
+        foo: {
+          bar: 'z.z.z',
+        },
       };
       await pnpmProxy.addPackageResolutions(versions);
 
       expect(writePackageSpy).toHaveBeenCalledWith({
-        overrides: {
-          ...versions,
-          bar: 'x.x.x',
+        pnpm: {
+          overrides: {
+            bar: 'x.x.x',
+            foobar: 'y.y.y',
+            'foo>bar': 'z.z.z',
+          },
         },
       });
     });
