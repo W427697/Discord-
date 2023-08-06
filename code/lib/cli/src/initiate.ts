@@ -46,9 +46,6 @@ import versions from './versions';
 
 const logger = console;
 
-const SHOULD_RUN_DEV_AFTER_INIT =
-  process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true';
-
 const installStorybook = async <Project extends ProjectType>(
   projectType: Project,
   packageManager: JsPackageManager,
@@ -383,6 +380,11 @@ type InitiateResult = Promise<
 >;
 
 async function doInitiate(options: CommandOptions, pkg: PackageJson): InitiateResult {
+  const shouldRunDev =
+    process.env.CI !== 'true' &&
+    process.env.IN_STORYBOOK_SANDBOX !== 'true' &&
+    options.skipInstall !== true;
+
   let { packageManager: pkgMgr } = options;
   if (options.useNpm) {
     useNpmWarning();
@@ -503,7 +505,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): InitiateRe
   );
 
   return {
-    shouldRunDev: SHOULD_RUN_DEV_AFTER_INIT,
+    shouldRunDev,
     projectType,
     packageManager,
     storybookCommand,
