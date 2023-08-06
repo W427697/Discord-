@@ -5,6 +5,7 @@ import { promisify } from 'util';
 import dirSize from 'fast-folder-size';
 import type { Task } from '../task';
 import { now, saveBench } from '../bench/utils';
+import { isPnpmTemplate } from '../../code/lib/cli/src/sandbox-templates';
 
 const logger = console;
 
@@ -25,7 +26,7 @@ export const sandbox: Task = {
     return pathExists(sandboxDir);
   },
   async run(details, options) {
-    if (options.link && details.template.name.includes('pnpm')) {
+    if (options.link && isPnpmTemplate(details.template.name)) {
       logger.log(
         `The ${options.template} is a pnpm template, therefore the sandbox for that template cannot be linked. Enabling --no-link mode..`
       );

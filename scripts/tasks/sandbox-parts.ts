@@ -37,6 +37,7 @@ import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manag
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
+import { isPnpmTemplate } from '../../code/lib/cli/src/sandbox-templates';
 
 const logger = console;
 
@@ -65,7 +66,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
 
     // If the template is pnpm-based, we need to add the `packageManager` entry to the package.json
     // because otherwise the pnpm CLI rejects its usage, since it finds yarn configured higher up the tree.
-    if (template.name.includes('pnpm')) {
+    if (isPnpmTemplate(template.name)) {
       const packageJsonPath = join(sandboxDir, 'package.json');
       const packageJson = await readJson(packageJsonPath);
       logger.info('📝 Adding packageManager entry to package.json');
@@ -87,9 +88,8 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
   const cwd = sandboxDir;
 
   const packageManager = await JsPackageManagerFactory.getPackageManager(undefined, cwd);
-  const isPnpmTemplate = template.name.includes('pnpm');
 
-  if (!isPnpmTemplate) {
+  if (!isPnpmTemplate(template.name)) {
     await installYarn2({ cwd, dryRun, debug, packageManager });
   }
 

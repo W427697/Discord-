@@ -3,6 +3,7 @@ import { join } from 'path';
 import { REPROS_DIRECTORY } from '../utils/constants';
 
 import type { Task } from '../task';
+import { isPnpmTemplate } from '../../code/lib/cli/src/sandbox-templates';
 
 const logger = console;
 
@@ -19,7 +20,7 @@ export const generate: Task = {
       throw new Error('Cannot link an in development template');
     }
 
-    if (template.name.includes('pnpm')) {
+    if (isPnpmTemplate(template.name)) {
       throw new Error('Cannot link a pnpm template');
     }
 

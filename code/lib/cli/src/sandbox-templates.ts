@@ -726,3 +726,6 @@ export const daily: TemplateKey[] = [
 ];
 
 export const templatesByCadence = { normal, merged, daily };
+
+export const isPnpmTemplate = (templateKey: Template['name'] | TemplateKey) =>
+  templateKey.includes('pnpm');

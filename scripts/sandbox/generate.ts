@@ -13,7 +13,10 @@ import { execaCommand } from '../utils/exec';
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
 import type { TemplateKey } from '../../code/lib/cli/src/sandbox-templates';
-import { allTemplates as sandboxTemplates } from '../../code/lib/cli/src/sandbox-templates';
+import {
+  isPnpmTemplate,
+  allTemplates as sandboxTemplates,
+} from '../../code/lib/cli/src/sandbox-templates';
 
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
@@ -43,7 +46,7 @@ const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
 };
 
 const withLocalRegistry = async (
-  { dir, dirName }: { dir: string; dirName: string },
+  { dir, dirName }: { dir: string; dirName: TemplateKey },
   action: () => Promise<void>
 ) => {
   execSync(`npm config set registry ${LOCAL_REGISTRY_URL} --location project`, { cwd: dir });
@@ -51,7 +54,7 @@ const withLocalRegistry = async (
   execSync(`npm config set prefer-offline true --location project`, { cwd: dir });
 
   try {
-    if (dirName.includes('pnpm')) {
+    if (isPnpmTemplate(dirName)) {
       execSync(`pnpm config set prefer-frozen-lockfile false --location project`, { cwd: dir });
     }
   } catch (e) {
