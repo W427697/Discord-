@@ -389,7 +389,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): InitiateRe
 
     pkgMgr = 'npm';
   }
-  const packageManager = await JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 

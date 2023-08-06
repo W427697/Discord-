@@ -20,13 +20,13 @@ describe('JsPackageManagerFactory', () => {
 
   describe('getPackageManager', () => {
     describe('return an NPM proxy', () => {
-      it('when `force` option is `npm`', async () => {
-        await expect(
-          JsPackageManagerFactory.getPackageManager({ force: 'npm' })
-        ).resolves.toBeInstanceOf(NPMProxy);
+      it('when `force` option is `npm`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'npm' })).toBeInstanceOf(
+          NPMProxy
+        );
       });
 
-      it('when all package managers are ok, but only a `package-lock.json` file', async () => {
+      it('when all package managers are ok, but only a `package-lock.json` file', () => {
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
           if (command === 'yarn') {
@@ -58,18 +58,18 @@ describe('JsPackageManagerFactory', () => {
         // There is only a package-lock.json
         findUpSyncMock.mockImplementation(() => '/Users/johndoe/Documents/package-lock.json');
 
-        await expect(JsPackageManagerFactory.getPackageManager()).resolves.toBeInstanceOf(NPMProxy);
+        expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(NPMProxy);
       });
     });
 
     describe('return a PNPM proxy', () => {
-      it('when `force` option is `pnpm`', async () => {
-        await expect(
-          JsPackageManagerFactory.getPackageManager({ force: 'pnpm' })
-        ).resolves.toBeInstanceOf(PNPMProxy);
+      it('when `force` option is `pnpm`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'pnpm' })).toBeInstanceOf(
+          PNPMProxy
+        );
       });
 
-      it('when all package managers are ok, but only a `pnpm-lock.yaml` file', async () => {
+      it('when all package managers are ok, but only a `pnpm-lock.yaml` file', () => {
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
           if (command === 'yarn') {
@@ -101,12 +101,10 @@ describe('JsPackageManagerFactory', () => {
         // There is only a pnpm-lock.yaml
         findUpSyncMock.mockImplementation(() => '/Users/johndoe/Documents/pnpm-lock.yaml');
 
-        await expect(JsPackageManagerFactory.getPackageManager()).resolves.toBeInstanceOf(
-          PNPMProxy
-        );
+        expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(PNPMProxy);
       });
 
-      it('when a pnpm-lock.yaml file is closer than a yarn.lock', async () => {
+      it('when a pnpm-lock.yaml file is closer than a yarn.lock', () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
         findUpSyncMock.mockImplementation(jest.requireActual('find-up').sync);
 
@@ -138,17 +136,15 @@ describe('JsPackageManagerFactory', () => {
           };
         });
         const fixture = path.join(__dirname, 'fixtures', 'pnpm-workspace', 'package');
-        await expect(
-          JsPackageManagerFactory.getPackageManager({}, fixture)
-        ).resolves.toBeInstanceOf(PNPMProxy);
+        expect(JsPackageManagerFactory.getPackageManager({}, fixture)).toBeInstanceOf(PNPMProxy);
       });
     });
 
     describe('return a Yarn 1 proxy', () => {
-      it('when `force` option is `yarn1`', async () => {
-        await expect(
-          JsPackageManagerFactory.getPackageManager({ force: 'yarn1' })
-        ).resolves.toBeInstanceOf(Yarn1Proxy);
+      it('when `force` option is `yarn1`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'yarn1' })).toBeInstanceOf(
+          Yarn1Proxy
+        );
       });
 
       it('when Yarn command is ok, Yarn version is <2, NPM is ko, PNPM is ko', () => {
@@ -184,7 +180,7 @@ describe('JsPackageManagerFactory', () => {
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn1Proxy);
       });
 
-      it('when Yarn command is ok, Yarn version is <2, NPM and PNPM are ok, there is a `yarn.lock` file', async () => {
+      it('when Yarn command is ok, Yarn version is <2, NPM and PNPM are ok, there is a `yarn.lock` file', () => {
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
           if (command === 'yarn') {
@@ -216,12 +212,10 @@ describe('JsPackageManagerFactory', () => {
         // There is a yarn.lock
         findUpSyncMock.mockImplementation(() => '/Users/johndoe/Documents/yarn.lock');
 
-        await expect(JsPackageManagerFactory.getPackageManager()).resolves.toBeInstanceOf(
-          Yarn1Proxy
-        );
+        expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn1Proxy);
       });
 
-      it('when multiple lockfiles are in a project, prefers yarn', async () => {
+      it('when multiple lockfiles are in a project, prefers yarn', () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
         findUpSyncMock.mockImplementation(jest.requireActual('find-up').sync);
 
@@ -253,17 +247,15 @@ describe('JsPackageManagerFactory', () => {
           };
         });
         const fixture = path.join(__dirname, 'fixtures', 'multiple-lockfiles');
-        await expect(
-          JsPackageManagerFactory.getPackageManager({}, fixture)
-        ).resolves.toBeInstanceOf(Yarn1Proxy);
+        expect(JsPackageManagerFactory.getPackageManager({}, fixture)).toBeInstanceOf(Yarn1Proxy);
       });
     });
 
     describe('return a Yarn 2 proxy', () => {
-      it('when `force` option is `yarn2`', async () => {
-        await expect(
-          JsPackageManagerFactory.getPackageManager({ force: 'yarn2' })
-        ).resolves.toBeInstanceOf(Yarn2Proxy);
+      it('when `force` option is `yarn2`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'yarn2' })).toBeInstanceOf(
+          Yarn2Proxy
+        );
       });
 
       it('when Yarn command is ok, Yarn version is >=2, NPM is ko, PNPM is ko', () => {
@@ -296,7 +288,7 @@ describe('JsPackageManagerFactory', () => {
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn2Proxy);
       });
 
-      it('when Yarn command is ok, Yarn version is >=2, NPM and PNPM are ok, there is a `yarn.lock` file', async () => {
+      it('when Yarn command is ok, Yarn version is >=2, NPM and PNPM are ok, there is a `yarn.lock` file', () => {
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
           if (command === 'yarn') {
@@ -328,15 +320,13 @@ describe('JsPackageManagerFactory', () => {
         // There is a yarn.lock
         findUpSyncMock.mockImplementation(() => '/Users/johndoe/Documents/yarn.lock');
 
-        await expect(JsPackageManagerFactory.getPackageManager()).resolves.toBeInstanceOf(
-          Yarn2Proxy
-        );
+        expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn2Proxy);
       });
     });
 
-    it('throws an error if Yarn, NPM, and PNPM are not found', async () => {
+    it('throws an error if Yarn, NPM, and PNPM are not found', () => {
       spawnSyncMock.mockReturnValue({ status: 1 });
-      await expect(() => JsPackageManagerFactory.getPackageManager()).rejects.toThrow();
+      expect(() => JsPackageManagerFactory.getPackageManager()).toThrow();
     });
   });
 });

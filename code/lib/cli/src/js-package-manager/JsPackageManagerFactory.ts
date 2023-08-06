@@ -15,10 +15,10 @@ export const PNPM_LOCKFILE = 'pnpm-lock.yaml';
 export const YARN_LOCKFILE = 'yarn.lock';
 
 export class JsPackageManagerFactory {
-  public static async getPackageManager(
+  public static getPackageManager(
     { force }: { force?: PackageManagerName } = {},
     cwd?: string
-  ): Promise<JsPackageManager> {
+  ): JsPackageManager {
     if (force === 'npm') {
       return new NPMProxy({ cwd });
     }
