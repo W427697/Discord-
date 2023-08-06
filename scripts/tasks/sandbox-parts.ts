@@ -14,6 +14,7 @@ import {
 import { join, resolve, sep } from 'path';
 
 import slash from 'slash';
+import { configurePnpmForVerdaccio } from '../utils/pnpm';
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import {
@@ -61,6 +62,16 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
       throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
     await copy(srcDir, sandboxDir);
+
+    // If the template is pnpm-based, we need to add the `packageManager` entry to the package.json
+    // because otherwise the pnpm CLI rejects its usage, since it finds yarn configured higher up the tree.
+    if (template.name.includes('pnpm')) {
+      const packageJsonPath = join(sandboxDir, 'package.json');
+      const packageJson = await readJson(packageJsonPath);
+      logger.info('📝 Adding packageManager entry to package.json');
+      packageJson.packageManager = 'pnpm@8.6.11';
+      await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+    }
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
@@ -72,9 +83,15 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
+export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
-  await installYarn2({ cwd, dryRun, debug });
+
+  const packageManager = await JsPackageManagerFactory.getPackageManager(undefined, cwd);
+  const isPnpmTemplate = template.name.includes('pnpm');
+
+  if (!isPnpmTemplate) {
+    await installYarn2({ cwd, dryRun, debug, packageManager });
+  }
 
   if (link) {
     await executeCLIStep(steps.link, {
@@ -84,16 +101,21 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
       dryRun,
       debug,
     });
-    await addWorkaroundResolutions({ cwd, dryRun, debug });
+    await addWorkaroundResolutions({ cwd, dryRun, debug, packageManager });
   } else {
     // We need to add package resolutions to ensure that we only ever install the latest version
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
     // the top. In theory this could mask issues where different versions cause problems.
-    await addPackageResolutions({ cwd, dryRun, debug });
-    await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
+    await addPackageResolutions({ cwd, dryRun, debug, packageManager });
+
+    if (isPnpmTemplate) {
+      await configurePnpmForVerdaccio({ cwd, dryRun, debug });
+    } else {
+      await configureYarn2ForVerdaccio({ cwd, dryRun, debug, packageManager });
+    }
 
     await exec(
-      'yarn install',
+      isPnpmTemplate ? 'pnpm install' : 'yarn install',
       { cwd },
       {
         debug,
@@ -107,7 +129,7 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
 
 export const init: Task['run'] = async (
   { sandboxDir, template },
-  { dryRun, debug, addon: addons, skipTemplateStories }
+  { dryRun, debug, addon: addons, skipTemplateStories, link }
 ) => {
   const cwd = sandboxDir;
 
@@ -127,11 +149,11 @@ export const init: Task['run'] = async (
 
   logger.info(`🔢 Adding package scripts:`);
 
-  const nodeOptions = [
-    ...(process.env.NODE_OPTIONS || '').split(' '),
-    '--preserve-symlinks',
-    '--preserve-symlinks-main',
-  ].filter(Boolean);
+  const nodeOptions = [...(process.env.NODE_OPTIONS || '').split(' ')].filter(Boolean);
+
+  if (link) {
+    nodeOptions.push('--preserve-symlinks', '--preserve-symlinks-main');
+  }
 
   const pnp = await pathExists(join(cwd, '.pnp.cjs')).catch(() => {});
   if (pnp && !nodeOptions.find((s) => s.includes('--require'))) {

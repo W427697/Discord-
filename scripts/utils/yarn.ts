@@ -5,30 +5,29 @@ import { exec } from './exec';
 // TODO -- should we generate this file a second time outside of CLI?
 import storybookVersions from '../../code/lib/cli/src/versions';
 import touch from './touch';
+import type { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
 
 export type YarnOptions = {
   cwd: string;
   dryRun: boolean;
   debug: boolean;
+  packageManager: JsPackageManager;
 };
 
 const logger = console;
 
-export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
+export const addPackageResolutions = async ({ dryRun, packageManager }: YarnOptions) => {
   logger.info(`🔢 Adding package resolutions:`);
   if (dryRun) return;
 
-  const packageJsonPath = path.join(cwd, 'package.json');
-  const packageJson = await readJSON(packageJsonPath);
-  packageJson.resolutions = {
+  await packageManager.addPackageResolutions({
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
     // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
     playwright: '1.36.0',
     'playwright-core': '1.36.0',
     '@playwright/test': '1.36.0',
-  };
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  });
 };
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
@@ -59,17 +58,13 @@ export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   );
 };
 
-export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => {
+export const addWorkaroundResolutions = async ({ dryRun, packageManager }: YarnOptions) => {
   logger.info(`🔢 Adding resolutions for workarounds`);
   if (dryRun) return;
 
-  const packageJsonPath = path.join(cwd, 'package.json');
-  const packageJson = await readJSON(packageJsonPath);
-  packageJson.resolutions = {
-    ...packageJson.resolutions,
-    '@vitejs/plugin-react': '^4.0.0', // due to conflicting version in @storybook/vite-react
-  };
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  packageManager.addPackageResolutions({
+    '@vitejs/plugin-react': '^4.0.0',
+  });
 };
 
 export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOptions) => {

@@ -10,9 +10,9 @@ import type { JsPackageManager, PackageManagerName } from './JsPackageManager';
 import { Yarn2Proxy } from './Yarn2Proxy';
 import { Yarn1Proxy } from './Yarn1Proxy';
 
-const NPM_LOCKFILE = 'package-lock.json';
-const PNPM_LOCKFILE = 'pnpm-lock.yaml';
-const YARN_LOCKFILE = 'yarn.lock';
+export const NPM_LOCKFILE = 'package-lock.json';
+export const PNPM_LOCKFILE = 'pnpm-lock.yaml';
+export const YARN_LOCKFILE = 'yarn.lock';
 
 export class JsPackageManagerFactory {
   public static async getPackageManager(
@@ -37,6 +37,7 @@ export class JsPackageManagerFactory {
     const closestLockfilePath = findUpSync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
       cwd,
     });
+
     const closestLockfile = closestLockfilePath && path.basename(closestLockfilePath);
 
     const hasNPMCommand = hasNPM(cwd);

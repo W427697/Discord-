@@ -4,9 +4,10 @@ import { execSync } from 'child_process';
 import { type Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
-import { copy, emptyDir, ensureDir, move, remove, writeFile } from 'fs-extra';
+import { copy, emptyDir, ensureDir, move, readFile, remove, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
+import findUp from 'find-up';
 import { execaCommand } from '../utils/exec';
 
 import type { OptionValues } from '../utils/options';
@@ -24,8 +25,14 @@ import {
   SCRIPT_TIMEOUT,
   REPROS_DIRECTORY,
   LOCAL_REGISTRY_URL,
+  DEFAULT_REGISTRY_URL,
 } from '../utils/constants';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
+import {
+  JsPackageManagerFactory,
+  NPM_LOCKFILE,
+  PNPM_LOCKFILE,
+  YARN_LOCKFILE,
+} from '../../code/lib/cli/src/js-package-manager';
 
 const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
@@ -147,7 +154,13 @@ const runGenerators = async (
   localRegistry = true,
   debug = false
 ) => {
-  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
+  if (generators.length > 1) {
+    console.log(
+      `🤹‍♂️ Generating sandboxes with a concurrency of ${
+        generators.length > maxConcurrentTasks ? maxConcurrentTasks : generators.length
+      }`
+    );
+  }
   process.env.CI = 'true';
 
   const limit = pLimit(maxConcurrentTasks);
@@ -217,13 +230,28 @@ const runGenerators = async (
 
         await addDocumentation(afterDir, { name, dirName });
 
-        // Remove node_modules to save space and avoid GH actions failing
+        // Remove installation artifacts to save space and avoid GH actions failing
         // They're not uploaded to the git sandboxes repo anyway
         if (process.env.CLEANUP_SANDBOX_NODE_MODULES) {
           console.log(`🗑️ Removing installation artifacts`);
           await remove(join(afterDir, 'node_modules'));
           await remove(join(afterDir, '.yarn', 'cache'));
           await remove(join(afterDir, '.yarn', 'unplugged'));
+        }
+
+        await remove(join(afterDir, '.npmrc'));
+
+        // All dependency references in the lock file use the verdaccio registry. We need to replace them
+        // with the default registry, otherwise users will get errors when trying to install
+        if (localRegistry) {
+          const lockFilePath = findUp.sync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
+            cwd: afterDir,
+          });
+
+          console.log(`🔀 Replacing local registry references with default registry`);
+          const lockFile = await readFile(lockFilePath, 'utf-8');
+          const newLockFile = lockFile.replaceAll(LOCAL_REGISTRY_URL, DEFAULT_REGISTRY_URL);
+          await writeFile(lockFilePath, newLockFile);
         }
 
         await remove(tempDir);

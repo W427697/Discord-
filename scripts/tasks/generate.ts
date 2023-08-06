@@ -14,9 +14,15 @@ export const generate: Task = {
     if (isReady) {
       return isReady;
     }
+
     if ('inDevelopment' in template && template.inDevelopment && link) {
       throw new Error('Cannot link an in development template');
     }
+
+    if (template.name.includes('pnpm')) {
+      throw new Error('Cannot link a pnpm template');
+    }
+
     return isReady;
   },
   async run(details, options) {

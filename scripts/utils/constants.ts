@@ -9,4 +9,5 @@ export const SANDBOX_DIRECTORY = join(__dirname, '..', '..', 'sandbox');
 export const JUNIT_DIRECTORY = join(__dirname, '..', '..', 'test-results');
 
 export const LOCAL_REGISTRY_URL = 'http://localhost:6001';
+export const DEFAULT_REGISTRY_URL = 'https://registry.npmjs.org';
 export const SCRIPT_TIMEOUT = 5 * 60 * 1000;
