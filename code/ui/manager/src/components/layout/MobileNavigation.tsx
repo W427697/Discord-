@@ -36,7 +36,7 @@ const StoryName = styled.div(({ theme }) => ({
 }));
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
-  const [isMenuOpen, setMenuOpen] = useState(true);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   return (
     <Container>
