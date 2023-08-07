@@ -65,15 +65,11 @@ export const Sizes: Story = {
       <Button size="small" icon={<Icon.FaceHappy />}>
         Small Button
       </Button>
-      <Button size="small" icon={<Icon.FaceHappy />} iconOnly>
-        Small Button
-      </Button>
+      <Button size="small" icon={<Icon.FaceHappy />} iconOnly />
       <Button size="medium" icon={<Icon.FaceHappy />}>
         Medium Button
       </Button>
-      <Button size="medium" icon={<Icon.FaceHappy />} iconOnly>
-        Medium Button
-      </Button>
+      <Button size="medium" icon={<Icon.FaceHappy />} iconOnly />
     </div>
   ),
 };
@@ -91,24 +87,12 @@ export const IconOnly: Story = {
   },
   render: () => (
     <>
-      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />}>
-        Primary
-      </Button>
-      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />}>
-        Secondary
-      </Button>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />}>
-        Tertiary
-      </Button>
-      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />}>
-        Primary
-      </Button>
-      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />}>
-        Secondary
-      </Button>
-      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />}>
-        Tertiary
-      </Button>
+      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />} />
+      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />} />
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} />
+      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />} />
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />} />
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} />
     </>
   ),
   decorators: [
@@ -119,24 +103,12 @@ export const IconOnly: Story = {
 export const IconOnlyActive: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />} active>
-        Primary
-      </Button>
-      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active>
-        Secondary
-      </Button>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active>
-        Tertiary
-      </Button>
-      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />} active>
-        Primary
-      </Button>
-      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active>
-        Secondary
-      </Button>
-      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active>
-        Tertiary
-      </Button>
+      <Button size="small" variant="primary" iconOnly icon={<Icon.FaceHappy />} active />
+      <Button size="small" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active />
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active />
+      <Button size="medium" variant="primary" iconOnly icon={<Icon.FaceHappy />} active />
+      <Button size="medium" variant="secondary" iconOnly icon={<Icon.FaceHappy />} active />
+      <Button size="medium" variant="tertiary" iconOnly icon={<Icon.FaceHappy />} active />
     </div>
   ),
 };
