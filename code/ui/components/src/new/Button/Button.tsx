@@ -14,19 +14,18 @@ interface CommonProps<T extends React.ElementType = React.ElementType> {
 }
 
 type ButtonIconOnlyProps = {
-  iconOnly: true;
   icon: ReactNode;
-  children?: never;
+  children?: string;
 };
 
 type ButtonWithTextProps = {
-  iconOnly?: false;
   icon?: ReactNode;
   children: string;
 };
 
-type ButtonProps<T extends React.ElementType = React.ElementType> = CommonProps<T> &
-  (ButtonIconOnlyProps | ButtonWithTextProps);
+type ButtonProps<T extends React.ElementType = React.ElementType> =
+  | ({ iconOnly: true } & CommonProps<T> & ButtonIconOnlyProps)
+  | ({ iconOnly?: false } & CommonProps<T> & ButtonWithTextProps);
 
 export const Button: {
   <E extends React.ElementType = 'button'>(
