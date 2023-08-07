@@ -3,19 +3,15 @@ import React, { Fragment } from 'react';
 import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
-import type { IsDesktopProps, IsMobileProps } from './_types';
 import * as S from './container';
 import { MobileNavigation } from './MobileNavigation';
+import { useLayout } from './_context';
 
 export interface LayoutProps {
-  isMobile: IsMobileProps;
-  isDesktop: IsDesktopProps;
   panelCount: number;
   pages: Addon_PageType[];
   options: State['layout'];
   viewMode: string;
-  width: number;
-  height: number;
   Sidebar: ComponentType<any>;
   Preview: ComponentType<any>;
   Panel: ComponentType<any>;
@@ -31,12 +27,10 @@ const Layout: FC<LayoutProps> = Object.assign(
     pages,
     options,
     viewMode = undefined,
-    width = 0,
-    height = 0,
     panelCount,
-    isDesktop,
-    isMobile,
   }) {
+    const { isMobile, isDesktop, width, height } = useLayout();
+
     return (
       <Fragment>
         {isDesktop && (
@@ -56,22 +50,25 @@ const Layout: FC<LayoutProps> = Object.assign(
         >
           {({ navProps, mainProps, panelProps, previewProps }) => (
             <Fragment>
-              <S.Sidebar {...navProps}>
-                <Sidebar />
-              </S.Sidebar>
+              {isDesktop && (
+                <S.Sidebar {...navProps}>
+                  <Sidebar />
+                </S.Sidebar>
+              )}
               <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen} isMobile={isMobile}>
                 <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
                   {isMobile && <MobileNavigation Sidebar={Sidebar} />}
                   <S.Preview {...previewProps} hidden={false}>
                     <Preview id="main" />
                   </S.Preview>
-                  <Route path="/story/" startsWith hideOnly>
-                    <S.Panel {...panelProps} hidden={false}>
-                      <Panel />
-                    </S.Panel>
-                  </Route>
+                  {isDesktop && (
+                    <Route path="/story/" startsWith hideOnly>
+                      <S.Panel {...panelProps} hidden={false}>
+                        <Panel />
+                      </S.Panel>
+                    </Route>
+                  )}
                 </Route>
-
                 {pages.map(({ id, render: Content }) => (
                   <Fragment key={id}>
                     <Content />

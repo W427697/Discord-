@@ -13,6 +13,7 @@ import Notifications from './containers/notifications';
 import { Layout } from './components/layout/Layout';
 import type { IsDesktopProps, IsMobileProps } from './components/layout/_types';
 import { BREAKPOINT } from './components/layout/_constants';
+import { LayoutProvider } from './components/layout/_context';
 
 const View = styled.div({
   position: 'fixed',
@@ -49,17 +50,15 @@ const App: React.FC<AppProps> = ({ viewMode, layout, panelCount, pages }) => {
       <Global styles={createGlobal} />
       <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
       {isReady && (
-        <Layout
-          {...props}
-          viewMode={viewMode}
-          options={layout}
-          width={width}
-          height={height}
-          panelCount={panelCount}
-          pages={pages}
-          isMobile={isMobile}
-          isDesktop={isDesktop}
-        />
+        <LayoutProvider isMobile={isMobile} isDesktop={isDesktop} width={width} height={height}>
+          <Layout
+            {...props}
+            viewMode={viewMode}
+            options={layout}
+            panelCount={panelCount}
+            pages={pages}
+          />
+        </LayoutProvider>
       )}
     </View>
   );

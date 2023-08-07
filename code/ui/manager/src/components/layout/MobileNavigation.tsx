@@ -50,10 +50,14 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
           iconOnly
           icon={<Icon.Menu />}
           onClick={() => setMenuOpen(!isMenuOpen)}
-        />
+        >
+          Menu
+        </Button>
         <StoryName>Story name</StoryName>
       </Left>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon.BottomBarToggle />} />
+      <Button size="small" variant="tertiary" iconOnly icon={<Icon.BottomBarToggle />}>
+        Addon
+      </Button>
     </Container>
   );
 };
