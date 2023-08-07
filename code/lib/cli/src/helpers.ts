@@ -304,6 +304,16 @@ export async function isNxProject() {
   return findUp.sync('nx.json');
 }
 
+/**
+ * Use this in switch statements in the default expression to assert that all enum values are handled.
+ * @example
+ * switch (foo: 'bar' | 'baz') {
+ *  case 'bar':
+ *   return 'bar';
+ * default:
+ *  // Typescript will error here because `baz` is not handled
+ *  return assertNever(foo);
+ */
 export function assertNever(x: never): never {
   throw new Error(`Unexpected object: ${x}`);
 }
