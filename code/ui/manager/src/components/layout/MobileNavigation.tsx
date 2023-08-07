@@ -2,7 +2,6 @@ import type { ComponentType, FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { Button, Icon } from '@storybook/components/experimental';
-import { AnimatePresence } from 'framer-motion';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { useLayout } from './_context';
 
@@ -41,9 +40,7 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
 
   return (
     <Container>
-      <AnimatePresence>
-        {isMobileMenuOpen && <MobileMenuDrawer Sidebar={Sidebar} />}
-      </AnimatePresence>
+      <MobileMenuDrawer Sidebar={Sidebar} />
       <Left>
         <Button
           size="small"

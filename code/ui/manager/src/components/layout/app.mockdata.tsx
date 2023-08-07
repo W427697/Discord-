@@ -166,10 +166,6 @@ export const mockProps: LayoutProps = {
   },
   viewMode: 'story',
   panelCount: 2,
-  width: 1112,
-  height: 834,
-  isDesktop: true,
-  isMobile: false,
 };
 
 export const realProps: LayoutProps = {
@@ -198,8 +194,4 @@ export const realProps: LayoutProps = {
   },
   viewMode: 'story',
   panelCount: 2,
-  width: 900,
-  height: 600,
-  isDesktop: true,
-  isMobile: false,
 };

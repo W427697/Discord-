@@ -50,7 +50,7 @@
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "dependencies": {
-    "framer-motion": "6.5.1"
+    "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
@@ -66,6 +66,7 @@
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
+    "@types/react-transition-group": "^4",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
     "downshift": "^6.0.15",

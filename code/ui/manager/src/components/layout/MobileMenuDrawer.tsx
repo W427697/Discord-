@@ -1,14 +1,31 @@
-import type { ComponentType, FC } from 'react';
-import React from 'react';
+import type { CSSProperties, ComponentType, FC } from 'react';
+import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
-import { motion } from 'framer-motion';
+import { Transition } from 'react-transition-group';
+import type { TransitionStatus } from 'react-transition-group/Transition';
 import { useLayout } from './_context';
 
 interface MobileMenuDrawerProps {
   Sidebar: ComponentType<any>;
 }
 
-const Container = styled(motion.div)(({ theme }) => ({
+const duration = 300;
+
+const transitionContainer: Partial<Record<TransitionStatus, CSSProperties>> = {
+  entering: { opacity: 1, transform: 'translateY(0)' },
+  entered: { opacity: 1, transform: 'translateY(0)' },
+  exiting: { opacity: 0, transform: 'translateY(40px)' },
+  exited: { opacity: 0, transform: 'translateY(40px)' },
+};
+
+const transitionOverlay: Partial<Record<TransitionStatus, CSSProperties>> = {
+  entering: { opacity: 1 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 },
+};
+
+const Container = styled.div(({ theme }) => ({
   position: 'fixed',
   boxSizing: 'border-box',
   width: '100%',
@@ -18,9 +35,12 @@ const Container = styled(motion.div)(({ theme }) => ({
   left: 0,
   zIndex: 11,
   borderRadius: '10px 10px 0 0',
+  transition: `all ${duration}ms ease-in-out`,
+  opacity: 0,
+  transform: 'translate(0px, 100px)',
 }));
 
-const Overlay = styled(motion.div)({
+const Overlay = styled.div({
   position: 'fixed',
   boxSizing: 'border-box',
   background: 'rgba(0, 0, 0, 0.5)',
@@ -29,27 +49,45 @@ const Overlay = styled(motion.div)({
   right: 0,
   left: 0,
   zIndex: 10,
+  transition: `all ${duration}ms ease-in-out`,
+  opacity: 0,
 });
 
 export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
-  const { setMobileMenuOpen } = useLayout();
+  const { isMobileMenuOpen, setMobileMenuOpen } = useLayout();
+  const containerRef = useRef(null);
+  const overlayRef = useRef(null);
 
   return (
     <>
-      <Container
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 100 }}
-        transition={{ duration: 0.2, ease: 'easeInOut' }}
+      <Transition
+        nodeRef={containerRef}
+        in={isMobileMenuOpen}
+        timeout={duration}
+        mountOnEnter
+        unmountOnExit
       >
-        <Sidebar />
-      </Container>
-      <Overlay
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={() => setMobileMenuOpen(false)}
-      />
+        {(state) => (
+          <Container ref={containerRef} style={transitionContainer[state]}>
+            <Sidebar />
+          </Container>
+        )}
+      </Transition>
+      <Transition
+        nodeRef={overlayRef}
+        in={isMobileMenuOpen}
+        timeout={duration}
+        mountOnEnter
+        unmountOnExit
+      >
+        {(state) => (
+          <Overlay
+            ref={overlayRef}
+            style={transitionOverlay[state]}
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
+      </Transition>
     </>
   );
 };
