@@ -121,10 +121,6 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
           borderRadius: 0,
         }
       : {
-          // borderTopLeftRadius:
-          //   theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
-          // borderBottomLeftRadius:
-          //   theme.appBorderRadius === 0 ? theme.appBorderRadius : theme.appBorderRadius + 1,
           overflow: 'hidden',
           boxShadow:
             theme.base === 'light'
