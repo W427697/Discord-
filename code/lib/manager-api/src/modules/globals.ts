@@ -32,7 +32,7 @@ export interface SubAPI {
   updateGlobals: (newGlobals: Globals) => void;
 }
 
-export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) => {
   const api: SubAPI = {
     getGlobals() {
       return store.getState().globals;
@@ -62,8 +62,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
     }
   };
 
-  const initModule = () => {
-    fullAPI.on(GLOBALS_UPDATED, function handleGlobalsUpdated({ globals }: { globals: Globals }) {
+  provider.channel.on(
+    GLOBALS_UPDATED,
+    function handleGlobalsUpdated({ globals }: { globals: Globals }) {
       const { ref } = getEventMetadata(this, fullAPI);
 
       if (!ref) {
@@ -73,10 +74,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
           'received a GLOBALS_UPDATED from a non-local ref. This is not currently supported.'
         );
       }
-    });
+    }
+  );
 
-    // Emitted by the preview on initialization
-    fullAPI.on(SET_GLOBALS, function handleSetStories({ globals, globalTypes }: SetGlobalsPayload) {
+  // Emitted by the preview on initialization
+  provider.channel.on(
+    SET_GLOBALS,
+    function handleSetStories({ globals, globalTypes }: SetGlobalsPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
       const currentGlobals = store.getState()?.globals;
 
@@ -93,12 +97,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
       ) {
         api.updateGlobals(currentGlobals);
       }
-    });
-  };
+    }
+  );
 
   return {
     api,
     state,
-    init: initModule,
   };
 };

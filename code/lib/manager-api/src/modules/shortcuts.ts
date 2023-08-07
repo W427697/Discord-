@@ -152,7 +152,7 @@ function focusInInput(event: KeyboardEvent) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-export const init: ModuleFn = ({ store, fullAPI }) => {
+export const init: ModuleFn = ({ store, fullAPI, provider }) => {
   const api: SubAPI = {
     // Getting and setting shortcuts
     getShortcutKeys(): API_Shortcuts {
@@ -402,7 +402,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
     });
 
     // Also listen to keydown events sent over the channel
-    fullAPI.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
+    provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
       fullAPI.handleKeydownEvent(data.event);
     });
   };

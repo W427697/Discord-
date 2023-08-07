@@ -4,7 +4,7 @@ import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
 import type { DocsOptions } from './core-common';
-import type { API_HashEntry, API_IndexHash } from './api-stories';
+import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
 import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
 import type { StoryIndex } from './indexer';
@@ -112,6 +112,7 @@ export type API_ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 
 export interface API_SidebarOptions {
   showRoots?: boolean;
+  filters?: Record<string, API_FilterFunction>;
   collapsedRoots?: string[];
   renderLabel?: (item: API_HashEntry) => any;
 }

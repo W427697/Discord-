@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
@@ -17,7 +17,7 @@ const Sidebar = React.memo(function Sideber() {
       storyId,
       refId,
       layout: { showToolbar, isFullscreen, showPanel, showNav },
-      index,
+      index: originalIndex,
       status,
       indexError,
       previewInitialized,
@@ -38,35 +38,37 @@ const Sidebar = React.memo(function Sideber() {
     const whatsNewNotificationsEnabled =
       state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
 
-    const filtered = new Set();
+    const index = useMemo(() => {
+      const filtered = new Set();
 
-    Object.values(index || {}).forEach((item) => {
-      if (item.type === 'story' || item.type === 'docs') {
-        let result = true;
+      Object.values(originalIndex || {}).forEach((item) => {
+        if (item.type === 'story' || item.type === 'docs') {
+          let result = true;
 
-        Object.values(filters).forEach((filter) => {
-          if (result === true) {
-            result = filter({ ...item, status: status[item.id] });
-          }
-        });
-
-        if (result) {
-          filtered.add(item.id);
-          getAncestorIds(index, item.id).forEach((id) => {
-            filtered.add(id);
+          Object.values(filters).forEach((filter) => {
+            if (result === true) {
+              result = filter({ ...item, status: status[item.id] });
+            }
           });
-        }
-      }
-    });
 
-    const newIndex = Object.fromEntries(
-      Object.entries(index || {}).filter(([key]) => filtered.has(key))
-    );
+          if (result) {
+            filtered.add(item.id);
+            getAncestorIds(originalIndex, item.id).forEach((id) => {
+              filtered.add(id);
+            });
+          }
+        }
+      });
+
+      return Object.fromEntries(
+        Object.entries(originalIndex || {}).filter(([key]) => filtered.has(key))
+      );
+    }, [originalIndex, filters, status]);
 
     return {
       title: name,
       url,
-      index: newIndex,
+      index,
       indexError,
       status,
       previewInitialized,
