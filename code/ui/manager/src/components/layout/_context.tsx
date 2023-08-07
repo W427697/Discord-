@@ -2,6 +2,14 @@ import type { ReactNode } from 'react';
 import React, { createContext, useContext, useState } from 'react';
 import type { IsDesktopProps, IsMobileProps } from './_types';
 
+interface LayoutProviderProps {
+  children: ReactNode;
+  isMobile: IsMobileProps;
+  isDesktop: IsDesktopProps;
+  width: number;
+  height: number;
+}
+
 interface LayoutType {
   isMobile: IsMobileProps;
   isDesktop: IsDesktopProps;
@@ -9,6 +17,9 @@ interface LayoutType {
   height: number;
   isMobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
+  isMobileAboutOpen: boolean;
+  setMobileAboutOpen: (open: boolean) => void;
+  closeMenu: () => void;
 }
 
 export const Layout = createContext<LayoutType>({
@@ -18,18 +29,28 @@ export const Layout = createContext<LayoutType>({
   height: 0,
   isMobileMenuOpen: false,
   setMobileMenuOpen: () => {},
+  isMobileAboutOpen: false,
+  setMobileAboutOpen: () => {},
+  closeMenu: () => {},
 });
 
-interface Props {
-  children: ReactNode;
-  isMobile: IsMobileProps;
-  isDesktop: IsDesktopProps;
-  width: number;
-  height: number;
-}
-
-export const LayoutProvider = ({ children, isMobile, isDesktop, width, height }: Props) => {
+export const LayoutProvider = ({
+  children,
+  isMobile,
+  isDesktop,
+  width,
+  height,
+}: LayoutProviderProps) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobileAboutOpen, setMobileAboutOpen] = useState(false);
+
+  const closeMenu = () => {
+    setMobileMenuOpen(false);
+
+    setTimeout(() => {
+      setMobileAboutOpen(false);
+    }, 300);
+  };
 
   return (
     <Layout.Provider
@@ -40,6 +61,9 @@ export const LayoutProvider = ({ children, isMobile, isDesktop, width, height }:
         height,
         isMobileMenuOpen,
         setMobileMenuOpen,
+        isMobileAboutOpen,
+        setMobileAboutOpen,
+        closeMenu,
       }}
     >
       {children}

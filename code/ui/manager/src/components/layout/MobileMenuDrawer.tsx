@@ -4,6 +4,7 @@ import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
 import { useLayout } from './_context';
+import { MobileAbout } from './MobileAbout';
 
 interface MobileMenuDrawerProps {
   Sidebar: ComponentType<any>;
@@ -52,10 +53,15 @@ const Overlay = styled.div({
   zIndex: 10,
   transition: `all ${duration}ms ease-in-out`,
   opacity: 0,
+  cursor: 'pointer',
+
+  '&:hover': {
+    background: 'rgba(0, 0, 0, 0.6)',
+  },
 });
 
 export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
-  const { isMobileMenuOpen, setMobileMenuOpen } = useLayout();
+  const { isMobileMenuOpen, closeMenu } = useLayout();
   const containerRef = useRef(null);
   const overlayRef = useRef(null);
 
@@ -71,6 +77,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
         {(state) => (
           <Container ref={containerRef} style={transitionContainer[state]}>
             <Sidebar />
+            <MobileAbout />
           </Container>
         )}
       </Transition>
@@ -82,11 +89,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
         unmountOnExit
       >
         {(state) => (
-          <Overlay
-            ref={overlayRef}
-            style={transitionOverlay[state]}
-            onClick={() => setMobileMenuOpen(false)}
-          />
+          <Overlay ref={overlayRef} style={transitionOverlay[state]} onClick={closeMenu} />
         )}
       </Transition>
     </>

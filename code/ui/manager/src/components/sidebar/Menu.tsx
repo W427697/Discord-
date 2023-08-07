@@ -6,6 +6,7 @@ import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, TooltipLinkList, IconButton, Icons } from '@storybook/components';
 import { Icon } from '@storybook/components/experimental';
+import { useLayout } from '../layout/_context';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -111,6 +112,21 @@ export const SidebarMenu: FC<{
   isHighlighted?: boolean;
 }> = ({ menu, isHighlighted }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const { isMobile, setMobileAboutOpen } = useLayout();
+
+  if (isMobile)
+    return (
+      <SidebarIconButton
+        title="Shortcuts"
+        aria-label="Shortcuts"
+        highlighted={isHighlighted}
+        active={isTooltipVisible}
+        onClick={() => setMobileAboutOpen(true)}
+      >
+        <Icon.Cog />
+      </SidebarIconButton>
+    );
+
   return (
     <WithTooltip
       placement="top"

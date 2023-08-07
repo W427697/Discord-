@@ -37,6 +37,7 @@ import {
   getLink,
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
+import { useLayout } from '../layout/_context';
 
 export const Action = styled.button(({ theme }) => ({
   display: 'inline-flex',
@@ -199,9 +200,9 @@ const Node = React.memo<NodeProps>(function Node({
   onSelectStoryId,
   api,
 }) {
-  if (!isDisplayed) {
-    return null;
-  }
+  const { closeMenu } = useLayout();
+
+  if (!isDisplayed) return null;
 
   const id = createId(item.id, refId);
   if (item.type === 'story' || item.type === 'docs') {
@@ -229,6 +230,9 @@ const Node = React.memo<NodeProps>(function Node({
           onClick={(event) => {
             event.preventDefault();
             onSelectStoryId(item.id);
+
+            // Close the mobile menu when a story is selected
+            closeMenu();
           }}
           {...(item.type === 'docs' && { docsMode })}
         >
