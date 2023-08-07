@@ -157,7 +157,7 @@ export const init: Task['run'] = async (
 
   const nodeOptions = [...(process.env.NODE_OPTIONS || '').split(' ')].filter(Boolean);
 
-  if (link) {
+  if (!isPnpmTemplate(template.name)) {
     nodeOptions.push('--preserve-symlinks', '--preserve-symlinks-main');
   }
 
