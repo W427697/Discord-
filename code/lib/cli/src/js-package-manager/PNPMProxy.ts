@@ -1,7 +1,13 @@
 import { pathExistsSync } from 'fs-extra';
+import dedent from 'ts-dedent';
+import { sync as findUpSync } from 'find-up';
+import path from 'path';
+import fs from 'fs';
+import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
+import { createLogStream } from '../utils';
 
 type PnpmDependency = {
   from: string;
@@ -22,6 +28,8 @@ type PnpmListItem = {
 
 export type PnpmListOutput = PnpmListItem[];
 
+const PNPM_ERROR_REGEX = /(ELIFECYCLE|ERR_PNPM_[A-Z_]+)\s+(.*)/i;
+
 export class PNPMProxy extends JsPackageManager {
   readonly type = 'pnpm';
 
@@ -37,7 +45,7 @@ export class PNPMProxy extends JsPackageManager {
   async initPackageJson() {
     await this.executeCommand({
       command: 'pnpm',
-      args: ['init', '-y'],
+      args: ['init'],
     });
   }
 
@@ -103,6 +111,58 @@ export class PNPMProxy extends JsPackageManager {
     }
   }
 
+  public async getPackageJSON(
+    packageName: string,
+    basePath = this.cwd
+  ): Promise<PackageJson | null> {
+    const pnpapiPath = findUpSync(['.pnp.js', '.pnp.cjs'], { cwd: basePath });
+
+    if (pnpapiPath) {
+      try {
+        // eslint-disable-next-line import/no-dynamic-require, global-require
+        const pnpApi = require(pnpapiPath);
+
+        const resolvedPath = await pnpApi.resolveToUnqualified(packageName, basePath, {
+          considerBuiltins: false,
+        });
+
+        const pkgLocator = pnpApi.findPackageLocator(resolvedPath);
+        const pkg = pnpApi.getPackageInformation(pkgLocator);
+
+        const packageJSON = JSON.parse(
+          fs.readFileSync(path.join(pkg.packageLocation, 'package.json'), 'utf-8')
+        );
+
+        return packageJSON;
+      } catch (error) {
+        if (error.code !== 'MODULE_NOT_FOUND') {
+          console.error('Error while fetching package version in PNPM PnP mode:', error);
+        }
+        return null;
+      }
+    }
+
+    const packageJsonPath = await findUpSync(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return fs.existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  }
+
+  async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJSON = await this.getPackageJSON(packageName, basePath);
+
+    return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
+  }
+
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
     return {
       overrides: {
@@ -126,12 +186,29 @@ export class PNPMProxy extends JsPackageManager {
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
 
-    await this.executeCommand({
-      command: 'pnpm',
-      args: ['add', ...args, ...this.getInstallArgs()],
-      stdio: 'inherit',
-    });
+    try {
+      await this.executeCommand({
+        command: 'pnpm',
+        args: ['add', ...args, ...this.getInstallArgs()],
+        stdio: ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
@@ -211,5 +288,18 @@ export class PNPMProxy extends JsPackageManager {
       duplicatedDependencies,
       infoCommand: 'pnpm list --depth=1',
     };
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'PNPM error';
+    const match = logs.match(PNPM_ERROR_REGEX);
+    if (match) {
+      const [errorCode] = match;
+      if (errorCode) {
+        finalMessage = `${finalMessage} ${errorCode}`;
+      }
+    }
+
+    return finalMessage.trim();
   }
 }

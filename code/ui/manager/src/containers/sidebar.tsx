@@ -17,25 +17,38 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       layout: { showToolbar, isFullscreen, showPanel, showNav },
       index,
+      status,
       indexError,
       previewInitialized,
       refs,
     } = state;
 
-    const menu = useMenu(api, showToolbar, isFullscreen, showPanel, showNav, enableShortcuts);
+    const menu = useMenu(
+      state,
+      api,
+      showToolbar,
+      isFullscreen,
+      showPanel,
+      showNav,
+      enableShortcuts
+    );
+
+    const whatsNewNotificationsEnabled =
+      state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
 
     return {
       title: name,
       url,
       index,
       indexError,
+      status,
       previewInitialized,
       refs,
       storyId,
       refId,
       viewMode,
       menu,
-      menuHighlighted: api.versionUpdateAvailable(),
+      menuHighlighted: whatsNewNotificationsEnabled && api.isWhatsNewUnread(),
       enableShortcuts,
     };
   };

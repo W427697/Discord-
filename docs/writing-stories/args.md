@@ -91,18 +91,24 @@ You can also define args at the component level; they will apply to all the comp
 
 ## Global args
 
-You can also define args at the global level; they will apply to every component's stories unless you overwrite them. To do so, export the `args` key in your `preview.js`:
+You can also define args at the global level; they will apply to every component's stories unless you overwrite them. To do so, define the `args` property in the default export of `preview.js`:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/button-story-project-args-theme.js.mdx',
-    'common/button-story-project-args-theme.ts.mdx',
+    'common/args-in-preview.js.mdx',
+    'common/args-in-preview.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+💡 For most uses of global args, [globals](../essentials/toolbars-and-globals.md) are a better tool for defining globally-applied settings, such as a theme. Using globals enables users to change the value with the toolbar menu.
+
+</div>
 
 ## Args composition
 
@@ -215,11 +221,11 @@ Complex values such as JSX elements cannot be serialized to the manager (e.g., t
 
 <CodeSnippets
   paths={[
-    'angular/my-component-argtypes-with-mapping.ts.mdx',
-    'web-components/my-component-argtypes-with-mapping.js.mdx',
-    'web-components/my-component-argtypes-with-mapping.ts.mdx',
-    'common/my-component-argtypes-with-mapping.js.mdx',
-    'common/my-component-argtypes-with-mapping.ts.mdx',
+    'angular/arg-types-mapping.ts.mdx',
+    'web-components/arg-types-mapping.js.mdx',
+    'web-components/arg-types-mapping.ts.mdx',
+    'common/arg-types-mapping.js.mdx',
+    'common/arg-types-mapping.ts.mdx',
   ]}
 />
 
