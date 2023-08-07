@@ -114,14 +114,14 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
     // the top. In theory this could mask issues where different versions cause problems.
     await addPackageResolutions({ cwd, dryRun, debug, packageManager });
 
-    if (isPnpmTemplate) {
+    if (isPnpmTemplate(template.name)) {
       await configurePnpmForVerdaccio({ cwd, dryRun, debug });
     } else {
       await configureYarn2ForVerdaccio({ cwd, dryRun, debug, packageManager });
     }
 
     await exec(
-      isPnpmTemplate ? 'pnpm install' : 'yarn install',
+      isPnpmTemplate(template.name) ? 'pnpm install' : 'yarn install',
       { cwd },
       {
         debug,
