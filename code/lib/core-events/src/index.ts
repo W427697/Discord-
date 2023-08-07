@@ -125,6 +125,7 @@ export const {
 } = events;
 
 // Used to break out of the current render without showing a redbox
+// eslint-disable-next-line local-rules/no-uncategorized-errors
 export const IGNORED_EXCEPTION = new Error('ignoredException');
 
 export interface WhatsNewCache {

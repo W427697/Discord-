@@ -7772,6 +7772,7 @@ __metadata:
     eslint: ^8.28.0
     eslint-import-resolver-typescript: ^3.5.2
     eslint-plugin-import: ^2.26.0
+    eslint-plugin-local-rules: "file:./eslint-plugin-local-rules"
     eslint-plugin-react: ^7.31.10
     eslint-plugin-storybook: ^0.6.6
     fs-extra: ^11.1.0
@@ -15749,6 +15750,13 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 41ad3d0c8036b36cd475685c1ad639157f403b16e8ac23c07f1dbe0226ccf8458f2805cbd5cc8e56856a5d8a356f3276e3139274d819476ccad80c41b9245502
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-local-rules@file:./eslint-plugin-local-rules::locator=%40storybook%2Froot%40workspace%3A.":
+  version: 1.0.0
+  resolution: "eslint-plugin-local-rules@file:./eslint-plugin-local-rules#./eslint-plugin-local-rules::hash=3b5296&locator=%40storybook%2Froot%40workspace%3A."
+  checksum: 00d35804b62a0bdb5e16e70018818322d9a3122104d510626a5652b8ed1244446ebd7ffaf13aefab8f2db38f775b9052969239ec9c5878a7b300377372a2d7de
   languageName: node
   linkType: hard
 

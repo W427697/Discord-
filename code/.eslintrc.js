@@ -9,6 +9,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  plugins: ['local-rules'],
   rules: {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
@@ -23,6 +24,18 @@ module.exports = {
     ],
   },
   overrides: [
+    {
+      files: ['**/core-events/src/**/*', '!**/*.test.*'],
+      rules: {
+        'local-rules/no-duplicated-error-codes': 'error',
+      },
+    },
+    {
+      files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      rules: {
+        'local-rules/no-uncategorized-errors': 'warn',
+      },
+    },
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/frameworks/angular/template/**/*'],
