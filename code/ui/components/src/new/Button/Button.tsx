@@ -4,17 +4,29 @@ import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import type { PropsOf } from '../utils/types';
 
-export interface ButtonProps<T extends React.ElementType = React.ElementType> {
+interface CommonProps<T extends React.ElementType = React.ElementType> {
   as?: T;
-  children: string;
   size?: 'small' | 'medium';
   variant?: 'primary' | 'secondary' | 'tertiary';
-  icon?: ReactNode;
-  iconOnly?: boolean;
   onClick?: () => void;
   disabled?: boolean;
   active?: boolean;
 }
+
+type ButtonIconOnlyProps = {
+  iconOnly: true;
+  icon: ReactNode;
+  children?: never;
+};
+
+type ButtonWithTextProps = {
+  iconOnly?: false;
+  icon?: ReactNode;
+  children: string;
+};
+
+type ButtonProps<T extends React.ElementType = React.ElementType> = CommonProps<T> &
+  (ButtonIconOnlyProps | ButtonWithTextProps);
 
 export const Button: {
   <E extends React.ElementType = 'button'>(
