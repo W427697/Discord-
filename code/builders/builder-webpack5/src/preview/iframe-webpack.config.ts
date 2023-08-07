@@ -27,9 +27,14 @@ import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader, createSWCLoader } from './loaders';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
 
 const storybookPaths: Record<string, string> = {
+  // this is a temporary hack to get webpack to alias this correctly
+  [`@storybook/components/experimental`]: `${getAbsolutePath(
+    `@storybook/components`
+  )}/dist/experimental`,
   ...[
     // these packages are not pre-bundled because of react dependencies.
     // these are not dependencies of the builder anymore, thus resolving them can fail.
@@ -42,20 +47,20 @@ const storybookPaths: Record<string, string> = {
   ].reduce((acc, sbPackage) => {
     let packagePath;
     try {
-      packagePath = wrapForPnP(`@storybook/${sbPackage}`);
+      packagePath = getAbsolutePath(`@storybook/${sbPackage}`);
     } catch (e) {
       // ignore
     }
     if (packagePath) {
       return {
         ...acc,
-        [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
+        [`@storybook/${sbPackage}`]: getAbsolutePath(`@storybook/${sbPackage}`),
       };
     }
     return acc;
   }, {}),
   // deprecated, remove in 8.0
-  [`@storybook/api`]: wrapForPnP(`@storybook/manager-api`),
+  [`@storybook/api`]: getAbsolutePath(`@storybook/manager-api`),
 };
 
 export default async (

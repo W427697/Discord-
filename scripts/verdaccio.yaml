@@ -31,6 +31,10 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/icons':
+    access: $all
+    publish: $all
+    proxy: npmjs
   '@storybook/global':
     access: $all
     publish: $all
@@ -52,6 +56,10 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/addon-bench':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-styling':
     access: $all
     publish: $all
     proxy: npmjs

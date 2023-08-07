@@ -1,7 +1,8 @@
 /// <reference types="@types/jest" />;
 
 import { dedent } from 'ts-dedent';
-import { formatConfig, loadConfig } from './ConfigFile';
+import { loadConfig, printConfig } from './ConfigFile';
+import { babelPrint } from './babelParse';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -16,19 +17,19 @@ const getField = (path: string[], source: string) => {
 const setField = (path: string[], value: any, source: string) => {
   const config = loadConfig(source).parse();
   config.setFieldValue(path, value);
-  return formatConfig(config);
+  return printConfig(config).code;
 };
 
 const appendToArray = (path: string[], value: any, source: string) => {
   const config = loadConfig(source).parse();
   config.appendValueToArray(path, value);
-  return formatConfig(config);
+  return printConfig(config).code;
 };
 
 const removeField = (path: string[], source: string) => {
   const config = loadConfig(source).parse();
   config.removeField(path);
-  return formatConfig(config);
+  return printConfig(config).code;
 };
 
 describe('ConfigFile', () => {
@@ -232,9 +233,11 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           export const addons = [];
+
           export const core = {
-            builder: "webpack5"
+            builder: 'webpack5',
           };
+
         `);
       });
       it('missing field', () => {
@@ -249,8 +252,9 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           export const core = {
             foo: 'bar',
-            builder: 'webpack5'
+            builder: 'webpack5',
           };
+
         `);
       });
       it('found scalar', () => {
@@ -263,9 +267,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export const core = {
-            builder: 'webpack5'
-          };
+          export const core = { builder: 'webpack5' };
+
         `);
       });
       it('found top-level scalar', () => {
@@ -277,7 +280,10 @@ describe('ConfigFile', () => {
               export const foo = 'bar';
             `
           )
-        ).toMatchInlineSnapshot(`export const foo = 'baz';`);
+        ).toMatchInlineSnapshot(`
+          export const foo = 'baz';
+
+        `);
       });
       it('found object', () => {
         expect(
@@ -291,9 +297,10 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           export const core = {
             builder: {
-              name: 'webpack5'
-            }
+              name: 'webpack5',
+            },
           };
+
         `);
       });
       it('variable export', () => {
@@ -307,10 +314,9 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          const coreVar = {
-            builder: 'webpack5'
-          };
+          const coreVar = { builder: 'webpack5' };
           export const core = coreVar;
+
         `);
       });
     });
@@ -328,10 +334,12 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           module.exports = {
             addons: [],
+
             core: {
-              builder: "webpack5"
-            }
+              builder: 'webpack5',
+            },
           };
+
         `);
       });
       it('missing field', () => {
@@ -347,9 +355,10 @@ describe('ConfigFile', () => {
           module.exports = {
             core: {
               foo: 'bar',
-              builder: 'webpack5'
-            }
+              builder: 'webpack5',
+            },
           };
+
         `);
       });
       it('found scalar', () => {
@@ -362,11 +371,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              builder: 'webpack5'
-            }
-          };
+          module.exports = { core: { builder: 'webpack5' } };
+
         `);
       });
     });
@@ -384,10 +390,12 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           export default {
             addons: [],
+
             core: {
-              builder: "webpack5"
-            }
+              builder: 'webpack5',
+            },
           };
+
         `);
       });
       it('missing field', () => {
@@ -403,9 +411,10 @@ describe('ConfigFile', () => {
           export default {
             core: {
               foo: 'bar',
-              builder: 'webpack5'
-            }
+              builder: 'webpack5',
+            },
           };
+
         `);
       });
       it('found scalar', () => {
@@ -418,11 +427,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              builder: 'webpack5'
-            }
-          };
+          export default { core: { builder: 'webpack5' } };
+
         `);
       });
     });
@@ -431,26 +437,31 @@ describe('ConfigFile', () => {
       it('no quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', '')).toMatchInlineSnapshot(`
           export const foo = {
-            bar: "baz"
+            bar: 'baz',
           };
+
         `);
       });
       it('more single quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', "c"];
+          export const stories = ['a', 'b', 'c'];
+
           export const foo = {
-            bar: 'baz'
+            bar: 'baz',
           };
+
         `);
       });
       it('more double quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', "b", "c"];
+          export const stories = ['a', 'b', 'c'];
+
           export const foo = {
-            bar: "baz"
+            bar: 'baz',
           };
+
         `);
       });
     });
@@ -468,11 +479,10 @@ describe('ConfigFile', () => {
         )
       ).toMatchInlineSnapshot(`
         export default {
-          core: {
-            builder: 'webpack5'
-          },
-          addons: ['docs']
+          core: { builder: 'webpack5' },
+          addons: ['docs'],
         };
+
       `);
     });
     it('found scalar', () => {
@@ -496,9 +506,8 @@ describe('ConfigFile', () => {
             `
         )
       ).toMatchInlineSnapshot(`
-        export default {
-          addons: ['a11y', 'viewport', 'docs']
-        };
+        export default { addons: ['a11y', 'viewport', 'docs'] };
+
       `);
     });
 
@@ -512,9 +521,8 @@ describe('ConfigFile', () => {
             `
         )
       ).toMatchInlineSnapshot(`
-        export default {
-          addons: [require.resolve('a11y'), someVariable, 'docs']
-        };
+        export default { addons: [require.resolve('a11y'), someVariable, 'docs'] };
+
       `);
     });
   });
@@ -529,7 +537,10 @@ describe('ConfigFile', () => {
               export const addons = [];
             `
           )
-        ).toMatchInlineSnapshot(`export const addons = [];`);
+        ).toMatchInlineSnapshot(`
+          export const addons = [];
+
+        `);
       });
       it('missing field', () => {
         expect(
@@ -540,9 +551,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export const core = {
-            foo: 'bar'
-          };
+          export const core = { foo: 'bar' };
+
         `);
       });
       it('found scalar', () => {
@@ -553,7 +563,10 @@ describe('ConfigFile', () => {
               export const core = { builder: 'webpack4' };
             `
           )
-        ).toMatchInlineSnapshot(`export const core = {};`);
+        ).toMatchInlineSnapshot(`
+          export const core = {};
+
+        `);
       });
       it('found object', () => {
         expect(
@@ -563,7 +576,10 @@ describe('ConfigFile', () => {
               export const core = { builder: { name: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`export const core = {};`);
+        ).toMatchInlineSnapshot(`
+          export const core = {};
+
+        `);
       });
       it('nested object', () => {
         expect(
@@ -574,9 +590,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export const core = {
-            builder: {}
-          };
+          export const core = { builder: {} };
+
         `);
       });
       it('string literal key', () => {
@@ -587,7 +602,10 @@ describe('ConfigFile', () => {
               export const core = { 'builder': 'webpack4' };
             `
           )
-        ).toMatchInlineSnapshot(`export const core = {};`);
+        ).toMatchInlineSnapshot(`
+          export const core = {};
+
+        `);
       });
       it('variable export', () => {
         expect(
@@ -601,6 +619,7 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           const coreVar = {};
           export const core = coreVar;
+
         `);
       });
       it('root export variable', () => {
@@ -613,7 +632,10 @@ describe('ConfigFile', () => {
               export const addons = [];
             `
           )
-        ).toMatchInlineSnapshot(`export const addons = [];`);
+        ).toMatchInlineSnapshot(`
+          export const addons = [];
+
+        `);
       });
     });
 
@@ -627,9 +649,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            addons: []
-          };
+          module.exports = { addons: [] };
+
         `);
       });
       it('missing field', () => {
@@ -641,11 +662,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              foo: 'bar'
-            }
-          };
+          module.exports = { core: { foo: 'bar' } };
+
         `);
       });
       it('found scalar', () => {
@@ -657,9 +675,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {}
-          };
+          module.exports = { core: {} };
+
         `);
       });
       it('nested scalar', () => {
@@ -671,11 +688,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              builder: {}
-            }
-          };
+          module.exports = { core: { builder: {} } };
+
         `);
       });
       it('string literal key', () => {
@@ -687,9 +701,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            'core': {}
-          };
+          module.exports = { core: {} };
+
         `);
       });
       it('root property', () => {
@@ -702,8 +715,9 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           module.exports = {
-            addons: []
+            addons: [],
           };
+
         `);
       });
     });
@@ -718,9 +732,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            addons: []
-          };
+          export default { addons: [] };
+
         `);
       });
       it('missing field', () => {
@@ -732,11 +745,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              foo: 'bar'
-            }
-          };
+          export default { core: { foo: 'bar' } };
+
         `);
       });
       it('found scalar', () => {
@@ -748,9 +758,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            core: {}
-          };
+          export default { core: {} };
+
         `);
       });
       it('nested scalar', () => {
@@ -762,11 +771,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              builder: {}
-            }
-          };
+          export default { core: { builder: {} } };
+
         `);
       });
       it('string literal key', () => {
@@ -778,9 +784,8 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            'core': {}
-          };
+          export default { core: {} };
+
         `);
       });
       it('root property', () => {
@@ -793,8 +798,9 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           export default {
-            addons: []
+            addons: [],
           };
+
         `);
       });
     });
@@ -803,26 +809,31 @@ describe('ConfigFile', () => {
       it('no quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', '')).toMatchInlineSnapshot(`
           export const foo = {
-            bar: "baz"
+            bar: 'baz',
           };
+
         `);
       });
       it('more single quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', "c"];
+          export const stories = ['a', 'b', 'c'];
+
           export const foo = {
-            bar: 'baz'
+            bar: 'baz',
           };
+
         `);
       });
       it('more double quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', "b", "c"];
+          export const stories = ['a', 'b', 'c'];
+
           export const foo = {
-            bar: "baz"
+            bar: 'baz',
           };
+
         `);
       });
     });
@@ -1047,6 +1058,175 @@ describe('ConfigFile', () => {
       `;
       const config = loadConfig(source).parse();
       expect(config.getNamesFromPath(['addons'])).toBeUndefined();
+    });
+  });
+
+  describe('setImport', () => {
+    it(`supports setting a default import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import path from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a default import for a field that does exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import path from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import { dirname } from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field where the source already exists`, () => {
+      const source = dedent`
+        import { dirname } from 'path';
+
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import { dirname } from 'path';
+
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+  });
+
+  describe('setRequireImport', () => {
+    it(`supports setting a default import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const path = require('path');
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a default import for a field that does exist`, () => {
+      const source = dedent`
+        const path = require('path');
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const path = require('path');
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const {
+          dirname,
+        } = require('path');
+
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field where the source already exists`, () => {
+      const source = dedent`
+        const { dirname } = require('path');
+
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport(['dirname', 'basename'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const {
+          dirname,
+          basename,
+        } = require('path');
+
+        const config: StorybookConfig = { };
+        export default config;
+      `);
     });
   });
 });

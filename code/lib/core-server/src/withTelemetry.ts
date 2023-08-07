@@ -4,6 +4,7 @@ import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
 import { logger } from '@storybook/node-logger';
+import invariant from 'tiny-invariant';
 
 type TelemetryOptions = {
   cliOptions: CLIOptions;
@@ -42,11 +43,7 @@ async function getErrorLevel({
   if (!presetOptions) return 'full';
 
   // should we load the preset?
-  const presets = await loadAllPresets({
-    corePresets: [require.resolve('@storybook/core-server/dist/presets/common-preset')],
-    overridePresets: [],
-    ...presetOptions,
-  });
+  const presets = await loadAllPresets(presetOptions);
 
   // If the user has chosen to enable/disable crash reports in main.js
   // or disabled telemetry, we can return that
@@ -70,7 +67,7 @@ async function getErrorLevel({
 }
 
 export async function sendTelemetryError(
-  error: Error,
+  error: unknown,
   eventType: EventType,
   options: TelemetryOptions
 ) {
@@ -84,13 +81,17 @@ export async function sendTelemetryError(
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
 
+      invariant(
+        error instanceof Error,
+        'The error passed to sendTelemetryError was not an Error, please only send Errors'
+      );
       await telemetry(
         'error',
         {
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,
-          errorHash: oneWayHash(error.message || ''),
+          errorHash: oneWayHash(error.message),
         },
         {
           immediate: true,
@@ -108,16 +109,21 @@ export async function withTelemetry<T>(
   eventType: EventType,
   options: TelemetryOptions,
   run: () => Promise<T>
-): Promise<T> {
+): Promise<T | undefined> {
+  let canceled = false;
+
+  async function cancelTelemetry() {
+    canceled = true;
+    if (!options.cliOptions.disableTelemetry) {
+      await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
+    }
+
+    process.exit(0);
+  }
+
   if (eventType === 'init') {
     // We catch Ctrl+C user interactions to be able to detect a cancel event
-    process.on('SIGINT', async () => {
-      if (!options.cliOptions.disableTelemetry) {
-        await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
-      }
-
-      process.exit(0);
-    });
+    process.on('SIGINT', cancelTelemetry);
   }
 
   if (!options.cliOptions.disableTelemetry)
@@ -126,7 +132,7 @@ export async function withTelemetry<T>(
   try {
     return await run();
   } catch (error) {
-    if (error?.message === 'Canceled by the user') {
+    if (canceled) {
       return undefined;
     }
 
@@ -135,5 +141,7 @@ export async function withTelemetry<T>(
     await sendTelemetryError(error, eventType, options);
 
     throw error;
+  } finally {
+    process.off('SIGINIT', cancelTelemetry);
   }
 }

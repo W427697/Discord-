@@ -1,1 +1,6 @@
-{"version":"7.1.0-rc.2","info":{"plain":"- CLI: Exit when user does not select a storybook project type - [#23201](https://github.com/storybookjs/storybook/pull/23201), thanks [@yannbf](https://github.com/yannbf)!\n- CLI: Fix Javascript language detection - [#23426](https://github.com/storybookjs/storybook/pull/23426), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!\n- Core: Fix onboarding detection in what's new module - [#23424](https://github.com/storybookjs/storybook/pull/23424), thanks [@yannbf](https://github.com/yannbf)!\n- Dependencies: Bump `@sveltejs/vite-plugin-svelte` - [#23233](https://github.com/storybookjs/storybook/pull/23233), thanks [@JReinhold](https://github.com/JReinhold)!\n- Telemetry: Add globals usage to project.json - [#23431](https://github.com/storybookjs/storybook/pull/23431), thanks [@shilman](https://github.com/shilman)!"}}
+{
+  "version": "7.2.2-alpha.0",
+  "info": {
+    "plain": "- Indexer: Introduce new experimental `indexer` API - #23691, thanks [@JReinhold](https://github.com/jreinhold)!\n- Addon-docs, Core, Server: Use new `indexer` API - #23660, thanks [@JReinhold](https://github.com/jreinhold)!\n- Server: Add support for tags - #23660, thanks [@JReinhold](https://github.com/jreinhold)! \n- Core-server: Improve internal types - #23632, thanks [@JReinhold](https://github.com/jreinhold)!"
+  }
+}

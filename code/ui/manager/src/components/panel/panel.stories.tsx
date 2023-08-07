@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Badge, Icons, Spaced } from '@storybook/components';
+import { Badge, Spaced } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 import { Addon_TypesEnum } from '@storybook/types';
 import Panel from './panel';
 import { panels, shortcuts } from '../layout/app.mockdata';
@@ -66,7 +67,7 @@ export const JSXTitles = () => {
             <div>
               <Spaced col={1}>
                 <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>Alert!</div>
-                <Icons icon="bell" />
+                <Icon.Bell />
               </Spaced>
             </div>
           ),
