@@ -61,21 +61,6 @@ export abstract class JsPackageManager {
 
   public abstract getPackageVersion(packageName: string, basePath?: string): Promise<string | null>;
 
-  // NOTE: for some reason yarn prefers the npm registry in
-  // local development, so always use npm
-  //
-  // TODO: Please refactor this, since this is a unsafe way to set the registry.
-  // The user's registry will be overwritten and stays overwritten if not reset properly.
-  // To fix this, we need to set the registry project-based, e.g. like this:
-  // npm config set registry https://registry.npmjs.org --location=project
-  async setRegistryURL(url: string) {
-    if (url) {
-      await this.executeCommand({ command: 'npm', args: ['config', 'set', 'registry', url] });
-    } else {
-      await this.executeCommand({ command: 'npm', args: ['config', 'delete', 'registry'] });
-    }
-  }
-
   async getRegistryURL() {
     try {
       // TODO: Refactor this command, since running `npm config get registry` does not work in a workspace enviroment,

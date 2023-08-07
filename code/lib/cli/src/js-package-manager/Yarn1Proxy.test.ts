@@ -24,21 +24,6 @@ describe('Yarn 1 Proxy', () => {
     });
   });
 
-  describe('setRegistryUrl', () => {
-    it('should run `yarn config set npmRegistryServer https://foo.bar`', async () => {
-      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('');
-
-      await yarn1Proxy.setRegistryURL('https://foo.bar');
-
-      expect(executeCommandSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          command: 'npm',
-          args: ['config', 'set', 'registry', 'https://foo.bar'],
-        })
-      );
-    });
-  });
-
   describe('installDependencies', () => {
     it('should run `yarn`', async () => {
       const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockResolvedValueOnce('');
