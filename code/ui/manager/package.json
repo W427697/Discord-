@@ -49,9 +49,6 @@
     "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
-  "dependencies": {
-    "react-transition-group": "^4.4.5"
-  },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@storybook/addon-designs": "^7.0.0",
@@ -82,6 +79,7 @@
     "react-draggable": "^4.4.3",
     "react-helmet-async": "^1.0.7",
     "react-resize-detector": "^7.1.2",
+    "react-transition-group": "^4.4.5",
     "resolve-from": "^5.0.0",
     "semver": "^7.3.7",
     "store2": "^2.14.2",

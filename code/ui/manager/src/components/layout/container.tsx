@@ -204,6 +204,7 @@ const getPreviewPosition = ({
   resizerPanel,
   resizerNav,
   margin,
+  isMobile,
 }: {
   panelPosition: PanelPosition;
   isPanelHidden: boolean;
@@ -213,6 +214,7 @@ const getPreviewPosition = ({
   resizerPanel: Coordinates;
   resizerNav: Coordinates;
   margin: number;
+  isMobile?: IsMobileProps;
 }): Bounds => {
   if (isFullscreen || isPanelHidden) {
     return {} as Bounds;
@@ -224,16 +226,16 @@ const getPreviewPosition = ({
 
   return panelPosition === 'bottom'
     ? {
-        height: panelY - margin,
+        height: isMobile ? bounds.height : panelY - margin,
         left: 0,
         top: 0,
-        width: bounds.width - navX - 2 * margin,
+        width: isMobile ? bounds.width : bounds.width - navX - 2 * margin,
       }
     : {
-        height: bounds.height - 2 * margin,
+        height: isMobile ? bounds.height : bounds.height - 2 * margin,
         left: 0,
         top: 0,
-        width: panelX - navX - margin,
+        width: isMobile ? bounds.width : panelX - navX - margin,
       };
 };
 
@@ -632,6 +634,7 @@ class Wrapper extends Component<WrapperProps, WrapperState> {
               bounds,
               panelPosition,
               margin,
+              isMobile,
             }),
           },
           navProps: {

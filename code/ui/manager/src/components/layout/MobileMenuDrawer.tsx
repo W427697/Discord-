@@ -9,7 +9,7 @@ interface MobileMenuDrawerProps {
   Sidebar: ComponentType<any>;
 }
 
-const duration = 300;
+const duration = 2000;
 
 const transitionContainer: Partial<Record<TransitionStatus, CSSProperties>> = {
   entering: { opacity: 1, transform: 'translateY(0)' },
@@ -38,6 +38,7 @@ const Container = styled.div(({ theme }) => ({
   transition: `all ${duration}ms ease-in-out`,
   opacity: 0,
   transform: 'translate(0px, 100px)',
+  overflow: 'hidden',
 }));
 
 const Overlay = styled.div({
