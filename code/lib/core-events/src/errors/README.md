@@ -2,85 +2,82 @@
 
 Storybook provides a utility to manage errors thrown from it. Storybook errors reside in this package and are categorized into:
 
-1. **[Preview errors](./preview-errors.ts)**
+1. **[Client errors](./client-errors.ts)**
    - Errors which occur in the preview area of Storybook
-   - e.g. Rendering issues, etc.
-   - available in `@storybook/core-events/preview-errors`
-2. **[Manager errors](./manager-errors.ts)**
-   - Errors which occur in the manager area of Storybook
-   - e.g. Sidebar, addons, Storybook UI, Storybook router, etc.
-   - available in `@storybook/core-events/manager-errors`
-3. **[Server errors](./server-errors.ts)**
+   - e.g. Rendering issues, addons, Storybook UI, etc.
+   - available in `@storybook/core-events/client-errors`
+2. **[Server errors](./server-errors.ts)**
    - Any Errors that happen in node
-   - e.g. Storybook init command, building in prod, building in dev, etc.
+   - e.g. Storybook init command, dev command, builder errors (Webpack, Vite), etc.
    - available in `@storybook/core-events/server-errors`
 
 ## How to create errors
 
 First, find which file your error should be part of, based on the criteria above.
-Second use the `defineError` function to define custom errors with specific codes and categories for use within the Storybook codebase. Below is the detailed API documentation for this function:
+Second use the `StorybookError` class to define custom errors with specific codes and categories for use within the Storybook codebase. Below is a detailed documentation for the error properties:
 
-### Function Signature
+### Class Structure
 
 ```typescript
-export function defineError<Template extends string | ((...data: any[]) => string)>({
-  category: Category;
-  code: number;
-  template: Template;
-  documentation?: boolean | string;
-  telemetry?: boolean;
-}): {
-  code: number;
-  category: Category;
-  error: (...data: Data) => StorybookError;
+export class YourCustomError extends StorybookError {
+  readonly category: Category; // The category to which the error belongs.
+  readonly code: number; // The numeric code for the error.
+  readonly telemetry?: boolean; // Optional. If set to `true`, telemetry will be used to send errors. Only for client-based errors.
+
+  template(): string {
+    // A function that returns the error message.
+  }
 }
 ```
 
-### Parameters
+### Properties
 
 | Name           | Type                                          | Description                                                                                                                                                |
 | -------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------  |
 | category       | `Category`                                    | The category to which the error belongs.                                                                                                                   |
 | code           | `number`                                      | The numeric code for the error.                                                                                                                            |
-| template       | `string` or `(...data: any[]) => string`      | A properly written error message or a function that takes data arguments and returns an error, for dynamic messages message.                               |
+| template       | `(...data: any[]) => string`                  | A properly written error message or a function that takes data arguments and returns an error, for dynamic messages.                                       |
 | documentation  | `boolean` or `string`                         | Optional. Should be set to `true` **if the error is documented on the Storybook website**. If defined as string, it should be a custom documentation link. |
 | telemetry      | `boolean`                                     | Optional. If set to `true`, telemetry will be used to send errors. **Only for client based errors**.                                                       |
-
-### Return Value
-
-The function returns an object containing the following properties:
-
-| Name           | Type                                | Description                                                                                    |
-| -------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------- |
-| code           | `number`                            | The numeric code for the defined error.                                                        |
-| category       | `Category`                          | The category of the defined error.                                                             |
-| error          | `(...data: Data) => StorybookError` | A function that generates the error message based on the provided template and data arguments. |
-
 
 ## Usage Example
 
 ```typescript
 // Define a custom error with a numeric code and a static error message template.
-const simpleError = defineError({
-  category: Category.Generic,
-  code: 1,
-  template: 'Something went wrong. Please try again later.',
-  telemetry: true,
-});
+export class StorybookIndexGenerationError extends StorybookError {
+  category = Category.Generic;
+  code = 1;
+  telemetry = true;
 
-// Use the defined error with custom data arguments.
-const dataError = defineError({
-  category: Category.Validation,
-  code: 2,
-  template: (fieldName: string) => `Invalid value provided for ${fieldName}.`,
-  documentation: 'https://some-custom-documentation.com/validation-errors',
-});
+  template(): string {
+    return `Storybook failed when generating an index for your stories. Check the stories field in your main.js`;
+  }
+}
 
-// "[SB_Generic_0001] Something went wrong. Please try again later.
-throw simpleError.error();
+// Define a custom error with a numeric code and a dynamic error message template based on properties from the constructor.
+export class InvalidFileExtensionError extends StorybookError {
+  category = Category.Validation;
+  code = 1;
+  telemetry = true;
+  documentation = 'https://some-custom-documentation.com/validation-errors'
+  
+  constructor(fileName: string) {
+    super();
+  }
 
-// "[SB_Validation_0002] Invalid value provided for username. More info: https://some-custom-documentation.com/validation-errors"
-throw dataError.error('username');
+  template(): string {
+    return `Invalid file extension found: ${fileName}.`;
+  }
+}
+
+// import the errors where you need them, i.e.
+import { StorybookIndexGenerationError, InvalidFileExtensionError } from '@storybook/core-events/server-errors'
+
+// "[SB_Generic_0001] Storybook failed when generating an index for your stories. Check the stories field in your main.js.
+throw StorybookIndexGenerationError();
+
+// "[SB_Validation_0002] Invalid file extension found: mtsx. More info: https://some-custom-documentation.com/validation-errors"
+throw InvalidFileExtensionError('mtsx');
 ```
 
 ## How to write a proper error message
