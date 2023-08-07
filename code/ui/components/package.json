@@ -71,7 +71,7 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.1.0",
+    "@storybook/icons": "^1.1.5",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
