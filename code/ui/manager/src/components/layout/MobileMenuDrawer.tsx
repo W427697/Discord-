@@ -9,7 +9,7 @@ interface MobileMenuDrawerProps {
   Sidebar: ComponentType<any>;
 }
 
-const duration = 2000;
+const duration = 200;
 
 const transitionContainer: Partial<Record<TransitionStatus, CSSProperties>> = {
   entering: { opacity: 1, transform: 'translateY(0)' },
