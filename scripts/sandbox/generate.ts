@@ -36,6 +36,7 @@ import {
   PNPM_LOCKFILE,
   YARN_LOCKFILE,
 } from '../../code/lib/cli/src/js-package-manager';
+import versions from '../../code/lib/cli/src/versions';
 
 const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
@@ -89,13 +90,13 @@ const addStorybook = async ({
       // otherwise the package manager will try to install them from verdaccio and will fail
       packageManager.addPackageResolutions({
         '@storybook/addon-onboarding': {
-          '@storybook/telemetry': 'next',
+          '@storybook/telemetry': versions['@storybook/telemetry'],
         },
         ...(dirName === 'qwik-vite/default-ts'
           ? {
               'storybook-framework-qwik': {
-                '@storybook/builder-vite': 'next',
-                '@storybook/docs-tools': 'next',
+                '@storybook/builder-vite': versions['@storybook/builder-vite'],
+                '@storybook/docs-tools': versions['@storybook/docs-tools'],
               },
             }
           : {}),
