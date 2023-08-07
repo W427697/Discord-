@@ -701,16 +701,17 @@ export const daily: TemplateKey[] = [
   'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
+  // These sandboxes are not set up in chromatic so far and weren't tested in ci daily mode
   // pnpm sandboxes
-  'angular-cli-pnpm/default-ts',
-  'lit-vite-pnpm/default-ts',
-  'vue3-vite-pnpm/default-ts',
-  'react-vite-pnpm/default-ts',
+  // 'angular-cli-pnpm/default-ts',
+  // 'lit-vite-pnpm/default-ts',
+  // 'vue3-vite-pnpm/default-ts',
+  // 'react-vite-pnpm/default-ts',
   // yarn sandboxes
-  'angular-cli-yarn/default-ts',
-  'lit-vite-yarn/default-ts',
-  'vue3-vite-yarn/default-ts',
-  'react-vite-yarn/default-ts',
+  // 'angular-cli-yarn/default-ts',
+  // 'lit-vite-yarn/default-ts',
+  // 'vue3-vite-yarn/default-ts',
+  // 'react-vite-yarn/default-ts',
 ];
 
 export const templatesByCadence = { normal, merged, daily };
