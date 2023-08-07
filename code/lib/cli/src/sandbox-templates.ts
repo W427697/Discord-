@@ -476,28 +476,24 @@ export const pnpmTemplates = {
   'angular-cli-pnpm/default-ts': {
     ...baseTemplates['angular-cli/default-ts'],
     name: 'Angular v16 (Webpack5 | TypeScript | pnpm)',
-    // TODO: Enable as soon as available
     script:
       'pnpm --package @angular/cli dlx ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=pnpm --skip-install && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
   'lit-vite-pnpm/default-ts': {
     ...baseTemplates['lit-vite/default-ts'],
     name: 'Lit (Vite | TypeScript | pnpm)',
-    // TODO: Enable as soon as available
     script:
       'pnpm create vite@latest {{beforeDir}} --yes --template lit-ts && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
   'vue3-vite-pnpm/default-ts': {
     ...baseTemplates['vue3-vite/default-ts'],
     name: 'Vue.js v3 (Vite | TypeScript | pnpm)',
-    // TODO: Enable as soon as available
     script:
       'pnpm create vite@latest {{beforeDir}} --yes --template vue-ts && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
   'react-vite-pnpm/default-ts': {
     ...baseTemplates['react-vite/default-ts'],
     name: 'React v18 (Vite | TypeScript | pnpm)',
-    // TODO: Enable as soon as available
     script:
       'pnpm create vite@latest {{beforeDir}} --yes --template react-ts && cd {{beforeDir}} && pnpm i --prefer-offline',
   },
