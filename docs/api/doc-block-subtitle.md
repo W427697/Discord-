@@ -24,12 +24,6 @@ import { Subtitle } from '@storybook/blocks';
 
 `Subtitle` is configured with the following props:
 
-### `of`
-
-Type: CSF file exports
-
-Specifies which meta's subtitle is displayed.
-
 ### `children`
 
 Type: `JSX.Element | string`
@@ -37,3 +31,9 @@ Type: `JSX.Element | string`
 Default: `parameters.docs.subtitle`
 
 Provides the content.
+
+### `of`
+
+Type: CSF file exports
+
+Specifies which meta's subtitle is displayed.
