@@ -254,6 +254,8 @@ jobs:
           path: test-results
   ## new workflow
   create-sandboxes:
+    environment:
+      YARN_ENABLE_IMMUTABLE_INSTALLS: 'false'
     parameters:
       parallelism:
         type: integer
