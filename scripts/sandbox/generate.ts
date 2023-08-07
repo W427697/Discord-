@@ -165,7 +165,6 @@ const runGenerators = async (
       }`
     );
   }
-  process.env.CI = 'true';
 
   const limit = pLimit(maxConcurrentTasks);
 
