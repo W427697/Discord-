@@ -361,6 +361,7 @@ export interface WrapperProps {
   };
   viewMode: State['viewMode'];
   theme: Theme;
+  isMobile?: IsMobileProps;
 }
 
 class Wrapper extends Component<WrapperProps, WrapperState> {
@@ -525,7 +526,7 @@ class Wrapper extends Component<WrapperProps, WrapperState> {
   };
 
   render() {
-    const { children, bounds, options, viewMode, panelCount } = this.props;
+    const { children, bounds, options, viewMode, panelCount, isMobile } = this.props;
     const { isDragging, resizerNav, resizerPanel } = this.state;
 
     const margin = 0;
@@ -544,7 +545,7 @@ class Wrapper extends Component<WrapperProps, WrapperState> {
 
     return bounds ? (
       <Fragment>
-        {isNavHidden ? null : (
+        {!isMobile && !isNavHidden && (
           <Draggable
             axis="x"
             position={resizerNav}
@@ -566,7 +567,7 @@ class Wrapper extends Component<WrapperProps, WrapperState> {
           </Draggable>
         )}
 
-        {isPanelHidden ? null : (
+        {!isMobile && !isPanelHidden && (
           <Draggable
             axis={isPanelBottom ? 'y' : 'x'}
             position={resizerPanel}

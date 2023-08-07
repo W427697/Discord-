@@ -2,9 +2,9 @@ import type { ComponentType, FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { motion } from 'framer-motion';
+import { useLayout } from './_context';
 
 interface MobileMenuDrawerProps {
-  setMenuOpen: (isMenuOpen: boolean) => void;
   Sidebar: ComponentType<any>;
 }
 
@@ -20,7 +20,7 @@ const Container = styled(motion.div)(({ theme }) => ({
   borderRadius: '10px 10px 0 0',
 }));
 
-const Overlay = styled(motion.div)(({ theme }) => ({
+const Overlay = styled(motion.div)({
   position: 'fixed',
   boxSizing: 'border-box',
   background: 'rgba(0, 0, 0, 0.5)',
@@ -29,9 +29,11 @@ const Overlay = styled(motion.div)(({ theme }) => ({
   right: 0,
   left: 0,
   zIndex: 10,
-}));
+});
 
-export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ setMenuOpen, Sidebar }) => {
+export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
+  const { setMobileMenuOpen } = useLayout();
+
   return (
     <>
       <Container
@@ -46,7 +48,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ setMenuOpen, Sideb
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={() => setMenuOpen(false)}
+        onClick={() => setMobileMenuOpen(false)}
       />
     </>
   );

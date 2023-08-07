@@ -7,8 +7,8 @@ interface LayoutType {
   isDesktop: IsDesktopProps;
   width: number;
   height: number;
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  isMobileMenuOpen: boolean;
+  setMobileMenuOpen: (open: boolean) => void;
 }
 
 export const Layout = createContext<LayoutType>({
@@ -16,8 +16,8 @@ export const Layout = createContext<LayoutType>({
   isDesktop: false,
   width: 0,
   height: 0,
-  open: false,
-  setOpen: () => {},
+  isMobileMenuOpen: false,
+  setMobileMenuOpen: () => {},
 });
 
 interface Props {
@@ -29,7 +29,7 @@ interface Props {
 }
 
 export const LayoutProvider = ({ children, isMobile, isDesktop, width, height }: Props) => {
-  const [open, setOpen] = useState(false);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <Layout.Provider
@@ -38,8 +38,8 @@ export const LayoutProvider = ({ children, isMobile, isDesktop, width, height }:
         isDesktop,
         width,
         height,
-        open,
-        setOpen,
+        isMobileMenuOpen,
+        setMobileMenuOpen,
       }}
     >
       {children}

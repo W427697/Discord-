@@ -47,6 +47,7 @@ const Layout: FC<LayoutProps> = Object.assign(
           bounds={{ width, height, top: 0, left: 0 }}
           viewMode={viewMode}
           panelCount={panelCount}
+          isMobile={isMobile}
         >
           {({ navProps, mainProps, panelProps, previewProps }) => (
             <Fragment>

@@ -1,9 +1,10 @@
 import type { ComponentType, FC } from 'react';
-import React, { useState } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { Button, Icon } from '@storybook/components/experimental';
 import { AnimatePresence } from 'framer-motion';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
+import { useLayout } from './_context';
 
 interface MobileNavigationProps {
   Sidebar: ComponentType<any>;
@@ -36,12 +37,12 @@ const StoryName = styled.div(({ theme }) => ({
 }));
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
-  const [isMenuOpen, setMenuOpen] = useState(false);
+  const { isMobileMenuOpen, setMobileMenuOpen } = useLayout();
 
   return (
     <Container>
       <AnimatePresence>
-        {isMenuOpen && <MobileMenuDrawer setMenuOpen={setMenuOpen} Sidebar={Sidebar} />}
+        {isMobileMenuOpen && <MobileMenuDrawer Sidebar={Sidebar} />}
       </AnimatePresence>
       <Left>
         <Button
@@ -49,7 +50,7 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
           variant="tertiary"
           iconOnly
           icon={<Icon.Menu />}
-          onClick={() => setMenuOpen(!isMenuOpen)}
+          onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
         >
           Menu
         </Button>
