@@ -14,7 +14,7 @@ interface CommonProps<T extends React.ElementType = React.ElementType> {
 }
 
 type ButtonIconOnlyProps = {
-  iconOnly?: true;
+  iconOnly: true;
   icon: ReactNode;
   children?: never;
 };
