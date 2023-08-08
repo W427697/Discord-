@@ -2,7 +2,11 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import { useStorybookApi } from '@storybook/manager-api';
-import { Button } from '@storybook/components/experimental';
+import { Button, Link } from '@storybook/components/experimental';
+
+interface UpgradeBlockProps {
+  onNavigateToWhatsNew?: () => void;
+}
 
 const Container = styled.div(({ theme }) => ({
   border: '1px solid',
@@ -15,10 +19,10 @@ const Container = styled.div(({ theme }) => ({
   width: '100%',
 }));
 
-const Tabs = styled.div(({ theme }) => ({
+const Tabs = styled.div({
   display: 'flex',
   gap: 2,
-}));
+});
 
 const Code = styled.pre(({ theme }) => ({
   background: theme.base === 'light' ? 'rgba(0, 0, 0, 0.05)' : theme.appBorderColor,
@@ -26,7 +30,7 @@ const Code = styled.pre(({ theme }) => ({
   margin: '4px 0 16px',
 }));
 
-export const UpgradeBlock: FC = () => {
+export const UpgradeBlock: FC<UpgradeBlockProps> = ({ onNavigateToWhatsNew }) => {
   const api = useStorybookApi();
   const [activeTab, setActiveTab] = useState<'npm' | 'pnpm'>('npm');
 
@@ -55,10 +59,10 @@ export const UpgradeBlock: FC = () => {
       <Code>
         {activeTab === 'npm' ? 'npx storybook@latest upgrade' : 'pnpm dlx storybook@latest upgrade'}
       </Code>
-      {/* {onNavigateToWhatsNew && (
+      {onNavigateToWhatsNew && (
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <Link onClick={onNavigateToWhatsNew}>See what's new in Storybook</Link>
-      )} */}
+      )}
     </Container>
   );
 };

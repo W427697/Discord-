@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 import { styled } from '@storybook/theming';
 import { Button, Icon, Link } from '@storybook/components/experimental';
-import { useLayout } from './_context';
+import { useLayout } from '../layout/_context';
 import { UpgradeBlock } from '../UpgradeBlock/UpgradeBlock';
 
 const Container = styled.div<{ state: TransitionStatus; transitionDuration: number }>(

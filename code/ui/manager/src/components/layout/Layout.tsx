@@ -4,7 +4,7 @@ import type { Addon_PageType } from '@storybook/types';
 import type { State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
 import * as S from './container';
-import { MobileNavigation } from './MobileNavigation';
+import { MobileNavigation } from '../MobileNavigation/MobileNavigation';
 import { useLayout } from './_context';
 
 export interface LayoutProps {

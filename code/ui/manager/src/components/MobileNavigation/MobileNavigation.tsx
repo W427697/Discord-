@@ -3,7 +3,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Button, Icon } from '@storybook/components/experimental';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
-import { useLayout } from './_context';
+import { useLayout } from '../layout/_context';
 
 interface MobileNavigationProps {
   Sidebar: ComponentType<any>;
