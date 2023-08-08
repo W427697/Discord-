@@ -88,6 +88,8 @@ const addStorybook = async ({
     await withLocalRegistry({ dir, dirName }, async () => {
       // We need to resolve some transitive @storybook/* packages from third-party dependencies to the local registry
       // otherwise the package manager will try to install them from verdaccio and will fail
+      // This is because we don't have resolutions for every package anymore. We need to add packages on a case by case basis.
+      // If it's troublesome, we can bring back resolutions for every package, with the caveat that it makes things quite slower
       packageManager.addPackageResolutions({
         '@storybook/addon-onboarding': {
           '@storybook/telemetry': versions['@storybook/telemetry'],

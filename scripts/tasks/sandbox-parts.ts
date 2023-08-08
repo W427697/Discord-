@@ -64,12 +64,13 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
     }
     await copy(srcDir, sandboxDir);
 
-    // If the template is pnpm-based, we need to add the `packageManager` entry to the package.json
-    // because otherwise the pnpm CLI rejects its usage, since it finds yarn configured higher up the tree.
     if (isPnpmTemplate(template.name)) {
       const packageJsonPath = join(sandboxDir, 'package.json');
       const packageJson = await readJson(packageJsonPath);
       logger.info('📝 Adding packageManager entry to package.json');
+      // If the template is pnpm-based, we need to add the `packageManager` entry to the package.json
+      // because otherwise the pnpm CLI rejects its usage, since it finds yarn configured higher up the tree.
+      // This version is not special, it's just the latest version of pnpm at the time of this writing as a specific version has to be set.
       packageJson.packageManager = 'pnpm@8.6.11';
       await writeJson(packageJsonPath, packageJson, { spaces: 2 });
     }

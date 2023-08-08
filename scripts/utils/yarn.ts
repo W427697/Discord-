@@ -1,4 +1,4 @@
-import { pathExists, readJSON, writeJSON } from 'fs-extra';
+import { pathExists } from 'fs-extra';
 import path from 'path';
 
 import { exec } from './exec';
@@ -22,7 +22,6 @@ export const addPackageResolutions = async ({ dryRun, packageManager }: YarnOpti
 
   await packageManager.addPackageResolutions({
     ...storybookVersions,
-    'enhanced-resolve': '~5.10.0', // TODO, remove this
     // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
     playwright: '1.36.0',
     'playwright-core': '1.36.0',
