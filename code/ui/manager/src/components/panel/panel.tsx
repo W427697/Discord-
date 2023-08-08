@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Tabs, IconButton } from '@storybook/components';
+import React, { Component } from 'react';
+import { Tabs } from '@storybook/components';
 import { Button, Icon } from '@storybook/components/experimental';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
