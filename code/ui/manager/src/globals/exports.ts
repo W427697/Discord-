@@ -114,7 +114,14 @@ export default {
     'resetComponents',
     'withReset',
   ],
-  '@storybook/components/experimental': ['Button', 'Icon', 'Input', 'Link', 'Select'],
+  '@storybook/components/experimental': [
+    'Button',
+    'Icon',
+    'Input',
+    'Link',
+    'Select',
+    'useMediaQuery',
+  ],
   '@storybook/channels': [
     'Channel',
     'PostMessageTransport',

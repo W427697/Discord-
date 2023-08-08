@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useState } from 'react';
+import { useMediaQuery } from '@storybook/components/experimental';
+import { useResizeDetector } from 'react-resize-detector';
+import { styled } from '@storybook/theming';
 import type { IsDesktopProps, IsMobileProps } from './_types';
+import { BREAKPOINT } from './_constants';
 
 interface LayoutProviderProps {
   children: ReactNode;
-  isMobile: IsMobileProps;
-  isDesktop: IsDesktopProps;
-  width: number;
-  height: number;
 }
 
 interface LayoutType {
@@ -17,34 +17,43 @@ interface LayoutType {
   height: number;
   isMobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
+  isMobileAddonsOpen: boolean;
+  setMobileAddonsOpen: (open: boolean) => void;
   isMobileAboutOpen: boolean;
   setMobileAboutOpen: (open: boolean) => void;
   closeMenu: () => void;
   transitionDuration: number;
 }
 
-export const Layout = createContext<LayoutType>({
+const Layout = createContext<LayoutType>({
   isMobile: false,
   isDesktop: false,
   width: 0,
   height: 0,
   isMobileMenuOpen: false,
   setMobileMenuOpen: () => {},
+  isMobileAddonsOpen: false,
+  setMobileAddonsOpen: () => {},
   isMobileAboutOpen: false,
   setMobileAboutOpen: () => {},
   closeMenu: () => {},
   transitionDuration: 0,
 });
 
-export const LayoutProvider = ({
-  children,
-  isMobile,
-  isDesktop,
-  width,
-  height,
-}: LayoutProviderProps) => {
+const View = styled.div({
+  position: 'fixed',
+  overflow: 'hidden',
+  height: '100vh',
+  width: '100vw',
+});
+
+export const LayoutProvider = ({ children }: LayoutProviderProps) => {
+  const { width, height, ref } = useResizeDetector();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobileAddonsOpen, setMobileAddonsOpen] = useState(false);
   const [isMobileAboutOpen, setMobileAboutOpen] = useState(false);
+  const isMobile = useMediaQuery(`(max-width: ${BREAKPOINT - 1}px)`);
+  const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINT}px)`);
 
   const closeMenu = () => {
     setMobileMenuOpen(false);
@@ -63,13 +72,15 @@ export const LayoutProvider = ({
         height,
         isMobileMenuOpen,
         setMobileMenuOpen,
+        isMobileAddonsOpen,
+        setMobileAddonsOpen,
         isMobileAboutOpen,
         setMobileAboutOpen,
         closeMenu,
         transitionDuration: 300,
       }}
     >
-      {children}
+      <View ref={ref}>{children}</View>
     </Layout.Provider>
   );
 };

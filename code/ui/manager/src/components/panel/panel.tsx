@@ -5,6 +5,7 @@ import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
 import useMediaQuery from '../hooks/useMedia';
+import { useLayout } from '../layout/_context';
 
 export interface SafeTabProps {
   title: Addon_BaseType['title'];
@@ -50,7 +51,8 @@ const AddonPanel = React.memo<{
     panelPosition = 'right',
     absolute = true,
   }) => {
-    const isTablet = useMediaQuery('(min-width: 599px)');
+    const { isDesktop } = useLayout();
+
     return (
       <Tabs
         absolute={absolute}
@@ -58,7 +60,7 @@ const AddonPanel = React.memo<{
         menuName="Addons"
         actions={actions}
         tools={
-          isTablet ? (
+          isDesktop ? (
             <Fragment>
               <IconButton
                 key="position"
@@ -77,7 +79,9 @@ const AddonPanel = React.memo<{
                 <Icon.Close />
               </IconButton>
             </Fragment>
-          ) : undefined
+          ) : (
+            <Fragment>Hello World serg </Fragment>
+          )
         }
         id="storybook-panel-root"
       >

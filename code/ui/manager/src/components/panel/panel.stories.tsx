@@ -5,6 +5,7 @@ import { Icon } from '@storybook/components/experimental';
 import { Addon_TypesEnum } from '@storybook/types';
 import Panel from './panel';
 import { panels, shortcuts } from '../layout/app.mockdata';
+import { LayoutProvider } from '../layout/_context';
 
 const onSelect = action('onSelect');
 const toggleVisibility = action('toggleVisibility');
@@ -13,6 +14,7 @@ const togglePosition = action('togglePosition');
 export default {
   title: 'Panel',
   component: Panel,
+  decorators: [(storyFn: any) => <LayoutProvider>{storyFn()}</LayoutProvider>],
 };
 
 export const Default = () => {

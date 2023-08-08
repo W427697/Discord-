@@ -5,9 +5,11 @@ import { Button, Icon } from '@storybook/components/experimental';
 import { useStorybookApi } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { useLayout } from '../layout/_context';
+import { MobileAddonsDrawer } from './MobileAddonsDrawer';
 
 interface MobileNavigationProps {
   Sidebar: ComponentType<any>;
+  Panel: ComponentType<any>;
 }
 
 const Container = styled.div(({ theme }) => ({
@@ -36,14 +38,22 @@ const StoryName = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2 - 1,
 }));
 
-export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
-  const { isMobileMenuOpen, setMobileMenuOpen } = useLayout();
+export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar, Panel }) => {
+  const { isMobileMenuOpen, setMobileMenuOpen, isMobileAddonsOpen, setMobileAddonsOpen } =
+    useLayout();
   const api = useStorybookApi();
   const title = api.getCurrentStoryData()?.title || 'Story';
 
   return (
     <Container>
       <MobileMenuDrawer Sidebar={Sidebar} />
+      <MobileAddonsDrawer>
+        <button type="button" onClick={() => setMobileAddonsOpen(false)}>
+          Close
+        </button>
+        <div>Hello World</div>
+        <Panel />
+      </MobileAddonsDrawer>
       <Left>
         <Button
           size="small"
@@ -54,7 +64,13 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
         />
         <StoryName>{title}</StoryName>
       </Left>
-      <Button size="small" variant="tertiary" iconOnly icon={<Icon.BottomBarToggle />} />
+      <Button
+        size="small"
+        variant="tertiary"
+        iconOnly
+        icon={<Icon.BottomBarToggle />}
+        onClick={() => setMobileAddonsOpen(!isMobileAddonsOpen)}
+      />
     </Container>
   );
 };
