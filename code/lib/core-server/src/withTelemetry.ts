@@ -132,7 +132,8 @@ export async function withTelemetry<T>(
   try {
     return await run();
   } catch (error) {
-    if (canceled) {
+    // either Ctrl + C or errors which use HandledError instance should not be sent to telemetry
+    if (canceled || (error as any).handled === true) {
       return undefined;
     }
 

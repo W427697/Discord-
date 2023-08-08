@@ -199,7 +199,7 @@ const installStorybook = async <Project extends ProjectType>(
   try {
     return await runGenerator();
   } catch (err) {
-    if (err?.message !== 'Canceled by the user' && err?.stack) {
+    if (!err?.handled && err?.stack) {
       logger.error(`\n     ${chalk.red(err.stack)}`);
     }
     throw new HandledError(err);
@@ -209,7 +209,6 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
-  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true
@@ -241,7 +240,7 @@ const projectTypeInquirer = async (
 
   logger.log();
   logger.log('For more information about installing Storybook: https://storybook.js.org/docs');
-  process.exit(0);
+  throw new HandledError('User chose to not proceed with installation');
 };
 
 const scaffoldProject = async ({
@@ -252,17 +251,35 @@ const scaffoldProject = async ({
   skipInstall?: boolean;
 }): InitiateResult => {
   logger.log(dedent`
-      I see that you're trying to start a new project with Storybook. Take a look at the options below and choose the best one for your project. Let's get started! 🚀
-      `);
+    You're initializing Storybook in an empty directory. We can generate one of the following projects for you, or if you'd like something that's not on the list (NextJS, SvelteKit, etc.) please create your project manually and rerun this command to install Storybook on top of that.
+  `);
   logger.log();
 
-  const templateEntries = Object.entries({
-    ...baseTemplates,
-    ...pnpmTemplates,
-    ...yarnTemplates,
-  })
+  let availableTemplates;
+
+  switch (packageManager.type) {
+    case 'npm':
+      availableTemplates = baseTemplates;
+      break;
+    case 'yarn1':
+    case 'yarn2':
+      availableTemplates = yarnTemplates;
+      break;
+    case 'pnpm':
+      availableTemplates = pnpmTemplates;
+      break;
+    default:
+      availableTemplates = baseTemplates;
+  }
+
+  const templateEntries = Object.entries(availableTemplates)
     .filter(
-      ([key, value]) => key !== 'angular-cli/prerelease' && (value as any).inDevelopment !== true
+      ([key, value]) =>
+        // we favor a limited set of sandboxes
+        key.match(/^(react|vue3|lit)-vite|angular-cli/) &&
+        (value as any).name.includes('TypeScript') &&
+        !(value as any).name.includes('prerelease') &&
+        (value as any).inDevelopment !== true
     )
     .sort(([a], [b]) => a.localeCompare(b));
 
@@ -271,18 +288,31 @@ const scaffoldProject = async ({
       type: 'select',
       message: 'Select',
       name: 'template',
-      choices: templateEntries.map(([key, value]) => ({
-        title: value.name,
-        value: { key, projectType: value.projectType, name: value.name },
-      })),
+      choices: [
+        ...templateEntries.map(([key, value]) => ({
+          title: value.name,
+          value: { key, projectType: value.projectType, name: value.name },
+        })),
+        {
+          title: 'Create a project manually & reinstall Storybook',
+          value: 'manual-project',
+        },
+      ],
     },
     {
       onCancel: () => {
         logger.log('Command cancelled by the user. Exiting...');
-        process.exit(1);
+        throw new HandledError('Canceled by the user');
       },
     }
   );
+
+  if (result.template === 'manual-project') {
+    logger.log(
+      'Please create a project using the generator of your choice, and then run storybook init again once the project is ready. Good luck!'
+    );
+    throw new HandledError('Canceled by the user');
+  }
 
   const logSuccessfulBootstrapMessage = () => {
     logger.log(
