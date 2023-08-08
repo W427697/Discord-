@@ -2,6 +2,7 @@ import type { ComponentType, FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { Button, Icon } from '@storybook/components/experimental';
+import { useStorybookApi } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { useLayout } from '../layout/_context';
 
@@ -37,6 +38,8 @@ const StoryName = styled.div(({ theme }) => ({
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
   const { isMobileMenuOpen, setMobileMenuOpen } = useLayout();
+  const api = useStorybookApi();
+  const title = api.getCurrentStoryData()?.title || 'Story';
 
   return (
     <Container>
@@ -49,7 +52,7 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar }) => {
           icon={<Icon.Menu />}
           onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
         />
-        <StoryName>Story name</StoryName>
+        <StoryName>{title}</StoryName>
       </Left>
       <Button size="small" variant="tertiary" iconOnly icon={<Icon.BottomBarToggle />} />
     </Container>
