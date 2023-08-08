@@ -1,0 +1,64 @@
+import type { FC } from 'react';
+import React, { useState } from 'react';
+import { styled } from '@storybook/theming';
+import { useStorybookApi } from '@storybook/manager-api';
+import { Button } from '@storybook/components/experimental';
+
+const Container = styled.div(({ theme }) => ({
+  border: '1px solid',
+  borderRadius: 5,
+  padding: 20,
+  marginTop: 0,
+  maxWidth: 400,
+  borderColor: theme.appBorderColor,
+  fontSize: theme.typography.size.s2,
+  width: '100%',
+}));
+
+const Tabs = styled.div(({ theme }) => ({
+  display: 'flex',
+  gap: 2,
+}));
+
+const Code = styled.pre(({ theme }) => ({
+  background: theme.base === 'light' ? 'rgba(0, 0, 0, 0.05)' : theme.appBorderColor,
+  fontSize: theme.typography.size.s2 - 1,
+  margin: '4px 0 16px',
+}));
+
+export const UpgradeBlock: FC = () => {
+  const api = useStorybookApi();
+  const [activeTab, setActiveTab] = useState<'npm' | 'pnpm'>('npm');
+
+  return (
+    <Container>
+      <strong>You are on Storybook {api.getCurrentVersion().version}</strong>
+      <p>Run the following script to check for updates and upgrade to the latest version.</p>
+      <Tabs>
+        <Button
+          size="small"
+          variant="tertiary"
+          active={activeTab === 'npm'}
+          onClick={() => setActiveTab('npm')}
+        >
+          npm
+        </Button>
+        <Button
+          size="small"
+          variant="tertiary"
+          active={activeTab === 'pnpm'}
+          onClick={() => setActiveTab('pnpm')}
+        >
+          pnpm
+        </Button>
+      </Tabs>
+      <Code>
+        {activeTab === 'npm' ? 'npx storybook@latest upgrade' : 'pnpm dlx storybook@latest upgrade'}
+      </Code>
+      {/* {onNavigateToWhatsNew && (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        <Link onClick={onNavigateToWhatsNew}>See what's new in Storybook</Link>
+      )} */}
+    </Container>
+  );
+};

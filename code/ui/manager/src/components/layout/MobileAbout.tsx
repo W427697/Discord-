@@ -1,24 +1,13 @@
-import type { CSSProperties, FC } from 'react';
+import type { FC } from 'react';
 import React, { useRef } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 import { styled } from '@storybook/theming';
-import { Button, Icon } from '@storybook/components/experimental';
+import { Button, Icon, Link } from '@storybook/components/experimental';
 import { useLayout } from './_context';
+import { UpgradeBlock } from '../UpgradeBlock/UpgradeBlock';
 
-export const MobileAbout: FC = () => {
-  const aboutRef = useRef(null);
-  const { isMobileAboutOpen, setMobileAboutOpen } = useLayout();
-
-  const duration = 200;
-
-  const transitionContainer: Partial<Record<TransitionStatus, CSSProperties>> = {
-    entering: { opacity: 1, transform: 'translateX(0)' },
-    entered: { opacity: 1, transform: 'translateX(0)' },
-    exiting: { opacity: 0, transform: 'translateX(20px)' },
-    exited: { opacity: 0, transform: 'translateX(20px)' },
-  };
-
-  const Container = styled.div(({ theme }) => ({
+const Container = styled.div<{ state: TransitionStatus; transitionDuration: number }>(
+  ({ state, transitionDuration }) => ({
     position: 'absolute',
     boxSizing: 'border-box',
     width: '100%',
@@ -26,178 +15,108 @@ export const MobileAbout: FC = () => {
     top: 0,
     left: 0,
     zIndex: 11,
-    transition: `all ${duration}ms ease-in-out`,
-    opacity: 0,
-    transform: 'translateX(0)',
-    background: theme.background.content,
+    transition: `all ${transitionDuration}ms ease-in-out`,
     overflow: 'scroll',
     padding: '20px',
-  }));
+    opacity: `${(() => {
+      if (state === 'entering') return 1;
+      if (state === 'entered') return 1;
+      if (state === 'exiting') return 0;
+      if (state === 'exited') return 0;
+      return 0;
+    })()}`,
+    transform: `${(() => {
+      if (state === 'entering') return 'translateX(0)';
+      if (state === 'entered') return 'translateX(0)';
+      if (state === 'exiting') return 'translateX(20px)';
+      if (state === 'exited') return 'translateX(20px)';
+      return 'translateX(0)';
+    })()}`,
+  })
+);
+
+const LinkContainer = styled.div(({ theme }) => ({
+  marginTop: 20,
+  marginBottom: 20,
+}));
+
+const LinkLine = styled.a(({ theme }) => ({
+  all: 'unset',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  fontSize: theme.typography.size.s2 - 1,
+  height: 52,
+  borderBottom: `1px solid ${theme.appBorderColor}`,
+  cursor: 'pointer',
+
+  '&:last-child': {
+    borderBottom: 'none',
+  },
+}));
+
+const LinkLeft = styled.div(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  fontSize: theme.typography.size.s2,
+  height: 40,
+  gap: 10,
+}));
+
+const BottomText = styled.div(({ theme }) => ({
+  fontSize: theme.typography.size.s2 - 1,
+  marginTop: 30,
+}));
+
+export const MobileAbout: FC = () => {
+  const { isMobileAboutOpen, setMobileAboutOpen, transitionDuration } = useLayout();
+  const aboutRef = useRef(null);
 
   return (
     <Transition
       nodeRef={aboutRef}
       in={isMobileAboutOpen}
-      timeout={duration}
+      timeout={transitionDuration}
       appear
       mountOnEnter
       unmountOnExit
     >
       {(state) => (
-        <Container ref={aboutRef} style={transitionContainer[state]}>
-          <div>
-            <Button
-              icon={<Icon.ArrowLeft />}
-              variant="tertiary"
-              onClick={() => setMobileAboutOpen(false)}
+        <Container ref={aboutRef} state={state} transitionDuration={transitionDuration}>
+          <Button
+            icon={<Icon.ArrowLeft />}
+            variant="secondary"
+            onClick={() => setMobileAboutOpen(false)}
+          >
+            Back
+          </Button>
+          <LinkContainer>
+            <LinkLine href="https://github.com/storybookjs/storybook" target="_blank">
+              <LinkLeft>
+                <Icon.Github />
+                <span>Github</span>
+              </LinkLeft>
+              <Icon.ChevronRight size={12} />
+            </LinkLine>
+            <LinkLine
+              href="https://storybook.js.org/docs/react/get-started/install/"
+              target="_blank"
             >
-              Back
-            </Button>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-            <div>Hello World</div>
-          </div>
+              <LinkLeft>
+                <Icon.Storybook />
+                <span>Documentation</span>
+              </LinkLeft>
+              <Icon.ChevronRight size={12} />
+            </LinkLine>
+          </LinkContainer>
+          <UpgradeBlock />
+          <BottomText>
+            Open source software maintained by <Link href="https://chromatic.com">Chromatic</Link>{' '}
+            and the{' '}
+            <Link href="https://github.com/storybookjs/storybook/graphs/contributors">
+              Storybook Community
+            </Link>
+          </BottomText>
         </Container>
       )}
     </Transition>

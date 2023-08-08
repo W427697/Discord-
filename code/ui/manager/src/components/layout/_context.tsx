@@ -20,6 +20,7 @@ interface LayoutType {
   isMobileAboutOpen: boolean;
   setMobileAboutOpen: (open: boolean) => void;
   closeMenu: () => void;
+  transitionDuration: number;
 }
 
 export const Layout = createContext<LayoutType>({
@@ -32,6 +33,7 @@ export const Layout = createContext<LayoutType>({
   isMobileAboutOpen: false,
   setMobileAboutOpen: () => {},
   closeMenu: () => {},
+  transitionDuration: 0,
 });
 
 export const LayoutProvider = ({
@@ -64,6 +66,7 @@ export const LayoutProvider = ({
         isMobileAboutOpen,
         setMobileAboutOpen,
         closeMenu,
+        transitionDuration: 300,
       }}
     >
       {children}
