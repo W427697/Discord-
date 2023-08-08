@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
+import { ManagerContext } from '@storybook/manager-api';
 import { AboutScreen } from './about';
 
 const meta = {
@@ -7,17 +8,32 @@ const meta = {
   title: 'Settings/AboutScreen',
   decorators: [
     (Story) => (
-      <div
-        style={{
-          position: 'relative',
-          height: '100vh',
-          width: '100vw',
-        }}
+      <ManagerContext.Provider
+        value={
+          {
+            api: {
+              getCurrentVersion: () => ({
+                version: '7.2.2-alpha.0',
+              }),
+            },
+          } as any
+        }
       >
-        <Story />
-      </div>
+        <div
+          style={{
+            position: 'relative',
+            height: '100vh',
+            width: '100vw',
+          }}
+        >
+          <Story />
+        </div>
+      </ManagerContext.Provider>
     ),
   ],
+  parameters: {
+    layout: 'fullscreen',
+  },
 } satisfies Meta<typeof AboutScreen>;
 
 export default meta;
@@ -25,11 +41,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    current: {
-      version: '7.0.1',
-    },
-  },
   parameters: {
     design: {
       type: 'figma',

@@ -29,6 +29,13 @@ const Container = styled.div({
   padding: 20,
 });
 
+const ButtonGroup = styled.div({
+  display: `flex`,
+  alignItems: 'center',
+  gap: 10,
+  marginBottom: 12,
+});
+
 const Footer = styled.div(({ theme }) => ({
   marginBottom: 24,
   display: 'flex',
@@ -51,7 +58,7 @@ const AboutScreen: FC<{
       <UpgradeBlock onNavigateToWhatsNew={onNavigateToWhatsNew} />
       <div style={{ flex: '1.2' }} />
       <Footer>
-        <div style={{ marginBottom: 12 }}>
+        <ButtonGroup>
           <Button
             as="a"
             icon={<Icon.Github />}
@@ -70,7 +77,7 @@ const AboutScreen: FC<{
           >
             Documentation
           </Button>
-        </div>
+        </ButtonGroup>
         <div>
           Open source software maintained by{' '}
           <Link href="https://www.chromatic.com/" target="_blank">
