@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Tabs, IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Button, Icon } from '@storybook/components/experimental';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
-import useMediaQuery from '../hooks/useMedia';
+import { styled } from '@storybook/theming';
 import { useLayout } from '../layout/_context';
 
 export interface SafeTabProps {
@@ -35,6 +35,13 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
   }
 }
 
+const ButtonGroup = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  height: '100%',
+  gap: 10,
+});
+
 const AddonPanel = React.memo<{
   selectedPanel?: string;
   actions: { onSelect: (id: string) => void } & Record<string, any>;
@@ -51,7 +58,7 @@ const AddonPanel = React.memo<{
     panelPosition = 'right',
     absolute = true,
   }) => {
-    const { isDesktop } = useLayout();
+    const { isDesktop, setMobileAddonsOpen } = useLayout();
 
     return (
       <Tabs
@@ -61,26 +68,52 @@ const AddonPanel = React.memo<{
         actions={actions}
         tools={
           isDesktop ? (
-            <Fragment>
-              <IconButton
-                key="position"
-                onClick={actions.togglePosition}
-                title={`Change addon orientation [${shortcutToHumanString(
-                  shortcuts.panelPosition
-                )}]`}
-              >
-                {panelPosition === 'bottom' ? <Icon.SidebarAlt /> : <Icon.BottomBar />}
-              </IconButton>
-              <IconButton
+            <ButtonGroup>
+              {panelPosition === 'bottom' ? (
+                <Button
+                  key="position"
+                  size="small"
+                  variant="tertiary"
+                  iconOnly
+                  icon={<Icon.SidebarAlt />}
+                  title={`Change addon orientation [${shortcutToHumanString(
+                    shortcuts.panelPosition
+                  )}]`}
+                  onClick={actions.togglePosition}
+                />
+              ) : (
+                <Button
+                  key="position"
+                  size="small"
+                  variant="tertiary"
+                  iconOnly
+                  icon={<Icon.BottomBar />}
+                  title={`Change addon orientation [${shortcutToHumanString(
+                    shortcuts.panelPosition
+                  )}]`}
+                  onClick={actions.togglePosition}
+                />
+              )}
+              <Button
                 key="visibility"
-                onClick={actions.toggleVisibility}
+                size="small"
+                variant="tertiary"
+                iconOnly
+                icon={<Icon.Close />}
                 title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
-              >
-                <Icon.Close />
-              </IconButton>
-            </Fragment>
+                onClick={actions.toggleVisibility}
+              />
+            </ButtonGroup>
           ) : (
-            <Fragment>Hello World serg </Fragment>
+            <ButtonGroup>
+              <Button
+                size="small"
+                variant="tertiary"
+                iconOnly
+                icon={<Icon.Close />}
+                onClick={() => setMobileAddonsOpen(false)}
+              />
+            </ButtonGroup>
           )
         }
         id="storybook-panel-root"

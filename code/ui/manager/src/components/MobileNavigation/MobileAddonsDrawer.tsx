@@ -4,7 +4,6 @@ import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
 import { useLayout } from '../layout/_context';
-import { MobileAbout } from '../MobileAbout/MobileAbout';
 
 interface MobileAddonsDrawerProps {
   children: ReactNode;
@@ -49,7 +48,6 @@ export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) =>
       {(state) => (
         <Container ref={containerRef} style={transitionContainer[state]}>
           {children}
-          <MobileAbout />
         </Container>
       )}
     </Transition>

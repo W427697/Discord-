@@ -15,6 +15,9 @@ export default {
   title: 'Panel',
   component: Panel,
   decorators: [(storyFn: any) => <LayoutProvider>{storyFn()}</LayoutProvider>],
+  parameters: {
+    layout: 'fullscreen',
+  },
 };
 
 export const Default = () => {

@@ -48,10 +48,6 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar, Panel }) 
     <Container>
       <MobileMenuDrawer Sidebar={Sidebar} />
       <MobileAddonsDrawer>
-        <button type="button" onClick={() => setMobileAddonsOpen(false)}>
-          Close
-        </button>
-        <div>Hello World</div>
         <Panel />
       </MobileAddonsDrawer>
       <Left>
