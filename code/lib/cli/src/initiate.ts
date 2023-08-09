@@ -16,7 +16,7 @@ import {
   detectBuilder,
   detectPnp,
 } from './detect';
-import { commandLog, codeLog, paddedLog } from './helpers';
+import { commandLog, codeLog, paddedLog, inferPackageManagerFromUserAgent } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
@@ -411,7 +411,10 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): InitiateRe
 
     pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+
+  const packageManager = JsPackageManagerFactory.getPackageManager({
+    force: pkgMgr || inferPackageManagerFromUserAgent(),
+  });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 

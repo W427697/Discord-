@@ -12,6 +12,7 @@ import type {
   JsPackageManager,
   PackageJson,
   PackageJsonWithDepsAndDevDeps,
+  PackageManagerName,
 } from './js-package-manager';
 import type { SupportedFrameworks, SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
@@ -316,4 +317,30 @@ export async function isNxProject() {
  */
 export function assertNever(x: never): never {
   throw new Error(`Unexpected object: ${x}`);
+}
+
+/**
+ * Infer the package manager based on the command the user is running.
+ * Each package manager sets the `npm_config_user_agent` environment variable with its name and version e.g. "npm/7.24.0"
+ * Which is really useful when invoking commands via npx/pnpx/yarn create/etc.
+ */
+export function inferPackageManagerFromUserAgent(): PackageManagerName {
+  const userAgent = process.env.npm_config_user_agent;
+  if (!userAgent) return undefined;
+  const packageSpec = userAgent.split(' ')[0];
+  const [pkgMgrName, pkgMgrVersion] = packageSpec.split('/');
+
+  if (pkgMgrName === 'pnpm') {
+    return 'pnpm';
+  }
+
+  if (pkgMgrName === 'npm') {
+    return 'npm';
+  }
+
+  if (pkgMgrName === 'yarn') {
+    return `yarn${pkgMgrVersion?.startsWith('1.') ? '1' : '2'}`;
+  }
+
+  return undefined;
 }
