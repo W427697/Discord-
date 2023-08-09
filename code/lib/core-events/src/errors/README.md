@@ -46,7 +46,7 @@ Second use the `StorybookError` class to define custom errors with specific code
 ### Class Structure
 
 ```typescript
-import { StorybookError } from './storybook-error'
+import { StorybookError } from './storybook-error';
 export class YourCustomError extends StorybookError {
   readonly category: Category; // The category to which the error belongs. Check the source in client-errors.ts or server-errors.ts for reference.
   readonly code: number; // The numeric code for the error.
@@ -60,13 +60,13 @@ export class YourCustomError extends StorybookError {
 
 ### Properties
 
-| Name           | Type                                          | Description                                                                                                                                                |
-| -------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------  |
-| category       | `Category`                                    | The category to which the error belongs.                                                                                                                   |
-| code           | `number`                                      | The numeric code for the error.                                                                                                                            |
-| template       | `(...data: any[]) => string`                  | A properly written error message or a function that takes data arguments and returns an error, for dynamic messages.                                       |
-| documentation  | `boolean` or `string`                         | Optional. Should be set to `true` **if the error is documented on the Storybook website**. If defined as string, it should be a custom documentation link. |
-| telemetry      | `boolean`                                     | Optional. If set to `true`, telemetry will be used to send errors. **Only for client based errors**.                                                       |
+| Name          | Type                         | Description                                                                                                                                                |
+| ------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| category      | `Category`                   | The category to which the error belongs.                                                                                                                   |
+| code          | `number`                     | The numeric code for the error.                                                                                                                            |
+| template      | `(...data: any[]) => string` | A properly written error message or a function that takes data arguments and returns an error, for dynamic messages.                                       |
+| documentation | `boolean` or `string`        | Optional. Should be set to `true` **if the error is documented on the Storybook website**. If defined as string, it should be a custom documentation link. |
+| telemetry     | `boolean`                    | Optional. If set to `true`, telemetry will be used to send errors. **Only for client based errors**.                                                       |
 
 ## Usage Example
 
@@ -87,8 +87,8 @@ export class InvalidFileExtensionError extends StorybookError {
   category = Category.Validation;
   code = 2;
   telemetry = true;
-  documentation = 'https://some-custom-documentation.com/validation-errors'
-  
+  documentation = 'https://some-custom-documentation.com/validation-errors';
+
   // extra properties are defined in the constructor and available in any class method
   constructor(extension: string) {
     super();
@@ -100,11 +100,13 @@ export class InvalidFileExtensionError extends StorybookError {
 }
 
 // import the errors where you need them, i.e.
-import { StorybookIndexGenerationError, InvalidFileExtensionError } from '@storybook/core-events/server-errors'
+import {
+  StorybookIndexGenerationError,
+  InvalidFileExtensionError,
+} from '@storybook/core-events/server-errors';
 
 throw StorybookIndexGenerationError();
 // "SB_Generic_0001: Storybook failed when generating an index for your stories. Check the stories field in your main.js.
-
 
 throw InvalidFileExtensionError('mtsx');
 // "SB_Validation_0002: Invalid file extension found: mtsx. More info: https://some-custom-documentation.com/validation-errors"
@@ -124,16 +126,18 @@ Writing clear and informative error messages is crucial for effective debugging 
 ✅ Here are a few recommended examples:
 
 Long:
+
 ```
-Couldn't find story matching 'xyz' after HMR.
+Couldn't find story matching id 'component--button-primary' after HMR.
   - Did you just rename a story?
   - Did you remove it from your CSF file?
-  - Are you sure a story with that id exists?
-  - Please check the stories field of your main.js config.
+  - Are you sure a story with the id 'component--button-primary' exists?
+  - Please check the values in the stories field of your main.js config and see if they would match your CSF File.
   - Also check the browser console and terminal for potential error messages.
 ```
 
 Medium:
+
 ```
 Addon-docs no longer uses configureJsx or mdxBabelOptions in 7.0.
 
@@ -143,6 +147,7 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-addon-do
 ```
 
 Short:
+
 ```
 Failed to start Storybook.
 

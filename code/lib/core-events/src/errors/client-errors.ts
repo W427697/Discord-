@@ -62,11 +62,11 @@ export class MissingStoryAfterHmr extends StorybookError {
   }
 
   template() {
-    return dedent`Couldn't find story matching '${this.storyId}' after HMR.
+    return dedent`Couldn't find story matching id '${this.storyId}' after HMR.
     - Did you just rename a story?
     - Did you remove it from your CSF file?
-    - Are you sure a story with that id exists?
-    - Please check the stories field of your main.js config.
+    - Are you sure a story with the id '${this.storyId}' exists?
+    - Please check the values in the stories field of your main.js config and see if they would match your CSF File.
     - Also check the browser console and terminal for potential error messages.`;
   }
 }
