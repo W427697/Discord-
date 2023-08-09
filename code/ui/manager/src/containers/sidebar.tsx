@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';
-import { Consumer } from '@storybook/manager-api';
+import { types, Consumer } from '@storybook/manager-api';
 
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './menu';
@@ -64,6 +64,8 @@ const Sidebar = React.memo(function Sideber() {
         Object.entries(originalIndex || {}).filter(([key]) => filtered.has(key))
       );
     }, [originalIndex, filters, status]);
+
+    const bottom = useMemo(() => Object.values(api.getElements(types.experimental_BOTTOM)), []);
 
     return {
       title: name,

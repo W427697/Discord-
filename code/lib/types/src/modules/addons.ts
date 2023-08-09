@@ -444,15 +444,27 @@ export interface Addon_WrapperType {
     }>
   >;
 }
+export interface Addon_BottomType {
+  type: Addon_TypesEnum.experimental_BOTTOM;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FCWithoutChildren;
+}
 
 type Addon_TypeBaseNames = Exclude<
   Addon_TypesEnum,
-  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE
+  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE | Addon_TypesEnum.experimental_BOTTOM
 >;
 
 export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
   [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
   [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
+  [Addon_TypesEnum.experimental_BOTTOM]: Addon_BottomType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -506,6 +518,11 @@ export enum Addon_TypesEnum {
    * @unstable
    */
   experimental_PAGE = 'page',
+  /**
+   * This adds items in the bottom of the sidebar.
+   * @unstable
+   */
+  experimental_BOTTOM = 'bottom',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.

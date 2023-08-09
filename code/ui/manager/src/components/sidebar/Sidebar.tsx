@@ -4,7 +4,7 @@ import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 
-import type { API_LoadedRefData } from 'lib/types/src';
+import type { Addon_BottomType, API_LoadedRefData } from '@storybook/types';
 import { Heading } from './Heading';
 
 // eslint-disable-next-line import/no-cycle
@@ -29,9 +29,22 @@ const Container = styled.nav({
   height: '100%',
 });
 
-const StyledSpaced = styled(Spaced)({
-  paddingBottom: '2.5rem',
+const Top = styled(Spaced)({
+  padding: 20,
+  flex: 1,
 });
+
+const Bottom = styled.div(({ theme }) => ({
+  borderTop: `1px solid ${theme.appBorderColor}`,
+  padding: theme.layoutMargin / 2,
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: theme.layoutMargin / 2,
+
+  '&:empty': {
+    display: 'none',
+  },
+}));
 
 const CustomScrollArea = styled(ScrollArea)({
   '&&&&& .os-scrollbar-handle:before': {
@@ -40,7 +53,10 @@ const CustomScrollArea = styled(ScrollArea)({
   '&&&&& .os-scrollbar-vertical': {
     right: 5,
   },
-  padding: 20,
+  '& [data-overlayscrollbars-viewport]': {
+    display: 'flex',
+    flexDirection: 'column',
+  },
 });
 
 const Swap = React.memo(function Swap({
@@ -82,6 +98,7 @@ export interface SidebarProps extends API_LoadedRefData {
   refs: State['refs'];
   status: State['status'];
   menu: any[];
+  bottom?: Addon_BottomType[];
   storyId?: string;
   refId?: string;
   menuHighlighted?: boolean;
@@ -96,6 +113,7 @@ export const Sidebar = React.memo(function Sidebar({
   status,
   previewInitialized,
   menu,
+  bottom = [],
   menuHighlighted = false,
   enableShortcuts = true,
   refs = {},
@@ -108,7 +126,7 @@ export const Sidebar = React.memo(function Sidebar({
   return (
     <Container className="container sidebar-container">
       <CustomScrollArea vertical>
-        <StyledSpaced row={1.6}>
+        <Top row={1.6}>
           <Heading
             className="sidebar-header"
             menuHighlighted={menuHighlighted}
@@ -151,7 +169,12 @@ export const Sidebar = React.memo(function Sidebar({
               </Swap>
             )}
           </Search>
-        </StyledSpaced>
+        </Top>
+        <Bottom>
+          {bottom.map(({ id, render: Render }) => (
+            <Render key={id} />
+          ))}
+        </Bottom>
       </CustomScrollArea>
     </Container>
   );

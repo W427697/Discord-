@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
@@ -6,7 +7,7 @@ import type { PropsOf } from '../utils/types';
 import { Icon } from '../Icon/Icon';
 
 interface ButtonProps<T extends React.ElementType = React.ElementType> {
-  children: string;
+  children?: ReactNode;
   as?: T;
   size?: 'small' | 'medium';
   variant?: 'solid' | 'outline' | 'ghost';
