@@ -336,6 +336,9 @@ const Node = React.memo<NodeProps>(function Node({
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
           if (item.type === 'component' && !isExpanded) onSelectStoryId(item.id);
+
+          // Close the mobile menu when a story is selected
+          if (item.type === 'component') closeMenu();
         }}
         onMouseEnter={() => {
           if (item.isComponent) {

@@ -14,6 +14,7 @@ import { isCloseType, isClearType, isExpandType } from './types';
 import { getLink } from '../../utils/tree';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import { statusMapping } from '../../utils/status';
+import { useLayout } from '../layout/_context';
 
 const { document } = global;
 
@@ -120,12 +121,15 @@ const Result: FC<
     onClick: MouseEventHandler;
   }
 > = React.memo(function Result({ item, matches, icon, onClick, ...props }) {
+  const { closeMenu } = useLayout();
+
   const click: MouseEventHandler = useCallback(
     (event) => {
       event.preventDefault();
+      closeMenu();
       onClick(event);
     },
-    [onClick]
+    [closeMenu, onClick]
   );
 
   const api = useStorybookApi();
