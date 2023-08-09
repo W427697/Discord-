@@ -65,7 +65,8 @@ const Sidebar = React.memo(function Sideber() {
       );
     }, [originalIndex, filters, status]);
 
-    const bottom = useMemo(() => Object.values(api.getElements(types.experimental_BOTTOM)), []);
+    const items = api.getElements(types.experimental_BOTTOM);
+    const bottom = useMemo(() => Object.values(items), [items]);
 
     return {
       title: name,
@@ -81,6 +82,7 @@ const Sidebar = React.memo(function Sideber() {
       menu,
       menuHighlighted: whatsNewNotificationsEnabled && api.isWhatsNewUnread(),
       enableShortcuts,
+      bottom,
     };
   };
   return (

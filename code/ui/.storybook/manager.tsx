@@ -1,3 +1,4 @@
+import React from 'react';
 import { addons, types } from '@storybook/manager-api';
 import startCase from 'lodash/startCase.js';
 
@@ -9,3 +10,11 @@ addons.setConfig({
     // },
   },
 });
+
+// addons.register('my/design-addon', () => {
+//   addons.add('my/design-addon', {
+//     type: types.experimental_BOTTOM,
+//     id: 'my/design-addon/panel',
+//     render: () => <div>HI</div>,
+//   });
+// });
