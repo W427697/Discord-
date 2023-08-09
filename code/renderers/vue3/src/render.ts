@@ -29,6 +29,9 @@ export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) =
 
 const runSetupFunctions = (app: App, storyContext: StoryContext<VueRenderer>) => {
   setupFunctions.forEach((fn) => fn(app, storyContext));
+  // install global mixins and plugins
+  installGlobalMixins(app);
+  installGlobalPlugins(app);
 };
 
 const map = new Map<
@@ -150,4 +153,26 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
+}
+
+function installGlobalMixins(app: App<any>) {
+  if (window.STORYBOOK_VUE_GLOBAL_MIXINS) {
+    window.STORYBOOK_VUE_GLOBAL_MIXINS.forEach((mixin: any) => {
+      app.mixin(mixin);
+    });
+  }
+}
+
+function installGlobalPlugins(app: App<any>) {
+  console.log(
+    'installGlobalPlugins()',
+    app,
+    'STORYBOOK_VUE_GLOBAL_PLUGINS',
+    window.STORYBOOK_VUE_GLOBAL_PLUGINS
+  );
+  if (window.STORYBOOK_VUE_GLOBAL_PLUGINS) {
+    window.STORYBOOK_VUE_GLOBAL_PLUGINS.forEach((plugin: any) => {
+      app.use(plugin);
+    });
+  }
 }
