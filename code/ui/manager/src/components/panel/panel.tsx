@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs } from '@storybook/components';
-import { Button, Icon } from '@storybook/components/experimental';
+import { IconButton } from '@storybook/components/experimental';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
@@ -70,47 +70,43 @@ const AddonPanel = React.memo<{
           isDesktop ? (
             <ButtonGroup>
               {panelPosition === 'bottom' ? (
-                <Button
+                <IconButton
                   key="position"
                   size="small"
-                  variant="tertiary"
-                  iconOnly
-                  icon={<Icon.SidebarAlt />}
+                  variant="ghost"
+                  icon="SidebarAlt"
                   title={`Change addon orientation [${shortcutToHumanString(
                     shortcuts.panelPosition
                   )}]`}
                   onClick={actions.togglePosition}
                 />
               ) : (
-                <Button
+                <IconButton
                   key="position"
                   size="small"
-                  variant="tertiary"
-                  iconOnly
-                  icon={<Icon.BottomBar />}
+                  variant="ghost"
+                  icon="BottomBar"
                   title={`Change addon orientation [${shortcutToHumanString(
                     shortcuts.panelPosition
                   )}]`}
                   onClick={actions.togglePosition}
                 />
               )}
-              <Button
+              <IconButton
                 key="visibility"
                 size="small"
-                variant="tertiary"
-                iconOnly
-                icon={<Icon.Close />}
+                variant="ghost"
+                icon="Close"
                 title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
                 onClick={actions.toggleVisibility}
               />
             </ButtonGroup>
           ) : (
             <ButtonGroup>
-              <Button
+              <IconButton
                 size="small"
-                variant="tertiary"
-                iconOnly
-                icon={<Icon.Close />}
+                variant="ghost"
+                icon="Close"
                 onClick={() => setMobileAddonsOpen(false)}
               />
             </ButtonGroup>

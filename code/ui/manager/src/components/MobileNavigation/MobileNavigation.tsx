@@ -1,7 +1,7 @@
 import type { ComponentType, FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { Button, Icon } from '@storybook/components/experimental';
+import { IconButton } from '@storybook/components/experimental';
 import { useStorybookApi } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { useLayout } from '../layout/_context';
@@ -51,20 +51,18 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar, Panel }) 
         <Panel />
       </MobileAddonsDrawer>
       <Left>
-        <Button
+        <IconButton
           size="small"
-          variant="tertiary"
-          iconOnly
-          icon={<Icon.Menu />}
+          variant="ghost"
+          icon="Menu"
           onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
         />
         <StoryName>{title}</StoryName>
       </Left>
-      <Button
+      <IconButton
         size="small"
-        variant="tertiary"
-        iconOnly
-        icon={<Icon.BottomBarToggle />}
+        variant="ghost"
+        icon="BottomBarToggle"
         onClick={() => setMobileAddonsOpen(!isMobileAddonsOpen)}
       />
     </Container>

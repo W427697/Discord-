@@ -83,11 +83,7 @@ export const MobileAbout: FC = () => {
     >
       {(state) => (
         <Container ref={aboutRef} state={state} transitionDuration={transitionDuration}>
-          <Button
-            icon={<Icon.ArrowLeft />}
-            variant="secondary"
-            onClick={() => setMobileAboutOpen(false)}
-          >
+          <Button icon="ArrowLeft" variant="outline" onClick={() => setMobileAboutOpen(false)}>
             Back
           </Button>
           <LinkContainer>

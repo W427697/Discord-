@@ -117,6 +117,7 @@ export default {
   '@storybook/components/experimental': [
     'Button',
     'Icon',
+    'IconButton',
     'Input',
     'Link',
     'Select',

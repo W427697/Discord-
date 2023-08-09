@@ -41,7 +41,7 @@ export const UpgradeBlock: FC<UpgradeBlockProps> = ({ onNavigateToWhatsNew }) =>
       <Tabs>
         <Button
           size="small"
-          variant="tertiary"
+          variant="ghost"
           active={activeTab === 'npm'}
           onClick={() => setActiveTab('npm')}
         >
@@ -49,7 +49,7 @@ export const UpgradeBlock: FC<UpgradeBlockProps> = ({ onNavigateToWhatsNew }) =>
         </Button>
         <Button
           size="small"
-          variant="tertiary"
+          variant="ghost"
           active={activeTab === 'pnpm'}
           onClick={() => setActiveTab('pnpm')}
         >

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { StorybookIcon } from '@storybook/components';
-import { Icon, Button, Link } from '@storybook/components/experimental';
+import { Button, Link } from '@storybook/components/experimental';
 import { UpgradeBlock } from '../components/UpgradeBlock/UpgradeBlock';
 
 const Header = styled.header(({ theme }) => ({
@@ -61,8 +61,8 @@ const AboutScreen: FC<{
         <ButtonGroup>
           <Button
             as="a"
-            icon={<Icon.Github />}
-            variant="secondary"
+            icon="Github"
+            variant="outline"
             href="https://github.com/storybookjs/storybook"
             target="_blank"
           >
@@ -70,8 +70,8 @@ const AboutScreen: FC<{
           </Button>
           <Button
             as="a"
-            icon={<Icon.Document />}
-            variant="secondary"
+            icon="Document"
+            variant="outline"
             href="https://storybook.js.org/docs"
             target="_blank"
           >
