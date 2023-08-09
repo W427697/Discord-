@@ -42,7 +42,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
     },
     updateGlobals(newGlobals) {
       // Only emit the message to the local ref
-      fullAPI.emit(UPDATE_GLOBALS, {
+      provider.channel.emit(UPDATE_GLOBALS, {
         globals: newGlobals,
         options: {
           target: 'storybook-preview-iframe',

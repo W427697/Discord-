@@ -116,7 +116,7 @@ export interface SubAPI {
   setQueryParams: (input: QueryParams) => void;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({
+export const init: ModuleFn<SubAPI, SubState, false> = ({
   store,
   navigate,
   state,
@@ -160,7 +160,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       };
       if (!deepEqual(customQueryParams, update)) {
         store.setState({ customQueryParams: update });
-        fullAPI.emit(UPDATE_QUERY_PARAMS, update);
+        provider.channel.emit(UPDATE_QUERY_PARAMS, update);
       }
     },
     navigateUrl(url, options) {
