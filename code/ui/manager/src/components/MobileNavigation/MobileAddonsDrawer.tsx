@@ -31,6 +31,7 @@ const Container = styled.div(({ theme }) => ({
   opacity: 0,
   transform: 'translate(0px, 100px)',
   overflow: 'hidden',
+  borderTop: `1px solid ${theme.appBorderColor}`,
 }));
 
 export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) => {
