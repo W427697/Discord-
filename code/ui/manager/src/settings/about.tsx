@@ -80,11 +80,16 @@ const AboutScreen: FC<{
         </ButtonGroup>
         <div>
           Open source software maintained by{' '}
-          <Link href="https://www.chromatic.com/" target="_blank">
+          <Link href="https://www.chromatic.com/" target="_blank" variant="secondary" weight="bold">
             Chromatic
           </Link>{' '}
           and the{' '}
-          <Link href="https://github.com/storybookjs/storybook/graphs/contributors" target="_blank">
+          <Link
+            href="https://github.com/storybookjs/storybook/graphs/contributors"
+            target="_blank"
+            variant="secondary"
+            weight="bold"
+          >
             Storybook Community
           </Link>
         </div>
