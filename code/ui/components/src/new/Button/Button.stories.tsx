@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-
-import { Icon } from '@storybook/components/experimental';
 import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
@@ -17,7 +15,10 @@ export const Base = {
   args: { children: 'Button' },
 };
 
-export const Types: Story = {
+export const Variants: Story = {
+  args: {
+    ...Base.args,
+  },
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <Button variant="solid">Solid</Button>
@@ -28,15 +29,18 @@ export const Types: Story = {
 };
 
 export const Active: Story = {
-  render: () => (
+  args: {
+    ...Base.args,
+  },
+  render: (args) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button variant="solid" active>
+      <Button variant="solid" active {...args}>
         Solid
       </Button>
-      <Button variant="outline" active>
+      <Button variant="outline" active {...args}>
         Outline
       </Button>
-      <Button variant="ghost" active>
+      <Button variant="ghost" active {...args}>
         Ghost
       </Button>
     </div>
@@ -44,28 +48,35 @@ export const Active: Story = {
 };
 
 export const WithIcon: Story = {
-  render: () => (
+  args: {
+    ...Base.args,
+    icon: 'FaceHappy',
+  },
+  render: ({ icon, children }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button variant="solid" icon={<Icon.FaceHappy />}>
-        Solid
+      <Button variant="solid" icon={icon}>
+        {children}
       </Button>
-      <Button variant="outline" icon={<Icon.FaceHappy />}>
-        Outline
+      <Button variant="outline" icon={icon}>
+        {children}
       </Button>
-      <Button variant="ghost" icon={<Icon.FaceHappy />}>
-        Ghost
+      <Button variant="ghost" icon={icon}>
+        {children}
       </Button>
     </div>
   ),
 };
 
 export const Sizes: Story = {
+  args: {
+    ...Base.args,
+  },
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button size="small" icon={<Icon.FaceHappy />}>
+      <Button size="small" icon="FaceHappy">
         Small Button
       </Button>
-      <Button size="medium" icon={<Icon.FaceHappy />}>
+      <Button size="medium" icon="FaceHappy">
         Medium Button
       </Button>
     </div>
@@ -74,12 +85,16 @@ export const Sizes: Story = {
 
 export const Disabled: Story = {
   args: {
+    ...Base.args,
     disabled: true,
     children: 'Disabled Button',
   },
 };
 
 export const WithHref: Story = {
+  args: {
+    ...Base.args,
+  },
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <Button onClick={() => console.log('Hello')}>I am a button using onClick</Button>

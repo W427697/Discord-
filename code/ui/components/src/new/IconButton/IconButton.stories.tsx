@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-
-import { Icon } from '@storybook/components/experimental';
 import { IconButton } from './IconButton';
 
 const meta: Meta<typeof IconButton> = {
@@ -14,15 +12,15 @@ export default meta;
 type Story = StoryObj<typeof IconButton>;
 
 export const Base = {
-  args: { icon: <Icon.FaceHappy /> },
+  args: { icon: 'FaceHappy' },
 };
 
 export const Types: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <IconButton variant="solid" icon={<Icon.FaceHappy />} />
-      <IconButton variant="outline" icon={<Icon.FaceHappy />} />
-      <IconButton variant="ghost" icon={<Icon.FaceHappy />} />
+      <IconButton variant="solid" icon="FaceHappy" />
+      <IconButton variant="outline" icon="FaceHappy" />
+      <IconButton variant="ghost" icon="FaceHappy" />
     </div>
   ),
 };
@@ -30,9 +28,9 @@ export const Types: Story = {
 export const Active: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <IconButton variant="solid" icon={<Icon.FaceHappy />} active />
-      <IconButton variant="outline" icon={<Icon.FaceHappy />} active />
-      <IconButton variant="ghost" icon={<Icon.FaceHappy />} active />
+      <IconButton variant="solid" icon="FaceHappy" active />
+      <IconButton variant="outline" icon="FaceHappy" active />
+      <IconButton variant="ghost" icon="FaceHappy" active />
     </div>
   ),
 };
@@ -40,8 +38,8 @@ export const Active: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <IconButton size="small" icon={<Icon.FaceHappy />} />
-      <IconButton size="medium" icon={<Icon.FaceHappy />} />
+      <IconButton size="small" icon="FaceHappy" />
+      <IconButton size="medium" icon="FaceHappy" />
     </div>
   ),
 };
@@ -49,6 +47,7 @@ export const Sizes: Story = {
 export const Disabled: Story = {
   args: {
     ...Base.args,
+    icon: 'FaceHappy',
     disabled: true,
   },
 };
@@ -56,8 +55,8 @@ export const Disabled: Story = {
 export const WithHref: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <IconButton icon={<Icon.FaceHappy />} onClick={() => console.log('Hello')} />
-      <IconButton as="a" href="https://storybook.js.org/" icon={<Icon.FaceHappy />} />
+      <IconButton icon="FaceHappy" onClick={() => console.log('Hello')} />
+      <IconButton as="a" href="https://storybook.js.org/" icon="FaceHappy" />
     </div>
   ),
 };

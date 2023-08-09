@@ -1,17 +1,18 @@
-import type { ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
+import type { Icons } from '@storybook/icons';
 import type { PropsOf } from '../utils/types';
+import { Icon } from '../Icon/Icon';
 
 interface ButtonProps<T extends React.ElementType = React.ElementType> {
+  icon: Icons;
   as?: T;
   size?: 'small' | 'medium';
   variant?: 'solid' | 'outline' | 'ghost';
   onClick?: () => void;
   disabled?: boolean;
   active?: boolean;
-  icon: ReactNode;
 }
 
 export const IconButton: {
@@ -19,13 +20,17 @@ export const IconButton: {
     props: ButtonProps<E> & Omit<PropsOf<E>, keyof ButtonProps>
   ): JSX.Element;
   displayName?: string;
-} = forwardRef(({ as, icon, ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
-  return (
-    <StyledButton as={as} ref={ref} {...props}>
-      {icon}
-    </StyledButton>
-  );
-});
+} = forwardRef(
+  ({ as, icon = 'FaceHappy', ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+    const LocalIcon = Icon[icon];
+
+    return (
+      <StyledButton as={as} ref={ref} {...props}>
+        {icon && <LocalIcon />}
+      </StyledButton>
+    );
+  }
+);
 
 IconButton.displayName = 'IconButton';
 
