@@ -4,29 +4,16 @@ import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import type { PropsOf } from '../utils/types';
 
-interface CommonProps<T extends React.ElementType = React.ElementType> {
+interface ButtonProps<T extends React.ElementType = React.ElementType> {
   as?: T;
   size?: 'small' | 'medium';
-  variant?: 'primary' | 'secondary' | 'tertiary';
+  variant?: 'solid' | 'outline' | 'ghost';
   onClick?: () => void;
   disabled?: boolean;
   active?: boolean;
-}
-
-type ButtonIconOnlyProps = {
-  iconOnly: true;
-  icon: ReactNode;
-  children?: never;
-};
-
-type ButtonWithTextProps = {
-  iconOnly?: false;
   icon?: ReactNode;
   children: string;
-};
-
-type ButtonProps<T extends React.ElementType = React.ElementType> = CommonProps<T> &
-  (ButtonIconOnlyProps | ButtonWithTextProps);
+}
 
 export const Button: {
   <E extends React.ElementType = 'button'>(
@@ -38,7 +25,7 @@ export const Button: {
     return (
       <StyledButton as={as} ref={ref} {...props}>
         {icon}
-        {!props.iconOnly && children}
+        {children}
       </StyledButton>
     );
   }
@@ -47,14 +34,7 @@ export const Button: {
 Button.displayName = 'Button';
 
 const StyledButton = styled.button<Omit<ButtonProps, 'children'>>(
-  ({
-    theme,
-    variant = 'primary',
-    size = 'medium',
-    disabled = false,
-    active = false,
-    iconOnly = false,
-  }) => ({
+  ({ theme, variant = 'primary', size = 'medium', disabled = false, active = false }) => ({
     border: 0,
     cursor: disabled ? 'not-allowed' : 'pointer',
     display: 'inline-flex',
@@ -63,14 +43,9 @@ const StyledButton = styled.button<Omit<ButtonProps, 'children'>>(
     justifyContent: 'center',
     overflow: 'hidden',
     padding: `${(() => {
-      if (!iconOnly && size === 'small') return '0 10px';
-      if (!iconOnly && size === 'medium') return '0 12px';
+      if (size === 'small') return '0 10px';
+      if (size === 'medium') return '0 12px';
       return 0;
-    })()}`,
-    width: `${(() => {
-      if (iconOnly && size === 'small') return '28px';
-      if (iconOnly && size === 'medium') return '32px';
-      return 'auto';
     })()}`,
     height: size === 'small' ? '28px' : '32px',
     position: 'relative',
