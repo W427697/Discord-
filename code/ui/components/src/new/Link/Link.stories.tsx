@@ -47,6 +47,25 @@ export const Underline: Story = {
   ),
 };
 
+export const Weight: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link href="https://storybook.js.org/" variant="primary" weight="regular">
+        Primary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="primary" weight="bold">
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" weight="regular">
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" weight="bold">
+        Secondary
+      </Link>
+    </div>
+  ),
+};
+
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

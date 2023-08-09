@@ -9,7 +9,7 @@ export interface LinkProps<T extends React.ElementType = React.ElementType> {
   as?: T;
   children: string;
   variant?: 'primary' | 'secondary';
-  weight?: 'regular' | 'medium' | 'bold';
+  weight?: 'regular' | 'bold';
   underline?: 'hover' | 'always';
   icon?: Icons;
   onClick?: (e: MouseEvent) => void;
@@ -39,7 +39,7 @@ export const Link: {
 Link.displayName = 'Link';
 
 const StyledLink = styled.a<Omit<LinkProps, 'children'>>(
-  ({ theme, variant = 'primary', underline = 'hover' }) => ({
+  ({ theme, variant = 'primary', underline = 'hover', weight = 'regular' }) => ({
     display: 'inline-flex',
     gap: 4,
     alignItems: 'center',
@@ -48,8 +48,13 @@ const StyledLink = styled.a<Omit<LinkProps, 'children'>>(
     lineHeight: 1,
     color: `${(() => {
       if (variant === 'primary') return theme.color.secondary;
-      if (variant === 'secondary') return theme.textMutedColor;
+      if (variant === 'secondary') return theme.color.defaultText;
       return theme.color.secondary;
+    })()}`,
+    fontWeight: `${(() => {
+      if (weight === 'regular') return theme.typography.weight.regular;
+      if (weight === 'bold') return theme.typography.weight.bold;
+      return theme.typography.weight.bold;
     })()}`,
     textDecorationLine: `${underline === 'always' ? 'underline' : 'none'}`,
     textDecorationStyle: 'solid',
