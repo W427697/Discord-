@@ -15755,8 +15755,8 @@ __metadata:
 
 "eslint-plugin-local-rules@file:./eslint-plugin-local-rules::locator=%40storybook%2Froot%40workspace%3A.":
   version: 1.0.0
-  resolution: "eslint-plugin-local-rules@file:./eslint-plugin-local-rules#./eslint-plugin-local-rules::hash=3b5296&locator=%40storybook%2Froot%40workspace%3A."
-  checksum: 00d35804b62a0bdb5e16e70018818322d9a3122104d510626a5652b8ed1244446ebd7ffaf13aefab8f2db38f775b9052969239ec9c5878a7b300377372a2d7de
+  resolution: "eslint-plugin-local-rules@file:./eslint-plugin-local-rules#./eslint-plugin-local-rules::hash=9b0ddb&locator=%40storybook%2Froot%40workspace%3A."
+  checksum: af638a30d0f98c6aabec8b1db513167421727fcebb9083cccacb7701dcbc7c09adb056a871cdf98ea3655a7fbc244518d2ce3595d1702efe1769d96e032b8b4b
   languageName: node
   linkType: hard
 
