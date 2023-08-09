@@ -1,5 +1,3 @@
-// Local eslint plugins to be used in the monorepo and help maintainers keep certain code standards.
-
 /* eslint-disable global-require */
 module.exports = {
   rules: {

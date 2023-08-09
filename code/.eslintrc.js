@@ -25,18 +25,6 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/core-events/src/**/*', '!**/*.test.*'],
-      rules: {
-        'local-rules/no-duplicated-error-codes': 'error',
-      },
-    },
-    {
-      files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
-      rules: {
-        'local-rules/no-uncategorized-errors': 'warn',
-      },
-    },
-    {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/frameworks/angular/template/**/*'],
       rules: {
@@ -177,6 +165,19 @@ module.exports = {
       files: ['**/template/cli/**/*'],
       rules: {
         'import/no-unresolved': 'off',
+      },
+    },
+    {
+      files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      rules: {
+        'local-rules/no-uncategorized-errors': 'warn',
+      },
+    },
+    {
+      files: ['**/core-events/src/**/*'],
+      excludedFiles: ['**/*.test.*'],
+      rules: {
+        'local-rules/no-duplicated-error-codes': 'error',
       },
     },
   ],

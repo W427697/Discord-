@@ -225,7 +225,7 @@
     "eslint": "^8.28.0",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-local-rules": "file:./eslint-plugin-local-rules",
+    "eslint-plugin-local-rules": "file:../scripts/eslint-plugin-local-rules",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-storybook": "^0.6.6",
     "fs-extra": "^11.1.0",
