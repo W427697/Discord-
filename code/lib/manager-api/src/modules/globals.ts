@@ -103,7 +103,5 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
   return {
     api,
     state,
-    init: () => {},
-    goo: 5,
   };
 };
