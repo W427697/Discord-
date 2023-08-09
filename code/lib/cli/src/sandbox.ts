@@ -8,7 +8,7 @@ import { downloadTemplate } from 'giget';
 import { existsSync, readdir } from 'fs-extra';
 import ora from 'ora';
 import type { Template } from './sandbox-templates';
-import { sandboxTemplates as TEMPLATES } from './sandbox-templates';
+import { allTemplates as TEMPLATES } from './sandbox-templates';
 import { JsPackageManagerFactory } from './js-package-manager';
 import { assertNever } from './helpers';
 
