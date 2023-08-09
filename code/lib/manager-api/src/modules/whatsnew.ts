@@ -6,7 +6,7 @@ import {
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 export type SubState = {
   whatsNewData?: WhatsNewData;

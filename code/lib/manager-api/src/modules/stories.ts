@@ -55,7 +55,8 @@ import {
   addPreparedStories,
 } from '../lib/stories';
 
-import type { ComposedRef, ModuleFn } from '../index';
+import type { ComposedRef } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -289,7 +290,7 @@ function removeRemovedOptions<T extends Record<string, any> = Record<string, any
   return result;
 }
 
-export const init: ModuleFn<SubAPI, SubState, true> = ({
+export const init: ModuleFn<SubAPI, SubState> = ({
   fullAPI,
   store,
   navigate,

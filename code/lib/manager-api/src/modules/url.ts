@@ -11,7 +11,8 @@ import { dequal as deepEqual } from 'dequal';
 import { global } from '@storybook/global';
 
 import type { API_Layout, API_UI } from '@storybook/types';
-import type { ModuleArgs, ModuleFn } from '../index';
+import type { ModuleArgs } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 const { window: globalWindow } = global;
 
@@ -116,7 +117,7 @@ export interface SubAPI {
   setQueryParams: (input: QueryParams) => void;
 }
 
-export const init: ModuleFn<SubAPI, SubState, false> = ({
+export const init: ModuleFn<SubAPI, SubState> = ({
   store,
   navigate,
   state,

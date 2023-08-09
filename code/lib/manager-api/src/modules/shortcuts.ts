@@ -2,7 +2,7 @@
 import { global } from '@storybook/global';
 import { FORCE_REMOUNT, PREVIEW_KEYDOWN } from '@storybook/core-events';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 import type { KeyboardEventLike } from '../lib/shortcut';
 import { shortcutMatchesShortcut, eventToShortcut } from '../lib/shortcut';

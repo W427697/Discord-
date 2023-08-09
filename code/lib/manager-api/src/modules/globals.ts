@@ -3,7 +3,7 @@ import { logger } from '@storybook/client-logger';
 import { dequal as deepEqual } from 'dequal';
 import type { SetGlobalsPayload, Globals, GlobalTypes } from '@storybook/types';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
@@ -103,5 +103,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
   return {
     api,
     state,
+    init: () => {},
+    goo: 5,
   };
 };
