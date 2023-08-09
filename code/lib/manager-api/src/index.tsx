@@ -65,7 +65,7 @@ import * as version from './modules/versions';
 import * as whatsnew from './modules/whatsnew';
 
 import * as globals from './modules/globals';
-import type { ModuleWithInit, ModuleWithoutInit, ModuleArgs } from './lib/types';
+import type { ModuleFn } from './lib/types';
 
 export * from './lib/shortcut';
 
@@ -148,7 +148,7 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
 class ManagerProvider extends Component<ManagerProviderProps, State> {
   api: API = {} as API;
 
-  modules: (ModuleWithInit | ModuleWithoutInit)[];
+  modules: ReturnType<ModuleFn>[];
 
   static displayName = 'Manager';
 

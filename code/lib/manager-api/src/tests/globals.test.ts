@@ -1,9 +1,10 @@
 import { EventEmitter } from 'events';
 import { SET_STORIES, SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 
-import type { ModuleArgs, API } from '../index';
+import type { API } from '../index';
 import type { SubAPI } from '../modules/globals';
 import { init as initModule } from '../modules/globals';
+import type { ModuleArgs } from '../lib/types';
 
 const { logger } = require('@storybook/client-logger');
 const { getEventMetadata } = require('../lib/events');

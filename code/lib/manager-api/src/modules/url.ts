@@ -11,8 +11,7 @@ import { dequal as deepEqual } from 'dequal';
 import { global } from '@storybook/global';
 
 import type { API_Layout, API_UI } from '@storybook/types';
-import type { ModuleArgs } from '../index';
-import type { ModuleFn } from '../lib/types';
+import type { ModuleArgs, ModuleFn } from '../lib/types';
 
 const { window: globalWindow } = global;
 
@@ -117,14 +116,9 @@ export interface SubAPI {
   setQueryParams: (input: QueryParams) => void;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({
-  store,
-  navigate,
-  state,
-  provider,
-  fullAPI,
-  ...rest
-}) => {
+export const init: ModuleFn<SubAPI, SubState> = (moduleArgs) => {
+  const { store, navigate, provider, fullAPI } = moduleArgs;
+
   const navigateTo = (
     path: string,
     queryParams: Record<string, string> = {},
@@ -169,7 +163,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
   };
 
-  // Sets `args` parameter in URL, omitting any args that have their initial value or cannot be unserialized safely.
+  /**
+   * Sets `args` parameter in URL, omitting any args that have their initial value or cannot be unserialized safely.
+   */
   const updateArgsParam = () => {
     const { path, queryParams, viewMode } = api.getUrlState();
     if (viewMode !== 'story') return;
@@ -209,6 +205,6 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
   return {
     api,
-    state: initialUrlSupport({ store, navigate, state, provider, fullAPI, ...rest }),
+    state: initialUrlSupport(moduleArgs),
   };
 };

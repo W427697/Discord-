@@ -21,8 +21,9 @@ import { getEventMetadata as getEventMetadataOriginal } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
 import type Store from '../store';
-import type { API, ModuleArgs, State } from '..';
+import type { API, State } from '..';
 import { mockEntries, docsEntries, preparedEntries, navigationEntries } from './mockStoriesEntries';
+import type { ModuleArgs } from '../lib/types';
 
 const mockGetEntries = jest.fn();
 const fetch = global.fetch as jest.Mock<ReturnType<typeof global.fetch>>;
@@ -625,8 +626,8 @@ describe('stories API', () => {
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
       const fullAPI = { updateRef: jest.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
-      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
-      const { provider, store } = moduleArgs;
+      initStories(moduleArgs as unknown as ModuleArgs);
+      const { provider } = moduleArgs;
 
       getEventMetadata.mockReturnValueOnce({
         sourceType: 'external',
@@ -669,7 +670,7 @@ describe('stories API', () => {
       const fullAPI = { updateRef: jest.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
-      const { provider, store } = moduleArgs;
+      const { provider } = moduleArgs;
 
       const listener = jest.fn();
       provider.channel.on(UPDATE_STORY_ARGS, listener);
@@ -711,7 +712,7 @@ describe('stories API', () => {
       const fullAPI = { updateRef: jest.fn() };
       const moduleArgs = createMockModuleArgs({ fullAPI });
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
-      const { provider, store } = moduleArgs;
+      const { provider } = moduleArgs;
 
       const listener = jest.fn();
       provider.channel.on(RESET_STORY_ARGS, listener);
