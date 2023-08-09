@@ -61,7 +61,7 @@ const Overlay = styled.div({
 });
 
 export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
-  const { isMobileMenuOpen, closeMenu } = useLayout();
+  const { isMobileAboutOpen, isMobileMenuOpen, closeMenu } = useLayout();
   const containerRef = useRef(null);
   const overlayRef = useRef(null);
 
@@ -77,7 +77,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
         {(state) => (
           <Container ref={containerRef} style={transitionContainer[state]}>
             <Sidebar />
-            <MobileAbout />
+            <MobileAbout isOpen={isMobileAboutOpen} />
           </Container>
         )}
       </Transition>

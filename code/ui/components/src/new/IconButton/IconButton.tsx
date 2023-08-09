@@ -26,7 +26,7 @@ export const IconButton: {
 
     return (
       <StyledButton as={as} ref={ref} {...props}>
-        {icon && <LocalIcon />}
+        {icon && <LocalIcon size={14} />}
       </StyledButton>
     );
   }
@@ -48,6 +48,7 @@ const StyledButton = styled.button<Omit<ButtonProps, 'icon'>>(
       if (size === 'medium') return '32px';
       return 'auto';
     })()}`,
+    padding: 0,
     height: size === 'small' ? '28px' : '32px',
     position: 'relative',
     textAlign: 'center',

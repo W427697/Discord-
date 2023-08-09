@@ -1,7 +1,7 @@
 import type { ComponentType, FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { IconButton } from '@storybook/components/experimental';
+import { IconButton, Button } from '@storybook/components/experimental';
 import { useStorybookApi } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { useLayout } from '../layout/_context';
@@ -28,16 +28,6 @@ const Container = styled.div(({ theme }) => ({
   borderTop: `1px solid ${theme.appBorderColor}`,
 }));
 
-const Left = styled.div({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 10,
-});
-
-const StoryName = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
-}));
-
 export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar, Panel }) => {
   const { isMobileMenuOpen, setMobileMenuOpen, isMobileAddonsOpen, setMobileAddonsOpen } =
     useLayout();
@@ -50,15 +40,14 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ Sidebar, Panel }) 
       <MobileAddonsDrawer>
         <Panel />
       </MobileAddonsDrawer>
-      <Left>
-        <IconButton
-          size="small"
-          variant="ghost"
-          icon="Menu"
-          onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-        />
-        <StoryName>{title}</StoryName>
-      </Left>
+      <Button
+        size="small"
+        variant="ghost"
+        icon="Menu"
+        onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        {title}
+      </Button>
       <IconButton
         size="small"
         variant="ghost"
