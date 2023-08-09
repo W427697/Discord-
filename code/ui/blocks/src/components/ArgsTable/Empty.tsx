@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { Icon, Link } from '@storybook/components/experimental';
+import { Link } from '@storybook/components/experimental';
 
 interface EmptyProps {
   inAddonPanel?: boolean;
@@ -53,16 +53,6 @@ const Divider = styled.div(({ theme }) => ({
   backgroundColor: theme.appBorderColor,
 }));
 
-const VideoIcon = styled.div(({ theme }) => ({
-  width: 22,
-  height: 16,
-  borderRadius: theme.appBorderRadius,
-  border: `1px solid ${theme.color.secondary}`,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
 export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -95,16 +85,7 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
       <Links>
         {inAddonPanel && (
           <>
-            <Link
-              href="https://youtu.be/0gOfS6K0x0E"
-              target="_blank"
-              icon={
-                <VideoIcon>
-                  <Icon.Play size={8} />
-                </VideoIcon>
-              }
-              withArrow
-            >
+            <Link href="https://youtu.be/0gOfS6K0x0E" target="_blank" icon="Video" withArrow>
               Watch 5m video
             </Link>
             <Divider />

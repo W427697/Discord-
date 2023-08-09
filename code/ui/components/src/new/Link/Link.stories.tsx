@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-
-import { Icon } from '@storybook/components/experimental';
 import { Link } from './Link';
 
 const meta: Meta<typeof Link> = {
@@ -26,8 +24,43 @@ export const Variants: Story = {
       <Link href="https://storybook.js.org/" variant="secondary">
         Secondary
       </Link>
-      <Link href="https://storybook.js.org/" variant="tertiary">
-        Tertiary
+    </div>
+  ),
+};
+
+export const Underline: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link href="https://storybook.js.org/" variant="primary" underline="hover">
+        Primary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="primary" underline="always">
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" underline="hover">
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" underline="always">
+        Secondary
+      </Link>
+    </div>
+  ),
+};
+
+export const Weight: Story = {
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Link href="https://storybook.js.org/" variant="primary" weight="regular">
+        Primary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="primary" weight="bold">
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" weight="regular">
+        Secondary
+      </Link>
+      <Link href="https://storybook.js.org/" variant="secondary" weight="bold">
+        Secondary
       </Link>
     </div>
   ),
@@ -36,14 +69,11 @@ export const Variants: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Link href="https://storybook.js.org/" variant="primary" icon={<Icon.FaceHappy />}>
+      <Link href="https://storybook.js.org/" variant="primary" icon="FaceHappy">
         Primary
       </Link>
-      <Link href="https://storybook.js.org/" variant="secondary" icon={<Icon.FaceHappy />}>
+      <Link href="https://storybook.js.org/" variant="secondary" icon="FaceHappy">
         Secondary
-      </Link>
-      <Link href="https://storybook.js.org/" variant="tertiary" icon={<Icon.FaceHappy />}>
-        Tertiary
       </Link>
     </div>
   ),
@@ -59,34 +89,13 @@ export const WithArrow: Story = {
         <Link href="https://storybook.js.org/" variant="secondary" withArrow>
           Secondary
         </Link>
-        <Link href="https://storybook.js.org/" variant="tertiary" withArrow>
-          Tertiary
-        </Link>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Link
-          href="https://storybook.js.org/"
-          variant="primary"
-          icon={<Icon.FaceHappy />}
-          withArrow
-        >
+        <Link href="https://storybook.js.org/" variant="primary" icon="FaceHappy" withArrow>
           Primary
         </Link>
-        <Link
-          href="https://storybook.js.org/"
-          variant="secondary"
-          icon={<Icon.FaceHappy />}
-          withArrow
-        >
+        <Link href="https://storybook.js.org/" variant="secondary" icon="FaceHappy" withArrow>
           Secondary
-        </Link>
-        <Link
-          href="https://storybook.js.org/"
-          variant="tertiary"
-          icon={<Icon.FaceHappy />}
-          withArrow
-        >
-          Tertiary
         </Link>
       </div>
     </div>
