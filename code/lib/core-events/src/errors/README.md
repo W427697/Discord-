@@ -1,15 +1,42 @@
 # Storybook Errors
 
-Storybook provides a utility to manage errors thrown from it. Storybook errors reside in this package and are categorized into:
+Storybook provides a utility to manage errors thrown from it. Each error is categorized and coded, and there is an ESLint plugin which enforces their usage, instead of throwing generic errors like `throw new Error()`.
+
+Storybook errors reside in this package and are categorized into:
 
 1. **[Client errors](./client-errors.ts)**
-   - Errors which occur in the preview area of Storybook
+   - Errors which occur in the browser
    - e.g. Rendering issues, addons, Storybook UI, etc.
    - available in `@storybook/core-events/client-errors`
 2. **[Server errors](./server-errors.ts)**
    - Any Errors that happen in node
    - e.g. Storybook init command, dev command, builder errors (Webpack, Vite), etc.
    - available in `@storybook/core-events/server-errors`
+
+## When NOT to use categorized errors
+
+If your code throws an error just so it gets handled elsewhere in the codebase, meaning it's not user facing, you may not need to use this framework. For instance:
+
+```ts
+const doAnAction = () => {
+  if(works) {
+    doSomething();
+  } else {
+    throw new Error('do the backup action instead!');
+  }
+}
+
+const doWork = () => {
+  try {
+    doAnAction();
+  } catch() {
+    // All good. The error is handled.
+    doABackupAction();
+  }
+}
+```
+
+In this code, the error will never reach the user. You may either disable the eslint plugin rule for that line of code, or use a [HandledError implementation like done here](https://github.com/storybookjs/storybook/blob/next/code/lib/cli/src/HandledError.ts).
 
 ## How to create errors
 
@@ -19,8 +46,9 @@ Second use the `StorybookError` class to define custom errors with specific code
 ### Class Structure
 
 ```typescript
+import { StorybookError } from './storybook-error'
 export class YourCustomError extends StorybookError {
-  readonly category: Category; // The category to which the error belongs.
+  readonly category: Category; // The category to which the error belongs. Check the source in client-errors.ts or server-errors.ts for reference.
   readonly code: number; // The numeric code for the error.
   readonly telemetry?: boolean; // Optional. If set to `true`, telemetry will be used to send errors. Only for client-based errors.
 
@@ -57,27 +85,29 @@ export class StorybookIndexGenerationError extends StorybookError {
 // Define a custom error with a numeric code and a dynamic error message template based on properties from the constructor.
 export class InvalidFileExtensionError extends StorybookError {
   category = Category.Validation;
-  code = 1;
+  code = 2;
   telemetry = true;
   documentation = 'https://some-custom-documentation.com/validation-errors'
   
-  constructor(fileName: string) {
+  // extra properties are defined in the constructor and available in any class method
+  constructor(extension: string) {
     super();
   }
 
   template(): string {
-    return `Invalid file extension found: ${fileName}.`;
+    return `Invalid file extension found: ${extension}.`;
   }
 }
 
 // import the errors where you need them, i.e.
 import { StorybookIndexGenerationError, InvalidFileExtensionError } from '@storybook/core-events/server-errors'
 
-// "[SB_Generic_0001] Storybook failed when generating an index for your stories. Check the stories field in your main.js.
 throw StorybookIndexGenerationError();
+// "SB_Generic_0001: Storybook failed when generating an index for your stories. Check the stories field in your main.js.
 
-// "[SB_Validation_0002] Invalid file extension found: mtsx. More info: https://some-custom-documentation.com/validation-errors"
+
 throw InvalidFileExtensionError('mtsx');
+// "SB_Validation_0002: Invalid file extension found: mtsx. More info: https://some-custom-documentation.com/validation-errors"
 ```
 
 ## How to write a proper error message
@@ -114,7 +144,7 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-addon-do
 
 Short:
 ```
-Failed to initialize Storybook.
+Failed to start Storybook.
 
 Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.
 ```
