@@ -1,8 +1,7 @@
 import type { SyntheticEvent, MouseEventHandler } from 'react';
 import React, { Component, useCallback } from 'react';
 
-import { IconButton, Separator } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton, Toolbar } from '@storybook/components/experimental';
 import type { Addon_BaseType } from '@storybook/types';
 import { types } from '@storybook/manager-api';
 
@@ -38,15 +37,30 @@ const Zoom = React.memo<{
 }>(function Zoom({ zoomIn, zoomOut, reset }) {
   return (
     <>
-      <IconButton key="zoomin" onClick={zoomIn} title="Zoom in">
-        <Icon.Zoom />
-      </IconButton>
-      <IconButton key="zoomout" onClick={zoomOut} title="Zoom out">
-        <Icon.ZoomOut />
-      </IconButton>
-      <IconButton key="zoomreset" onClick={reset} title="Reset zoom">
-        <Icon.ZoomReset />
-      </IconButton>
+      <IconButton
+        key="zoomin"
+        title="Zoom in"
+        icon="Zoom"
+        size="small"
+        variant="ghost"
+        onClick={zoomIn}
+      />
+      <IconButton
+        key="zoomout"
+        title="Zoom out"
+        icon="ZoomOut"
+        size="small"
+        variant="ghost"
+        onClick={zoomOut}
+      />
+      <IconButton
+        key="zoomreset"
+        title="Reset zoom"
+        icon="ZoomReset"
+        size="small"
+        variant="ghost"
+        onClick={reset}
+      />
     </>
   );
 });
@@ -89,7 +103,7 @@ export const zoomTool: Addon_BaseType = {
     return (
       <>
         <ZoomConsumer>{({ set, value }) => <ZoomWrapper {...{ set, value }} />}</ZoomConsumer>
-        <Separator />
+        <Toolbar.Separator />
       </>
     );
   }),

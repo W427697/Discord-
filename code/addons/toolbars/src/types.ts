@@ -1,4 +1,4 @@
-import type { IconsProps } from '@storybook/components';
+import type { Icon } from '@storybook/components/experimental';
 import type { InputType } from '@storybook/types';
 
 export type ToolbarShortcutType = 'next' | 'previous' | 'reset';
@@ -14,7 +14,7 @@ export type ToolbarShortcuts = Record<ToolbarShortcutType, ToolbarShortcutConfig
 
 export interface ToolbarItem {
   value?: string;
-  icon?: IconsProps['icon'];
+  icon?: Icon.Icons;
   left?: string;
   right?: string;
   title?: string;
@@ -26,7 +26,7 @@ export interface NormalizedToolbarConfig {
   /** The label to show for this toolbar item */
   title?: string;
   /** Choose an icon to show for this toolbar item */
-  icon: IconsProps['icon'];
+  icon: Icon.Icons;
   /** Set to true to prevent default update of icon to match any present selected items icon */
   preventDynamicIcon?: boolean;
   items: ToolbarItem[];

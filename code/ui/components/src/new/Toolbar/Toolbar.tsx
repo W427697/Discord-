@@ -45,6 +45,7 @@ const StyledRoot = styled(ToolbarPrimitive.Root)<RootProps>(
     borderBottom: borderBottom ? `1px solid ${theme.appBorderColor}` : 'none',
     borderTop: borderTop ? `1px solid ${theme.appBorderColor}` : 'none',
     boxSizing: 'border-box',
+    backgroundColor: theme.barBg,
   })
 );
 
@@ -69,6 +70,7 @@ const Left = styled.div({
 const Right = styled.div({
   display: 'flex',
   gap: 5,
+  alignItems: 'center',
 });
 
 export const Toolbar = {

@@ -4,8 +4,8 @@ import memoize from 'memoizerific';
 
 import { useParameter, useGlobals } from '@storybook/manager-api';
 import { logger } from '@storybook/client-logger';
-import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { WithTooltip, TooltipLinkList } from '@storybook/components';
+import { IconButton } from '@storybook/components/experimental';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import { ColorIcon } from '../components/ColorIcon';
@@ -137,12 +137,13 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
         onVisibleChange={setIsTooltipVisible}
       >
         <IconButton
+          icon="Photo"
           key="background"
           title="Change the background of the preview"
           active={selectedBackgroundColor !== 'transparent' || isTooltipVisible}
-        >
-          <Icon.Photo />
-        </IconButton>
+          size="small"
+          variant="ghost"
+        />
       </WithTooltip>
     </Fragment>
   );

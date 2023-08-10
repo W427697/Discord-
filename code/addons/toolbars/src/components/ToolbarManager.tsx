@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import { useGlobalTypes } from '@storybook/manager-api';
-import { Separator } from '@storybook/components';
+import { Toolbar } from '@storybook/components/experimental';
 import { ToolbarMenuList } from './ToolbarMenuList';
 import { normalizeArgType } from '../utils/normalize-toolbar-arg-type';
 import type { ToolbarArgType } from '../types';
@@ -19,7 +19,7 @@ export const ToolbarManager: FC = () => {
 
   return (
     <>
-      <Separator />
+      <Toolbar.Separator />
       {globalIds.map((id) => {
         const normalizedArgType = normalizeArgType(id, globalTypes[id] as ToolbarArgType);
 

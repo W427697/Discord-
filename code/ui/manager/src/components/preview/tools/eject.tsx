@@ -1,7 +1,7 @@
 import { global } from '@storybook/global';
 import React from 'react';
-import { getStoryHref, IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { getStoryHref } from '@storybook/components';
+import { IconButton } from '@storybook/components/experimental';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
@@ -30,13 +30,15 @@ export const ejectTool: Addon_BaseType = {
       {({ baseUrl, storyId, queryParams }) =>
         storyId ? (
           <IconButton
+            as="a"
+            icon="ShareAlt"
             key="opener"
             href={getStoryHref(baseUrl, storyId, queryParams)}
             target="_blank"
             title="Open canvas in new tab"
-          >
-            <Icon.ShareAlt />
-          </IconButton>
+            size="small"
+            variant="ghost"
+          />
         ) : null
       }
     </Consumer>

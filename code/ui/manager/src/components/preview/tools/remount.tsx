@@ -1,25 +1,9 @@
-import type { ComponentProps } from 'react';
-import React, { useState } from 'react';
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import React from 'react';
+import { IconButton } from '@storybook/components/experimental';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import { styled } from '@storybook/theming';
 import { FORCE_REMOUNT } from '@storybook/core-events';
 import type { Addon_BaseType } from '@storybook/types';
-
-interface AnimatedButtonProps {
-  animating?: boolean;
-}
-
-const StyledAnimatedIconButton = styled(IconButton)<
-  AnimatedButtonProps & ComponentProps<typeof IconButton>
->(({ theme, animating, disabled }) => ({
-  opacity: disabled ? 0.5 : 1,
-  svg: {
-    animation: animating && `${theme.animation.rotate360} 1000ms ease-out`,
-  },
-}));
 
 const menuMapper = ({ api, state }: Combo) => {
   const { storyId } = state;
@@ -37,28 +21,23 @@ export const remountTool: Addon_BaseType = {
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>
-      {({ remount, storyId, api }) => {
-        const [isAnimating, setIsAnimating] = useState(false);
+      {({ remount, storyId }) => {
         const remountComponent = () => {
           if (!storyId) return;
           remount();
         };
 
-        api.on(FORCE_REMOUNT, () => {
-          setIsAnimating(true);
-        });
-
         return (
-          <StyledAnimatedIconButton
+          <IconButton
             key="remount"
             title="Remount component"
+            icon="Sync"
+            size="small"
+            variant="ghost"
+            onClickAnimation="rotate360"
             onClick={remountComponent}
-            onAnimationEnd={() => setIsAnimating(false)}
-            animating={isAnimating}
             disabled={!storyId}
-          >
-            <Icon.Sync />
-          </StyledAnimatedIconButton>
+          />
         );
       }}
     </Consumer>

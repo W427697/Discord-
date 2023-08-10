@@ -1,6 +1,5 @@
 import React from 'react';
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton } from '@storybook/components/experimental';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
@@ -23,9 +22,27 @@ export const addonsTool: Addon_BaseType = {
         !singleStory &&
         !isVisible && (
           <>
-            <IconButton aria-label="Show addons" key="addons" onClick={toggle} title="Show addons">
-              {panelPosition === 'bottom' ? <Icon.BottomBar /> : <Icon.SidebarAlt />}
-            </IconButton>
+            {panelPosition === 'bottom' ? (
+              <IconButton
+                icon="BottomBar"
+                aria-label="Show addons"
+                key="addons"
+                onClick={toggle}
+                title="Show addons"
+                size="small"
+                variant="ghost"
+              />
+            ) : (
+              <IconButton
+                icon="SidebarAlt"
+                aria-label="Show addons"
+                key="addons"
+                onClick={toggle}
+                title="Show addons"
+                size="small"
+                variant="ghost"
+              />
+            )}
           </>
         )
       }

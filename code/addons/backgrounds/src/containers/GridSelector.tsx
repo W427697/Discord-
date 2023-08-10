@@ -2,8 +2,7 @@ import type { FC } from 'react';
 import React, { memo } from 'react';
 
 import { useGlobals, useParameter } from '@storybook/manager-api';
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton } from '@storybook/components/experimental';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 
@@ -22,6 +21,7 @@ export const GridSelector: FC = memo(function GridSelector() {
 
   return (
     <IconButton
+      icon="Grid"
       key="background"
       active={isActive}
       title="Apply a grid to the preview"
@@ -30,8 +30,8 @@ export const GridSelector: FC = memo(function GridSelector() {
           [BACKGROUNDS_PARAM_KEY]: { ...globals[BACKGROUNDS_PARAM_KEY], grid: !isActive },
         })
       }
-    >
-      <Icon.Grid />
-    </IconButton>
+      size="small"
+      variant="ghost"
+    />
   );
 });

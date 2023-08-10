@@ -1,6 +1,5 @@
-import React from 'react';
 import type { TooltipLinkListLink } from '@storybook/components';
-import { Icons } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 import type { ToolbarItem } from '../types';
 
 export type ToolbarMenuListItemProps = {
@@ -18,7 +17,7 @@ export const ToolbarMenuListItem = ({
   onClick,
   currentValue,
 }: ToolbarMenuListItemProps) => {
-  const Icon = icon && <Icons style={{ opacity: 1 }} icon={icon} />;
+  const LocalIcon = icon && Icon[icon];
 
   const Item: TooltipLinkListLink = {
     id: value ?? '_reset',
@@ -30,7 +29,7 @@ export const ToolbarMenuListItem = ({
   };
 
   if (icon && !hideIcon) {
-    Item.left = Icon;
+    Item.left = LocalIcon;
   }
 
   return Item;

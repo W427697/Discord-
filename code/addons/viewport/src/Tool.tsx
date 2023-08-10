@@ -4,8 +4,8 @@ import memoize from 'memoizerific';
 
 import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
-import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { WithTooltip, TooltipLinkList } from '@storybook/components';
+import { IconButton, Button } from '@storybook/components/experimental';
 import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
@@ -84,16 +84,6 @@ const ActiveViewportLabel = styled.div(({ theme }) => ({
   borderTop: '3px solid transparent',
   borderBottom: '3px solid transparent',
   background: 'transparent',
-}));
-
-const IconButtonWithLabel = styled(IconButton)(() => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-}));
-
-const IconButtonLabel = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
-  marginLeft: 10,
 }));
 
 interface ViewportToolState {
@@ -180,21 +170,34 @@ export const ViewportTool: FC = memo(
           closeOnOutsideClick
           onVisibleChange={setIsTooltipVisible}
         >
-          <IconButtonWithLabel
-            key="viewport"
-            title="Change the size of the preview"
-            active={isTooltipVisible || !!styles}
-            onDoubleClick={() => {
-              setState({ ...state, selected: responsiveViewport.id });
-            }}
-          >
-            <Icon.Grow />
-            {styles ? (
-              <IconButtonLabel>
-                {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
-              </IconButtonLabel>
-            ) : null}
-          </IconButtonWithLabel>
+          {!styles && (
+            <IconButton
+              icon="Grow"
+              size="small"
+              variant="ghost"
+              key="viewport"
+              title="Change the size of the preview"
+              active={isTooltipVisible || !!styles}
+              onDoubleClick={() => {
+                setState({ ...state, selected: responsiveViewport.id });
+              }}
+            />
+          )}
+          {styles && (
+            <Button
+              icon="Grow"
+              size="small"
+              variant="ghost"
+              key="viewport"
+              title="Change the size of the preview"
+              active={isTooltipVisible || !!styles}
+              onDoubleClick={() => {
+                setState({ ...state, selected: responsiveViewport.id });
+              }}
+            >
+              {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
+            </Button>
+          )}
         </WithTooltip>
 
         {styles ? (
@@ -228,14 +231,15 @@ export const ViewportTool: FC = memo(
               {styles.width.replace('px', '')}
             </ActiveViewportLabel>
             <IconButton
+              icon="Transfer"
               key="viewport-rotate"
               title="Rotate viewport"
               onClick={() => {
                 setState({ ...state, isRotated: !isRotated });
               }}
-            >
-              <Icon.Transfer />
-            </IconButton>
+              size="small"
+              variant="ghost"
+            />
             <ActiveViewportLabel title="Viewport height">
               {styles.height.replace('px', '')}
             </ActiveViewportLabel>

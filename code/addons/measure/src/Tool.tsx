@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
-import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton } from '@storybook/components/experimental';
 import { TOOL_ID, ADDON_ID } from './constants';
 
 export const Tool = () => {
@@ -29,12 +28,13 @@ export const Tool = () => {
 
   return (
     <IconButton
+      icon="Ruler"
       key={TOOL_ID}
       active={measureEnabled}
       title="Enable measure"
       onClick={toggleMeasure}
-    >
-      <Icon.Ruler />
-    </IconButton>
+      size="small"
+      variant="ghost"
+    />
   );
 };

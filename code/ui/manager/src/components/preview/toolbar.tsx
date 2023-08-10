@@ -1,10 +1,7 @@
 import type { FunctionComponent } from 'react';
 import React, { Fragment, useMemo } from 'react';
-
 import { styled } from '@storybook/theming';
-
-import { FlexBar, IconButton, Separator, TabButton, TabBar } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { IconButton, Toolbar } from '@storybook/components/experimental';
 import {
   shortcutToHumanString,
   Consumer,
@@ -33,11 +30,7 @@ import { remountTool } from './tools/remount';
 export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
 export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
 
-const Bar: FunctionComponent<{ shown: boolean } & Record<string, any>> = ({ shown, ...props }) => (
-  <FlexBar {...props} />
-);
-
-export const Toolbar = styled(Bar)(
+export const ToolbarContainer = styled.div<{ shown: boolean }>(
   {
     position: 'absolute',
     left: 0,
@@ -67,13 +60,27 @@ export const fullScreenTool: Addon_BaseType = {
     <Consumer filter={fullScreenMapper}>
       {({ toggle, value, shortcut, hasPanel, singleStory }) =>
         (!singleStory || (singleStory && hasPanel)) && (
-          <IconButton
-            key="full"
-            onClick={toggle as any}
-            title={`${value ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
-          >
-            {value ? <Icon.Close /> : <Icon.Expand />}
-          </IconButton>
+          <>
+            {value ? (
+              <IconButton
+                key="full"
+                icon="Close"
+                onClick={toggle as any}
+                title={`Exit full screen [${shortcut}]`}
+                size="small"
+                variant="ghost"
+              />
+            ) : (
+              <IconButton
+                key="full"
+                icon="Expand"
+                onClick={toggle as any}
+                title={`Go full screen [${shortcut}]`}
+                size="small"
+                variant="ghost"
+              />
+            )}
+          </>
         )
       }
     </Consumer>
@@ -96,7 +103,7 @@ export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
     <Consumer filter={tabsMapper}>
       {(rp) => (
         <Fragment>
-          <TabBar key="tabs">
+          <Toolbar.ToogleGroup type="single" key="tabs">
             {tabs
               .filter((p) => !p.hidden)
               .map((t, index) => {
@@ -104,14 +111,14 @@ export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
                 const isActive = rp.path === to;
                 return (
                   <S.UnstyledLink key={t.id || `l${index}`} to={to}>
-                    <TabButton disabled={t.disabled} active={isActive}>
+                    <Toolbar.ToggleItem value={t.id} disabled={t.disabled}>
                       {t.title}
-                    </TabButton>
+                    </Toolbar.ToggleItem>
                   </S.UnstyledLink>
                 );
               })}
-          </TabBar>
-          <Separator />
+          </Toolbar.ToogleGroup>
+          <Toolbar.Separator />
         </Fragment>
       )}
     </Consumer>
@@ -137,13 +144,10 @@ const useTools = (
   const toolsFromConfig = useMemo(() => getTools(getElements), [getElements]);
   const toolsExtraFromConfig = useMemo(() => getToolsExtra(getElements), [getElements]);
 
-  const tools = useMemo(
-    () => [...defaultTools, ...toolsFromConfig],
-    [defaultTools, toolsFromConfig]
-  );
+  const tools = useMemo(() => [...defaultTools, ...toolsFromConfig], [toolsFromConfig]);
   const toolsExtra = useMemo(
     () => [...defaultToolsExtra, ...toolsExtraFromConfig],
-    [defaultToolsExtra, toolsExtraFromConfig]
+    [toolsExtraFromConfig]
   );
 
   return useMemo(() => {
@@ -170,10 +174,16 @@ export const ToolRes: FunctionComponent<ToolData & RenderData> = React.memo<Tool
     const { left, right } = useTools(api.getElements, tabs, viewMode, entry, location, path);
 
     return left || right ? (
-      <Toolbar key="toolbar" shown={isShown} border>
-        <Tools key="left" list={left} />
-        <Tools key="right" list={right} />
-      </Toolbar>
+      <ToolbarContainer key="toolbar" shown={isShown}>
+        <Toolbar.Root>
+          <Toolbar.Left>
+            <Tools key="left" list={left} />
+          </Toolbar.Left>
+          <Toolbar.Right>
+            <Tools key="right" list={right} />
+          </Toolbar.Right>
+        </Toolbar.Root>
+      </ToolbarContainer>
     ) : null;
   }
 );
