@@ -44,6 +44,7 @@ const StyledRoot = styled(ToolbarPrimitive.Root)<RootProps>(
     height: 40,
     borderBottom: borderBottom ? `1px solid ${theme.appBorderColor}` : 'none',
     borderTop: borderTop ? `1px solid ${theme.appBorderColor}` : 'none',
+    boxSizing: 'border-box',
   })
 );
 

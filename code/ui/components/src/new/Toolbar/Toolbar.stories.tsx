@@ -9,9 +9,6 @@ const meta: Meta<typeof Toolbar.Root> = {
   title: 'Toolbar',
   component: Toolbar.Root,
   tags: ['autodocs'],
-  parameters: {
-    layout: 'fullscreen',
-  },
 };
 
 export default meta;
@@ -20,6 +17,8 @@ type Story = StoryObj<typeof Toolbar.Root>;
 export const Base: Story = {
   args: {
     hasPadding: true,
+    borderTop: false,
+    borderBottom: false,
   },
   render: (_, { args }) => (
     <Toolbar.Root {...args}>
@@ -80,4 +79,39 @@ export const Base: Story = {
       </Toolbar.Right>
     </Toolbar.Root>
   ),
+};
+
+export const NoMargin: Story = {
+  args: {
+    ...Base.args,
+    hasPadding: false,
+  },
+  render: Base.render,
+};
+
+export const BorderTop: Story = {
+  args: {
+    ...Base.args,
+    borderTop: true,
+    borderBottom: false,
+  },
+  render: Base.render,
+};
+
+export const BorderBottom: Story = {
+  args: {
+    ...Base.args,
+    borderTop: false,
+    borderBottom: true,
+  },
+  render: Base.render,
+};
+
+export const BorderTopBottom: Story = {
+  args: {
+    ...Base.args,
+    borderTop: true,
+    borderBottom: true,
+  },
+  render: Base.render,
 };
