@@ -106,6 +106,9 @@ function mapSlots(
       ?.bindings?.map((b) => b.name)
       .join(',');
 
+    if (typeof slot === 'string') {
+      slotContent = slot;
+    }
     if (typeof slot === 'function') {
       slotContent = generateExpression(slot);
     }
