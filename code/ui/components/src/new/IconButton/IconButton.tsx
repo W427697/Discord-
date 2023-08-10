@@ -1,3 +1,4 @@
+import type { SyntheticEvent } from 'react';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
@@ -10,7 +11,7 @@ interface IconButtonProps<T extends React.ElementType = React.ElementType> {
   as?: T;
   size?: 'small' | 'medium';
   variant?: 'solid' | 'outline' | 'ghost';
-  onClick?: () => void;
+  onClick?: (event: SyntheticEvent) => void;
   disabled?: boolean;
   active?: boolean;
   onClickAnimation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
@@ -29,8 +30,8 @@ export const IconButton: {
     const LocalIcon = Icon[icon];
     const [isAnimating, setIsAnimating] = useState(false);
 
-    const handleClick = () => {
-      onClick?.();
+    const handleClick = (event: SyntheticEvent) => {
+      if (onClick) onClick(event);
       if (onClickAnimation === 'none') return;
       setIsAnimating(true);
     };
