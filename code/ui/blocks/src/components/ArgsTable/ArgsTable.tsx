@@ -5,8 +5,8 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
-import { IconButton, Icons, ResetWrapper } from '@storybook/components';
-import { Link } from '@storybook/components/experimental';
+import { IconButton, ResetWrapper } from '@storybook/components';
+import { Icon, Link } from '@storybook/components/experimental';
 
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
@@ -380,7 +380,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
                   Control{' '}
                   {!isLoading && resetArgs && (
                     <StyledIconButton onClick={() => resetArgs()} title="Reset controls">
-                      <Icons icon="undo" aria-hidden />
+                      <Icon.Undo aria-hidden />
                     </StyledIconButton>
                   )}
                 </ControlHeadingWrapper>
