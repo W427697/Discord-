@@ -445,7 +445,7 @@ export interface Addon_WrapperType {
   >;
 }
 export interface Addon_BottomType {
-  type: Addon_TypesEnum.experimental_BOTTOM;
+  type: Addon_TypesEnum.experimental_SIDEBAR_BOTTOM;
   /**
    * The unique id of the tool.
    */
@@ -458,13 +458,15 @@ export interface Addon_BottomType {
 
 type Addon_TypeBaseNames = Exclude<
   Addon_TypesEnum,
-  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE | Addon_TypesEnum.experimental_BOTTOM
+  | Addon_TypesEnum.PREVIEW
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
 >;
 
 export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
   [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
   [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
-  [Addon_TypesEnum.experimental_BOTTOM]: Addon_BottomType;
+  [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_BottomType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -522,7 +524,7 @@ export enum Addon_TypesEnum {
    * This adds items in the bottom of the sidebar.
    * @unstable
    */
-  experimental_BOTTOM = 'bottom',
+  experimental_SIDEBAR_BOTTOM = 'sidebar-bottom',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.

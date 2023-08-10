@@ -66,7 +66,7 @@ const Sidebar = React.memo(function Sideber() {
       return Object.fromEntries(Object.entries(originalIndex).filter(([key]) => filtered.has(key)));
     }, [originalIndex, filters, status]);
 
-    const items = api.getElements(types.experimental_BOTTOM);
+    const items = api.getElements(types.experimental_SIDEBAR_BOTTOM);
     const bottom = useMemo(() => Object.values(items), [items]);
 
     return {

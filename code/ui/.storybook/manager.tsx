@@ -13,7 +13,7 @@ addons.setConfig({
 
 // addons.register('my/design-addon', () => {
 //   addons.add('my/design-addon', {
-//     type: types.experimental_BOTTOM,
+//     type: types.experimental_SIDEBAR_BOTTOM,
 //     id: 'my/design-addon/panel',
 //     render: () => <div>HI</div>,
 //   });

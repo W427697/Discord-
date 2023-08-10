@@ -241,7 +241,7 @@ export const Bottom: Story = {
       bottom={[
         {
           id: '1',
-          type: types.experimental_BOTTOM,
+          type: types.experimental_SIDEBAR_BOTTOM,
           render: () => (
             <Button variant="outline" icon="FaceHappy">
               Custom addon A
@@ -250,7 +250,7 @@ export const Bottom: Story = {
         },
         {
           id: '2',
-          type: types.experimental_BOTTOM,
+          type: types.experimental_SIDEBAR_BOTTOM,
           render: () => (
             <Button variant="outline" icon="FaceHappy">
               Custom addon B
@@ -259,7 +259,7 @@ export const Bottom: Story = {
         },
         {
           id: '3',
-          type: types.experimental_BOTTOM,
+          type: types.experimental_SIDEBAR_BOTTOM,
           render: () => <Button variant="outline" icon="FaceHappy" />,
         },
       ]}
