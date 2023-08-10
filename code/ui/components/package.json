@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-toolbar": "^1.0.4",
     "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
