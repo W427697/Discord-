@@ -108,17 +108,14 @@ function mapSlots(
 
     if (typeof slot === 'string') {
       slotContent = slot;
-    }
-    if (typeof slot === 'function') {
+    } else if (typeof slot === 'function') {
       slotContent = generateExpression(slot);
-    }
-    if (isVNode(slot)) {
+    } else if (isVNode(slot)) {
       slotContent = generateComponentSource(slot);
-    }
-
-    if (typeof slot === 'object' && !isVNode(slot)) {
+    } else if (typeof slot === 'object' && !isVNode(slot)) {
       slotContent = JSON.stringify(slot);
     }
+
     const bindingsString = scropedArgs ? `="{${scropedArgs}}"` : '';
     slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
 
