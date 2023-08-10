@@ -18,14 +18,14 @@ export const Base: Story = {
   args: {
     hasPadding: true,
     borderTop: false,
-    borderBottom: false,
+    borderBottom: true,
   },
   render: (_, { args }) => (
     <Toolbar.Root {...args}>
       <Toolbar.Left>
         <Toolbar.ToogleGroup type="single">
           <Toolbar.ToggleItem value="item1">
-            <IconButton icon="FaceHappy" size="small" variant="ghost" />
+            <IconButton icon="Sync" size="small" variant="ghost" />
           </Toolbar.ToggleItem>
           <Toolbar.ToggleItem value="item2">
             <IconButton icon="Zoom" size="small" variant="ghost" />
