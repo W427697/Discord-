@@ -39,9 +39,12 @@ const Sidebar = React.memo(function Sideber() {
       state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
 
     const index = useMemo(() => {
-      const filtered = new Set();
+      if (!originalIndex) {
+        return originalIndex;
+      }
 
-      Object.values(originalIndex || {}).forEach((item) => {
+      const filtered = new Set();
+      Object.values(originalIndex).forEach((item) => {
         if (item.type === 'story' || item.type === 'docs') {
           let result = true;
 
@@ -60,9 +63,7 @@ const Sidebar = React.memo(function Sideber() {
         }
       });
 
-      return Object.fromEntries(
-        Object.entries(originalIndex || {}).filter(([key]) => filtered.has(key))
-      );
+      return Object.fromEntries(Object.entries(originalIndex).filter(([key]) => filtered.has(key)));
     }, [originalIndex, filters, status]);
 
     return {
