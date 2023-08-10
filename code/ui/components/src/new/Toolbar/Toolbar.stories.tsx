@@ -25,7 +25,7 @@ export const Base: Story = {
       <Toolbar.Left>
         <Toolbar.ToogleGroup type="single">
           <Toolbar.ToggleItem value="item1">
-            <IconButton icon="Sync" size="small" variant="ghost" />
+            <IconButton icon="Sync" size="small" variant="ghost" onClickAnimation="jiggle" />
           </Toolbar.ToggleItem>
           <Toolbar.ToggleItem value="item2">
             <IconButton icon="Zoom" size="small" variant="ghost" />
