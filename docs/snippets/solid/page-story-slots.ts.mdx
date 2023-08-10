@@ -1,12 +1,12 @@
 ```tsx
 // Page.stories.ts|tsx
 
+import type { ComponentProps } from 'solid-js';
 import type { Meta, StoryObj } from 'storybook-solidjs';
 
 import { Page } from './Page';
 
-// TODO: How do you extract a Solid component's props type?
-// type PagePropsAndCustomArgs = Page & { footer?: string };
+type PagePropsAndCustomArgs = ComponentProps<typeof Page> & { footer?: string };
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   component: Page,

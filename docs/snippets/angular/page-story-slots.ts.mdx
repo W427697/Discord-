@@ -5,10 +5,6 @@ import type { Meta, StoryObj } from '@storybook/angular';
 
 import { Page } from './page.component';
 
-// TODO: Is this correct?
-//       If not, is it expected that an Angular component exports its props type?
-//       What if it's an interface instead of a type (which seems to be the convention)?
-//       Or, how do you extract an Angular component's props type?
 type PagePropsAndCustomArgs = Page & { footer?: string };
 
 const meta: Meta<PagePropsAndCustomArgs> = {

@@ -1,12 +1,13 @@
 ```ts
 // Page.stories.ts
 
+// https://www.npmjs.com/package/vue-component-type-helpers
+import type { ComponentProps } from 'vue-component-type-helpers';
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import Page from './Page.vue';
 
-// TODO: How do you extract a Vue3 component's props type?
-// type PagePropsAndCustomArgs = Page & { footer?: string };
+type PagePropsAndCustomArgs = ComponentProps<typeof Page> & { footer?: string };
 
 const meta: Meta<PagePropsAndCustomArgs> = {
   component: Page,
