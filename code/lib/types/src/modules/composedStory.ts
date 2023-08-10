@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { Renderer, StoryId } from '@storybook/csf';
+import type { PartialStoryFn, Renderer, StoryId } from '@storybook/csf';
 
 import type {
   AnnotatedStoryFn,
@@ -8,8 +8,8 @@ import type {
   ComponentAnnotations,
   Parameters,
   StoryAnnotations,
+  StoryAnnotationsOrFn,
   StoryContext,
-  StoryFn,
 } from './csf';
 
 import type { ProjectAnnotations } from './story';
@@ -61,14 +61,6 @@ export type ComposedStoryFn<
   storyName: string;
   parameters: Parameters;
 };
-
-/**
- * Type that matches whether the story is a CSF2 story or a CSF3 story, used for assertion and inference
- */
-export type StoryLike<TRenderer extends Renderer = Renderer, TArgs = Args> =
-  | StoryFn<TRenderer, TArgs>
-  | StoryAnnotations<TRenderer, TArgs>;
-
 /**
  * Based on a module of stories, it returns all stories within it, filtering non-stories
  * Each story will have partial props, as their props should be handled when composing stories
@@ -78,9 +70,9 @@ export type StoriesWithPartialProps<TRenderer extends Renderer, TModule> = {
   // 1. pick the keys K of T that have properties that are Story<AnyProps>
   // 2. infer the actual prop type for each Story
   // 3. reconstruct Story with Partial. Story<Props> -> Story<Partial<Props>>
-  [K in keyof TModule as TModule[K] extends StoryLike<infer _, infer _TProps>
+  [K in keyof TModule as TModule[K] extends StoryAnnotationsOrFn<infer _, infer _TProps>
     ? K
-    : never]: TModule[K] extends StoryLike<infer _, infer TProps>
+    : never]: TModule[K] extends StoryAnnotationsOrFn<infer _, infer TProps>
     ? ComposedStoryFn<TRenderer, Partial<TProps>>
     : unknown;
 };
