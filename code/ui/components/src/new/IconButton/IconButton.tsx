@@ -6,37 +6,35 @@ import type { PropsOf } from '../utils/types';
 import { Icon } from '../Icon/Icon';
 
 interface ButtonProps<T extends React.ElementType = React.ElementType> {
-  children: string;
+  icon: Icons;
   as?: T;
   size?: 'small' | 'medium';
   variant?: 'solid' | 'outline' | 'ghost';
   onClick?: () => void;
   disabled?: boolean;
   active?: boolean;
-  icon?: Icons;
 }
 
-export const Button: {
+export const IconButton: {
   <E extends React.ElementType = 'button'>(
     props: ButtonProps<E> & Omit<PropsOf<E>, keyof ButtonProps>
   ): JSX.Element;
   displayName?: string;
 } = forwardRef(
-  ({ as, children, icon, ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+  ({ as, icon = 'FaceHappy', ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
     const LocalIcon = Icon[icon];
 
     return (
       <StyledButton as={as} ref={ref} {...props}>
         {icon && <LocalIcon />}
-        {children}
       </StyledButton>
     );
   }
 );
 
-Button.displayName = 'Button';
+IconButton.displayName = 'IconButton';
 
-const StyledButton = styled.button<Omit<ButtonProps, 'children'>>(
+const StyledButton = styled.button<Omit<ButtonProps, 'icon'>>(
   ({ theme, variant = 'solid', size = 'medium', disabled = false, active = false }) => ({
     border: 0,
     cursor: disabled ? 'not-allowed' : 'pointer',
@@ -45,10 +43,10 @@ const StyledButton = styled.button<Omit<ButtonProps, 'children'>>(
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    padding: `${(() => {
-      if (size === 'small') return '0 10px';
-      if (size === 'medium') return '0 12px';
-      return 0;
+    width: `${(() => {
+      if (size === 'small') return '28px';
+      if (size === 'medium') return '32px';
+      return 'auto';
     })()}`,
     height: size === 'small' ? '28px' : '32px',
     position: 'relative',
