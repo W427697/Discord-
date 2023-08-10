@@ -108,7 +108,6 @@ export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
               .filter((p) => !p.hidden)
               .map((t, index) => {
                 const to = t.route(rp);
-                const isActive = rp.path === to;
                 return (
                   <S.UnstyledLink key={t.id || `l${index}`} to={to}>
                     <Toolbar.ToggleItem value={t.id} disabled={t.disabled}>
