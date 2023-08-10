@@ -24,7 +24,7 @@ const Container = styled.div(({ theme }) => ({
   height: 40,
   zIndex: 10,
   background: theme.background.content,
-  padding: '0 15px',
+  padding: '0 10px',
   borderTop: `1px solid ${theme.appBorderColor}`,
 }));
 
