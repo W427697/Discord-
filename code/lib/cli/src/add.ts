@@ -25,8 +25,6 @@ const postinstallAddon = async (addonName: string) => {
     }
   } catch (e) {
     // no postinstall script
-    logger.log(`No postinstall script for ${addonName}`);
-    logger.log(e);
   }
 };
 
