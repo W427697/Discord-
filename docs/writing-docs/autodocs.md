@@ -53,6 +53,8 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 ### Write a custom template
 
+<YouTubeCallout id="q8SY4yyNE6Q" title="Custom Autodocs with Storybook 7 Docs Page | Quick Tips" />
+
 To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js|ts`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
 
 <!-- prettier-ignore-start -->
@@ -66,7 +68,11 @@ To replace the default documentation template used by Storybook, you can extend 
 
 <!-- prettier-ignore-end -->
 
-<YouTubeCallout id="q8SY4yyNE6Q" title="Custom Autodocs with Storybook 7 Docs Page | Quick Tips" />
+<div class="aside">
+
+💡 Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks [API reference](./doc-blocks.md#available-blocks) to learn more about how Doc Blocks work.
+
+</div>
 
 Going over the code snippet in more detail. When Storybook starts up, it will override the default template with the custom one composed of the following:
 
@@ -74,12 +80,6 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 2. The first story defined in the file via the `Primary` Doc Block with a handy set of UI controls to zoom in and out of the component.
 3. An interactive table with all the relevant [`args`](../writing-stories/args.md) and [`argTypes`](../api/argtypes.md) defined in the story via the `Controls` Doc Block.
 4. A overview of the remaining stories via the `Stories` Doc Block.
-
-<div class="aside">
-
-💡 Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks [API reference](./doc-blocks.md#available-blocks) to learn more about how Doc Blocks work.
-
-</div>
 
 #### With MDX
 
