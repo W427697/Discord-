@@ -326,5 +326,6 @@
         "Dependency Upgrades"
       ]
     ]
-  }
+  },
+  "deferredNextVersion": "7.3.0-alpha.0"
 }
