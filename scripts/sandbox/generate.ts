@@ -168,7 +168,7 @@ const runGenerators = async (
     );
   }
 
-  const limit = pLimit(maxConcurrentTasks);
+  const limit = pLimit(1);
 
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
@@ -178,7 +178,7 @@ const runGenerators = async (
         else if (expected.renderer === '@storybook/server') flags = ['--type server'];
 
         const time = process.hrtime();
-        console.log(`🧬 Generating ${name}`);
+        console.log(`🧬 Generating ${dirName} (${name})`);
 
         const baseDir = join(REPROS_DIRECTORY, dirName);
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
@@ -191,7 +191,7 @@ const runGenerators = async (
 
         const tempInitDir = join(tempDir, BEFORE_DIR_NAME);
 
-        await improveNPMPerformance(tempDir);
+        // await improveNPMPerformance(tempDir);
 
         // Some tools refuse to run inside an existing directory and replace the contents,
         // where as others are very picky about what directories can be called. So we need to
@@ -228,6 +228,11 @@ const runGenerators = async (
             return src.indexOf('node_modules') === -1 && src.indexOf('.git') === -1;
           },
         });
+
+        const lockFilePathBeforeDir = findUp.sync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
+          cwd: tempInitDir,
+        });
+        await remove(lockFilePathBeforeDir);
 
         await addStorybook({ dir: tempInitDir, localRegistry, flags, debug, dirName });
 
@@ -300,10 +305,17 @@ export const generate = async ({
       dirName: dirName as TemplateKey,
       ...configuration,
     }))
-    .filter(({ dirName }) => {
+    .filter(({ dirName, name }) => {
       if (template) {
         return dirName === template;
       }
+
+      return (
+        dirName.match(/^(react|vue3|lit)-vite|angular-cli\/default-ts/) &&
+        !name.includes('npm') &&
+        name.includes('TypeScript') &&
+        !name.includes('prerelease')
+      );
 
       return true;
     });
