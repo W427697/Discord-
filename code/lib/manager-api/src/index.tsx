@@ -416,7 +416,7 @@ const addonStateCache: {
 } = {};
 
 // shared state
-export function useSharedState<S extends object>(stateId: string, defaultState?: S) {
+export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
   const existingState = api.getAddonState<S>(stateId) || addonStateCache[stateId];
   const state = orDefault<S>(
@@ -434,7 +434,7 @@ export function useSharedState<S extends object>(stateId: string, defaultState?:
     let sFinal = s;
     if (typeof s === 'function') {
       sFinal = (_state) => {
-        return s(_state || defaultState);
+        return (s as API_StateMerger<S>)(_state || defaultState);
       };
     }
     const result = api.setAddonState<S>(stateId, sFinal, options);
@@ -489,7 +489,7 @@ export function useSharedState<S extends object>(stateId: string, defaultState?:
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
 }
 
-export function useAddonState<S extends object>(addonId: string, defaultState?: S) {
+export function useAddonState<S>(addonId: string, defaultState?: S) {
   return useSharedState<S>(addonId, defaultState);
 }
 
