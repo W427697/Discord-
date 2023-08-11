@@ -121,6 +121,7 @@ export default {
     'Input',
     'Link',
     'Select',
+    'Toolbar',
     'useMediaQuery',
   ],
   '@storybook/channels': [
