@@ -29,8 +29,10 @@ import type {
 } from './csf';
 import type { IndexEntry } from './indexer';
 
-export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
-
+export type Addon_Types = Exclude<
+  Addon_TypesEnum,
+  Addon_TypesEnum.experimental_PAGE | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+>;
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
 }
@@ -324,7 +326,11 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export type Addon_Type = Addon_BaseType | Addon_PageType | Addon_WrapperType;
+export type Addon_Type =
+  | Addon_BaseType
+  | Addon_PageType
+  | Addon_WrapperType
+  | Addon_SidebarBottomType;
 export interface Addon_BaseType {
   /**
    * The title of the addon.
@@ -335,7 +341,12 @@ export interface Addon_BaseType {
    * The type of the addon.
    * @example Addon_TypesEnum.PANEL
    */
-  type: Exclude<Addon_Types, Addon_TypesEnum.PREVIEW>;
+  type: Exclude<
+    Addon_Types,
+    | Addon_TypesEnum.PREVIEW
+    | Addon_TypesEnum.experimental_PAGE
+    | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  >;
   /**
    * The unique id of the addon.
    * @warn This will become non-optional in 8.0

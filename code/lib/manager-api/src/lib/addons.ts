@@ -98,9 +98,12 @@ export class AddonStore {
     this.serverChannel = channel;
   };
 
-  getElements<T extends Addon_Types | Addon_TypesEnum.experimental_PAGE>(
-    type: T
-  ): Addon_Collection<Addon_TypesMapping[T]> {
+  getElements<
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  >(type: T): Addon_Collection<Addon_TypesMapping[T]> {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
