@@ -66,7 +66,7 @@ export const applyNextConfigWebpackConfig = (
       dev: process.env.NODE_ENV === 'development',
       isServer: false,
       buildId: nextConfig.buildId || '',
-      dir: nextConfig.basePath || '.',
+      dir: '.',
       config: nextConfig as NextConfigComplete,
       defaultLoaders: {
         babel: {},
