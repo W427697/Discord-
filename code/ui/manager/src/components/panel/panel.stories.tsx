@@ -37,12 +37,7 @@ export const JSXTitles = () => {
         'function-string': {
           type: Addon_TypesEnum.PANEL,
           title: () => 'Test 1',
-          render: ({ active, key }) =>
-            active ? (
-              <div id="test1" key={key}>
-                TEST as string
-              </div>
-            ) : null,
+          render: ({ active }) => (active ? <div id="test1">TEST as string</div> : null),
         },
         'function-jsx': {
           type: Addon_TypesEnum.PANEL,
@@ -54,12 +49,7 @@ export const JSXTitles = () => {
               </Spaced>
             </div>
           ),
-          render: ({ active, key }) =>
-            active ? (
-              <div id="test1" key={key}>
-                TEST with label
-              </div>
-            ) : null,
+          render: ({ active }) => (active ? <div id="test1">TEST with label</div> : null),
         },
         'function-jsx-icon': {
           type: Addon_TypesEnum.PANEL,
@@ -71,12 +61,7 @@ export const JSXTitles = () => {
               </Spaced>
             </div>
           ),
-          render: ({ active, key }) =>
-            active ? (
-              <div id="test1" key={key}>
-                TEST with label
-              </div>
-            ) : null,
+          render: ({ active }) => (active ? <div id="test1">TEST with label</div> : null),
         },
         'function-jsx-state': {
           type: Addon_TypesEnum.PANEL,
@@ -125,12 +110,8 @@ export const JSXTitles = () => {
               </div>
             );
           },
-          render: ({ active, key }) => {
-            return active ? (
-              <div id="test1" key={key}>
-                TEST with timer
-              </div>
-            ) : null;
+          render: ({ active }) => {
+            return active ? <div id="test1">TEST with timer</div> : null;
           },
         },
       }}

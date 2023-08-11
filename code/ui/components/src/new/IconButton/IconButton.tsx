@@ -1,32 +1,53 @@
-import React, { forwardRef } from 'react';
+import type { SyntheticEvent } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import type { Icons } from '@storybook/icons';
 import type { PropsOf } from '../utils/types';
 import { Icon } from '../Icon/Icon';
 
-interface ButtonProps<T extends React.ElementType = React.ElementType> {
+interface IconButtonProps<T extends React.ElementType = React.ElementType> {
   icon: Icons;
   as?: T;
   size?: 'small' | 'medium';
   variant?: 'solid' | 'outline' | 'ghost';
-  onClick?: () => void;
+  onClick?: (event: SyntheticEvent) => void;
   disabled?: boolean;
   active?: boolean;
+  onClickAnimation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
 }
 
 export const IconButton: {
   <E extends React.ElementType = 'button'>(
-    props: ButtonProps<E> & Omit<PropsOf<E>, keyof ButtonProps>
+    props: IconButtonProps<E> & Omit<PropsOf<E>, keyof IconButtonProps>
   ): JSX.Element;
   displayName?: string;
 } = forwardRef(
-  ({ as, icon = 'FaceHappy', ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+  (
+    { as, icon = 'FaceHappy', onClickAnimation = 'none', onClick, ...props }: IconButtonProps,
+    ref: React.Ref<HTMLButtonElement>
+  ) => {
     const LocalIcon = Icon[icon];
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const handleClick = (event: SyntheticEvent) => {
+      if (onClick) onClick(event);
+      if (onClickAnimation === 'none') return;
+      setIsAnimating(true);
+    };
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        if (isAnimating) setIsAnimating(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }, [isAnimating]);
 
     return (
-      <StyledButton as={as} ref={ref} {...props}>
-        {icon && <LocalIcon />}
+      <StyledButton as={as} ref={ref} {...props} onClick={handleClick}>
+        <IconWrapper isAnimating={isAnimating} animation={onClickAnimation}>
+          <LocalIcon />
+        </IconWrapper>
       </StyledButton>
     );
   }
@@ -34,7 +55,7 @@ export const IconButton: {
 
 IconButton.displayName = 'IconButton';
 
-const StyledButton = styled.button<Omit<ButtonProps, 'icon'>>(
+const StyledButton = styled.button<Omit<IconButtonProps, 'icon'>>(
   ({ theme, variant = 'solid', size = 'medium', disabled = false, active = false }) => ({
     border: 0,
     cursor: disabled ? 'not-allowed' : 'pointer',
@@ -109,3 +130,12 @@ const StyledButton = styled.button<Omit<ButtonProps, 'icon'>>(
     },
   })
 );
+
+const IconWrapper = styled.div<{
+  isAnimating: boolean;
+  animation: IconButtonProps['onClickAnimation'];
+}>(({ theme, isAnimating, animation }) => ({
+  width: 14,
+  height: 14,
+  animation: isAnimating && animation !== 'none' && `${theme.animation[animation]} 1000ms ease-out`,
+}));
