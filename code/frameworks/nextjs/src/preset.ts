@@ -4,7 +4,7 @@ import type { Options, PresetProperty } from '@storybook/types';
 import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
-import { configureConfig } from './config/webpack';
+import { applyNextConfigWebpackConfig, configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
 import { configureRouting } from './routing/webpack';
@@ -152,6 +152,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureRouting(baseConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+  applyNextConfigWebpackConfig(baseConfig, nextConfig);
 
   return baseConfig;
 };

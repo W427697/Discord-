@@ -3,6 +3,8 @@ import semver from 'semver';
 
 import type { NextConfig } from 'next';
 import { DefinePlugin } from 'webpack';
+import type { NextConfigComplete } from 'next/dist/server/config-shared';
+import next from 'next/types';
 import { addScopedAlias, getNextjsVersion, resolveNextConfig } from '../utils';
 
 export const configureConfig = async ({
@@ -53,4 +55,24 @@ const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): 
   }
 
   baseConfig.plugins?.push(new DefinePlugin(definePluginConfig));
+};
+
+export const applyNextConfigWebpackConfig = (
+  baseConfig: WebpackConfig,
+  nextConfig: NextConfig
+): void => {
+  if (typeof nextConfig.webpack === 'function') {
+    nextConfig.webpack(baseConfig, {
+      dev: process.env.NODE_ENV === 'development',
+      isServer: false,
+      buildId: nextConfig.buildId || '',
+      dir: nextConfig.basePath || '.',
+      config: nextConfig as NextConfigComplete,
+      defaultLoaders: {
+        babel: {},
+      },
+      totalPages: 0,
+      webpack: baseConfig,
+    });
+  }
 };
