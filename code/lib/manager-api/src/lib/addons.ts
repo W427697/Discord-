@@ -13,7 +13,7 @@ import type {
   Addon_Types,
   Addon_TypesMapping,
   Addon_WrapperType,
-  Addon_BottomType,
+  Addon_SidebarBottomType,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -142,7 +142,7 @@ export class AddonStore {
     id: string,
     addon:
       | Addon_BaseType
-      | (Omit<Addon_BottomType, 'id'> & DeprecatedAddonWithId)
+      | (Omit<Addon_SidebarBottomType, 'id'> & DeprecatedAddonWithId)
       | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
       | (Omit<Addon_WrapperType, 'id'> & DeprecatedAddonWithId)
   ): void {

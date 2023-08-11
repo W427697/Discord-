@@ -448,7 +448,7 @@ export interface Addon_WrapperType {
     }>
   >;
 }
-export interface Addon_BottomType {
+export interface Addon_SidebarBottomType {
   type: Addon_TypesEnum.experimental_SIDEBAR_BOTTOM;
   /**
    * The unique id of the tool.
@@ -470,7 +470,7 @@ type Addon_TypeBaseNames = Exclude<
 export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
   [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
   [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
-  [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_BottomType;
+  [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_SidebarBottomType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
