@@ -5772,9 +5772,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-designs@npm:^7.0.0":
-  version: 7.0.1
-  resolution: "@storybook/addon-designs@npm:7.0.1"
+"@storybook/addon-designs@npm:^7.0.4":
+  version: 7.0.4
+  resolution: "@storybook/addon-designs@npm:7.0.4"
   dependencies:
     "@figspec/react": ^1.0.0
   peerDependencies:
@@ -5791,7 +5791,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 4705db42fa2fe2383f78ab929903e0044e1ffb275f888a2684f37e2ae5059e38778f7cd61e798b55d83a6addb17c5fb03e8a143ad318190f8489e95a622cca49
+  checksum: cebbef90913c91e11a67ea48d9c714b47d242d22f28a04ccab6a7beecd332de3d376082b224ad2c54a3c4dc7e45d3a11692f8c14a9b17c4b085a75682292591e
   languageName: node
   linkType: hard
 
@@ -7091,7 +7091,7 @@ __metadata:
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
-    "@storybook/addon-designs": ^7.0.0
+    "@storybook/addon-designs": ^7.0.4
     "@storybook/addons": "workspace:*"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
