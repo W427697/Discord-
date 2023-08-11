@@ -215,7 +215,7 @@ Args specified through the URL will extend and override any default values of ar
 
 ## Setting args from within a story
 
-Interactive components often need to be controlled by their containing component or page to respond to events, modify their state and reflect those changes in the UI. For example, when a user toggles a switch component, the switch should be checked, and the arg shown in Storybook should reflect the change. To enable this, you can use the [`useArgs`](../addons/addons-api.md#useargs) API exported by `@storybook/preview-api`:
+Interactive components often need to be controlled by their containing component or page to respond to events, modify their state and reflect those changes in the UI. For example, when a user toggles a switch component, the switch should be checked, and the arg shown in Storybook should reflect the change. To enable this, you can use the `useArgs` API exported by `@storybook/preview-api`:
 
 <!-- prettier-ignore-start -->
 
