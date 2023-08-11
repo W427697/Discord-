@@ -102,7 +102,7 @@ The high-level flow is:
 
 1. When a PR is merged to `next` (or a commit is pushed), both release pull requests are (re)generated.
 2. They create a new branch - `version-(patch|prerelease)-from-<CURRENT-VERSION>`.
-3. They bump all versions according to the version strategy.
+3. They calculate which version to bump to according to the version strategy.
 4. They update `CHANGELOG(.prerelease).md` with all changes detected.
 5. They commit everything.
 6. They **force push**.
@@ -112,7 +112,7 @@ A few key points to note in this flow:
 
 - The PRs are regenerated on any changes to `next`, or can be manually triggered (see [the Re-trigger the Workflow section](#4-re-trigger-the-workflow)).
 - The changes are force pushed to the branch, so any manual changes on the release branch before merging risk being overwritten if someone else merges a new change to `next`, triggering the workflow. To avoid this, apply the **"freeze"** label to the pull request.
-- The version bumps and changelogs are committed during the preparation, but the packages are not published until later.
+- The changelogs are committed during the preparation, but the packages are not version bumped and not published until later.
 - The release pull requests don't target their working branches (`next` and `main`), but rather `next-release` and `latest-release`.
 
 ### Prereleases
@@ -149,9 +149,10 @@ gitGraph
     checkout next
     merge some-bugfix type: HIGHLIGHT
     branch version-prerelease-from-7.1.0-alpha.28
-    commit id: "bump version"
+    commit id: "write changelog"
     checkout next-release
-    merge version-prerelease-from-7.1.0-alpha.28 tag: "7.1.0-alpha.29"
+    merge version-prerelease-from-7.1.0-alpha.28
+    commit id: "bump versions" tag: "7.1.0-alpha.29"
     checkout next
     merge next-release
 ```
@@ -199,9 +200,10 @@ gitGraph
     branch version-patch-from-7.0.18
     cherry-pick id: "patch1"
     cherry-pick id: "patch2"
-    commit id: "version bump"
+    commit id: "write changelog"
     checkout latest-release
-    merge version-patch-from-7.0.18 tag: "v7.0.19"
+    merge version-patch-from-7.0.18
+    commit id: "bump versions" tag: "v7.0.19"
     checkout main
     merge latest-release
 ```
@@ -213,13 +215,14 @@ gitGraph
 
 When either a prerelease or a patch release branch is merged into `main` or `next-release`, the publishing workflow is triggered. This workflow performs the following tasks:
 
-1. Install dependencies and build all packages.
-2. Publish packages to npm.
-3. (If this is a patch release, add the "**picked**" label to all relevant pull requests.)
-4. Create a new GitHub Release, including a version tag in the release branch (`latest-release` or `next-release`).
-5. Merge the release branch into the core branch (`main` or `next`).
-6. (If this is a patch release, copy the `CHANGELOG.md` changes from `main` to `next`.)
-7. (If this is [a promotion from a prerelease to a stable release](#minormajor-releases---710-rc2---710-or-800-rc3---800), force push `next` to `main`.)
+1. Bump versions of all packages according to the plan from the prepared PRs
+2. Install dependencies and build all packages.
+3. Publish packages to npm.
+4. (If this is a patch release, add the "**picked**" label to all relevant pull requests.)
+5. Create a new GitHub Release, including a version tag in the release branch (`latest-release` or `next-release`).
+6. Merge the release branch into the core branch (`main` or `next`).
+7. (If this is a patch release, copy the `CHANGELOG.md` changes from `main` to `next`.)
+8. (If this is [a promotion from a prerelease to a stable release](#minormajor-releases---710-rc2---710-or-800-rc3---800), force push `next` to `main`.)
 
 The publish workflow runs in the "release" GitHub environment, which has the npm token required to publish packages to the `@storybook` npm organization. For security reasons, this environment can only be accessed from the four "core" branches: `main`, `next`, `latest-release` and `next-release`.
 
@@ -312,13 +315,17 @@ It's possible and valid to push manual changes directly on the release branch wh
 
 It's recommended to use the automated process as much as possible to ensure that the information in GitHub is the single source of truth, and that pull requests and changelogs are in sync.
 
+> **Warning**
+> If you make manual changes to the changelog, you also need to make those changes in either [`./docs/versions/latest.json`](../docs/versions/latest.json) or [`./docs/versions/next.json`](../docs/versions/next.json). The `"plain"` property should match the changelog entry, **without the heading** and with all new lines replaces with `\n`.
+> This is common for custom release notes when releasing majors and minors.
+
 ### 6. Merge
 
 When the pull request was frozen, a CI run was triggered on the branch. If it's green, it's time to merge the pull request. If CI is failing for some reason, consult with the rest of the core team. These release pull requests are almost exact copies of `next|main` so CI should only fail if they fail too.
 
 ### 7. See the "Publish" Workflow Finish
 
-Merging the pull request will trigger [the publish workflow](https://github.com/storybookjs/storybook/actions/workflows/publish.yml), which does the final publishing. As a Releaser, you're responsible for this to finish successfully, so you should watch it until the end. If it fails, it will notify in Discord, so you can monitor that instead if you want to.
+Merging the pull request will trigger [the publish workflow](https://github.com/storybookjs/storybook/actions/workflows/publish.yml), which does the final version bumping and publishing. As a Releaser, you're responsible for this to finish successfully, so you should watch it until the end. If it fails, it will notify in Discord, so you can monitor that instead if you want to.
 
 Done! 🚀
 
@@ -326,7 +333,7 @@ Done! 🚀
 
 Things can fail, code can break, and bugs can exist. When automation is broken, there may be a need for an emergency escape hatch to release new fixes. In such a situation, it's valid to run the whole release process locally instead of relying on pull requests and workflows. You don't need to create pull requests or split preparation and publishing; you can do it all at once, but make sure you still follow the correct branching strategy.
 
-You need a token to the npm registry to publish (set as `YARN_NPM_AUTH_TOKEN`), which you can get from @shilman or @ndelangen.
+You can either prepare the release locally and use the automatic workflow for publishing it or you can do the whole release workflow locally. If you choose the latter approach, you need a token to the npm registry to publish (set as `YARN_NPM_AUTH_TOKEN`), which you can get from @shilman or @ndelangen.
 
 You can inspect the workflows to see what they are running and copy that, but here is a general sequence of steps to mimic the automated workflow. Feel free to deviate from this as needed.
 
@@ -339,15 +346,18 @@ Before you start you should make sure that your working tree is clean and the re
 5. (If patch release) Cherry pick:
    1. `yarn release:pick-patches`
    2. Manually cherry pick any necessary patches based on the previous output
-6. Bump versions: `yarn release:version --verbose --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
+6. Bump versions:
+   1. If you plan on using automatic publishing (ie. stop at step 12), bump with deferred: `yarn release:version --verbose --deferred --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
+   2. If doing the whole release locally, **do not** defer the bump: `yarn release:version --verbose --release-type <RELEASE_TYPE> --pre-id <PRE_ID>`
 7. To see a list of changes (for your own to-do list), run `yarn release:generate-pr-description --current-version <CURRENT_VERSION> --next-version <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
 8. Write changelogs: `yarn release:write-changelog <NEXT_VERSION_FROM_PREVIOUS_STEP> --verbose`
 9. `git add .`.
 10. Commit changes: `git commit -m "Bump version from <CURRENT_VERSION> to <NEXT_VERSION_FROM_PREVIOUS_STEP> MANUALLY"`
 11. Merge changes to the release branch:
     1. `git checkout <"latest-release" | "next-release">`
-    2. `git merge <PREVIOUS_BRANCH>`
-    3. `git push origin`
+    2. `git pull`
+    3. `git merge <PREVIOUS_BRANCH>`
+    4. `git push origin`
 12. (If automatic publishing is still working, it should kick in now and the rest of the steps can be skipped)
 13. `cd ..`
 14. Publish to the registry: `YARN_NPM_AUTH_TOKEN=<NPM_TOKEN> yarn release:publish --tag <"next" OR "latest"> --verbose`
@@ -355,8 +365,9 @@ Before you start you should make sure that your working tree is clean and the re
 16. Manually create a GitHub Release with a tag that is the new version and the target being `latest-release` or `next-release`.
 17. Merge to core branch:
     1. `git checkout <"next"|"main">`
-    2. `git merge <"next-release"|"latest-release">`
-    3. `git push origin`
+    2. `git pull`
+    3. `git merge <"next-release"|"latest-release">`
+    4. `git push origin`
 18. (If patch release) Sync `CHANGELOG.md` to `next` with:
     1. `git checkout next`
     2. `git pull`
@@ -364,10 +375,58 @@ Before you start you should make sure that your working tree is clean and the re
     4. `git add ./CHANGELOG.md`
     5. `git commit -m "Update CHANGELOG.md for v<NEXT_VERSION>"`
     6. `git push origin`
+19. (If prerelease) Sync `versions/next.json` from `next` to `main`
+    1. `git checkout main`
+    2. `git pull`
+    3. `git checkout origin/next ./docs/versions/next.json`
+    4. `git add ./docs/versions/next.json`
+    5. `git commit -m "Update versions/next.json for v<NEXT_VERSION_FROM_PREVIOUS_STEP>"`
+    6. `git push origin main`
 
 ## Canary Releases
 
-Not implemented yet. Still work in progress, stay tuned.
+It's possible to release any pull request as a canary release multiple times during development. This is an effective way to try out changes in standalone projects without linking projects together via package managers.
+
+To create a canary release, a core team member (or anyone else with administrator privileges) must manually trigger the canary release workflow.
+
+**Before creating a canary release from contributors, the core team member must ensure that the code being released is not malicious.**
+
+Creating a canary release can either be done via GitHub's UI or the [CLI](https://cli.github.com/):
+
+### With GitHub UI
+
+1. Open the workflow UI at https://github.com/storybookjs/storybook/actions/workflows/canary-release-pr.yml
+2. On the top right corner, click "Run workflow"
+3. For "branch", **always select `next`**, regardless of which branch your pull request is on
+4. For the pull request number, input the number for the pull request **without a leading #**
+
+### With the CLI
+
+The following command will trigger a workflow run - replace `<PR_NUMBER>` with the actual pull request number:
+
+```bash
+gh workflow run --repo storybookjs/storybook canary-release-pr.yml --field pr=<PR_NUMBER>
+```
+
+When the release succeeds, it will update the "Canary release" section of the pull request with information about the release and how to use it (see example [here](https://github.com/storybookjs/storybook/pull/23508)). If it fails, it will create a comment on the pull request, tagging the triggering actor to let them know that it failed (see example [here](https://github.com/storybookjs/storybook/pull/23508#issuecomment-1642850467)).
+
+The canary release will have the following version format: `0.0.0-pr-<PR_NUMBER>-sha-<COMMIT_SHA>`, e.g., `0.0.0-pr-23508-5ec8c1c3`. Using v0.0.0 ensures that no user will accidentally get the canary release when using a canary with prereleases, eg. `^7.2.0-alpha.0`
+
+> ** Note **
+> All canary releases are released under the same "canary" dist tag. This means you'll technically be able to install it with `npm install @storybook/cli@canary`. However, this doesn't make sense, as releases from subsequent pull requests will overwrite that tag quickly. Therefore you should always install the specific version string, e.g., `npm install @storybook/cli@0.0.0-pr-23508-sha-5ec8c1c3`.
+
+<details>
+  <summary>Isn't there a simpler/smarter way to do this?</summary>
+
+The simple approach would be to release canaries for all pull requests automatically; however, this would be insecure as any contributor with Write privileges to the repository (200+ users) could create a malicious pull request that alters the release script to release a malicious release (e.g., release a patch version that adds a crypto miner).
+
+To alleviate this, we only allow the "Release" GitHub environment that contains the npm token to be accessible from workflows running on the protected branches (`next`, `main`, etc.).
+
+You could also be tempted to require approval from admins before running the workflows. However, this would spam the core team with GitHub notifications for workflow runs seeking approval - even when a core team member triggered the workflow. Therefore we are doing it the other way around, requiring contributors and maintainers to ask for a canary release to be created explicitly.
+
+Instead of triggering the workflow manually, you could also do something smart, like trigger it when there's a specific label on the pull request or when someone writes a specific comment on the pull request. However, this would create a lot of unnecessary workflow runs because there isn't a way to filter workflow runs based on labels or comment content. The only way to achieve this would be to trigger the workflow on every comment/labeling, then cancel it if it didn't contain the expected content, which is inefficient.
+
+</details>
 
 ## Versioning Scenarios
 
@@ -500,7 +559,7 @@ gitGraph
     commit
     checkout next
     branch version-prerelease-from-7.1.0-alpha.28
-    commit id: "bump version"
+    commit id
     checkout next
     merge some-simultaneous-bugfix type: HIGHLIGHT id: "whoops!"
     merge version-prerelease-from-7.1.0-alpha.28 tag: "v7.1.0-alpha.29"
@@ -524,17 +583,19 @@ gitGraph
     commit
     checkout next
     branch version-prerelease-from-7.1.0-alpha.28
-    commit id: "bump version"
+    commit id: "write changelog"
     checkout next
     merge some-simultanous-bugfix id: "whoops!"
     checkout next-release
-    merge version-prerelease-from-7.1.0-alpha.28 tag: "v7.1.0-alpha.29"
+    merge version-prerelease-from-7.1.0-alpha.28
+    commit id: "bump versions" tag: "v7.1.0-alpha.29"
     checkout next
     merge next-release
     branch version-prerelease-from-7.1.0-alpha.29
-    commit id: "bump version again"
+    commit id: "write changelog again"
     checkout next-release
-    merge version-prerelease-from-7.1.0-alpha.29 tag: "v7.1.0-alpha.30"
+    merge version-prerelease-from-7.1.0-alpha.29
+    commit id: "bump versions again" tag: "v7.1.0-alpha.30"
     checkout next
     merge next-release
 ```

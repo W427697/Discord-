@@ -9,6 +9,8 @@ export const configureImages = (baseConfig: WebpackConfig, nextConfig: NextConfi
   configureImageDefaults(baseConfig);
 };
 
+const fallbackFilename = 'static/media/[path][name][ext]';
+
 const configureImageDefaults = (baseConfig: WebpackConfig): void => {
   const version = getNextjsVersion();
   const resolve = baseConfig.resolve ?? {};
@@ -42,7 +44,8 @@ const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextC
   const rules = baseConfig.module?.rules;
 
   const assetRule = rules?.find(
-    (rule) => typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.jpg')
+    (rule) =>
+      rule && typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.jpg')
   ) as RuleSetRule;
 
   if (!assetRule) {
@@ -58,7 +61,7 @@ const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextC
       {
         loader: require.resolve('@storybook/nextjs/next-image-loader-stub.js'),
         options: {
-          filename: assetRule.generator?.filename,
+          filename: assetRule.generator?.filename ?? fallbackFilename,
           nextConfig,
         },
       },
@@ -69,7 +72,7 @@ const configureStaticImageImport = (baseConfig: WebpackConfig, nextConfig: NextC
     issuer: /\.(css|scss|sass)$/,
     type: 'asset/resource',
     generator: {
-      filename: assetRule.generator?.filename,
+      filename: assetRule.generator?.filename ?? fallbackFilename,
     },
   });
 };

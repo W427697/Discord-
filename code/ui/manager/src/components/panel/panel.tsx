@@ -1,19 +1,16 @@
-import type { ReactElement } from 'react';
 import React, { Component, Fragment } from 'react';
-import { Tabs, Icons, IconButton } from '@storybook/components';
+import { Tabs, IconButton } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
+import type { Addon_BaseType } from '@storybook/types';
 import useMediaQuery from '../hooks/useMedia';
 
 export interface SafeTabProps {
-  title: (() => string) | string;
+  title: Addon_BaseType['title'];
   id: string;
-  children: ReactElement;
+  children: Addon_BaseType['render'];
 }
-
-const SafeTabContent = React.memo<SafeTabProps>(function SafeTabContent({ children }) {
-  return children;
-});
 
 class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
   constructor(props: SafeTabProps) {
@@ -29,22 +26,18 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
 
   render() {
     const { hasError } = this.state;
-    const { children, title, id } = this.props;
+    const { children } = this.props;
     if (hasError) {
       return <h1>Something went wrong.</h1>;
     }
-    return (
-      <SafeTabContent id={id} title={title}>
-        {children}
-      </SafeTabContent>
-    );
+    return children;
   }
 }
 
 const AddonPanel = React.memo<{
   selectedPanel?: string;
   actions: { onSelect: (id: string) => void } & Record<string, any>;
-  panels: Record<string, any>;
+  panels: Record<string, Addon_BaseType>;
   shortcuts: State['shortcuts'];
   panelPosition?: 'bottom' | 'right';
   absolute?: boolean;
@@ -74,14 +67,14 @@ const AddonPanel = React.memo<{
                   shortcuts.panelPosition
                 )}]`}
               >
-                <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+                {panelPosition === 'bottom' ? <Icon.SidebarAlt /> : <Icon.BottomBar />}
               </IconButton>
               <IconButton
                 key="visibility"
                 onClick={actions.toggleVisibility}
                 title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
               >
-                <Icons icon="close" />
+                <Icon.Close />
               </IconButton>
             </Fragment>
           ) : undefined
@@ -89,7 +82,7 @@ const AddonPanel = React.memo<{
         id="storybook-panel-root"
       >
         {Object.entries(panels).map(([k, v]) => (
-          <SafeTab key={k} id={k} title={typeof v.title === 'function' ? v.title() : v.title}>
+          <SafeTab key={k} id={k} title={typeof v.title === 'function' ? <v.title /> : v.title}>
             {v.render}
           </SafeTab>
         ))}

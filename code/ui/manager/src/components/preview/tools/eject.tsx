@@ -1,8 +1,10 @@
 import { global } from '@storybook/global';
 import React from 'react';
-import { getStoryHref, IconButton, Icons } from '@storybook/components';
-import { Consumer } from '@storybook/manager-api';
-import type { Addon, Combo } from '@storybook/manager-api';
+import { getStoryHref, IconButton } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
+import { Consumer, types } from '@storybook/manager-api';
+import type { Combo } from '@storybook/manager-api';
+import type { Addon_BaseType } from '@storybook/types';
 
 const { PREVIEW_URL } = global;
 
@@ -18,9 +20,10 @@ const ejectMapper = ({ state }: Combo) => {
   };
 };
 
-export const ejectTool: Addon = {
+export const ejectTool: Addon_BaseType = {
   title: 'eject',
   id: 'eject',
+  type: types.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={ejectMapper}>
@@ -32,7 +35,7 @@ export const ejectTool: Addon = {
             target="_blank"
             title="Open canvas in new tab"
           >
-            <Icons icon="sharealt" />
+            <Icon.ShareAlt />
           </IconButton>
         ) : null
       }
