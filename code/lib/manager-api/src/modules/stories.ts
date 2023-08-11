@@ -21,7 +21,6 @@ import type {
   API_ViewMode,
   API_StatusState,
   API_StatusUpdate,
-  API_FilterFunction,
 } from '@storybook/types';
 import {
   PRELOAD_ENTRIES,
@@ -40,7 +39,6 @@ import {
   STORY_MISSING,
   DOCS_PREPARED,
   SET_CURRENT_STORY,
-  SET_CONFIG,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
