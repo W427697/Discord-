@@ -215,14 +215,14 @@ Args specified through the URL will extend and override any default values of ar
 
 ## Setting args from within a story
 
-Components with interactivity often need their containing component, or page, to respond to events, modify their state, then pass a changed arg back to the rendered component to reflect the change. For example, you would want a Switch component to be checked by a user and the arg shown in Storybook to reflect the change. This can be accomplished by using the `useArgs` hook exported by `@storybook/preview-api`:
+Components with interactivity often need their containing component, or page, to respond to events, modify their state, then pass a changed arg back to the rendered component to reflect the change. For example, you would want a Checkbox component to be checked by a user and the arg shown in Storybook to reflect the change. This can be accomplished by using the `useArgs` hook exported by `@storybook/preview-api`:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
-  paths={[
-    'react/this-pr-example-snippet.js.mdx',
-    'react/page-story-args-within-story.ts.mdx',
+  paths={[    
+    'react/page-story-args-within-story.js.mdx',
+    'react/page-story-args-within-story.ts.mdx'
   ]}
 />
 

@@ -2,22 +2,21 @@
 // my-component/component.stories.js|jsx
 
 import { useArgs } from '@storybook/preview-api';
-import { Switch } from '.';
+import { Checkbox } from './checkbox';
 
 export default {
-  title: 'Inputs/Switch',
-  component: Switch,
+  title: 'Inputs/Checkbox',
+  component: Checkbox,
 };
 
 export const Example = {
   args: {
     isChecked: false,
-    label: 'Switch Me!',
+    label: 'Try Me!',
   },
   /**
-   * 👇 React believes the Storybook function "useArgs" is a hook, but it's really not.
-   * Using a named capital-letter function prevents an ESLint warning related to this.
-   * Don't lint? You can use an arrow function instead.
+   * 👇 To avoid linting issues, it is recommended to use a function with a capitalized name.
+   * If you are not concerned with linting, you may use an arrow function.
    */
   render: function Render(args) {
     const [{ isChecked }, updateArgs] = useArgs();
@@ -26,7 +25,7 @@ export const Example = {
       updateArgs({ isChecked: !isChecked });
     }
 
-    return <Switch {...args} onChange={onChange} isChecked={isChecked} />;
+    return <Checkbox {...args} onChange={onChange} isChecked={isChecked} />;
   },
 };
 ```
