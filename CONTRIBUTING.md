@@ -7,6 +7,10 @@ Storybook is developed against a specific node version. We recommend using [Volt
 
 The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc). There is no need to run `yarn` or `yarn install` as `yarn start` will do this for you.
 
+## Forked repos
+
+If you have forked the repo you should disable the Github actions to avoid failing runs (e.g. pushing to sandbox). In your Github repo go to **settings** > **actions** and set the **Disable actions** setting.
+
 # Running against different sandbox templates
 
 You can also pick a specific template to use as your sandbox by running `yarn task`, which will prompt you to make further choices about which template you want and which task you want to run.
