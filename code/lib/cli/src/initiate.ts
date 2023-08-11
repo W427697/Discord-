@@ -276,7 +276,7 @@ const scaffoldProject = async ({
     .filter(
       ([key, value]) =>
         // we favor a limited set of sandboxes
-        key.match(/^(react|vue3|lit)-vite|angular-cli/) &&
+        key.match(/^(react|vue3|lit)-vite|angular-cli\/default-ts/) &&
         (value as any).name.includes('TypeScript') &&
         !(value as any).name.includes('prerelease') &&
         (value as any).inDevelopment !== true
@@ -351,7 +351,7 @@ const scaffoldProject = async ({
 
   const packageJson = await readJson(path.join(process.cwd(), 'package.json'), 'utf8');
 
-  packageJson.name = template.key.replace('/', '-').toLowerCase();
+  packageJson.name = template.key.replace(/\//g, '-').toLowerCase();
 
   await unlink(path.join(process.cwd(), '.stackblitzrc'));
 
