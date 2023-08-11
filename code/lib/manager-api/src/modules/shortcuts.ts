@@ -397,13 +397,13 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
     // Listen for keydown events in the manager
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (!focusInInput(event)) {
-        fullAPI.handleKeydownEvent(event);
+        api.handleKeydownEvent(event);
       }
     });
 
     // Also listen to keydown events sent over the channel
     provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
-      fullAPI.handleKeydownEvent(data.event);
+      api.handleKeydownEvent(data.event);
     });
   };
 
