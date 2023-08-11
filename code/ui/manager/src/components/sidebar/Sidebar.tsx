@@ -4,7 +4,11 @@ import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 
-import type { Addon_SidebarBottomType, API_LoadedRefData } from '@storybook/types';
+import type {
+  Addon_SidebarBottomType,
+  Addon_SidebarTopType,
+  API_LoadedRefData,
+} from '@storybook/types';
 import { Heading } from './Heading';
 
 // eslint-disable-next-line import/no-cycle
@@ -98,6 +102,7 @@ export interface SidebarProps extends API_LoadedRefData {
   refs: State['refs'];
   status: State['status'];
   menu: any[];
+  extra: Addon_SidebarTopType[];
   bottom?: Addon_SidebarBottomType[];
   storyId?: string;
   refId?: string;
@@ -113,6 +118,7 @@ export const Sidebar = React.memo(function Sidebar({
   status,
   previewInitialized,
   menu,
+  extra,
   bottom = [],
   menuHighlighted = false,
   enableShortcuts = true,
@@ -131,6 +137,7 @@ export const Sidebar = React.memo(function Sidebar({
             className="sidebar-header"
             menuHighlighted={menuHighlighted}
             menu={menu}
+            extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
           />
 
