@@ -1,4 +1,4 @@
-import type { CSSProperties, ComponentType, FC } from 'react';
+import type { ComponentType, FC } from 'react';
 import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
@@ -12,21 +12,7 @@ interface MobileMenuDrawerProps {
 
 const duration = 200;
 
-const transitionContainer: Partial<Record<TransitionStatus, CSSProperties>> = {
-  entering: { opacity: 1, transform: 'translateY(0)' },
-  entered: { opacity: 1, transform: 'translateY(0)' },
-  exiting: { opacity: 0, transform: 'translateY(40px)' },
-  exited: { opacity: 0, transform: 'translateY(40px)' },
-};
-
-const transitionOverlay: Partial<Record<TransitionStatus, CSSProperties>> = {
-  entering: { opacity: 1 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 0 },
-  exited: { opacity: 0 },
-};
-
-const Container = styled.div(({ theme }) => ({
+const Container = styled.div<{ state: TransitionStatus }>(({ theme, state }) => ({
   position: 'fixed',
   boxSizing: 'border-box',
   width: '100%',
@@ -37,12 +23,17 @@ const Container = styled.div(({ theme }) => ({
   zIndex: 11,
   borderRadius: '10px 10px 0 0',
   transition: `all ${duration}ms ease-in-out`,
-  opacity: 0,
-  transform: 'translate(0px, 100px)',
   overflow: 'hidden',
+  transform: `${(() => {
+    if (state === 'entering') return 'translateY(0)';
+    if (state === 'entered') return 'translateY(0)';
+    if (state === 'exiting') return 'translateY(100%)';
+    if (state === 'exited') return 'translateY(100%)';
+    return 'translateY(0)';
+  })()}`,
 }));
 
-const Overlay = styled.div({
+const Overlay = styled.div<{ state: TransitionStatus }>(({ state }) => ({
   position: 'fixed',
   boxSizing: 'border-box',
   background: 'rgba(0, 0, 0, 0.5)',
@@ -52,13 +43,19 @@ const Overlay = styled.div({
   left: 0,
   zIndex: 10,
   transition: `all ${duration}ms ease-in-out`,
-  opacity: 0,
   cursor: 'pointer',
+  opacity: `${(() => {
+    if (state === 'entering') return 1;
+    if (state === 'entered') return 1;
+    if (state === 'exiting') return 0;
+    if (state === 'exited') return 0;
+    return 0;
+  })()}`,
 
   '&:hover': {
     background: 'rgba(0, 0, 0, 0.6)',
   },
-});
+}));
 
 export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
   const { isMobileAboutOpen, isMobileMenuOpen, closeMenu } = useLayout();
@@ -75,7 +72,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
         unmountOnExit
       >
         {(state) => (
-          <Container ref={containerRef} style={transitionContainer[state]}>
+          <Container ref={containerRef} state={state}>
             <Sidebar />
             <MobileAbout isOpen={isMobileAboutOpen} />
           </Container>
@@ -88,9 +85,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ Sidebar }) => {
         mountOnEnter
         unmountOnExit
       >
-        {(state) => (
-          <Overlay ref={overlayRef} style={transitionOverlay[state]} onClick={closeMenu} />
-        )}
+        {(state) => <Overlay ref={overlayRef} state={state} onClick={closeMenu} />}
       </Transition>
     </>
   );

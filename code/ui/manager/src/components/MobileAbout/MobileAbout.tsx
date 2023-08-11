@@ -39,10 +39,10 @@ const Container = styled.div<{ state: TransitionStatus; transitionDuration: numb
   })
 );
 
-const LinkContainer = styled.div(({ theme }) => ({
+const LinkContainer = styled.div({
   marginTop: 20,
   marginBottom: 20,
-}));
+});
 
 const LinkLine = styled.a(({ theme }) => ({
   all: 'unset',

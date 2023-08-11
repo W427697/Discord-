@@ -1,4 +1,4 @@
-import type { CSSProperties, FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
@@ -11,14 +11,7 @@ interface MobileAddonsDrawerProps {
 
 const duration = 200;
 
-const transitionContainer: Partial<Record<TransitionStatus, CSSProperties>> = {
-  entering: { opacity: 1, transform: 'translateY(0)' },
-  entered: { opacity: 1, transform: 'translateY(0)' },
-  exiting: { opacity: 0, transform: 'translateY(40px)' },
-  exited: { opacity: 0, transform: 'translateY(40px)' },
-};
-
-const Container = styled.div(({ theme }) => ({
+const Container = styled.div<{ state: TransitionStatus }>(({ theme, state }) => ({
   position: 'fixed',
   boxSizing: 'border-box',
   width: '100%',
@@ -28,10 +21,15 @@ const Container = styled.div(({ theme }) => ({
   left: 0,
   zIndex: 11,
   transition: `all ${duration}ms ease-in-out`,
-  opacity: 0,
-  transform: 'translate(0px, 100px)',
   overflow: 'hidden',
   borderTop: `1px solid ${theme.appBorderColor}`,
+  transform: `${(() => {
+    if (state === 'entering') return 'translateY(0)';
+    if (state === 'entered') return 'translateY(0)';
+    if (state === 'exiting') return 'translateY(100%)';
+    if (state === 'exited') return 'translateY(100%)';
+    return 'translateY(0)';
+  })()}`,
 }));
 
 export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) => {
@@ -47,7 +45,7 @@ export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) =>
       unmountOnExit
     >
       {(state) => (
-        <Container ref={containerRef} style={transitionContainer[state]}>
+        <Container ref={containerRef} state={state}>
           {children}
         </Container>
       )}
