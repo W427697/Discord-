@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { PartialStoryFn, Renderer, StoryId } from '@storybook/csf';
+import type { Renderer, StoryId } from '@storybook/csf';
 
 import type {
   AnnotatedStoryFn,
@@ -40,9 +40,9 @@ export type ComposedStoryPlayFn<TRenderer extends Renderer = Renderer, TArgs = A
 ) => Promise<void> | void;
 
 /**
- * A loosely annotated story function, used internally by composeStory
+ * A story function with partial args, used internally by composeStory
  */
-export type LooselyAnnotatedStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = (
+export type PartialArgsStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = (
   args?: TArgs
 ) => (TRenderer & {
   T: TArgs;
@@ -54,7 +54,7 @@ export type LooselyAnnotatedStoryFn<TRenderer extends Renderer = Renderer, TArgs
 export type ComposedStoryFn<
   TRenderer extends Renderer = Renderer,
   TArgs = Args
-> = LooselyAnnotatedStoryFn<TRenderer, TArgs> & {
+> = PartialArgsStoryFn<TRenderer, TArgs> & {
   play: ComposedStoryPlayFn<TRenderer, TArgs>;
   args: TArgs;
   id: StoryId;
