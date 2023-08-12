@@ -27,11 +27,12 @@ export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) =
   setupFunctions.add(fn);
 };
 
-const runSetupFunctions = (app: App, storyContext: StoryContext<VueRenderer>) => {
+const runSetupFunctions = async (
+  app: App,
+  storyContext: StoryContext<VueRenderer>
+): Promise<any> => {
   setupFunctions.forEach((fn) => fn(app, storyContext));
-  // install global mixins and plugins
-  installGlobalMixins(app);
-  installGlobalPlugins(app);
+  await installGlobalPlugins(app, storyContext);
 };
 
 const map = new Map<
@@ -43,7 +44,7 @@ const map = new Map<
   }
 >();
 
-export function renderToCanvas(
+export async function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
@@ -85,7 +86,7 @@ export function renderToCanvas(
   });
 
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  runSetupFunctions(vueApp, storyContext);
+  await runSetupFunctions(vueApp, storyContext);
   vueApp.mount(canvasElement);
 
   showMain();
@@ -155,24 +156,8 @@ function teardown(
   if (map.has(canvasElement)) map.delete(canvasElement);
 }
 
-function installGlobalMixins(app: App<any>) {
-  if (window.STORYBOOK_VUE_GLOBAL_MIXINS) {
-    window.STORYBOOK_VUE_GLOBAL_MIXINS.forEach((mixin: any) => {
-      app.mixin(mixin);
-    });
-  }
-}
-
-function installGlobalPlugins(app: App<any>) {
-  console.log(
-    'installGlobalPlugins()',
-    app,
-    'STORYBOOK_VUE_GLOBAL_PLUGINS',
-    window.STORYBOOK_VUE_GLOBAL_PLUGINS
-  );
-  if (window.STORYBOOK_VUE_GLOBAL_PLUGINS) {
-    window.STORYBOOK_VUE_GLOBAL_PLUGINS.forEach((plugin: any) => {
-      app.use(plugin);
-    });
+async function installGlobalPlugins(app: App<any>, storyContext: StoryContext<VueRenderer>) {
+  if (window.NUXT_APPLY_PLUGINS_FUNC) {
+    await window.NUXT_APPLY_PLUGINS_FUNC(app, storyContext);
   }
 }
