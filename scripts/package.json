@@ -3,6 +3,7 @@
   "version": "7.0.0-alpha.16",
   "private": true,
   "scripts": {
+    "check": "./prepare/check-scripts.ts",
     "docs:prettier:check": "cd ../docs && prettier --check ./snippets",
     "docs:prettier:write": "cd ../docs && prettier --write ./snippets",
     "get-report-message": "ts-node --swc ./get-report-message.ts",
