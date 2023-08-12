@@ -1,0 +1,16 @@
+```js
+// .storybook/manager.js
+
+import { addons } from '@storybook/manager-api';
+
+import startCase from 'lodash/startCase.js';
+
+addons.setConfig({
+  toolbar: {
+    showToolbar(options) {
+      // Always hide the toolbar on docs pages, and respect user preferences elsewhere.
+      return options.layout.showToolbar && options.viewMode !== 'docs';
+    },
+  },
+});
+```

@@ -10,4 +10,5 @@ Read more about the Storybook's features below:
 - [Theming](./theming.md)
 - [Storybook addons](./storybook-addons.md)
 - [Sidebar & URLS](./sidebar-and-urls.md)
+- [Toolbar](./toolbar.md)
 - [Environment variables](./environment-variables.md)

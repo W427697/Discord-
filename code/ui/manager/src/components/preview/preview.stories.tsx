@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { parsePath, createPath } from 'history';
 import type { Combo, StoryEntry } from '@storybook/manager-api';
-import { Provider as ManagerProvider, Consumer } from '@storybook/manager-api';
+import { addons, Provider as ManagerProvider, Consumer } from '@storybook/manager-api';
 import { Location, BaseLocationProvider } from '@storybook/router';
 
 import { ThemeProvider, ensure as ensureTheme, themes } from '@storybook/theming';
@@ -160,3 +160,40 @@ export const WithTabsHidden = () => (
     }}
   </Consumer>
 );
+
+export const WithToolbar = () => <Preview {...previewProps} />;
+
+export const WithToolbarHidden = () => (
+  <Consumer>
+    {({ api }: Combo) => {
+      return (
+        <Preview
+          {...previewProps}
+          options={{ ...previewProps.options, showToolbar: false }}
+          api={{ ...api, getElements: () => ({}) }}
+        />
+      );
+    }}
+  </Consumer>
+);
+
+export const WithToolbarHiddenFromConfig = () => {
+  useEffect(() => {
+    addons.setConfig({
+      toolbar: {
+        showToolbar() {
+          return false;
+        },
+      },
+    });
+
+    return () => {
+      addons.setConfig({
+        toolbar: {
+          showToolbar: null,
+        },
+      });
+    };
+  }, []);
+  return <Preview {...previewProps} />;
+};
