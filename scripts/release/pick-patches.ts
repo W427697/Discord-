@@ -6,6 +6,7 @@ import ora from 'ora';
 import { setOutput } from '@actions/core';
 import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
+import { stringifyError } from '../type-utils/stringifyError';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
 
@@ -58,14 +59,14 @@ export const run = async (_: unknown) => {
       prSpinner.succeed(`Picked: ${formatPR(pr)}`);
     } catch (pickError) {
       prSpinner.fail(`Failed to automatically pick: ${formatPR(pr)}`);
-      logger.error(pickError.message);
+      logger.error(stringifyError(pickError));
       const abort = ora(`Aborting cherry pick for merge commit: ${pr.mergeCommit}`).start();
       try {
         await git.raw(['cherry-pick', '--abort']);
         abort.stop();
       } catch (abortError) {
         abort.warn(`Failed to abort cherry pick (${pr.mergeCommit})`);
-        logger.error(pickError.message);
+        logger.error(stringifyError(pickError));
       }
       failedCherryPicks.push(pr.mergeCommit);
       prSpinner.info(

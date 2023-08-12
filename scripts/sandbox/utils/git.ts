@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import { execaCommand } from '../../utils/exec';
 // eslint-disable-next-line import/no-cycle
 import { logger } from '../publish';
+import { stringifyError } from '../../type-utils/stringifyError';
 
 const { version: storybookVersion } = require('../../../code/package.json');
 
@@ -30,9 +31,11 @@ const getTheLastCommitHashThatUpdatedTheSandboxRepo = async (branch: string) => 
 
     return lastCommitHash;
   } catch (error) {
-    if (!error.message.includes('Did someone manually push to the sandboxes repo')) {
+    if (!(error as Error).message?.includes('Did someone manually push to the sandboxes repo')) {
       logger.error(
-        `⚠️  Error getting latest commit message of ${owner}/${repo} on branch ${branch}: ${error.message}`
+        `⚠️  Error getting latest commit message of ${owner}/${repo} on branch ${branch}: ${stringifyError(
+          error
+        )}`
       );
     }
 
@@ -85,7 +88,9 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
       gitCommitCommand = `git commit -m "${commitTitle}" -m "${commitBody}"`;
     } catch (err) {
       logger.log(
-        `⚠️  Falling back to a simpler commit message because of an error while trying to get the previous commit hash: ${err.message}`
+        `⚠️  Falling back to a simpler commit message because of an error while trying to get the previous commit hash: ${stringifyError(
+          err
+        )}`
       );
       gitCommitCommand = `git commit -m "${storybookVersion} - ${new Date().toDateString()} - ${currentCommitHash}"`;
     }
@@ -95,12 +100,12 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
       cwd,
     });
   } catch (e) {
-    if (e.message.includes('nothing to commit')) {
+    if ((e as Error)?.message?.includes('nothing to commit')) {
       logger.log(
         `🤷 Git found no changes between previous versions so there is nothing to commit. Skipping publish!`
       );
     } else {
-      logger.error(`🤯 Something went wrong while committing to git: ${e.message}`);
+      logger.error(`🤯 Something went wrong while committing to git: ${stringifyError(e)}`);
     }
   }
 }

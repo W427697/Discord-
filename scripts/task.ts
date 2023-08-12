@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import { stringifyError } from './type-utils/stringifyError';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -73,7 +74,7 @@ export type Task = {
   /**
    * Is this task already "ready", and potentially not required?
    */
-  ready: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<boolean>;
+  ready: (details: TemplateDetails, options?: PassedOptionValues) => MaybePromise<boolean>;
   /**
    * Run the task
    */
@@ -323,7 +324,13 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
-      await writeJunitXml(getTaskKey(task), details.key, startTime, err, true);
+      await writeJunitXml(
+        getTaskKey(task),
+        details.key,
+        startTime,
+        err instanceof Error ? err : new Error(String(err)),
+        true
+      );
     }
 
     throw err;
@@ -469,7 +476,7 @@ async function run() {
         logger.error(`Error running task ${getTaskKey(task)}:`);
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {
-          logger.error(err.message);
+          logger.error(stringifyError(err));
         } else {
           logger.error(err);
         }
