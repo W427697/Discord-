@@ -5,6 +5,7 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
+import type { API } from '@storybook/manager-api';
 import { IconButton, ResetWrapper } from '@storybook/components';
 import { Icon, Link } from '@storybook/components/experimental';
 
@@ -191,6 +192,7 @@ const sortFns: Record<SortType, SortFn | null> = {
 };
 
 export interface ArgsTableOptionProps {
+  api?: API;
   children?: React.ReactNode;
   updateArgs?: (args: Args) => void;
   resetArgs?: (argNames?: string[]) => void;
@@ -308,6 +310,7 @@ const safeIncludeConditionalArg = (row: ArgType, args: Args, globals: Globals) =
  */
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const {
+    api,
     updateArgs,
     resetArgs,
     compact,
@@ -354,7 +357,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   if (!compact) colSpan += 2;
   const expandable = Object.keys(groups.sections).length > 0;
 
-  const common = { updateArgs, compact, inAddonPanel, initialExpandedArgs };
+  const common = { api, updateArgs, compact, inAddonPanel, initialExpandedArgs };
 
   return (
     <ResetWrapper>

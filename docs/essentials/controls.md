@@ -252,6 +252,34 @@ As shown above, you can configure individual controls with the “control" annot
 💡 Numeric data types will default to a <code>number</code> control unless additional configuration is provided.
 </div>
 
+### User-defined controls
+
+Controls supports user-defined controls. This allows you to create your own controls for any data type. 
+For example, you could create a control for a `text` type that uses a code editor instead of a textarea.
+To create a custom control, you need to register it as addon `type.CONTROL`. This is done in [`.storybook/preview.js`](../addons/addons-api.md#addons.register()):
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-controls-custom-registration.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Use the `control` annotation to use your custom control:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-controls-custom-usage.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ### Parameters
 
 Controls supports the following configuration [parameters](../writing-stories/parameters.md), either globally or on a per-story basis:

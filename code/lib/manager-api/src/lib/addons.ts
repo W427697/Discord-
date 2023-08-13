@@ -132,6 +132,19 @@ export class AddonStore {
   };
 
   /**
+   * Adds a custom control as an addon.
+   * @param {string} name - The name of the custom control.
+   * @param {Addon_Type} options - The options for the custom control.
+   * @returns {void}
+   */
+  addControl = (name: string, options: Addon_Type): void => {
+    this.add(name, {
+      type: Addon_TypesEnum.CONTROL,
+      ...options,
+    });
+  };
+
+  /**
    * Adds an addon to the addon store.
    * @param {string} id - The id of the addon.
    * @param {Addon_Type} addon - The addon to add.

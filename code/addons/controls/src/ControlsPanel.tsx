@@ -7,10 +7,15 @@ import {
   useParameter,
   useStorybookState,
 } from '@storybook/manager-api';
+import type { API } from '@storybook/manager-api';
 import { PureArgsTable as ArgsTable, type PresetColor, type SortType } from '@storybook/blocks';
 
 import type { ArgTypes } from '@storybook/types';
 import { PARAM_KEY } from './constants';
+
+interface ControlsPanelProps {
+  api: API;
+}
 
 interface ControlsParameters {
   sort?: SortType;
@@ -21,7 +26,8 @@ interface ControlsParameters {
   hideNoControlsWarning?: boolean;
 }
 
-export const ControlsPanel: FC = () => {
+export const ControlsPanel: FC<ControlsPanelProps> = (props) => {
+  const { api } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [args, updateArgs, resetArgs] = useArgs();
   const [globals] = useGlobals();
@@ -45,6 +51,7 @@ export const ControlsPanel: FC = () => {
 
   return (
     <ArgsTable
+      api={api}
       key={path} // resets state when switching stories
       compact={!expanded && hasControls}
       rows={withPresetColors}

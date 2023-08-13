@@ -32,7 +32,7 @@ addons.register(ADDON_ID, (api) => {
       }
       return (
         <AddonPanel active={active}>
-          <ControlsPanel />
+          <ControlsPanel api={api} />
         </AddonPanel>
       );
     },
