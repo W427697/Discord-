@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-postmessage",
-  "version": "7.1.0-alpha.37",
+  "version": "7.3.0-alpha.0",
   "description": "",
   "keywords": [
     "storybook"
@@ -39,12 +39,12 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.1.0-alpha.37",
-    "@storybook/client-logger": "7.1.0-alpha.37"
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

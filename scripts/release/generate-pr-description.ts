@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import program from 'commander';
 import { z } from 'zod';
 import dedent from 'ts-dedent';
+import semver from 'semver';
 import { setOutput } from '@actions/core';
 import type { Change } from './utils/get-changes';
 import { getChanges, LABELS_BY_IMPORTANCE, RELEASED_LABELS } from './utils/get-changes';
@@ -89,7 +90,7 @@ export const mapToChangelist = ({
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
       return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
-        !unpickedPatches && change.labels.includes('patch') ? ' (will also be patched)' : ''
+        !unpickedPatches && change.labels.includes('patch:yes') ? ' (will also be patched)' : ''
       }`;
     })
     .join('\n');
@@ -122,7 +123,7 @@ export const mapCherryPicksToTodo = ({
   return dedent`## 🍒 Manual cherry picking needed!
 
   The following pull requests could not be cherry-picked automatically because it resulted in merge conflicts.
-  For each pull request below, you need to either manually cherry pick it, or discard it by removing the "patch" label from the PR and re-generate this PR.
+  For each pull request below, you need to either manually cherry pick it, or discard it by replacing the "patch:yes" label with "patch:no" on the PR and re-generate this PR.
   
   ${list}`;
 };
@@ -140,6 +141,9 @@ export const generateReleaseDescription = ({
   changelogText: string;
   manualCherryPicks?: string;
 }): string => {
+  const workflow = semver.prerelease(nextVersion) ? 'prepare-prerelease' : 'prepare-patch-release';
+  const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
+
   return (
     dedent`This is an automated pull request that bumps the version from \`${currentVersion}\` to \`${nextVersion}\`.
   Once this pull request is merged, it will trigger a new release of version \`${nextVersion}\`.
@@ -150,6 +154,7 @@ export const generateReleaseDescription = ({
   Before merging the PR, there are a few QA steps to go through:
 
   - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
   
   And for each change below:
   
@@ -168,7 +173,9 @@ export const generateReleaseDescription = ({
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+  If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](${workflowUrl}) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+
+  Feel free to manually commit any changes necessary to this branch **after** you've done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs, *especially* if you're making changes to the changelog.
 
   When everything above is done:
   - Merge this PR
@@ -195,14 +202,23 @@ export const generateNonReleaseDescription = (
     dedent`This is an automated pull request. None of the changes requires a version bump, they are only internal or documentation related. Merging this PR will not trigger a new release, but documentation will be updated.
   If you're not a core maintainer with permissions to release you can ignore this pull request.
   
+  ## To do
+
+  Before merging the PR:
+
+  - [ ] Add the "freeze" label to this PR, to ensure it doesn't get automatically forced pushed by new changes.
+  - [ ] Add the "ci:daily" label to this PR, to trigger the full test suite to run on this PR.
+
   This is a list of all the PRs merged and commits pushed directly to \`next\` since the last release:
   
   ${changeList}
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish.
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
   
+  Feel free to manually commit any changes necessary to this branch **after** you've done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs.
+
   When everything above is done:
   - Merge this PR
   - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`
