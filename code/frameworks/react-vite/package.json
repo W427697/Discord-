@@ -53,7 +53,7 @@
     "@storybook/react": "7.1.0-alpha.37",
     "@vitejs/plugin-react": "^3.0.1",
     "magic-string": "^0.30.0",
-    "react-docgen": "6.0.0-alpha.3"
+    "react-docgen": "^6.0.2"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
