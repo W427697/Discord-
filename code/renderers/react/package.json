@@ -31,10 +31,10 @@
       "require": "./dist/config.js",
       "import": "./dist/config.mjs"
     },
-    "./testing-api": {
-      "types": "./dist/testing-api.d.ts",
-      "require": "./dist/testing-api.js",
-      "import": "./dist/testing-api.mjs"
+    "./story-utils": {
+      "types": "./dist/story-utils.d.ts",
+      "require": "./dist/story-utils.js",
+      "import": "./dist/story-utils.mjs"
     },
     "./dist/preset": {
       "types": "./dist/preset.d.ts",
@@ -105,7 +105,7 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/testing-api.ts",
+      "./src/test-utils.ts",
       "./src/config.ts",
       "./src/preset.ts"
     ],
