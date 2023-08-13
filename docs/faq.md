@@ -10,7 +10,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
 - [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
-- [How do I fix module resolution while using pnpm Plug-n-Play?](#how-do-i-fix-module-resolution-while-using-pnpm-plug-n-play)
+- [How do I fix module resolution in special environments?](#how-do-i-fix-module-resolution-in-special-environments)
 - [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
 - [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
 - [Why is there no addons channel?](#why-is-there-no-addons-channel)
@@ -117,9 +117,9 @@ export default {
 };
 ```
 
-## How do I fix module resolution while using pnpm Plug-n-Play?
+## How do I fix module resolution in special environments?
 
-In case you are using [pnpm](https://pnpm.io/), you might run into issues with module resolution similar to this when running Storybook:
+In case you are using [yarn Plug-n-Play](https://yarnpkg.com/features/pnp) or your project is set up within a mono repository environment, you might run into issues with module resolution similar to this when running Storybook:
 
 ```shell
 WARN   Failed to load preset: "@storybook/react-webpack5/preset"`
@@ -191,7 +191,7 @@ A common error is that an addon tries to access the "channel", but the channel i
 1.  You're trying to access addon channel (e.g., by calling `setOptions`) in a non-browser environment like Jest. You may need to add a channel mock:
 
     ```js
-    import { addons, mockChannel } from '@storybook/addons';
+    import { addons, mockChannel } from '@storybook/preview-api';
 
     addons.setChannel(mockChannel());
     ```
@@ -253,7 +253,8 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Accessibility tests                          | [See current documentation](./writing-tests/accessibility-testing.md)                                      | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Interaction tests                            | [See current documentation](./writing-tests/interaction-testing.md)                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/interaction-testing)                                                                                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/interaction-testing)                      |
 |                  | Snapshot tests                               | [See current documentation](./writing-tests/snapshot-testing.md)                                           | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/structural-testing)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/structural-testing)                       |
-|                  | Import stories in tests                      | [See current documentation](./writing-tests/importing-stories-in-tests.md)                                 | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/react-ui-testing)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/react-ui-testing)                         |
+|                  | Import stories in tests/Unit tests           | [See current documentation](./writing-tests/stories-in-unit-tests.md)                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/react-ui-testing)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/react-ui-testing)                         |
+|                  | Import stories in tests/End-to-end testing   | [See current documentation](./writing-tests/stories-in-end-to-end-tests.md)                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/react-ui-testing)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/react-ui-testing)                         |
 | Sharing          | Publish Storybook                            | [See current documentation](./sharing/publish-storybook.md)                                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/exporting-storybook)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/exporting-storybook)                       |
 |                  | Embed                                        | [See current documentation](./sharing/embed.md)                                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Composition                                  | [See current documentation](./sharing/storybook-composition.md)                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |

@@ -74,9 +74,33 @@ export interface QueryParams {
   [key: string]: string | null;
 }
 
+/**
+ * SubAPI for managing URL navigation and state.
+ */
 export interface SubAPI {
+  /**
+   * Navigate to a new URL.
+   * @param {string} url - The URL to navigate to.
+   * @param {NavigateOptions} options - Options for the navigation.
+   * @returns {void}
+   */
   navigateUrl: (url: string, options: NavigateOptions) => void;
+  /**
+   * Get the value of a query parameter from the current URL.
+   * @param {string} key - The key of the query parameter to get.
+   * @returns {string | undefined} The value of the query parameter, or undefined if it does not exist.
+   */
   getQueryParam: (key: string) => string | undefined;
+  /**
+   * Returns an object containing the current state of the URL.
+   * @returns {{
+   *   queryParams: QueryParams,
+   *   path: string,
+   *   viewMode?: string,
+   *   storyId?: string,
+   *   url: string
+   * }} An object containing the current state of the URL.
+   */
   getUrlState: () => {
     queryParams: QueryParams;
     path: string;
@@ -84,6 +108,11 @@ export interface SubAPI {
     storyId?: string;
     url: string;
   };
+  /**
+   * Set the query parameters for the current URL.
+   * @param {QueryParams} input - An object containing the query parameters to set.
+   * @returns {void}
+   */
   setQueryParams: (input: QueryParams) => void;
 }
 
@@ -128,7 +157,7 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
       }
     },
     navigateUrl(url, options) {
-      navigate(url, { ...options, plain: true });
+      navigate(url, { plain: true, ...options });
     },
   };
 
@@ -170,10 +199,6 @@ export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...r
     fullAPI.on(NAVIGATE_URL, (url: string, options: NavigateOptions) => {
       fullAPI.navigateUrl(url, options);
     });
-
-    if (fullAPI.showReleaseNotesOnLaunch()) {
-      navigate('/settings/release-notes');
-    }
   };
 
   return {

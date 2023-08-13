@@ -1,56 +1,30 @@
-import path from 'path';
-import fs from 'fs';
-import { sync as spawnSync } from 'cross-spawn';
-
 import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 
-import { commandLog } from './helpers';
 import {
   JsPackageManagerFactory,
   useNpmWarning,
   type PackageManagerName,
 } from './js-package-manager';
+import { getStorybookVersion } from './utils';
 
 const logger = console;
 
-const LEGACY_CONFIGS = ['addons', 'config', 'presets'];
+const postinstallAddon = async (addonName: string) => {
+  try {
+    const modulePath = require.resolve(`${addonName}/postinstall`, { paths: [process.cwd()] });
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    const postinstall = require(modulePath);
 
-const postinstallAddon = async (addonName: string, isOfficialAddon: boolean) => {
-  let skipMsg = null;
-  if (!isOfficialAddon) {
-    skipMsg = 'unofficial addon';
-  } else if (!fs.existsSync('.storybook')) {
-    skipMsg = 'no .storybook config';
-  } else {
-    skipMsg = 'no codmods found';
-    LEGACY_CONFIGS.forEach((config) => {
-      try {
-        const codemod = require.resolve(
-          // @ts-expect-error (it is broken)
-          `${getPackageName(addonName, isOfficialAddon)}/postinstall/${config}.js`
-        );
-        commandLog(`Running postinstall script for ${addonName}`)();
-        let configFile = path.join('.storybook', `${config}.ts`);
-        if (!fs.existsSync(configFile)) {
-          configFile = path.join('.storybook', `${config}.js`);
-          if (!fs.existsSync(configFile)) {
-            fs.writeFileSync(configFile, '', 'utf8');
-          }
-        }
-        spawnSync('npx', ['jscodeshift', '-t', codemod, configFile], {
-          stdio: 'inherit',
-          shell: true,
-        });
-        skipMsg = null;
-      } catch (err) {
-        // resolve failed, skip
-      }
-    });
-  }
-
-  if (skipMsg) {
-    commandLog(`Skipping postinstall for ${addonName}, ${skipMsg}`)();
+    try {
+      logger.log(`Running postinstall script for ${addonName}`);
+      await postinstall();
+    } catch (e) {
+      logger.error(`Error running postinstall script for ${addonName}`);
+      logger.error(e);
+    }
+  } catch (e) {
+    // no postinstall script
   }
 };
 
@@ -83,7 +57,7 @@ export async function add(
   const packageJson = await packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 
-  const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
+  const { mainConfig } = getStorybookInfo(packageJson);
   if (!mainConfig) {
     logger.error('Unable to find storybook main.js config');
     return;
@@ -97,8 +71,9 @@ export async function add(
 
   // add to package.json
   const isStorybookAddon = addonName.startsWith('@storybook/');
+  const storybookVersion = await getStorybookVersion(packageManager);
   const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
-  const addonWithVersion = `${addonName}@${version}`;
+  const addonWithVersion = `${addonName}@^${version}`;
   logger.log(`Installing ${addonWithVersion}`);
   await packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
 
@@ -107,7 +82,7 @@ export async function add(
   main.appendValueToArray(['addons'], addonName);
   await writeConfig(main);
 
-  if (!options.skipPostinstall) {
-    await postinstallAddon(addon, isStorybookAddon);
+  if (!options.skipPostinstall && isStorybookAddon) {
+    await postinstallAddon(addonName);
   }
 }

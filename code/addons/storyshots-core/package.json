@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storyshots",
-  "version": "7.1.0-alpha.14",
+  "version": "7.3.0-alpha.0",
   "description": "Take a code snapshot of every story automatically with Jest",
   "keywords": [
     "addon",
@@ -32,20 +32,21 @@
     "*.d.ts"
   ],
   "scripts": {
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
-    "@storybook/client-api": "7.1.0-alpha.14",
-    "@storybook/core-common": "7.1.0-alpha.14",
-    "@storybook/core-webpack": "7.1.0-alpha.14",
+    "@storybook/client-api": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/core-webpack": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.14",
-    "@storybook/types": "7.1.0-alpha.14",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/jest-specific-snapshot": "^0.5.6",
     "glob": "^10.0.0",
-    "jest-specific-snapshot": "^7.0.0",
+    "jest-specific-snapshot": "^8.0.0",
     "preact-render-to-string": "^5.1.19",
     "pretty-format": "^29.0.0",
     "react-test-renderer": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -53,22 +54,21 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@angular/core": "^13.3.6",
-    "@angular/platform-browser-dynamic": "^13.3.6",
+    "@angular/core": "^16.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "^16.0.0-rc.4",
     "@emotion/jest": "^11.8.0",
-    "@storybook/addon-docs": "7.1.0-alpha.14",
-    "@storybook/angular": "7.1.0-alpha.14",
-    "@storybook/react": "7.1.0-alpha.14",
-    "@storybook/vue": "7.1.0-alpha.14",
-    "@storybook/vue3": "7.1.0-alpha.14",
+    "@storybook/addon-docs": "workspace:*",
+    "@storybook/angular": "workspace:*",
+    "@storybook/react": "workspace:*",
+    "@storybook/vue": "workspace:*",
+    "@storybook/vue3": "workspace:*",
     "babel-loader": "^9.1.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
-    "jest-preset-angular": "^12.2.3",
+    "jest-preset-angular": "^13.0.1",
     "jest-vue-preprocessor": "^1.7.1",
     "react-test-renderer": "^16",
-    "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "vue-jest": "^5.0.0-alpha.8"
   },
@@ -141,14 +141,12 @@
     "access": "public"
   },
   "bundler": {},
-  "gitHead": "72ae6b0d965d1ae596159cdb15109c5e13376d78",
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
   "storybook": {
     "displayName": "Storyshots",
     "icon": "https://user-images.githubusercontent.com/263385/101991676-48cdf300-3c7c-11eb-8aa1-944dab6ab29b.png",
     "unsupportedFrameworks": [
-      "ember",
-      "mithril",
-      "marko"
+      "ember"
     ]
   }
 }

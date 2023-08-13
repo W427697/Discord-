@@ -203,11 +203,6 @@ command('dev')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
-  .option(
-    '--no-release-notes',
-    'Suppress automatic redirects to the release notes after upgrading',
-    true
-  )
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
   .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
   .option(
@@ -216,6 +211,10 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option(
+    '--initial-path [path]',
+    'URL path to be appended when visiting Storybook for the first time'
+  )
   .action(async (options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));

@@ -25,8 +25,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
       }
     : {};
 
-  const packageJson = await packageManager.retrievePackageJson();
-  const craVersion = semver.coerce(packageJson.dependencies['react-scripts'])?.version;
+  const craVersion = await packageManager.getPackageVersion('react-scripts');
   const isCra5OrHigher = craVersion && semver.gte(craVersion, '5.0.0');
   const updatedOptions = isCra5OrHigher ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
@@ -40,7 +39,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   }
 
   const version = versions['@storybook/preset-create-react-app'];
-  const extraAddons = [`@storybook/preset-create-react-app@${version}`];
+  const extraAddons = [
+    `@storybook/preset-create-react-app@${version}`,
+    '@storybook/addon-onboarding',
+  ];
 
   if (!isCra5OrHigher) {
     throw new Error(dedent`
@@ -54,8 +56,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     extraAddons,
     extraPackages,
     staticDir: fs.existsSync(path.resolve('./public')) ? 'public' : undefined,
-    addBabel: false,
-    addESLint: true,
+    skipBabel: true,
     extraMain,
   });
 };

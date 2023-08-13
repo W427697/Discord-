@@ -3,14 +3,15 @@ import type { FC } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import type { TooltipLinkListLink } from '@storybook/components';
-import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
+import { WithTooltip, Spaced, TooltipLinkList, Icons } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 
 import type { RefType } from './types';
 
-import type { getStateType } from './utils';
+import type { getStateType } from '../../utils/tree';
 
 const { document, window: globalWindow } = global;
 
@@ -159,7 +160,7 @@ const CurrentVersion: FC<CurrentVersionProps> = ({ url, versions }) => {
   return (
     <Version>
       <span>{currentVersionId}</span>
-      <Icons icon="arrowdown" />
+      <Icon.ChevronDown />
     </Version>
   );
 };
@@ -204,7 +205,7 @@ export const RefIndicator = React.memo(
             }
           >
             <IndicatorClickTarget data-action="toggle-indicator" aria-label="toggle indicator">
-              <Icons icon="globe" />
+              <Icon.Globe />
             </IndicatorClickTarget>
           </WithTooltip>
 

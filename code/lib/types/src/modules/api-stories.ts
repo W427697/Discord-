@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { DocsOptions } from './core-common';
 import type { Args, ArgTypes, Parameters, ComponentTitle, StoryId, Path, Tag } from './csf';
-import type { IndexEntry } from './storyIndex';
+import type { IndexEntry } from './indexer';
 
 export interface API_BaseEntry {
   id: StoryId;
@@ -172,3 +172,15 @@ export interface API_Versions {
   next?: API_Version;
   current?: API_Version;
 }
+
+export type API_StatusValue = 'pending' | 'success' | 'error' | 'warn' | 'unknown';
+
+export interface API_StatusObject {
+  status: API_StatusValue;
+  title: string;
+  description: string;
+  data?: any;
+}
+
+export type API_StatusState = Record<StoryId, Record<string, API_StatusObject>>;
+export type API_StatusUpdate = Record<StoryId, API_StatusObject>;

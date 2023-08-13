@@ -16,9 +16,15 @@ import { join, resolve, sep } from 'path';
 import slash from 'slash';
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
-import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
+import {
+  installYarn2,
+  configureYarn2ForVerdaccio,
+  addPackageResolutions,
+  addWorkaroundResolutions,
+} from '../utils/yarn';
 import { exec } from '../utils/exec';
 import type { ConfigFile } from '../../code/lib/csf-tools';
+import storybookPackages from '../../code/lib/cli/src/versions';
 import { writeConfig } from '../../code/lib/csf-tools';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
@@ -66,10 +72,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async (
-  { sandboxDir, template },
-  { link, dryRun, debug, addon: addons, skipTemplateStories }
-) => {
+export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
@@ -81,6 +84,7 @@ export const install: Task['run'] = async (
       dryRun,
       debug,
     });
+    await addWorkaroundResolutions({ cwd, dryRun, debug });
   } else {
     // We need to add package resolutions to ensure that we only ever install the latest version
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
@@ -99,10 +103,20 @@ export const install: Task['run'] = async (
       }
     );
   }
+};
+
+export const init: Task['run'] = async (
+  { sandboxDir, template },
+  { dryRun, debug, addon: addons, skipTemplateStories }
+) => {
+  const cwd = sandboxDir;
 
   let extra = {};
-  if (template.expected.renderer === '@storybook/html') extra = { type: 'html' };
-  else if (template.expected.renderer === '@storybook/server') extra = { type: 'server' };
+  if (template.expected.renderer === '@storybook/html') {
+    extra = { type: 'html' };
+  } else if (template.expected.renderer === '@storybook/server') {
+    extra = { type: 'server' };
+  }
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -260,8 +274,9 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
   // If the project is a JS project, let's make sure any linked in TS stories from the
   // renderer inside src|stories are simply ignored.
+  // TODO: We should definitely improve the logic here, as it will break every time the stories field change format in the generated sandboxes.
   const updatedStories = isJs
-    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    ? stories.map((specifier) => specifier.replace('|ts|tsx', ''))
     : stories;
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
@@ -293,8 +308,8 @@ async function linkPackageStories(
   const storiesFolderName = variant ? getStoriesFolderWithVariant(variant) : 'stories';
   const source = join(CODE_DIRECTORY, packageDir, 'template', storiesFolderName);
   // By default we link `stories` directories
-  //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
-  // if the directory <code>/lib/store/template/stories exists
+  //   e.g '../../../code/lib/preview-api/template/stories' to 'template-stories/lib/preview-api'
+  // if the directory <code>/lib/preview-api/template/stories exists
   //
   // The files must be linked in the cwd, in order to ensure that any dependencies they
   // reference are resolved in the cwd. In particular 'react' resolved by MDX files.
@@ -309,8 +324,8 @@ async function linkPackageStories(
   }
 
   // Add `previewAnnotation` entries of the form
-  //   './template-stories/lib/store/preview.[tj]s'
-  // if the file <code>/lib/store/template/stories/preview.[jt]s exists
+  //   './template-stories/lib/preview-api/preview.[tj]s'
+  // if the file <code>/lib/preview-api/template/stories/preview.[jt]s exists
   await Promise.all(
     ['js', 'ts'].map(async (ext) => {
       const previewFile = `preview.${ext}`;
@@ -345,9 +360,9 @@ async function addExtraDependencies({
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
   const extraDeps = [
-    '@storybook/jest@future',
-    '@storybook/testing-library@future',
-    '@storybook/test-runner@future',
+    '@storybook/jest@next',
+    '@storybook/testing-library@next',
+    '@storybook/test-runner@next',
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
@@ -365,10 +380,13 @@ export const addStories: Task['run'] = async (
   const storiesPath = await findFirstPath([join('src', 'stories'), 'stories'], { cwd });
 
   const mainConfig = await readMainConfig({ cwd });
+  const packageManager = JsPackageManagerFactory.getPackageManager({}, sandboxDir);
 
   // Ensure that we match the right stories in the stories directory
-  const packageJson = await import(join(cwd, 'package.json'));
-  updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
+  updateStoriesField(
+    mainConfig,
+    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT
+  );
 
   const isCoreRenderer =
     template.expected.renderer.startsWith('@storybook/') &&
@@ -378,7 +396,7 @@ export const addStories: Task['run'] = async (
   const storiesVariantFolder = getStoriesFolderWithVariant(sandboxSpecificStoriesFolder);
 
   if (isCoreRenderer) {
-    // Link in the template/components/index.js from store, the renderer and the addons
+    // Link in the template/components/index.js from preview-api, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
     await ensureSymlink(
       join(CODE_DIRECTORY, rendererPath, 'template', 'components'),
@@ -424,8 +442,6 @@ export const addStories: Task['run'] = async (
       });
     }
 
-    console.log({ sandboxSpecificStoriesFolder, storiesVariantFolder });
-
     if (
       await pathExists(
         resolve(CODE_DIRECTORY, frameworkPath, join('template', storiesVariantFolder))
@@ -444,9 +460,9 @@ export const addStories: Task['run'] = async (
   }
 
   if (isCoreRenderer) {
-    // Add stories for lib/store (and addons below). NOTE: these stories will be in the
+    // Add stories for lib/preview-api (and addons below). NOTE: these stories will be in the
     // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-    await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
+    await linkPackageStories(await workspacePath('core package', '@storybook/preview-api'), {
       mainConfig,
       cwd,
     });
@@ -467,9 +483,12 @@ export const addStories: Task['run'] = async (
   );
 
   const addonDirs = await Promise.all(
-    [...mainAddons, ...extraAddons].map(async (addon) =>
-      workspacePath('addon', `@storybook/addon-${addon}`)
-    )
+    [...mainAddons, ...extraAddons]
+      // only include addons that are in the monorepo
+      .filter((addon: string) =>
+        Object.keys(storybookPackages).find((pkg: string) => pkg === `@storybook/addon-${addon}`)
+      )
+      .map(async (addon) => workspacePath('addon', `@storybook/addon-${addon}`))
   );
 
   if (isCoreRenderer) {
@@ -498,6 +517,11 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
     ...templateConfig,
     features: {
       ...templateConfig.features,
+    },
+    core: {
+      ...templateConfig.core,
+      // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests
+      disableWhatsNewNotifications: true,
     },
   };
 
