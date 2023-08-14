@@ -151,7 +151,7 @@ function teardown(
 }
 
 async function installGlobalPlugins(app: App<any>, storyContext: StoryContext<VueRenderer>) {
-  if (window.NUXT_APPLY_PLUGINS_FUNC) {
-    await window.NUXT_APPLY_PLUGINS_FUNC(app, storyContext);
+  if (window.APPLY_PLUGINS_FUNC) {
+    await window.APPLY_PLUGINS_FUNC(app, storyContext);
   }
 }
