@@ -1,26 +1,27 @@
 ```js
-// MyComponent.stories.js
+// MyComponent.stories.js|jsx
 
 import { useChannel } from '@storybook/preview-api';
 
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
-import MyComponent from './MyComponent.vue';
+import { MyComponent } from './MyComponent';
 
 export default {
   component: MyComponent,
 };
 
-export const Highlighted = {
+export const StyledHighlight = {
   decorators: [
-    () => {
+    (storyFn) => {
       const emit = useChannel({});
       emit(HIGHLIGHT, {
         elements: ['h2', 'a', '.storybook-button'],
+        color: 'blue',
+        // 👇 Specify the style of the highlighted elements acccepted values are: 'double', 'solid', 'dotted', 'dashed'
+        style: 'double',
       });
-      return {
-        template: '<story />',
-      };
+      return storyFn();
     },
   ],
 };

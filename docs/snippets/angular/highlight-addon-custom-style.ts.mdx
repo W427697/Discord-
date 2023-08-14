@@ -18,12 +18,15 @@ const meta: Meta<MyComponent> = {
 export default meta;
 type Story = StoryObj<MyComponent>;
 
-export const Highlighted: Story = {
+export const StyledHighlight: Story = {
   decorators: [
     componentWrapperDecorator((story) => {
       const emit = useChannel({});
       emit(HIGHLIGHT, {
         elements: ['h2', 'a', '.storybook-button'],
+        color: 'blue',
+        // 👇 Specify the style of the highlighted elements acccepted values are: 'double', 'solid', 'dotted', 'dashed'
+        style: 'double',
       });
       return story;
     }),
