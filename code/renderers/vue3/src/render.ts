@@ -48,7 +48,7 @@ const map = new Map<
   }
 >();
 
-export function renderToCanvas(
+export async function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext,
   canvasElement: VueRenderer['canvasElement']
 ) {
@@ -100,9 +100,9 @@ export function renderToCanvas(
 
 function generateSlots(context: StoryContext) {
   const { argTypes } = context;
-  const slots = Object.entries(props)
+  const slots = Object.entries(argTypes)
     .filter(([key]) => argTypes[key]?.table?.category === 'slots')
-    .map(([key, value]) => [key, typeof value === 'function' ? value : () => value]);
+    .map(([key, value]) => [key, !value || typeof value === 'function' ? value : () => value]);
 
   return Object.fromEntries(slots);
 }
