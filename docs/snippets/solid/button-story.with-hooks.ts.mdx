@@ -1,13 +1,18 @@
-```js
-// Button.stories.js|jsx
+```tsx
+// Button.stories.ts|tsx
+
+import type { Meta, StoryObj } from 'storybook-solidjs';
 
 import { createSignal } from 'solid-js';
 
 import { Button } from './Button';
 
-export default {
+const meta: Meta<typeof Button> = {
   component: Button,
 };
+
+export default meta;
+type Story = StoryObj<typeof Button>;
 
 /*
  * Example Button story with Solid Hooks.
@@ -28,7 +33,7 @@ const ButtonWithHooks = () => {
   return <Button primary={isPrimary()} onClick={handleOnChange} label={value()} />;
 };
 
-export const Primary = {
+export const Primary: Story = {
   render: () => <ButtonWithHooks />,
 };
 ```
