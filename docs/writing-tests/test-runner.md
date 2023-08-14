@@ -79,23 +79,31 @@ Test runner offers zero-config support for Storybook. However, you can run `test
 The test-runner is powered by [Jest](https://jestjs.io/) and accepts a subset of its [CLI options](https://jestjs.io/docs/cli) (for example, `--watch`, `--maxWorkers`).
 If you're already using any of those flags in your project, you should be able to migrate them into Storybook's test-runner without any issues. Listed below are all the available flags and examples of using them.
 
-| Options                         | Description                                                                                                                      |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `--help`                        | Output usage information <br/>`test-storybook --help`                                                                            |
+| Options                         | Description                                                                                                                                                                   |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--help`                        | Output usage information <br/>`test-storybook --help`                                                                                                                         |
 | `-s`, `--stories-json`          | Run in stories json mode. Automatically detected (requires a compatible Storybook) <br/>`test-storybook --stories-json`          |
 | `--no-stories-json`             | Disables stories json mode <br/>`test-storybook --no-stories-json`                                                               |
-| `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from <br/>`test-storybook -c .storybook`                                        |
-| `--watch`                       | Run in watch mode <br/>`test-storybook --watch`                                                                                  |
-| `--url`                         | Define the URL to run tests in. Useful for custom Storybook URLs <br/>`test-storybook --url http://the-storybook-url-here.com`   |
-| `--browsers`                    | Define browsers to run tests in. One or multiple of: chromium, firefox, webkit <br/>`test-storybook --browsers firefox chromium` |
-| `--maxWorkers [amount]`         | Specifies the maximum number of workers the worker-pool will spawn for running tests <br/>`test-storybook --maxWorkers=2`        |
-| `--no-cache`                    | Disable the cache <br/>`test-storybook --no-cache`                                                                               |
-| `--clearCache`                  | Deletes the Jest cache directory and then exits without running tests <br/>`test-storybook --clearCache`                         |
-| `--verbose`                     | Display individual test results with the test suite hierarchy <br/>`test-storybook --verbose`                                    |
-| `-u`, `--updateSnapshot`        | Use this flag to re-record every snapshot that fails during this test run <br/>`test-storybook -u`                               |
-| `--eject`                       | Creates a local configuration file to override defaults of the test-runner <br/>`test-storybook --eject`                         |
-| `--coverage`                    | Runs [coverage tests](./test-coverage.md) on your stories and components <br/> `test-storybook --coverage`                       |
-| `--shard [index/count]`         | Requires CI. Splits the test suite execution into multiple machines <br/> `test-storybook --shard=1/8`                           |
+| `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from <br/>`test-storybook -c .storybook`                                                                                     |
+| `--watch`                       | Run in watch mode <br/>`test-storybook --watch`                                                                                                                               |
+| `--watchAll`                    | Watch files for changes and rerun all tests when something changes.<br/>`test-storybook --watchAll`                                                                           |
+| `--coverage`                    | Runs [coverage tests](./test-coverage.md) on your stories and components <br/> `test-storybook --coverage`                                                                    |
+| `--coverageDirectory`           | Directory where to write coverage report output <br/>`test-storybook --coverage --coverageDirectory coverage/ui/storybook`                                                    |
+| `--url`                         | Define the URL to run tests in. Useful for custom Storybook URLs <br/>`test-storybook --url http://the-storybook-url-here.com`                                                |
+| `--browsers`                    | Define browsers to run tests in. One or multiple of: chromium, firefox, webkit <br/>`test-storybook --browsers firefox chromium`                                              |
+| `--maxWorkers [amount]`         | Specifies the maximum number of workers the worker-pool will spawn for running tests <br/>`test-storybook --maxWorkers=2`                                                     |
+| `--no-cache`                    | Disable the cache <br/>`test-storybook --no-cache`                                                                                                                            |
+| `--clearCache`                  | Deletes the Jest cache directory and then exits without running tests <br/>`test-storybook --clearCache`                                                                      |
+| `--verbose`                     | Display individual test results with the test suite hierarchy <br/>`test-storybook --verbose`                                                                                 |
+| `-u`, `--updateSnapshot`        | Use this flag to re-record every snapshot that fails during this test run <br/>`test-storybook -u`                                                                            |
+| `--eject`                       | Creates a local configuration file to override defaults of the test-runner <br/>`test-storybook --eject`                                                                      |
+| `--json`                        | Prints the test results in JSON. This mode will send all other test output and user messages to stderr. <br/>`test-storybook --json`                                          |
+| `--outputFile`                  | Write test results to a file when the --json option is also specified. <br/>`test-storybook --json --outputFile results.json`                                                 |
+| `--junit`                       | Indicates that test information should be reported in a junit file. <br/>`test-storybook --**junit**`                                                                         |
+| `--ci`                          | Instead of the regular behavior of storing a new snapshot automatically, it will fail the test and require Jest to be run with `--updateSnapshot`. <br/>`test-storybook --ci` |
+| `--shard [index/count]`         | Requires CI. Splits the test suite execution into multiple machines <br/> `test-storybook --shard=1/8`                                                                        |
+| `--failOnConsole`               | Makes tests fail on browser console errors<br/>`test-storybook --failOnConsole`                                                                                               |
+
 
 <!-- prettier-ignore-start -->
 
@@ -190,11 +198,12 @@ The test-runner renders a story and executes its [play function](../writing-stor
 The test-runner exports test hooks that can be overridden globally to enable use cases like visual or DOM snapshots. These hooks give you access to the test lifecycle _before_ and _after_ the story is rendered.
 Listed below are the available hooks and an overview of how to use them.
 
-| Hook         | Description                                                                   |
-| ------------ | ----------------------------------------------------------------------------- |
-| `setup`      | Executes once before all the tests run<br/>`setup() {}`                       |
-| `preRender`  | Executes before a story is rendered<br/>`async preRender(page, context) {}`   |
-| `postRender` | Executes after the story is rendered<br/>`async postRender(page, context) {}` |
+| Hook         | Description                                                                                        |
+| ------------ | -------------------------------------------------------------------------------------------------- |
+| `prepare`    | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }() {}` |
+| `setup`      | Executes once before all the tests run<br/>`setup() {}`                                            |
+| `preRender`  | Executes before a story is rendered<br/>`async preRender(page, context) {}`                        |
+| `postRender` | Executes after the story is rendered<br/>`async postRender(page, context) {}`                      |
 
 <div class="aside">
 
