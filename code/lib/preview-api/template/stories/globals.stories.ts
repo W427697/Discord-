@@ -22,10 +22,11 @@ export const Inheritance = {
 };
 
 export const Events = {
+  parameters: { chromatic: { disableSnapshot: true } },
   // Just pass the "foo" global to the pre
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { text: context.globals['foo'] } }),
+      storyFn({ args: { text: context.globals.foo } }),
   ],
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;

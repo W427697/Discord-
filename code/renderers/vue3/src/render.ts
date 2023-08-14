@@ -32,8 +32,12 @@ export const setup = (fn: (app: App, storyContext?: StoryContext) => void) => {
   setupFunctions.add(fn);
 };
 
-const runSetupFunctions = (app: App, storyContext: StoryContext) => {
+const runSetupFunctions = async (
+  app: App,
+  storyContext: StoryContext<VueRenderer>
+): Promise<any> => {
   setupFunctions.forEach((fn) => fn(app, storyContext));
+  await installGlobalPlugins(app, storyContext);
 };
 
 const map = new Map<
@@ -41,7 +45,6 @@ const map = new Map<
   {
     vueApp: ReturnType<typeof createApp>;
     reactiveArgs: Args;
-    reactiveSlots?: Args;
   }
 >();
 
@@ -82,7 +85,7 @@ export function renderToCanvas(
   });
 
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  runSetupFunctions(vueApp, storyContext);
+  await runSetupFunctions(vueApp, storyContext);
   vueApp.mount(canvasElement);
 
   showMain();
@@ -93,19 +96,15 @@ export function renderToCanvas(
 
 /**
  * generate slots for default story without render function template
- * @param context
  */
 
 function generateSlots(context: StoryContext) {
   const { argTypes } = context;
-  const slots = Object.entries(argTypes)
-    .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
-    .map(([key, value]) => {
-      const slotValue = context.args[key];
-      return [key, typeof slotValue === 'function' ? slotValue : () => slotValue];
-    });
+  const slots = Object.entries(props)
+    .filter(([key]) => argTypes[key]?.table?.category === 'slots')
+    .map(([key, value]) => [key, typeof value === 'function' ? value : () => value]);
 
-  return reactive(Object.fromEntries(slots));
+  return Object.fromEntries(slots);
 }
 
 /**
@@ -159,4 +158,10 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
+}
+
+async function installGlobalPlugins(app: App<any>, storyContext: StoryContext<VueRenderer>) {
+  if (window.APPLY_PLUGINS_FUNC) {
+    await window.APPLY_PLUGINS_FUNC(app, storyContext);
+  }
 }
