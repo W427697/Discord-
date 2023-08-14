@@ -42,7 +42,7 @@ const Content = styled.div(({ theme }) => ({
   position: 'fixed',
   top: 0,
   width: '10rem',
-  paddingTop: '4rem',
+  marginTop: '4rem',
 
   fontFamily: theme.typography.fonts.base,
   fontSize: theme.typography.size.s2,
@@ -54,6 +54,11 @@ const Content = styled.div(({ theme }) => ({
 
   '& *': {
     boxSizing: 'border-box',
+  },
+
+  '& > .toc-wrapper': {
+    overflow: 'auto',
+    height: 'calc(100vh - 5rem)',
   },
 
   '& > .toc-wrapper > .toc-list': {
