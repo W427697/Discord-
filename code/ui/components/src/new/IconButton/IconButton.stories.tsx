@@ -52,6 +52,20 @@ export const Disabled: Story = {
   },
 };
 
+export const Animated: Story = {
+  args: {
+    ...Base.args,
+    icon: 'FaceHappy',
+  },
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <IconButton icon="FaceHappy" onClickAnimation="glow" />
+      <IconButton icon="FaceHappy" onClickAnimation="rotate360" />
+      <IconButton icon="FaceHappy" onClickAnimation="jiggle" />
+    </div>
+  ),
+};
+
 export const WithHref: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
