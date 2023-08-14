@@ -1,6 +1,7 @@
 # Getting started
 
-- Ensure you have node version 16 installed (suggestion: v16.5).
+Storybook is developed against a specific node version. We recommend using [Volta](https://volta.sh/) as it will automatically install the correct node and yarn version when you first use the repo. If you chose not to use Volta please ensure you you have node version 16 installed (suggestion: v16.5)
+
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
 - Run `yarn start` in the root directory to run a basic test Storybook "sandbox".
 

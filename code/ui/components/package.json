@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.2.2-alpha.0",
+  "version": "7.3.0-alpha.0",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -68,10 +68,11 @@
   },
   "dependencies": {
     "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-toolbar": "^1.0.4",
     "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.1.0",
+    "@storybook/icons": "^1.1.6",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
