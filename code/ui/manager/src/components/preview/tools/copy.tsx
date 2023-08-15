@@ -1,9 +1,11 @@
 import { global } from '@storybook/global';
 import React from 'react';
 import copy from 'copy-to-clipboard';
-import { getStoryHref, IconButton, Icons } from '@storybook/components';
-import { Consumer } from '@storybook/manager-api';
-import type { Addon, Combo } from '@storybook/manager-api';
+import { getStoryHref, IconButton } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
+import { Consumer, types } from '@storybook/manager-api';
+import type { Combo } from '@storybook/manager-api';
+import type { Addon_BaseType } from '@storybook/types';
 
 const { PREVIEW_URL, document } = global;
 
@@ -22,9 +24,10 @@ const copyMapper = ({ state }: Combo) => {
   };
 };
 
-export const copyTool: Addon = {
+export const copyTool: Addon_BaseType = {
   title: 'copy',
   id: 'copy',
+  type: types.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={copyMapper}>
@@ -35,7 +38,7 @@ export const copyTool: Addon = {
             onClick={() => copy(getStoryHref(baseUrl, storyId, queryParams))}
             title="Copy canvas link"
           >
-            <Icons icon="link" />
+            <Icon.Link />
           </IconButton>
         ) : null
       }

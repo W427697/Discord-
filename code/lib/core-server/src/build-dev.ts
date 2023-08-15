@@ -14,6 +14,7 @@ import {
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
+import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
@@ -30,13 +31,15 @@ export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
 ): Promise<{ port: number; address: string; networkAddress: string }> {
   const { packageJson, versionUpdates } = options;
-  const { version } = packageJson;
-
+  invariant(
+    packageJson.version !== undefined,
+    `Expected package.json#version to be defined in the "${packageJson.name}" package}`
+  );
   // updateInfo are cached, so this is typically pretty fast
   const [port, versionCheck] = await Promise.all([
     getServerPort(options.port),
     versionUpdates
-      ? updateCheck(version)
+      ? updateCheck(packageJson.version)
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
   ]);
 
@@ -83,17 +86,21 @@ export async function buildDevStandalone(
 
   const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
 
+  invariant(builder, 'No builder configured in core.builder');
+
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {
       telemetry('version-update');
     }
   }
 
-  const builderName = typeof builder === 'string' ? builder : builder?.name;
+  const builderName = typeof builder === 'string' ? builder : builder.name;
   const [previewBuilder, managerBuilder] = await Promise.all([
     getPreviewBuilder(builderName, options.configDir),
     getManagerBuilder(),
   ]);
+
+  const resolvedRenderer = renderer && resolveAddonName(options.configDir, renderer, options);
 
   // Load second pass: all presets are applied in order
   presets = await loadAllPresets({
@@ -101,11 +108,11 @@ export async function buildDevStandalone(
       require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
-      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
+      ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets,
+    overridePresets: previewBuilder.overridePresets ?? [],
     ...options,
   });
 
@@ -122,11 +129,10 @@ export async function buildDevStandalone(
     fullOptions
   );
 
-  const previewTotalTime = previewResult && previewResult.totalTime;
-  const managerTotalTime = managerResult && managerResult.totalTime;
-
-  const previewStats = previewResult && previewResult.stats;
-  const managerStats = managerResult && managerResult.stats;
+  const previewTotalTime = previewResult?.totalTime;
+  const managerTotalTime = managerResult?.totalTime;
+  const previewStats = previewResult?.stats;
+  const managerStats = managerResult?.stats;
 
   if (options.webpackStatsJson) {
     const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
@@ -157,7 +163,7 @@ export async function buildDevStandalone(
     if (!options.quiet) {
       outputStartupInformation({
         updateInfo: versionCheck,
-        version,
+        version: packageJson.version,
         name,
         address,
         networkAddress,

@@ -54,6 +54,9 @@ export type StorybookMetadata = {
   hasCustomBabel?: boolean;
   features?: StorybookConfig['features'];
   refCount?: number;
+  preview?: {
+    usesGlobals?: boolean;
+  };
 };
 
 export interface Payload {
