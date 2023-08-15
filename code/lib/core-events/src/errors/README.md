@@ -4,43 +4,22 @@ Storybook provides a utility to manage errors thrown from it. Each error is cate
 
 Storybook errors reside in this package and are categorized into:
 
-1. **[Client errors](./client-errors.ts)**
-   - Errors which occur in the browser
-   - e.g. Rendering issues, addons, Storybook UI, etc.
-   - available in `@storybook/core-events/client-errors`
-2. **[Server errors](./server-errors.ts)**
-   - Any Errors that happen in node
+1. **[Preview errors](./preview-errors.ts)**
+   - Errors which occur in the preview part of Storybook
+   - e.g. Rendering issues, etc.
+   - available in `@storybook/core-events/preview-errors`
+2. **[Manager errors](./manager-errors.ts)**
+   - Errors which occur
+   - e.g. Sidebar, addons, Storybook UI, Storybook router, etc.
+   - available in `@storybook/core-events/server-errors`
+3. **[Server errors](./server-errors.ts)**
+   - Errorr which occur in node
    - e.g. Storybook init command, dev command, builder errors (Webpack, Vite), etc.
    - available in `@storybook/core-events/server-errors`
 
-## When NOT to use categorized errors
-
-If your code throws an error just so it gets handled elsewhere in the codebase, meaning it's not user facing, you may not need to use this framework. For instance:
-
-```ts
-const doAnAction = () => {
-  if(works) {
-    doSomething();
-  } else {
-    throw new Error('do the backup action instead!');
-  }
-}
-
-const doWork = () => {
-  try {
-    doAnAction();
-  } catch() {
-    // All good. The error is handled.
-    doABackupAction();
-  }
-}
-```
-
-In this code, the error will never reach the user. You may either disable the eslint plugin rule for that line of code, or use a [HandledError implementation like done here](https://github.com/storybookjs/storybook/blob/next/code/lib/cli/src/HandledError.ts).
-
 ## How to create errors
 
-First, find which file your error should be part of, based on the criteria above.
+First, **find which file your error should be part of**, based on the criteria above.
 Second use the `StorybookError` class to define custom errors with specific codes and categories for use within the Storybook codebase. Below is a detailed documentation for the error properties:
 
 ### Class Structure
@@ -60,13 +39,14 @@ export class YourCustomError extends StorybookError {
 
 ### Properties
 
-| Name          | Type                         | Description                                                                                                                                                |
-| ------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| category      | `Category`                   | The category to which the error belongs.                                                                                                                   |
-| code          | `number`                     | The numeric code for the error.                                                                                                                            |
-| template      | `(...data: any[]) => string` | A properly written error message or a function that takes data arguments and returns an error, for dynamic messages.                                       |
-| documentation | `boolean` or `string`        | Optional. Should be set to `true` **if the error is documented on the Storybook website**. If defined as string, it should be a custom documentation link. |
-| telemetry     | `boolean`                    | Optional. If set to `true`, telemetry will be used to send errors. **Only for client based errors**.                                                       |
+| Name          | Type                  | Description                                                                                                                                                |
+| ------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| category      | `Category`            | The category to which the error belongs.                                                                                                                   |
+| code          | `number`              | The numeric code for the error.                                                                                                                            |
+| template      | `() => string`        | Function that returns a properly written error message.                                                                                                    |
+| data          | `Object`              | Optional. Data associated with the error. Used to provide additional information in the error message or to be passed to telemetry.                        |
+| documentation | `boolean` or `string` | Optional. Should be set to `true` **if the error is documented on the Storybook website**. If defined as string, it should be a custom documentation link. |
+| telemetry     | `boolean`             | Optional. If set to `true`, telemetry will be used to send errors.                                                                                         |
 
 ## Usage Example
 
@@ -89,13 +69,14 @@ export class InvalidFileExtensionError extends StorybookError {
   telemetry = true;
   documentation = 'https://some-custom-documentation.com/validation-errors';
 
-  // extra properties are defined in the constructor and available in any class method
-  constructor(extension: string) {
+  // extra properties are defined in the constructor via a data property, which is available in any class method
+  // always use this data Object notation!
+  constructor(public data: { extension: string }) {
     super();
   }
 
   template(): string {
-    return `Invalid file extension found: ${extension}.`;
+    return `Invalid file extension found: ${this.data.extension}.`;
   }
 }
 
@@ -108,7 +89,7 @@ import {
 throw StorybookIndexGenerationError();
 // "SB_Generic_0001: Storybook failed when generating an index for your stories. Check the stories field in your main.js.
 
-throw InvalidFileExtensionError('mtsx');
+throw InvalidFileExtensionError({ extension: 'mtsx' });
 // "SB_Validation_0002: Invalid file extension found: mtsx. More info: https://some-custom-documentation.com/validation-errors"
 ```
 

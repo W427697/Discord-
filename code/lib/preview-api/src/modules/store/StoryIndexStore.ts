@@ -7,7 +7,7 @@ import type {
   ComponentTitle,
 } from '@storybook/types';
 import memoize from 'memoizerific';
-import { MissingStoryAfterHmr } from '@storybook/core-events/client-errors';
+import { MissingStoryAfterHmr } from '@storybook/core-events/preview-errors';
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
 
@@ -49,7 +49,7 @@ export class StoryIndexStore {
   storyIdToEntry(storyId: StoryId): IndexEntry {
     const storyEntry = this.entries[storyId];
     if (!storyEntry) {
-      throw new MissingStoryAfterHmr(storyId);
+      throw new MissingStoryAfterHmr({ storyId });
     }
 
     return storyEntry;

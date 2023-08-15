@@ -16,6 +16,11 @@ export abstract class StorybookError extends Error {
   abstract template(): string;
 
   /**
+   * Data associated with the error. Used to provide additional information in the error message or to be passed to telemetry.
+   */
+  public readonly data = {};
+
+  /**
    * Indicates whether telemetry data should be collected for this error.
    */
   public telemetry = false;
@@ -31,37 +36,24 @@ export abstract class StorybookError extends Error {
   /**
    * Flag used to easily determine if the error originates from Storybook.
    */
-  protected fromStorybook = true;
-
-  // used for metadata purposes and to build the error page link
-  private fullCode: string;
-
-  constructor() {
-    super();
-    this.fullCode = this.name;
-  }
-
-  get paddedCode() {
-    return this.code.toString().padStart(4, '0');
-  }
+  readonly fromStorybook: true = true as const;
 
   /**
    * Overrides the default `Error.name` property in the format: SB_<CATEGORY>_<CODE>.
-   * @returns {string} Full error name.
    */
   get name() {
-    return `SB_${this.category}_${this.paddedCode}` as `SB_${this['category']}_${this['code']}`;
+    const paddedCode = String(this.code).padStart(4, '0');
+    return `SB_${this.category}_${paddedCode}` as `SB_${this['category']}_${string}`;
   }
 
   /**
    * Generates the error message along with additional documentation link (if applicable).
-   * @returns {string} The formatted error message.
    */
   get message() {
     let page: string | undefined;
 
     if (this.documentation === true) {
-      page = `https://storybook.js.org/error/${this.fullCode}`;
+      page = `https://storybook.js.org/error/${this.name}`;
     } else if (typeof this.documentation === 'string') {
       page = this.documentation;
     }

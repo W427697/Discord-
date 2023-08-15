@@ -5,7 +5,6 @@ module.exports = {
       description: 'Ensure unique error codes per category in the same file',
       category: 'Best Practices',
       recommended: true,
-      url: 'https://example.com/rules/unique-error-codes',
     },
     fixable: null,
   },

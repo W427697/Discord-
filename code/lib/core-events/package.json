@@ -20,19 +20,6 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "typesVersions": {
-    "*": {
-      "*": [
-        "dist/index.d.ts"
-      ],
-      "client-errors": [
-        "dist/errors/client-errors.d.ts"
-      ],
-      "server-errors": [
-        "dist/errors/server-errors.d.ts"
-      ]
-    }
-  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -40,11 +27,17 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./client-errors": {
-      "types": "./dist/errors/client-errors.d.ts",
-      "node": "./dist/errors/client-errors.js",
-      "require": "./dist/errors/client-errors.js",
-      "import": "./dist/errors/client-errors.mjs"
+    "./preview-errors": {
+      "types": "./dist/errors/preview-errors.d.ts",
+      "node": "./dist/errors/preview-errors.js",
+      "require": "./dist/errors/preview-errors.js",
+      "import": "./dist/errors/preview-errors.mjs"
+    },
+    "./manager-errors": {
+      "types": "./dist/errors/manager-errors.d.ts",
+      "node": "./dist/errors/manager-errors.js",
+      "require": "./dist/errors/manager-errors.js",
+      "import": "./dist/errors/manager-errors.mjs"
     },
     "./server-errors": {
       "types": "./dist/errors/server-errors.d.ts",
@@ -57,6 +50,22 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview-errors": [
+        "dist/errors/preview-errors.d.ts"
+      ],
+      "manager-errors": [
+        "dist/errors/manager-errors.d.ts"
+      ],
+      "server-errors": [
+        "dist/errors/server-errors.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -80,7 +89,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/errors/client-errors.ts",
+      "./src/errors/preview-errors.ts",
+      "./src/errors/manager-errors.ts",
       "./src/errors/server-errors.ts"
     ]
   },

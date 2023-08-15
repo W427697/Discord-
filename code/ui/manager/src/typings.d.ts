@@ -25,18 +25,5 @@ declare var __STORYBOOKTHEMING__: any;
 declare var __STORYBOOKAPI__: any;
 declare var __STORYBOOKADDONS__: any;
 declare var __STORYBOOKCLIENTLOGGER__: any;
-
-declare global {
-  function telemetry({
-    isError,
-    payload,
-  }:
-    | {
-        isError: true;
-        payload: Error;
-      }
-    | {
-        isError: false;
-        payload: unknown;
-      }): void;
-}
+declare var __STORYBOOK_ADDONS_CHANNEL__: any;
+declare var sendTelemetryError: (error: any) => void;

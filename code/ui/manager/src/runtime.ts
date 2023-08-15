@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { global } from '@storybook/global';
 
 import type { Channel } from '@storybook/channels';
@@ -5,7 +6,7 @@ import type { AddonStore } from '@storybook/manager-api';
 import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import { createBrowserChannel } from '@storybook/channels';
-import { CHANNEL_CREATED, SEND_TELEMETRY_ERROR } from '@storybook/core-events';
+import { CHANNEL_CREATED, TELEMETRY_ERROR } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
@@ -35,6 +36,7 @@ class ReactProvider extends Provider {
 
     this.addons = addons;
     this.channel = channel;
+    global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
     if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
@@ -61,21 +63,19 @@ Object.keys(Keys).forEach((key: keyof typeof Keys) => {
 });
 
 global.sendTelemetryError = (error) => {
-  const channel = global.__STORYBOOK_ADDONS_MANAGER.getChannel();
-  channel.emit(SEND_TELEMETRY_ERROR, error);
+  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
+  channel.emit(TELEMETRY_ERROR, error);
 };
 
-// handle all uncaught StorybookError at the root of the application and log to telemetry if neccesary
+// handle all uncaught StorybookError at the root of the application and log to telemetry
 global.addEventListener('error', (args) => {
   const error = args.error || args;
-  if (error.fromStorybook && error.telemetry) {
-    global.sendTelemetryError(error);
-  }
+  error.category = error.category || 'UNCATEGORIZED';
+  global.sendTelemetryError(error);
 });
 global.addEventListener('unhandledrejection', ({ reason }) => {
-  if (reason.fromStorybook && reason.telemetry) {
-    global.sendTelemetryError(reason);
-  }
+  reason.category = reason.category || 'UNCATEGORIZED';
+  global.sendTelemetryError(reason);
 });
 
 const { document } = global;

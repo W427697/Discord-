@@ -1,4 +1,4 @@
-import { SEND_TELEMETRY_ERROR } from '@storybook/core-events';
+import { TELEMETRY_ERROR } from '@storybook/core-events';
 import { values } from './globals/runtime';
 import { globals } from './globals/types';
 
@@ -11,10 +11,10 @@ getKeys(globals).forEach((key) => {
 
 global.sendTelemetryError = (error) => {
   const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
-  channel.emit(SEND_TELEMETRY_ERROR, error);
+  channel.emit(TELEMETRY_ERROR, error);
 };
 
-// handle all uncaught StorybookError at the root of the application and log to telemetry if neccesary
+// handle all uncaught StorybookError at the root of the application and log to telemetry if applicable
 global.addEventListener('error', (args) => {
   const error = args.error || args;
   if (error.fromStorybook && error.telemetry) {
