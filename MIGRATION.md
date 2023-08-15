@@ -73,6 +73,7 @@
     - [Unattached docs files](#unattached-docs-files)
     - [Doc Blocks](#doc-blocks)
       - [Meta block](#meta-block)
+      - [Primary block](#primary-block)
       - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
       - [Story block](#story-block)
       - [Source block](#source-block)
@@ -1428,6 +1429,10 @@ Additionally to changing the docs information architecture, we've updated the AP
 ##### Meta block
 
 The primary change of the `Meta` block is the ability to attach to CSF files with `<Meta of={}>` as described above.
+
+##### Primary block
+
+The `Primary` block now also accepts an `of` prop as described above. It still accepts being passed `name` or no props at all.
 
 ##### Description block, `parameters.notes` and `parameters.info`
 
