@@ -53,17 +53,16 @@ import * as channel from './modules/channel';
 
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
-import * as releaseNotes from './modules/release-notes';
 // eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
 
-// eslint-disable-next-line import/no-cycle
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
 
 import * as url from './modules/url';
 import * as version from './modules/versions';
+import * as whatsnew from './modules/whatsnew';
 
 import * as globals from './modules/globals';
 
@@ -92,9 +91,9 @@ export type State = layout.SubState &
   version.SubState &
   url.SubState &
   shortcuts.SubState &
-  releaseNotes.SubState &
   settings.SubState &
   globals.SubState &
+  whatsnew.SubState &
   RouterData &
   API_OptionsData &
   DeprecatedState &
@@ -109,10 +108,10 @@ export type API = addons.SubAPI &
   layout.SubAPI &
   notifications.SubAPI &
   shortcuts.SubAPI &
-  releaseNotes.SubAPI &
   settings.SubAPI &
   version.SubAPI &
   url.SubAPI &
+  whatsnew.SubAPI &
   Other;
 
 interface DeprecatedState {
@@ -184,7 +183,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       location,
       path,
       refId,
-      viewMode = props.docsOptions.docsMode ? 'docs' : 'story',
+      viewMode = props.docsOptions.docsMode ? 'docs' : props.viewMode,
       singleStory,
       storyId,
       docsOptions,
@@ -214,13 +213,13 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       layout,
       notifications,
       settings,
-      releaseNotes,
       shortcuts,
       stories,
       refs,
       globals,
       url,
       version,
+      whatsnew,
     ].map((m) =>
       m.init({ ...routeData, ...optionsData, ...apiData, state: this.state, fullAPI: this.api })
     );
@@ -419,36 +418,41 @@ const addonStateCache: {
 // shared state
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
-  const existingState = api.getAddonState<S>(stateId);
+  const existingState = api.getAddonState<S>(stateId) || addonStateCache[stateId];
   const state = orDefault<S>(
     existingState,
     addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
   );
-  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
-    // set only after the stories are loaded
-    if (addonStateCache[stateId]) {
+
+  if (api.getAddonState(stateId) && api.getAddonState(stateId) !== state) {
+    api.setAddonState<S>(stateId, state).then((s) => {
       addonStateCache[stateId] = s;
-    }
-    api.setAddonState<S>(stateId, s, options);
+    });
+  }
+
+  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
+    const result = api.setAddonState<S>(stateId, s, options);
+    addonStateCache[stateId] = result;
+    return result;
   };
   const allListeners = useMemo(() => {
     const stateChangeHandlers = {
-      [`${SHARED_STATE_CHANGED}-client-${stateId}`]: (s: S) => setState(s),
-      [`${SHARED_STATE_SET}-client-${stateId}`]: (s: S) => setState(s),
+      [`${SHARED_STATE_CHANGED}-client-${stateId}`]: setState,
+      [`${SHARED_STATE_SET}-client-${stateId}`]: setState,
     };
     const stateInitializationHandlers = {
-      [SET_STORIES]: () => {
+      [SET_STORIES]: async () => {
         const currentState = api.getAddonState(stateId);
         if (currentState) {
           addonStateCache[stateId] = currentState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, currentState);
         } else if (addonStateCache[stateId]) {
           // this happens when HMR
-          setState(addonStateCache[stateId]);
+          await setState(addonStateCache[stateId]);
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, addonStateCache[stateId]);
         } else if (defaultState !== undefined) {
           // if not HMR, yet the defaults are from the manager
-          setState(defaultState);
+          await setState(defaultState);
           // initialize addonStateCache after first load, so its available for subsequent HMR
           addonStateCache[stateId] = defaultState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, defaultState);
@@ -472,9 +476,9 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   const emit = useChannel(allListeners);
   return [
     state,
-    (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
-      setState(newStateOrMerger, options);
-      emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, newStateOrMerger);
+    async (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
+      const result = await setState(newStateOrMerger, options);
+      emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, result);
     },
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
 }

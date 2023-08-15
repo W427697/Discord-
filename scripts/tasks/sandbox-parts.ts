@@ -72,10 +72,7 @@ export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRu
   }
 };
 
-export const install: Task['run'] = async (
-  { sandboxDir, template },
-  { link, dryRun, debug, addon: addons, skipTemplateStories }
-) => {
+export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
@@ -106,10 +103,20 @@ export const install: Task['run'] = async (
       }
     );
   }
+};
+
+export const init: Task['run'] = async (
+  { sandboxDir, template },
+  { dryRun, debug, addon: addons, skipTemplateStories }
+) => {
+  const cwd = sandboxDir;
 
   let extra = {};
-  if (template.expected.renderer === '@storybook/html') extra = { type: 'html' };
-  else if (template.expected.renderer === '@storybook/server') extra = { type: 'server' };
+  if (template.expected.renderer === '@storybook/html') {
+    extra = { type: 'html' };
+  } else if (template.expected.renderer === '@storybook/server') {
+    extra = { type: 'server' };
+  }
 
   await executeCLIStep(steps.init, {
     cwd,
@@ -267,21 +274,22 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
   // If the project is a JS project, let's make sure any linked in TS stories from the
   // renderer inside src|stories are simply ignored.
+  // TODO: We should definitely improve the logic here, as it will break every time the stories field change format in the generated sandboxes.
   const updatedStories = isJs
-    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    ? stories.map((specifier) => specifier.replace('|ts|tsx', ''))
     : stories;
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
 }
 
 // Add a stories field entry for the passed symlink
-function addStoriesEntry(mainConfig: ConfigFile, path: string) {
+function addStoriesEntry(mainConfig: ConfigFile, path: string, disableDocs: boolean) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   const entry = {
     directory: slash(join('../template-stories', path)),
     titlePrefix: slash(path),
-    files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
+    files: disableDocs ? '**/*.stories.@(js|jsx|ts|tsx)' : '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
 
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
@@ -294,7 +302,12 @@ function getStoriesFolderWithVariant(variant?: string, folder = 'stories') {
 // packageDir is eg 'renderers/react', 'addons/actions'
 async function linkPackageStories(
   packageDir: string,
-  { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string },
+  {
+    mainConfig,
+    cwd,
+    linkInDir,
+    disableDocs,
+  }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string; disableDocs: boolean },
   variant?: string
 ) {
   const storiesFolderName = variant ? getStoriesFolderWithVariant(variant) : 'stories';
@@ -312,7 +325,7 @@ async function linkPackageStories(
   await ensureSymlink(source, target);
 
   if (!linkInDir) {
-    addStoriesEntry(mainConfig, packageDir);
+    addStoriesEntry(mainConfig, packageDir, disableDocs);
   }
 
   // Add `previewAnnotation` entries of the form
@@ -352,9 +365,9 @@ async function addExtraDependencies({
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
   const extraDeps = [
-    '@storybook/jest@future',
-    '@storybook/testing-library@future',
-    '@storybook/test-runner@future',
+    '@storybook/jest@next',
+    '@storybook/testing-library@next',
+    '@storybook/test-runner@next',
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
@@ -365,7 +378,7 @@ async function addExtraDependencies({
 
 export const addStories: Task['run'] = async (
   { sandboxDir, template, key },
-  { addon: extraAddons, dryRun, debug }
+  { addon: extraAddons, dryRun, debug, disableDocs }
 ) => {
   logger.log('💃 adding stories');
   const cwd = sandboxDir;
@@ -377,7 +390,8 @@ export const addStories: Task['run'] = async (
   // Ensure that we match the right stories in the stories directory
   updateStoriesField(
     mainConfig,
-    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT
+    (await detectLanguage(packageManager)) === SupportedLanguage.JAVASCRIPT,
+    disableDocs
   );
 
   const isCoreRenderer =
@@ -401,6 +415,7 @@ export const addStories: Task['run'] = async (
       mainConfig,
       cwd,
       linkInDir: resolve(cwd, storiesPath),
+      disableDocs,
     });
 
     if (
@@ -414,6 +429,7 @@ export const addStories: Task['run'] = async (
           mainConfig,
           cwd,
           linkInDir: resolve(cwd, storiesPath),
+          disableDocs,
         },
         sandboxSpecificStoriesFolder
       );
@@ -431,6 +447,7 @@ export const addStories: Task['run'] = async (
         mainConfig,
         cwd,
         linkInDir: resolve(cwd, storiesPath),
+        disableDocs,
       });
     }
 
@@ -445,6 +462,7 @@ export const addStories: Task['run'] = async (
           mainConfig,
           cwd,
           linkInDir: resolve(cwd, storiesPath),
+          disableDocs,
         },
         sandboxSpecificStoriesFolder
       );
@@ -457,6 +475,7 @@ export const addStories: Task['run'] = async (
     await linkPackageStories(await workspacePath('core package', '@storybook/preview-api'), {
       mainConfig,
       cwd,
+      disableDocs,
     });
   }
 
@@ -467,7 +486,10 @@ export const addStories: Task['run'] = async (
       if (!match) return acc;
       const suffix = match[1];
       if (suffix === 'essentials') {
-        return [...acc, ...essentialsAddons];
+        const essentials = disableDocs
+          ? essentialsAddons.filter((a) => a !== 'docs')
+          : essentialsAddons;
+        return [...acc, ...essentials];
       }
       return [...acc, suffix];
     },
@@ -486,7 +508,7 @@ export const addStories: Task['run'] = async (
   if (isCoreRenderer) {
     const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
     for (const packageDir of existingStories) {
-      await linkPackageStories(packageDir, { mainConfig, cwd });
+      await linkPackageStories(packageDir, { mainConfig, cwd, disableDocs });
     }
 
     // Add some extra settings (see above for what these do)
@@ -501,7 +523,7 @@ export const addStories: Task['run'] = async (
   await writeConfig(mainConfig);
 };
 
-export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
+export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disableDocs }) => {
   logger.log('📝 Extending main.js');
   const mainConfig = await readMainConfig({ cwd: sandboxDir });
   const templateConfig = template.modifications?.mainConfig || {};
@@ -510,9 +532,31 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
     features: {
       ...templateConfig.features,
     },
+    core: {
+      ...templateConfig.core,
+      // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests
+      disableWhatsNewNotifications: true,
+    },
   };
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
+
+  // Simulate Storybook Lite
+  if (disableDocs) {
+    const addons = mainConfig.getFieldValue(['addons']);
+    const addonsNoDocs = addons.map((addon: any) =>
+      addon !== '@storybook/addon-essentials' ? addon : { name: addon, options: { docs: false } }
+    );
+    mainConfig.setFieldValue(['addons'], addonsNoDocs);
+
+    // remove the docs options so that docs tags are ignored
+    mainConfig.setFieldValue(['docs'], {});
+    mainConfig.setFieldValue(['typescript'], { reactDocgen: false });
+
+    let updatedStories = mainConfig.getFieldValue(['stories']) as string[];
+    updatedStories = updatedStories.filter((specifier) => !specifier.endsWith('.mdx'));
+    mainConfig.setFieldValue(['stories'], updatedStories);
+  }
 
   if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);

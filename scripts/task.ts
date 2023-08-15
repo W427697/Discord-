@@ -26,6 +26,7 @@ import { testRunnerDev } from './tasks/test-runner-dev';
 import { chromatic } from './tasks/chromatic';
 import { e2eTestsBuild } from './tasks/e2e-tests-build';
 import { e2eTestsDev } from './tasks/e2e-tests-dev';
+import { bench } from './tasks/bench';
 
 import {
   allTemplates as TEMPLATES,
@@ -107,6 +108,7 @@ export const tasks = {
   chromatic,
   'e2e-tests': e2eTestsBuild,
   'e2e-tests-dev': e2eTestsDev,
+  bench,
 };
 type TaskKey = keyof typeof tasks;
 
@@ -172,6 +174,11 @@ export const options = createOptions({
   skipTemplateStories: {
     type: 'boolean',
     description: 'Do not include template stories and their addons',
+    promptType: false,
+  },
+  disableDocs: {
+    type: 'boolean',
+    description: 'Disable addon-docs from essentials',
     promptType: false,
   },
 });
@@ -300,7 +307,14 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   const { junitFilename } = details;
   const startTime = new Date();
   try {
-    const controller = await task.run(details, optionValues);
+    let updatedOptions = optionValues;
+    if (details.template?.modifications?.skipTemplateStories) {
+      updatedOptions = { ...updatedOptions, skipTemplateStories: true };
+    }
+    if (details.template?.modifications?.disableDocs) {
+      updatedOptions = { ...updatedOptions, disableDocs: true };
+    }
+    const controller = await task.run(details, updatedOptions);
 
     if (junitFilename && !task.junit) await writeJunitXml(getTaskKey(task), details.key, startTime);
 

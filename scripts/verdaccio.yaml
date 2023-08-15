@@ -31,6 +31,10 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/icons':
+    access: $all
+    publish: $all
+    proxy: npmjs
   '@storybook/global':
     access: $all
     publish: $all
@@ -55,6 +59,10 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/addon-styling':
+    access: $all
+    publish: $all
+    proxy: npmjs
   '@storybook/addon-svelte-csf':
     access: $all
     publish: $all
@@ -72,6 +80,10 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/test-runner':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-onboarding':
     access: $all
     publish: $all
     proxy: npmjs

@@ -1,8 +1,10 @@
 import type { SyntheticEvent, MouseEventHandler } from 'react';
 import React, { Component, useCallback } from 'react';
 
-import { Icons, IconButton, Separator } from '@storybook/components';
-import type { Addon } from '@storybook/manager-api';
+import { IconButton, Separator } from '@storybook/components';
+import { Icon } from '@storybook/components/experimental';
+import type { Addon_BaseType } from '@storybook/types';
+import { types } from '@storybook/manager-api';
 
 const initialZoom = 1 as const;
 
@@ -37,13 +39,13 @@ const Zoom = React.memo<{
   return (
     <>
       <IconButton key="zoomin" onClick={zoomIn} title="Zoom in">
-        <Icons icon="zoom" />
+        <Icon.Zoom />
       </IconButton>
       <IconButton key="zoomout" onClick={zoomOut} title="Zoom out">
-        <Icons icon="zoomout" />
+        <Icon.ZoomOut />
       </IconButton>
       <IconButton key="zoomreset" onClick={reset} title="Reset zoom">
-        <Icons icon="zoomreset" />
+        <Icon.ZoomReset />
       </IconButton>
     </>
   );
@@ -78,9 +80,10 @@ const ZoomWrapper = React.memo<{ set: (zoomLevel: number) => void; value: number
   }
 );
 
-export const zoomTool: Addon = {
+export const zoomTool: Addon_BaseType = {
   title: 'zoom',
   id: 'zoom',
+  type: types.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: React.memo(function ZoomToolRenderer() {
     return (
