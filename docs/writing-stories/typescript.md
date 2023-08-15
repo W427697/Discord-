@@ -2,15 +2,13 @@
 title: 'Writing stories in TypeScript'
 ---
 
-Writing your stories in [TypeScript](https://www.typescriptlang.org/) makes you more productive. You don't have to jump between files to look up component props. Your code editor will alert you about missing required props and even autocomplete prop values. Plus, Storybook infers those component types to auto-generate the [Controls](../api/doc-block-controls.md) table.
-
-Using TypeScript also makes your code more robust. When authoring stories, you're replicating how a component will be used within your app. With type checking, you can catch bugs and edge cases as you code.
+Writing your stories in [TypeScript](https://www.typescriptlang.org/) makes you more productive. You don't have to jump between files to look up component props. Your code editor will alert you about missing required props and even autocomplete prop values, just like when using your components within your app. Plus, Storybook infers those component types to auto-generate the [Controls](../api/doc-block-controls.md) table.
 
 Storybook has built-in TypeScript support, so you can get started with zero configuration required.
 
 ## Typing stories with `Meta` and `StoryObj`
 
-When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./introduction.md#default-export), which describes and configures the component and its stories. In a [CSF file](..api.md/csf), this is the default export. The second is the [stories themselves](./introduction.md#defining-stories).
+When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./introduction.md#default-export), which describes and configures the component and its stories. In a [CSF file](../api/csf.md), this is the default export. The second is the [stories themselves](./introduction.md#defining-stories).
 
 Storybook provides utility types for each of these, named `Meta` and `StoryObj`. Here's an example CSF file using those types:
 
@@ -26,9 +24,9 @@ Storybook provides utility types for each of these, named `Meta` and `StoryObj`.
 
 <!-- prettier-ignore-end -->
 
-### Optional type parameter
+### Props type parameter
 
-`Meta` and `StoryObj` types are both [generics](https://www.typescriptlang.org/docs/handbook/2/generics.html#working-with-generic-type-variables), so you can provide them with a prop type parameter for the component type or the component's props type (e.g., the `typeof Button` portion of `Meta<typeof Button>`). By doing so, TypeScript will prevent you from defining an invalid arg, and all [decorators](./decorators.md), [play functions](./play-function.md), or [loaders](./loaders.md) will type their function arguments.
+`Meta` and `StoryObj` types are both [generics](https://www.typescriptlang.org/docs/handbook/2/generics.html#working-with-generic-type-variables), so you can provide them with an optional prop type parameter for the component type or the component's props type (e.g., the `typeof Button` portion of `Meta<typeof Button>`). By doing so, TypeScript will prevent you from defining an invalid arg, and all [decorators](./decorators.md), [play functions](./play-function.md), or [loaders](./loaders.md) will type their function arguments.
 
 The example above passes a component type. See [**Typing custom args**](#typing-custom-args) for an example of passing a props type.
 
@@ -47,7 +45,7 @@ Both Angular and Web components utilize a class plus decorator approach. The dec
 
 As a result, it appears impossible to determine if a property in the class is a required property or an optional property (but non-nullable due to a default value) or a non-nullable internal state variable.
 
-For more information, please refer to [this discussion](github.com/storybookjs/storybook/discussions/20988).
+For more information, please refer to [this discussion](https://github.com/storybookjs/storybook/discussions/20988).
 
 </details>
 
@@ -57,7 +55,7 @@ For more information, please refer to [this discussion](github.com/storybookjs/s
 
 If you are using TypeScript 4.9+, you can take advantage of the new [`satisfies`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html) operator to get stricter type checking. Now you will receive type errors for missing required args, not just invalid ones.
 
-Using `satisfies` to apply a story's type helps maintain type safety when sharing a `play` function across stories. Without it, TypeScript will throw an error that the `play` function may be undefined. The `satisfies` operator enables TypeScript to infer whether the play is defined or not.
+Using `satisfies` to apply a story's type helps maintain type safety when sharing a `play` function across stories. Without it, TypeScript will throw an error that the `play` function may be undefined. The `satisfies` operator enables TypeScript to infer whether the play function is defined or not.
 
 Finally, use of `satisfies` allows you to pass `typeof meta` to the `StoryObj` generic. This informs TypeScript of the connection between the `meta` and `StoryObj` types, which allows it to infer the `args` type from the `meta` type. In other words, TypeScript will understand that args can be defined both at the story and meta level and won't throw an error when a required arg is defined at the meta level, but not at the story level.
 
@@ -82,15 +80,9 @@ Sometimes stories need to define args that aren’t included in the component's 
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['vue', 'svelte']}>
-
-## Framework specific tips
-
-Template-based frameworks such as Vue and Svelte typically require editor extensions to enable syntax highlighting, autocomplete, and type checking. Here are a few tips to help you set up the ideal environment for them.
-
 <IfRenderer renderer={['vue']}>
 
-### Vue
+### Vue specific tips
 
 Vue has excellent support for TypeScript, and we have done our utmost to take advantage of that in the stories files. For example, consider the following strongly typed Vue3 single file component (SFC):
 
@@ -121,9 +113,9 @@ This setup will add type support for `*.vue` imports to your `*.stories.ts` file
 
 <IfRenderer renderer={['svelte']}>
 
-### Svelte
+### Svelte specific tips
 
-Svelte also offers excellent TypeScript support for .svelte files. For example, consider the following component. You can run type checks using svelte-check and add VSCode editor support with the [Svelte for VSCode extension](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode&ssr=false#overview).
+Svelte offers excellent TypeScript support for .svelte files. For example, consider the following component. You can run type checks using svelte-check and add VSCode editor support with the [Svelte for VSCode extension](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode&ssr=false#overview).
 
 ```html
 <script lang="ts">
@@ -143,7 +135,5 @@ Svelte also offers excellent TypeScript support for .svelte files. For example, 
 ```
 
 The same setup works with Svelte stories files too, providing both type safety and autocompletion.
-
-</IfRenderer>
 
 </IfRenderer>
