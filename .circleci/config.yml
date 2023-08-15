@@ -599,14 +599,14 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 34
+          parallelism: 35
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 34
+          parallelism: 35
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
