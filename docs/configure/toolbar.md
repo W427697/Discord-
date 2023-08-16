@@ -24,7 +24,7 @@ The following parameters are available to the `showToolbar` function:
 
 
 | Name                     | Type     | Description                                                    | Example Value                         |
-| ------------------------ | :------: | :------------------------------------------------------------: | :-----------------------------------: |
+| ------------------------ | -------- | -------------------------------------------------------------- | ------------------------------------- |
 | **path**                 | String   | Path to the page being displayed                               | `'/story/components-button--default'` |
 | **viewMode**             | String   | Whether the current page is a story or docs                    | `'docs'` or `'story'`                 |
 | **singleStory**          | Boolean  | Whether the current page is the only story for a component     | `true` or `false`                     |
