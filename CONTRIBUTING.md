@@ -10,8 +10,10 @@ The `yarn start` script will generate a React Vite TypeScript sandbox with a set
 ## Issues
 
 If you run `yarn start` and encounter the following error, try rerunning `yarn start` a second time:
+
 ```sh
 >  NX   ENOENT: no such file or directory, open 'storybook/code/node_modules/nx/package.json'
+```
 
 ## Forked repos
 
