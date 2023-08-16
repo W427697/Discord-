@@ -195,7 +195,7 @@ export const features = async (
 });
 
 export const csfIndexer: Indexer = {
-  test: /\.stories\.(m?js|ts)x?$/,
+  test: /\.(stories|story)\.(m?js|ts)x?$/,
   index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
 
