@@ -65,7 +65,7 @@ export async function getTemplate(
     } templates to run for the "${scriptName}" task:
       ${potentialTemplateKeys.map((v) => `- ${v}`).join('\n')}
     
-      ${await getParallelismSummary(cadence)}
+      ${await checkParallelism(cadence)}
     `);
   }
 
@@ -81,13 +81,15 @@ const tasksMap = {
   'test-runner': 'test-runner-production',
   // 'test-runner-dev', TODO: bring this back when the task is enabled again
   bench: 'bench',
-};
+} as const;
 
-const tasks = Object.keys(tasksMap);
+type TaskKey = keyof typeof tasksMap;
+
+const tasks = Object.keys(tasksMap) as TaskKey[];
 
 const CONFIG_YML_FILE = '../.circleci/config.yml';
 
-async function checkParallelism(cadence?: Cadence, scriptName?: string) {
+async function checkParallelism(cadence?: Cadence, scriptName?: TaskKey) {
   const configYml = await readFile(CONFIG_YML_FILE, 'utf-8');
   const data = yaml.parse(configYml);
 
@@ -104,7 +106,7 @@ async function checkParallelism(cadence?: Cadence, scriptName?: string) {
     );
     potentialTemplateKeys = cadenceTemplates.map(([k]) => k) as TemplateKey[];
 
-    scripts.forEach((script: keyof typeof tasksMap) => {
+    scripts.forEach((script) => {
       const templateKeysPerScript = potentialTemplateKeys.filter((t) => {
         const currentTemplate = allTemplates[t] as Template;
         return (
@@ -152,7 +154,7 @@ async function checkParallelism(cadence?: Cadence, scriptName?: string) {
   }
 }
 
-type RunOptions = { cadence?: Cadence; task?: string; check: boolean };
+type RunOptions = { cadence?: Cadence; task?: TaskKey; check: boolean };
 async function run({ cadence, task, check }: RunOptions) {
   if (check) {
     if (task && !tasks.includes(task)) {
