@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
+import invariant from 'tiny-invariant';
+
 import { execaCommand } from '../../utils/exec';
 // eslint-disable-next-line import/no-cycle
 import { logger } from '../publish';
-import { getErrorMessage } from '../../type-utils/errorHandling';
 
 const { version: storybookVersion } = require('../../../code/package.json');
 
@@ -28,14 +29,12 @@ const getTheLastCommitHashThatUpdatedTheSandboxRepo = async (branch: string) => 
         `Could not find the last commit hash in the following commit message: "${latestCommitMessage}".\nDid someone manually push to the sandboxes repo?`
       );
     }
-
     return lastCommitHash;
   } catch (error) {
-    if (!getErrorMessage(error).includes('Did someone manually push to the sandboxes repo')) {
+    invariant(error instanceof Error);
+    if (!error.message.includes('Did someone manually push to the sandboxes repo')) {
       logger.error(
-        `⚠️  Error getting latest commit message of ${owner}/${repo} on branch ${branch}: ${getErrorMessage(
-          error
-        )}`
+        `⚠️  Error getting latest commit message of ${owner}/${repo} on branch ${branch}: ${error.message}`
       );
     }
 
@@ -87,10 +86,9 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
       ].join('\n');
       gitCommitCommand = `git commit -m "${commitTitle}" -m "${commitBody}"`;
     } catch (err) {
+      invariant(err instanceof Error);
       logger.log(
-        `⚠️  Falling back to a simpler commit message because of an error while trying to get the previous commit hash: ${getErrorMessage(
-          err
-        )}`
+        `⚠️  Falling back to a simpler commit message because of an error while trying to get the previous commit hash: ${err.message}`
       );
       gitCommitCommand = `git commit -m "${storybookVersion} - ${new Date().toDateString()} - ${currentCommitHash}"`;
     }
@@ -100,12 +98,13 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
       cwd,
     });
   } catch (e) {
-    if (!getErrorMessage(e).includes('nothing to commit')) {
+    invariant(e instanceof Error);
+    if (e.message.includes('nothing to commit')) {
       logger.log(
         `🤷 Git found no changes between previous versions so there is nothing to commit. Skipping publish!`
       );
     } else {
-      logger.error(`🤯 Something went wrong while committing to git: ${getErrorMessage(e)}`);
+      logger.error(`🤯 Something went wrong while committing to git: ${e.message}`);
     }
   }
 }

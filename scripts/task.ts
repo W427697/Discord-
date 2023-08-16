@@ -6,7 +6,6 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
-import { getErrorMessage } from './type-utils/errorHandling';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -36,6 +35,7 @@ import {
 } from '../code/lib/cli/src/sandbox-templates';
 
 import { version } from '../code/package.json';
+import invariant from 'tiny-invariant';
 
 const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 
@@ -321,16 +321,11 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
+    invariant(err instanceof Error);
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
-      await writeJunitXml(
-        getTaskKey(task),
-        details.key,
-        startTime,
-        err instanceof Error ? err : new Error(String(err)),
-        true
-      );
+      await writeJunitXml(getTaskKey(task), details.key, startTime, err, true);
     }
 
     throw err;
@@ -473,10 +468,11 @@ async function run() {
         });
         if (controller) controllers.push(controller);
       } catch (err) {
+        invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {
-          logger.error(getErrorMessage(err));
+          logger.error(err.message);
         } else {
           logger.error(err);
         }
