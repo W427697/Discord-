@@ -11,15 +11,7 @@ const useShowToolbar = (showToolbar: boolean) => {
     return showToolbar;
   }
 
-  const params = {
-    path: state.path,
-    viewMode: state.viewMode,
-    singleStory: state.singleStory,
-    layout: state.layout,
-    storyId: state.storyId,
-  };
-
-  return config.toolbar.showToolbar(params);
+  return config.toolbar.showToolbar(state);
 };
 
 export default useShowToolbar;
