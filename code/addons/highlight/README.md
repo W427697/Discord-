@@ -19,7 +19,7 @@ yarn add --dev @storybook/addon-highlight
 npm:
 
 ```sh
-npm install --save-dev @storybook/addon-highlight --save-dev
+npm install @storybook/addon-highlight --save-dev
 ```
 
 pnpm:
@@ -45,15 +45,13 @@ export default config;
 
 ### Highlighting DOM Elements
 
-Highlight DOM nodes by emitting the `HIGHLIGHT` event from within a story or an addon. The event payload must contain a list of selectors you want to highlight.
+Highlight DOM nodes by emitting the `HIGHLIGHT` event from within a story or an addon. The event payload must contain an `elements` property assigned to an array of selectors matching the elements you want to highlight.
 
 ```ts
 // MyComponent.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { useChannel } from '@storybook/preview-api';
-
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { MyComponent } from './MyComponent';
@@ -86,9 +84,7 @@ Highlights are automatically cleared when the story changes. You can also manual
 // MyComponent.stories.ts|tsx
 
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { useChannel } from '@storybook/preview-api';
-
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { MyComponent } from './MyComponent';
@@ -116,15 +112,13 @@ export const ResetHighlight: Story = {
 
 ### Customize style
 
-The addon applies a standard style to the highlighted elements you've enabled for the story. However, you can enable your custom style by extending the configuration object and providing a `color` and `style` option. For example:
+The addon applies a standard style to the highlighted elements you've enabled for the story. However, you can enable your custom style by extending the payload object and providing a `color` and/or `style` properties. For example:
 
 ```ts
 // MyComponent.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { useChannel } from '@storybook/preview-api';
-
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { MyComponent } from './MyComponent';

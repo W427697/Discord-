@@ -2,11 +2,8 @@
 // MyComponent.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/angular';
-
 import { componentWrapperDecorator } from '@storybook/angular';
-
 import { useChannel } from '@storybook/preview-api';
-
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { MyComponent } from './MyComponent.component';
@@ -25,8 +22,7 @@ export const StyledHighlight: Story = {
       emit(HIGHLIGHT, {
         elements: ['h2', 'a', '.storybook-button'],
         color: 'blue',
-        // 👇 Specify the style of the highlighted elements acccepted values are: 'double', 'solid', 'dotted', 'dashed'
-        style: 'double',
+        style: 'double', // 'dotted' | 'dashed' | 'solid' | 'double'
       });
       return story;
     }),

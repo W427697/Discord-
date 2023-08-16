@@ -8,7 +8,7 @@ Storybook's [Highlight](https://storybook.js.org/addons/@storybook/addon-highlig
 
 ## Highlighting DOM Elements
 
-To highlight DOM elements with the addon, you'll need to emit the `HIGHLIGHT` event from within a story or an addon. The event payload must contain a list of selectors you want to highlight. For example:
+To highlight DOM elements with the addon, you'll need to emit the `HIGHLIGHT` event from within a story or an addon. The event payload must contain an `elements` property assigned to an array of selectors matching the elements you want to highlight. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -48,7 +48,7 @@ Out of the box, Storybook automatically removes highlighted elements when transi
 
 ## Customize style
 
-By default, the addon applies a standard style to the highlighted elements you've enabled for the story. However, you can enable your custom style by extending the configuration object and providing a `color` and `style` option. For example:
+By default, the addon applies a standard style to the highlighted elements you've enabled for the story. However, you can enable your custom style by extending the payload object and providing a `color` and/or `style` properties. For example:
 
 <!-- prettier-ignore-start -->
 
