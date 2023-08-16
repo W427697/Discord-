@@ -470,7 +470,8 @@ const baseTemplates = {
   },
   'ember/default-js': {
     name: 'Create Ember 4 app (Javascript)',
-    script: 'npx --package ember-cli@4.12.1 ember new {{beforeDir}}',
+    script:
+      'npx --package ember-cli@4.12.1 ember new {{beforeDir}} --yarn && cd {{beforeDir}} && yarn add --dev @storybook/ember-cli-storybook && yarn build',
     inDevelopment: true,
     expected: {
       framework: '@storybook/ember',
