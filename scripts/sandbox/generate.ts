@@ -168,7 +168,7 @@ const runGenerators = async (
     );
   }
 
-  const limit = pLimit(1);
+  const limit = pLimit(maxConcurrentTasks);
 
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
@@ -228,11 +228,6 @@ const runGenerators = async (
             return src.indexOf('node_modules') === -1 && src.indexOf('.git') === -1;
           },
         });
-
-        const lockFilePathBeforeDir = findUp.sync([YARN_LOCKFILE, PNPM_LOCKFILE, NPM_LOCKFILE], {
-          cwd: tempInitDir,
-        });
-        await remove(lockFilePathBeforeDir);
 
         await addStorybook({ dir: tempInitDir, localRegistry, flags, debug, dirName });
 
@@ -305,17 +300,10 @@ export const generate = async ({
       dirName: dirName as TemplateKey,
       ...configuration,
     }))
-    .filter(({ dirName, name }) => {
+    .filter(({ dirName }) => {
       if (template) {
         return dirName === template;
       }
-
-      return (
-        dirName.match(/^(react|vue3|lit)-vite|angular-cli\/default-ts/) &&
-        !name.includes('npm') &&
-        name.includes('TypeScript') &&
-        !name.includes('prerelease')
-      );
 
       return true;
     });

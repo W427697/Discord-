@@ -43,8 +43,9 @@ jobs:
       - name: Wait for registry
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
+      # use this when needed, for debugging purposes
+      # - name: Setup upterm session
+      #   uses: lhotari/action-upterm@v1
       - name: Generate
         run: yarn generate-sandboxes --local-registry --debug
         working-directory: ./code
