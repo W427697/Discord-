@@ -374,6 +374,12 @@ Yes, with the release of version 6.2, Storybook now includes support for Vue 3. 
 
 ## Is snapshot testing with Storyshots supported for Vue 3?
 
+<div class="aside">
+
+⛔️ Storyshots has been deprecated in favor of [test runner](./writing-tests/test-runner.md), which you can use for both snapshot and [visual testing](./writing-tests/visual-testing.md).
+
+</div>
+
 Yes, with the release of version 6.2, the [`Storyshots addon`](https://www.npmjs.com/package/@storybook/addon-storyshots) will automatically detect Vue 3 projects.
 
 If you run into a situation where this is not the case, you can adjust the `config` object and manually specify the framework (e.g., `vue3`).
