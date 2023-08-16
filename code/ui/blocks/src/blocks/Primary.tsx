@@ -18,12 +18,11 @@ interface PrimaryProps {
   of?: Of;
 }
 
-const getPrimaryFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>): any | null => {
+const getPrimaryFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>) => {
   switch (resolvedOf.type) {
     case 'meta': {
       return resolvedOf.csfFile.stories[0] || null;
     }
-    case 'story':
     case 'component': {
       throw new Error(
         `Unsupported module type. Primary's \`of\` prop only supports \`meta\`, got: ${
