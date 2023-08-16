@@ -1,1 +1,1 @@
-{"version":"7.3.0","info":{"plain":"- Core: Improve `composeStories` typings - [#23577](https://github.com/storybookjs/storybook/pull/23577), thanks [@yannbf](https://github.com/yannbf)!"}}
+{"version":"7.3.1","info":{"plain":"- Index: Fix `*.story.*` CSF indexing - [#23852](https://github.com/storybookjs/storybook/pull/23852), thanks [@shilman](https://github.com/shilman)!"}}
