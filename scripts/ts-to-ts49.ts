@@ -7,7 +7,7 @@ import * as recast from 'recast';
 import type Babel from '@babel/core';
 import type { File } from '@babel/types';
 import * as t from '@babel/types';
-import { stringifyError } from './type-utils/stringifyError';
+import { getErrorMessage } from './type-utils/errorHandling';
 
 const files = glob.sync('**/*.ts.mdx', {
   absolute: true,
@@ -75,7 +75,7 @@ for (const [, file] of files.entries()) {
       console.log('changed', file);
     }
   } catch (e) {
-    console.error(stringifyError(e));
+    console.error(getErrorMessage(e));
   }
 }
 

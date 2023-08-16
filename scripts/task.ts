@@ -6,7 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
-import { stringifyError } from './type-utils/stringifyError';
+import { getErrorMessage } from './type-utils/errorHandling';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -476,7 +476,7 @@ async function run() {
         logger.error(`Error running task ${getTaskKey(task)}:`);
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {
-          logger.error(stringifyError(err));
+          logger.error(getErrorMessage(err));
         } else {
           logger.error(err);
         }
