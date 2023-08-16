@@ -68,6 +68,7 @@ export type Template = {
   modifications?: {
     skipTemplateStories?: boolean;
     mainConfig?: Partial<StorybookConfig>;
+    disableDocs?: boolean;
   };
   /**
    * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
@@ -642,6 +643,16 @@ const benchTemplates = {
     skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
     projectType: ProjectType.WEBPACK_REACT,
   },
+  'bench/react-vite-default-ts-nodocs': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'Bench (react-vite/default-ts, no docs)',
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      disableDocs: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+  },
 } satisfies Record<`bench/${string}`, Template & { isInternal: true }>;
 
 export const allTemplates = {
@@ -670,6 +681,7 @@ export const normal: TemplateKey[] = [
   'nextjs/default-ts',
   'bench/react-vite-default-ts',
   'bench/react-webpack-18-ts',
+  'bench/react-vite-default-ts-nodocs',
 ];
 export const merged: TemplateKey[] = [
   ...normal,

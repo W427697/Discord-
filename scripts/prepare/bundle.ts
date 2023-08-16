@@ -91,7 +91,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         watch,
         outDir,
         format: ['esm'],
-        target: 'chrome100',
+        target: ['chrome100', 'safari15', 'firefox91'],
         clean: false,
         loader: {
           '.md': 'copy',

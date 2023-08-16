@@ -3046,6 +3046,7 @@ __metadata:
     verdaccio-auth-memory: ^10.2.0
     wait-on: ^7.0.1
     window-size: ^1.1.1
+    yaml: ^2.3.1
     zod: ^3.21.4
   dependenciesMeta:
     "@verdaccio/types":
@@ -17359,7 +17360,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.0.0":
+"yaml@npm:^2.0.0, yaml@npm:^2.3.1":
   version: 2.3.1
   resolution: "yaml@npm:2.3.1"
   checksum: ed4c21a907fb1cd60a25177612fa46d95064a144623d269199817908475fe85bef20fb17406e3bdc175351b6488056a6f84beb7836e8c262646546a0220188e3
