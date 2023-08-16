@@ -196,6 +196,11 @@ jobs:
             cd scripts
             yarn get-template --check
       - run:
+          name: Type check
+          command: |
+            cd scripts
+            yarn check
+      - run:
           name: Run tests
           command: |
             cd scripts
