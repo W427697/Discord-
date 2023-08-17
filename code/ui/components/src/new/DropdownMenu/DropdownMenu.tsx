@@ -131,7 +131,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
         description={description}
         active={checked}
         disabled={disabled}
-        icon={checked === false ? icon : <Icon.Check />}
+        icon={checked === false ? icon : 'Check'}
         startInlineIndent={checked === false && !icon ? true : startInlineIndent}
         keyboardShortcut={keyboardShortcut}
       />

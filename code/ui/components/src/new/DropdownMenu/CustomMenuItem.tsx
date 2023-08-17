@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
+import type { Icons } from '@storybook/icons';
 import { KeyboardShortcut } from '../KeyboardShortcut/KeyboardShortcut';
+import { Icon } from '../Icon/Icon';
 
 const IconContainer = styled.span(({ theme }) => ({
   height: '12px',
@@ -87,7 +88,7 @@ const StyledItem = styled.div<StyledItemProps>(
 type CustomMenuItemProps = StyledItemProps & {
   label: string;
   description?: string;
-  icon?: ReactNode;
+  icon?: Icons;
   keyboardShortcut?: React.ComponentProps<typeof KeyboardShortcut> & {
     /**
      * Will be used as the value of aria-keyshortcuts
@@ -107,14 +108,20 @@ export function CustomMenuItem({
   startInlineIndent,
   disabled,
 }: CustomMenuItemProps) {
+  const LocalIcon = Icon[icon];
+
   return (
     <StyledItem
-      {...(keyboardShortcut ? { 'aria-keyboardshortcuts': keyboardShortcut.ariaKeyshortcuts } : {})}
+      {...(keyboardShortcut ? { 'aria-keyshortcuts': keyboardShortcut.ariaKeyshortcuts } : {})}
       active={active}
       disabled={disabled}
       startInlineIndent={startInlineIndent}
     >
-      {icon ? <IconContainer>{icon}</IconContainer> : null}
+      {LocalIcon ? (
+        <IconContainer>
+          <LocalIcon />
+        </IconContainer>
+      ) : null}
       <div style={{ marginInlineEnd: 'auto' }}>
         <LabelContainer>{label}</LabelContainer>
         {description ? <DescriptionContainer>{description}</DescriptionContainer> : null}

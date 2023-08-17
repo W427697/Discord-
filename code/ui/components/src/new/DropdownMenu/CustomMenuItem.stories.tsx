@@ -33,7 +33,7 @@ export const WithDescription: Story = {
 export const WithIcon: Story = {
   args: {
     ...Base.args,
-    icon: <Icon.Cog />,
+    icon: 'Cog',
   },
 };
 
