@@ -28,7 +28,8 @@
     "README.md",
     "*.js",
     "*.mjs",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
