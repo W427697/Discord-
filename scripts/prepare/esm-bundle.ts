@@ -13,7 +13,8 @@ import { exec } from '../utils/exec';
 /* TYPES */
 
 type BundlerConfig = {
-  entries: string[];
+  browserEntries: string[];
+  nodeEntries: string[];
   externals: string[];
   pre: string;
   post: string;
