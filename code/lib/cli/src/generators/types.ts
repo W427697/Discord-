@@ -8,6 +8,7 @@ export type GeneratorOptions = {
   builder: Builder;
   linkable: boolean;
   pnp: boolean;
+  projectType: ProjectType;
   frameworkPreviewParts?: FrameworkPreviewParts;
   // skip prompting the user
   yes: boolean;

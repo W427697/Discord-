@@ -17,6 +17,7 @@ import {
   extractEslintInfo,
   suggestESLintPlugin,
 } from '../automigrate/helpers/eslintPlugin';
+import { detectBuilder } from '../detect';
 
 const logger = console;
 
@@ -175,10 +176,11 @@ export async function baseGenerator(
   npmOptions: NpmOptions,
   {
     language,
-    builder = CoreBuilder.Webpack5,
+    builder,
     pnp,
     frameworkPreviewParts,
     yes: skipPrompts,
+    projectType,
   }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
@@ -186,6 +188,11 @@ export async function baseGenerator(
 ) {
   const isStorybookInMonorepository = packageManager.isStorybookInMonorepo();
   const shouldApplyRequireWrapperOnPackageNames = isStorybookInMonorepository || pnp;
+
+  if (!builder) {
+    // eslint-disable-next-line no-param-reassign
+    builder = await detectBuilder(packageManager, projectType);
+  }
 
   const {
     extraAddons: extraAddonPackages,

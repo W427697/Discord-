@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
@@ -6,14 +7,9 @@ import { withTelemetry } from '@storybook/core-server';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
+import { readdirSync } from 'fs-extra';
 import { installableProjectTypes, ProjectType } from './project_types';
-import {
-  detect,
-  isStorybookInstantiated,
-  detectLanguage,
-  detectBuilder,
-  detectPnp,
-} from './detect';
+import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import emberGenerator from './generators/EMBER';
@@ -36,7 +32,7 @@ import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
-import type { CommandOptions } from './generators/types';
+import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
 
 const logger = console;
@@ -54,12 +50,13 @@ const installStorybook = async <Project extends ProjectType>(
   const language = await detectLanguage(packageManager);
   const pnp = await detectPnp();
 
-  const generatorOptions = {
+  const generatorOptions: GeneratorOptions = {
     language,
-    builder: options.builder || (await detectBuilder(packageManager, projectType)),
+    builder: options.builder,
     linkable: !!options.linkable,
     pnp: pnp || options.usePnp,
     yes: options.yes,
+    projectType: options.type,
   };
 
   const runGenerator: () => Promise<any> = async () => {
@@ -257,6 +254,11 @@ async function doInitiate(
 
     pkgMgr = 'npm';
   }
+
+  const cwdFolderEntries = readdirSync(process.cwd());
+  const isEmptyDir =
+    cwdFolderEntries.length === 0 || cwdFolderEntries.every((entry) => entry.startsWith('.'));
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
@@ -267,6 +269,35 @@ async function doInitiate(
     pkg: pkg as any,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
+
+  if (options.force !== true && isEmptyDir) {
+    const emptyDirMessage = dedent`
+      It looks like you're trying to start a new project with Storybook inside of an empty directory. Unfortunately, Storybook doesn't work on empty projects.
+      Storybook needs to be installed into a project that is already set up with a framework. There are many ways to bootstrap an app in a given framework, including:
+
+        📦 Vite CLI for dozens of options: ${chalk.yellowBright(
+          'https://vitejs.dev/guide/#scaffolding-your-first-vite-project'
+        )}
+        📦 Start an Angular Workspace: ${chalk.yellowBright('https://angular.io/cli/new')}
+        📦 Start a React App: ${chalk.yellowBright(
+          'https://react.dev/learn/start-a-new-react-project'
+        )}
+        📦 Start a Vue App: ${chalk.yellowBright('https://vuejs.org/guide/quick-start.html')}
+        📦 Or any other tooling available.
+
+      Once you have setup your new project, please rerun the init command again to successfully install Storybook on your project.
+      For more information about installing Storybook: ${chalk.yellowBright(
+        'https://storybook.js.org/docs'
+      )}
+      
+      Good luck! 🚀
+    `;
+
+    logger.log(
+      boxen(emptyDirMessage, { borderStyle: 'round', padding: 1, borderColor: '#F1618C' })
+    );
+    throw new HandledError('Project was initialized in an empty directory.');
+  }
 
   let projectType: ProjectType;
   const projectTypeProvided = options.type;
@@ -310,7 +341,6 @@ async function doInitiate(
     logger.log();
 
     if (force) {
-      // eslint-disable-next-line no-param-reassign
       options.force = true;
     } else {
       process.exit(0);
