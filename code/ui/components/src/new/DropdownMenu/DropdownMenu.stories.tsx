@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { Button, Icon } from '@storybook/components/experimental';
+import { IconButton } from '@storybook/components/experimental';
 
 import { DropdownMenu } from './DropdownMenu';
 
@@ -22,14 +22,12 @@ export const Base: Story = {
   render: (_, { args }) => (
     <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger asChild>
-        <Button variant="tertiary" iconOnly icon={<Icon.Cog />} aria-label="Settings">
-          ''
-        </Button>
+        <IconButton variant="ghost" icon="Cog" aria-label="Settings" />
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content sideOffset={5}>
           <DropdownMenu.Item label="About your Storybook" startInlineIndent />
-          <DropdownMenu.Item label="What's new?" startInlineIndent />
+          <DropdownMenu.Item label="What's new?" startInlineIndent icon="Bell" />
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
@@ -41,9 +39,7 @@ export const WithCheckboxItem: Story = {
   render: (_, { args }) => (
     <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger asChild>
-        <Button variant="tertiary" iconOnly icon={<Icon.Cog />} aria-label="Settings">
-          ''
-        </Button>
+        <IconButton variant="ghost" icon="Cog" aria-label="Settings" />
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content sideOffset={5}>
@@ -63,9 +59,7 @@ export const WithSeparator: Story = {
   render: (_, { args }) => (
     <DropdownMenu.Root {...args}>
       <DropdownMenu.Trigger asChild>
-        <Button variant="tertiary" iconOnly icon={<Icon.Cog />} aria-label="Settings">
-          ''
-        </Button>
+        <IconButton variant="ghost" icon="Cog" aria-label="Settings" />
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content sideOffset={5}>
