@@ -12,4 +12,6 @@ export { Input } from './new/Input/Input';
 export { Select } from './new/Select/Select';
 export { Link } from './new/Link/Link';
 export { Icon } from './new/Icon/Icon';
+export { IconButton } from './new/IconButton/IconButton';
+export { Toolbar } from './new/Toolbar/Toolbar';
 export { DropdownMenu } from './new/DropdownMenu/DropdownMenu';

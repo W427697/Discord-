@@ -116,11 +116,13 @@ export default {
   ],
   '@storybook/components/experimental': [
     'Button',
-    'DropdownMenu',
     'Icon',
     'Input',
     'Link',
     'Select',
+    'IconButton',
+    'Toolbar',
+    'DropdownMenu',
   ],
   '@storybook/channels': [
     'Channel',
