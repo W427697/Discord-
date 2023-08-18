@@ -33,7 +33,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions) {
       cssCache.delete(url);
     }
     if (fontFaceCSS === null) {
-      throw Error(`Failed to fetch \`${fontFamily}\` from Google Fonts.`);
+      throw Error(`Failed to fetch \`${fontFamily}\` from Google Fonts. URL: \`${url}\``);
     }
 
     return {
@@ -45,6 +45,6 @@ export async function getFontFaceDeclarations(options: LoaderOptions) {
       variable,
     };
   } catch (error) {
-    throw new Error("Google Fonts couldn't be loaded.");
+    throw new Error("Google Fonts couldn't be loaded.", {cause: error});
   }
 }
