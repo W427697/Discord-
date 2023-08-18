@@ -1,4 +1,5 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable local-rules/no-uncategorized-errors */
+
 import { global } from '@storybook/global';
 
 import type { Channel } from '@storybook/channels';
@@ -36,7 +37,7 @@ class ReactProvider extends Provider {
 
     this.addons = addons;
     this.channel = channel;
-    global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
+    globalThis.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
     if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
@@ -62,20 +63,33 @@ Object.keys(Keys).forEach((key: keyof typeof Keys) => {
   global[Keys[key]] = values[key];
 });
 
-global.sendTelemetryError = (error) => {
-  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
+globalThis.sendTelemetryError = (error) => {
+  const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
   channel.emit(TELEMETRY_ERROR, error);
 };
 
-// handle all uncaught StorybookError at the root of the application and log to telemetry
-global.addEventListener('error', (args) => {
-  const error = args.error || args;
+function preprocessError(originalError: Error) {
+  let error: Error & { category?: string; target?: any; currentTarget?: any; srcElement?: any } =
+    originalError;
+  // DOM manipulation errors and other similar errors are not serializable as they contain
+  // circular references to the window object. If that's the case, we make a simplified copy
+  if (error.target === window || error.currentTarget === window || error.srcElement === window) {
+    error = new Error(originalError.message);
+    error.name = originalError.name || error.name;
+  }
   error.category = error.category || 'UNCATEGORIZED';
-  global.sendTelemetryError(error);
+
+  return error;
+}
+
+// handle all uncaught errors at the root of the application and log to telemetry
+globalThis.addEventListener('error', (args) => {
+  const error = preprocessError(args.error || args);
+  globalThis.sendTelemetryError(error);
 });
-global.addEventListener('unhandledrejection', ({ reason }) => {
-  reason.category = reason.category || 'UNCATEGORIZED';
-  global.sendTelemetryError(reason);
+globalThis.addEventListener('unhandledrejection', ({ reason }) => {
+  const error = preprocessError(reason);
+  globalThis.sendTelemetryError(error);
 });
 
 const { document } = global;

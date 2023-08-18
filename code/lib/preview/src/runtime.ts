@@ -9,20 +9,20 @@ getKeys(globals).forEach((key) => {
   (globalThis as any)[globals[key]] = values[key];
 });
 
-global.sendTelemetryError = (error) => {
-  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
+globalThis.sendTelemetryError = (error) => {
+  const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
   channel.emit(TELEMETRY_ERROR, error);
 };
 
 // handle all uncaught StorybookError at the root of the application and log to telemetry if applicable
-global.addEventListener('error', (args) => {
+globalThis.addEventListener('error', (args) => {
   const error = args.error || args;
   if (error.fromStorybook && error.telemetry) {
-    global.sendTelemetryError(error);
+    globalThis.sendTelemetryError(error);
   }
 });
-global.addEventListener('unhandledrejection', ({ reason }) => {
+globalThis.addEventListener('unhandledrejection', ({ reason }) => {
   if (reason.fromStorybook && reason.telemetry) {
-    global.sendTelemetryError(reason);
+    globalThis.sendTelemetryError(reason);
   }
 });
