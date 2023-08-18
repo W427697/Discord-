@@ -1,3 +1,7 @@
+## 7.3.2
+
+- Maintenance: Revert "WebpackBuilder: Remove need for `react` as peerDependency" - [#23882](https://github.com/storybookjs/storybook/pull/23882), thanks [@vanessayuenn](https://github.com/vanessayuenn)!
+
 ## 7.3.1
 
 - Index: Fix `*.story.*` CSF indexing - [#23852](https://github.com/storybookjs/storybook/pull/23852), thanks [@shilman](https://github.com/shilman)!
