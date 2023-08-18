@@ -407,10 +407,8 @@ Next.js [supports](https://github.com/vercel/next.js/blob/725ddc7371f80cca273779
 
 <CodeSnippets
   paths={[
-    'react/mock-context-container-global.js.mdx',    
-    'react/mock-context-container-global.ts.mdx',
-    'solid/mock-context-container-global.js.mdx',
-    'solid/mock-context-container-global.ts.mdx',
+    'common/chromatic-github-action-with-mocking.js.mdx',    
+    'common/mocked-google-fonts.js.mdx',
   ]}
 />
 
