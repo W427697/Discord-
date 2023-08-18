@@ -111,7 +111,7 @@ In your project's root directory, add a new file called `chromatic.yml` inside t
 
 <div class="aside">
 
-💡 External font resources may occasionally fail to load at build timefor a variety of reasons. If you have issues with them, a good way to get around that problem is to [mock the fonts](../writing-stories/build-pages-with-storybook.md#mocking-fonts) your application requires
+💡 External font resources may occasionally fail to load at build time for a variety of reasons. If you have issues with them, a good way to get around that problem is to [mock the fonts](../writing-stories/build-pages-with-storybook.md#mocking-fonts) your application requires
 
 </div>
 
