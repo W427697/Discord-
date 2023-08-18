@@ -26,6 +26,12 @@ To highlight DOM elements with the addon, you'll need to emit the `HIGHLIGHT` ev
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+💡 We recommend choosing the most specific selector possible to avoid highlighting elements other addons use. This is because the addon tries to match selectors against the entire DOM tree.
+
+</div>
+
 ### Reset highlighted elements
 
 Out of the box, Storybook automatically removes highlighted elements when transitioning between stories. However, if you need to clear them manually, you can emit the `RESET_HIGHLIGHT` event from within a story or an addon. For example:
