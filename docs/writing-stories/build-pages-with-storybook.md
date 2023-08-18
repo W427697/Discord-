@@ -397,7 +397,7 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
 
 ### Mocking fonts
 
-If your application uses fonts from a Google, occasionally fetching these fonts may fail as part of your storybook build. It is highly recommended to mock these requests, as those failures can cause your pipeline to fail as well.
+If your application uses fonts from Google, occasionally fetching these fonts may fail as part of your storybook build. It is highly recommended to mock these requests, as those failures can cause your pipeline to fail as well.
 
 #### Mocking fonts in Next.js
 
