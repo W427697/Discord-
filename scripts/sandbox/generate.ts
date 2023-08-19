@@ -142,7 +142,8 @@ const runGenerators = async (
         let flags: string[] = [];
         if (expected.renderer === '@storybook/html') flags = ['--type html'];
         else if (expected.renderer === '@storybook/server') flags = ['--type server'];
-        else if (expected.framework === '@storybook-vue/nuxt') flags = ['--type nuxt'];
+        else if (['@storybook-vue/nuxt', '@storybook-nuxt/framework'].includes(expected.framework))
+          flags = ['--type nuxt'];
 
         const time = process.hrtime();
         console.log(`🧬 Generating ${name}`);

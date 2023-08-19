@@ -264,10 +264,10 @@ export async function baseGenerator(
       `
     );
   }
-
+  logger.log(' getExternalFramework ', rendererId, getExternalFramework(rendererId));
   const allPackages = [
-    'storybook',
-    getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
+    'storybook-nuxt',
+    // getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
@@ -276,6 +276,7 @@ export async function baseGenerator(
   const packages = [...new Set(allPackages)].filter(
     (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
   );
+  logger.log(' packages :', packages);
 
   logger.log();
   const versionedPackagesSpinner = ora({
@@ -368,6 +369,8 @@ export async function baseGenerator(
         ]
       : [];
 
+    console.log(' frameworkInclude :', frameworkInclude);
+
     await configureMain({
       framework: { name: frameworkInclude, options: options.framework || {} },
       prefixes,
@@ -405,6 +408,7 @@ export async function baseGenerator(
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
+
     await copyTemplateFiles({
       renderer: templateLocation,
       packageManager,

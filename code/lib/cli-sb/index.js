@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('@storybook/cli/bin/index');
+require('@storybook-nuxt/cli/bin/index');

@@ -42,7 +42,9 @@ const logger = console;
  * */
 const sanitizeFramework = (framework: string) => {
   // extract either @storybook/<framework> or storybook-<framework>
-  const matches = framework.match(/(@storybook\/\w+(?:-\w+)*)|(storybook-(\w+(?:-\w+)*))/g);
+  const matches = framework.match(
+    /(@storybook\/\w+(?:-\w+)*)| (@storybook-(\w+(?:-\w+)*)\/\w+(?:-\w+)*) |(storybook-(\w+(?:-\w+)*))/g
+  );
   if (!matches) {
     return undefined;
   }
@@ -72,7 +74,7 @@ export async function configureMain({
   let mainConfigTemplate = dedent`<<import>><<prefix>>const config<<type>> = <<mainContents>>;
     export default config;`;
 
-  const frameworkPackage = sanitizeFramework(custom.framework?.name);
+  const frameworkPackage = custom.framework?.name; // sanitizeFramework(custom.framework?.name);
 
   if (!frameworkPackage) {
     mainConfigTemplate = mainConfigTemplate.replace('<<import>>', '').replace('<<type>>', '');
@@ -120,11 +122,11 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
 
   // We filter out community packages here, as we are not certain if they export a Preview type.
   // Let's make this configurable in the future.
-  const rendererPackage =
-    options.rendererId &&
-    !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
-      ? `@storybook/${options.rendererId}`
-      : null;
+  const rendererPackage = '@storybook-nuxt/framework';
+  // options.rendererId &&
+  // !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
+  //   ? `@storybook/${options.rendererId}`
+  //   : null;
 
   const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 

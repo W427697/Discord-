@@ -221,6 +221,7 @@ export async function copyTemplateFiles({
   };
   const templatePath = async () => {
     const baseDir = await getRendererDir(packageManager, renderer);
+    console.log('baseDir :', baseDir);
     const assetsDir = join(baseDir, 'template', 'cli');
 
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
