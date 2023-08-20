@@ -69,8 +69,9 @@ export async function buildDevStandalone(
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
-  validateFrameworkName(frameworkName);
-
+  // validateFrameworkName(frameworkName);
+  if (frameworkName === undefined)
+    throw new Error(` Could not find a 'framework' field in Storybook config.`, frameworkName);
   corePresets.push(join(frameworkName, 'preset'));
 
   await warnOnIncompatibleAddons(config);
@@ -151,8 +152,7 @@ export async function buildDevStandalone(
         (warning) => !warning.message.includes(`Conflicting values for 'process.env.NODE_ENV'`)
       );
 
-    // eslint-disable-next-line no-console
-    console.log(problems.map((p) => p.stack));
+    // console.log(problems.map((p) => p.stack));
     process.exit(problems.length > 0 ? 1 : 0);
   } else {
     const name =
