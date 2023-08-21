@@ -29,7 +29,6 @@ import { StorybookError } from './storybook-error';
 export class YourCustomError extends StorybookError {
   readonly category: Category; // The category to which the error belongs. Check the source in client-errors.ts or server-errors.ts for reference.
   readonly code: number; // The numeric code for the error.
-  readonly telemetry?: boolean; // Optional. If set to `true`, telemetry will be used to send errors. Only for client-based errors.
 
   template(): string {
     // A function that returns the error message.
@@ -46,7 +45,6 @@ export class YourCustomError extends StorybookError {
 | template      | `() => string`        | Function that returns a properly written error message.                                                                                                    |
 | data          | `Object`              | Optional. Data associated with the error. Used to provide additional information in the error message or to be passed to telemetry.                        |
 | documentation | `boolean` or `string` | Optional. Should be set to `true` **if the error is documented on the Storybook website**. If defined as string, it should be a custom documentation link. |
-| telemetry     | `boolean`             | Optional. If set to `true`, telemetry will be used to send errors.                                                                                         |
 
 ## Usage Example
 
@@ -55,7 +53,6 @@ export class YourCustomError extends StorybookError {
 export class StorybookIndexGenerationError extends StorybookError {
   category = Category.Generic;
   code = 1;
-  telemetry = true;
 
   template(): string {
     return `Storybook failed when generating an index for your stories. Check the stories field in your main.js`;
@@ -66,7 +63,6 @@ export class StorybookIndexGenerationError extends StorybookError {
 export class InvalidFileExtensionError extends StorybookError {
   category = Category.Validation;
   code = 2;
-  telemetry = true;
   documentation = 'https://some-custom-documentation.com/validation-errors';
 
   // extra properties are defined in the constructor via a data property, which is available in any class method

@@ -21,11 +21,6 @@ export abstract class StorybookError extends Error {
   public readonly data = {};
 
   /**
-   * Indicates whether telemetry data should be collected for this error.
-   */
-  public telemetry = false;
-
-  /**
    * Specifies the documentation for the error.
    * - If `true`, links to a documentation page on the Storybook website (make sure it exists before enabling).
    * - If a string, uses the provided URL for documentation (external or FAQ links).

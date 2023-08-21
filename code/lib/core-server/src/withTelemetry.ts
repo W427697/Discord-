@@ -87,13 +87,15 @@ export async function sendTelemetryError(
       );
 
       let storybookErrorProperties = {};
-      // if it's an UNCATEGORIZED error, it won't have a coded name, so we just pass UNCATEGORIZED
+      // if it's an UNCATEGORIZED error, it won't have a coded name, so we just pass the category and source
       if ((error as any).category) {
-        const { category } = error as any;
+        const { category, source } = error as any;
         storybookErrorProperties = {
           category,
+          source: source || 'server',
         };
       }
+
       if ((error as any).fromStorybook) {
         const { code, name } = error as any;
         storybookErrorProperties = {
@@ -102,6 +104,7 @@ export async function sendTelemetryError(
           name,
         };
       }
+
       await telemetry(
         'error',
         {

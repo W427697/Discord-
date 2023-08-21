@@ -38,11 +38,6 @@ describe('StorybookError', () => {
     expect(error.message).toBe(expectedMessage);
   });
 
-  it('should have default telemetry value of false', () => {
-    const error = new TestError();
-    expect(error.telemetry).toBe(false);
-  });
-
   it('should have default documentation value of false', () => {
     const error = new TestError();
     expect(error.documentation).toBe(false);
