@@ -25,6 +25,9 @@ const BrandArea = styled.div(({ theme }) => ({
   alignItems: 'center',
   minHeight: 22,
 
+  '& > * > *': {
+    maxWidth: '100%',
+  },
   '& > *': {
     maxWidth: '100%',
     height: 'auto',
