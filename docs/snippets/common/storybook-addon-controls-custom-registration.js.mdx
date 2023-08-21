@@ -1,0 +1,20 @@
+```js
+// .storybook/manager.js
+import React from 'react';
+
+import { addons, types } from '@storybook/addons';
+
+const ADDON_ID = 'myaddon';
+const CONTROL_ID = 'MyCustomControl';
+
+// give a unique name for the control
+const MyControl = () => <div>MyCustomControl</div>;
+
+addons.register(ADDON_ID, (api) => {
+  addons.add(CONTROL_ID, {
+    type: types.CONTROL,
+    title: 'My Addon',
+    render: MyControl,
+  });
+});
+```

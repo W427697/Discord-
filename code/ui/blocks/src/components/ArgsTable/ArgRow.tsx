@@ -4,6 +4,7 @@ import Markdown from 'markdown-to-jsx';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { codeCommon } from '@storybook/components';
+import type { API } from '@storybook/manager-api';
 import type { ArgType, Args, TableAnnotation } from './types';
 import { ArgJsDoc } from './ArgJsDoc';
 import { ArgValue } from './ArgValue';
@@ -12,6 +13,7 @@ import type { ArgControlProps } from './ArgControl';
 import { ArgControl } from './ArgControl';
 
 interface ArgRowProps {
+  api: API;
   row: ArgType;
   arg: any;
   updateArgs?: (args: Args) => void;

@@ -484,6 +484,10 @@ export interface Addon_Config {
 
 export enum Addon_TypesEnum {
   /**
+   * This adds controls to the controls panel.
+   */
+  CONTROL = 'control',
+  /**
    * This API is used to create a tab the toolbar above the canvas, This API might be removed in the future.
    * @unstable
    */
