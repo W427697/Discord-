@@ -7,7 +7,7 @@ import type {
   API_StateMerger,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 import type { Options } from '../store';
 
 export interface SubState {
