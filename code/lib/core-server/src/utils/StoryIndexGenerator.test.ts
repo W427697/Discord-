@@ -99,6 +99,36 @@ describe('StoryIndexGenerator', () => {
         `);
       });
     });
+    describe('single file .story specifier', () => {
+      it('extracts stories from the right files', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/F.story.ts',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], options);
+        await generator.initialize();
+
+        expect(await generator.getIndex()).toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "f--story-one": Object {
+                "id": "f--story-one",
+                "importPath": "./src/F.story.ts",
+                "name": "Story One",
+                "tags": Array [
+                  "autodocs",
+                  "story",
+                ],
+                "title": "F",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
+    });
     describe('non-recursive specifier', () => {
       it('extracts stories from the right files', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(

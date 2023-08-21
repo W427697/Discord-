@@ -36,29 +36,19 @@ const storybookPaths: Record<string, string> = {
     `@storybook/components`
   )}/dist/experimental`,
   ...[
-    // these packages are not pre-bundled because of react dependencies.
-    // these are not dependencies of the builder anymore, thus resolving them can fail.
-    // we should remove the aliases in 8.0, I'm not sure why they are here in the first place.
+    // these packages are not pre-bundled because of react dependencies
     'components',
     'global',
     'manager-api',
     'router',
     'theming',
-  ].reduce((acc, sbPackage) => {
-    let packagePath;
-    try {
-      packagePath = getAbsolutePath(`@storybook/${sbPackage}`);
-    } catch (e) {
-      // ignore
-    }
-    if (packagePath) {
-      return {
-        ...acc,
-        [`@storybook/${sbPackage}`]: getAbsolutePath(`@storybook/${sbPackage}`),
-      };
-    }
-    return acc;
-  }, {}),
+  ].reduce(
+    (acc, sbPackage) => ({
+      ...acc,
+      [`@storybook/${sbPackage}`]: getAbsolutePath(`@storybook/${sbPackage}`),
+    }),
+    {}
+  ),
   // deprecated, remove in 8.0
   [`@storybook/api`]: getAbsolutePath(`@storybook/manager-api`),
 };
