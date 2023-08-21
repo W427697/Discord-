@@ -224,7 +224,12 @@ export const NoBrand: Story = () => {
 };
 
 export const SkipToCanvasLinkFocused: ComponentStoryObj<typeof Heading> = {
-  args: { menu: menuItems, skipLinkHref: '#storybook-preview-wrapper' },
+  args: {
+    menu: menuItems,
+    skipLinkHref: '#storybook-preview-wrapper',
+    extra: [],
+    isLoading: false,
+  },
   parameters: { layout: 'padded', chromatic: { delay: 300 } },
   play: () => {
     // focus each instance for chromatic/storybook's stacked theme
