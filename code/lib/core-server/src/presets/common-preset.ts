@@ -334,9 +334,7 @@ export const experimental_serverChannel = async (
     const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
 
     if (isTelemetryEnabled) {
-      // eslint-disable-next-line no-param-reassign
-      error.source = 'browser';
-      await sendTelemetryError(error, 'error', {
+      await sendTelemetryError(error, 'browser', {
         cliOptions: options,
         presetOptions: { ...options, corePresets: [], overridePresets: [] },
         skipPrompt: true,
