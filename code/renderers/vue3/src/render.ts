@@ -4,6 +4,7 @@ import { createApp, h, reactive, isVNode, isReactive } from 'vue';
 import type { ArgsStoryFn, RenderContext } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';
+import { globalWindow } from './globals';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -16,22 +17,19 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   return () => h(Component, props, getSlots(props, context));
 };
 
-// set of setup functions that will be called when story is created
-const setupFunctions = new Set<(app: App, storyContext?: StoryContext<VueRenderer>) => void>();
-/** add a setup function to set that will be call when story is created a d
- *
- * @param fn
- */
-export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => void) => {
-  setupFunctions.add(fn);
+export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => unknown) => {
+  globalWindow.PLUGINS_SETUP_FUNCTIONS ||= [];
+  globalWindow.PLUGINS_SETUP_FUNCTIONS.add(fn);
 };
 
 const runSetupFunctions = async (
   app: App,
   storyContext: StoryContext<VueRenderer>
 ): Promise<any> => {
-  setupFunctions.forEach((fn) => fn(app, storyContext));
-  await installGlobalPlugins(app, storyContext);
+  if (globalWindow && globalWindow.PLUGINS_SETUP_FUNCTIONS)
+    await globalWindow.PLUGINS_SETUP_FUNCTIONS.forEach(
+      (fn: (app: App<any>, context: StoryContext<VueRenderer>) => any) => fn(app, storyContext)
+    );
 };
 
 const map = new Map<
@@ -148,10 +146,4 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
-}
-
-async function installGlobalPlugins(app: App<any>, storyContext: StoryContext<VueRenderer>) {
-  if (window.APPLY_PLUGINS_FUNC) {
-    await window.APPLY_PLUGINS_FUNC(app, storyContext);
-  }
 }
