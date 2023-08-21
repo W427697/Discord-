@@ -24,8 +24,6 @@ export class ProviderDoesNotExtendBaseProviderError extends StorybookError {
 
   readonly code = 1;
 
-  readonly telemetry = true;
-
   template() {
     return `The Provider passed into Storybook's UI is not extended from the base Provider. Please check your Provider implementation.`;
   }

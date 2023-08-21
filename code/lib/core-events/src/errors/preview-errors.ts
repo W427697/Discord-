@@ -53,8 +53,6 @@ export class MissingStoryAfterHmrError extends StorybookError {
 
   readonly code = 1;
 
-  readonly telemetry = true;
-
   constructor(public data: { storyId: string }) {
     super();
   }
