@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './menu';
+import { getAncestorIds } from '../utils/tree';
 
 export type Item = StoriesHash[keyof StoriesHash];
 
@@ -16,11 +17,12 @@ const Sidebar = React.memo(function Sideber() {
       storyId,
       refId,
       layout: { showToolbar, isFullscreen, showPanel, showNav },
-      index,
+      index: originalIndex,
       status,
       indexError,
       previewInitialized,
       refs,
+      filters,
     } = state;
 
     const menu = useMenu(
@@ -35,6 +37,34 @@ const Sidebar = React.memo(function Sideber() {
 
     const whatsNewNotificationsEnabled =
       state.whatsNewData?.status === 'SUCCESS' && !state.disableWhatsNewNotifications;
+
+    const index = useMemo(() => {
+      if (!originalIndex) {
+        return originalIndex;
+      }
+
+      const filtered = new Set();
+      Object.values(originalIndex).forEach((item) => {
+        if (item.type === 'story' || item.type === 'docs') {
+          let result = true;
+
+          Object.values(filters).forEach((filter) => {
+            if (result === true) {
+              result = filter({ ...item, status: status[item.id] });
+            }
+          });
+
+          if (result) {
+            filtered.add(item.id);
+            getAncestorIds(originalIndex, item.id).forEach((id) => {
+              filtered.add(id);
+            });
+          }
+        }
+      });
+
+      return Object.fromEntries(Object.entries(originalIndex).filter(([key]) => filtered.has(key)));
+    }, [originalIndex, filters, status]);
 
     return {
       title: name,
