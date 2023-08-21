@@ -8,6 +8,7 @@ import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import { createBrowserChannel } from '@storybook/channels';
 import { CHANNEL_CREATED, TELEMETRY_ERROR } from '@storybook/core-events';
+import { UncaughtManagerError } from '@storybook/core-events/manager-errors';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
@@ -63,16 +64,28 @@ Object.keys(Keys).forEach((key: keyof typeof Keys) => {
   global[Keys[key]] = values[key];
 });
 
-function preprocessError(originalError: Error) {
-  let error: Error & { category?: string; target?: any; currentTarget?: any; srcElement?: any } =
-    originalError;
+function preprocessError(
+  originalError: Error & {
+    fromStorybook?: boolean;
+    category?: string;
+    target?: any;
+    currentTarget?: any;
+    srcElement?: any;
+  }
+) {
+  let error = originalError;
+
+  if (!originalError.fromStorybook) {
+    error = new UncaughtManagerError(originalError);
+  }
+
   // DOM manipulation errors and other similar errors are not serializable as they contain
   // circular references to the window object. If that's the case, we make a simplified copy
   if (error.target === window || error.currentTarget === window || error.srcElement === window) {
     error = new Error(originalError.message);
     error.name = originalError.name || error.name;
+    error.category = originalError.category;
   }
-  error.category = error.category || 'UNCATEGORIZED';
 
   return error;
 }

@@ -10,6 +10,7 @@ import { StorybookError } from './storybook-error';
  * to prevent manager and preview errors from having the same category and error code.
  */
 export enum Category {
+  MANAGER_UNCAUGHT = 'MANAGER_UNCAUGHT',
   MANAGER_UI = 'MANAGER_UI',
   MANAGER_API = 'MANAGER_API',
   MANAGER_CLIENT_LOGGER = 'MANAGER_CLIENT-LOGGER',
@@ -26,5 +27,20 @@ export class ProviderDoesNotExtendBaseProviderError extends StorybookError {
 
   template() {
     return `The Provider passed into Storybook's UI is not extended from the base Provider. Please check your Provider implementation.`;
+  }
+}
+
+export class UncaughtManagerError extends StorybookError {
+  readonly category = Category.MANAGER_UNCAUGHT;
+
+  readonly code = 1;
+
+  constructor(public error: Error) {
+    super(error.message);
+    this.stack = error.stack;
+  }
+
+  template() {
+    return this.message;
   }
 }
