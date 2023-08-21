@@ -3,7 +3,6 @@ import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import type { Icons } from '@storybook/icons';
 import type { PropsOf } from '../utils/types';
-import { Icon } from '../Icon/Icon';
 
 interface ButtonProps<T extends React.ElementType = React.ElementType> {
   children: string;
@@ -23,11 +22,8 @@ export const Button: {
   displayName?: string;
 } = forwardRef(
   ({ as, children, icon, ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
-    const LocalIcon = Icon[icon];
-
     return (
       <StyledButton as={as} ref={ref} {...props}>
-        {icon && <LocalIcon />}
         {children}
       </StyledButton>
     );
