@@ -27,12 +27,6 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./experimental": {
-      "types": "./dist/experimental.d.ts",
-      "node": "./dist/experimental.js",
-      "require": "./dist/experimental.js",
-      "import": "./dist/experimental.mjs"
-    },
     "./html": {
       "types": "./dist/html.d.ts",
       "require": "./dist/html.js",
