@@ -62,6 +62,7 @@ export const Simple: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={index as any}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -74,7 +75,15 @@ export const Simple: Story = {
 export const Loading: Story = {
   args: { previewInitialized: false },
   render: (args) => (
-    <Sidebar {...args} menu={menu} storyId={storyId} refId={DEFAULT_REF_ID} refs={{}} status={{}} />
+    <Sidebar
+      {...args}
+      menu={menu}
+      extra={[]}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={{}}
+      status={{}}
+    />
   ),
 };
 
@@ -86,6 +95,7 @@ export const Empty: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={{}}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -103,6 +113,7 @@ export const IndexError: Story = {
     <Sidebar
       {...args}
       indexError={indexError}
+      extra={[]}
       menu={menu}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -120,6 +131,7 @@ export const WithRefs: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={index as any}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -137,6 +149,7 @@ export const LoadingWithRefs: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
       refs={refs}
@@ -153,6 +166,7 @@ export const LoadingWithRefError: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
       refs={refsError}
@@ -185,6 +199,7 @@ export const StatusesCollapsed: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={index as any}
       storyId={storyId}
       refId={DEFAULT_REF_ID}
@@ -233,6 +248,7 @@ export const Bottom: Story = {
     <Sidebar
       {...args}
       menu={menu}
+      extra={[]}
       index={index as any}
       storyId={storyId}
       refId={DEFAULT_REF_ID}

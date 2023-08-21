@@ -139,6 +139,7 @@ export const Sidebar = React.memo(function Sidebar({
             menu={menu}
             extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
+            isLoading={isLoading}
           />
 
           <Search

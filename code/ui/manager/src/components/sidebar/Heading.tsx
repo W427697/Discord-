@@ -13,6 +13,7 @@ export interface HeadingProps {
   menu: MenuList;
   extra: Addon_SidebarTopType[];
   skipLinkHref?: string;
+  isLoading: boolean;
 }
 
 const BrandArea = styled.div(({ theme }) => ({
@@ -79,6 +80,7 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
   menu,
   skipLinkHref,
   extra,
+  isLoading,
   ...props
 }) => {
   return (
@@ -93,9 +95,7 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
         <Brand />
       </BrandArea>
 
-      {extra.map(({ id, render: Render }) => (
-        <Render key={id} />
-      ))}
+      {isLoading ? null : extra.map(({ id, render: Render }) => <Render key={id} />)}
       <SidebarMenu menu={menu} isHighlighted={menuHighlighted} />
     </HeadingWrapper>
   );
