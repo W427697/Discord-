@@ -170,11 +170,13 @@ export const Sidebar = React.memo(function Sidebar({
             )}
           </Search>
         </Top>
-        <Bottom>
-          {bottom.map(({ id, render: Render }) => (
-            <Render key={id} />
-          ))}
-        </Bottom>
+        {isLoading ? null : (
+          <Bottom>
+            {bottom.map(({ id, render: Render }) => (
+              <Render key={id} />
+            ))}
+          </Bottom>
+        )}
       </CustomScrollArea>
     </Container>
   );
