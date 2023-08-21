@@ -37,7 +37,7 @@ class ReactProvider extends Provider {
 
     this.addons = addons;
     this.channel = channel;
-    globalThis.__STORYBOOK_ADDONS_CHANNEL__ = channel;
+    global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
     if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
@@ -63,11 +63,6 @@ Object.keys(Keys).forEach((key: keyof typeof Keys) => {
   global[Keys[key]] = values[key];
 });
 
-globalThis.sendTelemetryError = (error) => {
-  const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
-  channel.emit(TELEMETRY_ERROR, error);
-};
-
 function preprocessError(originalError: Error) {
   let error: Error & { category?: string; target?: any; currentTarget?: any; srcElement?: any } =
     originalError;
@@ -82,14 +77,18 @@ function preprocessError(originalError: Error) {
   return error;
 }
 
+global.sendTelemetryError = (error) => {
+  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
+  channel.emit(TELEMETRY_ERROR, preprocessError(error));
+};
+
 // handle all uncaught errors at the root of the application and log to telemetry
-globalThis.addEventListener('error', (args) => {
-  const error = preprocessError(args.error || args);
-  globalThis.sendTelemetryError(error);
+global.addEventListener('error', (args) => {
+  const error = args.error || args;
+  global.sendTelemetryError(error);
 });
-globalThis.addEventListener('unhandledrejection', ({ reason }) => {
-  const error = preprocessError(reason);
-  globalThis.sendTelemetryError(error);
+global.addEventListener('unhandledrejection', ({ reason }) => {
+  global.sendTelemetryError(reason);
 });
 
 const { document } = global;

@@ -1,4 +1,6 @@
 import { TELEMETRY_ERROR } from '@storybook/core-events';
+import { global } from '@storybook/global';
+
 import { values } from './globals/runtime';
 import { globals } from './globals/types';
 
@@ -9,20 +11,20 @@ getKeys(globals).forEach((key) => {
   (globalThis as any)[globals[key]] = values[key];
 });
 
-globalThis.sendTelemetryError = (error) => {
-  const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+global.sendTelemetryError = (error) => {
+  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
   channel.emit(TELEMETRY_ERROR, error);
 };
 
 // handle all uncaught StorybookError at the root of the application and log to telemetry if applicable
-globalThis.addEventListener('error', (args) => {
+global.addEventListener('error', (args) => {
   const error = args.error || args;
-  if (error.fromStorybook && error.telemetry) {
-    globalThis.sendTelemetryError(error);
+  if (error.fromStorybook) {
+    global.sendTelemetryError(error);
   }
 });
-globalThis.addEventListener('unhandledrejection', ({ reason }) => {
-  if (reason.fromStorybook && reason.telemetry) {
-    globalThis.sendTelemetryError(reason);
+global.addEventListener('unhandledrejection', ({ reason }) => {
+  if (reason.fromStorybook) {
+    global.sendTelemetryError(reason);
   }
 });
