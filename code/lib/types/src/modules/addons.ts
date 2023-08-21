@@ -10,6 +10,7 @@ import type {
 } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
+import type { API_SidebarOptions } from './api';
 import type {
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
@@ -477,6 +478,7 @@ export interface Addon_Config {
   toolbar?: {
     [id: string]: Addon_ToolbarConfig;
   };
+  sidebar?: API_SidebarOptions;
   [key: string]: any;
 }
 
