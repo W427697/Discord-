@@ -32,10 +32,7 @@ export const setup = (fn: (app: App, storyContext?: StoryContext) => void) => {
   setupFunctions.add(fn);
 };
 
-const runSetupFunctions = async (
-  app: App,
-  storyContext: StoryContext<VueRenderer>
-): Promise<any> => {
+const runSetupFunctions = async (app: App, storyContext: StoryContext): Promise<any> => {
   setupFunctions.forEach((fn) => fn(app, storyContext));
   await installGlobalPlugins(app, storyContext);
 };
@@ -160,7 +157,7 @@ function teardown(
   if (map.has(canvasElement)) map.delete(canvasElement);
 }
 
-async function installGlobalPlugins(app: App<any>, storyContext: StoryContext<VueRenderer>) {
+async function installGlobalPlugins(app: App<any>, storyContext: StoryContext) {
   if (window.APPLY_PLUGINS_FUNC) {
     await window.APPLY_PLUGINS_FUNC(app, storyContext);
   }
