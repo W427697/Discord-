@@ -1,16 +1,17 @@
+Closes #
+
+<!-- If your PR is related to an issue, provide the number(s) above; if it resolves multiple issues, be sure to break them up (e.g. "closes #1000, closes #1001"). -->
+
 <!--
 
 Thank you for contributing to Storybook! Please submit all PRs to the `next` branch unless they are specific to the current release. Storybook maintainers cherry-pick bug and documentation fixes into the `main` branch as part of the release process, so you shouldn't need to worry about this. For additional guidance: https://storybook.js.org/docs/react/contribute/how-to-contribute
 
 -->
 
+
 ## What I did
 
 <!-- Briefly describe what your PR does -->
-
-<!-- If your PR is related to an issue, provide the number(s) below; if it resolves multiple issues, be sure to break them up (e.g. "closes #1000, closes #1001"). -->
-
-Closes #
 
 ## Checklist for Contributors
 
@@ -50,15 +51,17 @@ _This section is mandatory for all contributions. If you believe no manual test 
 - [ ] Make sure this PR contains **one** of the labels below:
    <details>
      <summary>Available labels</summary>
-     - `cleanup`: Minor cleanup style change. Will not show up in release changelog.
-     - `build`: Internal-facing build tooling & test updates. Will not show up in release changelog.
-     - `documentation`: Documentation **only** changes. Will not show up in release changelog.
+
+     - `bug`: Internal changes that fixes incorrect behavior.
      - `maintenance`: User-facing maintenance tasks.
      - `dependencies`: Upgrading (sometimes downgrading) dependencies.
-     - `BREAKING CHANGE`: Changes that break compatibility in some way with current major version.
+     - `build`: Internal-facing build tooling & test updates. Will not show up in release changelog.
+     - `cleanup`: Minor cleanup style change. Will not show up in release changelog.
+     - `documentation`: Documentation **only** changes. Will not show up in release changelog.
      - `feature request`: Introducing a new feature.
-     - `bug`: Internal changes that fixes incorrect behavior.
+     - `BREAKING CHANGE`: Changes that break compatibility in some way with current major version.
      - `other`: Changes that don't fit in the above categories.
+   
    </details>
 
 ### 🦋 Canary release
