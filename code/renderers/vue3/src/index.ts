@@ -11,5 +11,6 @@ try {
     module.hot.decline();
   }
 } catch (e) {
-  console.log('  e:', e);
+  /* do nothing */
+  console.log(e);
 }
