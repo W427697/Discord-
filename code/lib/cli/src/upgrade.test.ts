@@ -34,6 +34,8 @@ describe.each([
   ['@storybook/preset-create-react-app', false],
   ['@storybook/linter-config', false],
   ['@storybook/design-system', false],
+  ['@storybook/addon-styling', false],
+  ['@storybook/addon-styling-webpack', false],
   ['@nx/storybook', false],
   ['@nrwl/storybook', false],
 ])('isCorePackage', (input, output) => {
