@@ -5,15 +5,15 @@ Storybook provides a utility to manage errors thrown from it. Each error is cate
 Storybook errors reside in this package and are categorized into:
 
 1. **[Preview errors](./preview-errors.ts)**
-   - Errors which occur in the preview part of Storybook
+   - Errors which occur in the preview part of Storybook (where user code executes)
    - e.g. Rendering issues, etc.
    - available in `@storybook/core-events/preview-errors`
 2. **[Manager errors](./manager-errors.ts)**
-   - Errors which occur
+   - Errors which occur in the manager part of Storybook (manager UI)
    - e.g. Sidebar, addons, Storybook UI, Storybook router, etc.
    - available in `@storybook/core-events/server-errors`
 3. **[Server errors](./server-errors.ts)**
-   - Errorr which occur in node
+   - Errors which occur in node
    - e.g. Storybook init command, dev command, builder errors (Webpack, Vite), etc.
    - available in `@storybook/core-events/server-errors`
 
