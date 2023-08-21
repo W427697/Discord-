@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channels",
-  "version": "7.3.0",
+  "version": "7.4.0-alpha.0",
   "description": "",
   "keywords": [
     "storybook"
@@ -61,7 +61,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
