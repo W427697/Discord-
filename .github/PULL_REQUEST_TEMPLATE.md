@@ -48,15 +48,18 @@ _This section is mandatory for all contributions. If you believe no manual test 
 
 - [ ] When this PR is ready for testing, make sure to add `ci:normal`, `ci:merged` or `ci:daily` GH label to it to run a specific set of sandboxes. The particular set of sandboxes can be found in `code/lib/cli/src/sandbox-templates.ts`
 - [ ] Make sure this PR contains **one** of the labels below:
-- `cleanup`: Minor cleanup style change. Will not show up in release changelog.
-- `build`: Internal-facing build tooling & test updates. Will not show up in release changelog.
-- `documentation`: Documentation **only** changes. Will not show up in release changelog.
-- `maintenance`: User-facing maintenance tasks.
-- `dependencies`: Upgrading (sometimes downgrading) dependencies.
-- `BREAKING CHANGE`: Changes that break compatibility in some way with current major version.
-- `feature request`: Introducing a new feature.
-- `bug`: Internal changes that fixes incorrect behavior.
-- `other`: Changes that don't fit in the above categories.
+   <details>
+     <summary>Available labels</summary>
+     - `cleanup`: Minor cleanup style change. Will not show up in release changelog.
+     - `build`: Internal-facing build tooling & test updates. Will not show up in release changelog.
+     - `documentation`: Documentation **only** changes. Will not show up in release changelog.
+     - `maintenance`: User-facing maintenance tasks.
+     - `dependencies`: Upgrading (sometimes downgrading) dependencies.
+     - `BREAKING CHANGE`: Changes that break compatibility in some way with current major version.
+     - `feature request`: Introducing a new feature.
+     - `bug`: Internal changes that fixes incorrect behavior.
+     - `other`: Changes that don't fit in the above categories.
+   </details>
 
 ### 🦋 Canary release
 
