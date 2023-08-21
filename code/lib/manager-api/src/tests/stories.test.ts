@@ -16,7 +16,7 @@ import {
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
 
-import type { API_StoryEntry } from '@storybook/types';
+import type { API_IndexHash, API_StoryEntry } from '@storybook/types';
 import { getEventMetadata as getEventMetadataOriginal } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
@@ -24,6 +24,8 @@ import type Store from '../store';
 import type { API, State } from '..';
 import { mockEntries, docsEntries, preparedEntries, navigationEntries } from './mockStoriesEntries';
 import type { ModuleArgs } from '../lib/types';
+
+import { getAncestorIds } from '../../../../ui/manager/src/utils/tree';
 
 const mockGetEntries = jest.fn();
 const fetch = global.fetch as jest.Mock<ReturnType<typeof global.fetch>>;
@@ -1269,5 +1271,132 @@ describe('experimental_updateStatus', () => {
           },
         }
       `);
+  });
+  describe('experimental_setFilter', () => {
+    it('is included in the initial state', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { state } = initStories(moduleArgs as unknown as ModuleArgs);
+
+      expect(state).toEqual(
+        expect.objectContaining({
+          filters: {},
+        })
+      );
+    });
+    it('updates state', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      api.experimental_setFilter('myCustomFilter', () => true);
+
+      expect(store.getState()).toEqual(
+        expect.objectContaining({
+          filters: {
+            myCustomFilter: expect.any(Function),
+          },
+        })
+      );
+    });
+
+    it('can filter', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const {
+        api,
+        state: { status },
+      } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      /**
+       * This function is a copy of the one in the containers/sidebar.ts file inside of ui/manager
+       * I'm hoping we can eventually merge this 2 packages so there's no odd looking import and no re-implementation.
+       */
+      const applyFilters = (originalIndex: API_IndexHash) => {
+        if (!originalIndex) {
+          return originalIndex;
+        }
+
+        const filtered = new Set();
+        Object.values(originalIndex).forEach((item) => {
+          if (item.type === 'story' || item.type === 'docs') {
+            let result = true;
+
+            Object.values(filters).forEach((filter) => {
+              if (result === true) {
+                result = filter({ ...item, status: status[item.id] });
+              }
+            });
+
+            if (result) {
+              filtered.add(item.id);
+              getAncestorIds(originalIndex, item.id).forEach((id) => {
+                filtered.add(id);
+              });
+            }
+          }
+        });
+
+        return Object.fromEntries(
+          Object.entries(originalIndex).filter(([key]) => filtered.has(key))
+        );
+      };
+
+      api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
+      api.setIndex({ v: 4, entries: navigationEntries });
+
+      const { index, filters } = store.getState();
+
+      const filtered = applyFilters(index);
+
+      expect(filtered).toMatchInlineSnapshot(`
+        Object {
+          "a": Object {
+            "children": Array [
+              "a--1",
+              "a--2",
+            ],
+            "depth": 0,
+            "id": "a",
+            "isComponent": true,
+            "isLeaf": false,
+            "isRoot": false,
+            "name": "a",
+            "parent": undefined,
+            "renderLabel": undefined,
+            "type": "component",
+          },
+          "a--1": Object {
+            "depth": 1,
+            "id": "a--1",
+            "importPath": "./a.ts",
+            "isComponent": false,
+            "isLeaf": true,
+            "isRoot": false,
+            "kind": "a",
+            "name": "1",
+            "parent": "a",
+            "prepared": false,
+            "renderLabel": undefined,
+            "title": "a",
+            "type": "story",
+          },
+          "a--2": Object {
+            "depth": 1,
+            "id": "a--2",
+            "importPath": "./a.ts",
+            "isComponent": false,
+            "isLeaf": true,
+            "isRoot": false,
+            "kind": "a",
+            "name": "2",
+            "parent": "a",
+            "prepared": false,
+            "renderLabel": undefined,
+            "title": "a",
+            "type": "story",
+          },
+        }
+      `);
+    });
   });
 });
