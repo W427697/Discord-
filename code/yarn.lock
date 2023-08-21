@@ -7773,7 +7773,7 @@ __metadata:
     eslint: ^8.28.0
     eslint-import-resolver-typescript: ^3.5.2
     eslint-plugin-import: ^2.26.0
-    eslint-plugin-local-rules: "file:../scripts/eslint-plugin-local-rules"
+    eslint-plugin-local-rules: "portal:../scripts/eslint-plugin-local-rules"
     eslint-plugin-react: ^7.31.10
     eslint-plugin-storybook: ^0.6.6
     fs-extra: ^11.1.0
@@ -15754,12 +15754,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-local-rules@file:../scripts/eslint-plugin-local-rules::locator=%40storybook%2Froot%40workspace%3A.":
-  version: 1.0.0
-  resolution: "eslint-plugin-local-rules@file:../scripts/eslint-plugin-local-rules#../scripts/eslint-plugin-local-rules::hash=5d9f1f&locator=%40storybook%2Froot%40workspace%3A."
-  checksum: 370ae3cf10a72c3ec8202a440e8428c5d4b3d1c00789a357a788a984c30e9f61bc18ca9bcc24f3f9fa321d90fcbecdf787b45a4f063e58a997b0d958f23c6db6
+"eslint-plugin-local-rules@portal:../scripts/eslint-plugin-local-rules::locator=%40storybook%2Froot%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "eslint-plugin-local-rules@portal:../scripts/eslint-plugin-local-rules::locator=%40storybook%2Froot%40workspace%3A."
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "eslint-plugin-prettier@npm:^3.4.0":
   version: 3.4.1
