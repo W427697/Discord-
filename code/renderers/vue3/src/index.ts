@@ -12,5 +12,4 @@ try {
   }
 } catch (e) {
   /* do nothing */
-  console.log(e);
 }

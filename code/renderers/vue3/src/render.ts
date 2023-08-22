@@ -25,7 +25,7 @@ export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) =
 const runSetupFunctions = async (
   app: App,
   storyContext: StoryContext<VueRenderer>
-): Promise<any> => {
+): Promise<void> => {
   if (globalThis && globalThis.PLUGINS_SETUP_FUNCTIONS)
     await Promise.all([...globalThis.PLUGINS_SETUP_FUNCTIONS].map((fn) => fn(app, storyContext)));
 };
