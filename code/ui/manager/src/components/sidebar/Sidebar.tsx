@@ -110,6 +110,13 @@ export interface SidebarProps extends API_LoadedRefData {
   enableShortcuts?: boolean;
 }
 
+const TopAndBottom = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  minHeight: '100vh',
+});
+
 export const Sidebar = React.memo(function Sidebar({
   storyId = null,
   refId = DEFAULT_REF_ID,
@@ -132,59 +139,61 @@ export const Sidebar = React.memo(function Sidebar({
   return (
     <Container className="container sidebar-container">
       <CustomScrollArea vertical>
-        <Top row={1.6}>
-          <Heading
-            className="sidebar-header"
-            menuHighlighted={menuHighlighted}
-            menu={menu}
-            extra={extra}
-            skipLinkHref="#storybook-preview-wrapper"
-            isLoading={isLoading}
-          />
+        <TopAndBottom>
+          <Top row={1.6}>
+            <Heading
+              className="sidebar-header"
+              menuHighlighted={menuHighlighted}
+              menu={menu}
+              extra={extra}
+              skipLinkHref="#storybook-preview-wrapper"
+              isLoading={isLoading}
+            />
 
-          <Search
-            dataset={dataset}
-            isLoading={isLoading}
-            enableShortcuts={enableShortcuts}
-            {...lastViewedProps}
-          >
-            {({
-              query,
-              results,
-              isBrowsing,
-              closeMenu,
-              getMenuProps,
-              getItemProps,
-              highlightedIndex,
-            }) => (
-              <Swap condition={isBrowsing}>
-                <Explorer
-                  dataset={dataset}
-                  selected={selected}
-                  isLoading={isLoading}
-                  isBrowsing={isBrowsing}
-                />
-                <SearchResults
-                  query={query}
-                  results={results}
-                  closeMenu={closeMenu}
-                  getMenuProps={getMenuProps}
-                  getItemProps={getItemProps}
-                  highlightedIndex={highlightedIndex}
-                  enableShortcuts={enableShortcuts}
-                  isLoading={isLoading}
-                />
-              </Swap>
-            )}
-          </Search>
-        </Top>
-        {isLoading ? null : (
-          <Bottom>
-            {bottom.map(({ id, render: Render }) => (
-              <Render key={id} />
-            ))}
-          </Bottom>
-        )}
+            <Search
+              dataset={dataset}
+              isLoading={isLoading}
+              enableShortcuts={enableShortcuts}
+              {...lastViewedProps}
+            >
+              {({
+                query,
+                results,
+                isBrowsing,
+                closeMenu,
+                getMenuProps,
+                getItemProps,
+                highlightedIndex,
+              }) => (
+                <Swap condition={isBrowsing}>
+                  <Explorer
+                    dataset={dataset}
+                    selected={selected}
+                    isLoading={isLoading}
+                    isBrowsing={isBrowsing}
+                  />
+                  <SearchResults
+                    query={query}
+                    results={results}
+                    closeMenu={closeMenu}
+                    getMenuProps={getMenuProps}
+                    getItemProps={getItemProps}
+                    highlightedIndex={highlightedIndex}
+                    enableShortcuts={enableShortcuts}
+                    isLoading={isLoading}
+                  />
+                </Swap>
+              )}
+            </Search>
+          </Top>
+          {isLoading ? null : (
+            <Bottom>
+              {bottom.map(({ id, render: Render }) => (
+                <Render key={id} />
+              ))}
+            </Bottom>
+          )}
+        </TopAndBottom>
       </CustomScrollArea>
     </Container>
   );
