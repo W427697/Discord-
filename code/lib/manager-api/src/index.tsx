@@ -424,20 +424,16 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
   );
 
-  if (api.getAddonState(stateId) && api.getAddonState(stateId) !== state) {
-    api.setAddonState<S>(stateId, state).then((s) => {
-      addonStateCache[stateId] = s;
-    });
-  }
+  useEffect(() => {
+    if (api.getAddonState(stateId) === undefined && api.getAddonState(stateId) !== state) {
+      api.setAddonState<S>(stateId, state).then((s) => {
+        addonStateCache[stateId] = s;
+      });
+    }
+  }, [api]);
 
   const setState = (s: S | API_StateMerger<S>, options?: Options) => {
-    let sFinal = s;
-    if (typeof s === 'function') {
-      sFinal = (_state) => {
-        return (s as API_StateMerger<S>)(_state || defaultState);
-      };
-    }
-    const result = api.setAddonState<S>(stateId, sFinal, options);
+    const result = api.setAddonState<S>(stateId, s, options);
     addonStateCache[stateId] = result;
     return result;
   };
