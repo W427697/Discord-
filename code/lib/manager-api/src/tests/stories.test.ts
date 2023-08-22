@@ -71,7 +71,7 @@ function createMockModuleArgs({
   initialState?: Partial<State>;
 }) {
   const navigate = jest.fn();
-  const store = createMockStore(initialState);
+  const store = createMockStore({ filters: {}, status: {}, ...initialState });
   const provider = createMockProvider();
 
   return { navigate, store, provider, fullAPI };
@@ -1217,6 +1217,8 @@ describe('experimental_updateStatus', () => {
     const { api } = initStories(moduleArgs as unknown as ModuleArgs);
     const { store } = moduleArgs;
 
+    await api.setIndex({ v: 4, entries: mockEntries });
+
     await expect(
       api.experimental_updateStatus('a-addon-id', {
         'a-story-id': {
@@ -1242,6 +1244,8 @@ describe('experimental_updateStatus', () => {
     const moduleArgs = createMockModuleArgs({});
     const { api } = initStories(moduleArgs as unknown as ModuleArgs);
     const { store } = moduleArgs;
+
+    await api.setIndex({ v: 4, entries: mockEntries });
 
     await expect(
       api.experimental_updateStatus('a-addon-id', {
@@ -1273,9 +1277,11 @@ describe('experimental_updateStatus', () => {
       `);
   });
   describe('experimental_setFilter', () => {
-    it('is included in the initial state', () => {
+    it('is included in the initial state', async () => {
       const moduleArgs = createMockModuleArgs({});
-      const { state } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { state, api } = initStories(moduleArgs as unknown as ModuleArgs);
+
+      await api.setIndex({ v: 4, entries: mockEntries });
 
       expect(state).toEqual(
         expect.objectContaining({
@@ -1283,10 +1289,12 @@ describe('experimental_updateStatus', () => {
         })
       );
     });
-    it('updates state', () => {
+    it('updates state', async () => {
       const moduleArgs = createMockModuleArgs({});
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store } = moduleArgs;
+
+      await api.setIndex({ v: 4, entries: mockEntries });
 
       api.experimental_setFilter('myCustomFilter', () => true);
 
@@ -1299,56 +1307,17 @@ describe('experimental_updateStatus', () => {
       );
     });
 
-    it('can filter', () => {
+    it('can filter', async () => {
       const moduleArgs = createMockModuleArgs({});
-      const {
-        api,
-        state: { status },
-      } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store } = moduleArgs;
 
-      /**
-       * This function is a copy of the one in the containers/sidebar.ts file inside of ui/manager
-       * I'm hoping we can eventually merge this 2 packages so there's no odd looking import and no re-implementation.
-       */
-      const applyFilters = (originalIndex: API_IndexHash) => {
-        if (!originalIndex) {
-          return originalIndex;
-        }
+      await api.setIndex({ v: 4, entries: navigationEntries });
+      await api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
 
-        const filtered = new Set();
-        Object.values(originalIndex).forEach((item) => {
-          if (item.type === 'story' || item.type === 'docs') {
-            let result = true;
+      const { index } = store.getState();
 
-            Object.values(filters).forEach((filter) => {
-              if (result === true) {
-                result = filter({ ...item, status: status[item.id] });
-              }
-            });
-
-            if (result) {
-              filtered.add(item.id);
-              getAncestorIds(originalIndex, item.id).forEach((id) => {
-                filtered.add(id);
-              });
-            }
-          }
-        });
-
-        return Object.fromEntries(
-          Object.entries(originalIndex).filter(([key]) => filtered.has(key))
-        );
-      };
-
-      api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
-      api.setIndex({ v: 4, entries: navigationEntries });
-
-      const { index, filters } = store.getState();
-
-      const filtered = applyFilters(index);
-
-      expect(filtered).toMatchInlineSnapshot(`
+      expect(index).toMatchInlineSnapshot(`
         Object {
           "a": Object {
             "children": Array [
