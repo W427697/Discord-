@@ -28,8 +28,6 @@ const runSetupFunctions = async (
 ): Promise<any> => {
   if (globalThis && globalThis.PLUGINS_SETUP_FUNCTIONS)
     await Promise.all([...globalThis.PLUGINS_SETUP_FUNCTIONS].map((fn) => fn(app, storyContext)));
-
-  return app;
 };
 
 const map = new Map<
