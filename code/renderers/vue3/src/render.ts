@@ -1,10 +1,10 @@
+/* eslint-disable local-rules/no-uncategorized-errors */
 /* eslint-disable no-param-reassign */
 import type { App } from 'vue';
 import { createApp, h, reactive, isVNode, isReactive } from 'vue';
 import type { ArgsStoryFn, RenderContext } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';
-import { globalWindow } from './globals';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -18,18 +18,18 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
 };
 
 export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => unknown) => {
-  globalWindow.PLUGINS_SETUP_FUNCTIONS ||= [];
-  globalWindow.PLUGINS_SETUP_FUNCTIONS.add(fn);
+  globalThis.PLUGINS_SETUP_FUNCTIONS ??= new Set();
+  globalThis.PLUGINS_SETUP_FUNCTIONS.add(fn);
 };
 
 const runSetupFunctions = async (
   app: App,
   storyContext: StoryContext<VueRenderer>
 ): Promise<any> => {
-  if (globalWindow && globalWindow.PLUGINS_SETUP_FUNCTIONS)
-    await globalWindow.PLUGINS_SETUP_FUNCTIONS.forEach(
-      (fn: (app: App<any>, context: StoryContext<VueRenderer>) => any) => fn(app, storyContext)
-    );
+  if (globalThis && globalThis.PLUGINS_SETUP_FUNCTIONS)
+    await Promise.all([...globalThis.PLUGINS_SETUP_FUNCTIONS].map((fn) => fn(app, storyContext)));
+
+  return app;
 };
 
 const map = new Map<
