@@ -10,7 +10,7 @@ function Title() {
 
   useChannel({
     [EVENT_ID]: () => {
-      setCount((c) => ({ ...c, count: c.count + 1 }));
+      setCount((c) => ({ ...c, count: (c?.count ?? 0) + 1 }));
     },
     [STORY_CHANGED]: () => {
       setCount((c) => ({ ...c, count: 0 }));
