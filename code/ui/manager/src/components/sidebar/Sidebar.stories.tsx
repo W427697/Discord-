@@ -229,6 +229,7 @@ export const Bottom: Story = {
   args: {
     previewInitialized: true,
   },
+  parameters: { theme: 'light' },
   render: (args) => (
     <Sidebar
       {...args}
