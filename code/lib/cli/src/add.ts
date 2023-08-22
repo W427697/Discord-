@@ -37,6 +37,8 @@ const getVersionSpecifier = (addon: string) => {
   return groups ? [groups[1], groups[2]] : [addon, undefined];
 };
 
+const isSemVer = (version: string) => /^\d+\.\d+\.\d+(-.*)?$/.test(version);
+
 /**
  * Install the given addon package and add it to main.js
  *
@@ -77,7 +79,7 @@ export async function add(
   const isStorybookAddon = addonName.startsWith('@storybook/');
   const storybookVersion = await getStorybookVersion(packageManager);
   const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
-  const addonWithVersion = `${addonName}@^${version}`;
+  const addonWithVersion = isSemVer(version) ? `${addonName}@^${version}` : `${addonName}@${version}`;
   logger.log(`Installing ${addonWithVersion}`);
   await packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
 
