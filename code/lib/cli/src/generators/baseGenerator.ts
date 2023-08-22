@@ -266,8 +266,8 @@ export async function baseGenerator(
   }
   logger.log(' getExternalFramework ', rendererId, getExternalFramework(rendererId));
   const allPackages = [
-    'storybook-nuxt',
-    // getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
+    'storybook',
+    getExternalFramework(rendererId) ? undefined : `@storybook-nuxt/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,

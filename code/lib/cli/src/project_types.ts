@@ -26,7 +26,7 @@ export type ExternalFramework = {
 export const externalFrameworks: ExternalFramework[] = [
   { name: 'qwik', packageName: 'storybook-framework-qwik' },
   { name: 'solid', frameworks: ['storybook-solidjs-vite'], renderer: 'storybook-solidjs' },
-  { name: 'nuxt', packageName: '@storybook-nuxt/framework' },
+  { name: 'nuxt', packageName: '@storybook-vue/nuxt' },
 ];
 
 // Should match @storybook/<framework>

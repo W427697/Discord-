@@ -229,8 +229,8 @@ const baseTemplates = {
     // TODO: remove this once nuxt-vite framework is released
     inDevelopment: true,
     expected: {
-      framework: '@storybook-nuxt/framework',
-      renderer: '@storybook-nuxt/framework',
+      framework: '@storybook-vue/nuxt',
+      renderer: '@storybook-vue/nuxt',
       builder: '@storybook/builder-vite',
     },
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],

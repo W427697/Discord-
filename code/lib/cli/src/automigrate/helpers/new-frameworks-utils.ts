@@ -47,7 +47,7 @@ export const packagesMap: Record<string, { webpack5?: string; vite?: string }> =
 };
 
 const communityFrameworks: { vite: string[]; webpack5: string[] } = {
-  vite: ['storybook-framework-qwik', 'storybook-solidjs-vite', '@storybook-nuxt/framework'],
+  vite: ['storybook-framework-qwik', 'storybook-solidjs-vite', '@storybook-vue/nuxt'],
   webpack5: [],
 };
 

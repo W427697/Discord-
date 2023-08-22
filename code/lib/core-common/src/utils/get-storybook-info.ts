@@ -43,7 +43,7 @@ export const frameworkPackages: Record<string, string> = {
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
   'storybook-solidjs-vite': 'solid',
-  '@storybook-nuxt/framework': 'nuxt',
+  '@storybook-vue/nuxt': 'nuxt',
 };
 
 export const builderPackages = ['@storybook/builder-webpack5', '@storybook/builder-vite'];

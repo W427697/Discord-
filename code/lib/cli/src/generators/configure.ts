@@ -122,7 +122,7 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
 
   // We filter out community packages here, as we are not certain if they export a Preview type.
   // Let's make this configurable in the future.
-  const rendererPackage = '@storybook-nuxt/framework';
+  const rendererPackage = '@storybook-vue/nuxt';
   // options.rendererId &&
   // !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
   //   ? `@storybook/${options.rendererId}`
