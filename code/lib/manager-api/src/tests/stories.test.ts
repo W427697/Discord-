@@ -16,7 +16,7 @@ import {
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
 
-import type { API_IndexHash, API_StoryEntry } from '@storybook/types';
+import type { API_StoryEntry } from '@storybook/types';
 import { getEventMetadata as getEventMetadataOriginal } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
@@ -24,8 +24,6 @@ import type Store from '../store';
 import type { API, State } from '..';
 import { mockEntries, docsEntries, preparedEntries, navigationEntries } from './mockStoriesEntries';
 import type { ModuleArgs } from '../lib/types';
-
-import { getAncestorIds } from '../../../../ui/manager/src/utils/tree';
 
 const mockGetEntries = jest.fn();
 const fetch = global.fetch as jest.Mock<ReturnType<typeof global.fetch>>;
