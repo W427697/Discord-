@@ -210,7 +210,7 @@ interface ArgsTableErrorProps {
 }
 
 export interface ArgsTableLoadingProps {
-  isLoading: true;
+  isLoading: boolean;
 }
 
 export type ArgsTableProps = ArgsTableOptionProps &

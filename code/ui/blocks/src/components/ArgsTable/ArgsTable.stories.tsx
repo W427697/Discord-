@@ -152,6 +152,7 @@ export const Empty = {
 
 export const EmptyInsideAddonPanel: Story = {
   args: {
+    isLoading: false,
     inAddonPanel: true,
   },
   parameters: {
