@@ -4,7 +4,7 @@ import type { IndexHash, State } from '@storybook/manager-api';
 import { types } from '@storybook/manager-api';
 import type { StoryObj, Meta } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
-import { Button } from '@storybook/components/experimental';
+import { Button, IconButton, Icons } from '@storybook/components';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
@@ -243,7 +243,8 @@ export const Bottom: Story = {
           id: '1',
           type: types.experimental_SIDEBAR_BOTTOM,
           render: () => (
-            <Button variant="outline" icon="FaceHappy">
+            <Button>
+              <Icons icon="facehappy" />
               Custom addon A
             </Button>
           ),
@@ -252,7 +253,9 @@ export const Bottom: Story = {
           id: '2',
           type: types.experimental_SIDEBAR_BOTTOM,
           render: () => (
-            <Button variant="outline" icon="FaceHappy">
+            <Button>
+              {' '}
+              <Icons icon="facehappy" />
               Custom addon B
             </Button>
           ),
@@ -260,7 +263,12 @@ export const Bottom: Story = {
         {
           id: '3',
           type: types.experimental_SIDEBAR_BOTTOM,
-          render: () => <Button variant="outline" icon="FaceHappy" />,
+          render: () => (
+            <IconButton>
+              {' '}
+              <Icons icon="facehappy" />
+            </IconButton>
+          ),
         },
       ]}
     />
