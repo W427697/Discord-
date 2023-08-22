@@ -1,4 +1,4 @@
-import { info, warn, error } from 'npmlog';
+import { info, warn } from 'npmlog';
 import { logger } from '.';
 
 globalThis.console = { log: jest.fn() } as any;
