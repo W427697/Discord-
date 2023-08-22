@@ -65,6 +65,7 @@ import * as version from './modules/versions';
 import * as whatsnew from './modules/whatsnew';
 
 import * as globals from './modules/globals';
+import type { ModuleFn } from './lib/types';
 
 export * from './lib/shortcut';
 
@@ -75,14 +76,6 @@ export type { Options as StoreOptions, Listener as ChannelListener };
 export { ActiveTabs };
 
 export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
-
-export type ModuleArgs = RouterData &
-  API_ProviderData<API> & {
-    mode?: 'production' | 'development';
-    state: State;
-    fullAPI: API;
-    store: Store;
-  };
 
 export type State = layout.SubState &
   stories.SubState &
@@ -152,28 +145,10 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
     return undefined;
   });
 
-interface ModuleWithInit<APIType = unknown, StateType = unknown> {
-  init: () => void | Promise<void>;
-  api: APIType;
-  state: StateType;
-}
-
-type ModuleWithoutInit<APIType = unknown, StateType = unknown> = Omit<
-  ModuleWithInit<APIType, StateType>,
-  'init'
->;
-
-export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
-  m: ModuleArgs,
-  options?: any
-) => HasInit extends true
-  ? ModuleWithInit<APIType, StateType>
-  : ModuleWithoutInit<APIType, StateType>;
-
 class ManagerProvider extends Component<ManagerProviderProps, State> {
   api: API = {} as API;
 
-  modules: (ModuleWithInit | ModuleWithoutInit)[];
+  modules: ReturnType<ModuleFn>[];
 
   static displayName = 'Manager';
 
