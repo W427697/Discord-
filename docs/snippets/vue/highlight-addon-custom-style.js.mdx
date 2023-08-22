@@ -10,12 +10,14 @@ export default {
   component: MyComponent,
 };
 
-export const Highlighted = {
+export const StyledHighlight = {
   decorators: [
     () => {
       const emit = useChannel({});
       emit(HIGHLIGHT, {
         elements: ['h2', 'a', '.storybook-button'],
+        color: 'blue',
+        style: 'double', // 'dotted' | 'dashed' | 'solid' | 'double'
       });
       return {
         template: '<story />',

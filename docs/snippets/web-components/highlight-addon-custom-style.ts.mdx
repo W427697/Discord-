@@ -1,6 +1,7 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
 
+import type { Meta, StoryObj } from '@storybook/web-components';
 import { useChannel } from '@storybook/preview-api';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
@@ -8,12 +9,14 @@ export default {
   component: 'my-component',
 };
 
-export const Highlighted = {
+export const StyledHighlight: Story = {
   decorators: [
     (story) => {
       const emit = useChannel({});
       emit(HIGHLIGHT, {
         elements: ['h2', 'a', '.storybook-button'],
+        color: 'blue',
+        style: 'double', // 'dotted' | 'dashed' | 'solid' | 'double'
       });
       return story();
     },

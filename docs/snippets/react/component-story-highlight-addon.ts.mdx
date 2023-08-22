@@ -1,16 +1,20 @@
-```js
-// MyComponent.stories.js|jsx
+```ts
+// MyComponent.stories.ts|tsx
 
+import type { Meta, StoryObj } from '@storybook/react';
 import { useChannel } from '@storybook/preview-api';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   component: MyComponent,
 };
 
-export const Highlighted = {
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+export const Highlighted: Story = {
   decorators: [
     (storyFn) => {
       const emit = useChannel({});
