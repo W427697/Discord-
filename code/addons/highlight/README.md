@@ -85,7 +85,7 @@ Highlights are automatically cleared when the story changes. You can also manual
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { useChannel } from '@storybook/preview-api';
-import { HIGHLIGHT } from '@storybook/addon-highlight';
+import { HIGHLIGHT, RESET_HIGHLIGHT } from '@storybook/addon-highlight';
 
 import { MyComponent } from './MyComponent';
 
