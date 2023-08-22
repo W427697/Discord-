@@ -49,6 +49,9 @@
       ],
       "html": [
         "dist/html.d.ts"
+      ],
+      "experimental": [
+        "dist/experimental.d.ts"
       ]
     }
   },
