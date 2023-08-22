@@ -42,10 +42,11 @@ const Description = styled.div(({ theme }) => ({
   color: theme.textMutedColor,
 }));
 
-const Links = styled.div({
+const Links = styled.div(({ theme }) => ({
   display: 'flex',
+  fontSize: theme.typography.size.s2 - 1,
   gap: 25,
-});
+}));
 
 const Divider = styled.div(({ theme }) => ({
   width: 1,
