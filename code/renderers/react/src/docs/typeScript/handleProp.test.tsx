@@ -448,8 +448,7 @@ describe('enhanceTypeScriptProp', () => {
 
       ['element', 'elementType'].forEach((x) => {
         it(`should support inlined React class component for ${x}`, () => {
-          // @ts-expect-error (not strict)
-          const component = createTestComponent(null, x);
+          const component = createTestComponent(undefined, x);
 
           const { defaultValue } = extractPropDef(
             component,
@@ -465,8 +464,7 @@ describe('enhanceTypeScriptProp', () => {
         });
 
         it(`should support inlined anonymous React functional component for ${x}`, () => {
-          // @ts-expect-error (not strict)
-          const component = createTestComponent(null, x);
+          const component = createTestComponent(undefined, x);
 
           const { defaultValue } = extractPropDef(component, () => {
             return <div>Inlined FunctionalComponent!</div>;
@@ -477,8 +475,7 @@ describe('enhanceTypeScriptProp', () => {
         });
 
         it(`should support inlined anonymous React functional component with props for ${x}`, () => {
-          // @ts-expect-error (not strict)
-          const component = createTestComponent(null, x);
+          const component = createTestComponent(undefined, x);
 
           const { defaultValue } = extractPropDef(component, ({ foo }: { foo: string }) => {
             return <div>{foo}</div>;
@@ -489,8 +486,7 @@ describe('enhanceTypeScriptProp', () => {
         });
 
         it(`should support inlined named React functional component for ${x}`, () => {
-          // @ts-expect-error (not strict)
-          const component = createTestComponent(null, x);
+          const component = createTestComponent(undefined, x);
 
           const { defaultValue } = extractPropDef(component, function InlinedFunctionalComponent() {
             return <div>Inlined FunctionalComponent!</div>;
