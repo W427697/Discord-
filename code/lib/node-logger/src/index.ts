@@ -42,8 +42,8 @@ export const logger = {
 
       console.log(
         msg
-          .replaceAll(process.cwd(), '.')
           .replace(message.toString(), chalk.red(message.toString()))
+          .replaceAll(process.cwd(), '.')
       );
     }
   },
