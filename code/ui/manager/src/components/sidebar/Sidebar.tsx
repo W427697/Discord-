@@ -44,6 +44,11 @@ const Bottom = styled.div(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   gap: theme.layoutMargin / 2,
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  width: '100%',
+  backgroundColor: theme.barBg,
 
   '&:empty': {
     display: 'none',
@@ -56,10 +61,6 @@ const CustomScrollArea = styled(ScrollArea)({
   },
   '&&&&& .os-scrollbar-vertical': {
     right: 5,
-  },
-  '& [data-overlayscrollbars-viewport]': {
-    display: 'flex',
-    flexDirection: 'column',
   },
 });
 
@@ -110,13 +111,6 @@ export interface SidebarProps extends API_LoadedRefData {
   enableShortcuts?: boolean;
 }
 
-const TopAndBottom = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
-  minHeight: '100vh',
-});
-
 export const Sidebar = React.memo(function Sidebar({
   storyId = null,
   refId = DEFAULT_REF_ID,
@@ -139,62 +133,60 @@ export const Sidebar = React.memo(function Sidebar({
   return (
     <Container className="container sidebar-container">
       <CustomScrollArea vertical>
-        <TopAndBottom>
-          <Top row={1.6}>
-            <Heading
-              className="sidebar-header"
-              menuHighlighted={menuHighlighted}
-              menu={menu}
-              extra={extra}
-              skipLinkHref="#storybook-preview-wrapper"
-              isLoading={isLoading}
-            />
+        <Top row={1.6}>
+          <Heading
+            className="sidebar-header"
+            menuHighlighted={menuHighlighted}
+            menu={menu}
+            extra={extra}
+            skipLinkHref="#storybook-preview-wrapper"
+            isLoading={isLoading}
+          />
 
-            <Search
-              dataset={dataset}
-              isLoading={isLoading}
-              enableShortcuts={enableShortcuts}
-              {...lastViewedProps}
-            >
-              {({
-                query,
-                results,
-                isBrowsing,
-                closeMenu,
-                getMenuProps,
-                getItemProps,
-                highlightedIndex,
-              }) => (
-                <Swap condition={isBrowsing}>
-                  <Explorer
-                    dataset={dataset}
-                    selected={selected}
-                    isLoading={isLoading}
-                    isBrowsing={isBrowsing}
-                  />
-                  <SearchResults
-                    query={query}
-                    results={results}
-                    closeMenu={closeMenu}
-                    getMenuProps={getMenuProps}
-                    getItemProps={getItemProps}
-                    highlightedIndex={highlightedIndex}
-                    enableShortcuts={enableShortcuts}
-                    isLoading={isLoading}
-                  />
-                </Swap>
-              )}
-            </Search>
-          </Top>
-          {isLoading ? null : (
-            <Bottom>
-              {bottom.map(({ id, render: Render }) => (
-                <Render key={id} />
-              ))}
-            </Bottom>
-          )}
-        </TopAndBottom>
+          <Search
+            dataset={dataset}
+            isLoading={isLoading}
+            enableShortcuts={enableShortcuts}
+            {...lastViewedProps}
+          >
+            {({
+              query,
+              results,
+              isBrowsing,
+              closeMenu,
+              getMenuProps,
+              getItemProps,
+              highlightedIndex,
+            }) => (
+              <Swap condition={isBrowsing}>
+                <Explorer
+                  dataset={dataset}
+                  selected={selected}
+                  isLoading={isLoading}
+                  isBrowsing={isBrowsing}
+                />
+                <SearchResults
+                  query={query}
+                  results={results}
+                  closeMenu={closeMenu}
+                  getMenuProps={getMenuProps}
+                  getItemProps={getItemProps}
+                  highlightedIndex={highlightedIndex}
+                  enableShortcuts={enableShortcuts}
+                  isLoading={isLoading}
+                />
+              </Swap>
+            )}
+          </Search>
+        </Top>
       </CustomScrollArea>
+      {isLoading ? null : (
+        <Bottom>
+          {bottom.map(({ id, render: Render }) => (
+            <Render key={id} />
+          ))}
+        </Bottom>
+      )}
     </Container>
   );
 });
