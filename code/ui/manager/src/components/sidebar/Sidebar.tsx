@@ -31,6 +31,8 @@ const Container = styled.nav({
   right: 0,
   width: '100%',
   height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 });
 
 const Top = styled(Spaced)({
@@ -44,10 +46,6 @@ const Bottom = styled.div(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   gap: theme.layoutMargin / 2,
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  width: '100%',
   backgroundColor: theme.barBg,
 
   '&:empty': {
