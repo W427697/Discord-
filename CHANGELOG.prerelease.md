@@ -1,3 +1,19 @@
+## 7.4.0-alpha.1
+
+- Build: Migrate @storybook/scripts to strict-ts - [#23818](https://github.com/storybookjs/storybook/pull/23818), thanks [@stilt0n](https://github.com/stilt0n)!
+- CLI: Exclude addon-styling from upgrade - [#23841](https://github.com/storybookjs/storybook/pull/23841), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- Core: Add error categorization framework - [#23653](https://github.com/storybookjs/storybook/pull/23653), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Fix error thrown if `docs.defaultName` is unset - [#23893](https://github.com/storybookjs/storybook/pull/23893), thanks [@stilt0n](https://github.com/stilt0n)!
+- Core: Fix race-condition relating to `addons.setConfig` - [#23802](https://github.com/storybookjs/storybook/pull/23802), thanks [@ndelangen](https://github.com/ndelangen)!
+- Maintenance: Move filtering of sidebar into the state - [#23911](https://github.com/storybookjs/storybook/pull/23911), thanks [@ndelangen](https://github.com/ndelangen)!
+- Maintenance: Revert "WebpackBuilder: Remove need for `react` as peerDependency" - [#23882](https://github.com/storybookjs/storybook/pull/23882), thanks [@vanessayuenn](https://github.com/vanessayuenn)!
+- Manager API: Fix `api.getAddonState`default value - [#23804](https://github.com/storybookjs/storybook/pull/23804), thanks [@sookmax](https://github.com/sookmax)!
+- Publish: Don't distribute src files or unnecessary template files - [#23853](https://github.com/storybookjs/storybook/pull/23853), thanks [@shilman](https://github.com/shilman)!
+- UI: Add an experimental API for adding sidebar filter functions at runtime - [#23722](https://github.com/storybookjs/storybook/pull/23722), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Removal of experimental components - [#23907](https://github.com/storybookjs/storybook/pull/23907), thanks [@ndelangen](https://github.com/ndelangen)!
+- Vue3: Add support for  Global Apps install - [#23772](https://github.com/storybookjs/storybook/pull/23772), thanks [@chakAs3](https://github.com/chakAs3)!
+- Vue3: Use slot value directly if it's a string in source decorator - [#23784](https://github.com/storybookjs/storybook/pull/23784), thanks [@nasvillanueva](https://github.com/nasvillanueva)!
+
 ## 7.4.0-alpha.0
 
 - Index: Fix `*.story.*` CSF indexing - [#23852](https://github.com/storybookjs/storybook/pull/23852), thanks [@shilman](https://github.com/shilman)!
