@@ -283,10 +283,15 @@ export const init: ModuleFn<SubAPI, SubState> = (
       if (setStoriesData) {
         index = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
-          { provider, docsOptions }
+          { provider, docsOptions, filters: {}, status: {} }
         );
       } else if (storyIndex) {
-        index = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
+        index = transformStoryIndexToStoriesHash(storyIndex, {
+          provider,
+          docsOptions,
+          filters: {},
+          status: {},
+        });
       }
       if (index) index = addRefIds(index, ref);
 

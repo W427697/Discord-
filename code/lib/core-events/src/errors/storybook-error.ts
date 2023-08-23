@@ -26,7 +26,7 @@ export abstract class StorybookError extends Error {
    * - If a string, uses the provided URL for documentation (external or FAQ links).
    * - If `false` (default), no documentation link is added.
    */
-  public documentation: boolean | string = false;
+  public documentation: boolean | string | string[] = false;
 
   /**
    * Flag used to easily determine if the error originates from Storybook.
@@ -51,8 +51,10 @@ export abstract class StorybookError extends Error {
       page = `https://storybook.js.org/error/${this.name}`;
     } else if (typeof this.documentation === 'string') {
       page = this.documentation;
+    } else if (Array.isArray(this.documentation)) {
+      page = `\n${this.documentation.map((doc) => `\t- ${doc}`).join('\n')}`;
     }
 
-    return this.template() + (page != null ? `\n\nMore info: ${page}` : '');
+    return this.template() + (page != null ? `\n\nMore info: ${page}\n` : '');
   }
 }

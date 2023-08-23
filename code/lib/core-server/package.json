@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.4.0-alpha.0",
+  "version": "7.4.0-alpha.1",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -35,6 +35,11 @@
       "types": "./dist/presets/common-preset.d.ts",
       "node": "./dist/presets/common-preset.js",
       "require": "./dist/presets/common-preset.js"
+    },
+    "./dist/presets/common-override-preset": {
+      "types": "./dist/presets/common-override-preset.d.ts",
+      "node": "./dist/presets/common-override-preset.js",
+      "require": "./dist/presets/common-override-preset.js"
     },
     "./public/favicon.svg": "./public/favicon.svg",
     "./package.json": "./package.json"
@@ -119,7 +124,8 @@
     "entries": [
       "./src/index.ts",
       "./src/presets/babel-cache-preset.ts",
-      "./src/presets/common-preset.ts"
+      "./src/presets/common-preset.ts",
+      "./src/presets/common-override-preset.ts"
     ],
     "platform": "node"
   },

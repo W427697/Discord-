@@ -16,7 +16,7 @@ import {
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
 
-import type { API_IndexHash, API_StoryEntry } from '@storybook/types';
+import type { API_StoryEntry } from '@storybook/types';
 import { getEventMetadata as getEventMetadataOriginal } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
@@ -24,8 +24,6 @@ import type Store from '../store';
 import type { API, State } from '..';
 import { mockEntries, docsEntries, preparedEntries, navigationEntries } from './mockStoriesEntries';
 import type { ModuleArgs } from '../lib/types';
-
-import { getAncestorIds } from '../../../../ui/manager/src/utils/tree';
 
 const mockGetEntries = jest.fn();
 const fetch = global.fetch as jest.Mock<ReturnType<typeof global.fetch>>;
@@ -71,7 +69,7 @@ function createMockModuleArgs({
   initialState?: Partial<State>;
 }) {
   const navigate = jest.fn();
-  const store = createMockStore(initialState);
+  const store = createMockStore({ filters: {}, status: {}, ...initialState });
   const provider = createMockProvider();
 
   return { navigate, store, provider, fullAPI };
@@ -1200,33 +1198,34 @@ describe('stories API', () => {
       );
     });
   });
-});
-describe('experimental_updateStatus', () => {
-  it('is included in the initial state', () => {
-    const moduleArgs = createMockModuleArgs({});
-    const { state } = initStories(moduleArgs as unknown as ModuleArgs);
+  describe('experimental_updateStatus', () => {
+    it('is included in the initial state', () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { state } = initStories(moduleArgs as unknown as ModuleArgs);
 
-    expect(state).toEqual(
-      expect.objectContaining({
-        status: {},
-      })
-    );
-  });
-  it('updates a story', async () => {
-    const moduleArgs = createMockModuleArgs({});
-    const { api } = initStories(moduleArgs as unknown as ModuleArgs);
-    const { store } = moduleArgs;
+      expect(state).toEqual(
+        expect.objectContaining({
+          status: {},
+        })
+      );
+    });
+    it('updates a story', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
 
-    await expect(
-      api.experimental_updateStatus('a-addon-id', {
-        'a-story-id': {
-          status: 'pending',
-          title: 'an addon title',
-          description: 'an addon description',
-        },
-      })
-    ).resolves.not.toThrow();
-    expect(store.getState().status).toMatchInlineSnapshot(`
+      await api.setIndex({ v: 4, entries: mockEntries });
+
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+        })
+      ).resolves.not.toThrow();
+      expect(store.getState().status).toMatchInlineSnapshot(`
         Object {
           "a-story-id": Object {
             "a-addon-id": Object {
@@ -1237,23 +1236,25 @@ describe('experimental_updateStatus', () => {
           },
         }
       `);
-  });
-  it('updates multiple stories', async () => {
-    const moduleArgs = createMockModuleArgs({});
-    const { api } = initStories(moduleArgs as unknown as ModuleArgs);
-    const { store } = moduleArgs;
+    });
+    it('updates multiple stories', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
 
-    await expect(
-      api.experimental_updateStatus('a-addon-id', {
-        'a-story-id': {
-          status: 'pending',
-          title: 'an addon title',
-          description: 'an addon description',
-        },
-        'another-story-id': { status: 'success', title: 'a addon title', description: '' },
-      })
-    ).resolves.not.toThrow();
-    expect(store.getState().status).toMatchInlineSnapshot(`
+      await api.setIndex({ v: 4, entries: mockEntries });
+
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        })
+      ).resolves.not.toThrow();
+      expect(store.getState().status).toMatchInlineSnapshot(`
         Object {
           "a-story-id": Object {
             "a-addon-id": Object {
@@ -1271,11 +1272,14 @@ describe('experimental_updateStatus', () => {
           },
         }
       `);
+    });
   });
   describe('experimental_setFilter', () => {
-    it('is included in the initial state', () => {
+    it('is included in the initial state', async () => {
       const moduleArgs = createMockModuleArgs({});
-      const { state } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { state, api } = initStories(moduleArgs as unknown as ModuleArgs);
+
+      await api.setIndex({ v: 4, entries: mockEntries });
 
       expect(state).toEqual(
         expect.objectContaining({
@@ -1283,10 +1287,12 @@ describe('experimental_updateStatus', () => {
         })
       );
     });
-    it('updates state', () => {
+    it('updates state', async () => {
       const moduleArgs = createMockModuleArgs({});
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store } = moduleArgs;
+
+      await api.setIndex({ v: 4, entries: mockEntries });
 
       api.experimental_setFilter('myCustomFilter', () => true);
 
@@ -1299,56 +1305,141 @@ describe('experimental_updateStatus', () => {
       );
     });
 
-    it('can filter', () => {
+    it('can filter', async () => {
       const moduleArgs = createMockModuleArgs({});
-      const {
-        api,
-        state: { status },
-      } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store } = moduleArgs;
 
-      /**
-       * This function is a copy of the one in the containers/sidebar.ts file inside of ui/manager
-       * I'm hoping we can eventually merge this 2 packages so there's no odd looking import and no re-implementation.
-       */
-      const applyFilters = (originalIndex: API_IndexHash) => {
-        if (!originalIndex) {
-          return originalIndex;
+      await api.setIndex({ v: 4, entries: navigationEntries });
+      await api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
+
+      const { index } = store.getState();
+
+      expect(index).toMatchInlineSnapshot(`
+        Object {
+          "a": Object {
+            "children": Array [
+              "a--1",
+              "a--2",
+            ],
+            "depth": 0,
+            "id": "a",
+            "isComponent": true,
+            "isLeaf": false,
+            "isRoot": false,
+            "name": "a",
+            "parent": undefined,
+            "renderLabel": undefined,
+            "type": "component",
+          },
+          "a--1": Object {
+            "depth": 1,
+            "id": "a--1",
+            "importPath": "./a.ts",
+            "isComponent": false,
+            "isLeaf": true,
+            "isRoot": false,
+            "kind": "a",
+            "name": "1",
+            "parent": "a",
+            "prepared": false,
+            "renderLabel": undefined,
+            "title": "a",
+            "type": "story",
+          },
+          "a--2": Object {
+            "depth": 1,
+            "id": "a--2",
+            "importPath": "./a.ts",
+            "isComponent": false,
+            "isLeaf": true,
+            "isRoot": false,
+            "kind": "a",
+            "name": "2",
+            "parent": "a",
+            "prepared": false,
+            "renderLabel": undefined,
+            "title": "a",
+            "type": "story",
+          },
         }
+      `);
+    });
 
-        const filtered = new Set();
-        Object.values(originalIndex).forEach((item) => {
-          if (item.type === 'story' || item.type === 'docs') {
-            let result = true;
+    it('can filter on status', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
 
-            Object.values(filters).forEach((filter) => {
-              if (result === true) {
-                result = filter({ ...item, status: status[item.id] });
-              }
-            });
+      await api.setIndex({ v: 4, entries: navigationEntries });
+      await api.experimental_setFilter(
+        'myCustomFilter',
+        (item) =>
+          item.status !== undefined &&
+          Object.values(item.status).some((v) => v.status === 'pending')
+      );
 
-            if (result) {
-              filtered.add(item.id);
-              getAncestorIds(originalIndex, item.id).forEach((id) => {
-                filtered.add(id);
-              });
-            }
-          }
-        });
+      // empty, because there are no stories with status
+      expect(store.getState().index).toMatchInlineSnapshot(`Object {}`);
 
-        return Object.fromEntries(
-          Object.entries(originalIndex).filter(([key]) => filtered.has(key))
-        );
-      };
+      // setting status should update the index
+      await api.experimental_updateStatus('a-addon-id', {
+        'a--1': {
+          status: 'pending',
+          title: 'an addon title',
+          description: 'an addon description',
+        },
+        'a--2': { status: 'success', title: 'a addon title', description: '' },
+      });
 
-      api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
-      api.setIndex({ v: 4, entries: navigationEntries });
+      expect(store.getState().index).toMatchInlineSnapshot(`
+        Object {
+          "a": Object {
+            "children": Array [
+              "a--1",
+            ],
+            "depth": 0,
+            "id": "a",
+            "isComponent": true,
+            "isLeaf": false,
+            "isRoot": false,
+            "name": "a",
+            "parent": undefined,
+            "renderLabel": undefined,
+            "type": "component",
+          },
+          "a--1": Object {
+            "depth": 1,
+            "id": "a--1",
+            "importPath": "./a.ts",
+            "isComponent": false,
+            "isLeaf": true,
+            "isRoot": false,
+            "kind": "a",
+            "name": "1",
+            "parent": "a",
+            "prepared": false,
+            "renderLabel": undefined,
+            "title": "a",
+            "type": "story",
+          },
+        }
+      `);
+    });
 
-      const { index, filters } = store.getState();
+    it('persists filter when index is updated', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
 
-      const filtered = applyFilters(index);
+      await api.setIndex({ v: 4, entries: navigationEntries });
+      await api.experimental_setFilter('myCustomFilter', (item) => item.id.startsWith('a'));
 
-      expect(filtered).toMatchInlineSnapshot(`
+      await api.setIndex({ v: 4, entries: navigationEntries });
+
+      const { index } = store.getState();
+
+      expect(index).toMatchInlineSnapshot(`
         Object {
           "a": Object {
             "children": Array [
