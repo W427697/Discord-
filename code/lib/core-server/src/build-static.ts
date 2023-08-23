@@ -1,9 +1,7 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
-import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
-
 import { logger } from '@storybook/node-logger';
 import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type {
@@ -22,6 +20,7 @@ import {
   normalizeStories,
   resolveAddonName,
 } from '@storybook/core-common';
+import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 
 import isEqual from 'lodash/isEqual.js';
 import { outputStats } from './utils/output-stats';
@@ -130,13 +129,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   };
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new Error(dedent`
-      Conflict when trying to read staticDirs:
-      * Storybook's configuration option: 'staticDirs'
-      * Storybook's CLI flag: '--staticDir' or '-s'
-      
-      Choose one of them, but not both.
-    `);
+    throw new ConflictingStaticDirConfigError();
   }
 
   const effects: Promise<void>[] = [];
