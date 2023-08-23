@@ -44,3 +44,78 @@ export class NxProjectDetectedError extends StorybookError {
     `;
   }
 }
+
+export class MissingFrameworkFieldError extends StorybookError {
+  readonly category = Category.CORE_COMMON;
+
+  readonly code = 1;
+
+  public readonly documentation =
+    'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-framework-api';
+
+  template() {
+    return dedent`
+      Could not find a 'framework' field in Storybook config.
+
+      Please run 'npx storybook@next automigrate' to automatically fix your config.
+    `;
+  }
+}
+
+export class InvalidFrameworkNameError extends StorybookError {
+  readonly category = Category.CORE_COMMON;
+
+  readonly code = 2;
+
+  public readonly documentation =
+    'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-framework-api';
+
+  constructor(public data: { frameworkName: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      Invalid value of '${this.data.frameworkName}' in the 'framework' field of Storybook config.
+
+      Please run 'npx storybook@next automigrate' to automatically fix your config.
+    `;
+  }
+}
+
+export class CouldNotEvaluateFrameworkError extends StorybookError {
+  readonly category = Category.CORE_COMMON;
+
+  readonly code = 3;
+
+  constructor(public data: { frameworkName: string }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      Could not evaluate the '${this.data.frameworkName}' package from the 'framework' field of Storybook config.
+
+      Are you sure it's a valid package and is installed?
+    `;
+  }
+}
+
+export class ConflictingStaticDirConfigError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 1;
+
+  public readonly documentation =
+    'https://storybook.js.org/docs/react/configure/images-and-assets#serving-static-files-via-storybook-configuration';
+
+  template() {
+    return dedent`
+      Storybook encountered a conflict when trying to serve statics. You have configured both:
+      * Storybook's option in the config file: 'staticDirs'
+      * Storybook's (deprecated) CLI flag: '--staticDir' or '-s'
+      
+      Please remove the CLI flag from your storybook script and use only the 'staticDirs' option instead.
+    `;
+  }
+}

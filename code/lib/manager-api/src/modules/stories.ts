@@ -72,6 +72,7 @@ type DocsUpdate = Partial<Pick<API_DocsEntry, 'prepared' | 'parameters'>>;
 
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
+  internal_index?: API_PreparedStoryIndex;
   viewMode: API_ViewMode;
   status: API_StatusState;
   filters: Record<string, API_FilterFunction>;
@@ -515,16 +516,19 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     // The story index we receive on SET_INDEX is "prepared" in that it has parameters
     // The story index we receive on fetchStoryIndex is not, but all the prepared fields are optional
     // so we can cast one to the other easily enough
-    setIndex: async (storyIndex) => {
-      const newHash = transformStoryIndexToStoriesHash(storyIndex, {
+    setIndex: async (input) => {
+      const { index: oldHash, status, filters } = store.getState();
+      const newHash = transformStoryIndexToStoriesHash(input, {
         provider,
         docsOptions,
+        status,
+        filters,
       });
 
       // Now we need to patch in the existing prepared stories
-      const oldHash = store.getState().index;
+      const output = addPreparedStories(newHash, oldHash);
 
-      await store.setState({ index: addPreparedStories(newHash, oldHash), indexError: undefined });
+      await store.setState({ internal_index: input, index: output, indexError: undefined });
     },
     updateStory: async (
       storyId: StoryId,
@@ -578,7 +582,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
     /* EXPERIMENTAL APIs */
     experimental_updateStatus: async (id, update) => {
-      const { status } = store.getState();
+      const { status, internal_index: index } = store.getState();
       const newStatus = { ...status };
 
       Object.entries(update).forEach(([storyId, value]) => {
@@ -587,9 +591,12 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       });
 
       await store.setState({ status: newStatus }, { persistence: 'session' });
+      await api.setIndex(index);
     },
     experimental_setFilter: async (id, filterFunction) => {
+      const { internal_index: index } = store.getState();
       await store.setState({ filters: { ...store.getState().filters, [id]: filterFunction } });
+      await api.setIndex(index);
     },
   };
 
