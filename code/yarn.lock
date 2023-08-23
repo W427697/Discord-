@@ -6568,14 +6568,14 @@ __metadata:
     "@babel/preset-env": ^7.22.9
     "@babel/types": ^7.22.5
     "@ndelangen/get-tarball": ^3.0.7
-    "@storybook/client-api": 7.4.0-alpha.0
-    "@storybook/codemod": 7.4.0-alpha.0
-    "@storybook/core-common": 7.4.0-alpha.0
-    "@storybook/core-server": 7.4.0-alpha.0
-    "@storybook/csf-tools": 7.4.0-alpha.0
-    "@storybook/node-logger": 7.4.0-alpha.0
-    "@storybook/telemetry": 7.4.0-alpha.0
-    "@storybook/types": 7.4.0-alpha.0
+    "@storybook/client-api": "workspace:*"
+    "@storybook/codemod": "workspace:*"
+    "@storybook/core-common": "workspace:*"
+    "@storybook/core-server": "workspace:*"
+    "@storybook/csf-tools": "workspace:*"
+    "@storybook/node-logger": "workspace:*"
+    "@storybook/telemetry": "workspace:*"
+    "@storybook/types": "workspace:*"
     "@types/cross-spawn": ^6.0.2
     "@types/prompts": ^2.0.9
     "@types/puppeteer-core": ^2.1.0
@@ -6618,7 +6618,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-api@7.4.0-alpha.0, @storybook/client-api@workspace:*, @storybook/client-api@workspace:deprecated/client-api":
+"@storybook/client-api@workspace:*, @storybook/client-api@workspace:deprecated/client-api":
   version: 0.0.0-use.local
   resolution: "@storybook/client-api@workspace:deprecated/client-api"
   dependencies:
@@ -6636,7 +6636,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/codemod@7.4.0-alpha.0, @storybook/codemod@workspace:*, @storybook/codemod@workspace:lib/codemod":
+"@storybook/codemod@workspace:*, @storybook/codemod@workspace:lib/codemod":
   version: 0.0.0-use.local
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
@@ -6715,7 +6715,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-common@7.4.0-alpha.0, @storybook/core-common@workspace:*, @storybook/core-common@workspace:lib/core-common":
+"@storybook/core-common@workspace:*, @storybook/core-common@workspace:lib/core-common":
   version: 0.0.0-use.local
   resolution: "@storybook/core-common@workspace:lib/core-common"
   dependencies:
@@ -6759,7 +6759,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-server@7.4.0-alpha.0, @storybook/core-server@workspace:*, @storybook/core-server@workspace:lib/core-server":
+"@storybook/core-server@workspace:*, @storybook/core-server@workspace:lib/core-server":
   version: 0.0.0-use.local
   resolution: "@storybook/core-server@workspace:lib/core-server"
   dependencies:
@@ -6844,7 +6844,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/csf-tools@7.4.0-alpha.0, @storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
+"@storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
   version: 0.0.0-use.local
   resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
   dependencies:
@@ -7212,7 +7212,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/node-logger@7.4.0-alpha.0, @storybook/node-logger@workspace:*, @storybook/node-logger@workspace:lib/node-logger":
+"@storybook/node-logger@workspace:*, @storybook/node-logger@workspace:lib/node-logger":
   version: 0.0.0-use.local
   resolution: "@storybook/node-logger@workspace:lib/node-logger"
   dependencies:
@@ -7985,7 +7985,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/telemetry@7.4.0-alpha.0, @storybook/telemetry@workspace:*, @storybook/telemetry@workspace:lib/telemetry":
+"@storybook/telemetry@workspace:*, @storybook/telemetry@workspace:lib/telemetry":
   version: 0.0.0-use.local
   resolution: "@storybook/telemetry@workspace:lib/telemetry"
   dependencies:
@@ -8039,7 +8039,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/types@7.4.0-alpha.0, @storybook/types@workspace:*, @storybook/types@workspace:lib/types":
+"@storybook/types@workspace:*, @storybook/types@workspace:lib/types":
   version: 0.0.0-use.local
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:

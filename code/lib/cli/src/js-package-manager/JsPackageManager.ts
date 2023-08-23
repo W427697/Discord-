@@ -407,9 +407,9 @@ export abstract class JsPackageManager {
 
   public async addStorybookCommandInScripts(options?: { port: number; preCommand?: string }) {
     const sbPort = options?.port ?? 6006;
-    const storybookCmd = `storybook-nuxt dev -p ${sbPort}`;
+    const storybookCmd = `storybook dev -p ${sbPort}`;
 
-    const buildStorybookCmd = `storybook-nuxt build`;
+    const buildStorybookCmd = `storybook build`;
 
     const preCommand = options?.preCommand ? this.getRunCommand(options.preCommand) : undefined;
     await this.addScripts({

@@ -230,7 +230,7 @@ const baseTemplates = {
     inDevelopment: true,
     expected: {
       framework: '@storybook-vue/nuxt',
-      renderer: '@storybook-vue/nuxt',
+      renderer: '@storybook/vue3',
       builder: '@storybook/builder-vite',
     },
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
