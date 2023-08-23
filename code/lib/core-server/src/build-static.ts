@@ -85,7 +85,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...corePresets,
     ],
-    overridePresets: [],
+    overridePresets: [
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 
@@ -103,7 +105,10 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets || [],
+    overridePresets: [
+      ...(previewBuilder.overridePresets || []),
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 
