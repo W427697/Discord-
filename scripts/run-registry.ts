@@ -7,7 +7,7 @@ import program from 'commander';
 import { runServer, parseConfigFile } from 'verdaccio';
 import pLimit from 'p-limit';
 import type { Server } from 'http';
-// @ts-expect-error (Converted from ts-ignore)
+
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages } from './utils/list-packages';
 
