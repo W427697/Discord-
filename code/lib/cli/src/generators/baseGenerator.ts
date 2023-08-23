@@ -226,19 +226,28 @@ export async function baseGenerator(
     shouldApplyRequireWrapperOnPackageNames
   );
 
+  const extraAddonsToInstall =
+    typeof extraAddonPackages === 'function'
+      ? await extraAddonPackages({
+          builder: builder || builderInclude,
+          framework: framework || frameworkInclude,
+        })
+      : extraAddonPackages;
+
   // added to main.js
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    ...stripVersions(extraAddonPackages),
-  ];
+    ...stripVersions(extraAddonsToInstall),
+  ].filter(Boolean);
+
   // added to package.json
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/blocks',
-    ...extraAddonPackages,
-  ];
+    ...extraAddonsToInstall,
+  ].filter(Boolean);
 
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');
@@ -272,12 +281,20 @@ export async function baseGenerator(
     );
   }
 
+  const extraPackagesToInstall =
+    typeof extraPackages === 'function'
+      ? await extraPackages({
+          builder: builder || builderInclude,
+          framework: framework || frameworkInclude,
+        })
+      : extraPackages;
+
   const allPackages = [
     'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
-    ...extraPackages,
+    ...extraPackagesToInstall,
   ].filter(Boolean);
 
   const packages = [...new Set(allPackages)].filter(
