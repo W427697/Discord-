@@ -43,7 +43,8 @@
       "require": "./dist/preview.js",
       "import": "./dist/preview.mjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./postinstall": "./postinstall.js"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
