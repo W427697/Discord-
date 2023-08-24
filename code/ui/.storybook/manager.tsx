@@ -1,3 +1,4 @@
+import React from 'react';
 import { addons, types } from '@storybook/manager-api';
 import startCase from 'lodash/startCase.js';
 
