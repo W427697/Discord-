@@ -50,7 +50,7 @@ async function webpack(
     skipCsf: true,
     ...mdxPluginOptions,
     mdxCompileOptions: {
-      providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+      providerImportSource: require.resolve('@storybook/addon-docs/dist/shims/mdx-react-shim'),
       ...mdxPluginOptions.mdxCompileOptions,
       remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
         mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
