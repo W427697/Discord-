@@ -8,13 +8,13 @@
  */
 
 // Components
-export { Button } from './new/Button/Button';
-export { Input } from './new/Input/Input';
-export { Select } from './new/Select/Select';
-export { Link } from './new/Link/Link';
-export { Icon } from './new/Icon/Icon';
-export { IconButton } from './new/IconButton/IconButton';
-export { Toolbar } from './new/Toolbar/Toolbar';
+export { Button } from './experimental/Button/Button';
+export { Input } from './experimental/Input/Input';
+export { Select } from './experimental/Select/Select';
+export { Link } from './experimental/Link/Link';
+export { Icon } from './experimental/Icon/Icon';
+export { IconButton } from './experimental/IconButton/IconButton';
+export { Toolbar } from './experimental/Toolbar/Toolbar';
 
 // Hooks
-export { useMediaQuery } from './new/hooks/useMediaQuery';
+export { useMediaQuery } from './experimental/hooks/useMediaQuery';

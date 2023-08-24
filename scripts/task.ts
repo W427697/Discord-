@@ -35,6 +35,7 @@ import {
 } from '../code/lib/cli/src/sandbox-templates';
 
 import { version } from '../code/package.json';
+import invariant from 'tiny-invariant';
 
 const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 
@@ -73,7 +74,7 @@ export type Task = {
   /**
    * Is this task already "ready", and potentially not required?
    */
-  ready: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<boolean>;
+  ready: (details: TemplateDetails, options?: PassedOptionValues) => MaybePromise<boolean>;
   /**
    * Run the task
    */
@@ -174,6 +175,11 @@ export const options = createOptions({
   skipTemplateStories: {
     type: 'boolean',
     description: 'Do not include template stories and their addons',
+    promptType: false,
+  },
+  disableDocs: {
+    type: 'boolean',
+    description: 'Disable addon-docs from essentials',
     promptType: false,
   },
 });
@@ -304,7 +310,10 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   try {
     let updatedOptions = optionValues;
     if (details.template?.modifications?.skipTemplateStories) {
-      updatedOptions = { ...optionValues, skipTemplateStories: true };
+      updatedOptions = { ...updatedOptions, skipTemplateStories: true };
+    }
+    if (details.template?.modifications?.disableDocs) {
+      updatedOptions = { ...updatedOptions, disableDocs: true };
     }
     const controller = await task.run(details, updatedOptions);
 
@@ -312,6 +321,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
+    invariant(err instanceof Error);
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
@@ -458,6 +468,7 @@ async function run() {
         });
         if (controller) controllers.push(controller);
       } catch (err) {
+        invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {
