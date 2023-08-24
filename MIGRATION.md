@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.3.0 to 7.4.0](#from-version-730-to-740)
+  - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
   - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
   - [Addon API is more type-strict](#addon-api-is-more-type-strict)
@@ -305,6 +306,26 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 7.3.0 to 7.4.0
+
+#### `storyStoreV6` and `storiesOf` is deprecated
+
+`storyStoreV6` and `storiesOf` is deprecated and will be completely removed in Storybook 8.0.0.
+
+If you're using `storiesOf` we recommend you migrate your stories to CSF3 for a better story writing experience.
+In many cases you can get started with the migration by using two migration scripts:
+
+```bash
+
+# 1. convert storiesOf to CSF
+npx storybook@latest migrate storiesof-to-csf --glob="**/*.stories.tsx" --parser=tsx
+
+# 2. Convert CSF 2 to CSF 3
+npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
+```
+
+They won't do a perfect migration so we recommend that you manually go through each file afterwards.
+
+Alternatively you can build your own `storiesOf` implementation by leveraging the new (experimental) indexer API ([documentation](TODO), [migration](#storyindexers-is-replaced-with-experimental_indexers)). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's `README.md` for a deeper explanation of the implementation.
 
 #### `storyIndexers` is replaced with `experimental_indexers`
 
