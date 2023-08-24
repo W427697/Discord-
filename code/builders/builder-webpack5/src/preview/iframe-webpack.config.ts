@@ -39,7 +39,6 @@ const maybeGetAbsolutePath = <I extends string>(input: I): I | false => {
 
 const managerAPIPath = maybeGetAbsolutePath(`@storybook/manager-api`);
 const componentsPath = maybeGetAbsolutePath(`@storybook/components`);
-const componentsExperimentalPath = componentsPath ? `${componentsPath}/dist/experimental` : false;
 const globalPath = maybeGetAbsolutePath(`@storybook/global`);
 const routerPath = maybeGetAbsolutePath(`@storybook/router`);
 const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
@@ -55,13 +54,7 @@ const storybookPaths: Record<string, string> = {
         [`@storybook/manager-api`]: managerAPIPath,
       }
     : {}),
-  ...(componentsPath
-    ? {
-        // this is a temporary hack to get webpack to alias this correctly
-        [`@storybook/components/experimental`]: componentsExperimentalPath as any,
-        [`@storybook/components`]: componentsPath,
-      }
-    : {}),
+  ...(componentsPath ? { [`@storybook/components`]: componentsPath } : {}),
   ...(globalPath ? { [`@storybook/global`]: globalPath } : {}),
   ...(routerPath ? { [`@storybook/router`]: routerPath } : {}),
   ...(themingPath ? { [`@storybook/theming`]: themingPath } : {}),
