@@ -5,16 +5,16 @@ import { readFileSync } from 'fs';
 import { loadCsf } from '@storybook/csf-tools';
 
 export default {
-  storyIndexers = (indexers) => {
-    const indexer = async (fileName, opts) => {
+  experimental_indexers = (indexers) => {
+    const index = async (fileName, opts) => {
       const code = readFileSync(fileName, { encoding: 'utf-8' });
-      return loadCsf(code, { ...opts, fileName }).parse();
+      return loadCsf(code, { ...opts, fileName }).parse().indexInputs;
     };
 
     return [
       {
         test: /(stories|story)\.[tj]sx?$/,
-        indexer,
+        index,
       },
       ...(indexers || []),
     ];
