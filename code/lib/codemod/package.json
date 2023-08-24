@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.4.0-alpha.0",
+  "version": "7.4.0-alpha.1",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -40,10 +40,6 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
-  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -51,6 +47,10 @@
     "*.d.ts",
     "!src/**/*"
   ],
+  "scripts": {
+    "check": "../../../scripts/prepare/check.ts",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
   "dependencies": {
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
