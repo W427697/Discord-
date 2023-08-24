@@ -122,13 +122,7 @@ export class StoryIndexGenerator {
     if (options.storyIndexers.length > 1) {
       deprecate(
         dedent`'storyIndexers' is deprecated, please use 'experimental_indexers' instead.
-        Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storyindexers-is-replaced-with-experimental_indexers`
-      );
-    }
-    if (options.storyStoreV7 === false) {
-      deprecate(
-        dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
-        Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
+        - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storyindexers-is-replaced-with-experimental_indexers`
       );
     }
   }
