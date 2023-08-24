@@ -16,6 +16,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [Why is there no addons channel?](#why-is-there-no-addons-channel)
 - [Why aren't Controls visible in the Canvas panel but visible in Docs?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-docs)
 - [Why aren't the addons working in a composed Storybook?](#why-arent-the-addons-working-in-a-composed-storybook)
+- [Can I have a Storybook with no local stories?](#can-i-have-a-storybook-with-no-local-stories)
 - [Which community addons are compatible with the latest version of Storybook?](#which-community-addons-are-compatible-with-the-latest-version-of-storybook)
 - [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
 - [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
@@ -217,6 +218,36 @@ Composition is a new feature that we released with version 6.0, and there are st
 For now, the addons you're using in a composed Storybook will not work.
 
 We're working on overcoming this limitation, and soon you'll be able to use them as if you are working with a non-composed Storybook.
+
+## Can I have a Storybook with no local stories?
+
+Storybook does not work unless you define at least one local story.
+
+If you're in a Storybook composition scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
+
+Introduce a single `.mdx` story (addon-essentials or addon-docs required), that serves as an Introduction page, like so:
+
+```mdx
+// Introduction.mdx
+# Welcome
+
+Some description here
+```
+
+And then refer to it in your main.js file:
+
+```ts
+// .storybook/main.js
+const config = {
+  stories: ['../Introduction.mdx'],
+  refs: {
+    firstProject: { title: 'First', url: 'some-url' },
+    secondProject: { title: 'Second', url: 'other-url' },
+  }
+  // ...
+}
+export default config;
+```
 
 ## Which community addons are compatible with the latest version of Storybook?
 
