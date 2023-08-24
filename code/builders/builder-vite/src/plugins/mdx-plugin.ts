@@ -33,7 +33,7 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
         ...mdxPluginOptions,
         mdxCompileOptions: {
-          providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+          providerImportSource: require.resolve('@storybook/addon-docs/mdx-react-shim'),
           ...mdxPluginOptions?.mdxCompileOptions,
           remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
             mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
