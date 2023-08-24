@@ -168,7 +168,7 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   );
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
-  ['angular', 'nextjs'].includes(framework);
+  ['angular', 'nextjs', 'nuxt'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,
@@ -264,7 +264,7 @@ export async function baseGenerator(
       `
     );
   }
-
+  logger.log(' getExternalFramework ', rendererId, getExternalFramework(rendererId));
   const allPackages = [
     'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
@@ -276,6 +276,7 @@ export async function baseGenerator(
   const packages = [...new Set(allPackages)].filter(
     (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
   );
+  logger.log(' packages :', packages);
 
   logger.log();
   const versionedPackagesSpinner = ora({
@@ -286,7 +287,6 @@ export async function baseGenerator(
   versionedPackagesSpinner.succeed();
 
   const depsToInstall = [...versionedPackages];
-
   // Add basic babel config for a select few frameworks that need it, if they do not have a babel config file already
   if (builder !== CoreBuilder.Vite && !skipBabel) {
     const frameworksThatNeedBabelConfig = [
@@ -369,6 +369,8 @@ export async function baseGenerator(
         ]
       : [];
 
+    console.log(' frameworkInclude :', frameworkInclude);
+
     await configureMain({
       framework: { name: frameworkInclude, options: options.framework || {} },
       prefixes,
@@ -406,6 +408,7 @@ export async function baseGenerator(
 
   if (addComponents) {
     const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
+
     await copyTemplateFiles({
       renderer: templateLocation,
       packageManager,

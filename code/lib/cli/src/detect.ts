@@ -127,12 +127,14 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
   // Fallback to Vite or Webpack based on project type
   switch (projectType) {
     case ProjectType.SFC_VUE:
+    case ProjectType.NUXT:
       return CoreBuilder.Vite;
     case ProjectType.REACT_SCRIPTS:
     case ProjectType.ANGULAR:
     case ProjectType.REACT_NATIVE: // technically react native doesn't use webpack, we just want to set something
     case ProjectType.NEXTJS:
       return CoreBuilder.Webpack5;
+
     default:
       // eslint-disable-next-line no-case-declarations
       const { builder } = await prompts({
@@ -197,6 +199,10 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     } else if (semver.lt(typescriptVersion, '3.8.0')) {
       logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
     }
+  }
+  // project can have tsconfig.json without typescript installed (e.g. nuxt, nx)
+  if (fs.existsSync('tsconfig.json')) {
+    language = SupportedLanguage.TYPESCRIPT_4_9;
   }
 
   return language;

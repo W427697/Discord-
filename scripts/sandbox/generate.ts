@@ -31,7 +31,7 @@ import {
 
 const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
-  console.log(`🎁 Installing storybook`);
+  console.log(`🎁 Installing storybook`, cwd, { flags });
   const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
   const fullFlags = ['--yes', ...(flags || [])];
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
@@ -78,15 +78,22 @@ const addStorybook = async ({
   await copy(beforeDir, tmpDir);
 
   const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
+  const extraPackageResolutions = flags?.includes('--type nuxt')
+    ? { 'strip-ansi': '^6.0.0', 'string-width': '^4.2.3', 'wrap-ansi': '^8.1.0' }
+    : {};
   if (localRegistry) {
     await withLocalRegistry(packageManager, async () => {
-      await packageManager.addPackageResolutions(storybookVersions);
+      await packageManager.addPackageResolutions({
+        ...storybookVersions,
+        ...extraPackageResolutions,
+      });
 
       await sbInit(tmpDir, flags, debug);
     });
   } else {
     await sbInit(tmpDir, flags, debug);
   }
+
   await rename(tmpDir, afterDir);
 };
 
@@ -135,6 +142,8 @@ const runGenerators = async (
         let flags: string[] = [];
         if (expected.renderer === '@storybook/html') flags = ['--type html'];
         else if (expected.renderer === '@storybook/server') flags = ['--type server'];
+        else if (['@storybook-vue/nuxt', '@storybook-nuxt/framework'].includes(expected.framework))
+          flags = ['--type nuxt'];
 
         const time = process.hrtime();
         console.log(`🧬 Generating ${name}`);
@@ -154,6 +163,7 @@ const runGenerators = async (
         // Some tools refuse to run inside an existing directory and replace the contents,
         // where as others are very picky about what directories can be called. So we need to
         // handle different modes of operation.
+        console.log(`🏃 Running -- ${script}`);
         if (script.includes('{{beforeDir}}')) {
           const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
           await runCommand(

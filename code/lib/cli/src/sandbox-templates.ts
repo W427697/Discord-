@@ -222,6 +222,19 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
+  'nuxt-vite/default-ts': {
+    name: 'Nuxt Vite (TS)',
+    script:
+      'npx nuxi@latest init {{beforeDir}} --typescript --strict  --skip-install --no-playwright',
+    // TODO: remove this once nuxt-vite framework is released
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook-vue/nuxt',
+      renderer: '@storybook/vue3',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
+  },
   'html-webpack/default': {
     name: 'HTML Webpack5',
     script: 'yarn create webpack5-html {{beforeDir}}',
@@ -378,6 +391,7 @@ const baseTemplates = {
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
+
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
     script:
@@ -551,6 +565,7 @@ export const normal: TemplateKey[] = [
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
+  'nuxt-vite/default-ts',
   'lit-vite/default-ts',
   'svelte-vite/default-ts',
   'svelte-kit/skeleton-ts',

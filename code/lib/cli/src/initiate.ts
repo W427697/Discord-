@@ -33,6 +33,7 @@ import svelteGenerator from './generators/SVELTE';
 import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
+import nuxtGenerator from './generators/NUXT';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
@@ -149,6 +150,11 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.SVELTEKIT:
         return svelteKitGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "SvelteKit" app')
+        );
+
+      case ProjectType.NUXT:
+        return nuxtGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Nuxt" app')
         );
 
       case ProjectType.SERVER:

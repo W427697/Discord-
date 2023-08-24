@@ -101,7 +101,7 @@ const addPackageResolutions = async ({ cwd }: Options) => {
 };
 
 const addLocalPackageResolutions = async ({ cwd }: Options) => {
-  logger.info(`🔢 Adding package resolutions:`);
+  logger.info(`🔢 Adding local package resolutions:`);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
@@ -118,6 +118,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
       [key]: path.join(workspaceDir, workspaces.find((item: any) => item.name === key).location),
     };
   }, {});
+
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
