@@ -29,8 +29,8 @@ export const childrenToList = (children: TabsProps['children']) =>
       const render: FC<Addon_RenderOptions> = (
         typeof content === 'function'
           ? content
-          : ({ active, key }: any) => (
-              <VisuallyHidden key={key} active={active} role="tabpanel">
+          : ({ active }) => (
+              <VisuallyHidden active={active} role="tabpanel">
                 {content}
               </VisuallyHidden>
             )
