@@ -29,8 +29,10 @@ import type {
 } from './csf';
 import type { IndexEntry } from './indexer';
 
-export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
-
+export type Addon_Types = Exclude<
+  Addon_TypesEnum,
+  Addon_TypesEnum.experimental_PAGE | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+>;
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
 }
@@ -324,7 +326,11 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export type Addon_Type = Addon_BaseType | Addon_PageType | Addon_WrapperType;
+export type Addon_Type =
+  | Addon_BaseType
+  | Addon_PageType
+  | Addon_WrapperType
+  | Addon_SidebarBottomType;
 export interface Addon_BaseType {
   /**
    * The title of the addon.
@@ -335,7 +341,12 @@ export interface Addon_BaseType {
    * The type of the addon.
    * @example Addon_TypesEnum.PANEL
    */
-  type: Exclude<Addon_Types, Addon_TypesEnum.PREVIEW>;
+  type: Exclude<
+    Addon_Types,
+    | Addon_TypesEnum.PREVIEW
+    | Addon_TypesEnum.experimental_PAGE
+    | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  >;
   /**
    * The unique id of the addon.
    * @warn This will become non-optional in 8.0
@@ -448,15 +459,29 @@ export interface Addon_WrapperType {
     }>
   >;
 }
+export interface Addon_SidebarBottomType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_BOTTOM;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FCWithoutChildren;
+}
 
 type Addon_TypeBaseNames = Exclude<
   Addon_TypesEnum,
-  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.PREVIEW
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
 >;
 
 export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
   [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
   [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
+  [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_SidebarBottomType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -510,6 +535,11 @@ export enum Addon_TypesEnum {
    * @unstable
    */
   experimental_PAGE = 'page',
+  /**
+   * This adds items in the bottom of the sidebar.
+   * @unstable
+   */
+  experimental_SIDEBAR_BOTTOM = 'sidebar-bottom',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.
