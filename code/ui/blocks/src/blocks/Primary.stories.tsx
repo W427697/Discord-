@@ -3,14 +3,14 @@ import { Primary } from './Primary';
 import * as DefaultButtonStories from '../examples/Button.stories';
 import * as StoriesParametersStories from '../examples/StoriesParameters.stories';
 
-const meta: Meta<typeof Primary> = {
+const meta = {
   component: Primary,
   parameters: {
     // workaround for https://github.com/storybookjs/storybook/issues/20505
     docs: { source: { type: 'code' } },
     docsStyles: true,
   },
-};
+} satisfies Meta<typeof Primary>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;

@@ -33,7 +33,7 @@ import { Primary } from '@storybook/blocks';
 
 Type: CSF file exports
 
-Specifies the primary (first) story to be rendered.
+Specifies which CSF file is used to find the first story, which is then rendered by this block. Pass the full set of exports from the CSF file (not the default export!).
 
 ### `name`
 
