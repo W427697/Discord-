@@ -14,6 +14,7 @@ import type {
   Addon_TypesMapping,
   Addon_WrapperType,
   Addon_SidebarBottomType,
+  Addon_SidebarTopType,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -103,6 +104,7 @@ export class AddonStore {
       | Addon_Types
       | Addon_TypesEnum.experimental_PAGE
       | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP
   >(type: T): Addon_Collection<Addon_TypesMapping[T]> {
     if (!this.elements[type]) {
       this.elements[type] = {};
@@ -145,6 +147,7 @@ export class AddonStore {
     id: string,
     addon:
       | Addon_BaseType
+      | (Omit<Addon_SidebarTopType, 'id'> & DeprecatedAddonWithId)
       | (Omit<Addon_SidebarBottomType, 'id'> & DeprecatedAddonWithId)
       | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
       | (Omit<Addon_WrapperType, 'id'> & DeprecatedAddonWithId)
