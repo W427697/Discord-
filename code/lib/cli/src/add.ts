@@ -1,5 +1,6 @@
 import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
+import SemVer from 'semver';
 
 import {
   JsPackageManagerFactory,
@@ -36,8 +37,6 @@ const getVersionSpecifier = (addon: string) => {
   const groups = /^(...*)@(.*)$/.exec(addon);
   return groups ? [groups[1], groups[2]] : [addon, undefined];
 };
-
-const isSemVer = (version: string) => /^\d+\.\d+\.\d+(-.*)?$/.test(version);
 
 /**
  * Install the given addon package and add it to main.js
@@ -79,7 +78,9 @@ export async function add(
   const isStorybookAddon = addonName.startsWith('@storybook/');
   const storybookVersion = await getStorybookVersion(packageManager);
   const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
-  const addonWithVersion = isSemVer(version) ? `${addonName}@^${version}` : `${addonName}@${version}`;
+  const addonWithVersion = SemVer.valid(version)
+    ? `${addonName}@^${version}`
+    : `${addonName}@${version}`;
   logger.log(`Installing ${addonWithVersion}`);
   await packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
 
