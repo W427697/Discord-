@@ -157,9 +157,7 @@ export async function buildDevStandalone(
       );
 
     // eslint-disable-next-line no-console
-    console.log('VVVVVV problems VVVVVV');
     console.log(problems.map((p) => p.stack));
-    console.log('^^^^^^ problems ^^^^^^');
     process.exit(problems.length > 0 ? 1 : 0);
   } else {
     const name =
