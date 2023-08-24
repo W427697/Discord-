@@ -10,6 +10,7 @@ function printError(error: any) {
   npmLog.heading = '';
 
   if (error instanceof Error) {
+    console.log('instanceof Error');
     if ((error as any).error) {
       logger.error((error as any).error);
     } else if ((error as any).stats && (error as any).stats.compilation.errors) {
@@ -18,6 +19,7 @@ function printError(error: any) {
       logger.error(error as any);
     }
   } else if (error.compilation?.errors) {
+    console.log('else');
     error.compilation.errors.forEach((e: any) => logger.plain(e));
   }
 
