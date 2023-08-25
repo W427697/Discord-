@@ -31,8 +31,11 @@ import type { IndexEntry } from './indexer';
 
 export type Addon_Types = Exclude<
   Addon_TypesEnum,
-  Addon_TypesEnum.experimental_PAGE | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
 >;
+
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
 }
@@ -330,7 +333,8 @@ export type Addon_Type =
   | Addon_BaseType
   | Addon_PageType
   | Addon_WrapperType
-  | Addon_SidebarBottomType;
+  | Addon_SidebarBottomType
+  | Addon_SidebarTopType;
 export interface Addon_BaseType {
   /**
    * The title of the addon.
@@ -346,6 +350,7 @@ export interface Addon_BaseType {
     | Addon_TypesEnum.PREVIEW
     | Addon_TypesEnum.experimental_PAGE
     | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+    | Addon_TypesEnum.experimental_SIDEBAR_TOP
   >;
   /**
    * The unique id of the addon.
@@ -471,17 +476,31 @@ export interface Addon_SidebarBottomType {
   render: FCWithoutChildren;
 }
 
+export interface Addon_SidebarTopType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_TOP;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FCWithoutChildren;
+}
+
 type Addon_TypeBaseNames = Exclude<
   Addon_TypesEnum,
   | Addon_TypesEnum.PREVIEW
   | Addon_TypesEnum.experimental_PAGE
   | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
 >;
 
 export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
   [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
   [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
   [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_SidebarBottomType;
+  [Addon_TypesEnum.experimental_SIDEBAR_TOP]: Addon_SidebarTopType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -540,6 +559,11 @@ export enum Addon_TypesEnum {
    * @unstable
    */
   experimental_SIDEBAR_BOTTOM = 'sidebar-bottom',
+  /**
+   * This adds items in the top of the sidebar.
+   * @unstable This will get replaced with a new API in 8.0, use at your own risk.
+   */
+  experimental_SIDEBAR_TOP = 'sidebar-top',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.
