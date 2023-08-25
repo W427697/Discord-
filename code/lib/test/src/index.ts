@@ -10,7 +10,7 @@ export const { fn } = instrument({ fn: spy.fn }, { retain: true });
 export const { expect } = instrument(
   { expect: rawExpect },
   {
-    getKeys: (obj) => {
+    getKeys: (obj: Record<string, unknown>) => {
       const privateApi = ['assert', '__methods', '__flags'];
       if (obj.constructor === chai.Assertion) {
         return Object.keys(Object.getPrototypeOf(obj)).filter((it) => !privateApi.includes(it));
