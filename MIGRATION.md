@@ -1,5 +1,7 @@
 <h1>Migration</h1>
 
+- [From version 7.3.0 to 7.4.0](#from-version-730-to-740)
+    - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
     - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
@@ -302,6 +304,14 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 7.3.0 to 7.4.0
+
+#### CommonJS with Vite is deprecated
+
+Using CommonJS in the `main` configuration with `main.cjs` or `main.cts` is deprecated, and will be removed in Storybook 8.0. This is a necessary change because Vite will remove support for CommonJS in the upcoming v5 release.
+
+Rename your `main` configuration file to `main.js` or `main.ts` and refactor any CommonJS syntax - like `require()` or `module.exports` - to ESM.
+
 ## From version 7.0.0 to 7.2.0
 
 #### Addon API is more type-strict
@@ -311,6 +321,7 @@ When registering an addon using `@storybook/manager-api`, the addon API is now m
 The `type` property is now a required field, and the `id` property should not be set anymore.
 
 Here's a correct example:
+
 ```tsx
 import { addons, types } from '@storybook/manager-api';
 
@@ -318,7 +329,7 @@ addons.register('my-addon', () => {
   addons.add('my-addon/panel', {
     type: types.PANEL,
     title: 'My Addon',
-    render: ({ active }) => active ? <div>Hello World</div> : null,
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
   });
 });
 ```
@@ -869,16 +880,16 @@ Given the following `main.js`:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*']
-}
+  stories: ['../**/*.stories.*'],
+};
 ```
 
 If you want to restore the previous behavior to include `node_modules`, you can update it to:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*']
-}
+  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*'],
+};
 ```
 
 The first glob would have node_modules automatically excluded by Storybook, and the second glob would include all stories that are under a nested `node_modules` directory.

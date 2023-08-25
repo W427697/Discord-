@@ -11,6 +11,7 @@ import {
   loadMainConfig,
   resolveAddonName,
   resolvePathInStorybookCache,
+  serverResolve,
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
@@ -19,6 +20,8 @@ import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
+import { deprecate } from '@storybook/node-logger';
+import dedent from 'ts-dedent';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
@@ -101,6 +104,16 @@ export async function buildDevStandalone(
     getPreviewBuilder(builderName, options.configDir),
     getManagerBuilder(),
   ]);
+
+  if (builderName.includes('builder-vite')) {
+    const mainJsPath = serverResolve(resolve(options.configDir || '.storybook', 'main')) as string;
+    if (/\.c[jt]s$/.test(mainJsPath)) {
+      deprecate(
+        dedent(`Using the .cjs or .cts extension for your main config file is deprecated with Vite.
+                - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#commonjs-with-vite-is-deprecated`)
+      );
+    }
+  }
 
   const resolvedRenderer = renderer && resolveAddonName(options.configDir, renderer, options);
 
