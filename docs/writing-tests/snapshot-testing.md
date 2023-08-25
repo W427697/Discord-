@@ -16,18 +16,16 @@ Follow the [setup instructions](./test-runner#setup) to install and run the test
 
 Then, you can use the [test hook API](./test-runner#test-hook-api-experimental) to snapshot the HTML of each story:
 
-```js
-// .storybook/test-runner.js
+<!-- prettier-ignore-start -->
 
-module.exports = {
-  async postRender(page, context) {
-    // the #storybook-root element wraps each story
-    const elementHandler = await page.$('#storybook-root');
-    const innerHTML = await elementHandler.innerHTML();
-    expect(innerHTML).toMatchSnapshot();
-  },
-};
-```
+<CodeSnippets
+  paths={[
+    'common/test-runner-snapshot.js.mdx',
+    'common/test-runner-snapshot.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 When running in [stories.json mode](./test-runner#storiesjson-mode), tests are generated in a temporary folder and snapshots get stored alongside them. You will need to [`--eject`](./test-runner#configure) and configure a custom [`snapshotResolver`](https://jestjs.io/docs/configuration#snapshotresolver-string) to store them elsewhere, e.g. in your working directory:
 
@@ -45,7 +43,7 @@ module.exports = {
 };
 ```
 
-Finally, you can [set up test runner to run your tests in CI](/test-runner#set-up-ci-to-run-tests).
+Finally, you can [set up test runner to run your tests in CI](./test-runner.md#set-up-ci-to-run-tests).
 
 There are many other configuration options available, such as watch mode and coverage. Please reference the [test runner documentation](./test-runner) for more information.
 
