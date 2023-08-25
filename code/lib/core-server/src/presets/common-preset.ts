@@ -11,13 +11,12 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
-  IndexerOptions,
+  Indexer,
   Options,
   PresetPropertyFn,
   StorybookConfig,
-  StoryIndexer,
 } from '@storybook/types';
-import { loadCsf, printConfig, readConfig } from '@storybook/csf-tools';
+import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
 import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
@@ -26,6 +25,7 @@ import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
+  TELEMETRY_ERROR,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
@@ -195,19 +195,14 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
-    const code = (await readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
-  };
-  return [
-    {
-      test: /(stories|story)\.(m?js|ts)x?$/,
-      indexer: csfIndexer,
-    },
-    ...(indexers || []),
-  ];
+export const csfIndexer: Indexer = {
+  test: /\.(stories|story)\.(m?js|ts)x?$/,
+  index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
+  [csfIndexer].concat(existingIndexers || []);
 
 export const frameworkOptions = async (
   _: never,
@@ -334,6 +329,18 @@ export const experimental_serverChannel = async (
       }
     }
   );
+
+  channel.on(TELEMETRY_ERROR, async (error) => {
+    const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
+
+    if (isTelemetryEnabled) {
+      await sendTelemetryError(error, 'browser', {
+        cliOptions: options,
+        presetOptions: { ...options, corePresets: [], overridePresets: [] },
+        skipPrompt: true,
+      });
+    }
+  });
 
   return channel;
 };
