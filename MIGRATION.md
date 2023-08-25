@@ -308,7 +308,7 @@
 
 #### CommonJS with Vite is deprecated
 
-Using CommonJS in the `main` configuration with `main.cjs` or `main.cts` is deprecated, and will be removed in Storybook 8.0. This is a necessary change because Vite will remove support for CommonJS in the upcoming v5 release.
+Using CommonJS in the `main` configuration with `main.cjs` or `main.cts` is deprecated, and will be removed in Storybook 8.0. This is a necessary change because [Vite will remove support for CommonJS in an upcoming release](https://github.com/vitejs/vite/discussions/13928).
 
 You can address this by converting your `main` configuration file to ESM syntax and renaming it to `main.mjs` or `main.mts` if your project does not have `"type": "module"` in its `package.json`. To convert the config file to ESM you will need to replace any CommonJS syntax like `require()`, `module.exports`, or `__dirname`. If you haven't already, you may also consider adding `"type": "module"` to your package.json and converting your project to ESM.
 
