@@ -23,7 +23,13 @@ export interface SubAPI {
    * @param {Addon_Types | Addon_TypesEnum.experimental_PAGE} type - The type of the elements to retrieve.
    * @returns {API_Collection<T>} - A collection of elements of the specified type.
    */
-  getElements: <T extends Addon_Types | Addon_TypesEnum.experimental_PAGE = Addon_Types>(
+  getElements: <
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP = Addon_Types
+  >(
     type: T
   ) => Addon_Collection<Addon_TypesMapping[T]>;
   /**

@@ -151,7 +151,7 @@ export async function withTelemetry<T>(
 
   try {
     return await run();
-  } catch (error) {
+  } catch (error: any) {
     if (canceled) {
       return undefined;
     }
