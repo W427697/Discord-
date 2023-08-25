@@ -1,32 +1,22 @@
-/* eslint-disable import/no-extraneous-dependencies,import/no-named-default */
-import { default as expectPatched } from '@storybook/expect';
 import { instrument } from '@storybook/instrumenter';
-import * as matchers from '@testing-library/jest-dom/matchers';
-import * as _mock from '@vitest/spy';
-export type * from '@vitest/spy';
+import * as spy from '@vitest/spy';
+import chai from 'chai';
+import { expect as rawExpect } from './expect';
 
-export const { mock } = instrument({ mock: _mock }, { retain: true });
+export * from '@vitest/spy';
 
-/**
- * The `expect` function is used every time you want to test a value.
- * You will rarely call `expect` by itself.
- */
-export interface Expect extends Pick<jest.Expect, keyof jest.Expect> {
-  /**
-   * The `expect` function is used every time you want to test a value.
-   * You will rarely call `expect` by itself.
-   *
-   * @param actual The value to apply matchers against.
-   */
-  <T = any>(actual: T): jest.JestMatchersShape<
-    jest.Matchers<Promise<void>, T>,
-    jest.Matchers<Promise<void>, T>
-  >;
-}
+export const { fn } = instrument({ fn: spy.fn }, { retain: true });
 
-expectPatched.extend(matchers);
-
-export const expect: Expect = instrument(
-  { expect: expectPatched },
-  { intercept: (_method, path) => path[0] !== 'expect' }
-).expect as unknown as Expect;
+export const { expect } = instrument(
+  { expect: rawExpect },
+  {
+    getKeys: (obj) => {
+      const privateApi = ['assert', '__methods', '__flags'];
+      if (obj.constructor === chai.Assertion) {
+        return Object.keys(Object.getPrototypeOf(obj)).filter((it) => !privateApi.includes(it));
+      }
+      return Object.keys(obj);
+    },
+    intercept: true,
+  }
+);

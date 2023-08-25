@@ -90,4 +90,5 @@ export interface Options {
   mutate?: boolean;
   path?: Array<string | CallRef>;
   getArgs?: (call: Call, state: State) => Call['args'];
+  getKeys?: (originalObject: Record<string, unknown>) => string[];
 }
