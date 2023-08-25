@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-logger",
-  "version": "7.1.0-alpha.41",
+  "version": "7.4.0-alpha.1",
   "description": "",
   "keywords": [
     "storybook"
@@ -36,10 +36,11 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {

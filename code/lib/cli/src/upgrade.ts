@@ -29,6 +29,8 @@ const excludeList = [
   '@storybook/addon-bench',
   '@storybook/addon-console',
   '@storybook/addon-postcss',
+  '@storybook/addon-styling',
+  '@storybook/addon-styling-webpack',
   '@storybook/babel-plugin-require-context-hook',
   '@storybook/bench',
   '@storybook/builder-vite',

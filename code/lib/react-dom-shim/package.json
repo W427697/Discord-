@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-dom-shim",
-  "version": "7.1.0-alpha.41",
+  "version": "7.4.0-alpha.1",
   "description": "",
   "keywords": [
     "storybook"
@@ -46,14 +46,15 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@storybook/types": "7.1.0-alpha.41",
+    "@storybook/types": "workspace:*",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {

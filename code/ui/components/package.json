@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.1.0-alpha.41",
+  "version": "7.4.0-alpha.1",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -37,28 +37,42 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "html": [
+        "dist/html.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.41",
+    "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-toolbar": "^1.0.4",
+    "@storybook/client-logger": "workspace:*",
     "@storybook/csf": "^0.1.0",
     "@storybook/global": "^5.0.0",
-    "@storybook/theming": "7.1.0-alpha.41",
-    "@storybook/types": "7.1.0-alpha.41",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "memoizerific": "^1.11.3",
     "use-resize-observer": "^9.1.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@popperjs/core": "^2.6.0",
+    "@storybook/icons": "^1.1.6",
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",

@@ -12,7 +12,7 @@ test.describe('Next.js', () => {
   // and this only tests nextjs/default-js
   test.skip(
     // eslint-disable-next-line jest/valid-title
-    !templateName.includes('nextjs/default-js'),
+    !templateName?.includes('nextjs/default-js'),
     'Only run this test for the Frameworks that support next/navigation'
   );
 

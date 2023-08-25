@@ -2,7 +2,7 @@
 import { global } from '@storybook/global';
 import { FORCE_REMOUNT, PREVIEW_KEYDOWN } from '@storybook/core-events';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 import type { KeyboardEventLike } from '../lib/shortcut';
 import { shortcutMatchesShortcut, eventToShortcut } from '../lib/shortcut';
@@ -152,7 +152,7 @@ function focusInInput(event: KeyboardEvent) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-export const init: ModuleFn = ({ store, fullAPI }) => {
+export const init: ModuleFn = ({ store, fullAPI, provider }) => {
   const api: SubAPI = {
     // Getting and setting shortcuts
     getShortcutKeys(): API_Shortcuts {
@@ -397,13 +397,13 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
     // Listen for keydown events in the manager
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (!focusInInput(event)) {
-        fullAPI.handleKeydownEvent(event);
+        api.handleKeydownEvent(event);
       }
     });
 
     // Also listen to keydown events sent over the channel
-    fullAPI.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
-      fullAPI.handleKeydownEvent(data.event);
+    provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
+      api.handleKeydownEvent(data.event);
     });
   };
 
