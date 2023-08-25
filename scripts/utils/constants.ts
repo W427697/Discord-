@@ -3,7 +3,9 @@ import { join } from 'path';
 export const AFTER_DIR_NAME = 'after-storybook';
 export const BEFORE_DIR_NAME = 'before-storybook';
 
+export const ROOT_DIRECTORY = join(__dirname, '..', '..');
 export const CODE_DIRECTORY = join(__dirname, '..', '..', 'code');
+export const PACKS_DIRECTORY = join(__dirname, '..', '..', 'packs');
 export const REPROS_DIRECTORY = join(__dirname, '..', '..', 'repros');
 export const SANDBOX_DIRECTORY = join(__dirname, '..', '..', 'sandbox');
 export const JUNIT_DIRECTORY = join(__dirname, '..', '..', 'test-results');
