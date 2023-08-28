@@ -8,6 +8,8 @@ import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-sto
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
 import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
 import type { StoryIndex } from './indexer';
+import React from 'react';
+
 
 type OrString<T extends string> = T | (string & {});
 
