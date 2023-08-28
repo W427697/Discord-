@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -35,8 +35,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-toolbars",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Create your own toolbar items that control story rendering",
   "keywords": [
     "addon",
@@ -61,8 +61,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

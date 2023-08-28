@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-themes",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Switch between multiple themes for you components in Storybook",
   "keywords": [
     "css",
@@ -65,8 +65,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

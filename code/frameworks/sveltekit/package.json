@@ -1,6 +1,6 @@
 {
   "name": "@storybook/sveltekit",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Storybook for SvelteKit",
   "keywords": [
     "storybook",
@@ -40,10 +40,10 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

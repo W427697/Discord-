@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Storybook web-components renderer",
   "keywords": [
     "lit",
@@ -41,11 +41,10 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/cli/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

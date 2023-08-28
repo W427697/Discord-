@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "",
   "keywords": [
     "storybook"
@@ -48,8 +48,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -59,7 +58,6 @@
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
     "typescript": "~4.9.3"
   },

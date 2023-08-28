@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -90,8 +90,7 @@
     "lit/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

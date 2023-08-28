@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Core Storybook Manager API & Context",
   "keywords": [
     "storybook"
@@ -35,8 +35,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -56,7 +55,7 @@
     "memoizerific": "^1.11.3",
     "semver": "^7.3.7",
     "store2": "^2.14.2",
-    "telejson": "^7.2.0",
+    "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

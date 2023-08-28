@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-links",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
@@ -73,8 +73,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

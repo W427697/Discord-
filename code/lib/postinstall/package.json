@@ -1,6 +1,6 @@
 {
   "name": "@storybook/postinstall",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Storybook addons postinstall utilities",
   "keywords": [
     "api",
@@ -37,8 +37,7 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

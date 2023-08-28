@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.4.0-alpha.1",
+  "version": "7.3.2",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -42,11 +42,10 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/cli/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
