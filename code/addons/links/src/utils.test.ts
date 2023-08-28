@@ -45,6 +45,7 @@ describe('preview', () => {
       handler();
 
       expect(channel.emit).toHaveBeenCalledWith(SELECT_STORY, {
+        kind: 'title',
         story: 'name',
       });
     });
