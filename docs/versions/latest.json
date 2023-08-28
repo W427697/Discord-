@@ -1,1 +1,1 @@
-{"version":"7.3.2","info":{"plain":"- Maintenance: Revert \"WebpackBuilder: Remove need for `react` as peerDependency\" - [#23882](https://github.com/storybookjs/storybook/pull/23882), thanks [@vanessayuenn](https://github.com/vanessayuenn)!"}}
+{"version":"7.3.0","info":{"plain":"- Core: Improve `composeStories` typings - [#23577](https://github.com/storybookjs/storybook/pull/23577), thanks [@yannbf](https://github.com/yannbf)!"}}
