@@ -130,7 +130,7 @@ describe('StoryIndexGenerator', () => {
       });
     });
     describe('no prefix stories specifier', () => {
-      it.only('extracts stories from the right files', async () => {
+      it('extracts stories from the right files', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/stories.ts',
           options
