@@ -34,7 +34,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare-prerelease-pull-request:
+  prepare-next-pull-request:
     name: Prepare prerelease pull request
     runs-on: ubuntu-latest
     environment: release

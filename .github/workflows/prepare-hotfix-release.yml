@@ -16,8 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare-patch-pull-request:
-    name: Prepare patch pull request
+  prepare-hotfix-pull-request:
+    name: Prepare hotfix pull request
     runs-on: ubuntu-latest
     environment: release
     defaults:
