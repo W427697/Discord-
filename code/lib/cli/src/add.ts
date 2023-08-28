@@ -1,5 +1,6 @@
 import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
+import SemVer from 'semver';
 
 import {
   JsPackageManagerFactory,
@@ -10,7 +11,11 @@ import { getStorybookVersion } from './utils';
 
 const logger = console;
 
-const postinstallAddon = async (addonName: string) => {
+interface PostinstallOptions {
+  packageManager: PackageManagerName;
+}
+
+const postinstallAddon = async (addonName: string, options: PostinstallOptions) => {
   try {
     const modulePath = require.resolve(`${addonName}/postinstall`, { paths: [process.cwd()] });
     // eslint-disable-next-line import/no-dynamic-require, global-require
@@ -18,7 +23,7 @@ const postinstallAddon = async (addonName: string) => {
 
     try {
       logger.log(`Running postinstall script for ${addonName}`);
-      await postinstall();
+      await postinstall(options);
     } catch (e) {
       logger.error(`Error running postinstall script for ${addonName}`);
       logger.error(e);
@@ -73,7 +78,9 @@ export async function add(
   const isStorybookAddon = addonName.startsWith('@storybook/');
   const storybookVersion = await getStorybookVersion(packageManager);
   const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
-  const addonWithVersion = `${addonName}@^${version}`;
+  const addonWithVersion = SemVer.valid(version)
+    ? `${addonName}@^${version}`
+    : `${addonName}@${version}`;
   logger.log(`Installing ${addonWithVersion}`);
   await packageManager.addDependencies({ installAsDevDependencies: true }, [addonWithVersion]);
 
@@ -83,6 +90,6 @@ export async function add(
   await writeConfig(main);
 
   if (!options.skipPostinstall && isStorybookAddon) {
-    await postinstallAddon(addonName);
+    await postinstallAddon(addonName, { packageManager: pkgMgr });
   }
 }
