@@ -41,11 +41,11 @@ describe('preview', () => {
 
     it('should select the story (only) provided', () => {
       // simulate a currently selected, but not found as ID
-      const handler = linkTo('title', 'name');
+      // @ts-expect-error (not strict)
+      const handler = linkTo(undefined, 'name');
       handler();
 
       expect(channel.emit).toHaveBeenCalledWith(SELECT_STORY, {
-        kind: 'title',
         story: 'name',
       });
     });
