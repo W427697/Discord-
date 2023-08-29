@@ -19,9 +19,9 @@ Run the following command to install it.
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-install.yarn.js.mdx',
-    'common/storybook-test-runner-install.npm.js.mdx',
-    'common/storybook-test-runner-install.pnpm.js.mdx',
+    'common/test-runner-install.yarn.js.mdx',
+    'common/test-runner-install.npm.js.mdx',
+    'common/test-runner-install.pnpm.js.mdx',
   ]}
 />
 
@@ -62,9 +62,9 @@ Finally, open a new terminal window and run the test-runner with:
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-execute.yarn.js.mdx',
-    'common/storybook-test-runner-execute.npm.js.mdx',
-    'common/storybook-test-runner-execute.pnpm.js.mdx',
+    'common/test-runner-execute.yarn.js.mdx',
+    'common/test-runner-execute.npm.js.mdx',
+    'common/test-runner-execute.pnpm.js.mdx',
   ]}
 />
 
@@ -104,14 +104,13 @@ If you're already using any of those flags in your project, you should be able t
 | `--shard [index/count]`         | Requires CI. Splits the test suite execution into multiple machines <br/> `test-storybook --shard=1/8`                                                                        |
 | `--failOnConsole`               | Makes tests fail on browser console errors<br/>`test-storybook --failOnConsole`                                                                                               |
 
-
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-execute-with-flags.yarn.js.mdx',
-    'common/storybook-test-runner-execute-with-flags.npm.js.mdx',
-    'common/storybook-test-runner-execute-with-flags.pnpm.js.mdx',
+    'common/test-runner-execute-with-flags.yarn.js.mdx',
+    'common/test-runner-execute-with-flags.npm.js.mdx',
+    'common/test-runner-execute-with-flags.pnpm.js.mdx',
   ]}
 />
 
@@ -125,10 +124,10 @@ By default, the test-runner assumes that you're running it against a locally ser
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-execute-with-url.yarn.js.mdx',
-    'common/storybook-test-runner-execute-with-url.npm.js.mdx',
-    'common/storybook-test-runner-execute-with-url.pnpm.js.mdx',
-    'common/storybook-test-runner-execute-with-url.env-var.js.mdx',
+    'common/test-runner-execute-with-url.yarn.js.mdx',
+    'common/test-runner-execute-with-url.npm.js.mdx',
+    'common/test-runner-execute-with-url.pnpm.js.mdx',
+    'common/test-runner-execute-with-url.env-var.js.mdx',
   ]}
 />
 
@@ -146,7 +145,7 @@ If you're publishing your Storybook with services such as [Vercel](https://verce
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-with-deploy-event-workflow.yml.mdx',
+    'common/test-runner-with-deploy-event-workflow.yml.mdx',
   ]}
 />
 
@@ -166,7 +165,7 @@ You can use your CI provider (for example, [GitHub Actions](https://github.com/f
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-local-build-workflow.yml.mdx',
+    'common/test-runner-local-build-workflow.yml.mdx',
   ]}
 />
 
@@ -217,8 +216,8 @@ To enable the hooks API, you'll need to add a new configuration file inside your
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-hooks-example.js.mdx',
-    'common/storybook-test-runner-hooks-example.ts.mdx',
+    'common/test-runner-hooks-example.js.mdx',
+    'common/test-runner-hooks-example.ts.mdx',
   ]}
 />
 
@@ -247,8 +246,8 @@ The test-runner exports a few helpers that can be used to make your tests more r
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-helper-function.js.mdx',
-    'common/storybook-test-runner-helper-function.ts.mdx',
+    'common/test-runner-helper-function.js.mdx',
+    'common/test-runner-helper-function.ts.mdx',
   ]}
 />
 
