@@ -1,3 +1,14 @@
+## 7.4.0
+
+- CLI: Improve autotitle stories format handling in GFM automigration - [#23964](https://github.com/storybookjs/storybook/pull/23964), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Install latest version of non-core addon - [#23956](https://github.com/storybookjs/storybook/pull/23956), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- CLI: Set server init generator to use Webpack5 - [#23971](https://github.com/storybookjs/storybook/pull/23971), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Fix indexing for non-prefixed `stories.*` stories - [#23974](https://github.com/storybookjs/storybook/pull/23974), thanks [@shilman](https://github.com/shilman)!
+- Core: Throw an error when detecting empty stories field - [#23942](https://github.com/storybookjs/storybook/pull/23942), thanks [@yannbf](https://github.com/yannbf)!
+- Dependencies: Upgrade `escodegen` to fix security issue - [#23973](https://github.com/storybookjs/storybook/pull/23973), thanks [@shilman](https://github.com/shilman)!
+- Shortcuts: Execute preventDefault only if keyboard shortcuts are enabled - [#23412](https://github.com/storybookjs/storybook/pull/23412), thanks [@Spielboerg](https://github.com/Spielboerg)!
+- Types: Fix `React.ReactElement` not found - [#23967](https://github.com/storybookjs/storybook/pull/23967), thanks [@abu-osos](https://github.com/abu-osos)!
+
 ## 7.3.2
 
 - Maintenance: Revert "WebpackBuilder: Remove need for `react` as peerDependency" - [#23882](https://github.com/storybookjs/storybook/pull/23882), thanks [@vanessayuenn](https://github.com/vanessayuenn)!
