@@ -22,6 +22,7 @@ import { telemetry } from '@storybook/telemetry';
 import { join, resolve } from 'path';
 import { deprecate } from '@storybook/node-logger';
 import dedent from 'ts-dedent';
+import { readFile } from 'fs-extra';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
@@ -106,12 +107,20 @@ export async function buildDevStandalone(
   ]);
 
   if (builderName.includes('builder-vite')) {
+    const deprecationMessage =
+      dedent(`Using CommonJS in your main configuration file is deprecated with Vite.
+              - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#commonjs-with-vite-is-deprecated`);
+
     const mainJsPath = serverResolve(resolve(options.configDir || '.storybook', 'main')) as string;
     if (/\.c[jt]s$/.test(mainJsPath)) {
-      deprecate(
-        dedent(`Using CommonJS in your main configuration file is deprecated with Vite."
-                - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#commonjs-with-vite-is-deprecated`)
-      );
+      deprecate(deprecationMessage);
+    }
+    const mainJsContent = await readFile(mainJsPath, 'utf-8');
+    // Regex that matches any CommonJS-specific syntax, stolen from Vite: https://github.com/vitejs/vite/blob/91a18c2f7da796ff8217417a4bf189ddda719895/packages/vite/src/node/ssr/ssrExternal.ts#L87
+    const CJS_CONTENT_REGEX =
+      /\bmodule\.exports\b|\bexports[.[]|\brequire\s*\(|\bObject\.(?:defineProperty|defineProperties|assign)\s*\(\s*exports\b/;
+    if (CJS_CONTENT_REGEX.test(mainJsContent)) {
+      deprecate(deprecationMessage);
     }
   }
 
