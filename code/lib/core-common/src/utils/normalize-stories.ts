@@ -4,11 +4,12 @@ import * as pico from 'picomatch';
 import slash from 'slash';
 
 import type { StoriesEntry, NormalizedStoriesSpecifier } from '@storybook/types';
+import { InvalidStoriesEntryError } from '@storybook/core-events/server-errors';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
 const DEFAULT_TITLE_PREFIX = '';
-const DEFAULT_FILES = '**/*.@(mdx|stories.@(tsx|ts|jsx|js))';
+const DEFAULT_FILES = '**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))';
 
 const isDirectory = (configDir: string, entry: string) => {
   try {
@@ -100,5 +101,10 @@ interface NormalizeOptions {
   workingDir: string;
 }
 
-export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) =>
-  entries.map((entry) => normalizeStoriesEntry(entry, options));
+export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) => {
+  if (!entries || (Array.isArray(entries) && entries.length === 0)) {
+    throw new InvalidStoriesEntryError();
+  }
+
+  return entries.map((entry) => normalizeStoriesEntry(entry, options));
+};

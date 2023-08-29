@@ -75,14 +75,16 @@ import { IconItem } from '@storybook/blocks';
 
 `IconItem` is configured with the following props:
 
+### `name`
+
+(**Required**)
+
+Type: `string`
+
+Sets the name of the icon.
+
 ### `children`
 
 Type: `React.ReactNode`
 
 Provides the icon to be displayed.
-
-### `name` (required)
-
-Type: `string`
-
-Sets the name of the icon.
