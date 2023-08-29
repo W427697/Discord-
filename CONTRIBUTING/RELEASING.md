@@ -45,8 +45,8 @@
 
 This document explains the release process for the Storybook monorepo. There are two types:
 
-1. Prereleases and major/minor releases - releasing any content that is on the `next` branch
-2. Patch releases - picking any content from `next` to `main`, that needs to be patched back to the current stable minor release
+1. `next`-releases - releasing any content that is on the `next` branch, either prereleases or stable releases
+2. Hotfix releases - picking any content from `next` to `main`, that needs to be patched back to the current stable minor release
 
 The release process is based on automatically created "Release Pull Requests", that when merged will trigger a new version to be released.
 
@@ -57,7 +57,7 @@ A designated Releaser -- which may rotate between core team members -- will go t
 - [Publish](../.github/workflows/publish.yml)
 
 > **Note**
-> This document distinguishes between **patch** releases and **prereleases**. This is a simplification; stable major and minor releases work the same way as prereleases. The distinction reflects the difference between patching an existing minor version on `main` or releasing a new minor/major/prerelease from `next`.
+> This document distinguishes between **`next`-releases** and **hotfix** releases. The distinction reflects the difference between patching an existing minor version on `main` or releasing a new minor/major/prerelease from `next`.
 
 ### Branches
 
@@ -103,7 +103,7 @@ Two GitHub Actions workflows automatically create release pull requests, one for
 The high-level flow is:
 
 1. When a PR is merged to `next` (or a commit is pushed), both release pull requests are (re)generated.
-2. They create a new branch - `version-(patch|prerelease)-from-<CURRENT-VERSION>`.
+2. They create a new branch - `version-(hotfix|next)-from-<CURRENT-VERSION>`.
 3. They calculate which version to bump to according to the version strategy.
 4. They update `CHANGELOG(.prerelease).md` with all changes detected.
 5. They commit everything.
@@ -126,7 +126,7 @@ A few key points to note in this flow:
 
 The default versioning strategy is to increase the current prerelease number, as described in [Prereleases - `7.1.0-alpha.12` -> `7.1.0-alpha.13`](#prereleases---710-alpha12---710-alpha13). If there is no prerelease number (i.e., we just released a new stable minor/major version), it will add one to a patch bump, so it would go from `7.2.0` to `7.2.1-0` by default.
 
-Prerelease PRs are only created if there are actual changes to release. Content labeled with "build" or "documentation" is [not considered "releasable"](#which-changes-are-considered-releasable-and-what-does-it-mean) and is not user-facing, so it doesn't make sense to create a release. This is explained in more detail in [Why are no release PRs being prepared?](#why-are-no-release-prs-being-prepared).
+`next`-PRs are only created if there are actual changes to release. Content labeled with "build" or "documentation" is [not considered "releasable"](#which-changes-are-considered-releasable-and-what-does-it-mean) and is not user-facing, so it doesn't make sense to create a release. This is explained in more detail in [Why are no release PRs being prepared?](#why-are-no-release-prs-being-prepared).
 
 The preparation workflow will create a new branch from `next`, called `version-next-from-<CURRENT-NEXT-VERSION>`, and open a pull request targeting `next-release`. When the Releaser merges it, the [publish workflow](#publishing) will merge `next-release` into `next`.
 
@@ -245,9 +245,9 @@ The high-level workflow for a Releaser is:
 
 Look for the release pull request that has been prepared for the type of release you're about to release:
 
-- "Release: Prerelease `<NEXT-VERSION>`" for prereleases
-- "Release: Patch `<NEXT-VERSION>`" for patch releases
-- "Release: Merge patches to `main` (without version bump)" for patches without releases
+- "Release: Prerelease|Minor|Major `<NEXT-VERSION>`" for releases from `next`
+- "Release: Hotfix `<NEXT-VERSION>`" for hotfix releases
+- "Release: Merge patches to `main` (without version bump)" for hotfixes without releases
 
 For example: https://github.com/storybookjs/storybook/pull/23148
 
@@ -267,7 +267,7 @@ It is important to verify that the release includes the right content. Key eleme
 
 For example, check if it's a breaking change that isn't allowed in a minor prerelease, or if it's a new feature in a patch release. If it's not suitable, revert the pull request and notify the author.
 
-Sometimes when doing a patch release, a pull request can have the "patch" label but you don't want that change to be part of this release. Maybe you're not confident in the change, or you require more input from maintainers before releasing it. In those situations you should remove the "patch" label from the pull request and follow through with the release (make sure to re-trigger the workflow). When the release is done, add the patch label back again, so it will be part of the next release.
+Sometimes when doing a patch release, a pull request can have the "patch:yes" label but you don't want that change to be part of this release. Maybe you're not confident in the change, or you require more input from maintainers before releasing it. In those situations you should remove the "patch:yes" label from the pull request and follow through with the release (make sure to re-trigger the workflow). When the release is done, add the "patch:yes" label back again, so it will be part of the next release.
 
 2. Is the pull request title correct?
 
@@ -280,9 +280,9 @@ If a pull request changes multiple places, it can be hard to choose an area - th
 
 Some labels have specific meanings when it comes to releases. It's important that each pull request has labels that accurately describe the change, as labels can determine if a pull request is included in the changelog or not. This is explained further in the [Which changes are considered "releasable", and what does it mean?](#which-changes-are-considered-releasable-and-what-does-it-mean) section.
 
-4. Patches: has it already been released in a prerelease?
+4. Hotfixes: has it already been released in a prerelease?
 
-If this is a patch release, make sure that all pull requests have already been released in a prerelease. If some haven't, create a new prerelease first.
+If this is a hotfix release, make sure that all pull requests have already been released in a prerelease. If some haven't, create a new prerelease first.
 
 This is not a technical requirement, but it's a good practice to ensure that a change doesn't break a prerelease before releasing it to stable.
 
@@ -301,12 +301,12 @@ When triggering the workflows, always choose the `next` branch as the base, unle
 
 The workflows can be triggered here:
 
-- [Prepare prerelease PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-next-release.yml)
-- [Prepare patch PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-hotfix-release.yml)
+- [Prepare next PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-next-release.yml)
+- [Prepare hotfix PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-hotfix-release.yml)
 
 Crucially for prereleases, this is also where you change the versioning strategy if you need something else than the default as described in [Preparing - `next`-releases](#next-releases). When triggering the prerelease workflow manually, you can optionally add inputs:
 
-![Screenshot of triggering the prerelease workflow in GitHub Actions, with a form that shows a release type selector and a prerelease identifier text field](prerelease-workflow-inputs.png)
+![Screenshot of triggering the next-release workflow in GitHub Actions, with a form that shows a release type selector and a prerelease identifier text field](prerelease-workflow-inputs.png)
 
 See [Versioning Scenarios](#versioning-scenarios) for a description of each version bump scenario, how to activate it and what it does, and [Which combination of inputs creates the version bump I need?](#which-combination-of-inputs-creates-the-version-bump-i-need) for a detailed description of the workflow inputs.
 
@@ -340,11 +340,11 @@ You can inspect the workflows to see what they are running and copy that, but he
 
 Before you start you should make sure that your working tree is clean and the repository is in a clean state by running `git clean -xdf`.
 
-1. Create a new branch from either `next` (prereleases) or `main` (patches)
+1. Create a new branch from either `next` or `main` (hotfixes)
 2. Get all tags: `git fetch --tags origin`
 3. Install dependencies: `yarn task --task=install --start-from=install`
 4. `cd scripts`
-5. (If patch release) Cherry pick:
+5. (If hotfix release) Cherry pick:
    1. `yarn release:pick-patches`
    2. Manually cherry pick any necessary patches based on the previous output
 6. Bump versions:
@@ -362,21 +362,21 @@ Before you start you should make sure that your working tree is clean and the re
 12. (If automatic publishing is still working, it should kick in now and the rest of the steps can be skipped)
 13. `cd ..`
 14. Publish to the registry: `YARN_NPM_AUTH_TOKEN=<NPM_TOKEN> yarn release:publish --tag <"next" OR "latest"> --verbose`
-15. (If patch release) `yarn release:label-patches`
+15. (If hotfix release) `yarn release:label-patches`
 16. Manually create a GitHub Release with a tag that is the new version and the target being `latest-release` or `next-release`.
 17. Merge to core branch:
     1. `git checkout <"next"|"main">`
     2. `git pull`
     3. `git merge <"next-release"|"latest-release">`
     4. `git push origin`
-18. (If patch release) Sync `CHANGELOG.md` to `next` with:
+18. (If hotfix release) Sync `CHANGELOG.md` to `next` with:
     1. `git checkout next`
     2. `git pull`
     3. `git checkout origin/main ./CHANGELOG.md`
     4. `git add ./CHANGELOG.md`
     5. `git commit -m "Update CHANGELOG.md for v<NEXT_VERSION>"`
     6. `git push origin`
-19. (If prerelease) Sync `versions/next.json` from `next` to `main`
+19. (If `next`-release) Sync `versions/next.json` from `next` to `main`
     1. `git checkout main`
     2. `git pull`
     3. `git checkout origin/next ./docs/versions/next.json`
@@ -448,10 +448,8 @@ To promote a prerelease to a new prerelease ID, during the [Re-trigger the Workf
 
 To promote a prerelease to a stable reelase, during the [Re-trigger the Workflow](#4-re-trigger-the-workflow) step, choose:
 
-- Release type: Patch
+- Release type: Patch, Minor or Major
 - Prerelease ID: Leave empty
-
-The "Patch" release type ensures the current prerelease version gets promoted to a stable version without any major/minor/patch bumps.
 
 This scenario is special as it will target `latest-release` instead of `next-release`, and thus merge into `main` when done, and not `next`. So it goes `next` -> `version-from-<CURRENT-VERSION-ON_NEXT` -> `latest-release` -> `main`. When this is done, the Releaser will need to trigger a new release on `next` that bumps the version to a new prerelease minor as described [just below](#first-prerelease-of-new-majorminor---710---720-alpha0-or-800-alpha0).
 

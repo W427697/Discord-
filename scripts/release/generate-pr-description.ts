@@ -18,7 +18,7 @@ program
     'Which version to generate changelog from, eg. "7.0.7". Defaults to the version at code/package.json'
   )
   .option('-N, --next-version <version>', 'Which version to generate changelog to, eg. "7.0.8"')
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option(
     '-M, --manual-cherry-picks <commits>',
     'A stringified JSON array of commit hashes, of patch PRs that needs to be cherry-picked manually'

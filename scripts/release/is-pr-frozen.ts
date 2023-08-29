@@ -12,7 +12,7 @@ program
   .description(
     'returns true if the versioning pull request associated with the current branch has the "freeze" label'
   )
-  .option('-P, --patch', 'Look for hotfix PR instead of next PR', false)
+  .option('-H, --hotfix', 'Look for hotfix PR instead of next PR', false)
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
