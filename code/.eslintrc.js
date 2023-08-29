@@ -9,6 +9,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  plugins: ['local-rules'],
   rules: {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
@@ -69,7 +70,15 @@ module.exports = {
     },
     {
       // these packages use pre-bundling, dependencies will be bundled, and will be in devDepenencies
-      files: ['addons/**/*', 'frameworks/**/*', 'lib/**/*', 'renderers/**/*', 'ui/**/*'],
+      files: [
+        'addons/**/*',
+        'frameworks/**/*',
+        'lib/**/*',
+        'builders/**/*',
+        'deprecated/**/*',
+        'renderers/**/*',
+        'ui/**/*',
+      ],
       excludedFiles: ['frameworks/angular/**/*', 'frameworks/ember/**/*', 'lib/core-server/**/*'],
       rules: {
         'import/no-extraneous-dependencies': [
@@ -156,6 +165,19 @@ module.exports = {
       files: ['**/template/cli/**/*'],
       rules: {
         'import/no-unresolved': 'off',
+      },
+    },
+    {
+      files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      rules: {
+        'local-rules/no-uncategorized-errors': 'warn',
+      },
+    },
+    {
+      files: ['**/core-events/src/**/*'],
+      excludedFiles: ['**/*.test.*'],
+      rules: {
+        'local-rules/no-duplicated-error-codes': 'error',
       },
     },
   ],

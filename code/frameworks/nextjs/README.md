@@ -28,7 +28,7 @@
     - [Set `nextjs.appDirectory` to `true`](#set-nextjsappdirectory-to-true)
     - [Overriding defaults](#overriding-defaults-1)
     - [Global Defaults](#global-defaults-1)
-    - [`useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook](#useselectedlayoutsegment-and-useselectedlayoutsegments-hook)
+    - [`useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hook](#useselectedlayoutsegment-useselectedlayoutsegments-and-useparams-hook)
     - [Default Navigation Context](#default-navigation-context)
     - [Actions Integration Caveats](#actions-integration-caveats-1)
   - [Next.js Head](#nextjs-head)
@@ -44,7 +44,7 @@
   - [FAQ](#faq)
     - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
-    - [Module not found: Error: Can't resolve \[package name\]](#module-not-found-error-cant-resolve-package-name)
+    - [Module not found: Error: Can't resolve `package name`](#module-not-found-error-cant-resolve-package-name)
     - [What if I'm using the Vite builder?](#what-if-im-using-the-vite-builder)
 - [Acknowledgements](#acknowledgements)
 
@@ -503,9 +503,9 @@ export const parameters = {
 };
 ```
 
-#### `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook
+#### `useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hook
 
-The `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hooks are supported in Storybook. You have to set the `nextjs.navigation.segments` parameter to return the segments you want to use.
+The `useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hooks are supported in Storybook. You have to set the `nextjs.navigation.segments` parameter to return the segments or the params you want to use.
 
 ```js
 // SomeComponentThatUsesTheNavigation.stories.js
@@ -526,11 +526,46 @@ export default {
 export const Example = {};
 
 // SomeComponentThatUsesTheNavigation.js
-import { useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation';
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
 
 export default function SomeComponentThatUsesTheNavigation() {
   const segment = useSelectedLayoutSegment(); // dashboard
   const segments = useSelectedLayoutSegments(); // ["dashboard", "analytics"]
+  const params = useParams(); // {}
+  ...
+}
+```
+
+To use `useParams`, you have to use a two string elements array for a segment, the first array element is the param key and the second array element is the param value.
+
+```js
+// SomeComponentThatUsesParams.stories.js
+import SomeComponentThatUsesParams from './SomeComponentThatUsesParams';
+
+export default {
+  component: SomeComponentThatUsesParams,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: [
+          ['slug', 'hello'],
+          ['framework', 'nextjs'],
+        ]
+      },
+    },
+  },
+};
+
+export const Example = {};
+
+// SomeComponentThatUsesParams.js
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
+
+export default function SomeComponentThatUsesParams() {
+  const segment = useSelectedLayoutSegment(); // hello
+  const segments = useSelectedLayoutSegments(); // ["hello", "nextjs"]
+  const params = useParams(); // { slug: "hello", framework: "nextjs" }
   ...
 }
 ```
@@ -792,10 +827,15 @@ Below is an example of how to add svgr support to Storybook with this framework.
 export default {
   // ...
   webpackFinal: async (config) => {
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+
     // This modifies the existing image rule to exclude .svg files
     // since you want to handle those files with @svgr/webpack
-    const imageRule = config.module.rules.find((rule) => rule.test.test('.svg'));
-    imageRule.exclude = /\.svg$/;
+    const imageRule = config.module.rules.find((rule) => rule?.['test']?.test('.svg'));
+    if (imageRule) {
+      imageRule['exclude'] = /\.svg$/;
+    }
 
     // Configure .svg files to be loaded with @svgr/webpack
     config.module.rules.push({
@@ -930,7 +970,7 @@ Therefore, if something in storybook isn't showing the image properly, make sure
 
 See [local images](https://nextjs.org/docs/basic-features/image-optimization#local-images) for more detail on how Next.js treats static image imports.
 
-#### Module not found: Error: Can't resolve [package name]
+#### Module not found: Error: Can't resolve `package name`
 
 You might get this if you're using Yarn v2 or v3. See [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users) for more details.
 
