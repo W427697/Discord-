@@ -49,3 +49,6 @@ code/test-results/
 code/playwright-results/
 code/playwright-report/
 code/playwright/.cache/
+code/bench-results/
+
+/packs

@@ -1,9 +1,7 @@
 import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
-import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
-
 import { logger } from '@storybook/node-logger';
 import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type {
@@ -22,6 +20,7 @@ import {
   normalizeStories,
   resolveAddonName,
 } from '@storybook/core-common';
+import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 
 import isEqual from 'lodash/isEqual.js';
 import { outputStats } from './utils/output-stats';
@@ -85,34 +84,43 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...corePresets,
     ],
-    overridePresets: [],
+    overridePresets: [
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
   const { renderer } = await presets.apply<CoreConfig>('core', {});
-
+  const resolvedRenderer = renderer
+    ? resolveAddonName(options.configDir, renderer, options)
+    : undefined;
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
-      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
+      ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets || [],
+    overridePresets: [
+      ...(previewBuilder.overridePresets || []),
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 
-  const [features, core, staticDirs, storyIndexers, stories, docsOptions] = await Promise.all([
-    presets.apply<StorybookConfig['features']>('features'),
-    presets.apply<CoreConfig>('core'),
-    presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
-    presets.apply('storyIndexers', []),
-    presets.apply('stories'),
-    presets.apply<DocsOptions>('docs', {}),
-  ]);
+  const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
+    await Promise.all([
+      presets.apply<StorybookConfig['features']>('features'),
+      presets.apply<CoreConfig>('core'),
+      presets.apply<StorybookConfig['staticDirs']>('staticDirs'),
+      presets.apply('experimental_indexers', []),
+      presets.apply('storyIndexers', []),
+      presets.apply('stories'),
+      presets.apply<DocsOptions>('docs', {}),
+    ]);
 
   const fullOptions: Options = {
     ...options,
@@ -121,13 +129,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   };
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new Error(dedent`
-      Conflict when trying to read staticDirs:
-      * Storybook's configuration option: 'staticDirs'
-      * Storybook's CLI flag: '--staticDir' or '-s'
-      
-      Choose one of them, but not both.
-    `);
+    throw new ConflictingStaticDirConfigError();
   }
 
   const effects: Promise<void>[] = [];
@@ -151,7 +153,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   );
   effects.push(copy(coreServerPublicDir, options.outputDir));
 
-  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
+    Promise.resolve(undefined);
   if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
@@ -161,7 +164,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     const normalizedStories = normalizeStories(stories, directories);
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
-      storyIndexers,
+      storyIndexers: deprecatedStoryIndexers,
+      indexers,
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
@@ -171,12 +175,15 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     effects.push(
       extractStoriesJson(
         join(options.outputDir, 'stories.json'),
-        initializedStoryIndexGenerator,
+        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>,
         convertToIndexV3
       )
     );
     effects.push(
-      extractStoriesJson(join(options.outputDir, 'index.json'), initializedStoryIndexGenerator)
+      extractStoriesJson(
+        join(options.outputDir, 'index.json'),
+        initializedStoryIndexGenerator as Promise<StoryIndexGenerator>
+      )
     );
   }
 
