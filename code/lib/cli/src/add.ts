@@ -7,7 +7,7 @@ import {
   useNpmWarning,
   type PackageManagerName,
 } from './js-package-manager';
-import { getStorybookVersion } from './utils';
+import { getStorybookVersion, isCorePackage } from './utils';
 
 const logger = console;
 
@@ -76,8 +76,9 @@ export async function add(
 
   // add to package.json
   const isStorybookAddon = addonName.startsWith('@storybook/');
+  const isAddonFromCore = isCorePackage(addonName);
   const storybookVersion = await getStorybookVersion(packageManager);
-  const version = versionSpecifier || (isStorybookAddon ? storybookVersion : latestVersion);
+  const version = versionSpecifier || (isAddonFromCore ? storybookVersion : latestVersion);
   const addonWithVersion = SemVer.valid(version)
     ? `${addonName}@^${version}`
     : `${addonName}@${version}`;
