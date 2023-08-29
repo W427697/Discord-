@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { Addon_StoryContext } from '@storybook/types';
-import { ImageContext } from './context';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ImageContext } from '@storybook/nextjs/dist/image-context';
 
 export const ImageDecorator = (
   Story: React.FC,
