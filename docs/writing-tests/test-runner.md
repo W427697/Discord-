@@ -82,8 +82,8 @@ If you're already using any of those flags in your project, you should be able t
 | Options                         | Description                                                                                                                                                                   |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--help`                        | Output usage information <br/>`test-storybook --help`                                                                                                                         |
-| `-s`, `--stories-json`          | Run in stories json mode. Automatically detected (requires a compatible Storybook) <br/>`test-storybook --stories-json`          |
-| `--no-stories-json`             | Disables stories json mode <br/>`test-storybook --no-stories-json`                                                               |
+| `-s`, `--index-json`            | Run in index json mode. Automatically detected (requires a compatible Storybook) <br/>`test-storybook --index-json`                                                           |
+| `--no-index-json`               | Disables index json mode <br/>`test-storybook --no-index-json`                                                                                                                |
 | `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from <br/>`test-storybook -c .storybook`                                                                                     |
 | `--watch`                       | Run in watch mode <br/>`test-storybook --watch`                                                                                                                               |
 | `--watchAll`                    | Watch files for changes and rerun all tests when something changes.<br/>`test-storybook --watchAll`                                                                           |
@@ -254,21 +254,21 @@ The test-runner exports a few helpers that can be used to make your tests more r
 
 <!-- prettier-ignore-end -->
 
-### Stories.json mode
+### Index.json mode
 
-The test-runner transforms your story files into tests when testing a local Storybook. For a remote Storybook, it uses the Storybook's [stories.json](../configure/overview.md#feature-flags) file (a static index of all the stories) to run the tests.
+The test-runner transforms your story files into tests when testing a local Storybook. For a remote Storybook, it uses the Storybook's [index.json](../configure/overview.md#feature-flags) (formerly `stories.json`) file (a static index of all the stories) to run the tests.
 
 #### Why?
 
-Suppose you run into a situation where the local and remote Storybooks appear out of sync, or you might not even have access to the code. In that case, the `stories.json` file is guaranteed to be the most accurate representation of the deployed Storybook you are testing. To test a local Storybook using this feature, use the `--stories-json` flag as follows:
+Suppose you run into a situation where the local and remote Storybooks appear out of sync, or you might not even have access to the code. In that case, the `index.json` file is guaranteed to be the most accurate representation of the deployed Storybook you are testing. To test a local Storybook using this feature, use the `--index-json` flag as follows:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-with-stories-json.yarn.js.mdx',
-    'common/storybook-test-runner-with-stories-json.npm.js.mdx',
-    'common/storybook-test-runner-with-stories-json.pnpm.js.mdx',
+    'common/test-runner-with-index-json.yarn.js.mdx',
+    'common/test-runner-with-index-json.npm.js.mdx',
+    'common/test-runner-with-index-json.pnpm.js.mdx',
   ]}
 />
 
@@ -276,27 +276,27 @@ Suppose you run into a situation where the local and remote Storybooks appear ou
 
 <div class="aside">
 
-💡 The `stories.json` mode is not compatible with watch mode.
+💡 The `index.json` mode is not compatible with watch mode.
 
 </div>
 
-If you need to disable it, use the `--no-stories-json` flag:
+If you need to disable it, use the `--no-index-json` flag:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-disable-stories-json.yarn.js.mdx',
-    'common/storybook-test-runner-disable-stories-json.npm.js.mdx',
-    'common/storybook-test-runner-disable-stories-json.pnpm.js.mdx',
+    'common/test-runner-no-index-json.yarn.js.mdx',
+    'common/test-runner-no-index-json.npm.js.mdx',
+    'common/test-runner-no-index-json.pnpm.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-#### How do I check if my Storybook has a `stories.json` file?
+#### How do I check if my Storybook has a `index.json` file?
 
-Stories.json mode requires a `stories.json` file. Open a browser window and navigate to your deployed Storybook instance (for example, `https://your-storybook-url-here.com/stories.json`). You should see a JSON file that starts with a `"v": 3` key, immediately followed by another key called "stories", which contains a map of story IDs to JSON objects. If that is the case, your Storybook supports [stories.json mode](../configure/overview.md#feature-flags).
+Index.json mode requires a `index.json` file. Open a browser window and navigate to your deployed Storybook instance (for example, `https://your-storybook-url-here.com/index.json`). You should see a JSON file that starts with a `"v": 3` key, immediately followed by another key called "stories", which contains a map of story IDs to JSON objects. If that is the case, your Storybook supports [index.json mode](../configure/overview.md#feature-flags).
 
 ---
 

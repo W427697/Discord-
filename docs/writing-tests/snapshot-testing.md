@@ -27,7 +27,7 @@ Then, you can use the [test hook API](./test-runner#test-hook-api-experimental) 
 
 <!-- prettier-ignore-end -->
 
-When running in [stories.json mode](./test-runner#storiesjson-mode), tests are generated in a temporary folder and snapshots get stored alongside them. You will need to [`--eject`](./test-runner#configure) and configure a custom [`snapshotResolver`](https://jestjs.io/docs/configuration#snapshotresolver-string) to store them elsewhere, e.g. in your working directory:
+When running in [index.json mode](./test-runner#indexjson-mode), tests are generated in a temporary folder and snapshots get stored alongside them. You will need to [`--eject`](./test-runner#configure) and configure a custom [`snapshotResolver`](https://jestjs.io/docs/configuration#snapshotresolver-string) to store them elsewhere, e.g. in your working directory:
 
 ```js
 // ./test-runner-jest.config.js
