@@ -390,28 +390,45 @@ const addonStateCache: {
   [key: string]: any;
 } = {};
 
+const redundantCache = {};
+
 // shared state
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
-  const existingState = api.getAddonState<S>(stateId) || addonStateCache[stateId];
-  const state = orDefault<S>(
-    existingState,
-    addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
-  );
+  /* will be `undefined` on the first render, could be any value after setState has been called */
+  const retrievedState = api.getAddonState<S>(stateId);
+  /* check if the cache has this stateId */
+  const cacheExists = () => Object.getOwnPropertyNames(addonStateCache).includes(stateId);
+  /* once setState has been called, the cache will be set to `redundantCache` */
+  const hasStateBeenUpdated = addonStateCache[stateId] === redundantCache;
+  const defaultStateExists = defaultState !== undefined;
+
+  let state: S;
+
+  /* when no cache exists, and the defaultState exists, set the cache to the defaultState */
+  if (!cacheExists() && defaultStateExists) {
+    addonStateCache[stateId] = retrievedState || defaultState;
+  }
+
+  /* if there is a cache value and setState has not been called yet, use the cache */
+  if (!hasStateBeenUpdated && cacheExists() && retrievedState === undefined) {
+    state = addonStateCache[stateId];
+  } else {
+    state = retrievedState;
+  }
+
+  const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
+    addonStateCache[stateId] = redundantCache;
+    const result = await api.setAddonState<S>(stateId, s, options);
+    return result;
+  };
 
   useEffect(() => {
     if (api.getAddonState(stateId) === undefined && api.getAddonState(stateId) !== state) {
-      api.setAddonState<S>(stateId, state).then((s) => {
-        addonStateCache[stateId] = s;
-      });
+      setState(state);
     }
   }, [api]);
 
-  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
-    const result = api.setAddonState<S>(stateId, s, options);
-    addonStateCache[stateId] = result;
-    return result;
-  };
   const allListeners = useMemo(() => {
     const stateChangeHandlers = {
       [`${SHARED_STATE_CHANGED}-client-${stateId}`]: setState,
