@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.1.0-rc.1",
+  "version": "7.4.0-alpha.2",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -41,15 +41,16 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
-    "@storybook/client-logger": "7.1.0-rc.1",
+    "@storybook/client-logger": "workspace:*",
     "@storybook/global": "^5.0.0",
     "memoizerific": "^1.11.3"
   },

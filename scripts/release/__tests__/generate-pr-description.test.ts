@@ -53,7 +53,7 @@ describe('Generate PR Description', () => {
       id: 'pr-id-11',
       user: 'shilman',
       title: 'Another PR `title` for docs',
-      labels: ['another label', 'documentation', 'patch'],
+      labels: ['another label', 'documentation', 'patch:yes'],
       commit: 'ddd222',
       pull: 11,
       links: {
@@ -104,7 +104,7 @@ describe('Generate PR Description', () => {
         "- [ ] **🐛 Bug**: Some PR title for a bug [#42](https://github.com/storybookjs/storybook/pull/42) (will also be patched)
         - [ ] **✨ Feature Request**: Some PR title for a 'new' feature [#48](https://github.com/storybookjs/storybook/pull/48)
         - [ ] **⚠️ Direct commit**: Some title for a "direct commit" [22bb11](https://github.com/storybookjs/storybook/commit/22bb11)
-        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11)
+        - [ ] **📝 Documentation**: Another PR \`title\` for docs [#11](https://github.com/storybookjs/storybook/pull/11) (will also be patched)
         - [ ] **❔ Missing Label**: Some PR title with a missing label [#77](https://github.com/storybookjs/storybook/pull/77)"
       `);
     });
@@ -215,6 +215,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
         If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
+        Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs, *especially* if you\\'re making changes to the changelog.
+
         When everything above is done:
         - Merge this PR
         - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
@@ -272,6 +274,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
         - [ ] [#42](https://github.com/storybookjs/storybook/pull/42): \\\`git cherry-pick -m1 -x abc123\\\`
 
         If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
+
+        Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs.
 
         When everything above is done:
         - Merge this PR
@@ -338,6 +342,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
         If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-prerelease.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
+        Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs, *especially* if you\\'re making changes to the changelog.
+
         When everything above is done:
         - Merge this PR
         - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)
@@ -390,6 +396,8 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
 
         If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
+
+        Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs.
 
         When everything above is done:
         - Merge this PR

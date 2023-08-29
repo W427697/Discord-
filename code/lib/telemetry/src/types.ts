@@ -9,6 +9,7 @@ export type EventType =
   | 'build'
   | 'upgrade'
   | 'init'
+  | 'browser'
   | 'canceled'
   | 'error'
   | 'error-metadata'
@@ -54,6 +55,9 @@ export type StorybookMetadata = {
   hasCustomBabel?: boolean;
   features?: StorybookConfig['features'];
   refCount?: number;
+  preview?: {
+    usesGlobals?: boolean;
+  };
 };
 
 export interface Payload {

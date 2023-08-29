@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addons",
-  "version": "7.1.0-rc.1",
+  "version": "7.4.0-alpha.2",
   "description": "Storybook addons store",
   "keywords": [
     "storybook"
@@ -34,19 +34,19 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/manager-api": "7.1.0-rc.1",
-    "@storybook/preview-api": "7.1.0-rc.1",
-    "@storybook/types": "7.1.0-rc.1"
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
