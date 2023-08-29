@@ -8,7 +8,7 @@ import {
   targetFromTargetString,
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { Observable, from, of, throwError } from 'rxjs';
+import { from, of, throwError } from 'rxjs';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
@@ -35,6 +35,7 @@ export type StorybookBuilderOptions = JsonObject & {
   docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
@@ -78,6 +79,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode = true,
         webpackStatsJson,
         disableTelemetry,
         assets,
@@ -90,6 +92,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode,
         disableTelemetry,
         angularBrowserTarget: browserTarget,
         angularBuilderContext: context,

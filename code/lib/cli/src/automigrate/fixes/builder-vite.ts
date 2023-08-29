@@ -5,7 +5,7 @@ import { writeConfig } from '@storybook/csf-tools';
 
 import type { Fix } from '../types';
 import type { PackageJson } from '../../js-package-manager';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import { updateMainConfig } from '../helpers/mainConfigFile';
 
 const logger = console;
 
@@ -26,9 +26,8 @@ interface BuilderViteOptions {
 export const builderVite: Fix<BuilderViteOptions> = {
   id: 'builder-vite',
 
-  async check({ configDir, packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { mainConfig } = await getStorybookData({ configDir, packageManager });
+  async check({ packageManager, mainConfig }) {
+    const packageJson = await packageManager.retrievePackageJson();
     const builder = mainConfig.core?.builder;
     const builderName = typeof builder === 'string' ? builder : builder?.name;
 
@@ -64,12 +63,12 @@ export const builderVite: Fix<BuilderViteOptions> = {
     if (!dryRun) {
       delete dependencies['storybook-builder-vite'];
       delete devDependencies['storybook-builder-vite'];
-      packageManager.writePackageJson(packageJson);
+      await packageManager.writePackageJson(packageJson);
     }
 
     logger.info(`✅ Adding '@storybook/builder-vite' as dev dependency`);
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, [
+      await packageManager.addDependencies({ installAsDevDependencies: true }, [
         '@storybook/builder-vite',
       ]);
     }

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.1.0-alpha.11",
+  "version": "7.4.0",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -21,16 +21,16 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./dist/runtime": {
-      "import": "./dist/runtime.js",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./dist/globals": {
-      "require": "./dist/globals.js",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./paths": "./paths.js",
     "./package.json": "./package.json"
@@ -43,27 +43,26 @@
     "static/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.1.0-alpha.11",
-    "@storybook/api": "7.1.0-alpha.11",
-    "@storybook/channel-postmessage": "7.1.0-alpha.11",
-    "@storybook/channel-websocket": "7.1.0-alpha.11",
-    "@storybook/channels": "7.1.0-alpha.11",
-    "@storybook/client-logger": "7.1.0-alpha.11",
-    "@storybook/components": "7.1.0-alpha.11",
-    "@storybook/core-events": "7.1.0-alpha.11",
+    "@storybook/addon-designs": "^7.0.4",
+    "@storybook/addons": "workspace:*",
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-alpha.11",
-    "@storybook/router": "7.1.0-alpha.11",
-    "@storybook/theming": "7.1.0-alpha.11",
-    "@storybook/types": "7.1.0-alpha.11",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/router": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
@@ -99,5 +98,5 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "0797ab602bc569ff71c343a2b1aaba7e49232d95"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

@@ -1,9 +1,9 @@
+/* eslint-disable local-rules/no-uncategorized-errors */
 /* eslint-disable no-param-reassign */
 import type { App } from 'vue';
 import { createApp, h, reactive, isVNode, isReactive } from 'vue';
 import type { ArgsStoryFn, RenderContext } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
-
 import type { StoryFnVueReturnType, StoryID, VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
@@ -14,21 +14,20 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return () => h(Component, props, generateSlots(context));
+  return () => h(Component, props, getSlots(props, context));
 };
 
-// set of setup functions that will be called when story is created
-const setupFunctions = new Set<(app: App, storyContext?: StoryContext<VueRenderer>) => void>();
-/** add a setup function to set that will be call when story is created a d
- *
- * @param fn
- */
-export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => void) => {
-  setupFunctions.add(fn);
+export const setup = (fn: (app: App, storyContext?: StoryContext<VueRenderer>) => unknown) => {
+  globalThis.PLUGINS_SETUP_FUNCTIONS ??= new Set();
+  globalThis.PLUGINS_SETUP_FUNCTIONS.add(fn);
 };
 
-const runSetupFunctions = (app: App, storyContext: StoryContext<VueRenderer>) => {
-  setupFunctions.forEach((fn) => fn(app, storyContext));
+const runSetupFunctions = async (
+  app: App,
+  storyContext: StoryContext<VueRenderer>
+): Promise<void> => {
+  if (globalThis && globalThis.PLUGINS_SETUP_FUNCTIONS)
+    await Promise.all([...globalThis.PLUGINS_SETUP_FUNCTIONS].map((fn) => fn(app, storyContext)));
 };
 
 const map = new Map<
@@ -36,11 +35,10 @@ const map = new Map<
   {
     vueApp: ReturnType<typeof createApp>;
     reactiveArgs: Args;
-    reactiveSlots?: Args;
   }
 >();
 
-export function renderToCanvas(
+export async function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
@@ -82,7 +80,7 @@ export function renderToCanvas(
   });
 
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  runSetupFunctions(vueApp, storyContext);
+  await runSetupFunctions(vueApp, storyContext);
   vueApp.mount(canvasElement);
 
   showMain();
@@ -93,20 +91,16 @@ export function renderToCanvas(
 
 /**
  * generate slots for default story without render function template
- * @param context
  */
-
-function generateSlots(context: StoryContext<VueRenderer, Args>) {
+function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
   const { argTypes } = context;
-  const slots = Object.entries(argTypes)
-    .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
-    .map(([key, value]) => {
-      const slotValue = context.args[key];
-      return [key, typeof slotValue === 'function' ? slotValue : () => slotValue];
-    });
+  const slots = Object.entries(props)
+    .filter(([key]) => argTypes[key]?.table?.category === 'slots')
+    .map(([key, value]) => [key, typeof value === 'function' ? value : () => value]);
 
-  return reactive(Object.fromEntries(slots));
+  return Object.fromEntries(slots);
 }
+
 /**
  * get the args from the root element props if it is a vnode otherwise from the context
  * @param element is the root element of the story

@@ -13,7 +13,8 @@ import { exec } from '../utils/exec';
 /* TYPES */
 
 type BundlerConfig = {
-  entries: string[];
+  browserEntries: string[];
+  nodeEntries: string[];
   externals: string[];
   pre: string;
   post: string;
@@ -74,11 +75,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         entry: allEntries,
         watch,
         outDir,
+        sourcemap: false,
         format: ['esm'],
         outExtension: () => ({
           js: '.js',
         }),
-        target: 'chrome100',
+        target: ['chrome100', 'safari15', 'firefox91'],
         clean: false,
         ...(dtsBuild ? dtsConfig : {}),
         platform: 'browser',
@@ -115,6 +117,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         entry: allEntries,
         watch,
         outDir,
+        sourcemap: false,
         format: ['cjs'],
         outExtension: () => ({
           js: '.js',

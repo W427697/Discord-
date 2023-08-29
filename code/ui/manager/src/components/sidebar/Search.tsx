@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi, shortcutToHumanString } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
@@ -20,7 +20,8 @@ import type {
 } from './types';
 import { isSearchResult, isExpandType, isClearType, isCloseType } from './types';
 
-import { scrollIntoView, searchItem } from './utils';
+import { scrollIntoView, searchItem } from '../../utils/tree';
+import { getGroupStatus, getHighestStatus } from '../../utils/status';
 
 const { document } = global;
 
@@ -115,7 +116,7 @@ const FocusKey = styled.code(({ theme }) => ({
   position: 'absolute',
   top: 8,
   right: 16,
-  width: 16,
+  minWidth: 16,
   height: 16,
   zIndex: 1,
   lineHeight: '16px',
@@ -165,10 +166,13 @@ export const Search = React.memo<{
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputPlaceholder, setPlaceholder] = useState('Find components');
   const [allComponents, showAllComponents] = useState(false);
+  const searchShortcut = api ? shortcutToHumanString(api.getShortcutKeys().search) : '/';
 
   const selectStory = useCallback(
     (id: string, refId: string) => {
-      if (api) api.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
+      if (api) {
+        api.selectStory(id, undefined, { ref: refId !== DEFAULT_REF_ID && refId });
+      }
       inputRef.current.blur();
       showAllComponents(false);
     },
@@ -176,9 +180,22 @@ export const Search = React.memo<{
   );
 
   const list: SearchItem[] = useMemo(() => {
-    return dataset.entries.reduce((acc: SearchItem[], [refId, { index }]) => {
+    return dataset.entries.reduce<SearchItem[]>((acc, [refId, { index, status }]) => {
+      const groupStatus = getGroupStatus(index || {}, status);
+
       if (index) {
-        acc.push(...Object.values(index).map((item) => searchItem(item, dataset.hash[refId])));
+        acc.push(
+          ...Object.values(index).map((item) => {
+            const statusValue =
+              status && status[item.id]
+                ? getHighestStatus(Object.values(status[item.id] || {}).map((s) => s.status))
+                : null;
+            return {
+              ...searchItem(item, dataset.hash[refId]),
+              status: statusValue || groupStatus[item.id] || null,
+            };
+          })
+        );
       }
       return acc;
     }, []);
@@ -354,7 +371,7 @@ export const Search = React.memo<{
               <SearchIcon icon="search" />
               {/* @ts-expect-error (TODO) */}
               <Input {...inputProps} />
-              {enableShortcuts && <FocusKey>/</FocusKey>}
+              {enableShortcuts && <FocusKey>{searchShortcut}</FocusKey>}
               <ClearIcon icon="cross" onClick={() => clearSelection()} />
             </SearchField>
             <FocusContainer tabIndex={0} id="storybook-explorer-menu">
