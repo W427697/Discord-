@@ -386,13 +386,49 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
 }
 
 // cache for taking care of HMR
-const addonStateCache: {
-  [key: string]: any;
-} = {};
-
+const addonStateCache: Record<string, any> = {};
 const redundantCache = {};
 
-// shared state
+/**
+ * This API allows you to store a state in the manager and share it between different places in the manager-UI.
+ * It also syncs the state automatically over the channel to the preview.
+ *
+ * @param addonId - a unique id for this state
+ * @param defaultState - the initial state, you should set this in 1 location only! If you set it in multiple locations, the first one wins.
+ * @returns a tuple with the current state and a setState function
+ *
+ * @example
+ * ```ts
+ * import { addons, types, useAddonState } from '@storybook/manager-api';
+ *
+ * interface AddonState {
+ * count: number;
+ * }
+ *
+ * const Panel = () => {
+ *   const [state, setState] = useAddonState<AddonState>('my/addon', { count: 0 });
+ *   return (
+ *     <button type="button" onClick={() => setState({ count: state.count + 1 })}>
+ *       {state.count}
+ *     </button>
+ *   );
+ * };
+ *
+ * const Title = () => {
+ *   const [state] = useAddonState<AddonState | undefined>('my/addon');
+ *   return state?.count ? <div>{state.count}</div> : null;
+ * };
+ *
+ * // register the addon
+ * addons.register('my/addon', () => {
+ *   addons.add('my/addon/panel', {
+ *     type: types.PANEL,
+ *     title: Title,
+ *     render: Panel,
+ *   });
+ * });
+ * ```
+ */
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
   /* will be `undefined` on the first render, could be any value after setState has been called */
@@ -477,9 +513,7 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
 }
 
-export function useAddonState<S>(addonId: string, defaultState?: S) {
-  return useSharedState<S>(addonId, defaultState);
-}
+export { useSharedState as useAddonState };
 
 export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[]) => void] {
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
