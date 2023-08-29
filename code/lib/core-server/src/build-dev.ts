@@ -109,7 +109,7 @@ export async function buildDevStandalone(
     const mainJsPath = serverResolve(resolve(options.configDir || '.storybook', 'main')) as string;
     if (/\.c[jt]s$/.test(mainJsPath)) {
       deprecate(
-        dedent(`Using the .cjs or .cts extension for your main config file is deprecated with Vite.
+        dedent(`Using CommonJS in your main configuration file is deprecated with Vite."
                 - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#commonjs-with-vite-is-deprecated`)
       );
     }
