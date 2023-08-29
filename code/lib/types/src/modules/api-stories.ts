@@ -184,3 +184,7 @@ export interface API_StatusObject {
 
 export type API_StatusState = Record<StoryId, Record<string, API_StatusObject>>;
 export type API_StatusUpdate = Record<StoryId, API_StatusObject>;
+
+export type API_FilterFunction = (
+  item: API_PreparedIndexEntry & { status: Record<string, API_StatusObject> }
+) => boolean;
