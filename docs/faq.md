@@ -221,25 +221,27 @@ We're working on overcoming this limitation, and soon you'll be able to use them
 
 ## Can I have a Storybook with no local stories?
 
-Storybook does not work unless you define at least one local story.
+Storybook does not work unless you have at least one local story (or docs page) defined in your project. In this context, local means a `.stories.*` or `.mdx` file that is referenced in your project's `.storybook/main.js` config.
 
-If you're in a Storybook composition scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
+If you're in a [Storybook composition](https://storybook.js.org/docs/react/sharing/storybook-composition) scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
 
-Introduce a single `.mdx` story (addon-essentials or addon-docs required), that serves as an Introduction page, like so:
+Introduce a single `.mdx` docs page (addon-essentials or addon-docs required), that serves as an Introduction page, like so:
 
 ```mdx
-// Introduction.mdx
+<!-- Introduction.mdx -->
 # Welcome
 
 Some description here
 ```
 
-And then refer to it in your main.js file:
+And then refer to it in your Storybook config file:
 
 ```ts
 // .storybook/main.js
 const config = {
+  // define at least one local story/page here
   stories: ['../Introduction.mdx'],
+  // define composed Storybooks here
   refs: {
     firstProject: { title: 'First', url: 'some-url' },
     secondProject: { title: 'Second', url: 'other-url' },
