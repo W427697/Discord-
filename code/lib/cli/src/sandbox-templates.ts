@@ -19,7 +19,7 @@ export type Template = {
   /**
    * Readable name for the template, which will be used for feedback and the status page
    * Follows the naming scheme when it makes sense:
-   * <framework> <version|"Latest"> [- <builder>] (JS|TS)
+   * <framework> <"v"version|"Latest"|"Prerelease"> [- <builder> ](JS|TS)
    * React Latest - Webpack (TS)
    * Next.js v12 (JS)
    * Angular CLI Prerelease
@@ -74,6 +74,12 @@ export type Template = {
    * This means the template might be hidden from the Storybook status page or the repro CLI command.
    * */
   isInternal?: boolean;
+};
+
+type BaseTemplates = Template & {
+  name: `${string} ${`v${number}` | 'Latest' | 'Prerelease'} ${`- ${string} ` | ''}(${
+    | 'JS'
+    | 'TS'})`;
 };
 
 const baseTemplates = {
@@ -132,7 +138,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'react-vite/default-js': {
-    name: 'React Vite (JS)',
+    name: 'React Latest - Vite (JS)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template react',
     expected: {
       framework: '@storybook/react-vite',
@@ -228,7 +234,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'html-webpack/default': {
-    name: 'HTML - Webpack',
+    name: 'HTML Latest - Webpack (JS)',
     script: 'yarn create webpack5-html {{beforeDir}}',
     expected: {
       framework: '@storybook/html-webpack5',
@@ -238,7 +244,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'html-vite/default-js': {
-    name: 'HTML - Vite (JS)',
+    name: 'HTML Latest - Vite (JS)',
     script:
       'npm create vite@latest --yes {{beforeDir}} -- --template vanilla && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
@@ -249,7 +255,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'html-vite/default-ts': {
-    name: 'HTML - Vite (TS)',
+    name: 'HTML Latest - Vite (TS)',
     script:
       'npm create vite@latest --yes {{beforeDir}} -- --template vanilla-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
@@ -281,7 +287,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'angular-cli/prerelease': {
-    name: 'Angular CLI Prerelease',
+    name: 'Angular CLI Prerelease (TS)',
     script:
       'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
@@ -292,7 +298,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'angular-cli/default-ts': {
-    name: 'Angular CLI Latest',
+    name: 'Angular CLI Latest (TS)',
     script:
       'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
@@ -303,7 +309,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'angular-cli/15-ts': {
-    name: 'Angular CLI v15',
+    name: 'Angular CLI v15 (TS)',
     script:
       'npx -p @angular/cli@15 ng new angular-v15 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
@@ -360,7 +366,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'vue-cli/default-js': {
-    name: 'Vue v3 CLI (JS)',
+    name: 'Vue v3 - CLI (JS)',
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -372,7 +378,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'vue-cli/vue2-default-js': {
-    name: 'Vue v2 CLI (JS)',
+    name: 'Vue v2 - CLI (JS)',
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -384,7 +390,7 @@ const baseTemplates = {
     skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
   },
   'preact-webpack5/default-js': {
-    name: 'Preact Latest CLI (JS)',
+    name: 'Preact Latest - CLI (JS)',
     script:
       'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -395,7 +401,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'preact-webpack5/default-ts': {
-    name: 'Preact Latest CLI (TS)',
+    name: 'Preact Latest - CLI (TS)',
     script:
       'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
     expected: {
@@ -426,7 +432,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
   'qwik-vite/default-ts': {
-    name: 'Qwik Latest CLI (TS)',
+    name: 'Qwik Latest - CLI (TS)',
     script: 'yarn create qwik basic {{beforeDir}}',
     // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
     inDevelopment: true,
@@ -438,7 +444,7 @@ const baseTemplates = {
     // TODO: The community template does not provide standard stories, which is required for e2e tests.
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
   },
-} satisfies Record<string, Template>;
+} satisfies Record<string, BaseTemplates>;
 
 /**
  * Internal templates reuse config from other templates and add extra config on top.
