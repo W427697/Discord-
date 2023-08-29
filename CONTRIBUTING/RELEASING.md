@@ -150,10 +150,10 @@ gitGraph
     commit
     checkout next
     merge some-bugfix type: HIGHLIGHT
-    branch version-prerelease-from-7.1.0-alpha.28
+    branch version-next-from-7.1.0-alpha.28
     commit id: "write changelog"
     checkout next-release
-    merge version-prerelease-from-7.1.0-alpha.28
+    merge version-next-from-7.1.0-alpha.28
     commit id: "bump versions" tag: "7.1.0-alpha.29"
     checkout next
     merge next-release
@@ -562,11 +562,11 @@ gitGraph
     branch some-simultaneous-bugfix
     commit
     checkout next
-    branch version-prerelease-from-7.1.0-alpha.28
+    branch version-next-from-7.1.0-alpha.28
     commit id
     checkout next
     merge some-simultaneous-bugfix type: HIGHLIGHT id: "whoops!"
-    merge version-prerelease-from-7.1.0-alpha.28 tag: "v7.1.0-alpha.29"
+    merge version-next-from-7.1.0-alpha.28 tag: "v7.1.0-alpha.29"
 ```
 
 When publishing at the last commit with tag `v7.1.0-alpha.29`, it will publish whatever the content is at that point (all the square dots), which includes the "whoops!" commit from merging the bugfix. But the bugfix was never part of the release pull request because it got prepared before the bugfix was merged in.
@@ -586,19 +586,19 @@ gitGraph
     branch some-simultanous-bugfix
     commit
     checkout next
-    branch version-prerelease-from-7.1.0-alpha.28
+    branch version-next-from-7.1.0-alpha.28
     commit id: "write changelog"
     checkout next
     merge some-simultanous-bugfix id: "whoops!"
     checkout next-release
-    merge version-prerelease-from-7.1.0-alpha.28
+    merge version-next-from-7.1.0-alpha.28
     commit id: "bump versions" tag: "v7.1.0-alpha.29"
     checkout next
     merge next-release
-    branch version-prerelease-from-7.1.0-alpha.29
+    branch version-next-from-7.1.0-alpha.29
     commit id: "write changelog again"
     checkout next-release
-    merge version-prerelease-from-7.1.0-alpha.29
+    merge version-next-from-7.1.0-alpha.29
     commit id: "bump versions again" tag: "v7.1.0-alpha.30"
     checkout next
     merge next-release
