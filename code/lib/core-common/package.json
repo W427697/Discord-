@@ -52,7 +52,7 @@
     "chalk": "^4.1.0",
     "esbuild": "^0.18.0",
     "esbuild-register": "^3.4.0",
-    "file-system-cache": "^2.4.2",
+    "file-system-cache": "^2.4.4",
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
