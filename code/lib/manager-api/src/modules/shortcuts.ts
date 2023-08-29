@@ -82,8 +82,9 @@ export interface SubAPI {
   /**
    * Handles a shortcut feature.
    * @param feature The feature to handle.
+   * @param event The event to handle.
    */
-  handleShortcutFeature(feature: API_Action): void;
+  handleShortcutFeature(feature: API_Action, event: KeyboardEventLike): void;
 }
 
 export type API_KeyCollection = string[];
@@ -218,14 +219,12 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
         shortcutMatchesShortcut(shortcut, shortcuts[feature])
       );
       if (matchedFeature) {
-        // Event.prototype.preventDefault is missing when received from the MessageChannel.
-        if (event?.preventDefault) event.preventDefault();
-        api.handleShortcutFeature(matchedFeature);
+        api.handleShortcutFeature(matchedFeature, event);
       }
     },
 
     // warning: event might not have a full prototype chain because it may originate from the channel
-    handleShortcutFeature(feature) {
+    handleShortcutFeature(feature, event) {
       const {
         layout: { isFullscreen, showNav, showPanel },
         ui: { enableShortcuts },
@@ -234,6 +233,8 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
       if (!enableShortcuts) {
         return;
       }
+      // Event.prototype.preventDefault is missing when received from the MessageChannel.
+      if (event?.preventDefault) event.preventDefault();
       switch (feature) {
         case 'escape': {
           if (isFullscreen) {

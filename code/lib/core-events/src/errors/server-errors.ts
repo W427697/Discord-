@@ -119,3 +119,21 @@ export class ConflictingStaticDirConfigError extends StorybookError {
     `;
   }
 }
+
+export class InvalidStoriesEntryError extends StorybookError {
+  readonly category = Category.CORE_COMMON;
+
+  readonly code = 4;
+
+  public readonly documentation =
+    'https://storybook.js.org/docs/react/faq#can-i-have-a-storybook-with-no-local-stories';
+
+  template() {
+    return dedent`
+      Storybook could not index your stories.
+      Your main configuration somehow does not contain a 'stories' field, or it resolved to an empty array.
+
+      Please check your main configuration file and make sure it exports a 'stories' field that is not an empty array.
+    `;
+  }
+}
