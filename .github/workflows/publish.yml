@@ -160,8 +160,10 @@ jobs:
           git pull
           git checkout origin/main ./CHANGELOG.md
           git add ./CHANGELOG.md
-          git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }} [skip ci]"
-          git push origin next
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }} [skip ci]"
+            git push origin next
+          fi
 
       - name: Sync version JSONs from `next-release` to `main`
         if: github.ref_name == 'next-release'
