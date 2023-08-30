@@ -394,22 +394,3 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
 />
 
 <!-- prettier-ignore-end -->
-
-### Mocking fonts
-
-If your application uses fonts from Google, occasionally fetching these fonts may fail as part of your storybook build. It is highly recommended to mock these requests, as those failures can cause your pipeline to fail as well.
-
-#### Mocking fonts in Next.js
-
-Next.js [supports](https://github.com/vercel/next.js/blob/725ddc7371f80cca273779d37f961c3e20356f95/packages/font/src/google/fetch-css-from-google-fonts.ts#L36)https://github.com/vercel/next.js/blob/725ddc7371f80cca273779d37f961c3e20356f95/packages/font/src/google/fetch-css-from-google-fonts.ts#L36 mocking fonts via a javascript module located where the env var `NEXT_FONT_GOOGLE_MOCKED_RESPONSES` references.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/chromatic-github-action-with-mocking.js.mdx',    
-    'common/mocked-google-fonts.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->

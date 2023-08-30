@@ -109,12 +109,6 @@ In your project's root directory, add a new file called `chromatic.yml` inside t
 
 </div>
 
-<div class="aside">
-
-💡 External font resources may occasionally fail to load at build time for a variety of reasons. If you have issues with them, a good way to get around that problem is to [mock the fonts](../writing-stories/build-pages-with-storybook.md#mocking-fonts) your application requires
-
-</div>
-
 Commit and push the file. Congratulations, you've successfully automated publishing your Storybook. Now whenever you open a PR you’ll get a handy link to your published Storybook in your PR checks.
 
 ![PR check publish](./prbadge-publish.png)
