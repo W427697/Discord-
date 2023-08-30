@@ -1,20 +1,20 @@
 # Getting started
 
-Storybook is developed against a specific node version defined in `.nvmrc`. You can use any Node version manager that uses the `.nvmrc` configuration file. We recommend using [fnm](https://fnm.vercel.app/).
+Storybook is developed against a specific node version which is defined in an `.nvmrc` file. You can use any Node version manager that uses the `.nvmrc` configuration file (we recommend [fnm](https://fnm.vercel.app/)).
 
 ## Using fnm as a Node version manager
 
 - Install fnm [as per instructions](https://github.com/Schniz/fnm/tree/master#installation)
-- In your shell setup include the `use-on-cd`, `corepack-enabled` and `version-file-strategy recursive` in the env command, e.g.
+- In your shell setup include the `use-on-cd`, `corepack-enabled` and `version-file-strategy recursive` parameters in the `fnm env` command, e.g.
 
   ```sh
   eval "$(fnm env --use-on-cd --corepack-enabled --version-file-strategy recursive)"
   ```
 
+## Running the local development environment
+
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
 - Run `yarn start` in the root directory to run a basic test Storybook "sandbox".
-
-## Running the local development environment
 
 The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc). There is no need to run `yarn` or `yarn install` as `yarn start` will do this for you.
 
