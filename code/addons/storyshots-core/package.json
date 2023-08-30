@@ -46,7 +46,7 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/jest-specific-snapshot": "^0.5.6",
-    "glob": "^10.0.0",
+    "glob": "~10.1.0",
     "jest-specific-snapshot": "^8.0.0",
     "preact-render-to-string": "^5.1.19",
     "pretty-format": "^29.0.0",

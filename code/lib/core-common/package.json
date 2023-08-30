@@ -57,7 +57,7 @@
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
-    "glob": "^10.0.0",
+    "glob": "~10.1.0",
     "handlebars": "^4.7.7",
     "lazy-universal-dotenv": "^4.0.0",
     "node-fetch": "^2.0.0",
