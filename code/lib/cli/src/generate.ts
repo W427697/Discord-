@@ -88,14 +88,14 @@ command('upgrade')
 command('info')
   .description('Prints debugging information about the local environment')
   .action(() => {
-    consoleLogger.log(chalk.bold('\nEnvironment Info:'));
+    consoleLogger.log(chalk.bold('\nStorybook Environment Info:'));
     envinfo
       .run({
-        System: ['OS', 'CPU'],
-        Binaries: ['Node', 'Yarn', 'npm'],
+        System: ['OS', 'CPU', 'Shell'],
+        Binaries: ['Node', 'Yarn', 'npm', 'pnpm'],
         Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-        npmPackages: '@storybook/*',
-        npmGlobalPackages: '@storybook/*',
+        npmPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+        npmGlobalPackages: '{@storybook/*,*storybook*,sb,chromatic}',
       })
       .then(consoleLogger.log);
   });
