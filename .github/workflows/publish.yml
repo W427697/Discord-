@@ -111,6 +111,12 @@ jobs:
         id: target
         run: echo "target=${{ github.ref_name == 'next-release' && 'next' || 'main' }}" >> $GITHUB_OUTPUT
 
+        # TODO: create a commit on next that does the following:
+        # bump version accordingly
+        # update changelog
+        # update version JSONs
+        # push to next
+        # TODO: ensure all of this logic works if a release from next targets latest-release. steps.targets.outputs?
       - name: Get changelog for ${{ steps.version.outputs.current-version }}
         if: steps.publish-needed.outputs.published == 'false'
         id: changelog
@@ -160,6 +166,7 @@ jobs:
           git pull
           git checkout origin/main ./CHANGELOG.md
           git add ./CHANGELOG.md
+          # only commit if there are changes
           if ! git diff-index --quiet HEAD; then
             git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }} [skip ci]"
             git push origin next
