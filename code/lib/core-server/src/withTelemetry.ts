@@ -5,7 +5,7 @@ import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry
 import type { EventType } from '@storybook/telemetry';
 import { logger } from '@storybook/node-logger';
 
-type TelemetryOptions = {
+export type TelemetryOptions = {
   cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
   printError?: (err: any) => void;
