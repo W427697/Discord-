@@ -636,10 +636,11 @@ workflows:
       - chromatic-internal-storybooks:
           requires:
             - build
-      - chromatic-internal-storybooks:
+      - angular-prerelease-sandbox:
           requires:
             - build
-      - angular-prerelease-sandbox:
+      - create-sandboxes:
+          parallelism: 34
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
