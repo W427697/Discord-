@@ -274,6 +274,7 @@ jobs:
       - run:
           name: Angular Prerelease Sandbox
           command: |
+            node -v
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task sandbox
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task build
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task chromatic
