@@ -42,8 +42,6 @@ jobs:
         run: |
           git config --global user.name "Storybook Bot"
           git config --global user.email "bot@storybook.js.org"
-      - name: debug strategy
-        run: echo ${{ toJSON(matrix) }}
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
       - name: Compile Storybook libraries
