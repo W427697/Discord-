@@ -63,7 +63,6 @@ jobs:
           yarn install
 
       - name: Apply deferred version bump and commit
-        id: version-bump
         working-directory: .
         run: |
           CURRENT_VERSION=$(cat ./code/package.json | jq '.version')
@@ -111,11 +110,6 @@ jobs:
         id: target
         run: echo "target=${{ github.ref_name == 'next-release' && 'next' || 'main' }}" >> $GITHUB_OUTPUT
 
-        # TODO: create a commit on next that does the following:
-        # bump version accordingly
-        # update changelog
-        # update version JSONs
-        # push to next
         # TODO: ensure all of this logic works if a release from next targets latest-release. steps.targets.outputs?
       - name: Get changelog for ${{ steps.version.outputs.current-version }}
         if: steps.publish-needed.outputs.published == 'false'
@@ -129,6 +123,7 @@ jobs:
 
       # when this is a patch release from main, label any patch PRs included in the release
       # when this is a stable release from next, label ALL patch PRs found, as they will per definition be "patched" now
+      # TODO: this won't work anymore for releases from next to latest-release
       - name: Label patch PRs as picked
         if: github.ref_name == 'latest-release' || (steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease)
         env:
@@ -157,6 +152,33 @@ jobs:
           git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
 
+      # This step ensures that next is always one minor ahead of main
+      # this is needed when releasing a stable from next
+      # next will be at eg. 7.4.0-alpha.4, and main will be at 7.3.0
+      # then we release 7.4.0 by merging next to latest-release to main
+      # we then ensure here that next is bumped to 7.5.0 - without releasing it
+      # if this is a hotfix release bumping main to 7.3.1, next will not be touched because it's already ahead
+      - name: Ensure `next` is a minor version ahead of `main`
+        if: github.ref_name == 'latest-release'
+        run: |
+          git checkout next
+          git pull
+
+          CODE_PKG_JSON=$(cat ../code/package.json)
+          VERSION_ON_NEXT=$(echo $CODE_PKG_JSON | jq --raw-output '.version')
+          VERSION_ON_MAIN="${{ steps.version.outputs.current-version }}"
+
+          # check if next is behind current version
+          if NEXT_IS_BEHIND=$(npx semver --include-prerelease --range "<$VERSION_ON_MAIN" "$VERSION_ON_NEXT" 2>/dev/null); then
+            # temporarily set the version on next to be the same as main...
+            echo "$CODE_PKG_JSON" | jq --arg version "$VERSION_ON_MAIN" '.version = $version' > ../code/package.json
+            # ... then bump it by one minor
+            yarn release:version --release-type minor
+            git add ..
+            git commit -m "Bump next to be one minor ahead of main [skip ci]"
+            git push origin next
+          fi
+
       - name: Sync CHANGELOG.md from `main` to `next`
         if: github.ref_name == 'latest-release'
         working-directory: .
@@ -181,10 +203,6 @@ jobs:
           git add $VERSION_FILE
           git commit -m "Update $VERSION_FILE for v${{ steps.version.outputs.current-version }}"
           git push origin main
-
-      - name: Overwrite main with next
-        if: steps.target.outputs.target == 'next' && steps.is-prerelease.outputs.prerelease == 'false'
-        run: git push --force origin next:main
 
       - name: Report job failure to Discord
         if: failure()
