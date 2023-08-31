@@ -272,14 +272,28 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Angular Prerelease Sandbox
+          name: Create Sandbox
           command: |
-            node -v
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task sandbox
+      - run:
+          name: Build Sandbox
+          command: |
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task build
+      - run:
+          name: Chromatic
+          command: |
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task chromatic
+      - run:
+          name: E2E Tests Production
+          command: |
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task e2e-tests
+      - run:
+          name: E2E Tests Development
+          command: |
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task e2e-tests-dev
+      - run:
+          name: Test Runner
+          command: |
             yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task test-runner
       - report-workflow-on-failure:
           template: angular-cli/prerelease

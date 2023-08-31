@@ -28,39 +28,51 @@ jobs:
           - next
         include:
           - node_version: 16
-            excludeTemplates: 'angular-cli/prerelease'
+            # space-delimited list of templates
+            exclude: 'angular-cli/prerelease'
           - node_version: 18
-            includeTemplates: 'angular-cli/prerelease'
+            # space-delimited list of templates
+            templates: 'angular-cli/prerelease'
     steps:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
+
       - uses: actions/checkout@v3
         with:
           ref: ${{ matrix.branch }}
+
       - name: Setup git user
         run: |
           git config --global user.name "Storybook Bot"
           git config --global user.email "bot@storybook.js.org"
+
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
+
       - name: Compile Storybook libraries
         run: yarn task --task compile --start-from=auto --no-link
+
       - name: Publishing to local registry
         run: yarn local-registry --publish
         working-directory: ./code
+
       - name: Running local registry
         run: yarn local-registry --open &
         working-directory: ./code
+
       - name: Wait for registry
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
+
       - name: Generate
-        run: yarn generate-sandboxes --local-registry --includeTemplates "${{matrix.includeTemplates}}" --excludeTemplates "${{matrix.excludeTemplates}}"
+        run: yarn generate-sandboxes --local-registry --templates ${{matrix.templates}} --exclude ${{matrix.exclude}}
         working-directory: ./code
+
       - name: Publish
         run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=${{ matrix.branch }}}
         working-directory: ./code
+
       - name: The job has failed
         if: ${{ failure() || cancelled() }}
         env:
