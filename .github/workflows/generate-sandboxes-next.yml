@@ -69,4 +69,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_URL }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'The generation of sandboxes in the **${{ matrix.branch }}** branch has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+          args: 'The generation of sandboxes with Node version **${{ matrix.node_version }}** in the **${{ matrix.branch }}** branch has failed. [View Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
