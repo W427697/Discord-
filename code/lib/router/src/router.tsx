@@ -48,7 +48,11 @@ export const useNavigate = () => {
 
   return useCallback((to: R.To | number, { plain, ...options } = {} as NavigateOptions) => {
     if (typeof to === 'string' && to.startsWith('#')) {
-      document.location.hash = to;
+      if (to === '#') {
+        navigate(document.location.search);
+      } else {
+        document.location.hash = to;
+      }
       return undefined;
     }
     if (typeof to === 'string') {

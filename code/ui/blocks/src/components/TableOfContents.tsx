@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import type { FC, ReactElement } from 'react';
 import { styled } from '@storybook/theming';
+import type { Channel } from '@storybook/channels';
 import tocbot from 'tocbot';
+import { NAVIGATE_URL } from '@storybook/core-events';
 
 export interface TocParameters {
   /** CSS selector for the container to search for headings. */
@@ -27,7 +29,7 @@ export interface TocParameters {
    * TocBot options, not guaranteed to be available in future versions.
    * @see tocbot docs {@link https://tscanlin.github.io/tocbot/#usage}
    */
-  unsafeTocbotOptions?: tocbot.IStaticOptions;
+  unsafeTocbotOptions?: Omit<tocbot.IStaticOptions, 'onClick' | 'scrollEndCallback'>;
 }
 
 const Wrapper = styled.div(({ theme }) => ({
@@ -113,6 +115,7 @@ const Heading = styled.p(({ theme }) => ({
 type TableOfContentsProps = React.PropsWithChildren<
   TocParameters & {
     className?: string;
+    channel: Channel;
   }
 >;
 
@@ -133,6 +136,7 @@ export const TableOfContents = ({
   contentsSelector,
   ignoreSelector,
   unsafeTocbotOptions,
+  channel,
 }: TableOfContentsProps) => {
   useEffect(() => {
     const configuration = {
@@ -152,7 +156,31 @@ export const TableOfContents = ({
        * Prevent default linking behavior,
        * leaving only the smooth scrolling.
        */
-      onClick: () => false,
+      onClick: (e: MouseEvent) => {
+        e.preventDefault();
+        if (e.currentTarget instanceof HTMLAnchorElement) {
+          const [, headerId] = e.currentTarget.href.split('#');
+          channel.emit(NAVIGATE_URL, `#${headerId}`);
+        }
+      },
+      scrollEndCallback: () => {
+        const scrollEl =
+          document.querySelector(unsafeTocbotOptions?.scrollContainer) || document.documentElement;
+
+        if (scrollEl.scrollTop === 0) {
+          channel.emit(NAVIGATE_URL, '#'); // this removes the whole hash, including the # symbol.
+          return;
+        }
+
+        const activeLinkEl = document.querySelector(
+          `.${unsafeTocbotOptions?.activeLinkClass || 'is-active-link'}`
+        );
+
+        if (activeLinkEl && activeLinkEl instanceof HTMLAnchorElement) {
+          const [, headerId] = activeLinkEl.href.split('#');
+          channel.emit(NAVIGATE_URL, `#${headerId}`);
+        }
+      },
       ...unsafeTocbotOptions,
     };
 
