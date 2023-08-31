@@ -12,8 +12,8 @@ env:
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
 
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
+  group: release-group
+  cancel-in-progress: false
 
 jobs:
   prepare-hotfix-pull-request:
