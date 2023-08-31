@@ -1,7 +1,23 @@
+/* eslint-disable local-rules/no-uncategorized-errors */
 import { sanitizeError, cleanPaths } from './sanitize';
 
 describe(`Errors Helpers`, () => {
   describe(`sanitizeError`, () => {
+    it(`Sanitizes ansi codes in error`, () => {
+      const errorMessage = `\u001B[4mStorybook\u001B[0m`;
+      let e: any;
+      try {
+        throw new Error(errorMessage);
+      } catch (error) {
+        e = error;
+      }
+
+      const sanitizedError = sanitizeError(e);
+
+      expect(sanitizedError.message).toEqual('Storybook');
+      expect(sanitizedError.stack).toContain('Error: Storybook');
+    });
+
     it(`Sanitizes current path from error stacktraces`, () => {
       const errorMessage = `this is a test`;
       let e: any;

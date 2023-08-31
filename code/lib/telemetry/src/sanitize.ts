@@ -12,6 +12,11 @@ function regexpEscape(str: string): string {
   return str.replace(/[-[/{}()*+?.\\^$|]/g, `\\$&`);
 }
 
+export function removeAnsiEscapeCodes(input: string): string {
+  // eslint-disable-next-line no-control-regex
+  return input.replace(/\u001B\[[0-9;]*m/g, '');
+}
+
 export function cleanPaths(str: string, separator: string = sep): string {
   if (!str) return str;
 
@@ -35,7 +40,15 @@ export function cleanPaths(str: string, separator: string = sep): string {
 export function sanitizeError(error: Error, pathSeparator: string = sep) {
   try {
     // Hack because Node
-    error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+    error = JSON.parse(
+      JSON.stringify(error, [...Object.getOwnPropertyNames(error), 'message', 'name'])
+    );
+    if (error.message) {
+      error.message = removeAnsiEscapeCodes(error.message);
+    }
+    if (error.stack) {
+      error.stack = removeAnsiEscapeCodes(error.stack);
+    }
 
     // Removes all user paths
     const errorString = cleanPaths(JSON.stringify(error), pathSeparator);
