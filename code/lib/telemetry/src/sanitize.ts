@@ -24,11 +24,11 @@ export function cleanPaths(str: string, separator: string = sep): string {
 
   while (stack.length > 1) {
     const currentPath = stack.join(separator);
-    const currentRegex = new RegExp(regexpEscape(currentPath), `g`);
+    const currentRegex = new RegExp(regexpEscape(currentPath), `gi`);
     str = str.replace(currentRegex, `$SNIP`);
 
     const currentPath2 = stack.join(separator + separator);
-    const currentRegex2 = new RegExp(regexpEscape(currentPath2), `g`);
+    const currentRegex2 = new RegExp(regexpEscape(currentPath2), `gi`);
     str = str.replace(currentRegex2, `$SNIP`);
 
     stack.pop();

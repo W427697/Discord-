@@ -85,14 +85,12 @@ describe(`Errors Helpers`, () => {
       `should clean path on unix: %s`,
       (filePath) => {
         const cwdMockPath = `/Users/username/storybook-app`;
-        const fullPath = `${cwdMockPath}/${filePath}`;
-
         const mockCwd = jest.spyOn(process, `cwd`).mockImplementation(() => cwdMockPath);
 
-        const errorMessage = `This path should be sanitized ${fullPath}`;
+        const errorMessage = `Path 1 /Users/Username/storybook-app/${filePath} Path 2 /Users/username/storybook-app/${filePath}`;
 
         expect(cleanPaths(errorMessage, `/`)).toBe(
-          `This path should be sanitized $SNIP/${filePath}`
+          `Path 1 $SNIP/${filePath} Path 2 $SNIP/${filePath}`
         );
         mockCwd.mockRestore();
       }
@@ -102,14 +100,12 @@ describe(`Errors Helpers`, () => {
       `should clean path on windows: %s`,
       (filePath) => {
         const cwdMockPath = `C:\\Users\\username\\storybook-app`;
-        const fullPath = `${cwdMockPath}\\${filePath}`;
 
-        const mockCwd = jest.spyOn(process, `cwd`).mockImplementation(() => cwdMockPath);
+        const mockCwd = jest.spyOn(process, `cwd`).mockImplementationOnce(() => cwdMockPath);
 
-        const errorMessage = `This path should be sanitized ${fullPath}`;
-
+        const errorMessage = `Path 1 C:\\Users\\username\\storybook-app\\${filePath} Path 2 c:\\Users\\username\\storybook-app\\${filePath}`;
         expect(cleanPaths(errorMessage, `\\`)).toBe(
-          `This path should be sanitized $SNIP\\${filePath}`
+          `Path 1 $SNIP\\${filePath} Path 2 $SNIP\\${filePath}`
         );
         mockCwd.mockRestore();
       }
