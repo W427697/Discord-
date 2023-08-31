@@ -207,6 +207,17 @@ export const options = createOptions({
     description: 'Which template would you like to create?',
     values: Object.keys(sandboxTemplates),
   },
+  includeTemplates: {
+    type: 'string',
+    description: 'Comma-delimited list of templates to include',
+    promptType: false,
+  },
+  excludeTemplates: {
+    type: 'string',
+    description:
+      'Comma-delimited list of templates to exclude. Takes precedence over --includedTemplates',
+    promptType: false,
+  },
   localRegistry: {
     type: 'boolean',
     description: 'Generate reproduction from local registry?',
@@ -221,6 +232,8 @@ export const options = createOptions({
 
 export const generate = async ({
   template,
+  includeTemplates,
+  excludeTemplates,
   localRegistry,
   debug,
 }: OptionValues<typeof options>) => {
@@ -233,8 +246,11 @@ export const generate = async ({
       if (template) {
         return dirName === template;
       }
-
-      return true;
+      let include = includeTemplates ? includeTemplates.split(',').includes(dirName) : true;
+      if (excludeTemplates && include) {
+        include = !excludeTemplates.split(',').includes(dirName);
+      }
+      return include;
     });
 
   await runGenerators(generatorConfigs, localRegistry, debug);
@@ -244,6 +260,11 @@ if (require.main === module) {
   program
     .description('Generate sandboxes from a set of possible templates')
     .option('--template <template>', 'Create a single template')
+    .option('--includeTemplates <templates>', 'Comma-delimited list of templates to include')
+    .option(
+      '--excludeTemplates <templates>',
+      'Comma-delimited list of templates to exclude. Takes precedence over --includedTemplates'
+    )
     .option('--debug', 'Print all the logs to the console')
     .option('--local-registry', 'Use local registry', false)
     .action((optionValues) => {
