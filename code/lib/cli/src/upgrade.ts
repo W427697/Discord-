@@ -190,14 +190,16 @@ export const doUpgrade = async ({
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
     shell: true,
-  }).output.toString();
-  logger.info(check);
+  });
+  logger.info(check.stdout.toString());
+  logger.info(check.stderr.toString());
 
   const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
     stdio: 'pipe',
     shell: true,
-  }).output.toString();
-  logger.info(checkSb);
+  });
+  logger.info(checkSb.stdout.toString());
+  logger.info(checkSb.stderr.toString());
 
   if (!dryRun) {
     commandLog(`Installing upgrades`);
