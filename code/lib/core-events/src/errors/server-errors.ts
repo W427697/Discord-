@@ -137,3 +137,48 @@ export class InvalidStoriesEntryError extends StorybookError {
     `;
   }
 }
+
+export class WebpackCompilationError extends StorybookError {
+  readonly category = Category.BUILDER_WEBPACK5;
+
+  readonly code = 1;
+
+  private errorMessage = '';
+
+  constructor(
+    public data: {
+      error:
+        | (Error & {
+            error?: Error;
+            stats?: { compilation: { errors: Error[] } };
+            compilation?: { errors: Error[] };
+          })
+        | {
+            compilation?: { errors: Error[] };
+          };
+    }
+  ) {
+    super();
+
+    if (data.error instanceof Error) {
+      if (data.error.error) {
+        this.errorMessage = data.error.error.message;
+        this.stack = data.error.error.stack;
+      } else if (data.error.stats && data.error.stats.compilation.errors) {
+        data.error.stats.compilation.errors.forEach((e: Error) => {
+          this.errorMessage += `${e.name}: ${e.message}\n\n`;
+        });
+      } else {
+        this.errorMessage = data.error.message;
+      }
+    } else if (data.error.compilation?.errors) {
+      data.error.compilation.errors.forEach((e: Error) => {
+        this.errorMessage += `${e.name}: ${e.message}\n\n`;
+      });
+    }
+  }
+
+  template() {
+    return this.errorMessage.trim();
+  }
+}

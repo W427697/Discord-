@@ -9,6 +9,7 @@ import { dirname, join, parse } from 'path';
 import express from 'express';
 import fs from 'fs-extra';
 import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
+import { WebpackCompilationError } from '@storybook/core-events/server-errors';
 
 import prettyTime from 'pretty-hrtime';
 
@@ -195,8 +196,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   if (stats.hasErrors()) {
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw stats;
+    throw new WebpackCompilationError({ error: stats });
   }
 
   return {
