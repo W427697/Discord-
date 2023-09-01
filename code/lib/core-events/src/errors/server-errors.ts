@@ -138,47 +138,80 @@ export class InvalidStoriesEntryError extends StorybookError {
   }
 }
 
-export class WebpackCompilationError extends StorybookError {
+export class WebpackMissingStatsError extends StorybookError {
   readonly category = Category.BUILDER_WEBPACK5;
 
   readonly code = 1;
+
+  public documentation = [
+    'https://webpack.js.org/configuration/stats/',
+    'https://storybook.js.org/docs/react/builders/webpack#configure',
+  ];
+
+  template() {
+    return dedent`
+      No Webpack stats found. Did you turn off stats reporting in your webpack config?
+      Storybook needs Webpack stats (including errors) in order to build correctly.
+    `;
+  }
+}
+
+export class WebpackInvocationError extends StorybookError {
+  readonly category = Category.BUILDER_WEBPACK5;
+
+  readonly code = 2;
 
   private errorMessage = '';
 
   constructor(
     public data: {
-      error:
-        | (Error & {
-            error?: Error;
-            stats?: { compilation: { errors: Error[] } };
-            compilation?: { errors: Error[] };
-          })
-        | {
-            compilation?: { errors: Error[] };
-          };
+      error: Error;
     }
   ) {
     super();
-
-    if (data.error instanceof Error) {
-      if (data.error.error) {
-        this.errorMessage = data.error.error.message;
-        this.stack = data.error.error.stack;
-      } else if (data.error.stats && data.error.stats.compilation.errors) {
-        data.error.stats.compilation.errors.forEach((e: Error) => {
-          this.errorMessage += `${e.name}: ${e.message}\n\n`;
-        });
-      } else {
-        this.errorMessage = data.error.message;
-      }
-    } else if (data.error.compilation?.errors) {
-      data.error.compilation.errors.forEach((e: Error) => {
-        this.errorMessage += `${e.name}: ${e.message}\n\n`;
-      });
-    }
+    this.errorMessage = data.error.message;
   }
 
   template() {
     return this.errorMessage.trim();
+  }
+}
+function removeAnsiEscapeCodes(input = '') {
+  // eslint-disable-next-line no-control-regex
+  return input.replace(/\u001B\[[0-9;]*m/g, '');
+}
+
+export class WebpackCompilationError extends StorybookError {
+  readonly category = Category.BUILDER_WEBPACK5;
+
+  readonly code = 3;
+
+  constructor(
+    public data: {
+      errors: {
+        message: string;
+        stack?: string;
+        name?: string;
+      }[];
+    }
+  ) {
+    super();
+
+    this.data.errors = data.errors.map((e, i) => {
+      return {
+        ...e,
+        message: removeAnsiEscapeCodes(e.message),
+        stack: removeAnsiEscapeCodes(e.stack),
+        name: e.name,
+      };
+    });
+  }
+
+  template() {
+    // This error message is a followup of errors logged by Webpack to the user
+    return dedent`
+      There were problems when compiling your code with Webpack.
+      Run Storybook with --debug-webpack for more information.
+    `;
   }
 }
