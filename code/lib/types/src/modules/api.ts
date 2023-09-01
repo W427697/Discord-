@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type { ReactElement } from 'react';
 import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
@@ -75,7 +74,7 @@ export type API_IframeRenderer = (
   baseUrl: string,
   scale: number,
   queryParams: Record<string, any>
-) => ReactElement<any, any> | null;
+) => React.ReactElement<any, any> | null;
 
 export interface API_UIOptions {
   name?: string;
