@@ -47,7 +47,6 @@
     "@storybook/channels": "workspace:*",
     "@types/babel__core": "^7.0.0",
     "@types/express": "^4.7.0",
-    "@types/react": "^16.14.34",
     "file-system-cache": "2.3.0"
   },
   "devDependencies": {
