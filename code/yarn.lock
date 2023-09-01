@@ -500,6 +500,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/core@npm:^7.22.0":
+  version: 7.22.11
+  resolution: "@babel/core@npm:7.22.11"
+  dependencies:
+    "@ampproject/remapping": ^2.2.0
+    "@babel/code-frame": ^7.22.10
+    "@babel/generator": ^7.22.10
+    "@babel/helper-compilation-targets": ^7.22.10
+    "@babel/helper-module-transforms": ^7.22.9
+    "@babel/helpers": ^7.22.11
+    "@babel/parser": ^7.22.11
+    "@babel/template": ^7.22.5
+    "@babel/traverse": ^7.22.11
+    "@babel/types": ^7.22.11
+    convert-source-map: ^1.7.0
+    debug: ^4.1.0
+    gensync: ^1.0.0-beta.2
+    json5: ^2.2.3
+    semver: ^6.3.1
+  checksum: 862c5459381b377e0f185772ae4cb93a236217786102a8acc514eeab7f99d1059c006bf86a17627e06171df5087e028ba1a2a4a74847bd8bdb62b6ba802814c2
+  languageName: node
+  linkType: hard
+
 "@babel/generator@npm:7.22.9":
   version: 7.22.9
   resolution: "@babel/generator@npm:7.22.9"
@@ -773,6 +796,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helpers@npm:^7.22.11":
+  version: 7.22.11
+  resolution: "@babel/helpers@npm:7.22.11"
+  dependencies:
+    "@babel/template": ^7.22.5
+    "@babel/traverse": ^7.22.11
+    "@babel/types": ^7.22.11
+  checksum: ebb0f1e95bd07752cc5a82de14f73fc6de36bd74a2350266abc8b5e21ad89544705c5ac8765da318c85ffa0becb8d24063c19b33ccb3a0d830495227d921d044
+  languageName: node
+  linkType: hard
+
 "@babel/highlight@npm:^7.22.10":
   version: 7.22.10
   resolution: "@babel/highlight@npm:7.22.10"
@@ -790,6 +824,15 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: 22de4b5b2e20dd5b44a73963e5fceef44501bacdd14f0b3b96fc16975826553c83c3e424e2ea906b4f2fb8c2129b176bcee33ae99e30de9006ceb28ded5c6ac7
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.22.11":
+  version: 7.22.14
+  resolution: "@babel/parser@npm:7.22.14"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 1ba59c43faadcfdee424bb9f35d4fd2f0977d5d26ecf4775068d114b775277840301e298ed0e384708693444bd02d5d36f5e7447f9135d63a8b65f152737633d
   languageName: node
   linkType: hard
 
@@ -2322,6 +2365,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/traverse@npm:^7.22.11":
+  version: 7.22.11
+  resolution: "@babel/traverse@npm:7.22.11"
+  dependencies:
+    "@babel/code-frame": ^7.22.10
+    "@babel/generator": ^7.22.10
+    "@babel/helper-environment-visitor": ^7.22.5
+    "@babel/helper-function-name": ^7.22.5
+    "@babel/helper-hoist-variables": ^7.22.5
+    "@babel/helper-split-export-declaration": ^7.22.6
+    "@babel/parser": ^7.22.11
+    "@babel/types": ^7.22.11
+    debug: ^4.1.0
+    globals: ^11.1.0
+  checksum: 0a59df7c8660238d6a018de07e9b52592460cc393b724a7ac0289fe8129081ec2aeb772befe2c36909a32563c781082ffe85b407a26e2237a95b68c0f59e9849
+  languageName: node
+  linkType: hard
+
 "@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.2.0, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.4, @babel/types@npm:^7.22.10, @babel/types@npm:^7.22.5, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6":
   version: 7.22.10
   resolution: "@babel/types@npm:7.22.10"
@@ -2330,6 +2391,17 @@ __metadata:
     "@babel/helper-validator-identifier": ^7.22.5
     to-fast-properties: ^2.0.0
   checksum: 34aad930339664a3a5423d6f1d6d2738e30cd73786ff6dfd0a40bfc8f45017e70e24ef397877c86f4e7dee8ada0a53b8fd9f3d86bc0137d09a44e4b3733090f7
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.22.11":
+  version: 7.22.11
+  resolution: "@babel/types@npm:7.22.11"
+  dependencies:
+    "@babel/helper-string-parser": ^7.22.5
+    "@babel/helper-validator-identifier": ^7.22.5
+    to-fast-properties: ^2.0.0
+  checksum: 57632c8c409e604697824dd2799c978681c66e910d5bc4fdad04693a3f3e5d50b1119000d8fb215fcb88d095c6a41470814e4a4f34d8856d7da6781b9c39c53c
   languageName: node
   linkType: hard
 
@@ -5739,7 +5811,7 @@ __metadata:
     polished: ^4.2.2
     prop-types: ^15.7.2
     react-inspector: ^6.0.0
-    telejson: ^7.0.3
+    telejson: ^7.2.0
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
     uuid: ^9.0.0
@@ -6312,7 +6384,7 @@ __metadata:
     jest-specific-snapshot: ^8.0.0
     read-pkg-up: ^7.0.1
     semver: ^7.3.7
-    telejson: ^7.0.3
+    telejson: ^7.2.0
     tmp: ^0.2.1
     ts-dedent: ^2.0.0
     tsconfig-paths-webpack-plugin: ^4.0.1
@@ -6418,7 +6490,7 @@ __metadata:
     memoizerific: ^1.11.3
     polished: ^4.2.2
     react-colorful: ^5.1.2
-    telejson: ^7.0.3
+    telejson: ^7.2.0
     tocbot: ^4.20.1
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
@@ -6501,23 +6573,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-webpack5@workspace:builders/builder-webpack5"
   dependencies:
-    "@babel/core": ^7.22.9
-    "@storybook/addons": "workspace:*"
+    "@babel/core": ^7.22.0
     "@storybook/channels": "workspace:*"
-    "@storybook/client-api": "workspace:*"
     "@storybook/client-logger": "workspace:*"
-    "@storybook/components": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/global": ^5.0.0
-    "@storybook/manager-api": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview": "workspace:*"
     "@storybook/preview-api": "workspace:*"
-    "@storybook/router": "workspace:*"
-    "@storybook/store": "workspace:*"
-    "@storybook/theming": "workspace:*"
     "@swc/core": ^1.3.49
     "@types/node": ^16.0.0
     "@types/pretty-hrtime": ^1.0.0
@@ -6552,9 +6616,6 @@ __metadata:
     webpack-dev-middleware: ^6.1.1
     webpack-hot-middleware: ^2.25.1
     webpack-virtual-modules: ^0.5.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -6589,7 +6650,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
     qs: ^6.10.0
-    telejson: ^7.0.3
+    telejson: ^7.2.0
     tiny-invariant: ^1.3.1
     typescript: ~4.9.3
   languageName: unknown
@@ -6789,6 +6850,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
+    ts-dedent: ^2.0.0
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
@@ -6843,7 +6905,7 @@ __metadata:
     semver: ^7.3.7
     serve-favicon: ^2.5.0
     slash: ^5.0.0
-    telejson: ^7.0.3
+    telejson: ^7.2.0
     tiny-invariant: ^1.3.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
@@ -7124,7 +7186,7 @@ __metadata:
     qs: ^6.10.0
     semver: ^7.3.7
     store2: ^2.14.2
-    telejson: ^7.0.3
+    telejson: ^7.2.0
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   peerDependencies:
@@ -7550,6 +7612,7 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-events": "workspace:*"
+    "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
     typescript: ~4.9.3
   languageName: unknown
@@ -7648,7 +7711,7 @@ __metadata:
     acorn: ^7.4.1
     acorn-jsx: ^5.3.1
     acorn-walk: ^7.2.0
-    escodegen: ^2.0.0
+    escodegen: ^2.1.0
     expect-type: ^0.15.0
     html-tags: ^3.1.0
     jest-specific-snapshot: ^8.0.0
@@ -7807,6 +7870,7 @@ __metadata:
     eslint: ^8.28.0
     eslint-import-resolver-typescript: ^3.5.2
     eslint-plugin-import: ^2.26.0
+    eslint-plugin-local-rules: "portal:../scripts/eslint-plugin-local-rules"
     eslint-plugin-react: ^7.31.10
     eslint-plugin-storybook: ^0.6.6
     fs-extra: ^11.1.0
@@ -8081,6 +8145,7 @@ __metadata:
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     "@types/node": ^16.0.0
+    "@types/react": ^16.14.34
     file-system-cache: 2.3.0
     typescript: ~4.9.3
   languageName: unknown
@@ -15665,7 +15730,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"escodegen@npm:^2.0.0":
+"escodegen@npm:^2.0.0, escodegen@npm:^2.1.0":
   version: 2.1.0
   resolution: "escodegen@npm:2.1.0"
   dependencies:
@@ -15890,6 +15955,12 @@ __metadata:
   checksum: 41ad3d0c8036b36cd475685c1ad639157f403b16e8ac23c07f1dbe0226ccf8458f2805cbd5cc8e56856a5d8a356f3276e3139274d819476ccad80c41b9245502
   languageName: node
   linkType: hard
+
+"eslint-plugin-local-rules@portal:../scripts/eslint-plugin-local-rules::locator=%40storybook%2Froot%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "eslint-plugin-local-rules@portal:../scripts/eslint-plugin-local-rules::locator=%40storybook%2Froot%40workspace%3A."
+  languageName: node
+  linkType: soft
 
 "eslint-plugin-prettier@npm:^3.4.0":
   version: 3.4.1
@@ -29695,12 +29766,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"telejson@npm:^7.0.3":
-  version: 7.1.0
-  resolution: "telejson@npm:7.1.0"
+"telejson@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "telejson@npm:7.2.0"
   dependencies:
     memoizerific: ^1.11.3
-  checksum: dc9a185d0e00d947c0eaa229bfb993aab61a3ba79282ae409768fc8ae66d236e89a64ebe291f9ea6ed5e05396e0be52a7542ea32b6c1321b20440f28c7828edc
+  checksum: d26e6cc93e54bfdcdb207b49905508c5db45862e811a2e2193a735409e47b14530e1c19351618a3e03ad2fd4ffc3759364fcd72851aba2df0300fab574b6151c
   languageName: node
   linkType: hard
 
