@@ -15,7 +15,13 @@ jobs:
     # Job steps
     steps:
       - uses: actions/checkout@v3
-      - run: yarn
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
         #👇 Adds Chromatic as a step in the workflow
       - uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
