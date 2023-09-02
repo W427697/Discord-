@@ -56,9 +56,19 @@
       "description": "CI mode (skip interactive prompts, don't open browser).",
       "default": false
     },
+    "open": {
+      "type": "boolean",
+      "description": "Whether to open Storybook automatically in the browser.",
+      "default": true
+    },
     "quiet": {
       "type": "boolean",
       "description": "Suppress verbose build output.",
+      "default": false
+    },
+    "enableProdMode": {
+      "type": "boolean",
+      "description": "Disable Angular's development mode, which turns off assertions and other checks within the framework.",
       "default": false
     },
     "docs": {
@@ -109,6 +119,10 @@
       "items": {
         "$ref": "#/definitions/assetPattern"
       }
+    },
+    "initialPath": {
+      "type": "string",
+      "description": "URL path to be appended when visiting Storybook for the first time"
     }
   },
   "additionalProperties": false,

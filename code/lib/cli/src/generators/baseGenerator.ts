@@ -1,10 +1,11 @@
 import path from 'path';
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
+import ora from 'ora';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
 import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
-import { copyTemplateFiles, paddedLog } from '../helpers';
+import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
@@ -16,6 +17,9 @@ import {
   extractEslintInfo,
   suggestESLintPlugin,
 } from '../automigrate/helpers/eslintPlugin';
+import { detectBuilder } from '../detect';
+
+const logger = console;
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -58,13 +62,30 @@ const getExternalFramework = (framework: string) =>
 
 const getFrameworkPackage = (framework: string, renderer: string, builder: string) => {
   const externalFramework = getExternalFramework(framework);
+  const storybookBuilder = builder?.replace(/^@storybook\/builder-/, '');
+  const storybookFramework = framework?.replace(/^@storybook\//, '');
 
   if (externalFramework === undefined) {
-    return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
+    const frameworkPackage = framework
+      ? `@storybook/${storybookFramework}`
+      : `@storybook/${renderer}-${storybookBuilder}`;
+
+    if (packageVersions[frameworkPackage as keyof typeof packageVersions]) {
+      return frameworkPackage;
+    }
+
+    throw new Error(
+      dedent`
+        Could not find framework package: ${frameworkPackage}.
+        Make sure this package exists, and if it does, please file an issue as this might be a bug in Storybook.
+      `
+    );
   }
 
   if (externalFramework.frameworks !== undefined) {
-    return externalFramework.frameworks.find((item) => item.match(new RegExp(`-${builder}`)));
+    return externalFramework.frameworks.find((item) =>
+      item.match(new RegExp(`-${storybookBuilder}`))
+    );
   }
 
   return externalFramework.packageName;
@@ -78,14 +99,15 @@ const getRendererPackage = (framework: string, renderer: string) => {
   return `@storybook/${renderer}`;
 };
 
-const wrapForPnp = (packageName: string) =>
-  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
+const applyRequireWrapper = (packageName: string) => `%%getAbsolutePath('${packageName}')%%`;
 
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
   pnp: boolean,
-  framework?: SupportedFrameworks
+  language: SupportedLanguage,
+  framework?: SupportedFrameworks,
+  shouldApplyRequireWrapperOnPackageNames?: boolean
 ): {
   type: 'framework' | 'renderer';
   packages: string[];
@@ -96,13 +118,19 @@ const getFrameworkDetails = (
 } => {
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
 
-  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
+  const frameworkPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(frameworkPackage)
+    : frameworkPackage;
 
   const rendererPackage = getRendererPackage(framework, renderer);
-  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
+  const rendererPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(rendererPackage)
+    : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
+  const builderPackagePath = shouldApplyRequireWrapperOnPackageNames
+    ? applyRequireWrapper(builderPackage)
+    : builderPackage;
 
   const isExternalFramework = !!getExternalFramework(frameworkPackage);
   const isKnownFramework =
@@ -146,11 +174,26 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder = CoreBuilder.Webpack5, pnp, frameworkPreviewParts }: GeneratorOptions,
+  {
+    language,
+    builder,
+    pnp,
+    frameworkPreviewParts,
+    yes: skipPrompts,
+    projectType,
+  }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
 ) {
+  const isStorybookInMonorepository = packageManager.isStorybookInMonorepo();
+  const shouldApplyRequireWrapperOnPackageNames = isStorybookInMonorepository || pnp;
+
+  if (!builder) {
+    // eslint-disable-next-line no-param-reassign
+    builder = await detectBuilder(packageManager, projectType);
+  }
+
   const {
     extraAddons: extraAddonPackages,
     extraPackages,
@@ -174,28 +217,41 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp, framework);
+  } = getFrameworkDetails(
+    renderer,
+    builder,
+    pnp,
+    language,
+    framework,
+    shouldApplyRequireWrapperOnPackageNames
+  );
+
+  const extraAddonsToInstall =
+    typeof extraAddonPackages === 'function'
+      ? await extraAddonPackages({
+          builder: builder || builderInclude,
+          framework: framework || frameworkInclude,
+        })
+      : extraAddonPackages;
 
   // added to main.js
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    ...stripVersions(extraAddonPackages),
-  ];
+    ...stripVersions(extraAddonsToInstall),
+  ].filter(Boolean);
+
   // added to package.json
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/blocks',
-    ...extraAddonPackages,
-  ];
+    ...extraAddonsToInstall,
+  ].filter(Boolean);
 
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');
-    addonPackages.push(
-      '@storybook/addon-interactions',
-      '@storybook/testing-library@^0.0.14-next.1'
-    );
+    addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library@^0.2.0-next.0');
   }
 
   const files = await fse.readdir(process.cwd());
@@ -225,43 +281,33 @@ export async function baseGenerator(
     );
   }
 
-  const packages = [
+  const extraPackagesToInstall =
+    typeof extraPackages === 'function'
+      ? await extraPackages({
+          builder: builder || builderInclude,
+          framework: framework || frameworkInclude,
+        })
+      : extraPackages;
+
+  const allPackages = [
     'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
-    ...extraPackages,
-  ]
-    .filter(Boolean)
-    .filter(
-      (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
-    );
+    ...extraPackagesToInstall,
+  ].filter(Boolean);
 
+  const packages = [...new Set(allPackages)].filter(
+    (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
+  );
+
+  logger.log();
+  const versionedPackagesSpinner = ora({
+    indent: 2,
+    text: `Getting the correct version of ${packages.length} packages`,
+  }).start();
   const versionedPackages = await packageManager.getVersionedPackages(packages);
-
-  await fse.ensureDir(`./${storybookConfigFolder}`);
-
-  if (addMainFile) {
-    await configureMain({
-      framework: { name: frameworkInclude, options: options.framework || {} },
-      storybookConfigFolder,
-      docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
-      extensions,
-      language,
-      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
-      ...extraMain,
-      ...(type !== 'framework'
-        ? {
-            core: {
-              builder: builderInclude,
-            },
-          }
-        : {}),
-    });
-  }
-
-  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
+  versionedPackagesSpinner.succeed();
 
   const depsToInstall = [...versionedPackages];
 
@@ -304,8 +350,7 @@ export async function baseGenerator(
       );
 
       if (hasEslint && !isStorybookPluginInstalled) {
-        const shouldInstallESLintPlugin = await suggestESLintPlugin();
-        if (shouldInstallESLintPlugin) {
+        if (skipPrompts || (await suggestESLintPlugin())) {
           depsToInstall.push('eslint-plugin-storybook');
           await configureEslintPlugin(eslintConfigFile, packageManager);
         }
@@ -316,9 +361,66 @@ export async function baseGenerator(
   }
 
   if (depsToInstall.length > 0) {
-    paddedLog('Installing Storybook dependencies');
+    const addDependenciesSpinner = ora({
+      indent: 2,
+      text: 'Installing Storybook dependencies',
+    }).start();
     await packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+    addDependenciesSpinner.succeed();
   }
+
+  await fse.ensureDir(`./${storybookConfigFolder}`);
+
+  if (addMainFile) {
+    const prefixes = shouldApplyRequireWrapperOnPackageNames
+      ? [
+          'import { join, dirname } from "path"',
+          language === SupportedLanguage.JAVASCRIPT
+            ? dedent`/**
+            * This function is used to resolve the absolute path of a package.
+            * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+            */ 
+            function getAbsolutePath(value) {
+              return dirname(require.resolve(join(value, 'package.json')))
+            }`
+            : dedent`/**
+          * This function is used to resolve the absolute path of a package.
+          * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+          */ 
+          function getAbsolutePath(value: string): any {
+            return dirname(require.resolve(join(value, 'package.json')))
+          }`,
+        ]
+      : [];
+
+    await configureMain({
+      framework: { name: frameworkInclude, options: options.framework || {} },
+      prefixes,
+      storybookConfigFolder,
+      docs: { autodocs: 'tag' },
+      addons: shouldApplyRequireWrapperOnPackageNames
+        ? addons.map((addon) => applyRequireWrapper(addon))
+        : addons,
+      extensions,
+      language,
+      ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
+      ...extraMain,
+      ...(type !== 'framework'
+        ? {
+            core: {
+              builder: builderInclude,
+            },
+          }
+        : {}),
+    });
+  }
+
+  await configurePreview({
+    frameworkPreviewParts,
+    storybookConfigFolder,
+    language,
+    rendererId,
+  });
 
   if (addScripts) {
     await packageManager.addStorybookCommandInScripts({
