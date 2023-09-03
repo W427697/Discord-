@@ -6,7 +6,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   await baseGenerator(
     packageManager,
     npmOptions,
-    { ...options, builder: CoreBuilder.Vite },
+    { ...options, builder: CoreBuilder.Webpack5 },
     'server',
     {
       extensions: ['json', 'yaml', 'yml'],

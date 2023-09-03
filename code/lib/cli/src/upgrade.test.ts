@@ -1,9 +1,4 @@
-import {
-  addExtraFlags,
-  addNxPackagesToReject,
-  getStorybookVersion,
-  isCorePackage,
-} from './upgrade';
+import { addExtraFlags, addNxPackagesToReject, getStorybookVersion } from './upgrade';
 
 describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
@@ -23,24 +18,6 @@ describe.each([
 ])('getStorybookVersion', (input, output) => {
   it(`${input}`, () => {
     expect(getStorybookVersion(input)).toEqual(output);
-  });
-});
-
-describe.each([
-  ['@storybook/react', true],
-  ['@storybook/node-logger', true],
-  ['@storybook/addon-info', true],
-  ['@storybook/something-random', true],
-  ['@storybook/preset-create-react-app', false],
-  ['@storybook/linter-config', false],
-  ['@storybook/design-system', false],
-  ['@storybook/addon-styling', false],
-  ['@storybook/addon-styling-webpack', false],
-  ['@nx/storybook', false],
-  ['@nrwl/storybook', false],
-])('isCorePackage', (input, output) => {
-  it(`${input}`, () => {
-    expect(isCorePackage(input)).toEqual(output);
   });
 });
 
