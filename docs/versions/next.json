@@ -1,1 +1,1 @@
-{"version":"7.4.0-alpha.0","info":{"plain":"- Index: Fix `*.story.*` CSF indexing - [#23852](https://github.com/storybookjs/storybook/pull/23852), thanks [@shilman](https://github.com/shilman)!"}}
+{"version":"7.5.0-alpha.1","info":{"plain":"- Core: Add CJS entrypoints to errors in core events - [#24038](https://github.com/storybookjs/storybook/pull/24038), thanks [@yannbf](https://github.com/yannbf)!"}}
