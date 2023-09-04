@@ -1673,7 +1673,7 @@ If you're using `storiesOf` and want to restore the previous behavior, you can a
 ```js
 module.exports = {
   webpackFinal: (config) => {
-    config.modules.rules.push({
+    config.module.rules.push({
       test: /\.stories\.[tj]sx?$/,
       use: [
         {

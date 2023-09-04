@@ -31,7 +31,7 @@ const promptCrashReports = async () => {
 
 type ErrorLevel = 'none' | 'error' | 'full';
 
-async function getErrorLevel({
+export async function getErrorLevel({
   cliOptions,
   presetOptions,
   skipPrompt,
@@ -66,7 +66,7 @@ async function getErrorLevel({
 }
 
 export async function sendTelemetryError(
-  error: Error,
+  _error: unknown,
   eventType: EventType,
   options: TelemetryOptions
 ) {
@@ -80,13 +80,43 @@ export async function sendTelemetryError(
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
 
+      const error = _error as Error | Record<string, any>;
+
+      let storybookErrorProperties = {};
+      // if it's an UNCATEGORIZED error, it won't have a coded name, so we just pass the category and source
+      if ((error as any).category) {
+        const { category } = error as any;
+        storybookErrorProperties = {
+          category,
+        };
+      }
+
+      if ((error as any).fromStorybook) {
+        const { code, name } = error as any;
+        storybookErrorProperties = {
+          ...storybookErrorProperties,
+          code,
+          name,
+        };
+      }
+
+      let errorHash;
+      if ('message' in error) {
+        errorHash = error.message ? oneWayHash(error.message) : 'empty-message';
+      } else {
+        errorHash = 'no-message';
+      }
+
       await telemetry(
         'error',
         {
+          ...storybookErrorProperties,
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,
-          errorHash: oneWayHash(error.message || ''),
+          errorHash,
+          // if we ever end up sending a non-error instance, we'd like to know
+          isErrorInstance: error instanceof Error,
         },
         {
           immediate: true,
@@ -126,14 +156,14 @@ export async function withTelemetry<T>(
 
   try {
     return await run();
-  } catch (error) {
+  } catch (error: any) {
     if (canceled) {
       return undefined;
     }
 
     const { printError = logger.error } = options;
-    printError(error instanceof Error ? error.message : String(error));
-    if (error instanceof Error) await sendTelemetryError(error, eventType, options);
+    printError(error);
+    await sendTelemetryError(error, eventType, options);
 
     throw error;
   } finally {

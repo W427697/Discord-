@@ -68,11 +68,11 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       '.eot': 'dataurl',
       '.ttf': 'dataurl',
     },
-    target: ['chrome100'],
+    target: ['chrome100', 'safari15', 'firefox91'],
     platform: 'browser',
     bundle: true,
     minify: true,
-    sourcemap: true,
+    sourcemap: false,
     conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',
