@@ -348,8 +348,9 @@ export const Search = React.memo<{
           }
         }
 
+        const inputId = 'storybook-explorer-searchfield';
         const inputProps = getInputProps({
-          id: 'storybook-explorer-searchfield',
+          id: inputId,
           ref: inputRef,
           required: true,
           type: 'search',
@@ -362,7 +363,7 @@ export const Search = React.memo<{
         });
 
         const labelProps = getLabelProps({
-          htmlFor: 'storybook-explorer-searchfield',
+          htmlFor: inputId,
         });
 
         return (
