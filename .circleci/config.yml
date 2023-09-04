@@ -262,6 +262,48 @@ jobs:
       - report-workflow-on-failure
       - store_test_results:
           path: test-results
+  angular-prerelease-sandbox:
+    executor:
+      class: large
+      name: sb_playwright
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Create Sandbox
+          command: |
+            yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task sandbox
+      - run:
+          name: Build Sandbox
+          command: |
+            yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task build
+      - run:
+          name: Chromatic
+          command: |
+            yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task chromatic
+      - run:
+          name: E2E Tests Production
+          command: |
+            yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task e2e-tests
+      - run:
+          name: E2E Tests Development
+          command: |
+            yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task e2e-tests-dev
+      - run:
+          name: Test Runner
+          command: |
+            yarn task --template angular-cli/prerelease --no-link --start-from=never --junit --task test-runner
+      - report-workflow-on-failure:
+          template: angular-cli/prerelease
+      - persist_to_workspace:
+          root: .
+          paths:
+            - sandbox
+      - store_test_results:
+          path: test-results
+
   ## new workflow
   create-sandboxes:
     parameters:
@@ -608,23 +650,26 @@ workflows:
       - chromatic-internal-storybooks:
           requires:
             - build
+      - angular-prerelease-sandbox:
+          requires:
+            - build
       - create-sandboxes:
-          parallelism: 35
+          parallelism: 34
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 35
+          parallelism: 34
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 32
+          parallelism: 31
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 32
+          parallelism: 31
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -632,7 +677,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 32
+          parallelism: 31
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
