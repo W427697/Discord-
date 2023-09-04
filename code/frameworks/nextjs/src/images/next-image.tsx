@@ -4,6 +4,7 @@ import OriginalNextImage from 'sb-original/next/image';
 import type * as _NextImage from 'next/image';
 import React from 'react';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ImageContext } from '@storybook/nextjs/dist/image-context';
 import { defaultLoader } from './next-image-default-loader';
 

@@ -32,6 +32,11 @@
       "require": "./dist/image-context.js",
       "import": "./dist/image-context.mjs"
     },
+    "./dist/image-context": {
+      "types": "./dist/image-context.d.ts",
+      "require": "./dist/image-context.js",
+      "import": "./dist/image-context.mjs"
+    },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
@@ -51,6 +56,16 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "dist/image-context": [
+        "dist/image-context.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "template/cli/**/*",
@@ -153,8 +168,6 @@
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts"
     ],
     "externals": [
-      "./context",
-      "./images/decorator",
       "sb-original/next/image",
       "sb-original/next/future/image",
       "sb-original/next/legacy/image"

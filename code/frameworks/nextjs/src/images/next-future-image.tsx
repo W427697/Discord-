@@ -4,6 +4,7 @@ import type * as _NextImage from 'next/image';
 // @ts-ignore import is aliased in webpack config
 import OriginalNextFutureImage from 'sb-original/next/future/image';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ImageContext } from '@storybook/nextjs/dist/image-context';
 import { defaultLoader } from './next-image-default-loader';
 
