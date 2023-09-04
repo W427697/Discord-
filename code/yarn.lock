@@ -6571,6 +6571,7 @@ __metadata:
     "@storybook/client-api": "workspace:*"
     "@storybook/codemod": "workspace:*"
     "@storybook/core-common": "workspace:*"
+    "@storybook/core-events": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/node-logger": "workspace:*"
@@ -6719,6 +6720,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-common@workspace:lib/core-common"
   dependencies:
+    "@storybook/core-events": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/find-cache-dir": ^3.2.1
