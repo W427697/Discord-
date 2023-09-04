@@ -274,7 +274,7 @@ The following features are not supported (yet). Support for these features might
 
 #### Mocking fonts during testing
 
-Occasionally fetching fonts from google may fail as part of your storybook build. It is highly recommended to mock these requests, as those failures can cause your pipeline to fail as well. Next.js [supports](https://github.com/vercel/next.js/blob/725ddc7371f80cca273779d37f961c3e20356f95/packages/font/src/google/fetch-css-from-google-fonts.ts#L36)https://github.com/vercel/next.js/blob/725ddc7371f80cca273779d37f961c3e20356f95/packages/font/src/google/fetch-css-from-google-fonts.ts#L36 mocking fonts via a javascript module located where the env var `NEXT_FONT_GOOGLE_MOCKED_RESPONSES` references.
+Occasionally fetching fonts from Google may fail as part of your Storybook build step. It is highly recommended to mock these requests, as those failures can cause your pipeline to fail as well. Next.js [supports mocking fonts](https://github.com/vercel/next.js/blob/725ddc7371f80cca273779d37f961c3e20356f95/packages/font/src/google/fetch-css-from-google-fonts.ts#L36) via a JavaScript module located where the env var `NEXT_FONT_GOOGLE_MOCKED_RESPONSES` references.
 
 For example, using [GitHub Actions](https://www.chromatic.com/docs/github-actions):
 
@@ -288,7 +288,7 @@ For example, using [GitHub Actions](https://www.chromatic.com/docs/github-action
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-Your mocked fonts will look something lke this:
+Your mocked fonts will look something like this:
 
 ```js
 // mocked-google-fonts.js
