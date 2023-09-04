@@ -3,7 +3,8 @@ import semver from 'semver';
 import { join } from 'path';
 import slash from 'slash';
 import glob from 'globby';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import { commonGlobOptions } from '@storybook/core-common';
+import { updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 
@@ -18,9 +19,7 @@ interface Options {
 export const mdxgfm: Fix<Options> = {
   id: 'github-flavored-markdown-mdx',
 
-  async check({ configDir, packageManager }) {
-    const { mainConfig, storybookVersion } = await getStorybookData({ packageManager, configDir });
-
+  async check({ configDir, mainConfig, storybookVersion }) {
     if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
@@ -32,12 +31,17 @@ export const mdxgfm: Fix<Options> = {
         return true;
       }
 
-      const pattern =
-        typeof item === 'string'
-          ? slash(join(configDir, item))
-          : slash(join(configDir, item.directory, item.files));
+      let pattern;
 
-      const files = await glob(pattern);
+      if (typeof item === 'string') {
+        pattern = slash(join(configDir, item));
+      } else if (typeof item === 'object') {
+        const directory = item.directory || '..';
+        const files = item.files || '**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))';
+        pattern = slash(join(configDir, directory, files));
+      }
+
+      const files = await glob(pattern, commonGlobOptions(pattern));
 
       return files.some((f) => f.endsWith('.mdx'));
     }, Promise.resolve(false));

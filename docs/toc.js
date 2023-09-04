@@ -94,6 +94,11 @@ module.exports = {
           title: 'Stories for multiple components',
           type: 'link',
         },
+        {
+          pathSegment: 'typescript',
+          title: 'Writing stories in TypeScript',
+          type: 'link',
+        },
       ],
     },
     {
@@ -169,9 +174,21 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'importing-stories-in-tests',
+          pathSegment: '',
           title: 'Import stories in tests',
-          type: 'link',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'stories-in-end-to-end-tests',
+              title: 'End-to-end tests',
+              type: 'link',
+            },
+            {
+              pathSegment: 'stories-in-unit-tests',
+              title: 'Unit tests',
+              type: 'link',
+            },
+          ],
         },
       ],
     },
@@ -218,18 +235,8 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'controls',
-          title: 'Controls',
-          type: 'link',
-        },
-        {
           pathSegment: 'actions',
           title: 'Actions',
-          type: 'link',
-        },
-        {
-          pathSegment: 'viewport',
-          title: 'Viewport',
           type: 'link',
         },
         {
@@ -238,13 +245,13 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'toolbars-and-globals',
-          title: 'Toolbars & globals',
+          pathSegment: 'controls',
+          title: 'Controls',
           type: 'link',
         },
         {
-          pathSegment: 'measure-and-outline',
-          title: 'Measure & Outline',
+          pathSegment: 'highlight',
+          title: 'Highlight',
           type: 'link',
         },
         {
@@ -252,6 +259,27 @@ module.exports = {
           title: 'Interactions',
           type: 'link',
         },
+        {
+          pathSegment: 'measure-and-outline',
+          title: 'Measure & Outline',
+          type: 'link',
+        },
+        // {
+        //   pathSegment: 'themes',
+        //   title: 'Themes',
+        //   type: 'link',
+        // },
+        {
+          pathSegment: 'toolbars-and-globals',
+          title: 'Toolbars & globals',
+          type: 'link',
+        },
+        {
+          pathSegment: 'viewport',
+          title: 'Viewport',
+          type: 'link',
+        },
+        
       ],
     },
     {
@@ -557,6 +585,16 @@ module.exports = {
           ],
         },
         {
+          pathSegment: 'arg-types',
+          title: 'ArgTypes',
+          type: 'link',
+        },
+        {
+          pathSegment: 'csf',
+          title: 'Component Story Format (CSF)',
+          type: 'link',
+        },
+        {
           title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
@@ -649,23 +687,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Stories',
-          pathSegment: '',
-          type: 'menu',
-          children: [
-            {
-              pathSegment: 'csf',
-              title: 'Component Story Format',
-              type: 'link',
-            },
-            {
-              pathSegment: 'argtypes',
-              title: 'ArgTypes',
-              type: 'link',
-            },
-          ],
-        },
-        {
           pathSegment: 'new-frameworks',
           title: 'Frameworks',
           type: 'link',
@@ -685,6 +706,11 @@ module.exports = {
         {
           pathSegment: 'how-to-contribute',
           title: 'How to',
+          type: 'link',
+        },
+        {
+          pathSegment: 'RFC',
+          title: 'RFC Process',
           type: 'link',
         },
         {

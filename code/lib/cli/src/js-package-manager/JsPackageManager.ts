@@ -6,7 +6,7 @@ import path from 'path';
 import fs from 'fs';
 
 import dedent from 'ts-dedent';
-import { readFile, writeFile } from 'fs-extra';
+import { readFile, readFileSync, writeFile } from 'fs-extra';
 import { commandLog } from '../helpers';
 import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
@@ -49,6 +49,13 @@ export abstract class JsPackageManager {
 
   public readonly cwd?: string;
 
+  public abstract getPackageJSON(
+    packageName: string,
+    basePath?: string
+  ): Promise<PackageJson | null>;
+
+  public abstract getPackageVersion(packageName: string, basePath?: string): Promise<string | null>;
+
   // NOTE: for some reason yarn prefers the npm registry in
   // local development, so always use npm
   async setRegistryURL(url: string) {
@@ -66,7 +73,52 @@ export abstract class JsPackageManager {
   }
 
   constructor(options?: JsPackageManagerOptions) {
-    this.cwd = options?.cwd;
+    this.cwd = options?.cwd || process.cwd();
+  }
+
+  /** Detect whether Storybook gets initialized in a monorepository/workspace environment
+   * The cwd doesn't have to be the root of the monorepo, it can be a subdirectory
+   * @returns true, if Storybook is initialized inside a monorepository/workspace
+   */
+  public isStorybookInMonorepo() {
+    let cwd = process.cwd();
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      try {
+        const turboJsonPath = `${cwd}/turbo.json`;
+        const rushJsonPath = `${cwd}/rush.json`;
+
+        if (fs.existsSync(turboJsonPath) || fs.existsSync(rushJsonPath)) {
+          return true;
+        }
+
+        const packageJsonPath = require.resolve(`${cwd}/package.json`);
+
+        // read packagejson with readFileSync
+        const packageJsonFile = readFileSync(packageJsonPath, 'utf8');
+        const packageJson = JSON.parse(packageJsonFile) as PackageJsonWithDepsAndDevDeps;
+
+        if (packageJson.workspaces) {
+          return true;
+        }
+      } catch (err) {
+        // Package.json not found or invalid in current directory
+      }
+
+      // Move up to the parent directory
+      const parentDir = path.dirname(cwd);
+
+      // Check if we have reached the root of the filesystem
+      if (parentDir === cwd) {
+        break;
+      }
+
+      // Update cwd to the parent directory
+      cwd = parentDir;
+    }
+
+    return false;
   }
 
   /**
@@ -75,22 +127,23 @@ export abstract class JsPackageManager {
   public async installDependencies() {
     let done = commandLog('Preparing to install dependencies');
     done();
-    logger.log();
 
     logger.log();
+    logger.log();
+
     done = commandLog('Installing dependencies');
 
     try {
       await this.runInstall();
+      done();
     } catch (e) {
       done('An error occurred while installing dependencies.');
       throw new HandledError(e);
     }
-    done();
   }
 
   packageJsonPath(): string {
-    return this.cwd ? path.resolve(this.cwd, 'package.json') : path.resolve('package.json');
+    return path.resolve(this.cwd, 'package.json');
   }
 
   async readPackageJson(): Promise<PackageJson> {
@@ -236,13 +289,13 @@ export abstract class JsPackageManager {
    *   `@storybook/addon-actions`,
    * ]);
    */
-  public removeDependencies(
+  public async removeDependencies(
     options: {
       skipInstall?: boolean;
       packageJson?: PackageJson;
     },
     dependencies: string[]
-  ): void {
+  ): Promise<void> {
     const { skipInstall } = options;
 
     if (skipInstall) {
@@ -257,10 +310,10 @@ export abstract class JsPackageManager {
         }
       });
 
-      this.writePackageJson(packageJson);
+      await this.writePackageJson(packageJson);
     } else {
       try {
-        this.runRemoveDeps(dependencies);
+        await this.runRemoveDeps(dependencies);
       } catch (e) {
         logger.error('An error occurred while removing dependencies.');
         logger.log(e.message);
@@ -443,6 +496,7 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });
@@ -476,6 +530,7 @@ export abstract class JsPackageManager {
         stdio: stdio ?? 'pipe',
         encoding: 'utf-8',
         shell: true,
+        cleanup: true,
         env,
         ...execaOptions,
       });
