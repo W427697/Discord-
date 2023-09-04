@@ -110,12 +110,12 @@ describe('stories API', () => {
         'component-b',
         'component-b--story-3',
       ]);
-      expect(index['component-a']).toMatchObject({
+      expect(index!['component-a']).toMatchObject({
         type: 'component',
         id: 'component-a',
         children: ['component-a--docs', 'component-a--story-1', 'component-a--story-2'],
       });
-      expect(index['component-a--docs']).toMatchObject({
+      expect(index!['component-a--docs']).toMatchObject({
         type: 'docs',
         id: 'component-a--docs',
         parent: 'component-a',

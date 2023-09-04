@@ -21,6 +21,7 @@ import type {
   API_HashEntry,
   SetStoriesPayload,
   StoryIndexV2,
+  Renderer,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters, type State } from '../index';
@@ -185,7 +186,7 @@ export const transformStoryIndexToStoriesHash = (
     // Now create a "path" or sub id for each name
     const paths = names.reduce((list, name, idx) => {
       const parent = idx > 0 && list[idx - 1];
-      const id = sanitize(parent ? `${parent}-${name}` : name);
+      const id = sanitize(parent ? `${parent}-${name}` : name!);
 
       if (parent === id) {
         throw new Error(

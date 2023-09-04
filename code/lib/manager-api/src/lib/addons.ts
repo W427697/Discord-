@@ -64,7 +64,7 @@ export class AddonStore {
       this.setChannel(mockChannel());
     }
 
-    return this.channel;
+    return this.channel!;
   };
 
   /**
