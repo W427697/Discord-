@@ -244,9 +244,17 @@ export class MissingAngularJsonError extends StorybookError {
   public readonly documentation =
     'https://storybook.js.org/docs/angular/faq#error-no-angularjson-file-found';
 
+  constructor(
+    public data: {
+      path: string;
+    }
+  ) {
+    super();
+  }
+
   template() {
     return dedent`
-      An angular.json file was not found in the current working directory.
+      An angular.json file was not found in the current working directory: ${this.data.path}
       Storybook needs it to work properly, so please rerun the command at the root of your project, where the angular.json file is located.
     `;
   }

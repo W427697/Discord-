@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { join } from 'path';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 import { MissingAngularJsonError } from '@storybook/core-events/server-errors';
@@ -28,7 +29,7 @@ export class AngularJSON {
 
   constructor() {
     if (!fs.existsSync(ANGULAR_JSON_PATH)) {
-      throw new MissingAngularJsonError();
+      throw new MissingAngularJsonError({ path: join(process.cwd(), ANGULAR_JSON_PATH) });
     }
 
     const jsonContent = fs.readFileSync(ANGULAR_JSON_PATH, 'utf8');
