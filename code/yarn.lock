@@ -6601,6 +6601,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/channels@npm:7.4.0":
+  version: 7.4.0
+  resolution: "@storybook/channels@npm:7.4.0"
+  dependencies:
+    "@storybook/client-logger": 7.4.0
+    "@storybook/core-events": 7.4.0
+    "@storybook/global": ^5.0.0
+    qs: ^6.10.0
+    telejson: ^7.2.0
+    tiny-invariant: ^1.3.1
+  checksum: 5f12fe715b33aaf1889a51ed2c68d37c286d0c6a1d546606451d421bf4514a66757db8171a69f09d454cf875f7c9857245939a7a70a5612517b9e88f168bbcfa
+  languageName: node
+  linkType: hard
+
 "@storybook/channels@workspace:*, @storybook/channels@workspace:lib/channels":
   version: 0.0.0-use.local
   resolution: "@storybook/channels@workspace:lib/channels"
@@ -6682,6 +6696,15 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
   languageName: unknown
   linkType: soft
+
+"@storybook/client-logger@npm:7.4.0":
+  version: 7.4.0
+  resolution: "@storybook/client-logger@npm:7.4.0"
+  dependencies:
+    "@storybook/global": ^5.0.0
+  checksum: 00d73356f506dbc85616739fd7ebbc175990664aee7e0ca0e2f2a7244337ba2ea8f0a86d7003b461548b31a514268fea32a34ea74a18299060a62e0825ceb402
+  languageName: node
+  linkType: hard
 
 "@storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
   version: 0.0.0-use.local
@@ -6808,6 +6831,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/core-events@npm:7.4.0":
+  version: 7.4.0
+  resolution: "@storybook/core-events@npm:7.4.0"
+  dependencies:
+    ts-dedent: ^2.0.0
+  checksum: 6a80acb1c333363b03f69f22e5d98a50b94f11f9743cc075d0442e0153aaf2cb7fc37baee3c4b480b89e5f1f98d997e866db2800286f5252ee78dfa9f116bd6d
+  languageName: node
+  linkType: hard
+
 "@storybook/core-events@workspace:*, @storybook/core-events@workspace:lib/core-events":
   version: 0.0.0-use.local
   resolution: "@storybook/core-events@workspace:lib/core-events"
@@ -6902,7 +6934,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/csf-tools@7.4.0, @storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
+"@storybook/csf-tools@npm:7.4.0":
+  version: 7.4.0
+  resolution: "@storybook/csf-tools@npm:7.4.0"
+  dependencies:
+    "@babel/generator": ^7.22.9
+    "@babel/parser": ^7.22.7
+    "@babel/traverse": ^7.22.8
+    "@babel/types": ^7.22.5
+    "@storybook/csf": ^0.1.0
+    "@storybook/types": 7.4.0
+    fs-extra: ^11.1.0
+    recast: ^0.23.1
+    ts-dedent: ^2.0.0
+  checksum: 85ec0953ed82dfcade9eab296e55479a71f965f740bf3befc9eb155e161e510b9ee78c8a89f729bd91887f3f988b78f03076655f26444d62155d5c6c35daefe6
+  languageName: node
+  linkType: hard
+
+"@storybook/csf-tools@workspace:*, @storybook/csf-tools@workspace:lib/csf-tools":
   version: 0.0.0-use.local
   resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
   dependencies:
@@ -8098,7 +8147,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@^7.0.2, @storybook/theming@workspace:*, @storybook/theming@workspace:lib/theming":
+"@storybook/theming@npm:^7.0.2":
+  version: 7.4.0
+  resolution: "@storybook/theming@npm:7.4.0"
+  dependencies:
+    "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
+    "@storybook/client-logger": 7.4.0
+    "@storybook/global": ^5.0.0
+    memoizerific: ^1.11.3
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: ff67a20407d239347219017e04c8b883f120c2f3af94d1eb47992711e9578ec923c2bbd058c4c229a62bee729e33e49e9ae58681fac2d1ed5e2e38f7ec396d04
+  languageName: node
+  linkType: hard
+
+"@storybook/theming@workspace:*, @storybook/theming@workspace:lib/theming":
   version: 0.0.0-use.local
   resolution: "@storybook/theming@workspace:lib/theming"
   dependencies:
@@ -8122,6 +8186,19 @@ __metadata:
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
+
+"@storybook/types@npm:7.4.0":
+  version: 7.4.0
+  resolution: "@storybook/types@npm:7.4.0"
+  dependencies:
+    "@storybook/channels": 7.4.0
+    "@types/babel__core": ^7.0.0
+    "@types/express": ^4.7.0
+    "@types/react": ^16.14.34
+    file-system-cache: 2.3.0
+  checksum: 982a21466def5312dd87078abdd83c85d58445e00ea3aed7dcdf27279721eee67b390e41b91c886bb8d4364f675bfd1333d3812d1d398e66170eca1fe6015ff7
+  languageName: node
+  linkType: hard
 
 "@storybook/types@workspace:*, @storybook/types@workspace:lib/types":
   version: 0.0.0-use.local
