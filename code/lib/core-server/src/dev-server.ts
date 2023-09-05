@@ -5,7 +5,7 @@ import invariant from 'tiny-invariant';
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
 import { logConfig } from '@storybook/core-common';
-import { deprecate } from '@storybook/node-logger';
+import { deprecate, logger } from '@storybook/node-logger';
 
 import dedent from 'ts-dedent';
 import { getMiddleware } from './utils/middleware';
@@ -99,6 +99,7 @@ export async function storybookDevServer(options: Options) {
   let previewStarted: Promise<any> = Promise.resolve();
 
   if (!options.ignorePreview) {
+    logger.info('=> Starting preview..');
     previewStarted = previewBuilder
       .start({
         startTime: process.hrtime(),
@@ -108,6 +109,9 @@ export async function storybookDevServer(options: Options) {
         channel: serverChannel,
       })
       .catch(async (e: any) => {
+        logger.error('=> Failed to build the preview');
+        process.exitCode = 1;
+
         await managerBuilder?.bail().catch();
         // For some reason, even when Webpack fails e.g. wrong main.js config,
         // the preview may continue to print to stdout, which can affect output

@@ -1273,6 +1273,90 @@ describe('stories API', () => {
         }
       `);
     });
+    it('delete when value is null', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      await api.setIndex({ v: 4, entries: mockEntries });
+
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        })
+      ).resolves.not.toThrow();
+
+      // do a second update, this time with null
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': null,
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        })
+      ).resolves.not.toThrow();
+
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "another-story-id": Object {
+            "a-addon-id": Object {
+              "description": "",
+              "status": "success",
+              "title": "a addon title",
+            },
+          },
+        }
+      `);
+    });
+    it('updates with a function', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      await api.setIndex({ v: 4, entries: mockEntries });
+
+      // setup initial state
+      await expect(
+        api.experimental_updateStatus('a-addon-id', () => ({
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        }))
+      ).resolves.not.toThrow();
+
+      // use existing state in function
+      await expect(
+        api.experimental_updateStatus('a-addon-id', (current) => {
+          return Object.fromEntries(
+            Object.entries(current).map(([k, v]) => [k, { ...v['a-addon-id'], status: 'success' }])
+          );
+        })
+      ).resolves.not.toThrow();
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "a-story-id": Object {
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "success",
+              "title": "an addon title",
+            },
+          },
+          "another-story-id": Object {
+            "a-addon-id": Object {
+              "description": "",
+              "status": "success",
+              "title": "a addon title",
+            },
+          },
+        }
+      `);
+    });
   });
   describe('experimental_setFilter', () => {
     it('is included in the initial state', async () => {

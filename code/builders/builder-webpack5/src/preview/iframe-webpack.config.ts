@@ -29,24 +29,35 @@ import { createBabelLoader, createSWCLoader } from './loaders';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
+const maybeGetAbsolutePath = <I extends string>(input: I): I | false => {
+  try {
+    return getAbsolutePath(input);
+  } catch (e) {
+    return false;
+  }
+};
 
+const managerAPIPath = maybeGetAbsolutePath(`@storybook/manager-api`);
+const componentsPath = maybeGetAbsolutePath(`@storybook/components`);
+const globalPath = maybeGetAbsolutePath(`@storybook/global`);
+const routerPath = maybeGetAbsolutePath(`@storybook/router`);
+const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
+
+// these packages are not pre-bundled because of react dependencies.
+// these are not dependencies of the builder anymore, thus resolving them can fail.
+// we should remove the aliases in 8.0, I'm not sure why they are here in the first place.
 const storybookPaths: Record<string, string> = {
-  ...[
-    // these packages are not pre-bundled because of react dependencies
-    'components',
-    'global',
-    'manager-api',
-    'router',
-    'theming',
-  ].reduce(
-    (acc, sbPackage) => ({
-      ...acc,
-      [`@storybook/${sbPackage}`]: getAbsolutePath(`@storybook/${sbPackage}`),
-    }),
-    {}
-  ),
-  // deprecated, remove in 8.0
-  [`@storybook/api`]: getAbsolutePath(`@storybook/manager-api`),
+  ...(managerAPIPath
+    ? {
+        // deprecated, remove in 8.0
+        [`@storybook/api`]: managerAPIPath,
+        [`@storybook/manager-api`]: managerAPIPath,
+      }
+    : {}),
+  ...(componentsPath ? { [`@storybook/components`]: componentsPath } : {}),
+  ...(globalPath ? { [`@storybook/global`]: globalPath } : {}),
+  ...(routerPath ? { [`@storybook/router`]: routerPath } : {}),
+  ...(themingPath ? { [`@storybook/theming`]: themingPath } : {}),
 };
 
 export default async (

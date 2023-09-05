@@ -119,3 +119,100 @@ export class ConflictingStaticDirConfigError extends StorybookError {
     `;
   }
 }
+
+export class InvalidStoriesEntryError extends StorybookError {
+  readonly category = Category.CORE_COMMON;
+
+  readonly code = 4;
+
+  public readonly documentation =
+    'https://storybook.js.org/docs/react/faq#can-i-have-a-storybook-with-no-local-stories';
+
+  template() {
+    return dedent`
+      Storybook could not index your stories.
+      Your main configuration somehow does not contain a 'stories' field, or it resolved to an empty array.
+
+      Please check your main configuration file and make sure it exports a 'stories' field that is not an empty array.
+    `;
+  }
+}
+
+export class WebpackMissingStatsError extends StorybookError {
+  readonly category = Category.BUILDER_WEBPACK5;
+
+  readonly code = 1;
+
+  public documentation = [
+    'https://webpack.js.org/configuration/stats/',
+    'https://storybook.js.org/docs/react/builders/webpack#configure',
+  ];
+
+  template() {
+    return dedent`
+      No Webpack stats found. Did you turn off stats reporting in your webpack config?
+      Storybook needs Webpack stats (including errors) in order to build correctly.
+    `;
+  }
+}
+
+export class WebpackInvocationError extends StorybookError {
+  readonly category = Category.BUILDER_WEBPACK5;
+
+  readonly code = 2;
+
+  private errorMessage = '';
+
+  constructor(
+    public data: {
+      error: Error;
+    }
+  ) {
+    super();
+    this.errorMessage = data.error.message;
+  }
+
+  template() {
+    return this.errorMessage.trim();
+  }
+}
+
+function removeAnsiEscapeCodes(input = '') {
+  // eslint-disable-next-line no-control-regex
+  return input.replace(/\u001B\[[0-9;]*m/g, '');
+}
+
+export class WebpackCompilationError extends StorybookError {
+  readonly category = Category.BUILDER_WEBPACK5;
+
+  readonly code = 3;
+
+  constructor(
+    public data: {
+      errors: {
+        message: string;
+        stack?: string;
+        name?: string;
+      }[];
+    }
+  ) {
+    super();
+
+    this.data.errors = data.errors.map((err) => {
+      return {
+        ...err,
+        message: removeAnsiEscapeCodes(err.message),
+        stack: removeAnsiEscapeCodes(err.stack),
+        name: err.name,
+      };
+    });
+  }
+
+  template() {
+    // This error message is a followup of errors logged by Webpack to the user
+    return dedent`
+      There were problems when compiling your code with Webpack.
+      Run Storybook with --debug-webpack for more information.
+    `;
+  }
+}

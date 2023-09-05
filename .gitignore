@@ -37,7 +37,6 @@ coverage/
 /**/LICENSE
 code/docs/public
 package-lock.json
-.nvmrc
 storybook-static
 .jest-test-results.json
 *.jar
@@ -50,3 +49,5 @@ code/playwright-results/
 code/playwright-report/
 code/playwright/.cache/
 code/bench-results/
+
+/packs
