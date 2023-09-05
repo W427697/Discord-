@@ -3,7 +3,7 @@ import type { PluginOption } from 'vite';
 import { createFilter } from 'vite';
 import MagicString from 'magic-string';
 
-export function vueDocgen(): PluginOption {
+export function vueDocgen(options): PluginOption {
   const include = /\.(vue)$/;
   const filter = createFilter(include);
 
@@ -13,7 +13,7 @@ export function vueDocgen(): PluginOption {
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;
 
-      const metaData = await parse(id);
+      const metaData = await parse(id, options);
       const metaSource = JSON.stringify(metaData);
       const s = new MagicString(src);
       s.append(`;_sfc_main.__docgenInfo = ${metaSource}`);
