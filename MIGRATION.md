@@ -345,7 +345,7 @@ export default {
 -  storyIndexers = (indexers) => {
 -    const indexer = async (fileName, opts) => {
 +  experimental_indexers = (indexers) => {
-+    const indexFn = async (fileName, opts) => {
++    const createIndex = async (fileName, opts) => {
       const code = readFileSync(fileName, { encoding: 'utf-8' });
       const makeTitle = (userTitle) => {
         // Do something with the auto title retrieved by Storybook
@@ -361,7 +361,7 @@ export default {
       {
         test: /(stories|story)\.[tj]sx?$/,
 -        indexer,
-+        indexFn,
++        createIndex,
       },
       ...(indexers || []),
     ];
