@@ -8,6 +8,22 @@ import { logger } from '@storybook/node-logger';
 import { preprocess } from 'svelte/compiler';
 import { createFilter } from 'vite';
 
+/*
+ * Patch sveltedoc-parser internal options.
+ * Waiting for a fix for https://github.com/alexprey/sveltedoc-parser/issues/87
+ */
+const svelteDocParserOptions = require('sveltedoc-parser/lib/options.js');
+
+svelteDocParserOptions.getAstDefaultOptions = () => ({
+  range: true,
+  loc: true,
+  comment: true,
+  tokens: true,
+  ecmaVersion: 12,
+  sourceType: 'module',
+  ecmaFeatures: {},
+});
+
 // Most of the code here should probably be exported by @storybook/svelte and reused here.
 // See: https://github.com/storybookjs/storybook/blob/next/app/svelte/src/server/svelte-docgen-loader.ts
 

@@ -5,6 +5,22 @@ import * as fs from 'fs';
 import { preprocess } from 'svelte/compiler';
 import { logger } from '@storybook/node-logger';
 
+/*
+ * Patch sveltedoc-parser internal options.
+ * Waiting for a fix for https://github.com/alexprey/sveltedoc-parser/issues/87
+ */
+const svelteDocParserOptions = require('sveltedoc-parser/lib/options.js');
+
+svelteDocParserOptions.getAstDefaultOptions = () => ({
+  range: true,
+  loc: true,
+  comment: true,
+  tokens: true,
+  ecmaVersion: 12,
+  sourceType: 'module',
+  ecmaFeatures: {},
+});
+
 // From https://github.com/sveltejs/svelte/blob/8db3e8d0297e052556f0b6dde310ef6e197b8d18/src/compiler/compile/utils/get_name_from_filename.ts
 // Copied because it is not exported from the compiler
 function getNameFromFilename(filename: string) {
