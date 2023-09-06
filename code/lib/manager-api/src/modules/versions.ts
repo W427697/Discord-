@@ -96,7 +96,7 @@ export const init: ModuleFn = ({ store }) => {
         const diff = semver.diff(actualCurrent, latest.version);
 
         return (
-          semver.gt(latest.version, actualCurrent) && diff !== 'patch' && !diff.includes('pre')
+          semver.gt(latest.version, actualCurrent) && diff !== 'patch' && !diff!.includes('pre')
         );
       }
       return false;

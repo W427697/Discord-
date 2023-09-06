@@ -75,7 +75,7 @@ export { default as merge } from './lib/merge';
 export type { Options as StoreOptions, Listener as ChannelListener };
 export { ActiveTabs };
 
-export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
+export const ManagerContext = createContext({ api: undefined!, state: getInitialState({}!) });
 
 export type State = layout.SubState &
   stories.SubState &
@@ -167,7 +167,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
     const store = new Store({
       getState: () => this.state,
-      setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
+      setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback)!,
     });
 
     const routeData = { location, path, viewMode, singleStory, storyId, refId };
@@ -200,7 +200,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     );
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
-    const state = getInitialState(this.state, ...this.modules.map((m) => m.state));
+    const state = getInitialState(this.state, ...this.modules.map((m) => m.state!));
 
     // Get our API by combining the APIs exported by each module
     const api: API = Object.assign(this.api, { navigate }, ...this.modules.map((m) => m.api));
@@ -217,10 +217,10 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
         path: props.path,
         refId: props.refId,
         viewMode: props.viewMode,
-        storyId: props.storyId,
+        storyId: props.storyId!,
       };
     }
-    return null;
+    return null!;
   }
 
   shouldComponentUpdate(nextProps: ManagerProviderProps, nextState: State): boolean {
@@ -239,7 +239,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
   initModules = () => {
     // Now every module has had a chance to set its API, call init on each module which gives it
     // a chance to do things that call other modules' APIs.
-    this.modules.forEach((module) => {
+    this.modules.forEach((module: any) => {
       if ('init' in module) {
         module.init();
       }
@@ -299,11 +299,11 @@ function ManagerConsumer<P = Combo>({
   const data = filterer.current(c);
 
   const l = useMemo(() => {
-    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
+    return [...Object.entries(data!).reduce((acc, keyval: any) => acc.concat(keyval), [])];
   }, [c.state]);
 
   return useMemo(() => {
-    const Child = renderer.current as FC<P>;
+    const Child: any = renderer.current as FC<P>;
 
     return <Child {...data} />;
   }, l);
@@ -375,14 +375,14 @@ export const useChannel = (eventMap: API_EventMap, deps: any[] = []) => {
 
 export function useStoryPrepared(storyId?: StoryId) {
   const api = useStorybookApi();
-  return api.isPrepared(storyId);
+  return api.isPrepared(storyId!);
 }
 
 export function useParameter<S>(parameterKey: string, defaultValue?: S) {
   const api = useStorybookApi();
 
   const result = api.getCurrentParameter<S>(parameterKey);
-  return orDefault<S>(result, defaultValue);
+  return orDefault<S>(result, defaultValue!);
 }
 
 // cache for taking care of HMR
@@ -478,7 +478,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
     [data, resetStoryArgs]
   );
 
-  return [args, updateArgs, resetArgs];
+  return [args!, updateArgs, resetArgs];
 }
 
 export function useGlobals(): [Args, (newGlobals: Args) => void] {

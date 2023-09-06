@@ -95,7 +95,7 @@ export const init: ModuleFn = ({ fullAPI, store, provider }) => {
           subHeadline: "Click to learn what's new in Storybook",
         },
         icon: { name: 'hearthollow' },
-        onClear({ dismissed }) {
+        onClear({ dismissed }: any) {
           if (dismissed) {
             setWhatsNewCache({ lastDismissedPost: whatsNewData.url });
           }
