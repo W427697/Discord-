@@ -28,6 +28,25 @@ export enum Category {
   POSTINSTALL = 'POSTINSTALL',
   DOCS_TOOLS = 'DOCS-TOOLS',
   CORE_WEBPACK = 'CORE-WEBPACK',
+  FRAMEWORK_ANGULAR = 'FRAMEWORK_ANGULAR',
+  FRAMEWORK_EMBER = 'FRAMEWORK_EMBER',
+  FRAMEWORK_HTML_VITE = 'FRAMEWORK_HTML-VITE',
+  FRAMEWORK_HTML_WEBPACK5 = 'FRAMEWORK_HTML-WEBPACK5',
+  FRAMEWORK_NEXTJS = 'FRAMEWORK_NEXTJS',
+  FRAMEWORK_PREACT_VITE = 'FRAMEWORK_PREACT-VITE',
+  FRAMEWORK_PREACT_WEBPACK5 = 'FRAMEWORK_PREACT-WEBPACK5',
+  FRAMEWORK_REACT_VITE = 'FRAMEWORK_REACT-VITE',
+  FRAMEWORK_REACT_WEBPACK5 = 'FRAMEWORK_REACT-WEBPACK5',
+  FRAMEWORK_SERVER_WEBPACK5 = 'FRAMEWORK_SERVER-WEBPACK5',
+  FRAMEWORK_SVELTE_VITE = 'FRAMEWORK_SVELTE-VITE',
+  FRAMEWORK_SVELTE_WEBPACK5 = 'FRAMEWORK_SVELTE-WEBPACK5',
+  FRAMEWORK_SVELTEKIT = 'FRAMEWORK_SVELTEKIT',
+  FRAMEWORK_VUE_VITE = 'FRAMEWORK_VUE-VITE',
+  FRAMEWORK_VUE_WEBPACK5 = 'FRAMEWORK_VUE-WEBPACK5',
+  FRAMEWORK_VUE3_VITE = 'FRAMEWORK_VUE3-VITE',
+  FRAMEWORK_VUE3_WEBPACK5 = 'FRAMEWORK_VUE3-WEBPACK5',
+  FRAMEWORK_WEB_COMPONENTS_VITE = 'FRAMEWORK_WEB-COMPONENTS-VITE',
+  FRAMEWORK_WEB_COMPONENTS_WEBPACK5 = 'FRAMEWORK_WEB-COMPONENTS-WEBPACK5',
 }
 
 export class NxProjectDetectedError extends StorybookError {
@@ -213,6 +232,50 @@ export class WebpackCompilationError extends StorybookError {
     return dedent`
       There were problems when compiling your code with Webpack.
       Run Storybook with --debug-webpack for more information.
+    `;
+  }
+}
+
+export class MissingAngularJsonError extends StorybookError {
+  readonly category = Category.CLI_INIT;
+
+  readonly code = 2;
+
+  public readonly documentation =
+    'https://storybook.js.org/docs/angular/faq#error-no-angularjson-file-found';
+
+  constructor(
+    public data: {
+      path: string;
+    }
+  ) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      An angular.json file was not found in the current working directory: ${this.data.path}
+      Storybook needs it to work properly, so please rerun the command at the root of your project, where the angular.json file is located.
+    `;
+  }
+}
+
+export class AngularLegacyBuildOptionsError extends StorybookError {
+  readonly category = Category.FRAMEWORK_ANGULAR;
+
+  readonly code = 1;
+
+  public readonly documentation = [
+    'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#angular-drop-support-for-calling-storybook-directly',
+    'https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular#how-do-i-migrate-to-an-angular-storybook-builder',
+  ];
+
+  template() {
+    return dedent`
+      Your Storybook startup script uses a solution that is not supported anymore.
+      You must use Angular builder to have an explicit configuration on the project used in angular.json.
+
+      Please run 'npx storybook@next automigrate' to automatically fix your config.
     `;
   }
 }
