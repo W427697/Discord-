@@ -2,6 +2,16 @@ import { global } from '@storybook/global';
 import type { BrowserInfo } from 'browser-dtector';
 import BrowserDetector from 'browser-dtector';
 
+let browserInfo: BrowserInfo | undefined;
+
+function getBrowserInfo() {
+  if (!browserInfo) {
+    browserInfo = new BrowserDetector(global.navigator?.userAgent).getBrowserInfo();
+  }
+
+  return browserInfo;
+}
+
 export function preprocessError(
   error: Error & {
     fromStorybook?: boolean;
@@ -13,7 +23,7 @@ export function preprocessError(
   }
 ) {
   // eslint-disable-next-line no-param-reassign
-  error.browserInfo = new BrowserDetector(global.navigator.userAgent).getBrowserInfo();
+  error.browserInfo = getBrowserInfo();
 
   return error;
 }
