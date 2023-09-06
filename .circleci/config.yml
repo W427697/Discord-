@@ -1,8 +1,5 @@
 version: 2.1
-- name: Upload coverage reports to Codecov
-  uses: codecov/codecov-action@v3
-  env:
-    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
 parameters:
   workflow:
     description: Which workflow to run
@@ -111,10 +108,7 @@ jobs:
           command: |
             cd scripts
             yarn docs:prettier:check
-      steps:
-      - name: Run Tests with Coverage
-        run: npm test -- --coverage
-
+    
   build:
     executor:
       class: large
