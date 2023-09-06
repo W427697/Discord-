@@ -14,7 +14,7 @@ function getBrowserInfo() {
   return browserInfo;
 }
 
-export function preprocessError(
+export function prepareForTelemetry(
   originalError: Error & {
     fromStorybook?: boolean;
     category?: string;

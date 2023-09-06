@@ -11,7 +11,7 @@ import { renderStorybookUI } from './index';
 
 import { values } from './globals/runtime';
 import { Keys } from './globals/types';
-import { preprocessError } from './utils/preprocessError';
+import { prepareForTelemetry } from './utils/prepareForTelemetry';
 
 const { FEATURES, CONFIG_TYPE } = global;
 
@@ -64,7 +64,7 @@ Object.keys(Keys).forEach((key: keyof typeof Keys) => {
 
 global.sendTelemetryError = (error) => {
   const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
-  channel.emit(TELEMETRY_ERROR, preprocessError(error));
+  channel.emit(TELEMETRY_ERROR, prepareForTelemetry(error));
 };
 
 // handle all uncaught errors at the root of the application and log to telemetry

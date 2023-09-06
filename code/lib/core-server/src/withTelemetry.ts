@@ -80,19 +80,7 @@ export async function sendTelemetryError(
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
 
-      const error = _error as Error | Record<string, any>;
-
-      let storybookErrorProperties = {};
-
-      if ((error as any).fromStorybook) {
-        const { code, name, category } = error as any;
-        storybookErrorProperties = {
-          ...storybookErrorProperties,
-          code,
-          name,
-          category,
-        };
-      }
+      const error = _error as Error & Record<string, any>;
 
       let errorHash;
       if ('message' in error) {
@@ -101,10 +89,13 @@ export async function sendTelemetryError(
         errorHash = 'NO_MESSAGE';
       }
 
+      const { code, name, category } = error;
       await telemetry(
         'error',
         {
-          ...storybookErrorProperties,
+          code,
+          name,
+          category,
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,
