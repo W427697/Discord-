@@ -147,7 +147,9 @@ describe('getMigrationSummary', () => {
       @storybook/addon-essentials:
       7.0.0, 7.1.0
 
-      You can find more information for a given dependency by running yarn why <package-name>"
+      You can find more information for a given dependency by running yarn why <package-name>
+
+      Please try de-duplicating these dependencies by running yarn dedupe"
     `);
   });
 
