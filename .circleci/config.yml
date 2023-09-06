@@ -108,6 +108,10 @@ jobs:
           command: |
             cd scripts
             yarn docs:prettier:check
+      steps:
+      - name: Run Tests with Coverage
+        run: npm test -- --coverage
+
   build:
     executor:
       class: large
