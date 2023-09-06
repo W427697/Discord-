@@ -83,28 +83,22 @@ export async function sendTelemetryError(
       const error = _error as Error | Record<string, any>;
 
       let storybookErrorProperties = {};
-      // if it's an UNCATEGORIZED error, it won't have a coded name, so we just pass the category and source
-      if ((error as any).category) {
-        const { category } = error as any;
-        storybookErrorProperties = {
-          category,
-        };
-      }
 
       if ((error as any).fromStorybook) {
-        const { code, name } = error as any;
+        const { code, name, category } = error as any;
         storybookErrorProperties = {
           ...storybookErrorProperties,
           code,
           name,
+          category,
         };
       }
 
       let errorHash;
       if ('message' in error) {
-        errorHash = error.message ? oneWayHash(error.message) : 'empty-message';
+        errorHash = error.message ? oneWayHash(error.message) : 'EMPTY_MESSAGE';
       } else {
-        errorHash = 'no-message';
+        errorHash = 'NO_MESSAGE';
       }
 
       await telemetry(
