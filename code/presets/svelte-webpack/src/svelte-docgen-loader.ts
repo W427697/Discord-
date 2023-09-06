@@ -73,27 +73,30 @@ export default async function svelteDocgen(this: any, source: string) {
 
   let docgen = '';
 
+  let componentDoc: any;
   try {
     // FIXME
     // @ts-expect-error (Converted from ts-ignore)
-    const componentDoc = await svelteDoc.parse(options);
-
-    // get filename for source content
-    const file = path.basename(resource);
-
-    // populate filename in docgen
-    componentDoc.name = path.basename(file);
-
-    const componentName = getNameFromFilename(resource);
-
-    docgen = dedent`
-      ${componentName}.__docgen = ${JSON.stringify(componentDoc)};
-    `;
+    componentDoc = await svelteDoc.parse(options);
   } catch (error) {
+    componentDoc = { keywords: [], data: [] };
     if (logDocgen) {
       logger.error(error as any);
     }
   }
+
+  // get filename for source content
+  const file = path.basename(resource);
+
+  // populate filename in docgen
+  componentDoc.name = path.basename(file);
+
+  const componentName = getNameFromFilename(resource);
+
+  docgen = dedent`
+      ${componentName}.__docgen = ${JSON.stringify(componentDoc)};
+    `;
+
   // inject __docgen prop in svelte component
   const output = source + docgen;
 

@@ -79,20 +79,23 @@ export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOpt
 
       const s = new MagicString(src);
 
+      let componentDoc: any;
       try {
-        const componentDoc = await svelteDoc.parse(options);
-        // get filename for source content
-        const file = path.basename(resource);
-
-        componentDoc.name = path.basename(file);
-
-        const componentName = getNameFromFilename(resource);
-        s.append(`;${componentName}.__docgen = ${JSON.stringify(componentDoc)}`);
+        componentDoc = await svelteDoc.parse(options);
       } catch (error: any) {
+        componentDoc = { keywords: [], data: [] };
         if (logDocgen) {
           logger.error(error);
         }
       }
+
+      // get filename for source content
+      const file = path.basename(resource);
+
+      componentDoc.name = path.basename(file);
+
+      const componentName = getNameFromFilename(resource);
+      s.append(`;${componentName}.__docgen = ${JSON.stringify(componentDoc)}`);
 
       return {
         code: s.toString(),
