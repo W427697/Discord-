@@ -32,6 +32,7 @@ describe('getMigrationSummary', () => {
     },
     dependencies: {},
     infoCommand: 'yarn why',
+    dedupeCommand: 'yarn dedupe',
   };
 
   const logFile = '/path/to/log/file';
