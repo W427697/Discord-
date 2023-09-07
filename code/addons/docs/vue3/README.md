@@ -36,24 +36,22 @@ export default {
 
 ## Preset options
 
-The `addon-docs` preset for Vue has a configuration option that can be used to configure [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api), a tool which extracts information from Vue components. Here's an example of how to use the preset with options for Vue app:
+The `framework` preset for Vue has a configuration option that can be used to configure [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api), a tool which extracts information from Vue components. Here's an example of how to use the preset with options for Vue app:
 
 ```js
 import * as path from 'path';
 
 export default {
-  addons: [
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        vueDocgenOptions: {
-          alias: {
-            '@': path.resolve(__dirname, '../'),
-          },
-        },
-      },
+  framework: {
+    name: '@storybook/vue3-vite',
+    options: {
+      docgenOptions: {
+        alias: {
+          '@': path.resolve(__dirname, '../'),
+        }
+      }
     },
-  ],
+  },
 };
 ```
 
