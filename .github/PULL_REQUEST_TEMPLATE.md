@@ -8,7 +8,6 @@ Thank you for contributing to Storybook! Please submit all PRs to the `next` bra
 
 -->
 
-
 ## What I did
 
 <!-- Briefly describe what your PR does -->
@@ -20,6 +19,7 @@ Thank you for contributing to Storybook! Please submit all PRs to the `next` bra
 <!-- Please check (put an "x" inside the "[ ]") the applicable items below to communicate how to test your changes -->
 
 #### The changes in this PR are covered in the following automated tests:
+
 - [ ] stories
 - [ ] unit tests
 - [ ] integration tests
@@ -41,9 +41,9 @@ _This section is mandatory for all contributions. If you believe no manual test 
 
 <!-- Please check (put an "x" inside the "[ ]") the applicable items below to indicate which documentation has been updated. -->
 
-- [ ] Add or update documentation reflecting your changes
-- [ ] If you are deprecating/removing a feature, make sure to update
-      [MIGRATION.MD](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md)
+- [ x] Add or update documentation reflecting your changes
+- [ x] If you are deprecating/removing a feature, make sure to update
+  [MIGRATION.MD](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md)
 
 ## Checklist for Maintainers
 
@@ -52,16 +52,16 @@ _This section is mandatory for all contributions. If you believe no manual test 
    <details>
      <summary>Available labels</summary>
 
-     - `bug`: Internal changes that fixes incorrect behavior.
-     - `maintenance`: User-facing maintenance tasks.
-     - `dependencies`: Upgrading (sometimes downgrading) dependencies.
-     - `build`: Internal-facing build tooling & test updates. Will not show up in release changelog.
-     - `cleanup`: Minor cleanup style change. Will not show up in release changelog.
-     - `documentation`: Documentation **only** changes. Will not show up in release changelog.
-     - `feature request`: Introducing a new feature.
-     - `BREAKING CHANGE`: Changes that break compatibility in some way with current major version.
-     - `other`: Changes that don't fit in the above categories.
-   
+  - `bug`: Internal changes that fixes incorrect behavior.
+  - `maintenance`: User-facing maintenance tasks.
+  - `dependencies`: Upgrading (sometimes downgrading) dependencies.
+  - `build`: Internal-facing build tooling & test updates. Will not show up in release changelog.
+  - `cleanup`: Minor cleanup style change. Will not show up in release changelog.
+  - `documentation`: Documentation **only** changes. Will not show up in release changelog.
+  - `feature request`: Introducing a new feature.
+  - `BREAKING CHANGE`: Changes that break compatibility in some way with current major version.
+  - `other`: Changes that don't fit in the above categories.
+
    </details>
 
 ### 🦋 Canary release
