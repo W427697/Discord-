@@ -1,11 +1,13 @@
 import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
 import type { StorybookConfigVite, BuilderOptions } from '@storybook/builder-vite';
+import type { DocGenOptions } from 'vue-docgen-api';
 
 type FrameworkName = '@storybook/vue3-vite';
 type BuilderName = '@storybook/builder-vite';
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;
+  docgenOptions?: DocGenOptions;
 };
 
 type StorybookConfigFramework = {

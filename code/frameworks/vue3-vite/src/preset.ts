@@ -22,8 +22,10 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
     plugins.push(vue());
   }
 
+  const framework = await presets.apply<StorybookConfig['framework']>('framework');
+
   // Add docgen plugin
-  plugins.push(vueDocgen());
+  plugins.push(vueDocgen(typeof framework === 'string' ? undefined : framework.options.docgenOptions));
 
   return mergeConfig(config, {
     plugins,
