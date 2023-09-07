@@ -20,7 +20,7 @@ Thank you for contributing to Storybook! Please submit all PRs to the `next` bra
 
 #### The changes in this PR are covered in the following automated tests:
 
-- [ x] stories
+- [ ] stories
 - [ ] unit tests
 - [ ] integration tests
 - [ ] end-to-end tests
@@ -41,9 +41,9 @@ _This section is mandatory for all contributions. If you believe no manual test 
 
 <!-- Please check (put an "x" inside the "[ ]") the applicable items below to indicate which documentation has been updated. -->
 
-- [ x] Add or update documentation reflecting your changes
-- [ x] If you are deprecating/removing a feature, make sure to update
-  [MIGRATION.MD](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md)
+- [ ] Add or update documentation reflecting your changes
+- [ ] If you are deprecating/removing a feature, make sure to update
+      [MIGRATION.MD](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md)
 
 ## Checklist for Maintainers
 
