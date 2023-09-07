@@ -7249,6 +7249,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@testing-library/react": ^11.2.2
     "@types/semver": ^7.3.4
+    browser-dtector: ^3.4.0
     copy-to-clipboard: ^3.3.1
     downshift: ^6.0.15
     fs-extra: ^11.1.0
@@ -7650,6 +7651,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
+    browser-dtector: ^3.4.0
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
@@ -12281,6 +12283,13 @@ __metadata:
   version: 1.2.1
   resolution: "browser-assert@npm:1.2.1"
   checksum: 902abf999f92c9c951fdb6d7352c09eea9a84706258699655f7e7906e42daa06a1ae286398a755872740e05a6a71c43c5d1a0c0431d67a8cdb66e5d859a3fc0c
+  languageName: node
+  linkType: hard
+
+"browser-dtector@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "browser-dtector@npm:3.4.0"
+  checksum: b2586d2fdccd9ab992b6cc254a65f10d54137b50edfd70bf80ecf80e8e7761e78482e10d7c3874609ab9b602bc6da7466a01b254d40ec721d341c723589aa288
   languageName: node
   linkType: hard
 
