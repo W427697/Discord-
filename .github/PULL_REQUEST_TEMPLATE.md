@@ -20,7 +20,7 @@ Thank you for contributing to Storybook! Please submit all PRs to the `next` bra
 
 #### The changes in this PR are covered in the following automated tests:
 
-- [ ] stories
+- [ x] stories
 - [ ] unit tests
 - [ ] integration tests
 - [ ] end-to-end tests
