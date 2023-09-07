@@ -30,8 +30,7 @@ export const generate: Task = {
     const { generate: generateRepro } = await import('../sandbox/generate');
 
     await generateRepro({
-      templates: [details.key],
-      exclude: [],
+      template: details.key,
       localRegistry: true,
       debug: options.debug,
     });
