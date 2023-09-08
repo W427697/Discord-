@@ -257,67 +257,78 @@ Some example usages of custom indexers include:
 
 <summary>Generating stories dynamically from fixture data or API endpoints</summary>
 
-This indexer generates stories for components based on JSON fixture data. It looks for `jsonstories.js|jsx|ts|tsx` files in the project and then for each such file, looks for `.json` files in the same directory, each of which is added as a story.
-
-<!--
-TODO:
-1. Update snippet to turn one input .json file into multiple components w/ multiple stories
-2. Add a code block (doesn't need to be a proper snippet) for an example input .json file
-3. Spell out steps needed in the build plugin to transpile to CSF
-4. Turn this into a proper snippet (don't forget the `ts-4-9` version!):
--->
+This indexer generates stories for components based on JSON fixture data. It looks for `*.stories.json` files in the project, adds them to the index and separately converts their content to CSF.
 
 <!-- prettier-ignore-start -->
 
-<!--
 <CodeSnippets
   paths={[
-    'common/main-config-indexers-jsonfixture.js.mdx',
-    'common/main-config-indexers-jsonfixture.ts.mdx',
+    'common/main-config-indexers-jsonstories.js.mdx',
+    'common/main-config-indexers-jsonstories.ts.mdx',
   ]}
 />
--->
 
 <!-- prettier-ignore-end -->
 
-```ts
-// .storybook/main.ts
+An example input JSON file could look like this:
 
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
-import type { StorybookConfig, Indexer } from '@storybook/your-framework';
-
-import fs from 'fs/promises';
-import path from 'path';
-
-const jsonFixtureIndexer: Indexer = {
-  test: /jsonstories\.[tj]sx?$/,
-  createIndex: async (fileName) => {
-    // JSON files in the current directory
-    const jsonFiles = (await fs.readdir(path.dirname(fileName)))
-      .filter(f => f.endsWith('.json'))
-
-    // Sidebar entries for each file
-    return jsonFiles
-      .map(jsonFile => ({
-        type: 'story',
-        importPath: fileName,
-        exportName: f.split('.')[0]
-      }));
+```json
+{
+  "Button": {
+    "componentPath": "./button/Button.jsx",
+    "stories": {
+      "Primary": {
+        "args": {
+          "primary": true
+        },
+      "Secondary": {
+        "args": {
+          "primary": false
+        }
+      }
+    }
   },
-};
+  "Dialog": {
+    "componentPath": "./dialog/Dialog.jsx",
+    "stories": {
+      "Closed": {},
+      "Open": {
+        "args": {
+          "isOpen": true
+        }
+      },
+    }
+  }
+}
+```
 
-const config: StorybookConfig = {
-  framework: '@storybook/your-framework',
-  stories: [
-    '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
-    // 👇 Make sure files to index are included in `stories`
-    '../src/**/*.jsonstories.@(js|jsx|mjs|ts|tsx)',
-  ],
-  experimental_indexers: async (existingIndexers) => [...existingIndexers, jsonFixtureIndexer];
-};
+A builder plugin will then need to transform the JSON file into a regular CSF file. This transformation could be done with a Vite plugin similar to this:
 
-export default config;
+```ts
+import type { PluginOption } from 'vite';
+
+function JsonStoriesPlugin(): PluginOption {
+  return {
+    name: 'vite-plugin-storybook-json-stories',
+    load(id) {
+      if (!id.startsWith('virtual:jsonstories')) {
+        return undefined;
+      }
+      const [, fileName, componentName] = id.split('--');
+      const content = JSON.parse(fs.readFileSync(fileName));
+
+      const { component, stories } = getStoriesFromJsonComponent(content, componentName);
+
+      return `
+        import ${component.name} from '${component.path}';
+
+        export default { component: ${component.name} };
+
+        ${stories.map((story) => `export const ${story.name} = { ${story.config} };\n`)}
+      `;
+    },
+  };
+}
 ```
 
 </details>
