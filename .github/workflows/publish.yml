@@ -36,7 +36,23 @@ jobs:
         run: |
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
-      # TODO: here, cancel any running AND pending runs for the preparation workflows: https://stackoverflow.com/questions/60753453/how-to-cancel-run-for-all-scheduled-github-actions-at-once
+
+      - name: Cancel all release preparation runs
+        run: |
+          # Get a list of all running or pending release preparation runs
+          # combining both the prepare-hotfix-release.yml and prepare-next-release.yml workflows
+          RUNNING_RELEASE_PREPARATIONS=$(
+            {
+              gh run list --limit 50 --workflow=prepare-hotfix-release.yml --json databaseId,status
+              gh run list --limit 50 --workflow=prepare-next-release.yml --json databaseId,status
+            } | jq -rc '.[] | select(.status | contains("in_progress", "pending", "queued", "requested", "waiting")) | .databaseId'
+          )
+
+          # Loop through each run and pass it to the "gh run cancel" command
+          while IFS= read -r databaseId; do
+            gh run cancel "$databaseId"
+          done <<< "$RUNNING_RELEASE_PREPARATIONS"
+
       - name: Checkout ${{ github.ref_name }}
         uses: actions/checkout@v3
         with:
