@@ -63,7 +63,7 @@ export type Template = {
   inDevelopment?: boolean;
 
   /**
-   * Set this to exclude a template complete. This will also generate sandboxes for this template.
+   * Set this to exclude a template complete. This will also make sure that no sandboxes are generated for this template.
    */
   exclude?: boolean;
 
