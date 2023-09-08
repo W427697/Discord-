@@ -335,69 +335,18 @@ function JsonStoriesPlugin(): PluginOption {
 
 <details>
 
-<summary>Generating stories based on custom combinatorial logic</summary>
+<summary>Generating stories based on imperative story generation</summary>
 
-This is an indexer in a fictional addon that provides combinatorial testing for files that end with `.combos.js|jsx|ts|tsx`. It generates extra named exports (stories) of the form `Combo0 ... ComboN` for each combination of args.
+As long as you create a custom indexer and a builder plugin for your story source files, you can create your own way of defining stories, such as imperatively defining stories similar to the old `storiesOf` format.
 
-<!--
-TODO:
-1. Update snippet to be more clear, in general
-2. Add a code block (doesn't need to be a proper snippet) for an example input .combos.ts file
-3. Spell out steps needed in the build plugin to transpile to CSF
-4. Import Indexer type from where?
-5. Turn this into a proper snippetTurn this into a proper snippet (don't forget the `ts-4-9` version!):
--->
-
-<!-- prettier-ignore-start -->
-
-<!--
-<CodeSnippets
-  paths={[
-    'common/main-config-indexers-combos.js.mdx',
-    'common/main-config-indexers-combos.ts.mdx',
-  ]}
-/>
--->
-
-<!-- prettier-ignore-end -->
-
-```ts
-// addon-arg-combos/preset.ts
-
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
-import type { Indexer } from '@storybook/your-framework';
-
-import fs from 'fs/promises';
-import path from 'path';
-
-import { parseCombos } from '../utils';
-
-const combosIndexer: Indexer = {
-  test: /\.combos\.[tj]sx?$/,
-  createIndex: async (fileName) => {
-    const code = await fs.readFile(fileName);
-    const combos = parseCombos(code);
-
-    // Sidebar entries for each file
-    return combos.map((combo, idx) => ({
-      type: 'story',
-      importPath: fileName,
-      exportName: `Combo${idx}`,
-    }));
-  },
-};
-
-export default {
-  experimental_indexers: (existingIndexers) => [...existingIndexers, combosIndexer],
-};
-```
+The [Dynamic stories proof of concept]https://stackblitz.com/edit/github-h2rgfk?file=README.md) is an elaborate, functional example of doing just that. The StackBlitz contains everything needed to support such a feature, including the indexer, a Vite plugin and a Webpack loader.
 
 </details>
 
 <details>
 
-<summary>Defining stories in template languages like Vue or Svelte native syntax instead of CSF</summary>
+<summary>Defining stories in non-JavaScript language</summary>
 
-<!-- TODO: Unclear what this example would entail -->
+Custom indexers can be used for an advanced purpose: defining stories in any language, including template languages, and converting the files to CSF. To see examples of this in action, you can refer to [`@storybook/addon-svelte-csf`](https://github.com/storybookjs/addon-svelte-csf) for Svelte template syntax and [`storybook-vue-addon`](https://github.com/tobiasdiez/storybook-vue-addon) for Vue template syntax.
 
 </details>
