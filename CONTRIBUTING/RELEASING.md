@@ -451,7 +451,7 @@ To promote a prerelease to a stable reelase, during the [Re-trigger the Workflow
 - Release type: Patch, Minor or Major
 - Prerelease ID: Leave empty
 
-This scenario is special as it will target `latest-release` instead of `next-release`, and thus merge into `main` when done, and not `next`. So it goes `next` -> `version-from-<CURRENT-VERSION-ON_NEXT` -> `latest-release` -> `main`. When this is done, the Releaser will need to trigger a new release on `next` that bumps the version to a new prerelease minor as described [just below](#first-prerelease-of-new-majorminor---710---720-alpha0-or-800-alpha0).
+This scenario is special as it will target `latest-release` instead of `next-release`, and thus merge into `main` when done, and not `next`. So it goes `next` -> `version-from-<CURRENT-VERSION-ON_NEXT` -> `latest-release` -> `main`.
 
 ### First prerelease of new major/minor - `7.1.0` -> `7.2.0-alpha.0` or `8.0.0-alpha.0`
 

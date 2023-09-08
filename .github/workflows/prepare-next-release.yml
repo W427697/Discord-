@@ -30,8 +30,8 @@ env:
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 1
 
 concurrency:
-  group: release-group
-  cancel-in-progress: false
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   prepare-next-pull-request:
@@ -140,7 +140,7 @@ jobs:
           git pull origin latest-release
           git checkout --ours .
           git add .
-          git commit -m "Merge latest-release into version-1 with conflicts resolved to ours [skip ci]"
+          git commit -m "Merge latest-release into version-next-from-${{ steps.bump-version.outputs.current-version }} with conflicts resolved to ours [skip ci]"
 
       - name: Generate PR description
         id: description
