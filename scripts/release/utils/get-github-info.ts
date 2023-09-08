@@ -40,6 +40,7 @@ function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
                 number
                 id
                 title
+                state
                 url
                 mergedAt
                 labels(first: 50) {
@@ -63,6 +64,7 @@ function makeQuery(repos: ReposWithCommitsAndPRsToFetch) {
                   : `pr__${data.pull}: pullRequest(number: ${data.pull}) {
                     url
                     title
+                    state
                     author {
                       login
                       url
@@ -161,6 +163,7 @@ export type PullRequestInfo = {
   user: string | null;
   id: string | null;
   title: string | null;
+  state: string | null;
   commit: string | null;
   pull: number | null;
   labels: string[] | null;
@@ -197,6 +200,7 @@ export async function getPullInfoFromCommit(request: {
       pull: null,
       commit: request.commit,
       title: null,
+      state: null,
       labels: null,
       links: {
         commit: request.commit,
@@ -245,6 +249,7 @@ export async function getPullInfoFromCommit(request: {
     pull: associatedPullRequest ? associatedPullRequest.number : null,
     commit: request.commit,
     title: associatedPullRequest ? associatedPullRequest.title : null,
+    state: associatedPullRequest ? associatedPullRequest.state : null,
     labels: associatedPullRequest
       ? (associatedPullRequest.labels.nodes || []).map((label: { name: string }) => label.name)
       : null,
@@ -287,6 +292,7 @@ export async function getPullInfoFromPullRequest(request: {
     pull: request.pull,
     commit: commit ? commit.oid : null,
     title: title || null,
+    state: data?.state || null,
     labels: data ? (data.labels.nodes || []).map((label: { name: string }) => label.name) : null,
     links: {
       commit: commit ? `[\`${commit.oid}\`](${commit.commitUrl})` : null,

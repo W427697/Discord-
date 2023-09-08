@@ -78,6 +78,14 @@ export const run = async (options: unknown) => {
   console.log(`🔍 Found pull request:
   ${JSON.stringify(pullRequest, null, 2)}`);
 
+  if (pullRequest.state !== 'OPEN') {
+    console.log('❌ The pull request is already closed, ignoring it');
+    if (process.env.GITHUB_ACTIONS === 'true') {
+      setOutput('frozen', false);
+    }
+    return false;
+  }
+
   // TODO: check if pull request is still open
   const isFrozen = pullRequest.labels?.includes('freeze');
   if (process.env.GITHUB_ACTIONS === 'true') {
