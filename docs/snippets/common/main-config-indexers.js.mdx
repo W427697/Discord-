@@ -13,7 +13,7 @@ export default {
   experimental_indexers: async (existingIndexers) => {
     const customIndexer = {
       test: /\.custom-stories\.[tj]sx?$/,
-      indexFn: // See API and examples below...
+      createIndex: // See API and examples below...
     };
     return [...existingIndexers, customIndexer];
   },

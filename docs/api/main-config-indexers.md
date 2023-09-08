@@ -40,7 +40,7 @@ Type:
 ```ts
 {
   test: RegExp;
-  indexFn: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
+  createIndex: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
 }
 ```
 
@@ -54,7 +54,7 @@ Type: `RegExp`
 
 A regular expression run against file names included in the [`stories`](./main-config-stories.md) configuration that should match all files to be handled by this indexer.
 
-### `indexFn`
+### `createIndex`
 
 (Required)
 
@@ -192,7 +192,7 @@ import type { StorybookConfig, Indexer } from '@storybook/your-framework';
 
 const combosIndexer: Indexer = {
   test: /\.stories\.[tj]sx?$/,
-  indexFn: async (fileName, { makeTitle }) => {
+  createIndex: async (fileName, { makeTitle }) => {
     // 👇 Grab title from fileName
     const title = fileName.match(/\/(.*)\.stories/)[1];
 
@@ -330,7 +330,7 @@ import path from 'path';
 
 const jsonFixtureIndexer: Indexer = {
   test: /jsonstories\.[tj]sx?$/,
-  indexFn: async (fileName) => {
+  createIndex: async (fileName) => {
     // JSON files in the current directory
     const jsonFiles = (await fs.readdir(path.dirname(fileName)))
       .filter(f => f.endsWith('.json'))
@@ -402,7 +402,7 @@ import { parseCombos } from '../utils';
 
 const combosIndexer: Indexer = {
   test: /\.combos\.[tj]sx?$/,
-  indexFn: async (fileName) => {
+  createIndex: async (fileName) => {
     const code = await fs.readFile(fileName);
     const combos = parseCombos(code);
 
