@@ -229,12 +229,11 @@ export const generate = async ({
       dirName,
       ...configuration,
     }))
-    .filter(({ dirName }) => {
+    .filter(({ dirName, exclude }) => {
       if (template) {
         return dirName === template;
       }
-
-      return true;
+      return !exclude;
     });
 
   await runGenerators(generatorConfigs, localRegistry, debug);

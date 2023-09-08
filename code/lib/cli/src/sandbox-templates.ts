@@ -57,9 +57,16 @@ export type Template = {
   skipTasks?: SkippableTask[];
   /**
    * Set this only while developing a newly created framework, to avoid using it in CI.
+   * This will still generate sandboxes for this template.
    * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
    */
   inDevelopment?: boolean;
+
+  /**
+   * Set this to exclude a template complete. This will also generate sandboxes for this template.
+   */
+  exclude?: boolean;
+
   /**
    * Some sandboxes might need extra modifications in the initialized Storybook,
    * such as extend main.js, for setting specific feature flags like storyStoreV7, etc.

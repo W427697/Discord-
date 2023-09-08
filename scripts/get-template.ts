@@ -15,7 +15,7 @@ import { SANDBOX_DIRECTORY } from './utils/constants';
 
 const sandboxDir = process.env.SANDBOX_ROOT || SANDBOX_DIRECTORY;
 
-type Template = Pick<TTemplate, 'inDevelopment' | 'skipTasks'>;
+type Template = Pick<TTemplate, 'inDevelopment' | 'skipTasks' | 'exclude'>;
 export type TemplateKey = keyof typeof allTemplates;
 export type Templates = Record<TemplateKey, Template>;
 
@@ -53,6 +53,7 @@ export async function getTemplate(
     const currentTemplate = allTemplates[t] as Template;
     return (
       currentTemplate.inDevelopment !== true &&
+      currentTemplate.exclude !== true &&
       !currentTemplate.skipTasks?.includes(scriptName as SkippableTask)
     );
   });
