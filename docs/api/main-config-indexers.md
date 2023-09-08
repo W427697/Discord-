@@ -70,8 +70,6 @@ The name of the CSF file used to create entries to index.
 
 #### `IndexerOptions`
 
-<!-- TODO: Rename to IndexFnOptions? Or another word than "options"? IndexFnHelpers? -->
-
 Type:
 
 ```ts
@@ -86,7 +84,7 @@ Options for indexing the file.
 
 Type: `(userTitle?: string) => string`
 
-A function that takes a user-provided title and returns a formatted title for the index entry, which is used in the sidebar.
+A function that takes a user-provided title and returns a formatted title for the index entry, which is used in the sidebar. If no user title is provided, one is automatically generated based on the file name and path.
 
 See [`IndexInput.title`](#title) for example usage.
 
@@ -169,53 +167,16 @@ Determines the location of the entry in the sidebar.
 
 Most of the time, you should **not** specify a title, so that your indexer will use the default naming behavior. When specifying a title, you **must** use the [`makeTitle`](#maketitle) function provided in [`IndexerOptions`](#indexeroptions) to also use this behavior. For example, here's an indexer that merely appends a "Custom" prefix to the title derived from the file name:
 
-<!-- TODO: Turn this into a proper snippet (don't forget the `ts-4-9` version!): -->
-
 <!-- prettier-ignore-start -->
 
-<!--
 <CodeSnippets
   paths={[
     'common/main-config-indexers-title.js.mdx',
     'common/main-config-indexers-title.ts.mdx',
   ]}
 />
--->
 
 <!-- prettier-ignore-end -->
-
-```ts
-// .storybook/main.ts
-
-// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
-import type { StorybookConfig, Indexer } from '@storybook/your-framework';
-
-const combosIndexer: Indexer = {
-  test: /\.stories\.[tj]sx?$/,
-  createIndex: async (fileName, { makeTitle }) => {
-    // 👇 Grab title from fileName
-    const title = fileName.match(/\/(.*)\.stories/)[1];
-
-    // Read file and generate entries ...
-
-    return entries.map((entry) => ({
-      type: 'story',
-      // 👇 Use makeTitle to format the title
-      title: `${makeTitle(title)} Custom`,
-      importPath: fileName,
-      exportName: entry.name,
-    }));
-  },
-};
-
-const config: StorybookConfig = {
-  framework: '@storybook/your-framework',
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  experimental_indexers: async (existingIndexers) => [...existingIndexers, combosIndexer];
-};
-
-export default config;
-```
 
 ##### `__id`
 
