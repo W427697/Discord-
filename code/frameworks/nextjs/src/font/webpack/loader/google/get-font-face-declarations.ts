@@ -2,7 +2,7 @@
 // @ts-expect-error
 import loaderUtils from 'next/dist/compiled/loader-utils3';
 import {
-  GoggleFontsDownloadError,
+  GoogleFontsDownloadError,
   GoogleFontsLoadingError,
 } from '@storybook/core-events/server-errors';
 import type { LoaderOptions } from '../types';
@@ -37,7 +37,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions) {
       cssCache.delete(url);
     }
     if (fontFaceCSS === null) {
-      throw new GoggleFontsDownloadError({
+      throw new GoogleFontsDownloadError({
         fontFamily,
         url,
       });

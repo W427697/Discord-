@@ -280,7 +280,7 @@ export class AngularLegacyBuildOptionsError extends StorybookError {
   }
 }
 
-export class GoggleFontsDownloadError extends StorybookError {
+export class GoogleFontsDownloadError extends StorybookError {
   readonly category = Category.FRAMEWORK_NEXTJS;
 
   readonly code = 1;
