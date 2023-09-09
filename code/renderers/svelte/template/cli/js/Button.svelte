@@ -24,6 +24,7 @@
   $: mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
 
   $: style = backgroundColor ? `background-color: ${backgroundColor}` : '';
+  $: text = label?.toString(); // Test parsing of Elvis Operator
 </script>
 
 <button
@@ -32,5 +33,5 @@
   {style}
   on:click
 >
-  {label}
+  {text}
 </button>
