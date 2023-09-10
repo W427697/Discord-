@@ -213,6 +213,8 @@ Similarly, special formats are available for dates and colors. Date objects will
 
 Args specified through the URL will extend and override any default values of args set on the story.
 
+<IfRenderer renderer='react'>
+
 ## Setting args from within a story
 
 Interactive components often need to be controlled by their containing component or page to respond to events, modify their state and reflect those changes in the UI. For example, when a user toggles a switch component, the switch should be checked, and the arg shown in Storybook should reflect the change. To enable this, you can use the `useArgs` API exported by `@storybook/preview-api`:
@@ -227,6 +229,8 @@ Interactive components often need to be controlled by their containing component
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 ## Mapping to complex arg values
 
