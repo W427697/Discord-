@@ -77,7 +77,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
       : [row.type?.name];
 
   return (
-    <div style={{ display: 'flex', gap: 10 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: 10 }}>
       {controls.map((controlType: string) => {
         const UninonControl = Controls[controlType] || NoControl;
         const argValueType = typeof boxedValue.value;
