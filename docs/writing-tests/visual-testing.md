@@ -15,7 +15,7 @@ Ideal for verifying what the user sees: layout, color, size, and contrast. Story
 
 There are [many tools](https://github.com/mojoaxel/awesome-regression-testing) for visual testing. We recommend [Chromatic](https://www.chromatic.com?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) by Storybook maintainers to run visual tests in a lightning-fast cloud browser environment.
 
-For a self-managed alternative to Chromatic, we offer [StoryShots](https://github.com/storybookjs/storybook/tree/next/code/addons/storyshots-core). It allows you to run visual tests on stories by integrating with [jest-image-snapshot](https://github.com/storybookjs/storybook/tree/main/code/addons/storyshots-puppeteer#imagesnapshots).
+For a self-managed alternative to Chromatic, we offer [test runner](./test-runner.md). It allows you to run visual tests on stories by integrating with [Jest](https://jestjs.io/) and [Playwright](https://playwright.dev/). Here's an example [recipe for visual testing stories](https://github.com/storybookjs/test-runner#image-snapshot-recipe).
 
 ## Setup Chromatic addon
 
@@ -88,4 +88,5 @@ Snapshot tests compare the rendered markup of every story against known baseline
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [Import stories in other tests](./importing-stories-in-tests.md) for other tools
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

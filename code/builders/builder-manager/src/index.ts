@@ -68,11 +68,11 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       '.eot': 'dataurl',
       '.ttf': 'dataurl',
     },
-    target: ['chrome100'],
+    target: ['chrome100', 'safari15', 'firefox91'],
     platform: 'browser',
     bundle: true,
     minify: true,
-    sourcemap: true,
+    sourcemap: false,
     conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',
@@ -190,7 +190,6 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     }
   });
   router.use(`/index.html`, ({ path }, res) => {
-    console.log({ path });
     res.status(200).send(html);
   });
 

@@ -8,15 +8,15 @@ const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 const allStories = [
   {
     directory: '../manager/src',
-    titlePrefix: '@storybook-manager',
+    titlePrefix: '@manager',
   },
   {
-    directory: '../components/src',
-    titlePrefix: '@storybook-components',
+    directory: '../components/src/components',
+    titlePrefix: '@components',
   },
   {
     directory: '../blocks/src',
-    titlePrefix: '@storybook-blocks',
+    titlePrefix: '@blocks',
   },
 ];
 
@@ -50,6 +50,15 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
+    '@storybook/addon-designs',
+    {
+      name: '@chromaui/addon-visual-tests',
+      options: {
+        projectId: 'Project:635781f3500dd2c49e189caf',
+        projectToken: '80b312430ec4',
+        buildScriptName: 'storybook:ui:build',
+      },
+    },
   ],
   framework: {
     name: '@storybook/react-vite',

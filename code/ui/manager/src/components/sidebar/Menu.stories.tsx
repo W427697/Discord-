@@ -1,11 +1,12 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ComponentProps } from 'react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { within, userEvent, screen } from '@storybook/testing-library';
+import { screen, userEvent, within } from '@storybook/testing-library';
+import type { State } from '@storybook/manager-api';
 import { SidebarMenu, ToolbarMenu } from './Menu';
 import { useMenu } from '../../containers/menu';
 
@@ -46,12 +47,13 @@ const DoubleThemeRenderingHack = styled.div({
 export const Expanded: Story = {
   render: () => {
     const menu = useMenu(
+      { whatsNewData: { status: 'SUCCESS', disableWhatsNewNotifications: false } } as State,
       {
         // @ts-expect-error (Converted from ts-ignore)
         getShortcutKeys: () => ({}),
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
-        releaseNotesVersion: () => '6.0.0',
+        isWhatsNewUnread: () => true,
       },
       false,
       false,
@@ -84,16 +86,17 @@ export const Expanded: Story = {
   ],
 };
 
-export const ExpandedWithoutReleaseNotes: Story = {
+export const ExpandedWithoutWhatsNew: Story = {
   ...Expanded,
   render: () => {
     const menu = useMenu(
+      { whatsNewData: undefined } as State,
       {
         // @ts-expect-error (invalid)
         getShortcutKeys: () => ({}),
         getAddonsShortcuts: () => ({}),
         versionUpdateAvailable: () => false,
-        releaseNotesVersion: () => undefined,
+        isWhatsNewUnread: () => false,
       },
       false,
       false,
@@ -114,7 +117,7 @@ export const ExpandedWithoutReleaseNotes: Story = {
       setTimeout(res, 500);
     });
     await Expanded.play(context);
-    const releaseNotes = await canvas.queryByText(/Release notes/);
+    const releaseNotes = await canvas.queryByText(/What's new/);
     await expect(releaseNotes).not.toBeInTheDocument();
   },
 };

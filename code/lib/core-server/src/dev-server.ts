@@ -1,10 +1,12 @@
 import express from 'express';
 import compression from 'compression';
+import invariant from 'tiny-invariant';
 
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
 import { logConfig } from '@storybook/core-common';
 
+import { logger } from '@storybook/node-logger';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
@@ -34,16 +36,13 @@ export async function storybookDevServer(options: Options) {
     getServerChannel(server)
   );
 
-  let indexError: Error;
+  let indexError: Error | undefined;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
-  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
-    features,
-    options,
-    serverChannel
-  ).catch((err) => {
-    indexError = err;
-    return undefined;
-  });
+  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
+    getStoryIndexGenerator(features ?? {}, options, serverChannel).catch((err) => {
+      indexError = err;
+      return undefined;
+    });
 
   app.use(compression({ level: 1 }));
 
@@ -51,7 +50,7 @@ export async function storybookDevServer(options: Options) {
     options.extendServer(server);
   }
 
-  app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
+  app.use(getAccessControlMiddleware(core?.crossOriginIsolated ?? false));
   app.use(getCachingMiddleware());
 
   getMiddleware(options.configDir)(router);
@@ -59,6 +58,7 @@ export async function storybookDevServer(options: Options) {
   app.use(router);
 
   const { port, host, initialPath } = options;
+  invariant(port, 'expected options to have a port');
   const proto = options.https ? 'https' : 'http';
   const { address, networkAddress } = getServerAddresses(port, host, proto, initialPath);
 
@@ -67,6 +67,7 @@ export async function storybookDevServer(options: Options) {
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
+  invariant(core?.builder, 'no builder configured!');
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 
   const [previewBuilder, managerBuilder] = await Promise.all([
@@ -90,6 +91,7 @@ export async function storybookDevServer(options: Options) {
   let previewStarted: Promise<any> = Promise.resolve();
 
   if (!options.ignorePreview) {
+    logger.info('=> Starting preview..');
     previewStarted = previewBuilder
       .start({
         startTime: process.hrtime(),
@@ -99,6 +101,9 @@ export async function storybookDevServer(options: Options) {
         channel: serverChannel,
       })
       .catch(async (e: any) => {
+        logger.error('=> Failed to build the preview');
+        process.exitCode = 1;
+
         await managerBuilder?.bail().catch();
         // For some reason, even when Webpack fails e.g. wrong main.js config,
         // the preview may continue to print to stdout, which can affect output

@@ -5,5 +5,25 @@
 </template>
 
 <script lang="ts" setup >
- defineProps<{label:string ,stringOrNumber?: string | number,booleanOrNumber?:boolean | number }>();
+ defineProps<
+ {
+  /**
+   * label
+   */
+  label:string ,
+  /**
+   * stringOrNumber
+   */
+  stringOrNumber?: string | number,
+  /**
+   * booleanOrNumber
+   */
+  booleanOrNumber?:boolean | number,
+  /**
+   * multiple
+   */
+  multiple?:object | string | number | boolean ,
+  
+  
+  }>();
 </script>

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-webpack",
-  "version": "7.1.0-alpha.39",
+  "version": "7.5.0-alpha.1",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -36,16 +36,17 @@
     "templates/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-common": "7.1.0-alpha.39",
-    "@storybook/node-logger": "7.1.0-alpha.39",
-    "@storybook/types": "7.1.0-alpha.39",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/node": "^16.0.0",
     "ts-dedent": "^2.0.0"
   },

@@ -16,5 +16,6 @@ export const UnionType: Story = {
     label: 'UnionType',
     stringOrNumber: 12,
     booleanOrNumber: true,
+    multiple: { a: 1, b: 2 },
   },
 };
