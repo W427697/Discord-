@@ -65,6 +65,7 @@
     "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
+    "browser-dtector": "^3.4.0",
     "copy-to-clipboard": "^3.3.1",
     "downshift": "^6.0.15",
     "fs-extra": "^11.1.0",
