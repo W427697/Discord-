@@ -28,6 +28,7 @@ import {
   STORY_UNCHANGED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
+  DOCS_PREPARED,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
@@ -652,6 +653,19 @@ describe('PreviewWeb', () => {
     });
 
     describe('CSF docs entries', () => {
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=component-one--docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'component-one--docs',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+        });
+      });
+
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=component-one--docs';
         await createAndRenderPreview();
@@ -709,12 +723,39 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('mdx docs entries', () => {
+    describe('MDX docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=introduction--docs';
         await createAndRenderPreview();
 
         expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'introduction--docs');
+      });
+
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=introduction--docs';
+        await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'introduction--docs',
+          parameters: {
+            docs: expect.any(Object),
+          },
+        });
+      });
+
+      describe('attached', () => {
+        it('emits DOCS_PREPARED with component parameters', async () => {
+          document.location.search = '?id=component-one--attached-docs';
+          await createAndRenderPreview();
+
+          expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+            id: 'component-one--attached-docs',
+            parameters: {
+              docs: expect.any(Object),
+              fileName: './src/ComponentOne.stories.js',
+            },
+          });
+        });
       });
 
       it('calls view.prepareForDocs', async () => {
@@ -1560,17 +1601,19 @@ describe('PreviewWeb', () => {
     });
 
     describe('if called before the preview is initialized', () => {
-      it('still renders the selected story, once ready', async () => {
+      it('works when there was no selection specifier', async () => {
         document.location.search = '';
         // We intentionally are *not* awaiting here
         new PreviewWeb().initialize({ importFn, getProjectAnnotations });
 
-        emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--b',
-          viewMode: 'story',
-        });
+        emitter.emit(SET_CURRENT_STORY, { storyId: 'component-one--b', viewMode: 'story' });
 
         await waitForEvents([STORY_RENDERED]);
+
+        // Check we don't render the default "story missing" UI / emit the default message
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_MISSING);
+
+        // We of course should emit for the selected story
         expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
           storyId: 'component-one--b',
           viewMode: 'story',
@@ -1580,7 +1623,40 @@ describe('PreviewWeb', () => {
           '',
           'pathname?id=component-one--b&viewMode=story'
         );
-        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_MISSING, 'component-one--b');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
+      });
+
+      it('works when there was a selection specifier', async () => {
+        document.location.search = '?id=component-one--a';
+
+        const initialized = new PreviewWeb().initialize({
+          importFn,
+          getProjectAnnotations,
+        });
+
+        emitter.emit(SET_CURRENT_STORY, { storyId: 'component-one--b', viewMode: 'story' });
+
+        await initialized;
+        await waitForEvents([STORY_RENDERED]);
+
+        // If we emitted CURRENT_STORY_WAS_SET for the original selection, the manager might
+        // get confused, so check that we don't
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
+          storyId: 'component-one--a',
+          viewMode: 'story',
+        });
+        // Double check this doesn't happen either
+        expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_MISSING);
+
+        expect(history.replaceState).toHaveBeenCalledWith(
+          {},
+          '',
+          'pathname?id=component-one--b&viewMode=story'
+        );
+        expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
+          storyId: 'component-one--b',
+          viewMode: 'story',
+        });
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--b');
       });
     });
@@ -2261,6 +2337,26 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing from story viewMode to docs', () => {
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=component-one--a';
+        await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        emitter.emit(SET_CURRENT_STORY, {
+          storyId: 'component-one--docs',
+          viewMode: 'docs',
+        });
+        await waitForSetCurrentStory();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'component-one--docs',
+          parameters: {
+            docs: expect.any(Object),
+            fileName: './src/ComponentOne.stories.js',
+          },
+        });
+      });
+
       it('calls renderToCanvass teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -3180,6 +3276,24 @@ describe('PreviewWeb', () => {
 
       const newImportFn = jest.fn(async (path: string) => {
         return path === './src/Introduction.mdx' ? newUnattachedDocsExports : importFn(path);
+      });
+
+      it('emits DOCS_PREPARED', async () => {
+        document.location.search = '?id=introduction--docs';
+        const preview = await createAndRenderPreview();
+
+        mockChannel.emit.mockClear();
+        docsRenderer.render.mockClear();
+
+        preview.onStoriesChanged({ importFn: newImportFn });
+        await waitForRender();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
+          id: 'introduction--docs',
+          parameters: {
+            docs: expect.any(Object),
+          },
+        });
       });
 
       it('renders with the generated docs parameters', async () => {

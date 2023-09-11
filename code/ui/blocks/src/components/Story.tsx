@@ -78,7 +78,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   return (
     <>
       {height ? (
-        <style>{`${storyBlockIdFromId(
+        <style>{`#${storyBlockIdFromId(
           props
         )} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
       ) : null}
@@ -126,7 +126,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   const { inline } = props;
 
   return (
-    <div id={storyBlockIdFromId(props)} className="sb-story sb-unstyled">
+    <div id={storyBlockIdFromId(props)} className="sb-story sb-unstyled" data-story-block="true">
       {inline ? (
         <InlineStory {...(props as InlineStoryProps)} />
       ) : (

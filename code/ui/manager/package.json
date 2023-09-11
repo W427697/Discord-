@@ -1,11 +1,11 @@
 {
   "name": "@storybook/manager",
-  "version": "7.0.2",
+  "version": "7.5.0-alpha.2",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/ui/manager",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/ui/manager",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -21,55 +21,51 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./dist/runtime": {
-      "require": "./dist/runtime.js",
-      "import": "./dist/runtime.mjs",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./dist/globals": {
-      "require": "./dist/globals.js",
-      "import": "./dist/globals.mjs",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "require": "./dist/globals.js"
     },
     "./paths": "./paths.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "static/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/prepare/check.ts",
+    "prep": "../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.0.2",
-    "@storybook/api": "7.0.2",
-    "@storybook/channel-postmessage": "7.0.2",
-    "@storybook/channel-websocket": "7.0.2",
-    "@storybook/channels": "7.0.2",
-    "@storybook/client-logger": "7.0.2",
-    "@storybook/components": "7.0.2",
-    "@storybook/core-events": "7.0.2",
+    "@storybook/addon-designs": "^7.0.4",
+    "@storybook/addons": "workspace:*",
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.2",
-    "@storybook/router": "7.0.2",
-    "@storybook/theming": "7.0.2",
-    "@storybook/types": "7.0.2",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/router": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
+    "browser-dtector": "^3.4.0",
     "copy-to-clipboard": "^3.3.1",
     "downshift": "^6.0.15",
     "fs-extra": "^11.1.0",
@@ -95,11 +91,13 @@
   },
   "bundler": {
     "pre": "./scripts/generate-exports-file.ts",
-    "entries": [
+    "browserEntries": [
       "./src/index.tsx",
-      "./src/globals.ts",
       "./src/runtime.ts"
+    ],
+    "nodeEntries": [
+      "./src/globals.ts"
     ]
   },
-  "gitHead": "96b498debee8b89d0c4050c13172a5a818c9997a"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

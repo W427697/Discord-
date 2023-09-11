@@ -1,25 +1,21 @@
 import { global } from '@storybook/global';
 import type { ComponentProps, FC } from 'react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
-import { Provider as ManagerProvider } from '@storybook/manager-api';
+import { Provider as ManagerProvider, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
-import {
-  ThemeProvider,
-  ensure as ensureTheme,
-  CacheProvider,
-  createCache,
-} from '@storybook/theming';
+import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
+import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core-events/manager-errors';
+
 import { HelmetProvider } from 'react-helmet-async';
 
+import type { Addon_PageType } from '@storybook/types';
 import { App } from './App';
 
 import Provider from './provider';
-
-const emotionCache = createCache({ key: 'sto' });
-emotionCache.compat = true;
+import { settingsPageAddon } from './settings/index';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -40,7 +36,7 @@ export const Root: FC<RootProps> = ({ provider }) => (
 );
 
 const appFilter = ({ api, state }: Combo, isLoading: boolean) => {
-  const result: ComponentProps<typeof App> = {
+  const result: Omit<ComponentProps<typeof App>, 'pages'> = {
     panelPosition: state.layout.panelPosition || 'bottom',
     isPanelShown: isLoading ? false : state.layout.showPanel,
     isSidebarShown: state.layout.showNav,
@@ -75,17 +71,20 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
         >
           {(combo: Combo) => {
             const { state, api } = combo;
+            const pages: Addon_PageType[] = useMemo(
+              () => [settingsPageAddon, ...Object.values(api.getElements(types.experimental_PAGE))],
+              [Object.keys(api.getElements(types.experimental_PAGE)).join()]
+            );
+
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story
               ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
               : !state.previewInitialized;
 
             return (
-              <CacheProvider value={emotionCache}>
-                <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                  <App key="app" {...appFilter(combo, isLoading)} />
-                </ThemeProvider>
-              </CacheProvider>
+              <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
+                <App key="app" pages={pages} {...appFilter(combo, isLoading)} />
+              </ThemeProvider>
             );
           }}
         </ManagerProvider>
@@ -96,7 +95,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
 
 export function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
   if (!(provider instanceof Provider)) {
-    throw new Error('provider is not extended from the base Provider');
+    throw new ProviderDoesNotExtendBaseProviderError();
   }
 
   ReactDOM.render(<Root key="root" provider={provider} />, domNode);

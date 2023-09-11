@@ -33,7 +33,6 @@ If all goes well, you should see the sandbox running.
 
 ![Storybook sandbox running](../get-started/example-welcome.png)
 
-
 ## Running a different sandbox template
 
 By default, the `start` command is configured to initialize a Vite-based React template. If you're planning on working on a different renderer instead, you can do so as well. Start by running the `task` command as follows:
@@ -122,6 +121,12 @@ To run an e2e test against a sandbox, you can use the `e2e-tests` task:
 
 ```shell
 yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
+```
+
+If there are issues and you'd like to debug them, you can pass a `DEBUG=1` environment variable, and Playwright will run in watch mode.
+
+```shell
+DEBUG=1 yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
 ```
 
 ## Submit a pull request
@@ -249,11 +254,10 @@ It's troublesome to know which packages you'll change ahead of time, and watchin
 
 </details>
 
-## Other ways to contribute
+## Learn more about contributing to Storybook
 
-Learn about other ways you can contribute to Storybook.
-
-- [**Overview**](./how-to-contribute.md): General guidance
-- [**Docs**](./documentation-updates.md): Typos, clarifications
-- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
-- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library
+- [RFC process](./RFC.md) for authoring feature requests
+- Code for features and bug fixes
+- [Frameworks](./framework.md) to get started with a new framework
+- [Documentation](./documentation-updates.md) for documentation improvements, typos, and clarifications
+- [Examples](./new-snippets.md) for new snippets and examples

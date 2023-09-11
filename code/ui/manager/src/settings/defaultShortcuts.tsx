@@ -1,4 +1,6 @@
-export const defaultShortcuts = {
+import type { State } from 'lib/manager-api/src';
+
+export const defaultShortcuts: State['shortcuts'] = {
   fullScreen: ['F'],
   togglePanel: ['A'],
   panelPosition: ['D'],
@@ -17,4 +19,5 @@ export const defaultShortcuts = {
   escape: ['escape'],
   collapseAll: ['ctrl', 'shift', 'ArrowUp'],
   expandAll: ['ctrl', 'shift', 'ArrowDown'],
+  remount: ['alt', 'R'],
 };

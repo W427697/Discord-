@@ -64,6 +64,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
+
   const allEntries = entries.map((e: string) => slash(join(cwd, e)));
 
   const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
@@ -72,16 +73,25 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     optimized,
   });
 
+  /* preset files are always CJS only.
+   * Generating an ESM file for them anyway is problematic because they often have a reference to `require`.
+   * TSUP generated code will then have a `require` polyfill/guard in the ESM files, which causes issues for webpack.
+   */
+  const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
+
   if (formats.includes('esm')) {
     tasks.push(
       build({
         silent: true,
-        entry: allEntries,
+        treeshake: true,
+        entry: nonPresetEntries,
+        shims: false,
         watch,
         outDir,
+        sourcemap: false,
         format: ['esm'],
-        target: 'chrome100',
-        clean: !watch,
+        target: ['chrome100', 'safari15', 'firefox91'],
+        clean: false,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
         esbuildPlugins: [
@@ -110,11 +120,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         entry: allEntries,
         watch,
         outDir,
+        sourcemap: false,
         format: ['cjs'],
         target: 'node16',
         ...(dtsBuild === 'cjs' ? dtsConfig : {}),
         platform: 'node',
-        clean: !watch,
+        clean: false,
         external: externals,
 
         esbuildOptions: (c) => {
@@ -127,11 +138,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  await Promise.all(tasks);
-
   if (tsConfigExists && !optimized) {
-    await Promise.all(entries.map(generateDTSMapperFile));
+    tasks.push(...entries.map(generateDTSMapperFile));
   }
+
+  await Promise.all(tasks);
 
   if (post) {
     await exec(

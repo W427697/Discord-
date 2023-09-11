@@ -87,38 +87,6 @@ export function prepareStory<TRenderer extends Renderer>(
   const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
   const unboundStoryFn = (context: StoryContext<TRenderer>) => decoratedStoryFn(context);
 
-  // prepareContext is invoked at StoryRender.render()
-  // the context is prepared before invoking the render function, instead of here directly
-  // to ensure args don't loose there special properties set by the renderer
-  // eg. reactive proxies set by frameworks like SolidJS or Vue
-  const prepareContext = (context: StoryContext<TRenderer>) => {
-    let finalContext: StoryContext<TRenderer> = context;
-
-    if (global.FEATURES?.argTypeTargetsV7) {
-      const argsByTarget = groupArgsByTarget(context);
-      finalContext = {
-        ...context,
-        allArgs: context.args,
-        argsByTarget,
-        args: argsByTarget[UNTARGETED] || {},
-      };
-    }
-
-    const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
-      const mapping = finalContext.argTypes[key]?.mapping;
-      acc[key] = mapping && val in mapping ? mapping[val] : val;
-      return acc;
-    }, {} as Args);
-
-    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-      const argType = finalContext.argTypes[key] || {};
-      if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
-      return acc;
-    }, {} as Args);
-
-    return { ...finalContext, args: includedArgs };
-  };
-
   const play = storyAnnotations?.play || componentAnnotations.play;
 
   const playFunction =
@@ -145,7 +113,6 @@ export function prepareStory<TRenderer extends Renderer>(
     unboundStoryFn,
     applyLoaders,
     playFunction,
-    prepareContext,
   };
 }
 
@@ -169,8 +136,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const id = storyAnnotations?.id || componentAnnotations.id;
-
   const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
 
   const parameters: Parameters = combineParameters(
@@ -182,24 +147,26 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   // Currently it is only possible to set these globally
   const { argTypesEnhancers = [], argsEnhancers = [] } = projectAnnotations;
 
-  // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
-  // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
-  const render =
-    storyAnnotations?.userStoryFn ||
-    storyAnnotations?.render ||
-    componentAnnotations.render ||
-    projectAnnotations.render;
-
-  if (!render) throw new Error(`No render function available for id '${id}'`);
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
     storyAnnotations?.argTypes
   ) as StrictArgTypes;
 
-  const { passArgsFirst = true } = parameters;
-  // eslint-disable-next-line no-underscore-dangle
-  parameters.__isArgsStory = passArgsFirst && render.length > 0;
+  if (storyAnnotations) {
+    // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
+    // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
+    const render =
+      storyAnnotations?.userStoryFn ||
+      storyAnnotations?.render ||
+      componentAnnotations.render ||
+      projectAnnotations.render;
+
+    const { passArgsFirst = true } = parameters;
+
+    // eslint-disable-next-line no-underscore-dangle
+    parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
+  }
 
   // Pull out args[X] into initialArgs for argTypes enhancers
   const passedArgs: Args = {
@@ -246,4 +213,57 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   const { name, story, ...withoutStoryIdentifiers } = contextForEnhancers;
 
   return withoutStoryIdentifiers;
+}
+
+// the context is prepared before invoking the render function, instead of here directly
+// to ensure args don't loose there special properties set by the renderer
+// eg. reactive proxies set by frameworks like SolidJS or Vue
+export function prepareContext<
+  TRenderer extends Renderer,
+  TContext extends Pick<StoryContextForLoaders<TRenderer>, 'args' | 'argTypes' | 'globals'>
+>(
+  context: TContext
+): TContext & Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget' | 'unmappedArgs'> {
+  const { args: unmappedArgs } = context;
+
+  let targetedContext: TContext &
+    Pick<StoryContextForLoaders<TRenderer>, 'allArgs' | 'argsByTarget'> = {
+    ...context,
+    allArgs: undefined,
+    argsByTarget: undefined,
+  };
+  if (global.FEATURES?.argTypeTargetsV7) {
+    const argsByTarget = groupArgsByTarget(context);
+    targetedContext = {
+      ...context,
+      allArgs: context.args,
+      argsByTarget,
+      args: argsByTarget[UNTARGETED] || {},
+    };
+  }
+
+  const mappedArgs = Object.entries(targetedContext.args).reduce((acc, [key, val]) => {
+    if (!targetedContext.argTypes[key]?.mapping) {
+      acc[key] = val;
+
+      return acc;
+    }
+
+    const mappingFn = (originalValue: any) =>
+      originalValue in targetedContext.argTypes[key].mapping
+        ? targetedContext.argTypes[key].mapping[originalValue]
+        : originalValue;
+
+    acc[key] = Array.isArray(val) ? val.map(mappingFn) : mappingFn(val);
+
+    return acc;
+  }, {} as Args);
+
+  const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
+    const argType = targetedContext.argTypes[key] || {};
+    if (includeConditionalArg(argType, mappedArgs, targetedContext.globals)) acc[key] = val;
+    return acc;
+  }, {} as Args);
+
+  return { ...targetedContext, unmappedArgs, args: includedArgs };
 }

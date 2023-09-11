@@ -24,12 +24,6 @@ Make sure you have installed [`@storybook/manager-api`](https://www.npmjs.com/pa
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
-
 As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./overview.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
@@ -67,7 +61,7 @@ Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./
 <CodeSnippets
   paths={[
     'common/storybook-preview-docs-dark-theme.js.mdx',
-    'common/storybook-preview-docs-dark-theme.js.mdx',
+    'common/storybook-preview-docs-dark-theme.ts.mdx',
   ]}
 />
 
@@ -85,7 +79,7 @@ Inside your `.storybook` directory, create a new file called `YourTheme.js` and 
 
 <CodeSnippets
   paths={[
-    'common/storybook-theme-example-variables.ts.mdx',
+    'common/storybook-theme-example-variables.js.mdx',
   ]}
 />
 

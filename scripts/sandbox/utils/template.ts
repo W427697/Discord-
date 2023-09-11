@@ -9,7 +9,12 @@ export async function renderTemplate(templatePath: string, templateData: Record<
 
   const output = format(render(template, templateData), {
     parser: 'html',
-  }).replace(new RegExp('</li>\\n\\n', 'g'), '</li>\n');
+  })
+    // overly complicated regex replacements to fix prettier's bad formatting
+    .replace(new RegExp('</li>\\n\\n', 'g'), '</li>\n')
+    .replace(new RegExp('<a\\n', 'g'), '<a')
+    .replace(new RegExp('node"\\n>', 'g'), 'node=">')
+    .replace(new RegExp('/\\n</a>/', 'g'), '</a>');
   return output;
 }
 
@@ -17,7 +22,7 @@ export const getStackblitzUrl = (path: string, branch = 'next') => {
   return `https://stackblitz.com/github/storybookjs/sandboxes/tree/${branch}/${path}/after-storybook?preset=node`;
 };
 
-export async function getTemplatesData() {
+export async function getTemplatesData(branch: string) {
   type TemplatesData = Record<
     string,
     Record<
@@ -28,20 +33,17 @@ export async function getTemplatesData() {
     >
   >;
 
-  const templatesData = Object.keys(sandboxTemplates).reduce<TemplatesData>(
-    (acc, curr: keyof typeof sandboxTemplates) => {
-      const [dirName, templateName] = curr.split('/');
-      const groupName =
-        dirName === 'cra' ? 'CRA' : dirName.slice(0, 1).toUpperCase() + dirName.slice(1);
-      const generatorData = sandboxTemplates[curr];
-      acc[groupName] = acc[groupName] || {};
-      acc[groupName][templateName] = {
-        ...generatorData,
-        stackblitzUrl: getStackblitzUrl(curr),
-      };
-      return acc;
-    },
-    {}
-  );
+  const templatesData = Object.keys(sandboxTemplates).reduce<TemplatesData>((acc, curr) => {
+    const [dirName, templateName] = curr.split('/');
+    const groupName =
+      dirName === 'cra' ? 'CRA' : dirName.slice(0, 1).toUpperCase() + dirName.slice(1);
+    const generatorData = sandboxTemplates[curr as keyof typeof sandboxTemplates];
+    acc[groupName] = acc[groupName] || {};
+    acc[groupName][templateName] = {
+      ...generatorData,
+      stackblitzUrl: getStackblitzUrl(curr, branch),
+    };
+    return acc;
+  }, {});
   return templatesData;
 }

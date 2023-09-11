@@ -26,10 +26,10 @@ However SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/mo
 | **Module**                                                                         | **Status**             | **Note**                                                                                                                            |
 | ---------------------------------------------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | [`$app/environment`](https://kit.svelte.dev/docs/modules#$app-environment)         | ✅ Supported           | `version` is always empty in Storybook.                                                                                             |
-| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ⏳ Planned for 7.1     | Will use mocks. Tracked in [#20999](https://github.com/storybookjs/storybook/issues/20999)                                          |
-| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ⏳ Planned for 7.1     | Will use mocks. Tracked in [#20999](https://github.com/storybookjs/storybook/issues/20999)                                          |
+| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ⏳ Future              | Will use mocks. Tracked in [#20999](https://github.com/storybookjs/storybook/issues/20999)                                          |
+| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ⏳ Future              | Will use mocks. Tracked in [#20999](https://github.com/storybookjs/storybook/issues/20999)                                          |
 | [`$app/paths`](https://kit.svelte.dev/docs/modules#$app-paths)                     | ✅ Supported           | Requires SvelteKit 1.4.0 or newer                                                                                                   |
-| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | ✅ Supported           | Mocks planned for 7.1, so you can set different store values per story.                                                             |
+| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | ✅ Supported           | Mocks planned, so you can set different store values per story.                                                             |
 | [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private) | ⛔ Not supported       | They are meant to only be available server-side, and Storybook renders all components on the client.                                |
 | [`$env/dynamic/public`](https://kit.svelte.dev/docs/modules#$env-dynamic-public)   | 🚧 Partially supported | Only supported in development mode. Storybook is built as a static app with no server-side API so cannot dynamically serve content. |
 | [`$env/static/private`](https://kit.svelte.dev/docs/modules#$env-static-private)   | ⛔ Not supported       | They are meant to only be available server-side, and Storybook renders all components on the client.                                |
@@ -52,7 +52,7 @@ This is just the beginning. We're close to adding basic support for many of the 
 Run the following command in your SvelteKit project's root directory, and follow the prompts:
 
 ```bash
-npx storybook@next init
+npx storybook@latest init
 ```
 
 [More on getting started with Storybook](https://storybook.js.org/docs/svelte/get-started/install)
@@ -62,7 +62,7 @@ npx storybook@next init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@next upgrade --prerelease
+npx storybook@latest upgrade --prerelease
 ```
 
 #### Automatic migration
@@ -76,7 +76,7 @@ Storybook 7.0 automatically loads your Vite config, and by extension your Svelte
 Install the framework:
 
 ```bash
-yarn add -D @storybook/sveltekit@next
+yarn add -D @storybook/sveltekit
 ```
 
 Update your `main.js` to change the framework property:

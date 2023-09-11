@@ -2,7 +2,9 @@
 title: 'IconGallery'
 ---
 
-The `IconGallery` block enables you to easily document all icons associated with your project, displayed in a neat grid.
+<YouTubeCallout id="tyNIspWhFyU" title="Storybook for Design Systems - IconGallery Doc Block" params='start=131' />
+
+The `IconGallery` block enables you to easily document React icon components associated with your project, displayed in a neat grid.
 
 ![Screenshot of IconGallery and IconItem blocks](./doc-block-icongallery.png)
 
@@ -75,14 +77,16 @@ import { IconItem } from '@storybook/blocks';
 
 `IconItem` is configured with the following props:
 
+### `name`
+
+(**Required**)
+
+Type: `string`
+
+Sets the name of the icon.
+
 ### `children`
 
 Type: `React.ReactNode`
 
 Provides the icon to be displayed.
-
-### `name` (required)
-
-Type: `string`
-
-Sets the name of the icon.

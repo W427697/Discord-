@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-mdx-gfm",
-  "version": "7.0.2",
+  "version": "7.5.0-alpha.2",
   "description": "GitHub Flavored Markdown in Storybook",
   "keywords": [
     "addon",
@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/gfm"
+    "directory": "code/addons/gfm"
   },
   "funding": {
     "type": "opencollective",
@@ -26,14 +26,14 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./preset": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -44,14 +44,15 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/node-logger": "7.0.0-beta.52",
+    "@storybook/node-logger": "workspace:*",
     "remark-gfm": "^3.0.1",
     "ts-dedent": "^2.0.0"
   },
@@ -69,5 +70,5 @@
       "cjs"
     ]
   },
-  "gitHead": "96b498debee8b89d0c4050c13172a5a818c9997a"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }
