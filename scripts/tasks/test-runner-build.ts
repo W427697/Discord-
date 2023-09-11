@@ -12,7 +12,12 @@ export const testRunnerBuild: Task & { port: number } = {
   },
   async run({ sandboxDir, junitFilename, template }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
-    const flags = [`--url http://localhost:${this.port}`, '--junit', '--maxWorkers=2'];
+    const flags = [
+      `--url http://localhost:${this.port}`,
+      '--junit',
+      '--maxWorkers=2',
+      '--failOnConsole',
+    ];
 
     // index-json mode is only supported in ssv7
     if (template.modifications?.mainConfig?.features?.storyStoreV7 !== false) {
@@ -25,6 +30,7 @@ export const testRunnerBuild: Task & { port: number } = {
         ...execOptions,
         env: {
           JEST_JUNIT_OUTPUT_FILE: junitFilename,
+          TEST_ROOT: sandboxDir,
         },
       },
       { dryRun, debug }

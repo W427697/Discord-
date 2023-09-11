@@ -295,7 +295,7 @@ export const Example = {
   parameters: {
     nextjs: {
       router: {
-        path: '/profile/[id]',
+        pathname: '/profile/[id]',
         asPath: '/profile/1',
         query: {
           id: '1',
@@ -316,7 +316,7 @@ Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/c
 export const parameters = {
   nextjs: {
     router: {
-      path: '/some-default-path',
+      pathname: '/some-default-path',
       asPath: '/some-default-path',
       query: {},
     },
@@ -827,10 +827,15 @@ Below is an example of how to add svgr support to Storybook with this framework.
 export default {
   // ...
   webpackFinal: async (config) => {
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+
     // This modifies the existing image rule to exclude .svg files
     // since you want to handle those files with @svgr/webpack
-    const imageRule = config.module.rules.find((rule) => rule.test.test('.svg'));
-    imageRule.exclude = /\.svg$/;
+    const imageRule = config.module.rules.find((rule) => rule?.['test']?.test('.svg'));
+    if (imageRule) {
+      imageRule['exclude'] = /\.svg$/;
+    }
 
     // Configure .svg files to be loaded with @svgr/webpack
     config.module.rules.push({

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "7.2.0-alpha.0",
+  "version": "7.5.0-alpha.1",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
@@ -38,22 +38,23 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "vue-tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.2.0-alpha.0",
-    "@storybook/core-client": "7.2.0-alpha.0",
-    "@storybook/docs-tools": "7.2.0-alpha.0",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-client": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.2.0-alpha.0",
-    "@storybook/types": "7.2.0-alpha.0",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
     "ts-dedent": "^2.0.0",
     "type-fest": "~2.19",
     "vue": "^2.7.0"
