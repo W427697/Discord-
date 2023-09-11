@@ -5,11 +5,10 @@ import type { State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
 import type { Addon_PageType } from '@storybook/types';
 import * as S from './container';
+import { useLayout } from './LayoutContext';
 
-export interface DesktopProps {
-  width: number;
+export interface LayoutProps {
   panelCount: number;
-  height: number;
   Sidebar: ComponentType<any>;
   Preview: ComponentType<any>;
   Panel: ComponentType<any>;
@@ -19,8 +18,8 @@ export interface DesktopProps {
   viewMode: string;
 }
 
-const Desktop = Object.assign(
-  React.memo<DesktopProps>(function Desktop({
+const Layout = Object.assign(
+  React.memo<LayoutProps>(function Layout({
     Panel,
     Sidebar,
     Preview,
@@ -28,10 +27,13 @@ const Desktop = Object.assign(
     pages,
     options,
     viewMode = undefined,
-    width = 0,
-    height = 0,
     panelCount,
   }) {
+    const { isMobile, isDesktop, width, height } = useLayout();
+    const isReady = !!width && !!height;
+
+    console.log('Yatta!!!');
+
     return (
       <Fragment>
         <Notifications
@@ -41,7 +43,7 @@ const Desktop = Object.assign(
             left: 20,
           }}
         />
-        {width && height ? (
+        {isReady && (
           <S.Layout
             options={options}
             bounds={{ width, height, top: 0, left: 0 }}
@@ -75,15 +77,13 @@ const Desktop = Object.assign(
               </Fragment>
             )}
           </S.Layout>
-        ) : (
-          <div title={JSON.stringify({ width, height })} />
         )}
       </Fragment>
     );
   }),
   {
-    displayName: 'DesktopLayout',
+    displayName: 'Layout',
   }
 );
 
-export { Desktop };
+export { Layout };
