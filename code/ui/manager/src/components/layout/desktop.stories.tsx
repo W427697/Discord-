@@ -5,15 +5,15 @@ import isChromatic from 'chromatic/isChromatic';
 
 import { BaseLocationProvider } from '@storybook/router';
 import { types } from '@storybook/manager-api';
-import type { DesktopProps } from './desktop';
-import { Desktop } from './desktop';
+import type { LayoutProps } from './Layout';
+import { Layout } from './Layout';
 
 import { store } from './persist';
 import { mockProps, realProps, MockPage } from './app.mockdata';
 
 export default {
   title: 'Layout/Desktop',
-  component: Desktop,
+  component: Layout,
   parameters: {
     passArgsFirst: false,
     path: 'story/my-id',
@@ -56,27 +56,25 @@ export default {
   ],
 };
 
-export const Default = ({ props }: { props: DesktopProps }) => <Desktop {...props} />;
-export const NoAddons = ({ props }: { props: DesktopProps }) => (
-  <Desktop {...props} panelCount={0} />
+export const Default = ({ props }: { props: LayoutProps }) => <Layout {...props} />;
+export const NoAddons = ({ props }: { props: LayoutProps }) => <Layout {...props} panelCount={0} />;
+export const NoSidebar = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, showNav: false }} />
 );
-export const NoSidebar = ({ props }: { props: DesktopProps }) => (
-  <Desktop {...props} options={{ ...props.options, showNav: false }} />
+export const NoPanel = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, showPanel: false }} />
 );
-export const NoPanel = ({ props }: { props: DesktopProps }) => (
-  <Desktop {...props} options={{ ...props.options, showPanel: false }} />
+export const BottomPanel = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, panelPosition: 'bottom' }} />
 );
-export const BottomPanel = ({ props }: { props: DesktopProps }) => (
-  <Desktop {...props} options={{ ...props.options, panelPosition: 'bottom' }} />
+export const Fullscreen = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, isFullscreen: true }} />
 );
-export const Fullscreen = ({ props }: { props: DesktopProps }) => (
-  <Desktop {...props} options={{ ...props.options, isFullscreen: true }} />
+export const NoPanelNoSidebar = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, showPanel: false, showNav: false }} />
 );
-export const NoPanelNoSidebar = ({ props }: { props: DesktopProps }) => (
-  <Desktop {...props} options={{ ...props.options, showPanel: false, showNav: false }} />
-);
-export const Page = ({ props }: { props: DesktopProps }) => (
-  <Desktop
+export const Page = ({ props }: { props: LayoutProps }) => (
+  <Layout
     {...props}
     pages={[
       {
