@@ -4,14 +4,14 @@ import type { DecoratorFn } from '@storybook/react';
 
 import { BaseLocationProvider } from '@storybook/router';
 import { Addon_TypesEnum } from '@storybook/types';
-import type { MobileProps } from './mobile';
-import { Mobile } from './mobile';
+import type { LayoutProps } from './Layout';
+import { Layout } from './Layout';
 
 import { mockProps, realProps, MockPage } from './app.mockdata';
 
 export default {
   title: 'Layout/Mobile',
-  component: Mobile,
+  component: Layout,
   parameters: {
     passArgsFirst: false,
     path: 'story/my-id',
@@ -50,28 +50,28 @@ export default {
   ],
 };
 
-export const InitialSidebar = ({ props }: { props: MobileProps }) => (
-  <Mobile {...props} options={{ ...props.options, initialActive: ActiveTabs.SIDEBAR }} />
+export const InitialSidebar = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, initialActive: ActiveTabs.SIDEBAR }} />
 );
-export const InitialCanvas = ({ props }: { props: MobileProps }) => (
-  <Mobile {...props} options={{ ...props.options, initialActive: ActiveTabs.CANVAS }} />
+export const InitialCanvas = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, initialActive: ActiveTabs.CANVAS }} />
 );
-export const InitialAddons = ({ props }: { props: MobileProps }) => (
-  <Mobile {...props} options={{ ...props.options, initialActive: ActiveTabs.ADDONS }} />
+export const InitialAddons = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, initialActive: ActiveTabs.ADDONS }} />
 );
-export const NoPanel = ({ props }: { props: MobileProps }) => (
-  <Mobile {...props} options={{ ...props.options, showPanel: false }} />
+export const NoPanel = ({ props }: { props: LayoutProps }) => (
+  <Layout {...props} options={{ ...props.options, showPanel: false }} />
 );
 
-export const Fullscreen = ({ props }: { props: MobileProps }) => (
-  <Mobile
+export const Fullscreen = ({ props }: { props: LayoutProps }) => (
+  <Layout
     {...props}
     options={{ ...props.options, initialActive: ActiveTabs.SIDEBAR, isFullscreen: true }}
   />
 );
 
-export const Page = ({ props }: { props: MobileProps }) => (
-  <Mobile
+export const Page = ({ props }: { props: LayoutProps }) => (
+  <Layout
     {...props}
     options={{ ...props.options, initialActive: ActiveTabs.CANVAS }}
     pages={[
