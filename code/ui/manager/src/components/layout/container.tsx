@@ -8,6 +8,9 @@ import * as persistence from './persist';
 import type { DraggableData, DraggableEvent } from './draggers';
 import { Draggable, Handle } from './draggers';
 
+import type { IsMobileProps } from './types';
+import { useLayout } from './LayoutContext';
+
 const MIN_NAV_WIDTH = 200; // visually there's an additional 10px due to the canvas' left margin
 const MIN_CANVAS_WIDTH = 200;
 const MIN_CANVAS_HEIGHT = 200; // visually it's 50px less due to the canvas toolbar and top margin
@@ -106,7 +109,6 @@ const Paper = styled.div<{ isFullscreen: boolean }>(
             theme.base === 'light'
               ? '0 1px 3px 1px rgba(0, 0, 0, 0.05), 0px 0 0px 1px rgba(0, 0, 0, 0.05)'
               : `0px 0 0px 1px ${theme.appBorderColor}`,
-          transform: 'translateZ(0)',
         }
 );
 
@@ -127,11 +129,15 @@ export const Main: FC<{ isFullscreen: boolean; position: CSSProperties }> = ({
   children,
   position = undefined,
   ...props
-}) => (
-  <Pane style={position} top {...props} role="main">
-    <Paper isFullscreen={isFullscreen}>{children}</Paper>
-  </Pane>
-);
+}) => {
+  const { isMobile } = useLayout();
+
+  return (
+    <Pane style={isMobile ? null : position} top {...props} role="main">
+      <Paper isFullscreen={isFullscreen}>{children}</Paper>
+    </Pane>
+  );
+};
 
 export const Preview: FC<{ hidden: boolean; position: CSSProperties }> = ({
   hidden = false,
@@ -185,6 +191,7 @@ const getPreviewPosition = ({
   resizerPanel,
   resizerNav,
   margin,
+  isMobile,
 }: {
   panelPosition: PanelPosition;
   isPanelHidden: boolean;
@@ -194,6 +201,7 @@ const getPreviewPosition = ({
   resizerPanel: Coordinates;
   resizerNav: Coordinates;
   margin: number;
+  isMobile?: IsMobileProps;
 }): Bounds => {
   if (isFullscreen || isPanelHidden) {
     return {} as Bounds;
@@ -205,16 +213,16 @@ const getPreviewPosition = ({
 
   return panelPosition === 'bottom'
     ? {
-        height: panelY - margin,
+        height: isMobile ? bounds.height : panelY - margin,
         left: 0,
         top: 0,
-        width: bounds.width - navX - 2 * margin,
+        width: isMobile ? bounds.width : bounds.width - navX - 2 * margin,
       }
     : {
-        height: bounds.height - 2 * margin,
+        height: isMobile ? bounds.height : bounds.height - 2 * margin,
         left: 0,
         top: 0,
-        width: panelX - navX - margin,
+        width: isMobile ? bounds.width : panelX - navX - margin,
       };
 };
 
@@ -305,7 +313,7 @@ export interface BasePanelRenderProps {
   position: Bounds;
 }
 
-export interface LayoutRenderProps {
+export interface WrapperRenderProps {
   mainProps: BasePanelRenderProps;
   previewProps: BasePanelRenderProps & {
     showToolbar: boolean;
@@ -319,13 +327,13 @@ export interface LayoutRenderProps {
   };
 }
 
-export interface LayoutState {
+export interface WrapperState {
   isDragging: 'nav' | 'panel' | false;
   resizerNav: Coordinates;
   resizerPanel: Coordinates;
 }
-export interface LayoutProps {
-  children: (data: LayoutRenderProps) => ReactNode;
+export interface WrapperProps {
+  children: (data: WrapperRenderProps) => ReactNode;
   panelCount: number;
   bounds: {
     width: number;
@@ -342,10 +350,11 @@ export interface LayoutProps {
   };
   viewMode: State['viewMode'];
   theme: Theme;
+  isMobile?: IsMobileProps;
 }
 
-class Layout extends Component<LayoutProps, LayoutState> {
-  static defaultProps: Partial<LayoutProps> = {
+class Wrapper extends Component<WrapperProps, WrapperState> {
+  static defaultProps: Partial<WrapperProps> = {
     viewMode: undefined,
   };
 
@@ -353,7 +362,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
 
   panelRef: React.RefObject<HTMLDivElement>;
 
-  constructor(props: LayoutProps) {
+  constructor(props: WrapperProps) {
     super(props);
     this.navRef = React.createRef();
     this.panelRef = React.createRef();
@@ -372,7 +381,10 @@ class Layout extends Component<LayoutProps, LayoutState> {
     };
   }
 
-  static getDerivedStateFromProps(props: Readonly<LayoutProps>, state: LayoutState): LayoutState {
+  static getDerivedStateFromProps(
+    props: Readonly<WrapperProps>,
+    state: WrapperState
+  ): WrapperState {
     const { bounds, options } = props;
     const { resizerPanel, resizerNav } = state;
 
@@ -387,7 +399,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     const panelX = resizerPanel.x;
     const panelY = resizerPanel.y;
 
-    const mutation = {} as LayoutState;
+    const mutation = {} as WrapperState;
 
     if (!isNavHidden) {
       const minPanelWidth = !isPanelHidden && isPanelRight ? MIN_PANEL_WIDTH : 0;
@@ -442,7 +454,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
     return mutation.resizerPanel || mutation.resizerNav ? { ...state, ...mutation } : state;
   }
 
-  componentDidUpdate(prevProps: LayoutProps, prevState: LayoutState) {
+  componentDidUpdate(prevProps: WrapperProps, prevState: WrapperState) {
     const { resizerPanel, resizerNav } = this.state;
 
     persistence.set({
@@ -503,7 +515,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
   };
 
   render() {
-    const { children, bounds, options, viewMode, panelCount } = this.props;
+    const { children, bounds, options, viewMode, panelCount, isMobile } = this.props;
     const { isDragging, resizerNav, resizerPanel } = this.state;
 
     const margin = 0;
@@ -522,7 +534,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
 
     return bounds ? (
       <Fragment>
-        {isNavHidden ? null : (
+        {!isMobile && !isNavHidden && (
           <Draggable
             axis="x"
             position={resizerNav}
@@ -544,7 +556,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
           </Draggable>
         )}
 
-        {isPanelHidden ? null : (
+        {!isMobile && !isPanelHidden && (
           <Draggable
             axis={isPanelBottom ? 'y' : 'x'}
             position={resizerPanel}
@@ -609,6 +621,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
               bounds,
               panelPosition,
               margin,
+              isMobile,
             }),
           },
           navProps: {
@@ -643,6 +656,6 @@ class Layout extends Component<LayoutProps, LayoutState> {
   }
 }
 
-const ThemedLayout = withTheme(Layout) as unknown as typeof Layout;
+const ThemedWrapper = withTheme(Wrapper) as unknown as typeof Wrapper;
 
-export { ThemedLayout as Layout };
+export { ThemedWrapper as Wrapper };

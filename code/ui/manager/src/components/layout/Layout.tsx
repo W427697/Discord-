@@ -32,8 +32,6 @@ const Layout = Object.assign(
     const { isMobile, isDesktop, width, height } = useLayout();
     const isReady = !!width && !!height;
 
-    console.log('Yatta!!!');
-
     return (
       <Fragment>
         <Notifications
@@ -44,17 +42,20 @@ const Layout = Object.assign(
           }}
         />
         {isReady && (
-          <S.Layout
+          <S.Wrapper
             options={options}
             bounds={{ width, height, top: 0, left: 0 }}
             viewMode={viewMode}
             panelCount={panelCount}
+            isMobile={isMobile}
           >
             {({ navProps, mainProps, panelProps, previewProps }) => (
               <Fragment>
-                <S.Sidebar {...navProps}>
-                  <Sidebar />
-                </S.Sidebar>
+                {isDesktop && (
+                  <S.Sidebar {...navProps}>
+                    <Sidebar />
+                  </S.Sidebar>
+                )}
                 <S.Main {...mainProps} isFullscreen={!!mainProps.isFullscreen}>
                   <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
                     <S.Preview {...previewProps} hidden={false}>
@@ -76,7 +77,7 @@ const Layout = Object.assign(
                 </S.Main>
               </Fragment>
             )}
-          </S.Layout>
+          </S.Wrapper>
         )}
       </Fragment>
     );
