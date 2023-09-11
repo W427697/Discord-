@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import type { FC, ReactElement } from 'react';
 import { styled } from '@storybook/theming';
-import tocbot from 'tocbot';
+import * as tocbot from 'tocbot';
 
 export interface TocParameters {
   /** CSS selector for the container to search for headings. */
