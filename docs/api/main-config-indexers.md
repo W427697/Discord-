@@ -202,10 +202,20 @@ The general architecture looks something like this:
 
 ![Architecture diagram showing how custom indexers are used to generate stories from source files](./main-config-indexers-architecture.png)
 
-First, here's an example of a source file:
+1. Using the [`stories`](./main-config-stories.md) configuration, Storybook finds all files that match the [`test`](#test) property of your indexer
+2. Storybook passes each matching file to your indexer
+3. Your indexer returns all index entries for the file
+4. In the Storybook UI, a user navigates to a URL matching the story id and the browser requests the CSF file specified by the [`importPath`](#importpath) property of the index entry
+5. Back on the server, your builder plugin transpiles the source file to CSF
+6. That transpiled CSF file is then served to the browser
+7. The Storybook UI reads the CSF file, imports the story specified by [`exportName`](#exportname), and renders it
+
+Let's look at an example of how this might work.
+
+First, here's an example of a non-CSF source file:
 
 ```ts
-// ./Button.variants.ts
+// Button.variants.js|ts
 
 import { variantsFromComponent, createStoryFromVariant } from '../utils';
 import { Button } from './Button';
@@ -231,10 +241,10 @@ The builder plugin would then:
 3. Run the function to generate the stories
 4. Write the stories to a CSF file
 
-That resulting CSF file would then be indexed by Storybook. It would something look like this:
+That resulting CSF file would then be indexed by Storybook. It would look something like this:
 
 ```js
-// virtual:./Button.variants
+// virtual:Button.variants.js|ts
 
 import { Button } from './Button';
 
@@ -305,26 +315,30 @@ An example input JSON file could look like this:
 A builder plugin will then need to transform the JSON file into a regular CSF file. This transformation could be done with a Vite plugin similar to this:
 
 ```ts
+// vite-plugin-storybook-json-stories.ts
+
 import type { PluginOption } from 'vite';
+import fs from 'fs/promises';
 
 function JsonStoriesPlugin(): PluginOption {
   return {
     name: 'vite-plugin-storybook-json-stories',
     load(id) {
       if (!id.startsWith('virtual:jsonstories')) {
-        return undefined;
+        return;
       }
+
       const [, fileName, componentName] = id.split('--');
       const content = JSON.parse(fs.readFileSync(fileName));
 
-      const { component, stories } = getStoriesFromJsonComponent(content, componentName);
+      const { componentPath, stories } = getComponentStoriesFromJson(content, componentName);
 
       return `
-        import ${component.name} from '${component.path}';
+        import ${componentName} from '${componentPath}';
 
-        export default { component: ${component.name} };
+        export default { component: ${componentName} };
 
-        ${stories.map((story) => `export const ${story.name} = { ${story.config} };\n`)}
+        ${stories.map((story) => `export const ${story.name} = ${story.config};\n`)}
       `;
     },
   };
@@ -335,11 +349,11 @@ function JsonStoriesPlugin(): PluginOption {
 
 <details>
 
-<summary>Generating stories based on imperative story generation</summary>
+<summary>Generating stories with an alternative API</summary>
 
-As long as you create a custom indexer and a builder plugin for your story source files, you can create your own way of defining stories, such as imperatively defining stories similar to the old `storiesOf` format.
+You can use a custom indexer and builder plugin to create your own API for defining stories, such as imperatively defining stories similar to the legacy [`storiesOf`](https://github.com/storybookjs/storybook/blob/main/code/lib/preview-api/docs/storiesOf.md) format.
 
-The [Dynamic stories proof of concept]https://stackblitz.com/edit/github-h2rgfk?file=README.md) is an elaborate, functional example of doing just that. The StackBlitz contains everything needed to support such a feature, including the indexer, a Vite plugin and a Webpack loader.
+The [dynamic stories proof of concept](https://stackblitz.com/edit/github-h2rgfk?file=README.md) is an elaborate, functional example of doing just that. It contains everything needed to support such a feature, including the indexer, a Vite plugin and a Webpack loader.
 
 </details>
 

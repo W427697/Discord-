@@ -1,8 +1,7 @@
 ```js
-// .storybook/main.ts
+// .storybook/main.js
 
 import fs from 'fs/promises';
-import path from 'path';
 
 const jsonStoriesIndexer = {
   test: /stories\.json$/,
@@ -14,7 +13,7 @@ const jsonStoriesIndexer = {
     return stories.map((story) => {
       type: 'story',
       importPath: `virtual:jsonstories--${fileName}--${story.componentName}`,
-      exportName: story.exportName
+      exportName: story.name
     });
   },
 };
