@@ -12,6 +12,7 @@ export function useDragging(
   useEffect(() => {
     const panelResizer = panelResizerRef.current;
     const sidebarResizer = sidebarResizerRef.current;
+    const previewIframe = document.querySelector('#storybook-preview-iframe') as HTMLIFrameElement;
     let draggedElement: typeof panelResizer | typeof sidebarResizer | null = null;
 
     const onDragStart = (e: MouseEvent) => {
@@ -27,6 +28,11 @@ export function useDragging(
       }
       window.addEventListener('mousemove', onDrag);
       window.addEventListener('mouseup', onDragEnd);
+
+      if (previewIframe) {
+        // prevent iframe from capturing mouse events
+        previewIframe.style.pointerEvents = 'none';
+      }
     };
 
     const onDragEnd = (e: MouseEvent) => {
@@ -35,6 +41,8 @@ export function useDragging(
       });
       window.removeEventListener('mousemove', onDrag);
       window.removeEventListener('mouseup', onDragEnd);
+      // make iframe capture pointer events again
+      previewIframe?.removeAttribute('style');
     };
 
     const onDrag = (e: MouseEvent) => {
@@ -99,6 +107,8 @@ export function useDragging(
     return () => {
       panelResizer?.removeEventListener('mousedown', onDragStart);
       sidebarResizer?.removeEventListener('mousedown', onDragStart);
+      // make iframe capture pointer events again
+      previewIframe?.removeAttribute('style');
     };
   }, [stateRef, updateState]);
 

@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -68,11 +68,6 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
               [Object.keys(api.getElements(types.experimental_PAGE)).join()]
             );
 
-            const story = api.getData(state.storyId, state.refId);
-            const isLoading = Boolean(
-              story ? !state.refs[state.refId]?.previewInitialized : !state.previewInitialized
-            );
-
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
                 <App
@@ -80,7 +75,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                   pages={pages}
                   setLayoutState={setLayoutState}
                   panelPosition={state.layout.panelPosition || 'bottom'}
-                  isPanelShown={isLoading ? false : state.layout.showPanel}
+                  isPanelShown={state.layout.showPanel}
                   isSidebarShown={state.layout.showNav}
                   viewMode={state.viewMode}
                 />

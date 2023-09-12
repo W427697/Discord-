@@ -24,13 +24,6 @@ const createReducer =
         setTimeout(setState, 16, update);
       }
     }
-    console.log(
-      'LOG in reducer:',
-      state.panelHeight,
-      state.panelPosition,
-      state.panelWidth,
-      state.sidebarWidth
-    );
 
     if (action.isDragging === false) {
       persistence.current.set({
@@ -41,12 +34,10 @@ const createReducer =
       });
     }
 
-    console.log('LOG action:', action);
     return { ...state, ...action };
   };
 
 export const Layout = ({ state: incomingState, persistence, setState, ...slots }: Props) => {
-  console.log('LOG :', persistence.current.value);
   const [state, updateState] = useReducer<Reducer<LayoutState, Partial<LayoutState>>>(
     createReducer(persistence, setState),
     {
@@ -60,13 +51,6 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
       panelHeight: persistence.current.value.panelHeight,
       panelWidth: persistence.current.value.panelWidth,
     } satisfies LayoutState
-  );
-  console.log(
-    'LOG in Layout:',
-    state.panelHeight,
-    state.panelPosition,
-    state.panelWidth,
-    state.sidebarWidth
   );
 
   useEffect(() => {
@@ -90,7 +74,7 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
       <LayoutContainer {...state}>
         {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
         <ContentContainer>{slots.slotMain}</ContentContainer>
-        <SidebarContainer hidden={state.sidebarWidth === 0}>
+        <SidebarContainer>
           <SidebarResizer className="sb-sizer sb-horizontalDrag" ref={sidebarResizerRef}>
             <div className="sb-shade" />
           </SidebarResizer>
