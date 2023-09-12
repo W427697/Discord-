@@ -52,6 +52,7 @@
     "@storybook/svelte": "workspace:*",
     "@sveltejs/vite-plugin-svelte": "^2.4.2",
     "magic-string": "^0.30.0",
+    "svelte-preprocess": "^5.0.4",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.2.0"
   },

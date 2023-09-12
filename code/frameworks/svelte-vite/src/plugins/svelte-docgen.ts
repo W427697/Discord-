@@ -7,6 +7,7 @@ import type { SvelteParserOptions } from 'sveltedoc-parser';
 import { logger } from '@storybook/node-logger';
 import { preprocess } from 'svelte/compiler';
 import { createFilter } from 'vite';
+import { replace, typescript } from 'svelte-preprocess';
 
 /*
  * Patch sveltedoc-parser internal options.
@@ -60,9 +61,25 @@ function getNameFromFilename(filename: string) {
 
 export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOption {
   const cwd = process.cwd();
-  const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
+  const { preprocess: preprocessOptions, docPreprocess, logDocgen = false } = svelteOptions;
   const include = /\.(svelte)$/;
   const filter = createFilter(include);
+
+  let docPreprocessOptions = docPreprocess;
+  if (!docPreprocessOptions && preprocessOptions) {
+    /*
+     * We can't use vitePreprocess() for the documentation.
+     * This preprocessor uses esbuild which removes jsdoc.
+     *
+     * By default, only typescript is transpiled, and style tags are removed.
+     * This can be configured with the `docPreprocess` options.
+     *
+     * Note: theses preprocessors are only used to make the component
+     * compatible to sveltedoc-parser (no ts), not to compile
+     * the component.
+     */
+    docPreprocessOptions = [typescript(), replace([[/<style.+<\/style>/gims, '']])];
+  }
 
   return {
     name: 'storybook:svelte-docgen-plugin',
@@ -72,11 +89,11 @@ export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOpt
       const resource = path.relative(cwd, id);
 
       let docOptions;
-      if (preprocessOptions) {
+      if (docPreprocessOptions) {
         // eslint-disable-next-line @typescript-eslint/no-shadow
         const src = fs.readFileSync(resource).toString();
 
-        const { code: fileContent } = await preprocess(src, preprocessOptions, {
+        const { code: fileContent } = await preprocess(src, docPreprocessOptions, {
           filename: resource,
         });
 

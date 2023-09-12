@@ -1,5 +1,4 @@
 /* eslint-disable jest/no-disabled-tests */
-import type { Locator } from '@playwright/test';
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
@@ -10,8 +9,8 @@ const templateName = process.env.STORYBOOK_TEMPLATE_NAME;
 test.describe('Svelte', () => {
   test.skip(
     // eslint-disable-next-line jest/valid-title
-    !templateName?.includes('svelte') || templateName?.includes('-ts'),
-    'Only run this test on Svelte with javascript'
+    !templateName?.includes('svelte'),
+    'Only run this test on Svelte'
   );
 
   test.beforeEach(async ({ page }) => {
