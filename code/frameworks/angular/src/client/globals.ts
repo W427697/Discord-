@@ -25,7 +25,6 @@ import { global } from '@storybook/global';
 /** *************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-// eslint-disable-next-line import/no-unresolved
 import 'zone.js/dist/zone'; // Included with Angular CLI.
 
 /** *************************************************************************************************
