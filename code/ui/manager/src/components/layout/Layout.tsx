@@ -1,6 +1,6 @@
 import type { Reducer } from 'react';
 import React, { useEffect, useReducer, useRef } from 'react';
-import { styled } from '@storybook/theming';
+import { css, styled } from '@storybook/theming';
 import { useUpstreamState } from '../../hooks';
 import type { Props, LayoutState } from './Layout.types';
 import { useDragging } from './Layout.DesktopControls';
@@ -91,21 +91,20 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
         {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
         <ContentContainer>{slots.slotMain}</ContentContainer>
         <SidebarContainer hidden={state.sidebarWidth === 0}>
-          <SidebarResizer className="sb-sizer sb-horizontalDrag" ref={sidebarResizerRef}>
-            <div className="sb-shade" />
-          </SidebarResizer>
+          <Drag variant="sidebar" ref={sidebarResizerRef}>
+            <Shadow variant="sidebar" />
+          </Drag>
           {slots.slotSidebar}
         </SidebarContainer>
         {showPanel && (
           <>
             <PanelContainer>
-              <PanelResizer
-                panelPosition={state.panelPosition}
-                className="sb-sizer sb-horizontalDrag"
+              <Drag
+                variant={state.panelPosition === 'bottom' ? 'panelBottom' : 'panelRight'}
                 ref={panelResizerRef}
               >
-                <div className="sb-shade" />
-              </PanelResizer>
+                <Shadow variant={state.panelPosition === 'bottom' ? 'panel' : 'sidebar'} />
+              </Drag>
               {slots.slotPanel}
             </PanelContainer>
           </>
@@ -170,25 +169,85 @@ const PagesContainer = styled.div(({ theme }) => ({
   zIndex: 1,
 }));
 
-const SidebarResizer = styled.div(({ theme }) => ({
-  position: 'absolute',
-  height: '100%',
-  width: '30px',
-  background: 'red',
-  opacity: 0.7,
-  right: '-15px',
-  zIndex: 2,
-}));
-
-const PanelResizer = styled.div<{ panelPosition: LayoutState['panelPosition'] }>(
-  ({ panelPosition }) => ({
+const Drag = styled.div<{ variant: 'sidebar' | 'panelBottom' | 'panelRight' }>(
+  {
     position: 'absolute',
-    height: panelPosition === 'bottom' ? '30px' : '100%',
-    width: panelPosition === 'right' ? '30px' : '100%',
-    background: 'red',
-    opacity: 0.7,
-    top: '-15px',
-    left: '-15px',
+    opacity: 0,
+    transition: 'opacity 0.2s ease-in-out',
     zIndex: 2,
-  })
+
+    '&:hover': {
+      opacity: 1,
+    },
+  },
+  ({ variant }) => {
+    if (variant === 'sidebar')
+      return {
+        width: '20px',
+        height: '100%',
+        top: '-10px',
+        right: '-10px',
+
+        '&:hover': {
+          cursor: 'col-resize',
+        },
+      };
+    if (variant === 'panelRight')
+      return {
+        width: '20px',
+        height: '100%',
+        top: '-10px',
+        left: '-10px',
+
+        '&:hover': {
+          cursor: 'col-resize',
+        },
+      };
+    return {
+      width: '100%',
+      height: '20px',
+      top: '-10px',
+      left: '-10px',
+
+      '&:hover': {
+        cursor: 'row-resize',
+      },
+    };
+  }
+);
+
+const Shadow = styled.div<{ variant: 'sidebar' | 'panel' }>(
+  {
+    width: '50%',
+    height: '100%',
+    overflow: 'hidden',
+
+    '&::after': {
+      content: '""',
+      display: 'block',
+      background:
+        'radial-gradient(at center center, rgba(0, 0, 0, 0.14) 0%,transparent 50%,transparent 100%)',
+    },
+  },
+  ({ variant }) => {
+    if (variant === 'sidebar')
+      return {
+        width: '50%',
+        height: '100%',
+
+        '&::after': {
+          width: '200%',
+          height: '100%',
+        },
+      };
+    return {
+      width: '100%',
+      height: '50%',
+
+      '&::after': {
+        width: '100%',
+        height: '200%',
+      },
+    };
+  }
 );
