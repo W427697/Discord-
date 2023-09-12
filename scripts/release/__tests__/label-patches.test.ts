@@ -70,8 +70,8 @@ beforeEach(() => {
   // mock IO
   jest.clearAllMocks();
   gitClient.getLatestTag.mockResolvedValue('v7.2.1');
-  (gitClient.git.log as any).mockResolvedValue(gitLogMock);
-  (gitClient.git.getRemotes as any).mockResolvedValue(remoteMock);
+  gitClient.git.log.mockResolvedValue(gitLogMock);
+  gitClient.git.getRemotes.mockResolvedValue(remoteMock);
   githubInfo.getPullInfoFromCommit.mockResolvedValue(pullInfoMock);
   github.getLabelIds.mockResolvedValue({ 'patch:done': 'pick-id' });
   github.getUnpickedPRs.mockResolvedValue([
@@ -156,7 +156,7 @@ test('it should label all PRs when the --all flag is passed', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
   // clear the git log, it shouldn't depend on it in --all mode
-  (gitClient.git.log as any).mockResolvedValue({
+  gitClient.git.log.mockResolvedValue({
     all: [],
     latest: null!,
     total: 0,
