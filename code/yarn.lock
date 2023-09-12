@@ -33300,11 +33300,11 @@ __metadata:
   linkType: hard
 
 "zone.js@npm:^0.13.0":
-  version: 0.13.2
-  resolution: "zone.js@npm:0.13.2"
+  version: 0.13.1
+  resolution: "zone.js@npm:0.13.1"
   dependencies:
     tslib: ^2.3.0
-  checksum: f57379ef5708a0fdabaea66dc059759a5e5a4ba546ec907f5eea54ea18f997e379a7d76d5c0f8de1e06b540e4b74848ef2e8ebafbc90cc4fac8770ab23882895
+  checksum: 3f04ded7d2f5496befbce030aa57ba58d1c604795445e555af1a0079fc9938d0a0a9c128fdbff13563423ea2e2956549383629e39c59a7f1d8d3362deacc5e5b
   languageName: node
   linkType: hard
 
