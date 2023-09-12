@@ -45,19 +45,9 @@ const TabBarButton = React.memo(function TabBarButton({
   );
 });
 
-const Content = styled(ScrollArea)(
-  {
-    position: 'absolute',
-    top: 40,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'auto',
-  },
-  ({ theme }) => ({
-    background: theme.background.content,
-  })
-);
+const Content = styled(ScrollArea)(({ theme }) => ({
+  background: theme.background.content,
+}));
 
 const Pages: FC<{
   onClose: () => void;

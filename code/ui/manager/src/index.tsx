@@ -35,28 +35,6 @@ export const Root: FC<RootProps> = ({ provider }) => (
   </HelmetProvider>
 );
 
-const appFilter = ({ api, state }: Combo, isLoading: boolean) => {
-  const result: Omit<ComponentProps<typeof App>, 'pages'> = {
-    panelPosition: state.layout.panelPosition || 'bottom',
-    isPanelShown: isLoading ? false : state.layout.showPanel,
-    isSidebarShown: state.layout.showNav,
-    viewMode: state.viewMode,
-    updater: useCallback(
-      (s) => {
-        api.setOptions({
-          layout: {
-            ...(typeof s.isPanelShown !== 'undefined' ? { showPanel: s.isPanelShown } : {}),
-            ...(typeof s.isSidebarShown !== 'undefined' ? { showNav: s.isSidebarShown } : {}),
-          },
-        });
-      },
-      [api]
-    ),
-  };
-
-  return result;
-};
-
 const Main: FC<{ provider: Provider }> = ({ provider }) => {
   const navigate = useNavigate();
   return (
@@ -71,19 +49,41 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
         >
           {(combo: Combo) => {
             const { state, api } = combo;
+            const setLayoutState = useCallback(
+              (s) => {
+                api.setOptions({
+                  layout: {
+                    ...(typeof s.isPanelShown !== 'undefined' ? { showPanel: s.isPanelShown } : {}),
+                    ...(typeof s.isSidebarShown !== 'undefined'
+                      ? { showNav: s.isSidebarShown }
+                      : {}),
+                  },
+                });
+              },
+              [api]
+            );
+
             const pages: Addon_PageType[] = useMemo(
               () => [settingsPageAddon, ...Object.values(api.getElements(types.experimental_PAGE))],
               [Object.keys(api.getElements(types.experimental_PAGE)).join()]
             );
 
             const story = api.getData(state.storyId, state.refId);
-            const isLoading = story
-              ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
-              : !state.previewInitialized;
+            const isLoading = Boolean(
+              story ? !state.refs[state.refId]?.previewInitialized : !state.previewInitialized
+            );
 
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                <App key="app" pages={pages} {...appFilter(combo, isLoading)} />
+                <App
+                  key="app"
+                  pages={pages}
+                  setLayoutState={setLayoutState}
+                  panelPosition={state.layout.panelPosition || 'bottom'}
+                  isPanelShown={isLoading ? false : state.layout.showPanel}
+                  isSidebarShown={state.layout.showNav}
+                  viewMode={state.viewMode}
+                />
               </ThemeProvider>
             );
           }}

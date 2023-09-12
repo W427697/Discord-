@@ -25,6 +25,6 @@ export interface Props {
   slotMain?: React.ReactNode;
   slotSidebar?: React.ReactNode;
   slotPanel?: React.ReactNode;
-  slotCustom?: React.ReactNode;
+  slotPages?: React.ReactNode;
 }
 export type LayoutState = ExposedLayoutState & InternalLayoutState & PersistedLayoutState;

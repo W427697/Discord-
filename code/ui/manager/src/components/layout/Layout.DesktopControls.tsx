@@ -1,55 +1,18 @@
 import type { Dispatch, MutableRefObject } from 'react';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import type { LayoutState } from './Layout.types';
 
-export const DesktopControls = ({
-  state,
-  updateState,
-  stateRef,
-}: {
-  updateState: (state: Partial<LayoutState>) => void;
-  stateRef: React.MutableRefObject<LayoutState>;
-  state: LayoutState;
-}) => {
-  const { sHorizontalRef, sSidebarRef, sVerticalRef } = useDragging(updateState, stateRef);
-
-  return (
-    <>
-      <div
-        className="sb-sizer sb-horizontalDrag"
-        ref={sHorizontalRef}
-        hidden={!(state.panelPosition === 'right' && state.viewMode === 'story')}
-      >
-        <div className="sb-shade" />
-      </div>
-      <div
-        className="sb-sizer sb-verticalDrag"
-        ref={sVerticalRef}
-        hidden={!(state.panelPosition === 'bottom' && state.viewMode === 'story')}
-      >
-        <div className="sb-shade" />
-      </div>
-      <div className="sb-sizer sb-sidebarDrag" ref={sSidebarRef}>
-        <div className="sb-shade" />
-      </div>
-
-      <div className="sb-hoverblock" hidden={!state.isDragging} />
-    </>
-  );
-};
-function useDragging(
+export function useDragging(
   updateState: Dispatch<Partial<LayoutState>>,
   stateRef: MutableRefObject<LayoutState>
 ) {
-  const sHorizontalRef = useRef<HTMLDivElement>(null);
-  const sVerticalRef = useRef<HTMLDivElement>(null);
-  const sSidebarRef = useRef<HTMLDivElement>(null);
+  const panelResizerRef = useRef<HTMLDivElement>(null);
+  const sidebarResizerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const sHorizontal = sHorizontalRef.current;
-    const sVertical = sVerticalRef.current;
-    const sSidebar = sSidebarRef.current;
-    let draggedElement: typeof sHorizontal | typeof sVertical | typeof sSidebar | null = null;
+    const panelResizer = panelResizerRef.current;
+    const sidebarResizer = sidebarResizerRef.current;
+    let draggedElement: typeof panelResizer | typeof sidebarResizer | null = null;
 
     const onDragStart = (e: MouseEvent) => {
       e.preventDefault();
@@ -57,12 +20,10 @@ function useDragging(
       updateState({
         isDragging: true,
       });
-      if (e.currentTarget === sHorizontal) {
-        draggedElement = sHorizontal;
-      } else if (e.currentTarget === sVertical) {
-        draggedElement = sVertical;
-      } else if (e.currentTarget === sSidebar) {
-        draggedElement = sSidebar;
+      if (e.currentTarget === panelResizer) {
+        draggedElement = panelResizer;
+      } else if (e.currentTarget === sidebarResizer) {
+        draggedElement = sidebarResizer;
       }
       window.addEventListener('mousemove', onDrag);
       window.addEventListener('mouseup', onDragEnd);
@@ -82,7 +43,7 @@ function useDragging(
         return;
       }
 
-      if (draggedElement === sSidebar) {
+      if (draggedElement === sidebarResizer) {
         const value = (e.clientX / e.view.innerWidth) * 100;
         if (value + stateRef.current.panelWidth > 70) {
           // preserve space for content
@@ -101,47 +62,45 @@ function useDragging(
         }
         return;
       }
-      if (draggedElement === sHorizontal) {
-        const value = 100 - (e.clientX / e.view.innerWidth) * 100;
-        if (value + stateRef.current.sidebarWidth > 70) {
-          // preserve space for content
-          return;
-        }
+      if (draggedElement === panelResizer) {
+        if (stateRef.current.panelPosition === 'bottom') {
+          const value = 100 - (e.clientY / e.view.innerHeight) * 100;
+          if (value > 70) {
+            return;
+          }
+          if (value < 5) {
+            if (stateRef.current.panelHeight !== 0) {
+              updateState({ isPanelShown: false, panelHeight: 0 });
+            }
+          } else if (value !== stateRef.current.panelHeight) {
+            updateState({ isPanelShown: true, panelHeight: value });
+          }
+        } else {
+          const value = 100 - (e.clientX / e.view.innerWidth) * 100;
+          if (value + stateRef.current.sidebarWidth > 70) {
+            // preserve space for content
+            return;
+          }
 
-        if (value < 5) {
-          if (stateRef.current.panelWidth !== 0) {
-            updateState({ isPanelShown: false, panelWidth: 0 });
+          if (value < 5) {
+            if (stateRef.current.panelWidth !== 0) {
+              updateState({ isPanelShown: false, panelWidth: 0 });
+            }
+          } else if (value !== stateRef.current.panelWidth) {
+            updateState({ isPanelShown: true, panelWidth: value });
           }
-        } else if (value !== stateRef.current.panelWidth) {
-          updateState({ isPanelShown: true, panelWidth: value });
-        }
-        return;
-      }
-      if (draggedElement === sVertical) {
-        const value = 100 - (e.clientY / e.view.innerHeight) * 100;
-        if (value > 70) {
-          return;
-        }
-        if (value < 5) {
-          if (stateRef.current.panelHeight !== 0) {
-            updateState({ isPanelShown: false, panelHeight: 0 });
-          }
-        } else if (value !== stateRef.current.panelHeight) {
-          updateState({ isPanelShown: true, panelHeight: value });
         }
       }
     };
 
-    sHorizontal?.addEventListener('mousedown', onDragStart);
-    sVertical?.addEventListener('mousedown', onDragStart);
-    sSidebar?.addEventListener('mousedown', onDragStart);
+    panelResizer?.addEventListener('mousedown', onDragStart);
+    sidebarResizer?.addEventListener('mousedown', onDragStart);
 
     return () => {
-      sHorizontal?.removeEventListener('mousedown', onDragStart);
-      sVertical?.removeEventListener('mousedown', onDragStart);
-      sSidebar?.removeEventListener('mousedown', onDragStart);
+      panelResizer?.removeEventListener('mousedown', onDragStart);
+      sidebarResizer?.removeEventListener('mousedown', onDragStart);
     };
   }, [stateRef, updateState]);
 
-  return { sHorizontalRef, sVerticalRef, sSidebarRef };
+  return { panelResizerRef, sidebarResizerRef };
 }

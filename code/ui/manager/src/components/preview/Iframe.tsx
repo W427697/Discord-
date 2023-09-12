@@ -5,7 +5,6 @@ import { Zoom } from '@storybook/components';
 
 const StyledIframe = styled.iframe({
   backgroundColor: 'white',
-  position: 'absolute',
   display: 'block',
   boxSizing: 'content-box',
   height: '100%',

@@ -9,6 +9,7 @@ const useUpstreamState = (
 ) => {
   const { isPanelShown: showPanel, panelPosition, isSidebarShown: showSidebar } = incomingState;
   React.useEffect(() => {
+    console.log('LOG incomingState in UpstreamState:', incomingState);
     const { panelHeight, sidebarWidth, panelWidth } = stateRef.current;
     if (showPanel && panelPosition === 'bottom' && panelHeight === 0) {
       // TODO: take from some preference

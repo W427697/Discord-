@@ -3,16 +3,12 @@ import type { FC } from 'react';
 import React from 'react';
 
 import { styled } from '@storybook/theming';
+import type { Meta } from '@storybook/react';
 import { Layout } from './Layout';
 import { DEFAULTS } from './Layout.persistence';
 
 const PlaceholderBlock = styled.div(({ color }) => ({
   background: color || 'hotpink',
-  position: 'absolute',
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
   width: '100%',
   height: '100%',
   display: 'flex',
@@ -31,19 +27,7 @@ const PlaceholderClock: FC<{ color: string }> = ({ color, children }) => {
   }, [count]);
   return (
     <PlaceholderBlock color={color}>
-      <h2
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-          color: 'rgba(0,0,0,0.2)',
-          fontSize: '150px',
-          lineHeight: '150px',
-          margin: '-20px',
-        }}
-      >
-        {count}
-      </h2>
+      <h2>{count}</h2>
       {children}
     </PlaceholderBlock>
   );
@@ -78,9 +62,9 @@ const defaultState = {
   isPanelShown: true,
   panelPosition: 'bottom',
   viewMode: 'story',
-};
+} as const;
 
-export default {
+const meta = {
   title: 'Layout',
   component: Layout,
   args: {
@@ -90,13 +74,22 @@ export default {
     slotMain: <MockPreview />,
     slotSidebar: <MockSidebar />,
     slotPanel: <MockPanel />,
-    slotCustom: <MockPage />,
+    slotPages: <MockPage />,
   },
   parameters: {
     theme: 'light',
     layout: 'fullscreen',
   },
-};
+  decorators: [
+    (Story) => (
+      <div style={{ height: '100vh', width: '100vw' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof Layout>;
+
+export default meta;
 
 export const Desktop = {};
 export const Dark = {
@@ -114,7 +107,7 @@ export const DesktopDocs = {
   },
 };
 
-export const DesktopCustom = {
+export const DesktopPages = {
   args: {
     state: { ...defaultState, viewMode: 'custom' },
   },

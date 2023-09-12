@@ -10,15 +10,28 @@ interface Return {
 
 export const createReset = memoize(1)(
   ({ typography }: { typography: Typography }): Return => ({
+    html: {
+      width: '100%',
+      height: '100%',
+    },
+
     body: {
       fontFamily: typography.fonts.base,
       fontSize: typography.size.s3,
       margin: 0,
+      padding: 0,
+      width: '100%',
+      height: '100%',
 
       WebkitFontSmoothing: 'antialiased',
       MozOsxFontSmoothing: 'grayscale',
       WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
       WebkitOverflowScrolling: 'touch',
+    },
+
+    '#root': {
+      width: '100%',
+      height: '100%',
     },
 
     '*': {
@@ -103,7 +116,10 @@ export const createGlobal = memoize(1)(
         background: background.app,
         overflow: 'hidden',
       },
-
+      '#root': {
+        width: '100%',
+        height: '100%',
+      },
       hr: {
         ...resetStyles.hr,
         borderTop: `1px solid ${color.border}`,

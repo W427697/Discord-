@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Route } from '@storybook/router';
 
@@ -14,11 +14,11 @@ import { Layout } from './components/layout/Layout';
 import { usePersistence } from './components/layout/Layout.persistence';
 
 type Props = ComponentProps<typeof Layout>['state'] & {
-  updater: ComponentProps<typeof Layout>['setState'];
+  setLayoutState: ComponentProps<typeof Layout>['setState'];
   pages: Addon_PageType[];
 };
 
-export const App = ({ updater, pages, ...state }: Props) => {
+export const App = ({ setLayoutState, pages, ...state }: Props) => {
   return (
     <>
       <Global styles={createGlobal} />
@@ -26,22 +26,16 @@ export const App = ({ updater, pages, ...state }: Props) => {
       <Layout
         persistence={usePersistence()}
         state={state}
-        setState={updater}
+        setState={setLayoutState}
         slotMain={
           <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
             <Preview />
           </Route>
         }
         slotSidebar={<Sidebar />}
-        slotPanel={
-          <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
-            <Panel />
-          </Route>
-        }
-        slotCustom={pages.map(({ id, render: Content }) => (
-          <Fragment key={id}>
-            <Content />
-          </Fragment>
+        slotPanel={<Panel />}
+        slotPages={pages.map(({ id, render: Content }) => (
+          <Content key={id} />
         ))}
       />
     </>
