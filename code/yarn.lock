@@ -24995,19 +24995,19 @@ __metadata:
   linkType: hard
 
 "overlayscrollbars-react@npm:^0.5.0":
-  version: 0.5.2
-  resolution: "overlayscrollbars-react@npm:0.5.2"
+  version: 0.5.1
+  resolution: "overlayscrollbars-react@npm:0.5.1"
   peerDependencies:
     overlayscrollbars: ^2.0.0
     react: ">=16.8.0"
-  checksum: 56e8df609f589cd38c97408d743ebd9112047c60da340c8f121b10418beabd1b5411396f4c1fd27b46dd0e663e7675ae72df1c531feb1e3f6bf1342dbafa21ef
+  checksum: 3a8717d19ab54f6762a92c07ffa1f44d1b7ae72a8b60eaf88877efa9289409171eff840b0374d94935ee586f7c92e4f15a134ddb72d4b7a143defb69039fa6ca
   languageName: node
   linkType: hard
 
 "overlayscrollbars@npm:^2.2.0":
-  version: 2.3.0
-  resolution: "overlayscrollbars@npm:2.3.0"
-  checksum: 0745f2966d3165f14272322ca65909f3edd246528d4daed8e145844c9d223f5a0a19bc68780cfce19e9939bf4912b955b0761254532e970074c0ccf82c01e7b2
+  version: 2.2.1
+  resolution: "overlayscrollbars@npm:2.2.1"
+  checksum: 718dd563ee17a8c92a54f0b67989806edadd5b999e36d2ab322e7813b369d1cf0198d7267ca42ca9e879023f0658825e2b050d2845e751d876285d1d3549cb5e
   languageName: node
   linkType: hard
 
