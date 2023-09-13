@@ -26,6 +26,7 @@ export const get = (): PersistedLayoutState => {
 };
 
 const write = (changes: PersistedLayoutState) => {
+  console.log('LOG pers changes:', changes);
   try {
     store.local.set(`storybook-layout`, changes);
   } catch (e) {

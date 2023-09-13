@@ -25,12 +25,13 @@ const createReducer =
       }
     }
 
-    if (action.isDragging === false) {
+    console.log('LOG reducer:', { state, action });
+    if (!action.isDragging) {
       persistence.current.set({
-        panelHeight: state.panelHeight,
-        panelPosition: state.panelPosition,
-        panelWidth: state.panelWidth,
-        sidebarWidth: state.sidebarWidth,
+        panelHeight: action.panelHeight ?? state.panelHeight,
+        panelPosition: action.panelPosition ?? state.panelPosition,
+        panelWidth: action.panelWidth ?? state.panelWidth,
+        sidebarWidth: action.sidebarWidth ?? state.sidebarWidth,
       });
     }
 
@@ -54,8 +55,8 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
   );
 
   useEffect(() => {
-    updateState({ viewMode: incomingState.viewMode });
-  }, [incomingState.viewMode]);
+    updateState({ viewMode: incomingState.viewMode, panelPosition: incomingState.panelPosition });
+  }, [incomingState.viewMode, incomingState.panelPosition]);
 
   // keep a ref to the state so we can get the latest state in the event handlers
   const stateRef = useRef<LayoutState>(state);

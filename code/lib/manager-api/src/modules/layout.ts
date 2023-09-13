@@ -281,6 +281,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
   };
 
   const persisted = pick(store.getState(), 'layout', 'selectedPanel');
+  console.log('LOG persisted:', persisted); // TODO: why not called?
 
   return {
     api,
