@@ -1,3 +1,13 @@
+## 7.4.1
+
+- CLI: Add uncaughtException handler - [#24018](https://github.com/storybookjs/storybook/pull/24018), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Fix packageManager handling in `sb add` - [#24079](https://github.com/storybookjs/storybook/pull/24079), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- Core: Add CJS entrypoints to errors in core events - [#24038](https://github.com/storybookjs/storybook/pull/24038), thanks [@yannbf](https://github.com/yannbf)!
+- Docs: Fix TOC import - [#24047](https://github.com/storybookjs/storybook/pull/24047), thanks [@shilman](https://github.com/shilman)!
+- Telemetry: Filter addon options to protect sensitive info - [#24000](https://github.com/storybookjs/storybook/pull/24000), thanks [@shilman](https://github.com/shilman)!
+- Types: Remove `@types/react` dep from `@storybook/types` - [#24042](https://github.com/storybookjs/storybook/pull/24042), thanks [@JReinhold](https://github.com/JReinhold)!
+- Vue3: Remove console.log in sourceDecorator - [#24062](https://github.com/storybookjs/storybook/pull/24062), thanks [@oruman](https://github.com/oruman)!
+
 ## 7.4.0
 
 - Addon-docs: Resolve `mdx-react-shim` & `@storybook/global` correctly - [#23941](https://github.com/storybookjs/storybook/pull/23941), thanks [@ndelangen](https://github.com/ndelangen)!
