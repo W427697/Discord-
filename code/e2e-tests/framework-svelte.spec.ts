@@ -21,7 +21,7 @@ test.describe('Svelte', () => {
   test('Story have a documentation', async ({ page }) => {
     const sbPage = new SbPage(page);
 
-    sbPage.navigateToStory('example/button', 'docs');
+    await sbPage.navigateToStory('example/button', 'docs');
     const root = sbPage.previewRoot();
     const argsTable = root.locator('.docblock-argstable');
     await expect(argsTable).toContainText('Is this the principal call to action on the page');
