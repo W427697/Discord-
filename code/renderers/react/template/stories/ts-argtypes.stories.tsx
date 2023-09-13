@@ -89,16 +89,16 @@ const addChromaticIgnore = async (element: HTMLElement) => {
 
 export const TsTypes: StoryObj = {
   parameters: { component: TsTypesComponent },
-  play: async ({ canvasElement }) => {
-    // This play function's sole purpose is to add a "chromatic ignore" region to flaky rows.
-    const canvas = within(canvasElement);
-    const funcCell = await canvas.findByText('funcWithArgsAndReturns');
-    addChromaticIgnore(funcCell);
-    const namedNumericCell = await canvas.findByText('namedNumericLiteralUnion');
-    addChromaticIgnore(namedNumericCell);
-    const inlinedNumericCell = await canvas.findByText('inlinedNumericLiteralUnion');
-    addChromaticIgnore(inlinedNumericCell);
-  },
+  // play: async ({ canvasElement }) => {
+  //   // This play function's sole purpose is to add a "chromatic ignore" region to flaky rows.
+  //   const canvas = within(canvasElement);
+  //   const funcCell = await canvas.findByText('funcWithArgsAndReturns');
+  //   addChromaticIgnore(funcCell);
+  //   const namedNumericCell = await canvas.findByText('namedNumericLiteralUnion');
+  //   addChromaticIgnore(namedNumericCell);
+  //   const inlinedNumericCell = await canvas.findByText('inlinedNumericLiteralUnion');
+  //   addChromaticIgnore(inlinedNumericCell);
+  // },
 };
 
 export const TsHtml = { parameters: { component: TsHtmlComponent } };
