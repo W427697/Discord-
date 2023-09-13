@@ -6526,6 +6526,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
+    "@storybook/addon-docs": "workspace:*"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
