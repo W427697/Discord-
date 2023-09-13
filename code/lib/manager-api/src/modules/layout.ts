@@ -88,7 +88,7 @@ export const defaultLayoutState: SubState = {
     navSize: 30,
     bottomPanelHeight: 30,
     rightPanelWidth: 30,
-    lastKnownSizes: {
+    recentVisibleSizes: {
       navSize: 30,
       bottomPanelHeight: 30,
       rightPanelWidth: 30,
@@ -121,6 +121,20 @@ const getIsFullscreen = (state: State) => {
   return !getIsNavShown(state) && !getIsPanelShown(state);
 };
 
+const getRecentVisibleSizes = (layoutState: API_Layout) => {
+  return {
+    navSize: layoutState.navSize > 0 ? layoutState.navSize : layoutState.recentVisibleSizes.navSize,
+    bottomPanelHeight:
+      layoutState.bottomPanelHeight > 0
+        ? layoutState.bottomPanelHeight
+        : layoutState.recentVisibleSizes.bottomPanelHeight,
+    rightPanelWidth:
+      layoutState.rightPanelWidth > 0
+        ? layoutState.rightPanelWidth
+        : layoutState.recentVisibleSizes.rightPanelWidth,
+  };
+};
+
 export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
   const api = {
     toggleFullscreen(nextState?: boolean) {
@@ -140,20 +154,15 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
                   navSize: 0,
                   bottomPanelHeight: 0,
                   rightPanelWidth: 0,
-                  // lastKnownSizes: {
-                  //   ...lastKnownSizes,
-                  //   navSize,
-                  //   bottomPanelHeight,
-                  //   rightPanelWidth,
-                  // },
+                  recentVisibleSizes: getRecentVisibleSizes(state.layout),
                 },
               }
             : {
                 layout: {
                   ...state.layout,
-                  navSize: state.singleStory ? 0 : 30,
-                  bottomPanelHeight: 30,
-                  rightPanelWidth: 30,
+                  navSize: state.singleStory ? 0 : state.layout.recentVisibleSizes.navSize,
+                  bottomPanelHeight: state.layout.recentVisibleSizes.bottomPanelHeight,
+                  rightPanelWidth: state.layout.recentVisibleSizes.rightPanelWidth,
                 },
               };
         },
@@ -176,14 +185,8 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
             ? {
                 layout: {
                   ...state.layout,
-                  bottomPanelHeight: 30,
-                  rightPanelWidth: 30,
-                  // lastKnownSizes: {
-                  //   ...lastKnownSizes,
-                  //   navSize,
-                  //   bottomPanelHeight,
-                  //   rightPanelWidth,
-                  // },
+                  bottomPanelHeight: state.layout.recentVisibleSizes.bottomPanelHeight,
+                  rightPanelWidth: state.layout.recentVisibleSizes.rightPanelWidth,
                 },
               }
             : {
@@ -191,6 +194,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
                   ...state.layout,
                   bottomPanelHeight: 0,
                   rightPanelWidth: 0,
+                  recentVisibleSizes: getRecentVisibleSizes(state.layout),
                 },
               };
         },
@@ -208,8 +212,8 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
             layout: {
               ...state.layout,
               panelPosition: nextPosition,
-              bottomPanelHeight: 30,
-              rightPanelWidth: 30,
+              bottomPanelHeight: state.layout.recentVisibleSizes.bottomPanelHeight,
+              rightPanelWidth: state.layout.recentVisibleSizes.rightPanelWidth,
             },
           };
         },
@@ -232,19 +236,14 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
             ? {
                 layout: {
                   ...state.layout,
-                  navSize: 30,
-                  // lastKnownSizes: {
-                  //   ...lastKnownSizes,
-                  //   navSize,
-                  //   bottomPanelHeight,
-                  //   rightPanelWidth,
-                  // },
+                  navSize: state.layout.recentVisibleSizes.navSize,
                 },
               }
             : {
                 layout: {
                   ...state.layout,
                   navSize: 0,
+                  recentVisibleSizes: getRecentVisibleSizes(state.layout),
                 },
               };
         },
@@ -275,12 +274,16 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     }: Partial<Pick<API_Layout, 'navSize' | 'bottomPanelHeight' | 'rightPanelWidth'>>) {
       return store.setState(
         (state: State) => {
+          const nextLayoutState = {
+            ...state.layout,
+            navSize: navSize ?? state.layout.navSize,
+            bottomPanelHeight: bottomPanelHeight ?? state.layout.bottomPanelHeight,
+            rightPanelWidth: rightPanelWidth ?? state.layout.rightPanelWidth,
+          };
           return {
             layout: {
-              ...state.layout,
-              navSize: navSize ?? state.layout.navSize,
-              bottomPanelHeight: bottomPanelHeight ?? state.layout.bottomPanelHeight,
-              rightPanelWidth: rightPanelWidth ?? state.layout.rightPanelWidth,
+              ...nextLayoutState,
+              recentVisibleSizes: getRecentVisibleSizes(nextLayoutState),
             },
           };
         },

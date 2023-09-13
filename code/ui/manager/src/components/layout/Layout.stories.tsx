@@ -70,14 +70,14 @@ const meta = {
     ),
   ],
   render: (args) => {
-    const [managerStoreState, setManagerStoreState] = useState(args.managerLayoutState);
+    const [managerLayoutState, setManagerLayoutState] = useState(args.managerLayoutState);
 
     return (
       <Layout
         {...args}
-        managerLayoutState={managerStoreState}
+        managerLayoutState={managerLayoutState}
         setManagerLayoutState={(nextPartialState) => {
-          setManagerStoreState({ ...managerStoreState, ...nextPartialState });
+          setManagerLayoutState({ ...managerLayoutState, ...nextPartialState });
           action('setManagerStoreState')(nextPartialState);
         }}
       />

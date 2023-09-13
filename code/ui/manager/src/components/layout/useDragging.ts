@@ -2,7 +2,10 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useRef } from 'react';
 import type { LayoutState } from './Layout.types';
 
-export function useDragging(setState: Dispatch<SetStateAction<LayoutState>>) {
+export function useDragging(
+  setState: Dispatch<SetStateAction<LayoutState>>,
+  isPanelShown: boolean
+) {
   const panelResizerRef = useRef<HTMLDivElement>(null);
   const sidebarResizerRef = useRef<HTMLDivElement>(null);
 
@@ -129,7 +132,10 @@ export function useDragging(setState: Dispatch<SetStateAction<LayoutState>>) {
       // make iframe capture pointer events again
       previewIframe?.removeAttribute('style');
     };
-  }, [setState]);
+  }, [
+    isPanelShown, // we need to rerun this effect when the panel is shown/hidden to re-attach the event listeners
+    setState,
+  ]);
 
   return { panelResizerRef, sidebarResizerRef };
 }

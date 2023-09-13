@@ -93,7 +93,12 @@ export interface API_Layout {
   navSize: number;
   bottomPanelHeight: number;
   rightPanelWidth: number;
-  lastKnownSizes: {
+  /**
+   * the sizes of the panels when they were last visible
+   * used to restore the sizes when the panels are shown again
+   * eg. when toggling fullscreen, panels, etc.
+   */
+  recentVisibleSizes: {
     navSize: number;
     bottomPanelHeight: number;
     rightPanelWidth: number;

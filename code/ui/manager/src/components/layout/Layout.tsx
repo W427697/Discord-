@@ -63,7 +63,14 @@ const useLayoutSyncingState = (
     setManagerLayoutState(nextState);
   }, [internalDraggingSizeState, setManagerLayoutState]);
 
-  const { panelResizerRef, sidebarResizerRef } = useDragging(setInternalDraggingSizeState);
+  const isPagesShown =
+    managerLayoutState.viewMode !== 'story' && managerLayoutState.viewMode !== 'docs';
+  const isPanelShown = managerLayoutState.viewMode === 'story';
+
+  const { panelResizerRef, sidebarResizerRef } = useDragging(
+    setInternalDraggingSizeState,
+    isPanelShown
+  );
   const { navSize, rightPanelWidth, bottomPanelHeight } = internalDraggingSizeState.isDragging
     ? internalDraggingSizeState
     : managerLayoutState;
@@ -75,6 +82,8 @@ const useLayoutSyncingState = (
     panelPosition: managerLayoutState.panelPosition,
     panelResizerRef,
     sidebarResizerRef,
+    showPages: isPagesShown,
+    showPanel: isPanelShown,
   };
 };
 
@@ -86,11 +95,9 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
     panelPosition,
     panelResizerRef,
     sidebarResizerRef,
+    showPages,
+    showPanel,
   } = useLayoutSyncingState(managerLayoutState, setManagerLayoutState);
-
-  const showPages =
-    managerLayoutState.viewMode !== 'story' && managerLayoutState.viewMode !== 'docs';
-  const showPanel = managerLayoutState.viewMode === 'story';
 
   return (
     <LayoutContainer
