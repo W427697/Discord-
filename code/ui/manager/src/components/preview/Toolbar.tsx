@@ -45,13 +45,15 @@ export const Toolbar = styled(Bar)(
   })
 );
 
-const fullScreenMapper = ({ api, state }: Combo) => ({
-  toggle: api.toggleFullscreen,
-  value: state.layout.isFullscreen,
-  shortcut: shortcutToHumanString(api.getShortcutKeys().fullScreen),
-  hasPanel: Object.keys(api.getPanels()).length > 0,
-  singleStory: state.singleStory,
-});
+const fullScreenMapper = ({ api, state }: Combo) => {
+  return {
+    toggle: api.toggleFullscreen,
+    isFullscreen: api.getIsFullscreen(),
+    shortcut: shortcutToHumanString(api.getShortcutKeys().fullScreen),
+    hasPanel: Object.keys(api.getPanels()).length > 0,
+    singleStory: state.singleStory,
+  };
+};
 
 export const fullScreenTool: Addon_BaseType = {
   title: 'fullscreen',
@@ -60,14 +62,14 @@ export const fullScreenTool: Addon_BaseType = {
   match: (p) => ['story', 'docs'].includes(p.viewMode),
   render: () => (
     <Consumer filter={fullScreenMapper}>
-      {({ toggle, value, shortcut, hasPanel, singleStory }) =>
+      {({ toggle, isFullscreen, shortcut, hasPanel, singleStory }) =>
         (!singleStory || (singleStory && hasPanel)) && (
           <IconButton
             key="full"
             onClick={toggle as any}
-            title={`${value ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
+            title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
           >
-            <Icons icon={value ? 'close' : 'expand'} />
+            <Icons icon={isFullscreen ? 'close' : 'expand'} />
           </IconButton>
         )
       }

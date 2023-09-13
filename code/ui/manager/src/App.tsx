@@ -11,22 +11,21 @@ import Preview from './container/Preview';
 import Panel from './container/Panel';
 
 import { Layout } from './components/layout/Layout';
-import { usePersistence } from './components/layout/Layout.persistence';
 
-type Props = ComponentProps<typeof Layout>['state'] & {
-  setLayoutState: ComponentProps<typeof Layout>['setState'];
+type Props = {
+  managerLayoutState: ComponentProps<typeof Layout>['managerLayoutState'];
+  setManagerLayoutState: ComponentProps<typeof Layout>['setManagerLayoutState'];
   pages: Addon_PageType[];
 };
 
-export const App = ({ setLayoutState, pages, ...state }: Props) => {
+export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
   return (
     <>
       <Global styles={createGlobal} />
       <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
       <Layout
-        persistence={usePersistence()}
-        state={state}
-        setState={setLayoutState}
+        managerLayoutState={managerLayoutState}
+        setManagerLayoutState={setManagerLayoutState}
         slotMain={
           <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
             <Preview />

@@ -15,7 +15,7 @@ const Sidebar = React.memo(function Sideber() {
       viewMode,
       storyId,
       refId,
-      layout: { showToolbar, isFullscreen, showPanel, showNav },
+      layout: { showToolbar },
       index,
       status,
       indexError,
@@ -27,9 +27,9 @@ const Sidebar = React.memo(function Sideber() {
       state,
       api,
       showToolbar,
-      isFullscreen,
-      showPanel,
-      showNav,
+      api.getIsFullscreen(),
+      api.getIsPanelShown(),
+      api.getIsNavShown(),
       enableShortcuts
     );
 

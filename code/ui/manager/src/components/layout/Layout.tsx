@@ -1,114 +1,135 @@
-import type { Reducer } from 'react';
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { useUpstreamState } from '../../hooks';
-import type { Props, LayoutState } from './Layout.types';
-import { useDragging } from './Layout.DesktopControls';
+import type { Props, LayoutState, ManagerLayoutState } from './Layout.types';
+import { useDragging } from './useDragging';
 
-const createReducer =
-  (persistence: Props['persistence'], setState: Props['setState']) =>
-  (state: LayoutState, action: Partial<LayoutState>) => {
-    if ('isPanelShown' in action || 'isSidebarShown' in action) {
-      // sync changes upstream
-      if (
-        (action.isPanelShown !== undefined && action.isPanelShown !== state.isPanelShown) ||
-        (action.isSidebarShown !== undefined && action.isSidebarShown !== state.isSidebarShown)
-      ) {
-        const { isPanelShown: draftPanel, isSidebarShown: draftSidebar } = state;
-        const { isPanelShown: actionPanel, isSidebarShown: actionSidebar } = action;
-        const update = {
-          showPanel: actionPanel === undefined ? draftPanel : actionPanel,
-          showSidebar: actionSidebar === undefined ? draftSidebar : actionSidebar,
-        };
-        // this upstream sync should not happen whilst react is already in the render phase
-        setTimeout(setState, 16, update);
-      }
-    }
+const layoutStateIsEqual = (state: ManagerLayoutState, other: ManagerLayoutState) =>
+  state.navSize === other.navSize &&
+  state.bottomPanelHeight === other.bottomPanelHeight &&
+  state.rightPanelWidth === other.rightPanelWidth &&
+  state.panelPosition === other.panelPosition;
 
-    console.log('LOG reducer:', { state, action });
-    if (!action.isDragging) {
-      persistence.current.set({
-        panelHeight: action.panelHeight ?? state.panelHeight,
-        panelPosition: action.panelPosition ?? state.panelPosition,
-        panelWidth: action.panelWidth ?? state.panelWidth,
-        sidebarWidth: action.sidebarWidth ?? state.sidebarWidth,
-      });
-    }
+/**
+ * Manages the internal state of panels while dragging, and syncs it with the
+ * layout state in the global manager store when the user is done dragging.
+ * Also syncs the layout state from the global manager store to the internal state
+ * here when necessary
+ */
+const useLayoutSyncingState = (
+  managerLayoutState: Props['managerLayoutState'],
+  setManagerLayoutState: Props['setManagerLayoutState']
+) => {
+  // ref to keep track of previous managerLayoutState, to check if the props change
+  const prevManagerLayoutStateRef = React.useRef<ManagerLayoutState>(managerLayoutState);
 
-    return { ...state, ...action };
-  };
+  const [internalDraggingSizeState, setInternalDraggingSizeState] = useState<LayoutState>({
+    ...managerLayoutState,
+    isDragging: false,
+  });
 
-export const Layout = ({ state: incomingState, persistence, setState, ...slots }: Props) => {
-  const [state, updateState] = useReducer<Reducer<LayoutState, Partial<LayoutState>>>(
-    createReducer(persistence, setState),
-    {
-      isDragging: false,
-      isSidebarShown: incomingState.isSidebarShown || false,
-      isPanelShown: incomingState.isPanelShown || false,
-      viewMode: incomingState.viewMode || 'story',
-      panelPosition: incomingState.panelPosition || persistence.current.value.panelPosition,
-      sidebarWidth:
-        incomingState.isSidebarShown === true ? persistence.current.value.sidebarWidth : 0,
-      panelHeight: persistence.current.value.panelHeight,
-      panelWidth: persistence.current.value.panelWidth,
-    } satisfies LayoutState
-  );
-
+  /**
+   * Sync FROM managerLayoutState to internalDraggingState if user is not dragging
+   */
   useEffect(() => {
-    updateState({ viewMode: incomingState.viewMode, panelPosition: incomingState.panelPosition });
-  }, [incomingState.viewMode, incomingState.panelPosition]);
+    if (
+      internalDraggingSizeState.isDragging || // don't interrupt user's drag
+      layoutStateIsEqual(managerLayoutState, prevManagerLayoutStateRef.current) // don't set any state if managerLayoutState hasn't changed
+    ) {
+      return;
+    }
+    prevManagerLayoutStateRef.current = managerLayoutState;
+    setInternalDraggingSizeState((state) => ({ ...state, ...managerLayoutState }));
+  }, [internalDraggingSizeState.isDragging, managerLayoutState, setInternalDraggingSizeState]);
 
-  // keep a ref to the state so we can get the latest state in the event handlers
-  const stateRef = useRef<LayoutState>(state);
-  Object.assign(stateRef.current, state, incomingState);
+  /**
+   * Sync size changes TO managerLayoutState when drag is done
+   */
+  useLayoutEffect(() => {
+    if (
+      internalDraggingSizeState.isDragging || // wait with syncing managerLayoutState until user is done dragging
+      layoutStateIsEqual(prevManagerLayoutStateRef.current, internalDraggingSizeState) // don't sync managerLayoutState if it doesn't differ from internalDraggingSizeState
+    ) {
+      return;
+    }
+    const nextState = {
+      navSize: internalDraggingSizeState.navSize,
+      bottomPanelHeight: internalDraggingSizeState.bottomPanelHeight,
+      rightPanelWidth: internalDraggingSizeState.rightPanelWidth,
+    };
+    prevManagerLayoutStateRef.current = {
+      ...prevManagerLayoutStateRef.current,
+      ...nextState,
+    };
+    setManagerLayoutState(nextState);
+  }, [internalDraggingSizeState, setManagerLayoutState]);
 
-  // respond to state changes upstream
-  useUpstreamState(stateRef, updateState, incomingState);
+  const { panelResizerRef, sidebarResizerRef } = useDragging(setInternalDraggingSizeState);
+  const { navSize, rightPanelWidth, bottomPanelHeight } = internalDraggingSizeState.isDragging
+    ? internalDraggingSizeState
+    : managerLayoutState;
 
-  const { panelResizerRef, sidebarResizerRef } = useDragging(updateState, stateRef);
+  return {
+    navSize,
+    rightPanelWidth,
+    bottomPanelHeight,
+    panelResizerRef,
+    sidebarResizerRef,
+  };
+};
 
-  const showPages = state.viewMode !== 'story' && state.viewMode !== 'docs';
-  const showPanel = state.viewMode === 'story';
+export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
+  const { navSize, rightPanelWidth, bottomPanelHeight, panelResizerRef, sidebarResizerRef } =
+    useLayoutSyncingState(managerLayoutState, setManagerLayoutState);
+
+  const showPages =
+    managerLayoutState.viewMode !== 'story' && managerLayoutState.viewMode !== 'docs';
+  const showPanel = managerLayoutState.viewMode === 'story';
 
   return (
-    <>
-      <LayoutContainer {...state}>
-        {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
-        <ContentContainer>{slots.slotMain}</ContentContainer>
-        <SidebarContainer hidden={state.sidebarWidth === 0}>
-          <Drag variant="sidebar" ref={sidebarResizerRef}>
-            <Shadow variant="sidebar" />
-          </Drag>
-          {slots.slotSidebar}
-        </SidebarContainer>
-        {showPanel && (
-          <>
-            <PanelContainer>
-              <Drag
-                variant={state.panelPosition === 'bottom' ? 'panelBottom' : 'panelRight'}
-                ref={panelResizerRef}
-              >
-                <Shadow variant={state.panelPosition === 'bottom' ? 'panel' : 'sidebar'} />
-              </Drag>
-              {slots.slotPanel}
-            </PanelContainer>
-          </>
-        )}
-      </LayoutContainer>
-    </>
+    <LayoutContainer
+      navSize={navSize}
+      rightPanelWidth={rightPanelWidth}
+      bottomPanelHeight={bottomPanelHeight}
+      panelPosition={managerLayoutState.panelPosition}
+      viewMode={managerLayoutState.viewMode}
+    >
+      {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
+      <ContentContainer>{slots.slotMain}</ContentContainer>
+      <SidebarContainer>
+        <Drag variant="sidebar" ref={sidebarResizerRef}>
+          <Shadow variant="sidebar" />
+        </Drag>
+        {slots.slotSidebar}
+      </SidebarContainer>
+      {showPanel && (
+        <>
+          <PanelContainer>
+            <Drag
+              variant={managerLayoutState.panelPosition === 'bottom' ? 'panelBottom' : 'panelRight'}
+              ref={panelResizerRef}
+            >
+              <Shadow
+                variant={managerLayoutState.panelPosition === 'bottom' ? 'panel' : 'sidebar'}
+              />
+            </Drag>
+            {slots.slotPanel}
+          </PanelContainer>
+        </>
+      )}
+    </LayoutContainer>
   );
 };
 
-const LayoutContainer = styled.div<LayoutState>(
-  ({ sidebarWidth, panelWidth, panelHeight, viewMode, panelPosition }) => {
+const LayoutContainer = styled.div<ManagerLayoutState>(
+  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition }) => {
     return {
       width: '100%',
       height: '100%',
       display: 'grid',
       overflow: 'hidden',
       gap: 0,
-      gridTemplateColumns: `${sidebarWidth}% 1fr ${panelWidth}% [right]`,
-      gridTemplateRows: `[top] 1fr ${panelHeight}% [bottom]`,
+      gridTemplateColumns: `${navSize}% 1fr ${rightPanelWidth}% [right]`,
+      gridTemplateRows: `[top] 1fr ${bottomPanelHeight}% [bottom]`,
       gridTemplateAreas: (() => {
         if (viewMode === 'docs') {
           // remove panel in docs viewMode

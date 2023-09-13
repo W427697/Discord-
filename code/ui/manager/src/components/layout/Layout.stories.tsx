@@ -1,11 +1,11 @@
 import { action } from '@storybook/addon-actions';
 import type { FC } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
 import type { Meta } from '@storybook/react';
+import { useArgs } from '@storybook/preview-api';
 import { Layout } from './Layout';
-import { DEFAULTS } from './Layout.persistence';
 
 const PlaceholderBlock = styled.div(({ color }) => ({
   background: color || 'hotpink',
@@ -58,8 +58,9 @@ const MockPage: FC<any> = (props) => (
 );
 
 const defaultState = {
-  isSidebarShown: true,
-  isPanelShown: true,
+  navSize: 30,
+  bottomPanelHeight: 30,
+  rightPanelWidth: 30,
   panelPosition: 'bottom',
   viewMode: 'story',
 } as const;
@@ -68,9 +69,7 @@ const meta = {
   title: 'Layout',
   component: Layout,
   args: {
-    state: defaultState,
-    setState: action('setState'),
-    persistence: { current: { value: DEFAULTS, set: action('setPersistence') } },
+    managerLayoutState: defaultState,
     slotMain: <MockPreview />,
     slotSidebar: <MockSidebar />,
     slotPanel: <MockPanel />,
@@ -87,6 +86,20 @@ const meta = {
       </div>
     ),
   ],
+  render: (args) => {
+    const [managerStoreState, setManagerStoreState] = useState(args.managerLayoutState);
+
+    return (
+      <Layout
+        {...args}
+        managerLayoutState={managerStoreState}
+        setManagerLayoutState={(nextPartialState) => {
+          setManagerStoreState({ ...managerStoreState, ...nextPartialState });
+          action('setManagerStoreState')(nextPartialState);
+        }}
+      />
+    );
+  },
 } satisfies Meta<typeof Layout>;
 
 export default meta;

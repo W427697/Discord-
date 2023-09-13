@@ -90,10 +90,15 @@ export interface API_UIOptions {
 
 export interface API_Layout {
   initialActive: API_ActiveTabsType;
-  isFullscreen: boolean;
-  showPanel: boolean;
+  navSize: number;
+  bottomPanelHeight: number;
+  rightPanelWidth: number;
+  lastKnownSizes: {
+    navSize: number;
+    bottomPanelHeight: number;
+    rightPanelWidth: number;
+  };
   panelPosition: API_PanelPositions;
-  showNav: boolean;
   showTabs: boolean;
   showToolbar: boolean;
   /**

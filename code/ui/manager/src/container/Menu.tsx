@@ -52,8 +52,8 @@ export const useMenu = (
   api: API,
   showToolbar: boolean,
   isFullscreen: boolean,
-  showPanel: boolean,
-  showNav: boolean,
+  isPanelShown: boolean,
+  isNavShown: boolean,
   enableShortcuts: boolean
 ) => {
   const theme = useTheme();
@@ -101,11 +101,11 @@ export const useMenu = (
       id: 'S',
       title: 'Show sidebar',
       onClick: () => api.toggleNav(),
-      active: showNav,
+      active: isNavShown,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.toggleNav} /> : null,
-      left: showNav ? <Icons icon="check" /> : null,
+      left: isNavShown ? <Icons icon="check" /> : null,
     }),
-    [api, enableShortcuts, shortcutKeys, showNav]
+    [api, enableShortcuts, shortcutKeys, isNavShown]
   );
 
   const toolbarToogle = useMemo(
@@ -125,11 +125,11 @@ export const useMenu = (
       id: 'A',
       title: 'Show addons',
       onClick: () => api.togglePanel(),
-      active: showPanel,
+      active: isPanelShown,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.togglePanel} /> : null,
-      left: showPanel ? <Icons icon="check" /> : null,
+      left: isPanelShown ? <Icons icon="check" /> : null,
     }),
-    [api, enableShortcuts, shortcutKeys, showPanel]
+    [api, enableShortcuts, shortcutKeys, isPanelShown]
   );
 
   const addonsOrientationToggle = useMemo(

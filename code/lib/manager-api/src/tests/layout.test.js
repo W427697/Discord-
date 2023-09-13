@@ -1,5 +1,5 @@
 import { themes } from '@storybook/theming';
-import { init as initLayout } from '../modules/layout';
+import { defaultLayoutState, init as initLayout } from '../modules/layout';
 
 let layoutApi;
 let store;
@@ -8,18 +8,10 @@ let currentState;
 
 beforeEach(() => {
   currentState = {
-    ui: {
-      enableShortcuts: true,
-    },
-    layout: {
-      showToolbar: true,
-      isFullscreen: false,
-      showPanel: true,
-      showNav: true,
-      panelPosition: 'bottom',
-    },
+    ...defaultLayoutState,
     selectedPanel: 'storybook/actions/panel',
     theme: themes.light,
+    singleStory: false,
   };
   store = {
     getState: () => currentState,
@@ -36,54 +28,52 @@ beforeEach(() => {
 
 describe('layout API', () => {
   describe('toggleFullscreen', () => {
-    it('should toggle isFullscreen', () => {
-      currentState.layout.isFullscreen = false;
+    it('should toggle fullscreen', () => {
+      // start not in fullscreen
+      expect(currentState.layout.navSize).toBeGreaterThan(0);
+      expect(currentState.layout.bottomPanelHeight).toBeGreaterThan(0);
+      expect(currentState.layout.rightPanelWidth).toBeGreaterThan(0);
+
       layoutApi.toggleFullscreen();
-      expect(currentState.layout.isFullscreen).toBe(true);
+
+      // now in fullscreen
+      expect(currentState.layout.navSize).toBe(0);
+      expect(currentState.layout.bottomPanelHeight).toBe(0);
+      expect(currentState.layout.rightPanelWidth).toBe(0);
+
       layoutApi.toggleFullscreen();
-      expect(currentState.layout.isFullscreen).toBe(false);
-      layoutApi.toggleFullscreen(false);
-      expect(currentState.layout.isFullscreen).toBe(false);
-      layoutApi.toggleFullscreen(true);
-      expect(currentState.layout.isFullscreen).toBe(true);
+
+      // back to not in fullscreen
+      expect(currentState.layout.navSize).toBeGreaterThan(0);
+      expect(currentState.layout.bottomPanelHeight).toBeGreaterThan(0);
+      expect(currentState.layout.rightPanelWidth).toBeGreaterThan(0);
     });
 
-    it('should not affect nav or panel state when enabling fullscreen', () => {
-      currentState.layout.isFullscreen = false;
+    it('should not show nav when disabling fullscreen with singleStory=true', () => {
+      store.setState((current) => ({
+        singleStory: true,
+        layout: { ...current.layout, navSize: 0 },
+      }));
+      layoutApi = initLayout({ store, provider, singleStory: true }).api;
+
+      // start not in fullscreen, nav hidden
+      expect(currentState.layout.navSize).toBe(0);
+      expect(currentState.layout.bottomPanelHeight).toBeGreaterThan(0);
+      expect(currentState.layout.rightPanelWidth).toBeGreaterThan(0);
+
       layoutApi.toggleFullscreen();
-      expect(currentState.layout.showNav).toBe(true);
-      expect(currentState.layout.showNav).toBe(true);
-    });
 
-    it('should enable nav when exiting fullscreen', () => {
-      currentState.layout.isFullscreen = true;
-      currentState.layout.showNav = false;
+      // now in fullscreen
+      expect(currentState.layout.navSize).toBe(0);
+      expect(currentState.layout.bottomPanelHeight).toBe(0);
+      expect(currentState.layout.rightPanelWidth).toBe(0);
+
       layoutApi.toggleFullscreen();
-      expect(currentState.layout).toEqual(
-        expect.objectContaining({
-          isFullscreen: false,
-          showPanel: true,
-          showNav: true,
-        })
-      );
-    });
 
-    describe('singleStory=true', () => {
-      beforeEach(() => {
-        layoutApi = initLayout({ store, provider, singleStory: true }).api;
-      });
-
-      it('should NOT enable nav when exiting fullscreen', () => {
-        currentState.layout.showNav = false;
-        layoutApi.toggleFullscreen();
-        expect(currentState.layout).toEqual(
-          expect.objectContaining({
-            isFullscreen: true,
-            showPanel: true,
-            showNav: false,
-          })
-        );
-      });
+      // back to not in fullscreen, nav still hidden
+      expect(currentState.layout.navSize).toBe(0);
+      expect(currentState.layout.bottomPanelHeight).toBeGreaterThan(0);
+      expect(currentState.layout.rightPanelWidth).toBeGreaterThan(0);
     });
   });
 

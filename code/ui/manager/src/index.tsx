@@ -49,18 +49,11 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
         >
           {(combo: Combo) => {
             const { state, api } = combo;
-            const setLayoutState = useCallback(
-              (s) => {
-                api.setOptions({
-                  layout: {
-                    ...(typeof s.isPanelShown !== 'undefined' ? { showPanel: s.isPanelShown } : {}),
-                    ...(typeof s.isSidebarShown !== 'undefined'
-                      ? { showNav: s.isSidebarShown }
-                      : {}),
-                  },
-                });
+            const setManagerLayoutState = useCallback(
+              (sizes) => {
+                api.setSizes(sizes);
               },
-              [api]
+              [state, api]
             );
 
             const pages: Addon_PageType[] = useMemo(
@@ -73,11 +66,8 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
                 <App
                   key="app"
                   pages={pages}
-                  setLayoutState={setLayoutState}
-                  panelPosition={state.layout.panelPosition || 'bottom'}
-                  isPanelShown={state.layout.showPanel}
-                  isSidebarShown={state.layout.showNav}
-                  viewMode={state.viewMode}
+                  managerLayoutState={{ ...state.layout, viewMode: state.viewMode }}
+                  setManagerLayoutState={setManagerLayoutState}
                 />
               </ThemeProvider>
             );
