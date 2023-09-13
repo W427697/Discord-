@@ -512,6 +512,19 @@ const internalTemplates = {
     isInternal: true,
     skipTasks: ['bench'],
   },
+  'internal/nextjs-server': {
+    name: 'NextJS Server',
+    script:
+      'yarn create next-app {{beforeDir}} --typescript --eslint --no-tailwind --no-src-dir --app --import-alias="@/*"',
+    expected: {
+      framework: '@storybook/nextjs-server',
+      renderer: '@storybook/server',
+      builder: '@storybook/builder-webpack5',
+    },
+    isInternal: true,
+    inDevelopment: true,
+    skipTasks: ['bench'],
+  },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
   //   name: 'PNP (cra/default-ts)',

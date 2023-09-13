@@ -191,6 +191,7 @@ const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, Supp
   ember: 'ember',
   html: 'html',
   nextjs: 'react',
+  'nextjs-server': 'server',
   preact: 'preact',
   qwik: 'qwik',
   react: 'react',

@@ -68,10 +68,22 @@ export async function renderToCanvas(
   const fetchId = storyId || id;
   const storyParams = { ...params, ...storyArgs };
   const element = await fetchStoryHtml(url, fetchId, storyParams, storyContext);
+  console.log('renderToCanvas', { url, fetchId, storyParams, element });
 
   showMain();
   if (typeof element === 'string') {
-    canvasElement.innerHTML = element;
+    // canvasElement.innerHTML = element;
+
+    const iframeStyle = 'border: 0; min-width: 100vw; min-height: 100vh;';
+
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('style', iframeStyle);
+    canvasElement.innerHTML = '';
+    canvasElement.appendChild(iframe);
+
+    const iframeBody = iframe.contentDocument?.body;
+    iframeBody.innerHTML = element;
+
     simulatePageLoad(canvasElement);
   } else if (element instanceof Node) {
     // Don't re-mount the element if it didn't change and neither did the story

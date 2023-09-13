@@ -11,6 +11,7 @@ import type {
 } from '@storybook/types';
 import type { ServerRenderer } from './types';
 
+export type { FetchStoryHtmlType } from './types';
 export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
 
 /**

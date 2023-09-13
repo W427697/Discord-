@@ -50,6 +50,7 @@ export default {
   '@storybook/manager': '7.5.0-alpha.2',
   '@storybook/manager-api': '7.5.0-alpha.2',
   '@storybook/nextjs': '7.5.0-alpha.2',
+  '@storybook/nextjs-server': '7.5.0-alpha.2',
   '@storybook/node-logger': '7.5.0-alpha.2',
   '@storybook/postinstall': '7.5.0-alpha.2',
   '@storybook/preact': '7.5.0-alpha.2',

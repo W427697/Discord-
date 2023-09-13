@@ -7,3 +7,4 @@ export * from './build-static';
 export * from './build-dev';
 export * from './withTelemetry';
 export { default as build } from './standalone';
+export { StoryIndexGenerator } from './utils/StoryIndexGenerator';

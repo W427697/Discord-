@@ -157,6 +157,7 @@
     "@storybook/manager": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/nextjs": "workspace:*",
+    "@storybook/nextjs-server": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/postinstall": "workspace:*",
     "@storybook/preact": "workspace:*",

@@ -29,7 +29,13 @@ export const externalFrameworks: ExternalFramework[] = [
 ];
 
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
+export type SupportedFrameworks =
+  | 'nextjs'
+  | 'angular'
+  | 'sveltekit'
+  | 'qwik'
+  | 'solid'
+  | 'nextjs-server';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =

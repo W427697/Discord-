@@ -1,6 +1,7 @@
 import express from 'express';
 import compression from 'compression';
 import invariant from 'tiny-invariant';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
@@ -123,6 +124,10 @@ export async function storybookDevServer(options: Options) {
     // unhandled and exit (even though they are very much handled below)
     previewStarted.catch(() => {}).then(() => next());
   });
+
+  const nextProxy = createProxyMiddleware({ target: 'http://localhost:3000' });
+  router.use('/nextjs-stories', nextProxy);
+  router.use('/_next', nextProxy);
 
   await Promise.all([initializedStoryIndexGenerator, listening]).then(async ([indexGenerator]) => {
     if (indexGenerator && !options.ci && !options.smokeTest && options.open) {

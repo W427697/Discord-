@@ -133,6 +133,7 @@ export interface StaticMeta
 
 export interface StaticStory extends Pick<StoryAnnotations, 'name' | 'parameters' | 'tags'> {
   id: string;
+  exportName: string;
 }
 
 export class CsfFile {
@@ -372,6 +373,7 @@ export class CsfFile {
                   id: 'FIXME',
                   name,
                   parameters,
+                  exportName,
                 };
               }
             });
@@ -402,7 +404,12 @@ export class CsfFile {
                   }
                 } else {
                   self._storyAnnotations[exportName] = {};
-                  self._stories[exportName] = { id: 'FIXME', name: exportName, parameters: {} };
+                  self._stories[exportName] = {
+                    id: 'FIXME',
+                    name: exportName,
+                    parameters: {},
+                    exportName,
+                  };
                 }
               }
             });
