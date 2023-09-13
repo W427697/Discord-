@@ -3,6 +3,8 @@ import { styled } from '@storybook/theming';
 import type { Props, LayoutState, ManagerLayoutState } from './Layout.types';
 import { useDragging } from './useDragging';
 
+const MINIMUM_CONTENT_WIDTH_PX = 300;
+
 const layoutStateIsEqual = (state: ManagerLayoutState, other: ManagerLayoutState) =>
   state.navSize === other.navSize &&
   state.bottomPanelHeight === other.bottomPanelHeight &&
@@ -135,8 +137,8 @@ const LayoutContainer = styled.div<ManagerLayoutState>(
       display: 'grid',
       overflow: 'hidden',
       gap: 0,
-      gridTemplateColumns: `${navSize}% 1fr ${rightPanelWidth}% [right]`,
-      gridTemplateRows: `[top] 1fr ${bottomPanelHeight}% [bottom]`,
+      gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px) [right]`,
+      gridTemplateRows: `[top] 1fr ${bottomPanelHeight}px [bottom]`,
       gridTemplateAreas: (() => {
         if (viewMode === 'docs') {
           // remove panel in docs viewMode

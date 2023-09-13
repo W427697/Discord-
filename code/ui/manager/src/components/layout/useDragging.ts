@@ -2,6 +2,13 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useRef } from 'react';
 import type { LayoutState } from './Layout.types';
 
+// the distance from the edge of the screen at which the panel/sidebar will snap to the edge
+const SNAP_THRESHOLD_PX = 50;
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
 export function useDragging(
   setState: Dispatch<SetStateAction<LayoutState>>,
   isPanelShown: boolean
@@ -56,68 +63,45 @@ export function useDragging(
 
       setState((state) => {
         if (draggedElement === sidebarResizer) {
-          const value = (e.clientX / e.view.innerWidth) * 100;
-          if (value + state.rightPanelWidth > 70) {
-            // preserve space for content
+          const sidebarWidth = e.clientX;
+
+          if (sidebarWidth === state.navSize) {
             return state;
           }
-
-          if (value < 5) {
-            if (state.navSize !== 0) {
-              return {
-                ...state,
-                navSize: 0,
-              };
-            }
-          } else if (value !== state.navSize) {
+          if (sidebarWidth <= SNAP_THRESHOLD_PX) {
             return {
               ...state,
-              navSize: value,
+              navSize: 0,
             };
           }
-
-          return state;
+          return {
+            ...state,
+            navSize: clamp(sidebarWidth, 0, e.view.innerWidth),
+          };
         }
         if (draggedElement === panelResizer) {
-          if (state.panelPosition === 'bottom') {
-            const value = 100 - (e.clientY / e.view.innerHeight) * 100;
-            if (value > 70) {
-              return state;
-            }
-            if (value < 5) {
-              if (state.bottomPanelHeight !== 0) {
-                return {
-                  ...state,
-                  bottomPanelHeight: 0,
-                };
-              }
-            } else if (value !== state.bottomPanelHeight) {
-              return {
-                ...state,
-                bottomPanelHeight: value,
-              };
-            }
-          } else {
-            const value = 100 - (e.clientX / e.view.innerWidth) * 100;
-            if (value + state.navSize > 70) {
-              // preserve space for content
-              return state;
-            }
+          const sizeAxisState =
+            state.panelPosition === 'bottom' ? 'bottomPanelHeight' : 'rightPanelWidth';
+          const panelSize =
+            state.panelPosition === 'bottom'
+              ? e.view.innerHeight - e.clientY
+              : e.view.innerWidth - e.clientX;
 
-            if (value < 5) {
-              if (state.rightPanelWidth !== 0) {
-                return {
-                  ...state,
-                  rightPanelWidth: 0,
-                };
-              }
-            } else if (value !== state.rightPanelWidth) {
-              return {
-                ...state,
-                rightPanelWidth: value,
-              };
-            }
+          if (panelSize === state[sizeAxisState]) {
+            return state;
           }
+          if (panelSize <= SNAP_THRESHOLD_PX) {
+            return {
+              ...state,
+              [sizeAxisState]: 0,
+            };
+          }
+          const sizeAxisMax =
+            state.panelPosition === 'bottom' ? e.view.innerHeight : e.view.innerWidth;
+          return {
+            ...state,
+            [sizeAxisState]: clamp(panelSize, 0, sizeAxisMax),
+          };
         }
         return state;
       });

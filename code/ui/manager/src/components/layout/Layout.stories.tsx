@@ -3,8 +3,7 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
-import type { Meta } from '@storybook/react';
-import { useArgs } from '@storybook/preview-api';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Layout } from './Layout';
 
 const PlaceholderBlock = styled.div({
@@ -41,9 +40,9 @@ const MockPanel: FC<any> = () => <PlaceholderClock />;
 const MockPage: FC<any> = () => <PlaceholderClock />;
 
 const defaultState = {
-  navSize: 30,
-  bottomPanelHeight: 30,
-  rightPanelWidth: 30,
+  navSize: 150,
+  bottomPanelHeight: 150,
+  rightPanelWidth: 150,
   panelPosition: 'bottom',
   viewMode: 'story',
 } as const;
@@ -87,25 +86,27 @@ const meta = {
 
 export default meta;
 
-export const Desktop = {};
-export const Dark = {
+type Story = StoryObj<typeof meta>;
+
+export const Desktop: Story = {};
+export const Dark: Story = {
   parameters: { theme: 'dark' },
 };
-export const DesktopHorizontal = {
+export const DesktopHorizontal: Story = {
   args: {
-    state: { ...defaultState, panelPosition: 'right' },
+    managerLayoutState: { ...defaultState, panelPosition: 'right' },
   },
 };
 
-export const DesktopDocs = {
+export const DesktopDocs: Story = {
   args: {
-    state: { ...defaultState, viewMode: 'docs' },
+    managerLayoutState: { ...defaultState, viewMode: 'docs' },
   },
 };
 
-export const DesktopPages = {
+export const DesktopPages: Story = {
   args: {
-    state: { ...defaultState, viewMode: 'custom' },
+    managerLayoutState: { ...defaultState, viewMode: 'settings' },
   },
 };
 
