@@ -75,7 +75,7 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
       <LayoutContainer {...state}>
         {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
         <ContentContainer>{slots.slotMain}</ContentContainer>
-        <SidebarContainer hidden={state.sidebarWidth === 0}>
+        <SidebarContainer>
           <Drag ref={sidebarResizerRef} />
           {slots.slotSidebar}
         </SidebarContainer>
