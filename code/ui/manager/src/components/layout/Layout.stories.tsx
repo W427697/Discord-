@@ -7,17 +7,16 @@ import type { Meta } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 import { Layout } from './Layout';
 
-const PlaceholderBlock = styled.div(({ color }) => ({
-  background: color || 'hotpink',
+const PlaceholderBlock = styled.div({
   width: '100%',
   height: '100%',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'hidden',
-}));
+});
 
-const PlaceholderClock: FC<{ color: string }> = ({ color, children }) => {
+const PlaceholderClock: FC = ({ children }) => {
   const [count, setCount] = React.useState(0);
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -26,36 +25,20 @@ const PlaceholderClock: FC<{ color: string }> = ({ color, children }) => {
     return () => clearInterval(interval);
   }, [count]);
   return (
-    <PlaceholderBlock color={color}>
+    <PlaceholderBlock>
       <h2>{count}</h2>
       {children}
     </PlaceholderBlock>
   );
 };
 
-const MockSidebar: FC<any> = (props) => (
-  <PlaceholderClock color="#F6F9FC">
-    <pre>{JSON.stringify(props, null, 2)}</pre>
-  </PlaceholderClock>
-);
+const MockSidebar: FC<any> = () => <PlaceholderClock />;
 
-const MockPreview: FC<any> = (props) => (
-  <PlaceholderClock color="#E6E9EC">
-    <pre>{JSON.stringify(props, null, 2)}</pre>
-  </PlaceholderClock>
-);
+const MockPreview: FC<any> = () => <PlaceholderClock />;
 
-const MockPanel: FC<any> = (props) => (
-  <PlaceholderClock color="#FFFFFF">
-    <pre>{JSON.stringify(props, null, 2)}</pre>
-  </PlaceholderClock>
-);
+const MockPanel: FC<any> = () => <PlaceholderClock />;
 
-const MockPage: FC<any> = (props) => (
-  <PlaceholderClock color="cyan">
-    <pre>{JSON.stringify(props, null, 2)}</pre>
-  </PlaceholderClock>
-);
+const MockPage: FC<any> = () => <PlaceholderClock />;
 
 const defaultState = {
   navSize: 30,

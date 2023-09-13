@@ -72,14 +72,21 @@ const useLayoutSyncingState = (
     navSize,
     rightPanelWidth,
     bottomPanelHeight,
+    panelPosition: managerLayoutState.panelPosition,
     panelResizerRef,
     sidebarResizerRef,
   };
 };
 
 export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
-  const { navSize, rightPanelWidth, bottomPanelHeight, panelResizerRef, sidebarResizerRef } =
-    useLayoutSyncingState(managerLayoutState, setManagerLayoutState);
+  const {
+    navSize,
+    rightPanelWidth,
+    bottomPanelHeight,
+    panelPosition,
+    panelResizerRef,
+    sidebarResizerRef,
+  } = useLayoutSyncingState(managerLayoutState, setManagerLayoutState);
 
   const showPages =
     managerLayoutState.viewMode !== 'story' && managerLayoutState.viewMode !== 'docs';
@@ -96,25 +103,18 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
       <ContentContainer>{slots.slotMain}</ContentContainer>
       <SidebarContainer>
-        <Drag variant="sidebar" ref={sidebarResizerRef}>
-          <Shadow variant="sidebar" />
-        </Drag>
+        <Drag ref={sidebarResizerRef} />
         {slots.slotSidebar}
       </SidebarContainer>
       {showPanel && (
-        <>
-          <PanelContainer>
-            <Drag
-              variant={managerLayoutState.panelPosition === 'bottom' ? 'panelBottom' : 'panelRight'}
-              ref={panelResizerRef}
-            >
-              <Shadow
-                variant={managerLayoutState.panelPosition === 'bottom' ? 'panel' : 'sidebar'}
-              />
-            </Drag>
-            {slots.slotPanel}
-          </PanelContainer>
-        </>
+        <PanelContainer position={panelPosition}>
+          <Drag
+            orientation={panelPosition === 'bottom' ? 'horizontal' : 'vertical'}
+            position={panelPosition === 'bottom' ? 'left' : 'right'}
+            ref={panelResizerRef}
+          />
+          {slots.slotPanel}
+        </PanelContainer>
       )}
     </LayoutContainer>
   );
@@ -147,63 +147,68 @@ const LayoutContainer = styled.div<ManagerLayoutState>(
   }
 );
 
-const PanelContainer = styled.div(({ theme }) => ({
-  gridArea: 'panel',
-  position: 'relative',
-  backgroundColor: theme.background.app,
-  borderLeft: `1px solid ${theme.color.border}`,
-  boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
-}));
-
 const SidebarContainer = styled.div(({ theme }) => ({
   backgroundColor: theme.background.app,
   gridArea: 'sidebar',
   position: 'relative',
+  borderRight: `1px solid ${theme.color.border}`,
 }));
 
 const ContentContainer = styled.div(({ theme }) => ({
   display: 'grid',
   position: 'relative',
   backgroundColor: theme.background.content,
-  borderLeft: `1px solid ${theme.color.border}`,
   gridArea: 'content',
 }));
 
 const PagesContainer = styled.div(({ theme }) => ({
   // see named areas and tracks in the grid template area defined in LayoutContainer
   gridArea: 'content-start / content-start / right / bottom',
+  backgroundColor: theme.background.content,
   zIndex: 1,
 }));
 
-const Drag = styled.div<{ variant: 'sidebar' | 'panelBottom' | 'panelRight' }>(
-  {
+const PanelContainer = styled.div<{ position: LayoutState['panelPosition'] }>(
+  ({ theme, position }) => ({
+    gridArea: 'panel',
+    position: 'relative',
+    backgroundColor: theme.background.content,
+    borderTop: position === 'bottom' ? `1px solid ${theme.color.border}` : null,
+    borderLeft: position === 'right' ? `1px solid ${theme.color.border}` : null,
+  })
+);
+
+const Drag = styled.div<{ orientation?: 'horizontal' | 'vertical'; position?: 'left' | 'right' }>(
+  ({ theme }) => ({
     position: 'absolute',
     opacity: 0,
     transition: 'opacity 0.2s ease-in-out',
     zIndex: 2,
 
+    '&:after': {
+      content: '""',
+      display: 'block',
+      backgroundColor: theme.color.secondary,
+    },
+
     '&:hover': {
       opacity: 1,
     },
-  },
-  ({ variant }) => {
-    if (variant === 'sidebar')
+  }),
+  ({ orientation = 'vertical', position = 'left' }) => {
+    if (orientation === 'vertical')
       return {
         width: '20px',
         height: '100%',
-        top: '-10px',
-        right: '-10px',
+        top: 0,
+        right: position === 'left' ? '-10px' : null,
+        left: position === 'right' ? '-10px' : null,
 
-        '&:hover': {
-          cursor: 'col-resize',
+        '&:after': {
+          width: 1,
+          height: '100%',
+          marginLeft: 10,
         },
-      };
-    if (variant === 'panelRight')
-      return {
-        width: '20px',
-        height: '100%',
-        top: '-10px',
-        left: '-10px',
 
         '&:hover': {
           cursor: 'col-resize',
@@ -213,46 +218,16 @@ const Drag = styled.div<{ variant: 'sidebar' | 'panelBottom' | 'panelRight' }>(
       width: '100%',
       height: '20px',
       top: '-10px',
-      left: '-10px',
+      left: 0,
+
+      '&:after': {
+        width: '100%',
+        height: 1,
+        marginTop: 9,
+      },
 
       '&:hover': {
         cursor: 'row-resize',
-      },
-    };
-  }
-);
-
-const Shadow = styled.div<{ variant: 'sidebar' | 'panel' }>(
-  {
-    width: '50%',
-    height: '100%',
-    overflow: 'hidden',
-
-    '&::after': {
-      content: '""',
-      display: 'block',
-      background:
-        'radial-gradient(at center center, rgba(0, 0, 0, 0.14) 0%,transparent 50%,transparent 100%)',
-    },
-  },
-  ({ variant }) => {
-    if (variant === 'sidebar')
-      return {
-        width: '50%',
-        height: '100%',
-
-        '&::after': {
-          width: '200%',
-          height: '100%',
-        },
-      };
-    return {
-      width: '100%',
-      height: '50%',
-
-      '&::after': {
-        width: '100%',
-        height: '200%',
       },
     };
   }
