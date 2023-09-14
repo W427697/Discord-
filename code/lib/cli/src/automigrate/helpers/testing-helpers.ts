@@ -1,11 +1,11 @@
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 
-jest.mock('./mainConfigFile', () => ({
+vi.mock('./mainConfigFile', () => ({
   ...jest.requireActual('./mainConfigFile'),
   getStorybookData: jest.fn(),
 }));
 
-jest.mock('@storybook/core-common', () => ({
+vi.mock('@storybook/core-common', () => ({
   ...jest.requireActual('@storybook/core-common'),
   loadMainConfig: jest.fn(),
 }));

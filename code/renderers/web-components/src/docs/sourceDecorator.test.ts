@@ -5,9 +5,9 @@ import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { StoryContext } from '../types';
 import { sourceDecorator } from './sourceDecorator';
 
-jest.mock('@storybook/preview-api');
-const mockedAddons = addons as jest.Mocked<typeof addons>;
-const mockedUseEffect = useEffect as jest.Mock;
+vi.mock('@storybook/preview-api');
+const mockedAddons = addons as vi.mocked<typeof addons>;
+const mockedUseEffect = useEffect as vi.mock;
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -30,7 +30,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: Partial<S
   } as StoryContext);
 
 describe('sourceDecorator', () => {
-  let mockChannel: { on: jest.Mock; emit?: jest.Mock };
+  let mockChannel: { on: vi.mock; emit?: vi.mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));

@@ -8,8 +8,8 @@ expect.addSnapshotSerializer({
   test: () => true,
 });
 
-jest.mock('node:fs');
-const fs = fs_ as jest.Mocked<typeof import('node:fs')>;
+vi.mock('node:fs');
+const fs = fs_ as vi.mocked<typeof import('node:fs')>;
 
 beforeEach(() => {
   fs.existsSync.mockImplementation(() => false);

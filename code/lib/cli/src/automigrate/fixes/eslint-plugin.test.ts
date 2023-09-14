@@ -5,7 +5,7 @@ import { eslintPlugin } from './eslint-plugin';
 import { makePackageManager } from '../helpers/testing-helpers';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
 const checkEslint = async ({
   packageJson,

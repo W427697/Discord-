@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { SELECT_STORY } from '@storybook/core-events';
 import LinkTo from './link';
 
-jest.mock('@storybook/preview-api');
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/preview-api');
+vi.mock('@storybook/global', () => ({
   global: {
     document: {
       location: {
@@ -29,7 +29,7 @@ const mockChannel = () => {
     once: jest.fn(),
   };
 };
-const mockAddons = addons as unknown as jest.Mocked<typeof addons>;
+const mockAddons = addons as unknown as vi.mocked<typeof addons>;
 
 describe('LinkTo', () => {
   describe('render', () => {

@@ -3,9 +3,9 @@ import { getSourceType, init as initRefs } from '../modules/refs';
 
 const { fetch } = global;
 
-const fetchMock = jest.mocked(fetch);
+const fetchMock = vi.mocked(fetch);
 
-jest.mock('@storybook/global', () => {
+vi.mock('@storybook/global', () => {
   const globalMock = {
     fetch: jest.fn(() => Promise.resolve({})),
     REFS: {

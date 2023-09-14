@@ -20,7 +20,7 @@ import {
 import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     window: globalThis,
@@ -37,14 +37,14 @@ jest.mock('@storybook/global', () => ({
 
 // console.log(global);
 
-jest.mock('@storybook/channels', () => ({
+vi.mock('@storybook/channels', () => ({
   createBrowserChannel: () => mockChannel,
 }));
-jest.mock('@storybook/client-logger');
-jest.mock('react-dom');
+vi.mock('@storybook/client-logger');
+vi.mock('react-dom');
 
 // for the auto-title test
-jest.mock('../../store', () => {
+vi.mock('../../store', () => {
   const actualStore = jest.requireActual('../../store');
   return {
     ...actualStore,
@@ -53,7 +53,7 @@ jest.mock('../../store', () => {
   };
 });
 
-jest.mock('../../preview-web', () => {
+vi.mock('../../preview-web', () => {
   const actualPreviewWeb = jest.requireActual('../../preview-web');
 
   class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb {

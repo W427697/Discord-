@@ -5,14 +5,14 @@ import * as gitClient_ from '../utils/git-client';
 import * as githubInfo_ from '../utils/get-github-info';
 import * as github_ from '../utils/github-client';
 
-jest.mock('uuid');
-jest.mock('../utils/get-github-info');
-jest.mock('../utils/github-client');
-jest.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
+vi.mock('uuid');
+vi.mock('../utils/get-github-info');
+vi.mock('../utils/github-client');
+vi.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
 
-const gitClient = jest.mocked(gitClient_);
-const github = jest.mocked(github_);
-const githubInfo = jest.mocked(githubInfo_);
+const gitClient = vi.mocked(gitClient_);
+const github = vi.mocked(github_);
+const githubInfo = vi.mocked(githubInfo_);
 
 const remoteMock = [
   {

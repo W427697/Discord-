@@ -59,7 +59,7 @@ const { history, document } = global;
 const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     ...(jest.requireActual('@storybook/global') as any),
     history: { replaceState: jest.fn() },
@@ -77,9 +77,9 @@ jest.mock('@storybook/global', () => ({
   },
 }));
 
-jest.mock('@storybook/client-logger');
-jest.mock('react-dom');
-jest.mock('./WebView');
+vi.mock('@storybook/client-logger');
+vi.mock('react-dom');
+vi.mock('./WebView');
 
 const serializeError = (error: Error) => {
   const { name = 'Error', message = String(error), stack } = error;
@@ -131,15 +131,15 @@ beforeEach(() => {
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
-  (logger.warn as jest.Mock<typeof logger.warn>).mockClear();
+  (logger.warn as vi.mock<typeof logger.warn>).mockClear();
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
 
-  jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
+  vi.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  vi.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {
@@ -530,8 +530,7 @@ describe('PreviewWeb', () => {
         await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
-          .toMatchInlineSnapshot(`
+        expect((preview.view.showErrorDisplay as vi.mock).mock.calls[0][0]).toMatchInlineSnapshot(`
                           [Error: Expected your framework's preset to export a \`renderToCanvas\` field.
 
                           Perhaps it needs to be upgraded for Storybook 6.4?
@@ -3109,7 +3108,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        (preview.view.showMain as jest.Mock).mockClear();
+        (preview.view.showMain as vi.mock).mockClear();
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForEvents([STORY_UNCHANGED]);

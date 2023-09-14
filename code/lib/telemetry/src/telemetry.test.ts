@@ -1,15 +1,15 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 import fetch from 'node-fetch';
 
 import { sendTelemetry } from './telemetry';
 
-jest.mock('node-fetch');
-jest.mock('./event-cache', () => {
+vi.mock('node-fetch');
+vi.mock('./event-cache', () => {
   return { set: jest.fn() };
 });
 
-jest.mock('./session-id', () => {
+vi.mock('./session-id', () => {
   return {
     getSessionId: async () => {
       return 'session-id';
@@ -17,7 +17,7 @@ jest.mock('./session-id', () => {
   };
 });
 
-const fetchMock = fetch as jest.Mock;
+const fetchMock = fetch as vi.mock;
 
 beforeEach(() => {
   fetchMock.mockResolvedValue({ status: 200 });

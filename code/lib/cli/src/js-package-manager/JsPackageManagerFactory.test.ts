@@ -7,11 +7,11 @@ import { PNPMProxy } from './PNPMProxy';
 import { Yarn1Proxy } from './Yarn1Proxy';
 import { Yarn2Proxy } from './Yarn2Proxy';
 
-jest.mock('cross-spawn');
-const spawnSyncMock = spawnSync as jest.Mock;
+vi.mock('cross-spawn');
+const spawnSyncMock = spawnSync as vi.mock;
 
-jest.mock('find-up');
-const findUpSyncMock = findUpSync as unknown as jest.Mock;
+vi.mock('find-up');
+const findUpSyncMock = findUpSync as unknown as vi.mock;
 
 describe('JsPackageManagerFactory', () => {
   beforeEach(() => {

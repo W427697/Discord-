@@ -2,11 +2,11 @@ import type { Options, Presets } from '@storybook/types';
 import { loadConfigFromFile } from 'vite';
 import { commonConfig } from './vite-config';
 
-jest.mock('vite', () => ({
+vi.mock('vite', () => ({
   ...jest.requireActual('vite'),
   loadConfigFromFile: jest.fn(async () => ({})),
 }));
-const loadConfigFromFileMock = jest.mocked(loadConfigFromFile);
+const loadConfigFromFileMock = vi.mocked(loadConfigFromFile);
 
 const dummyOptions: Options = {
   configType: 'DEVELOPMENT',

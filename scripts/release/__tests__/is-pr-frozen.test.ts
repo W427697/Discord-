@@ -4,8 +4,8 @@ import path from 'path';
 import { run as isPrFrozen } from '../is-pr-frozen';
 
 // eslint-disable-next-line jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
-jest.mock('../utils/get-github-info');
+vi.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
+vi.mock('../utils/get-github-info');
 
 const fsExtra = require('fs-extra');
 const simpleGit = require('simple-git');

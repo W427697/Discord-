@@ -26,7 +26,7 @@ import {
 
 import { defaultDecorateStory } from './decorators';
 
-jest.mock('@storybook/client-logger', () => ({
+vi.mock('@storybook/client-logger', () => ({
   logger: { warn: jest.fn(), log: jest.fn() },
 }));
 

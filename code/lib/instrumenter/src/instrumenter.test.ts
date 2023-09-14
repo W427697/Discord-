@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 /* eslint-disable no-underscore-dangle */
 
 import { addons, mockChannel } from '@storybook/preview-api';
@@ -13,7 +13,7 @@ import { global } from '@storybook/global';
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 const callSpy = jest.fn();
 const syncSpy = jest.fn();

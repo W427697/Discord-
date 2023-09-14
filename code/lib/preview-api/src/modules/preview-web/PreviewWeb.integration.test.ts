@@ -24,16 +24,16 @@ import {
 //   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-jest.mock('@storybook/channels', () => ({
+vi.mock('@storybook/channels', () => ({
   ...jest.requireActual('@storybook/channels'),
   createBrowserChannel: () => mockChannel,
 }));
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
-jest.mock('./WebView');
+vi.mock('./WebView');
 
 const { document } = global;
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     history: { replaceState: jest.fn() },
@@ -69,8 +69,8 @@ beforeEach(() => {
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
 
-  jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
+  vi.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  vi.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {
@@ -100,7 +100,7 @@ describe('PreviewWeb', () => {
 
       const docsRoot = document.createElement('div');
       (
-        preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
+        preview.view.prepareForDocs as any as vi.mock<typeof preview.view.prepareForDocs>
       ).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
@@ -127,14 +127,14 @@ describe('PreviewWeb', () => {
 
       const docsRoot = document.createElement('div');
       (
-        preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
+        preview.view.prepareForDocs as any as vi.mock<typeof preview.view.prepareForDocs>
       ).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
         throw new Error('Docs rendering error');
       });
 
       (
-        preview.view.showErrorDisplay as any as jest.Mock<typeof preview.view.showErrorDisplay>
+        preview.view.showErrorDisplay as any as vi.mock<typeof preview.view.showErrorDisplay>
       ).mockClear();
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();

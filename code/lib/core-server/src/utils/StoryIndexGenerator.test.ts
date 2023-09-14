@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 /**
  * @jest-environment node
@@ -18,7 +18,7 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { csfIndexer } from '../presets/common-preset';
 
-jest.mock('@storybook/csf', () => {
+vi.mock('@storybook/csf', () => {
   const csf = jest.requireActual('@storybook/csf');
   return {
     ...csf,
@@ -26,10 +26,10 @@ jest.mock('@storybook/csf', () => {
   };
 });
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
-const toIdMock = toId as jest.Mock<ReturnType<typeof toId>>;
-jest.mock('@storybook/csf-tools', () => {
+const toIdMock = toId as vi.mock<ReturnType<typeof toId>>;
+vi.mock('@storybook/csf-tools', () => {
   const csfTools = jest.requireActual('@storybook/csf-tools');
   return {
     ...csfTools,
@@ -38,8 +38,8 @@ jest.mock('@storybook/csf-tools', () => {
   };
 });
 
-const readCsfMock = readCsf as jest.Mock<ReturnType<typeof readCsf>>;
-const getStorySortParameterMock = getStorySortParameter as jest.Mock<
+const readCsfMock = readCsf as vi.mock<ReturnType<typeof readCsf>>;
+const getStorySortParameterMock = getStorySortParameter as vi.mock<
   ReturnType<typeof getStorySortParameter>
 >;
 
@@ -55,8 +55,8 @@ const options: StoryIndexGeneratorOptions = {
 
 describe('StoryIndexGenerator', () => {
   beforeEach(() => {
-    jest.mocked(logger.warn).mockClear();
-    jest.mocked(once.warn).mockClear();
+    vi.mocked(logger.warn).mockClear();
+    vi.mocked(once.warn).mockClear();
   });
   describe('extraction', () => {
     const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
@@ -1190,7 +1190,7 @@ describe('StoryIndexGenerator', () => {
         await generator.getIndex();
 
         expect(once.warn).toHaveBeenCalledTimes(1);
-        const logMessage = jest.mocked(once.warn).mock.calls[0][0];
+        const logMessage = vi.mocked(once.warn).mock.calls[0][0];
         expect(logMessage).toContain(`No story files found for the specified pattern`);
       });
     });

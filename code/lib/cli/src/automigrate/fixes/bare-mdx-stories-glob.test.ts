@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';

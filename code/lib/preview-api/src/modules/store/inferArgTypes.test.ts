@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 
 import { inferArgTypes } from './inferArgTypes';
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 describe('inferArgTypes', () => {
   it('infers scalar types', () => {
@@ -83,7 +83,7 @@ describe('inferArgTypes', () => {
     const cyclic: any = {};
     cyclic.foo = cyclic;
 
-    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
+    (logger.warn as vi.mockedFunction<typeof logger.warn>).mockClear();
     expect(
       inferArgTypes({
         initialArgs: {
@@ -100,7 +100,7 @@ describe('inferArgTypes', () => {
   });
 
   it('ensures names', () => {
-    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
+    (logger.warn as vi.mockedFunction<typeof logger.warn>).mockClear();
     expect(
       inferArgTypes({
         initialArgs: {
@@ -124,7 +124,7 @@ describe('inferArgTypes', () => {
   });
 
   it('ensures names even with no arg', () => {
-    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
+    (logger.warn as vi.mockedFunction<typeof logger.warn>).mockClear();
     expect(
       inferArgTypes({
         argTypes: {

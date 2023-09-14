@@ -1,11 +1,11 @@
 import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 
-jest.mock('@storybook/preview-api');
-const mockedAddons = addons as jest.Mocked<typeof addons>;
+vi.mock('@storybook/preview-api');
+const mockedAddons = addons as vi.mocked<typeof addons>;
 
 describe('a11yRunner', () => {
-  let mockChannel: { on: jest.Mock; emit?: jest.Mock };
+  let mockChannel: { on: vi.mock; emit?: vi.mock };
 
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();

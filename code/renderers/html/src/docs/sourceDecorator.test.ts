@@ -3,9 +3,9 @@ import { addons, useEffect } from '@storybook/preview-api';
 import { sourceDecorator } from './sourceDecorator';
 import type { StoryContext } from '../types';
 
-jest.mock('@storybook/preview-api');
-const mockedAddons = addons as jest.Mocked<typeof addons>;
-const mockedUseEffect = useEffect as jest.Mocked<typeof useEffect>;
+vi.mock('@storybook/preview-api');
+const mockedAddons = addons as vi.mocked<typeof addons>;
+const mockedUseEffect = useEffect as vi.mocked<typeof useEffect>;
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -34,7 +34,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: object): 
   } as StoryContext);
 
 describe('sourceDecorator', () => {
-  let mockChannel: { on: jest.Mock; emit?: jest.Mock };
+  let mockChannel: { on: vi.mock; emit?: vi.mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     // @ts-expect-error (Converted from ts-ignore)

@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 import { GlobalsStore } from './GlobalsStore';
 
-jest.mock('@storybook/client-logger', () => ({
+vi.mock('@storybook/client-logger', () => ({
   logger: {
     warn: jest.fn(),
   },

@@ -1,6 +1,6 @@
 import { parseArgsParam } from './parseArgsParam';
 
-jest.mock('@storybook/client-logger', () => ({
+vi.mock('@storybook/client-logger', () => ({
   once: { warn: jest.fn() },
 }));
 

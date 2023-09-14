@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 import { EventEmitter } from 'events';
 import {
@@ -48,7 +48,7 @@ export const extraComponentOneExports = {
   },
   e: {},
 };
-export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
+export const importFn: vi.mocked<ModuleImportFn> = jest.fn(
   async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
@@ -63,7 +63,7 @@ export const docsRenderer = {
   render: jest.fn().mockImplementation((context, parameters, element) => Promise.resolve()),
   unmount: jest.fn(),
 };
-export const teardownrenderToCanvas: jest.Mock<TeardownRenderToCanvas> = jest.fn();
+export const teardownrenderToCanvas: vi.mock<TeardownRenderToCanvas> = jest.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},

@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { cache } from '@storybook/core-common';
 import { resetSessionIdForTest, getSessionId, SESSION_TIMEOUT } from './session-id';
 
-jest.mock('@storybook/core-common', () => {
+vi.mock('@storybook/core-common', () => {
   const actual = jest.requireActual('@storybook/core-common');
   return {
     ...actual,
@@ -12,7 +12,7 @@ jest.mock('@storybook/core-common', () => {
     },
   };
 });
-jest.mock('nanoid');
+vi.mock('nanoid');
 
 const spy = (x: any) => x as jest.SpyInstance;
 

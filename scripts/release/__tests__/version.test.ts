@@ -4,17 +4,17 @@ import path from 'path';
 import { run as version } from '../version';
 
 // eslint-disable-next-line jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
+vi.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
 const fsExtra = require('fs-extra');
 
-jest.mock('../../../code/lib/cli/src/versions', () => ({
+vi.mock('../../../code/lib/cli/src/versions', () => ({
   '@storybook/addon-a11y': '7.1.0-alpha.29',
 }));
 
-jest.mock('../../utils/exec');
+vi.mock('../../utils/exec');
 const { execaCommand } = require('../../utils/exec');
 
-jest.mock('../../utils/workspace', () => ({
+vi.mock('../../utils/workspace', () => ({
   getWorkspaces: jest.fn().mockResolvedValue([
     {
       name: '@storybook/addon-a11y',

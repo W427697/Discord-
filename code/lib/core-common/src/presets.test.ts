@@ -10,10 +10,10 @@ function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
 }
 
 function mockPreset(name: string, mockPresetObject: any) {
-  jest.mock(name, () => mockPresetObject, { virtual: true });
+  vi.mock(name, () => mockPresetObject, { virtual: true });
 }
 
-jest.mock('@storybook/node-logger', () => ({
+vi.mock('@storybook/node-logger', () => ({
   logger: {
     info: jest.fn(),
     warn: jest.fn(),
@@ -21,7 +21,7 @@ jest.mock('@storybook/node-logger', () => ({
   },
 }));
 
-jest.mock('./utils/safeResolve', () => {
+vi.mock('./utils/safeResolve', () => {
   const KNOWN_FILES = [
     '@storybook/react',
     '@storybook/addon-actions/manager',

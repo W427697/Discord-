@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 /* eslint-disable no-underscore-dangle */
 
 import { dedent } from 'ts-dedent';

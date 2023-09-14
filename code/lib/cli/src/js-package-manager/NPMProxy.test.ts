@@ -1,7 +1,7 @@
 import { NPMProxy } from './NPMProxy';
 
 // mock createLogStream
-jest.mock('../utils', () => ({
+vi.mock('../utils', () => ({
   createLogStream: jest.fn(() => ({
     logStream: '',
     readLogFile: jest.fn(),

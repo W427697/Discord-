@@ -6,7 +6,7 @@ import { run as writeChangelog } from '../write-changelog';
 import * as changesUtils from '../utils/get-changes';
 
 // eslint-disable-next-line jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
+vi.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
 const fsExtra = require('fs-extra');
 
 const getChangesMock = jest.spyOn(changesUtils, 'getChanges');

@@ -1,7 +1,7 @@
 import { getEventMetadata } from '../lib/events';
 import type { API } from '../index';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     location: { origin: 'http://localhost:6006', pathname: '/' },
   },

@@ -9,8 +9,8 @@ import type { ModuleArgs } from '../lib/types';
 const { logger } = require('@storybook/client-logger');
 const { getEventMetadata } = require('../lib/events');
 
-jest.mock('@storybook/client-logger');
-jest.mock('../lib/events');
+vi.mock('@storybook/client-logger');
+vi.mock('../lib/events');
 beforeEach(() => {
   getEventMetadata.mockReset().mockReturnValue({ sourceType: 'local' });
 });

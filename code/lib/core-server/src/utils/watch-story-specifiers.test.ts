@@ -4,7 +4,7 @@ import Watchpack from 'watchpack';
 
 import { watchStorySpecifiers } from './watch-story-specifiers';
 
-jest.mock('watchpack');
+vi.mock('watchpack');
 
 describe('watchStorySpecifiers', () => {
   const workingDir = path.join(__dirname, '__mockdata__');

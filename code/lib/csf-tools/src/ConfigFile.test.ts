@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 import { dedent } from 'ts-dedent';
 import { loadConfig, printConfig } from './ConfigFile';

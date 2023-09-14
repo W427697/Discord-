@@ -12,7 +12,7 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
-jest.mock('./package-json', () => {
+vi.mock('./package-json', () => {
   const getActualPackageVersion = jest.fn((name) =>
     Promise.resolve({
       name,
@@ -38,11 +38,11 @@ jest.mock('./package-json', () => {
   };
 });
 
-jest.mock('./get-monorepo-type', () => ({
+vi.mock('./get-monorepo-type', () => ({
   getMonorepoType: () => 'Nx',
 }));
 
-jest.mock('detect-package-manager', () => ({
+vi.mock('detect-package-manager', () => ({
   detect: () => 'Yarn',
   getNpmVersion: () => '3.1.1',
 }));

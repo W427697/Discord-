@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
 import { missingBabelRc } from './missing-babelrc';
 import type { JsPackageManager } from '../../js-package-manager';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
 const babelContent = JSON.stringify({
   sourceType: 'unambiguous',

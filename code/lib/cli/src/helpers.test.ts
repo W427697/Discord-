@@ -6,15 +6,15 @@ import type { JsPackageManager } from './js-package-manager';
 import type { SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
 
-jest.mock('fs', () => ({
+vi.mock('fs', () => ({
   existsSync: jest.fn(),
 }));
-jest.mock('./dirs', () => ({
+vi.mock('./dirs', () => ({
   getRendererDir: (_: JsPackageManager, renderer: string) => `@storybook/${renderer}`,
   getCliDir: () => '@storybook/cli',
 }));
 
-jest.mock('fs-extra', () => ({
+vi.mock('fs-extra', () => ({
   copySync: jest.fn(() => ({})),
   copy: jest.fn(() => ({})),
   ensureDir: jest.fn(() => {}),
@@ -24,11 +24,11 @@ jest.mock('fs-extra', () => ({
   writeFile: jest.fn(),
 }));
 
-jest.mock('find-up', () => ({
+vi.mock('find-up', () => ({
   sync: jest.fn(),
 }));
 
-jest.mock('path', () => {
+vi.mock('path', () => {
   const path = jest.requireActual('path');
   return {
     // make it return just the second path, for easier testing
@@ -50,7 +50,7 @@ describe('Helpers', () => {
   describe('copyTemplate', () => {
     it(`should copy template files when directory is present`, () => {
       const csfDirectory = `template-csf/`;
-      (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
+      (fs.existsSync as vi.mock).mockImplementation((filePath) => {
         return true;
       });
       helpers.copyTemplate('');
@@ -60,7 +60,7 @@ describe('Helpers', () => {
     });
 
     it(`should throw an error if template directory cannot be found`, () => {
-      (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
+      (fs.existsSync as vi.mock).mockImplementation((filePath) => {
         return false;
       });
 
@@ -86,7 +86,7 @@ describe('Helpers', () => {
       const componentsDirectory = exists.map(
         (folder: string) => `@storybook/react/template/cli/${folder}`
       );
-      (fse.pathExists as jest.Mock).mockImplementation(
+      (fse.pathExists as vi.mock).mockImplementation(
         (filePath) =>
           componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
       );
@@ -110,7 +110,7 @@ describe('Helpers', () => {
   );
 
   it(`should copy to src folder when exists`, async () => {
-    (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
+    (fse.pathExists as vi.mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli' || filePath === './src';
     });
     await helpers.copyTemplateFiles({
@@ -122,7 +122,7 @@ describe('Helpers', () => {
   });
 
   it(`should copy to root folder when src doesn't exist`, async () => {
-    (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
+    (fse.pathExists as vi.mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli';
     });
     await helpers.copyTemplateFiles({

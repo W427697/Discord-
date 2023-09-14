@@ -3,7 +3,7 @@ import path from 'path';
 import { getFrameworkInfo } from './get-framework-info';
 import { getActualPackageJson } from './package-json';
 
-jest.mock('./package-json', () => ({
+vi.mock('./package-json', () => ({
   getActualPackageJson: jest.fn(),
 }));
 
@@ -36,7 +36,7 @@ describe('getFrameworkInfo', () => {
       },
     };
 
-    (getActualPackageJson as jest.Mock).mockResolvedValueOnce(frameworkPackageJson);
+    (getActualPackageJson as vi.mock).mockResolvedValueOnce(frameworkPackageJson);
 
     const result = await getFrameworkInfo({ framework } as StorybookConfig);
 

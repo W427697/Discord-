@@ -5,7 +5,7 @@ const { runCompodoc } = require('./run-compodoc');
 
 const mockRunScript = jest.fn();
 
-jest.mock('@storybook/cli', () => ({
+vi.mock('@storybook/cli', () => ({
   JsPackageManagerFactory: {
     getPackageManager: () => ({
       runPackageCommandSync: mockRunScript,

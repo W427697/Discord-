@@ -5,7 +5,7 @@ import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storyb
 import EventEmitter from 'events';
 import { init as initURL } from '../modules/url';
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 jest.useFakeTimers();
 
 describe('initial state', () => {

@@ -3,7 +3,7 @@ import findUp from 'find-up';
 import slash from 'slash';
 import { normalizeStoryPath, getProjectRoot } from '../paths';
 
-jest.mock('find-up');
+vi.mock('find-up');
 
 describe('paths - normalizeStoryPath()', () => {
   it('returns a path starting with "./" unchanged', () => {
@@ -43,7 +43,7 @@ describe('paths - normalizeStoryPath()', () => {
 });
 
 describe('getProjectRoot', () => {
-  const mockedFindUp = findUp as jest.Mocked<typeof findUp>;
+  const mockedFindUp = findUp as vi.mocked<typeof findUp>;
 
   it('should return the root directory containing a .git directory', () => {
     mockedFindUp.sync.mockImplementation((name) =>

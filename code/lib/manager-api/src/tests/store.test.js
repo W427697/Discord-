@@ -3,7 +3,7 @@ import flushPromises from 'flush-promises';
 
 import Store, { STORAGE_KEY } from '../store';
 
-jest.mock('store2', () => ({
+vi.mock('store2', () => ({
   local: {
     set: jest.fn(),
     get: jest.fn(),

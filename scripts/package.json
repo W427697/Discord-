@@ -28,7 +28,7 @@
     "release:write-changelog": "ts-node --swc ./release/write-changelog.ts",
     "strict-ts": "node --require esbuild-register ./strict-ts.ts",
     "task": "ts-node --swc ./task.ts",
-    "test": "jest --config ./jest.config.js",
+    "test": "vitest",
     "upgrade": "ts-node --swc ./task.ts",
     "upload-bench": "ts-node ./upload-bench.ts"
   },

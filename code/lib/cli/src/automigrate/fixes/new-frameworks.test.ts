@@ -4,8 +4,8 @@ import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
 import type { JsPackageManager } from '../../js-package-manager';
 
-jest.mock('find-up');
-jest.mock('../helpers/detectRenderer', () => ({
+vi.mock('find-up');
+vi.mock('../helpers/detectRenderer', () => ({
   detectRenderer: jest.fn(jest.requireActual('../helpers/detectRenderer').detectRenderer),
 }));
 

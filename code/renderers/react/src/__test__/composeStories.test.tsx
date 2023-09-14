@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 

@@ -6,7 +6,7 @@ import { CanvasRenderer } from './CanvasRenderer';
 import { RendererFactory } from './RendererFactory';
 import { DocsRenderer } from './DocsRenderer';
 
-jest.mock('@angular/platform-browser-dynamic');
+vi.mock('@angular/platform-browser-dynamic');
 
 declare const document: Document;
 describe('RendererFactory', () => {

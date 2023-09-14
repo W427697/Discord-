@@ -1,7 +1,7 @@
 import { wrapRequire } from './wrap-require';
 import * as detect from '../../detect';
 
-jest.mock('../../detect', () => ({
+vi.mock('../../detect', () => ({
   ...jest.requireActual('../../detect'),
   detectPnp: jest.fn(),
 }));

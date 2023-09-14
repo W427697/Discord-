@@ -5,7 +5,7 @@ import {
 } from './new-frameworks-utils';
 import type { JsPackageManager } from '../../js-package-manager';
 
-jest.mock('find-up');
+vi.mock('find-up');
 
 type GetBuilderInfoParams = Parameters<typeof _getBuilderInfo>[0]['mainConfig'];
 

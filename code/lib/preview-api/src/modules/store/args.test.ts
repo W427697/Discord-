@@ -18,7 +18,7 @@ const functionType: SBType = { name: 'function' };
 const numArrayType: SBType = { name: 'array', value: numberType };
 const boolObjectType: SBType = { name: 'object', value: { bool: booleanType } };
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 enum ArgsMapTestEnumWithoutInitializer {
   EnumValue,

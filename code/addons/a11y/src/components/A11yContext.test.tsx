@@ -8,8 +8,8 @@ import { HIGHLIGHT } from '@storybook/addon-highlight';
 import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/manager-api');
-const mockedApi = api as jest.Mocked<typeof api>;
+vi.mock('@storybook/manager-api');
+const mockedApi = api as vi.mocked<typeof api>;
 
 const storyId = 'jest';
 const axeResult: Partial<AxeResults> = {

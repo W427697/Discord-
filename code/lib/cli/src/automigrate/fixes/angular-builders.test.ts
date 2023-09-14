@@ -20,12 +20,12 @@ const checkAngularBuilders = async ({
   });
 };
 
-jest.mock('../../helpers', () => ({
+vi.mock('../../helpers', () => ({
   ...jest.requireActual('../../helpers'),
   isNxProject: jest.fn(),
 }));
 
-jest.mock('../../generators/ANGULAR/helpers', () => ({
+vi.mock('../../generators/ANGULAR/helpers', () => ({
   ...jest.requireActual('../../generators/ANGULAR/helpers'),
   AngularJSON: jest.fn(),
 }));
@@ -100,7 +100,7 @@ describe('is not Nx project', () => {
       describe('has one Storybook builder defined', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          (angularHelpers.AngularJSON as jest.Mock).mockImplementation(() => ({
+          (angularHelpers.AngularJSON as vi.mock).mockImplementation(() => ({
             hasStorybookBuilder: true,
           }));
         });
@@ -118,7 +118,7 @@ describe('is not Nx project', () => {
       describe('has multiple projects without root project defined', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          (angularHelpers.AngularJSON as jest.Mock).mockImplementation(() => ({
+          (angularHelpers.AngularJSON as vi.mock).mockImplementation(() => ({
             hasStorybookBuilder: false,
             projects: {
               project1: { root: 'project1', architect: {} },
@@ -141,7 +141,7 @@ describe('is not Nx project', () => {
       describe('has one project', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          (angularHelpers.AngularJSON as jest.Mock).mockImplementation(() => ({
+          (angularHelpers.AngularJSON as vi.mock).mockImplementation(() => ({
             hasStorybookBuilder: false,
             projects: {
               project1: { root: 'project1', architect: {} },

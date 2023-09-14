@@ -3,7 +3,7 @@ import { logger } from '.';
 
 globalThis.console = { log: jest.fn() } as any;
 
-jest.mock('npmlog', () => ({
+vi.mock('npmlog', () => ({
   info: jest.fn(),
   warn: jest.fn(),
   error: jest.fn(),

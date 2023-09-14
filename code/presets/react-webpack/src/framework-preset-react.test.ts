@@ -4,7 +4,7 @@ import type { Options } from '@storybook/core-webpack';
 import * as preset from './framework-preset-react';
 
 const mockApply = jest.fn();
-jest.mock('@pmmmwh/react-refresh-webpack-plugin', () => {
+vi.mock('@pmmmwh/react-refresh-webpack-plugin', () => {
   return jest.fn().mockImplementation(() => {
     return { apply: mockApply };
   });

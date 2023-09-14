@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 /**
  * @jest-environment node
@@ -11,7 +11,7 @@ import type { NormalizedStoriesSpecifier } from '@storybook/types';
 import type { StoryIndexGeneratorOptions } from '../StoryIndexGenerator';
 import { AUTODOCS_TAG, STORIES_MDX_TAG, StoryIndexGenerator } from '../StoryIndexGenerator';
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '..', '__mockdata__'),

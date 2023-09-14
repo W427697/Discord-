@@ -1,5 +1,5 @@
 /* eslint-disable local-rules/no-uncategorized-errors */
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 import prompts from 'prompts';
 import { loadAllPresets, cache } from '@storybook/core-common';
@@ -7,9 +7,9 @@ import { telemetry, oneWayHash } from '@storybook/telemetry';
 
 import { getErrorLevel, sendTelemetryError, withTelemetry } from './withTelemetry';
 
-jest.mock('prompts');
-jest.mock('@storybook/core-common');
-jest.mock('@storybook/telemetry');
+vi.mock('prompts');
+vi.mock('@storybook/core-common');
+vi.mock('@storybook/telemetry');
 
 const cliOptions = {};
 
@@ -80,7 +80,7 @@ describe('withTelemetry', () => {
     });
 
     it('does not send full error message when crash reports are disabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ enableCrashReports: false } as any),
       });
       await expect(async () =>
@@ -100,7 +100,7 @@ describe('withTelemetry', () => {
     });
 
     it('does send error message when crash reports are enabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ enableCrashReports: true } as any),
       });
 
@@ -121,7 +121,7 @@ describe('withTelemetry', () => {
     });
 
     it('does not send any error message when telemetry is disabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ disableTelemetry: true } as any),
       });
 
@@ -142,7 +142,7 @@ describe('withTelemetry', () => {
     });
 
     it('does send error messages when telemetry is disabled, but crash reports are enabled', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({ disableTelemetry: true, enableCrashReports: true } as any),
       });
 
@@ -163,10 +163,10 @@ describe('withTelemetry', () => {
     });
 
     it('does not send  full  error messages when disabled crash reports are cached', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(false);
+      vi.mocked(cache.get).mockResolvedValueOnce(false);
 
       await expect(async () =>
         withTelemetry(
@@ -185,10 +185,10 @@ describe('withTelemetry', () => {
     });
 
     it('does send error messages when enabled crash reports are cached', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(true);
+      vi.mocked(cache.get).mockResolvedValueOnce(true);
 
       await expect(async () =>
         withTelemetry(
@@ -207,11 +207,11 @@ describe('withTelemetry', () => {
     });
 
     it('does not send full error messages when disabled crash reports are prompted', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(undefined);
-      jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
+      vi.mocked(cache.get).mockResolvedValueOnce(undefined);
+      vi.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
 
       await expect(async () =>
         withTelemetry(
@@ -230,11 +230,11 @@ describe('withTelemetry', () => {
     });
 
     it('does send error messages when enabled crash reports are prompted', async () => {
-      jest.mocked(loadAllPresets).mockResolvedValueOnce({
+      vi.mocked(loadAllPresets).mockResolvedValueOnce({
         apply: async () => ({} as any),
       });
-      jest.mocked(cache.get).mockResolvedValueOnce(undefined);
-      jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
+      vi.mocked(cache.get).mockResolvedValueOnce(undefined);
+      vi.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
 
       await expect(async () =>
         withTelemetry(
@@ -255,7 +255,7 @@ describe('withTelemetry', () => {
     // if main.js has errors, we have no way to tell if they've disabled error reporting,
     // so we assume they have.
     it('does not send full error messages when presets fail to evaluate', async () => {
-      jest.mocked(loadAllPresets).mockRejectedValueOnce(error);
+      vi.mocked(loadAllPresets).mockRejectedValueOnce(error);
 
       await expect(async () =>
         withTelemetry(
@@ -284,7 +284,7 @@ describe('sendTelemetryError', () => {
     const mockError = new Error('Test error');
     const eventType: any = 'testEventType';
 
-    jest.mocked(oneWayHash).mockReturnValueOnce('some-hash');
+    vi.mocked(oneWayHash).mockReturnValueOnce('some-hash');
 
     await sendTelemetryError(mockError, eventType, options);
 
@@ -387,10 +387,10 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ enableCrashReports: true } as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(false);
+    vi.mocked(cache.get).mockResolvedValueOnce(false);
 
     const errorLevel = await getErrorLevel(options);
 
@@ -406,10 +406,10 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ enableCrashReports: false } as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(false);
+    vi.mocked(cache.get).mockResolvedValueOnce(false);
 
     const errorLevel = await getErrorLevel(options);
 
@@ -425,10 +425,10 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ disableTelemetry: true } as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(false);
+    vi.mocked(cache.get).mockResolvedValueOnce(false);
 
     const errorLevel = await getErrorLevel(options);
 
@@ -444,8 +444,8 @@ describe('getErrorLevel', () => {
       skipPrompt: false,
     };
 
-    jest.mocked(cache.get).mockResolvedValueOnce(true);
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(cache.get).mockResolvedValueOnce(true);
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
 
@@ -463,10 +463,10 @@ describe('getErrorLevel', () => {
       skipPrompt: true,
     };
 
-    jest.mocked(loadAllPresets).mockResolvedValueOnce({
+    vi.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({} as any),
     });
-    jest.mocked(cache.get).mockResolvedValueOnce(undefined);
+    vi.mocked(cache.get).mockResolvedValueOnce(undefined);
 
     const errorLevel = await getErrorLevel(options);
 

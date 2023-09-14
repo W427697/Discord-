@@ -15,7 +15,6 @@ module.exports = {
     'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
     'import/extensions': 'off', // for mjs, we sometimes need extensions
-    'jest/no-done-callback': 'off',
     '@typescript-eslint/dot-notation': [
       'error',
       {
@@ -40,15 +39,7 @@ module.exports = {
       },
     },
     {
-      files: [
-        '*.js',
-        '*.jsx',
-        '*.json',
-        '*.html',
-        '**/.storybook/*.ts',
-        '**/.storybook/*.tsx',
-        'setup-jest.ts',
-      ],
+      files: ['*.js', '*.jsx', '*.json', '*.html', '**/.storybook/*.ts', '**/.storybook/*.tsx'],
       parserOptions: {
         project: null,
       },
@@ -140,12 +131,6 @@ module.exports = {
         'vars-on-top': 'off',
         'no-var': 'off', // this is how typescript works
         'spaced-comment': 'off',
-      },
-    },
-    {
-      files: ['**/e2e-tests/**/*'],
-      rules: {
-        'jest/no-test-callback': 'off', // These aren't jest tests
       },
     },
     {

@@ -19,7 +19,7 @@ jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
 const mockRunScript = jest.fn();
 
-jest.mock('@storybook/cli', () => ({
+vi.mock('@storybook/cli', () => ({
   getEnvConfig: (options: any) => options,
   versions: {
     storybook: 'x.x.x',

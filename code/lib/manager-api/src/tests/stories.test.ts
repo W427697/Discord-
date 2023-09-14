@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 import {
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
@@ -26,17 +26,17 @@ import { mockEntries, docsEntries, preparedEntries, navigationEntries } from './
 import type { ModuleArgs } from '../lib/types';
 
 const mockGetEntries = jest.fn();
-const fetch = global.fetch as jest.Mock<ReturnType<typeof global.fetch>>;
-const getEventMetadata = getEventMetadataOriginal as unknown as jest.Mock<
+const fetch = global.fetch as vi.mock<ReturnType<typeof global.fetch>>;
+const getEventMetadata = getEventMetadataOriginal as unknown as vi.mock<
   ReturnType<typeof getEventMetadataOriginal>
 >;
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-jest.mock('../lib/events', () => ({
+vi.mock('../lib/events', () => ({
   getEventMetadata: jest.fn(() => ({ sourceType: 'local' })),
 }));
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
@@ -65,7 +65,7 @@ function createMockModuleArgs({
   fullAPI = {},
   initialState = {},
 }: {
-  fullAPI?: Partial<jest.Mocked<API>>;
+  fullAPI?: Partial<vi.mocked<API>>;
   initialState?: Partial<State>;
 }) {
   const navigate = jest.fn();

@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, test, it, expect } from 'vitest';
 
 import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
@@ -8,7 +8,7 @@ import { addons, HooksContext } from '../../addons';
 import { UNTARGETED } from '../args';
 import { prepareStory, prepareMeta, prepareContext } from './prepareStory';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     ...(jest.requireActual('@storybook/global') as any),
   },

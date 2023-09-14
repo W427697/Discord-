@@ -1,12 +1,12 @@
-/// <reference types="@types/jest" />;
-
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, vi } from 'vitest';
+
 import path from 'path';
 import type { JsPackageManager } from '../../js-package-manager';
 import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-global-client-apis';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
 const check = async ({ contents, previewConfigPath }: any) => {
   if (contents) {

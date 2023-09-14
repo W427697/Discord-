@@ -4,7 +4,7 @@ import { pathToId, setPath, getSelectionSpecifierFromPath } from './UrlStore';
 
 const { history, document } = global;
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     history: { replaceState: jest.fn() },
     document: {

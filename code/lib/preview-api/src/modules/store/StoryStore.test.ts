@@ -7,15 +7,15 @@ import { StoryStore } from './StoryStore';
 import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
-jest.mock('./csf/prepareStory', () => ({
+vi.mock('./csf/prepareStory', () => ({
   ...jest.requireActual('./csf/prepareStory'),
   prepareStory: jest.fn(jest.requireActual('./csf/prepareStory').prepareStory),
 }));
-jest.mock('./csf/processCSFFile', () => ({
+vi.mock('./csf/processCSFFile', () => ({
   processCSFFile: jest.fn(jest.requireActual('./csf/processCSFFile').processCSFFile),
 }));
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     ...(jest.requireActual('@storybook/global') as any),
   },

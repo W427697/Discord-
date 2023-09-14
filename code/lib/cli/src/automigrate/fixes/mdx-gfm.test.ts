@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import { mdxgfm } from './mdx-gfm';
 
-jest.mock('globby', () => ({
+vi.mock('globby', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue(['a/fake/file.mdx']),
 }));

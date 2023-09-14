@@ -3,10 +3,10 @@ import type { Addon_BaseType } from '@storybook/types';
 import { PANEL_ID } from './constants';
 import './manager';
 
-jest.mock('@storybook/manager-api');
-const mockedApi = api as unknown as jest.Mocked<api.API>;
+vi.mock('@storybook/manager-api');
+const mockedApi = api as unknown as vi.mocked<api.API>;
 mockedApi.useAddonState = jest.fn();
-const mockedAddons = api.addons as jest.Mocked<typeof api.addons>;
+const mockedAddons = api.addons as vi.mocked<typeof api.addons>;
 const registrationImpl = mockedAddons.register.mock.calls[0][1];
 
 const isPanel = (input: Parameters<typeof mockedAddons.add>[1]): input is Addon_BaseType =>

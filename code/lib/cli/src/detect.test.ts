@@ -4,27 +4,27 @@ import { detect, detectFrameworkPreset, detectLanguage } from './detect';
 import { ProjectType, SupportedLanguage } from './project_types';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
 
-jest.mock('./helpers', () => ({
+vi.mock('./helpers', () => ({
   isNxProject: jest.fn(),
 }));
 
-jest.mock('fs', () => ({
+vi.mock('fs', () => ({
   existsSync: jest.fn(),
   stat: jest.fn(),
   lstat: jest.fn(),
   access: jest.fn(),
 }));
 
-jest.mock('fs-extra', () => ({
+vi.mock('fs-extra', () => ({
   pathExistsSync: jest.fn(() => true),
 }));
 
-jest.mock('path', () => ({
+vi.mock('path', () => ({
   // make it return just the second path, for easier testing
   join: jest.fn((_, p) => p),
 }));
 
-jest.mock('@storybook/node-logger');
+vi.mock('@storybook/node-logger');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;
@@ -244,7 +244,7 @@ describe('Detect', () => {
   });
 
   it(`should return language javascript if the TS dependency is present but less than minimum supported`, async () => {
-    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
+    (logger.warn as vi.mockedFunction<typeof logger.warn>).mockClear();
 
     const packageManager = {
       retrievePackageJson: () =>
@@ -438,7 +438,7 @@ describe('Detect', () => {
 
     MOCK_FRAMEWORK_FILES.forEach((structure) => {
       it(`${structure.name}`, () => {
-        (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
+        (fs.existsSync as vi.mock).mockImplementation((filePath) => {
           return Object.keys(structure.files).includes(filePath);
         });
 
@@ -471,7 +471,7 @@ describe('Detect', () => {
         '/node_modules/.bin/react-scripts': 'file content',
       };
 
-      (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
+      (fs.existsSync as vi.mock).mockImplementation((filePath) => {
         return Object.keys(forkedReactScriptsConfig).includes(filePath);
       });
 

@@ -7,11 +7,11 @@ import * as api from '@storybook/manager-api';
 import { A11YPanel } from './A11YPanel';
 import { EVENTS } from '../constants';
 
-jest.mock('@storybook/manager-api');
+vi.mock('@storybook/manager-api');
 
 global.ResizeObserver = require('resize-observer-polyfill');
 
-const mockedApi = api as jest.Mocked<typeof api>;
+const mockedApi = api as vi.mocked<typeof api>;
 
 const axeResult = {
   incomplete: [

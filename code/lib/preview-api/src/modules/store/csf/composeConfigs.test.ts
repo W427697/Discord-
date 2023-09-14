@@ -3,7 +3,7 @@ import { global } from '@storybook/global';
 
 import { composeConfigs } from './composeConfigs';
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     FEATURES: {},
   },

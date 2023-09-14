@@ -1,4 +1,4 @@
-/// <reference types="@types/jest" />;
+import { describe, it, expect, vi } from 'vitest';
 
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
@@ -16,9 +16,9 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { csfIndexer } from '../presets/common-preset';
 
-jest.mock('watchpack');
-jest.mock('lodash/debounce');
-jest.mock('@storybook/node-logger');
+vi.mock('watchpack');
+vi.mock('lodash/debounce');
+vi.mock('@storybook/node-logger');
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
@@ -80,7 +80,7 @@ describe('useStoriesJson', () => {
     use.mockClear();
     send.mockClear();
     write.mockClear();
-    (debounce as jest.Mock).mockImplementation((cb) => cb);
+    (debounce as vi.mock).mockImplementation((cb) => cb);
   });
 
   const request: Request = {
@@ -981,7 +981,7 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce.js') as any);
+      (debounce as vi.mock).mockImplementation(jest.requireActual('lodash/debounce.js') as any);
 
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({

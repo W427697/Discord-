@@ -32,7 +32,7 @@ expect.extend({
   },
 });
 
-jest.mock('fs', () => {
+vi.mock('fs', () => {
   const mockStat = (
     path: string,
     options: Record<string, any>,

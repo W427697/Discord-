@@ -1,10 +1,10 @@
 import { init as initVersions } from '../modules/versions';
 
-jest.mock('../version', () => ({
+vi.mock('../version', () => ({
   version: '3.0.0',
 }));
 
-jest.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', () => ({
   global: {
     VERSIONCHECK: JSON.stringify({
       success: true,
@@ -21,7 +21,7 @@ jest.mock('@storybook/global', () => ({
   },
 }));
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 function createMockStore() {
   let state = {
@@ -42,7 +42,7 @@ function createMockStore() {
   };
 }
 
-jest.mock('@storybook/client-logger');
+vi.mock('@storybook/client-logger');
 
 describe('versions API', () => {
   it('sets initial state with current version', async () => {
