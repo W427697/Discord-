@@ -1227,9 +1227,9 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "pending",
               "title": "an addon title",
@@ -1256,16 +1256,16 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "pending",
               "title": "an addon title",
             },
           },
-          "another-story-id": Object {
-            "a-addon-id": Object {
+          "another-story-id": {
+            "a-addon-id": {
               "description": "",
               "status": "success",
               "title": "a addon title",
@@ -1301,9 +1301,9 @@ describe('stories API', () => {
       ).resolves.not.toThrow();
 
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "another-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "another-story-id": {
+            "a-addon-id": {
               "description": "",
               "status": "success",
               "title": "a addon title",
@@ -1340,16 +1340,16 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "success",
               "title": "an addon title",
             },
           },
-          "another-story-id": Object {
-            "a-addon-id": Object {
+          "another-story-id": {
+            "a-addon-id": {
               "description": "",
               "status": "success",
               "title": "a addon title",
@@ -1401,9 +1401,9 @@ describe('stories API', () => {
       const { index } = store.getState();
 
       expect(index).toMatchInlineSnapshot(`
-        Object {
-          "a": Object {
-            "children": Array [
+        {
+          "a": {
+            "children": [
               "a--1",
               "a--2",
             ],
@@ -1417,7 +1417,7 @@ describe('stories API', () => {
             "renderLabel": undefined,
             "type": "component",
           },
-          "a--1": Object {
+          "a--1": {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
@@ -1432,7 +1432,7 @@ describe('stories API', () => {
             "title": "a",
             "type": "story",
           },
-          "a--2": Object {
+          "a--2": {
             "depth": 1,
             "id": "a--2",
             "importPath": "./a.ts",
@@ -1465,7 +1465,7 @@ describe('stories API', () => {
       );
 
       // empty, because there are no stories with status
-      expect(store.getState().index).toMatchInlineSnapshot(`Object {}`);
+      expect(store.getState().index).toMatchInlineSnapshot('{}');
 
       // setting status should update the index
       await api.experimental_updateStatus('a-addon-id', {
@@ -1478,9 +1478,9 @@ describe('stories API', () => {
       });
 
       expect(store.getState().index).toMatchInlineSnapshot(`
-        Object {
-          "a": Object {
-            "children": Array [
+        {
+          "a": {
+            "children": [
               "a--1",
             ],
             "depth": 0,
@@ -1493,7 +1493,7 @@ describe('stories API', () => {
             "renderLabel": undefined,
             "type": "component",
           },
-          "a--1": Object {
+          "a--1": {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
@@ -1525,9 +1525,9 @@ describe('stories API', () => {
       const { index } = store.getState();
 
       expect(index).toMatchInlineSnapshot(`
-        Object {
-          "a": Object {
-            "children": Array [
+        {
+          "a": {
+            "children": [
               "a--1",
               "a--2",
             ],
@@ -1541,7 +1541,7 @@ describe('stories API', () => {
             "renderLabel": undefined,
             "type": "component",
           },
-          "a--1": Object {
+          "a--1": {
             "depth": 1,
             "id": "a--1",
             "importPath": "./a.ts",
@@ -1556,7 +1556,7 @@ describe('stories API', () => {
             "title": "a",
             "type": "story",
           },
-          "a--2": Object {
+          "a--2": {
             "depth": 1,
             "id": "a--2",
             "importPath": "./a.ts",

@@ -215,52 +215,52 @@ describe('Yarn 2 Proxy', () => {
       const installations = await yarn2Proxy.findInstallations(['@storybook/*']);
 
       expect(installations).toMatchInlineSnapshot(`
-        Object {
+        {
           "dedupeCommand": "yarn dedupe",
-          "dependencies": Object {
-            "@storybook/global": Array [
-              Object {
+          "dependencies": {
+            "@storybook/global": [
+              {
                 "location": "",
                 "version": "5.0.0",
               },
             ],
-            "@storybook/instrumenter": Array [
-              Object {
+            "@storybook/instrumenter": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.12",
               },
-              Object {
+              {
                 "location": "",
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/jest": Array [
-              Object {
+            "@storybook/jest": [
+              {
                 "location": "",
                 "version": "0.0.11-next.0",
               },
             ],
-            "@storybook/manager": Array [
-              Object {
+            "@storybook/manager": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/manager-api": Array [
-              Object {
+            "@storybook/manager-api": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/mdx2-csf": Array [
-              Object {
+            "@storybook/mdx2-csf": [
+              {
                 "location": "",
                 "version": "0.1.0-next.5",
               },
             ],
           },
-          "duplicatedDependencies": Object {
-            "@storybook/instrumenter": Array [
+          "duplicatedDependencies": {
+            "@storybook/instrumenter": [
               "7.0.0-beta.12",
               "7.0.0-beta.19",
             ],

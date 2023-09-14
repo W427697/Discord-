@@ -47,7 +47,7 @@ describe('A11yManager', () => {
         >
           <span
             style={
-              Object {
+              {
                 "display": "inline-block",
                 "verticalAlign": "middle",
               }
@@ -81,7 +81,7 @@ describe('A11yManager', () => {
         >
           <span
             style={
-              Object {
+              {
                 "display": "inline-block",
                 "verticalAlign": "middle",
               }

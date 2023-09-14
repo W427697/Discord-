@@ -319,41 +319,41 @@ describe('StoryStore', () => {
       });
 
       expect(store.extract()).toMatchInlineSnapshot(`
-        Object {
-          "component-one--a": Object {
-            "argTypes": Object {
-              "a": Object {
+        {
+          "component-one--a": {
+            "argTypes": {
+              "a": {
                 "name": "a",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "foo": Object {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "foo": "a",
             },
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--a",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "a",
             },
             "kind": "Component One",
             "name": "A",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
               "fileName": "./src/ComponentOne-new.stories.js",
             },
             "playFunction": undefined,
             "story": "A",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
@@ -522,117 +522,117 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       expect(store.extract()).toMatchInlineSnapshot(`
-        Object {
-          "component-one--a": Object {
-            "argTypes": Object {
-              "a": Object {
+        {
+          "component-one--a": {
+            "argTypes": {
+              "a": {
                 "name": "a",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "foo": Object {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "foo": "a",
             },
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--a",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "a",
             },
             "kind": "Component One",
             "name": "A",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
               "fileName": "./src/ComponentOne.stories.js",
             },
             "playFunction": undefined,
             "story": "A",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
           },
-          "component-one--b": Object {
-            "argTypes": Object {
-              "a": Object {
+          "component-one--b": {
+            "argTypes": {
+              "a": {
                 "name": "a",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "foo": Object {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "foo": "b",
             },
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--b",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "b",
             },
             "kind": "Component One",
             "name": "B",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
               "fileName": "./src/ComponentOne.stories.js",
             },
             "playFunction": undefined,
             "story": "B",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
           },
-          "component-two--c": Object {
-            "argTypes": Object {
-              "a": Object {
+          "component-two--c": {
+            "argTypes": {
+              "a": {
                 "name": "a",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "foo": Object {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "foo": "c",
             },
             "component": undefined,
             "componentId": "component-two",
             "id": "component-two--c",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "c",
             },
             "kind": "Component Two",
             "name": "C",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
               "fileName": "./src/ComponentTwo.stories.js",
             },
             "playFunction": undefined,
             "story": "C",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component Two",
@@ -714,19 +714,19 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       expect(store.raw()).toMatchInlineSnapshot(`
-        Array [
-          Object {
+        [
+          {
             "applyLoaders": [Function],
-            "argTypes": Object {
-              "a": Object {
+            "argTypes": {
+              "a": {
                 "name": "a",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "foo": Object {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
@@ -734,18 +734,18 @@ describe('StoryStore', () => {
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--a",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "a",
             },
             "kind": "Component One",
-            "moduleExport": Object {
-              "args": Object {
+            "moduleExport": {
+              "args": {
                 "foo": "a",
               },
             },
             "name": "A",
-            "originalStoryFn": [MockFunction],
-            "parameters": Object {
+            "originalStoryFn": [MockFunction spy],
+            "parameters": {
               "__isArgsStory": false,
               "fileName": "./src/ComponentOne.stories.js",
             },
@@ -753,25 +753,25 @@ describe('StoryStore', () => {
             "story": "A",
             "storyFn": [Function],
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
             "unboundStoryFn": [Function],
             "undecoratedStoryFn": [Function],
           },
-          Object {
+          {
             "applyLoaders": [Function],
-            "argTypes": Object {
-              "a": Object {
+            "argTypes": {
+              "a": {
                 "name": "a",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "foo": Object {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
@@ -779,18 +779,18 @@ describe('StoryStore', () => {
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--b",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "b",
             },
             "kind": "Component One",
-            "moduleExport": Object {
-              "args": Object {
+            "moduleExport": {
+              "args": {
                 "foo": "b",
               },
             },
             "name": "B",
-            "originalStoryFn": [MockFunction],
-            "parameters": Object {
+            "originalStoryFn": [MockFunction spy],
+            "parameters": {
               "__isArgsStory": false,
               "fileName": "./src/ComponentOne.stories.js",
             },
@@ -798,25 +798,25 @@ describe('StoryStore', () => {
             "story": "B",
             "storyFn": [Function],
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
             "unboundStoryFn": [Function],
             "undecoratedStoryFn": [Function],
           },
-          Object {
+          {
             "applyLoaders": [Function],
-            "argTypes": Object {
-              "a": Object {
+            "argTypes": {
+              "a": {
                 "name": "a",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "foo": Object {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
@@ -824,18 +824,18 @@ describe('StoryStore', () => {
             "component": undefined,
             "componentId": "component-two",
             "id": "component-two--c",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "c",
             },
             "kind": "Component Two",
-            "moduleExport": Object {
-              "args": Object {
+            "moduleExport": {
+              "args": {
                 "foo": "c",
               },
             },
             "name": "C",
-            "originalStoryFn": [MockFunction],
-            "parameters": Object {
+            "originalStoryFn": [MockFunction spy],
+            "parameters": {
               "__isArgsStory": false,
               "fileName": "./src/ComponentTwo.stories.js",
             },
@@ -843,7 +843,7 @@ describe('StoryStore', () => {
             "story": "C",
             "storyFn": [Function],
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component Two",
@@ -863,126 +863,126 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       expect(store.getSetStoriesPayload()).toMatchInlineSnapshot(`
-        Object {
-          "globalParameters": Object {},
-          "globals": Object {
+        {
+          "globalParameters": {},
+          "globals": {
             "a": "b",
           },
-          "kindParameters": Object {
-            "Component One": Object {},
-            "Component Two": Object {},
+          "kindParameters": {
+            "Component One": {},
+            "Component Two": {},
           },
-          "stories": Object {
-            "component-one--a": Object {
-              "argTypes": Object {
-                "a": Object {
+          "stories": {
+            "component-one--a": {
+              "argTypes": {
+                "a": {
                   "name": "a",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
-                "foo": Object {
+                "foo": {
                   "name": "foo",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
               },
-              "args": Object {
+              "args": {
                 "foo": "a",
               },
               "component": undefined,
               "componentId": "component-one",
               "id": "component-one--a",
-              "initialArgs": Object {
+              "initialArgs": {
                 "foo": "a",
               },
               "kind": "Component One",
               "name": "A",
-              "parameters": Object {
+              "parameters": {
                 "__isArgsStory": false,
                 "fileName": "./src/ComponentOne.stories.js",
               },
               "playFunction": undefined,
               "story": "A",
               "subcomponents": undefined,
-              "tags": Array [
+              "tags": [
                 "story",
               ],
               "title": "Component One",
             },
-            "component-one--b": Object {
-              "argTypes": Object {
-                "a": Object {
+            "component-one--b": {
+              "argTypes": {
+                "a": {
                   "name": "a",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
-                "foo": Object {
+                "foo": {
                   "name": "foo",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
               },
-              "args": Object {
+              "args": {
                 "foo": "b",
               },
               "component": undefined,
               "componentId": "component-one",
               "id": "component-one--b",
-              "initialArgs": Object {
+              "initialArgs": {
                 "foo": "b",
               },
               "kind": "Component One",
               "name": "B",
-              "parameters": Object {
+              "parameters": {
                 "__isArgsStory": false,
                 "fileName": "./src/ComponentOne.stories.js",
               },
               "playFunction": undefined,
               "story": "B",
               "subcomponents": undefined,
-              "tags": Array [
+              "tags": [
                 "story",
               ],
               "title": "Component One",
             },
-            "component-two--c": Object {
-              "argTypes": Object {
-                "a": Object {
+            "component-two--c": {
+              "argTypes": {
+                "a": {
                   "name": "a",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
-                "foo": Object {
+                "foo": {
                   "name": "foo",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
               },
-              "args": Object {
+              "args": {
                 "foo": "c",
               },
               "component": undefined,
               "componentId": "component-two",
               "id": "component-two--c",
-              "initialArgs": Object {
+              "initialArgs": {
                 "foo": "c",
               },
               "kind": "Component Two",
               "name": "C",
-              "parameters": Object {
+              "parameters": {
                 "__isArgsStory": false,
                 "fileName": "./src/ComponentTwo.stories.js",
               },
               "playFunction": undefined,
               "story": "C",
               "subcomponents": undefined,
-              "tags": Array [
+              "tags": [
                 "story",
               ],
               "title": "Component Two",
@@ -1003,38 +1003,38 @@ describe('StoryStore', () => {
         await store.cacheAllCSFFiles();
 
         expect(store.getStoriesJsonData()).toMatchInlineSnapshot(`
-          Object {
-            "stories": Object {
-              "component-one--a": Object {
+          {
+            "stories": {
+              "component-one--a": {
                 "id": "component-one--a",
                 "importPath": "./src/ComponentOne.stories.js",
                 "kind": "Component One",
                 "name": "A",
-                "parameters": Object {
+                "parameters": {
                   "__isArgsStory": false,
                   "fileName": "./src/ComponentOne.stories.js",
                 },
                 "story": "A",
                 "title": "Component One",
               },
-              "component-one--b": Object {
+              "component-one--b": {
                 "id": "component-one--b",
                 "importPath": "./src/ComponentOne.stories.js",
                 "kind": "Component One",
                 "name": "B",
-                "parameters": Object {
+                "parameters": {
                   "__isArgsStory": false,
                   "fileName": "./src/ComponentOne.stories.js",
                 },
                 "story": "B",
                 "title": "Component One",
               },
-              "component-two--c": Object {
+              "component-two--c": {
                 "id": "component-two--c",
                 "importPath": "./src/ComponentTwo.stories.js",
                 "kind": "Component Two",
                 "name": "C",
-                "parameters": Object {
+                "parameters": {
                   "__isArgsStory": false,
                   "fileName": "./src/ComponentTwo.stories.js",
                 },
@@ -1057,95 +1057,95 @@ describe('StoryStore', () => {
       await store.cacheAllCSFFiles();
 
       expect(store.getSetIndexPayload()).toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-one--a": Object {
-              "argTypes": Object {
-                "a": Object {
+        {
+          "entries": {
+            "component-one--a": {
+              "argTypes": {
+                "a": {
                   "name": "a",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
-                "foo": Object {
+                "foo": {
                   "name": "foo",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
               },
-              "args": Object {
+              "args": {
                 "foo": "a",
               },
               "id": "component-one--a",
               "importPath": "./src/ComponentOne.stories.js",
-              "initialArgs": Object {
+              "initialArgs": {
                 "foo": "a",
               },
               "name": "A",
-              "parameters": Object {
+              "parameters": {
                 "__isArgsStory": false,
                 "fileName": "./src/ComponentOne.stories.js",
               },
               "title": "Component One",
               "type": "story",
             },
-            "component-one--b": Object {
-              "argTypes": Object {
-                "a": Object {
+            "component-one--b": {
+              "argTypes": {
+                "a": {
                   "name": "a",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
-                "foo": Object {
+                "foo": {
                   "name": "foo",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
               },
-              "args": Object {
+              "args": {
                 "foo": "b",
               },
               "id": "component-one--b",
               "importPath": "./src/ComponentOne.stories.js",
-              "initialArgs": Object {
+              "initialArgs": {
                 "foo": "b",
               },
               "name": "B",
-              "parameters": Object {
+              "parameters": {
                 "__isArgsStory": false,
                 "fileName": "./src/ComponentOne.stories.js",
               },
               "title": "Component One",
               "type": "story",
             },
-            "component-two--c": Object {
-              "argTypes": Object {
-                "a": Object {
+            "component-two--c": {
+              "argTypes": {
+                "a": {
                   "name": "a",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
-                "foo": Object {
+                "foo": {
                   "name": "foo",
-                  "type": Object {
+                  "type": {
                     "name": "string",
                   },
                 },
               },
-              "args": Object {
+              "args": {
                 "foo": "c",
               },
               "id": "component-two--c",
               "importPath": "./src/ComponentTwo.stories.js",
-              "initialArgs": Object {
+              "initialArgs": {
                 "foo": "c",
               },
               "name": "C",
-              "parameters": Object {
+              "parameters": {
                 "__isArgsStory": false,
                 "fileName": "./src/ComponentTwo.stories.js",
               },

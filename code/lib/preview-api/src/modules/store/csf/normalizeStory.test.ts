@@ -48,16 +48,16 @@ describe('normalizeStory', () => {
       const storyFn = () => {};
       const meta = { id: 'title', title: 'title' };
       expect(normalizeStory('storyExport', storyFn, meta)).toMatchInlineSnapshot(`
-        Object {
-          "argTypes": Object {},
-          "args": Object {},
-          "decorators": Array [],
+        {
+          "argTypes": {},
+          "args": {},
+          "decorators": [],
           "id": "title--story-export",
-          "loaders": Array [],
+          "loaders": [],
           "moduleExport": [Function],
           "name": "Story Export",
-          "parameters": Object {},
-          "tags": Array [],
+          "parameters": {},
+          "tags": [],
           "userStoryFn": [Function],
         }
       `);
@@ -117,16 +117,16 @@ describe('normalizeStory', () => {
         const meta = { id: 'title', title: 'title' };
         const normalized = normalizeStory('storyExport', storyObj, meta);
         expect(normalized).toMatchInlineSnapshot(`
-          Object {
-            "argTypes": Object {},
-            "args": Object {},
-            "decorators": Array [],
+          {
+            "argTypes": {},
+            "args": {},
+            "decorators": [],
             "id": "title--story-export",
-            "loaders": Array [],
-            "moduleExport": Object {},
+            "loaders": [],
+            "moduleExport": {},
             "name": "Story Export",
-            "parameters": Object {},
-            "tags": Array [],
+            "parameters": {},
+            "tags": [],
           }
         `);
         expect(normalized.moduleExport).toBe(storyObj);
@@ -144,30 +144,30 @@ describe('normalizeStory', () => {
         const meta = { id: 'title', title: 'title' };
         const { moduleExport, ...normalized } = normalizeStory('storyExport', storyObj, meta);
         expect(normalized).toMatchInlineSnapshot(`
-          Object {
-            "argTypes": Object {
-              "storyArgType": Object {
+          {
+            "argTypes": {
+              "storyArgType": {
                 "name": "storyArgType",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "storyArg": "val",
             },
-            "decorators": Array [
+            "decorators": [
               [Function],
             ],
             "id": "title--story-export",
-            "loaders": Array [
+            "loaders": [
               [Function],
             ],
             "name": "story name",
-            "parameters": Object {
+            "parameters": {
               "storyParam": "val",
             },
-            "tags": Array [],
+            "tags": [],
           }
         `);
         expect(moduleExport).toBe(storyObj);
@@ -192,40 +192,40 @@ describe('normalizeStory', () => {
         const meta = { id: 'title', title: 'title' };
         const { moduleExport, ...normalized } = normalizeStory('storyExport', storyObj, meta);
         expect(normalized).toMatchInlineSnapshot(`
-          Object {
-            "argTypes": Object {
-              "storyArgType": Object {
+          {
+            "argTypes": {
+              "storyArgType": {
                 "name": "storyArgType",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "storyArgType2": Object {
+              "storyArgType2": {
                 "name": "storyArgType2",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "storyArg": "val",
               "storyArg2": "legacy",
             },
-            "decorators": Array [
+            "decorators": [
               [Function],
               [Function],
             ],
             "id": "title--story-export",
-            "loaders": Array [
+            "loaders": [
               [Function],
               [Function],
             ],
             "name": "story name",
-            "parameters": Object {
+            "parameters": {
               "storyParam": "val",
               "storyParam2": "legacy",
             },
-            "tags": Array [],
+            "tags": [],
           }
         `);
         expect(moduleExport).toBe(storyObj);

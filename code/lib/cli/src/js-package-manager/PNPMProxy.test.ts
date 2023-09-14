@@ -312,58 +312,58 @@ describe('PNPM Proxy', () => {
       const installations = await pnpmProxy.findInstallations(['@storybook/*']);
 
       expect(installations).toMatchInlineSnapshot(`
-        Object {
+        {
           "dedupeCommand": "pnpm dedupe",
-          "dependencies": Object {
-            "@storybook/addon-interactions": Array [
-              Object {
+          "dependencies": {
+            "@storybook/addon-interactions": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/addons": Array [
-              Object {
+            "@storybook/addons": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/builder-webpack5": Array [
-              Object {
+            "@storybook/builder-webpack5": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/instrumenter": Array [
-              Object {
+            "@storybook/instrumenter": [
+              {
                 "location": "",
                 "version": "7.0.0-rc.7",
               },
-              Object {
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/jest": Array [
-              Object {
+            "@storybook/jest": [
+              {
                 "location": "",
                 "version": "0.0.11-next.0",
               },
             ],
-            "@storybook/nextjs": Array [
-              Object {
+            "@storybook/nextjs": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.13",
               },
             ],
-            "@storybook/testing-library": Array [
-              Object {
+            "@storybook/testing-library": [
+              {
                 "location": "",
                 "version": "0.0.14-next.1",
               },
             ],
           },
-          "duplicatedDependencies": Object {
-            "@storybook/instrumenter": Array [
+          "duplicatedDependencies": {
+            "@storybook/instrumenter": [
               "7.0.0-rc.7",
               "7.0.0-beta.13",
             ],

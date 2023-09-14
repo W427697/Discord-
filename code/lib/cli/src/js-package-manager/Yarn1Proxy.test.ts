@@ -237,34 +237,34 @@ describe('Yarn 1 Proxy', () => {
       const installations = await yarn1Proxy.findInstallations(['@storybook/*']);
 
       expect(installations).toMatchInlineSnapshot(`
-        Object {
+        {
           "dedupeCommand": "yarn dedupe",
-          "dependencies": Object {
-            "@storybook/addon-interactions": Array [
-              Object {
+          "dependencies": {
+            "@storybook/addon-interactions": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/instrumenter": Array [
-              Object {
+            "@storybook/instrumenter": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.12",
               },
-              Object {
+              {
                 "location": "",
                 "version": "7.0.0-beta.19",
               },
             ],
-            "@storybook/types": Array [
-              Object {
+            "@storybook/types": [
+              {
                 "location": "",
                 "version": "7.0.0-beta.12",
               },
             ],
           },
-          "duplicatedDependencies": Object {
-            "@storybook/instrumenter": Array [
+          "duplicatedDependencies": {
+            "@storybook/instrumenter": [
               "7.0.0-beta.12",
               "7.0.0-beta.19",
             ],

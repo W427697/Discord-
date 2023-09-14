@@ -36,11 +36,11 @@ describe('addReact fix', () => {
         devDependencies: { '@storybook/addon-docs': '*', 'react-dom': '*' },
       })
     ).resolves.toMatchInlineSnapshot(`
-      Object {
-        "additionalDependencies": Array [
+      {
+        "additionalDependencies": [
           "react",
         ],
-        "dependents": Array [
+        "dependents": [
           "@storybook/addon-docs",
         ],
       }
@@ -54,11 +54,11 @@ describe('addReact fix', () => {
         devDependencies: { '@storybook/addon-essentials': '*', react: '*' },
       })
     ).resolves.toMatchInlineSnapshot(`
-      Object {
-        "additionalDependencies": Array [
+      {
+        "additionalDependencies": [
           "react-dom",
         ],
-        "dependents": Array [
+        "dependents": [
           "@storybook/addon-essentials",
         ],
       }

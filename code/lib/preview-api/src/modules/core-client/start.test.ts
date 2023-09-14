@@ -137,72 +137,72 @@ describe('start', () => {
 
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-a--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--story-one",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__id": "component-a--story-one",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-a--story-one": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--story-one",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__id": "component-a--story-one",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
-            },
-            "component-a--story-two": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--story-two",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "Story Two",
-              "parameters": Object {
-                "__id": "component-a--story-two",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+              "component-a--story-two": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--story-two",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "Story Two",
+                "parameters": {
+                  "__id": "component-a--story-two",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
-            },
-            "component-b--story-three": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-b",
-              "id": "component-b--story-three",
-              "importPath": "file2",
-              "initialArgs": Object {},
-              "name": "Story Three",
-              "parameters": Object {
-                "__id": "component-b--story-three",
-                "__isArgsStory": false,
-                "fileName": "file2",
-                "renderer": "test",
+              "component-b--story-three": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-b",
+                "id": "component-b--story-three",
+                "importPath": "file2",
+                "initialArgs": {},
+                "name": "Story Three",
+                "parameters": {
+                  "__id": "component-b--story-three",
+                  "__isArgsStory": false,
+                  "fileName": "file2",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component B",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component B",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
 
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--story-one');
@@ -419,52 +419,52 @@ describe('start', () => {
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-a--default": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--default",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "default",
-              "parameters": Object {
-                "__id": "component-a--default",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-a--default": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--default",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "default",
+                "parameters": {
+                  "__id": "component-a--default",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
-            },
-            "component-a--new": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--new",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "new",
-              "parameters": Object {
-                "__id": "component-a--new",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+              "component-a--new": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--new",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "new",
+                "parameters": {
+                  "__id": "component-a--new",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
     });
 
     it('re-emits SET_INDEX when a story file is removed', async () => {
@@ -490,84 +490,84 @@ describe('start', () => {
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-a--default": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--default",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "default",
-              "parameters": Object {
-                "__id": "component-a--default",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-a--default": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--default",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "default",
+                "parameters": {
+                  "__id": "component-a--default",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
-            },
-            "component-b--default": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-b",
-              "id": "component-b--default",
-              "importPath": "file2",
-              "initialArgs": Object {},
-              "name": "default",
-              "parameters": Object {
-                "__id": "component-b--default",
-                "__isArgsStory": false,
-                "fileName": "file2",
-                "renderer": "test",
+              "component-b--default": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-b",
+                "id": "component-b--default",
+                "importPath": "file2",
+                "initialArgs": {},
+                "name": "default",
+                "parameters": {
+                  "__id": "component-b--default",
+                  "__isArgsStory": false,
+                  "fileName": "file2",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component B",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component B",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
       mockChannel.emit.mockClear();
       disposeCallback();
 
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-a--default": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--default",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "default",
-              "parameters": Object {
-                "__id": "component-a--default",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-a--default": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--default",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "default",
+                "parameters": {
+                  "__id": "component-a--default",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
     });
   });
 
@@ -593,51 +593,51 @@ describe('start', () => {
       await waitForRender();
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-c--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-one",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-c--story-one": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "story-tag",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
-            },
-            "component-c--story-two": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-two",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story Two",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+              "component-c--story-two": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-two",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story Two",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "component-tag",
+                  "autodocs",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "component-tag",
-                "autodocs",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
 
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-c--story-one');
@@ -714,71 +714,71 @@ describe('start', () => {
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-c--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-one",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-c--story-one": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "story-tag",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
-            },
-            "component-c--story-three": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-three",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story Three",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+              "component-c--story-three": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-three",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story Three",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "component-tag",
+                  "autodocs",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "component-tag",
-                "autodocs",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
-            },
-            "component-c--story-two": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-two",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story Two",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+              "component-c--story-two": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-two",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story Two",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "component-tag",
+                  "autodocs",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "component-tag",
-                "autodocs",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
     });
 
     it('re-emits SET_INDEX when a story file is removed', async () => {
@@ -805,69 +805,69 @@ describe('start', () => {
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-c--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-one",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-c--story-one": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "story-tag",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
-            },
-            "component-c--story-two": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-two",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story Two",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+              "component-c--story-two": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-two",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story Two",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "component-tag",
+                  "autodocs",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "component-tag",
-                "autodocs",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
-            },
-            "component-d--story-four": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-d--story-four",
-              "importPath": "exports-map-1",
-              "initialArgs": Object {},
-              "name": "Story Four",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-1",
-                "renderer": "test",
+              "component-d--story-four": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-d--story-four",
+                "importPath": "exports-map-1",
+                "initialArgs": {},
+                "name": "Story Four",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component D",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component D",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
       await waitForRender();
 
       mockChannel.emit.mockClear();
@@ -877,51 +877,51 @@ describe('start', () => {
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-c--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-one",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-c--story-one": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "story-tag",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
-            },
-            "component-c--story-two": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-two",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story Two",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+              "component-c--story-two": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-two",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story Two",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "component-tag",
+                  "autodocs",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "component-tag",
-                "autodocs",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
 
       await waitForEvents([STORY_UNCHANGED]);
     });
@@ -977,28 +977,28 @@ describe('start', () => {
         await waitForEvents([SET_INDEX]);
         expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
           .toMatchInlineSnapshot(`
-          Object {
-            "entries": Object {
-              "introduction": Object {
-                "id": "introduction",
-                "importPath": "./Introduction.stories.mdx",
-                "name": undefined,
-                "parameters": Object {
-                  "fileName": "./Introduction.stories.mdx",
-                  "renderer": "test",
+            {
+              "entries": {
+                "introduction": {
+                  "id": "introduction",
+                  "importPath": "./Introduction.stories.mdx",
+                  "name": undefined,
+                  "parameters": {
+                    "fileName": "./Introduction.stories.mdx",
+                    "renderer": "test",
+                  },
+                  "storiesImports": [],
+                  "tags": [
+                    "stories-mdx",
+                    "docs",
+                  ],
+                  "title": "Introduction",
+                  "type": "docs",
                 },
-                "storiesImports": Array [],
-                "tags": Array [
-                  "stories-mdx",
-                  "docs",
-                ],
-                "title": "Introduction",
-                "type": "docs",
               },
-            },
-            "v": 4,
-          }
-        `);
+              "v": 4,
+            }
+          `);
 
         // Wait a second to let the docs "render" finish (and maybe throw)
         await waitForQuiescence();
@@ -1055,111 +1055,111 @@ describe('start', () => {
       await waitForRender();
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "component-a--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--story-one",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__id": "component-a--story-one",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+          {
+            "entries": {
+              "component-a--story-one": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--story-one",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__id": "component-a--story-one",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
-            },
-            "component-a--story-two": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-a",
-              "id": "component-a--story-two",
-              "importPath": "file1",
-              "initialArgs": Object {},
-              "name": "Story Two",
-              "parameters": Object {
-                "__id": "component-a--story-two",
-                "__isArgsStory": false,
-                "fileName": "file1",
-                "renderer": "test",
+              "component-a--story-two": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-a",
+                "id": "component-a--story-two",
+                "importPath": "file1",
+                "initialArgs": {},
+                "name": "Story Two",
+                "parameters": {
+                  "__id": "component-a--story-two",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component A",
-              "type": "story",
-            },
-            "component-b--story-three": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "componentId": "component-b",
-              "id": "component-b--story-three",
-              "importPath": "file2",
-              "initialArgs": Object {},
-              "name": "Story Three",
-              "parameters": Object {
-                "__id": "component-b--story-three",
-                "__isArgsStory": false,
-                "fileName": "file2",
-                "renderer": "test",
+              "component-b--story-three": {
+                "argTypes": {},
+                "args": {},
+                "componentId": "component-b",
+                "id": "component-b--story-three",
+                "importPath": "file2",
+                "initialArgs": {},
+                "name": "Story Three",
+                "parameters": {
+                  "__id": "component-b--story-three",
+                  "__isArgsStory": false,
+                  "fileName": "file2",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "Component B",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "Component B",
-              "type": "story",
-            },
-            "component-c--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-one",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+              "component-c--story-one": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "story-tag",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
-            },
-            "component-c--story-two": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "component-c--story-two",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story Two",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+              "component-c--story-two": {
+                "argTypes": {},
+                "args": {},
+                "id": "component-c--story-two",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story Two",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "component-tag",
+                  "autodocs",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
               },
-              "tags": Array [
-                "component-tag",
-                "autodocs",
-                "story",
-              ],
-              "title": "Component C",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
 
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--story-one');
@@ -1198,146 +1198,146 @@ describe('start', () => {
         await waitForRender();
         expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
           .toMatchInlineSnapshot(`
-          Object {
-            "entries": Object {
-              "component-a--story-one": Object {
-                "argTypes": Object {},
-                "args": Object {},
-                "componentId": "component-a",
-                "id": "component-a--story-one",
-                "importPath": "file1",
-                "initialArgs": Object {},
-                "name": "Story One",
-                "parameters": Object {
-                  "__id": "component-a--story-one",
-                  "__isArgsStory": false,
-                  "fileName": "file1",
-                  "renderer": "test",
+            {
+              "entries": {
+                "component-a--story-one": {
+                  "argTypes": {},
+                  "args": {},
+                  "componentId": "component-a",
+                  "id": "component-a--story-one",
+                  "importPath": "file1",
+                  "initialArgs": {},
+                  "name": "Story One",
+                  "parameters": {
+                    "__id": "component-a--story-one",
+                    "__isArgsStory": false,
+                    "fileName": "file1",
+                    "renderer": "test",
+                  },
+                  "tags": [
+                    "story",
+                  ],
+                  "title": "Component A",
+                  "type": "story",
                 },
-                "tags": Array [
-                  "story",
-                ],
-                "title": "Component A",
-                "type": "story",
-              },
-              "component-a--story-two": Object {
-                "argTypes": Object {},
-                "args": Object {},
-                "componentId": "component-a",
-                "id": "component-a--story-two",
-                "importPath": "file1",
-                "initialArgs": Object {},
-                "name": "Story Two",
-                "parameters": Object {
-                  "__id": "component-a--story-two",
-                  "__isArgsStory": false,
-                  "fileName": "file1",
-                  "renderer": "test",
+                "component-a--story-two": {
+                  "argTypes": {},
+                  "args": {},
+                  "componentId": "component-a",
+                  "id": "component-a--story-two",
+                  "importPath": "file1",
+                  "initialArgs": {},
+                  "name": "Story Two",
+                  "parameters": {
+                    "__id": "component-a--story-two",
+                    "__isArgsStory": false,
+                    "fileName": "file1",
+                    "renderer": "test",
+                  },
+                  "tags": [
+                    "story",
+                  ],
+                  "title": "Component A",
+                  "type": "story",
                 },
-                "tags": Array [
-                  "story",
-                ],
-                "title": "Component A",
-                "type": "story",
-              },
-              "component-b--docs": Object {
-                "componentId": "component-b",
-                "id": "component-b--docs",
-                "importPath": "file2",
-                "name": "Docs",
-                "parameters": Object {
-                  "fileName": "file2",
-                  "renderer": "test",
+                "component-b--docs": {
+                  "componentId": "component-b",
+                  "id": "component-b--docs",
+                  "importPath": "file2",
+                  "name": "Docs",
+                  "parameters": {
+                    "fileName": "file2",
+                    "renderer": "test",
+                  },
+                  "storiesImports": [],
+                  "tags": [
+                    "autodocs",
+                    "docs",
+                  ],
+                  "title": "Component B",
+                  "type": "docs",
                 },
-                "storiesImports": Array [],
-                "tags": Array [
-                  "autodocs",
-                  "docs",
-                ],
-                "title": "Component B",
-                "type": "docs",
-              },
-              "component-b--story-three": Object {
-                "argTypes": Object {},
-                "args": Object {},
-                "componentId": "component-b",
-                "id": "component-b--story-three",
-                "importPath": "file2",
-                "initialArgs": Object {},
-                "name": "Story Three",
-                "parameters": Object {
-                  "__id": "component-b--story-three",
-                  "__isArgsStory": false,
-                  "fileName": "file2",
-                  "renderer": "test",
+                "component-b--story-three": {
+                  "argTypes": {},
+                  "args": {},
+                  "componentId": "component-b",
+                  "id": "component-b--story-three",
+                  "importPath": "file2",
+                  "initialArgs": {},
+                  "name": "Story Three",
+                  "parameters": {
+                    "__id": "component-b--story-three",
+                    "__isArgsStory": false,
+                    "fileName": "file2",
+                    "renderer": "test",
+                  },
+                  "tags": [
+                    "autodocs",
+                    "story",
+                  ],
+                  "title": "Component B",
+                  "type": "story",
                 },
-                "tags": Array [
-                  "autodocs",
-                  "story",
-                ],
-                "title": "Component B",
-                "type": "story",
-              },
-              "component-c--docs": Object {
-                "id": "component-c--docs",
-                "importPath": "exports-map-0",
-                "name": "Docs",
-                "parameters": Object {
-                  "fileName": "exports-map-0",
-                  "renderer": "test",
+                "component-c--docs": {
+                  "id": "component-c--docs",
+                  "importPath": "exports-map-0",
+                  "name": "Docs",
+                  "parameters": {
+                    "fileName": "exports-map-0",
+                    "renderer": "test",
+                  },
+                  "storiesImports": [],
+                  "tags": [
+                    "component-tag",
+                    "autodocs",
+                    "docs",
+                  ],
+                  "title": "Component C",
+                  "type": "docs",
                 },
-                "storiesImports": Array [],
-                "tags": Array [
-                  "component-tag",
-                  "autodocs",
-                  "docs",
-                ],
-                "title": "Component C",
-                "type": "docs",
-              },
-              "component-c--story-one": Object {
-                "argTypes": Object {},
-                "args": Object {},
-                "id": "component-c--story-one",
-                "importPath": "exports-map-0",
-                "initialArgs": Object {},
-                "name": "Story One",
-                "parameters": Object {
-                  "__isArgsStory": false,
-                  "fileName": "exports-map-0",
-                  "renderer": "test",
+                "component-c--story-one": {
+                  "argTypes": {},
+                  "args": {},
+                  "id": "component-c--story-one",
+                  "importPath": "exports-map-0",
+                  "initialArgs": {},
+                  "name": "Story One",
+                  "parameters": {
+                    "__isArgsStory": false,
+                    "fileName": "exports-map-0",
+                    "renderer": "test",
+                  },
+                  "tags": [
+                    "story-tag",
+                    "story",
+                  ],
+                  "title": "Component C",
+                  "type": "story",
                 },
-                "tags": Array [
-                  "story-tag",
-                  "story",
-                ],
-                "title": "Component C",
-                "type": "story",
-              },
-              "component-c--story-two": Object {
-                "argTypes": Object {},
-                "args": Object {},
-                "id": "component-c--story-two",
-                "importPath": "exports-map-0",
-                "initialArgs": Object {},
-                "name": "Story Two",
-                "parameters": Object {
-                  "__isArgsStory": false,
-                  "fileName": "exports-map-0",
-                  "renderer": "test",
+                "component-c--story-two": {
+                  "argTypes": {},
+                  "args": {},
+                  "id": "component-c--story-two",
+                  "importPath": "exports-map-0",
+                  "initialArgs": {},
+                  "name": "Story Two",
+                  "parameters": {
+                    "__isArgsStory": false,
+                    "fileName": "exports-map-0",
+                    "renderer": "test",
+                  },
+                  "tags": [
+                    "component-tag",
+                    "autodocs",
+                    "story",
+                  ],
+                  "title": "Component C",
+                  "type": "story",
                 },
-                "tags": Array [
-                  "component-tag",
-                  "autodocs",
-                  "story",
-                ],
-                "title": "Component C",
-                "type": "story",
               },
-            },
-            "v": 4,
-          }
-        `);
+              "v": 4,
+            }
+          `);
       });
     });
     describe('when docsOptions.autodocs = true', () => {
@@ -1369,7 +1369,7 @@ describe('start', () => {
         await waitForRender();
         const setIndexData = mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1];
         expect(Object.keys(setIndexData.entries)).toMatchInlineSnapshot(`
-          Array [
+          [
             "component-a--docs",
             "component-a--story-one",
             "component-a--story-two",
@@ -1400,30 +1400,30 @@ describe('start', () => {
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
         .toMatchInlineSnapshot(`
-        Object {
-          "entries": Object {
-            "auto-title--story-one": Object {
-              "argTypes": Object {},
-              "args": Object {},
-              "id": "auto-title--story-one",
-              "importPath": "exports-map-0",
-              "initialArgs": Object {},
-              "name": "Story One",
-              "parameters": Object {
-                "__isArgsStory": false,
-                "fileName": "exports-map-0",
-                "renderer": "test",
+          {
+            "entries": {
+              "auto-title--story-one": {
+                "argTypes": {},
+                "args": {},
+                "id": "auto-title--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": {},
+                "name": "Story One",
+                "parameters": {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "renderer": "test",
+                },
+                "tags": [
+                  "story",
+                ],
+                "title": "auto-title",
+                "type": "story",
               },
-              "tags": Array [
-                "story",
-              ],
-              "title": "auto-title",
-              "type": "story",
             },
-          },
-          "v": 4,
-        }
-      `);
+            "v": 4,
+          }
+        `);
 
       await waitForRender();
     });

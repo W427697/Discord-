@@ -34,17 +34,17 @@ it('fixMdxStyleTags fixes multiple style blocks', () => {
         \`}</style>
       `)
   ).toMatchInlineSnapshot(`
-      <style>
-        {\`
-        .foo {}
-        \`}
-      </style>
-      <style>
-        {\`
-        .bar {}
-        \`}
-      </style>
-    `);
+    "<style>
+      {\`
+      .foo {}
+      \`}
+    </style>
+    <style>
+      {\`
+      .bar {}
+      \`}
+    </style>"
+  `);
 });
 
 it('fixMdxComments fixes all comments', () => {

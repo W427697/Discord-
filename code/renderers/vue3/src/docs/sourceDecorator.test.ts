@@ -15,24 +15,24 @@ expect.addSnapshotSerializer({
 describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
   test('camelCase boolean Arg', () => {
     expect(mapAttributesAndDirectives({ camelCaseBooleanArg: true })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: camel-case-boolean-arg,
-            loc: Object {
+            loc: {
               source: camel-case-boolean-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: true,
             },
           },
-          loc: Object {
+          loc: {
             source: :camel-case-boolean-arg="true",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -43,24 +43,24 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
   });
   test('camelCase string Arg', () => {
     expect(mapAttributesAndDirectives({ camelCaseStringArg: 'foo' })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: camel-case-string-arg,
-            loc: Object {
+            loc: {
               source: camel-case-string-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: foo,
             },
           },
-          loc: Object {
+          loc: {
             source: camel-case-string-arg="foo",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -71,24 +71,24 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
   });
   test('boolean arg', () => {
     expect(mapAttributesAndDirectives({ booleanarg: true })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: booleanarg,
-            loc: Object {
+            loc: {
               source: booleanarg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: true,
             },
           },
-          loc: Object {
+          loc: {
             source: :booleanarg="true",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -99,24 +99,24 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
   });
   test('string arg', () => {
     expect(mapAttributesAndDirectives({ stringarg: 'bar' })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: stringarg,
-            loc: Object {
+            loc: {
               source: stringarg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: bar,
             },
           },
-          loc: Object {
+          loc: {
             source: stringarg="bar",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -127,24 +127,24 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
   });
   test('number arg', () => {
     expect(mapAttributesAndDirectives({ numberarg: 2023 })).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: numberarg,
-            loc: Object {
+            loc: {
               source: numberarg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: 2023,
             },
           },
-          loc: Object {
+          loc: {
             source: :numberarg="2023",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
@@ -161,68 +161,68 @@ describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
         cameCaseNumberArg: 2023,
       })
     ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          arg: Object {
+      [
+        {
+          arg: {
             content: camel-case-boolean-arg,
-            loc: Object {
+            loc: {
               source: camel-case-boolean-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: true,
             },
           },
-          loc: Object {
+          loc: {
             source: :camel-case-boolean-arg="true",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
           type: 6,
         },
-        Object {
-          arg: Object {
+        {
+          arg: {
             content: camel-case-string-arg,
-            loc: Object {
+            loc: {
               source: camel-case-string-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: foo,
             },
           },
-          loc: Object {
+          loc: {
             source: camel-case-string-arg="foo",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,
           type: 6,
         },
-        Object {
-          arg: Object {
+        {
+          arg: {
             content: came-case-number-arg,
-            loc: Object {
+            loc: {
               source: came-case-number-arg,
             },
           },
-          exp: Object {
+          exp: {
             isStatic: false,
-            loc: Object {
+            loc: {
               source: 2023,
             },
           },
-          loc: Object {
+          loc: {
             source: :came-case-number-arg="2023",
           },
-          modifiers: Array [
+          modifiers: [
             ,
           ],
           name: bind,

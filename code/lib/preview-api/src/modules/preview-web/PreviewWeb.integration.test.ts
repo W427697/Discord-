@@ -111,13 +111,7 @@ describe('PreviewWeb', () => {
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
-      expect(docsRoot.outerHTML).toMatchInlineSnapshot(`
-        <div>
-          <div>
-            INSIDE
-          </div>
-        </div>
-      `);
+      expect(docsRoot.outerHTML).toMatchInlineSnapshot('"<div><div>INSIDE</div></div>"');
     });
 
     it('sends docs rendering exceptions to showException', async () => {

@@ -375,54 +375,54 @@ describe('NPM Proxy', () => {
       const installations = await npmProxy.findInstallations();
 
       expect(installations).toMatchInlineSnapshot(`
-        Object {
+        {
           "dedupeCommand": "npm dedupe",
-          "dependencies": Object {
-            "@storybook/addon-interactions": Array [
-              Object {
+          "dependencies": {
+            "@storybook/addon-interactions": [
+              {
                 "location": "",
                 "version": "7.0.0-rc.7",
               },
             ],
-            "@storybook/channels": Array [
-              Object {
+            "@storybook/channels": [
+              {
                 "location": "",
                 "version": "7.0.0-rc.7",
               },
             ],
-            "@storybook/instrumenter": Array [
-              Object {
+            "@storybook/instrumenter": [
+              {
                 "location": "",
                 "version": "6.0.0",
               },
-              Object {
+              {
                 "location": "",
                 "version": "7.0.0-beta.11",
               },
-              Object {
+              {
                 "location": "",
                 "version": "7.0.0-alpha.21",
               },
-              Object {
+              {
                 "location": "",
                 "version": "5.4.2-alpha.0",
               },
             ],
-            "@storybook/jest": Array [
-              Object {
+            "@storybook/jest": [
+              {
                 "location": "",
                 "version": "0.0.11-next.1",
               },
             ],
-            "@storybook/testing-library": Array [
-              Object {
+            "@storybook/testing-library": [
+              {
                 "location": "",
                 "version": "0.0.14-next.1",
               },
             ],
           },
-          "duplicatedDependencies": Object {
-            "@storybook/instrumenter": Array [
+          "duplicatedDependencies": {
+            "@storybook/instrumenter": [
               "5.4.2-alpha.0",
               "6.0.0",
               "7.0.0-alpha.21",
