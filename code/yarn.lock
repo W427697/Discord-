@@ -5907,6 +5907,7 @@ __metadata:
     "@mdx-js/react": ^2.1.5
     "@rollup/pluginutils": ^5.0.2
     "@storybook/blocks": "workspace:*"
+    "@storybook/builder-vite": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/csf-plugin": "workspace:*"
