@@ -1,6 +1,7 @@
 import { beforeEach, expect, vi, test } from 'vitest';
 import type { LogResult } from 'simple-git';
 import ansiRegex from 'ansi-regex';
+import { mock, mockDeep } from 'vitest-mock-extended';
 import { run } from '../label-patches';
 import * as gitClient_ from '../utils/git-client';
 import * as githubInfo_ from '../utils/get-github-info';
@@ -10,7 +11,10 @@ vi.mock('uuid');
 vi.mock('simple-git');
 vi.mock('../utils/get-github-info');
 vi.mock('../utils/github-client');
-vi.mock('../utils/git-client');
+vi.mock('../utils/git-client', async () => {
+  const y = await import('../utils/git-client');
+  return mockDeep(y);
+});
 
 const gitClient = vi.mocked(gitClient_);
 const github = vi.mocked(github_);

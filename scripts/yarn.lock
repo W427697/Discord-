@@ -3025,6 +3025,7 @@ __metadata:
     verdaccio: ^5.19.1
     verdaccio-auth-memory: ^10.2.0
     vitest: ^0.34.4
+    vitest-mock-extended: ^1.2.1
     wait-on: ^7.0.1
     window-size: ^1.1.1
     yaml: ^2.3.1
@@ -16335,6 +16336,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-essentials@npm:^9.3.2":
+  version: 9.4.0
+  resolution: "ts-essentials@npm:9.4.0"
+  peerDependencies:
+    typescript: ">=4.1.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: fa362e696b1acf12f9c5ae3df1c083e5259bdbd8c916939e1eb8ea63320c9a71325057b17b2de052fc95c3e0346e50250f3b1534f6d7f71635e046ff099e3f90
+  languageName: node
+  linkType: hard
+
 "ts-interface-checker@npm:^0.1.9":
   version: 0.1.13
   resolution: "ts-interface-checker@npm:0.1.13"
@@ -17574,6 +17587,18 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 874e05072aee343d129eabb6161a44367f07416f63fe3e22a09b83913dd4d73f64b271ead9cff337841a20753ee3a7f3315e878518a6657cc024d5822c624f08
+  languageName: node
+  linkType: hard
+
+"vitest-mock-extended@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "vitest-mock-extended@npm:1.2.1"
+  dependencies:
+    ts-essentials: ^9.3.2
+  peerDependencies:
+    typescript: 3.x || 4.x || 5.x
+    vitest: ">=0.31.1"
+  checksum: 10930477a9602943ded780d68287c4c62d5c38bb96e743c973dc9d84343e008e934c134fba8a7b4bcebbd38c5e8b47c007fc99539b4f9e85187917fe2988c6b2
   languageName: node
   linkType: hard
 
