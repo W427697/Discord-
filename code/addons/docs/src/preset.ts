@@ -177,13 +177,10 @@ export const addons: StorybookConfig['addons'] = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
 
-export const viteFinal: StorybookConfigVite['viteFinal'] = async (
-  config,
-  { presets, features }
-) => {
+export const viteFinal: StorybookConfigVite['viteFinal'] = async (config, ...options) => {
   const { plugins = [] } = config;
 
-  plugins.push(await mdxPlugin({ presets, features }));
+  plugins.push(await mdxPlugin(...options));
 
   return config;
 };
