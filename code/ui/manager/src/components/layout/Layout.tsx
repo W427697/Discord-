@@ -1,9 +1,28 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
-import type { Props, LayoutState, ManagerLayoutState } from './Layout.types';
+import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
 
-const MINIMUM_CONTENT_WIDTH_PX = 300;
+interface InternalLayoutState {
+  isDragging: boolean;
+}
+
+interface ManagerLayoutState
+  extends Pick<API_Layout, 'navSize' | 'bottomPanelHeight' | 'rightPanelWidth' | 'panelPosition'> {
+  viewMode: API_ViewMode;
+}
+
+export type LayoutState = InternalLayoutState & ManagerLayoutState;
+
+interface Props {
+  managerLayoutState: ManagerLayoutState;
+  setManagerLayoutState: (state: Partial<Omit<ManagerLayoutState, 'viewMode'>>) => void;
+  slotMain?: React.ReactNode;
+  slotSidebar?: React.ReactNode;
+  slotPanel?: React.ReactNode;
+  slotPages?: React.ReactNode;
+}
+const MINIMUM_CONTENT_WIDTH_PX = 30;
 
 const layoutStateIsEqual = (state: ManagerLayoutState, other: ManagerLayoutState) =>
   state.navSize === other.navSize &&
@@ -86,6 +105,7 @@ const useLayoutSyncingState = (
     sidebarResizerRef,
     showPages: isPagesShown,
     showPanel: isPanelShown,
+    isDragging: internalDraggingSizeState.isDragging,
   };
 };
 
@@ -99,6 +119,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
     sidebarResizerRef,
     showPages,
     showPanel,
+    isDragging,
   } = useLayoutSyncingState(managerLayoutState, setManagerLayoutState);
 
   return (
@@ -107,6 +128,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       rightPanelWidth={rightPanelWidth}
       bottomPanelHeight={bottomPanelHeight}
       panelPosition={managerLayoutState.panelPosition}
+      isDragging={isDragging}
       viewMode={managerLayoutState.viewMode}
     >
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
@@ -129,14 +151,15 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
   );
 };
 
-const LayoutContainer = styled.div<ManagerLayoutState>(
-  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition }) => {
+const LayoutContainer = styled.div<LayoutState>(
+  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, isDragging }) => {
     return {
       width: '100%',
       height: '100%',
       display: 'grid',
       overflow: 'hidden',
       gap: 0,
+      transition: isDragging ? '' : '0.1s ease-in-out', // transition when toggling panels, but not when dragging
       gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px) [right]`,
       gridTemplateRows: `[top] 1fr ${bottomPanelHeight}px [bottom]`,
       gridTemplateAreas: (() => {
