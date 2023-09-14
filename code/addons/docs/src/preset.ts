@@ -179,7 +179,7 @@ export const addons: StorybookConfig['addons'] = [
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets, features }) => {
   const { plugins = [] } = config;
 
-  plugins.push(mdxPlugin({ presets, features }));
+  plugins.push(await mdxPlugin({ presets, features }));
 
   return config;
 };
