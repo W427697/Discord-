@@ -84,6 +84,7 @@ export async function buildDevStandalone(
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
     ...options,
+    isCritical: true,
   });
 
   const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});

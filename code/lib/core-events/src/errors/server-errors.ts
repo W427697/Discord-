@@ -279,3 +279,30 @@ export class AngularLegacyBuildOptionsError extends StorybookError {
     `;
   }
 }
+
+export class CriticalPresetLoadError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 2;
+
+  constructor(
+    public data: {
+      error: Error;
+      presetName: string;
+    }
+  ) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      Storybook failed to load the following preset: ${this.data.presetName}.
+
+      Please check whether your setup is correct, the Storybook dependencies (and their peer dependencies) are installed correctly and there are no package version clashes.
+
+      If you believe this is a bug, please open an issue on Github.
+
+      ${this.data.error.stack || this.data.error.message}
+    `;
+  }
+}
