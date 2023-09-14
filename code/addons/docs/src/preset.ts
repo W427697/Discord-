@@ -11,6 +11,7 @@ import { global } from '@storybook/global';
 import { loadCsf } from '@storybook/csf-tools';
 import { logger } from '@storybook/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
+import { mdxPlugin } from './plugins/mdx-plugin';
 
 async function webpack(
   webpackConfig: any = {},
@@ -174,6 +175,14 @@ const docs = (docsOptions: DocsOptions) => {
 export const addons: StorybookConfig['addons'] = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
+
+export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets, features }) => {
+  const { plugins = [] } = config;
+
+  plugins.push(mdxPlugin({ presets, features }));
+
+  return config;
+};
 
 /*
  * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162

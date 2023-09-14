@@ -5925,6 +5925,7 @@ __metadata:
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
+    vite: ^4.0.4
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6526,12 +6527,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:builders/builder-vite"
   dependencies:
-    "@storybook/addon-docs": "workspace:*"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/csf-plugin": "workspace:*"
-    "@storybook/mdx2-csf": ^1.0.0
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -6546,8 +6545,6 @@ __metadata:
     fs-extra: ^11.1.0
     glob: ^10.0.0
     magic-string: ^0.30.0
-    remark-external-links: ^8.0.0
-    remark-slug: ^6.0.0
     rollup: ^3.20.1
     slash: ^5.0.0
     typescript: ~4.9.3
