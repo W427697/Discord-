@@ -1,4 +1,4 @@
-import { describe, test, it, expect } from 'vitest';
+/// <reference types="vitest" />;
 /// <reference types="@testing-library/jest-dom" />;
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';

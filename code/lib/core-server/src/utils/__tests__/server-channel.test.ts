@@ -1,3 +1,4 @@
+import { describe, expect, vi } from 'vitest';
 import type { Server } from 'http';
 import { Channel } from '@storybook/channels';
 
@@ -7,13 +8,13 @@ import { getServerChannel, ServerChannelTransport } from '../get-server-channel'
 
 describe('getServerChannel', () => {
   test('should return a channel', () => {
-    const server = { on: jest.fn() } as any as Server;
+    const server = { on: vi.fn() } as any as Server;
     const result = getServerChannel(server);
     expect(result).toBeInstanceOf(Channel);
   });
 
   test('should attach to the http server', () => {
-    const server = { on: jest.fn() } as any as Server;
+    const server = { on: vi.fn() } as any as Server;
     getServerChannel(server);
     expect(server.on).toHaveBeenCalledWith('upgrade', expect.any(Function));
   });
@@ -24,7 +25,7 @@ describe('ServerChannelTransport', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);
-    const handler = jest.fn();
+    const handler = vi.fn();
     transport.setHandler(handler);
 
     // @ts-expect-error (an internal API)
@@ -37,7 +38,7 @@ describe('ServerChannelTransport', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);
-    const handler = jest.fn();
+    const handler = vi.fn();
     transport.setHandler(handler);
 
     // @ts-expect-error (an internal API)
@@ -50,7 +51,7 @@ describe('ServerChannelTransport', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);
-    const handler = jest.fn();
+    const handler = vi.fn();
     transport.setHandler(handler);
 
     // @ts-expect-error (an internal API)
@@ -71,7 +72,7 @@ describe('ServerChannelTransport', () => {
     const server = new EventEmitter() as any as Server;
     const socket = new EventEmitter();
     const transport = new ServerChannelTransport(server);
-    const handler = jest.fn();
+    const handler = vi.fn();
     transport.setHandler(handler);
 
     // @ts-expect-error (an internal API)

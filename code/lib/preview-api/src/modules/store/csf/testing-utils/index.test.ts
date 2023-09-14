@@ -1,3 +1,4 @@
+import { describe, expect, vi } from 'vitest';
 import { composeStory, composeStories } from './index';
 
 // Most integration tests for this functionality are located under renderers/react
@@ -39,7 +40,7 @@ describe('composeStory', () => {
 
 describe('composeStories', () => {
   test('should call composeStoryFn with stories', () => {
-    const composeConfigFn = jest.fn((v) => v);
+    const composeConfigFn = vi.fn((v) => v);
     const module = {
       default: {
         title: 'Button',
@@ -64,7 +65,7 @@ describe('composeStories', () => {
   });
 
   test('should not call composeStoryFn for non-story exports', () => {
-    const composeConfigFn = jest.fn((v) => v);
+    const composeConfigFn = vi.fn((v) => v);
     const module = {
       default: {
         title: 'Button',

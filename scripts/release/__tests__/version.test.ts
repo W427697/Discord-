@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 /* eslint-disable global-require */
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
@@ -15,7 +16,7 @@ vi.mock('../../utils/exec');
 const { execaCommand } = require('../../utils/exec');
 
 vi.mock('../../utils/workspace', () => ({
-  getWorkspaces: jest.fn().mockResolvedValue([
+  getWorkspaces: vi.fn().mockResolvedValue([
     {
       name: '@storybook/addon-a11y',
       location: 'addons/a11y',
@@ -23,9 +24,9 @@ vi.mock('../../utils/workspace', () => ({
   ]),
 }));
 
-jest.spyOn(console, 'log').mockImplementation(() => {});
-jest.spyOn(console, 'warn').mockImplementation(() => {});
-jest.spyOn(console, 'error').mockImplementation(() => {});
+vi.spyOn(console, 'log').mockImplementation(() => {});
+vi.spyOn(console, 'warn').mockImplementation(() => {});
+vi.spyOn(console, 'error').mockImplementation(() => {});
 
 describe('Version', () => {
   const CODE_DIR_PATH = path.join(__dirname, '..', '..', '..', 'code');

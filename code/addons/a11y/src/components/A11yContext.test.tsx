@@ -1,3 +1,5 @@
+import type { Mocked } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
 import { render, act } from '@testing-library/react';
@@ -9,7 +11,7 @@ import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
 vi.mock('@storybook/manager-api');
-const mockedApi = api as vi.mocked<typeof api>;
+const mockedApi = api as Mocked<typeof api>;
 
 const storyId = 'jest';
 const axeResult: Partial<AxeResults> = {
@@ -51,14 +53,14 @@ const axeResult: Partial<AxeResults> = {
 };
 
 describe('A11YPanel', () => {
-  const getCurrentStoryData = jest.fn();
+  const getCurrentStoryData = vi.fn();
   beforeEach(() => {
     mockedApi.useChannel.mockReset();
     mockedApi.useStorybookApi.mockReset();
     mockedApi.useAddonState.mockReset();
 
     mockedApi.useAddonState.mockImplementation((_, defaultState) => React.useState(defaultState));
-    mockedApi.useChannel.mockReturnValue(jest.fn());
+    mockedApi.useChannel.mockReturnValue(vi.fn());
     getCurrentStoryData.mockReset().mockReturnValue({ id: storyId, type: 'story' });
     mockedApi.useStorybookApi.mockReturnValue({ getCurrentStoryData } as any);
   });
@@ -73,7 +75,7 @@ describe('A11YPanel', () => {
   });
 
   it('should not render when inactive', () => {
-    const emit = jest.fn();
+    const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     const { queryByTestId } = render(
       <A11yContextProvider active={false}>
@@ -85,7 +87,7 @@ describe('A11YPanel', () => {
   });
 
   it('should emit request when moving from inactive to active', () => {
-    const emit = jest.fn();
+    const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     const { rerender } = render(<A11yContextProvider active={false} />);
     rerender(<A11yContextProvider active />);
@@ -93,7 +95,7 @@ describe('A11YPanel', () => {
   });
 
   it('should emit highlight with no values when inactive', () => {
-    const emit = jest.fn();
+    const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     const { rerender } = render(<A11yContextProvider active />);
     rerender(<A11yContextProvider active={false} />);

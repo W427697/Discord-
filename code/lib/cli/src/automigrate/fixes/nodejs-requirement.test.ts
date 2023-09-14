@@ -1,4 +1,4 @@
-import { describe, test, it, expect } from 'vitest';
+import { describe, afterAll, it, expect, vi } from 'vitest';
 
 import { nodeJsRequirement } from './nodejs-requirement';
 
@@ -25,7 +25,7 @@ const mockNodeVersion = (version: string) => {
 describe('nodejs-requirement fix', () => {
   afterAll(() => {
     mockNodeVersion(originalNodeVersion);
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('skips when sb <= 7.0.0', async () => {

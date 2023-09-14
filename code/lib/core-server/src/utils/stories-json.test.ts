@@ -1,4 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
@@ -60,27 +61,27 @@ const getInitializedStoryIndexGenerator = async (
 };
 
 describe('useStoriesJson', () => {
-  const use = jest.fn();
+  const use = vi.fn();
   const router: Router = { use } as any;
-  const send = jest.fn();
-  const write = jest.fn();
+  const send = vi.fn();
+  const write = vi.fn();
   const response: Response = {
-    header: jest.fn(),
+    header: vi.fn(),
     send,
-    status: jest.fn(),
-    setHeader: jest.fn(),
-    flushHeaders: jest.fn(),
+    status: vi.fn(),
+    setHeader: vi.fn(),
+    flushHeaders: vi.fn(),
     write,
-    flush: jest.fn(),
-    end: jest.fn(),
-    on: jest.fn(),
+    flush: vi.fn(),
+    end: vi.fn(),
+    on: vi.fn(),
   } as any;
 
   beforeEach(async () => {
     use.mockClear();
     send.mockClear();
     write.mockClear();
-    (debounce as vi.mock).mockImplementation((cb) => cb);
+    (debounce as Mock).mockImplementation((cb) => cb);
   });
 
   const request: Request = {
@@ -89,7 +90,7 @@ describe('useStoriesJson', () => {
 
   describe('JSON endpoint', () => {
     it('scans and extracts index', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,
@@ -277,7 +278,7 @@ describe('useStoriesJson', () => {
     });
 
     it('scans and extracts stories v3', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(),
@@ -549,7 +550,7 @@ describe('useStoriesJson', () => {
     });
 
     it('scans and extracts stories v2', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
@@ -711,7 +712,7 @@ describe('useStoriesJson', () => {
     });
 
     it('disallows .mdx files without storyStoreV7', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
@@ -740,7 +741,7 @@ describe('useStoriesJson', () => {
     });
 
     it('allows disabling storyStoreV7 if no .mdx files are used', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         initializedStoryIndexGenerator: getInitializedStoryIndexGenerator(
@@ -886,7 +887,7 @@ describe('useStoriesJson', () => {
     });
 
     it('can handle simultaneous access', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
 
       useStoriesJson({
         router,
@@ -900,7 +901,7 @@ describe('useStoriesJson', () => {
       const route = use.mock.calls[0][1];
 
       const firstPromise = route(request, response);
-      const secondResponse = { ...response, send: jest.fn(), status: jest.fn() };
+      const secondResponse = { ...response, send: vi.fn(), status: vi.fn() };
       const secondPromise = route(request, secondResponse);
 
       await Promise.all([firstPromise, secondPromise]);
@@ -919,7 +920,7 @@ describe('useStoriesJson', () => {
     });
 
     it('sends invalidate events', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,
@@ -948,7 +949,7 @@ describe('useStoriesJson', () => {
     });
 
     it('only sends one invalidation when multiple event listeners are listening', async () => {
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,
@@ -963,7 +964,7 @@ describe('useStoriesJson', () => {
       // Don't wait for the first request here before starting the second
       await Promise.all([
         route(request, response),
-        route(request, { ...response, write: jest.fn() }),
+        route(request, { ...response, write: vi.fn() }),
       ]);
 
       expect(write).not.toHaveBeenCalled();
@@ -981,9 +982,9 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as vi.mock).mockImplementation(jest.requireActual('lodash/debounce.js') as any);
+      (debounce as Mock).mockImplementation((await vi.importActual('lodash/debounce.js')) as any);
 
-      const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
+      const mockServerChannel = { emit: vi.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
         serverChannel: mockServerChannel,

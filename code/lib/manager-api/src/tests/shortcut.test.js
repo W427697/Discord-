@@ -1,6 +1,7 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
+import { describe, expect } from 'vitest';
 
 import { global } from '@storybook/global';
 import { eventToShortcut, keyToSymbol } from '../lib/shortcut';

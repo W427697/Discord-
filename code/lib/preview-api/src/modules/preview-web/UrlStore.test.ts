@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
 
 import { pathToId, setPath, getSelectionSpecifierFromPath } from './UrlStore';
@@ -6,7 +7,7 @@ const { history, document } = global;
 
 vi.mock('@storybook/global', () => ({
   global: {
-    history: { replaceState: jest.fn() },
+    history: { replaceState: vi.fn() },
     document: {
       location: {
         pathname: 'pathname',

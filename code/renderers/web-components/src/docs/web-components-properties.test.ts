@@ -1,5 +1,6 @@
 import 'jest-specific-snapshot';
 import path from 'path';
+import { vi, describe, it, expect } from 'vitest';
 import fs from 'fs';
 import tmp from 'tmp';
 import { sync as spawnSync } from 'cross-spawn';

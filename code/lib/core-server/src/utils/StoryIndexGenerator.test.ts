@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { describe, test, it, expect } from 'vitest';
 
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import path from 'path';
 // @ts-expect-error -- cannot find declaration file
@@ -18,28 +19,28 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { csfIndexer } from '../presets/common-preset';
 
-vi.mock('@storybook/csf', () => {
-  const csf = jest.requireActual('@storybook/csf');
+vi.mock('@storybook/csf', async () => {
+  const csf = await vi.importActual('@storybook/csf');
   return {
     ...csf,
-    toId: jest.fn(csf.toId),
+    toId: vi.fn(csf.toId),
   };
 });
 
 vi.mock('@storybook/node-logger');
 
-const toIdMock = toId as vi.mock<ReturnType<typeof toId>>;
-vi.mock('@storybook/csf-tools', () => {
-  const csfTools = jest.requireActual('@storybook/csf-tools');
+const toIdMock = toId as Mock<ReturnType<typeof toId>>;
+vi.mock('@storybook/csf-tools', async () => {
+  const csfTools = await vi.importActual('@storybook/csf-tools');
   return {
     ...csfTools,
-    readCsf: jest.fn(csfTools.readCsf),
-    getStorySortParameter: jest.fn(csfTools.getStorySortParameter),
+    readCsf: vi.fn(csfTools.readCsf),
+    getStorySortParameter: vi.fn(csfTools.getStorySortParameter),
   };
 });
 
-const readCsfMock = readCsf as vi.mock<ReturnType<typeof readCsf>>;
-const getStorySortParameterMock = getStorySortParameter as vi.mock<
+const readCsfMock = readCsf as Mock<ReturnType<typeof readCsf>>;
+const getStorySortParameterMock = getStorySortParameter as Mock<
   ReturnType<typeof getStorySortParameter>
 >;
 
@@ -1385,7 +1386,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const sortFn = jest.fn();
+        const sortFn = vi.fn();
         getStorySortParameterMock.mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
@@ -1468,7 +1469,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const sortFn = jest.fn();
+        const sortFn = vi.fn();
         getStorySortParameterMock.mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
@@ -1509,7 +1510,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const sortFn = jest.fn();
+        const sortFn = vi.fn();
         getStorySortParameterMock.mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();

@@ -1,3 +1,5 @@
+import type { Mock } from 'vitest';
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
 import { detect, detectFrameworkPreset, detectLanguage } from './detect';
@@ -5,23 +7,23 @@ import { ProjectType, SupportedLanguage } from './project_types';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
 
 vi.mock('./helpers', () => ({
-  isNxProject: jest.fn(),
+  isNxProject: vi.fn(),
 }));
 
 vi.mock('fs', () => ({
-  existsSync: jest.fn(),
-  stat: jest.fn(),
-  lstat: jest.fn(),
-  access: jest.fn(),
+  existsSync: vi.fn(),
+  stat: vi.fn(),
+  lstat: vi.fn(),
+  access: vi.fn(),
 }));
 
 vi.mock('fs-extra', () => ({
-  pathExistsSync: jest.fn(() => true),
+  pathExistsSync: vi.fn(() => true),
 }));
 
 vi.mock('path', () => ({
   // make it return just the second path, for easier testing
-  join: jest.fn((_, p) => p),
+  join: vi.fn((_, p) => p),
 }));
 
 vi.mock('@storybook/node-logger');
@@ -244,7 +246,7 @@ describe('Detect', () => {
   });
 
   it(`should return language javascript if the TS dependency is present but less than minimum supported`, async () => {
-    (logger.warn as vi.mockedFunction<typeof logger.warn>).mockClear();
+    (logger.warn as Mock<typeof logger.warn>).mockClear();
 
     const packageManager = {
       retrievePackageJson: () =>
@@ -433,12 +435,12 @@ describe('Detect', () => {
 
   describe('detectFrameworkPreset should return', () => {
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     MOCK_FRAMEWORK_FILES.forEach((structure) => {
       it(`${structure.name}`, () => {
-        (fs.existsSync as vi.mock).mockImplementation((filePath) => {
+        (fs.existsSync as Mock).mockImplementation((filePath) => {
           return Object.keys(structure.files).includes(filePath);
         });
 
@@ -471,7 +473,7 @@ describe('Detect', () => {
         '/node_modules/.bin/react-scripts': 'file content',
       };
 
-      (fs.existsSync as vi.mock).mockImplementation((filePath) => {
+      (fs.existsSync as Mock).mockImplementation((filePath) => {
         return Object.keys(forkedReactScriptsConfig).includes(filePath);
       });
 

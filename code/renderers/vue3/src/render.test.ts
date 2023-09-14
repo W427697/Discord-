@@ -1,3 +1,4 @@
+import { describe, expect } from 'vitest';
 import { expectTypeOf } from 'expect-type';
 
 import { reactive } from 'vue';

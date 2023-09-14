@@ -1,7 +1,8 @@
+/// <reference types="vitest" />
 /* eslint-disable local-rules/no-uncategorized-errors */
-import { describe, test, it, expect } from 'vitest';
-
+import { describe, beforeEach, it, expect } from 'vitest';
 import prompts from 'prompts';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, oneWayHash } from '@storybook/telemetry';
 
@@ -15,7 +16,7 @@ const cliOptions = {};
 
 describe('withTelemetry', () => {
   it('works in happy path', async () => {
-    const run = jest.fn();
+    const run = vi.fn();
 
     await withTelemetry('dev', { cliOptions }, run);
 
@@ -24,7 +25,7 @@ describe('withTelemetry', () => {
   });
 
   it('does not send boot when cli option is passed', async () => {
-    const run = jest.fn();
+    const run = vi.fn();
 
     await withTelemetry('dev', { cliOptions: { disableTelemetry: true } }, run);
 
@@ -33,13 +34,13 @@ describe('withTelemetry', () => {
 
   describe('when command fails', () => {
     const error = new Error('An Error!');
-    const run = jest.fn(async () => {
+    const run = vi.fn(async () => {
       throw error;
     });
 
     it('sends boot message', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledWith('boot', { eventType: 'dev' }, { stripMetadata: true });
@@ -47,7 +48,7 @@ describe('withTelemetry', () => {
 
     it('does not send boot when cli option is passed', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledTimes(0);
@@ -55,7 +56,7 @@ describe('withTelemetry', () => {
 
     it('sends error message when no options are passed', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledTimes(2);
@@ -68,7 +69,7 @@ describe('withTelemetry', () => {
 
     it('does not send error message when cli opt out is passed', async () => {
       await expect(async () =>
-        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: jest.fn() }, run)
+        withTelemetry('dev', { cliOptions: { disableTelemetry: true }, printError: vi.fn() }, run)
       ).rejects.toThrow(error);
 
       expect(telemetry).toHaveBeenCalledTimes(0);
@@ -86,7 +87,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -107,7 +108,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -128,7 +129,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -149,7 +150,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -171,7 +172,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -193,7 +194,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -216,7 +217,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -239,7 +240,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -260,7 +261,7 @@ describe('withTelemetry', () => {
       await expect(async () =>
         withTelemetry(
           'dev',
-          { cliOptions: {} as any, presetOptions: {} as any, printError: jest.fn() },
+          { cliOptions: {} as any, presetOptions: {} as any, printError: vi.fn() },
           run
         )
       ).rejects.toThrow(error);
@@ -347,7 +348,7 @@ describe('sendTelemetryError', () => {
 
 describe('getErrorLevel', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('returns "none" when cliOptions.disableTelemetry is true', async () => {

@@ -1,9 +1,10 @@
+import { vi, describe, afterEach, it, expect } from 'vitest';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
 import { take } from 'rxjs/operators';
 
 const { runCompodoc } = require('./run-compodoc');
 
-const mockRunScript = jest.fn();
+const mockRunScript = vi.fn();
 
 vi.mock('@storybook/cli', () => ({
   JsPackageManagerFactory: {
@@ -14,13 +15,13 @@ vi.mock('@storybook/cli', () => ({
 }));
 
 const builderContextLoggerMock: LoggerApi = {
-  createChild: jest.fn(),
-  log: jest.fn(),
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-  fatal: jest.fn(),
+  createChild: vi.fn(),
+  log: vi.fn(),
+  debug: vi.fn(),
+  info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn(),
+  fatal: vi.fn(),
 };
 
 describe('runCompodoc', () => {

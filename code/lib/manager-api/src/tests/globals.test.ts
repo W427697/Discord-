@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { EventEmitter } from 'events';
 import { SET_STORIES, SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 
@@ -18,8 +19,8 @@ beforeEach(() => {
 function createMockStore() {
   let state = {};
   return {
-    getState: jest.fn().mockImplementation(() => state),
-    setState: jest.fn().mockImplementation((s) => {
+    getState: vi.fn().mockImplementation(() => state),
+    setState: vi.fn().mockImplementation((s) => {
       state = { ...state, ...s };
     }),
   };
@@ -58,7 +59,7 @@ describe('globals API', () => {
 
   it('ignores SET_STORIES from other refs', () => {
     const channel = new EventEmitter();
-    const api = { findRef: jest.fn() };
+    const api = { findRef: vi.fn() };
     const store = createMockStore();
     const { state } = initModule({
       store,
@@ -73,7 +74,7 @@ describe('globals API', () => {
   });
 
   it('ignores SET_GLOBALS from other refs', () => {
-    const api = { findRef: jest.fn() };
+    const api = { findRef: vi.fn() };
     const channel = new EventEmitter();
     const store = createMockStore();
     const { state } = initModule({
@@ -93,7 +94,7 @@ describe('globals API', () => {
 
   it('updates the state when the preview emits GLOBALS_UPDATED', () => {
     const channel = new EventEmitter();
-    const api = { findRef: jest.fn() };
+    const api = { findRef: vi.fn() };
     const store = createMockStore();
     const { state } = initModule({
       store,
@@ -115,7 +116,7 @@ describe('globals API', () => {
 
   it('ignores GLOBALS_UPDATED from other refs', () => {
     const channel = new EventEmitter();
-    const api = { findRef: jest.fn() };
+    const api = { findRef: vi.fn() };
     const store = createMockStore();
     const { state } = initModule({
       store,
@@ -135,7 +136,7 @@ describe('globals API', () => {
     const channel = new EventEmitter();
     const fullAPI = {} as unknown as API;
     const store = createMockStore();
-    const listener = jest.fn();
+    const listener = vi.fn();
     channel.on(UPDATE_GLOBALS, listener);
 
     const { api } = initModule({ store, fullAPI, provider: { channel } } as unknown as ModuleArgs);

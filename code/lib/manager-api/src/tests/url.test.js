@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import qs from 'qs';
 
 import { SET_CURRENT_STORY, GLOBALS_UPDATED, UPDATE_QUERY_PARAMS } from '@storybook/core-events';
@@ -6,14 +7,14 @@ import EventEmitter from 'events';
 import { init as initURL } from '../modules/url';
 
 vi.mock('@storybook/client-logger');
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 describe('initial state', () => {
   const viewMode = 'story';
 
   describe('config query parameters', () => {
     it('handles full parameter', () => {
-      const navigate = jest.fn();
+      const navigate = vi.fn();
       const location = { search: qs.stringify({ full: '1' }) };
 
       const {
@@ -24,7 +25,7 @@ describe('initial state', () => {
     });
 
     it('handles nav parameter', () => {
-      const navigate = jest.fn();
+      const navigate = vi.fn();
       const location = { search: qs.stringify({ nav: '0' }) };
 
       const {
@@ -35,7 +36,7 @@ describe('initial state', () => {
     });
 
     it('handles shortcuts parameter', () => {
-      const navigate = jest.fn();
+      const navigate = vi.fn();
       const location = { search: qs.stringify({ shortcuts: '0' }) };
 
       const {
@@ -46,7 +47,7 @@ describe('initial state', () => {
     });
 
     it('handles panel parameter, bottom', () => {
-      const navigate = jest.fn();
+      const navigate = vi.fn();
       const location = { search: qs.stringify({ panel: 'bottom' }) };
 
       const {
@@ -57,7 +58,7 @@ describe('initial state', () => {
     });
 
     it('handles panel parameter, right', () => {
-      const navigate = jest.fn();
+      const navigate = vi.fn();
       const location = { search: qs.stringify({ panel: 'right' }) };
 
       const {
@@ -68,7 +69,7 @@ describe('initial state', () => {
     });
 
     it('handles panel parameter, 0', () => {
-      const navigate = jest.fn();
+      const navigate = vi.fn();
       const location = { search: qs.stringify({ panel: '0' }) };
 
       const {
@@ -92,12 +93,12 @@ describe('queryParams', () => {
     const channel = new EventEmitter();
     const { api } = initURL({
       state: { location: { search: '' } },
-      navigate: jest.fn(),
+      navigate: vi.fn(),
       store,
       provider: { channel },
     });
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     channel.on(UPDATE_QUERY_PARAMS, listener);
 
@@ -126,7 +127,7 @@ describe('initModule', () => {
   });
 
   const fullAPI = {
-    showReleaseNotesOnLaunch: jest.fn(),
+    showReleaseNotesOnLaunch: vi.fn(),
   };
 
   beforeEach(() => {
@@ -137,7 +138,7 @@ describe('initModule', () => {
   it('updates args param on SET_CURRENT_STORY', async () => {
     store.setState(storyState('test--story'));
 
-    const navigate = jest.fn();
+    const navigate = vi.fn();
     const channel = new EventEmitter();
     initURL({
       store,
@@ -164,7 +165,7 @@ describe('initModule', () => {
   it('updates globals param on GLOBALS_UPDATED', async () => {
     store.setState(storyState('test--story'));
 
-    const navigate = jest.fn();
+    const navigate = vi.fn();
     const channel = new EventEmitter();
     initURL({ store, provider: { channel }, state: { location: {} }, navigate, fullAPI });
 
@@ -178,7 +179,7 @@ describe('initModule', () => {
 
   it('adds url params alphabetically', async () => {
     store.setState({ ...storyState('test--story'), customQueryParams: { full: 1 } });
-    const navigate = jest.fn();
+    const navigate = vi.fn();
     const channel = new EventEmitter();
     const { api } = initURL({
       store,

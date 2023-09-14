@@ -1,16 +1,18 @@
+import type { Mock, Mocked } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 
 vi.mock('@storybook/preview-api');
-const mockedAddons = addons as vi.mocked<typeof addons>;
+const mockedAddons = addons as Mocked<typeof addons>;
 
 describe('a11yRunner', () => {
-  let mockChannel: { on: vi.mock; emit?: vi.mock };
+  let mockChannel: { on: Mock; emit?: Mock };
 
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
 
-    mockChannel = { on: jest.fn(), emit: jest.fn() };
+    mockChannel = { on: vi.fn(), emit: vi.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
   });
 

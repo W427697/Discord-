@@ -1,24 +1,26 @@
+import type { SpyInstance } from 'vitest';
+import { describe, test, beforeEach, expect, vi } from 'vitest';
 import { nanoid } from 'nanoid';
 import { cache } from '@storybook/core-common';
 import { resetSessionIdForTest, getSessionId, SESSION_TIMEOUT } from './session-id';
 
-vi.mock('@storybook/core-common', () => {
-  const actual = jest.requireActual('@storybook/core-common');
+vi.mock('@storybook/core-common', async () => {
+  const actual = await vi.importActual('@storybook/core-common');
   return {
     ...actual,
     cache: {
-      get: jest.fn(),
-      set: jest.fn(),
+      get: vi.fn(),
+      set: vi.fn(),
     },
   };
 });
 vi.mock('nanoid');
 
-const spy = (x: any) => x as jest.SpyInstance;
+const spy = (x: any) => x as SpyInstance;
 
 describe('getSessionId', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     resetSessionIdForTest();
   });
 
@@ -60,7 +62,7 @@ describe('getSessionId', () => {
 
   test('generates new sessionId when none exists', async () => {
     const newSessionId = 'new-session-id';
-    (nanoid as any as jest.SpyInstance).mockReturnValueOnce(newSessionId);
+    (nanoid as any as SpyInstance).mockReturnValueOnce(newSessionId);
 
     spy(cache.get).mockResolvedValueOnce(undefined);
 

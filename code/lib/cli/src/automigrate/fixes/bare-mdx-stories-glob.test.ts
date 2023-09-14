@@ -1,4 +1,4 @@
-import { describe, test, it, expect } from 'vitest';
+import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
 import type { PackageJson } from '../../js-package-manager';
@@ -24,7 +24,7 @@ const checkBareMdxStoriesGlob = async ({
 };
 
 describe('bare-mdx fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(vi.restoreAllMocks);
 
   describe('should no-op', () => {
     it('in SB < v7.0.0', async () => {

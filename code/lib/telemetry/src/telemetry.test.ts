@@ -1,12 +1,14 @@
-import { describe, test, it, expect } from 'vitest';
-
+/// <reference types="vitest" />
 import fetch from 'node-fetch';
+
+import type { Mock } from 'vitest';
+import { beforeEach, it, expect, vi } from 'vitest';
 
 import { sendTelemetry } from './telemetry';
 
 vi.mock('node-fetch');
 vi.mock('./event-cache', () => {
-  return { set: jest.fn() };
+  return { set: vi.fn() };
 });
 
 vi.mock('./session-id', () => {
@@ -17,7 +19,7 @@ vi.mock('./session-id', () => {
   };
 });
 
-const fetchMock = fetch as vi.mock;
+const fetchMock = fetch as Mock;
 
 beforeEach(() => {
   fetchMock.mockResolvedValue({ status: 200 });

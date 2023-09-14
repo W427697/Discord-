@@ -1,3 +1,5 @@
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
 import path from 'path';
@@ -8,10 +10,10 @@ import { Yarn1Proxy } from './Yarn1Proxy';
 import { Yarn2Proxy } from './Yarn2Proxy';
 
 vi.mock('cross-spawn');
-const spawnSyncMock = spawnSync as vi.mock;
+const spawnSyncMock = spawnSync as Mock;
 
 vi.mock('find-up');
-const findUpSyncMock = findUpSync as unknown as vi.mock;
+const findUpSyncMock = findUpSync as unknown as Mock;
 
 describe('JsPackageManagerFactory', () => {
   beforeEach(() => {
@@ -104,9 +106,9 @@ describe('JsPackageManagerFactory', () => {
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(PNPMProxy);
       });
 
-      it('when a pnpm-lock.yaml file is closer than a yarn.lock', () => {
+      it('when a pnpm-lock.yaml file is closer than a yarn.lock', async () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
-        findUpSyncMock.mockImplementation(jest.requireActual('find-up').sync);
+        findUpSyncMock.mockImplementation((await vi.importActual('find-up')).sync);
 
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
@@ -215,9 +217,9 @@ describe('JsPackageManagerFactory', () => {
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn1Proxy);
       });
 
-      it('when multiple lockfiles are in a project, prefers yarn', () => {
+      it('when multiple lockfiles are in a project, prefers yarn', async () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
-        findUpSyncMock.mockImplementation(jest.requireActual('find-up').sync);
+        findUpSyncMock.mockImplementation((await vi.importActual('find-up')).sync);
 
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok

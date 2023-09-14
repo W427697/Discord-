@@ -1,9 +1,10 @@
+import { describe, expect, vi, test } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import { mdxgfm } from './mdx-gfm';
 
 vi.mock('globby', () => ({
   __esModule: true,
-  default: jest.fn().mockResolvedValue(['a/fake/file.mdx']),
+  default: vi.fn().mockResolvedValue(['a/fake/file.mdx']),
 }));
 
 const check = async ({

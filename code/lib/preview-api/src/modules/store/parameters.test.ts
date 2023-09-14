@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { combineParameters } from './parameters';
 
 describe('client-api.parameters', () => {

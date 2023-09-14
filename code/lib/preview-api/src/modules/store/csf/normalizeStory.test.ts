@@ -1,4 +1,4 @@
-import { expect, describe, it } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import type { Renderer, StoryAnnotationsOrFn } from '@storybook/types';
 
 import { normalizeStory } from './normalizeStory';
@@ -74,15 +74,15 @@ describe('normalizeStory', () => {
       });
 
       it('user-provided story render function', () => {
-        const storyObj = { render: jest.fn() };
-        const meta = { id: 'title', title: 'title', render: jest.fn() };
+        const storyObj = { render: vi.fn() };
+        const meta = { id: 'title', title: 'title', render: vi.fn() };
         const normalized = normalizeStory('storyExport', storyObj, meta);
         expect(normalized.render).toBe(storyObj.render);
       });
 
       it('user-provided meta render function', () => {
         const storyObj = {};
-        const meta = { id: 'title', title: 'title', render: jest.fn() };
+        const meta = { id: 'title', title: 'title', render: vi.fn() };
         const normalized = normalizeStory('storyExport', storyObj, meta);
         expect(normalized.render).toBeUndefined();
       });
@@ -97,15 +97,15 @@ describe('normalizeStory', () => {
       });
 
       it('user-provided story render function', () => {
-        const storyObj = { play: jest.fn() };
-        const meta = { id: 'title', title: 'title', play: jest.fn() };
+        const storyObj = { play: vi.fn() };
+        const meta = { id: 'title', title: 'title', play: vi.fn() };
         const normalized = normalizeStory('storyExport', storyObj, meta);
         expect(normalized.play).toBe(storyObj.play);
       });
 
       it('user-provided meta render function', () => {
         const storyObj = {};
-        const meta = { id: 'title', title: 'title', play: jest.fn() };
+        const meta = { id: 'title', title: 'title', play: vi.fn() };
         const normalized = normalizeStory('storyExport', storyObj, meta);
         expect(normalized.play).toBeUndefined();
       });

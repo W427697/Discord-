@@ -1,6 +1,8 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import React from 'react';
 import { global } from '@storybook/global';
@@ -24,8 +26,8 @@ import {
 //   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-vi.mock('@storybook/channels', () => ({
-  ...jest.requireActual('@storybook/channels'),
+vi.mock('@storybook/channels', async () => ({
+  ...(await vi.importActual('@storybook/channels')),
   createBrowserChannel: () => mockChannel,
 }));
 vi.mock('@storybook/client-logger');
@@ -36,7 +38,7 @@ const { document } = global;
 vi.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
-    history: { replaceState: jest.fn() },
+    history: { replaceState: vi.fn() },
     document: {
       createElement: globalThis.document.createElement.bind(globalThis.document),
       location: {
@@ -100,7 +102,7 @@ describe('PreviewWeb', () => {
 
       const docsRoot = document.createElement('div');
       (
-        preview.view.prepareForDocs as any as vi.mock<typeof preview.view.prepareForDocs>
+        preview.view.prepareForDocs as any as Mock<typeof preview.view.prepareForDocs>
       ).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
@@ -109,13 +111,7 @@ describe('PreviewWeb', () => {
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
-      expect(docsRoot.outerHTML).toMatchInlineSnapshot(`
-        <div>
-          <div>
-            INSIDE
-          </div>
-        </div>
-      `);
+      expect(docsRoot.outerHTML).toMatchInlineSnapshot('"<div><div>INSIDE</div></div>"');
     });
 
     it('sends docs rendering exceptions to showException', async () => {
@@ -127,14 +123,14 @@ describe('PreviewWeb', () => {
 
       const docsRoot = document.createElement('div');
       (
-        preview.view.prepareForDocs as any as vi.mock<typeof preview.view.prepareForDocs>
+        preview.view.prepareForDocs as any as Mock<typeof preview.view.prepareForDocs>
       ).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
         throw new Error('Docs rendering error');
       });
 
       (
-        preview.view.showErrorDisplay as any as vi.mock<typeof preview.view.showErrorDisplay>
+        preview.view.showErrorDisplay as any as Mock<typeof preview.view.showErrorDisplay>
       ).mockClear();
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
@@ -144,7 +140,7 @@ describe('PreviewWeb', () => {
   });
 
   describe('onGetGlobalMeta changed (HMR)', () => {
-    const newGlobalDecorator = jest.fn((s) => s());
+    const newGlobalDecorator = vi.fn((s) => s());
     const newGetProjectAnnotations = () => {
       return {
         ...projectAnnotations,

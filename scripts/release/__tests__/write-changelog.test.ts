@@ -8,10 +8,10 @@ import * as fsExtraImp from 'fs-extra';
 import { run as writeChangelog } from '../write-changelog';
 import * as changesUtils from '../utils/get-changes';
 
-import type * as MockedFSExytra from '../../../code/__mocks__/fs-extra';
+import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 
 vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
-const fsExtra = fsExtraImp as unknown as typeof MockedFSExytra;
+const fsExtra = fsExtraImp as unknown as typeof MockedFSToExtra;
 
 const getChangesMock = vi.spyOn(changesUtils, 'getChanges');
 

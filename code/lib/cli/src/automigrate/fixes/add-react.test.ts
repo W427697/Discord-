@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import { addReact } from './add-react';
@@ -35,11 +36,11 @@ describe('addReact fix', () => {
         devDependencies: { '@storybook/addon-docs': '*', 'react-dom': '*' },
       })
     ).resolves.toMatchInlineSnapshot(`
-      Object {
-        "additionalDependencies": Array [
+      {
+        "additionalDependencies": [
           "react",
         ],
-        "dependents": Array [
+        "dependents": [
           "@storybook/addon-docs",
         ],
       }
@@ -53,11 +54,11 @@ describe('addReact fix', () => {
         devDependencies: { '@storybook/addon-essentials': '*', react: '*' },
       })
     ).resolves.toMatchInlineSnapshot(`
-      Object {
-        "additionalDependencies": Array [
+      {
+        "additionalDependencies": [
           "react-dom",
         ],
-        "dependents": Array [
+        "dependents": [
           "@storybook/addon-essentials",
         ],
       }

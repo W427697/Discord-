@@ -1,4 +1,5 @@
-import { describe, test, it, expect } from 'vitest';
+import type { Mock } from 'vitest';
+import { expect, vi } from 'vitest';
 
 import { join } from 'path';
 import * as fs from 'fs-extra';
@@ -26,10 +27,10 @@ const createOptions = (locations: string[]): Parameters<typeof m.favicon>[1] => 
 
 vi.mock('fs-extra', () => {
   return {
-    pathExists: jest.fn((p: string) => {
+    pathExists: vi.fn((p: string) => {
       return false;
     }),
-    existsSync: jest.fn((p: string) => {
+    existsSync: vi.fn((p: string) => {
       return false;
     }),
   };
@@ -38,12 +39,12 @@ vi.mock('fs-extra', () => {
 vi.mock('@storybook/node-logger', () => {
   return {
     logger: {
-      warn: jest.fn(() => {}),
+      warn: vi.fn(() => {}),
     },
   };
 });
 
-const pathExists = fs.pathExists as vi.mock;
+const pathExists = fs.pathExists as Mock;
 
 test('with no staticDirs favicon should return default', async () => {
   const options = createOptions([]);

@@ -1,12 +1,13 @@
+import { describe, it, expect, vi } from 'vitest';
 import { info, warn } from 'npmlog';
 import { logger } from '.';
 
-globalThis.console = { log: jest.fn() } as any;
+globalThis.console = { log: vi.fn() } as any;
 
 vi.mock('npmlog', () => ({
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
+  info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn(),
   levels: {
     silly: -Infinity,
     verbose: 1000,

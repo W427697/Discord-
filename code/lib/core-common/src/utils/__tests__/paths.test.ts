@@ -1,3 +1,5 @@
+import type { Mocked } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import findUp from 'find-up';
 import slash from 'slash';
@@ -43,7 +45,7 @@ describe('paths - normalizeStoryPath()', () => {
 });
 
 describe('getProjectRoot', () => {
-  const mockedFindUp = findUp as vi.mocked<typeof findUp>;
+  const mockedFindUp = findUp as Mocked<typeof findUp>;
 
   it('should return the root directory containing a .git directory', () => {
     mockedFindUp.sync.mockImplementation((name) =>

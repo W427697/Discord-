@@ -1,6 +1,8 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
+import type { Mock } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 import { global } from '@storybook/global';
 import merge from 'lodash/merge.js';
@@ -56,13 +58,13 @@ import { WebView } from './WebView';
 
 const { history, document } = global;
 
-const mockStoryIndex = jest.fn(() => storyIndex);
+const mockStoryIndex = vi.fn(() => storyIndex);
 
 let mockFetchResult: any;
-vi.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', async () => ({
   global: {
-    ...(jest.requireActual('@storybook/global') as any),
-    history: { replaceState: jest.fn() },
+    ...((await vi.importActual('@storybook/global')) as any),
+    history: { replaceState: vi.fn() },
     document: {
       location: {
         pathname: 'pathname',
@@ -98,9 +100,9 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
 // a timer, so we need to first setImmediate (to get past the resolution), then run the timers
 // Probably jest modern timers do this but they aren't working for some bizarre reason.
 async function waitForSetCurrentStory() {
-  jest.useFakeTimers({ doNotFake: ['setTimeout'] });
+  vi.useFakeTimers({ doNotFake: ['setTimeout'] });
   await new Promise((r) => setTimeout(r, 0));
-  jest.runAllTimers();
+  vi.runAllTimers();
 }
 
 async function createAndRenderPreview({
@@ -131,7 +133,7 @@ beforeEach(() => {
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
-  (logger.warn as vi.mock<typeof logger.warn>).mockClear();
+  (logger.warn as Mock<typeof logger.warn>).mockClear();
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
@@ -192,7 +194,7 @@ describe('PreviewWeb', () => {
 
     it('SET_GLOBALS sets globals and types even when undefined', async () => {
       await createAndRenderPreview({
-        getProjectAnnotations: () => ({ renderToCanvas: jest.fn() }),
+        getProjectAnnotations: () => ({ renderToCanvas: vi.fn() }),
       });
 
       expect(mockChannel.emit).toHaveBeenCalledWith(SET_GLOBALS, {
@@ -317,9 +319,9 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         const newComponentOneExports = merge({}, componentOneExports, {
-          d: { args: { foo: 'd' }, play: jest.fn() },
+          d: { args: { foo: 'd' }, play: vi.fn() },
         });
-        const newImportFn = jest.fn(async (path) => {
+        const newImportFn = vi.fn(async (path) => {
           return path === './src/ComponentOne.stories.js'
             ? newComponentOneExports
             : componentTwoExports;
@@ -350,10 +352,10 @@ describe('PreviewWeb', () => {
 
       describe('after selection changes', () => {
         beforeEach(() => {
-          jest.useFakeTimers();
+          vi.useFakeTimers();
         });
         afterEach(() => {
-          jest.useRealTimers();
+          vi.useRealTimers();
         });
 
         it('DOES NOT try again if CSF file changes', async () => {
@@ -371,9 +373,9 @@ describe('PreviewWeb', () => {
           await waitForSetCurrentStory();
 
           const newComponentOneExports = merge({}, componentOneExports, {
-            d: { args: { foo: 'd' }, play: jest.fn() },
+            d: { args: { foo: 'd' }, play: vi.fn() },
           });
-          const newImportFn = jest.fn(async (path) => {
+          const newImportFn = vi.fn(async (path) => {
             return path === './src/ComponentOne.stories.js'
               ? newComponentOneExports
               : componentTwoExports;
@@ -530,7 +532,7 @@ describe('PreviewWeb', () => {
         await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect((preview.view.showErrorDisplay as vi.mock).mock.calls[0][0]).toMatchInlineSnapshot(`
+        expect((preview.view.showErrorDisplay as Mock).mock.calls[0][0]).toMatchInlineSnapshot(`
                           [Error: Expected your framework's preset to export a \`renderToCanvas\` field.
 
                           Perhaps it needs to be upgraded for Storybook 6.4?
@@ -1142,7 +1144,7 @@ describe('PreviewWeb', () => {
       });
 
       describe('when renderStoryToElement was called', () => {
-        const callbacks = { showMain: jest.fn(), showError: jest.fn(), showException: jest.fn() };
+        const callbacks = { showMain: vi.fn(), showError: vi.fn(), showException: vi.fn() };
         it('re-renders the story', async () => {
           document.location.search = '?id=component-one--docs&viewMode=docs';
 
@@ -1298,7 +1300,7 @@ describe('PreviewWeb', () => {
     it('resets a single arg', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
-      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
+      const onUpdateArgsSpy = vi.spyOn(preview, 'onUpdateArgs');
 
       mockChannel.emit.mockClear();
       emitter.emit(UPDATE_STORY_ARGS, {
@@ -1341,7 +1343,7 @@ describe('PreviewWeb', () => {
     it('resets all args after one is updated', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
-      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
+      const onUpdateArgsSpy = vi.spyOn(preview, 'onUpdateArgs');
 
       emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
@@ -1382,7 +1384,7 @@ describe('PreviewWeb', () => {
     it('resets all args', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
-      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
+      const onUpdateArgsSpy = vi.spyOn(preview, 'onUpdateArgs');
 
       emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
@@ -1423,7 +1425,7 @@ describe('PreviewWeb', () => {
     it('resets all args when one arg is undefined', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
-      const onUpdateArgsSpy = jest.spyOn(preview, 'onUpdateArgs');
+      const onUpdateArgsSpy = vi.spyOn(preview, 'onUpdateArgs');
 
       emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
@@ -1481,10 +1483,10 @@ describe('PreviewWeb', () => {
 
   describe('on FORCE_REMOUNT', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
     });
     afterEach(() => {
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('remounts the story with the same args', async () => {
@@ -1545,10 +1547,10 @@ describe('PreviewWeb', () => {
 
   describe('onSetCurrentStory', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
     });
     afterEach(() => {
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('updates URL', async () => {
@@ -2164,7 +2166,7 @@ describe('PreviewWeb', () => {
         beforeEach(() => {
           originalLocation = window.location;
           delete (window as Partial<Window>).location;
-          window.location = { ...originalLocation, reload: jest.fn() };
+          window.location = { ...originalLocation, reload: vi.fn() };
         });
 
         afterEach(() => {
@@ -2771,7 +2773,7 @@ describe('PreviewWeb', () => {
       const newComponentOneExports = merge({}, componentOneExports, {
         a: { args: { foo: 'edited' } },
       });
-      const newImportFn = jest.fn(async (path) => {
+      const newImportFn = vi.fn(async (path) => {
         return path === './src/ComponentOne.stories.js'
           ? newComponentOneExports
           : componentTwoExports;
@@ -3013,7 +3015,7 @@ describe('PreviewWeb', () => {
     });
 
     describe('when the current story changes importPath', () => {
-      const newImportFn = jest.fn(async (path) => ({ ...componentOneExports }));
+      const newImportFn = vi.fn(async (path) => ({ ...componentOneExports }));
 
       const newStoryIndex = {
         v: 4,
@@ -3042,10 +3044,10 @@ describe('PreviewWeb', () => {
 
       describe('if it was previously rendered', () => {
         beforeEach(() => {
-          jest.useFakeTimers();
+          vi.useFakeTimers();
         });
         afterEach(() => {
-          jest.useRealTimers();
+          vi.useRealTimers();
         });
         it('is reloaded when it is re-selected', async () => {
           document.location.search = '?id=component-one--a';
@@ -3075,7 +3077,7 @@ describe('PreviewWeb', () => {
 
     describe('when the current story has not changed', () => {
       const newComponentTwoExports = { ...componentTwoExports };
-      const newImportFn = jest.fn(async (path) => {
+      const newImportFn = vi.fn(async (path) => {
         return path === './src/ComponentOne.stories.js'
           ? componentOneExports
           : newComponentTwoExports;
@@ -3108,7 +3110,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        (preview.view.showMain as vi.mock).mockClear();
+        (preview.view.showMain as Mock).mockClear();
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForEvents([STORY_UNCHANGED]);
@@ -3132,15 +3134,15 @@ describe('PreviewWeb', () => {
 
     describe('when another (not current) story changes', () => {
       beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
       });
       afterEach(() => {
-        jest.useRealTimers();
+        vi.useRealTimers();
       });
       const newComponentOneExports = merge({}, componentOneExports, {
         a: { args: { bar: 'edited' }, argTypes: { bar: { type: { name: 'string' } } } },
       });
-      const newImportFn = jest.fn(async (path) => {
+      const newImportFn = vi.fn(async (path) => {
         return path === './src/ComponentOne.stories.js'
           ? newComponentOneExports
           : componentTwoExports;
@@ -3206,7 +3208,7 @@ describe('PreviewWeb', () => {
 
     describe('if the story no longer exists', () => {
       const { a, ...componentOneExportsWithoutA } = componentOneExports;
-      const newImportFn = jest.fn(async (path) => {
+      const newImportFn = vi.fn(async (path) => {
         return path === './src/ComponentOne.stories.js'
           ? componentOneExportsWithoutA
           : componentTwoExports;
@@ -3271,9 +3273,9 @@ describe('PreviewWeb', () => {
     });
 
     describe('when a mdx docs file changes', () => {
-      const newUnattachedDocsExports = { default: jest.fn() };
+      const newUnattachedDocsExports = { default: vi.fn() };
 
-      const newImportFn = jest.fn(async (path: string) => {
+      const newImportFn = vi.fn(async (path: string) => {
         return path === './src/Introduction.mdx' ? newUnattachedDocsExports : importFn(path);
       });
 
@@ -3398,7 +3400,7 @@ describe('PreviewWeb', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
-    const newGlobalDecorator = jest.fn((s: any) => s());
+    const newGlobalDecorator = vi.fn((s: any) => s());
     const newGetProjectAnnotations = () => {
       return {
         ...projectAnnotations,
@@ -3502,7 +3504,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
-        target: { tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) },
+        target: { tagName: 'div', getAttribute: vi.fn().mockReturnValue(null) },
       } as any);
 
       expect(mockChannel.emit).toHaveBeenCalledWith(PREVIEW_KEYDOWN, expect.objectContaining({}));
@@ -3513,7 +3515,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
-        target: { tagName: 'input', getAttribute: jest.fn().mockReturnValue(null) },
+        target: { tagName: 'input', getAttribute: vi.fn().mockReturnValue(null) },
       } as any);
 
       expect(mockChannel.emit).not.toHaveBeenCalledWith(
@@ -3532,7 +3534,7 @@ describe('PreviewWeb', () => {
       await waitForRenderPhase('playing');
 
       await preview.onKeydown({
-        target: { tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) },
+        target: { tagName: 'div', getAttribute: vi.fn().mockReturnValue(null) },
       } as any);
 
       expect(mockChannel.emit).not.toHaveBeenCalledWith(
@@ -3558,7 +3560,7 @@ describe('PreviewWeb', () => {
       await waitForRenderPhase('playing');
 
       await preview.onKeydown({
-        target: { tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) },
+        target: { tagName: 'div', getAttribute: vi.fn().mockReturnValue(null) },
       } as any);
 
       expect(mockChannel.emit).not.toHaveBeenCalledWith(
