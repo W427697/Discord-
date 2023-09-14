@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { mockDataset, mockExpanded, mockSelected } from '../components/sidebar/mockdata';
 
 import * as utils from './tree';
