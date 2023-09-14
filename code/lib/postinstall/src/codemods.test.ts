@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import fs from 'fs';
-import 'jest-specific-snapshot';
 // @ts-expect-error (broken types)
 import { applyTransform } from 'jscodeshift/dist/testUtils';
 
@@ -25,7 +24,7 @@ fs.readdirSync(fixturesDir).forEach((transformName) => {
               null,
               { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
             )
-          ).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
+          ).toMatchFileSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
       });
   });
 });

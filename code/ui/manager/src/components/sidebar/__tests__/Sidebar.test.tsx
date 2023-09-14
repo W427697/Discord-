@@ -1,3 +1,4 @@
+import { describe, test } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeProvider, ensure, themes } from '@storybook/theming';

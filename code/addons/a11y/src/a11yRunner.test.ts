@@ -16,9 +16,8 @@ describe('a11yRunner', () => {
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
   });
 
-  it('should listen to events', () => {
-    // eslint-disable-next-line global-require
-    require('./a11yRunner');
+  it('should listen to events', async () => {
+    await import('./a11yRunner');
 
     expect(mockedAddons.getChannel).toHaveBeenCalled();
     expect(mockChannel.on).toHaveBeenCalledWith(EVENTS.REQUEST, expect.any(Function));

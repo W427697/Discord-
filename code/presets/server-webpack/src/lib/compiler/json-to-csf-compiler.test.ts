@@ -1,4 +1,3 @@
-import 'jest-specific-snapshot';
 import path from 'path';
 import fs from 'fs-extra';
 import YAML from 'yaml';
@@ -21,7 +20,7 @@ async function generate(filePath: string) {
         it(`${fixtureFile}`, async () => {
           const inputPath = path.join(transformFixturesDir, fixtureFile);
           const code = await generate(inputPath);
-          expect(code).toMatchSpecificSnapshot(inputPath.replace(inputRegExp, '.snapshot'));
+          expect(code).toMatchFileSnapshot(inputPath.replace(inputRegExp, '.snapshot'));
         });
       });
   });
