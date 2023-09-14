@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../test-typings.d.ts" />
+import { describe, it, expect, vi } from 'vitest';
 
 import { dedent } from 'ts-dedent';
 import { sep } from 'path';

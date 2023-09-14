@@ -1,8 +1,9 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import * as api from '.';
 
 describe('preview', () => {
   afterEach(() => {
-    jest.resetModules();
+    vi.resetModules();
   });
 
   const isFunction = (value: unknown) => typeof value === 'function';

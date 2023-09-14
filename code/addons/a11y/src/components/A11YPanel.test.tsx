@@ -1,3 +1,5 @@
+import type { Mocked } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, waitFor, fireEvent, act } from '@testing-library/react';
 
@@ -11,7 +13,7 @@ vi.mock('@storybook/manager-api');
 
 global.ResizeObserver = require('resize-observer-polyfill');
 
-const mockedApi = api as vi.mocked<typeof api>;
+const mockedApi = api as Mocked<typeof api>;
 
 const axeResult = {
   incomplete: [
@@ -67,7 +69,7 @@ describe('A11YPanel', () => {
     mockedApi.useAddonState.mockReset();
 
     mockedApi.useAddonState.mockImplementation((_, defaultState) => React.useState(defaultState));
-    mockedApi.useChannel.mockReturnValue(jest.fn());
+    mockedApi.useChannel.mockReturnValue(vi.fn());
     mockedApi.useParameter.mockReturnValue({ manual: false });
     const state: Partial<api.State> = { storyId: 'jest' };
     // Lazy to mock entire state
@@ -104,7 +106,7 @@ describe('A11YPanel', () => {
   });
 
   it('should handle "running" status', async () => {
-    const emit = jest.fn();
+    const emit = vi.fn();
     mockedApi.useChannel.mockReturnValue(emit);
     mockedApi.useParameter.mockReturnValue({ manual: true });
     const { getByRole, getByText } = render(<ThemedA11YPanel />);

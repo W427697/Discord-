@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { describe, test, it, expect } from 'vitest';
+import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
 import { missingBabelRc } from './missing-babelrc';
@@ -66,7 +66,7 @@ const packageManagerWithBabelField = {
 } as Partial<JsPackageManager>;
 
 describe('missing-babelrc fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(vi.restoreAllMocks);
 
   it('skips when storybook version < 7.0.0', async () => {
     await expect(check({ storybookVersion: '6.3.2' })).resolves.toBeNull();

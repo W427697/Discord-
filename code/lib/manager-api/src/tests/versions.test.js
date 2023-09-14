@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { init as initVersions } from '../modules/versions';
 
 vi.mock('../version', () => ({
@@ -35,8 +36,8 @@ function createMockStore() {
     },
   };
   return {
-    getState: jest.fn().mockImplementation(() => state),
-    setState: jest.fn().mockImplementation((s) => {
+    getState: vi.fn().mockImplementation(() => state),
+    setState: vi.fn().mockImplementation((s) => {
       state = { ...state, ...s };
     }),
   };

@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
 import { lightenColor as lighten, darkenColor as darken, getPreferredColorScheme } from '../utils';
 
@@ -87,7 +88,7 @@ describe('utils', () => {
     });
 
     it('should return "light" if the preferred color scheme is light or undefined', () => {
-      globalWindow.matchMedia = jest.fn().mockImplementation(() => ({
+      globalWindow.matchMedia = vi.fn().mockImplementation(() => ({
         matches: false,
       }));
 
@@ -99,7 +100,7 @@ describe('utils', () => {
       // By setting matches to always be true any checks for prefer-color-scheme
       // will match and since we only check if the preferred scheme is dark this
       // is a simple way to test it
-      globalWindow.matchMedia = jest.fn().mockImplementation(() => ({
+      globalWindow.matchMedia = vi.fn().mockImplementation(() => ({
         matches: true,
       }));
 

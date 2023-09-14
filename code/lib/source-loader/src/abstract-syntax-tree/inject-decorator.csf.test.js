@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { readFile } from 'fs/promises';
 import path from 'path';
 import 'jest-specific-snapshot';

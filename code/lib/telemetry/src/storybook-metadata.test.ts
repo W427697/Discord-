@@ -1,3 +1,5 @@
+import type { SpyInstance } from 'vitest';
+import { describe, beforeEach, afterEach, expect, vi } from 'vitest';
 import type { PackageJson, StorybookConfig } from '@storybook/types';
 
 import path from 'path';
@@ -13,18 +15,18 @@ const mainJsMock: StorybookConfig = {
 };
 
 vi.mock('./package-json', () => {
-  const getActualPackageVersion = jest.fn((name) =>
+  const getActualPackageVersion = vi.fn((name) =>
     Promise.resolve({
       name,
       version: 'x.x.x',
     })
   );
 
-  const getActualPackageVersions = jest.fn((packages) =>
+  const getActualPackageVersions = vi.fn((packages) =>
     Promise.all(Object.keys(packages).map(getActualPackageVersion))
   );
 
-  const getActualPackageJson = jest.fn((name) => ({
+  const getActualPackageJson = vi.fn((name) => ({
     dependencies: {
       '@storybook/react': 'x.x.x',
       '@storybook/builder-vite': 'x.x.x',
@@ -50,7 +52,7 @@ vi.mock('detect-package-manager', () => ({
 const originalSep = path.sep;
 
 describe('storybook-metadata', () => {
-  let cwdSpy: jest.SpyInstance;
+  let cwdSpy: SpyInstance;
   beforeEach(() => {
     // @ts-expect-error the property is read only but we can change it for testing purposes
     path.sep = originalSep;
@@ -91,7 +93,7 @@ describe('storybook-metadata', () => {
       // @ts-expect-error the property is read only but we can change it for testing purposes
       path.sep = '\\';
       const cwdMockPath = `C:\\Users\\username\\storybook-app`;
-      cwdSpy = jest.spyOn(process, `cwd`).mockReturnValueOnce(cwdMockPath);
+      cwdSpy = vi.spyOn(process, `cwd`).mockReturnValueOnce(cwdMockPath);
 
       expect(sanitizeAddonName(`${cwdMockPath}\\local-addon\\themes.js`)).toEqual(
         '$SNIP\\local-addon\\themes'
@@ -102,7 +104,7 @@ describe('storybook-metadata', () => {
       // @ts-expect-error the property is read only but we can change it for testing purposes
       path.sep = '/';
       const cwdMockPath = `/Users/username/storybook-app`;
-      cwdSpy = jest.spyOn(process, `cwd`).mockReturnValue(cwdMockPath);
+      cwdSpy = vi.spyOn(process, `cwd`).mockReturnValue(cwdMockPath);
 
       expect(sanitizeAddonName(`${cwdMockPath}/local-addon/themes.js`)).toEqual(
         '$SNIP/local-addon/themes'
@@ -183,7 +185,7 @@ describe('storybook-metadata', () => {
       test('should sanitize pnp paths for local frameworks', async () => {
         // @ts-expect-error the property is read only but we can change it for testing purposes
         path.sep = '/';
-        cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('/Users/foo/my-projects');
+        cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue('/Users/foo/my-projects');
 
         const unixResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
@@ -201,7 +203,7 @@ describe('storybook-metadata', () => {
 
         // @ts-expect-error the property is read only but we can change it for testing purposes
         path.sep = '\\';
-        cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('C:\\Users\\foo\\my-project');
+        cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue('C:\\Users\\foo\\my-project');
         const windowsResult = await computeStorybookMetadata({
           packageJson: packageJsonMock,
           mainConfig: {

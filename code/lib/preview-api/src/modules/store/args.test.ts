@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { once } from '@storybook/client-logger';
 import { expect } from 'vitest';
 import type { SBType } from '@storybook/types';

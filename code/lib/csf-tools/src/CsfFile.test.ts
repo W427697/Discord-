@@ -1,7 +1,9 @@
-import { describe, test, it, expect } from 'vitest';
-
+/// <reference types="vitest" />
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect } from 'vitest';
+
 import { dedent } from 'ts-dedent';
+import { describe, it, expect, vi } from 'vitest';
 import yaml from 'js-yaml';
 import { loadCsf } from './CsfFile';
 
@@ -813,7 +815,7 @@ describe('CsfFile', () => {
     });
 
     it('Object export with storyName', () => {
-      const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+      const consoleWarnMock = vi.spyOn(console, 'warn').mockImplementation();
 
       parse(
         dedent`

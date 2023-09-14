@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import { addReact } from './add-react';

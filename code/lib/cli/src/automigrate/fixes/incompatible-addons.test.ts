@@ -1,4 +1,4 @@
-import { describe, test, it, expect } from 'vitest';
+import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
 import { incompatibleAddons } from './incompatible-addons';
@@ -22,7 +22,7 @@ const check = async ({
 };
 
 describe('incompatible-addons fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(vi.restoreAllMocks);
 
   it('should show incompatible addons', async () => {
     await expect(

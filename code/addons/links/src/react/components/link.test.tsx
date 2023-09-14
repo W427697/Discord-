@@ -1,3 +1,5 @@
+import type { Mocked } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { addons } from '@storybook/preview-api';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -17,19 +19,19 @@ vi.mock('@storybook/global', () => ({
     },
     window: global,
     __STORYBOOK_STORY_STORE__: {
-      fromId: jest.fn(() => ({})),
+      fromId: vi.fn(() => ({})),
     },
   },
 }));
 
 const mockChannel = () => {
   return {
-    emit: jest.fn(),
-    on: jest.fn(),
-    once: jest.fn(),
+    emit: vi.fn(),
+    on: vi.fn(),
+    once: vi.fn(),
   };
 };
-const mockAddons = addons as unknown as vi.mocked<typeof addons>;
+const mockAddons = addons as unknown as Mocked<typeof addons>;
 
 describe('LinkTo', () => {
   describe('render', () => {
@@ -63,8 +65,8 @@ describe('LinkTo', () => {
   describe('events', () => {
     it('should select the kind and story on click', () => {
       const channel = {
-        emit: jest.fn(),
-        on: jest.fn(),
+        emit: vi.fn(),
+        on: vi.fn(),
       } as any;
       mockAddons.getChannel.mockReturnValue(channel);
 

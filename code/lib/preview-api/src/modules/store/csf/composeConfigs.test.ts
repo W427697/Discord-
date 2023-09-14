@@ -1,4 +1,4 @@
-import { expect } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
 
 import { composeConfigs } from './composeConfigs';
@@ -257,7 +257,7 @@ describe('composeConfigs', () => {
   });
 
   it('composes step runners', () => {
-    const fn = jest.fn();
+    const fn = vi.fn();
 
     const { runStep } = composeConfigs([
       // @ts-expect-error (not defined)

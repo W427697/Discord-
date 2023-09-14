@@ -1,10 +1,11 @@
+import { describe, expect, vi } from 'vitest';
 import { getMigrationSummary } from './getMigrationSummary';
 import { FixStatus } from '../types';
 import type { InstallationMetadata } from '../../js-package-manager/types';
 
 vi.mock('boxen', () =>
   // eslint-disable-next-line no-control-regex
-  jest.fn((str, { title = '' }) => `${title}\n\n${str.replace(/\x1b\[[0-9;]*[mG]/g, '')}`)
+  vi.fn((str, { title = '' }) => `${title}\n\n${str.replace(/\x1b\[[0-9;]*[mG]/g, '')}`)
 );
 
 describe('getMigrationSummary', () => {

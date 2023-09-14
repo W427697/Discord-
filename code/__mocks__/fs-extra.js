@@ -1,4 +1,5 @@
-const fs = jest.createMockFromModule('fs-extra');
+import { vi } from 'vitest';
+const fs = vi.createMockFromModule('fs-extra');
 
 // This is a custom function that our tests can use during setup to specify
 // what the files on the "mock" filesystem should look like when any of the
@@ -20,7 +21,7 @@ const readJsonSync = (filePath = '') => JSON.parse(mockFiles[filePath]);
 const lstatSync = (filePath) => ({
   isFile: () => !!mockFiles[filePath],
 });
-const writeJson = jest.fn((filePath, json, { spaces } = {}) => {
+const writeJson = vi.fn((filePath, json, { spaces } = {}) => {
   mockFiles[filePath] = JSON.stringify(json, null, spaces);
 });
 

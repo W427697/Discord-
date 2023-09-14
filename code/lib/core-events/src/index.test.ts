@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import * as EventsPackageExport from './index';
 import EventsDefaultExport, { CHANNEL_CREATED } from './index';
 

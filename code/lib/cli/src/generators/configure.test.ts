@@ -1,3 +1,5 @@
+import type { Mock } from 'vitest';
+import { describe, beforeAll, expect, vi } from 'vitest';
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
 import { SupportedLanguage } from '../project_types';
@@ -7,7 +9,7 @@ vi.mock('fs-extra');
 
 describe('configureMain', () => {
   beforeAll(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('should generate main.js', async () => {
@@ -21,7 +23,7 @@ describe('configureMain', () => {
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as vi.mock).mock;
+    const { calls } = (fse.writeFile as unknown as Mock).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
@@ -50,7 +52,7 @@ describe('configureMain', () => {
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as vi.mock).mock;
+    const { calls } = (fse.writeFile as unknown as Mock).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
@@ -85,7 +87,7 @@ describe('configureMain', () => {
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as vi.mock).mock;
+    const { calls } = (fse.writeFile as unknown as Mock).mock;
     const [mainConfigPath, mainConfigContent] = calls[0];
 
     expect(mainConfigPath).toEqual('./.storybook/main.js');
@@ -119,7 +121,7 @@ describe('configurePreview', () => {
       rendererId: 'react',
     });
 
-    const { calls } = (fse.writeFile as unknown as vi.mock).mock;
+    const { calls } = (fse.writeFile as unknown as Mock).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
@@ -149,7 +151,7 @@ describe('configurePreview', () => {
       rendererId: 'react',
     });
 
-    const { calls } = (fse.writeFile as unknown as vi.mock).mock;
+    const { calls } = (fse.writeFile as unknown as Mock).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
@@ -174,7 +176,7 @@ describe('configurePreview', () => {
   });
 
   test('should not do anything if the framework template already included a preview', async () => {
-    (fse.pathExists as unknown as vi.mock).mockReturnValueOnce(true);
+    (fse.pathExists as unknown as Mock).mockReturnValueOnce(true);
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
@@ -197,7 +199,7 @@ describe('configurePreview', () => {
       },
     });
 
-    const { calls } = (fse.writeFile as unknown as vi.mock).mock;
+    const { calls } = (fse.writeFile as unknown as Mock).mock;
     const [previewConfigPath, previewConfigContent] = calls[0];
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');

@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import dedent from 'ts-dedent';
 import { Yarn2Proxy } from './Yarn2Proxy';
 
@@ -14,7 +15,7 @@ describe('Yarn 2 Proxy', () => {
 
   describe('initPackageJson', () => {
     it('should run `yarn init`', async () => {
-      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
       await yarn2Proxy.initPackageJson();
 
@@ -26,7 +27,7 @@ describe('Yarn 2 Proxy', () => {
 
   describe('installDependencies', () => {
     it('should run `yarn`', async () => {
-      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
       await yarn2Proxy.installDependencies();
 
@@ -38,7 +39,7 @@ describe('Yarn 2 Proxy', () => {
 
   describe('runScript', () => {
     it('should execute script `yarn compodoc -- -e json -d .`', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockResolvedValueOnce('7.1.0');
 
@@ -55,7 +56,7 @@ describe('Yarn 2 Proxy', () => {
 
   describe('setRegistryUrl', () => {
     it('should run `yarn config set npmRegistryServer https://foo.bar`', async () => {
-      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
       await yarn2Proxy.setRegistryURL('https://foo.bar');
 
@@ -70,7 +71,7 @@ describe('Yarn 2 Proxy', () => {
 
   describe('addDependencies', () => {
     it('with devDep it should run `yarn install -D @storybook/preview-api`', async () => {
-      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
       await yarn2Proxy.addDependencies({ installAsDevDependencies: true }, [
         '@storybook/preview-api',
@@ -84,7 +85,7 @@ describe('Yarn 2 Proxy', () => {
 
   describe('removeDependencies', () => {
     it('should run `yarn remove @storybook/preview-api`', async () => {
-      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('');
 
       await yarn2Proxy.removeDependencies({}, ['@storybook/preview-api']);
 
@@ -97,12 +98,10 @@ describe('Yarn 2 Proxy', () => {
     });
 
     it('skipInstall should only change package.json without running install', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockResolvedValueOnce('7.0.0');
-      const writePackageSpy = jest
-        .spyOn(yarn2Proxy, 'writePackageJson')
-        .mockImplementation(jest.fn());
+      const writePackageSpy = vi.spyOn(yarn2Proxy, 'writePackageJson').mockImplementation(vi.fn());
 
       await yarn2Proxy.removeDependencies(
         {
@@ -128,7 +127,7 @@ describe('Yarn 2 Proxy', () => {
 
   describe('latestVersion', () => {
     it('without constraint it returns the latest version', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockResolvedValueOnce('{"name":"@storybook/preview-api","version":"5.3.19"}');
 
@@ -144,7 +143,7 @@ describe('Yarn 2 Proxy', () => {
     });
 
     it('with constraint it returns the latest version satisfying the constraint', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockResolvedValueOnce(
           '{"name":"@storybook/preview-api","versions":["4.25.3","5.3.19","6.0.0-beta.23"]}'
@@ -162,7 +161,7 @@ describe('Yarn 2 Proxy', () => {
     });
 
     it('throws an error if command output is not a valid JSON', async () => {
-      jest.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
+      vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
       await expect(yarn2Proxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
     });
@@ -170,12 +169,10 @@ describe('Yarn 2 Proxy', () => {
 
   describe('addPackageResolutions', () => {
     it('adds resolutions to package.json and account for existing resolutions', async () => {
-      const writePackageSpy = jest
-        .spyOn(yarn2Proxy, 'writePackageJson')
-        .mockImplementation(jest.fn());
+      const writePackageSpy = vi.spyOn(yarn2Proxy, 'writePackageJson').mockImplementation(vi.fn());
 
-      jest.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
-        jest.fn(async () => ({
+      vi.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
+        vi.fn(async () => ({
           dependencies: {},
           devDependencies: {},
           resolutions: {
@@ -204,7 +201,7 @@ describe('Yarn 2 Proxy', () => {
   describe('mapDependencies', () => {
     it('should display duplicated dependencies based on yarn2 output', async () => {
       // yarn info --name-only --recursive "@storybook/*" "storybook"
-      jest.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce(`
+      vi.spyOn(yarn2Proxy, 'executeCommand').mockResolvedValueOnce(`
       "unrelated-and-should-be-filtered@npm:1.0.0"
       "@storybook/global@npm:5.0.0"
       "@storybook/instrumenter@npm:7.0.0-beta.12"

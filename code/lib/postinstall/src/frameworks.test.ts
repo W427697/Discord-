@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { getFrameworks } from './frameworks';
 
 const REACT = {

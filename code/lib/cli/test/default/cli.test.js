@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 const run = require('../helpers');
 
 describe('Default behavior', () => {

@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 /* eslint-disable global-require */
 /* eslint-disable no-underscore-dangle */
 import path from 'path';
@@ -9,11 +10,11 @@ import * as changesUtils from '../utils/get-changes';
 vi.mock('fs-extra', () => require('../../../code/__mocks__/fs-extra'));
 const fsExtra = require('fs-extra');
 
-const getChangesMock = jest.spyOn(changesUtils, 'getChanges');
+const getChangesMock = vi.spyOn(changesUtils, 'getChanges');
 
-jest.spyOn(console, 'log').mockImplementation(() => {});
-jest.spyOn(console, 'warn').mockImplementation(() => {});
-jest.spyOn(console, 'error').mockImplementation(() => {});
+vi.spyOn(console, 'log').mockImplementation(() => {});
+vi.spyOn(console, 'warn').mockImplementation(() => {});
+vi.spyOn(console, 'error').mockImplementation(() => {});
 
 const STABLE_CHANGELOG_PATH = path.join(__dirname, '..', '..', '..', 'CHANGELOG.md');
 const PRERELEASE_CHANGELOG_PATH = path.join(__dirname, '..', '..', '..', 'CHANGELOG.prerelease.md');
@@ -29,7 +30,7 @@ const LATEST_VERSION_PATH = path.join(
 const NEXT_VERSION_PATH = path.join(__dirname, '..', '..', '..', 'docs', 'versions', 'next.json');
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 const EXISTING_STABLE_CHANGELOG = dedent`## 7.0.0

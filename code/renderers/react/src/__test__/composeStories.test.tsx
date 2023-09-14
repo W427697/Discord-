@@ -1,4 +1,4 @@
-import { describe, test, it, expect } from 'vitest';
+import { vi, test, expect } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
@@ -28,7 +28,7 @@ test('reuses args from composed story', () => {
 });
 
 test('onclick handler is called', async () => {
-  const onClickSpy = jest.fn();
+  const onClickSpy = vi.fn();
   render(<Secondary onClick={onClickSpy} />);
   const buttonElement = screen.getByRole('button');
   buttonElement.click();

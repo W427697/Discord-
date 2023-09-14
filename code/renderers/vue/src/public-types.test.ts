@@ -1,3 +1,4 @@
+import { describe, test } from 'vitest';
 import { satisfies } from '@storybook/core-common';
 import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';

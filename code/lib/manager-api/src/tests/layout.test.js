@@ -1,3 +1,4 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { themes } from '@storybook/theming';
 import { init as initLayout } from '../modules/layout';
 
@@ -23,14 +24,14 @@ beforeEach(() => {
   };
   store = {
     getState: () => currentState,
-    setState: jest.fn((patch) => {
+    setState: vi.fn((patch) => {
       currentState = {
         ...currentState,
         ...(typeof patch === 'function' ? patch(currentState) : patch),
       };
     }),
   };
-  provider = { getConfig: jest.fn(() => ({})) };
+  provider = { getConfig: vi.fn(() => ({})) };
   layoutApi = initLayout({ store, provider }).api;
 });
 

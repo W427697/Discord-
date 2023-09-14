@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import store2 from 'store2';
 import flushPromises from 'flush-promises';
 
@@ -5,12 +6,12 @@ import Store, { STORAGE_KEY } from '../store';
 
 vi.mock('store2', () => ({
   local: {
-    set: jest.fn(),
-    get: jest.fn(),
+    set: vi.fn(),
+    get: vi.fn(),
   },
   session: {
-    set: jest.fn(),
-    get: jest.fn(),
+    set: vi.fn(),
+    get: vi.fn(),
   },
   _: { fn: () => {} },
 }));
@@ -30,7 +31,7 @@ describe('store', () => {
   });
 
   it('passes getState right through', () => {
-    const getState = jest.fn();
+    const getState = vi.fn();
     const store = new Store({ getState });
 
     store.getState();
@@ -40,7 +41,7 @@ describe('store', () => {
 
   describe('setState', () => {
     it('sets values in React only by default', async () => {
-      const setState = jest.fn().mockImplementation((x, cb) => cb());
+      const setState = vi.fn().mockImplementation((x, cb) => cb());
       const store = new Store({ setState });
 
       await store.setState({ foo: 'bar' });
@@ -51,7 +52,7 @@ describe('store', () => {
     });
 
     it('sets values in React and sessionStorage if persistence === session', async () => {
-      const setState = jest.fn().mockImplementation((x, cb) => cb());
+      const setState = vi.fn().mockImplementation((x, cb) => cb());
       const store = new Store({ setState });
 
       await store.setState({ foo: 'bar' }, { persistence: 'session' });
@@ -62,7 +63,7 @@ describe('store', () => {
     });
 
     it('sets values in React and sessionStorage if persistence === permanent', async () => {
-      const setState = jest.fn().mockImplementation((x, cb) => cb());
+      const setState = vi.fn().mockImplementation((x, cb) => cb());
       const store = new Store({ setState });
 
       await store.setState({ foo: 'bar' }, { persistence: 'permanent' });
@@ -73,7 +74,7 @@ describe('store', () => {
     });
 
     it('properly patches existing values', async () => {
-      const setState = jest.fn().mockImplementation((x, cb) => cb());
+      const setState = vi.fn().mockImplementation((x, cb) => cb());
       store2.session.get.mockReturnValueOnce({
         foo: 'baz',
         another: 'value',
@@ -96,7 +97,7 @@ describe('store', () => {
 
     it('waits for react to setState', async () => {
       let cb;
-      const setState = jest.fn().mockImplementation((x, inputCb) => {
+      const setState = vi.fn().mockImplementation((x, inputCb) => {
         cb = inputCb;
       });
       const store = new Store({ setState });
@@ -117,7 +118,7 @@ describe('store', () => {
     });
 
     it('returns react.setState result', async () => {
-      const setState = jest.fn().mockImplementation((x, cb) => cb('RESULT'));
+      const setState = vi.fn().mockImplementation((x, cb) => cb('RESULT'));
       const store = new Store({ setState });
 
       const result = await store.setState({ foo: 'bar' });
@@ -127,7 +128,7 @@ describe('store', () => {
 
     it('allows a callback', async () =>
       new Promise((resolve) => {
-        const setState = jest.fn().mockImplementation((x, cb) => cb('RESULT'));
+        const setState = vi.fn().mockImplementation((x, cb) => cb('RESULT'));
         const store = new Store({ setState });
 
         store.setState({ foo: 'bar' }, (result) => {
@@ -137,13 +138,13 @@ describe('store', () => {
       }));
 
     it('allows a patch function and persists its results', async () => {
-      const setState = jest.fn().mockImplementation((x, cb) => {
+      const setState = vi.fn().mockImplementation((x, cb) => {
         x('OLD_STATE');
         cb();
       });
       const store = new Store({ setState });
 
-      const patch = jest.fn().mockReturnValue({ foo: 'bar' });
+      const patch = vi.fn().mockReturnValue({ foo: 'bar' });
       await store.setState(patch, { persistence: 'session' });
 
       expect(patch).toHaveBeenCalledWith('OLD_STATE');

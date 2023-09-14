@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { global } from '@storybook/global';
 import { getSourceType, init as initRefs } from '../modules/refs';
 
@@ -7,7 +8,7 @@ const fetchMock = vi.mocked(fetch);
 
 vi.mock('@storybook/global', () => {
   const globalMock = {
-    fetch: jest.fn(() => Promise.resolve({})),
+    fetch: vi.fn(() => Promise.resolve({})),
     REFS: {
       fake: {
         id: 'fake',
@@ -27,7 +28,7 @@ vi.mock('@storybook/global', () => {
   Object.defineProperties(globalMock, {
     location: {
       get: edgecaseLocations
-        .reduce((mockFn, location) => mockFn.mockReturnValueOnce(location), jest.fn())
+        .reduce((mockFn, location) => mockFn.mockReturnValueOnce(location), vi.fn())
         .mockReturnValue(lastLocation),
     },
   });
@@ -35,11 +36,11 @@ vi.mock('@storybook/global', () => {
 });
 
 const provider = {
-  getConfig: jest.fn().mockReturnValue({}),
+  getConfig: vi.fn().mockReturnValue({}),
 };
 
 const store = {
-  getState: jest.fn().mockReturnValue({
+  getState: vi.fn().mockReturnValue({
     refs: {
       fake: {
         id: 'fake',
@@ -48,7 +49,7 @@ const store = {
       },
     },
   }),
-  setState: jest.fn((a: any) => {}),
+  setState: vi.fn((a: any) => {}),
 };
 
 interface ResponseResult {

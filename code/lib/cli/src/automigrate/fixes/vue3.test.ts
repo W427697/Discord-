@@ -1,3 +1,4 @@
+import { describe, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager } from '../../js-package-manager';
 import { vue3 } from './vue3';
@@ -20,7 +21,7 @@ const checkVue3 = async ({
 };
 
 describe('vue3 fix', () => {
-  afterEach(jest.restoreAllMocks);
+  afterEach(vi.restoreAllMocks);
 
   describe('sb < 6.3', () => {
     describe('vue3 dependency', () => {

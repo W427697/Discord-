@@ -1,9 +1,10 @@
+import { describe, it, expect, vi } from 'vitest';
 import fs from 'fs-extra';
 import path from 'path';
 import 'jest-os-detection';
 import { parseStaticDir } from '../server-statics';
 
-fs.pathExists = jest.fn().mockReturnValue(true);
+fs.pathExists = vi.fn().mockReturnValue(true);
 
 describe('parseStaticDir', () => {
   it('returns the static dir/path and default target', async () => {
@@ -90,7 +91,7 @@ describe('parseStaticDir', () => {
   });
 
   it('checks that the path exists', async () => {
-    fs.pathExists = jest.fn().mockReturnValueOnce(false);
+    fs.pathExists = vi.fn().mockReturnValueOnce(false);
     await expect(parseStaticDir('nonexistent')).rejects.toThrow(path.resolve('nonexistent'));
   });
 });

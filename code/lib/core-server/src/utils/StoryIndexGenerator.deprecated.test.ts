@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { describe, test, it, expect } from 'vitest';
-
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
+import type { Mock } from 'vitest';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import path from 'path';
 import fs from 'fs-extra';
@@ -17,19 +17,19 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 vi.mock('@storybook/csf-tools');
-vi.mock('@storybook/csf', () => {
-  const csf = jest.requireActual('@storybook/csf');
+vi.mock('@storybook/csf', async () => {
+  const csf = await vi.importActual('@storybook/csf');
   return {
     ...csf,
-    toId: jest.fn(csf.toId),
+    toId: vi.fn(csf.toId),
   };
 });
 
 vi.mock('@storybook/node-logger');
 
-const toIdMock = toId as vi.mock<ReturnType<typeof toId>>;
-const loadCsfMock = loadCsf as vi.mock<ReturnType<typeof loadCsf>>;
-const getStorySortParameterMock = getStorySortParameter as vi.mock<
+const toIdMock = toId as Mock<ReturnType<typeof toId>>;
+const loadCsfMock = loadCsf as Mock<ReturnType<typeof loadCsf>>;
+const getStorySortParameterMock = getStorySortParameter as Mock<
   ReturnType<typeof getStorySortParameter>
 >;
 
@@ -59,8 +59,8 @@ const options: StoryIndexGeneratorOptions = {
 };
 
 describe('StoryIndexGenerator with deprecated indexer API', () => {
-  beforeEach(() => {
-    const actual = jest.requireActual('@storybook/csf-tools');
+  beforeEach(async () => {
+    const actual = await vi.importActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
     vi.mocked(logger.warn).mockClear();
     vi.mocked(once.warn).mockClear();
@@ -1211,7 +1211,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
       const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
       await generator.initialize();
 
-      (getStorySortParameter as vi.mock).mockReturnValueOnce({
+      (getStorySortParameter as Mock).mockReturnValueOnce({
         order: ['docs2', 'D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
       });
 
@@ -1279,7 +1279,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           options
         );
 
-        const sortFn = jest.fn();
+        const sortFn = vi.fn();
         getStorySortParameterMock.mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
@@ -1362,7 +1362,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           options
         );
 
-        const sortFn = jest.fn();
+        const sortFn = vi.fn();
         getStorySortParameterMock.mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
@@ -1403,7 +1403,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           options
         );
 
-        const sortFn = jest.fn();
+        const sortFn = vi.fn();
         getStorySortParameterMock.mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();

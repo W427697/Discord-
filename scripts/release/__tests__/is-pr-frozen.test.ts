@@ -1,7 +1,7 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable global-require */
 import path from 'path';
-import { vi, describe, expect, it } from 'vitest';
 import { run as isPrFrozen } from '../is-pr-frozen';
 
 // eslint-disable-next-line jest/no-mocks-import
@@ -20,6 +20,10 @@ fsExtra.__setMockFiles({
 });
 
 describe('isPrFrozen', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should return true when PR is frozen', async () => {
     getPullInfoFromCommit.mockResolvedValue({
       labels: ['freeze'],

@@ -1,4 +1,4 @@
-const { v5 } = jest.requireActual('uuid');
+const { v5 } = await vi.importActual('uuid');
 
 let seed = 0;
 

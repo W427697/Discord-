@@ -1,11 +1,12 @@
+import { vi } from 'vitest';
 /* eslint-disable no-underscore-dangle */
-const mod = jest.createMockFromModule('simple-git');
+const mod = vi.createMockFromModule('simple-git');
 
-mod.__getRemotes = jest
+mod.__getRemotes = vi
   .fn()
   .mockReturnValue([{ name: 'origin', refs: { fetch: 'origin', push: 'origin' } }]);
-mod.__fetch = jest.fn();
-mod.__revparse = jest.fn().mockResolvedValue('mockedGitCommitHash');
+mod.__fetch = vi.fn();
+mod.__revparse = vi.fn().mockResolvedValue('mockedGitCommitHash');
 
 mod.simpleGit = () => {
   return {

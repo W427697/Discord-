@@ -1,8 +1,7 @@
-import { describe, test, it, expect } from 'vitest';
-
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
+import { describe, it, expect, vi } from 'vitest';
 
 import path from 'path';
 import { normalizeStoriesEntry } from '@storybook/core-common';

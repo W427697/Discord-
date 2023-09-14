@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 
 import { getMonorepoType, monorepoConfigs } from './get-monorepo-type';
@@ -6,8 +7,8 @@ import { getMonorepoType, monorepoConfigs } from './get-monorepo-type';
 // eslint-disable-next-line global-require, jest/no-mocks-import
 vi.mock('fs-extra', () => require('../../../__mocks__/fs-extra'));
 
-vi.mock('@storybook/core-common', () => {
-  const coreCommon = jest.requireActual('@storybook/core-common');
+vi.mock('@storybook/core-common', async () => {
+  const coreCommon = await vi.importActual('@storybook/core-common');
   return {
     ...coreCommon,
     getProjectRoot: () => 'root',

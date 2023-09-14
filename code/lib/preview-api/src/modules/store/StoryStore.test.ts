@@ -1,5 +1,5 @@
+import { describe, it, expect, vi } from 'vitest';
 import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
-import { expect } from 'vitest';
 
 import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';
@@ -7,17 +7,17 @@ import { StoryStore } from './StoryStore';
 import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
-vi.mock('./csf/prepareStory', () => ({
-  ...jest.requireActual('./csf/prepareStory'),
-  prepareStory: jest.fn(jest.requireActual('./csf/prepareStory').prepareStory),
+vi.mock('./csf/prepareStory', async () => ({
+  ...(await vi.importActual('./csf/prepareStory')),
+  prepareStory: vi.fn((await vi.importActual('./csf/prepareStory')).prepareStory),
 }));
-vi.mock('./csf/processCSFFile', () => ({
-  processCSFFile: jest.fn(jest.requireActual('./csf/processCSFFile').processCSFFile),
+vi.mock('./csf/processCSFFile', async () => ({
+  processCSFFile: vi.fn((await vi.importActual('./csf/processCSFFile')).processCSFFile),
 }));
 
-vi.mock('@storybook/global', () => ({
+vi.mock('@storybook/global', async () => ({
   global: {
-    ...(jest.requireActual('@storybook/global') as any),
+    ...((await vi.importActual('@storybook/global')) as any),
   },
 }));
 
@@ -38,7 +38,7 @@ const componentTwoExports = {
   default: { title: 'Component Two' },
   c: { args: { foo: 'c' } },
 };
-const importFn = jest.fn(async (path) => {
+const importFn = vi.fn(async (path) => {
   return path === './src/ComponentOne.stories.js' ? componentOneExports : componentTwoExports;
 });
 
@@ -46,7 +46,7 @@ const projectAnnotations: ProjectAnnotations<any> = {
   globals: { a: 'b' },
   globalTypes: { a: { type: 'string' } },
   argTypes: { a: { type: 'string' } },
-  render: jest.fn(),
+  render: vi.fn(),
 };
 
 const storyIndex: StoryIndex = {
@@ -178,7 +178,7 @@ describe('StoryStore', () => {
       expect(processCSFFile).toHaveBeenCalledTimes(1);
       expect(prepareStory).toHaveBeenCalledTimes(1);
 
-      store.setProjectAnnotations({ ...projectAnnotations, decorators: [jest.fn()] });
+      store.setProjectAnnotations({ ...projectAnnotations, decorators: [vi.fn()] });
 
       // We are intentionally checking exact equality here, we need the object to be identical
       expect(await store.loadStory({ storyId: 'component-one--a' })).not.toBe(story);
@@ -270,7 +270,7 @@ describe('StoryStore', () => {
       expect(importFn).toHaveBeenCalledWith(storyIndex.entries['component-one--a'].importPath);
 
       const newImportPath = './src/ComponentOne-new.stories.js';
-      const newImportFn = jest.fn(async () => componentOneExports);
+      const newImportFn = vi.fn(async () => componentOneExports);
       await store.onStoriesChanged({
         importFn: newImportFn,
         storyIndex: {
@@ -301,7 +301,7 @@ describe('StoryStore', () => {
       expect(importFn).toHaveBeenCalledWith(storyIndex.entries['component-one--a'].importPath);
 
       const newImportPath = './src/ComponentOne-new.stories.js';
-      const newImportFn = jest.fn(async () => componentOneExports);
+      const newImportFn = vi.fn(async () => componentOneExports);
       await store.onStoriesChanged({
         importFn: newImportFn,
         storyIndex: {
@@ -465,7 +465,7 @@ describe('StoryStore', () => {
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
       const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Renderer> };
-      hooks.clean = jest.fn();
+      hooks.clean = vi.fn();
       store.cleanupStory(story);
       expect(hooks.clean).toHaveBeenCalled();
     });
@@ -489,7 +489,7 @@ describe('StoryStore', () => {
 
     it('imports in batches', async () => {
       const [gate, openGate] = createGate();
-      const blockedImportFn = jest.fn(async (file) => {
+      const blockedImportFn = vi.fn(async (file) => {
         await gate;
         return importFn(file);
       });
@@ -642,7 +642,7 @@ describe('StoryStore', () => {
     });
 
     it('does not include (legacy) docs only stories by default', async () => {
-      const docsOnlyImportFn = jest.fn(async (path) => {
+      const docsOnlyImportFn = vi.fn(async (path) => {
         return path === './src/ComponentOne.stories.js'
           ? {
               ...componentOneExports,

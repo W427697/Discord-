@@ -1,3 +1,4 @@
+import { vi, describe, it, expect } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { Component, Directive, Injectable, InjectionToken, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -45,7 +46,7 @@ const extractApplicationProviders = (metadata: NgModuleMetadata, component?: any
 };
 
 describe('PropertyExtractor', () => {
-  jest.spyOn(console, 'warn').mockImplementation(() => {});
+  vi.spyOn(console, 'warn').mockImplementation(() => {});
 
   describe('analyzeMetadata', () => {
     it('should remove BrowserModule', () => {

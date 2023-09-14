@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import type { NodeResult } from 'axe-core';
@@ -18,12 +19,12 @@ const defaultProviderValue = {
     incomplete: [],
     violations: [],
   },
-  setResults: jest.fn(),
+  setResults: vi.fn(),
   highlighted: [],
-  toggleHighlight: jest.fn(),
-  clearHighlights: jest.fn(),
+  toggleHighlight: vi.fn(),
+  clearHighlights: vi.fn(),
   tab: 0,
-  setTab: jest.fn(),
+  setTab: vi.fn(),
 };
 
 describe('<HighlightToggle />', () => {

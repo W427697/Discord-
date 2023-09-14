@@ -1,12 +1,13 @@
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { NPMProxy } from './NPMProxy';
 
 // mock createLogStream
 vi.mock('../utils', () => ({
-  createLogStream: jest.fn(() => ({
+  createLogStream: vi.fn(() => ({
     logStream: '',
-    readLogFile: jest.fn(),
-    moveLogFile: jest.fn(),
-    removeLogFile: jest.fn(),
+    readLogFile: vi.fn(),
+    moveLogFile: vi.fn(),
+    removeLogFile: vi.fn(),
   })),
 }));
 
@@ -23,7 +24,7 @@ describe('NPM Proxy', () => {
 
   describe('initPackageJson', () => {
     it('should run `npm init -y`', async () => {
-      const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce('');
 
       await npmProxy.initPackageJson();
 
@@ -35,7 +36,7 @@ describe('NPM Proxy', () => {
 
   describe('setRegistryUrl', () => {
     it('should run `npm config set registry https://foo.bar`', async () => {
-      const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce('');
+      const executeCommandSpy = vi.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce('');
 
       await npmProxy.setRegistryURL('https://foo.bar');
 
@@ -51,7 +52,7 @@ describe('NPM Proxy', () => {
   describe('installDependencies', () => {
     describe('npm6', () => {
       it('should run `npm install`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('6.0.0');
 
@@ -64,7 +65,7 @@ describe('NPM Proxy', () => {
     });
     describe('npm7', () => {
       it('should run `npm install`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.1.0');
 
@@ -80,7 +81,7 @@ describe('NPM Proxy', () => {
   describe('runScript', () => {
     describe('npm6', () => {
       it('should execute script `npm exec -- compodoc -e json -d .`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('6.0.0');
 
@@ -96,7 +97,7 @@ describe('NPM Proxy', () => {
     });
     describe('npm7', () => {
       it('should execute script `npm run compodoc -- -e json -d .`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.1.0');
 
@@ -115,7 +116,7 @@ describe('NPM Proxy', () => {
   describe('addDependencies', () => {
     describe('npm6', () => {
       it('with devDep it should run `npm install -D @storybook/preview-api`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('6.0.0');
 
@@ -133,7 +134,7 @@ describe('NPM Proxy', () => {
     });
     describe('npm7', () => {
       it('with devDep it should run `npm install -D @storybook/preview-api`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.0.0');
 
@@ -154,7 +155,7 @@ describe('NPM Proxy', () => {
   describe('removeDependencies', () => {
     describe('npm6', () => {
       it('with devDep it should run `npm uninstall @storybook/preview-api`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('6.0.0');
 
@@ -167,7 +168,7 @@ describe('NPM Proxy', () => {
     });
     describe('npm7', () => {
       it('with devDep it should run `npm uninstall @storybook/preview-api`', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.0.0');
 
@@ -180,12 +181,10 @@ describe('NPM Proxy', () => {
     });
     describe('skipInstall', () => {
       it('should only change package.json without running install', async () => {
-        const executeCommandSpy = jest
+        const executeCommandSpy = vi
           .spyOn(npmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.0.0');
-        const writePackageSpy = jest
-          .spyOn(npmProxy, 'writePackageJson')
-          .mockImplementation(jest.fn());
+        const writePackageSpy = vi.spyOn(npmProxy, 'writePackageJson').mockImplementation(vi.fn());
 
         await npmProxy.removeDependencies(
           {
@@ -212,7 +211,7 @@ describe('NPM Proxy', () => {
 
   describe('latestVersion', () => {
     it('without constraint it returns the latest version', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(npmProxy, 'executeCommand')
         .mockResolvedValueOnce('"5.3.19"');
 
@@ -228,7 +227,7 @@ describe('NPM Proxy', () => {
     });
 
     it('with constraint it returns the latest version satisfying the constraint', async () => {
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(npmProxy, 'executeCommand')
         .mockResolvedValueOnce('["4.25.3","5.3.19","6.0.0-beta.23"]');
 
@@ -244,7 +243,7 @@ describe('NPM Proxy', () => {
     });
 
     it('throws an error if command output is not a valid JSON', async () => {
-      jest.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
+      vi.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce('NOT A JSON');
 
       await expect(npmProxy.latestVersion('@storybook/preview-api')).rejects.toThrow();
     });
@@ -254,7 +253,7 @@ describe('NPM Proxy', () => {
     it('with a Storybook package listed in versions.json it returns the version', async () => {
       // eslint-disable-next-line global-require
       const storybookAngularVersion = require('../versions').default['@storybook/angular'];
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(npmProxy, 'executeCommand')
         .mockResolvedValueOnce('"5.3.19"');
 
@@ -271,7 +270,7 @@ describe('NPM Proxy', () => {
 
     it('with a Storybook package not listed in versions.json it returns the latest version', async () => {
       const packageVersion = '5.3.19';
-      const executeCommandSpy = jest
+      const executeCommandSpy = vi
         .spyOn(npmProxy, 'executeCommand')
         .mockResolvedValueOnce(`"${packageVersion}"`);
 
@@ -289,12 +288,10 @@ describe('NPM Proxy', () => {
 
   describe('addPackageResolutions', () => {
     it('adds resolutions to package.json and account for existing resolutions', async () => {
-      const writePackageSpy = jest
-        .spyOn(npmProxy, 'writePackageJson')
-        .mockImplementation(jest.fn());
+      const writePackageSpy = vi.spyOn(npmProxy, 'writePackageJson').mockImplementation(vi.fn());
 
-      jest.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
-        jest.fn(async () => ({
+      vi.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
+        vi.fn(async () => ({
           dependencies: {},
           devDependencies: {},
           overrides: {
@@ -322,7 +319,7 @@ describe('NPM Proxy', () => {
   describe('mapDependencies', () => {
     it('should display duplicated dependencies based on npm output', async () => {
       // npm ls --depth 10 --json
-      jest.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce(`
+      vi.spyOn(npmProxy, 'executeCommand').mockResolvedValueOnce(`
         {
           "dependencies": {
             "unrelated-and-should-be-filtered": {

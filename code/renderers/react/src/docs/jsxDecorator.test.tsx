@@ -1,14 +1,16 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 import type { FC, PropsWithChildren } from 'react';
 import React, { createElement, Profiler } from 'react';
+import type { Mocked } from 'vitest';
+import { vi, describe, it } from 'vitest';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import { renderJsx, jsxDecorator } from './jsxDecorator';
 
 vi.mock('@storybook/preview-api');
-const mockedAddons = addons as vi.mocked<typeof addons>;
-const mockedUseEffect = useEffect as vi.mocked<typeof useEffect>;
+const mockedAddons = addons as Mocked<typeof addons>;
+const mockedUseEffect = useEffect as Mocked<typeof useEffect>;
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -189,13 +191,13 @@ const makeContext = (name: string, parameters: any, args: any, extra?: object): 
 });
 
 describe('jsxDecorator', () => {
-  let mockChannel: { on: vi.mock; emit?: vi.mock };
+  let mockChannel: { on: Mocked; emit?: Mocked };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     // @ts-expect-error (Converted from ts-ignore)
     mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
-    mockChannel = { on: jest.fn(), emit: jest.fn() };
+    mockChannel = { on: vi.fn(), emit: vi.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
   });
 
@@ -273,7 +275,7 @@ describe('jsxDecorator', () => {
   it('handles stories that trigger Suspense', async () => {
     // if a story function uses a hook or other library that triggers suspense, it will throw a Promise until it is resolved
     // and then it will return the story content after the promise is resolved
-    const storyFn = jest.fn();
+    const storyFn = vi.fn();
     storyFn
       .mockImplementationOnce(() => {
         // eslint-disable-next-line @typescript-eslint/no-throw-literal

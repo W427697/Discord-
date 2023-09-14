@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import path from 'path';
 import { logger } from '@storybook/node-logger';
 import './presets';
@@ -15,9 +16,9 @@ function mockPreset(name: string, mockPresetObject: any) {
 
 vi.mock('@storybook/node-logger', () => ({
   logger: {
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
   },
 }));
 
@@ -47,13 +48,13 @@ vi.mock('./utils/safeResolve', () => {
   ];
 
   return {
-    safeResolveFrom: jest.fn((l: any, name: string) => {
+    safeResolveFrom: vi.fn((l: any, name: string) => {
       if (KNOWN_FILES.includes(name)) {
         return name;
       }
       return undefined;
     }),
-    safeResolve: jest.fn((name: string) => {
+    safeResolve: vi.fn((name: string) => {
       if (KNOWN_FILES.includes(name)) {
         return name;
       }
@@ -64,7 +65,7 @@ vi.mock('./utils/safeResolve', () => {
 
 describe('presets', () => {
   it('does not throw when there is no preset file', async () => {
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     let presets;
 
     async function testPresets() {
@@ -79,7 +80,7 @@ describe('presets', () => {
   });
 
   it('does not throw when presets are empty', async () => {
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(await getPresets([]));
 
     async function testPresets() {
@@ -91,7 +92,7 @@ describe('presets', () => {
   });
 
   it('does not throw when preset can not be loaded', async () => {
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(await getPresets(['preset-foo']));
 
     async function testPresets() {
@@ -124,7 +125,7 @@ describe('presets', () => {
       foo: (exec: string[], options: any) => exec.concat(`valar ${options.custom}`),
     });
 
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = await getPresets(['preset-foo', 'preset-got', 'preset-bar'], {});
 
     const result = await presets.apply('foo', []);
@@ -133,8 +134,8 @@ describe('presets', () => {
   });
 
   it('loads and applies presets when they are declared as a string', async () => {
-    const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
+    const mockPresetFooExtendWebpack = vi.fn();
+    const mockPresetBarExtendBabel = vi.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
@@ -144,7 +145,7 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(await getPresets(['preset-foo', 'preset-bar'], {}));
 
     async function testPresets() {
@@ -159,8 +160,8 @@ describe('presets', () => {
   });
 
   it('loads  and applies presets when they are declared as an object without props', async () => {
-    const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
+    const mockPresetFooExtendWebpack = vi.fn();
+    const mockPresetBarExtendBabel = vi.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
@@ -170,7 +171,7 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets([{ name: 'preset-foo' }, { name: 'preset-bar' }], {})
     );
@@ -187,8 +188,8 @@ describe('presets', () => {
   });
 
   it('loads and applies presets when they are declared as an object with props', async () => {
-    const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
+    const mockPresetFooExtendWebpack = vi.fn();
+    const mockPresetBarExtendBabel = vi.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
@@ -198,7 +199,7 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets(
         [
@@ -229,8 +230,8 @@ describe('presets', () => {
   });
 
   it('loads and applies presets when they are declared as a string and as an object', async () => {
-    const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
+    const mockPresetFooExtendWebpack = vi.fn();
+    const mockPresetBarExtendBabel = vi.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
@@ -240,7 +241,7 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets(
         [
@@ -275,8 +276,8 @@ describe('presets', () => {
   });
 
   it('applies presets in chain', async () => {
-    const mockPresetFooExtendWebpack = jest.fn((...args: any[]) => ({}));
-    const mockPresetBarExtendWebpack = jest.fn((...args: any[]) => ({}));
+    const mockPresetFooExtendWebpack = vi.fn((...args: any[]) => ({}));
+    const mockPresetBarExtendWebpack = vi.fn((...args: any[]) => ({}));
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
@@ -286,7 +287,7 @@ describe('presets', () => {
       webpack: mockPresetBarExtendWebpack,
     });
 
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets(
         [
@@ -326,9 +327,9 @@ describe('presets', () => {
   });
 
   it('allows for presets to export presets array', async () => {
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const input = {};
-    const mockPresetBar = jest.fn((...args: any[]) => input);
+    const mockPresetBar = vi.fn((...args: any[]) => input);
 
     mockPreset('preset-foo', {
       presets: ['preset-bar'],
@@ -348,12 +349,12 @@ describe('presets', () => {
   });
 
   it('allows for presets to export presets fn', async () => {
-    const { getPresets } = jest.requireActual('./presets');
+    const { getPresets } = await vi.importActual('./presets');
     const input = {};
     const storybookOptions = { a: 1 };
     const presetOptions = { b: 2 };
-    const mockPresetBar = jest.fn((...args: any[]) => input);
-    const mockPresetFoo = jest.fn((...args: any[]) => ['preset-bar']);
+    const mockPresetBar = vi.fn((...args: any[]) => input);
+    const mockPresetFoo = vi.fn((...args: any[]) => ['preset-bar']);
 
     mockPreset('preset-foo', {
       presets: mockPresetFoo,
@@ -374,12 +375,12 @@ describe('presets', () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
+    vi.resetModules();
   });
 });
 
 describe('resolveAddonName', () => {
-  const { resolveAddonName } = jest.requireActual('./presets');
+  const { resolveAddonName } = vi.importActual('./presets');
 
   it('should resolve packages with metadata (relative path)', () => {
     mockPreset('./local/preset', {
@@ -458,10 +459,10 @@ describe('loadPreset', () => {
   mockPreset('addon-baz/register.js', {});
   mockPreset('@storybook/addon-notes/register-panel', {});
 
-  const { loadPreset } = jest.requireActual('./presets');
+  const { loadPreset } = await vi.importActual('./presets');
 
   beforeEach(() => {
-    jest.spyOn(logger, 'warn');
+    vi.spyOn(logger, 'warn');
   });
 
   it('should prepend framework field to list of presets', async () => {

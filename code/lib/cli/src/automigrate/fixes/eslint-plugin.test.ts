@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { describe, it, expect, vi } from 'vitest';
 import { dedent } from 'ts-dedent';
 import type { PackageJson } from '../../js-package-manager';
 import { eslintPlugin } from './eslint-plugin';
@@ -75,7 +76,7 @@ describe('eslint-plugin fix', () => {
 
     describe('should no-op and warn when', () => {
       it('.eslintrc is not found', async () => {
-        const loggerSpy = jest.spyOn(console, 'warn').mockImplementationOnce(jest.fn);
+        const loggerSpy = vi.spyOn(console, 'warn').mockImplementationOnce(vi.fn);
         const result = await checkEslint({
           packageJson,
           hasEslint: false,
