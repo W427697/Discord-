@@ -12,7 +12,6 @@ import { global } from '@storybook/global';
 import { loadCsf } from '@storybook/csf-tools';
 import { logger } from '@storybook/node-logger';
 import { ensureReactPeerDeps } from './ensure-react-peer-deps';
-import { mdxPlugin } from './plugins/mdx-plugin';
 
 async function webpack(
   webpackConfig: any = {},
@@ -179,8 +178,9 @@ export const addons: StorybookConfig['addons'] = [
 
 export const viteFinal: StorybookConfigVite['viteFinal'] = async (config, ...options) => {
   const { plugins = [] } = config;
+  const { mdxPlugin } = await import('./plugins/mdx-plugin');
 
-  plugins.push(await mdxPlugin(...options));
+  plugins.push(mdxPlugin(...options));
 
   return config;
 };
