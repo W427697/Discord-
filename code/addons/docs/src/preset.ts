@@ -7,7 +7,6 @@ import { dedent } from 'ts-dedent';
 import type { DocsOptions, Indexer, Options, StorybookConfig } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
-import type { StorybookConfigVite } from '@storybook/builder-vite';
 import { global } from '@storybook/global';
 import { loadCsf } from '@storybook/csf-tools';
 import { logger } from '@storybook/node-logger';
@@ -176,11 +175,11 @@ export const addons: StorybookConfig['addons'] = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
 
-export const viteFinal: StorybookConfigVite['viteFinal'] = async (config, ...options) => {
+export const viteFinal = async (config: any, options: Options) => {
   const { plugins = [] } = config;
   const { mdxPlugin } = await import('./plugins/mdx-plugin');
 
-  plugins.push(mdxPlugin(...options));
+  plugins.push(mdxPlugin(options));
 
   return config;
 };

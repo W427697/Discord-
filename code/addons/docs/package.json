@@ -120,7 +120,6 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/builder-vite": "workspace:*",
     "react": "^16.14.0",
     "react-dom": "^16.8.0",
     "typescript": "~4.9.3",
