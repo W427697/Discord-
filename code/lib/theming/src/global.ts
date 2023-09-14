@@ -103,6 +103,7 @@ export const createGlobal = memoize(1)(
         background: background.app,
         overflow: 'hidden',
       },
+
       hr: {
         ...resetStyles.hr,
         borderTop: `1px solid ${color.border}`,
