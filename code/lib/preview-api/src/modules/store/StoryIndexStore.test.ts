@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 
 import type { StoryIndex } from '@storybook/types';
 import { StoryIndexStore } from './StoryIndexStore';

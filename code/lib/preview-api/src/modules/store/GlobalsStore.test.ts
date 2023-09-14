@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 import { GlobalsStore } from './GlobalsStore';
 
 vi.mock('@storybook/client-logger', () => ({

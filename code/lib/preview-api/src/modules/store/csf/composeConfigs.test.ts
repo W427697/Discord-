@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 import { global } from '@storybook/global';
 
 import { composeConfigs } from './composeConfigs';

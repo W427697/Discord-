@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,

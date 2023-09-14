@@ -1,5 +1,5 @@
 import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 
 import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';

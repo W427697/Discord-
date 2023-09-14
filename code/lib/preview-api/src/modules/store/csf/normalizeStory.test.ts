@@ -1,4 +1,4 @@
-import { expect, describe, it } from '@jest/globals';
+import { expect, describe, it } from 'vitest';
 import type { Renderer, StoryAnnotationsOrFn } from '@storybook/types';
 
 import { normalizeStory } from './normalizeStory';

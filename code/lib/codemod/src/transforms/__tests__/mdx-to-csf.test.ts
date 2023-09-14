@@ -1,5 +1,5 @@
 import * as fs_ from 'node:fs';
-import { expect, test } from '@jest/globals';
+import { expect, test } from 'vitest';
 import dedent from 'ts-dedent';
 import jscodeshift, { nameToValidExport } from '../mdx-to-csf';
 

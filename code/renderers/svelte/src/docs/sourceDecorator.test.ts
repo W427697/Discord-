@@ -1,4 +1,4 @@
-import { describe, expect, test } from '@jest/globals';
+import { describe, expect, test } from 'vitest';
 import type { Args } from '@storybook/types';
 import { generateSvelteSource } from './sourceDecorator';
 

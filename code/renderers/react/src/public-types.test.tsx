@@ -1,4 +1,4 @@
-import { describe, test } from '@jest/globals';
+import { describe, test } from 'vitest';
 
 import { satisfies } from '@storybook/core-common';
 import type { Args, StoryAnnotations, StrictArgs } from '@storybook/types';

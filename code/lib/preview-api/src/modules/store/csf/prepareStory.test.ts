@@ -1,7 +1,6 @@
 import { describe, test, it, expect } from 'vitest';
 
 import { global } from '@storybook/global';
-import { expect } from '@jest/globals';
 import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
 import { addons, HooksContext } from '../../addons';
 

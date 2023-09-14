@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect } from 'vitest';
 import { dedent } from 'ts-dedent';
 import type { API } from 'jscodeshift';
 import ansiRegex from 'ansi-regex';

@@ -1,5 +1,5 @@
 import { once } from '@storybook/client-logger';
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 import type { SBType } from '@storybook/types';
 
 import {

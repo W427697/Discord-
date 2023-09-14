@@ -3,7 +3,7 @@
  * @jest-environment jsdom
  */
 
-// import { describe, it, beforeAll, beforeEach, afterAll, afterEach, jest } from '@jest/globals';
+// import { describe, it, beforeAll, beforeEach, afterAll, afterEach, jest } from 'vitest'
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX, CONFIG_ERROR } from '@storybook/core-events';
 
 import type { ModuleExports, Path } from '@storybook/types';

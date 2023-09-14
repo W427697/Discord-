@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 import { logger } from '@storybook/client-logger';
 import type { StoryContextForEnhancers } from '@storybook/types';
 
