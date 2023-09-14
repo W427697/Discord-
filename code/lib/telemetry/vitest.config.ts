@@ -1,12 +1,13 @@
-import { defineProject } from 'vitest/config';
+import { defineConfig, mergeConfig } from 'vitest/config';
 import { sep, posix } from 'path';
-// import { fileURLToPath } from 'url';
+import { vitestCommonConfig } from '../../vitest.workspace';
 
-// const __dirname = dirname(fileURLToPath(import.meta.url));
-
-export default defineProject({
-  test: {
-    environment: 'node',
-    name: __dirname.split(sep).slice(-2).join(posix.sep),
-  },
-});
+export default mergeConfig(
+  vitestCommonConfig,
+  defineConfig({
+    test: {
+      environment: 'node',
+      name: __dirname.split(sep).slice(-2).join(posix.sep),
+    },
+  })
+);

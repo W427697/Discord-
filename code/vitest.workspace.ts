@@ -1,4 +1,4 @@
-import { defineWorkspace } from 'vitest/config';
+import { defineConfig, defineWorkspace } from 'vitest/config';
 
 export default defineWorkspace([
   'addons/*/vitest.config.ts',
@@ -10,3 +10,9 @@ export default defineWorkspace([
   'presets/*/vitest.config.ts',
   'renderers/*/vitest.config.ts',
 ]);
+
+export const vitestCommonConfig = defineConfig({
+  test: {
+    clearMocks: true,
+  },
+});
