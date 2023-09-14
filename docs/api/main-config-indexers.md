@@ -198,17 +198,17 @@ Transpiling the custom source format to CSF is beyond the scope of this document
 
 The general architecture looks something like this:
 
-<!-- TODO: If diagram is useful, make a real one -->
-
-![Architecture diagram showing how custom indexers are used to generate stories from source files](./main-config-indexers-architecture.png)
+![Architecture diagram showing how a custom indexer indexes stories from a source file](./main-config-indexers-arch-indexer.jpg)
 
 1. Using the [`stories`](./main-config-stories.md) configuration, Storybook finds all files that match the [`test`](#test) property of your indexer
-2. Storybook passes each matching file to your indexer
-3. Your indexer returns all index entries for the file
-4. In the Storybook UI, a user navigates to a URL matching the story id and the browser requests the CSF file specified by the [`importPath`](#importpath) property of the index entry
-5. Back on the server, your builder plugin transpiles the source file to CSF
-6. That transpiled CSF file is then served to the browser
-7. The Storybook UI reads the CSF file, imports the story specified by [`exportName`](#exportname), and renders it
+2. Storybook passes each matching file to your indexer's [`createIndex` function](#createindex), which uses the file contents to generate and return a list of index entries (stories) to add to the index
+3. The index populates the sidebar in the Storybook UI
+
+![Architecture diagram showing how a build plugin transforms a source file into CSF](./main-config-indexers-arch-build-plugin.jpg)
+
+4. In the Storybook UI, the user navigates to a URL matching the story id and the browser requests the CSF file specified by the [`importPath`](#importpath) property of the index entry
+5. Back on the server, your builder plugin transpiles the source file to CSF, and serves it to the client
+6. The Storybook UI reads the CSF file, imports the story specified by [`exportName`](#exportname), and renders it
 
 Let's look at an example of how this might work.
 
