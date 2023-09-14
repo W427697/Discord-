@@ -19,6 +19,7 @@ import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
+import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
@@ -89,7 +90,9 @@ export async function buildDevStandalone(
 
   const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
 
-  invariant(builder, 'No builder configured in core.builder');
+  if (!builder) {
+    throw new MissingBuilderError();
+  }
 
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {
