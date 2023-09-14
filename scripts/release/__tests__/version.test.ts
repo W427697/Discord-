@@ -27,10 +27,6 @@ jest.spyOn(console, 'log').mockImplementation(() => {});
 jest.spyOn(console, 'warn').mockImplementation(() => {});
 jest.spyOn(console, 'error').mockImplementation(() => {});
 
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-
 describe('Version', () => {
   const CODE_DIR_PATH = path.join(__dirname, '..', '..', '..', 'code');
   const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');

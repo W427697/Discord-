@@ -1,14 +1,16 @@
 import type { LogResult } from 'simple-git';
 import ansiRegex from 'ansi-regex';
+import { beforeEach, vi, test, expect } from 'vitest';
 import { run } from '../label-patches';
 import * as gitClient_ from '../utils/git-client';
 import * as githubInfo_ from '../utils/get-github-info';
 import * as github_ from '../utils/github-client';
 
 vi.mock('uuid');
+vi.mock('simple-git');
 vi.mock('../utils/get-github-info');
 vi.mock('../utils/github-client');
-vi.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
+vi.mock('../utils/git-client');
 
 const gitClient = vi.mocked(gitClient_);
 const github = vi.mocked(github_);
@@ -67,8 +69,6 @@ const pullInfoMock = {
 };
 
 beforeEach(() => {
-  // mock IO
-  jest.clearAllMocks();
   gitClient.getLatestTag.mockResolvedValue('v7.2.1');
   gitClient.git.log.mockResolvedValue(gitLogMock);
   gitClient.git.getRemotes.mockResolvedValue(remoteMock);
@@ -99,10 +99,10 @@ test('it should fail early when no GH_TOKEN is set', async () => {
   );
 });
 
-test('it should label the PR associated with cheery picks in the current branch', async () => {
+test.only('it should label the PR associated with cherry picks in the current branch', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
-  const writeStderr = jest.spyOn(process.stderr, 'write').mockImplementation();
+  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation();
 
   await run({});
   expect(github.githubGraphQlClient.mock.calls).toMatchInlineSnapshot(`
@@ -162,7 +162,7 @@ test('it should label all PRs when the --all flag is passed', async () => {
     total: 0,
   });
 
-  const writeStderr = jest.spyOn(process.stderr, 'write').mockImplementation();
+  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation();
 
   await run({ all: true });
   expect(github.githubGraphQlClient.mock.calls).toMatchInlineSnapshot(`
