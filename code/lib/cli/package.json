@@ -52,7 +52,7 @@
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts",
-    "test": "jest test/**/*.test.js"
+    "test": "vitest test/**/*.test.js"
   },
   "dependencies": {
     "@babel/core": "^7.22.9",
