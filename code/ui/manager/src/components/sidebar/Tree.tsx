@@ -244,6 +244,7 @@ const Node = React.memo<NodeProps>(function Node({
         {icon ? (
           <WithTooltip
             placement="top"
+            style={{ display: 'flex' }}
             tooltip={() => (
               <TooltipLinkList
                 links={Object.entries(status || {}).map(([k, v]) => ({
