@@ -1,99 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`inject-decorator injectDecorator option is false - angular does not inject stories decorator after the all "storiesOf" functions 1`] = `
-"import { Component } from '@angular/core';
-import { storiesOf } from '@storybook/angular';
-
-@Component({
-  selector: 'storybook-with-ng-content',
-  template: \`<div style=\\"color: #1e88e5;\\"><ng-content></ng-content></div>\`,
-})
-class WithNgContentComponent {}
-
-storiesOf('Custom|ng-content', module).add('Default', () => ({
-  template: \`<storybook-with-ng-content><h1>This is rendered in ng-content</h1></storybook-with-ng-content>\`,
-  moduleMetadata: {
-    declarations: [WithNgContentComponent],
-  },
-}));
-"
-`;
-
-exports[`inject-decorator injectDecorator option is false - flow does not inject stories decorator after the all "storiesOf" functions 1`] = `
-"// @flow
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withInfo } from '@storybook/addon-info';
-
-import TableComponent from '../components/TableComponent';
-
-import type { JssClasses } from '../types';
-
-type State = {
-  value: any,
-};
-
-type Props = {
-  classes: JssClasses,
-  name: string,
-};
-
-class Table extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: undefined,
-    };
-  }
-
-  state: State;
-
-  render() {
-    return <TableComponent />;
-  }
-}
-
-const stories = storiesOf('Table', module);
-stories.add('Flow Class', withInfo('Lorum Ipsum Nem')(() => <Table />));
-"
-`;
-
-exports[`inject-decorator injectDecorator option is false - ts does not inject stories decorator after the all "storiesOf" functions 1`] = `
-"import { Component } from '@angular/core';
-import { Store, StoreModule } from '@ngrx/store';
-import { storiesOf, moduleMetadata } from '@storybook/angular';
-
-@Component({
-  selector: 'storybook-comp-with-store',
-  template: '<div>{{this.getStoreState()}}</div>',
-})
-class WithStoreComponent {
-  private store: Store<any>;
-
-  constructor(store: Store<any>) {
-    this.store = store;
-  }
-
-  getStoreState(): string {
-    return this.store === undefined ? 'Store is NOT injected' : 'Store is injected';
-  }
-}
-
-storiesOf('ngrx|Store', module)
-  .addDecorator(
-    moduleMetadata({
-      imports: [StoreModule.forRoot({})],
-      declarations: [WithStoreComponent],
-    })
-  )
-  .add('With component', () => {
-    return {
-      component: WithStoreComponent,
-    };
-  });"
-`;
-
-exports[`inject-decorator injectDecorator option is false does not inject stories decorator after the all "storiesOf" functions 1`] = `
+exports[`inject-decorator > injectDecorator option is false > does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
@@ -249,30 +156,7 @@ storiesOf('Addons|Info.GitHub issues', module).add(
 "
 `;
 
-exports[`inject-decorator positive - angular calculates "adds" map 1`] = `
-Object {
-  "default": Object {
-    "endBody": Object {
-      "col": 2,
-      "line": 15,
-    },
-    "endLoc": Object {
-      "col": 2,
-      "line": 15,
-    },
-    "startBody": Object {
-      "col": 54,
-      "line": 10,
-    },
-    "startLoc": Object {
-      "col": 43,
-      "line": 10,
-    },
-  },
-}
-`;
-
-exports[`inject-decorator positive - angular injects stories decorator after the all "storiesOf" functions 1`] = `
+exports[`inject-decorator > injectDecorator option is false - angular > does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "import { Component } from '@angular/core';
 import { storiesOf } from '@storybook/angular';
 
@@ -282,7 +166,7 @@ import { storiesOf } from '@storybook/angular';
 })
 class WithNgContentComponent {}
 
-storiesOf('Custom|ng-content', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add('Default', () => ({
+storiesOf('Custom|ng-content', module).add('Default', () => ({
   template: \`<storybook-with-ng-content><h1>This is rendered in ng-content</h1></storybook-with-ng-content>\`,
   moduleMetadata: {
     declarations: [WithNgContentComponent],
@@ -291,30 +175,7 @@ storiesOf('Custom|ng-content', module).addParameters({ storySource: { source: __
 "
 `;
 
-exports[`inject-decorator positive - flow calculates "adds" map 1`] = `
-Object {
-  "flow-class": Object {
-    "endBody": Object {
-      "col": 70,
-      "line": 35,
-    },
-    "endLoc": Object {
-      "col": 70,
-      "line": 35,
-    },
-    "startBody": Object {
-      "col": 26,
-      "line": 35,
-    },
-    "startLoc": Object {
-      "col": 12,
-      "line": 35,
-    },
-  },
-}
-`;
-
-exports[`inject-decorator positive - flow injects stories decorator after the all "storiesOf" functions 1`] = `
+exports[`inject-decorator > injectDecorator option is false - flow > does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "// @flow
 import React from 'react';
 import { storiesOf } from '@storybook/react';
@@ -348,35 +209,12 @@ class Table extends React.Component<Props, State> {
   }
 }
 
-const stories = storiesOf('Table', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } });
+const stories = storiesOf('Table', module);
 stories.add('Flow Class', withInfo('Lorum Ipsum Nem')(() => <Table />));
 "
 `;
 
-exports[`inject-decorator positive - ts calculates "adds" map 1`] = `
-Object {
-  "with-component": Object {
-    "endBody": Object {
-      "col": 3,
-      "line": 32,
-    },
-    "endLoc": Object {
-      "col": 3,
-      "line": 32,
-    },
-    "startBody": Object {
-      "col": 25,
-      "line": 28,
-    },
-    "startLoc": Object {
-      "col": 7,
-      "line": 28,
-    },
-  },
-}
-`;
-
-exports[`inject-decorator positive - ts injects stories decorator after the all "storiesOf" functions 1`] = `
+exports[`inject-decorator > injectDecorator option is false - ts > does not inject stories decorator after the all "storiesOf" functions 1`] = `
 "import { Component } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { storiesOf, moduleMetadata } from '@storybook/angular';
@@ -397,7 +235,7 @@ class WithStoreComponent {
   }
 }
 
-storiesOf('ngrx|Store', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } })
+storiesOf('ngrx|Store', module)
   .addDecorator(
     moduleMetadata({
       imports: [StoreModule.forRoot({})],
@@ -411,256 +249,256 @@ storiesOf('ngrx|Store', module).addParameters({ storySource: { source: __STORY__
   });"
 `;
 
-exports[`inject-decorator positive calculates "adds" map 1`] = `
-Object {
-  "1814": Object {
-    "endBody": Object {
+exports[`inject-decorator > positive > calculates "adds" map 1`] = `
+{
+  "1814": {
+    "endBody": {
       "col": 4,
       "line": 151,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 4,
       "line": 151,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 146,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 145,
     },
   },
-  "comments-from-component-declaration": Object {
-    "endBody": Object {
+  "comments-from-component-declaration": {
+    "endBody": {
       "col": 42,
       "line": 27,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 42,
       "line": 27,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 4,
       "line": 25,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 4,
       "line": 24,
     },
   },
-  "comments-from-flow-declarations": Object {
-    "endBody": Object {
+  "comments-from-flow-declarations": {
+    "endBody": {
       "col": 57,
       "line": 21,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 57,
       "line": 21,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 4,
       "line": 19,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 4,
       "line": 18,
     },
   },
-  "comments-from-proptype-declarations": Object {
-    "endBody": Object {
+  "comments-from-proptype-declarations": {
+    "endBody": {
       "col": 51,
       "line": 15,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 51,
       "line": 15,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 4,
       "line": 13,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 4,
       "line": 12,
     },
   },
-  "displays-markdown-in-description": Object {
-    "endBody": Object {
+  "displays-markdown-in-description": {
+    "endBody": {
       "col": 68,
       "line": 43,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 68,
       "line": 43,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 43,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 42,
     },
   },
-  "exclude-component-from-prop-tables": Object {
-    "endBody": Object {
+  "exclude-component-from-prop-tables": {
+    "endBody": {
       "col": 4,
       "line": 88,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 4,
       "line": 88,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 80,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 79,
     },
   },
-  "extend-info-styles-with-an-object": Object {
-    "endBody": Object {
+  "extend-info-styles-with-an-object": {
+    "endBody": {
       "col": 43,
       "line": 107,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 43,
       "line": 107,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 4,
       "line": 94,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 4,
       "line": 93,
     },
   },
-  "full-control-over-styles-using-a-function": Object {
-    "endBody": Object {
+  "full-control-over-styles-using-a-function": {
+    "endBody": {
       "col": 43,
       "line": 122,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 43,
       "line": 122,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 4,
       "line": 111,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 4,
       "line": 110,
     },
   },
-  "inlines-component-inside-story": Object {
-    "endBody": Object {
+  "inlines-component-inside-story": {
+    "endBody": {
       "col": 41,
       "line": 51,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 41,
       "line": 51,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 48,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 47,
     },
   },
-  "shows-additional-component-prop-tables": Object {
-    "endBody": Object {
+  "shows-additional-component-prop-tables": {
+    "endBody": {
       "col": 41,
       "line": 75,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 41,
       "line": 75,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 72,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 71,
     },
   },
-  "shows-or-hides-info-addon-header": Object {
-    "endBody": Object {
+  "shows-or-hides-info-addon-header": {
+    "endBody": {
       "col": 41,
       "line": 59,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 41,
       "line": 59,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 56,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 55,
     },
   },
-  "shows-or-hides-info-addon-source": Object {
-    "endBody": Object {
+  "shows-or-hides-info-addon-source": {
+    "endBody": {
       "col": 41,
       "line": 67,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 41,
       "line": 67,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 64,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 63,
     },
   },
-  "use-a-custom-component-for-the-table": Object {
-    "endBody": Object {
+  "use-a-custom-component-for-the-table": {
+    "endBody": {
       "col": 41,
       "line": 129,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 41,
       "line": 129,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 2,
       "line": 127,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 2,
       "line": 126,
     },
   },
-  "use-info-as-story-decorator": Object {
-    "endBody": Object {
+  "use-info-as-story-decorator": {
+    "endBody": {
       "col": 73,
       "line": 136,
     },
-    "endLoc": Object {
+    "endLoc": {
       "col": 73,
       "line": 136,
     },
-    "startBody": Object {
+    "startBody": {
       "col": 38,
       "line": 136,
     },
-    "startLoc": Object {
+    "startLoc": {
       "col": 7,
       "line": 136,
     },
@@ -668,7 +506,7 @@ Object {
 }
 `;
 
-exports[`inject-decorator positive injects stories decorator after the all "storiesOf" functions 1`] = `
+exports[`inject-decorator > positive > injects stories decorator after the all "storiesOf" functions 1`] = `
 "import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
@@ -824,7 +662,190 @@ storiesOf('Addons|Info.GitHub issues', module).addParameters({ storySource: { so
 "
 `;
 
-exports[`inject-decorator stories with ugly comments in ts should delete ugly comments from the generated story source 1`] = `
+exports[`inject-decorator > positive - angular > calculates "adds" map 1`] = `
+{
+  "default": {
+    "endBody": {
+      "col": 2,
+      "line": 15,
+    },
+    "endLoc": {
+      "col": 2,
+      "line": 15,
+    },
+    "startBody": {
+      "col": 54,
+      "line": 10,
+    },
+    "startLoc": {
+      "col": 43,
+      "line": 10,
+    },
+  },
+}
+`;
+
+exports[`inject-decorator > positive - angular > injects stories decorator after the all "storiesOf" functions 1`] = `
+"import { Component } from '@angular/core';
+import { storiesOf } from '@storybook/angular';
+
+@Component({
+  selector: 'storybook-with-ng-content',
+  template: \`<div style=\\"color: #1e88e5;\\"><ng-content></ng-content></div>\`,
+})
+class WithNgContentComponent {}
+
+storiesOf('Custom|ng-content', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add('Default', () => ({
+  template: \`<storybook-with-ng-content><h1>This is rendered in ng-content</h1></storybook-with-ng-content>\`,
+  moduleMetadata: {
+    declarations: [WithNgContentComponent],
+  },
+}));
+"
+`;
+
+exports[`inject-decorator > positive - flow > calculates "adds" map 1`] = `
+{
+  "flow-class": {
+    "endBody": {
+      "col": 70,
+      "line": 35,
+    },
+    "endLoc": {
+      "col": 70,
+      "line": 35,
+    },
+    "startBody": {
+      "col": 26,
+      "line": 35,
+    },
+    "startLoc": {
+      "col": 12,
+      "line": 35,
+    },
+  },
+}
+`;
+
+exports[`inject-decorator > positive - flow > injects stories decorator after the all "storiesOf" functions 1`] = `
+"// @flow
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { withInfo } from '@storybook/addon-info';
+
+import TableComponent from '../components/TableComponent';
+
+import type { JssClasses } from '../types';
+
+type State = {
+  value: any,
+};
+
+type Props = {
+  classes: JssClasses,
+  name: string,
+};
+
+class Table extends React.Component<Props, State> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: undefined,
+    };
+  }
+
+  state: State;
+
+  render() {
+    return <TableComponent />;
+  }
+}
+
+const stories = storiesOf('Table', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } });
+stories.add('Flow Class', withInfo('Lorum Ipsum Nem')(() => <Table />));
+"
+`;
+
+exports[`inject-decorator > positive - ts > calculates "adds" map 1`] = `
+{
+  "with-component": {
+    "endBody": {
+      "col": 3,
+      "line": 32,
+    },
+    "endLoc": {
+      "col": 3,
+      "line": 32,
+    },
+    "startBody": {
+      "col": 25,
+      "line": 28,
+    },
+    "startLoc": {
+      "col": 7,
+      "line": 28,
+    },
+  },
+}
+`;
+
+exports[`inject-decorator > positive - ts > injects stories decorator after the all "storiesOf" functions 1`] = `
+"import { Component } from '@angular/core';
+import { Store, StoreModule } from '@ngrx/store';
+import { storiesOf, moduleMetadata } from '@storybook/angular';
+
+@Component({
+  selector: 'storybook-comp-with-store',
+  template: '<div>{{this.getStoreState()}}</div>',
+})
+class WithStoreComponent {
+  private store: Store<any>;
+
+  constructor(store: Store<any>) {
+    this.store = store;
+  }
+
+  getStoreState(): string {
+    return this.store === undefined ? 'Store is NOT injected' : 'Store is injected';
+  }
+}
+
+storiesOf('ngrx|Store', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } })
+  .addDecorator(
+    moduleMetadata({
+      imports: [StoreModule.forRoot({})],
+      declarations: [WithStoreComponent],
+    })
+  )
+  .add('With component', () => {
+    return {
+      component: WithStoreComponent,
+    };
+  });"
+`;
+
+exports[`inject-decorator > stories with ugly comments > should delete ugly comments from the generated story source 1`] = `
+"
+
+import React from 'react';
+
+
+
+import { storiesOf } from '@storybook/react';
+
+ const x = 0;
+
+
+storiesOf('Foo', module)
+  .add('bar', () => <div>baz</div>);
+
+/*
+ This is actually a good comment that will help
+ users to understand what's going on here.
+*/"
+`;
+
+exports[`inject-decorator > stories with ugly comments in ts > should delete ugly comments from the generated story source 1`] = `
 "
 
 import React from 'react';
@@ -861,28 +882,7 @@ storiesOf('Foo', module)
 */"
 `;
 
-exports[`inject-decorator stories with ugly comments should delete ugly comments from the generated story source 1`] = `
-"
-
-import React from 'react';
-
-
-
-import { storiesOf } from '@storybook/react';
-
- const x = 0;
-
-
-storiesOf('Foo', module)
-  .add('bar', () => <div>baz</div>);
-
-/*
- This is actually a good comment that will help
- users to understand what's going on here.
-*/"
-`;
-
-exports[`inject-decorator will not change the source when there are no "storiesOf" functions 1`] = `
+exports[`inject-decorator > will not change the source when there are no "storiesOf" functions 1`] = `
 "while(true) {
   console.log(\\"it's a kind of magic\\");
 }"

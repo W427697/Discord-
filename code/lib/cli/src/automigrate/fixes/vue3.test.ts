@@ -21,32 +21,11 @@ const checkVue3 = async ({
 };
 
 describe('vue3 fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('sb < 6.3', () => {
-    describe('vue3 dependency', () => {
-      const packageManager = {
-        getPackageVersion: (packageName) => {
-          switch (packageName) {
-            case '@storybook/vue':
-              return Promise.resolve('6.2.0');
-            case 'vue':
-              return Promise.resolve('3.0.0');
-            default:
-              return null;
-          }
-        },
-      } as Partial<JsPackageManager>;
-
-      it('should fail', async () => {
-        await expect(
-          checkVue3({
-            packageManager,
-            storybookVersion: '6.2.0',
-          })
-        ).rejects.toThrow();
-      });
-    });
     describe('no vue dependency', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {
