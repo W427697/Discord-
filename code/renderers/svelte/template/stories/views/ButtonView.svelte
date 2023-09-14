@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
   /**
    * @component Button View
    * @wrapper
    */
   import { global as globalThis } from '@storybook/global';
-  const Button = globalThis.Components.Button;
+  const Button = globalThis.Components?.Button;
 
   /**
    * Rounds the button
@@ -22,7 +22,7 @@
    */
   export let text = 'You clicked';
 
-  function handleClick(_event) {
+  function handleClick(_event: MouseEvent) {
     count += 1;
   }
 </script>
