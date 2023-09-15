@@ -1,6 +1,6 @@
 import type * as _NextImage from 'next/image';
 
-export const defaultLoader = ({ src, width, quality }: _NextImage.ImageLoaderProps) => {
+export const defaultLoader = ({ src, width, quality = 75 }: _NextImage.ImageLoaderProps) => {
   const missingValues = [];
   if (!src) {
     missingValues.push('src');
@@ -24,17 +24,16 @@ export const defaultLoader = ({ src, width, quality }: _NextImage.ImageLoaderPro
     );
   }
 
-  const [baseUrlAndSearch, hash = ''] = src.split('#');
-  const [baseUrl, search = ''] = baseUrlAndSearch.split('?');
+  const url = new URL(src, window.location.href);
 
-  const params = new URLSearchParams(search);
-
-  if (!params.has('w') && !params.has('q')) {
-    params.set('w', width.toString());
-    params.set('q', (quality ?? 75).toString());
+  if (!url.searchParams.has('w') && !url.searchParams.has('q')) {
+    url.searchParams.set('w', width.toString());
+    url.searchParams.set('q', (quality ?? 75).toString());
   }
 
-  const prefixedHash = hash ? `#${hash}` : '';
+  if (!src.startsWith('http://') && !src.startsWith('https://')) {
+    return url.toString().slice(url.origin.length);
+  }
 
-  return `${baseUrl}?${params.toString()}${prefixedHash}`;
+  return url.toString();
 };
