@@ -114,7 +114,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
             isShown={showToolbar}
             tabs={visibleTabsInToolbar}
           />
-          <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
+          <S.FrameWrap key="frame">
             <Canvas {...{ withLoader, baseUrl }} />
             {tabs.map(({ render: Render, match, ...t }, i) => {
               // @ts-expect-error (Converted from ts-ignore)

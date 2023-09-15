@@ -9,13 +9,13 @@ export const PreviewContainer = styled.div({
   overflow: 'hidden',
 });
 
-export const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
+export const FrameWrap = styled.div({
   overflow: 'auto',
   width: '100%',
   zIndex: 3,
   background: 'transparent',
   flex: 1,
-}));
+});
 
 export const UnstyledLink = styled(Link)({
   color: 'inherit',
