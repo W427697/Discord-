@@ -1,30 +1,40 @@
-import { describe, it, expect, vi } from 'vitest';
-import path from 'path';
-import fs from 'fs';
+import { describe, it, expect } from 'vitest';
+import { join } from 'path';
+import { readFile } from 'fs/promises';
+import { readdirSync } from 'fs';
 // @ts-expect-error (broken types)
 import { applyTransform } from 'jscodeshift/dist/testUtils';
 
-vi.mock('@storybook/node-logger');
-
 const inputRegExp = /\.input\.js$/;
 
-const fixturesDir = path.resolve(__dirname, './__testfixtures__');
-fs.readdirSync(fixturesDir).forEach((transformName) => {
-  const transformFixturesDir = path.join(fixturesDir, transformName);
+const ROOT = __dirname;
+const fixturesDir = join(ROOT, '__testfixtures__');
+const fixturesDirectories = readdirSync(fixturesDir);
+
+fixturesDirectories.forEach((transformName) => {
+  const transformFixturesDir = join(fixturesDir, transformName);
+
   describe(`${transformName}`, () => {
-    fs.readdirSync(transformFixturesDir)
+    const files = readdirSync(transformFixturesDir);
+
+    files
       .filter((fileName) => inputRegExp.test(fileName))
       .forEach((fileName) => {
-        const inputPath = path.join(transformFixturesDir, fileName);
-        it(`transforms correctly using "${fileName}" data`, () =>
+        it(`transforms correctly using "${fileName}" data`, async () => {
+          const pathToInput = join(transformFixturesDir, fileName);
+          const pathToOutput = pathToInput.replace(inputRegExp, '.output.snapshot');
+          const pathToTransformer = join(ROOT, '__testtransforms__', transformName);
+
+          const { default: transformer } = await import(pathToTransformer);
+          const source = await readFile(pathToInput, 'utf8');
+
           expect(
-            applyTransform(
-              // eslint-disable-next-line global-require,import/no-dynamic-require
-              require(path.join(__dirname, '__testtransforms__', transformName)),
-              null,
-              { path: inputPath, source: fs.readFileSync(inputPath, 'utf8') }
-            )
-          ).toMatchFileSnapshot(inputPath.replace(inputRegExp, '.output.snapshot')));
+            applyTransform(transformer, null, {
+              path: pathToInput,
+              source,
+            })
+          ).toMatchFileSnapshot(pathToOutput);
+        });
       });
   });
 });

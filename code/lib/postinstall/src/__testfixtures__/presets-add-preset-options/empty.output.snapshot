@@ -1,8 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`presets-add-preset-options transforms correctly using "empty.input.js" data 1`] = `
-"module.exports = [{
+module.exports = [{
   name: 'test',
-  options: {\\"a\\":[1,2,3],\\"b\\":{\\"foo\\":\\"bar\\"},\\"c\\":\\"baz\\"}
-}];"
-`;
+  options: {"a":[1,2,3],"b":{"foo":"bar"},"c":"baz"}
+}];
