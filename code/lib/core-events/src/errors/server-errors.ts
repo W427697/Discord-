@@ -306,3 +306,25 @@ export class CriticalPresetLoadError extends StorybookError {
     `;
   }
 }
+
+export class MissingBuilderError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 3;
+
+  public readonly documentation = 'https://github.com/storybookjs/storybook/issues/24071';
+
+  template() {
+    return dedent`
+      Storybook could not find a builder configuration for your project. 
+      Builders normally come from a framework package e.g. '@storybook/react-vite', or from builder packages e.g. '@storybook/builder-vite'.
+      
+      - Does your main config file contain a 'framework' field configured correctly?
+      - Is the Storybook framework package installed correctly?
+      - If you don't use a framework, does your main config contain a 'core.builder' configured correctly?
+      - Are you in a monorepo and perhaps the framework package is hoisted incorrectly?
+
+      If you believe this is a bug, please describe your issue in detail on Github.
+    `;
+  }
+}
