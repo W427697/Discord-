@@ -24,5 +24,17 @@ export const defaultLoader = ({ src, width, quality }: _NextImage.ImageLoaderPro
     );
   }
 
-  return `${src}?w=${width}&q=${quality ?? 75}`;
+  const [baseUrlAndSearch, hash = ''] = src.split('#');
+  const [baseUrl, search = ''] = baseUrlAndSearch.split('?');
+
+  const params = new URLSearchParams(search);
+
+  if (!params.has('w') && !params.has('q')) {
+    params.set('w', width.toString());
+    params.set('q', (quality ?? 75).toString());
+  }
+
+  const prefixedHash = hash ? `#${hash}` : '';
+
+  return `${baseUrl}?${params.toString()}${prefixedHash}`;
 };
