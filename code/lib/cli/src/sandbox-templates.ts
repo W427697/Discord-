@@ -289,7 +289,7 @@ const baseTemplates = {
   'angular-cli/prerelease': {
     name: 'Angular CLI Prerelease (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@next ng new angular-v17 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
