@@ -5,15 +5,17 @@ import flushPromises from 'flush-promises';
 import Store, { STORAGE_KEY } from '../store';
 
 vi.mock('store2', () => ({
-  local: {
-    set: vi.fn(),
-    get: vi.fn(),
+  default: {
+    local: {
+      set: vi.fn(),
+      get: vi.fn(),
+    },
+    session: {
+      set: vi.fn(),
+      get: vi.fn(),
+    },
+    _: { fn: () => {} },
   },
-  session: {
-    set: vi.fn(),
-    get: vi.fn(),
-  },
-  _: { fn: () => {} },
 }));
 
 describe('store', () => {

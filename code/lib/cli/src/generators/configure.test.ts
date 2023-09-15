@@ -1,5 +1,5 @@
 import type { Mock } from 'vitest';
-import { describe, beforeAll, expect, vi } from 'vitest';
+import { describe, beforeAll, expect, vi, test } from 'vitest';
 import fse from 'fs-extra';
 import dedent from 'ts-dedent';
 import { SupportedLanguage } from '../project_types';

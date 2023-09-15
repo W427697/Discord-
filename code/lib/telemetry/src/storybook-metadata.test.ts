@@ -1,5 +1,5 @@
 import type { SpyInstance } from 'vitest';
-import { describe, beforeEach, afterEach, expect, vi } from 'vitest';
+import { describe, beforeEach, afterEach, expect, vi, test } from 'vitest';
 import type { PackageJson, StorybookConfig } from '@storybook/types';
 
 import path from 'path';

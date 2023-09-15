@@ -10,8 +10,10 @@ vi.mock('fs-extra', () => require('../../../__mocks__/fs-extra'));
 vi.mock('@storybook/core-common', async () => {
   const coreCommon = await vi.importActual('@storybook/core-common');
   return {
-    ...coreCommon,
-    getProjectRoot: () => 'root',
+    default: {
+      ...coreCommon,
+      getProjectRoot: () => 'root',
+    },
   };
 });
 

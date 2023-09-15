@@ -1,4 +1,4 @@
-import { describe, expect, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { defineJestParameter } from './shared';
 
 describe('defineJestParameter', () => {

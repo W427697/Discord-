@@ -3629,114 +3629,114 @@ describe('PreviewWeb', () => {
       expect(extracted).toBe(true);
 
       expect(await preview.extract()).toMatchInlineSnapshot(`
-        Object {
-          "component-one--a": Object {
-            "argTypes": Object {
-              "foo": Object {
+        {
+          "component-one--a": {
+            "argTypes": {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "one": Object {
-                "mapping": Object {
+              "one": {
+                "mapping": {
                   "1": "mapped-1",
                 },
                 "name": "one",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "foo": "a",
               "one": 1,
             },
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--a",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "a",
               "one": 1,
             },
             "kind": "Component One",
             "name": "A",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
-              "docs": Object {
-                "container": [MockFunction],
-                "page": [MockFunction],
+              "docs": {
+                "container": [MockFunction spy],
+                "page": [MockFunction spy],
                 "renderer": [Function],
               },
               "fileName": "./src/ComponentOne.stories.js",
             },
             "story": "A",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
           },
-          "component-one--b": Object {
-            "argTypes": Object {
-              "foo": Object {
+          "component-one--b": {
+            "argTypes": {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
-              "one": Object {
-                "mapping": Object {
+              "one": {
+                "mapping": {
                   "1": "mapped-1",
                 },
                 "name": "one",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "foo": "b",
               "one": 1,
             },
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--b",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "b",
               "one": 1,
             },
             "kind": "Component One",
             "name": "B",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
-              "docs": Object {
-                "container": [MockFunction],
-                "page": [MockFunction],
+              "docs": {
+                "container": [MockFunction spy],
+                "page": [MockFunction spy],
                 "renderer": [Function],
               },
               "fileName": "./src/ComponentOne.stories.js",
             },
             "story": "B",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
           },
-          "component-one--e": Object {
-            "argTypes": Object {},
-            "args": Object {},
+          "component-one--e": {
+            "argTypes": {},
+            "args": {},
             "component": undefined,
             "componentId": "component-one",
             "id": "component-one--e",
-            "initialArgs": Object {},
+            "initialArgs": {},
             "kind": "Component One",
             "name": "E",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
-              "docs": Object {
-                "page": [MockFunction],
+              "docs": {
+                "page": [MockFunction spy],
                 "renderer": [Function],
               },
               "fileName": "./src/ExtraComponentOne.stories.js",
@@ -3744,34 +3744,34 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "E",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component One",
           },
-          "component-two--c": Object {
-            "argTypes": Object {
-              "foo": Object {
+          "component-two--c": {
+            "argTypes": {
+              "foo": {
                 "name": "foo",
-                "type": Object {
+                "type": {
                   "name": "string",
                 },
               },
             },
-            "args": Object {
+            "args": {
               "foo": "c",
             },
             "component": undefined,
             "componentId": "component-two",
             "id": "component-two--c",
-            "initialArgs": Object {
+            "initialArgs": {
               "foo": "c",
             },
             "kind": "Component Two",
             "name": "C",
-            "parameters": Object {
+            "parameters": {
               "__isArgsStory": false,
-              "docs": Object {
+              "docs": {
                 "renderer": [Function],
               },
               "fileName": "./src/ComponentTwo.stories.js",
@@ -3779,7 +3779,7 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "C",
             "subcomponents": undefined,
-            "tags": Array [
+            "tags": [
               "story",
             ],
             "title": "Component Two",

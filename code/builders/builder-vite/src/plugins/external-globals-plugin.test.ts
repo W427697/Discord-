@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest';
 import { rewriteImport } from './external-globals-plugin';
 
 const packageName = '@storybook/package';

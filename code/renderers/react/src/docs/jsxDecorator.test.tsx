@@ -2,7 +2,7 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { createElement, Profiler } from 'react';
 import type { Mocked } from 'vitest';
-import { vi, describe, it } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';

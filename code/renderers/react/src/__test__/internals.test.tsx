@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { describe, test, expect } from 'vitest';
 import React from 'react';
 import { addons } from '@storybook/preview-api';
 import { render, screen } from '@testing-library/react';

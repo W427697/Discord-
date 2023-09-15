@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest';
 import type { OutputFile } from 'esbuild';
 import { platform } from 'os';
 import { sanitizePath } from './files';

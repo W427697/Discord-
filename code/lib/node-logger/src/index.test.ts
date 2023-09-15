@@ -5,21 +5,23 @@ import { logger } from '.';
 globalThis.console = { log: vi.fn() } as any;
 
 vi.mock('npmlog', () => ({
-  info: vi.fn(),
-  warn: vi.fn(),
-  error: vi.fn(),
-  levels: {
-    silly: -Infinity,
-    verbose: 1000,
-    info: 2000,
-    timing: 2500,
-    http: 3000,
-    notice: 3500,
-    warn: 4000,
-    error: 5000,
-    silent: Infinity,
+  default: {
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    levels: {
+      silly: -Infinity,
+      verbose: 1000,
+      info: 2000,
+      timing: 2500,
+      http: 3000,
+      notice: 3500,
+      warn: 4000,
+      error: 5000,
+      silent: Infinity,
+    },
+    level: 'info',
   },
-  level: 'info',
 }));
 
 //
