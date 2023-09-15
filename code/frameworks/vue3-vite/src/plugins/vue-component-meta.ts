@@ -37,15 +37,21 @@ export function vueComponentMeta(): PluginOption {
   return {
     name: 'storybook:vue-component-meta-plugin',
     async transform(src: string, id: string) {
+      // console.log('. ');
       if (!filter(id)) return undefined;
+      console.log(' --------------- id', id);
+      // console.log(' --------------- src', src);
 
       let metaSource;
       try {
         const exportNames = checker.getExportNames(id);
+        console.log(' exportNames', exportNames);
         const componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
+
         const metaSources: MetaSource[] = [];
         componentsMeta.forEach((meta) => {
           const exportName = exportNames[componentsMeta.indexOf(meta)];
+          console.log(' meta', meta.props, '  ', exportName);
 
           if (meta.type === TypeMeta.Class || meta.type === TypeMeta.Function) {
             metaSources.push({
@@ -84,7 +90,8 @@ export function vueComponentMeta(): PluginOption {
             s.append(`\n${docgenInfos}`);
           }
         }
-
+        console.log(' ');
+        console.log(' \n', s.toString());
         return {
           code: s.toString(),
           map: s.generateMap({ hires: true, source: id }),
