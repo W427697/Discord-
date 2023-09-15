@@ -1,13 +1,20 @@
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/router';
 
+export const PreviewContainer = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  height: '100%',
+  overflow: 'hidden',
+});
+
 export const FrameWrap = styled.div<{ offset: number }>(({ offset }) => ({
   overflow: 'auto',
   width: '100%',
-  height: '100%',
   zIndex: 3,
-  transition: 'all 0.1s linear',
   background: 'transparent',
+  flex: 1,
 }));
 
 export const UnstyledLink = styled(Link)({

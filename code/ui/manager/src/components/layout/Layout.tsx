@@ -155,7 +155,7 @@ const LayoutContainer = styled.div<LayoutState>(
   ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, isDragging }) => {
     return {
       width: '100%',
-      height: '100%',
+      height: '100vh',
       display: 'grid',
       overflow: 'hidden',
       gap: 0,

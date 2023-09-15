@@ -38,10 +38,10 @@ const Bar: FunctionComponent<{ shown: boolean } & Record<string, any>> = ({ show
 
 export const Toolbar = styled(Bar)(
   {
-    transition: 'transform .2s linear',
+    transition: 'all .2s linear',
   },
   ({ shown }) => ({
-    transform: shown ? 'translateY(0px)' : 'translateY(-40px)',
+    marginTop: shown ? 0 : -40,
   })
 );
 

@@ -106,25 +106,27 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
         </Helmet>
       )}
       <ZoomProvider shouldScale={shouldScale}>
-        <ToolbarComp
-          key="tools"
-          entry={entry}
-          api={api}
-          isShown={showToolbar}
-          tabs={visibleTabsInToolbar}
-        />
-        <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
-          <Canvas {...{ withLoader, baseUrl }} />
-          {tabs.map(({ render: Render, match, ...t }, i) => {
-            // @ts-expect-error (Converted from ts-ignore)
-            const key = t.id || t.key || i;
-            return (
-              <Fragment key={key}>
-                <Location>{(lp) => <Render active={match(lp)} />}</Location>
-              </Fragment>
-            );
-          })}
-        </S.FrameWrap>
+        <S.PreviewContainer>
+          <ToolbarComp
+            key="tools"
+            entry={entry}
+            api={api}
+            isShown={showToolbar}
+            tabs={visibleTabsInToolbar}
+          />
+          <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
+            <Canvas {...{ withLoader, baseUrl }} />
+            {tabs.map(({ render: Render, match, ...t }, i) => {
+              // @ts-expect-error (Converted from ts-ignore)
+              const key = t.id || t.key || i;
+              return (
+                <Fragment key={key}>
+                  <Location>{(lp) => <Render active={match(lp)} />}</Location>
+                </Fragment>
+              );
+            })}
+          </S.FrameWrap>
+        </S.PreviewContainer>
       </ZoomProvider>
     </Fragment>
   );
