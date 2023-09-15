@@ -1,53 +1,44 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-/**
- * @vitest-environment node
- */
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
-import path from 'path';
+import { join } from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexEntry } from '@storybook/types';
-import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
-import { toId } from '@storybook/csf';
+import * as csfToolsMod from '@storybook/csf-tools';
+import * as csfMod from '@storybook/csf';
 import { logger, once } from '@storybook/node-logger';
 
 import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
-vi.mock('@storybook/csf-tools');
+vi.mock('@storybook/node-logger');
 vi.mock('@storybook/csf', async () => {
-  const csf = await vi.importActual('@storybook/csf');
+  const csf: typeof csfMod = vi.mocked(await vi.importActual('@storybook/csf'));
   return {
     ...csf,
     toId: vi.fn(csf.toId),
   };
 });
 
-vi.mock('@storybook/node-logger');
-
-const toIdMock = toId as Mock<ReturnType<typeof toId>>;
-const loadCsfMock = loadCsf as Mock<ReturnType<typeof loadCsf>>;
-const getStorySortParameterMock = getStorySortParameter as Mock<
-  ReturnType<typeof getStorySortParameter>
->;
+const toId = vi.spyOn(csfMod, 'toId');
+const loadCsf = vi.spyOn(csfToolsMod, 'loadCsf');
 
 const csfIndexer = async (fileName: string, opts: any) => {
   const code = (await fs.readFile(fileName, 'utf-8')).toString();
-  return loadCsf(code, { ...opts, fileName }).parse();
+  return csfToolsMod.loadCsf(code, { ...opts, fileName }).parse();
 };
 
 const storiesMdxIndexer = async (fileName: string, opts: any) => {
   let code = (await fs.readFile(fileName, 'utf-8')).toString();
   const { compile } = await import('@storybook/mdx2-csf');
   code = await compile(code, {});
-  return loadCsf(code, { ...opts, fileName }).parse();
+  return csfToolsMod.loadCsf(code, { ...opts, fileName }).parse();
 };
 
 const options: StoryIndexGeneratorOptions = {
-  configDir: path.join(__dirname, '__mockdata__'),
-  workingDir: path.join(__dirname, '__mockdata__'),
+  configDir: join(__dirname, '__mockdata__'),
+  workingDir: join(__dirname, '__mockdata__'),
   storyIndexers: [
     { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
     { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
@@ -60,10 +51,11 @@ const options: StoryIndexGeneratorOptions = {
 
 describe('StoryIndexGenerator with deprecated indexer API', () => {
   beforeEach(async () => {
-    const actual = await vi.importActual('@storybook/csf-tools');
-    loadCsfMock.mockImplementation(actual.loadCsf);
-    vi.mocked(logger.warn).mockClear();
-    vi.mocked(once.warn).mockClear();
+    // const actual: typeof csfToolsMod = await vi.importActual('@storybook/csf-tools');
+    // loadCsf.mockImplementation(actual.loadCsf);
+    vi.clearAllMocks();
+    // vi.mocked(logger.warn).mockClear();
+    // vi.mocked(once.warn).mockClear();
   });
   describe('extraction', () => {
     const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
@@ -1210,8 +1202,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
 
       const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
       await generator.initialize();
-
-      (getStorySortParameter as Mock).mockReturnValueOnce({
+      vi.spyOn(csfToolsMod, 'getStorySortParameter').mockReturnValueOnce({
         order: ['docs2', 'D', 'B', 'nested', 'A', 'second-nested', 'first-nested/deeply'],
       });
 
@@ -1242,15 +1233,15 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        loadCsf.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsf).toHaveBeenCalledTimes(7);
 
-        loadCsfMock.mockClear();
+        loadCsf.mockClear();
         await generator.getIndex();
-        expect(loadCsfMock).not.toHaveBeenCalled();
+        expect(loadCsf).not.toHaveBeenCalled();
       });
 
       it('does not extract docs files a second time', async () => {
@@ -1268,7 +1259,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         await generator.getIndex();
         expect(toId).toHaveBeenCalledTimes(6);
 
-        toIdMock.mockClear();
+        toId.mockClear();
         await generator.getIndex();
         expect(toId).not.toHaveBeenCalled();
       });
@@ -1280,7 +1271,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         );
 
         const sortFn = vi.fn();
-        getStorySortParameterMock.mockReturnValue(sortFn);
+        vi.spyOn(csfToolsMod, 'getStorySortParameter').mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
@@ -1299,17 +1290,17 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        loadCsf.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsf).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', false);
 
-        loadCsfMock.mockClear();
+        loadCsf.mockClear();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(1);
+        expect(loadCsf).toHaveBeenCalledTimes(1);
       });
 
       it('calls extract docs file for just the one file', async () => {
@@ -1329,7 +1320,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
 
         generator.invalidate(docsSpecifier, './src/docs2/Title.mdx', false);
 
-        toIdMock.mockClear();
+        toId.mockClear();
         await generator.getIndex();
         expect(toId).toHaveBeenCalledTimes(1);
       });
@@ -1351,7 +1342,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
 
         generator.invalidate(storiesSpecifier, './src/A.stories.js', false);
 
-        toIdMock.mockClear();
+        toId.mockClear();
         await generator.getIndex();
         expect(toId).toHaveBeenCalledTimes(3);
       });
@@ -1363,7 +1354,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         );
 
         const sortFn = vi.fn();
-        getStorySortParameterMock.mockReturnValue(sortFn);
+        vi.spyOn(csfToolsMod, 'getStorySortParameter').mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
@@ -1384,17 +1375,17 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        loadCsf.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsf).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
-        loadCsfMock.mockClear();
+        loadCsf.mockClear();
         await generator.getIndex();
-        expect(loadCsfMock).not.toHaveBeenCalled();
+        expect(loadCsf).not.toHaveBeenCalled();
       });
 
       it('does call the sort function a second time', async () => {
@@ -1404,7 +1395,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         );
 
         const sortFn = vi.fn();
-        getStorySortParameterMock.mockReturnValue(sortFn);
+        vi.spyOn(csfToolsMod, 'getStorySortParameter').mockReturnValue(sortFn);
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
@@ -1423,11 +1414,11 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           options
         );
 
-        loadCsfMock.mockClear();
+        loadCsf.mockClear();
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsf).toHaveBeenCalledTimes(7);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
@@ -1469,6 +1460,21 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
+        console.log(toId.mock.calls);
+        // MAIN:
+        // [ 'A', 'Story One' ],
+        // [ 'ComponentReference', 'docs' ],
+        // [ 'A', 'MetaOf' ],
+        // [ 'NoTitle', 'docs' ],
+        // [ 'docs2/Yabbadabbadooo', 'docs' ],
+        // [ 'A', 'Second Docs' ]
+
+        // THIS BRANCH
+        // [ 'A', 'MetaOf' ],
+        // [ 'A', 'Second Docs' ],
+        // [ 'ComponentReference', 'docs' ],
+        // [ 'NoTitle', 'docs' ],
+        // [ 'docs2/Yabbadabbadooo', 'docs' ]
         expect(toId).toHaveBeenCalledTimes(6);
 
         expect(Object.keys((await generator.getIndex()).entries)).toContain('a--metaof');
