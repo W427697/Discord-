@@ -1,4 +1,4 @@
-import { describe, beforeEach, afterEach, expect } from 'vitest';
+import { describe, beforeEach, afterEach, expect, test } from 'vitest';
 import { useParameter, useStoryContext } from './hooks';
 
 describe('addons/hooks', () => {

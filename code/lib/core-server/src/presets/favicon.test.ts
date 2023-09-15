@@ -1,5 +1,5 @@
 import type { Mock } from 'vitest';
-import { expect, vi } from 'vitest';
+import { expect, vi, test } from 'vitest';
 
 import { join } from 'path';
 import * as fs from 'fs-extra';

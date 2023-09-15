@@ -1,4 +1,4 @@
-import { afterEach, it, expect, vi } from 'vitest';
+import { afterEach, it, expect, vi, describe } from 'vitest';
 import { logger } from '@storybook/node-logger';
 import type {
   CoreCommon_AddonEntry,

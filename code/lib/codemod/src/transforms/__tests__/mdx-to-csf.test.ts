@@ -1,5 +1,5 @@
 import type { Mocked } from 'vitest';
-import { beforeEach, expect, vi } from 'vitest';
+import { beforeEach, expect, vi, test } from 'vitest';
 import * as fs_ from 'node:fs';
 import dedent from 'ts-dedent';
 import jscodeshift, { nameToValidExport } from '../mdx-to-csf';

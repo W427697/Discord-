@@ -1,4 +1,4 @@
-import { describe, expect, vi } from 'vitest';
+import { describe, expect, vi, test } from 'vitest';
 import type { Server } from 'http';
 import { Channel } from '@storybook/channels';
 
@@ -62,7 +62,7 @@ describe('ServerChannelTransport', () => {
     socket.emit('message', stringify(input));
 
     expect(handler.mock.calls[0][0]).toMatchInlineSnapshot(`
-      Object {
+      {
         "a": 1,
         "b": [Circular],
       }

@@ -1,6 +1,6 @@
 import { html, render } from 'lit';
-import type { Mocked } from 'vitest';
-import { describe, beforeEach, it, vi } from 'vitest';
+import type { Mocked, Mock } from 'vitest';
+import { describe, beforeEach, it, vi, expect } from 'vitest';
 import { styleMap } from 'lit/directives/style-map.js';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -9,7 +9,7 @@ import { sourceDecorator } from './sourceDecorator';
 
 vi.mock('@storybook/preview-api');
 const mockedAddons = addons as Mocked<typeof addons>;
-const mockedUseEffect = useEffect as Mocked;
+const mockedUseEffect = vi.mocked(useEffect);
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,

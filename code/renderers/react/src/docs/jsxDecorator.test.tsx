@@ -2,7 +2,7 @@
 import type { FC, PropsWithChildren } from 'react';
 import React, { createElement, Profiler } from 'react';
 import type { Mocked } from 'vitest';
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -122,10 +122,10 @@ describe('renderJsx', () => {
 
     expect(renderJsx(createElement(MyExoticComponent, {}, 'I am forwardRef!'), {}))
       .toMatchInlineSnapshot(`
-      <MyExoticComponent>
-        I am forwardRef!
-      </MyExoticComponent>
-    `);
+        <MyExoticComponent2>
+          I am forwardRef!
+        </MyExoticComponent2>
+      `);
   });
 
   it('memo component', () => {
@@ -134,9 +134,9 @@ describe('renderJsx', () => {
     });
 
     expect(renderJsx(createElement(MyMemoComponent, {}, 'I am memo!'), {})).toMatchInlineSnapshot(`
-      <MyMemoComponent>
+      <MyMemoComponent2>
         I am memo!
-      </MyMemoComponent>
+      </MyMemoComponent2>
     `);
   });
 

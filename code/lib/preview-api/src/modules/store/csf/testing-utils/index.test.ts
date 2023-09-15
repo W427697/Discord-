@@ -1,4 +1,4 @@
-import { describe, expect, vi } from 'vitest';
+import { describe, expect, vi, test } from 'vitest';
 import { composeStory, composeStories } from './index';
 
 // Most integration tests for this functionality are located under renderers/react
