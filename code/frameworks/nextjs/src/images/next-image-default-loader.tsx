@@ -28,7 +28,7 @@ export const defaultLoader = ({ src, width, quality = 75 }: _NextImage.ImageLoad
 
   if (!url.searchParams.has('w') && !url.searchParams.has('q')) {
     url.searchParams.set('w', width.toString());
-    url.searchParams.set('q', (quality ?? 75).toString());
+    url.searchParams.set('q', quality.toString());
   }
 
   if (!src.startsWith('http://') && !src.startsWith('https://')) {
