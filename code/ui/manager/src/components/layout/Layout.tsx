@@ -159,7 +159,7 @@ const LayoutContainer = styled.div<LayoutState>(
       display: 'grid',
       overflow: 'hidden',
       gap: 0,
-      transition: isDragging ? '' : '0.1s ease-in-out', // transition when toggling panels, but not when dragging
+      transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
       gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px) [right]`,
       gridTemplateRows: `[top] 1fr ${bottomPanelHeight}px [bottom]`,
       gridTemplateAreas: (() => {
@@ -215,7 +215,7 @@ const Drag = styled.div<{ orientation?: 'horizontal' | 'vertical'; position?: 'l
     position: 'absolute',
     opacity: 0,
     transition: 'opacity 0.2s ease-in-out',
-    zIndex: 2,
+    zIndex: 100,
 
     '&:after': {
       content: '""',
