@@ -2954,7 +2954,7 @@ __metadata:
     ejs-lint: ^2.0.0
     esbuild: ^0.18.0
     esbuild-plugin-alias: ^0.2.1
-    esbuild-register: ^3.4.1
+    esbuild-register: ^3.5.0
     eslint: ^8.28.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-react: ^7.31.10
@@ -7096,14 +7096,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-register@npm:^3.4.1":
-  version: 3.4.2
-  resolution: "esbuild-register@npm:3.4.2"
+"esbuild-register@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "esbuild-register@npm:3.5.0"
   dependencies:
     debug: ^4.3.4
   peerDependencies:
     esbuild: ">=0.12 <1"
-  checksum: a7cb278126cf46fee04dad05e362c47e586aaa4bbaa43fc74931f85929b756077a01ee30ebec05c4096c915a980d2d2e75ec7df55685de5a58fa90595a0a1153
+  checksum: 9ccd0573cb66018e4cce3c1416eed0f5f3794c7026ce469a94e2f8761335abed8e363fc8e8bb036ab9ad7e579bb4296b8568a04ae5626596c123576b0d9c9bde
   languageName: node
   linkType: hard
 
