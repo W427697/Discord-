@@ -160,7 +160,7 @@ const LayoutContainer = styled.div<LayoutState>(
       overflow: 'hidden',
       gap: 0,
       transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
-      gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px) [right]`,
+      gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
       gridTemplateRows: `[top] 1fr ${bottomPanelHeight}px [bottom]`,
       gridTemplateAreas: (() => {
         if (viewMode === 'docs') {
@@ -194,8 +194,10 @@ const ContentContainer = styled.div(({ theme }) => ({
 }));
 
 const PagesContainer = styled.div(({ theme }) => ({
-  // see named areas and tracks in the grid template area defined in LayoutContainer
-  gridArea: 'content-start / content-start / right / bottom',
+  gridRowStart: 'sidebar-start',
+  gridRowEnd: '-1',
+  gridColumnStart: 'sidebar-end',
+  gridColumnEnd: '-1',
   backgroundColor: theme.background.content,
   zIndex: 1,
 }));

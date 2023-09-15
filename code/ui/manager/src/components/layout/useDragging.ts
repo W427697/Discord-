@@ -3,7 +3,10 @@ import { useEffect, useRef } from 'react';
 import type { LayoutState } from './Layout';
 
 // the distance from the edge of the screen at which the panel/sidebar will snap to the edge
-const SNAP_THRESHOLD_PX = 50;
+const SNAP_THRESHOLD_PX = 30;
+const SIDEBAR_MIN_WIDTH_PX = 240;
+const RIGHT_PANEL_MIN_WIDTH_PX = 270;
+const MIN_WIDTH_STIFFNESS = 0.9;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
@@ -45,14 +48,41 @@ export function useDragging(
     };
 
     const onDragEnd = (e: MouseEvent) => {
-      setState((state) => ({
-        ...state,
-        isDragging: false,
-      }));
+      setState((state) => {
+        if (draggedElement === sidebarResizer) {
+          if (state.navSize < SIDEBAR_MIN_WIDTH_PX && state.navSize > 0) {
+            // snap the sidebar back to its minimum width if it's smaller than the threshold
+            return {
+              ...state,
+              isDragging: false,
+              navSize: SIDEBAR_MIN_WIDTH_PX,
+            };
+          }
+        }
+        if (draggedElement === panelResizer) {
+          if (
+            state.panelPosition === 'right' &&
+            state.rightPanelWidth < RIGHT_PANEL_MIN_WIDTH_PX &&
+            state.rightPanelWidth > 0
+          ) {
+            // snap the right panel back to its minimum width if it's smaller than the threshold
+            return {
+              ...state,
+              isDragging: false,
+              rightPanelWidth: RIGHT_PANEL_MIN_WIDTH_PX,
+            };
+          }
+        }
+        return {
+          ...state,
+          isDragging: false,
+        };
+      });
       window.removeEventListener('mousemove', onDrag);
       window.removeEventListener('mouseup', onDragEnd);
       // make iframe capture pointer events again
       previewIframe?.removeAttribute('style');
+      draggedElement = null;
     };
 
     const onDrag = (e: MouseEvent) => {
@@ -63,44 +93,60 @@ export function useDragging(
 
       setState((state) => {
         if (draggedElement === sidebarResizer) {
-          const sidebarWidth = e.clientX;
+          const sidebarDragX = e.clientX;
 
-          if (sidebarWidth === state.navSize) {
+          if (sidebarDragX === state.navSize) {
             return state;
           }
-          if (sidebarWidth <= SNAP_THRESHOLD_PX) {
+          if (sidebarDragX <= SNAP_THRESHOLD_PX) {
             return {
               ...state,
               navSize: 0,
             };
           }
+          if (sidebarDragX <= SIDEBAR_MIN_WIDTH_PX) {
+            // set sidebar width to a value in between the actual drag position and the min width, determined by the stiffness
+            return {
+              ...state,
+              navSize: sidebarDragX + (SIDEBAR_MIN_WIDTH_PX - sidebarDragX) * MIN_WIDTH_STIFFNESS,
+            };
+          }
           return {
             ...state,
-            navSize: clamp(sidebarWidth, 0, e.view.innerWidth),
+            navSize: clamp(sidebarDragX, 0, e.view.innerWidth),
           };
         }
         if (draggedElement === panelResizer) {
           const sizeAxisState =
             state.panelPosition === 'bottom' ? 'bottomPanelHeight' : 'rightPanelWidth';
-          const panelSize =
+          const panelDragSize =
             state.panelPosition === 'bottom'
               ? e.view.innerHeight - e.clientY
               : e.view.innerWidth - e.clientX;
 
-          if (panelSize === state[sizeAxisState]) {
+          if (panelDragSize === state[sizeAxisState]) {
             return state;
           }
-          if (panelSize <= SNAP_THRESHOLD_PX) {
+          if (panelDragSize <= SNAP_THRESHOLD_PX) {
             return {
               ...state,
               [sizeAxisState]: 0,
             };
           }
+          if (state.panelPosition === 'right' && panelDragSize <= RIGHT_PANEL_MIN_WIDTH_PX) {
+            // set right panel width to a value in between the actual drag position and the min width, determined by the stiffness
+            return {
+              ...state,
+              [sizeAxisState]:
+                panelDragSize + (RIGHT_PANEL_MIN_WIDTH_PX - panelDragSize) * MIN_WIDTH_STIFFNESS,
+            };
+          }
+
           const sizeAxisMax =
             state.panelPosition === 'bottom' ? e.view.innerHeight : e.view.innerWidth;
           return {
             ...state,
-            [sizeAxisState]: clamp(panelSize, 0, sizeAxisMax),
+            [sizeAxisState]: clamp(panelDragSize, 0, sizeAxisMax),
           };
         }
         return state;
