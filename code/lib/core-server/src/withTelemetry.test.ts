@@ -1,6 +1,4 @@
-/// <reference types="vitest" />
 /* eslint-disable local-rules/no-uncategorized-errors */
-import { describe, beforeEach, it, expect } from 'vitest';
 import prompts from 'prompts';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { loadAllPresets, cache } from '@storybook/core-common';

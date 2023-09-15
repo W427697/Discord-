@@ -1,6 +1,4 @@
-/// <reference types="vitest" />
 /* eslint-disable no-underscore-dangle */
-import { describe, beforeEach, afterEach, it, expect } from 'vitest';
 import { addons, mockChannel } from '@storybook/preview-api';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { logger } from '@storybook/client-logger';
@@ -413,6 +411,7 @@ describe('Instrumenter', () => {
         fn2();
       })
     ).toThrow('ignoredException');
+    // VITEST_MIGRATION: TypeError: [Function fn1] is not a spy or a call to a spy!
     expect(fn1).toHaveBeenCalled();
     expect(logger.warn).toHaveBeenCalledWith(new Error('Boom!'));
     expect((logger.warn as any).mock.calls[0][0].callId).toBe('kind--story [0] fn1 [0] fn2');

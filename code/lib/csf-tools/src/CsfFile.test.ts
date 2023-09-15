@@ -1,7 +1,4 @@
-/// <reference types="vitest" />
 /* eslint-disable no-underscore-dangle */
-import { describe, it, expect } from 'vitest';
-
 import { dedent } from 'ts-dedent';
 import { describe, it, expect, vi } from 'vitest';
 import yaml from 'js-yaml';

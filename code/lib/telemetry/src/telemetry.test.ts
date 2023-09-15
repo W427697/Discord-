@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import fetch from 'node-fetch';
 
 import type { Mock } from 'vitest';
