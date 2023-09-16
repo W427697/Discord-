@@ -277,7 +277,7 @@ To help streamline addon development and reduce boilerplate code, the API expose
 
 ### useStorybookState
 
-It allows access to Storybook's internal state. Similar to the [`useglobals`](#useglobals) hook, we recommend optimizing your addon to rely on [`React.memo`](https://reactjs.org/docs/react-api.html#reactmemo), or the following hooks; [`useMemo`](https://reactjs.org/docs/hooks-reference.html#usememo), [`useCallback`](https://reactjs.org/docs/hooks-reference.html#usecallback) to prevent a high volume of re-render cycles.
+It allows access to Storybook's internal state. Similar to the [`useglobals`](#useglobals) hook, we recommend optimizing your addon to rely on [`React.memo`](https://react.dev/reference/react/memo), or the following hooks; [`useMemo`](https://react.dev/reference/react/useMemo), [`useCallback`](https://react.dev/reference/react/useCallback) to prevent a high volume of re-render cycles.
 
 <!-- prettier-ignore-start -->
 
@@ -349,7 +349,7 @@ The `useParameter` retrieves the current story's parameters. If the parameter's 
 
 ### useGlobals
 
-Extremely useful hook for addons that rely on Storybook [Globals](../essentials/toolbars-and-globals.md). It allows you to obtain and update `global` values. We also recommend optimizing your addon to rely on [`React.memo`](https://reactjs.org/docs/react-api.html#reactmemo), or the following hooks; [`useMemo`](https://reactjs.org/docs/hooks-reference.html#usememo), [`useCallback`](https://reactjs.org/docs/hooks-reference.html#usecallback) to prevent a high volume of re-render cycles.
+Extremely useful hook for addons that rely on Storybook [Globals](../essentials/toolbars-and-globals.md). It allows you to obtain and update `global` values. We also recommend optimizing your addon to rely on [`React.memo`](https://react.dev/reference/react/memo), or the following hooks; [`useMemo`](https://react.dev/reference/react/useMemo), [`useCallback`](https://react.dev/reference/react/useCallback) to prevent a high volume of re-render cycles.
 
 <!-- prettier-ignore-start -->
 
@@ -374,3 +374,11 @@ Hook that allows you to retrieve or update a story's [`args`](../writing-stories
 />
 
 <!-- prettier-ignore-end -->
+
+## Learn more about the Storybook addon ecosystem
+
+- [Types of addons](./addon-types.md) for other types of addons
+- [Writing addons](./writing-addons.md) for the basics of addon development
+- [Presets](./writing-presets.md) for preset development
+- [Integration catalog](./integration-catalog.md) for requirements and available recipes
+- API reference to learn about the available APIs

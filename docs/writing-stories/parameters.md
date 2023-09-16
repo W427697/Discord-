@@ -2,6 +2,8 @@
 title: 'Parameters'
 ---
 
+<YouTubeCallout id="u32vmGVJY2U" title="Build Better Storybooks with Parameters" />
+
 Parameters are a set of static, named metadata about a story, typically used to control the behavior of Storybook features and addons.
 
 For example, let’s customize the backgrounds addon via a parameter. We’ll use `parameters.backgrounds` to define which backgrounds appear in the backgrounds toolbar when a story is selected.
@@ -42,6 +44,8 @@ We can set the parameters for all stories of a component using the `parameters` 
     'web-components/button-story-with-blue-args.js.mdx',
     'web-components/button-story-with-blue-args.ts.mdx',
     'svelte/button-story-with-blue-args.js.mdx',
+    'solid/button-story-with-blue-args.js.mdx',
+    'solid/button-story-with-blue-args.ts.mdx',
   ]}
 />
 

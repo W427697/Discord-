@@ -1,20 +1,20 @@
 {
   "name": "@storybook/cli",
-  "version": "7.1.0-alpha.9",
+  "version": "7.5.0-alpha.2",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
     "generator",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/cli",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/cli",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/cli"
+    "directory": "code/lib/cli"
   },
   "funding": {
     "type": "opencollective",
@@ -24,10 +24,10 @@
   "author": "Storybook Team",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json",
     "./bin/index": "./bin/index.js"
@@ -46,26 +46,30 @@
     "templates/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts",
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/types": "^7.22.5",
     "@ndelangen/get-tarball": "^3.0.7",
-    "@storybook/codemod": "7.1.0-alpha.9",
-    "@storybook/core-common": "7.1.0-alpha.9",
-    "@storybook/core-server": "7.1.0-alpha.9",
-    "@storybook/csf-tools": "7.1.0-alpha.9",
-    "@storybook/node-logger": "7.1.0-alpha.9",
-    "@storybook/telemetry": "7.1.0-alpha.9",
-    "@storybook/types": "7.1.0-alpha.9",
+    "@storybook/codemod": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/core-server": "workspace:*",
+    "@storybook/csf-tools": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/telemetry": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/semver": "^7.3.4",
-    "boxen": "^5.1.2",
+    "@yarnpkg/fslib": "2.10.3",
+    "@yarnpkg/libzip": "2.3.0",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
     "cross-spawn": "^7.0.3",
@@ -81,26 +85,27 @@
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",
     "leven": "^3.1.0",
+    "ora": "^5.4.1",
     "prettier": "^2.8.0",
     "prompts": "^2.4.0",
     "puppeteer-core": "^2.1.1",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
-    "shelljs": "^0.8.5",
-    "simple-update-notifier": "^1.0.0",
+    "simple-update-notifier": "^2.0.0",
     "strip-json-comments": "^3.0.1",
     "tempy": "^1.0.1",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.1.0-alpha.9",
+    "@storybook/client-api": "workspace:*",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
     "@types/semver": "^7.3.4",
-    "@types/shelljs": "^0.8.7",
     "@types/util-deprecate": "^1.0.0",
+    "boxen": "^5.1.2",
+    "slash": "^5.0.0",
     "strip-json-comments": "^3.1.1",
     "typescript": "~4.9.3"
   },
@@ -114,5 +119,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "ec112401efaae6d3d4996c790a30301177570da9"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

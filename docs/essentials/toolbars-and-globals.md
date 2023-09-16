@@ -115,6 +115,8 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'svelte/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.ts.mdx',
+    'solid/my-component-story-use-globaltype.js.mdx',
+    'solid/my-component-story-use-globaltype.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/toolbars-and-globals#snippet-my-component-story-use-globaltype"
@@ -136,6 +138,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
     'svelte/my-component-story-use-globaltype-backwards-compat.js.mdx',
     'web-components/my-component-story-use-globaltype-backwards-compat.js.mdx',
     'web-components/my-component-story-use-globaltype-backwards-compat.ts.mdx',
+    'solid/my-component-story-use-globaltype-backwards-compat.js.mdx',
   ]}
 />
 
@@ -162,8 +165,6 @@ Using the ThemeProvider example above, you could expand it to display which them
 ## Updating globals from within an addon
 
 If you're working on a Storybook addon that needs to update the global and refreshes the UI, you can do so. As mentioned previously, the `@storybook/manager-api` package provides the necessary hook for this scenario. You can use the `updateGlobals` function to update any global values you need.
-
-Also, you can use both `@storybook/addons` and `@storybook/core-events` packages together to trigger the refresh.
 
 For example, if you were working on a [toolbar addon](../addons/addon-types.md#toolbars), and you want to refresh the UI and update the global once the user clicks on a button:
 

@@ -40,8 +40,6 @@ export {
   NoDecorators,
   DecoratorFunctionalComponent,
   DecoratorFunctionalComponentArgsFromContext,
-  DecoratorFunctionalComponentArgsFromProps,
   DecoratorComponentOptions,
   DecoratorComponentOptionsArgsFromData,
-  DecoratorComponentOptionsArgsFromProps,
 } from './ReactiveDecorators.stories';

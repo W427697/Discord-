@@ -52,8 +52,6 @@ Use the list below as a reference when filling in the values for both the `suppo
 - html
 - svelte
 - preact
-- aurelia
-- marionette
 - react-native
 
 <div class="aside">
@@ -103,3 +101,11 @@ Not finding the recipe that you want? If it's popular in the community, our docs
 ### Request a recipe
 
 If you'd like to request a recipe, head over to the [#maintenance channel](https://discord.com/channels/486522875931656193/490070912448724992) of our community Discord and ask.
+
+## Learn more about the Storybook addon ecosystem
+
+- [Types of addons](./addon-types.md) for other types of addons
+- [Writing addons](./writing-addons.md) for the basics of addon development
+- [Presets](./writing-presets.md) for preset development
+- Integration catalog for requirements and available recipes
+- [API reference](./addons-api.md) to learn about the available APIs

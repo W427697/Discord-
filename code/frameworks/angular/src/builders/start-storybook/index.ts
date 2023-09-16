@@ -1,5 +1,6 @@
 import {
   BuilderContext,
+  BuilderHandlerFn,
   BuilderOutput,
   Target,
   createBuilder,
@@ -29,9 +30,9 @@ addToGlobalContext('cliVersion', versions.storybook);
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
-  docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
@@ -49,22 +50,24 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'ci'
     | 'quiet'
     | 'disableTelemetry'
+    | 'initialPath'
+    | 'open'
+    | 'docs'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
 
-export default createBuilder<any, any>(commandBuilder);
-
-function commandBuilder(
-  options: StorybookBuilderOptions,
-  context: BuilderContext
-): Observable<StorybookBuilderOutput> {
-  return from(setup(options, context)).pipe(
+const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, context) => {
+  const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
       const runCompodoc$ = options.compodoc
-        ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
-            mapTo({ tsConfig })
-          )
+        ? runCompodoc(
+            {
+              compodocArgs: [...options.compodocArgs, ...(options.quiet ? ['--silent'] : [])],
+              tsconfig: tsConfig,
+            },
+            context
+          ).pipe(mapTo({ tsConfig }))
         : of({});
 
       return runCompodoc$.pipe(mapTo({ tsConfig }));
@@ -91,12 +94,15 @@ function commandBuilder(
         https,
         port,
         quiet,
+        enableProdMode = false,
         smokeTest,
         sslCa,
         sslCert,
         sslKey,
         disableTelemetry,
         assets,
+        initialPath,
+        open,
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
@@ -108,6 +114,7 @@ function commandBuilder(
         https,
         port,
         quiet,
+        enableProdMode,
         smokeTest,
         sslCa,
         sslCert,
@@ -121,6 +128,8 @@ function commandBuilder(
           ...(assets ? { assets } : {}),
         },
         tsConfig,
+        initialPath,
+        open,
       };
 
       return standaloneOptions;
@@ -130,7 +139,11 @@ function commandBuilder(
       return { success: true, info: { port } };
     })
   );
-}
+
+  return builder as any as BuilderOutput;
+};
+
+export default createBuilder(commandBuilder);
 
 async function setup(options: StorybookBuilderOptions, context: BuilderContext) {
   let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;

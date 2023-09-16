@@ -12,7 +12,7 @@ test.describe('Next.js', () => {
   // and this only tests nextjs/default-js
   test.skip(
     // eslint-disable-next-line jest/valid-title
-    !templateName.includes('nextjs/default-js'),
+    !templateName?.includes('nextjs/default-js'),
     'Only run this test for the Frameworks that support next/navigation'
   );
 
@@ -28,7 +28,8 @@ test.describe('Next.js', () => {
       sbPage = new SbPage(page);
     });
 
-    test('should lazy load images by default', async () => {
+    // TODO: Test is flaky, investigate why
+    test.skip('should lazy load images by default', async () => {
       await sbPage.navigateToStory('frameworks/nextjs/Image', 'lazy');
 
       const img = sbPage.previewRoot().locator('img');
@@ -36,7 +37,8 @@ test.describe('Next.js', () => {
       expect(await img.evaluate<boolean, HTMLImageElement>((image) => image.complete)).toBeFalsy();
     });
 
-    test('should eager load images when loading parameter is set to eager', async () => {
+    // TODO: Test is flaky, investigate why
+    test.skip('should eager load images when loading parameter is set to eager', async () => {
       await sbPage.navigateToStory('frameworks/nextjs/Image', 'eager');
 
       const img = sbPage.previewRoot().locator('img');

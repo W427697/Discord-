@@ -13,7 +13,7 @@ function parseWithFlowOrTypescript(source: string, parserOptions: babelParser.Pa
   // Merge the provided parserOptions with the custom parser plugins
   const mergedParserOptions = {
     ...parserOptions,
-    plugins: [...parserOptions.plugins, ...parserPlugins],
+    plugins: [...(parserOptions.plugins ?? []), ...parserPlugins],
   };
 
   return babelParser.parse(source, mergedParserOptions);
@@ -34,6 +34,16 @@ export const babelParse = (code: string) => {
       },
     },
   });
+};
+
+export const babelPrint = (ast: recast.types.ASTNode) => {
+  return recast.print(ast, {
+    quote: 'single',
+    trailingComma: true,
+    tabWidth: 2,
+    wrapColumn: 80,
+    arrowParensAlways: true,
+  }).code;
 };
 
 export const babelParseExpression = (code: string) => {

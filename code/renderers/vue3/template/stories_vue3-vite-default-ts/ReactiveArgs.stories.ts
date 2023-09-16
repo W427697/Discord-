@@ -88,10 +88,12 @@ export const ReactiveHtmlWrapper: Story = {
 };
 
 // to test that Simple html Decorators in CSF2 format are applied correctly in reactive mode
-const ReactiveCSF2WrapperTempl: StoryFn = (args, { argTypes }) => ({
+const ReactiveCSF2WrapperTempl: StoryFn = (args) => ({
   components: { ReactiveArgs },
-  props: Object.keys(argTypes),
-  template: '<ReactiveArgs v-bind="$props" />',
+  setup() {
+    return { args };
+  },
+  template: '<ReactiveArgs v-bind="args" />',
 });
 
 export const ReactiveCSF2Wrapper = ReactiveCSF2WrapperTempl.bind({});
