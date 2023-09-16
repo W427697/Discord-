@@ -1,3 +1,10 @@
+## 7.4.2
+
+- Addon API: Improve the updateStatus API - [#24007](https://github.com/storybookjs/storybook/pull/24007), thanks [@ndelangen](https://github.com/ndelangen)!
+- Nextjs: Migrate from config to previewAnnotations - [#24178](https://github.com/storybookjs/storybook/pull/24178), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix SVG override fill when path has a fill attribute - [#24156](https://github.com/storybookjs/storybook/pull/24156), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Improve look and feel of status UI in sidebar - [#24099](https://github.com/storybookjs/storybook/pull/24099), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 7.4.1
 
 - CLI: Add uncaughtException handler - [#24018](https://github.com/storybookjs/storybook/pull/24018), thanks [@yannbf](https://github.com/yannbf)!
