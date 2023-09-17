@@ -61,18 +61,17 @@ function getNameFromFilename(filename: string) {
 
 export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOption {
   const cwd = process.cwd();
-  const { preprocess: preprocessOptions, docPreprocess, logDocgen = false } = svelteOptions;
+  const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
   const include = /\.(svelte)$/;
   const filter = createFilter(include);
 
-  let docPreprocessOptions = docPreprocess;
-  if (!docPreprocessOptions && preprocessOptions) {
+  let docPreprocessOptions: any = null;
+  if (preprocessOptions) {
     /*
      * We can't use vitePreprocess() for the documentation.
      * This preprocessor uses esbuild which removes jsdoc.
      *
      * By default, only typescript is transpiled, and style tags are removed.
-     * This can be configured with the `docPreprocess` options.
      *
      * Note: theses preprocessors are only used to make the component
      * compatible to sveltedoc-parser (no ts), not to compile
