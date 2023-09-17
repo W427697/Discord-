@@ -8,8 +8,18 @@ const SIDEBAR_MIN_WIDTH_PX = 240;
 const RIGHT_PANEL_MIN_WIDTH_PX = 270;
 const MIN_WIDTH_STIFFNESS = 0.9;
 
+/**
+ * Clamps a value between min and max.
+ */
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
+}
+
+/**
+ * Interpolates a value between min and max based on the relativeValue.
+ */
+function interpolate(relativeValue: number, min: number, max: number): number {
+  return min + (max - min) * relativeValue;
 }
 
 export function useDragging(
@@ -108,7 +118,7 @@ export function useDragging(
             // set sidebar width to a value in between the actual drag position and the min width, determined by the stiffness
             return {
               ...state,
-              navSize: sidebarDragX + (SIDEBAR_MIN_WIDTH_PX - sidebarDragX) * MIN_WIDTH_STIFFNESS,
+              navSize: interpolate(MIN_WIDTH_STIFFNESS, sidebarDragX, SIDEBAR_MIN_WIDTH_PX),
             };
           }
           return {
@@ -137,8 +147,11 @@ export function useDragging(
             // set right panel width to a value in between the actual drag position and the min width, determined by the stiffness
             return {
               ...state,
-              [sizeAxisState]:
-                panelDragSize + (RIGHT_PANEL_MIN_WIDTH_PX - panelDragSize) * MIN_WIDTH_STIFFNESS,
+              [sizeAxisState]: interpolate(
+                MIN_WIDTH_STIFFNESS,
+                panelDragSize,
+                RIGHT_PANEL_MIN_WIDTH_PX
+              ),
             };
           }
 
