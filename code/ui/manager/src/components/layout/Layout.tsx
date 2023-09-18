@@ -4,6 +4,7 @@ import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
 import { useMediaQuery } from '../hooks/useMedia';
 import { MobileNavigation } from '../mobile-navigation/MobileNavigation';
+import { breakpointMin600 } from '../../constants';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -112,8 +113,7 @@ const useLayoutSyncingState = (
 };
 
 export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
-  const breakpoint = '(min-width: 600px)';
-  const isDesktop = useMediaQuery(breakpoint);
+  const isDesktop = useMediaQuery(breakpointMin600);
   const isMobile = !isDesktop;
 
   const {
@@ -136,10 +136,10 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       panelPosition={managerLayoutState.panelPosition}
       isDragging={isDragging}
       viewMode={managerLayoutState.viewMode}
-      breakpoint={breakpoint}
+      breakpoint={breakpointMin600}
     >
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
-      <ContentContainer breakpoint={breakpoint}>{slots.slotMain}</ContentContainer>
+      <ContentContainer breakpoint={breakpointMin600}>{slots.slotMain}</ContentContainer>
       {isDesktop && (
         <>
           <SidebarContainer>
