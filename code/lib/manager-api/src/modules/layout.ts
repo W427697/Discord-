@@ -291,22 +291,6 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       );
     },
 
-    resetLayout() {
-      return store.setState(
-        (state: State) => {
-          return {
-            layout: {
-              ...state.layout,
-              showNav: false,
-              showPanel: false,
-              isFullscreen: false,
-            },
-          };
-        },
-        { persistence: 'session' }
-      );
-    },
-
     focusOnUIElement(elementId?: string, select?: boolean) {
       if (!elementId) {
         return;
@@ -401,7 +385,6 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     api,
     state: merge(api.getInitialOptions(), persisted),
     init: () => {
-      api.setOptions(merge(api.getInitialOptions(), persisted));
       provider.channel.on(SET_CONFIG, () => {
         api.setOptions(merge(api.getInitialOptions(), persisted));
       });

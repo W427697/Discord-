@@ -5,7 +5,7 @@ import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
 
 const menuMapper = ({ api, state }: Combo) => ({
-  isVisible: state.layout.showPanel,
+  isVisible: api.getIsPanelShown(),
   singleStory: state.singleStory,
   panelPosition: state.layout.panelPosition,
   toggle: () => api.togglePanel(),
