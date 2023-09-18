@@ -42,7 +42,10 @@ export const MobileNavigation: FC = () => {
       <MobileAddonsDrawer isAddonsOpen={isAddonsOpen}>
         <Panel />
       </MobileAddonsDrawer>
-      <Button onClick={() => setMenuOpen(!isMenuOpen)}>{title}</Button>
+      <Button onClick={() => setMenuOpen(!isMenuOpen)}>
+        <Icons icon="menu" />
+        {title}
+      </Button>
       <IconButton onClick={() => setAddonsOpen(!isAddonsOpen)}>
         <Icons icon="bottombartoggle" />
       </IconButton>
