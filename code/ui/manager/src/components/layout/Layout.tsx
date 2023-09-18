@@ -215,9 +215,9 @@ const ContentContainer = styled.div<{ breakpoint: string }>(({ theme, breakpoint
   flex: 1,
   position: 'relative',
   backgroundColor: theme.background.content,
+  display: 'grid', // This is needed to make the content container fill the available space
 
   [`@media ${breakpoint}`]: {
-    display: 'grid',
     flex: 'auto',
     gridArea: 'content',
   },
