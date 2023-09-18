@@ -3,7 +3,9 @@ import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
+import { styled } from '@storybook/theming';
 import { useMediaQuery } from '../hooks/useMedia';
+import { breakpointMin600 } from '../../constants';
 
 export interface SafeTabProps {
   title: Addon_BaseType['title'];
@@ -40,6 +42,7 @@ export const AddonPanel = React.memo<{
   shortcuts: State['shortcuts'];
   panelPosition?: 'bottom' | 'right';
   absolute?: boolean;
+  closeAddonsOnMobile?: () => void;
 }>(
   ({
     panels,
@@ -48,8 +51,10 @@ export const AddonPanel = React.memo<{
     selectedPanel = null,
     panelPosition = 'right',
     absolute = true,
+    closeAddonsOnMobile,
   }) => {
-    const isTablet = useMediaQuery('(min-width: 599px)');
+    const isDesktop = useMediaQuery(breakpointMin600);
+
     return (
       <Tabs
         absolute={absolute}
@@ -57,7 +62,7 @@ export const AddonPanel = React.memo<{
         menuName="Addons"
         actions={actions}
         tools={
-          isTablet ? (
+          isDesktop ? (
             <Fragment>
               <IconButton
                 key="position"
@@ -76,7 +81,11 @@ export const AddonPanel = React.memo<{
                 <Icons icon="close" />
               </IconButton>
             </Fragment>
-          ) : undefined
+          ) : (
+            <IconButton onClick={closeAddonsOnMobile}>
+              <Icons icon="close" />
+            </IconButton>
+          )
         }
         id="storybook-panel-root"
       >
@@ -91,3 +100,10 @@ export const AddonPanel = React.memo<{
 );
 
 AddonPanel.displayName = 'AddonPanel';
+
+const ButtonGroup = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  height: '100%',
+  gap: 10,
+});
