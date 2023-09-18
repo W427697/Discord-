@@ -224,7 +224,7 @@ command('dev')
     'URL path to be appended when visiting Storybook for the first time'
   )
   .action(async (options) => {
-    logger.setLevel(program.loglevel);
+    logger.setLevel(options.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
 
     // The key is the field created in `options` variable for
@@ -261,7 +261,7 @@ command('build')
   .option('--docs', 'Build a documentation-only site using addon-docs')
   .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-    logger.setLevel(program.loglevel);
+    logger.setLevel(options.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
 
     // The key is the field created in `options` variable for

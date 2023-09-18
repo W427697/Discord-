@@ -2,7 +2,6 @@
 /// <reference path="../typings.d.ts" />
 
 import { global } from '@storybook/global';
-import * as EVENTS from '@storybook/core-events';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
@@ -16,6 +15,7 @@ import type {
   ChannelEvent,
 } from '../types';
 import { getEventSourceUrl } from './getEventSourceUrl';
+import { formatChannelPage, formatEventType } from '../formatChannelEvent';
 
 const { document, location } = global;
 
@@ -204,14 +204,8 @@ export class PostMessageTransport implements ChannelTransport {
         typeof data === 'string' && isJSON(data) ? parse(data, global.CHANNEL_OPTIONS || {}) : data;
 
       if (key === KEY) {
-        const pageString =
-          this.config.page === 'manager'
-            ? `<span style="color: #37D5D3; background: black"> manager </span>`
-            : `<span style="color: #1EA7FD; background: black"> preview </span>`;
-
-        const eventString = Object.values(EVENTS).includes(event.type)
-          ? `<span style="color: #FF4785">${event.type}</span>`
-          : `<span style="color: #FFAE00">${event.type}</span>`;
+        const pageString = formatChannelPage(this.config.page);
+        const eventString = formatEventType(event.type);
 
         if (refId) {
           event.refId = refId;
