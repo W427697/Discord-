@@ -3,6 +3,7 @@ import { styled } from '@storybook/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
 import { useMediaQuery } from '../hooks/useMedia';
+import { MobileNavigation } from '../mobile-navigation/MobileNavigation';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -160,6 +161,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
           )}
         </>
       )}
+      {isMobile && <MobileNavigation />}
     </LayoutContainer>
   );
 };
