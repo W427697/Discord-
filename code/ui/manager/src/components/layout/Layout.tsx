@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
+import { useMediaQuery } from '../hooks/useMedia';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -110,6 +111,13 @@ const useLayoutSyncingState = (
 };
 
 export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
+  const breakpoint = '(min-width: 600px)';
+  const isDesktop = useMediaQuery(breakpoint);
+  const isMobile = !isDesktop;
+
+  console.log(isMobile);
+  // const isMobile = !isDesktop;
+
   const {
     navSize,
     rightPanelWidth,
@@ -130,51 +138,67 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       panelPosition={managerLayoutState.panelPosition}
       isDragging={isDragging}
       viewMode={managerLayoutState.viewMode}
+      breakpoint={breakpoint}
     >
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
       <ContentContainer>{slots.slotMain}</ContentContainer>
-      <SidebarContainer>
-        <Drag ref={sidebarResizerRef} />
-        {slots.slotSidebar}
-      </SidebarContainer>
-      {showPanel && (
-        <PanelContainer position={panelPosition}>
-          <Drag
-            orientation={panelPosition === 'bottom' ? 'horizontal' : 'vertical'}
-            position={panelPosition === 'bottom' ? 'left' : 'right'}
-            ref={panelResizerRef}
-          />
-          {slots.slotPanel}
-        </PanelContainer>
+      {isDesktop && (
+        <>
+          <SidebarContainer>
+            <Drag ref={sidebarResizerRef} />
+            {slots.slotSidebar}
+          </SidebarContainer>
+          {showPanel && (
+            <PanelContainer position={panelPosition}>
+              <Drag
+                orientation={panelPosition === 'bottom' ? 'horizontal' : 'vertical'}
+                position={panelPosition === 'bottom' ? 'left' : 'right'}
+                ref={panelResizerRef}
+              />
+              {slots.slotPanel}
+            </PanelContainer>
+          )}
+        </>
       )}
     </LayoutContainer>
   );
 };
 
-const LayoutContainer = styled.div<LayoutState>(
-  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, isDragging }) => {
+const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
+  ({
+    navSize,
+    rightPanelWidth,
+    bottomPanelHeight,
+    viewMode,
+    panelPosition,
+    isDragging,
+    breakpoint,
+  }) => {
     return {
       width: '100%',
       height: '100vh',
-      display: 'grid',
       overflow: 'hidden',
-      gap: 0,
-      transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
-      gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
-      gridTemplateRows: `[top] 1fr ${bottomPanelHeight}px [bottom]`,
-      gridTemplateAreas: (() => {
-        if (viewMode === 'docs') {
-          // remove panel in docs viewMode
-          return `"sidebar content content"
-                  "sidebar content content"`;
-        }
-        if (panelPosition === 'right') {
-          return `"sidebar content panel"
-                  "sidebar content panel"`;
-        }
-        return `"sidebar content content content"
-                "sidebar panel   panel   panel"`;
-      })(),
+
+      [`@media ${breakpoint}`]: {
+        display: 'grid',
+        gap: 0,
+        gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
+        gridTemplateRows: `[top] 1fr ${bottomPanelHeight}px [bottom]`,
+        gridTemplateAreas: (() => {
+          if (viewMode === 'docs') {
+            // remove panel in docs viewMode
+            return `"sidebar content content"
+                    "sidebar content content"`;
+          }
+          if (panelPosition === 'right') {
+            return `"sidebar content panel"
+                    "sidebar content panel"`;
+          }
+          return `"sidebar content content content"
+                  "sidebar panel   panel   panel"`;
+        })(),
+        transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
+      },
     };
   }
 );
