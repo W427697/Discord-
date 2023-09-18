@@ -116,9 +116,6 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
   const isDesktop = useMediaQuery(breakpoint);
   const isMobile = !isDesktop;
 
-  console.log(isMobile);
-  // const isMobile = !isDesktop;
-
   const {
     navSize,
     rightPanelWidth,
@@ -178,7 +175,7 @@ const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
   }) => {
     return {
       width: '100%',
-      height: '100vh',
+      height: '100svh',
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
