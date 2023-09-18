@@ -3,7 +3,7 @@ import React, { Fragment, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 
-import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
+import { IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
 import {
   shortcutToHumanString,
   Consumer,
@@ -31,19 +31,6 @@ import { remountTool } from './tools/remount';
 
 export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
 export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
-
-const Bar: FunctionComponent<{ shown: boolean } & Record<string, any>> = ({ shown, ...props }) => (
-  <FlexBar {...props} />
-);
-
-export const Toolbar = styled(Bar)(
-  {
-    transition: 'all .2s linear',
-  },
-  ({ shown }) => ({
-    marginTop: shown ? 0 : -40,
-  })
-);
 
 const fullScreenMapper = ({ api, state }: Combo) => {
   return {
@@ -170,9 +157,15 @@ export const ToolRes: FunctionComponent<ToolData & RenderData> = React.memo<Tool
     const { left, right } = useTools(api.getElements, tabs, viewMode, entry, location, path);
 
     return left || right ? (
-      <Toolbar key="toolbar" shown={isShown} border>
-        <Tools key="left" list={left} />
-        <Tools key="right" list={right} />
+      <Toolbar key="toolbar" shown={isShown}>
+        <ToolbarInner>
+          <ToolbarLeft>
+            <Tools key="left" list={left} />
+          </ToolbarLeft>
+          <ToolbarRight>
+            <Tools key="right" list={right} />
+          </ToolbarRight>
+        </ToolbarInner>
       </Toolbar>
     ) : null;
   }
@@ -247,3 +240,40 @@ export function filterTools(
 
   return { left, right };
 }
+
+const Toolbar = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
+  position: 'relative',
+  color: theme.barTextColor,
+  width: '100%',
+  height: 40,
+  flexShrink: 0,
+  overflowX: 'scroll',
+  overflowY: 'hidden',
+  transition: 'all .2s linear',
+  marginTop: shown ? 0 : -40,
+  boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
+  background: theme.barBg,
+}));
+
+const ToolbarInner = styled.div({
+  position: 'absolute',
+  width: 'calc(100% - 20px)',
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexWrap: 'nowrap',
+  flexShrink: 0,
+  height: 40,
+  marginLeft: 10,
+  marginRight: 10,
+});
+
+const ToolbarLeft = styled.div({
+  display: 'flex',
+  whiteSpace: 'nowrap',
+  flexBasis: 'auto',
+  gap: 4,
+});
+
+const ToolbarRight = styled(ToolbarLeft)({
+  marginLeft: 30,
+});
