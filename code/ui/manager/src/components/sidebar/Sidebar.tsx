@@ -32,7 +32,7 @@ const Container = styled.nav(
     right: 0,
     width: '100%',
     height: '100%',
-    display: 'flex', // TODO: this is maybe breaking everything?
+    display: 'flex',
     flexDirection: 'column',
   },
   ({ theme }) => ({
