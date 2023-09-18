@@ -40,6 +40,7 @@ const provider = {
 
 const store = {
   getState: jest.fn().mockReturnValue({
+    filters: {},
     refs: {
       fake: {
         id: 'fake',
@@ -279,6 +280,10 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": undefined,
+              },
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -346,6 +351,10 @@ describe('Refs API', () => {
         it's possible a CORS error happened.
 
         Please check your dev-tools network tab.",
+              },
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": undefined,
               },
               "title": "Fake",
               "type": "auto-inject",
@@ -479,6 +488,13 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": Object {
+                  "entries": Object {},
+                  "v": 4,
+                },
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -493,6 +509,13 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": Object {
+                  "entries": Object {},
+                  "v": 4,
+                },
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -568,6 +591,13 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": Object {
+                  "entries": Object {},
+                  "v": 4,
+                },
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -645,6 +675,13 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": Object {
+                  "entries": Object {},
+                  "v": 4,
+                },
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -722,6 +759,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": undefined,
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": undefined,
+              },
               "loginUrl": "https://example.com/login",
               "title": "Fake",
               "type": "auto-inject",
@@ -863,6 +904,10 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": undefined,
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": undefined,
+              },
               "loginUrl": "https://example.com/login",
               "title": "Fake",
               "type": "auto-inject",
@@ -944,6 +989,13 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": Object {
+                  "entries": Object {},
+                  "v": 4,
+                },
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -1021,6 +1073,13 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": Object {},
+              "internal_index": Object {
+                "setStoriesData": undefined,
+                "storyIndex": Object {
+                  "entries": Object {},
+                  "v": 4,
+                },
+              },
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
