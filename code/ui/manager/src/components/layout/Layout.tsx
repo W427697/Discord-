@@ -142,7 +142,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       breakpoint={breakpoint}
     >
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
-      <ContentContainer>{slots.slotMain}</ContentContainer>
+      <ContentContainer breakpoint={breakpoint}>{slots.slotMain}</ContentContainer>
       {isDesktop && (
         <>
           <SidebarContainer>
@@ -180,6 +180,8 @@ const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
       width: '100%',
       height: '100vh',
       overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
 
       [`@media ${breakpoint}`]: {
         display: 'grid',
@@ -212,11 +214,16 @@ const SidebarContainer = styled.div(({ theme }) => ({
   borderRight: `1px solid ${theme.color.border}`,
 }));
 
-const ContentContainer = styled.div(({ theme }) => ({
-  display: 'grid',
+const ContentContainer = styled.div<{ breakpoint: string }>(({ theme, breakpoint }) => ({
+  flex: 1,
   position: 'relative',
   backgroundColor: theme.background.content,
-  gridArea: 'content',
+
+  [`@media ${breakpoint}`]: {
+    display: 'grid',
+    flex: 'auto',
+    gridArea: 'content',
+  },
 }));
 
 const PagesContainer = styled.div(({ theme }) => ({

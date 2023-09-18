@@ -14,7 +14,6 @@ const Container = styled.div(({ theme }) => ({
   background: theme.background.content,
   padding: '0 6px',
   borderTop: `1px solid ${theme.appBorderColor}`,
-  backgroundColor: 'red',
 }));
 
 export const MobileNavigation: FC = () => {
