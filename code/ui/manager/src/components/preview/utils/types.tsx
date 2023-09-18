@@ -9,7 +9,6 @@ export interface PreviewProps {
   storyId: StoryId;
   entry: LeafEntry;
   options: {
-    isFullscreen: boolean;
     showTabs: boolean;
     showToolbar: boolean;
   };
