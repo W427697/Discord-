@@ -4,6 +4,7 @@
    * @wrapper
    */
   import { global as globalThis } from '@storybook/global';
+  // @ts-ignore
   const Button = globalThis.Components?.Button;
 
   /**
