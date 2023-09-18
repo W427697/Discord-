@@ -104,8 +104,12 @@ async function handleRequest(
 
   try {
     const response = await request;
-    if (response === false || response === true) throw new Error('Unexpected boolean response');
-    if (!response.ok) throw new Error(`Unexpected response not OK: ${response.statusText}`);
+    if (response === false || response === true) {
+      throw new Error('Unexpected boolean response');
+    }
+    if (!response.ok) {
+      throw new Error(`Unexpected response not OK: ${response.statusText}`);
+    }
 
     const json = await response.json();
 
@@ -273,9 +277,11 @@ export const init: ModuleFn<SubAPI, SubState> = (
     },
 
     setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
+      const internalIndex = { storyIndex, setStoriesData };
       if (singleStory) {
         return;
       }
+      const { filters } = store.getState();
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
@@ -283,19 +289,21 @@ export const init: ModuleFn<SubAPI, SubState> = (
       if (setStoriesData) {
         index = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
-          { provider, docsOptions, filters: {}, status: {} }
+          { provider, docsOptions, filters, status: {} }
         );
       } else if (storyIndex) {
         index = transformStoryIndexToStoriesHash(storyIndex, {
           provider,
           docsOptions,
-          filters: {},
+          filters,
           status: {},
         });
       }
-      if (index) index = addRefIds(index, ref);
+      if (index) {
+        index = addRefIds(index, ref);
+      }
 
-      api.updateRef(id, { index, ...rest });
+      api.updateRef(id, { index, internal_index: internalIndex, ...rest });
     },
 
     updateRef: (id, data) => {
