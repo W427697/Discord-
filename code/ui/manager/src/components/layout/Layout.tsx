@@ -2,6 +2,9 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
+import { useMediaQuery } from '../hooks/useMedia';
+import { MobileNavigation } from '../mobile-navigation/MobileNavigation';
+import { BREAKPOINT_MIN_600 } from '../../constants';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -110,6 +113,9 @@ const useLayoutSyncingState = (
 };
 
 export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
+  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
+  const isMobile = !isDesktop;
+
   const {
     navSize,
     rightPanelWidth,
@@ -133,47 +139,57 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
     >
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
       <ContentContainer>{slots.slotMain}</ContentContainer>
-      <SidebarContainer>
-        <Drag ref={sidebarResizerRef} />
-        {slots.slotSidebar}
-      </SidebarContainer>
-      {showPanel && (
-        <PanelContainer position={panelPosition}>
-          <Drag
-            orientation={panelPosition === 'bottom' ? 'horizontal' : 'vertical'}
-            position={panelPosition === 'bottom' ? 'left' : 'right'}
-            ref={panelResizerRef}
-          />
-          {slots.slotPanel}
-        </PanelContainer>
+      {isDesktop && (
+        <>
+          <SidebarContainer>
+            <Drag ref={sidebarResizerRef} />
+            {slots.slotSidebar}
+          </SidebarContainer>
+          {showPanel && (
+            <PanelContainer position={panelPosition}>
+              <Drag
+                orientation={panelPosition === 'bottom' ? 'horizontal' : 'vertical'}
+                position={panelPosition === 'bottom' ? 'left' : 'right'}
+                ref={panelResizerRef}
+              />
+              {slots.slotPanel}
+            </PanelContainer>
+          )}
+        </>
       )}
+      {isMobile && <MobileNavigation />}
     </LayoutContainer>
   );
 };
 
 const LayoutContainer = styled.div<LayoutState>(
-  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, isDragging }) => {
+  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition }) => {
     return {
       width: '100%',
-      height: '100vh',
-      display: 'grid',
+      height: '100svh', // We are using svh to use the minimum space on mobile
       overflow: 'hidden',
-      gap: 0,
-      gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
-      gridTemplateRows: `1fr ${bottomPanelHeight}px`,
-      gridTemplateAreas: (() => {
-        if (viewMode === 'docs') {
-          // remove panel in docs viewMode
-          return `"sidebar content content"
+      display: 'flex',
+      flexDirection: 'column',
+
+      [`@media ${BREAKPOINT_MIN_600}`]: {
+        display: 'grid',
+        gap: 0,
+        gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
+        gridTemplateRows: `1fr ${bottomPanelHeight}px`,
+        gridTemplateAreas: (() => {
+          if (viewMode === 'docs') {
+            // remove panel in docs viewMode
+            return `"sidebar content content"
                   "sidebar content content"`;
-        }
-        if (panelPosition === 'right') {
-          return `"sidebar content panel"
+          }
+          if (panelPosition === 'right') {
+            return `"sidebar content panel"
                   "sidebar content panel"`;
-        }
-        return `"sidebar content content"
+          }
+          return `"sidebar content content"
                 "sidebar panel   panel"`;
-      })(),
+        })(),
+      },
     };
   }
 );
@@ -186,10 +202,15 @@ const SidebarContainer = styled.div(({ theme }) => ({
 }));
 
 const ContentContainer = styled.div(({ theme }) => ({
-  display: 'grid',
+  flex: 1,
   position: 'relative',
   backgroundColor: theme.background.content,
-  gridArea: 'content',
+  display: 'grid', // This is needed to make the content container fill the available space
+
+  [`@media ${BREAKPOINT_MIN_600}`]: {
+    flex: 'auto',
+    gridArea: 'content',
+  },
 }));
 
 const PagesContainer = styled.div(({ theme }) => ({
