@@ -91,7 +91,7 @@ export const defaultLayoutState: SubState = {
     recentVisibleSizes: {
       navSize: 300,
       bottomPanelHeight: 300,
-      rightPanelWidth: 40,
+      rightPanelWidth: 400,
     },
     panelPosition: 'bottom',
     showTabs: true,
@@ -135,7 +135,7 @@ const getRecentVisibleSizes = (layoutState: API_Layout) => {
   };
 };
 
-export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ store, provider, singleStory }) => {
   const api = {
     toggleFullscreen(nextState?: boolean) {
       return store.setState(
@@ -224,6 +224,10 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     toggleNav(nextState?: boolean) {
       return store.setState(
         (state: State) => {
+          if (state.singleStory) {
+            return { layout: state.layout };
+          }
+
           const isNavShown = getIsNavShown(state);
 
           const shouldShowNav = typeof nextState === 'boolean' ? nextState : !isNavShown;

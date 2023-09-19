@@ -247,7 +247,7 @@ const Toolbar = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   width: '100%',
   height: 40,
   flexShrink: 0,
-  overflowX: 'scroll',
+  overflowX: 'auto',
   overflowY: 'hidden',
   transition: 'all .2s linear',
   marginTop: shown ? 0 : -40,

@@ -204,25 +204,6 @@ export const ViewportTool: FC = memo(
                     width: '100%',
                     height: '100%',
                   }),
-                  //   margin: `auto`,
-                  //   transition: 'none',
-                  //   position: 'relative',
-                  //   border: `1px solid black`,
-                  //   boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',
-
-                  //   ...styles,
-                  // },
-                  // [`#${wrapperId}`]: {
-                  //   padding: theme.layoutMargin,
-                  //   alignContent: 'center',
-                  //   alignItems: 'center',
-                  //   justifyContent: 'center',
-                  //   justifyItems: 'center',
-                  //   overflow: 'auto',
-
-                  //   display: 'grid',
-                  //   gridTemplateColumns: '100%',
-                  //   gridTemplateRows: '100%',
                 },
               }}
             />

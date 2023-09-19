@@ -183,22 +183,22 @@ const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
       [`@media ${breakpoint}`]: {
         display: 'grid',
         gap: 0,
+        transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
         gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
-        gridTemplateRows: `[top] 1fr ${bottomPanelHeight}px [bottom]`,
+        gridTemplateRows: `1fr ${bottomPanelHeight}px`,
         gridTemplateAreas: (() => {
           if (viewMode === 'docs') {
             // remove panel in docs viewMode
             return `"sidebar content content"
-                    "sidebar content content"`;
+                  "sidebar content content"`;
           }
           if (panelPosition === 'right') {
             return `"sidebar content panel"
-                    "sidebar content panel"`;
+                  "sidebar content panel"`;
           }
-          return `"sidebar content content content"
-                  "sidebar panel   panel   panel"`;
+          return `"sidebar content content"
+                "sidebar panel   panel"`;
         })(),
-        transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
       },
     };
   }

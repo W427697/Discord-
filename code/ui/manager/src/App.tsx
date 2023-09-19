@@ -28,7 +28,7 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
         setManagerLayoutState={setManagerLayoutState}
         slotMain={
           <Route path={/(^\/story|docs|onboarding\/|^\/$)/} hideOnly>
-            <Preview />
+            <Preview id="main" withLoader />
           </Route>
         }
         slotSidebar={<Sidebar />}

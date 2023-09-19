@@ -226,7 +226,6 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
     // warning: event might not have a full prototype chain because it may originate from the channel
     handleShortcutFeature(feature, event) {
       const {
-        layout,
         ui: { enableShortcuts },
         storyId,
       } = store.getState();

@@ -14,8 +14,6 @@ const StyledIframe = styled.iframe({
   backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
 
   margin: `auto`,
-  // transition: 'width .3s, height .3s, top .3s, left .3s',
-  // position: 'relative',
   boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',
 });
 

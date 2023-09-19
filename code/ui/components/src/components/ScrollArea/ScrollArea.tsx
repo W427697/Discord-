@@ -9,9 +9,8 @@ const Scroller: FC<ScrollAreaProps> = ({ horizontal, vertical, ...props }) => (
   <Suspense fallback={<div {...props} />}>
     <GlobalScrollAreaStyles />
     <OverlayScrollbars
-      options={{
-        scrollbars: { autoHide: 'leave' },
-      }}
+      defer
+      options={{ scrollbars: { autoHide: 'leave', visibility: 'auto' } }}
       {...props}
     />
   </Suspense>
