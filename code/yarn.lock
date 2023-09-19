@@ -24,7 +24,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adobe/css-tools@npm:^4.0.1":
+"@adobe/css-tools@npm:^4.0.1, @adobe/css-tools@npm:^4.3.0":
   version: 4.3.1
   resolution: "@adobe/css-tools@npm:4.3.1"
   checksum: 05672719b544cc0c21ae3ed0eb6349bf458e9d09457578eeeb07cf0f696469ac6417e9c9be1b129e5d6a18098a061c1db55b2275591760ef30a79822436fcbfa
@@ -8770,7 +8770,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.11.9":
+"@testing-library/jest-dom@npm:^5.11.9, @testing-library/jest-dom@npm:^5.16.2":
   version: 5.17.0
   resolution: "@testing-library/jest-dom@npm:5.17.0"
   dependencies:
@@ -8784,6 +8784,36 @@ __metadata:
     lodash: ^4.17.15
     redent: ^3.0.0
   checksum: 24e09c5779ea44644945ec26f2e4e5f48aecfe57d469decf2317a3253a5db28d865c55ad0ea4818d8d1df7572a6486c45daa06fa09644a833a7dd84563881939
+  languageName: node
+  linkType: hard
+
+"@testing-library/jest-dom@npm:^6.1.3":
+  version: 6.1.3
+  resolution: "@testing-library/jest-dom@npm:6.1.3"
+  dependencies:
+    "@adobe/css-tools": ^4.3.0
+    "@babel/runtime": ^7.9.2
+    aria-query: ^5.0.0
+    chalk: ^3.0.0
+    css.escape: ^1.5.1
+    dom-accessibility-api: ^0.5.6
+    lodash: ^4.17.15
+    redent: ^3.0.0
+  peerDependencies:
+    "@jest/globals": ">= 28"
+    "@types/jest": ">= 28"
+    jest: ">= 28"
+    vitest: ">= 0.32"
+  peerDependenciesMeta:
+    "@jest/globals":
+      optional: true
+    "@types/jest":
+      optional: true
+    jest:
+      optional: true
+    vitest:
+      optional: true
+  checksum: 544e01939d3c14a3d44ae2e2bb9fe2a0cb5a9e4992ca2728f41188fb9fb2d56e25f1a2e1c12000be2a94d8da36cb220b24020e1b5c5c4c4bede9058a0d80583d
   languageName: node
   linkType: hard
 

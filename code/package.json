@@ -80,7 +80,6 @@
   ],
   "resolutions": {
     "@playwright/test": "1.36.0",
-    "@testing-library/jest-dom": "^5.11.9",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
