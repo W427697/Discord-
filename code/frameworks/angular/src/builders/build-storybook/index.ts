@@ -1,19 +1,22 @@
 import {
   BuilderContext,
+  BuilderHandlerFn,
   BuilderOutput,
+  BuilderOutputLike,
   Target,
   createBuilder,
   targetFromTargetString,
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import { Observable, from, of, throwError } from 'rxjs';
+import { from, of, throwError } from 'rxjs';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 import { CLIOptions } from '@storybook/types';
-import { getEnvConfig } from '@storybook/cli';
+import { getEnvConfig, versions } from '@storybook/cli';
+import { addToGlobalContext } from '@storybook/telemetry';
 
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import {
@@ -24,12 +27,15 @@ import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { errorSummary, printErrorDetails } from '../utils/error-handler';
 
+addToGlobalContext('cliVersion', versions.storybook);
+
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
   docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
@@ -39,17 +45,15 @@ export type StorybookBuilderOptions = JsonObject & {
     'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
   >;
 
-export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
+export type StorybookBuilderOutput = JsonObject & BuilderOutput & { [key: string]: any };
 
 type StandaloneBuildOptions = StandaloneOptions & { outputDir: string };
 
-export default createBuilder<any, any>(commandBuilder);
-
-function commandBuilder(
-  options: StorybookBuilderOptions,
-  context: BuilderContext
-): Observable<StorybookBuilderOutput> {
-  return from(setup(options, context)).pipe(
+const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
+  options,
+  context
+): BuilderOutputLike => {
+  const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
       const runCompodoc$ = options.compodoc
         ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
@@ -75,6 +79,7 @@ function commandBuilder(
         loglevel,
         outputDir,
         quiet,
+        enableProdMode = true,
         webpackStatsJson,
         disableTelemetry,
         assets,
@@ -87,6 +92,7 @@ function commandBuilder(
         loglevel,
         outputDir,
         quiet,
+        enableProdMode,
         disableTelemetry,
         angularBrowserTarget: browserTarget,
         angularBuilderContext: context,
@@ -106,7 +112,11 @@ function commandBuilder(
       return { success: true };
     })
   );
-}
+
+  return builder as any as BuilderOutput;
+};
+
+export default createBuilder(commandBuilder);
 
 async function setup(options: StorybookBuilderOptions, context: BuilderContext) {
   let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;

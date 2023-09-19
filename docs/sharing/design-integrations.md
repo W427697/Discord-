@@ -82,6 +82,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 <CodeSnippets
   paths={[
     'common/storybook-main-figma-addon-register.js.mdx',
+    'common/storybook-main-figma-addon-register.ts.mdx',
   ]}
 />
 
@@ -109,6 +110,8 @@ In Storybook, add a new [parameter](../writing-stories/parameters.md) named `des
     'svelte/component-story-figma-integration.js.mdx',
     'web-components/component-story-figma-integration.js.mdx',
     'web-components/component-story-figma-integration.ts.mdx',
+    'solid/component-story-figma-integration.js.mdx',
+    'solid/component-story-figma-integration.ts.mdx',
   ]}
   usesCsf3
   csf2Path="sharing/design-integrations#snippet-component-story-figma-integration"

@@ -1,18 +1,18 @@
 {
   "name": "@storybook/router",
-  "version": "7.1.0-alpha.0",
+  "version": "7.5.0-alpha.2",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/router",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/router",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/router"
+    "directory": "code/lib/router"
   },
   "funding": {
     "type": "opencollective",
@@ -22,15 +22,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./utils": {
+      "types": "./dist/utils.d.ts",
       "require": "./dist/utils.js",
-      "import": "./dist/utils.mjs",
-      "types": "./dist/utils.d.ts"
+      "import": "./dist/utils.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -41,14 +41,15 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.0",
+    "@storybook/client-logger": "workspace:*",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0"
   },
@@ -74,5 +75,5 @@
       "./src/utils.ts"
     ]
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

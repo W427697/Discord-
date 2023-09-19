@@ -1,18 +1,18 @@
 {
   "name": "@storybook/vue",
-  "version": "7.1.0-alpha.0",
+  "version": "7.5.0-alpha.2",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/vue",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/renderers/vue",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "renderers/vue"
+    "directory": "code/renderers/vue"
   },
   "funding": {
     "type": "opencollective",
@@ -21,15 +21,15 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preview": {
+      "types": "./dist/config.d.ts",
       "require": "./dist/config.js",
-      "import": "./dist/config.mjs",
-      "types": "./dist/config.d.ts"
+      "import": "./dist/config.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -38,29 +38,30 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "vue-tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.1.0-alpha.0",
-    "@storybook/core-client": "7.1.0-alpha.0",
-    "@storybook/docs-tools": "7.1.0-alpha.0",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-client": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.1.0-alpha.0",
-    "@storybook/types": "7.1.0-alpha.0",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
     "ts-dedent": "^2.0.0",
-    "type-fest": "2.19.0"
+    "type-fest": "~2.19"
   },
   "devDependencies": {
     "typescript": "~4.9.3",
     "vue": "2.6.14",
-    "vue-tsc": "^1.0.9"
+    "vue-tsc": "latest"
   },
   "peerDependencies": {
     "@babel/core": "*",
@@ -86,5 +87,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

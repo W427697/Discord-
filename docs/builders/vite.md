@@ -18,6 +18,7 @@ Run the following command to install the builder.
 <CodeSnippets
   paths={[
     'common/storybook-vite-builder-install.yarn.js.mdx',
+    'common/storybook-vite-builder-install.pnpm.js.mdx',
     'common/storybook-vite-builder-install.npm.js.mdx',
   ]}
 />
@@ -60,7 +61,7 @@ You can also override the builder's configuration based on the environment. For 
 
 <CodeSnippets
   paths={[
-    'common/storybook-vite-builder-config-env.js.mdx',
+    'common/main-config-vite-final.js.mdx',
   ]}
 />
 

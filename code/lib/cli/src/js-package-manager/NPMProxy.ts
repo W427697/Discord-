@@ -1,8 +1,14 @@
 import sort from 'semver/functions/sort';
 import { platform } from 'os';
+import dedent from 'ts-dedent';
+import { sync as findUpSync } from 'find-up';
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
+import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
+import { createLogStream } from '../utils';
 
 type NpmDependency = {
   version: string;
@@ -19,13 +25,48 @@ export type NpmListOutput = {
   dependencies: NpmDependencies;
 };
 
+const NPM_ERROR_REGEX = /npm ERR! code (\w+)/;
+const NPM_ERROR_CODES = {
+  E401: 'Authentication failed or is required.',
+  E403: 'Access to the resource is forbidden.',
+  E404: 'Requested resource not found.',
+  EACCES: 'Permission issue.',
+  EAI_FAIL: 'DNS lookup failed.',
+  EBADENGINE: 'Engine compatibility check failed.',
+  EBADPLATFORM: 'Platform not supported.',
+  ECONNREFUSED: 'Connection refused.',
+  ECONNRESET: 'Connection reset.',
+  EEXIST: 'File or directory already exists.',
+  EINVALIDTYPE: 'Invalid type encountered.',
+  EISGIT: 'Git operation failed or conflicts with an existing file.',
+  EJSONPARSE: 'Error parsing JSON data.',
+  EMISSINGARG: 'Required argument missing.',
+  ENEEDAUTH: 'Authentication needed.',
+  ENOAUDIT: 'No audit available.',
+  ENOENT: 'File or directory does not exist.',
+  ENOGIT: 'Git not found or failed to run.',
+  ENOLOCK: 'Lockfile missing.',
+  ENOSPC: 'Insufficient disk space.',
+  ENOTFOUND: 'Resource not found.',
+  EOTP: 'One-time password required.',
+  EPERM: 'Permission error.',
+  EPUBLISHCONFLICT: 'Conflict during package publishing.',
+  ERESOLVE: 'Dependency resolution error.',
+  EROFS: 'File system is read-only.',
+  ERR_SOCKET_TIMEOUT: 'Socket timed out.',
+  ETARGET: 'Package target not found.',
+  ETIMEDOUT: 'Operation timed out.',
+  ETOOMANYARGS: 'Too many arguments provided.',
+  EUNKNOWNTYPE: 'Unknown type encountered.',
+};
+
 export class NPMProxy extends JsPackageManager {
   readonly type = 'npm';
 
   installArgs: string[] | undefined;
 
-  initPackageJson() {
-    return this.executeCommand('npm', ['init', '-y']);
+  async initPackageJson() {
+    await this.executeCommand({ command: 'npm', args: ['init', '-y'] });
   }
 
   getRunStorybookCommand(): string {
@@ -36,8 +77,33 @@ export class NPMProxy extends JsPackageManager {
     return `npm run ${command}`;
   }
 
-  getNpmVersion(): string {
-    return this.executeCommand('npm', ['--version']);
+  async getNpmVersion(): Promise<string> {
+    return this.executeCommand({ command: 'npm', args: ['--version'] });
+  }
+
+  public async getPackageJSON(
+    packageName: string,
+    basePath = this.cwd
+  ): Promise<PackageJson | null> {
+    const packageJsonPath = await findUpSync(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson;
+  }
+
+  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJson = await this.getPackageJSON(packageName, basePath);
+    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
   }
 
   getInstallArgs(): string[] {
@@ -47,13 +113,39 @@ export class NPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
-  public runPackageCommand(command: string, args: string[], cwd?: string): string {
-    return this.executeCommand(`npm`, ['exec', '--', command, ...args], undefined, cwd);
+  public runPackageCommandSync(
+    command: string,
+    args: string[],
+    cwd?: string,
+    stdio?: 'pipe' | 'inherit'
+  ): string {
+    return this.executeCommandSync({
+      command: 'npm',
+      args: ['exec', '--', command, ...args],
+      cwd,
+      stdio,
+    });
   }
 
-  public findInstallations() {
+  public async runPackageCommand(command: string, args: string[], cwd?: string): Promise<string> {
+    return this.executeCommand({
+      command: 'npm',
+      args: ['exec', '--', command, ...args],
+      cwd,
+    });
+  }
+
+  public async findInstallations() {
     const pipeToNull = platform() === 'win32' ? '2>NUL' : '2>/dev/null';
-    const commandResult = this.executeCommand('npm', ['ls', '--json', '--depth=99', pipeToNull]);
+    const commandResult = await this.executeCommand({
+      command: 'npm',
+      args: ['ls', '--json', '--depth=99', pipeToNull],
+      // ignore errors, because npm ls will exit with code 1 if there are e.g. unmet peer dependencies
+      ignoreError: true,
+      env: {
+        FORCE_COLOR: 'false',
+      },
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);
@@ -72,33 +164,65 @@ export class NPMProxy extends JsPackageManager {
     };
   }
 
-  protected runInstall(): void {
-    this.executeCommand('npm', ['install', ...this.getInstallArgs()], 'inherit');
+  protected async runInstall() {
+    await this.executeCommand({
+      command: 'npm',
+      args: ['install', ...this.getInstallArgs()],
+      stdio: 'inherit',
+    });
   }
 
-  protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
+  protected async runAddDeps(dependencies: string[], installAsDevDependencies: boolean) {
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
     let args = [...dependencies];
 
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('npm', ['install', ...this.getInstallArgs(), ...args], 'inherit');
+    try {
+      await this.executeCommand({
+        command: 'npm',
+        args: ['install', ...args, ...this.getInstallArgs()],
+        stdio: ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
-  protected runRemoveDeps(dependencies: string[]): void {
+  protected async runRemoveDeps(dependencies: string[]) {
     const args = [...dependencies];
 
-    this.executeCommand('npm', ['uninstall', ...this.getInstallArgs(), ...args], 'inherit');
+    await this.executeCommand({
+      command: 'npm',
+      args: ['uninstall', ...this.getInstallArgs(), ...args],
+      stdio: 'inherit',
+    });
   }
 
-  protected runGetVersions<T extends boolean>(
+  protected async runGetVersions<T extends boolean>(
     packageName: string,
     fetchAllVersions: T
   ): Promise<T extends true ? string[] : string> {
     const args = [fetchAllVersions ? 'versions' : 'version', '--json'];
 
-    const commandResult = this.executeCommand('npm', ['info', packageName, ...args]);
+    const commandResult = await this.executeCommand({
+      command: 'npm',
+      args: ['info', packageName, ...args],
+    });
 
     try {
       const parsedOutput = JSON.parse(commandResult);
@@ -151,6 +275,26 @@ export class NPMProxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'npm ls --depth=1',
+      dedupeCommand: 'npm dedupe',
     };
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'NPM error';
+    const match = logs.match(NPM_ERROR_REGEX);
+
+    if (match) {
+      const errorCode = match[1] as keyof typeof NPM_ERROR_CODES;
+      if (errorCode) {
+        finalMessage = `${finalMessage} ${errorCode}`;
+      }
+
+      const errorMessage = NPM_ERROR_CODES[errorCode];
+      if (errorMessage) {
+        finalMessage = `${finalMessage} - ${errorMessage}`;
+      }
+    }
+
+    return finalMessage.trim();
   }
 }

@@ -15,7 +15,7 @@ Storybook provides support for the leading industry builders and frameworks. How
 | Builder | Framework                                                                |
 | ------- | ------------------------------------------------------------------------ |
 | Webpack | React, Angular, Vue, Web Components, NextJS, HTML, Ember, Preact, Svelte |
-| Vite    | React, Vue, Web Components, HTML, Svelte, SvelteKit, Qwik                |
+| Vite    | React, Vue, Web Components, HTML, Svelte, SvelteKit, Qwik, Solid         |
 
 ### What about feature support?
 
@@ -29,8 +29,8 @@ Every modern web application has unique requirements and relies on various tools
 
 <CodeSnippets
   paths={[
-    'common/storybook-framework-config-options.js.mdx',
-    'common/storybook-framework-config-options.ts.mdx',
+    'common/main-config-framework.js.mdx',
+    'common/main-config-framework.ts.mdx',
   ]}
 />
 
@@ -52,7 +52,7 @@ Every modern web application has unique requirements and relies on various tools
 
 ### NextJS 13 doesn't work with Storybook
 
-The latest release of [NexJS](https://nextjs.org/) introduced breaking changes (e.g., [TurboPack](https://turbo.build/pack), [Server Component](https://nextjs.org/docs/advanced-features/react-18/server-components), [SWC](https://nextjs.org/docs/advanced-features/compiler#why-swc)) that are not yet fully supported by Storybook. The Storybook team is working on adding support for these features. In the meantime, you can still use Storybook alongside your NextJS 13 project if you're not relying on them.
+The latest release of [NextJS](https://nextjs.org/) introduced breaking changes (e.g., [TurboPack](https://turbo.build/pack), [Server Component](https://nextjs.org/docs/advanced-features/react-18/server-components), [SWC](https://nextjs.org/docs/advanced-features/compiler#why-swc)) that are not yet fully supported by Storybook. The Storybook team is working on adding support for these features. In the meantime, you can still use Storybook alongside your NextJS 13 project if you're not relying on them.
 
 ### My framework doesn't work with Storybook
 
@@ -61,6 +61,10 @@ Out of the box, most frameworks work seamlessly with Storybook. However, some fr
 ### How do I build a Storybook framework?
 
 Storybook is a framework-agnostic tool. It can be used with any framework. However, to make it easier for you to get started, we provide instructions that you can use to build your framework. To learn more, read our [frameworks guide](../contribute/framework.md).
+
+### Legacy framework support
+
+We're deprecating support for several frameworks, including [Aurelia](https://github.com/aurelia/framework), [Marionette](https://github.com/marionettejs/backbone.marionette), [Mithril](https://github.com/MithrilJS/mithril.js), [Rax](https://github.com/alibaba/rax), and [Riot](https://github.com/riot/riot). Nevertheless, we're always looking for help maintaining these frameworks. If you're working with one of them and you want to continue supporting them, visit the dedicated [Storybook End-of-Life repository](https://github.com/storybook-eol) to learn more about the sunsetting process and for instructions on how to contribute visit our [Discord server](https://discord.gg/storybook).
 
 ### Learn about configuring Storybook
 

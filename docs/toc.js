@@ -94,6 +94,11 @@ module.exports = {
           title: 'Stories for multiple components',
           type: 'link',
         },
+        {
+          pathSegment: 'typescript',
+          title: 'Writing stories in TypeScript',
+          type: 'link',
+        },
       ],
     },
     {
@@ -169,9 +174,21 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'importing-stories-in-tests',
+          pathSegment: '',
           title: 'Import stories in tests',
-          type: 'link',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'stories-in-end-to-end-tests',
+              title: 'End-to-end tests',
+              type: 'link',
+            },
+            {
+              pathSegment: 'stories-in-unit-tests',
+              title: 'Unit tests',
+              type: 'link',
+            },
+          ],
         },
       ],
     },
@@ -218,18 +235,8 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'controls',
-          title: 'Controls',
-          type: 'link',
-        },
-        {
           pathSegment: 'actions',
           title: 'Actions',
-          type: 'link',
-        },
-        {
-          pathSegment: 'viewport',
-          title: 'Viewport',
           type: 'link',
         },
         {
@@ -238,13 +245,13 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'toolbars-and-globals',
-          title: 'Toolbars & globals',
+          pathSegment: 'controls',
+          title: 'Controls',
           type: 'link',
         },
         {
-          pathSegment: 'measure-and-outline',
-          title: 'Measure & Outline',
+          pathSegment: 'highlight',
+          title: 'Highlight',
           type: 'link',
         },
         {
@@ -252,6 +259,27 @@ module.exports = {
           title: 'Interactions',
           type: 'link',
         },
+        {
+          pathSegment: 'measure-and-outline',
+          title: 'Measure & Outline',
+          type: 'link',
+        },
+        // {
+        //   pathSegment: 'themes',
+        //   title: 'Themes',
+        //   type: 'link',
+        // },
+        {
+          pathSegment: 'toolbars-and-globals',
+          title: 'Toolbars & globals',
+          type: 'link',
+        },
+        {
+          pathSegment: 'viewport',
+          title: 'Viewport',
+          type: 'link',
+        },
+        
       ],
     },
     {
@@ -322,6 +350,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'styling-and-css',
+          title: 'Styling and CSS',
+          type: 'link',
+        },
+        {
           pathSegment: 'upgrading',
           title: 'Upgrading',
           type: 'link',
@@ -354,11 +387,6 @@ module.exports = {
             {
               pathSegment: 'typescript',
               title: 'TypeScript',
-              type: 'link',
-            },
-            {
-              pathSegment: 'styling-and-css',
-              title: 'Styling and CSS',
               type: 'link',
             },
             {
@@ -445,7 +473,129 @@ module.exports = {
       type: 'menu',
       children: [
         {
-          title: '@storybook/blocks',
+          title: 'main.js|ts configuration',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            {
+              title: 'Overview',
+              pathSegment: 'main-config',
+              type: 'link',
+            },
+            {
+              title: 'framework',
+              pathSegment: 'main-config-framework',
+              type: 'link',
+            },
+            {
+              title: 'stories',
+              pathSegment: 'main-config-stories',
+              type: 'link',
+            },
+            {
+              title: 'addons',
+              pathSegment: 'main-config-addons',
+              type: 'link',
+            },
+            {
+              title: 'babel',
+              pathSegment: 'main-config-babel',
+              type: 'link',
+            },
+            {
+              title: 'babelDefault',
+              pathSegment: 'main-config-babel-default',
+              type: 'link',
+            },
+            {
+              title: 'core',
+              pathSegment: 'main-config-core',
+              type: 'link',
+            },
+            {
+              title: 'docs',
+              pathSegment: 'main-config-docs',
+              type: 'link',
+            },
+            {
+              title: 'env',
+              pathSegment: 'main-config-env',
+              type: 'link',
+            },
+            {
+              title: 'features',
+              pathSegment: 'main-config-features',
+              type: 'link',
+            },
+            {
+              title: 'logLevel',
+              pathSegment: 'main-config-log-level',
+              type: 'link',
+            },
+            {
+              title: 'managerHead',
+              pathSegment: 'main-config-manager-head',
+              type: 'link',
+            },
+            {
+              title: 'previewAnnotations',
+              pathSegment: 'main-config-preview-annotations',
+              type: 'link',
+            },
+            {
+              title: 'previewBody',
+              pathSegment: 'main-config-preview-body',
+              type: 'link',
+            },
+            {
+              title: 'previewHead',
+              pathSegment: 'main-config-preview-head',
+              type: 'link',
+            },
+            {
+              title: 'refs',
+              pathSegment: 'main-config-refs',
+              type: 'link',
+            },
+            {
+              title: 'staticDirs',
+              pathSegment: 'main-config-static-dirs',
+              type: 'link',
+            },
+            {
+              title: 'typescript',
+              pathSegment: 'main-config-typescript',
+              type: 'link',
+            },
+            {
+              title: 'viteFinal',
+              pathSegment: 'main-config-vite-final',
+              type: 'link',
+            },
+            {
+              title: 'webpackFinal',
+              pathSegment: 'main-config-webpack-final',
+              type: 'link',
+            },
+            {
+              title: 'config',
+              pathSegment: 'main-config-config',
+              type: 'link',
+            },
+          ],
+        },
+        {
+          pathSegment: 'arg-types',
+          title: 'ArgTypes',
+          type: 'link',
+        },
+        {
+          pathSegment: 'csf',
+          title: 'Component Story Format (CSF)',
+          type: 'link',
+        },
+        {
+          title: 'Doc blocks',
           pathSegment: '',
           type: 'menu',
           children: [
@@ -537,23 +687,6 @@ module.exports = {
           ],
         },
         {
-          title: 'Stories',
-          pathSegment: '',
-          type: 'menu',
-          children: [
-            {
-              pathSegment: 'csf',
-              title: 'Component Story Format',
-              type: 'link',
-            },
-            {
-              pathSegment: 'argtypes',
-              title: 'ArgTypes',
-              type: 'link',
-            },
-          ],
-        },
-        {
           pathSegment: 'new-frameworks',
           title: 'Frameworks',
           type: 'link',
@@ -573,6 +706,11 @@ module.exports = {
         {
           pathSegment: 'how-to-contribute',
           title: 'How to',
+          type: 'link',
+        },
+        {
+          pathSegment: 'RFC',
+          title: 'RFC Process',
           type: 'link',
         },
         {

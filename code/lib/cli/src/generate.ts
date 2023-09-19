@@ -6,6 +6,7 @@ import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
+import { addToGlobalContext } from '@storybook/telemetry';
 
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
@@ -20,6 +21,10 @@ import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
+import versions from './versions';
+import { JsPackageManagerFactory } from './js-package-manager';
+
+addToGlobalContext('cliVersion', versions.storybook);
 
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
@@ -83,17 +88,24 @@ command('upgrade')
 
 command('info')
   .description('Prints debugging information about the local environment')
-  .action(() => {
-    consoleLogger.log(chalk.bold('\nEnvironment Info:'));
-    envinfo
-      .run({
-        System: ['OS', 'CPU'],
-        Binaries: ['Node', 'Yarn', 'npm'],
-        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-        npmPackages: '@storybook/*',
-        npmGlobalPackages: '@storybook/*',
-      })
-      .then(consoleLogger.log);
+  .action(async () => {
+    consoleLogger.log(chalk.bold('\nStorybook Environment Info:'));
+    const pkgManager = await JsPackageManagerFactory.getPackageManager();
+    const activePackageManager = pkgManager.type.replace(/\d/, ''); // 'yarn1' -> 'yarn'
+    const output = await envinfo.run({
+      System: ['OS', 'CPU', 'Shell'],
+      Binaries: ['Node', 'Yarn', 'npm', 'pnpm'],
+      Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+      npmPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+      npmGlobalPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+    });
+    const activePackageManagerLine = output.match(new RegExp(`${activePackageManager}:.*`, 'i'));
+    consoleLogger.log(
+      output.replace(
+        activePackageManagerLine,
+        chalk.bold(`${activePackageManagerLine} <----- active`)
+      )
+    );
   });
 
 command('migrate [migration]')
@@ -137,7 +149,7 @@ command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
-  .option('-b --branch <branch>', 'Define the branch to download from', 'main')
+  .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
     sandbox({ filterValue, ...options }).catch((e) => {
@@ -199,11 +211,6 @@ command('dev')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
-  .option(
-    '--no-release-notes',
-    'Suppress automatic redirects to the release notes after upgrading',
-    true
-  )
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
   .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
   .option(
@@ -212,6 +219,10 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option(
+    '--initial-path [path]',
+    'URL path to be appended when visiting Storybook for the first time'
+  )
   .action(async (options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));

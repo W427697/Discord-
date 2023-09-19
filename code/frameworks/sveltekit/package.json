@@ -1,6 +1,6 @@
 {
   "name": "@storybook/sveltekit",
-  "version": "7.1.0-alpha.0",
+  "version": "7.5.0-alpha.2",
   "description": "Storybook for SvelteKit",
   "keywords": [
     "storybook",
@@ -24,15 +24,14 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },
@@ -41,19 +40,19 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.1.0-alpha.0",
-    "@storybook/svelte": "7.1.0-alpha.0",
-    "@storybook/svelte-vite": "7.1.0-alpha.0"
+    "@storybook/builder-vite": "workspace:*",
+    "@storybook/svelte": "workspace:*",
+    "@storybook/svelte-vite": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
@@ -61,6 +60,7 @@
     "vite": "^4.0.0"
   },
   "peerDependencies": {
+    "svelte": "^3.0.0 || ^4.0.0",
     "vite": "^4.0.0"
   },
   "engines": {
@@ -76,5 +76,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "8ff2938f8ac0c2d524ae653cd89251e5cd4721a4"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

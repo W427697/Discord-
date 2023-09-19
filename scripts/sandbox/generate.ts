@@ -38,7 +38,7 @@ const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
 };
 
 const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
-  const prevUrl = packageManager.getRegistryURL();
+  const prevUrl = await packageManager.getRegistryURL();
   let error;
   try {
     console.log(`📦 Configuring local registry: ${LOCAL_REGISTRY_URL}`);
@@ -48,7 +48,7 @@ const withLocalRegistry = async (packageManager: JsPackageManager, action: () =>
     error = e;
   } finally {
     console.log(`📦 Restoring registry: ${prevUrl}`);
-    packageManager.setRegistryURL(prevUrl);
+    await packageManager.setRegistryURL(prevUrl);
 
     if (error) {
       // eslint-disable-next-line no-unsafe-finally
@@ -80,7 +80,7 @@ const addStorybook = async ({
   const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
   if (localRegistry) {
     await withLocalRegistry(packageManager, async () => {
-      packageManager.addPackageResolutions(storybookVersions);
+      await packageManager.addPackageResolutions(storybookVersions);
 
       await sbInit(tmpDir, flags, debug);
     });
@@ -132,10 +132,12 @@ const runGenerators = async (
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
       limit(async () => {
-        const flags = expected.renderer === '@storybook/html' ? ['--type html'] : [];
+        let flags: string[] = [];
+        if (expected.renderer === '@storybook/html') flags = ['--type html'];
+        else if (expected.renderer === '@storybook/server') flags = ['--type server'];
 
         const time = process.hrtime();
-        console.log(`🧬 generating ${name}`);
+        console.log(`🧬 Generating ${name}`);
 
         const baseDir = join(REPROS_DIRECTORY, dirName);
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
@@ -200,10 +202,15 @@ const runGenerators = async (
 };
 
 export const options = createOptions({
-  template: {
-    type: 'string',
-    description: 'Which template would you like to create?',
+  templates: {
+    type: 'string[]',
+    description: 'Which templates would you like to create?',
     values: Object.keys(sandboxTemplates),
+  },
+  exclude: {
+    type: 'string[]',
+    description: 'Space-delimited list of templates to exclude. Takes precedence over --templates',
+    promptType: false,
   },
   localRegistry: {
     type: 'boolean',
@@ -218,7 +225,8 @@ export const options = createOptions({
 });
 
 export const generate = async ({
-  template,
+  templates,
+  exclude,
   localRegistry,
   debug,
 }: OptionValues<typeof options>) => {
@@ -228,11 +236,11 @@ export const generate = async ({
       ...configuration,
     }))
     .filter(({ dirName }) => {
-      if (template) {
-        return dirName === template;
+      let include = Array.isArray(templates) ? templates.includes(dirName) : true;
+      if (Array.isArray(exclude) && include) {
+        include = !exclude.includes(dirName);
       }
-
-      return true;
+      return include;
     });
 
   await runGenerators(generatorConfigs, localRegistry, debug);
@@ -241,7 +249,11 @@ export const generate = async ({
 if (require.main === module) {
   program
     .description('Generate sandboxes from a set of possible templates')
-    .option('--template <template>', 'Create a single template')
+    .option('--templates [templates...]', 'Space-delimited list of templates to include')
+    .option(
+      '--exclude [templates...]',
+      'Space-delimited list of templates to exclude. Takes precedence over --templates'
+    )
     .option('--debug', 'Print all the logs to the console')
     .option('--local-registry', 'Use local registry', false)
     .action((optionValues) => {
