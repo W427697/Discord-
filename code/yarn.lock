@@ -17012,16 +17012,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-system-cache@npm:2.3.0":
-  version: 2.3.0
-  resolution: "file-system-cache@npm:2.3.0"
-  dependencies:
-    fs-extra: 11.1.1
-    ramda: 0.29.0
-  checksum: 43de19f0db32e6546bb7abeecb1d6ea83c1eca23b38905c9415a29f6219cc9d6d87b0c1a6aca92c46a0f1bc276241a339f2f68b8aa0ca5c2eb64b6e1e3e4da01
-  languageName: node
-  linkType: hard
-
 "file-system-cache@npm:^2.4.4":
   version: 2.4.4
   resolution: "file-system-cache@npm:2.4.4"
