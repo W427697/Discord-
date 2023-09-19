@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import React from 'react';
 
-import { IFrame } from './iframe';
+import { IFrame } from './Iframe';
 
 export default {
   component: IFrame,
@@ -35,7 +35,22 @@ export const WorkingStory = () => (
     active
     id="iframe"
     title="Missing"
-    src="/iframe.html?id=storybook-components-loader--infinite-state"
+    src="/iframe.html?id=components-loader--infinite-state"
+    allowFullScreen
+    style={style}
+    scale={1.0}
+  />
+);
+WorkingStory.parameters = {
+  chromatic: { disable: true },
+};
+
+export const WorkingDocs = () => (
+  <IFrame
+    active
+    id="iframe"
+    title="Missing"
+    src="/iframe.html?id=components-colorpalette--docs"
     allowFullScreen
     style={style}
     scale={1.0}

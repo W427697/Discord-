@@ -3,7 +3,7 @@ import React, { Component, useCallback } from 'react';
 
 import { type API, useStorybookApi, useStorybookState } from '@storybook/manager-api';
 
-import { AboutScreen } from './about';
+import { AboutScreen } from './About';
 
 // Clear a notification on mount. This could be exported by core/notifications.js perhaps?
 class NotificationClearer extends Component<{ api: API; notificationId: string }> {

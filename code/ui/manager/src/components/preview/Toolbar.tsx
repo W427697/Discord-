@@ -3,7 +3,7 @@ import React, { Fragment, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 
-import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
+import { IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
 import {
   shortcutToHumanString,
   Consumer,
@@ -32,30 +32,15 @@ import { remountTool } from './tools/remount';
 export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
 export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
 
-const Bar: FunctionComponent<{ shown: boolean } & Record<string, any>> = ({ shown, ...props }) => (
-  <FlexBar {...props} />
-);
-
-export const Toolbar = styled(Bar)(
-  {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    transition: 'transform .2s linear',
-  },
-  ({ shown }) => ({
-    transform: shown ? 'translateY(0px)' : 'translateY(-40px)',
-  })
-);
-
-const fullScreenMapper = ({ api, state }: Combo) => ({
-  toggle: api.toggleFullscreen,
-  value: state.layout.isFullscreen,
-  shortcut: shortcutToHumanString(api.getShortcutKeys().fullScreen),
-  hasPanel: Object.keys(api.getPanels()).length > 0,
-  singleStory: state.singleStory,
-});
+const fullScreenMapper = ({ api, state }: Combo) => {
+  return {
+    toggle: api.toggleFullscreen,
+    isFullscreen: api.getIsFullscreen(),
+    shortcut: shortcutToHumanString(api.getShortcutKeys().fullScreen),
+    hasPanel: Object.keys(api.getPanels()).length > 0,
+    singleStory: state.singleStory,
+  };
+};
 
 export const fullScreenTool: Addon_BaseType = {
   title: 'fullscreen',
@@ -64,14 +49,15 @@ export const fullScreenTool: Addon_BaseType = {
   match: (p) => ['story', 'docs'].includes(p.viewMode),
   render: () => (
     <Consumer filter={fullScreenMapper}>
-      {({ toggle, value, shortcut, hasPanel, singleStory }) =>
+      {({ toggle, isFullscreen, shortcut, hasPanel, singleStory }) =>
         (!singleStory || (singleStory && hasPanel)) && (
           <IconButton
             key="full"
             onClick={toggle as any}
-            title={`${value ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
+            title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
+            aria-label={isFullscreen ? 'Exit full screen' : 'Go full screen'}
           >
-            <Icons icon={value ? 'close' : 'expand'} />
+            <Icons icon={isFullscreen ? 'close' : 'expand'} />
           </IconButton>
         )
       }
@@ -133,7 +119,10 @@ const useTools = (
   location: PreviewProps['location'],
   path: PreviewProps['path']
 ) => {
-  const toolsFromConfig = useMemo(() => getTools(getElements), [getElements]);
+  const toolsFromConfig = useMemo(
+    () => getTools(getElements),
+    [getElements, getTools(getElements).length]
+  );
   const toolsExtraFromConfig = useMemo(() => getToolsExtra(getElements), [getElements]);
 
   const tools = useMemo(
@@ -169,9 +158,15 @@ export const ToolRes: FunctionComponent<ToolData & RenderData> = React.memo<Tool
     const { left, right } = useTools(api.getElements, tabs, viewMode, entry, location, path);
 
     return left || right ? (
-      <Toolbar key="toolbar" shown={isShown} border>
-        <Tools key="left" list={left} />
-        <Tools key="right" list={right} />
+      <Toolbar key="toolbar" shown={isShown} data-test-id="sb-preview-toolbar">
+        <ToolbarInner>
+          <ToolbarLeft>
+            <Tools key="left" list={left} />
+          </ToolbarLeft>
+          <ToolbarRight>
+            <Tools key="right" list={right} />
+          </ToolbarRight>
+        </ToolbarInner>
       </Toolbar>
     ) : null;
   }
@@ -246,3 +241,39 @@ export function filterTools(
 
   return { left, right };
 }
+
+const Toolbar = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
+  position: 'relative',
+  color: theme.barTextColor,
+  width: '100%',
+  height: 40,
+  flexShrink: 0,
+  overflowX: 'auto',
+  overflowY: 'hidden',
+  marginTop: shown ? 0 : -40,
+  boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
+  background: theme.barBg,
+}));
+
+const ToolbarInner = styled.div({
+  position: 'absolute',
+  width: 'calc(100% - 20px)',
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexWrap: 'nowrap',
+  flexShrink: 0,
+  height: 40,
+  marginLeft: 10,
+  marginRight: 10,
+});
+
+const ToolbarLeft = styled.div({
+  display: 'flex',
+  whiteSpace: 'nowrap',
+  flexBasis: 'auto',
+  gap: 4,
+});
+
+const ToolbarRight = styled(ToolbarLeft)({
+  marginLeft: 30,
+});

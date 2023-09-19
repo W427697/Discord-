@@ -1,28 +1,42 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Badge, Icons, Spaced } from '@storybook/components';
+import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
-import Panel from './panel';
-import { panels, shortcuts } from '../layout/app.mockdata';
+import { AddonPanel } from './Panel';
+import { defaultShortcuts } from '../../settings/defaultShortcuts';
 
 const onSelect = action('onSelect');
 const toggleVisibility = action('toggleVisibility');
 const togglePosition = action('togglePosition');
 
+const panels: Addon_Collection<Addon_BaseType> = {
+  test1: {
+    title: 'Test 1',
+    type: Addon_TypesEnum.PANEL,
+    render: ({ active }) => (active ? <div id="test1">TEST 1</div> : null),
+  },
+  test2: {
+    title: 'Test 2',
+    type: Addon_TypesEnum.PANEL,
+    render: ({ active }) => (active ? <div id="test2">TEST 2</div> : null),
+  },
+};
+
 export default {
   title: 'Panel',
-  component: Panel,
+  component: AddonPanel,
 };
 
 export const Default = () => {
   const [selectedPanel, setSelectedPanel] = useState('test2');
   return (
-    <Panel
+    <AddonPanel
       absolute={false}
       panels={panels}
       actions={{ onSelect: setSelectedPanel, toggleVisibility, togglePosition }}
       selectedPanel={selectedPanel}
-      shortcuts={shortcuts}
+      shortcuts={defaultShortcuts}
     />
   );
 };
@@ -30,7 +44,7 @@ export const Default = () => {
 export const JSXTitles = () => {
   const [selectedPanel, setSelectedPanel] = useState('function-string');
   return (
-    <Panel
+    <AddonPanel
       absolute={false}
       panels={{
         'function-string': {
@@ -116,15 +130,15 @@ export const JSXTitles = () => {
       }}
       actions={{ onSelect: setSelectedPanel, toggleVisibility, togglePosition }}
       selectedPanel={selectedPanel}
-      shortcuts={shortcuts}
+      shortcuts={defaultShortcuts}
     />
   );
 };
 
 export const NoPanels = () => (
-  <Panel
+  <AddonPanel
     panels={{}}
     actions={{ onSelect, toggleVisibility, togglePosition }}
-    shortcuts={shortcuts}
+    shortcuts={defaultShortcuts}
   />
 );

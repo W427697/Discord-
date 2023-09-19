@@ -12,8 +12,8 @@ import { Location } from '@storybook/router';
 
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';
-import { defaultWrappers, ApplyWrappers } from './wrappers';
-import { ToolbarComp } from './toolbar';
+import { defaultWrappers, ApplyWrappers } from './Wrappers';
+import { ToolbarComp } from './Toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
@@ -106,25 +106,27 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
         </Helmet>
       )}
       <ZoomProvider shouldScale={shouldScale}>
-        <ToolbarComp
-          key="tools"
-          entry={entry}
-          api={api}
-          isShown={showToolbar}
-          tabs={visibleTabsInToolbar}
-        />
-        <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
-          <Canvas {...{ withLoader, baseUrl }} />
-          {tabs.map(({ render: Render, match, ...t }, i) => {
-            // @ts-expect-error (Converted from ts-ignore)
-            const key = t.id || t.key || i;
-            return (
-              <Fragment key={key}>
-                <Location>{(lp) => <Render active={match(lp)} />}</Location>
-              </Fragment>
-            );
-          })}
-        </S.FrameWrap>
+        <S.PreviewContainer>
+          <ToolbarComp
+            key="tools"
+            entry={entry}
+            api={api}
+            isShown={showToolbar}
+            tabs={visibleTabsInToolbar}
+          />
+          <S.FrameWrap key="frame">
+            <Canvas {...{ withLoader, baseUrl }} />
+            {tabs.map(({ render: Render, match, ...t }, i) => {
+              // @ts-expect-error (Converted from ts-ignore)
+              const key = t.id || t.key || i;
+              return (
+                <Fragment key={key}>
+                  <Location>{(lp) => <Render active={match(lp)} />}</Location>
+                </Fragment>
+              );
+            })}
+          </S.FrameWrap>
+        </S.PreviewContainer>
       </ZoomProvider>
     </Fragment>
   );

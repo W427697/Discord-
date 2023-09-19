@@ -3,7 +3,7 @@ import React, { Children, cloneElement } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 import { TooltipLinkList, WithTooltip } from '@storybook/components';
-import { Shortcut } from './menu';
+import { Shortcut } from './Menu';
 
 const onLinkClick = action('onLinkClick');
 

@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import type { FC } from 'react';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
@@ -12,10 +12,10 @@ import { ProviderDoesNotExtendBaseProviderError } from '@storybook/core-events/m
 import { HelmetProvider } from 'react-helmet-async';
 
 import type { Addon_PageType } from '@storybook/types';
-import App from './app';
+import { App } from './App';
 
 import Provider from './provider';
-import { settingsPageAddon } from './settings';
+import { settingsPageAddon } from './settings/index';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -47,31 +47,27 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           navigate={navigate}
           docsOptions={global?.DOCS_OPTIONS || {}}
         >
-          {({ state, api }: Combo) => {
-            const panelCount = Object.keys(api.getElements(types.PANEL)).length;
+          {(combo: Combo) => {
+            const { state, api } = combo;
+            const setManagerLayoutState = useCallback(
+              (sizes) => {
+                api.setSizes(sizes);
+              },
+              [state, api]
+            );
+
             const pages: Addon_PageType[] = useMemo(
               () => [settingsPageAddon, ...Object.values(api.getElements(types.experimental_PAGE))],
               [Object.keys(api.getElements(types.experimental_PAGE)).join()]
-            );
-
-            const story = api.getData(state.storyId, state.refId);
-            const isLoading = story
-              ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
-              : !state.previewInitialized;
-
-            const layout = useMemo(
-              () => (isLoading ? { ...state.layout, showPanel: false } : state.layout),
-              [isLoading, state.layout]
             );
 
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
                 <App
                   key="app"
-                  viewMode={state.viewMode}
-                  layout={layout}
-                  panelCount={panelCount}
                   pages={pages}
+                  managerLayoutState={{ ...state.layout, viewMode: state.viewMode }}
+                  setManagerLayoutState={setManagerLayoutState}
                 />
               </ThemeProvider>
             );
