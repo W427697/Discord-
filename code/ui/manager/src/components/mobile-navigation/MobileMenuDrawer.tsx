@@ -3,12 +3,13 @@ import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
-// import { MobileAbout } from '../MobileAbout/MobileAbout';
+import { MobileAbout } from '../mobile-about/MobileAbout';
 import Sidebar from '../../container/Sidebar';
 
 interface MobileMenuDrawerProps {
   isMenuOpen: boolean;
   isAboutOpen: boolean;
+  setAboutOpen: (open: boolean) => void;
   closeMenu: () => void;
 }
 
@@ -62,6 +63,7 @@ const Overlay = styled.div<{ state: TransitionStatus }>(({ state }) => ({
 export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
   isMenuOpen,
   isAboutOpen,
+  setAboutOpen,
   closeMenu,
 }) => {
   const containerRef = useRef(null);
@@ -79,7 +81,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
         {(state) => (
           <Container ref={containerRef} state={state}>
             <Sidebar />
-            {/* <MobileAbout isOpen={isAboutOpen} /> */}
+            <MobileAbout isAboutOpen={isAboutOpen} setAboutOpen={setAboutOpen} />
           </Container>
         )}
       </Transition>

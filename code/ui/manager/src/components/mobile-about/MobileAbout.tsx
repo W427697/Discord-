@@ -1,0 +1,129 @@
+import type { FC } from 'react';
+import React, { useRef } from 'react';
+import { Transition, type TransitionStatus } from 'react-transition-group';
+import { styled } from '@storybook/theming';
+import { Button, Icons, Link } from '@storybook/components';
+import { UpgradeBlock } from '../upgrade-block/UpgradeBlock';
+import { MOBILE_TRANSITION_DURATION } from '../../constants';
+
+interface MobileAboutProps {
+  isAboutOpen: boolean;
+  setAboutOpen: (open: boolean) => void;
+}
+
+export const MobileAbout: FC<MobileAboutProps> = ({ isAboutOpen, setAboutOpen }) => {
+  const aboutRef = useRef(null);
+
+  return (
+    <Transition
+      nodeRef={aboutRef}
+      in={isAboutOpen}
+      timeout={MOBILE_TRANSITION_DURATION}
+      appear
+      mountOnEnter
+      unmountOnExit
+    >
+      {(state) => (
+        <Container ref={aboutRef} state={state} transitionDuration={MOBILE_TRANSITION_DURATION}>
+          <Button onClick={() => setAboutOpen(false)}>
+            <Icons icon="arrowleft" />
+            Back
+          </Button>
+          <LinkContainer>
+            <LinkLine href="https://github.com/storybookjs/storybook" target="_blank">
+              <LinkLeft>
+                <Icons icon="github" />
+                <span>Github</span>
+              </LinkLeft>
+              <Icons icon="sharealt" width={12} />
+            </LinkLine>
+            <LinkLine
+              href="https://storybook.js.org/docs/react/get-started/install/"
+              target="_blank"
+            >
+              <LinkLeft>
+                <Icons icon="storybook" />
+                <span>Documentation</span>
+              </LinkLeft>
+              <Icons icon="sharealt" width={12} />
+            </LinkLine>
+          </LinkContainer>
+          <UpgradeBlock />
+          <BottomText>
+            Open source software maintained by{' '}
+            <Link href="https://chromatic.com" target="_blank">
+              Chromatic
+            </Link>{' '}
+            and the{' '}
+            <Link href="https://github.com/storybookjs/storybook/graphs/contributors">
+              Storybook Community
+            </Link>
+          </BottomText>
+        </Container>
+      )}
+    </Transition>
+  );
+};
+
+const Container = styled.div<{ state: TransitionStatus; transitionDuration: number }>(
+  ({ state, transitionDuration }) => ({
+    position: 'absolute',
+    boxSizing: 'border-box',
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0,
+    zIndex: 11,
+    transition: `all ${transitionDuration}ms ease-in-out`,
+    overflow: 'scroll',
+    padding: '20px',
+    opacity: `${(() => {
+      if (state === 'entering') return 1;
+      if (state === 'entered') return 1;
+      if (state === 'exiting') return 0;
+      if (state === 'exited') return 0;
+      return 0;
+    })()}`,
+    transform: `${(() => {
+      if (state === 'entering') return 'translateX(0)';
+      if (state === 'entered') return 'translateX(0)';
+      if (state === 'exiting') return 'translateX(20px)';
+      if (state === 'exited') return 'translateX(20px)';
+      return 'translateX(0)';
+    })()}`,
+  })
+);
+
+const LinkContainer = styled.div({
+  marginTop: 20,
+  marginBottom: 20,
+});
+
+const LinkLine = styled.a(({ theme }) => ({
+  all: 'unset',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  fontSize: theme.typography.size.s2 - 1,
+  height: 52,
+  borderBottom: `1px solid ${theme.appBorderColor}`,
+  cursor: 'pointer',
+  padding: '0 10px',
+
+  '&:last-child': {
+    borderBottom: 'none',
+  },
+}));
+
+const LinkLeft = styled.div(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  fontSize: theme.typography.size.s2 - 1,
+  height: 40,
+  gap: 5,
+}));
+
+const BottomText = styled.div(({ theme }) => ({
+  fontSize: theme.typography.size.s2 - 1,
+  marginTop: 30,
+}));

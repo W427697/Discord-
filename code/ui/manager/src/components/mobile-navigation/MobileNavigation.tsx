@@ -28,7 +28,12 @@ export const MobileNavigation: FC = () => {
 
   return (
     <Container>
-      <MobileMenuDrawer isMenuOpen={isMenuOpen} isAboutOpen={isAboutOpen} closeMenu={closeMenu} />
+      <MobileMenuDrawer
+        isMenuOpen={isMenuOpen}
+        isAboutOpen={isAboutOpen}
+        setAboutOpen={setAboutOpen}
+        closeMenu={closeMenu}
+      />
       <MobileAddonsDrawer isAddonsOpen={isAddonsOpen}>
         <Panel closeAddonsOnMobile={closeAddons} />
       </MobileAddonsDrawer>

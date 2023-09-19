@@ -5,7 +5,7 @@ import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
 import { styled } from '@storybook/theming';
 import { useMediaQuery } from '../hooks/useMedia';
-import { breakpointMin600 } from '../../constants';
+import { BREAKPOINT_MIN_600 } from '../../constants';
 
 export interface SafeTabProps {
   title: Addon_BaseType['title'];
@@ -53,7 +53,7 @@ export const AddonPanel = React.memo<{
     absolute = true,
     closeAddonsOnMobile,
   }) => {
-    const isDesktop = useMediaQuery(breakpointMin600);
+    const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
 
     return (
       <Tabs
