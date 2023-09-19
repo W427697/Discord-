@@ -4,7 +4,7 @@ import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
 import { useMediaQuery } from '../hooks/useMedia';
 import { MobileNavigation } from '../mobile-navigation/MobileNavigation';
-import { breakpointMin600 } from '../../constants';
+import { BREAKPOINT_MIN_600 } from '../../constants';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -113,7 +113,7 @@ const useLayoutSyncingState = (
 };
 
 export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
-  const isDesktop = useMediaQuery(breakpointMin600);
+  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
   const isMobile = !isDesktop;
 
   const {
@@ -136,10 +136,9 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       panelPosition={managerLayoutState.panelPosition}
       isDragging={isDragging}
       viewMode={managerLayoutState.viewMode}
-      breakpoint={breakpointMin600}
     >
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
-      <ContentContainer breakpoint={breakpointMin600}>{slots.slotMain}</ContentContainer>
+      <ContentContainer>{slots.slotMain}</ContentContainer>
       {isDesktop && (
         <>
           <SidebarContainer>
@@ -163,8 +162,8 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
   );
 };
 
-const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
-  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, breakpoint }) => {
+const LayoutContainer = styled.div<LayoutState>(
+  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition }) => {
     return {
       width: '100%',
       height: '100svh', // We are using svh to use the minimum space on mobile
@@ -172,7 +171,7 @@ const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
       display: 'flex',
       flexDirection: 'column',
 
-      [`@media ${breakpoint}`]: {
+      [`@media ${BREAKPOINT_MIN_600}`]: {
         display: 'grid',
         gap: 0,
         gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
@@ -202,13 +201,13 @@ const SidebarContainer = styled.div(({ theme }) => ({
   borderRight: `1px solid ${theme.color.border}`,
 }));
 
-const ContentContainer = styled.div<{ breakpoint: string }>(({ theme, breakpoint }) => ({
+const ContentContainer = styled.div(({ theme }) => ({
   flex: 1,
   position: 'relative',
   backgroundColor: theme.background.content,
   display: 'grid', // This is needed to make the content container fill the available space
 
-  [`@media ${breakpoint}`]: {
+  [`@media ${BREAKPOINT_MIN_600}`]: {
     flex: 'auto',
     gridArea: 'content',
   },

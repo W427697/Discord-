@@ -1,1 +1,1 @@
-export const breakpointMin600 = '(min-width: 600px)';
+export const BREAKPOINT_MIN_600 = '(min-width: 600px)';
