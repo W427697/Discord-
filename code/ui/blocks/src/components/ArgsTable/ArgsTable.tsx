@@ -5,8 +5,7 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
-import { IconButton, Icons, ResetWrapper } from '@storybook/components';
-import { Link } from '@storybook/components/experimental';
+import { IconButton, Icons, ResetWrapper, Link } from '@storybook/components';
 
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
@@ -211,7 +210,7 @@ interface ArgsTableErrorProps {
 }
 
 export interface ArgsTableLoadingProps {
-  isLoading: true;
+  isLoading: boolean;
 }
 
 export type ArgsTableProps = ArgsTableOptionProps &
@@ -346,7 +345,8 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   const hasNoUngrouped = groups.ungrouped.length === 0;
   const hasNoSections = Object.entries(groups.sections).length === 0;
   const hasNoUngroupedSubsections = Object.entries(groups.ungroupedSubsections).length === 0;
-  if (hasNoUngrouped && hasNoSections && hasNoUngroupedSubsections) return <Empty />;
+  if (hasNoUngrouped && hasNoSections && hasNoUngroupedSubsections)
+    return <Empty inAddonPanel={inAddonPanel} />;
 
   let colSpan = 1;
   if (updateArgs) colSpan += 1;
