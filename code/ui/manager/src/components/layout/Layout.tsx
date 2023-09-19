@@ -164,15 +164,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
 };
 
 const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
-  ({
-    navSize,
-    rightPanelWidth,
-    bottomPanelHeight,
-    viewMode,
-    panelPosition,
-    isDragging,
-    breakpoint,
-  }) => {
+  ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition, breakpoint }) => {
     return {
       width: '100%',
       height: '100svh', // We are using svh to use the minimum space on mobile
@@ -183,7 +175,6 @@ const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
       [`@media ${breakpoint}`]: {
         display: 'grid',
         gap: 0,
-        transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
         gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
         gridTemplateRows: `1fr ${bottomPanelHeight}px`,
         gridTemplateAreas: (() => {
