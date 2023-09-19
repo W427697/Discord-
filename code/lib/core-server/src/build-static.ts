@@ -87,6 +87,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     overridePresets: [
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
+    isCritical: true,
     ...options,
   });
 
@@ -199,23 +200,33 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   if (options.ignorePreview) {
     logger.info(`=> Not building preview`);
+  } else {
+    logger.info('=> Building preview..');
   }
 
+  const startTime = process.hrtime();
   await Promise.all([
     ...(options.ignorePreview
       ? []
       : [
           previewBuilder
             .build({
-              startTime: process.hrtime(),
+              startTime,
               options: fullOptions,
             })
             .then(async (previewStats) => {
+              logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
+
               if (options.webpackStatsJson) {
                 const target =
                   options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
                 await outputStats(target, previewStats);
               }
+            })
+            .catch((error) => {
+              logger.error('=> Failed to build the preview');
+              process.exitCode = 1;
+              throw error;
             }),
         ]),
     ...effects,
