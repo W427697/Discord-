@@ -50,7 +50,6 @@ export const previewProps: PreviewProps = {
   baseUrl: 'http://example.com',
   queryParams: {},
   options: {
-    isFullscreen: false,
     showTabs: true,
     showToolbar: true,
   },
