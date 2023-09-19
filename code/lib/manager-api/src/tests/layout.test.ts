@@ -430,7 +430,7 @@ describe('layout API', () => {
 
   describe('setOptions', () => {
     const getLastSetStateArgs = () => {
-      const { calls } = store.setState.mock;
+      const { calls } = (store.setState as jest.Mock).mock;
       return calls[calls.length - 1];
     };
 
