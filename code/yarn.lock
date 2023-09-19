@@ -6828,6 +6828,7 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/find-cache-dir": ^3.2.1
+    "@types/fs-extra": ^11.0.1
     "@types/mock-fs": ^4.13.1
     "@types/node": ^16.0.0
     "@types/node-fetch": ^2.6.4
@@ -6836,7 +6837,7 @@ __metadata:
     chalk: ^4.1.0
     esbuild: ^0.18.0
     esbuild-register: ^3.5.0
-    file-system-cache: 2.3.0
+    file-system-cache: ^2.4.4
     find-cache-dir: ^3.0.0
     find-up: ^5.0.0
     fs-extra: ^11.1.0
@@ -8197,8 +8198,9 @@ __metadata:
     "@storybook/csf": ^0.1.0
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
+    "@types/fs-extra": ^11.0.1
     "@types/node": ^16.0.0
-    file-system-cache: 2.3.0
+    file-system-cache: ^2.4.4
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
@@ -9138,7 +9140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fs-extra@npm:^11.0.1":
+"@types/fs-extra@npm:11.0.1, @types/fs-extra@npm:^11.0.1":
   version: 11.0.1
   resolution: "@types/fs-extra@npm:11.0.1"
   dependencies:
@@ -9576,6 +9578,15 @@ __metadata:
   version: 6.9.8
   resolution: "@types/qs@npm:6.9.8"
   checksum: 336358c279818ecedc0b4f9b29fd5052ff6e05dba3f10bad4534a4624819408d0b4710a4cdf8b58dff948dbdb1ca95a00e237189505ef1abfce0e6341eb18022
+  languageName: node
+  linkType: hard
+
+"@types/ramda@npm:0.29.3":
+  version: 0.29.3
+  resolution: "@types/ramda@npm:0.29.3"
+  dependencies:
+    types-ramda: ^0.29.4
+  checksum: 9c62a4600f5df5e65a01ffe4a470500c98f7c0d093fde47e0d4257675f1ec50effe4696cb004a6b53227948db67ea26a2345dbc91819ecc868105c0f64cecd1e
   languageName: node
   linkType: hard
 
@@ -17001,13 +17012,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"file-system-cache@npm:2.3.0":
-  version: 2.3.0
-  resolution: "file-system-cache@npm:2.3.0"
+"file-system-cache@npm:^2.4.4":
+  version: 2.4.4
+  resolution: "file-system-cache@npm:2.4.4"
   dependencies:
+    "@types/fs-extra": 11.0.1
+    "@types/ramda": 0.29.3
     fs-extra: 11.1.1
     ramda: 0.29.0
-  checksum: 43de19f0db32e6546bb7abeecb1d6ea83c1eca23b38905c9415a29f6219cc9d6d87b0c1a6aca92c46a0f1bc276241a339f2f68b8aa0ca5c2eb64b6e1e3e4da01
+  checksum: 274bd9c2f8f81d0c3b2cc0d077807c969b48cac4857ae77f87b4b480548252aa42d3a43b3e9d4bb54df567eb70f0c384782514fcea74b78765543e9496e27e2d
   languageName: node
   linkType: hard
 
@@ -30742,6 +30755,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-toolbelt@npm:^9.6.0":
+  version: 9.6.0
+  resolution: "ts-toolbelt@npm:9.6.0"
+  checksum: 838f9a2f0fe881d5065257a23b402c41315b33ff987b73db3e2b39fcb70640c4c7220e1ef118ed5676763543724fdbf4eda7b0e2c17acb667ed1401336af9f8c
+  languageName: node
+  linkType: hard
+
 "tsconfig-paths-webpack-plugin@npm:^4.0.1":
   version: 4.1.0
   resolution: "tsconfig-paths-webpack-plugin@npm:4.1.0"
@@ -30936,6 +30956,15 @@ __metadata:
   version: 0.0.6
   resolution: "typedarray@npm:0.0.6"
   checksum: 6005cb31df50eef8b1f3c780eb71a17925f3038a100d82f9406ac2ad1de5eb59f8e6decbdc145b3a1f8e5836e17b0c0002fb698b9fe2516b8f9f9ff602d36412
+  languageName: node
+  linkType: hard
+
+"types-ramda@npm:^0.29.4":
+  version: 0.29.4
+  resolution: "types-ramda@npm:0.29.4"
+  dependencies:
+    ts-toolbelt: ^9.6.0
+  checksum: 7f73719de87ad49ffa48bdece4feb41d9707f945cad649c5bd1c0b1c2f80703d9eb90cc9003411a5af4d4eee3c0c582f8baa86af069be29e9c46f802db203825
   languageName: node
   linkType: hard
 
