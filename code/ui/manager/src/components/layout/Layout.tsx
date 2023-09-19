@@ -175,7 +175,7 @@ const LayoutContainer = styled.div<LayoutState & { breakpoint: string }>(
   }) => {
     return {
       width: '100%',
-      height: '100svh',
+      height: '100svh', // We are using svh to use the minimum space on mobile
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
