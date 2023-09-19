@@ -25,7 +25,7 @@ interface Props {
   slotPanel?: React.ReactNode;
   slotPages?: React.ReactNode;
 }
-const MINIMUM_CONTENT_WIDTH_PX = 30;
+const MINIMUM_CONTENT_WIDTH_PX = 100;
 
 const layoutStateIsEqual = (state: ManagerLayoutState, other: ManagerLayoutState) =>
   state.navSize === other.navSize &&

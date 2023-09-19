@@ -55,6 +55,7 @@ export const fullScreenTool: Addon_BaseType = {
             key="full"
             onClick={toggle as any}
             title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
+            aria-label={isFullscreen ? 'Exit full screen' : 'Go full screen'}
           >
             <Icons icon={isFullscreen ? 'close' : 'expand'} />
           </IconButton>
@@ -157,7 +158,7 @@ export const ToolRes: FunctionComponent<ToolData & RenderData> = React.memo<Tool
     const { left, right } = useTools(api.getElements, tabs, viewMode, entry, location, path);
 
     return left || right ? (
-      <Toolbar key="toolbar" shown={isShown}>
+      <Toolbar key="toolbar" shown={isShown} data-test-id="sb-preview-toolbar">
         <ToolbarInner>
           <ToolbarLeft>
             <Tools key="left" list={left} />
@@ -249,7 +250,6 @@ const Toolbar = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   flexShrink: 0,
   overflowX: 'auto',
   overflowY: 'hidden',
-  transition: 'all .2s linear',
   marginTop: shown ? 0 : -40,
   boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
   background: theme.barBg,
