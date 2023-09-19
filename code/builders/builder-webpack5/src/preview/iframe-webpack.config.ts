@@ -27,26 +27,37 @@ import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader, createSWCLoader } from './loaders';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
+const maybeGetAbsolutePath = <I extends string>(input: I): I | false => {
+  try {
+    return getAbsolutePath(input);
+  } catch (e) {
+    return false;
+  }
+};
 
+const managerAPIPath = maybeGetAbsolutePath(`@storybook/manager-api`);
+const componentsPath = maybeGetAbsolutePath(`@storybook/components`);
+const globalPath = maybeGetAbsolutePath(`@storybook/global`);
+const routerPath = maybeGetAbsolutePath(`@storybook/router`);
+const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
+
+// these packages are not pre-bundled because of react dependencies.
+// these are not dependencies of the builder anymore, thus resolving them can fail.
+// we should remove the aliases in 8.0, I'm not sure why they are here in the first place.
 const storybookPaths: Record<string, string> = {
-  ...[
-    // these packages are not pre-bundled because of react dependencies
-    'api',
-    'components',
-    'global',
-    'manager-api',
-    'router',
-    'theming',
-  ].reduce(
-    (acc, sbPackage) => ({
-      ...acc,
-      [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
-    }),
-    {}
-  ),
-  // deprecated, remove in 8.0
-  [`@storybook/api`]: wrapForPnP(`@storybook/manager-api`),
+  ...(managerAPIPath
+    ? {
+        // deprecated, remove in 8.0
+        [`@storybook/api`]: managerAPIPath,
+        [`@storybook/manager-api`]: managerAPIPath,
+      }
+    : {}),
+  ...(componentsPath ? { [`@storybook/components`]: componentsPath } : {}),
+  ...(globalPath ? { [`@storybook/global`]: globalPath } : {}),
+  ...(routerPath ? { [`@storybook/router`]: routerPath } : {}),
+  ...(themingPath ? { [`@storybook/theming`]: themingPath } : {}),
 };
 
 export default async (
@@ -308,9 +319,13 @@ export default async (
       mainFields: ['browser', 'module', 'main'].filter(Boolean),
       alias: storybookPaths,
       fallback: {
+        stream: false,
         path: require.resolve('path-browserify'),
         assert: require.resolve('browser-assert'),
         util: require.resolve('util'),
+        url: require.resolve('url'),
+        fs: false,
+        constants: require.resolve('constants-browserify'),
       },
       // Set webpack to resolve symlinks based on whether the user has asked node to.
       // This feels like it should be default out-of-the-box in webpack :shrug:
@@ -324,18 +339,32 @@ export default async (
       sideEffects: true,
       usedExports: isProd,
       moduleIds: 'named',
-      minimizer: isProd
-        ? [
-            new TerserWebpackPlugin({
-              parallel: true,
-              terserOptions: {
-                sourceMap: true,
-                mangle: false,
-                keep_fnames: true,
-              },
-            }),
-          ]
-        : [],
+      ...(isProd
+        ? {
+            minimize: true,
+            minimizer: builderOptions.useSWC
+              ? [
+                  new TerserWebpackPlugin({
+                    minify: TerserWebpackPlugin.swcMinify,
+                    terserOptions: {
+                      sourceMap: true,
+                      mangle: false,
+                      keep_fnames: true,
+                    },
+                  }),
+                ]
+              : [
+                  new TerserWebpackPlugin({
+                    parallel: true,
+                    terserOptions: {
+                      sourceMap: true,
+                      mangle: false,
+                      keep_fnames: true,
+                    },
+                  }),
+                ],
+          }
+        : {}),
     },
     performance: {
       hints: isProd ? 'warning' : false,

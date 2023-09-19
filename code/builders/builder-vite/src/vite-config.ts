@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { loadConfigFromFile, mergeConfig } from 'vite';
+import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
   InlineConfig as ViteInlineConfig,
@@ -43,16 +44,18 @@ export async function commonConfig(
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
   const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
 
+  const projectRoot = path.resolve(options.configDir, '..');
+
   // I destructure away the `build` property from the user's config object
   // I do this because I can contain config that breaks storybook, such as we had in a lit project.
   // If the user needs to configure the `build` they need to do so in the viteFinal function in main.js.
   const { config: { build: buildProperty = undefined, ...userConfig } = {} } =
-    (await loadConfigFromFile(configEnv, viteConfigPath)) ?? {};
+    (await loadConfigFromFile(configEnv, viteConfigPath, projectRoot)) ?? {};
 
   const sbConfig: InlineConfig = {
     configFile: false,
-    cacheDir: 'node_modules/.cache/.vite-storybook',
-    root: path.resolve(options.configDir, '..'),
+    cacheDir: findCacheDirectory({ name: 'sb-vite' }),
+    root: projectRoot,
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',
     plugins: await pluginConfig(options),

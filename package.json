@@ -1,4 +1,5 @@
 {
+  "name": "@storybook/root",
   "scripts": {
     "ci-tests": "cd code; yarn ci-tests",
     "get-report-message": "cd scripts; yarn get-report-message",
@@ -8,7 +9,8 @@
     "pretty-docs": "cd scripts; yarn install >/dev/null; yarn docs:prettier:write",
     "start": "yarn task --task dev --template react-vite/default-ts --start-from=install",
     "task": "echo 'Installing Script Dependencies...'; cd scripts; yarn install >/dev/null; yarn task",
-    "test": "cd code; yarn test"
+    "test": "cd code; yarn test",
+    "upload-bench": "cd scripts; yarn upload-bench"
   },
-  "packageManager": "yarn@3.3.0"
+  "packageManager": "yarn@3.5.1"
 }

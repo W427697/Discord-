@@ -14,6 +14,7 @@ Type:
   disableProjectJson?: boolean;
   disableTelemetry?: boolean;
   disableWebpackDefaults?: boolean;
+  disableWhatsNewNotifications?: boolean;
   enableCrashReports?: boolean;
   renderer?: RendererName;
 }
@@ -34,6 +35,14 @@ Type:
 ```
 
 Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../builders/webpack.md).
+
+<div class="aside">
+
+💡 With the new [Framework API](./new-frameworks.md), [`framework.options.builder`](./main-config-framework.md#optionsbuilder) is now the preferred way to configure the builder.
+
+You should only use `core.builder.options` if you need to configure a builder that is not part of a framework.
+
+</div>
 
 <!-- prettier-ignore-start -->
 
@@ -152,6 +161,23 @@ Disables Storybook's default Webpack configuration.
   paths={[
     'common/main-config-core-disable-webpack-defaults.js.mdx',
     'common/main-config-core-disable-webpack-defaults.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+## `disableWhatsNewNotifications`
+
+Type: `boolean`
+
+Disables the "What's New" notifications in the UI for new Storybook versions and ecosystem updates (e.g., [addons](https://storybook.js.org/integrations/), [content](https://storybook.js.org/blog/), etc.).
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-core-disable-update-notifications.js.mdx',
+    'common/main-config-core-disable-update-notifications.ts.mdx',
   ]}
 />
 
