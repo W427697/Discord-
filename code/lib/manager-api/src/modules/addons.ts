@@ -1,12 +1,13 @@
 import type {
-  Addon_Type,
+  Addon_BaseType,
+  Addon_Collection,
   Addon_Types,
-  API_Collection,
+  Addon_TypesMapping,
   API_Panels,
   API_StateMerger,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 import type { Options } from '../store';
 
 export interface SubState {
@@ -19,10 +20,18 @@ export interface SubAPI {
    * Returns a collection of elements of a specific type.
    * @protected This is used internally in storybook's manager.
    * @template T - The type of the elements in the collection.
-   * @param {Addon_Types} type - The type of the elements to retrieve.
+   * @param {Addon_Types | Addon_TypesEnum.experimental_PAGE} type - The type of the elements to retrieve.
    * @returns {API_Collection<T>} - A collection of elements of the specified type.
    */
-  getElements: <T = Addon_Type>(type: Addon_Types) => API_Collection<T>;
+  getElements: <
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP = Addon_Types
+  >(
+    type: T
+  ) => Addon_Collection<Addon_TypesMapping[T]>;
   /**
    * Returns a collection of all panels.
    * This is the same as calling getElements('panel')
@@ -53,7 +62,7 @@ export interface SubAPI {
    * Sets the state of an addon with the given ID.
    * @template S - The type of the addon state.
    * @param {string} addonId - The ID of the addon to set the state for.
-   * @param {S | API_StateMerger<S>} newStateOrMerger - The new state to set, or a function that merges the current state with the new state.
+   * @param {S | API_StateMerger<S>} newStateOrMerger - The new state to set, or a function which receives the current state and returns the new state.
    * @param {Options} [options] - Optional options for the state update.
    * @deprecated This API might get dropped, if you are using this, please file an issue.
    * @returns {Promise<S>} - A promise that resolves with the new state after it has been set.
@@ -101,7 +110,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       const { parameters } = story;
 
-      const filteredPanels: API_Collection = {};
+      const filteredPanels: Addon_Collection<Addon_BaseType> = {};
       Object.entries(allPanels).forEach(([id, panel]) => {
         const { paramKey } = panel;
         if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {

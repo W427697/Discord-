@@ -27,6 +27,15 @@ jobs:
       run:
         working-directory: scripts
     steps:
+      - name: Cancel if [skip ci]
+        if: contains(github.event.head_commit.message, '[skip ci]')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # From https://stackoverflow.com/a/75809743
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+
       - name: Checkout ${{ github.ref_name }}
         uses: actions/checkout@v3
         with:
@@ -36,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version-file: '.nvmrc'
 
       - name: Cache dependencies
         uses: actions/cache@v3
@@ -52,6 +61,27 @@ jobs:
       - name: Install script dependencies
         run: |
           yarn install
+
+      - name: Apply deferred version bump and commit
+        id: version-bump
+        working-directory: .
+        run: |
+          CURRENT_VERSION=$(cat ./code/package.json | jq '.version')
+          DEFERRED_NEXT_VERSION=$(cat ./code/package.json | jq '.deferredNextVersion')
+
+          if [[ "$DEFERRED_NEXT_VERSION" == "null" ]]; then
+              echo "No deferred version set, not bumping versions"
+              exit 0
+          fi
+          cd scripts
+          yarn release:version --apply --verbose
+          cd ..
+
+          git config --global user.name "storybook-bot"
+          git config --global user.email "32066757+storybook-bot@users.noreply.github.com"
+          git add .
+          git commit -m "Bump version from $CURRENT_VERSION to $DEFERRED_NEXT_VERSION [skip ci]" || true
+          git push origin ${{ github.ref_name }}
 
       - name: Get current version
         id: version
@@ -91,11 +121,13 @@ jobs:
         if: github.ref_name == 'latest-release'
         run: git fetch --tags origin
 
+      # when this is a patch release from main, label any patch PRs included in the release
+      # when this is a stable release from next, label ALL patch PRs found, as they will per definition be "patched" now
       - name: Label patch PRs as picked
-        if: github.ref_name == 'latest-release'
+        if: github.ref_name == 'latest-release' || (steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:label-patches
+        run: yarn release:label-patches ${{ steps.target.outputs.target == 'next' && '--all' || '' }}
 
       - name: Create GitHub Release
         if: steps.publish-needed.outputs.published == 'false'
@@ -112,8 +144,8 @@ jobs:
 
       - name: Merge ${{ github.ref_name }} into ${{ steps.target.outputs.target }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "storybook-bot"
+          git config --global user.email "32066757+storybook-bot@users.noreply.github.com"
           git fetch origin ${{ steps.target.outputs.target }}
           git checkout ${{ steps.target.outputs.target }}
           git merge ${{ github.ref_name }}
@@ -128,28 +160,25 @@ jobs:
           git pull
           git checkout origin/main ./CHANGELOG.md
           git add ./CHANGELOG.md
-          git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }}"
+          git commit -m "Update CHANGELOG.md for v${{ steps.version.outputs.current-version }} [skip ci]"
           git push origin next
 
-      - name: Sync versions/next.json from `next` to `main`
+      - name: Sync version JSONs from `next-release` to `main`
         if: github.ref_name == 'next-release'
         working-directory: .
         run: |
+          VERSION_FILE="./docs/versions/${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next' || 'latest' }}.json"
           git fetch origin main
           git checkout main
           git pull
-          git checkout origin/next ./docs/versions/next.json
-          git add ./docs/versions/next.json
-          git commit -m "Update versions/next.json for v${{ steps.version.outputs.current-version }}"
+          git checkout origin/next-release $VERSION_FILE
+          git add $VERSION_FILE
+          git commit -m "Update $VERSION_FILE for v${{ steps.version.outputs.current-version }}"
           git push origin main
 
-      # Force push from next to main if it is not a prerelease, and this release is from next-release
-      # This happens when eg. next has been tracking 7.1.0-alpha.X, and now we want to release 7.1.0
-      # This will keep release-next, next and main all tracking v7.1.0
-      # - name: Force push ${{ steps.target.outputs.target }} to main
-      #   if: steps.publish-needed.outputs.published == 'false' && steps.target.outputs.target == 'next' && !steps.is-prerelease.outputs.prerelease
-      #   run: |
-      #     git push --force origin ${{ steps.target.outputs.target }}:main
+      - name: Overwrite main with next
+        if: steps.target.outputs.target == 'next' && steps.is-prerelease.outputs.prerelease == 'false'
+        run: git push --force origin next:main
 
       - name: Report job failure to Discord
         if: failure()

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.1.0-beta.1",
+  "version": "7.5.0-alpha.2",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -61,22 +61,24 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/blocks": "7.1.0-beta.1",
-    "@storybook/client-logger": "7.1.0-beta.1",
-    "@storybook/components": "7.1.0-beta.1",
-    "@storybook/core-common": "7.1.0-beta.1",
-    "@storybook/manager-api": "7.1.0-beta.1",
-    "@storybook/node-logger": "7.1.0-beta.1",
-    "@storybook/preview-api": "7.1.0-beta.1",
-    "@storybook/theming": "7.1.0-beta.1",
-    "@storybook/types": "7.1.0-beta.1",
+    "@storybook/blocks": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },

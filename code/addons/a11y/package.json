@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "7.1.0-beta.1",
+  "version": "7.5.0-alpha.2",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -56,23 +56,24 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "7.1.0-beta.1",
-    "@storybook/channels": "7.1.0-beta.1",
-    "@storybook/client-logger": "7.1.0-beta.1",
-    "@storybook/components": "7.1.0-beta.1",
-    "@storybook/core-events": "7.1.0-beta.1",
+    "@storybook/addon-highlight": "workspace:*",
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.1.0-beta.1",
-    "@storybook/preview-api": "7.1.0-beta.1",
-    "@storybook/theming": "7.1.0-beta.1",
-    "@storybook/types": "7.1.0-beta.1",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "axe-core": "^4.2.0",
     "lodash": "^4.17.21",
     "react-resize-detector": "^7.1.2"

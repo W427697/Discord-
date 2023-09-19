@@ -17,6 +17,8 @@ const Versions = {
   MAJOR: 'MAJOR',
 };
 
+const ciLabels = ['ci:normal', 'ci:merged', 'ci:daily', 'ci:docs'];
+
 const branchVersion = Versions.MINOR;
 
 const checkRequiredLabels = (labels: string[]) => {
@@ -41,11 +43,18 @@ const checkRequiredLabels = (labels: string[]) => {
     );
   }
 
-  const foundLabels = intersection(requiredLabels, labels);
-  if (isEmpty(foundLabels)) {
+  const foundRequiredLabels = intersection(requiredLabels, labels);
+  if (isEmpty(foundRequiredLabels)) {
     fail(`PR is not labeled with one of: ${JSON.stringify(requiredLabels)}`);
-  } else if (foundLabels.length > 1) {
-    fail(`Please choose only one of these labels: ${JSON.stringify(foundLabels)}`);
+  } else if (foundRequiredLabels.length > 1) {
+    fail(`Please choose only one of these labels: ${JSON.stringify(foundRequiredLabels)}`);
+  }
+
+  const foundCILabels = intersection(ciLabels, labels);
+  if (isEmpty(foundCILabels)) {
+    fail(`PR is not labeled with one of: ${JSON.stringify(ciLabels)}`);
+  } else if (foundCILabels.length > 1) {
+    fail(`Please choose only one of these labels: ${JSON.stringify(foundCILabels)}`);
   }
 };
 
