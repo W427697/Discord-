@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 
+// The hook is taken from this library:
+// https://usehooks-ts.com/react-hook/use-media-query
+// The good thing about it is that is uses window.matchMedia
+
 export function useMediaQuery(query: string): boolean {
   const getMatches = (queryMatch: string): boolean => {
     // Prevents SSR issues
