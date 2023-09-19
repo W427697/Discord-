@@ -6,7 +6,6 @@ import type {
   MatchersObject,
   MatcherState,
 } from '@vitest/expect';
-
 import {
   getState,
   GLOBAL_EXPECT,
@@ -16,21 +15,15 @@ import {
   setState,
 } from '@vitest/expect';
 import * as matchers from '@testing-library/jest-dom/matchers';
-
-type Promisify<O> = {
-  [K in keyof O]: O[K] extends (...args: infer A) => infer R
-    ? O extends R
-      ? Promisify<O[K]>
-      : (...args: A) => Promise<R>
-    : O[K];
-};
+import type { PromisifyObject } from './utils';
 
 // We only expose the jest compatible API for now
-export interface Assertion<T> extends Promisify<JestAssertion<T>> {
+export interface Assertion<T> extends PromisifyObject<JestAssertion<T>> {
   toHaveBeenCalledOnce(): Promise<void>;
   toSatisfy<E>(matcher: (value: E) => boolean, message?: string): Promise<void>;
-  resolves: Promisify<Assertion<T>>;
-  rejects: Promisify<Assertion<T>>;
+  resolves: Assertion<T>;
+  rejects: Assertion<T>;
+  not: Assertion<T>;
 }
 
 export interface Expect extends AsymmetricMatchersContaining {
