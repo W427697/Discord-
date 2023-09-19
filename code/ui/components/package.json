@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.4.0-alpha.2",
+  "version": "7.5.0-alpha.2",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -71,6 +71,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@chromaui/addon-visual-tests": "^0.0.77",
     "@popperjs/core": "^2.6.0",
     "@storybook/icons": "^1.1.6",
     "@types/react-syntax-highlighter": "11.0.5",

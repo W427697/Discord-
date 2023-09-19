@@ -22,7 +22,6 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
 - [I see a "No Preview" error with a Storybook production build](#i-see-a-no-preview-error-with-a-storybook-production-build)
 - [Can I use Storybook with Vue 3?](#can-i-use-storybook-with-vue-3)
-- [Is snapshot testing with Storyshots supported for Vue 3?](#is-snapshot-testing-with-storyshots-supported-for-vue-3)
 - [Why aren't my code blocks highlighted with Storybook MDX](#why-arent-my-code-blocks-highlighted-with-storybook-mdx)
 - [Why aren't my MDX 2 stories working in Storybook?](#why-arent-my-mdx-2-stories-working-in-storybook)
 - [Why are my mocked GraphQL queries failing with Storybook's MSW addon?](#why-are-my-mocked-graphql-queries-failing-with-storybooks-msw-addon)
@@ -372,17 +371,9 @@ Suppose you don't want to run the command above frequently. Add <code>http-serve
 
 Yes, with the release of version 6.2, Storybook now includes support for Vue 3. See the [install page](./get-started/install.md) for instructions.
 
-## Is snapshot testing with Storyshots supported for Vue 3?
-
-Yes, with the release of version 6.2, the [`Storyshots addon`](https://www.npmjs.com/package/@storybook/addon-storyshots) will automatically detect Vue 3 projects.
-
-If you run into a situation where this is not the case, you can adjust the `config` object and manually specify the framework (e.g., `vue3`).
-
-See our documentation on how to customize the [Storyshots configuration](./writing-tests/snapshot-testing.md).
-
 ## Why aren't my code blocks highlighted with Storybook MDX
 
-Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) you can use with your code blocks. Currently, there's a know limitation when you try and register a custom language to get syntax highlighting. We're working on a fix for this And will update this section once it's available.
+Out of the box, Storybook provides syntax highlighting for a set of languages (e.g., Javascript, Markdown, CSS, HTML, Typescript, GraphQL) you can use with your code blocks. Currently, there's a known limitation when you try and register a custom language to get syntax highlighting. We're working on a fix for this And will update this section once it's available.
 
 ## Why aren't my MDX 2 stories working in Storybook?
 

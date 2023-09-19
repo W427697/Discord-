@@ -51,6 +51,7 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
+    '@chromaui/addon-visual-tests',
   ],
   framework: {
     name: '@storybook/react-vite',

@@ -263,7 +263,10 @@ export interface SubAPI {
    * @param {StatusUpdate} update - An object containing the updated status information.
    * @returns {Promise<void>} A promise that resolves when the status has been updated.
    */
-  experimental_updateStatus: (addonId: string, update: API_StatusUpdate) => Promise<void>;
+  experimental_updateStatus: (
+    addonId: string,
+    update: API_StatusUpdate | ((state: API_StatusState) => API_StatusUpdate)
+  ) => Promise<void>;
   /**
    * Updates the filtering of the index.
    *
@@ -581,13 +584,27 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
 
     /* EXPERIMENTAL APIs */
-    experimental_updateStatus: async (id, update) => {
+    experimental_updateStatus: async (id, input) => {
       const { status, internal_index: index } = store.getState();
       const newStatus = { ...status };
 
+      const update = typeof input === 'function' ? input(status) : input;
+
+      if (Object.keys(update).length === 0) {
+        return;
+      }
+
       Object.entries(update).forEach(([storyId, value]) => {
         newStatus[storyId] = { ...(newStatus[storyId] || {}) };
-        newStatus[storyId][id] = value;
+        if (value === null) {
+          delete newStatus[storyId][id];
+        } else {
+          newStatus[storyId][id] = value;
+        }
+
+        if (Object.keys(newStatus[storyId]).length === 0) {
+          delete newStatus[storyId];
+        }
       });
 
       await store.setState({ status: newStatus }, { persistence: 'session' });
