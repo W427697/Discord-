@@ -22,7 +22,7 @@ interface Props {
   slotPanel?: React.ReactNode;
   slotPages?: React.ReactNode;
 }
-const MINIMUM_CONTENT_WIDTH_PX = 30;
+const MINIMUM_CONTENT_WIDTH_PX = 100;
 
 const layoutStateIsEqual = (state: ManagerLayoutState, other: ManagerLayoutState) =>
   state.navSize === other.navSize &&
@@ -159,7 +159,6 @@ const LayoutContainer = styled.div<LayoutState>(
       display: 'grid',
       overflow: 'hidden',
       gap: 0,
-      transition: isDragging ? null : 'all 0.2s ease-in-out', // transition when toggling panels, but not when dragging
       gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
       gridTemplateRows: `1fr ${bottomPanelHeight}px`,
       gridTemplateAreas: (() => {
