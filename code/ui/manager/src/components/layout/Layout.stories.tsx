@@ -61,7 +61,6 @@ const meta = {
     theme: 'light',
     layout: 'fullscreen',
   },
-  decorators: [(Story) => <Story />],
   render: (args) => {
     const [managerLayoutState, setManagerLayoutState] = useState(args.managerLayoutState);
 
