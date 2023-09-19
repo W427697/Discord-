@@ -20,3 +20,5 @@ export const { expect } = instrument(
     intercept: true,
   }
 );
+
+export * from './testing-library';
