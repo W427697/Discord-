@@ -285,7 +285,7 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
-    // TODO: Can be enabled once we re-revert this PR: https://github.com/storybookjs/storybook/pull/24033
+    // TODO: Should be removed after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
     inDevelopment: true,
   },
   'angular-cli/default-ts': {
@@ -575,7 +575,8 @@ export const merged: TemplateKey[] = [
 ];
 export const daily: TemplateKey[] = [
   ...merged,
-  'angular-cli/prerelease',
+  // TODO: Should be re-added after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
+  // 'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',
