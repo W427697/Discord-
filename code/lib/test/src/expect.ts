@@ -15,10 +15,13 @@ import {
   setState,
 } from '@vitest/expect';
 import * as matchers from '@testing-library/jest-dom/matchers';
+import type { TestingLibraryMatchers } from '@testing-library/jest-dom/types/matchers';
 import type { PromisifyObject } from './utils';
 
 // We only expose the jest compatible API for now
-export interface Assertion<T> extends PromisifyObject<JestAssertion<T>> {
+export interface Assertion<T>
+  extends PromisifyObject<JestAssertion<T>>,
+    TestingLibraryMatchers<ReturnType<ExpectStatic['stringContaining']>, Promise<void>> {
   toHaveBeenCalledOnce(): Promise<void>;
   toSatisfy<E>(matcher: (value: E) => boolean, message?: string): Promise<void>;
   resolves: Assertion<T>;
@@ -80,7 +83,8 @@ export function createExpect() {
           expect.getState().assertionCalls
         }`
       );
-    if (Error.captureStackTrace) Error.captureStackTrace(errorGen(), assertions);
+    if ('captureStackTrace' in Error && typeof Error.captureStackTrace === 'function')
+      Error.captureStackTrace(errorGen(), assertions);
 
     expect.setState({
       expectedAssertionsNumber: expected,
@@ -90,7 +94,8 @@ export function createExpect() {
 
   function hasAssertions() {
     const error = new Error('expected any number of assertion, but got none');
-    if (Error.captureStackTrace) Error.captureStackTrace(error, hasAssertions);
+    if ('captureStackTrace' in Error && typeof Error.captureStackTrace === 'function')
+      Error.captureStackTrace(error, hasAssertions);
 
     expect.setState({
       isExpectingAssertions: true,
