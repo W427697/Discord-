@@ -1,6 +1,6 @@
-import { getStorybookInfo, loadAllPresets, serverRequire } from '@storybook/core-common';
+import { getStorybookInfo, serverRequire } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { isAbsolute, join, relative } from 'path';
+import { isAbsolute, join } from 'path';
 import SemVer from 'semver';
 import dedent from 'ts-dedent';
 
