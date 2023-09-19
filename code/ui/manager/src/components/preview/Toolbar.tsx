@@ -249,7 +249,6 @@ const Toolbar = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   flexShrink: 0,
   overflowX: 'auto',
   overflowY: 'hidden',
-  transition: 'all .2s linear',
   marginTop: shown ? 0 : -40,
   boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
   background: theme.barBg,
