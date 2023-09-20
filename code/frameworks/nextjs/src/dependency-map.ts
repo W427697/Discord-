@@ -2,20 +2,14 @@ import type { Configuration as WebpackConfig } from 'webpack';
 import semver from 'semver';
 import { getNextjsVersion, addScopedAlias } from './utils';
 
-const mapping = {
-  default: {
-    'next/dist/shared/lib/router-context': 'next/dist/next-server/lib/router-context',
-    'next/dist/shared/lib/head-manager-context': 'next/dist/shared/lib/head-manager-context',
-    'next/dist/shared/lib/app-router-context': 'next/dist/shared/lib/app-router-context',
-    'next/dist/shared/lib/hooks-client-context': 'next/dist/shared/lib/hooks-client-context',
+const mapping: Record<string, Record<string, string>> = {
+  '<11.1.0': {
+    'next/dist/next-server/lib/router-context': 'next/dist/next-server/lib/router-context',
   },
-  '11.1.0': {
+  '>11.1.0': {
     'next/dist/shared/lib/router-context': 'next/dist/shared/lib/router-context',
-    'next/dist/shared/lib/head-manager-context': 'next/dist/shared/lib/head-manager-context',
-    'next/dist/shared/lib/app-router-context': 'next/dist/shared/lib/app-router-context',
-    'next/dist/shared/lib/hooks-client-context': 'next/dist/shared/lib/hooks-client-context',
   },
-  '13.5.1': {
+  '>13.5.0': {
     'next/dist/shared/lib/router-context': 'next/dist/shared/lib/router-context.shared-runtime',
     'next/dist/shared/lib/head-manager-context':
       'next/dist/shared/lib/head-manager-context.shared-runtime',
@@ -28,11 +22,13 @@ const mapping = {
 
 export const configureAliasing = (baseConfig: WebpackConfig): void => {
   const version = getNextjsVersion();
-  const result: Record<string, string> = { ...mapping.default };
+  const result: Record<string, string> = {};
 
-  if (semver.gte(version, '13.5.1')) {
-    Object.assign(result, mapping['13.5.1']);
-  }
+  Object.keys(mapping).forEach((key) => {
+    if (semver.intersects(version, key)) {
+      Object.assign(result, mapping[key]);
+    }
+  });
 
   Object.entries(result).forEach(([name, alias]) => {
     addScopedAlias(baseConfig, name, alias);
