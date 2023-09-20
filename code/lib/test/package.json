@@ -44,6 +44,8 @@
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:^",
+    "@storybook/core-events": "workspace:^",
+    "@storybook/preview-api": "workspace:^",
     "@storybook/instrumenter": "workspace:^",
     "@testing-library/dom": "^9.3.1",
     "@testing-library/jest-dom": "^6.1.3",

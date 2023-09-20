@@ -1,9 +1,10 @@
 import { instrument } from '@storybook/instrumenter';
 import * as spy from '@vitest/spy';
 import chai from 'chai';
-import { expect as rawExpect } from './expect';
 import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
+import { expect as rawExpect } from './expect';
+
 export * from '@vitest/spy';
 
 const channel = addons.getChannel();
