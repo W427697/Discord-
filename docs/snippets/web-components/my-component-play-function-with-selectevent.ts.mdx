@@ -2,7 +2,7 @@
 // MyComponent.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/web-components';
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 const meta: Meta = {
   component: 'demo-my-component',
@@ -23,7 +23,7 @@ export const ExampleChangeEvent: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const select = canvas.getByRole('listbox');
+    const select = await canvas.getByRole('listbox');
 
     await userEvent.selectOptions(select, ['One Item']);
     await sleep(2000);

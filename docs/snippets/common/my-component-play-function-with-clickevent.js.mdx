@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { fireEvent, userEvent, within } from '@storybook/testing-library';
+import { fireEvent, userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
@@ -17,7 +17,7 @@ export const ClickExample = {
     const canvas = within(canvasElement);
 
     // See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(canvas.getByRole('button'));
+    await userEvent.click(await canvas.getByRole('button'));
   },
 };
 
@@ -26,7 +26,7 @@ export const FireEventExample = {
     const canvas = within(canvasElement);
 
     // See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await fireEvent.click(canvas.getByTestId('data-testid'));
+    await fireEvent.click(await canvas.getByTestId('data-testid'));
   },
 };
 ```

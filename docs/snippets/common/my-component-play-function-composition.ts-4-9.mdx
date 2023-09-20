@@ -4,7 +4,7 @@
 // Replace your-framework with the name of your framework
 import type { Meta, StoryObj } from '@storybook/your-framework';
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
@@ -23,7 +23,7 @@ export const FirstStory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
+    await userEvent.type(await canvas.getByTestId('an-element'), 'example-value');
   },
 };
 
@@ -31,7 +31,7 @@ export const SecondStory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('other-element'), 'another value');
+    await userEvent.type(await canvas.getByTestId('other-element'), 'another value');
   },
 };
 
@@ -42,7 +42,7 @@ export const CombinedStories: Story = {
     // Runs the FirstStory and Second story play function before running this story's play function
     await FirstStory.play({ canvasElement });
     await SecondStory.play({ canvasElement });
-    await userEvent.type(canvas.getByTestId('another-element'), 'random value');
+    await userEvent.type(await canvas.getByTestId('another-element'), 'random value');
   },
 };
 ```

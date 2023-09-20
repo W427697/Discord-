@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 export default {
   component: 'demo-my-component',
@@ -15,7 +15,7 @@ export const ExampleWithRole = {
     const canvas = within(canvasElement);
 
     // See https://storybook.js.org/docs/web-components/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(canvas.getByRole('button', { name: / button label/i }));
+    await userEvent.click(await canvas.getByRole('button', { name: / button label/i }));
   },
 };
 ```

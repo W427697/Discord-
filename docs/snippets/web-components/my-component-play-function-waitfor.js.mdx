@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js
 
-import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { userEvent, waitFor, within } from '@storybook/test';
 
 export default {
   component: 'demo-my-component',
@@ -14,7 +14,7 @@ export const ExampleAsyncStory = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const Input = canvas.getByLabelText('Username', {
+    const Input = await canvas.getByLabelText('Username', {
       selector: 'input',
     });
 
@@ -23,11 +23,11 @@ export const ExampleAsyncStory = {
     });
 
     // See https://storybook.js.org/docs/web-components/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const Submit = canvas.getByRole('button');
+    const Submit = await canvas.getByRole('button');
     await userEvent.click(Submit);
 
     await waitFor(async () => {
-      await userEvent.hover(canvas.getByTestId('error'));
+      await userEvent.hover(await canvas.getByTestId('error'));
     });
   },
 };

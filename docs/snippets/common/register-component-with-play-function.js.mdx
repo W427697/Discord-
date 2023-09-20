@@ -1,7 +1,7 @@
 ```js
 // RegistrationForm.stories.js|jsx
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { RegistrationForm } from './RegistrationForm';
 
@@ -17,7 +17,7 @@ export const FilledForm = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const emailInput = canvas.getByLabelText('email', {
+    const emailInput = await canvas.getByLabelText('email', {
       selector: 'input',
     });
 
@@ -25,7 +25,7 @@ export const FilledForm = {
       delay: 100,
     });
 
-    const passwordInput = canvas.getByLabelText('password', {
+    const passwordInput = await canvas.getByLabelText('password', {
       selector: 'input',
     });
 
@@ -33,7 +33,7 @@ export const FilledForm = {
       delay: 100,
     });
     // See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const submitButton = canvas.getByRole('button');
+    const submitButton = await canvas.getByRole('button');
 
     await userEvent.click(submitButton);
   },

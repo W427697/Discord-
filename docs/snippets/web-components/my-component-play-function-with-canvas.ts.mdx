@@ -2,7 +2,7 @@
 // MyComponent.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/web-components';
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 const meta: Meta = {
   component: 'demo-my-component',
@@ -17,8 +17,8 @@ export const ExampleStory: Story = {
     const canvas = within(canvasElement);
 
     // Starts querying from the component's root element
-    await userEvent.type(canvas.getByTestId('example-element'), 'something');
-    await userEvent.click(canvas.getByRole('another-element'));
+    await userEvent.type(await canvas.getByTestId('example-element'), 'something');
+    await userEvent.click(await canvas.getByRole('another-element'));
   },
 };
 ```

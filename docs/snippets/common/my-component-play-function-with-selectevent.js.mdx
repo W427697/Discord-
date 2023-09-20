@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
@@ -21,7 +21,7 @@ export const ExampleChangeEvent = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const select = canvas.getByRole('listbox');
+    const select = await canvas.getByRole('listbox');
 
     await userEvent.selectOptions(select, ['One Item']);
     await sleep(2000);

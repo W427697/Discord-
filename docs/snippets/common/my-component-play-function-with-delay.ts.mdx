@@ -4,7 +4,7 @@
 // Replace your-framework with the name of your framework
 import type { Meta, StoryObj } from '@storybook/your-framework';
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
@@ -22,14 +22,14 @@ export const DelayedStory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const exampleElement = canvas.getByLabelText('example-element');
+    const exampleElement = await canvas.getByLabelText('example-element');
 
     // The delay option set the ammount of milliseconds between characters being typed
     await userEvent.type(exampleElement, 'random string', {
       delay: 100,
     });
 
-    const AnotherExampleElement = canvas.getByLabelText('another-example-element');
+    const AnotherExampleElement = await canvas.getByLabelText('another-example-element');
     await userEvent.type(AnotherExampleElement, 'another random string', {
       delay: 100,
     });
