@@ -28,6 +28,8 @@ import { ejectTool } from './tools/eject';
 import { menuTool } from './tools/menu';
 import { addonsTool } from './tools/addons';
 import { remountTool } from './tools/remount';
+import { useMediaQuery } from '../hooks/useMedia';
+import { BREAKPOINT_MIN_600 } from '../../constants';
 
 export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
 export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
@@ -47,22 +49,28 @@ export const fullScreenTool: Addon_BaseType = {
   id: 'fullscreen',
   type: types.TOOL,
   match: (p) => ['story', 'docs'].includes(p.viewMode),
-  render: () => (
-    <Consumer filter={fullScreenMapper}>
-      {({ toggle, isFullscreen, shortcut, hasPanel, singleStory }) =>
-        (!singleStory || (singleStory && hasPanel)) && (
-          <IconButton
-            key="full"
-            onClick={toggle as any}
-            title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
-            aria-label={isFullscreen ? 'Exit full screen' : 'Go full screen'}
-          >
-            <Icons icon={isFullscreen ? 'close' : 'expand'} />
-          </IconButton>
-        )
-      }
-    </Consumer>
-  ),
+  render: () => {
+    const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
+    if (!isDesktop) {
+      return null;
+    }
+    return (
+      <Consumer filter={fullScreenMapper}>
+        {({ toggle, isFullscreen, shortcut, hasPanel, singleStory }) =>
+          (!singleStory || (singleStory && hasPanel)) && (
+            <IconButton
+              key="full"
+              onClick={toggle as any}
+              title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
+              aria-label={isFullscreen ? 'Exit full screen' : 'Go full screen'}
+            >
+              <Icons icon={isFullscreen ? 'close' : 'expand'} />
+            </IconButton>
+          )
+        }
+      </Consumer>
+    );
+  },
 };
 
 const tabsMapper = ({ state }: Combo) => ({
