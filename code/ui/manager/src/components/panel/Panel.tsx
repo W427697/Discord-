@@ -100,10 +100,3 @@ export const AddonPanel = React.memo<{
 );
 
 AddonPanel.displayName = 'AddonPanel';
-
-const ButtonGroup = styled.div({
-  display: 'flex',
-  alignItems: 'center',
-  height: '100%',
-  gap: 10,
-});

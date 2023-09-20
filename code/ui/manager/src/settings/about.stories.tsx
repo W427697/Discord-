@@ -25,11 +25,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    current: {
-      version: '7.0.1',
-    },
-  },
   parameters: {
     design: {
       type: 'figma',
