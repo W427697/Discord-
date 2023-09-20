@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
 import type { Meta, StoryObj } from '@storybook/react';
+import { ManagerContext } from '@storybook/manager-api';
 import { Layout } from './Layout';
 
 const PlaceholderBlock = styled.div({
@@ -61,6 +62,23 @@ const meta = {
     theme: 'light',
     layout: 'fullscreen',
   },
+  decorators: [
+    (storyFn) => (
+      <ManagerContext.Provider
+        value={
+          {
+            api: {
+              getCurrentStoryData: () => ({
+                title: 'Some Story Title',
+              }),
+            },
+          } as any
+        }
+      >
+        {storyFn()}
+      </ManagerContext.Provider>
+    ),
+  ],
   render: (args) => {
     const [managerLayoutState, setManagerLayoutState] = useState(args.managerLayoutState);
 

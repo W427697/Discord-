@@ -44,7 +44,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
                 </SidebarContainer>
               )}
             </Transition>
-            <MobileAbout isAboutOpen={isAboutOpen} setAboutOpen={setAboutOpen} />
+            <MobileAbout />
           </Container>
         )}
       </Transition>
@@ -55,7 +55,14 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
         mountOnEnter
         unmountOnExit
       >
-        {(state) => <Overlay ref={overlayRef} state={state} onClick={closeMenu} />}
+        {(state) => (
+          <Overlay
+            ref={overlayRef}
+            state={state}
+            onClick={closeMenu}
+            aria-label="Close navigation menu"
+          />
+        )}
       </Transition>
     </>
   );

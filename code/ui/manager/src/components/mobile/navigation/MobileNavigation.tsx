@@ -2,19 +2,20 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import { IconButton, Icons } from '@storybook/components';
+import { useStorybookApi } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
 import { useMobileLayoutContext } from '../MobileLayoutProvider';
 
 interface MobileNavigationProps {
-  storyTitle?: string | null | undefined;
   sidebar?: React.ReactNode;
   panel?: React.ReactNode;
 }
 
-export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle, sidebar, panel }) => {
+export const MobileNavigation: FC<MobileNavigationProps> = ({ sidebar, panel }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
+  const storyTitle = useStorybookApi().getCurrentStoryData()?.title;
 
   return (
     <Container>
@@ -27,11 +28,11 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle, sideba
         {sidebar}
       </MobileMenuDrawer>
       <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
-      <Button onClick={() => setMenuOpen(!isMenuOpen)}>
+      <Button onClick={() => setMenuOpen(!isMenuOpen)} title="Open navigation menu">
         <Icons icon="menu" />
         {storyTitle || ''}
       </Button>
-      <DrawerIconButton onClick={() => setMobilePanelOpen(true)}>
+      <DrawerIconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
         <Icons icon="bottombartoggle" />
       </DrawerIconButton>
     </Container>

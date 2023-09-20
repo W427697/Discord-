@@ -5,19 +5,17 @@ import { styled } from '@storybook/theming';
 import { Icons, Link } from '@storybook/components';
 import { UpgradeBlock } from '../../upgrade/UpgradeBlock';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
+import { useMobileLayoutContext } from '../MobileLayoutProvider';
 
-interface MobileAboutProps {
-  isAboutOpen: boolean;
-  setAboutOpen: (open: boolean) => void;
-}
-
-export const MobileAbout: FC<MobileAboutProps> = ({ isAboutOpen, setAboutOpen }) => {
+export const MobileAbout: FC = () => {
+  const { isMobileAboutOpen, setMobileAboutOpen } = useMobileLayoutContext();
   const aboutRef = useRef(null);
+  console.log('LOG :', isMobileAboutOpen, setMobileAboutOpen);
 
   return (
     <Transition
       nodeRef={aboutRef}
-      in={isAboutOpen}
+      in={isMobileAboutOpen}
       timeout={MOBILE_TRANSITION_DURATION}
       appear
       mountOnEnter
@@ -25,7 +23,7 @@ export const MobileAbout: FC<MobileAboutProps> = ({ isAboutOpen, setAboutOpen })
     >
       {(state) => (
         <Container ref={aboutRef} state={state} transitionDuration={MOBILE_TRANSITION_DURATION}>
-          <Button onClick={() => setAboutOpen(false)}>
+          <Button onClick={() => setMobileAboutOpen(false)} title="Close about section">
             <Icons icon="arrowleftalt" />
             Back
           </Button>
