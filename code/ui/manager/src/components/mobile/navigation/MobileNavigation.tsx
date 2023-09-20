@@ -16,28 +16,20 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle, sideba
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-
-    setTimeout(() => {
-      setMobileAboutOpen(false);
-    }, 300);
-  };
-
   return (
     <Container>
       <MobileMenuDrawer
         isMenuOpen={isMenuOpen}
         isAboutOpen={isMobileAboutOpen}
         setAboutOpen={setMobileAboutOpen}
-        closeMenu={closeMenu}
+        closeMenu={() => setMenuOpen(false)}
       >
         {sidebar}
       </MobileMenuDrawer>
       <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
       <Button onClick={() => setMenuOpen(!isMenuOpen)}>
         <Icons icon="menu" />
-        {storyTitle || 'Story'}
+        {storyTitle || ''}
       </Button>
       <DrawerIconButton onClick={() => setMobilePanelOpen(true)}>
         <Icons icon="bottombartoggle" />

@@ -33,6 +33,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
         timeout={MOBILE_TRANSITION_DURATION}
         mountOnEnter
         unmountOnExit
+        onExited={() => setAboutOpen(false)}
       >
         {(state) => (
           <Container ref={containerRef} state={state}>
