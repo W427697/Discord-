@@ -20,7 +20,12 @@ const meta = {
   component: MobileAbout,
   title: 'Mobile/About',
   parameters: {
+    layout: 'fullscreen',
     theme: 'light',
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+    chromatic: { viewports: [320] },
   },
   decorators: [
     (storyFn) => {
