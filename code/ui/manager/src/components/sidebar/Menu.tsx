@@ -107,13 +107,13 @@ const SidebarMenuList: FC<{
   return <TooltipLinkList links={links} />;
 };
 
-interface SidebarMenuProps {
+export interface SidebarMenuProps {
   menu: MenuList;
   isHighlighted?: boolean;
-  setAboutOpen?: (open: boolean) => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, setAboutOpen }) => {
+export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
 
@@ -124,7 +124,7 @@ export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, setAbou
         aria-label="Shortcuts"
         highlighted={isHighlighted}
         active={isTooltipVisible}
-        onClick={() => setAboutOpen(true)}
+        onClick={onClick}
       >
         <Icons icon="cog" />
       </SidebarIconButton>

@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import type { FC } from 'react';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
@@ -16,6 +16,7 @@ import { App } from './App';
 
 import Provider from './provider';
 import { settingsPageAddon } from './settings/index';
+import { MobileLayoutProvider } from './components/mobile/MobileLayoutProvider';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -37,6 +38,7 @@ export const Root: FC<RootProps> = ({ provider }) => (
 
 const Main: FC<{ provider: Provider }> = ({ provider }) => {
   const navigate = useNavigate();
+
   return (
     <Location key="location.consumer">
       {(locationData) => (
@@ -53,7 +55,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
               (sizes) => {
                 api.setSizes(sizes);
               },
-              [state, api]
+              [api]
             );
 
             const pages: Addon_PageType[] = useMemo(
@@ -63,12 +65,14 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
 
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                <App
-                  key="app"
-                  pages={pages}
-                  managerLayoutState={{ ...state.layout, viewMode: state.viewMode }}
-                  setManagerLayoutState={setManagerLayoutState}
-                />
+                <MobileLayoutProvider>
+                  <App
+                    key="app"
+                    pages={pages}
+                    managerLayoutState={{ ...state.layout, viewMode: state.viewMode }}
+                    setManagerLayoutState={setManagerLayoutState}
+                  />
+                </MobileLayoutProvider>
               </ThemeProvider>
             );
           }}

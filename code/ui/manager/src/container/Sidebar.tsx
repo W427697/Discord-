@@ -3,16 +3,17 @@ import React, { useMemo } from 'react';
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { types, Consumer } from '@storybook/manager-api';
 
+import type { SidebarProps as SidebarComponentProps } from '../components/sidebar/Sidebar';
 import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './Menu';
 
 export type Item = StoriesHash[keyof StoriesHash];
 
 interface SidebarProps {
-  setAboutOpen?: (open: boolean) => void;
+  onMenuClick?: SidebarComponentProps['onMenuClick'];
 }
 
-const Sidebar = React.memo(function Sideber({ setAboutOpen }: SidebarProps) {
+const Sidebar = React.memo(function Sideber({ onMenuClick }: SidebarProps) {
   const mapper = ({ state, api }: Combo) => {
     const {
       ui: { name, url, enableShortcuts },
@@ -66,7 +67,7 @@ const Sidebar = React.memo(function Sideber({ setAboutOpen }: SidebarProps) {
   return (
     <Consumer filter={mapper}>
       {(fromState) => {
-        return <SidebarComponent {...fromState} setAboutOpen={setAboutOpen} />;
+        return <SidebarComponent {...fromState} onMenuClick={onMenuClick} />;
       }}
     </Consumer>
   );

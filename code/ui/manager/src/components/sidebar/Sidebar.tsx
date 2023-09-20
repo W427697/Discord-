@@ -9,6 +9,7 @@ import type {
   Addon_SidebarTopType,
   API_LoadedRefData,
 } from '@storybook/types';
+import type { HeadingProps } from './Heading';
 import { Heading } from './Heading';
 
 // eslint-disable-next-line import/no-cycle
@@ -112,7 +113,7 @@ export interface SidebarProps extends API_LoadedRefData {
   refId?: string;
   menuHighlighted?: boolean;
   enableShortcuts?: boolean;
-  setAboutOpen?: (open: boolean) => void;
+  onMenuClick?: HeadingProps['onMenuClick'];
 }
 
 export const Sidebar = React.memo(function Sidebar({
@@ -128,7 +129,7 @@ export const Sidebar = React.memo(function Sidebar({
   menuHighlighted = false,
   enableShortcuts = true,
   refs = {},
-  setAboutOpen,
+  onMenuClick,
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
   const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
@@ -146,7 +147,7 @@ export const Sidebar = React.memo(function Sidebar({
             extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
             isLoading={isLoading}
-            setAboutOpen={setAboutOpen}
+            onMenuClick={onMenuClick}
           />
 
           <Search

@@ -4,6 +4,7 @@ import { styled } from '@storybook/theming';
 import { IconButton, Icons } from '@storybook/components';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
+import { useMobileLayoutContext } from '../MobileLayoutProvider';
 
 interface MobileNavigationProps {
   storyTitle?: string | null | undefined;
@@ -13,14 +14,13 @@ interface MobileNavigationProps {
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle, sidebar, panel }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isAddonsOpen, setAddonsOpen] = useState(false);
-  const [isAboutOpen, setAboutOpen] = useState(false);
+  const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
 
   const closeMenu = () => {
     setMenuOpen(false);
 
     setTimeout(() => {
-      setAboutOpen(false);
+      setMobileAboutOpen(false);
     }, 300);
   };
 
@@ -28,18 +28,18 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle, sideba
     <Container>
       <MobileMenuDrawer
         isMenuOpen={isMenuOpen}
-        isAboutOpen={isAboutOpen}
-        setAboutOpen={setAboutOpen}
+        isAboutOpen={isMobileAboutOpen}
+        setAboutOpen={setMobileAboutOpen}
         closeMenu={closeMenu}
       >
         {sidebar}
       </MobileMenuDrawer>
-      <MobileAddonsDrawer isAddonsOpen={isAddonsOpen}>{panel}</MobileAddonsDrawer>
+      <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
       <Button onClick={() => setMenuOpen(!isMenuOpen)}>
         <Icons icon="menu" />
         {storyTitle || 'Story'}
       </Button>
-      <DrawerIconButton onClick={() => setAddonsOpen(!isAddonsOpen)}>
+      <DrawerIconButton onClick={() => setMobilePanelOpen(true)}>
         <Icons icon="bottombartoggle" />
       </DrawerIconButton>
     </Container>

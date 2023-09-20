@@ -12,6 +12,7 @@ import Preview from './container/Preview';
 import Panel from './container/Panel';
 
 import { Layout } from './components/layout/Layout';
+import { useMobileLayoutContext } from './components/mobile/MobileLayoutProvider';
 
 type Props = {
   managerLayoutState: ComponentProps<typeof Layout>['managerLayoutState'];
@@ -22,6 +23,7 @@ type Props = {
 export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
   const api = useStorybookApi();
   const storyTitle = api.getCurrentStoryData()?.title;
+  const mobileLayoutContext = useMobileLayoutContext();
 
   return (
     <>
@@ -35,7 +37,9 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
             <Preview id="main" withLoader />
           </Route>
         }
-        slotSidebar={<Sidebar />}
+        slotSidebar={
+          <Sidebar onMenuClick={() => mobileLayoutContext.setMobileAboutOpen((state) => !state)} />
+        }
         slotPanel={<Panel />}
         slotPages={pages.map(({ id, render: Content }) => (
           <Content key={id} />

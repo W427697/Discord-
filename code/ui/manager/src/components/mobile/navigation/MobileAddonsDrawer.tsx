@@ -3,10 +3,10 @@ import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
+import { useMobileLayoutContext } from '../MobileLayoutProvider';
 
 interface MobileAddonsDrawerProps {
   children: ReactNode;
-  isAddonsOpen: boolean;
 }
 
 const duration = 200;
@@ -32,13 +32,14 @@ const Container = styled.div<{ state: TransitionStatus }>(({ theme, state }) => 
   })()}`,
 }));
 
-export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children, isAddonsOpen }) => {
+export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) => {
+  const { isMobilePanelOpen } = useMobileLayoutContext();
   const containerRef = useRef(null);
 
   return (
     <Transition
       nodeRef={containerRef}
-      in={isAddonsOpen}
+      in={isMobilePanelOpen}
       timeout={duration}
       mountOnEnter
       unmountOnExit
