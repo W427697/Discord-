@@ -240,6 +240,18 @@ describe('userOrAutoTitleFromSpecifier', () => {
         ).toMatchInlineSnapshot(`to_my/file`);
       });
 
+      it('match with short path', () => {
+        // Make sure "stories" isn't trimmed as redundant when there won't be
+        // anything left.
+        expect(
+          userOrAuto(
+            './path/stories.js',
+            normalizeStoriesEntry({ directory: './path', files: '**/?(*.)stories.*' }, options),
+            undefined
+          )
+        ).toMatchInlineSnapshot(`stories`);
+      });
+
       it('match with windows path', () => {
         expect(
           userOrAuto(

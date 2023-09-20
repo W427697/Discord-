@@ -15,7 +15,7 @@ const stripExtension = (parts: string[]) => {
 const removeRedundantFilename = (parts: string[]) => {
   const last = parts[parts.length - 1];
   const nextToLast = parts[parts.length - 2];
-  return last && (last === nextToLast || /^(?:index|story|stories)$/i.test(last))
+  return last && nextToLast && (last === nextToLast || /^(?:index|story|stories)$/i.test(last))
     ? parts.slice(0, -1)
     : parts;
 };
