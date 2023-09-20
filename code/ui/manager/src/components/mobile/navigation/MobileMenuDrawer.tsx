@@ -21,9 +21,9 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
   closeMenu,
   children,
 }) => {
-  const containerRef = useRef(null);
-  const sidebarRef = useRef(null);
-  const overlayRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
@@ -106,11 +106,16 @@ const SidebarContainer = styled.div<{ state: TransitionStatus }>(({ theme, state
     return 1;
   })()}`,
   transform: `${(() => {
-    if (state === 'entering') return 'translateX(0)';
-    if (state === 'entered') return 'translateX(0)';
-    if (state === 'exiting') return 'translateX(-20px)';
-    if (state === 'exited') return 'translateX(-20px)';
-    return 'translateX(0)';
+    switch (state) {
+      case 'entering':
+      case 'entered':
+        return 'translateX(0)';
+      case 'exiting':
+      case 'exited':
+        return 'translateX(-20px)';
+      default:
+        return 'translateX(0)';
+    }
   })()}`,
 }));
 
@@ -126,11 +131,16 @@ const Overlay = styled.div<{ state: TransitionStatus }>(({ state }) => ({
   transition: `all ${MOBILE_TRANSITION_DURATION}ms ease-in-out`,
   cursor: 'pointer',
   opacity: `${(() => {
-    if (state === 'entering') return 1;
-    if (state === 'entered') return 1;
-    if (state === 'exiting') return 0;
-    if (state === 'exited') return 0;
-    return 0;
+    switch (state) {
+      case 'entering':
+      case 'entered':
+        return 1;
+      case 'exiting':
+      case 'exited':
+        return 0;
+      default:
+        return 0;
+    }
   })()}`,
 
   '&:hover': {

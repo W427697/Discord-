@@ -5,7 +5,10 @@ import { within } from '@storybook/testing-library';
 import { MobileAbout } from './MobileAbout';
 import { MobileLayoutProvider, useMobileLayoutContext } from '../MobileLayoutProvider';
 
-const MockOpenAbout = ({ children }: { children: any }) => {
+/**
+ * A helper component to open the about page via the MobileLayoutContext
+ */
+const OpenAboutHelper = ({ children }: { children: any }) => {
   const { setMobileAboutOpen } = useMobileLayoutContext();
   useEffect(() => {
     setMobileAboutOpen(true);
@@ -18,27 +21,20 @@ const meta = {
   title: 'Mobile/About',
   decorators: [
     (storyFn) => {
-      const { setMobileAboutOpen } = useMobileLayoutContext();
-      useEffect(() => {
-        setMobileAboutOpen(true);
-      }, [setMobileAboutOpen]);
-      return storyFn();
-    },
-    (storyFn) => {
       return (
         <ManagerContext.Provider
           value={
             {
               api: {
                 getCurrentVersion: () => ({
-                  version: '7.2.2-alpha.0',
+                  version: '7.2.0',
                 }),
               },
             } as any
           }
         >
           <MobileLayoutProvider>
-            <MockOpenAbout>{storyFn()}</MockOpenAbout>
+            <OpenAboutHelper>{storyFn()}</OpenAboutHelper>
           </MobileLayoutProvider>
         </ManagerContext.Provider>
       );

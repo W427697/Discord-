@@ -120,10 +120,10 @@ export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick
   if (!isDesktop) {
     return (
       <SidebarIconButton
-        title="Shortcuts"
-        aria-label="Shortcuts"
+        title="About Storybook"
+        aria-label="About Storybook"
         highlighted={isHighlighted}
-        active={isTooltipVisible}
+        active={false}
         onClick={onClick}
       >
         <Icons icon="cog" />

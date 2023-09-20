@@ -8,11 +8,11 @@ import { MobileAddonsDrawer } from './MobileAddonsDrawer';
 import { useMobileLayoutContext } from '../MobileLayoutProvider';
 
 interface MobileNavigationProps {
-  sidebar?: React.ReactNode;
+  menu?: React.ReactNode;
   panel?: React.ReactNode;
 }
 
-export const MobileNavigation: FC<MobileNavigationProps> = ({ sidebar, panel }) => {
+export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
   const storyTitle = useStorybookApi().getCurrentStoryData()?.title;
@@ -25,7 +25,7 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ sidebar, panel }) 
         setAboutOpen={setMobileAboutOpen}
         closeMenu={() => setMenuOpen(false)}
       >
-        {sidebar}
+        {menu}
       </MobileMenuDrawer>
       <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
       <Button onClick={() => setMenuOpen(!isMenuOpen)} title="Open navigation menu">

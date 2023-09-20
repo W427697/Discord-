@@ -50,7 +50,7 @@ const meta = {
     chromatic: { viewports: [320] },
   },
   args: {
-    sidebar: () => <div>sidebar</div>,
+    menu: <div>navigation menu</div>,
     panel: <MockPanel />,
   },
 } satisfies Meta<typeof MobileNavigation>;

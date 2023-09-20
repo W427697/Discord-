@@ -9,7 +9,7 @@ interface MobileAddonsDrawerProps {
   children: ReactNode;
 }
 
-const duration = 200;
+const TRANSITION_DURATION = 200;
 
 const Container = styled.div<{ state: TransitionStatus }>(({ theme, state }) => ({
   position: 'fixed',
@@ -20,15 +20,20 @@ const Container = styled.div<{ state: TransitionStatus }>(({ theme, state }) => 
   bottom: 0,
   left: 0,
   zIndex: 11,
-  transition: `all ${duration}ms ease-in-out`,
+  transition: `all ${TRANSITION_DURATION}ms ease-in-out`,
   overflow: 'hidden',
   borderTop: `1px solid ${theme.appBorderColor}`,
   transform: `${(() => {
-    if (state === 'entering') return 'translateY(0)';
-    if (state === 'entered') return 'translateY(0)';
-    if (state === 'exiting') return 'translateY(100%)';
-    if (state === 'exited') return 'translateY(100%)';
-    return 'translateY(0)';
+    switch (state) {
+      case 'entering':
+      case 'entered':
+        return 'translateY(0)';
+      case 'exiting':
+      case 'exited':
+        return 'translateY(100%)';
+      default:
+        return 'translateY(0)';
+    }
   })()}`,
 }));
 
@@ -40,7 +45,7 @@ export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) =>
     <Transition
       nodeRef={containerRef}
       in={isMobilePanelOpen}
-      timeout={duration}
+      timeout={TRANSITION_DURATION}
       mountOnEnter
       unmountOnExit
     >

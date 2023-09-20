@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
-  const mobileLayoutContext = useMobileLayoutContext();
+  const { setMobileAboutOpen } = useMobileLayoutContext();
 
   return (
     <>
@@ -34,9 +34,7 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
             <Preview id="main" withLoader />
           </Route>
         }
-        slotSidebar={
-          <Sidebar onMenuClick={() => mobileLayoutContext.setMobileAboutOpen((state) => !state)} />
-        }
+        slotSidebar={<Sidebar onMenuClick={() => setMobileAboutOpen((state) => !state)} />}
         slotPanel={<Panel />}
         slotPages={pages.map(({ id, render: Content }) => (
           <Content key={id} />
