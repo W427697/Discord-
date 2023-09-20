@@ -12,6 +12,7 @@ import type {
 } from '@storybook/types';
 import { instrument } from '@storybook/instrumenter';
 import { ModuleMocker } from 'jest-mock';
+import { Args } from '@storybook/types';
 
 const JestMock = new ModuleMocker(global);
 const fn = JestMock.fn.bind(JestMock);
@@ -56,7 +57,25 @@ const addSpies = (id: string, val: any, key?: string): any => {
 const addActionsFromArgTypes: ArgsEnhancer<Renderer> = ({ id, initialArgs }) =>
   addSpies(id, initialArgs);
 
-export const argsEnhancers = [addActionsFromArgTypes];
+const instrumentSpies: ArgsEnhancer = ({ initialArgs }) => {
+  const argTypesWithAction = Object.entries(initialArgs).filter(
+    ([, value]) =>
+      typeof value === 'function' &&
+      '_isMockFunction' in value &&
+      value._isMockFunction &&
+      !value._instrumented
+  );
+
+  return argTypesWithAction.reduce((acc, [key, value]) => {
+    const instrumented = instrument({ [key]: () => value }, { retain: true })[key];
+    acc[key] = instrumented();
+    // this enhancer is being called multiple times
+    value._instrumented = true;
+    return acc;
+  }, {} as Args);
+};
+
+export const argsEnhancers = [addActionsFromArgTypes, instrumentSpies];
 
 export const { step: runStep } = instrument(
   {
