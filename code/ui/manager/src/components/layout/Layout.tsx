@@ -175,7 +175,7 @@ const LayoutContainer = styled.div<LayoutState>(
         display: 'grid',
         gap: 0,
         gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
-        gridTemplateRows: `1fr ${bottomPanelHeight}px`,
+        gridTemplateRows: `1fr minmax(0, ${bottomPanelHeight}px)`,
         gridTemplateAreas: (() => {
           if (viewMode === 'docs') {
             // remove panel in docs viewMode
