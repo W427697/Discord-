@@ -1,18 +1,19 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
-import { useStorybookApi } from '@storybook/manager-api';
-import { Button, IconButton, Icons } from '@storybook/components';
+import { IconButton, Icons } from '@storybook/components';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
 import Panel from '../../../container/Panel';
 
-export const MobileNavigation: FC = () => {
+interface MobileNavigationProps {
+  storyTitle?: string | null | undefined;
+}
+
+export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isAddonsOpen, setAddonsOpen] = useState(false);
   const [isAboutOpen, setAboutOpen] = useState(false);
-  const api = useStorybookApi();
-  const title = api.getCurrentStoryData()?.title || 'Story';
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -39,7 +40,7 @@ export const MobileNavigation: FC = () => {
       </MobileAddonsDrawer>
       <Button onClick={() => setMenuOpen(!isMenuOpen)}>
         <Icons icon="menu" />
-        {title}
+        {storyTitle || 'Story'}
       </Button>
       <DrawerIconButton onClick={() => setAddonsOpen(!isAddonsOpen)}>
         <Icons icon="bottombartoggle" />
@@ -57,7 +58,7 @@ const Container = styled.div(({ theme }) => ({
   width: '100%',
   height: 40,
   zIndex: 10,
-  background: theme.background.content,
+  background: theme.barBg,
   padding: '0 6px',
   borderTop: `1px solid ${theme.appBorderColor}`,
   color: theme.color.mediumdark,
@@ -68,3 +69,14 @@ const Container = styled.div(({ theme }) => ({
 const DrawerIconButton = styled(IconButton)({
   marginTop: 0,
 });
+
+const Button = styled.button(({ theme }) => ({
+  all: 'unset',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 10,
+  color: 'currentColor',
+  fontSize: `${theme.typography.size.s2 - 1}px`,
+  padding: '0 7px',
+  fontWeight: theme.typography.weight.bold,
+}));

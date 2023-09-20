@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useRef } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 import { styled } from '@storybook/theming';
-import { Button, Icons, Link } from '@storybook/components';
+import { Icons, Link } from '@storybook/components';
 import { UpgradeBlock } from '../../upgrade-block/UpgradeBlock';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
 
@@ -26,7 +26,7 @@ export const MobileAbout: FC<MobileAboutProps> = ({ isAboutOpen, setAboutOpen })
       {(state) => (
         <Container ref={aboutRef} state={state} transitionDuration={MOBILE_TRANSITION_DURATION}>
           <Button onClick={() => setAboutOpen(false)}>
-            <Icons icon="arrowleft" />
+            <Icons icon="arrowleftalt" />
             Back
           </Button>
           <LinkContainer>
@@ -66,9 +66,8 @@ export const MobileAbout: FC<MobileAboutProps> = ({ isAboutOpen, setAboutOpen })
 };
 
 const Container = styled.div<{ state: TransitionStatus; transitionDuration: number }>(
-  ({ state, transitionDuration }) => ({
+  ({ theme, state, transitionDuration }) => ({
     position: 'absolute',
-    boxSizing: 'border-box',
     width: '100%',
     height: '100%',
     top: 0,
@@ -77,6 +76,7 @@ const Container = styled.div<{ state: TransitionStatus; transitionDuration: numb
     transition: `all ${transitionDuration}ms ease-in-out`,
     overflow: 'scroll',
     padding: '20px',
+    background: theme.background.content,
     opacity: `${(() => {
       if (state === 'entering') return 1;
       if (state === 'entered') return 1;
@@ -126,4 +126,12 @@ const LinkLeft = styled.div(({ theme }) => ({
 const BottomText = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2 - 1,
   marginTop: 30,
+}));
+
+const Button = styled.button(({ theme }) => ({
+  all: 'unset',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 10,
+  color: theme.color.defaultText,
 }));

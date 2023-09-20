@@ -6,6 +6,7 @@ import { Route } from '@storybook/router';
 import { Global, createGlobal } from '@storybook/theming';
 import { Symbols } from '@storybook/components';
 import type { Addon_PageType } from '@storybook/types';
+import { useStorybookApi } from '@storybook/manager-api';
 import Sidebar from './container/Sidebar';
 import Preview from './container/Preview';
 import Panel from './container/Panel';
@@ -19,6 +20,9 @@ type Props = {
 };
 
 export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
+  const api = useStorybookApi();
+  const storyTitle = api.getCurrentStoryData()?.title;
+
   return (
     <>
       <Global styles={createGlobal} />
@@ -36,6 +40,7 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
         slotPages={pages.map(({ id, render: Content }) => (
           <Content key={id} />
         ))}
+        storyTitle={storyTitle}
       />
     </>
   );

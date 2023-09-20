@@ -24,6 +24,7 @@ interface Props {
   slotSidebar?: React.ReactNode;
   slotPanel?: React.ReactNode;
   slotPages?: React.ReactNode;
+  storyTitle?: string | null | undefined;
 }
 const MINIMUM_CONTENT_WIDTH_PX = 100;
 
@@ -112,7 +113,12 @@ const useLayoutSyncingState = (
   };
 };
 
-export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
+export const Layout = ({
+  managerLayoutState,
+  setManagerLayoutState,
+  storyTitle,
+  ...slots
+}: Props) => {
   const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
   const isMobile = !isDesktop;
 
@@ -157,7 +163,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
           )}
         </>
       )}
-      {isMobile && <MobileNavigation />}
+      {isMobile && <MobileNavigation storyTitle={storyTitle} />}
     </LayoutContainer>
   );
 };
