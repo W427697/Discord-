@@ -8,7 +8,11 @@ import { useMenu } from './Menu';
 
 export type Item = StoriesHash[keyof StoriesHash];
 
-const Sidebar = React.memo(function Sideber() {
+interface SidebarProps {
+  setAboutOpen?: (open: boolean) => void;
+}
+
+const Sidebar = React.memo(function Sideber({ setAboutOpen }: SidebarProps) {
   const mapper = ({ state, api }: Combo) => {
     const {
       ui: { name, url, enableShortcuts },
@@ -58,10 +62,11 @@ const Sidebar = React.memo(function Sideber() {
       extra: top,
     };
   };
+
   return (
     <Consumer filter={mapper}>
       {(fromState) => {
-        return <SidebarComponent {...fromState} />;
+        return <SidebarComponent {...fromState} setAboutOpen={setAboutOpen} />;
       }}
     </Consumer>
   );

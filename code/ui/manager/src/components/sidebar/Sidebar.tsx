@@ -112,6 +112,7 @@ export interface SidebarProps extends API_LoadedRefData {
   refId?: string;
   menuHighlighted?: boolean;
   enableShortcuts?: boolean;
+  setAboutOpen?: (open: boolean) => void;
 }
 
 export const Sidebar = React.memo(function Sidebar({
@@ -127,6 +128,7 @@ export const Sidebar = React.memo(function Sidebar({
   menuHighlighted = false,
   enableShortcuts = true,
   refs = {},
+  setAboutOpen,
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
   const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
@@ -144,6 +146,7 @@ export const Sidebar = React.memo(function Sidebar({
             extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
             isLoading={isLoading}
+            setAboutOpen={setAboutOpen}
           />
 
           <Search
