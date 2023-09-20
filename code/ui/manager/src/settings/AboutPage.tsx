@@ -28,7 +28,6 @@ const AboutPage: FC = () => {
   return (
     <NotificationClearer api={api} notificationId="update">
       <AboutScreen
-        current={api.getCurrentVersion()}
         onNavigateToWhatsNew={
           state.whatsNewData?.status === 'SUCCESS' ? onNavigateToWhatsNew : undefined
         }

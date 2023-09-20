@@ -1,10 +1,9 @@
-/* eslint-disable no-nested-ternary */
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
-import type { State } from '@storybook/manager-api';
 
 import { Button as BaseButton, Icons, Link, StorybookIcon } from '@storybook/components';
+import { UpgradeBlock } from '../components/upgrade/UpgradeBlock';
 
 const Header = styled.header(({ theme }) => ({
   marginBottom: 32,
@@ -29,25 +28,6 @@ const Container = styled.div({
   flexDirection: 'column',
 });
 
-const UpgradeBlock = styled.div(({ theme }) => {
-  return {
-    border: '1px solid',
-    borderRadius: 5,
-    padding: 20,
-    margin: 20,
-    marginTop: 0,
-    maxWidth: 400,
-    borderColor: theme.appBorderColor,
-    fontSize: theme.typography.size.s2,
-  };
-});
-
-const Code = styled.pre(({ theme }) => ({
-  background: theme.base === 'light' ? 'rgba(0, 0, 0, 0.05)' : theme.appBorderColor,
-  fontSize: theme.typography.size.s2 - 1,
-  margin: '4px 0 16px',
-}));
-
 const Footer = styled.div(({ theme }) => ({
   marginBottom: 24,
   display: 'flex',
@@ -71,19 +51,6 @@ const SquareButton = styled(BaseButton)(({ theme }) => ({
   },
 }));
 
-const TabButton = styled(BaseButton)<{ active: boolean }>(({ theme, active }) => ({
-  '&&': {
-    padding: 2,
-    paddingRight: 8,
-    margin: 0,
-    color: active
-      ? theme.color.secondary
-      : theme.base === 'light'
-      ? theme.color.dark
-      : theme.color.lightest,
-  },
-}));
-
 const StyledLink = styled(Link as any)(({ theme }) => ({
   '&&': {
     fontWeight: theme.typography.weight.bold,
@@ -94,40 +61,14 @@ const StyledLink = styled(Link as any)(({ theme }) => ({
   },
 }));
 
-const AboutScreen: FC<{
-  current: State['versions']['current'];
-  onNavigateToWhatsNew?: () => void;
-}> = ({ current, onNavigateToWhatsNew }) => {
-  const [activeTab, setActiveTab] = useState<'npm' | 'pnpm'>('npm');
+const AboutScreen: FC<{ onNavigateToWhatsNew?: () => void }> = ({ onNavigateToWhatsNew }) => {
   return (
     <Container>
       <div style={{ flex: '1' }} />
       <Header>
         <StorybookIcon /> Storybook
       </Header>
-      <UpgradeBlock>
-        <strong>You are on Storybook {current.version}</strong>
-        <p>Run the following script to check for updates and upgrade to the latest version.</p>
-        <div>
-          <TabButton active={activeTab === 'npm'} onClick={() => setActiveTab('npm')}>
-            npm
-          </TabButton>
-          <TabButton active={activeTab === 'pnpm'} onClick={() => setActiveTab('pnpm')}>
-            pnpm
-          </TabButton>
-        </div>
-
-        <Code>
-          {activeTab === 'npm'
-            ? 'npx storybook@latest upgrade'
-            : 'pnpm dlx storybook@latest upgrade'}
-        </Code>
-        {onNavigateToWhatsNew && (
-          // eslint-disable-next-line jsx-a11y/anchor-is-valid
-          <Link onClick={onNavigateToWhatsNew}>See what's new in Storybook</Link>
-        )}
-      </UpgradeBlock>
-
+      <UpgradeBlock onNavigateToWhatsNew={onNavigateToWhatsNew} />
       <div style={{ flex: '1.2' }} />
       <Footer>
         <div style={{ marginBottom: 12 }}>
