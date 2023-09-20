@@ -19,8 +19,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 18
+          cache: 'yarn'
       - run: npm ci
         #👇 Adds Chromatic as a step in the workflow
       - uses: chromaui/action@v1
