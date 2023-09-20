@@ -351,7 +351,11 @@ export class Instrumenter {
     const interceptable = typeof intercept === 'function' ? intercept(method, path) : intercept;
     const call = { id, cursor, storyId, ancestors, path, method, args, interceptable, retain };
     const interceptOrInvoke = interceptable && !ancestors.length ? this.intercept : this.invoke;
-    const result = interceptOrInvoke.call(this, fn, object, call, options);
+    const promisifyFn = function (this: unknown, ...args: unknown[]) {
+      const value = fn.apply(this, args);
+      return interceptable && typeof value?.then !== 'function' ? Promise.resolve(value) : value;
+    };
+    const result = interceptOrInvoke.call(this, promisifyFn, object, call, options);
     return this.instrument(result, { ...options, mutate: true, path: [{ __callId__: call.id }] });
   }
 
