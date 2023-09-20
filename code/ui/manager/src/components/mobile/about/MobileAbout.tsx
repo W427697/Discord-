@@ -76,6 +76,7 @@ const Container = styled.div<{ state: TransitionStatus; transitionDuration: numb
     transition: `all ${transitionDuration}ms ease-in-out`,
     overflow: 'scroll',
     padding: '20px',
+    color: theme.color.defaultText,
     background: theme.background.content,
     opacity: `${(() => {
       if (state === 'entering') return 1;
@@ -133,7 +134,7 @@ const Button = styled.button(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: 10,
-  color: theme.color.defaultText,
+  color: 'currentColor',
   fontSize: theme.typography.size.s2 - 1,
   padding: '0 10px',
 }));
