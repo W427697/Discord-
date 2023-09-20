@@ -8,9 +8,11 @@ import type {
   SetStoriesStoryData,
   API_IndexHash,
   API_StoryMapper,
+  StoryIndex,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import {
+  transformSetStoriesStoryDataToPreparedStoryIndex,
   transformSetStoriesStoryDataToStoriesHash,
   transformStoryIndexToStoriesHash,
 } from '../lib/stories';
@@ -277,21 +279,23 @@ export const init: ModuleFn<SubAPI, SubState> = (
     },
 
     setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
-      const internalIndex = { storyIndex, setStoriesData };
       if (singleStory) {
         return;
       }
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      let internal_index: StoryIndex | undefined;
+      let index: API_IndexHash | undefined;
       const { filters } = store.getState();
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let index: API_IndexHash;
-      if (setStoriesData) {
-        index = transformSetStoriesStoryDataToStoriesHash(
-          map(setStoriesData, ref, { storyMapper }),
-          { provider, docsOptions, filters, status: {} }
-        );
-      } else if (storyIndex) {
+      if (storyIndex || setStoriesData) {
+        internal_index = setStoriesData
+          ? transformSetStoriesStoryDataToPreparedStoryIndex(
+              map(setStoriesData, ref, { storyMapper })
+            )
+          : storyIndex;
+
         index = transformStoryIndexToStoriesHash(storyIndex, {
           provider,
           docsOptions,
@@ -299,11 +303,12 @@ export const init: ModuleFn<SubAPI, SubState> = (
           status: {},
         });
       }
+
       if (index) {
         index = addRefIds(index, ref);
       }
 
-      api.updateRef(id, { ...rest, index, internal_index: internalIndex });
+      api.updateRef(id, { ...rest, index, internal_index });
     },
 
     updateRef: (id, data) => {

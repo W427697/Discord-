@@ -280,10 +280,7 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
-              "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": undefined,
-              },
+              "internal_index": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -352,10 +349,7 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
-              "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": undefined,
-              },
+              "internal_index": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -489,11 +483,8 @@ describe('Refs API', () => {
               "id": "fake",
               "index": Object {},
               "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": Object {
-                  "entries": Object {},
-                  "v": 4,
-                },
+                "entries": Object {},
+                "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
@@ -510,11 +501,8 @@ describe('Refs API', () => {
               "id": "fake",
               "index": Object {},
               "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": Object {
-                  "entries": Object {},
-                  "v": 4,
-                },
+                "entries": Object {},
+                "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
@@ -592,11 +580,8 @@ describe('Refs API', () => {
               "id": "fake",
               "index": Object {},
               "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": Object {
-                  "entries": Object {},
-                  "v": 4,
-                },
+                "entries": Object {},
+                "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
@@ -676,11 +661,8 @@ describe('Refs API', () => {
               "id": "fake",
               "index": Object {},
               "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": Object {
-                  "entries": Object {},
-                  "v": 4,
-                },
+                "entries": Object {},
+                "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
@@ -759,10 +741,7 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": undefined,
-              "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": undefined,
-              },
+              "internal_index": undefined,
               "loginUrl": "https://example.com/login",
               "title": "Fake",
               "type": "auto-inject",
@@ -904,10 +883,7 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "index": undefined,
-              "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": undefined,
-              },
+              "internal_index": undefined,
               "loginUrl": "https://example.com/login",
               "title": "Fake",
               "type": "auto-inject",
@@ -990,11 +966,8 @@ describe('Refs API', () => {
               "id": "fake",
               "index": Object {},
               "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": Object {
-                  "entries": Object {},
-                  "v": 4,
-                },
+                "entries": Object {},
+                "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
@@ -1074,11 +1047,8 @@ describe('Refs API', () => {
               "id": "fake",
               "index": Object {},
               "internal_index": Object {
-                "setStoriesData": undefined,
-                "storyIndex": Object {
-                  "entries": Object {},
-                  "v": 4,
-                },
+                "entries": Object {},
+                "v": 4,
               },
               "title": "Fake",
               "type": "lazy",
