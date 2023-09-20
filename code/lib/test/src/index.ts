@@ -17,7 +17,7 @@ export const { expect } = instrument(
       }
       return Object.keys(obj);
     },
-    intercept: true,
+    intercept: (method) => method !== 'expect',
   }
 );
 
