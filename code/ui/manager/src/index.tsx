@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import type { FC } from 'react';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
