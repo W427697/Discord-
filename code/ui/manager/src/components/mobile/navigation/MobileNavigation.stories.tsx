@@ -44,6 +44,7 @@ const meta = {
   ],
   parameters: {
     layout: 'fullscreen',
+    theme: 'light',
     viewport: {
       defaultViewport: 'mobile1',
     },
@@ -61,6 +62,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const Dark: Story = {
+  parameters: { theme: 'dark' },
+};
 
 export const MenuOpen: Story = {
   play: async ({ canvasElement }) => {

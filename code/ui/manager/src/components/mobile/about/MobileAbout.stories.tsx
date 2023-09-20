@@ -19,6 +19,9 @@ const OpenAboutHelper = ({ children }: { children: any }) => {
 const meta = {
   component: MobileAbout,
   title: 'Mobile/About',
+  parameters: {
+    theme: 'light',
+  },
   decorators: [
     (storyFn) => {
       return (
@@ -47,6 +50,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const Dark: Story = {
+  parameters: { theme: 'dark' },
+};
 
 export const Closed: Story = {
   play: async ({ canvasElement }) => {

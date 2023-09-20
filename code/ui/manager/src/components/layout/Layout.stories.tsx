@@ -130,17 +130,17 @@ export const Mobile = {
     chromatic: { viewports: [320] },
   },
 };
+export const MobileDark = {
+  ...Mobile,
+  parameters: {
+    ...Mobile.parameters,
+    theme: 'dark',
+  },
+};
 
 export const MobileDocs = {
   ...Mobile,
   args: {
-    state: { ...defaultState, viewMode: 'docs' },
-  },
-};
-
-export const MobilePages = {
-  ...Mobile,
-  args: {
-    state: { ...defaultState, viewMode: 'settings' },
+    managerLayoutState: { ...defaultState, viewMode: 'docs' },
   },
 };
