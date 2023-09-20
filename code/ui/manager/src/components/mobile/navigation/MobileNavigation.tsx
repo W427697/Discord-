@@ -4,13 +4,14 @@ import { styled } from '@storybook/theming';
 import { IconButton, Icons } from '@storybook/components';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
-import Panel from '../../../container/Panel';
 
 interface MobileNavigationProps {
   storyTitle?: string | null | undefined;
+  sidebar?: React.ReactNode;
+  panel?: React.ReactNode;
 }
 
-export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle }) => {
+export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle, sidebar, panel }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isAddonsOpen, setAddonsOpen] = useState(false);
   const [isAboutOpen, setAboutOpen] = useState(false);
@@ -23,10 +24,6 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle }) => {
     }, 300);
   };
 
-  const closeAddons = () => {
-    setAddonsOpen(false);
-  };
-
   return (
     <Container>
       <MobileMenuDrawer
@@ -34,10 +31,10 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ storyTitle }) => {
         isAboutOpen={isAboutOpen}
         setAboutOpen={setAboutOpen}
         closeMenu={closeMenu}
-      />
-      <MobileAddonsDrawer isAddonsOpen={isAddonsOpen}>
-        <Panel closeAddonsOnMobile={closeAddons} />
-      </MobileAddonsDrawer>
+      >
+        {sidebar}
+      </MobileMenuDrawer>
+      <MobileAddonsDrawer isAddonsOpen={isAddonsOpen}>{panel}</MobileAddonsDrawer>
       <Button onClick={() => setMenuOpen(!isMenuOpen)}>
         <Icons icon="menu" />
         {storyTitle || 'Story'}

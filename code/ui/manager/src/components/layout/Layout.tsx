@@ -163,7 +163,13 @@ export const Layout = ({
           )}
         </>
       )}
-      {isMobile && <MobileNavigation storyTitle={storyTitle} />}
+      {isMobile && (
+        <MobileNavigation
+          storyTitle={storyTitle}
+          sidebar={slots.slotSidebar}
+          panel={slots.slotPanel}
+        />
+      )}
     </LayoutContainer>
   );
 };

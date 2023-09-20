@@ -4,7 +4,6 @@ import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
 import { MobileAbout } from '../about/MobileAbout';
-import Sidebar from '../../../container/Sidebar';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
 
 interface MobileMenuDrawerProps {
@@ -12,6 +11,7 @@ interface MobileMenuDrawerProps {
   isAboutOpen: boolean;
   setAboutOpen: (open: boolean) => void;
   closeMenu: () => void;
+  children?: React.ReactNode;
 }
 
 export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
@@ -19,6 +19,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
   isAboutOpen,
   setAboutOpen,
   closeMenu,
+  children,
 }) => {
   const containerRef = useRef(null);
   const sidebarRef = useRef(null);
@@ -38,7 +39,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
             <Transition nodeRef={sidebarRef} in={!isAboutOpen} timeout={MOBILE_TRANSITION_DURATION}>
               {(sidebarState) => (
                 <SidebarContainer ref={sidebarRef} state={sidebarState}>
-                  <Sidebar setAboutOpen={setAboutOpen} />
+                  {children}
                 </SidebarContainer>
               )}
             </Transition>
