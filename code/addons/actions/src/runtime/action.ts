@@ -1,5 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import { v4 as uuidv4 } from 'uuid';
+import type { PreviewWeb } from '@storybook/preview-api';
 import { addons } from '@storybook/preview-api';
+import type { Renderer } from '@storybook/types';
+import { global } from '@storybook/global';
 import { EVENT_ID } from '../constants';
 import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';
@@ -46,6 +50,22 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
   };
 
   const handler = function actionHandler(...args: any[]) {
+    if (options.implicit) {
+      const preview =
+        '__STORYBOOK_PREVIEW__' in global
+          ? (global.__STORYBOOK_PREVIEW__ as PreviewWeb<Renderer>)
+          : undefined;
+      if (
+        preview?.storyRenders.some(
+          (render) => render.phase === 'playing' || render.phase === 'rendering'
+        )
+      ) {
+        console.warn(
+          'Can not use implicit actions during rendering or playing of a story. \nSee: [docs page]'
+        );
+      }
+    }
+
     const channel = addons.getChannel();
     const id = uuidv4();
     const minDepth = 5; // anything less is really just storybook internals

@@ -32,7 +32,7 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer<Renderer> = (context) =
 
   return argTypesMatchingRegex.reduce((acc, [name, argType]) => {
     if (isInInitialArgs(name, initialArgs)) {
-      acc[name] = action(name);
+      acc[name] = action(name, { implicit: true });
     }
     return acc;
   }, {} as Args);
