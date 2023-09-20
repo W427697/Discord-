@@ -13,7 +13,6 @@ import type {
 // eslint-disable-next-line import/no-cycle
 import {
   transformSetStoriesStoryDataToPreparedStoryIndex,
-  transformSetStoriesStoryDataToStoriesHash,
   transformStoryIndexToStoriesHash,
 } from '../lib/stories';
 
