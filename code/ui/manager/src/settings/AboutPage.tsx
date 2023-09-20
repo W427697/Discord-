@@ -18,7 +18,7 @@ class NotificationClearer extends Component<{ api: API; notificationId: string }
   }
 }
 
-const AboutPage: FC = () => {
+export const AboutPage: FC = () => {
   const api = useStorybookApi();
   const state = useStorybookState();
 
@@ -35,5 +35,3 @@ const AboutPage: FC = () => {
     </NotificationClearer>
   );
 };
-
-export { AboutPage };

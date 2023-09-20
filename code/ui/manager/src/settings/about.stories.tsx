@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { AboutScreen } from './About';
+import UpgradeBlockStoriesMeta from '../components/upgrade/UpgradeBlock.stories';
 
 const meta = {
   component: AboutScreen,
   title: 'Settings/AboutScreen',
   decorators: [
+    UpgradeBlockStoriesMeta.decorators[0],
     (Story) => (
       <div
         style={{
