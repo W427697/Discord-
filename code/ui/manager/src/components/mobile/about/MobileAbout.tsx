@@ -3,8 +3,8 @@ import React, { useRef } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 import { styled } from '@storybook/theming';
 import { Button, Icons, Link } from '@storybook/components';
-import { UpgradeBlock } from '../upgrade-block/UpgradeBlock';
-import { MOBILE_TRANSITION_DURATION } from '../../constants';
+import { UpgradeBlock } from '../../upgrade-block/UpgradeBlock';
+import { MOBILE_TRANSITION_DURATION } from '../../../constants';
 
 interface MobileAboutProps {
   isAboutOpen: boolean;

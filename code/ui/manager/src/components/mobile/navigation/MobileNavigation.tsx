@@ -5,7 +5,7 @@ import { useStorybookApi } from '@storybook/manager-api';
 import { Button, IconButton, Icons } from '@storybook/components';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
-import Panel from '../../container/Panel';
+import Panel from '../../../container/Panel';
 
 export const MobileNavigation: FC = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);

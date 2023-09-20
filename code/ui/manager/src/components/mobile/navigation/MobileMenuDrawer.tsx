@@ -3,9 +3,9 @@ import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
-import { MobileAbout } from '../mobile-about/MobileAbout';
-import Sidebar from '../../container/Sidebar';
-import { MOBILE_TRANSITION_DURATION } from '../../constants';
+import { MobileAbout } from '../about/MobileAbout';
+import Sidebar from '../../../container/Sidebar';
+import { MOBILE_TRANSITION_DURATION } from '../../../constants';
 
 interface MobileMenuDrawerProps {
   isMenuOpen: boolean;
@@ -38,7 +38,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
             <Transition nodeRef={sidebarRef} in={!isAboutOpen} timeout={MOBILE_TRANSITION_DURATION}>
               {(sidebarState) => (
                 <SidebarContainer ref={sidebarRef} state={sidebarState}>
-                  <Sidebar isAboutOpen={isAboutOpen} setAboutOpen={setAboutOpen} />
+                  <Sidebar setAboutOpen={setAboutOpen} />
                 </SidebarContainer>
               )}
             </Transition>
