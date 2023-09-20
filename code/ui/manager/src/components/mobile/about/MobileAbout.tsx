@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 import { styled } from '@storybook/theming';
 import { Icons, Link } from '@storybook/components';
-import { UpgradeBlock } from '../../upgrade-block/UpgradeBlock';
+import { UpgradeBlock } from '../../upgrade/UpgradeBlock';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
 
 interface MobileAboutProps {
@@ -134,4 +134,6 @@ const Button = styled.button(({ theme }) => ({
   alignItems: 'center',
   gap: 10,
   color: theme.color.defaultText,
+  fontSize: theme.typography.size.s2 - 1,
+  padding: '0 10px',
 }));

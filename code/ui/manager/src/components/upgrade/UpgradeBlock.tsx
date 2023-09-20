@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import { useStorybookApi } from '@storybook/manager-api';
-import { Button, Link } from '@storybook/components';
+import { Link } from '@storybook/components';
 
 interface UpgradeBlockProps {
   onNavigateToWhatsNew?: () => void;
@@ -17,12 +17,12 @@ export const UpgradeBlock: FC<UpgradeBlockProps> = ({ onNavigateToWhatsNew }) =>
       <strong>You are on Storybook {api.getCurrentVersion().version}</strong>
       <p>Run the following script to check for updates and upgrade to the latest version.</p>
       <Tabs>
-        <Button primary={activeTab === 'npm'} onClick={() => setActiveTab('npm')}>
+        <ButtonTab active={activeTab === 'npm'} onClick={() => setActiveTab('npm')}>
           npm
-        </Button>
-        <Button primary={activeTab === 'pnpm'} onClick={() => setActiveTab('pnpm')}>
+        </ButtonTab>
+        <ButtonTab active={activeTab === 'pnpm'} onClick={() => setActiveTab('pnpm')}>
           pnpm
-        </Button>
+        </ButtonTab>
       </Tabs>
       <Code>
         {activeTab === 'npm' ? 'npx storybook@latest upgrade' : 'pnpm dlx storybook@latest upgrade'}
@@ -55,4 +55,17 @@ const Code = styled.pre(({ theme }) => ({
   background: theme.base === 'light' ? 'rgba(0, 0, 0, 0.05)' : theme.appBorderColor,
   fontSize: theme.typography.size.s2 - 1,
   margin: '4px 0 16px',
+}));
+
+const ButtonTab = styled.button<{ active: boolean }>(({ theme, active }) => ({
+  all: 'unset',
+  alignItems: 'center',
+  gap: 10,
+  color: theme.color.defaultText,
+  fontSize: theme.typography.size.s2 - 1,
+  borderBottom: '2px solid transparent',
+  borderBottomColor: active ? theme.color.secondary : 'none',
+  padding: '0 10px 5px',
+  marginBottom: '5px',
+  cursor: 'pointer',
 }));
