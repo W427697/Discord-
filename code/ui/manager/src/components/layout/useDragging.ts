@@ -22,10 +22,15 @@ function interpolate(relativeValue: number, min: number, max: number): number {
   return min + (max - min) * relativeValue;
 }
 
-export function useDragging(
-  setState: Dispatch<SetStateAction<LayoutState>>,
-  isPanelShown: boolean
-) {
+export function useDragging({
+  setState,
+  isPanelShown,
+  isDesktop,
+}: {
+  setState: Dispatch<SetStateAction<LayoutState>>;
+  isPanelShown: boolean;
+  isDesktop: boolean;
+}) {
   const panelResizerRef = useRef<HTMLDivElement>(null);
   const sidebarResizerRef = useRef<HTMLDivElement>(null);
 
@@ -176,7 +181,9 @@ export function useDragging(
       previewIframe?.removeAttribute('style');
     };
   }, [
-    isPanelShown, // we need to rerun this effect when the panel is shown/hidden to re-attach the event listeners
+    // we need to rerun this effect when the panel is shown/hidden or when changing between mobile/desktop to re-attach the event listeners
+    isPanelShown,
+    isDesktop,
     setState,
   ]);
 
