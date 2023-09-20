@@ -10,9 +10,10 @@ import { useMobileLayoutContext } from '../MobileLayoutProvider';
 interface MobileNavigationProps {
   menu?: React.ReactNode;
   panel?: React.ReactNode;
+  showPanel: boolean;
 }
 
-export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel }) => {
+export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showPanel }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
   const storyTitle = useStorybookApi().getCurrentStoryData()?.title;
@@ -32,9 +33,11 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel }) => 
         <Icons icon="menu" />
         {storyTitle || ''}
       </Button>
-      <DrawerIconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
-        <Icons icon="bottombartoggle" />
-      </DrawerIconButton>
+      {showPanel && (
+        <DrawerIconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
+          <Icons icon="bottombartoggle" />
+        </DrawerIconButton>
+      )}
     </Container>
   );
 };

@@ -157,7 +157,9 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
           )}
         </>
       )}
-      {isMobile && <MobileNavigation menu={slots.slotSidebar} panel={slots.slotPanel} />}
+      {isMobile && (
+        <MobileNavigation menu={slots.slotSidebar} panel={slots.slotPanel} showPanel={showPanel} />
+      )}
     </LayoutContainer>
   );
 };

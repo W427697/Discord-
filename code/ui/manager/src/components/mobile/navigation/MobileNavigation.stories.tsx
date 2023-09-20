@@ -52,6 +52,7 @@ const meta = {
   args: {
     menu: <div>navigation menu</div>,
     panel: <MockPanel />,
+    showPanel: true,
   },
 } satisfies Meta<typeof MobileNavigation>;
 
@@ -59,9 +60,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  parameters: {},
-};
+export const Default: Story = {};
 
 export const MenuOpen: Story = {
   play: async ({ canvasElement }) => {
@@ -92,5 +91,11 @@ export const PanelClosed: Story = {
     await new Promise((resolve) => setTimeout(resolve, 500));
     const closeButton = await within(context.canvasElement).getByTitle('Close addon panel');
     await closeButton.click();
+  },
+};
+
+export const PanelDisabled: Story = {
+  args: {
+    showPanel: false,
   },
 };

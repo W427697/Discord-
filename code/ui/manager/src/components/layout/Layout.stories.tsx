@@ -6,6 +6,7 @@ import { styled } from '@storybook/theming';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ManagerContext } from '@storybook/manager-api';
 import { Layout } from './Layout';
+import { MobileLayoutProvider } from '../mobile/MobileLayoutProvider';
 
 const PlaceholderBlock = styled.div({
   width: '100%',
@@ -75,7 +76,7 @@ const meta = {
           } as any
         }
       >
-        {storyFn()}
+        <MobileLayoutProvider>{storyFn()}</MobileLayoutProvider>
       </ManagerContext.Provider>
     ),
   ],
@@ -129,38 +130,17 @@ export const Mobile = {
     chromatic: { viewports: [320] },
   },
 };
-export const MobileHorizontal = {
-  args: {
-    state: { ...defaultState, panelPosition: 'right' },
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-    chromatic: { viewports: [320] },
-  },
-};
 
 export const MobileDocs = {
+  ...Mobile,
   args: {
     state: { ...defaultState, viewMode: 'docs' },
   },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-    chromatic: { viewports: [320] },
-  },
 };
 
-export const MobileCustom = {
+export const MobilePages = {
+  ...Mobile,
   args: {
-    state: { ...defaultState, viewMode: 'custom' },
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-    chromatic: { viewports: [320] },
+    state: { ...defaultState, viewMode: 'settings' },
   },
 };
