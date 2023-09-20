@@ -10,9 +10,9 @@ Stories isolate and capture component states in a structured manner. While devel
 
 For example, clicking a button to open/close a dialog box, dragging a list item to reorder it, or filling out a form to check for validation errors. To test those behaviors, you have to interact with the components as a user would. Interactive stories enable you to automate these interactions using a play function. They are small snippets of code that run once the story finishes rendering, emulating the exact steps a user would take to interact with the component.
 
-### Powered by Testing Library and Jest
+### Powered by Testing Library and Vitest
 
-The interactions are written using a Storybook-instrumented version of [Testing Library](https://testing-library.com/) and [Jest](https://jestjs.io/). That gives you a familiar developer-friendly syntax to interact with the DOM and make assertions, but with extra telemetry to help with debugging.
+The interactions are written using a package called `@storybook/test`. It provides Storybook-instrumented versions of [Testing Library](https://testing-library.com/) and [Vitest](https://vitest.dev). That gives you a familiar developer-friendly syntax to interact with the DOM and make assertions, but with extra telemetry to help with debugging.
 
 ## Set up the interactions addon
 
@@ -47,7 +47,7 @@ Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-
 
 <div class="aside">
 
-💡 Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
+💡 Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon.
 
 </div>
 
@@ -59,7 +59,7 @@ Now when you run Storybook, the Interactions addon will be enabled.
 
 Interactions run as part of the `play` function of your stories. We rely on Testing Library to do the heavy lifting.
 
-Make sure to import the Storybook wrappers for Jest and Testing Library rather than importing Jest and Testing Library directly.
+Make sure to import the Storybook wrappers for Vitest and Testing Library via `@storybook/test` rather than importing the original packages directly.
 
 <!-- prettier-ignore-start -->
 
@@ -81,10 +81,4 @@ The above example uses the `canvasElement` to scope your element queries to the 
 
 While you can refer to the [Testing Library documentation](https://testing-library.com/docs/) for details on how to use it, there's an important detail that's different when using the Storybook wrapper: **method invocations must be `await`-ed**. It allows you to step back and forth through your interactions using the debugger.
 
-Any `args` that have been marked as an Action, either using the [argTypes annotation](./actions.md#action-argtype-annotation) or the [argTypesRegex](./actions.md#automatically-matching-args), will be automatically converted to a [Jest mock function](https://jestjs.io/docs/mock-function-api) (spy). This allows you to make assertions about calls to these functions.
-
-<div class="aside">
-
-ℹ️ To mock functions in your Storybook stories for reliable and isolated component testing, use the `jest` import from `@storybook/jest`. This allows you to avoid configuring Jest globally in your project.
-
-</div>
+In the example above, the `fn` helper is used in the arg, which maps to [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn), a Vitest spy utility that allows you to make assertions about calls to these functions. This makes it possible to assert whether the function of that arg was called during the play function.
