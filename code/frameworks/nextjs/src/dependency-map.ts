@@ -6,10 +6,10 @@ const mapping: Record<string, Record<string, string>> = {
   '<11.1.0': {
     'next/dist/next-server/lib/router-context': 'next/dist/next-server/lib/router-context',
   },
-  '>11.1.0': {
+  '>=11.1.0': {
     'next/dist/shared/lib/router-context': 'next/dist/shared/lib/router-context',
   },
-  '>13.5.0': {
+  '>=13.5.0': {
     'next/dist/shared/lib/router-context': 'next/dist/shared/lib/router-context.shared-runtime',
     'next/dist/shared/lib/head-manager-context':
       'next/dist/shared/lib/head-manager-context.shared-runtime',
