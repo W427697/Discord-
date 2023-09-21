@@ -119,14 +119,6 @@ async function handleRequest(
 
     return json as API_SetRefData;
   } catch (err) {
-    if (err instanceof SyntaxError) {
-      return {
-        indexError: {
-          message: err.message,
-        } as Error,
-      };
-    }
-
     return { indexError: err as Error };
   }
 }

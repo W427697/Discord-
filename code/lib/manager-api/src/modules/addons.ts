@@ -69,7 +69,7 @@ export interface SubAPI {
    */
   setAddonState<S>(
     addonId: string,
-    newStateOrMerger: S | API_StateMerger<S>,
+    newStateOrMerger?: S | API_StateMerger<S>,
     options?: Options
   ): Promise<S>;
   /**
@@ -134,7 +134,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
     },
     setAddonState<S>(
       addonId: string,
-      newStateOrMerger: S | API_StateMerger<S>,
+      newStateOrMerger?: S | API_StateMerger<S>,
       options?: Options
     ): Promise<S> {
       let nextState;
