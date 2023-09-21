@@ -79,7 +79,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
   };
 
   return {
-    state: { settings: { lastTrackedStoryId: null } },
+    state: { settings: { lastTrackedStoryId: '' } },
     api,
   };
 };

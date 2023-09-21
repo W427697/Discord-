@@ -61,7 +61,11 @@ export class AddonStore {
   getChannel = (): Channel => {
     // this.channel should get overwritten by setChannel. If it wasn't called (e.g. in non-browser environment), set a mock instead.
     if (!this.channel) {
-      this.setChannel(mockChannel());
+      const nextChannel = mockChannel();
+
+      this.setChannel(nextChannel);
+
+      return nextChannel;
     }
 
     return this.channel;

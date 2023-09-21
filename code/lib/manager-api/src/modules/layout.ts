@@ -285,7 +285,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     state: merge(api.getInitialOptions(), persisted),
     init: () => {
       api.setOptions(merge(api.getInitialOptions(), persisted));
-      provider.channel.on(SET_CONFIG, () => {
+      provider.channel?.on(SET_CONFIG, () => {
         api.setOptions(merge(api.getInitialOptions(), persisted));
       });
     },

@@ -5,7 +5,7 @@ import type { API_ComposedRef } from '@storybook/types';
 import { getSourceType } from '../modules/refs';
 import type { API } from '../index';
 
-interface Meta {
+export interface Meta {
   ref?: API_ComposedRef;
   source?: string;
   sourceType?: 'local' | 'external';

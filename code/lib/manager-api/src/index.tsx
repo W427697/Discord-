@@ -75,7 +75,7 @@ export { default as merge } from './lib/merge';
 export type { Options as StoreOptions, Listener as ChannelListener };
 export { ActiveTabs };
 
-export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
+export const ManagerContext = createContext({ api: {} as API, state: getInitialState({}) });
 
 export type State = layout.SubState &
   stories.SubState &
@@ -200,7 +200,10 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     );
 
     // Create our initial state by combining the initial state of all modules, then overlaying any saved state
-    const state = getInitialState(this.state, ...this.modules.map((m) => m.state));
+    const state = getInitialState(
+      this.state,
+      this.modules.map((m) => m.state as State)
+    );
 
     // Get our API by combining the APIs exported by each module
     const api: API = Object.assign(this.api, { navigate }, ...this.modules.map((m) => m.api));
@@ -209,7 +212,9 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     this.api = api;
   }
 
-  static getDerivedStateFromProps(props: ManagerProviderProps, state: State): State {
+  static getDerivedStateFromProps(props: ManagerProviderProps, state: State): State | null {
+    if (!props.storyId) throw new Error('StoryId cannot be undefined');
+
     if (state.path !== props.path) {
       return {
         ...state,
@@ -241,7 +246,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
     // a chance to do things that call other modules' APIs.
     this.modules.forEach((module) => {
       if ('init' in module) {
-        module.init();
+        module.init?.();
       }
     });
   };
@@ -283,7 +288,7 @@ interface ManagerConsumerProps<P = unknown> {
 
 const defaultFilter = (c: Combo) => c;
 
-function ManagerConsumer<P = Combo>({
+function ManagerConsumer<P extends object = Combo>({
   // @ts-expect-error (Converted from ts-ignore)
   filter = defaultFilter,
   children,
@@ -299,7 +304,9 @@ function ManagerConsumer<P = Combo>({
   const data = filterer.current(c);
 
   const l = useMemo(() => {
-    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
+    return [
+      ...Object.entries(data as object).reduce<unknown[]>((acc, keyval) => acc.concat(keyval), []),
+    ];
   }, [c.state]);
 
   return useMemo(() => {
@@ -375,14 +382,14 @@ export const useChannel = (eventMap: API_EventMap, deps: any[] = []) => {
 
 export function useStoryPrepared(storyId?: StoryId) {
   const api = useStorybookApi();
-  return api.isPrepared(storyId);
+  return storyId ? api.isPrepared(storyId) : undefined;
 }
 
-export function useParameter<S>(parameterKey: string, defaultValue?: S) {
+export function useParameter<S>(parameterKey: string, defaultValue: S) {
   const api = useStorybookApi();
 
   const result = api.getCurrentParameter<S>(parameterKey);
-  return orDefault<S>(result, defaultValue);
+  return orDefault<S>(result, defaultValue as S);
 }
 
 // cache for taking care of HMR
@@ -472,7 +479,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
-  const args = data?.type === 'story' ? data.args : {};
+  const args = data?.type === 'story' ? data.args ?? {} : {};
   const updateArgs = useCallback(
     (newArgs: Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]
@@ -494,7 +501,7 @@ export function useGlobalTypes(): ArgTypes {
   return useStorybookApi().getGlobalTypes();
 }
 
-function useCurrentStory(): API_StoryEntry | API_DocsEntry {
+function useCurrentStory(): API_StoryEntry | API_DocsEntry | undefined {
   const { getCurrentStoryData } = useStorybookApi();
 
   return getCurrentStoryData();

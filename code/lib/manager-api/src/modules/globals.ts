@@ -5,6 +5,7 @@ import type { SetGlobalsPayload, Globals, GlobalTypes } from '@storybook/types';
 
 import type { ModuleFn } from '../lib/types';
 
+import type { Meta } from '../lib/events';
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
 
@@ -35,14 +36,14 @@ export interface SubAPI {
 export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) => {
   const api: SubAPI = {
     getGlobals() {
-      return store.getState().globals;
+      return store.getState().globals as Globals;
     },
     getGlobalTypes() {
-      return store.getState().globalTypes;
+      return store.getState().globalTypes as GlobalTypes;
     },
     updateGlobals(newGlobals) {
       // Only emit the message to the local ref
-      provider.channel.emit(UPDATE_GLOBALS, {
+      provider.channel?.emit(UPDATE_GLOBALS, {
         globals: newGlobals,
         options: {
           target: 'storybook-preview-iframe',
@@ -62,32 +63,39 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, fullAPI, provider }) =
     }
   };
 
-  provider.channel.on(
+  provider.channel?.on(
     GLOBALS_UPDATED,
-    function handleGlobalsUpdated({ globals }: { globals: Globals }) {
-      const { ref } = getEventMetadata(this, fullAPI);
+    function handleGlobalsUpdated(this: Meta, { globals }: { globals: Globals }) {
+      const metadata = getEventMetadata(this, fullAPI);
 
-      if (!ref) {
-        updateGlobals(globals);
-      } else {
-        logger.warn(
-          'received a GLOBALS_UPDATED from a non-local ref. This is not currently supported.'
-        );
+      if (metadata) {
+        const { ref } = metadata;
+        if (!ref) {
+          updateGlobals(globals);
+        } else {
+          logger.warn(
+            'received a GLOBALS_UPDATED from a non-local ref. This is not currently supported.'
+          );
+        }
       }
     }
   );
 
   // Emitted by the preview on initialization
-  provider.channel.on(
+  provider.channel?.on(
     SET_GLOBALS,
-    function handleSetStories({ globals, globalTypes }: SetGlobalsPayload) {
-      const { ref } = getEventMetadata(this, fullAPI);
+    function handleSetStories(this: Meta, { globals, globalTypes }: SetGlobalsPayload) {
+      const metadata = getEventMetadata(this, fullAPI);
+
       const currentGlobals = store.getState()?.globals;
 
-      if (!ref) {
-        store.setState({ globals, globalTypes });
-      } else if (Object.keys(globals).length > 0) {
-        logger.warn('received globals from a non-local ref. This is not currently supported.');
+      if (metadata) {
+        const { ref } = metadata;
+        if (!ref) {
+          store.setState({ globals, globalTypes });
+        } else if (Object.keys(globals).length > 0) {
+          logger.warn('received globals from a non-local ref. This is not currently supported.');
+        }
       }
 
       if (

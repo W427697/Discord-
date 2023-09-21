@@ -14,7 +14,7 @@ export const isMacLike = () =>
   navigator && navigator.platform ? !!navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i) : false;
 export const controlOrMetaKey = () => (isMacLike() ? 'meta' : 'control');
 
-export function keys<O>(o: O) {
+export function keys<O extends object>(o: O) {
   return Object.keys(o) as (keyof O)[];
 }
 
@@ -215,9 +215,11 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
       const shortcut = eventToShortcut(event);
       const shortcuts = api.getShortcutKeys();
       const actions = keys(shortcuts);
-      const matchedFeature = actions.find((feature: API_Action) =>
-        shortcutMatchesShortcut(shortcut, shortcuts[feature])
-      );
+      const matchedFeature =
+        !!shortcut &&
+        actions.find((feature: API_Action) =>
+          shortcutMatchesShortcut(shortcut, shortcuts[feature])
+        );
       if (matchedFeature) {
         api.handleShortcutFeature(matchedFeature, event);
       }
@@ -276,7 +278,7 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
           if (element) {
             try {
               // should be like a channel message and all that, but yolo for now
-              element.contentWindow.focus();
+              element.contentWindow?.focus();
             } catch (e) {
               //
             }
@@ -403,7 +405,7 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
     });
 
     // Also listen to keydown events sent over the channel
-    provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
+    provider.channel?.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
       api.handleKeydownEvent(data.event);
     });
   };

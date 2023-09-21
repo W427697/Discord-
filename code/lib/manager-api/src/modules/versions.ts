@@ -29,13 +29,13 @@ export interface SubAPI {
    *
    * @returns {API_Version} The current version of the Storybook Manager.
    */
-  getCurrentVersion: () => API_Version;
+  getCurrentVersion: () => API_Version | undefined;
   /**
    * Returns the latest version of the Storybook Manager.
    *
    * @returns {API_Version} The latest version of the Storybook Manager.
    */
-  getLatestVersion: () => API_Version;
+  getLatestVersion: () => API_Version | undefined;
   /**
    * Checks if an update is available for the Storybook Manager.
    *
@@ -81,7 +81,7 @@ export const init: ModuleFn = ({ store }) => {
         if (!latest.version) {
           return true;
         }
-        if (!current.version) {
+        if (!current?.version) {
           return true;
         }
 
@@ -96,7 +96,7 @@ export const init: ModuleFn = ({ store }) => {
         const diff = semver.diff(actualCurrent, latest.version);
 
         return (
-          semver.gt(latest.version, actualCurrent) && diff !== 'patch' && !diff.includes('pre')
+          semver.gt(latest.version, actualCurrent) && diff !== 'patch' && !diff?.includes('pre')
         );
       }
       return false;
@@ -107,10 +107,8 @@ export const init: ModuleFn = ({ store }) => {
   const initModule = async () => {
     const { versions = {} } = store.getState();
 
-    const { latest, next } = getVersionCheckData();
-
     await store.setState({
-      versions: { ...versions, latest, next },
+      versions: { ...versions, ...getVersionCheckData() },
     });
   };
 

@@ -21,6 +21,7 @@ import type {
   API_HashEntry,
   SetStoriesPayload,
   StoryIndexV2,
+  API_PreparedIndexEntry,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters, type State } from '../index';
@@ -121,7 +122,7 @@ export const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStor
         type,
         ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
         ...entry,
-      };
+      } as API_PreparedIndexEntry;
 
       // @ts-expect-error (we're removing something that should not be there)
       delete acc[entry.id].story;
@@ -185,7 +186,7 @@ export const transformStoryIndexToStoriesHash = (
     // Now create a "path" or sub id for each name
     const paths = names.reduce((list, name, idx) => {
       const parent = idx > 0 && list[idx - 1];
-      const id = sanitize(parent ? `${parent}-${name}` : name);
+      const id = sanitize(parent ? `${parent}-${name}` : `${name}`);
 
       if (parent === id) {
         throw new Error(
@@ -206,21 +207,24 @@ export const transformStoryIndexToStoriesHash = (
       const childId = paths[idx + 1] || item.id;
 
       if (root.length && idx === 0) {
-        acc[id] = merge<API_RootEntry>((acc[id] || {}) as API_RootEntry, {
-          type: 'root',
-          id,
-          name: names[idx],
-          depth: idx,
-          renderLabel,
-          startCollapsed: collapsedRoots.includes(id),
-          // Note that this will later get appended to the previous list of children (see below)
-          children: [childId],
+        acc[id] = merge<API_RootEntry>(
+          (acc[id] || {}) as API_RootEntry,
+          {
+            type: 'root',
+            id,
+            name: names[idx],
+            depth: idx,
+            renderLabel,
+            startCollapsed: collapsedRoots.includes(id),
+            // Note that this will later get appended to the previous list of children (see below)
+            children: [childId],
 
-          // deprecated fields
-          isRoot: true,
-          isComponent: false,
-          isLeaf: false,
-        });
+            // deprecated fields
+            isRoot: true,
+            isComponent: false,
+            isLeaf: false,
+          } as API_RootEntry
+        );
         // Usually the last path/name pair will be displayed as a component,
         // *unless* there are other stories that are more deeply nested under it
         //
@@ -230,43 +234,48 @@ export const transformStoryIndexToStoriesHash = (
         //
         // In this example the entry for 'atoms-button' would *not* be a component.
       } else if ((!acc[id] || acc[id].type === 'component') && idx === paths.length - 1) {
-        acc[id] = merge<API_ComponentEntry>((acc[id] || {}) as API_ComponentEntry, {
-          type: 'component',
-          id,
-          name: names[idx],
-          parent: paths[idx - 1],
-          depth: idx,
-          renderLabel,
-          ...(childId && {
-            children: [childId],
-          }),
-          // deprecated fields
-          isRoot: false,
-          isComponent: true,
-          isLeaf: false,
-        });
+        acc[id] = merge<API_ComponentEntry>(
+          (acc[id] || {}) as API_ComponentEntry,
+          {
+            type: 'component',
+            id,
+            name: names[idx],
+            parent: paths[idx - 1],
+            depth: idx,
+            renderLabel,
+            ...(childId && {
+              children: [childId],
+            }),
+            // deprecated fields
+            isRoot: false,
+            isComponent: true,
+            isLeaf: false,
+          } as API_ComponentEntry
+        );
       } else {
-        acc[id] = merge<API_GroupEntry>((acc[id] || {}) as API_GroupEntry, {
-          type: 'group',
-          id,
-          name: names[idx],
-          parent: paths[idx - 1],
-          depth: idx,
-          renderLabel,
-          ...(childId && {
-            children: [childId],
-          }),
-          // deprecated fields
-          isRoot: false,
-          isComponent: false,
-          isLeaf: false,
-        });
+        acc[id] = merge<API_GroupEntry>(
+          (acc[id] || {}) as API_GroupEntry,
+          {
+            type: 'group',
+            id,
+            name: names[idx],
+            parent: paths[idx - 1],
+            depth: idx,
+            renderLabel,
+            ...(childId && {
+              children: [childId],
+            }),
+            // deprecated fields
+            isRoot: false,
+            isComponent: false,
+            isLeaf: false,
+          } as API_GroupEntry
+        );
       }
     });
 
     // Finally add an entry for the docs/story itself
     acc[item.id] = {
-      type: 'story',
       ...item,
       depth: paths.length,
       parent: paths[paths.length - 1],

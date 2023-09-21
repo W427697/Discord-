@@ -11,7 +11,7 @@ import type { ModuleFn } from '../lib/types';
 import type { Options } from '../store';
 
 export interface SubState {
-  selectedPanel: string;
+  selectedPanel: string | undefined;
   addons: Record<string, never>;
 }
 
@@ -51,7 +51,7 @@ export interface SubAPI {
    * Returns the id of the currently selected panel.
    * @returns {string} - The ID of the currently selected panel.
    */
-  getSelectedPanel: () => string;
+  getSelectedPanel: () => string | undefined;
   /**
    * Sets the currently selected panel via it's ID.
    * @param {string} panelName - The ID of the panel to select.
@@ -84,6 +84,10 @@ export interface SubAPI {
 
 export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
   const keys = Object.keys(panels);
+
+  if (typeof selectedPanel === 'undefined') {
+    return currentPanel;
+  }
 
   if (keys.indexOf(selectedPanel) >= 0) {
     return selectedPanel;

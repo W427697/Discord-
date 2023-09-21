@@ -32,7 +32,7 @@ export interface SubAPI {
    * @param {string} source - The source/URL of the composed ref.
    * @returns {API_ComposedRef} - The composed ref object.
    */
-  findRef: (source: string) => API_ComposedRef;
+  findRef: (source: string | null) => API_ComposedRef | undefined;
   /**
    * Sets a composed ref by its ID and data.
    * @param {string} id - The ID of the composed ref.
@@ -71,7 +71,11 @@ export interface SubAPI {
   changeRefState: (id: string, previewInitialized: boolean) => void;
 }
 
-export const getSourceType = (source: string, refId?: string) => {
+export const getSourceType = (source?: string, refId?: string) => {
+  if (typeof source === 'undefined') {
+    return [null, null];
+  }
+
   const { origin: localOrigin, pathname: localPathname } = location;
   const { origin: sourceOrigin, pathname: sourcePathname } = new URL(source);
 
@@ -115,7 +119,15 @@ async function handleRequest(
 
     return json as API_SetRefData;
   } catch (err) {
-    return { indexError: err };
+    if (err instanceof SyntaxError) {
+      return {
+        indexError: {
+          message: err.message,
+        } as Error,
+      };
+    }
+
+    return { indexError: err as Error };
   }
 }
 
@@ -160,6 +172,8 @@ export const init: ModuleFn<SubAPI, SubState> = (
 ) => {
   const api: SubAPI = {
     findRef: (source) => {
+      if (!source) return undefined;
+
       const refs = api.getRefs();
 
       return Object.values(refs).find(({ url }) => url.match(source));
@@ -183,6 +197,8 @@ export const init: ModuleFn<SubAPI, SubState> = (
     checkRef: async (ref) => {
       const { id, url, version, type } = ref;
       const isPublic = type === 'server-checked';
+
+      if (!url || !id) return;
 
       // ref's type starts as either 'unknown' or 'server-checked'
       // "server-checked" happens when we were able to verify the storybook is accessible from node (without cookies)
@@ -279,7 +295,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let index: API_IndexHash;
+      let index: API_IndexHash | undefined;
       if (setStoriesData) {
         index = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
