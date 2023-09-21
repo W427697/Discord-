@@ -68,7 +68,7 @@ If you need more granular control over which `argTypes` are matched, you can adj
 
 <!-- prettier-ignore-end -->
 
-This is quite useful when your component has dozens (or hundreds) of methods and you do not want to manually use the `fn` function for each of those methods. However, **this is not the recommended** way of writing actions, especially if you are using the play function in your stories. That's because automatically inferred args **are not** turned into functions when passed down to the components. As a result, if your component relies on invoking functions passed down via args, they won't exist and your component will fail at rendering.
+This is quite useful when your component has dozens (or hundreds) of methods and you do not want to manually use the `fn` function for each of those methods. However, **this is not the recommended** way of writing actions. That's because automatically inferred args **are not available as spies in your play function**. If you use `argTypesRegex` and your stories have play functions, make sure to always explicitly define args with the `fn` function so you can test them in your play function.
 
 <div class="aside">
 
