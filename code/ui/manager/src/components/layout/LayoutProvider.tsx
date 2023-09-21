@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { createContext, useContext, useState } from 'react';
 import { useMediaQuery } from '../hooks/useMedia';
+import { BREAKPOINT } from '../../constants';
 
 type LayoutContextType = {
   isMobileMenuOpen: boolean;
@@ -28,7 +29,7 @@ export const LayoutProvider: FC = ({ children }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [isMobilePanelOpen, setMobilePanelOpen] = useState(false);
-  const isDesktop = useMediaQuery('(min-width: 600px)');
+  const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINT}px)`);
   const isMobile = !isDesktop;
 
   return (
