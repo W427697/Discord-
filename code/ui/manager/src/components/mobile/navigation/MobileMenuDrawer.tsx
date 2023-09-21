@@ -5,39 +5,36 @@ import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
 import { MobileAbout } from '../about/MobileAbout';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
+import { useMobileLayoutContext } from '../MobileLayoutProvider';
 
 interface MobileMenuDrawerProps {
-  isMenuOpen: boolean;
-  isAboutOpen: boolean;
-  setAboutOpen: (open: boolean) => void;
-  closeMenu: () => void;
   children?: React.ReactNode;
 }
 
-export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
-  isMenuOpen,
-  isAboutOpen,
-  setAboutOpen,
-  closeMenu,
-  children,
-}) => {
+export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const { isMobileMenuOpen, setMobileMenuOpen, isMobileAboutOpen, setMobileAboutOpen } =
+    useMobileLayoutContext();
 
   return (
     <>
       <Transition
         nodeRef={containerRef}
-        in={isMenuOpen}
+        in={isMobileMenuOpen}
         timeout={MOBILE_TRANSITION_DURATION}
         mountOnEnter
         unmountOnExit
-        onExited={() => setAboutOpen(false)}
+        onExited={() => setMobileAboutOpen(false)}
       >
         {(state) => (
           <Container ref={containerRef} state={state}>
-            <Transition nodeRef={sidebarRef} in={!isAboutOpen} timeout={MOBILE_TRANSITION_DURATION}>
+            <Transition
+              nodeRef={sidebarRef}
+              in={!isMobileAboutOpen}
+              timeout={MOBILE_TRANSITION_DURATION}
+            >
               {(sidebarState) => (
                 <SidebarContainer ref={sidebarRef} state={sidebarState}>
                   {children}
@@ -50,7 +47,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
       </Transition>
       <Transition
         nodeRef={overlayRef}
-        in={isMenuOpen}
+        in={isMobileMenuOpen}
         timeout={MOBILE_TRANSITION_DURATION}
         mountOnEnter
         unmountOnExit
@@ -59,7 +56,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({
           <Overlay
             ref={overlayRef}
             state={state}
-            onClick={closeMenu}
+            onClick={() => setMobileMenuOpen(false)}
             aria-label="Close navigation menu"
           />
         )}

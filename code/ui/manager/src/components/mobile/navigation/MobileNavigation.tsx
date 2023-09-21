@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { IconButton, Icons } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
@@ -35,22 +35,14 @@ const useFullStoryName = () => {
 };
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showPanel }) => {
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
+  const { isMobileMenuOpen, setMobileMenuOpen, setMobilePanelOpen } = useMobileLayoutContext();
   const fullStoryName = useFullStoryName();
 
   return (
     <Container>
-      <MobileMenuDrawer
-        isMenuOpen={isMenuOpen}
-        isAboutOpen={isMobileAboutOpen}
-        setAboutOpen={setMobileAboutOpen}
-        closeMenu={() => setMenuOpen(false)}
-      >
-        {menu}
-      </MobileMenuDrawer>
+      <MobileMenuDrawer>{menu}</MobileMenuDrawer>
       <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
-      <Button onClick={() => setMenuOpen(!isMenuOpen)} title="Open navigation menu">
+      <Button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} title="Open navigation menu">
         <Icons icon="menu" />
         {fullStoryName}
       </Button>
