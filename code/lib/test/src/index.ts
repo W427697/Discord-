@@ -17,10 +17,13 @@ channel.on(STORY_RENDER_PHASE_CHANGED, ({ newPhase }) => {
 export const { expect } = instrument(
   { expect: rawExpect },
   {
-    getKeys: (obj: Record<string, unknown>) => {
+    getKeys: (obj: Record<string, unknown>, depth) => {
       const privateApi = ['assert', '__methods', '__flags'];
       if (obj.constructor === chai.Assertion) {
-        return Object.keys(Object.getPrototypeOf(obj)).filter((it) => !privateApi.includes(it));
+        const keys = Object.keys(Object.getPrototypeOf(obj)).filter(
+          (it) => !privateApi.includes(it)
+        );
+        return depth > 2 ? keys : [...keys, 'not'];
       }
       return Object.keys(obj);
     },
