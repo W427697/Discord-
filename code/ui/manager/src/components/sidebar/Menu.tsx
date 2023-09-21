@@ -66,7 +66,7 @@ export const SidebarIconButton: FC<
 
 const MenuButtonGroup = styled.div({
   display: 'flex',
-  gap: 5,
+  gap: 4,
 });
 
 const Img = styled.img(sharedStyles);
@@ -119,7 +119,7 @@ export interface SidebarMenuProps {
 
 export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const { isDesktop } = useLayout();
+  const { isDesktop, setMobileMenuOpen } = useLayout();
 
   if (!isDesktop) {
     return (
@@ -133,8 +133,12 @@ export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick
         >
           <Icons icon="cog" />
         </SidebarIconButton>
-        <CloseIconButton title="Close menu" aria-label="Close menu" onClick={onClick}>
-          <Icons icon="cross" />
+        <CloseIconButton
+          title="Close menu"
+          aria-label="Close menu"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <Icons icon="close" />
         </CloseIconButton>
       </MenuButtonGroup>
     );
