@@ -1,0 +1,12 @@
+```js
+// Button.stories.js|jsx
+
+import { fn } from '@storybook/test';
+import { Button } from './Button';
+
+export default {
+  component: Button,
+  // spies defined via the fn function will appear in the actions panel once invoked
+  args: { onClick: fn() },
+};
+```

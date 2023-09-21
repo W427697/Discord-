@@ -1,0 +1,16 @@
+```ts
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/angular';
+import { fn } from '@storybook/test';
+
+import { Button } from './button.component';
+
+const meta: Meta<Button> = {
+  component: Button,
+  // spies defined via the fn function will appear in the actions panel once invoked
+  args: { onClick: fn() },
+};
+
+export default meta;
+```
