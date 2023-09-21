@@ -5,7 +5,7 @@ import { IconButton, Icons } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
-import { useMobileLayoutContext } from '../MobileLayoutProvider';
+import { useLayout } from '../../layout/LayoutProvider';
 
 interface MobileNavigationProps {
   menu?: React.ReactNode;
@@ -35,7 +35,7 @@ const useFullStoryName = () => {
 };
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showPanel }) => {
-  const { isMobileMenuOpen, setMobileMenuOpen, setMobilePanelOpen } = useMobileLayoutContext();
+  const { isMobileMenuOpen, setMobileMenuOpen, setMobilePanelOpen } = useLayout();
   const fullStoryName = useFullStoryName();
 
   return (

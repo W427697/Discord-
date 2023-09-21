@@ -36,9 +36,7 @@ import {
   getLink,
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
-import { useMediaQuery } from '../hooks/useMedia';
-import { BREAKPOINT_MIN_600 } from '../../constants';
-import { useMobileLayoutContext } from '../mobile/MobileLayoutProvider';
+import { useLayout } from '../layout/LayoutProvider';
 
 export const Action = styled.button<{ height?: number; width?: number }>(
   ({ theme, height, width }) => ({
@@ -204,8 +202,7 @@ const Node = React.memo<NodeProps>(function Node({
   onSelectStoryId,
   api,
 }) {
-  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
-  const { setMobileMenuOpen } = useMobileLayoutContext();
+  const { isDesktop, setMobileMenuOpen } = useLayout();
 
   if (!isDisplayed) {
     return null;

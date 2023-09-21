@@ -3,13 +3,13 @@ import { ManagerContext } from '@storybook/manager-api';
 import React, { useEffect } from 'react';
 import { within } from '@storybook/testing-library';
 import { MobileAbout } from './MobileAbout';
-import { MobileLayoutProvider, useMobileLayoutContext } from '../MobileLayoutProvider';
+import { LayoutProvider, useLayout } from '../../layout/LayoutProvider';
 
 /**
  * A helper component to open the about page via the MobileLayoutContext
  */
 const OpenAboutHelper = ({ children }: { children: any }) => {
-  const { setMobileAboutOpen } = useMobileLayoutContext();
+  const { setMobileAboutOpen } = useLayout();
   useEffect(() => {
     setMobileAboutOpen(true);
   }, [setMobileAboutOpen]);
@@ -41,9 +41,9 @@ const meta = {
             } as any
           }
         >
-          <MobileLayoutProvider>
+          <LayoutProvider>
             <OpenAboutHelper>{storyFn()}</OpenAboutHelper>
-          </MobileLayoutProvider>
+          </LayoutProvider>
         </ManagerContext.Provider>
       );
     },

@@ -2,9 +2,9 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
-import { useMediaQuery } from '../hooks/useMedia';
 import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
-import { BREAKPOINT_MIN_600 } from '../../constants';
+import { MEDIA_MIN_BREAKPOINT } from '../../constants';
+import { useLayout } from './LayoutProvider';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -119,8 +119,7 @@ const useLayoutSyncingState = ({
 };
 
 export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
-  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
-  const isMobile = !isDesktop;
+  const { isDesktop, isMobile } = useLayout();
 
   const {
     navSize,
@@ -179,7 +178,7 @@ const LayoutContainer = styled.div<LayoutState>(
       display: 'flex',
       flexDirection: 'column',
 
-      [`@media ${BREAKPOINT_MIN_600}`]: {
+      [MEDIA_MIN_BREAKPOINT]: {
         display: 'grid',
         gap: 0,
         gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
@@ -215,7 +214,7 @@ const ContentContainer = styled.div(({ theme }) => ({
   backgroundColor: theme.background.content,
   display: 'grid', // This is needed to make the content container fill the available space
 
-  [`@media ${BREAKPOINT_MIN_600}`]: {
+  [MEDIA_MIN_BREAKPOINT]: {
     flex: 'auto',
     gridArea: 'content',
   },

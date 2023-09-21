@@ -5,7 +5,7 @@ import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
 import { MobileAbout } from '../about/MobileAbout';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
-import { useMobileLayoutContext } from '../MobileLayoutProvider';
+import { useLayout } from '../../layout/LayoutProvider';
 
 interface MobileMenuDrawerProps {
   children?: React.ReactNode;
@@ -16,7 +16,7 @@ export const MobileMenuDrawer: FC<MobileMenuDrawerProps> = ({ children }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const { isMobileMenuOpen, setMobileMenuOpen, isMobileAboutOpen, setMobileAboutOpen } =
-    useMobileLayoutContext();
+    useLayout();
 
   return (
     <>
