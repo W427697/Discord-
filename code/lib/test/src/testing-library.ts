@@ -5,7 +5,6 @@ import * as domTestingLibrary from '@testing-library/dom';
 import _userEvent from '@testing-library/user-event';
 import dedent from 'ts-dedent';
 import type { FireFunction, FireObject } from '@testing-library/dom/types/events';
-import type { BoundFunctions } from '@testing-library/dom';
 import type { Promisify, PromisifyObject } from './utils';
 
 type TestingLibraryDom = typeof domTestingLibrary;
@@ -14,17 +13,10 @@ const testingLibrary = instrument(
   { ...domTestingLibrary },
   {
     intercept: (method, path) =>
-      path[0] === 'fireEvent' ||
-      method.startsWith('find') ||
-      method.startsWith('waitFor') ||
-      method.startsWith('query') ||
-      method.startsWith('get'),
+      path[0] === 'fireEvent' || method.startsWith('find') || method.startsWith('waitFor'),
   }
-) as {} as PromisifyObject<Omit<TestingLibraryDom, 'fireEvent' | 'within'>> & {
+) as {} as PromisifyObject<Omit<TestingLibraryDom, 'fireEvent'>> & {
   fireEvent: Promisify<FireFunction> & PromisifyObject<FireObject>;
-  within: (
-    element: HTMLElement
-  ) => PromisifyObject<BoundFunctions<typeof domTestingLibrary.queries>>;
 };
 
 testingLibrary.screen = new Proxy(testingLibrary.screen, {
@@ -105,12 +97,11 @@ export const {
   queryByText,
   queryByTitle,
   queryHelpers,
+  screen,
   waitFor,
   waitForElementToBeRemoved,
   within,
   prettyFormat,
 } = testingLibrary;
-
-export const screen = testingLibrary.screen;
 
 export const { userEvent } = instrument({ userEvent: _userEvent }, { intercept: true });
