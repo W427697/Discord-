@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { Transition } from 'react-transition-group';
 import type { TransitionStatus } from 'react-transition-group/Transition';
-import { useMobileLayoutContext } from '../MobileLayoutProvider';
+import { useLayout } from '../../layout/LayoutProvider';
 
 interface MobileAddonsDrawerProps {
   children: ReactNode;
@@ -38,7 +38,7 @@ const Container = styled.div<{ state: TransitionStatus }>(({ theme, state }) => 
 }));
 
 export const MobileAddonsDrawer: FC<MobileAddonsDrawerProps> = ({ children }) => {
-  const { isMobilePanelOpen } = useMobileLayoutContext();
+  const { isMobilePanelOpen } = useLayout();
   const containerRef = useRef(null);
 
   return (

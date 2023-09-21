@@ -5,10 +5,10 @@ import { styled } from '@storybook/theming';
 import { Icons, Link } from '@storybook/components';
 import { UpgradeBlock } from '../../upgrade/UpgradeBlock';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
-import { useMobileLayoutContext } from '../MobileLayoutProvider';
+import { useLayout } from '../../layout/LayoutProvider';
 
 export const MobileAbout: FC = () => {
-  const { isMobileAboutOpen, setMobileAboutOpen } = useMobileLayoutContext();
+  const { isMobileAboutOpen, setMobileAboutOpen } = useLayout();
   const aboutRef = useRef(null);
 
   return (

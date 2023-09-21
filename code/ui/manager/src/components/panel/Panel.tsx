@@ -5,7 +5,7 @@ import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
 import { useMediaQuery } from '../hooks/useMedia';
 import { BREAKPOINT_MIN_600 } from '../../constants';
-import { useMobileLayoutContext } from '../mobile/MobileLayoutProvider';
+import { useLayout } from '../layout/LayoutProvider';
 
 export interface SafeTabProps {
   title: Addon_BaseType['title'];
@@ -52,7 +52,7 @@ export const AddonPanel = React.memo<{
     absolute = true,
   }) => {
     const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
-    const { setMobilePanelOpen } = useMobileLayoutContext();
+    const { setMobilePanelOpen } = useLayout();
 
     return (
       <Tabs

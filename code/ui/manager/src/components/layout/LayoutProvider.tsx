@@ -1,31 +1,38 @@
 import type { FC } from 'react';
 import React, { createContext, useContext, useState } from 'react';
+import { useMediaQuery } from '../hooks/useMedia';
 
-type MobileLayoutContextType = {
+type LayoutContextType = {
   isMobileMenuOpen: boolean;
   setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isMobileAboutOpen: boolean;
   setMobileAboutOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isMobilePanelOpen: boolean;
   setMobilePanelOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDesktop: boolean;
+  isMobile: boolean;
 };
 
-const MobileLayoutContext = createContext<MobileLayoutContextType>({
+const LayoutContext = createContext<LayoutContextType>({
   isMobileMenuOpen: false,
   setMobileMenuOpen: () => {},
   isMobileAboutOpen: false,
   setMobileAboutOpen: () => {},
   isMobilePanelOpen: false,
   setMobilePanelOpen: () => {},
+  isDesktop: false,
+  isMobile: false,
 });
 
-export const MobileLayoutProvider: FC = ({ children }) => {
+export const LayoutProvider: FC = ({ children }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [isMobilePanelOpen, setMobilePanelOpen] = useState(false);
+  const isDesktop = useMediaQuery('(min-width: 600px)');
+  const isMobile = !isDesktop;
 
   return (
-    <MobileLayoutContext.Provider
+    <LayoutContext.Provider
       value={{
         isMobileMenuOpen,
         setMobileMenuOpen,
@@ -33,11 +40,13 @@ export const MobileLayoutProvider: FC = ({ children }) => {
         setMobileAboutOpen,
         isMobilePanelOpen,
         setMobilePanelOpen,
+        isDesktop,
+        isMobile,
       }}
     >
       {children}
-    </MobileLayoutContext.Provider>
+    </LayoutContext.Provider>
   );
 };
 
-export const useMobileLayoutContext = () => useContext(MobileLayoutContext);
+export const useLayout = () => useContext(LayoutContext);

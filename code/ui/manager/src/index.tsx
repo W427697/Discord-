@@ -16,7 +16,7 @@ import { App } from './App';
 
 import Provider from './provider';
 import { settingsPageAddon } from './settings/index';
-import { MobileLayoutProvider } from './components/mobile/MobileLayoutProvider';
+import { LayoutProvider } from './components/layout/LayoutProvider';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -65,14 +65,14 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
 
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                <MobileLayoutProvider>
+                <LayoutProvider>
                   <App
                     key="app"
                     pages={pages}
                     managerLayoutState={{ ...state.layout, viewMode: state.viewMode }}
                     setManagerLayoutState={setManagerLayoutState}
                   />
-                </MobileLayoutProvider>
+                </LayoutProvider>
               </ThemeProvider>
             );
           }}
