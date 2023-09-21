@@ -397,7 +397,7 @@ globalThis.STORYBOOK_ADDON_STATE = {};
 const { STORYBOOK_ADDON_STATE } = globalThis;
 
 // shared state
-export function useSharedState<S>(stateId: string, defaultState?: S) {
+export function useSharedState<S>(stateId: string, defaultState?: S | API_StateMerger<S>) {
   const api = useStorybookApi();
   const existingState = api.getAddonState<S>(stateId) || STORYBOOK_ADDON_STATE[stateId];
   const state = orDefault<S>(
