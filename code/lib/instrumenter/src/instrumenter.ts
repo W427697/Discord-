@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle,no-param-reassign */
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/preview-api';
 import type { StoryId } from '@storybook/types';
@@ -289,19 +289,34 @@ export class Instrumenter {
   // Traverses the object structure to recursively patch all function properties.
   // Returns the original object, or a new object with the same constructor,
   // depending on whether it should mutate.
-  instrument<TObj extends Record<string, unknown>>(obj: TObj, options: Options): PatchedObj<TObj> {
+  instrument<TObj extends Record<string, unknown>>(
+    obj: TObj,
+    options: Options,
+    depth = 0
+  ): PatchedObj<TObj> {
     if (!isInstrumentable(obj)) return obj as PatchedObj<TObj>;
 
     const { mutate = false, path = [] } = options;
 
-    const keys = options.getKeys ? options.getKeys(obj) : Object.keys(obj);
+    const keys = options.getKeys ? options.getKeys(obj, depth) : Object.keys(obj);
+    depth += 1;
     return keys.reduce(
       (acc, key) => {
         const value = (obj as Record<string, any>)[key];
 
         // Nothing to patch, but might be instrumentable, so we recurse
         if (typeof value !== 'function') {
-          acc[key] = this.instrument(value, { ...options, path: path.concat(key) });
+          const instrumented = this.instrument(
+            value,
+            { ...options, path: path.concat(key) },
+            depth
+          );
+          const descriptor = getPropertyDescriptor(obj, key);
+          if (typeof descriptor?.get === 'function') {
+            Object.defineProperty(acc, key, { get: () => instrumented });
+          } else {
+            acc[key] = instrumented;
+          }
           return acc;
         }
 
@@ -322,7 +337,7 @@ export class Instrumenter {
         if (Object.keys(value).length > 0) {
           Object.assign(
             acc[key],
-            this.instrument({ ...value }, { ...options, path: path.concat(key) })
+            this.instrument({ ...value }, { ...options, path: path.concat(key) }, depth)
           );
         }
 
@@ -648,4 +663,16 @@ export function instrument<TObj extends Record<string, any>>(
     once.warn(e);
     return obj;
   }
+}
+
+function getPropertyDescriptor<T>(obj: T, propName: keyof T) {
+  let target = obj;
+  while (target != null) {
+    const descriptor = Object.getOwnPropertyDescriptor(target, propName);
+    if (descriptor) {
+      return descriptor;
+    }
+    target = Object.getPrototypeOf(target);
+  }
+  return undefined;
 }
