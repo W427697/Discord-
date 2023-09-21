@@ -72,7 +72,7 @@ const Container = styled.div<{ state: TransitionStatus; transitionDuration: numb
     zIndex: 11,
     transition: `all ${transitionDuration}ms ease-in-out`,
     overflow: 'scroll',
-    padding: '20px',
+    padding: '25px 10px 10px',
     color: theme.color.defaultText,
     background: theme.background.content,
     opacity: `${(() => {
