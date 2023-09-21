@@ -109,19 +109,20 @@ Below is an abridged API for user-event. For more, check out the [official user-
 
 ### Assert tests with Vitest's APIs
 
-Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.dev/), such as [`expect`](https://vitest.dev/api/expect.html#expect) and [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn). These APIs improve your testing experience, helping you assert whether a function has been called, or an element exists in the DOM, and much more. If you are used to `expect` from testing packages such as [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/), you will feel at home.
+Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.dev/), such as [`expect`](https://vitest.dev/api/expect.html#expect) and `vi` utilities such as [`fn`](https://vitest.dev/api/vi.html#vi-fn) and [`spyOn`](https://vitest.dev/api/vi.html#vi-spyon). These APIs improve your testing experience, helping you assert whether a function has been called, or an element exists in the DOM, and much more. If you are used to `expect` from testing packages such as [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/), you will feel at home.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'angular/storybook-interactions-spies.ts.mdx',
-    'web-components/storybook-interactions-spies.js.mdx',
-    'web-components/storybook-interactions-spies.ts.mdx',
-    'common/storybook-interactions-spies.js.mdx',
-    'common/storybook-interactions-spies.ts.mdx',
+    'angular/storybook-interactions-play-function.ts.mdx',
+    'web-components/storybook-interactions-play-function.js.mdx',
+    'web-components/storybook-interactions-play-function.ts.mdx',
+    'common/storybook-interactions-play-function.js.mdx',
+    'common/storybook-interactions-play-function.ts.mdx',
   ]}
   usesCsf3
+  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
 />
 
 <!-- prettier-ignore-end -->

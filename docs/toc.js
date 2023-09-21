@@ -696,6 +696,28 @@ module.exports = {
           title: 'CLI options',
           type: 'link',
         },
+        {
+          title: '@storybook/test',
+          pathSegment: '',
+          type: 'menu',
+          children: [
+            {
+              title: 'overview',
+              pathSegment: 'storybook-test',
+              type: 'link',
+            },
+            {
+              title: 'interactions',
+              pathSegment: 'storybook-test-assertions',
+              type: 'link',
+            },
+            {
+              title: 'assertions',
+              pathSegment: 'main-config-stories',
+              type: 'link',
+            },
+          ],
+        },
       ],
     },
     {

@@ -6,6 +6,7 @@ import { userEvent, waitFor, within, expect, fn } from '@storybook/test';
 export default {
   component: 'my-form-element',
   args: {
+    // transform the arg into a spy
     onSubmit: fn(),
   },
 };
@@ -27,6 +28,7 @@ export const Submitted = {
       await userEvent.click(await canvas.getByRole('button'));
     });
 
+    // onSubmit is a spy so it can be asserted in various ways
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };
