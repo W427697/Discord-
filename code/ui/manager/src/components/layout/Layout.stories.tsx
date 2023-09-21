@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
 import type { Meta, StoryObj } from '@storybook/react';
+import { ManagerContext } from '@storybook/manager-api';
 import { Layout } from './Layout';
+import { MobileLayoutProvider } from '../mobile/MobileLayoutProvider';
 
 const PlaceholderBlock = styled.div({
   width: '100%',
@@ -61,6 +63,23 @@ const meta = {
     theme: 'light',
     layout: 'fullscreen',
   },
+  decorators: [
+    (storyFn) => (
+      <ManagerContext.Provider
+        value={
+          {
+            api: {
+              getCurrentStoryData: () => ({
+                title: 'Some Story Title',
+              }),
+            },
+          } as any
+        }
+      >
+        <MobileLayoutProvider>{storyFn()}</MobileLayoutProvider>
+      </ManagerContext.Provider>
+    ),
+  ],
   render: (args) => {
     const [managerLayoutState, setManagerLayoutState] = useState(args.managerLayoutState);
 
@@ -111,38 +130,17 @@ export const Mobile = {
     chromatic: { viewports: [320] },
   },
 };
-export const MobileHorizontal = {
-  args: {
-    state: { ...defaultState, panelPosition: 'right' },
-  },
+export const MobileDark = {
+  ...Mobile,
   parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-    chromatic: { viewports: [320] },
+    ...Mobile.parameters,
+    theme: 'dark',
   },
 };
 
 export const MobileDocs = {
+  ...Mobile,
   args: {
-    state: { ...defaultState, viewMode: 'docs' },
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-    chromatic: { viewports: [320] },
-  },
-};
-
-export const MobileCustom = {
-  args: {
-    state: { ...defaultState, viewMode: 'custom' },
-  },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
-    chromatic: { viewports: [320] },
+    managerLayoutState: { ...defaultState, viewMode: 'docs' },
   },
 };

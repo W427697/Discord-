@@ -5,6 +5,8 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
+import { useMediaQuery } from '../hooks/useMedia';
+import { BREAKPOINT_MIN_600 } from '../../constants';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -105,11 +107,30 @@ const SidebarMenuList: FC<{
   return <TooltipLinkList links={links} />;
 };
 
-export const SidebarMenu: FC<{
+export interface SidebarMenuProps {
   menu: MenuList;
   isHighlighted?: boolean;
-}> = ({ menu, isHighlighted }) => {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
+
+  if (!isDesktop) {
+    return (
+      <SidebarIconButton
+        title="About Storybook"
+        aria-label="About Storybook"
+        highlighted={isHighlighted}
+        active={false}
+        onClick={onClick}
+      >
+        <Icons icon="cog" />
+      </SidebarIconButton>
+    );
+  }
+
   return (
     <WithTooltip
       placement="top"

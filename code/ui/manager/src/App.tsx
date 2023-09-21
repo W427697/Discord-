@@ -11,6 +11,7 @@ import Preview from './container/Preview';
 import Panel from './container/Panel';
 
 import { Layout } from './components/layout/Layout';
+import { useMobileLayoutContext } from './components/mobile/MobileLayoutProvider';
 
 type Props = {
   managerLayoutState: ComponentProps<typeof Layout>['managerLayoutState'];
@@ -19,6 +20,8 @@ type Props = {
 };
 
 export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
+  const { setMobileAboutOpen } = useMobileLayoutContext();
+
   return (
     <>
       <Global styles={createGlobal} />
@@ -31,7 +34,7 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
             <Preview id="main" withLoader />
           </Route>
         }
-        slotSidebar={<Sidebar />}
+        slotSidebar={<Sidebar onMenuClick={() => setMobileAboutOpen((state) => !state)} />}
         slotPanel={<Panel />}
         slotPages={pages.map(({ id, render: Content }) => (
           <Content key={id} />

@@ -3,7 +3,7 @@ import { styled } from '@storybook/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
 import { useMediaQuery } from '../hooks/useMedia';
-import { MobileNavigation } from '../mobile-navigation/MobileNavigation';
+import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
 import { BREAKPOINT_MIN_600 } from '../../constants';
 
 interface InternalLayoutState {
@@ -39,10 +39,15 @@ const layoutStateIsEqual = (state: ManagerLayoutState, other: ManagerLayoutState
  * Also syncs the layout state from the global manager store to the internal state
  * here when necessary
  */
-const useLayoutSyncingState = (
-  managerLayoutState: Props['managerLayoutState'],
-  setManagerLayoutState: Props['setManagerLayoutState']
-) => {
+const useLayoutSyncingState = ({
+  managerLayoutState,
+  setManagerLayoutState,
+  isDesktop,
+}: {
+  managerLayoutState: Props['managerLayoutState'];
+  setManagerLayoutState: Props['setManagerLayoutState'];
+  isDesktop: boolean;
+}) => {
   // ref to keep track of previous managerLayoutState, to check if the props change
   const prevManagerLayoutStateRef = React.useRef<ManagerLayoutState>(managerLayoutState);
 
@@ -91,10 +96,11 @@ const useLayoutSyncingState = (
     managerLayoutState.viewMode !== 'story' && managerLayoutState.viewMode !== 'docs';
   const isPanelShown = managerLayoutState.viewMode === 'story';
 
-  const { panelResizerRef, sidebarResizerRef } = useDragging(
-    setInternalDraggingSizeState,
-    isPanelShown
-  );
+  const { panelResizerRef, sidebarResizerRef } = useDragging({
+    setState: setInternalDraggingSizeState,
+    isPanelShown,
+    isDesktop,
+  });
   const { navSize, rightPanelWidth, bottomPanelHeight } = internalDraggingSizeState.isDragging
     ? internalDraggingSizeState
     : managerLayoutState;
@@ -126,7 +132,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
     showPages,
     showPanel,
     isDragging,
-  } = useLayoutSyncingState(managerLayoutState, setManagerLayoutState);
+  } = useLayoutSyncingState({ managerLayoutState, setManagerLayoutState, isDesktop });
 
   return (
     <LayoutContainer
@@ -157,7 +163,9 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
           )}
         </>
       )}
-      {isMobile && <MobileNavigation />}
+      {isMobile && (
+        <MobileNavigation menu={slots.slotSidebar} panel={slots.slotPanel} showPanel={showPanel} />
+      )}
     </LayoutContainer>
   );
 };

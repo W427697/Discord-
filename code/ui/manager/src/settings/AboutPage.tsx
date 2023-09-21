@@ -18,7 +18,7 @@ class NotificationClearer extends Component<{ api: API; notificationId: string }
   }
 }
 
-const AboutPage: FC = () => {
+export const AboutPage: FC = () => {
   const api = useStorybookApi();
   const state = useStorybookState();
 
@@ -28,7 +28,6 @@ const AboutPage: FC = () => {
   return (
     <NotificationClearer api={api} notificationId="update">
       <AboutScreen
-        current={api.getCurrentVersion()}
         onNavigateToWhatsNew={
           state.whatsNewData?.status === 'SUCCESS' ? onNavigateToWhatsNew : undefined
         }
@@ -36,5 +35,3 @@ const AboutPage: FC = () => {
     </NotificationClearer>
   );
 };
-
-export { AboutPage };
