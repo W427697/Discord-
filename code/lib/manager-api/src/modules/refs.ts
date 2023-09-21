@@ -307,7 +307,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
         index = addRefIds(index, ref);
       }
 
-      api.updateRef(id, { ...rest, index, internal_index });
+      api.updateRef(id, { ...ref, ...rest, index, internal_index });
     },
 
     updateRef: (id, data) => {

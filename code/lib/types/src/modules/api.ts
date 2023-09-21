@@ -166,7 +166,7 @@ export interface API_ComposedRef extends API_LoadedRefData {
   loginUrl?: string;
   version?: string;
   /** DO NOT USE THIS */
-  internal_index?: any;
+  internal_index?: StoryIndex;
 }
 
 export type API_ComposedRefUpdate = Partial<
