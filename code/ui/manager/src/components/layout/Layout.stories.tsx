@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ManagerContext } from '@storybook/manager-api';
 import { Layout } from './Layout';
 import { MobileLayoutProvider } from '../mobile/MobileLayoutProvider';
+import MobileNavigationStoriesMeta from '../mobile/navigation/MobileNavigation.stories';
 
 const PlaceholderBlock = styled.div({
   width: '100%',
@@ -64,21 +64,8 @@ const meta = {
     layout: 'fullscreen',
   },
   decorators: [
-    (storyFn) => (
-      <ManagerContext.Provider
-        value={
-          {
-            api: {
-              getCurrentStoryData: () => ({
-                title: 'Some Story Title',
-              }),
-            },
-          } as any
-        }
-      >
-        <MobileLayoutProvider>{storyFn()}</MobileLayoutProvider>
-      </ManagerContext.Provider>
-    ),
+    MobileNavigationStoriesMeta.decorators[0] as any,
+    (storyFn) => <MobileLayoutProvider>{storyFn()}</MobileLayoutProvider>,
   ],
   render: (args) => {
     const [managerLayoutState, setManagerLayoutState] = useState(args.managerLayoutState);

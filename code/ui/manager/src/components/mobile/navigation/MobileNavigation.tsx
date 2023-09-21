@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import { IconButton, Icons } from '@storybook/components';
-import { useStorybookApi } from '@storybook/manager-api';
+import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
 import { useMobileLayoutContext } from '../MobileLayoutProvider';
@@ -13,10 +13,31 @@ interface MobileNavigationProps {
   showPanel: boolean;
 }
 
+/**
+ * walks the tree from the current story to combine story+component+folder names into a single string
+ */
+const useFullStoryName = () => {
+  const { index } = useStorybookState();
+  const currentStory = useStorybookApi().getCurrentStoryData();
+
+  if (!currentStory) {
+    return '';
+  }
+
+  let fullStoryName = currentStory.renderLabel(currentStory);
+  let node = index[currentStory.id];
+
+  while ('parent' in node && node.parent && index[node.parent]) {
+    node = index[node.parent];
+    fullStoryName = `${node.renderLabel(node)}/${fullStoryName}`;
+  }
+  return fullStoryName;
+};
+
 export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showPanel }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
-  const storyTitle = useStorybookApi().getCurrentStoryData()?.title;
+  const fullStoryName = useFullStoryName();
 
   return (
     <Container>
@@ -31,7 +52,7 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showP
       <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
       <Button onClick={() => setMenuOpen(!isMenuOpen)} title="Open navigation menu">
         <Icons icon="menu" />
-        {storyTitle || ''}
+        {fullStoryName}
       </Button>
       {showPanel && (
         <DrawerIconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">

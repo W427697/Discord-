@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { ManagerContext } from '@storybook/manager-api';
 import { within } from '@storybook/testing-library';
+import { startCase } from 'lodash';
 import { MobileNavigation } from './MobileNavigation';
 import { MobileLayoutProvider, useMobileLayoutContext } from '../MobileLayoutProvider';
 
@@ -17,22 +18,55 @@ const MockPanel = () => {
   );
 };
 
+const renderLabel = ({ name }: { name: string }) => startCase(name);
+
+const mockManagerStore: any = {
+  state: {
+    index: {
+      someRootId: {
+        type: 'root',
+        id: 'someRootId',
+        name: 'root',
+        isRoot: true,
+        isComponent: false,
+        isLeaf: false,
+        renderLabel,
+      },
+      someComponentId: {
+        type: 'component',
+        id: 'someComponentId',
+        name: 'component',
+        parent: 'someRootId',
+        isRoot: false,
+        isComponent: true,
+        isLeaf: false,
+        renderLabel,
+      },
+      someStoryId: {
+        type: 'story',
+        id: 'someStoryId',
+        name: 'story',
+        parent: 'someComponentId',
+        isRoot: false,
+        isComponent: false,
+        isLeaf: true,
+        renderLabel,
+      },
+    },
+  },
+  api: {
+    getCurrentStoryData() {
+      return mockManagerStore.state.index.someStoryId;
+    },
+  },
+};
+
 const meta = {
   component: MobileNavigation,
   title: 'Mobile/Navigation',
   decorators: [
     (storyFn) => (
-      <ManagerContext.Provider
-        value={
-          {
-            api: {
-              getCurrentStoryData: () => ({
-                title: 'Some Story Title',
-              }),
-            },
-          } as any
-        }
-      >
+      <ManagerContext.Provider value={mockManagerStore}>
         <MobileLayoutProvider>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100svh' }}>
             <div style={{ flex: 1 }} />
@@ -64,6 +98,58 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 export const Dark: Story = {
   parameters: { theme: 'dark' },
+};
+
+export const LongStoryName: Story = {
+  decorators: [
+    (storyFn) => {
+      const mockManagerStoreWithLongNames: any = {
+        state: {
+          index: {
+            someRootId: {
+              type: 'root',
+              id: 'someRootId',
+              name: 'someLongRootName',
+              isRoot: true,
+              isComponent: false,
+              isLeaf: false,
+              renderLabel,
+            },
+            someComponentId: {
+              type: 'component',
+              id: 'someComponentId',
+              name: 'someComponentName',
+              parent: 'someRootId',
+              isRoot: false,
+              isComponent: true,
+              isLeaf: false,
+              renderLabel,
+            },
+            someStoryId: {
+              type: 'story',
+              id: 'someStoryId',
+              name: 'someLongStoryName',
+              parent: 'someComponentId',
+              isRoot: false,
+              isComponent: false,
+              isLeaf: true,
+              renderLabel,
+            },
+          },
+        },
+        api: {
+          getCurrentStoryData() {
+            return mockManagerStoreWithLongNames.state.index.someStoryId;
+          },
+        },
+      };
+      return (
+        <ManagerContext.Provider value={mockManagerStoreWithLongNames}>
+          {storyFn()}
+        </ManagerContext.Provider>
+      );
+    },
+  ],
 };
 
 export const MenuOpen: Story = {
