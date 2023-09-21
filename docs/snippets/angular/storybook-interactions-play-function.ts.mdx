@@ -3,16 +3,14 @@
 
 import type { Meta, StoryObj } from '@storybook/angular';
 
-import { userEvent, waitFor, within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within, expect, fn } from '@storybook/test';
 
 import { Form } from './Form.component';
 
 const meta: Meta<Form> = {
   component: MyComponent,
-  argTypes: {
-    onSubmit: { action: true },
+  args: {
+    onSubmit: fn(),
   },
 };
 

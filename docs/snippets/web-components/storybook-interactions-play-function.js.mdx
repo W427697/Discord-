@@ -1,14 +1,12 @@
 ```js
 // Form.stories.js
 
-import { userEvent, waitFor, within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within, expect, fn } from '@storybook/test';
 
 export default {
   component: 'my-form-element',
-  argTypes: {
-    onSubmit: { action: true },
+  args: {
+    onSubmit: fn(),
   },
 };
 
