@@ -65,6 +65,11 @@ export const SidebarIconButton: FC<
   }),
 }));
 
+const MenuButtonGroup = styled.div({
+  display: 'flex',
+  gap: 5,
+});
+
 const Img = styled.img(sharedStyles);
 const Placeholder = styled.div(sharedStyles);
 
@@ -119,15 +124,20 @@ export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick
 
   if (!isDesktop) {
     return (
-      <SidebarIconButton
-        title="About Storybook"
-        aria-label="About Storybook"
-        highlighted={isHighlighted}
-        active={false}
-        onClick={onClick}
-      >
-        <Icons icon="cog" />
-      </SidebarIconButton>
+      <MenuButtonGroup>
+        <SidebarIconButton
+          title="About Storybook"
+          aria-label="About Storybook"
+          highlighted={isHighlighted}
+          active={false}
+          onClick={onClick}
+        >
+          <Icons icon="cog" />
+        </SidebarIconButton>
+        <CloseIconButton title="Close menu" aria-label="Close menu" onClick={onClick}>
+          <Icons icon="cross" />
+        </CloseIconButton>
+      </MenuButtonGroup>
     );
   }
 
@@ -173,3 +183,9 @@ export const ToolbarMenu: FC<{
     </WithTooltip>
   );
 };
+
+// We should not have to reset the margin-top here
+// TODO: remove this once we have a the new IconButton component
+const CloseIconButton = styled(IconButton)({
+  marginTop: 0,
+});
