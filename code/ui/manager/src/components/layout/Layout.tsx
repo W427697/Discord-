@@ -2,9 +2,9 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
-import { useMediaQuery } from '../hooks/useMedia';
 import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
 import { BREAKPOINT_MIN_600 } from '../../constants';
+import { useLayout } from './LayoutProvider';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -119,8 +119,7 @@ const useLayoutSyncingState = ({
 };
 
 export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: Props) => {
-  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
-  const isMobile = !isDesktop;
+  const { isDesktop, isMobile } = useLayout();
 
   const {
     navSize,

@@ -5,8 +5,7 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
-import { useMediaQuery } from '../hooks/useMedia';
-import { BREAKPOINT_MIN_600 } from '../../constants';
+import { useLayout } from '../layout/LayoutProvider';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -115,7 +114,7 @@ export interface SidebarMenuProps {
 
 export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
+  const { isDesktop } = useLayout();
 
   if (!isDesktop) {
     return (
