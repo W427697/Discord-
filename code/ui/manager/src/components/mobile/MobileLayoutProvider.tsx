@@ -2,6 +2,8 @@ import type { FC } from 'react';
 import React, { createContext, useContext, useState } from 'react';
 
 type MobileLayoutContextType = {
+  isMobileMenuOpen: boolean;
+  setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isMobileAboutOpen: boolean;
   setMobileAboutOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isMobilePanelOpen: boolean;
@@ -9,6 +11,8 @@ type MobileLayoutContextType = {
 };
 
 const MobileLayoutContext = createContext<MobileLayoutContextType>({
+  isMobileMenuOpen: false,
+  setMobileMenuOpen: () => {},
   isMobileAboutOpen: false,
   setMobileAboutOpen: () => {},
   isMobilePanelOpen: false,
@@ -16,12 +20,20 @@ const MobileLayoutContext = createContext<MobileLayoutContextType>({
 });
 
 export const MobileLayoutProvider: FC = ({ children }) => {
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [isMobilePanelOpen, setMobilePanelOpen] = useState(false);
 
   return (
     <MobileLayoutContext.Provider
-      value={{ isMobileAboutOpen, setMobileAboutOpen, isMobilePanelOpen, setMobilePanelOpen }}
+      value={{
+        isMobileMenuOpen,
+        setMobileMenuOpen,
+        isMobileAboutOpen,
+        setMobileAboutOpen,
+        isMobilePanelOpen,
+        setMobilePanelOpen,
+      }}
     >
       {children}
     </MobileLayoutContext.Provider>
