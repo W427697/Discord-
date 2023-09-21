@@ -1,10 +1,11 @@
 ```js
 // Button.stories.js|jsx
 
+import { fn } from '@storybook/test';
 import { Button } from './Button';
 
 export default {
   component: Button,
-  argTypes: { onClick: { action: 'clicked' } },
+  args: { onClick: fn() },
 };
 ```

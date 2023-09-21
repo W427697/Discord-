@@ -2,12 +2,13 @@
 // Button.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/angular';
+import { fn } from '@storybook/test';
 
 import { Button } from './button.component';
 
 const meta: Meta<Button> = {
   component: Button,
-  argTypes: { onClick: { action: 'clicked' } },
+  args: { onClick: fn() },
 };
 
 export default meta;

@@ -3,13 +3,14 @@
 
 // Replace your-framework with the name of your framework
 import type { Meta } from '@storybook/your-framework';
+import { fn } from '@storybook/test';
 
 import { Button } from './Button';
 
-const meta = {
+const meta: Meta<typeof Button> = {
   component: Button,
-  argTypes: { onClick: { action: 'clicked' } },
-} satisfies Meta<typeof Button>;
+  args: { onClick: fn() },
+};
 
 export default meta;
 ```
