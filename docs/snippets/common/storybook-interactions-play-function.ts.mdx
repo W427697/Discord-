@@ -11,6 +11,7 @@ import { Form } from './Form';
 const meta: Meta<typeof Form> = {
   component: Form,
   args: {
+    // transform the arg into a spy
     onSubmit: fn(),
   },
 };
@@ -35,6 +36,7 @@ export const Submitted: Story = {
       await userEvent.click(canvas.getByRole('button'));
     });
 
+    // onSubmit is a spy so it can be asserted in various ways
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };

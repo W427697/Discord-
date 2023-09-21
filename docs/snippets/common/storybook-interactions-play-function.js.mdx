@@ -8,6 +8,7 @@ import { Form } from './Form';
 export default {
   component: Form,
   args: {
+    // transform the arg into a spy
     onSubmit: fn(),
   },
 };
@@ -30,6 +31,7 @@ export const Submitted = {
       await userEvent.click(canvas.getByRole('button'));
     });
 
+    // onSubmit is a spy so it can be asserted in various ways
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };
