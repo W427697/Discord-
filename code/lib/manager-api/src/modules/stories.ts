@@ -614,7 +614,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
       const refs = await fullAPI.getRefs();
       Object.entries(refs).forEach(([refId, { internal_index, ...ref }]) => {
-        fullAPI.setRef(refId, { ...ref, index: internal_index }, true);
+        fullAPI.setRef(refId, { ...ref, storyIndex: internal_index }, true);
       });
     },
     experimental_setFilter: async (id, filterFunction) => {
@@ -624,7 +624,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
       const refs = await fullAPI.getRefs();
       Object.entries(refs).forEach(([refId, { internal_index, ...ref }]) => {
-        fullAPI.setRef(refId, { ...ref, index: internal_index }, true);
+        fullAPI.setRef(refId, { ...ref, storyIndex: internal_index }, true);
       });
     },
   };
