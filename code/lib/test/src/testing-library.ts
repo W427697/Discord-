@@ -1,4 +1,4 @@
-/* eslint-disable prefer-destructuring,@typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/ban-types */
 import { once } from '@storybook/client-logger';
 import { instrument } from '@storybook/instrumenter';
 import * as domTestingLibrary from '@testing-library/dom';
