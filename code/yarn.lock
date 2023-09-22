@@ -10207,7 +10207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/expect@npm:^0.34.2":
+"@vitest/expect@npm:0.34.5":
   version: 0.34.5
   resolution: "@vitest/expect@npm:0.34.5"
   dependencies:
@@ -10215,6 +10215,17 @@ __metadata:
     "@vitest/utils": 0.34.5
     chai: ^4.3.7
   checksum: dc30a5e1f2732a1906df57f65381df1129dbf994496734c27e4a3f832852862501eaba1ec2987215ec12ee23a8f2ef1d8ff63c7cd5490046a7a26800da1adcb2
+  languageName: node
+  linkType: hard
+
+"@vitest/expect@patch:@vitest/expect@npm%3A0.34.5#./.yarn/patches/@vitest-expect-npm-0.34.5-8031508efe.patch::locator=%40storybook%2Froot%40workspace%3A.":
+  version: 0.34.5
+  resolution: "@vitest/expect@patch:@vitest/expect@npm%3A0.34.5#./.yarn/patches/@vitest-expect-npm-0.34.5-8031508efe.patch::version=0.34.5&hash=f89b80&locator=%40storybook%2Froot%40workspace%3A."
+  dependencies:
+    "@vitest/spy": 0.34.5
+    "@vitest/utils": 0.34.5
+    chai: ^4.3.7
+  checksum: b08f0b1df6a37305f3f68feec15cfac048ca9e3924998698625394296faac4e539e23d7422eec59c0850a83b7342b574a2d2d174aaa33a7eb0004e4e366c515c
   languageName: node
   linkType: hard
 
