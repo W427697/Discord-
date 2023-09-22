@@ -48,8 +48,6 @@ const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state,
     });
 });
 
-const wrapperId = 'storybook-preview-wrapper';
-
 interface LinkBase {
   id: string;
   title: string;
@@ -202,25 +200,10 @@ export const ViewportTool: FC = memo(
             <Global
               styles={{
                 [`iframe[data-is-storybook="true"]`]: {
-                  margin: `auto`,
-                  transition: 'none',
-                  position: 'relative',
-                  border: `1px solid black`,
-                  boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',
-
-                  ...styles,
-                },
-                [`#${wrapperId}`]: {
-                  padding: theme.layoutMargin,
-                  alignContent: 'center',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  justifyItems: 'center',
-                  overflow: 'auto',
-
-                  display: 'grid',
-                  gridTemplateColumns: '100%',
-                  gridTemplateRows: '100%',
+                  ...(styles || {
+                    width: '100%',
+                    height: '100%',
+                  }),
                 },
               }}
             />

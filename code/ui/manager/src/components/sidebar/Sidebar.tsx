@@ -9,6 +9,7 @@ import type {
   Addon_SidebarTopType,
   API_LoadedRefData,
 } from '@storybook/types';
+import type { HeadingProps } from './Heading';
 import { Heading } from './Heading';
 
 // eslint-disable-next-line import/no-cycle
@@ -22,18 +23,23 @@ import { useLastViewed } from './useLastViewed';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav({
-  position: 'absolute',
-  zIndex: 1,
-  left: 0,
-  top: 0,
-  bottom: 0,
-  right: 0,
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-});
+const Container = styled.nav(
+  {
+    position: 'absolute',
+    zIndex: 1,
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  ({ theme }) => ({
+    background: theme.background.app,
+  })
+);
 
 const Top = styled(Spaced)({
   padding: 20,
@@ -107,6 +113,7 @@ export interface SidebarProps extends API_LoadedRefData {
   refId?: string;
   menuHighlighted?: boolean;
   enableShortcuts?: boolean;
+  onMenuClick?: HeadingProps['onMenuClick'];
 }
 
 export const Sidebar = React.memo(function Sidebar({
@@ -122,6 +129,7 @@ export const Sidebar = React.memo(function Sidebar({
   menuHighlighted = false,
   enableShortcuts = true,
   refs = {},
+  onMenuClick,
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
   const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
@@ -139,6 +147,7 @@ export const Sidebar = React.memo(function Sidebar({
             extra={extra}
             skipLinkHref="#storybook-preview-wrapper"
             isLoading={isLoading}
+            onMenuClick={onMenuClick}
           />
 
           <Search
