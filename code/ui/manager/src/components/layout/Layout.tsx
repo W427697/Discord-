@@ -5,6 +5,7 @@ import { useDragging } from './useDragging';
 import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 import { useLayout } from './LayoutProvider';
+import Notifications from '../../container/Notifications';
 
 interface InternalLayoutState {
   isDragging: boolean;
@@ -142,6 +143,13 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       isDragging={isDragging}
       viewMode={managerLayoutState.viewMode}
     >
+      <Notifications
+        placement={{
+          position: 'fixed',
+          bottom: 20,
+          left: 20,
+        }}
+      />
       {showPages && <PagesContainer>{slots.slotPages}</PagesContainer>}
       <ContentContainer>{slots.slotMain}</ContentContainer>
       {isDesktop && (
