@@ -81,4 +81,4 @@ The above example uses the `canvasElement` to scope your element queries to the 
 
 While you can refer to the [Testing Library documentation](https://testing-library.com/docs/) for details on how to use it, there's an important detail that's different when using the Storybook wrapper: **method invocations must be `await`-ed**. It allows you to step back and forth through your interactions using the debugger.
 
-In the example above, the `fn` helper is used in the arg, which maps to [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn), a Vitest spy utility that allows you to make assertions about calls to these functions. This makes it possible to assert whether the function of that arg was called during the play function.
+In the example above, the `fn` utility is applied to the `onSubmit` arg. `fn` maps to [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn), a Vitest spy utility that allows you to make assertions about calls to these functions. This makes it possible to assert whether that arg was called during the play function.

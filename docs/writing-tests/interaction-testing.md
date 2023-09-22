@@ -109,7 +109,7 @@ Below is an abridged API for user-event. For more, check out the [official user-
 
 ### Assert tests with Vitest's APIs
 
-Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.dev/), such as [`expect`](https://vitest.dev/api/expect.html#expect) and [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn). These APIs improve your testing experience, helping you assert whether a function has been called, or an element exists in the DOM, and much more. If you are used to `expect` from testing packages such as [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/), you will feel at home.
+Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.dev/), such as [`expect`](https://vitest.dev/api/expect.html#expect) and [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn). These APIs improve your testing experience, helping you assert whether a function has been called, if an element exists in the DOM, and much more. If you are used to `expect` from testing packages such as [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/), you can write interaction tests in much the same way.
 
 <!-- prettier-ignore-start -->
 
@@ -126,7 +126,6 @@ Storybook’s `@storybook/test` also provides APIs from [Vitest](https://vitest.
 />
 
 <!-- prettier-ignore-end -->
-
 
 ### Group interactions with the `step` function
 
