@@ -3,6 +3,7 @@ import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
+import { styled } from '@storybook/theming';
 import { useLayout } from '../layout/LayoutProvider';
 
 export interface SafeTabProps {
@@ -58,30 +59,32 @@ export const AddonPanel = React.memo<{
         menuName="Addons"
         actions={actions}
         tools={
-          isDesktop ? (
-            <Fragment>
-              <IconButton
-                key="position"
-                onClick={actions.togglePosition}
-                title={`Change addon orientation [${shortcutToHumanString(
-                  shortcuts.panelPosition
-                )}]`}
-              >
-                <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
-              </IconButton>
-              <IconButton
-                key="visibility"
-                onClick={actions.toggleVisibility}
-                title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
-              >
+          <Actions>
+            {isDesktop ? (
+              <>
+                <IconButton
+                  key="position"
+                  onClick={actions.togglePosition}
+                  title={`Change addon orientation [${shortcutToHumanString(
+                    shortcuts.panelPosition
+                  )}]`}
+                >
+                  <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+                </IconButton>
+                <IconButton
+                  key="visibility"
+                  onClick={actions.toggleVisibility}
+                  title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
+                >
+                  <Icons icon="close" />
+                </IconButton>
+              </>
+            ) : (
+              <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
                 <Icons icon="close" />
               </IconButton>
-            </Fragment>
-          ) : (
-            <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
-              <Icons icon="close" />
-            </IconButton>
-          )
+            )}
+          </Actions>
         }
         id="storybook-panel-root"
       >
@@ -96,3 +99,9 @@ export const AddonPanel = React.memo<{
 );
 
 AddonPanel.displayName = 'AddonPanel';
+
+const Actions = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+});
