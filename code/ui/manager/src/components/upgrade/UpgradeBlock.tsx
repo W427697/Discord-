@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import { useStorybookApi } from '@storybook/manager-api';
 import { Link } from '@storybook/components';
-import { MEDIA_MIN_BREAKPOINT } from '../../constants';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
 interface UpgradeBlockProps {
   onNavigateToWhatsNew?: () => void;
@@ -45,7 +45,7 @@ const Container = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2,
   width: '100%',
 
-  [MEDIA_MIN_BREAKPOINT]: {
+  [MEDIA_DESKTOP_BREAKPOINT]: {
     maxWidth: 400,
   },
 }));
