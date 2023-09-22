@@ -78,7 +78,7 @@ export const AddonPanel = React.memo<{
               </IconButton>
             </Fragment>
           ) : (
-            <IconButton onClick={() => setMobilePanelOpen(false)}>
+            <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
               <Icons icon="close" />
             </IconButton>
           )
