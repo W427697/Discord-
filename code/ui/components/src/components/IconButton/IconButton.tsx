@@ -53,7 +53,7 @@ export const IconButton: {
 IconButton.displayName = 'IconButton';
 
 const StyledButton = styled.button<Omit<IconButtonProps, 'icon'>>(
-  ({ theme, variant = 'ghost', size = 'medium', disabled = false, active = false }) => ({
+  ({ theme, variant = 'ghost', size = 'small', disabled = false, active = false }) => ({
     border: 0,
     cursor: disabled ? 'not-allowed' : 'pointer',
     display: 'inline-flex',

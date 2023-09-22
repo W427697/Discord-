@@ -279,7 +279,8 @@ const ToolbarLeft = styled.div({
   display: 'flex',
   whiteSpace: 'nowrap',
   flexBasis: 'auto',
-  gap: 4,
+  gap: 6,
+  alignItems: 'center',
 });
 
 const ToolbarRight = styled(ToolbarLeft)({
