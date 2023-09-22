@@ -288,7 +288,7 @@ function ManagerConsumer<P = Combo>({
   filter = defaultFilter,
   children,
 }: ManagerConsumerProps<P>): ReactElement {
-  const c = useContext(ManagerContext);
+  const managerContext = useContext(ManagerContext);
   const renderer = useRef(children);
   const filterer = useRef(filter);
 
@@ -296,17 +296,17 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
-  const data = filterer.current(c);
+  const comboData = filterer.current(managerContext);
 
-  const l = useMemo(() => {
-    return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
-  }, [c.state]);
+  const comboDataArray = useMemo(() => {
+    return [...Object.entries(comboData).reduce((acc, keyval) => acc.concat(keyval), [])];
+  }, [managerContext.state]);
 
   return useMemo(() => {
     const Child = renderer.current as FC<P>;
 
-    return <Child {...data} />;
-  }, l);
+    return <Child {...comboData} />;
+  }, comboDataArray);
 }
 
 export function useStorybookState(): State {

@@ -141,14 +141,18 @@ export const Tabs: FC<TabsProps> = memo(
     id: htmlId,
     menuName,
   }) => {
-    const idList = childrenToList(children).map((i) => i.id);
+    const idList = childrenToList(children)
+      .map((i) => i.id)
+      .join(',');
+
     const list = useMemo(
       () =>
         childrenToList(children).map((i, index) => ({
           ...i,
           active: selected ? i.id === selected : index === 0,
         })),
-      [selected, ...idList]
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- we're using idList as a replacement for children
+      [selected, idList]
     );
 
     const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);

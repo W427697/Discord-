@@ -8,7 +8,7 @@ import { styled } from '@storybook/theming';
 import { screen, userEvent, within } from '@storybook/testing-library';
 import type { State } from '@storybook/manager-api';
 import { SidebarMenu, ToolbarMenu } from './Menu';
-import { useMenu } from '../../containers/menu';
+import { useMenu } from '../../container/Menu';
 
 const fakemenu: ComponentProps<typeof TooltipLinkList>['links'] = [
   { title: 'has icon', icon: 'link', id: 'icon' },
