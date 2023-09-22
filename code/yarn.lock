@@ -10207,29 +10207,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/expect@npm:0.34.3":
-  version: 0.34.3
-  resolution: "@vitest/expect@npm:0.34.3"
+"@vitest/expect@npm:^0.34.2":
+  version: 0.34.5
+  resolution: "@vitest/expect@npm:0.34.5"
   dependencies:
-    "@vitest/spy": 0.34.3
-    "@vitest/utils": 0.34.3
+    "@vitest/spy": 0.34.5
+    "@vitest/utils": 0.34.5
     chai: ^4.3.7
-  checksum: ec70fba265b5bbd31f9c06c60e504ee0f1394df0871a5bddbe0a6b0a2436705f5e41e183fcdec3dd8864b5432b14d4f3802b896ba625ae0a44b52a9a08ddbd73
+  checksum: dc30a5e1f2732a1906df57f65381df1129dbf994496734c27e4a3f832852862501eaba1ec2987215ec12ee23a8f2ef1d8ff63c7cd5490046a7a26800da1adcb2
   languageName: node
   linkType: hard
 
-"@vitest/expect@patch:@vitest/expect@npm%3A0.34.3#./.yarn/patches/@vitest-expect-npm-0.34.3-313878cdb4.patch::locator=%40storybook%2Froot%40workspace%3A.":
-  version: 0.34.3
-  resolution: "@vitest/expect@patch:@vitest/expect@npm%3A0.34.3#./.yarn/patches/@vitest-expect-npm-0.34.3-313878cdb4.patch::version=0.34.3&hash=2c0ce2&locator=%40storybook%2Froot%40workspace%3A."
+"@vitest/spy@npm:0.34.5":
+  version: 0.34.5
+  resolution: "@vitest/spy@npm:0.34.5"
   dependencies:
-    "@vitest/spy": 0.34.3
-    "@vitest/utils": 0.34.3
-    chai: ^4.3.7
-  checksum: 6800fea8b719928002ba7b87f92e07f67ab9f21da38fb8e4e1ef6e27ea6e37f3418ea72f2d828706558e921ae8f63c6460b97cdc1ed276b8b7c6ff66889001d7
+    tinyspy: ^2.1.1
+  checksum: bbee495ca6300f50dde6418d14db0d3281daf38df15abae95202ddef253d6dd8bedf9f4a79da5a2246d3758ab24aa737caccf752fabcd8ba902a4f14801c2a0c
   languageName: node
   linkType: hard
 
-"@vitest/spy@npm:0.34.3, @vitest/spy@npm:^0.34.1":
+"@vitest/spy@npm:^0.34.1":
   version: 0.34.3
   resolution: "@vitest/spy@npm:0.34.3"
   dependencies:
@@ -10238,14 +10236,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/utils@npm:0.34.3":
-  version: 0.34.3
-  resolution: "@vitest/utils@npm:0.34.3"
+"@vitest/utils@npm:0.34.5":
+  version: 0.34.5
+  resolution: "@vitest/utils@npm:0.34.5"
   dependencies:
     diff-sequences: ^29.4.3
     loupe: ^2.3.6
     pretty-format: ^29.5.0
-  checksum: 7ca2d82c4286b963b8d8004812464c81b42d73d027b739fa5b2f2cdfb2a14e409f8ad1da6c269ba7379c74a93bb0e81485b2040a18a06a886b49c4bef1e494ab
+  checksum: 99cc5974ada1dab2b02220005c0fc97147baba175601a0faa1b2b6687c7f579d21a401077377d6f759b3aa8a07dcc8851cdc3e07f9a550ec289286107487ac36
   languageName: node
   linkType: hard
 
