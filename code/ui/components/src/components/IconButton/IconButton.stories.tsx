@@ -46,6 +46,7 @@ export const Active: Story = {
 export const Sizes: Story = {
   args: {
     ...Base.args,
+    variant: 'solid',
   },
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -90,6 +91,25 @@ export const WithHref: Story = {
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <IconButton {...args} onClick={() => console.log('Hello')} />
       <IconButton {...args} as="a" href="https://storybook.js.org/" />
+    </div>
+  ),
+};
+
+export const WithText: Story = {
+  args: {
+    ...Base.args,
+    children: (
+      <>
+        <Icons icon="circlehollow" />
+        &nbsp;Howdy!
+      </>
+    ),
+  },
+  render: ({ ...args }) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <IconButton {...args} variant="solid" />
+      <IconButton {...args} variant="outline" />
+      <IconButton {...args} variant="ghost" />
     </div>
   ),
 };

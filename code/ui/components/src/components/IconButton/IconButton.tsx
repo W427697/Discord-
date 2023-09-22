@@ -57,16 +57,15 @@ const StyledButton = styled.button<Omit<IconButtonProps, 'icon'>>(
     border: 0,
     cursor: disabled ? 'not-allowed' : 'pointer',
     display: 'inline-flex',
-    gap: '6px',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    width: `${(() => {
+    minWidth: `${(() => {
       if (size === 'small') return '28px';
       if (size === 'medium') return '32px';
       return 'auto';
     })()}`,
-    padding: 0,
+    padding: size === 'small' ? '0 7px' : '0 9px',
     height: size === 'small' ? '28px' : '32px',
     position: 'relative',
     textAlign: 'center',
@@ -133,7 +132,10 @@ const IconWrapper = styled.div<{
   isAnimating: boolean;
   animation: IconButtonProps['onClickAnimation'];
 }>(({ theme, isAnimating, animation }) => ({
-  width: 14,
+  display: 'flex',
+  alignItems: 'center',
+  gap: 2,
+  minWidth: 14,
   height: 14,
   animation: isAnimating && animation !== 'none' && `${theme.animation[animation]} 1000ms ease-out`,
 }));

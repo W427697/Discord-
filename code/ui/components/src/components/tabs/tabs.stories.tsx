@@ -12,8 +12,8 @@ import {
 } from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 import type { ChildrenList } from './tabs.helpers';
-import { IconButton } from '../bar/button';
 import { Icons } from '../icon/icon';
+import { IconButton } from '../IconButton/IconButton';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
   Math.floor((1 / 15) * i * 16777215)
