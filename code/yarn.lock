@@ -8164,7 +8164,7 @@ __metadata:
     chai: ^4.3.7
     expect: ^29.6.2
     ts-dedent: ^2.2.0
-    type-fest: ~2.19
+    type-fest: ^4.3.1
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
