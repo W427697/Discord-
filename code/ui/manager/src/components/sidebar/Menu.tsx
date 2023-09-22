@@ -114,9 +114,9 @@ export interface SidebarMenuProps {
 
 export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const { isDesktop } = useLayout();
+  const { isMobile } = useLayout();
 
-  if (!isDesktop) {
+  if (isMobile) {
     return (
       <SidebarIconButton
         title="About Storybook"

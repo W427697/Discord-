@@ -49,9 +49,9 @@ export const fullScreenTool: Addon_BaseType = {
   type: types.TOOL,
   match: (p) => ['story', 'docs'].includes(p.viewMode),
   render: () => {
-    const { isDesktop } = useLayout();
+    const { isMobile } = useLayout();
 
-    if (!isDesktop) return null;
+    if (isMobile) return null;
 
     return (
       <Consumer filter={fullScreenMapper}>
