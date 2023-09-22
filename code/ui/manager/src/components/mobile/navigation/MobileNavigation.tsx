@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import React, { useState } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { IconButton, Icons } from '@storybook/components';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { MobileMenuDrawer } from './MobileMenuDrawer';
 import { MobileAddonsDrawer } from './MobileAddonsDrawer';
-import { useMobileLayoutContext } from '../MobileLayoutProvider';
+import { useLayout } from '../../layout/LayoutProvider';
 
 interface MobileNavigationProps {
   menu?: React.ReactNode;
@@ -24,33 +24,26 @@ const useFullStoryName = () => {
     return '';
   }
 
-  let fullStoryName = currentStory.renderLabel(currentStory);
+  let fullStoryName = currentStory.renderLabel?.(currentStory) || currentStory.name;
   let node = index[currentStory.id];
 
   while ('parent' in node && node.parent && index[node.parent]) {
     node = index[node.parent];
-    fullStoryName = `${node.renderLabel(node)}/${fullStoryName}`;
+    const parentName = node.renderLabel?.(node) || node.name;
+    fullStoryName = `${parentName}/${fullStoryName}`;
   }
   return fullStoryName;
 };
 
 export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showPanel }) => {
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const { isMobileAboutOpen, setMobileAboutOpen, setMobilePanelOpen } = useMobileLayoutContext();
+  const { isMobileMenuOpen, setMobileMenuOpen, setMobilePanelOpen } = useLayout();
   const fullStoryName = useFullStoryName();
 
   return (
     <Container>
-      <MobileMenuDrawer
-        isMenuOpen={isMenuOpen}
-        isAboutOpen={isMobileAboutOpen}
-        setAboutOpen={setMobileAboutOpen}
-        closeMenu={() => setMenuOpen(false)}
-      >
-        {menu}
-      </MobileMenuDrawer>
+      <MobileMenuDrawer>{menu}</MobileMenuDrawer>
       <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
-      <Button onClick={() => setMenuOpen(!isMenuOpen)} title="Open navigation menu">
+      <Button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} title="Open navigation menu">
         <Icons icon="menu" />
         {fullStoryName}
       </Button>

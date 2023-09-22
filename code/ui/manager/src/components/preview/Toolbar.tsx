@@ -28,8 +28,7 @@ import { ejectTool } from './tools/eject';
 import { menuTool } from './tools/menu';
 import { addonsTool } from './tools/addons';
 import { remountTool } from './tools/remount';
-import { useMediaQuery } from '../hooks/useMedia';
-import { BREAKPOINT_MIN_600 } from '../../constants';
+import { useLayout } from '../layout/LayoutProvider';
 
 export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
 export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
@@ -50,10 +49,10 @@ export const fullScreenTool: Addon_BaseType = {
   type: types.TOOL,
   match: (p) => ['story', 'docs'].includes(p.viewMode),
   render: () => {
-    const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
-    if (!isDesktop) {
-      return null;
-    }
+    const { isMobile } = useLayout();
+
+    if (isMobile) return null;
+
     return (
       <Consumer filter={fullScreenMapper}>
         {({ toggle, isFullscreen, shortcut, hasPanel, singleStory }) =>

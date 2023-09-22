@@ -4,10 +4,10 @@ import { ManagerContext } from '@storybook/manager-api';
 import { within } from '@storybook/testing-library';
 import { startCase } from 'lodash';
 import { MobileNavigation } from './MobileNavigation';
-import { MobileLayoutProvider, useMobileLayoutContext } from '../MobileLayoutProvider';
+import { LayoutProvider, useLayout } from '../../layout/LayoutProvider';
 
 const MockPanel = () => {
-  const { setMobilePanelOpen } = useMobileLayoutContext();
+  const { setMobilePanelOpen } = useLayout();
   return (
     <div>
       panel
@@ -67,12 +67,12 @@ const meta = {
   decorators: [
     (storyFn) => (
       <ManagerContext.Provider value={mockManagerStore}>
-        <MobileLayoutProvider>
+        <LayoutProvider>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100svh' }}>
             <div style={{ flex: 1 }} />
             {storyFn()}
           </div>
-        </MobileLayoutProvider>
+        </LayoutProvider>
       </ManagerContext.Provider>
     ),
   ],

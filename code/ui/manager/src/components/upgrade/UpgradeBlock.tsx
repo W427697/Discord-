@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { styled } from '@storybook/theming';
 import { useStorybookApi } from '@storybook/manager-api';
 import { Link } from '@storybook/components';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
 interface UpgradeBlockProps {
   onNavigateToWhatsNew?: () => void;
@@ -40,10 +41,13 @@ const Container = styled.div(({ theme }) => ({
   borderRadius: 5,
   padding: 20,
   marginTop: 0,
-  maxWidth: 400,
   borderColor: theme.appBorderColor,
   fontSize: theme.typography.size.s2,
   width: '100%',
+
+  [MEDIA_DESKTOP_BREAKPOINT]: {
+    maxWidth: 400,
+  },
 }));
 
 const Tabs = styled.div({
