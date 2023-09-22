@@ -6740,7 +6740,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/client-logger@workspace:*, @storybook/client-logger@workspace:^, @storybook/client-logger@workspace:lib/client-logger":
+"@storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
   version: 0.0.0-use.local
   resolution: "@storybook/client-logger@workspace:lib/client-logger"
   dependencies:
@@ -6866,7 +6866,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/core-events@workspace:*, @storybook/core-events@workspace:^, @storybook/core-events@workspace:lib/core-events":
+"@storybook/core-events@workspace:*, @storybook/core-events@workspace:lib/core-events":
   version: 0.0.0-use.local
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
@@ -7158,7 +7158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/instrumenter@workspace:*, @storybook/instrumenter@workspace:^, @storybook/instrumenter@workspace:lib/instrumenter":
+"@storybook/instrumenter@workspace:*, @storybook/instrumenter@workspace:lib/instrumenter":
   version: 0.0.0-use.local
   resolution: "@storybook/instrumenter@workspace:lib/instrumenter"
   dependencies:
@@ -7617,7 +7617,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preview-api@workspace:*, @storybook/preview-api@workspace:^, @storybook/preview-api@workspace:lib/preview-api":
+"@storybook/preview-api@workspace:*, @storybook/preview-api@workspace:lib/preview-api":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
@@ -8152,10 +8152,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/test@workspace:lib/test"
   dependencies:
-    "@storybook/client-logger": "workspace:^"
-    "@storybook/core-events": "workspace:^"
-    "@storybook/instrumenter": "workspace:^"
-    "@storybook/preview-api": "workspace:^"
+    "@storybook/client-logger": "workspace:*"
+    "@storybook/core-events": "workspace:*"
+    "@storybook/instrumenter": "workspace:*"
+    "@storybook/preview-api": "workspace:*"
     "@testing-library/dom": ^9.3.1
     "@testing-library/jest-dom": ^6.1.3
     "@testing-library/user-event": ^14.4.3
@@ -8165,7 +8165,7 @@ __metadata:
     chai: ^4.3.7
     expect: ^29.6.2
     ts-dedent: ^2.2.0
-    type-fest: ^4.3.1
+    type-fest: ^2.19.0
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft
