@@ -10,7 +10,7 @@ import { Form } from './Form.component';
 const meta: Meta<Form> = {
   component: MyComponent,
   args: {
-    // transform the arg into a spy
+    // 👇 Use `fn` to spy on the onSubmit arg
     onSubmit: fn(),
   },
 };
@@ -35,7 +35,7 @@ export const Submitted: Story = {
       await userEvent.click(canvas.getByRole('button'));
     });
 
-    // onSubmit is a spy so it can be asserted in various ways
+    // 👇 Now we can assert that the onSubmit arg was called
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };

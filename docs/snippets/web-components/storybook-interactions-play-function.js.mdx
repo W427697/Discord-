@@ -6,7 +6,7 @@ import { userEvent, waitFor, within, expect, fn } from '@storybook/test';
 export default {
   component: 'my-form-element',
   args: {
-    // transform the arg into a spy
+    // 👇 Use `fn` to spy on the onSubmit arg
     onSubmit: fn(),
   },
 };
@@ -28,7 +28,7 @@ export const Submitted = {
       await userEvent.click(canvas.getByRole('button'));
     });
 
-    // onSubmit is a spy so it can be asserted in various ways
+    // 👇 Now we can assert that the onSubmit arg was called
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };

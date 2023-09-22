@@ -19,7 +19,7 @@ Actions work via supplying special Storybook-generated “action” arguments (r
 
 ### Via @storybook/test fn spy function
 
-The first and recommended way to write actions, is to use the `fn` function from `@storybook/test`. This package provides a utility to help mock and spy args, which is very useful for writing tests with the [play function](../writing-stories/play-function.md). You can mock your component's methods by assigning them with the `fn()` function:
+The recommended way to write actions is to use the `fn` utility from `@storybook/test` to mock and spy args. This is very useful for writing [interaction tests](../writing-tests/interaction-testing.md). You can mock your component's methods by assigning them to the `fn()` function:
 
 <!-- prettier-ignore-start -->
 
@@ -33,13 +33,15 @@ The first and recommended way to write actions, is to use the `fn` function from
 
 <!-- prettier-ignore-end -->
 
-If your component calls an arg which is spied on (based on the user's interaction or through the `play` function), the event will show up in the action panel:
+If your component calls an arg (because of either the user's interaction or the `play` function) and that arg is spied on , the event will show up in the action panel:
 
 ![Essential Actions addon usage](./addon-actions-screenshot.png)
 
 ### Automatically matching args
 
 Another option is to use a global parameter to match all [argTypes](../api/argtypes.md) that match a certain pattern. The following configuration automatically creates actions for each `on` argType (which you can either specify manually or can be [inferred automatically](../api/argtypes.md#automatic-argtype-inference)).
+
+This is quite useful when your component has dozens (or hundreds) of methods and you do not want to manually apply the `fn` utility for each of those methods. However, **this is not the recommended** way of writing actions. That's because automatically inferred args **are not available as spies in your play function**. If you use `argTypesRegex` and your stories have play functions, you will need to also define args with the `fn` utility to test them in your play function.
 
 <!-- prettier-ignore-start -->
 
@@ -68,11 +70,9 @@ If you need more granular control over which `argTypes` are matched, you can adj
 
 <!-- prettier-ignore-end -->
 
-This is quite useful when your component has dozens (or hundreds) of methods and you do not want to manually use the `fn` function for each of those methods. However, **this is not the recommended** way of writing actions. That's because automatically inferred args **are not available as spies in your play function**. If you use `argTypesRegex` and your stories have play functions, make sure to always explicitly define args with the `fn` function so you can test them in your play function.
-
 <div class="aside">
 
-💡 If you're generating argTypes with another addon (like [docs](../writing-docs/introduction.md), which is the common behavior), ensure the actions addon <strong>AFTER</strong> the other addon. You can do this by listing it later in the addons registration code in [`.storybook/main.js`](../configure/overview.md#configure-story-rendering). This is default in [essentials](./introduction.md).
+💡 If you're generating argTypes with another addon (like [docs](../writing-docs/introduction.md), which is the common behavior), ensure the actions addon is registered <strong>AFTER</strong> the other addon. You can do this by listing it later in the addons registration code in [`.storybook/main.js`](../configure/overview.md#configure-story-rendering). This is default in [essentials](./introduction.md).
 
 </div>
 
