@@ -5,6 +5,7 @@ import * as domTestingLibrary from '@testing-library/dom';
 import _userEvent from '@testing-library/user-event';
 import dedent from 'ts-dedent';
 import type { FireFunction, FireObject } from '@testing-library/dom/types/events';
+import type { Writable } from 'type-fest';
 import type { Promisify, PromisifyObject } from './utils';
 
 type TestingLibraryDom = typeof domTestingLibrary;
@@ -15,7 +16,7 @@ const testingLibrary = instrument(
     intercept: (method, path) =>
       path[0] === 'fireEvent' || method.startsWith('find') || method.startsWith('waitFor'),
   }
-) as {} as PromisifyObject<Omit<TestingLibraryDom, 'fireEvent'>> & {
+) as {} as Writable<Omit<TestingLibraryDom, 'fireEvent'>> & {
   fireEvent: Promisify<FireFunction> & PromisifyObject<FireObject>;
 };
 
