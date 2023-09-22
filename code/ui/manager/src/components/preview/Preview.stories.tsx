@@ -12,6 +12,7 @@ import { Preview } from './Preview';
 
 import { PrettyFakeProvider } from '../../FakeProvider';
 import { previewProps } from './Preview.mockdata';
+import { LayoutProvider } from '../layout/LayoutProvider';
 
 const provider = new PrettyFakeProvider();
 const staticNavigator = {
@@ -70,7 +71,9 @@ export default {
                 navigate={() => {}}
               >
                 <ThemeProvider key="theme.provider" theme={ensureTheme(themes.light)}>
-                  <StoryFn {...c} />
+                  <LayoutProvider>
+                    <StoryFn {...c} />
+                  </LayoutProvider>
                 </ThemeProvider>
               </ManagerProvider>
             )}

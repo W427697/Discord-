@@ -10,6 +10,7 @@ import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
+import { LayoutProvider } from '../layout/LayoutProvider';
 
 const wait = (ms: number) =>
   new Promise<void>((resolve) => {
@@ -21,7 +22,10 @@ const meta = {
   title: 'Sidebar/Sidebar',
   excludeStories: /.*Data$/,
   parameters: { layout: 'fullscreen', withSymbols: true },
-  decorators: [ExplorerStories.default.decorators[0]],
+  decorators: [
+    ExplorerStories.default.decorators[0],
+    (storyFn) => <LayoutProvider>{storyFn()}</LayoutProvider>,
+  ],
 } as Meta<typeof Sidebar>;
 
 export default meta;

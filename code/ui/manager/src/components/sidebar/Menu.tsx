@@ -5,8 +5,7 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
 import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
-import { useMediaQuery } from '../hooks/useMedia';
-import { BREAKPOINT_MIN_600 } from '../../constants';
+import { useLayout } from '../layout/LayoutProvider';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -65,6 +64,11 @@ export const SidebarIconButton: FC<
   }),
 }));
 
+const MenuButtonGroup = styled.div({
+  display: 'flex',
+  gap: 4,
+});
+
 const Img = styled.img(sharedStyles);
 const Placeholder = styled.div(sharedStyles);
 
@@ -115,19 +119,28 @@ export interface SidebarMenuProps {
 
 export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
+  const { isMobile, setMobileMenuOpen } = useLayout();
 
-  if (!isDesktop) {
+  if (isMobile) {
     return (
-      <SidebarIconButton
-        title="About Storybook"
-        aria-label="About Storybook"
-        highlighted={isHighlighted}
-        active={false}
-        onClick={onClick}
-      >
-        <Icons icon="cog" />
-      </SidebarIconButton>
+      <MenuButtonGroup>
+        <SidebarIconButton
+          title="About Storybook"
+          aria-label="About Storybook"
+          highlighted={isHighlighted}
+          active={false}
+          onClick={onClick}
+        >
+          <Icons icon="cog" />
+        </SidebarIconButton>
+        <CloseIconButton
+          title="Close menu"
+          aria-label="Close menu"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <Icons icon="close" />
+        </CloseIconButton>
+      </MenuButtonGroup>
     );
   }
 
@@ -173,3 +186,9 @@ export const ToolbarMenu: FC<{
     </WithTooltip>
   );
 };
+
+// We should not have to reset the margin-top here
+// TODO: remove this once we have a the new IconButton component
+const CloseIconButton = styled(IconButton)({
+  marginTop: 0,
+});

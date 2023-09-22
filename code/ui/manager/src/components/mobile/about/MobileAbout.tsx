@@ -5,10 +5,10 @@ import { styled } from '@storybook/theming';
 import { Icons, Link } from '@storybook/components';
 import { UpgradeBlock } from '../../upgrade/UpgradeBlock';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
-import { useMobileLayoutContext } from '../MobileLayoutProvider';
+import { useLayout } from '../../layout/LayoutProvider';
 
 export const MobileAbout: FC = () => {
-  const { isMobileAboutOpen, setMobileAboutOpen } = useMobileLayoutContext();
+  const { isMobileAboutOpen, setMobileAboutOpen } = useLayout();
   const aboutRef = useRef(null);
 
   return (
@@ -72,7 +72,7 @@ const Container = styled.div<{ state: TransitionStatus; transitionDuration: numb
     zIndex: 11,
     transition: `all ${transitionDuration}ms ease-in-out`,
     overflow: 'scroll',
-    padding: '20px',
+    padding: '25px 10px 10px',
     color: theme.color.defaultText,
     background: theme.background.content,
     opacity: `${(() => {
