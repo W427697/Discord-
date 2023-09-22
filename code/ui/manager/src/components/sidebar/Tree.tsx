@@ -202,7 +202,7 @@ const Node = React.memo<NodeProps>(function Node({
   onSelectStoryId,
   api,
 }) {
-  const { isDesktop, setMobileMenuOpen } = useLayout();
+  const { isDesktop, isMobile, setMobileMenuOpen } = useLayout();
 
   if (!isDisplayed) {
     return null;
@@ -234,7 +234,7 @@ const Node = React.memo<NodeProps>(function Node({
           onClick={(event) => {
             event.preventDefault();
             onSelectStoryId(item.id);
-            if (!isDesktop) setMobileMenuOpen(false);
+            if (isMobile) setMobileMenuOpen(false);
           }}
           {...(item.type === 'docs' && { docsMode })}
         >

@@ -3,7 +3,7 @@ import { styled } from '@storybook/theming';
 import type { API_Layout, API_ViewMode } from '@storybook/types';
 import { useDragging } from './useDragging';
 import { MobileNavigation } from '../mobile/navigation/MobileNavigation';
-import { MEDIA_MIN_BREAKPOINT } from '../../constants';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 import { useLayout } from './LayoutProvider';
 
 interface InternalLayoutState {
@@ -178,7 +178,7 @@ const LayoutContainer = styled.div<LayoutState>(
       display: 'flex',
       flexDirection: 'column',
 
-      [MEDIA_MIN_BREAKPOINT]: {
+      [MEDIA_DESKTOP_BREAKPOINT]: {
         display: 'grid',
         gap: 0,
         gridTemplateColumns: `minmax(0, ${navSize}px) minmax(${MINIMUM_CONTENT_WIDTH_PX}px, 1fr) minmax(0, ${rightPanelWidth}px)`,
@@ -214,7 +214,7 @@ const ContentContainer = styled.div(({ theme }) => ({
   backgroundColor: theme.background.content,
   display: 'grid', // This is needed to make the content container fill the available space
 
-  [MEDIA_MIN_BREAKPOINT]: {
+  [MEDIA_DESKTOP_BREAKPOINT]: {
     flex: 'auto',
     gridArea: 'content',
   },

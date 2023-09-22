@@ -20,7 +20,7 @@ import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import type { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
-import { MEDIA_MIN_BREAKPOINT } from '../../constants';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
@@ -37,7 +37,7 @@ const Container = styled.nav(({ theme }) => ({
   flexDirection: 'column',
   background: theme.background.content,
 
-  [MEDIA_MIN_BREAKPOINT]: {
+  [MEDIA_DESKTOP_BREAKPOINT]: {
     background: theme.background.app,
   },
 }));

@@ -119,9 +119,9 @@ export interface SidebarMenuProps {
 
 export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const { isDesktop, setMobileMenuOpen } = useLayout();
+  const { isMobile, setMobileMenuOpen } = useLayout();
 
-  if (!isDesktop) {
+  if (isMobile) {
     return (
       <MenuButtonGroup>
         <SidebarIconButton
