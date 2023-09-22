@@ -24,12 +24,13 @@ const useFullStoryName = () => {
     return '';
   }
 
-  let fullStoryName = currentStory.renderLabel(currentStory);
+  let fullStoryName = currentStory.renderLabel?.(currentStory) || currentStory.name;
   let node = index[currentStory.id];
 
   while ('parent' in node && node.parent && index[node.parent]) {
     node = index[node.parent];
-    fullStoryName = `${node.renderLabel(node)}/${fullStoryName}`;
+    const parentName = node.renderLabel?.(node) || node.name;
+    fullStoryName = `${parentName}/${fullStoryName}`;
   }
   return fullStoryName;
 };
