@@ -23,6 +23,7 @@ const modulesToTransform = [
   '@angular',
   '@lit',
   '@mdx-js',
+  '@vitest',
   'ccount',
   'character-entities',
   'decode-named-character-reference',

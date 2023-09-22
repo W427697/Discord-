@@ -88,7 +88,8 @@
     "playwright": "1.36.0",
     "playwright-core": "1.36.0",
     "serialize-javascript": "^3.1.0",
-    "type-fest": "~2.19"
+    "type-fest": "~2.19",
+    "@vitest/expect@^0.34.2": "patch:@vitest/expect@npm%3A0.34.3#./.yarn/patches/@vitest-expect-npm-0.34.3-313878cdb4.patch"
   },
   "dependencies": {
     "@babel/core": "^7.22.9",

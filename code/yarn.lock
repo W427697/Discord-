@@ -8163,9 +8163,11 @@ __metadata:
     "@vitest/spy": ^0.34.1
     chai: ^4.3.7
     expect: ^29.6.2
+    loupe: ^2.3.1
     ts-dedent: ^2.2.0
     type-fest: ~2.19
     typescript: ~4.9.3
+    util: ^0.12.4
   languageName: unknown
   linkType: soft
 
@@ -10205,7 +10207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/expect@npm:^0.34.2":
+"@vitest/expect@npm:0.34.3":
   version: 0.34.3
   resolution: "@vitest/expect@npm:0.34.3"
   dependencies:
@@ -10213,6 +10215,17 @@ __metadata:
     "@vitest/utils": 0.34.3
     chai: ^4.3.7
   checksum: ec70fba265b5bbd31f9c06c60e504ee0f1394df0871a5bddbe0a6b0a2436705f5e41e183fcdec3dd8864b5432b14d4f3802b896ba625ae0a44b52a9a08ddbd73
+  languageName: node
+  linkType: hard
+
+"@vitest/expect@patch:@vitest/expect@npm%3A0.34.3#./.yarn/patches/@vitest-expect-npm-0.34.3-313878cdb4.patch::locator=%40storybook%2Froot%40workspace%3A.":
+  version: 0.34.3
+  resolution: "@vitest/expect@patch:@vitest/expect@npm%3A0.34.3#./.yarn/patches/@vitest-expect-npm-0.34.3-313878cdb4.patch::version=0.34.3&hash=2c0ce2&locator=%40storybook%2Froot%40workspace%3A."
+  dependencies:
+    "@vitest/spy": 0.34.3
+    "@vitest/utils": 0.34.3
+    chai: ^4.3.7
+  checksum: 6800fea8b719928002ba7b87f92e07f67ab9f21da38fb8e4e1ef6e27ea6e37f3418ea72f2d828706558e921ae8f63c6460b97cdc1ed276b8b7c6ff66889001d7
   languageName: node
   linkType: hard
 
