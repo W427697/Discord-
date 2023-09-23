@@ -20,7 +20,7 @@ export const previewAnnotations = (entry = []) => {
 
 const rewritingIndexer: Indexer = {
   test: /(stories|story)\.[tj]sx?$/,
-  index: async (fileName, opts) => {
+  createIndex: async (fileName, opts) => {
     console.log('indexing', fileName);
     const code = (await readFile(fileName, 'utf-8')).toString();
     const csf = await loadCsf(code, { ...opts, fileName }).parse();

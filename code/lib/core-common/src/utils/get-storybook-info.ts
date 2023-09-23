@@ -26,6 +26,7 @@ export const frameworkPackages: Record<string, string> = {
   '@storybook/html-vite': 'html-vite',
   '@storybook/html-webpack5': 'html-webpack5',
   '@storybook/nextjs': 'nextjs',
+  '@storybook/nextjs-server': 'nextjs',
   '@storybook/preact-vite': 'preact-vite',
   '@storybook/preact-webpack5': 'preact-webpack5',
   '@storybook/react-vite': 'react-vite',
