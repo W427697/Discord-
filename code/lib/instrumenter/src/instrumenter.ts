@@ -302,19 +302,25 @@ export class Instrumenter {
     depth += 1;
     return keys.reduce(
       (acc, key) => {
+        const descriptor = getPropertyDescriptor(obj, key);
+        if (typeof descriptor?.get === 'function') {
+          Object.defineProperty(acc, key, {
+            get: () => {
+              return this.instrument(
+                (obj as Record<string, any>)[key],
+                { ...options, path: path.concat(key) },
+                depth
+              );
+            },
+          });
+          return acc;
+        }
+
         const value = (obj as Record<string, any>)[key];
+
         // Nothing to patch, but might be instrumentable, so we recurse
         if (typeof value !== 'function') {
-          const descriptor = getPropertyDescriptor(obj, key);
-          if (typeof descriptor?.get === 'function') {
-            Object.defineProperty(acc, key, {
-              get: () => {
-                return this.instrument(value, { ...options, path: path.concat(key) }, depth);
-              },
-            });
-          } else {
-            acc[key] = this.instrument(value, { ...options, path: path.concat(key) }, depth);
-          }
+          acc[key] = this.instrument(value, { ...options, path: path.concat(key) }, depth);
           return acc;
         }
 
