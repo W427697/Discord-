@@ -6,7 +6,11 @@ import { createFilter } from 'vite';
 import MagicString from 'magic-string';
 
 import type { ComponentMeta, MetaCheckerOptions } from 'vue-component-meta';
-import { TypeMeta, createComponentMetaCheckerByJsonConfig } from 'vue-component-meta';
+import {
+  TypeMeta,
+  createComponentMetaCheckerByJsonConfig,
+  createComponentMetaChecker,
+} from 'vue-component-meta';
 
 type MetaSource = {
   exportName: string;
@@ -16,11 +20,14 @@ type MetaSource = {
   MetaCheckerOptions['schema'];
 
 export function vueComponentMeta(): PluginOption {
+  // not stories files
+  const exclude = /(\.stories\.ts|\.stories\.js|\.stories\.tsx|\.stories\.jsx)$/;
   const include = /\.(vue|ts|js|tsx|jsx)$/;
-  const filter = createFilter(include);
+  const filter = createFilter(include, exclude);
 
   const checkerOptions: MetaCheckerOptions = {
     forceUseTs: true,
+    noDeclarations: true,
     schema: { ignore: ['MyIgnoredNestedProps'] },
     printer: { newLine: 1 },
   };
@@ -39,19 +46,16 @@ export function vueComponentMeta(): PluginOption {
     async transform(src: string, id: string) {
       // console.log('. ');
       if (!filter(id)) return undefined;
-      console.log(' --------------- id', id);
-      // console.log(' --------------- src', src);
 
       let metaSource;
       try {
         const exportNames = checker.getExportNames(id);
-        console.log(' exportNames', exportNames);
+
         const componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
 
         const metaSources: MetaSource[] = [];
         componentsMeta.forEach((meta) => {
           const exportName = exportNames[componentsMeta.indexOf(meta)];
-          console.log(' meta', meta.props, '  ', exportName);
 
           if (meta.type === TypeMeta.Class || meta.type === TypeMeta.Function) {
             metaSources.push({
@@ -90,8 +94,7 @@ export function vueComponentMeta(): PluginOption {
             s.append(`\n${docgenInfos}`);
           }
         }
-        console.log(' ');
-        console.log(' \n', s.toString());
+
         return {
           code: s.toString(),
           map: s.generateMap({ hires: true, source: id }),
