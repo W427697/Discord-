@@ -6,11 +6,7 @@ import { createFilter } from 'vite';
 import MagicString from 'magic-string';
 
 import type { ComponentMeta, MetaCheckerOptions } from 'vue-component-meta';
-import {
-  TypeMeta,
-  createComponentMetaCheckerByJsonConfig,
-  createComponentMetaChecker,
-} from 'vue-component-meta';
+import { TypeMeta, createComponentMetaCheckerByJsonConfig } from 'vue-component-meta';
 
 type MetaSource = {
   exportName: string;
