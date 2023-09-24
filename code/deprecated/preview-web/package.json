@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-web",
-  "version": "7.2.0",
+  "version": "7.4.4",
   "description": "",
   "keywords": [
     "storybook"
@@ -35,7 +35,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",

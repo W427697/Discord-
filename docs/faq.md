@@ -16,6 +16,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [Why is there no addons channel?](#why-is-there-no-addons-channel)
 - [Why aren't Controls visible in the Canvas panel but visible in Docs?](#why-arent-controls-visible-in-the-canvas-panel-but-visible-in-docs)
 - [Why aren't the addons working in a composed Storybook?](#why-arent-the-addons-working-in-a-composed-storybook)
+- [Can I have a Storybook with no local stories?](#can-i-have-a-storybook-with-no-local-stories)
 - [Which community addons are compatible with the latest version of Storybook?](#which-community-addons-are-compatible-with-the-latest-version-of-storybook)
 - [Is it possible to browse the documentation for past versions of Storybook?](#is-it-possible-to-browse-the-documentation-for-past-versions-of-storybook)
 - [What icons are available for my toolbar or my addon?](#what-icons-are-available-for-my-toolbar-or-my-addon)
@@ -218,6 +219,38 @@ For now, the addons you're using in a composed Storybook will not work.
 
 We're working on overcoming this limitation, and soon you'll be able to use them as if you are working with a non-composed Storybook.
 
+## Can I have a Storybook with no local stories?
+
+Storybook does not work unless you have at least one local story (or docs page) defined in your project. In this context, local means a `.stories.*` or `.mdx` file that is referenced in your project's `.storybook/main.js` config.
+
+If you're in a [Storybook composition](https://storybook.js.org/docs/react/sharing/storybook-composition) scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
+
+Introduce a single `.mdx` docs page (addon-essentials or addon-docs required), that serves as an Introduction page, like so:
+
+```mdx
+<!-- Introduction.mdx -->
+# Welcome
+
+Some description here
+```
+
+And then refer to it in your Storybook config file:
+
+```ts
+// .storybook/main.js
+const config = {
+  // define at least one local story/page here
+  stories: ['../Introduction.mdx'],
+  // define composed Storybooks here
+  refs: {
+    firstProject: { title: 'First', url: 'some-url' },
+    secondProject: { title: 'Second', url: 'other-url' },
+  }
+  // ...
+}
+export default config;
+```
+
 ## Which community addons are compatible with the latest version of Storybook?
 
 Starting with Storybook version 6.0, we've introduced some great features aimed at streamlining your development workflow.
@@ -253,7 +286,8 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Accessibility tests                          | [See current documentation](./writing-tests/accessibility-testing.md)                                      | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Interaction tests                            | [See current documentation](./writing-tests/interaction-testing.md)                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/interaction-testing)                                                                                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/interaction-testing)                      |
 |                  | Snapshot tests                               | [See current documentation](./writing-tests/snapshot-testing.md)                                           | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/structural-testing)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/structural-testing)                       |
-|                  | Import stories in tests                      | [See current documentation](./writing-tests/importing-stories-in-tests.md)                                 | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/react-ui-testing)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/react-ui-testing)                         |
+|                  | Import stories in tests/Unit tests           | [See current documentation](./writing-tests/stories-in-unit-tests.md)                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/react-ui-testing)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/react-ui-testing)                         |
+|                  | Import stories in tests/End-to-end testing   | [See current documentation](./writing-tests/stories-in-end-to-end-tests.md)                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/testing/react-ui-testing)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/testing/react-ui-testing)                         |
 | Sharing          | Publish Storybook                            | [See current documentation](./sharing/publish-storybook.md)                                                | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/basics/exporting-storybook)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/basics/exporting-storybook)                       |
 |                  | Embed                                        | [See current documentation](./sharing/embed.md)                                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Composition                                  | [See current documentation](./sharing/storybook-composition.md)                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |

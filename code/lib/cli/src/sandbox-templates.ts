@@ -62,6 +62,7 @@ export type Template = {
   modifications?: {
     skipTemplateStories?: boolean;
     mainConfig?: Partial<StorybookConfig>;
+    disableDocs?: boolean;
   };
   /**
    * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
@@ -284,6 +285,8 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
+    // TODO: Should be removed after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
+    inDevelopment: true,
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
@@ -421,7 +424,7 @@ const baseTemplates = {
   },
   'qwik-vite/default-ts': {
     name: 'Qwik CLI (Default TS)',
-    script: 'yarn create qwik basic {{beforeDir}} --no-install',
+    script: 'yarn create qwik basic {{beforeDir}}',
     // TODO: The community template does not provide standard stories, which is required for e2e tests. Reenable once it does.
     inDevelopment: true,
     expected: {
@@ -526,6 +529,16 @@ const benchTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
   },
+  'bench/react-vite-default-ts-nodocs': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'Bench (react-vite/default-ts, no docs)',
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      disableDocs: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+  },
 } satisfies Record<`bench/${string}`, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {
@@ -546,6 +559,7 @@ export const normal: TemplateKey[] = [
   'nextjs/default-ts',
   'bench/react-vite-default-ts',
   'bench/react-webpack-18-ts',
+  'bench/react-vite-default-ts-nodocs',
 ];
 export const merged: TemplateKey[] = [
   ...normal,
@@ -561,7 +575,8 @@ export const merged: TemplateKey[] = [
 ];
 export const daily: TemplateKey[] = [
   ...merged,
-  'angular-cli/prerelease',
+  // TODO: Should be re-added after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
+  // 'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',

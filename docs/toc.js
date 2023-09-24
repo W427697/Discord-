@@ -94,6 +94,11 @@ module.exports = {
           title: 'Stories for multiple components',
           type: 'link',
         },
+        {
+          pathSegment: 'typescript',
+          title: 'Writing stories in TypeScript',
+          type: 'link',
+        },
       ],
     },
     {
@@ -169,9 +174,21 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'importing-stories-in-tests',
+          pathSegment: '',
           title: 'Import stories in tests',
-          type: 'link',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'stories-in-end-to-end-tests',
+              title: 'End-to-end tests',
+              type: 'link',
+            },
+            {
+              pathSegment: 'stories-in-unit-tests',
+              title: 'Unit tests',
+              type: 'link',
+            },
+          ],
         },
       ],
     },
