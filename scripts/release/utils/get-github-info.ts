@@ -168,7 +168,7 @@ export type PullRequestInfo = {
   pull: number | null;
   labels: string[] | null;
   links: {
-    commit: string;
+    commit: string | null;
     pull: string | null;
     user: string | null;
   };
@@ -209,10 +209,7 @@ export async function getPullInfoFromCommit(request: {
       },
     };
   }
-  let user = null;
-  if (data.author && data.author.user) {
-    user = data.author.user;
-  }
+  let user = data?.author?.user || null;
 
   const associatedPullRequest =
     data.associatedPullRequests &&

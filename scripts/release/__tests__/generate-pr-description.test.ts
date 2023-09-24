@@ -15,6 +15,7 @@ describe('Generate PR Description', () => {
       labels: ['bug', 'build', 'other label', 'patch:yes'],
       commit: 'abc123',
       pull: 42,
+      state: 'MERGED',
       links: {
         commit: '[abc123](https://github.com/storybookjs/storybook/commit/abc123)',
         pull: '[#42](https://github.com/storybookjs/storybook/pull/42)',
@@ -26,6 +27,7 @@ describe('Generate PR Description', () => {
       id: null,
       user: 'storybook-bot',
       pull: null,
+      state: null,
       commit: '012b58140c3606efeacbe99c0c410624b0a1ed1f',
       title: 'Bump version on `next`: preminor (alpha) from 7.2.0 to 7.3.0-alpha.0',
       labels: null,
@@ -41,6 +43,7 @@ describe('Generate PR Description', () => {
       user: 'shilman',
       title: 'Some title for a "direct commit"',
       labels: null,
+      state: null,
       commit: '22bb11',
       pull: null,
       links: {
@@ -55,6 +58,7 @@ describe('Generate PR Description', () => {
       title: 'Another PR `title` for docs',
       labels: ['another label', 'documentation', 'patch:yes'],
       commit: 'ddd222',
+      state: 'MERGED',
       pull: 11,
       links: {
         commit: '[ddd222](https://github.com/storybookjs/storybook/commit/ddd222)',
@@ -69,6 +73,7 @@ describe('Generate PR Description', () => {
       labels: ['feature request', 'other label'],
       commit: 'wow1337',
       pull: 48,
+      state: 'MERGED',
       links: {
         commit: '[wow1337](https://github.com/storybookjs/storybook/commit/wow1337)',
         pull: '[#48](https://github.com/storybookjs/storybook/pull/48)',
@@ -81,6 +86,7 @@ describe('Generate PR Description', () => {
       title: 'Some PR title with a missing label',
       labels: ['incorrect label', 'other label'],
       commit: 'bad999',
+      state: 'MERGED',
       pull: 77,
       links: {
         commit: '[bad999](https://github.com/storybookjs/storybook/commit/bad999)',

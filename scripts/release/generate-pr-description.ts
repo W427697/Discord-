@@ -66,7 +66,7 @@ export const mapToChangelist = ({
     .filter((change) => {
       // eslint-disable-next-line no-restricted-syntax
       for (const titleToIgnore of CHANGE_TITLES_TO_IGNORE) {
-        if (change.title.match(titleToIgnore)) {
+        if (change.title?.match(titleToIgnore)) {
           return false;
         }
       }
@@ -91,7 +91,7 @@ export const mapToChangelist = ({
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
       return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
-        !unpickedPatches && change.labels.includes('patch:yes') ? ' (will also be patched)' : ''
+        !unpickedPatches && change.labels?.includes('patch:yes') ? ' (will also be patched)' : ''
       }`;
     })
     .join('\n');
