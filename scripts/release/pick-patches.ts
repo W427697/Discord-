@@ -4,9 +4,9 @@ import program from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
 import { setOutput } from '@actions/core';
+import invariant from 'tiny-invariant';
 import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
-import invariant from 'tiny-invariant';
 
 program.name('pick-patches').description('Cherry pick patch PRs back to main');
 
@@ -46,6 +46,10 @@ export const run = async (_: unknown) => {
     spinner.succeed(`Found ${patchPRs.length} PRs to cherry-pick to main.`);
   } else {
     spinner.warn('No PRs found.');
+  }
+
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    setOutput('pr-count', JSON.stringify(patchPRs.length));
   }
 
   const failedCherryPicks: string[] = [];
