@@ -86,7 +86,6 @@ export const run = async (options: unknown) => {
     return false;
   }
 
-  // TODO: check if pull request is still open
   const isFrozen = pullRequest.labels?.includes('freeze');
   if (process.env.GITHUB_ACTIONS === 'true') {
     setOutput('frozen', isFrozen);
