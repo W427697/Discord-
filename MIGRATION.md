@@ -325,13 +325,13 @@ npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
 
 They won't do a perfect migration so we recommend that you manually go through each file afterwards.
 
-Alternatively you can build your own `storiesOf` implementation by leveraging the new (experimental) indexer API ([documentation](TODO), [migration](#storyindexers-is-replaced-with-experimental_indexers)). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's `README.md` for a deeper explanation of the implementation.
+Alternatively you can build your own `storiesOf` implementation by leveraging the new (experimental) indexer API ([documentation](https://storybook.js.org/docs/react/api/main-config-indexers), [migration](#storyindexers-is-replaced-with-experimental_indexers)). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's `README.md` for a deeper explanation of the implementation.
 
 #### `storyIndexers` is replaced with `experimental_indexers`
 
 Defining custom indexers for stories has become a more official - yet still experimental - API which is now configured at `experimental_indexers` instead of `storyIndexers` in `main.ts`. `storyIndexers` has been deprecated and will be fully removed in version 8.0.0.
 
-The new experimental indexers are documented [here](TODO!!!). The most notable change from `storyIndexers` is that the indexer must now return a list of [`IndexInput`](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/indexer.ts#L104-L148) instead of `CsfFile`. It's possible to construct an `IndexInput` from a `CsfFile` using the `CsfFile.indexInputs` getter.
+The new experimental indexers are documented [here](https://storybook.js.org/docs/react/api/main-config-indexers). The most notable change from `storyIndexers` is that the indexer must now return a list of [`IndexInput`](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/indexer.ts#L104-L148) instead of `CsfFile`. It's possible to construct an `IndexInput` from a `CsfFile` using the `CsfFile.indexInputs` getter.
 
 That means you can convert an existing story indexer like this:
 
@@ -1114,7 +1114,7 @@ Starting in 7.0, we drop support for Angular < 14
 
 _Has automigration_
 
-In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. 
+In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook.
 
 You can run `npx storybook@next automigrate` to automatically fix your configuration, or visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/README.md#how-do-i-migrate-to-an-angular-storybook-builder for instructions on how to set up Storybook for Angular manually.
 
