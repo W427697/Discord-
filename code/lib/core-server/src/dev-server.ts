@@ -8,6 +8,7 @@ import { logConfig } from '@storybook/core-common';
 import { deprecate, logger } from '@storybook/node-logger';
 
 import dedent from 'ts-dedent';
+import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
@@ -75,7 +76,10 @@ export async function storybookDevServer(options: Options) {
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
-  invariant(core?.builder, 'no builder configured!');
+  if (!core?.builder) {
+    throw new MissingBuilderError();
+  }
+
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 
   const [previewBuilder, managerBuilder] = await Promise.all([

@@ -213,9 +213,14 @@ describe('PNPM Proxy', () => {
         .spyOn(pnpmProxy, 'writePackageJson')
         .mockImplementation(jest.fn());
 
+      const basePackageAttributes = {
+        dependencies: {},
+        devDependencies: {},
+      };
+
       jest.spyOn(pnpmProxy, 'retrievePackageJson').mockImplementation(
-        // @ts-expect-error (not strict)
-        jest.fn(() => ({
+        jest.fn(async () => ({
+          ...basePackageAttributes,
           overrides: {
             bar: 'x.x.x',
           },
@@ -228,6 +233,7 @@ describe('PNPM Proxy', () => {
       await pnpmProxy.addPackageResolutions(versions);
 
       expect(writePackageSpy).toHaveBeenCalledWith({
+        ...basePackageAttributes,
         overrides: {
           ...versions,
           bar: 'x.x.x',
@@ -316,6 +322,7 @@ describe('PNPM Proxy', () => {
 
       expect(installations).toMatchInlineSnapshot(`
         Object {
+          "dedupeCommand": "pnpm dedupe",
           "dependencies": Object {
             "@storybook/addon-interactions": Array [
               Object {
