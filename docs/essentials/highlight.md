@@ -71,3 +71,10 @@ By default, the addon applies a standard style to the highlighted elements you'v
 />
 
 <!-- prettier-ignore-end -->
+
+
+<div class="aside">
+
+📚 In all three provided code snippets, the "emit" function comes from the `useChannel` hook, which is imported from the `@storybook/preview-api` package. This `useChannel` hook is used to create a communication channel for sending and receiving messages within the code. The "emit" function obtained from `useChannel` is then used to send messages with specific event types, such as `HIGHLIGHT` or `RESET_HIGHLIGHT`, to control or customize the behavior in the code.
+
+</div>
