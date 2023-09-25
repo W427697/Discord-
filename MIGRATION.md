@@ -1,6 +1,6 @@
 <h1>Migration</h1>
 
-- [From version 7.3.0 to 7.4.0](#from-version-730-to-740)
+- [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
   - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
   - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
@@ -305,7 +305,7 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
-## From version 7.3.0 to 7.4.0
+## From version 7.4.0 to 7.5.0
 
 #### `storyStoreV6` and `storiesOf` is deprecated
 
