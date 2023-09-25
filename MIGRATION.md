@@ -369,6 +369,8 @@ export default {
 };
 ```
 
+As an addon author you can support previous versions of Storybook by setting both `storyIndexers` and `indexers_experimental`, without triggering the deprecation warning.
+
 ## From version 7.0.0 to 7.2.0
 
 #### Addon API is more type-strict
