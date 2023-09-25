@@ -119,12 +119,6 @@ export class StoryIndexGenerator {
     public readonly options: StoryIndexGeneratorOptions
   ) {
     this.specifierToCache = new Map();
-    if (options.storyIndexers.length > 1) {
-      deprecate(
-        dedent`'storyIndexers' is deprecated, please use 'experimental_indexers' instead.
-        - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storyindexers-is-replaced-with-experimental_indexers`
-      );
-    }
   }
 
   async initialize() {
@@ -298,6 +292,10 @@ export class StoryIndexGenerator {
     invariant(indexer, `No matching indexer found for ${absolutePath}`);
 
     if (indexer.indexer) {
+      deprecate(
+        dedent`'storyIndexers' is deprecated, please use 'experimental_indexers' instead. Found a deprecated indexer with matcher: ${indexer.test}
+          - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storyindexers-is-replaced-with-experimental_indexers`
+      );
       return this.extractStoriesFromDeprecatedIndexer({
         indexer: indexer.indexer,
         indexerOptions: { makeTitle: defaultMakeTitle },
