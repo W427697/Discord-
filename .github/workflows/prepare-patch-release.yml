@@ -89,7 +89,7 @@ jobs:
           yarn release:pick-patches
 
       - name: Cancel when no hotfixes to pick
-        if: steps.pick-patches.outputs.pr-count == 0
+        if: steps.pick-patches.outputs.pr-count < 1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # From https://stackoverflow.com/a/75809743
