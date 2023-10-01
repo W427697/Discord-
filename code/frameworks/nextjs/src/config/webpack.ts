@@ -5,6 +5,14 @@ import type { NextConfig } from 'next';
 import { DefinePlugin } from 'webpack';
 import { addScopedAlias, getNextjsVersion, resolveNextConfig } from '../utils';
 
+const tryResolve = (path: string) => {
+  try {
+    return require.resolve(path);
+  } catch (err) {
+    return false;
+  }
+};
+
 export const configureConfig = async ({
   baseConfig,
   nextConfigPath,
@@ -17,6 +25,12 @@ export const configureConfig = async ({
   const nextConfig = await resolveNextConfig({ baseConfig, nextConfigPath, configDir });
 
   addScopedAlias(baseConfig, 'next/config');
+  if (tryResolve('next/dist/compiled/react')) {
+    addScopedAlias(baseConfig, 'react', 'next/dist/compiled/react');
+  }
+  if (tryResolve('next/dist/compiled/react-dom')) {
+    addScopedAlias(baseConfig, 'react-dom', 'next/dist/compiled/react-dom');
+  }
   setupRuntimeConfig(baseConfig, nextConfig);
 
   return nextConfig;
