@@ -33,7 +33,8 @@ export const OutlineSelector = memo(function OutlineSelector() {
       active={isActive}
       title="Apply outlines to the preview"
       onClick={toggleOutline}
-      icon={<Icons icon="outline" />}
-    />
+    >
+      <Icons icon="outline" />
+    </IconButton>
   );
 });

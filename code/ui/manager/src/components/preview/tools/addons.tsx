@@ -22,13 +22,9 @@ export const addonsTool: Addon_BaseType = {
         !singleStory &&
         !isVisible && (
           <>
-            <IconButton
-              aria-label="Show addons"
-              key="addons"
-              onClick={toggle}
-              title="Show addons"
-              icon={<Icons icon={panelPosition === 'bottom' ? 'bottombar' : 'sidebaralt'} />}
-            />
+            <IconButton aria-label="Show addons" key="addons" onClick={toggle} title="Show addons">
+              <Icons icon={panelPosition === 'bottom' ? 'bottombar' : 'sidebaralt'} />
+            </IconButton>
           </>
         )
       }

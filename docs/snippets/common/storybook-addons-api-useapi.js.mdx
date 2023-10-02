@@ -25,12 +25,9 @@ export const Panel = () => {
   }, [api]);
 
   return (
-    <IconButton
-      key="custom-toolbar"
-      active="true"
-      title="Show a toolbar addon"
-      icon={<Icons icon="arrowdown" />}
-    />
+    <IconButton key="custom-toolbar" active="true" title="Show a toolbar addon">
+      <Icons icon="arrowdown" />
+    </IconButton>
   );
 };
 ```

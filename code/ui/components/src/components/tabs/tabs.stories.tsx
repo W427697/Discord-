@@ -274,8 +274,12 @@ export const StatelessWithTools = {
       }}
       tools={
         <Fragment>
-          <IconButton title="Tool 1" icon={<Icons icon="memory" />} />
-          <IconButton title="Tool 2" icon={<Icons icon="cpu" />} />
+          <IconButton title="Tool 1">
+            <Icons icon="memory" />
+          </IconButton>
+          <IconButton title="Tool 2">
+            <Icons icon="cpu" />
+          </IconButton>
         </Fragment>
       }
       {...args}

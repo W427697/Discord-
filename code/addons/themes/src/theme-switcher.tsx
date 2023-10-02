@@ -73,12 +73,8 @@ export const ThemeSwitcher = () => {
           );
         }}
       >
-        <IconButton
-          key={THEME_SWITCHER_ID}
-          active={!themeOverride}
-          title="Theme"
-          icon={<Icons icon="paintbrush" />}
-        >
+        <IconButton key={THEME_SWITCHER_ID} active={!themeOverride} title="Theme">
+          <Icons icon="paintbrush" />
           {label && <IconButtonLabel>{label}</IconButtonLabel>}
         </IconButton>
       </WithTooltip>

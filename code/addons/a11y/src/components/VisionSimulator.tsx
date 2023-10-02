@@ -143,12 +143,9 @@ export const VisionSimulator = () => {
         closeOnOutsideClick
         onDoubleClick={() => setFilter(null)}
       >
-        <IconButton
-          key="filter"
-          active={!!filter}
-          title="Vision simulator"
-          icon={<Icons icon="accessibility" />}
-        />
+        <IconButton key="filter" active={!!filter} title="Vision simulator">
+          <Icons icon="accessibility" />
+        </IconButton>
       </WithTooltip>
       <Hidden>
         <Filters />

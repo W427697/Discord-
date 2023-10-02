@@ -32,8 +32,9 @@ const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
         zoom(0.8);
       }}
       title="Zoom in"
-      icon={<Icons icon="zoom" />}
-    />
+    >
+      <Icons icon="zoom" />
+    </IconButton>
     <IconButton
       key="zoomout"
       onClick={(e: MouseEvent<HTMLButtonElement>) => {
@@ -41,8 +42,9 @@ const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
         zoom(1.25);
       }}
       title="Zoom out"
-      icon={<Icons icon="zoomout" />}
-    />
+    >
+      <Icons icon="zoomout" />
+    </IconButton>
     <IconButton
       key="zoomreset"
       onClick={(e: MouseEvent<HTMLButtonElement>) => {
@@ -50,8 +52,9 @@ const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
         resetZoom();
       }}
       title="Reset zoom"
-      icon={<Icons icon="zoomreset" />}
-    />
+    >
+      <Icons icon="zoomreset" />
+    </IconButton>
   </>
 );
 

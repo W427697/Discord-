@@ -137,8 +137,9 @@ export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick
           title="Close menu"
           aria-label="Close menu"
           onClick={() => setMobileMenuOpen(false)}
-          icon={<Icons icon="close" />}
-        />
+        >
+          <Icons icon="close" />
+        </CloseIconButton>
       </MenuButtonGroup>
     );
   }
@@ -179,7 +180,9 @@ export const ToolbarMenu: FC<{
       ]}
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
-      <IconButton title="Shortcuts" aria-label="Shortcuts" icon={<Icons icon="menu" />} />
+      <IconButton title="Shortcuts" aria-label="Shortcuts">
+        <Icons icon="menu" />
+      </IconButton>
     </WithTooltip>
   );
 };

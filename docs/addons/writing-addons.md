@@ -143,8 +143,9 @@ export const Tool = memo(function MyAddonSelector() {
       active={isActive}
       title="Apply outlines to the preview"
       onClick={toggleMyTool}
-      icon={<Icons icon="lightning" />}
-    />
+    >
+      <Icons icon="lightning" />
+    </IconButton>
   );
 });
 ```

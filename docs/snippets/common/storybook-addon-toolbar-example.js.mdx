@@ -15,7 +15,9 @@ addons.register('my/toolbar', () => {
     //👇 Shows the Toolbar UI element if either the Canvas or Docs tab is active
     match: ({ viewMode }) => !!(viewMode && viewMode.match(/^(story|docs)$/)),
     render: ({ active }) => (
-      <IconButton active={active} title="Show a Storybook toolbar" icon={<Icons icon="outline" />} />
+      <IconButton active={active} title="Show a Storybook toolbar">
+        <Icons icon="outline" />
+      </IconButton>
     ),
   });
 });

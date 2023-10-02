@@ -30,13 +30,9 @@ export const Tool = memo(function MyAddonSelector() {
   }, [toggleMyTool, api]);
 
   return (
-    <IconButton
-      key={TOOL_ID}
-      active={isActive}
-      title="Enable my addon"
-      onClick={toggleMyTool}
-      icon={<Icons icon="lightning" />}
-    />
+    <IconButton key={TOOL_ID} active={isActive} title="Enable my addon" onClick={toggleMyTool}>
+      <Icons icon="lightning" />
+    </IconButton>
   );
 });
 ```

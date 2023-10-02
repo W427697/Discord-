@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof IconButton>;
 
 export const Base = {
-  args: { icon: <Icons icon="facehappy" /> },
+  args: { children: <Icons icon="facehappy" /> },
 };
 
 export const Types: Story = {

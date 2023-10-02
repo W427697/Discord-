@@ -62,8 +62,9 @@ export const fullScreenTool: Addon_BaseType = {
               onClick={toggle as any}
               title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
               aria-label={isFullscreen ? 'Exit full screen' : 'Go full screen'}
-              icon={<Icons icon={isFullscreen ? 'close' : 'expand'} />}
-            />
+            >
+              <Icons icon={isFullscreen ? 'close' : 'expand'} />
+            </IconButton>
           )
         }
       </Consumer>

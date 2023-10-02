@@ -68,21 +68,21 @@ export const AddonPanel = React.memo<{
                   title={`Change addon orientation [${shortcutToHumanString(
                     shortcuts.panelPosition
                   )}]`}
-                  icon={<Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />}
-                />
+                >
+                  <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+                </IconButton>
                 <IconButton
                   key="visibility"
                   onClick={actions.toggleVisibility}
                   title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
-                  icon={<Icons icon="close" />}
-                />
+                >
+                  <Icons icon="close" />
+                </IconButton>
               </>
             ) : (
-              <IconButton
-                onClick={() => setMobilePanelOpen(false)}
-                title="Close addon panel"
-                icon={<Icons icon="close" />}
-              />
+              <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
+                <Icons icon="close" />
+              </IconButton>
             )}
           </Actions>
         }

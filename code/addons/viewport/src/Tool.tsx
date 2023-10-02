@@ -185,8 +185,8 @@ export const ViewportTool: FC = memo(
             onDoubleClick={() => {
               setState({ ...state, selected: responsiveViewport.id });
             }}
-            icon={<Icons icon="grow" />}
           >
+            <Icons icon="grow" />
             {styles ? (
               <IconButtonLabel>
                 {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
@@ -216,8 +216,9 @@ export const ViewportTool: FC = memo(
               onClick={() => {
                 setState({ ...state, isRotated: !isRotated });
               }}
-              icon={<Icons icon="transfer" />}
-            />
+            >
+              <Icons icon="transfer" />
+            </IconButton>
             <ActiveViewportLabel title="Viewport height">
               {styles.height.replace('px', '')}
             </ActiveViewportLabel>
