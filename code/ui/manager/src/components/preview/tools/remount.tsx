@@ -55,8 +55,9 @@ export const remountTool: Addon_BaseType = {
             onAnimationEnd={() => setIsAnimating(false)}
             animating={isAnimating}
             disabled={!storyId}
-            icon={<Icons icon="sync" />}
-          />
+          >
+            <Icons icon="sync" />
+          </StyledAnimatedIconButton>
         );
       }}
     </Consumer>

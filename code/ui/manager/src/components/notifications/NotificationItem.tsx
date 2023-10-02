@@ -114,8 +114,9 @@ const DismissNotificationItem: FC<{
       e.preventDefault();
       onDismiss();
     }}
-    icon={<Icons icon="closeAlt" height={12} width={12} />}
-  />
+  >
+    <Icons icon="closeAlt" height={12} width={12} />
+  </DismissButtonWrapper>
 );
 
 export const NotificationItemSpacer = styled.div({
