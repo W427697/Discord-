@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.2.2-alpha.0",
+  "version": "7.5.0-alpha.3",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -43,7 +43,8 @@
     "static/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -51,7 +52,7 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addon-designs": "^7.0.0",
+    "@storybook/addon-designs": "^7.0.4",
     "@storybook/addons": "workspace:*",
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
@@ -64,6 +65,7 @@
     "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
+    "browser-dtector": "^3.4.0",
     "copy-to-clipboard": "^3.3.1",
     "downshift": "^6.0.15",
     "fs-extra": "^11.1.0",

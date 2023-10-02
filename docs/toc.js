@@ -94,6 +94,11 @@ module.exports = {
           title: 'Stories for multiple components',
           type: 'link',
         },
+        {
+          pathSegment: 'typescript',
+          title: 'Writing stories in TypeScript',
+          type: 'link',
+        },
       ],
     },
     {
@@ -520,6 +525,11 @@ module.exports = {
             {
               title: 'features',
               pathSegment: 'main-config-features',
+              type: 'link',
+            },
+            {
+              title: 'indexers',
+              pathSegment: 'main-config-indexers',
               type: 'link',
             },
             {
