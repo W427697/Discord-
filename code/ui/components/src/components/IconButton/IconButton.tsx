@@ -5,7 +5,11 @@ import { darken, lighten, rgba, transparentize } from 'polished';
 import type { PropsOf } from '../utils/types';
 
 interface IconButtonProps<T extends React.ElementType = React.ElementType> {
-  children: ReactNode;
+  /**
+   * @deprecated You should add the icon using the icon prop instead. This API will be removed in 9.0.
+   */
+  children?: ReactNode;
+  icon: ReactNode;
   as?: T;
   size?: 'small' | 'medium';
   variant?: 'solid' | 'outline' | 'ghost';
@@ -22,7 +26,7 @@ export const IconButton: {
   displayName?: string;
 } = forwardRef(
   (
-    { as, children, onClickAnimation = 'none', onClick, ...props }: IconButtonProps,
+    { as, icon, children, onClickAnimation = 'none', onClick, ...props }: IconButtonProps,
     ref: React.Ref<HTMLButtonElement>
   ) => {
     const [isAnimating, setIsAnimating] = useState(false);
@@ -43,6 +47,7 @@ export const IconButton: {
     return (
       <StyledButton as={as} ref={ref} {...props} onClick={handleClick}>
         <IconWrapper isAnimating={isAnimating} animation={onClickAnimation}>
+          {icon}
           {children}
         </IconWrapper>
       </StyledButton>

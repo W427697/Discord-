@@ -30,12 +30,12 @@ export const ejectTool: Addon_BaseType = {
         storyId ? (
           <IconButton
             key="opener"
+            as="a"
             href={getStoryHref(baseUrl, storyId, queryParams)}
             target="_blank"
             title="Open canvas in new tab"
-          >
-            <Icons icon="sharealt" />
-          </IconButton>
+            icon={<Icons icon="sharealt" />}
+          />
         ) : null
       }
     </Consumer>

@@ -36,9 +36,8 @@ export const copyTool: Addon_BaseType = {
             key="copy"
             onClick={() => copy(getStoryHref(baseUrl, storyId, queryParams))}
             title="Copy canvas link"
-          >
-            <Icons icon="link" />
-          </IconButton>
+            icon={<Icons icon="link" />}
+          />
         ) : null
       }
     </Consumer>

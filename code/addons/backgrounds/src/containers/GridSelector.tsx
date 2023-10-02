@@ -29,8 +29,7 @@ export const GridSelector: FC = memo(function GridSelector() {
           [BACKGROUNDS_PARAM_KEY]: { ...globals[BACKGROUNDS_PARAM_KEY], grid: !isActive },
         })
       }
-    >
-      <Icons icon="grid" />
-    </IconButton>
+      icon={<Icons icon="grid" />}
+    />
   );
 });

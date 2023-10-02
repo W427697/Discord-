@@ -139,9 +139,8 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
           key="background"
           title="Change the background of the preview"
           active={selectedBackgroundColor !== 'transparent' || isTooltipVisible}
-        >
-          <Icons icon="photo" />
-        </IconButton>
+          icon={<Icons icon="photo" />}
+        />
       </WithTooltip>
     </Fragment>
   );

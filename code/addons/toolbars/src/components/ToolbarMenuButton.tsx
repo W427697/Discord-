@@ -18,8 +18,12 @@ export const ToolbarMenuButton: FC<ToolbarMenuButtonProps> = ({
   onClick,
 }) => {
   return (
-    <IconButton active={active} title={description} onClick={onClick}>
-      {icon && <Icons icon={icon} />}
+    <IconButton
+      active={active}
+      title={description}
+      onClick={onClick}
+      icon={icon && <Icons icon={icon} />}
+    >
       {title ? `\xa0${title}` : null}
     </IconButton>
   );

@@ -32,8 +32,7 @@ export const Tool = () => {
       active={measureEnabled}
       title="Enable measure"
       onClick={toggleMeasure}
-    >
-      <Icons icon="ruler" />
-    </IconButton>
+      icon={<Icons icon="ruler" />}
+    />
   );
 };

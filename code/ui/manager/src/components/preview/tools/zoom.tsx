@@ -37,15 +37,19 @@ const Zoom = React.memo<{
 }>(function Zoom({ zoomIn, zoomOut, reset }) {
   return (
     <>
-      <IconButton key="zoomin" onClick={zoomIn} title="Zoom in">
-        <Icons icon="zoom" />
-      </IconButton>
-      <IconButton key="zoomout" onClick={zoomOut} title="Zoom out">
-        <Icons icon="zoomout" />
-      </IconButton>
-      <IconButton key="zoomreset" onClick={reset} title="Reset zoom">
-        <Icons icon="zoomreset" />
-      </IconButton>
+      <IconButton key="zoomin" onClick={zoomIn} title="Zoom in" icon={<Icons icon="zoom" />} />
+      <IconButton
+        key="zoomout"
+        onClick={zoomOut}
+        title="Zoom out"
+        icon={<Icons icon="zoomout" />}
+      />
+      <IconButton
+        key="zoomreset"
+        onClick={reset}
+        title="Reset zoom"
+        icon={<Icons icon="zoomreset" />}
+      />
     </>
   );
 });

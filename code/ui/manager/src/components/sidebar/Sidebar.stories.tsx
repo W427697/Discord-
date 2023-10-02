@@ -284,12 +284,7 @@ export const Bottom: Story = {
         {
           id: '3',
           type: types.experimental_SIDEBAR_BOTTOM,
-          render: () => (
-            <IconButton>
-              {' '}
-              <Icons icon="facehappy" />
-            </IconButton>
-          ),
+          render: () => <IconButton icon={<Icons icon="facehappy" />} />,
         },
       ]}
     />

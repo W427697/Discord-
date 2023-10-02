@@ -83,9 +83,8 @@ const Pages: FC<{
             return onClose();
           }}
           title="Close settings page"
-        >
-          <Icons icon="close" />
-        </IconButton>
+          icon={<Icons icon="close" />}
+        />
       </FlexBar>
       <Content vertical horizontal={false}>
         <Route path="about">
