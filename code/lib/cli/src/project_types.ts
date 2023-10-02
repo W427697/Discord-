@@ -63,8 +63,8 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
   UNSUPPORTED = 'UNSUPPORTED',
-  REACT_SCRIPTS = 'REACT_SCRIPTS',
   REACT = 'REACT',
+  REACT_SCRIPTS = 'REACT_SCRIPTS',
   REACT_NATIVE = 'REACT_NATIVE',
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
@@ -275,7 +275,11 @@ export const unsupportedTemplate: TemplateConfiguration = {
   },
 };
 
-const notInstallableProjectTypes: ProjectType[] = [ProjectType.UNDETECTED, ProjectType.UNSUPPORTED];
+const notInstallableProjectTypes: ProjectType[] = [
+  ProjectType.UNDETECTED,
+  ProjectType.UNSUPPORTED,
+  ProjectType.NX,
+];
 
 export const installableProjectTypes = Object.values(ProjectType)
   .filter((type) => !notInstallableProjectTypes.includes(type))

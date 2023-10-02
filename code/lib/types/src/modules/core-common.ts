@@ -6,7 +6,7 @@ import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { StoriesEntry, StoryIndexer } from './storyIndex';
+import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -38,6 +38,11 @@ export interface CoreConfig {
    * @see https://storybook.js.org/telemetry
    */
   disableTelemetry?: boolean;
+
+  /**
+   * Disables notifications for Storybook updates.
+   */
+  disableWhatsNewNotifications?: boolean;
   /**
    * Enable crash reports to be sent to Storybook telemetry
    * @see https://storybook.js.org/telemetry
@@ -104,12 +109,6 @@ export interface VersionCheck {
   time: number;
 }
 
-export interface ReleaseNotesData {
-  success: boolean;
-  currentVersion: string;
-  showOnFirstLaunch: boolean;
-}
-
 export interface Stats {
   toJson: () => any;
 }
@@ -156,7 +155,6 @@ export interface CLIOptions {
   loglevel?: string;
   quiet?: boolean;
   versionUpdates?: boolean;
-  releaseNotes?: boolean;
   docs?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
@@ -171,7 +169,6 @@ export interface BuilderOptions {
   docsMode?: boolean;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
-  releaseNotesData?: ReleaseNotesData;
   disableWebpackDefaults?: boolean;
   serverChannelUrl?: string;
 }
@@ -238,7 +235,7 @@ export type Entry = string;
 
 type CoreCommon_StorybookRefs = Record<
   string,
-  { title: string; url: string } | { disable: boolean }
+  { title: string; url: string } | { disable: boolean; expanded?: boolean }
 >;
 
 export type DocsOptions = {
@@ -372,8 +369,14 @@ export interface StorybookConfig {
 
   /**
    * Process CSF files for the story index.
+   * @soonDeprecated use {@link experimental_indexers} instead
    */
   storyIndexers?: PresetValue<StoryIndexer[]>;
+
+  /**
+   * Process CSF files for the story index.
+   */
+  experimental_indexers?: PresetValue<Indexer[]>;
 
   /**
    * Docs related features in index generation

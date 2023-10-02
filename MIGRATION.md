@@ -1,5 +1,10 @@
 <h1>Migration</h1>
 
+- [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Core changes](#core-changes)
+    - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
+- [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
+  - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -25,7 +30,7 @@
     - [Deploying build artifacts](#deploying-build-artifacts)
       - [Dropped support for file URLs](#dropped-support-for-file-urls)
       - [Serving with nginx](#serving-with-nginx)
-      - [Ignore story files from node\_modules](#ignore-story-files-from-node_modules)
+      - [Ignore story files from node_modules](#ignore-story-files-from-node_modules)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -37,7 +42,7 @@
     - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -87,7 +92,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -299,6 +304,44 @@
   - [Webpack upgrade](#webpack-upgrade)
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
+
+## From version 7.x to 8.0.0
+
+### Core changes
+
+#### UI layout state has changed shape
+
+In Storybook 7 it was possible to use `addons.setConfig({...});` to configure Storybook UI features and behavior as documented [here (v7)](https://storybook.js.org/docs/7.3/react/configure/features-and-behavior), [(latest)](https://storybook.js.org/docs/react/configure/features-and-behavior). The state and API for the UI layout has changed:
+
+- `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
+- `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
+- `isFullscreen: boolean` is no longer supported, but can be achieved by setting a combination of the above.
+
+## From version 7.0.0 to 7.2.0
+
+#### Addon API is more type-strict
+
+When registering an addon using `@storybook/manager-api`, the addon API is now more type-strict. This means if you use TypeScript to compile your addon before publishing, it might start giving you errors.
+
+The `type` property is now a required field, and the `id` property should not be set anymore.
+
+Here's a correct example:
+
+```tsx
+import { addons, types } from '@storybook/manager-api';
+
+addons.register('my-addon', () => {
+  addons.add('my-addon/panel', {
+    type: types.PANEL,
+    title: 'My Addon',
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
+  });
+});
+```
+
+The API: `addons.addPanel()` is now deprecated, and will be removed in 8.0.0. Please use `addons.add()` instead.
+
+The `render` method can now be a `React.FunctionComponent` (without the `children` prop). Storybook will now render it, rather than calling it as a function.
 
 ## From version 6.5.x to 7.0.0
 
@@ -842,16 +885,16 @@ Given the following `main.js`:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*']
-}
+  stories: ['../**/*.stories.*'],
+};
 ```
 
 If you want to restore the previous behavior to include `node_modules`, you can update it to:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*']
-}
+  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*'],
+};
 ```
 
 The first glob would have node_modules automatically excluded by Storybook, and the second glob would include all stories that are under a nested `node_modules` directory.
@@ -1017,7 +1060,11 @@ Starting in 7.0, we drop support for Angular < 14
 
 #### Angular: Drop support for calling Storybook directly
 
-In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+_Has automigration_
+
+In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook.
+
+You can run `npx storybook@next automigrate` to automatically fix your configuration, or visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/README.md#how-do-i-migrate-to-an-angular-storybook-builder for instructions on how to set up Storybook for Angular manually.
 
 #### Angular: Application providers and ModuleWithProviders
 
@@ -1642,7 +1689,7 @@ If you're using `storiesOf` and want to restore the previous behavior, you can a
 ```js
 module.exports = {
   webpackFinal: (config) => {
-    config.modules.rules.push({
+    config.module.rules.push({
       test: /\.stories\.[tj]sx?$/,
       use: [
         {
