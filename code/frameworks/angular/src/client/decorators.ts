@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Type } from '@angular/core';
-import { ApplicationConfig } from '@angular/platform-browser';
+import { ApplicationConfig } from '@angular/core'
 import { DecoratorFunction, StoryContext } from '@storybook/types';
 import { computesTemplateFromComponent } from './angular-beta/ComputesTemplateFromComponent';
 import { isComponent } from './angular-beta/utils/NgComponentAnalyzer';
