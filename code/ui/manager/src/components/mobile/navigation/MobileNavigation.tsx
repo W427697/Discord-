@@ -48,9 +48,11 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showP
         {fullStoryName}
       </Button>
       {showPanel && (
-        <DrawerIconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
-          <Icons icon="bottombartoggle" />
-        </DrawerIconButton>
+        <DrawerIconButton
+          onClick={() => setMobilePanelOpen(true)}
+          title="Open addon panel"
+          icon={<Icons icon="bottombartoggle" />}
+        />
       )}
     </Container>
   );

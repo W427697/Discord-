@@ -293,8 +293,8 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
             e.preventDefault();
             setShowRaw((v) => !v);
           }}
+          icon={<Icons icon={showRaw ? 'eyeclose' : 'eye'} />}
         >
-          <Icons icon={showRaw ? 'eyeclose' : 'eye'} />
           <span>RAW</span>
         </RawButton>
       )}

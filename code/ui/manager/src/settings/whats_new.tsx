@@ -83,18 +83,11 @@ export const WhatsNewFooter = ({
           {copyText}
         </CopyButton>
       </div>
-      <ToggleNotificationButton onClick={onToggleNotifications}>
-        {isNotificationsEnabled ? (
-          <>
-            <Icons icon="eyeclose" />
-            &nbsp;Hide notifications
-          </>
-        ) : (
-          <>
-            <Icons icon="eye" />
-            &nbsp;Show notifications
-          </>
-        )}
+      <ToggleNotificationButton
+        onClick={onToggleNotifications}
+        icon={isNotificationsEnabled ? <Icons icon="eyeclose" /> : <Icons icon="eye" />}
+      >
+        {isNotificationsEnabled ? 'Hide notifications' : 'Show notifications'}
       </ToggleNotificationButton>
     </Container>
   );
