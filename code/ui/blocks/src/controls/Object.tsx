@@ -178,7 +178,7 @@ const RawButton = styled(IconButton)(({ theme }) => ({
   background: theme.background.bar,
   border: `1px solid ${theme.appBorderColor}`,
   borderRadius: 3,
-  color: theme.textMutedColor,
+  color: theme.color.defaultText,
   fontSize: '9px',
   fontWeight: 'bold',
   textDecoration: 'none',
