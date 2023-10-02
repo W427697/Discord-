@@ -637,7 +637,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({
           state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs';
         const stateHasSelection = state.viewMode && state.storyId;
         const stateSelectionDifferent = state.viewMode !== viewMode || state.storyId !== storyId;
-        const { type } = state.index[state.storyId];
+        const { type } = state.index[state.storyId] || {};
         const isStory = !(type === 'root' || type === 'component' || type === 'group');
 
         /**
