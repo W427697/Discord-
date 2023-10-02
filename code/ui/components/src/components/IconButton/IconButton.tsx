@@ -4,6 +4,9 @@ import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import type { PropsOf } from '../utils/types';
 
+// TODO for 9.0: remove deprecated children prop
+// TODO for 9.0: make icon prop required
+
 interface IconButtonProps<T extends React.ElementType = React.ElementType> {
   /**
    * @deprecated You should add the icon using the icon prop instead. This API will be removed in 9.0.
