@@ -127,3 +127,46 @@ export const WithHref: Story = {
     </Line>
   ),
 };
+
+export const Animated: Story = {
+  args: {
+    variant: 'outline',
+  },
+  render: (args) => (
+    <Row>
+      <Line>
+        <Button animation="glow" {...args}>
+          Button
+        </Button>
+        <Button animation="jiggle" {...args}>
+          Button
+        </Button>
+        <Button animation="rotate360" {...args}>
+          Button
+        </Button>
+      </Line>
+      <Line>
+        <Button animation="glow" {...args}>
+          <Icons icon="facehappy" /> Button
+        </Button>
+        <Button animation="jiggle" {...args}>
+          <Icons icon="facehappy" /> Button
+        </Button>
+        <Button animation="rotate360" {...args}>
+          <Icons icon="facehappy" /> Button
+        </Button>
+      </Line>
+      <Line>
+        <Button animation="glow" padding="small" {...args}>
+          <Icons icon="facehappy" />
+        </Button>
+        <Button animation="jiggle" padding="small" {...args}>
+          <Icons icon="facehappy" />
+        </Button>
+        <Button animation="rotate360" padding="small" {...args}>
+          <Icons icon="facehappy" />
+        </Button>
+      </Line>
+    </Row>
+  ),
+};
