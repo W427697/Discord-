@@ -304,13 +304,10 @@ export class Instrumenter {
       (acc, key) => {
         const descriptor = getPropertyDescriptor(obj, key);
         if (typeof descriptor?.get === 'function') {
+          const getter = () => descriptor?.get?.();
           Object.defineProperty(acc, key, {
             get: () => {
-              return this.instrument(
-                (obj as Record<string, any>)[key],
-                { ...options, path: path.concat(key) },
-                depth
-              );
+              return this.instrument(getter(), { ...options, path: path.concat(key) }, depth);
             },
           });
           return acc;
