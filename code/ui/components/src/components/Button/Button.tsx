@@ -5,9 +5,10 @@ import { darken, lighten, rgba, transparentize } from 'polished';
 import type { PropsOf } from '../utils/types';
 
 // TODO after 9.0: Change the type of the children prop to string
+// TODO after 9.0: Change children prop to be required
 
 interface ButtonProps<T extends React.ElementType = React.ElementType> {
-  children: ReactNode;
+  children?: ReactNode;
   icon?: ReactNode;
   as?: T;
   size?: 'small' | 'medium';
