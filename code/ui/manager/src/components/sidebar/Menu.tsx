@@ -22,7 +22,7 @@ const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
 }));
 
 export const SidebarIconButton: FC<
-  ComponentProps<typeof Button> & { highlighted: boolean; active: boolean }
+  ComponentProps<typeof IconButton> & { highlighted: boolean; active: boolean }
 > = styled(IconButton)<
   ComponentProps<typeof Button> & {
     highlighted: boolean;

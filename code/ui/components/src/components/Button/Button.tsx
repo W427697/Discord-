@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, SyntheticEvent } from 'react';
 import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
@@ -13,7 +13,7 @@ interface ButtonProps<T extends React.ElementType = React.ElementType> {
   as?: T;
   size?: 'small' | 'medium';
   variant?: 'outline' | 'solid' | 'ghost';
-  onClick?: () => void;
+  onClick?: (event: SyntheticEvent) => void;
   disabled?: boolean;
   active?: boolean;
 
@@ -58,7 +58,7 @@ export const Button: {
     }
 
     return (
-      <StyledButton as={as} ref={ref} variant={variant} {...props}>
+      <StyledButton as={as} ref={ref} variant={variant} size={size} {...props}>
         {icon}
         {children}
       </StyledButton>
