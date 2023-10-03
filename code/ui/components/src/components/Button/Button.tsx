@@ -49,7 +49,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    let Comp: string | typeof Slot = 'button';
+    let Comp: 'button' | 'a' | typeof Slot = 'button';
     if (props.isLink) Comp = 'a';
     if (asChild) Comp = Slot;
     let lovalVariant = variant;

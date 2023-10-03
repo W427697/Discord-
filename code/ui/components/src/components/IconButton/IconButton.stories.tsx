@@ -60,9 +60,9 @@ export const Disabled: Story = {
 export const Animated: Story = {
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <IconButton {...args} onClickAnimation="glow" />
-      <IconButton {...args} onClickAnimation="rotate360" />
-      <IconButton {...args} onClickAnimation="jiggle" />
+      <IconButton {...args} animation="glow" />
+      <IconButton {...args} animation="rotate360" />
+      <IconButton {...args} animation="jiggle" />
     </div>
   ),
 };
