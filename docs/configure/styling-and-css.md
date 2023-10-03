@@ -2,7 +2,11 @@
 title: 'Styling and CSS'
 ---
 
-There are many ways to include CSS in a web application, and correspondingly there are many ways to include CSS in Storybook. Usually, it is best to try and replicate what your application does with styling in Storybook’s configuration. To make this easier, we recommend using [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/).
+There are many ways to include CSS in a web application, and correspondingly there are many ways to include CSS in Storybook. Usually, it is best to try and replicate what your application does with styling in Storybook’s configuration.
+
+If you're using Vite to build your Storybook, you're covered! Storybook will use your vite config file which supports most popular styling tools out-of-the-box 🎉. However, if you're using Webpack, you may need some extra configuration. To make this easier, we recommend using [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/).
+
+**Note**: If you're using Storybook with Angular or Next.js, you can skip this section. Storybook will automatically use the same styling configuration as your application.
 
 ## Importing CSS files
 
@@ -39,7 +43,7 @@ If you need webfonts to be available, you may need to add some code to the [`.st
 
 ### Styles aren't being applied with Angular
 
-The latest Angular releases introduced significant changes in configuring and styling projects. If you're working with an Angular version greater than 13 and your styles aren't being applied, you may need to check your `angular.json` ad adjust the `builder` configuration to import your CSS:
+The latest Angular releases introduced significant changes in configuring and styling projects. If you're working with an Angular version greater than 13 and your styles aren't being applied, you may need to check your `angular.json` and adjust the `builder` configuration to import your CSS:
 
 ```json
 {
