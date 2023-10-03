@@ -1,29 +1,119 @@
-import type { FC, ComponentProps, ReactNode } from 'react';
-import React, { forwardRef } from 'react';
+import type { ButtonHTMLAttributes, FC, ReactNode, SyntheticEvent } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
+import { Slot } from '@radix-ui/react-slot';
 
-const ButtonWrapper = styled.button<{
-  isLink?: boolean;
-  primary?: boolean;
-  secondary?: boolean;
-  tertiary?: boolean;
-  gray?: boolean;
-  inForm?: boolean;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  asChild?: boolean;
+  size?: 'small' | 'medium';
+  padding?: 'small' | 'medium';
+  variant?: 'outline' | 'solid' | 'ghost';
+  onClick?: (event: SyntheticEvent) => void;
   disabled?: boolean;
+  active?: boolean;
+  onClickAnimation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
+
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  isLink?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  primary?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  secondary?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  tertiary?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  gray?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  inForm?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
   small?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
   outline?: boolean;
+  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
   containsIcon?: boolean;
-  children?: ReactNode;
-  href?: string;
-}>(
-  ({ small, theme }) => ({
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ asChild, onClickAnimation = 'none', onClick, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
+    let { variant, size } = props;
+
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const handleClick = (event: SyntheticEvent) => {
+      if (onClick) onClick(event);
+      if (onClickAnimation === 'none') return;
+      setIsAnimating(true);
+    };
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        if (isAnimating) setIsAnimating(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }, [isAnimating]);
+
+    // Match the old API with the new API
+    // TODO: Remove this after 9.0
+    if (props.primary) {
+      variant = 'solid';
+      size = 'medium';
+    }
+    if (props.secondary || props.tertiary || props.gray || props.outline || props.inForm) {
+      variant = 'outline';
+      size = 'medium';
+    }
+
+    return (
+      <StyledButton
+        as={Comp}
+        ref={ref}
+        variant={variant}
+        size={size}
+        onClick={handleClick}
+        isAnimating={isAnimating}
+        animation={onClickAnimation}
+        {...props}
+      />
+    );
+  }
+);
+
+Button.displayName = 'Button';
+
+const StyledButton = styled.button<
+  ButtonProps & {
+    isAnimating: boolean;
+    animation: ButtonProps['onClickAnimation'];
+  }
+>(
+  ({
+    theme,
+    variant = 'outline',
+    size = 'small',
+    disabled = false,
+    active = false,
+    isAnimating,
+    animation,
+    padding = 'medium',
+  }) => ({
     border: 0,
-    borderRadius: '3em',
-    cursor: 'pointer',
-    display: 'inline-block',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    display: 'inline-flex',
+    gap: '6px',
+    alignItems: 'center',
+    justifyContent: 'center',
     overflow: 'hidden',
-    padding: small ? '8px 16px' : '13px 20px',
+    padding: `${(() => {
+      if (padding === 'small' && size === 'small') return '0 7px';
+      if (padding === 'small' && size === 'medium') return '0 9px';
+      if (size === 'small') return '0 10px';
+      if (size === 'medium') return '0 12px';
+      return 0;
+    })()}`,
+    height: size === 'small' ? '28px' : '32px',
     position: 'relative',
     textAlign: 'center',
     textDecoration: 'none',
@@ -33,240 +123,64 @@ const ButtonWrapper = styled.button<{
     verticalAlign: 'top',
     whiteSpace: 'nowrap',
     userSelect: 'none',
-    opacity: 1,
+    opacity: disabled ? 0.5 : 1,
     margin: 0,
-    background: 'transparent',
-
-    fontSize: `${small ? theme.typography.size.s1 : theme.typography.size.s2 - 1}px`,
+    fontSize: `${theme.typography.size.s1}px`,
     fontWeight: theme.typography.weight.bold,
     lineHeight: '1',
+    background: `${(() => {
+      if (variant === 'solid') return theme.color.secondary;
+      if (variant === 'outline') return theme.button.background;
+      if (variant === 'ghost' && active) return theme.background.hoverable;
+      return 'transparent';
+    })()}`,
+    color: `${(() => {
+      if (variant === 'solid') return theme.color.lightest;
+      if (variant === 'outline') return theme.input.color;
+      if (variant === 'ghost' && active) return theme.color.secondary;
+      if (variant === 'ghost') return theme.color.mediumdark;
+      return theme.input.color;
+    })()}`,
+    boxShadow: variant === 'outline' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
+    borderRadius: theme.input.borderRadius,
 
-    svg: {
-      display: 'inline-block',
-      height: small ? 12 : 14,
-      width: small ? 12 : 14,
+    '&:hover': {
+      color: variant === 'ghost' ? theme.color.secondary : null,
+      background: `${(() => {
+        let bgColor = theme.color.secondary;
+        if (variant === 'solid') bgColor = theme.color.secondary;
+        if (variant === 'outline') bgColor = theme.button.background;
 
-      verticalAlign: 'top',
-      marginRight: small ? 4 : 6,
-      marginTop: small ? 0 : -1,
-      marginBottom: small ? 0 : -1,
-
-      /* Necessary for js mouse events to not glitch out when hovering on svgs */
-      pointerEvents: 'none',
-
-      path: {
-        fill: 'currentColor',
-      },
+        if (variant === 'ghost') return transparentize(0.86, theme.color.secondary);
+        return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
+      })()}`,
     },
-  }),
-  ({ disabled }) =>
-    disabled
-      ? {
-          cursor: 'not-allowed !important',
-          opacity: 0.5,
-          '&:hover': {
-            transform: 'none',
-          },
-        }
-      : {},
-  ({ containsIcon, small }) =>
-    containsIcon
-      ? {
-          svg: {
-            display: 'block',
-            margin: 0,
-          },
-          ...(small ? { padding: 10 } : { padding: 13 }),
-        }
-      : {},
-  ({ theme, primary, secondary, gray }) => {
-    let color;
 
-    if (gray) {
-      color = theme.color.mediumlight;
-    } else if (secondary) {
-      color = theme.color.secondary;
-    } else if (primary) {
-      color = theme.color.primary;
-    }
+    '&:active': {
+      color: variant === 'ghost' ? theme.color.secondary : null,
+      background: `${(() => {
+        let bgColor = theme.color.secondary;
+        if (variant === 'solid') bgColor = theme.color.secondary;
+        if (variant === 'outline') bgColor = theme.button.background;
 
-    return color
-      ? {
-          background: color,
-          color: gray ? theme.color.darkest : theme.color.lightest,
-
-          '&:hover': {
-            background: darken(0.05, color),
-          },
-          '&:active': {
-            boxShadow: 'rgba(0, 0, 0, 0.1) 0 0 0 3em inset',
-          },
-          '&:focus': {
-            boxShadow: `${rgba(color, 1)} 0 1px 9px 2px`,
-            outline: 'none',
-          },
-          '&:focus:hover': {
-            boxShadow: `${rgba(color, 0.2)} 0 8px 18px 0px`,
-          },
-        }
-      : {};
-  },
-  ({ theme, tertiary, inForm, small }) =>
-    tertiary
-      ? {
-          background: theme.button.background,
-          color: theme.input.color,
-          boxShadow: `${theme.button.border} 0 0 0 1px inset`,
-          borderRadius: theme.input.borderRadius,
-
-          ...(inForm && small ? { padding: '10px 16px' } : {}),
-
-          '&:hover': {
-            background:
-              theme.base === 'light'
-                ? darken(0.02, theme.button.background)
-                : lighten(0.03, theme.button.background),
-            ...(inForm
-              ? {}
-              : {
-                  boxShadow: 'rgba(0,0,0,.2) 0 2px 6px 0, rgba(0,0,0,.1) 0 0 0 1px inset',
-                }),
-          },
-          '&:active': {
-            background: theme.button.background,
-          },
-          '&:focus': {
-            boxShadow: `${rgba(theme.color.secondary, 1)} 0 0 0 1px inset`,
-            outline: 'none',
-          },
-        }
-      : {},
-  ({ theme, outline }) =>
-    outline
-      ? {
-          boxShadow: `${transparentize(0.8, theme.color.defaultText)} 0 0 0 1px inset`,
-          color: transparentize(0.3, theme.color.defaultText),
-          background: 'transparent',
-
-          '&:hover, &:focus': {
-            boxShadow: `${transparentize(0.5, theme.color.defaultText)} 0 0 0 1px inset`,
-            outline: 'none',
-          },
-
-          '&:active': {
-            boxShadow: `${transparentize(0.5, theme.color.defaultText)} 0 0 0 2px inset`,
-            color: transparentize(0, theme.color.defaultText),
-          },
-        }
-      : {},
-  ({ theme, outline, primary }) => {
-    const color = theme.color.primary;
-
-    return outline && primary
-      ? {
-          boxShadow: `${color} 0 0 0 1px inset`,
-          color,
-
-          'svg path:not([fill])': {
-            fill: color,
-          },
-
-          '&:hover': {
-            boxShadow: `${color} 0 0 0 1px inset`,
-            background: 'transparent',
-          },
-
-          '&:active': {
-            background: color,
-            boxShadow: `${color} 0 0 0 1px inset`,
-            color: theme.color.tertiary,
-          },
-          '&:focus': {
-            boxShadow: `${color} 0 0 0 1px inset, ${rgba(color, 0.4)} 0 1px 9px 2px`,
-            outline: 'none',
-          },
-          '&:focus:hover': {
-            boxShadow: `${color} 0 0 0 1px inset, ${rgba(color, 0.2)} 0 8px 18px 0px`,
-          },
-        }
-      : {};
-  },
-  ({ theme, outline, primary, secondary }) => {
-    let color;
-
-    if (secondary) {
-      color = theme.color.secondary;
-    } else if (primary) {
-      color = theme.color.primary;
-    }
-
-    return outline && color
-      ? {
-          boxShadow: `${color} 0 0 0 1px inset`,
-          color,
-
-          'svg path:not([fill])': {
-            fill: color,
-          },
-
-          '&:hover': {
-            boxShadow: `${color} 0 0 0 1px inset`,
-            background: 'transparent',
-          },
-
-          '&:active': {
-            background: color,
-            boxShadow: `${color} 0 0 0 1px inset`,
-            color: theme.color.tertiary,
-          },
-          '&:focus': {
-            boxShadow: `${color} 0 0 0 1px inset, ${rgba(color, 0.4)} 0 1px 9px 2px`,
-            outline: 'none',
-          },
-          '&:focus:hover': {
-            boxShadow: `${color} 0 0 0 1px inset, ${rgba(color, 0.2)} 0 8px 18px 0px`,
-          },
-        }
-      : {};
-  }
-);
-
-const ButtonLink = ButtonWrapper.withComponent('a');
-
-export const Button: FC<ComponentProps<typeof ButtonWrapper>> = Object.assign(
-  forwardRef<
-    any,
-    {
-      isLink?: boolean;
-      primary?: boolean;
-      secondary?: boolean;
-      tertiary?: boolean;
-      gray?: boolean;
-      inForm?: boolean;
-      disabled?: boolean;
-      small?: boolean;
-      outline?: boolean;
-      containsIcon?: boolean;
-      children?: ReactNode;
-      href?: string;
-    }
-  >(function Button({ isLink, children, ...props }, ref) {
-    if (isLink) {
-      return (
-        <ButtonLink {...props} ref={ref}>
-          {children}
-        </ButtonLink>
-      );
-    }
-    return (
-      <ButtonWrapper {...props} ref={ref}>
-        {children}
-      </ButtonWrapper>
-    );
-  }),
-  {
-    defaultProps: {
-      isLink: false,
+        if (variant === 'ghost') return theme.background.hoverable;
+        return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
+      })()}`,
     },
-  }
+
+    '&:focus': {
+      boxShadow: `${rgba(theme.color.secondary, 1)} 0 0 0 1px inset`,
+      outline: 'none',
+    },
+
+    '> *': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 2,
+      minWidth: 14,
+      height: 14,
+      animation:
+        isAnimating && animation !== 'none' && `${theme.animation[animation]} 1000ms ease-out`,
+    },
+  })
 );
