@@ -43,8 +43,13 @@ export const Button: {
   displayName?: string;
 } = forwardRef(
   ({ as, children, icon, ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+    let { variant } = props;
+
+    // Match the old API with the new API
+    if (props.primary) variant = 'solid';
+
     return (
-      <StyledButton as={as} ref={ref} {...props}>
+      <StyledButton as={as} ref={ref} variant={variant} {...props}>
         {icon}
         {children}
       </StyledButton>
@@ -55,7 +60,7 @@ export const Button: {
 Button.displayName = 'Button';
 
 const StyledButton = styled.button<Omit<ButtonProps, 'children'>>(
-  ({ theme, variant = 'solid', size = 'medium', disabled = false, active = false }) => ({
+  ({ theme, variant = 'outline', size = 'small', disabled = false, active = false }) => ({
     border: 0,
     cursor: disabled ? 'not-allowed' : 'pointer',
     display: 'inline-flex',
