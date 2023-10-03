@@ -14,23 +14,23 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
   animation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
 
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link asChild} instead */
   isLink?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   primary?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   secondary?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   tertiary?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   gray?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   inForm?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link size} instead */
   small?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   outline?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Add your icon as a child directly */
   containsIcon?: boolean;
 }
 
