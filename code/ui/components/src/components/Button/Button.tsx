@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, FC, ReactNode, SyntheticEvent } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, SyntheticEvent } from 'react';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
