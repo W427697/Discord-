@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.3.0",
+  "version": "7.5.0-alpha.3",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -36,13 +36,15 @@
     "templates/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/core-events": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/find-cache-dir": "^3.2.1",
@@ -51,8 +53,8 @@
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
     "esbuild": "^0.18.0",
-    "esbuild-register": "^3.4.0",
-    "file-system-cache": "2.3.0",
+    "esbuild-register": "^3.5.0",
+    "file-system-cache": "^2.4.4",
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
@@ -67,6 +69,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
     "@types/mock-fs": "^4.13.1",
     "@types/picomatch": "^2.3.0",
     "mock-fs": "^5.2.0",

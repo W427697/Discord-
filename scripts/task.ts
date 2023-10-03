@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import invariant from 'tiny-invariant';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -73,7 +74,7 @@ export type Task = {
   /**
    * Is this task already "ready", and potentially not required?
    */
-  ready: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<boolean>;
+  ready: (details: TemplateDetails, options?: PassedOptionValues) => MaybePromise<boolean>;
   /**
    * Run the task
    */
@@ -320,6 +321,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
+    invariant(err instanceof Error);
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
@@ -466,6 +468,7 @@ async function run() {
         });
         if (controller) controllers.push(controller);
       } catch (err) {
+        invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {

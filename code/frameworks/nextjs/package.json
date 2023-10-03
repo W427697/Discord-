@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.3.0",
+  "version": "7.5.0-alpha.3",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -27,6 +27,16 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./image-context": {
+      "types": "./dist/image-context.d.ts",
+      "require": "./dist/image-context.js",
+      "import": "./dist/image-context.mjs"
+    },
+    "./dist/image-context": {
+      "types": "./dist/image-context.d.ts",
+      "require": "./dist/image-context.js",
+      "import": "./dist/image-context.mjs"
+    },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
@@ -46,12 +56,23 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "dist/image-context": [
+        "dist/image-context.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -59,13 +80,13 @@
   },
   "dependencies": {
     "@babel/core": "^7.22.9",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-    "@babel/plugin-proposal-numeric-separator": "^7.18.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@babel/plugin-syntax-bigint": "^7.8.3",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-assertions": "^7.22.5",
+    "@babel/plugin-transform-class-properties": "^7.22.5",
+    "@babel/plugin-transform-export-namespace-from": "^7.22.11",
+    "@babel/plugin-transform-numeric-separator": "^7.22.11",
+    "@babel/plugin-transform-object-rest-spread": "^7.22.15",
     "@babel/plugin-transform-runtime": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
@@ -74,6 +95,7 @@
     "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
+    "@storybook/core-events": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
@@ -135,11 +157,12 @@
   },
   "bundler": {
     "entries": [
+      "./src/image-context.ts",
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
       "./src/next-image-loader-stub.ts",
-      "./src/images/context.ts",
+      "./src/images/decorator.tsx",
       "./src/images/next-future-image.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",

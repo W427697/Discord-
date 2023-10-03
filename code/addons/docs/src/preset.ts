@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import { dirname, join } from 'path';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
@@ -50,7 +51,10 @@ async function webpack(
     skipCsf: true,
     ...mdxPluginOptions,
     mdxCompileOptions: {
-      providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+      providerImportSource: join(
+        dirname(require.resolve('@storybook/addon-docs/package.json')),
+        '/dist/shims/mdx-react-shim'
+      ),
       ...mdxPluginOptions.mdxCompileOptions,
       remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
         mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
@@ -131,7 +135,7 @@ async function webpack(
 
 export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
   test: /(stories|story)\.mdx$/,
-  index: async (fileName, opts) => {
+  createIndex: async (fileName, opts) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = legacyMdx1
       ? await import('@storybook/mdx1-csf')
@@ -170,6 +174,15 @@ const docs = (docsOptions: DocsOptions) => {
 export const addons: StorybookConfig['addons'] = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
+
+export const viteFinal = async (config: any, options: Options) => {
+  const { plugins = [] } = config;
+  const { mdxPlugin } = await import('./plugins/mdx-plugin');
+
+  plugins.push(mdxPlugin(options));
+
+  return config;
+};
 
 /*
  * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162
