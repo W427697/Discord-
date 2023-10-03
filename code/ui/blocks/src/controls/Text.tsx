@@ -1,7 +1,7 @@
 import type { FC, ChangeEvent } from 'react';
 import React, { useCallback, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { Form } from '@storybook/components';
+import { Form, Button } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 import type { ControlProps, TextValue, TextConfig } from './types';
@@ -37,9 +37,9 @@ export const TextControl: FC<TextProps> = ({
   }, [setForceVisible]);
   if (value === undefined) {
     return (
-      <Form.Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
+      <Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
         Set string
-      </Form.Button>
+      </Button>
     );
   }
 
