@@ -1,11 +1,10 @@
-import type { ButtonHTMLAttributes, ReactNode, SyntheticEvent } from 'react';
+import type { ButtonHTMLAttributes, SyntheticEvent } from 'react';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import { Slot } from '@radix-ui/react-slot';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
   asChild?: boolean;
   size?: 'small' | 'medium';
   padding?: 'small' | 'medium';
