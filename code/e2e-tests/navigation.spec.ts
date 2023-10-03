@@ -13,6 +13,6 @@ test.describe('navigating', () => {
 
     await sbPage.waitUntilLoaded();
 
-    await expect(sbPage.page.waitForURL('?path=/docs/example-button--docs')).resolves.toBeTruthy();
+    await expect(sbPage.page.url()).toContain('/docs/example-button--docs');
   });
 });
