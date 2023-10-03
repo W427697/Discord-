@@ -1,82 +1,106 @@
+import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import type { Args } from '@storybook/types';
-
 import { Button } from './Button';
-import { Icons } from '../icon/icon';
-import { Form } from '../form/index';
 
-export default {
+const meta: Meta<typeof Button> = {
+  title: 'Button',
   component: Button,
+  tags: ['autodocs'],
 };
 
-export const Default = { args: { children: 'Default' } };
+export default meta;
+type Story = StoryObj<typeof Button>;
 
-export const FormButton = {
-  render: (args: Args) => <Form.Button {...args} />,
-  args: { children: 'Form.Button' },
-};
-
-export const Primary = { args: { primary: true, children: 'Primary' } };
-export const Secondary = { args: { secondary: true, children: 'Secondary' } };
-export const Tertiary = { args: { tertiary: true, children: 'Tertiary' } };
-export const Gray = { args: { gray: true, children: 'Gray' } };
-
-export const Outline = { args: { outline: true, children: 'Outline' } };
-export const OutlinePrimary = {
-  args: { outline: true, primary: true, children: 'Outline Primary' },
-};
-export const OutlineSecondary = {
-  args: { outline: true, secondary: true, children: 'Outline Secondary' },
-};
-export const OutlineTertiary = {
-  args: { outline: true, tertiary: true, children: 'Outline Tertiary' },
+export const Base = {
+  args: { children: 'Button' },
 };
 
-export const Disabled = { args: { disabled: true, children: 'Disabled' } };
-export const DisabledPrimary = {
-  args: { disabled: true, primary: true, children: 'Disabled Priary' },
-};
-export const DisabledSecondary = {
-  args: { disabled: true, secondary: true, children: 'Disabled Secondary' },
-};
-export const DisabledTertiary = {
-  args: { disabled: true, tertiary: true, children: 'Disabled Tertiary' },
-};
-export const DisabledGray = {
-  args: { disabled: true, gray: true, children: 'Disabled Gray' },
-};
-
-export const Small = { args: { small: true, children: 'Small' } };
-export const SmallPrimary = {
-  args: { small: true, primary: true, children: 'Small Priary' },
-};
-export const SmallSecondary = {
-  args: { small: true, secondary: true, children: 'Small Secondary' },
-};
-export const SmallTertiary = {
-  args: { small: true, tertiary: true, children: 'Small Tertiary' },
-};
-export const SmallGray = {
-  args: { small: true, gray: true, children: 'Small Gray' },
-};
-
-export const IconPrimary = {
+export const Variants: Story = {
   args: {
-    primary: true,
-    containsIcon: true,
-    title: 'link',
-    children: <Icons icon="link" />,
+    ...Base.args,
+  },
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button variant="solid">Solid</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+    </div>
+  ),
+};
+
+export const Active: Story = {
+  args: {
+    ...Base.args,
+  },
+  render: (args) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button variant="solid" active {...args}>
+        Solid
+      </Button>
+      <Button variant="outline" active {...args}>
+        Outline
+      </Button>
+      <Button variant="ghost" active {...args}>
+        Ghost
+      </Button>
+    </div>
+  ),
+};
+
+export const WithIcon: Story = {
+  args: {
+    ...Base.args,
+    icon: 'FaceHappy',
+  },
+  render: ({ icon, children }) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button variant="solid" icon={icon}>
+        {children}
+      </Button>
+      <Button variant="outline" icon={icon}>
+        {children}
+      </Button>
+      <Button variant="ghost" icon={icon}>
+        {children}
+      </Button>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  args: {
+    ...Base.args,
+  },
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button size="small" icon="FaceHappy">
+        Small Button
+      </Button>
+      <Button size="medium" icon="FaceHappy">
+        Medium Button
+      </Button>
+    </div>
+  ),
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Base.args,
+    disabled: true,
+    children: 'Disabled Button',
   },
 };
-export const IconOutline = {
-  args: { outline: true, containsIcon: true, title: 'link', children: <Icons icon="link" /> },
-};
-export const IconOutlineSmall = {
+
+export const WithHref: Story = {
   args: {
-    outline: true,
-    containsIcon: true,
-    small: true,
-    title: 'link',
-    children: <Icons icon="link" />,
+    ...Base.args,
   },
+  render: () => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <Button onClick={() => console.log('Hello')}>I am a button using onClick</Button>
+      <Button as="a" href="https://storybook.js.org/">
+        I am an anchor using Href
+      </Button>
+    </div>
+  ),
 };
