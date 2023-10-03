@@ -12,7 +12,7 @@ interface ButtonProps<T extends React.ElementType = React.ElementType> {
   icon?: ReactNode;
   as?: T;
   size?: 'small' | 'medium';
-  variant?: 'solid' | 'outline' | 'ghost';
+  variant?: 'outline' | 'solid' | 'ghost';
   onClick?: () => void;
   disabled?: boolean;
   active?: boolean;
@@ -44,10 +44,18 @@ export const Button: {
   displayName?: string;
 } = forwardRef(
   ({ as, children, icon, ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
-    let { variant } = props;
+    let { variant, size } = props;
 
     // Match the old API with the new API
-    if (props.primary) variant = 'solid';
+    // TODO: Remove this after 9.0
+    if (props.primary) {
+      variant = 'solid';
+      size = 'medium';
+    }
+    if (props.secondary || props.tertiary || props.gray || props.outline || props.inForm) {
+      variant = 'outline';
+      size = 'medium';
+    }
 
     return (
       <StyledButton as={as} ref={ref} variant={variant} {...props}>

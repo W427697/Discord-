@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { Button } from './Button';
 import { Icons } from '../icon/icon';
+import { Form } from '../form';
 
 const meta: Meta<typeof Button> = {
   title: 'Button/Depreciated',
@@ -11,6 +12,13 @@ const meta: Meta<typeof Button> = {
 
 export default meta;
 type Story = StoryObj<typeof Button>;
+
+export const Default = { args: { children: 'Default' } };
+
+export const FormButton: Story = {
+  render: (args) => <Form.Button {...args} />,
+  args: { children: 'Form.Button' },
+};
 
 export const Primary: Story = { args: { primary: true, children: 'Primary' } };
 export const Secondary: Story = { args: { secondary: true, children: 'Secondary' } };

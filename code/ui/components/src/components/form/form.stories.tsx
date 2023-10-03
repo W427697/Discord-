@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions';
 
 import * as InputComponents from './input/input';
 import { Field as FieldComponent } from './field/field';
+import { Button as ButtonComponent } from '../Button/Button';
 
 const Flexed = styled(FieldComponent)({ display: 'flex' });
 
@@ -87,7 +88,9 @@ export const Select = {
 export const Button = {
   render: (args: any) => (
     <Flexed>
-      <InputComponents.Button {...args}>Form Button</InputComponents.Button>
+      <ButtonComponent variant="outline" size="small" {...args}>
+        Form Button
+      </ButtonComponent>
     </Flexed>
   ),
   argTypes: sharedArgTypes,
