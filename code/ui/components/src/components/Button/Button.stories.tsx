@@ -14,11 +14,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const Row = ({ children }: { children: ReactNode }) => (
+const Stack = ({ children }: { children: ReactNode }) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>{children}</div>
 );
 
-const Line = ({ children }: { children: ReactNode }) => (
+const Row = ({ children }: { children: ReactNode }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>{children}</div>
 );
 
@@ -26,8 +26,8 @@ export const Base: Story = {};
 
 export const Variants: Story = {
   render: (args) => (
-    <Row>
-      <Line>
+    <Stack>
+      <Row>
         <Button variant="solid" {...args}>
           Solid
         </Button>
@@ -37,8 +37,8 @@ export const Variants: Story = {
         <Button variant="ghost" {...args}>
           Ghost
         </Button>
-      </Line>
-      <Line>
+      </Row>
+      <Row>
         <Button variant="solid" {...args}>
           <Icons icon="facehappy" /> Solid
         </Button>
@@ -48,8 +48,8 @@ export const Variants: Story = {
         <Button variant="ghost" {...args}>
           <Icons icon="facehappy" /> Ghost
         </Button>
-      </Line>
-      <Line>
+      </Row>
+      <Row>
         <Button variant="solid" padding="small" {...args}>
           <Icons icon="facehappy" />
         </Button>
@@ -59,8 +59,8 @@ export const Variants: Story = {
         <Button variant="ghost" padding="small" {...args}>
           <Icons icon="facehappy" />
         </Button>
-      </Line>
-    </Row>
+      </Row>
+    </Stack>
   ),
 };
 
@@ -79,11 +79,11 @@ export const WithIcon: Story = {
     ),
   },
   render: (props) => (
-    <Line>
+    <Row>
       <Button variant="solid" {...props} />
       <Button variant="outline" {...props} />
       <Button variant="ghost" {...props} />
-    </Line>
+    </Row>
   ),
 };
 
@@ -93,20 +93,20 @@ export const IconOnly: Story = {
     padding: 'small',
   },
   render: (props) => (
-    <Line>
+    <Row>
       <Button variant="solid" {...props} />
       <Button variant="outline" {...props} />
       <Button variant="ghost" {...props} />
-    </Line>
+    </Row>
   ),
 };
 
 export const Sizes: Story = {
   render: () => (
-    <Line>
+    <Row>
       <Button size="small">Small Button</Button>
       <Button size="medium">Medium Button</Button>
-    </Line>
+    </Row>
   ),
 };
 
@@ -119,12 +119,12 @@ export const Disabled: Story = {
 
 export const WithHref: Story = {
   render: () => (
-    <Line>
+    <Row>
       <Button onClick={() => console.log('Hello')}>I am a button using onClick</Button>
       <Button asChild>
         <a href="https://storybook.js.org/">I am an anchor using Href</a>
       </Button>
-    </Line>
+    </Row>
   ),
 };
 
@@ -133,8 +133,8 @@ export const Animated: Story = {
     variant: 'outline',
   },
   render: (args) => (
-    <Row>
-      <Line>
+    <Stack>
+      <Row>
         <Button animation="glow" {...args}>
           Button
         </Button>
@@ -144,8 +144,8 @@ export const Animated: Story = {
         <Button animation="rotate360" {...args}>
           Button
         </Button>
-      </Line>
-      <Line>
+      </Row>
+      <Row>
         <Button animation="glow" {...args}>
           <Icons icon="facehappy" /> Button
         </Button>
@@ -155,8 +155,8 @@ export const Animated: Story = {
         <Button animation="rotate360" {...args}>
           <Icons icon="facehappy" /> Button
         </Button>
-      </Line>
-      <Line>
+      </Row>
+      <Row>
         <Button animation="glow" padding="small" {...args}>
           <Icons icon="facehappy" />
         </Button>
@@ -166,7 +166,7 @@ export const Animated: Story = {
         <Button animation="rotate360" padding="small" {...args}>
           <Icons icon="facehappy" />
         </Button>
-      </Line>
-    </Row>
+      </Row>
+    </Stack>
   ),
 };
