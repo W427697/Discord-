@@ -61,6 +61,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant = 'solid';
       size = 'medium';
     }
+
+    // Match the old API with the new API
+    // TODO: Remove this after 9.0
     if (props.secondary || props.tertiary || props.gray || props.outline || props.inForm) {
       variant = 'outline';
       size = 'medium';
