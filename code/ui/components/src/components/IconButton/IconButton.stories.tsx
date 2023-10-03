@@ -79,21 +79,3 @@ export const WithHref: Story = {
     </div>
   ),
 };
-
-export const WithText: Story = {
-  args: {
-    children: (
-      <>
-        <Icons icon="circlehollow" />
-        &nbsp;Howdy!
-      </>
-    ),
-  },
-  render: ({ ...args }) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <IconButton {...args} variant="solid" />
-      <IconButton {...args} variant="outline" />
-      <IconButton {...args} variant="ghost" />
-    </div>
-  ),
-};

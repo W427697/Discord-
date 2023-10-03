@@ -4,7 +4,7 @@ import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import { Slot } from '@radix-ui/react-slot';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   asChild?: boolean;
   size?: 'small' | 'medium';
