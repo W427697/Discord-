@@ -49,7 +49,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : 'button';
+    let Comp: string | typeof Slot = 'button';
+    if (props.isLink) Comp = 'a';
+    if (asChild) Comp = Slot;
     let lovalVariant = variant;
     let localSize = size;
 
