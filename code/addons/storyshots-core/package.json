@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storyshots",
-  "version": "7.4.5",
+  "version": "7.4.6",
   "description": "Take a code snapshot of every story automatically with Jest",
   "keywords": [
     "addon",
