@@ -2,18 +2,11 @@ import type { ReactNode, SyntheticEvent } from 'react';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
-import type { PropsOf } from '../utils/types';
+import { Slot } from '@radix-ui/react-slot';
 
-// TODO for 9.0: remove deprecated children prop
-// TODO for 9.0: make icon prop required
-
-interface IconButtonProps<T extends React.ElementType = React.ElementType> {
-  /**
-   * @deprecated You should add the icon using the icon prop instead. This API will be removed in 9.0.
-   */
-  children?: ReactNode;
-  icon?: ReactNode;
-  as?: T;
+interface IconButtonProps {
+  children: ReactNode;
+  asChild?: boolean;
   size?: 'small' | 'medium';
   variant?: 'solid' | 'outline' | 'ghost';
   onClick?: (event: SyntheticEvent) => void;
@@ -22,16 +15,9 @@ interface IconButtonProps<T extends React.ElementType = React.ElementType> {
   onClickAnimation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
 }
 
-export const IconButton: {
-  <E extends React.ElementType = 'button'>(
-    props: IconButtonProps<E> & Omit<PropsOf<E>, keyof IconButtonProps>
-  ): JSX.Element;
-  displayName?: string;
-} = forwardRef(
-  (
-    { as, icon, children, onClickAnimation = 'none', onClick, ...props }: IconButtonProps,
-    ref: React.Ref<HTMLButtonElement>
-  ) => {
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ asChild, onClickAnimation = 'none', onClick, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
     const [isAnimating, setIsAnimating] = useState(false);
 
     const handleClick = (event: SyntheticEvent) => {
@@ -48,20 +34,35 @@ export const IconButton: {
     }, [isAnimating]);
 
     return (
-      <StyledButton as={as} ref={ref} {...props} onClick={handleClick}>
-        <IconWrapper isAnimating={isAnimating} animation={onClickAnimation}>
-          {icon}
-          {children}
-        </IconWrapper>
-      </StyledButton>
+      <StyledButton
+        as={Comp}
+        ref={ref}
+        {...props}
+        onClick={handleClick}
+        isAnimating={isAnimating}
+        animation={onClickAnimation}
+      />
     );
   }
 );
 
 IconButton.displayName = 'IconButton';
 
-const StyledButton = styled.button<Omit<IconButtonProps, 'icon'>>(
-  ({ theme, variant = 'ghost', size = 'small', disabled = false, active = false }) => ({
+const StyledButton = styled.button<
+  IconButtonProps & {
+    isAnimating: boolean;
+    animation: IconButtonProps['onClickAnimation'];
+  }
+>(
+  ({
+    theme,
+    variant = 'ghost',
+    size = 'small',
+    disabled = false,
+    active = false,
+    isAnimating,
+    animation,
+  }) => ({
     border: 0,
     cursor: disabled ? 'not-allowed' : 'pointer',
     display: 'inline-flex',
@@ -133,17 +134,15 @@ const StyledButton = styled.button<Omit<IconButtonProps, 'icon'>>(
       boxShadow: `${rgba(theme.color.secondary, 1)} 0 0 0 1px inset`,
       outline: 'none',
     },
+
+    '> *': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 2,
+      minWidth: 14,
+      height: 14,
+      animation:
+        isAnimating && animation !== 'none' && `${theme.animation[animation]} 1000ms ease-out`,
+    },
   })
 );
-
-const IconWrapper = styled.div<{
-  isAnimating: boolean;
-  animation: IconButtonProps['onClickAnimation'];
-}>(({ theme, isAnimating, animation }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 2,
-  minWidth: 14,
-  height: 14,
-  animation: isAnimating && animation !== 'none' && `${theme.animation[animation]} 1000ms ease-out`,
-}));

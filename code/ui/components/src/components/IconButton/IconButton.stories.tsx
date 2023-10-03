@@ -3,23 +3,19 @@ import React from 'react';
 import { IconButton } from './IconButton';
 import { Icons } from '../icon/icon';
 
-const meta: Meta<typeof IconButton> = {
+const meta = {
   title: 'IconButton',
   component: IconButton,
   tags: ['autodocs'],
-};
+  args: { children: <Icons icon="facehappy" /> },
+} satisfies Meta<typeof IconButton>;
 
 export default meta;
-type Story = StoryObj<typeof IconButton>;
+type Story = StoryObj<typeof meta>;
 
-export const Base = {
-  args: { icon: <Icons icon="facehappy" /> },
-};
+export const Base = {};
 
 export const Types: Story = {
-  args: {
-    ...Base.args,
-  },
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <IconButton {...args} variant="solid" />
@@ -30,10 +26,7 @@ export const Types: Story = {
 };
 
 export const Active: Story = {
-  args: {
-    ...Base.args,
-    active: true,
-  },
+  args: { active: true },
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <IconButton {...args} variant="solid" />
@@ -44,10 +37,7 @@ export const Active: Story = {
 };
 
 export const Sizes: Story = {
-  args: {
-    ...Base.args,
-    variant: 'solid',
-  },
+  args: { variant: 'solid' },
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <IconButton {...args} size="small" />
@@ -57,10 +47,7 @@ export const Sizes: Story = {
 };
 
 export const Disabled: Story = {
-  args: {
-    ...Base.args,
-    disabled: true,
-  },
+  args: { disabled: true },
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <IconButton {...args} variant="solid" />
@@ -71,9 +58,6 @@ export const Disabled: Story = {
 };
 
 export const Animated: Story = {
-  args: {
-    ...Base.args,
-  },
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <IconButton {...args} onClickAnimation="glow" />
@@ -84,20 +68,20 @@ export const Animated: Story = {
 };
 
 export const WithHref: Story = {
-  args: {
-    ...Base.args,
-  },
   render: ({ ...args }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       <IconButton {...args} onClick={() => console.log('Hello')} />
-      <IconButton {...args} as="a" href="https://storybook.js.org/" />
+      <IconButton {...args} asChild>
+        <a href="https://storybook.js.org/" aria-label="Visit Storybook website">
+          <Icons icon="facehappy" />
+        </a>
+      </IconButton>
     </div>
   ),
 };
 
 export const WithText: Story = {
   args: {
-    ...Base.args,
     children: (
       <>
         <Icons icon="circlehollow" />
