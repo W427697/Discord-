@@ -5,7 +5,7 @@ import { Icons } from '../icon/icon';
 import { Form } from '../form';
 
 const meta: Meta<typeof Button> = {
-  title: 'Button/Depreciated',
+  title: 'Button/Deprecated',
   component: Button,
   tags: ['autodocs'],
 };
