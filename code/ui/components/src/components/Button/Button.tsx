@@ -14,23 +14,23 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
   animation?: 'none' | 'rotate360' | 'glow' | 'jiggle';
 
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link asChild} instead */
   isLink?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   primary?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   secondary?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   tertiary?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   gray?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   inForm?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link size} instead */
   small?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Use {@link variant} instead */
   outline?: boolean;
-  /** @deprecated This API is not used anymore. It will be removed after 9.0. */
+  /** @deprecated Add your icon as a child directly */
   containsIcon?: boolean;
 }
 
@@ -49,7 +49,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : 'button';
+    let Comp: 'button' | 'a' | typeof Slot = 'button';
+    if (props.isLink) Comp = 'a';
+    if (asChild) Comp = Slot;
     let lovalVariant = variant;
     let localSize = size;
 
@@ -117,13 +119,13 @@ const StyledButton = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
-  padding: `${(() => {
+  padding: (() => {
     if (padding === 'small' && size === 'small') return '0 7px';
     if (padding === 'small' && size === 'medium') return '0 9px';
     if (size === 'small') return '0 10px';
     if (size === 'medium') return '0 12px';
     return 0;
-  })()}`,
+  })(),
   height: size === 'small' ? '28px' : '32px',
   position: 'relative',
   textAlign: 'center',
@@ -139,32 +141,32 @@ const StyledButton = styled('button', {
   fontSize: `${theme.typography.size.s1}px`,
   fontWeight: theme.typography.weight.bold,
   lineHeight: '1',
-  background: `${(() => {
+  background: (() => {
     if (variant === 'solid') return theme.color.secondary;
     if (variant === 'outline') return theme.button.background;
     if (variant === 'ghost' && active) return theme.background.hoverable;
     return 'transparent';
-  })()}`,
-  color: `${(() => {
+  })(),
+  color: (() => {
     if (variant === 'solid') return theme.color.lightest;
     if (variant === 'outline') return theme.input.color;
     if (variant === 'ghost' && active) return theme.color.secondary;
     if (variant === 'ghost') return theme.color.mediumdark;
     return theme.input.color;
-  })()}`,
+  })(),
   boxShadow: variant === 'outline' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
   borderRadius: theme.input.borderRadius,
 
   '&:hover': {
     color: variant === 'ghost' ? theme.color.secondary : null,
-    background: `${(() => {
+    background: (() => {
       let bgColor = theme.color.secondary;
       if (variant === 'solid') bgColor = theme.color.secondary;
       if (variant === 'outline') bgColor = theme.button.background;
 
       if (variant === 'ghost') return transparentize(0.86, theme.color.secondary);
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
-    })()}`,
+    })(),
   },
 
   '&:active': {
@@ -185,6 +187,7 @@ const StyledButton = styled('button', {
   },
 
   '> svg': {
-    animation: animating && animation !== 'none' && `${theme.animation[animation]} 1000ms ease-out`,
+    animation:
+      animating && animation !== 'none' ? `${theme.animation[animation]} 1000ms ease-out` : '',
   },
 }));
