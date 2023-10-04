@@ -7123,14 +7123,14 @@ __metadata:
   linkType: soft
 
 "@storybook/jest@npm:next":
-  version: 0.2.2-next.0
-  resolution: "@storybook/jest@npm:0.2.2-next.0"
+  version: 0.2.3-next.0
+  resolution: "@storybook/jest@npm:0.2.3-next.0"
   dependencies:
     "@storybook/expect": storybook-jest
     "@testing-library/jest-dom": ^6.1.2
     "@types/jest": 28.1.3
     jest-mock: ^27.3.0
-  checksum: f89149436e0506cfa33fb8678a4d3bcb8fadc16e6a00905c92e9da716772cb5a65e8bdc07f6a7f536e3940af3c676c41857f4093eaed4c3f12c074d45c92e661
+  checksum: 96e800be9adb18d689ff66efe3b953f06d3c209cb0a08559ea47a6de0cd09678e161bdd531cb2d008d58eecc33cb9cb49228e9014435818f3259e1b9eac46635
   languageName: node
   linkType: hard
 
