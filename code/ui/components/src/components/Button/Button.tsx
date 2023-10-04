@@ -3,6 +3,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { isPropValid, styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import { Slot } from '@radix-ui/react-slot';
+import { deprecate } from '@storybook/client-logger';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
@@ -82,6 +83,28 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (props.secondary || props.tertiary || props.gray || props.outline || props.inForm) {
       lovalVariant = 'outline';
       localSize = 'medium';
+    }
+
+    if (
+      props.small ||
+      props.isLink ||
+      props.primary ||
+      props.secondary ||
+      props.tertiary ||
+      props.gray ||
+      props.outline ||
+      props.inForm ||
+      props.containsIcon
+    ) {
+      const buttonContent = React.Children.toArray(props.children).filter(
+        (e) => typeof e === 'string' && e !== ''
+      );
+
+      deprecate(
+        `You are using a some deprecated props ${
+          buttonContent.length > 0 ? `in the button "${buttonContent[0]}"` : 'in a button component'
+        }. Please use the new API instead.`
+      );
     }
 
     return (

@@ -3,6 +3,7 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Core changes](#core-changes)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
+    - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
   - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
   - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
@@ -319,6 +320,10 @@ In Storybook 7 it was possible to use `addons.setConfig({...});` to configure St
 - `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
 - `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
 - `isFullscreen: boolean` is no longer supported, but can be achieved by setting a combination of the above.
+
+#### New UI and props for Button and IconButton components
+
+We used to have a lot of different buttons in `@storybook/components` that were not used anywhere. We have removed them and added a new `Button` component that can be used in all places. The `IconButton` component has also been updated to use the new `Button` component. Going forward addon creators and Storybook maintainers should use the new `Button` component. `IconButton` is still available for use, but we might remove it in the future as this is just a wrapper around the `Button` component. `Form.Button` is depreciated and will be removed in the future.
 
 ## From version 7.4.0 to 7.5.0
 
