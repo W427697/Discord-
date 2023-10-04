@@ -143,8 +143,8 @@ export const generateReleaseDescription = ({
   manualCherryPicks?: string;
 }): string => {
   const workflow = semver.prerelease(nextVersion)
-    ? 'prepare-next-release'
-    : 'prepare-hotfix-release';
+    ? 'prepare-non-patch-release'
+    : 'prepare-patch-release';
   const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
 
   return (
@@ -218,7 +218,7 @@ export const generateNonReleaseDescription = (
 
   ${manualCherryPicks || ''}
 
-  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-hotfix-release.yml) and wait for it to finish.
+  If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
   
   Feel free to manually commit any changes necessary to this branch **after** you've done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs.
 

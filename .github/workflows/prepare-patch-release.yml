@@ -16,8 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare-hotfix-pull-request:
-    name: Prepare hotfix pull request
+  prepare-patch-pull-request:
+    name: Prepare patch pull request
     runs-on: ubuntu-latest
     environment: release
     defaults:
@@ -56,7 +56,7 @@ jobs:
         id: check-frozen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:is-pr-frozen --hotfix
+        run: yarn release:is-pr-frozen --patch
 
       - name: Cancel when frozen
         if: steps.check-frozen.outputs.frozen == 'true' && github.event_name != 'workflow_dispatch'
@@ -88,7 +88,7 @@ jobs:
           git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
           yarn release:pick-patches
 
-      - name: Cancel when no hotfixes to pick
+      - name: Cancel when no patches to pick
         if: steps.pick-patches.outputs.pr-count == '0' && steps.pick-patches.outputs.pr-count != null
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

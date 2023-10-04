@@ -12,7 +12,7 @@ program
   .description(
     'returns true if the versioning pull request associated with the current branch has the "freeze" label'
   )
-  .option('-H, --hotfix', 'Look for hotfix PR instead of next PR', false)
+  .option('-H, --patch', 'Look for patch PR instead of next PR', false)
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
@@ -43,10 +43,10 @@ const getRepo = async (verbose?: boolean): Promise<string> => {
 };
 
 export const run = async (options: unknown) => {
-  const { verbose, hotfix } = options as { verbose?: boolean; hotfix?: boolean };
+  const { verbose, patch } = options as { verbose?: boolean; patch?: boolean };
 
   const version = await getCurrentVersion();
-  const branch = `version-${hotfix ? 'hotfix' : 'next'}-from-${version}`;
+  const branch = `version-${patch ? 'patch' : 'next'}-from-${version}`;
 
   console.log(`💬 Determining if pull request from branch '${chalk.blue(branch)}' is frozen`);
 

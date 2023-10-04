@@ -47,13 +47,13 @@ describe('isPrFrozen', () => {
     await expect(isPrFrozen({ patch: false })).resolves.toBe(false);
   });
 
-  it('should look for patch PRs when hotfix is true', async () => {
+  it('should look for patch PRs when patch is true', async () => {
     getPullInfoFromCommit.mockResolvedValue({
       labels: [],
     });
-    await isPrFrozen({ hotfix: true });
+    await isPrFrozen({ patch: true });
 
-    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-hotfix-from-1.0.0', {
+    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-patch-from-1.0.0', {
       '--depth': 1,
     });
   });

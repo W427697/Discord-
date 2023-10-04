@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - latest-release
-      - next-release
+      - non-patch-release
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -39,11 +39,11 @@ jobs:
       - name: Cancel all release preparation runs
         run: |
           # Get a list of all running or pending release preparation runs
-          # combining both the prepare-hotfix-release.yml and prepare-next-release.yml workflows
+          # combining both the prepare-patch-release.yml and prepare-non-patch-release.yml workflows
           RUNNING_RELEASE_PREPARATIONS=$(
             {
-              gh run list --limit 50 --workflow=prepare-hotfix-release.yml --json databaseId,status
-              gh run list --limit 50 --workflow=prepare-next-release.yml --json databaseId,status
+              gh run list --limit 50 --workflow=prepare-patch-release.yml --json databaseId,status
+              gh run list --limit 50 --workflow=prepare-non-patch-release.yml --json databaseId,status
             } | jq -rc '.[] | select(.status | contains("in_progress", "pending", "queued", "requested", "waiting")) | .databaseId'
           )
 
@@ -170,7 +170,7 @@ jobs:
       # next will be at eg. 7.4.0-alpha.4, and main will be at 7.3.0
       # then we release 7.4.0 by merging next to latest-release to main
       # we then ensure here that next is bumped to 7.5.0 - without releasing it
-      # if this is a hotfix release bumping main to 7.3.1, next will not be touched because it's already ahead
+      # if this is a patch release bumping main to 7.3.1, next will not be touched because it's already ahead
       - name: Ensure `next` is a minor version ahead of `main`
         if: steps.target.outputs.target == 'main'
         run: |

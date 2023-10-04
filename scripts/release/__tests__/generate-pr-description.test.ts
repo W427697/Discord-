@@ -219,7 +219,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
         - [ ] [#42](https://github.com/storybookjs/storybook/pull/42): \\\`git cherry-pick -m1 -x abc123\\\`
 
-        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-next-release.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-non-patch-release.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
         Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs, *especially* if you\\'re making changes to the changelog.
 
@@ -279,7 +279,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
         - [ ] [#42](https://github.com/storybookjs/storybook/pull/42): \\\`git cherry-pick -m1 -x abc123\\\`
 
-        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-hotfix-release.yml) and wait for it to finish.
+        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
 
         Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs.
 
@@ -346,7 +346,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
 
 
-        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-next-release.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+        If you\\'ve made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-non-patch-release.yml) and wait for it to finish. It will wipe your progress in this to do, which is expected.
 
         Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs, *especially* if you\\'re making changes to the changelog.
 
@@ -401,7 +401,7 @@ For each pull request below, you need to either manually cherry pick it, or disc
 
 
 
-        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-hotfix-release.yml) and wait for it to finish.
+        If you\\'ve made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
 
         Feel free to manually commit any changes necessary to this branch **after** you\\'ve done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs.
 
