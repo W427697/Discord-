@@ -186,7 +186,7 @@ const LayoutContainer = styled.div<LayoutState>(
 
     return {
       width: '100%',
-      height: 'var(--vh)',
+      height: 'var(--vh, 100vh)',
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
