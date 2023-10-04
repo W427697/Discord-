@@ -101,9 +101,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       );
 
       deprecate(
-        `You are using a some deprecated props ${
-          buttonContent.length > 0 ? `in the button "${buttonContent[0]}"` : 'in a button component'
-        }. Please use the new API instead.`
+        `Use of deprecated props in the button ${
+          buttonContent.length > 0 ? `"${buttonContent[0]}"` : 'component'
+        } detected, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-ui-and-props-for-button-and-iconbutton-components`
       );
     }
 
