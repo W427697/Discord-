@@ -18,7 +18,7 @@ export const { expect } = instrument(
   { expect: rawExpect },
   {
     getKeys: (obj: Record<string, unknown>, depth) => {
-      const privateApi = ['assert', '__methods', '__flags'];
+      const privateApi = ['assert', '__methods', '__flags', '_obj'];
       if (obj.constructor === chai.Assertion) {
         const keys = Object.keys(Object.getPrototypeOf(obj)).filter(
           (it) => !privateApi.includes(it)
