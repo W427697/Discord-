@@ -146,7 +146,7 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
       <Notifications
         placement={{
           position: 'fixed',
-          bottom: 20,
+          bottom: isMobile ? 60 : 20,
           left: 20,
         }}
       />
