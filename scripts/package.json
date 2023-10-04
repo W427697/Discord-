@@ -13,6 +13,7 @@
     "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
     "lint:package": "sort-package-json",
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
+    "release:ensure-next-ahead": "ts-node --swc ./release/ensure-next-ahead.ts",
     "release:generate-pr-description": "ts-node --swc ./release/generate-pr-description.ts",
     "release:get-changelog-from-file": "ts-node --swc ./release/get-changelog-from-file.ts",
     "release:get-current-version": "ts-node --swc ./release/get-current-version.ts",

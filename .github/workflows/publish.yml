@@ -165,31 +165,14 @@ jobs:
           git merge ${{ github.ref_name }}
           git push origin ${{ steps.target.outputs.target }}
 
-      # This step ensures that next is always one minor ahead of main
-      # this is needed when releasing a stable from next
-      # next will be at eg. 7.4.0-alpha.4, and main will be at 7.3.0
-      # then we release 7.4.0 by merging next to latest-release to main
-      # we then ensure here that next is bumped to 7.5.0 - without releasing it
-      # if this is a patch release bumping main to 7.3.1, next will not be touched because it's already ahead
       - name: Ensure `next` is a minor version ahead of `main`
         if: steps.target.outputs.target == 'main'
         run: |
           git checkout next
           git pull
 
-          CODE_PKG_JSON=$(cat ../code/package.json)
-          VERSION_ON_NEXT=$(echo $CODE_PKG_JSON | jq --raw-output '.version')
-          VERSION_ON_MAIN="${{ steps.version.outputs.current-version }}"
+          yarn release:ensure-next-ahead --main-version "${{ steps.version.outputs.current-version }}"
 
-          # skip if next is already ahead of main
-          if NEXT_IS_AHEAD=$(npx semver --include-prerelease --range ">=$VERSION_ON_MAIN" "$VERSION_ON_NEXT" 2>/dev/null); then
-            return
-          fi
-
-          # temporarily set the version on next to be the same as main...
-          echo "$CODE_PKG_JSON" | jq --arg version "$VERSION_ON_MAIN" '.version = $version' > ../code/package.json
-          # ... then bump it by one minor
-          yarn release:version --release-type minor
           git add ..
           git commit -m "Bump next to be one minor ahead of main [skip ci]"
           git push origin next
