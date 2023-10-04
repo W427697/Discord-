@@ -79,9 +79,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
    */
   const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
 
+  const noExternal = [/^@vitest\/.+$/];
+
   if (formats.includes('esm')) {
     tasks.push(
       build({
+        noExternal,
         silent: true,
         treeshake: true,
         entry: nonPresetEntries,
@@ -116,6 +119,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('cjs')) {
     tasks.push(
       build({
+        noExternal,
         silent: true,
         entry: allEntries,
         watch,
