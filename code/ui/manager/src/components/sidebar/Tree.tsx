@@ -36,6 +36,7 @@ import {
   getLink,
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
 
 export const Action = styled.button<{ height?: number; width?: number }>(
   ({ theme, height, width }) => ({
@@ -201,6 +202,8 @@ const Node = React.memo<NodeProps>(function Node({
   onSelectStoryId,
   api,
 }) {
+  const { isDesktop, isMobile, setMobileMenuOpen } = useLayout();
+
   if (!isDisplayed) {
     return null;
   }
@@ -231,6 +234,7 @@ const Node = React.memo<NodeProps>(function Node({
           onClick={(event) => {
             event.preventDefault();
             onSelectStoryId(item.id);
+            if (isMobile) setMobileMenuOpen(false);
           }}
           {...(item.type === 'docs' && { docsMode })}
         >
@@ -329,7 +333,7 @@ const Node = React.memo<NodeProps>(function Node({
         onClick={(event) => {
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
-          if (item.type === 'component' && !isExpanded) onSelectStoryId(item.id);
+          if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
         }}
         onMouseEnter={() => {
           if (item.isComponent) {

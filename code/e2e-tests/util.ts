@@ -65,8 +65,9 @@ export class SbPage {
       const storeState = {
         layout: {
           showToolbar: true,
-          showNav: true,
-          showPanel: true,
+          navSize: 300,
+          bottomPanelHeight: 300,
+          rightPanelWidth: 300,
         },
       };
       window.sessionStorage.setItem('@storybook/manager/store', JSON.stringify(storeState));

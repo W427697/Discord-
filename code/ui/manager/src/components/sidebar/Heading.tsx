@@ -5,7 +5,7 @@ import { Button } from '@storybook/components';
 
 import type { Addon_SidebarTopType } from '@storybook/types';
 import { Brand } from './Brand';
-import type { MenuList } from './Menu';
+import type { MenuList, SidebarMenuProps } from './Menu';
 import { SidebarMenu } from './Menu';
 
 export interface HeadingProps {
@@ -14,6 +14,7 @@ export interface HeadingProps {
   extra: Addon_SidebarTopType[];
   skipLinkHref?: string;
   isLoading: boolean;
+  onMenuClick?: SidebarMenuProps['onClick'];
 }
 
 const BrandArea = styled.div(({ theme }) => ({
@@ -81,6 +82,7 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
   skipLinkHref,
   extra,
   isLoading,
+  onMenuClick,
   ...props
 }) => {
   return (
@@ -96,7 +98,7 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
       </BrandArea>
 
       {isLoading ? null : extra.map(({ id, render: Render }) => <Render key={id} />)}
-      <SidebarMenu menu={menu} isHighlighted={menuHighlighted} />
+      <SidebarMenu menu={menu} isHighlighted={menuHighlighted} onClick={onMenuClick} />
     </HeadingWrapper>
   );
 };
