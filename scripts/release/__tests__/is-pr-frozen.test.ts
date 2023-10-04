@@ -64,7 +64,7 @@ describe('isPrFrozen', () => {
     });
     await isPrFrozen({ patch: false });
 
-    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-next-from-1.0.0', {
+    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-non-patch-from-1.0.0', {
       '--depth': 1,
     });
   });

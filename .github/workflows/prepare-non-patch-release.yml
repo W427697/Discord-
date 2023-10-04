@@ -34,7 +34,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare-next-pull-request:
+  prepare-non-patch-pull-request:
     name: Prepare prerelease pull request
     runs-on: ubuntu-latest
     environment: release
@@ -122,15 +122,15 @@ jobs:
         run: |
           yarn release:write-changelog ${{ steps.bump-version.outputs.next-version }} --verbose
 
-      - name: 'Commit changes to branch: version-next-from-${{ steps.bump-version.outputs.current-version }}'
+      - name: 'Commit changes to branch: version-non-patch-from-${{ steps.bump-version.outputs.current-version }}'
         working-directory: .
         run: |
           git config --global user.name 'storybook-bot'
           git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
-          git checkout -b version-next-from-${{ steps.bump-version.outputs.current-version }}
+          git checkout -b version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
           git add .
           git commit -m "Write changelog for ${{ steps.bump-version.outputs.next-version }} [skip ci]" || true
-          git push --force origin version-next-from-${{ steps.bump-version.outputs.current-version }}
+          git push --force origin version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
 
       - name: Resolve merge-conflicts with base branch
         if: steps.is-prerelease.outputs.prerelease == 'true'
@@ -140,7 +140,7 @@ jobs:
           git pull origin latest-release
           git checkout --ours .
           git add .
-          git commit -m "Merge latest-release into version-next-from-${{ steps.bump-version.outputs.current-version }} with conflicts resolved to ours [skip ci]"
+          git commit -m "Merge latest-release into version-non-patch-from-${{ steps.bump-version.outputs.current-version }} with conflicts resolved to ours [skip ci]"
 
       - name: Generate PR description
         id: description
@@ -166,7 +166,7 @@ jobs:
               --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
               --label "release" \
               --base ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next-release' || 'latest-release' }} \
-              --head version-next-from-${{ steps.bump-version.outputs.current-version }} \
+              --head version-non-patch-from-${{ steps.bump-version.outputs.current-version }} \
               --body "${{ steps.description.outputs.description }}"
           fi
 
