@@ -7212,6 +7212,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/router": "workspace:*"
+    "@storybook/test": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@testing-library/react": ^11.2.2
@@ -8106,7 +8107,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/test@workspace:lib/test":
+"@storybook/test@workspace:*, @storybook/test@workspace:lib/test":
   version: 0.0.0-use.local
   resolution: "@storybook/test@workspace:lib/test"
   dependencies:
