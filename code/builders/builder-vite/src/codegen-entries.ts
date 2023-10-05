@@ -22,7 +22,7 @@ export async function generateVirtualStoryEntryCode(options: Options) {
   const modules = storyEntries.map((entry, i) => `${JSON.stringify(entry)}: story_${i}`).join(',');
 
   return `
-    ${absoluteFilesToImport(storyEntries, 'story', normalizePath)}
+    ${await absoluteFilesToImport(storyEntries, 'story', normalizePath)}
 
     function loadable(key) {
       return {${modules}}[key];
