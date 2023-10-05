@@ -32,7 +32,7 @@ const rewritingIndexer: Indexer = {
         await ensureDir(storyDir);
         const pageFile = join(storyDir, 'page.jsx');
         const relativePath = relative(dirname(pageFile), fileName);
-        const { exportName, name } = story;
+        const { exportName } = story;
         console.log({ story });
 
         const pageJsx = dedent`
