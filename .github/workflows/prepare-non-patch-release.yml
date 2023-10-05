@@ -34,7 +34,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare-prerelease-pull-request:
+  prepare-non-patch-pull-request:
     name: Prepare prerelease pull request
     runs-on: ubuntu-latest
     environment: release
@@ -112,21 +112,35 @@ jobs:
         run: |
           yarn release:version --deferred --release-type ${{ inputs.release-type || 'prerelease' }} ${{ inputs.pre-id && format('{0} {1}', '--pre-id', inputs.pre-id) || '' }} --verbose
 
+      - name: Check release vs prerelease
+        id: is-prerelease
+        run: yarn release:is-prerelease ${{ steps.bump-version.outputs.next-version }}
+
       - name: Write changelog
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           yarn release:write-changelog ${{ steps.bump-version.outputs.next-version }} --verbose
 
-      - name: 'Commit changes to branch: version-prerelease-from-${{ steps.bump-version.outputs.current-version }}'
+      - name: 'Commit changes to branch: version-non-patch-from-${{ steps.bump-version.outputs.current-version }}'
         working-directory: .
         run: |
           git config --global user.name 'storybook-bot'
           git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
-          git checkout -b version-prerelease-from-${{ steps.bump-version.outputs.current-version }}
+          git checkout -b version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
           git add .
-          git commit -m "Write changelog for ${{ steps.bump-version.outputs.next-version }}" || true
-          git push --force origin version-prerelease-from-${{ steps.bump-version.outputs.current-version }}
+          git commit -m "Write changelog for ${{ steps.bump-version.outputs.next-version }} [skip ci]" || true
+          git push --force origin version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
+
+      - name: Resolve merge-conflicts with base branch
+        if: steps.is-prerelease.outputs.prerelease == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git pull origin latest-release
+          git checkout --ours .
+          git add .
+          git commit -m "Merge latest-release into version-non-patch-from-${{ steps.bump-version.outputs.current-version }} with conflicts resolved to ours [skip ci]"
 
       - name: Generate PR description
         id: description
@@ -144,14 +158,15 @@ jobs:
             gh pr edit \
               --repo "${{github.repository }}" \
               --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
+              --base ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next-release' || 'latest-release' }} \
               --body "${{ steps.description.outputs.description }}"
           else
             gh pr create \
               --repo "${{github.repository }}"\
               --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
               --label "release" \
-              --base next-release \
-              --head version-prerelease-from-${{ steps.bump-version.outputs.current-version }} \
+              --base ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next-release' || 'latest-release' }} \
+              --head version-non-patch-from-${{ steps.bump-version.outputs.current-version }} \
               --body "${{ steps.description.outputs.description }}"
           fi
 
