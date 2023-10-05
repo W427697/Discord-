@@ -1,7 +1,7 @@
-import { expect } from '@storybook/jest';
+import { expect, within, userEvent } from '@storybook/test';
+
 import { global as globalThis } from '@storybook/global';
 import type { Meta, StoryObj, StoryFn } from '@storybook/vue3';
-import { within, userEvent } from '@storybook/testing-library';
 import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
 
 import ReactiveArgs from './ReactiveArgs.vue';

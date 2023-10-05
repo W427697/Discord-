@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/test';
 import { createPage } from './Page';
 
 const meta = {

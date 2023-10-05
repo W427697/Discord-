@@ -1,7 +1,7 @@
+import { within, userEvent } from '@storybook/test';
 import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext } from '@storybook/types';
 import { useEffect, useState } from '@storybook/preview-api';
-import { within, userEvent } from '@storybook/testing-library';
 
 export default {
   component: globalThis.Components.Button,

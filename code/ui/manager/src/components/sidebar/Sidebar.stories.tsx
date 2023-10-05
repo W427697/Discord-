@@ -1,9 +1,9 @@
-import React from 'react';
+import { within, userEvent } from '@storybook/test';
 
+import React from 'react';
 import type { IndexHash, State } from '@storybook/manager-api';
 import { types } from '@storybook/manager-api';
 import type { StoryObj, Meta } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
 import { Button, IconButton, Icons } from '@storybook/components';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';

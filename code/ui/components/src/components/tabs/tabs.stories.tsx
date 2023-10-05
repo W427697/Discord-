@@ -1,15 +1,7 @@
-import { expect } from '@storybook/jest';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  within,
-  fireEvent,
-  waitFor,
-  screen,
-  userEvent,
-  findByText,
-} from '@storybook/testing-library';
+import { within, fireEvent, waitFor, screen, userEvent, findByText, expect } from '@storybook/test';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 import type { ChildrenList } from './tabs.helpers';
 import { IconButton } from '../bar/button';

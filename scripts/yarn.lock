@@ -3006,7 +3006,7 @@ __metadata:
     eslint: "npm:^8.28.0"
     eslint-plugin-import: "npm:^2.26.0"
     eslint-plugin-react: "npm:^7.31.10"
-    eslint-plugin-storybook: "npm:^0.6.6"
+    eslint-plugin-storybook: "npm:^0.6.14"
     execa: "npm:^6.1.0"
     express: "npm:^4.17.3"
     fast-folder-size: "npm:^2.1.0"
@@ -7542,9 +7542,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:^0.6.6":
-  version: 0.6.13
-  resolution: "eslint-plugin-storybook@npm:0.6.13"
+"eslint-plugin-storybook@npm:^0.6.14":
+  version: 0.6.15
+  resolution: "eslint-plugin-storybook@npm:0.6.15"
   dependencies:
     "@storybook/csf": "npm:^0.0.1"
     "@typescript-eslint/utils": "npm:^5.45.0"
@@ -7552,7 +7552,7 @@ __metadata:
     ts-dedent: "npm:^2.2.0"
   peerDependencies:
     eslint: ">=6"
-  checksum: 3fa79d8cf765d108f4be697246183d94de448301b56767e292c36ec1a9c12ae4f6b64f32c5e5f84b50e214f5bf2f0385d40f5543908f561319e4c8bb8bcdfb99
+  checksum: c61f5f2af72b614c30e8b36644672cfa25ca28e963e5e6cfab438f0cb287a6270f875a2dd8cd600a04c9864b9c549e269d95ea8da88c412e2b868fcd6a3605a4
   languageName: node
   linkType: hard
 

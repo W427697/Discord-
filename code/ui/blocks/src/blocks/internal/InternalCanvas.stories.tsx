@@ -1,8 +1,7 @@
+import { userEvent, within, expect } from '@storybook/test';
 /// <reference types="@types/jest" />;
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
 import { Canvas, SourceState } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
 import * as ButtonStories from '../../examples/Button.stories';

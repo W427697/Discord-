@@ -1,17 +1,18 @@
 import { global as globalThis } from '@storybook/global';
 import {
+  expect,
   within,
   waitFor,
   fireEvent,
   userEvent,
   waitForElementToBeRemoved,
-} from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+  fn,
+} from '@storybook/test';
 
 export default {
   component: globalThis.Components.Form,
-  argTypes: {
-    onSuccess: { type: 'function' },
+  args: {
+    onSuccess: fn(),
   },
 };
 

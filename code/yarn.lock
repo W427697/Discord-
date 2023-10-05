@@ -5995,10 +5995,9 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/global": "npm:^5.0.0"
     "@storybook/instrumenter": "workspace:*"
-    "@storybook/jest": "npm:next"
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
-    "@storybook/testing-library": "npm:next"
+    "@storybook/test": "workspace:*"
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/node": "npm:^18.0.0"
@@ -7923,7 +7922,7 @@ __metadata:
     eslint-plugin-import: "npm:^2.26.0"
     eslint-plugin-local-rules: "portal:../scripts/eslint-plugin-local-rules"
     eslint-plugin-react: "npm:^7.31.10"
-    eslint-plugin-storybook: "npm:^0.6.6"
+    eslint-plugin-storybook: "npm:^0.6.14"
     fs-extra: "npm:^11.1.0"
     github-release-from-changelog: "npm:^2.1.1"
     glob: "npm:^10.0.0"
@@ -16509,9 +16508,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:^0.6.6":
-  version: 0.6.14
-  resolution: "eslint-plugin-storybook@npm:0.6.14"
+"eslint-plugin-storybook@npm:^0.6.14":
+  version: 0.6.15
+  resolution: "eslint-plugin-storybook@npm:0.6.15"
   dependencies:
     "@storybook/csf": "npm:^0.0.1"
     "@typescript-eslint/utils": "npm:^5.45.0"
@@ -16519,7 +16518,7 @@ __metadata:
     ts-dedent: "npm:^2.2.0"
   peerDependencies:
     eslint: ">=6"
-  checksum: fa198d9f0328ce0b40af479485d08fe74fc409a5ed4769b9531785e9f8e57553034a63f5bfb9cfa1c901e74c0996566c4bbe312d604e8d3e452f1d2c9d0306b2
+  checksum: c61f5f2af72b614c30e8b36644672cfa25ca28e963e5e6cfab438f0cb287a6270f875a2dd8cd600a04c9864b9c549e269d95ea8da88c412e2b868fcd6a3605a4
   languageName: node
   linkType: hard
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/test';
 import type { StoryFn as CSF2Story, StoryObj as CSF3Story, Meta } from '..';
 
 import type { ButtonProps } from './Button';

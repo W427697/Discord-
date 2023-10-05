@@ -1,3 +1,4 @@
+import { within, expect } from '@storybook/test';
 import { global as globalThis } from '@storybook/global';
 import type {
   ArgsStoryFn,
@@ -5,8 +6,6 @@ import type {
   PlayFunctionContext,
   StoryContext,
 } from '@storybook/types';
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
 import { useEffect } from '@storybook/preview-api';
 import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
 

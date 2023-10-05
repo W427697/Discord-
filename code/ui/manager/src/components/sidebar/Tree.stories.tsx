@@ -1,12 +1,9 @@
-// @TODO: use addon-interactions and remove the rule disable above
+import { within, expect } from '@storybook/test';
 import React, { useState } from 'react';
 import type { ComponentEntry, IndexHash } from '@storybook/manager-api';
 import { action } from '@storybook/addon-actions';
 
 import type { StoryObj, Meta } from '@storybook/react';
-import { within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
 import { Tree } from './Tree';
 import { index } from './mockdata.large';
 import { DEFAULT_REF_ID } from './Sidebar';

@@ -3,7 +3,8 @@ import type { FC, ReactElement } from 'react';
 import type { Root as ReactRoot } from 'react-dom/client';
 import React, { useLayoutEffect, useRef } from 'react';
 // @ts-expect-error react-dom doesn't have this in v16, which confuses TS
-import ReactDOM from 'react-dom/client'; // eslint-disable-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved
+import ReactDOM from 'react-dom/client';
 
 // A map of all rendered React 18 nodes
 const nodes = new Map<Element, ReactRoot>();

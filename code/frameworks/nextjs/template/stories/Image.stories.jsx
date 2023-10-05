@@ -1,6 +1,6 @@
+import { waitFor } from '@storybook/test';
 import React from 'react';
 import Image from 'next/image';
-import { waitFor } from '@storybook/testing-library';
 
 import Accessibility from '../../assets/accessibility.svg';
 

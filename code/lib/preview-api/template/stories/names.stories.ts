@@ -1,5 +1,5 @@
+import { expect } from '@storybook/test';
 import { global as globalThis } from '@storybook/global';
-import { expect } from '@storybook/jest';
 import type { PlayFunctionContext } from '@storybook/types';
 
 export default {

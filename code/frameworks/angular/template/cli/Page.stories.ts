@@ -1,6 +1,6 @@
+import { within, userEvent } from '@storybook/test';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { within, userEvent } from '@storybook/testing-library';
 import { CommonModule } from '@angular/common';
 
 import Button from './button.component';
