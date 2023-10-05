@@ -20,8 +20,8 @@ const { document } = global;
 const ResultsList = styled.ol({
   listStyle: 'none',
   margin: 0,
-  marginLeft: -20,
-  marginRight: -20,
+  // marginLeft: -20,
+  // marginRight: -20,
   padding: 0,
 });
 
