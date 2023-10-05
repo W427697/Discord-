@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, expect } from '@storybook/test';
 import { createPage } from './Page';
 
 const meta = {
@@ -22,6 +22,13 @@ export const LoggedIn: StoryObj = {
     const loginButton = await canvas.getByRole('button', {
       name: /Log in/i,
     });
+    await expect(loginButton).toBeInTheDocument();
     await userEvent.click(loginButton);
+    await expect(loginButton).not.toBeInTheDocument();
+
+    const logoutButton = await canvas.getByRole('button', {
+      name: /Log out/i,
+    });
+    await expect(logoutButton).toBeInTheDocument();
   },
 };

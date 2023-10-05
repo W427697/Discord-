@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { within, userEvent } from '@storybook/testing-library';
 import { CommonModule } from '@angular/common';
+import { within, userEvent, expect } from '@storybook/test';
 
 import Button from './button.component';
 import Header from './header.component';
@@ -41,6 +41,13 @@ export const LoggedIn: Story = {
     const loginButton = await canvas.getByRole('button', {
       name: /Log in/i,
     });
+    await expect(loginButton).toBeInTheDocument();
     await userEvent.click(loginButton);
+    await expect(loginButton).not.toBeInTheDocument();
+
+    const logoutButton = await canvas.getByRole('button', {
+      name: /Log out/i,
+    });
+    await expect(logoutButton).toBeInTheDocument();
   },
 };

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, expect } from '@storybook/test';
 import MyPage from './Page.vue';
 
 const meta = {
@@ -27,7 +27,14 @@ export const LoggedIn: Story = {
     const loginButton = await canvas.getByRole('button', {
       name: /Log in/i,
     });
+    await expect(loginButton).toBeInTheDocument();
     await userEvent.click(loginButton);
+    await expect(loginButton).not.toBeInTheDocument();
+
+    const logoutButton = await canvas.getByRole('button', {
+      name: /Log out/i,
+    });
+    await expect(logoutButton).toBeInTheDocument();
   },
 };
 
