@@ -115,7 +115,7 @@ jobs:
 
       - name: Check release vs prerelease
         id: is-prerelease
-        run: yarn release:is-prerelease 7.6.0
+        run: yarn release:is-prerelease
 
       - name: Write changelog
         env:
@@ -128,13 +128,13 @@ jobs:
         run: |
           git config --global user.name 'storybook-bot'
           git config --global user.email '32066757+storybook-bot@users.noreply.github.com'
-          git checkout -b TEST2-version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
+          git checkout -b TEST3-version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
           git add .
           git commit -m "Write changelog for ${{ steps.bump-version.outputs.next-version }} [skip ci]" || true
-          git push --force origin TEST2-version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
+          git push --force origin TEST3-version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
 
       - name: Resolve merge-conflicts with base branch
-        if: steps.is-prerelease.outputs.prerelease == 'false'
+        if: steps.is-prerelease.outputs.prerelease != 'false'
         working-directory: .
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -160,15 +160,15 @@ jobs:
           if PR_STATE=$(gh pr view --json state --jq .state 2>/dev/null) && [[ -n "$PR_STATE" && "$PR_STATE" == *"OPEN"* ]]; then
             gh pr edit \
               --repo "${{github.repository }}" \
-              --title "TEST2 Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
-              --base ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next-release' || 'latest-release' }} \
+              --title "TEST3 Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
+              --base ${{ steps.is-prerelease.outputs.prerelease != 'true' && 'next-release' || 'latest-release' }} \
               --body "${{ steps.description.outputs.description }}"
           else
             gh pr create \
               --repo "${{github.repository }}"\
-              --title "TEST2 Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
+              --title "TEST3 Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
               --label "release" \
-              --base ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next-release' || 'latest-release' }} \
+              --base ${{ steps.is-prerelease.outputs.prerelease != 'true' && 'next-release' || 'latest-release' }} \
               --head version-non-patch-from-${{ steps.bump-version.outputs.current-version }} \
               --body "${{ steps.description.outputs.description }}"
           fi
