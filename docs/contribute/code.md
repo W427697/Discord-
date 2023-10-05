@@ -17,6 +17,12 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 git clone https://github.com/your-username/storybook.git
 ```
 
+Storybook uses the [yarn](https://v3.yarnpkg.com/) package manager. Use [corepack](https://github.com/nodejs/corepack) to set up the correct version for use with Storybook.
+
+```shell
+corepack enable
+```
+
 ## Run your first sandbox
 
 Storybook development happens in a set of _sandboxes_ which are templated Storybook environments corresponding to different user setups. Within each sandbox, we inject a set of generalized stories that allow us to test core features and addons in all such environments.
