@@ -1,14 +1,12 @@
 import type { Options, Presets } from '@storybook/types';
-import { jest } from '@jest/globals';
+import { loadConfigFromFile } from 'vite';
 import { commonConfig } from './vite-config';
 
-jest.unstable_mockModule('vite', () => ({
+jest.mock('vite', () => ({
+  ...jest.requireActual('vite'),
   loadConfigFromFile: jest.fn(async () => ({})),
 }));
-
-const loadConfigFromFileMock = async () => {
-  return jest.mocked((await import('vite')).loadConfigFromFile);
-};
+const loadConfigFromFileMock = jest.mocked(loadConfigFromFile);
 
 const dummyOptions: Options = {
   configType: 'DEVELOPMENT',
@@ -32,7 +30,7 @@ const dummyOptions: Options = {
 
 describe('commonConfig', () => {
   it('should preserve default envPrefix', async () => {
-    (await loadConfigFromFileMock()).mockReturnValueOnce(
+    loadConfigFromFileMock.mockReturnValueOnce(
       Promise.resolve({
         config: {},
         path: '',
@@ -44,7 +42,7 @@ describe('commonConfig', () => {
   });
 
   it('should preserve custom envPrefix string', async () => {
-    (await loadConfigFromFileMock()).mockReturnValueOnce(
+    loadConfigFromFileMock.mockReturnValueOnce(
       Promise.resolve({
         config: { envPrefix: 'SECRET_' },
         path: '',
@@ -56,7 +54,7 @@ describe('commonConfig', () => {
   });
 
   it('should preserve custom envPrefix array', async () => {
-    (await loadConfigFromFileMock()).mockReturnValueOnce(
+    loadConfigFromFileMock.mockReturnValueOnce(
       Promise.resolve({
         config: { envPrefix: ['SECRET_', 'VUE_'] },
         path: '',
