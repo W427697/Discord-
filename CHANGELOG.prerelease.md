@@ -1,3 +1,10 @@
+## 7.5.0-alpha.5
+
+- Angular: Fix Angular 15 support and add zone.js v0.14.x support - [#24367](https://github.com/storybookjs/storybook/pull/24367), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- NextJS: Fix Image Context re-use via singleton - [#24146](https://github.com/storybookjs/storybook/pull/24146), thanks [@martinnabhan](https://github.com/martinnabhan)!
+- NextJS: Fix default next image loader when src has params - [#24187](https://github.com/storybookjs/storybook/pull/24187), thanks [@json-betsec](https://github.com/json-betsec)!
+- React: Upgrade `react-docgen` to 6.0.x and improve argTypes - [#23825](https://github.com/storybookjs/storybook/pull/23825), thanks [@shilman](https://github.com/shilman)!
+
 ## 7.5.0-alpha.4
 
 - CLI: Fix Nextjs project detection - [#24346](https://github.com/storybookjs/storybook/pull/24346), thanks [@yannbf](https://github.com/yannbf)!
