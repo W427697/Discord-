@@ -6821,7 +6821,6 @@ __metadata:
     "@types/node-fetch": ^2.5.7
     "@types/pretty-hrtime": ^1.0.0
     "@types/semver": ^7.3.4
-    "@types/serve-favicon": ^2.5.2
     "@types/ws": ^8
     better-opn: ^3.0.2
     boxen: ^5.1.2
@@ -6842,7 +6841,6 @@ __metadata:
     prompts: ^2.4.0
     read-pkg-up: ^7.0.1
     semver: ^7.3.7
-    serve-favicon: ^2.5.0
     slash: ^5.0.0
     telejson: ^7.2.0
     tiny-invariant: ^1.3.1
@@ -9400,15 +9398,6 @@ __metadata:
     "@types/mime": ^1
     "@types/node": "*"
   checksum: 1aad6bfafdaa3a3cadad1b441843dfd166821c0e93513daabe979de85b552a1298cfb6f07d40f80b5ecf14a3194dc148deb138605039841f1dadc7132c73e634
-  languageName: node
-  linkType: hard
-
-"@types/serve-favicon@npm:^2.5.2":
-  version: 2.5.4
-  resolution: "@types/serve-favicon@npm:2.5.4"
-  dependencies:
-    "@types/express": "*"
-  checksum: 60bb648eff8bba7f589e9a2027879c39c137c96e1afafb6a09cb220477c1ebe74c3ce4293c52724592f04e3278950b82741f449c8517a432c163107333a0d6b8
   languageName: node
   linkType: hard
 
@@ -23104,13 +23093,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ms@npm:2.1.1":
-  version: 2.1.1
-  resolution: "ms@npm:2.1.1"
-  checksum: 056140c631e740369fa21142417aba1bd629ab912334715216c666eb681c8f015c622dd4e38bc1d836b30852b05641331661703af13a0397eb0ca420fc1e75d9
-  languageName: node
-  linkType: hard
-
 "ms@npm:2.1.2":
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
@@ -27789,13 +27771,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"safe-buffer@npm:5.1.1":
-  version: 5.1.1
-  resolution: "safe-buffer@npm:5.1.1"
-  checksum: 1c233bd105deeba3c9a8911ed4ec24ba45adbb51fec02f7944a10a202c38e3df4ef2b524bdeb55f2e4f8c77c13b2959e2e2e6022e5d99acdd70633b5f7e138cf
-  languageName: node
-  linkType: hard
-
 "safe-buffer@npm:5.1.2, safe-buffer@npm:~5.1.0, safe-buffer@npm:~5.1.1":
   version: 5.1.2
   resolution: "safe-buffer@npm:5.1.2"
@@ -28104,19 +28079,6 @@ __metadata:
   dependencies:
     randombytes: ^2.1.0
   checksum: ca8a6bb29891e524e36451d685827ab7e7f50171e5aebe99504d07ae97308a9faa880e0df0517d75ed8efb09991454eb8cb969cecfad82478fc0591938a3909c
-  languageName: node
-  linkType: hard
-
-"serve-favicon@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "serve-favicon@npm:2.5.0"
-  dependencies:
-    etag: ~1.8.1
-    fresh: 0.5.2
-    ms: 2.1.1
-    parseurl: ~1.3.2
-    safe-buffer: 5.1.1
-  checksum: 7244ced3c46f8dfde591dc801f1e21ebc8fa07c4870cbbaee3ce37104b3aad32858e674e251a8ed4837867ea0dd67cb734b485ae5a7b0895cb6022f8b8c79303
   languageName: node
   linkType: hard
 
