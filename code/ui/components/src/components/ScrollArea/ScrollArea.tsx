@@ -14,34 +14,37 @@ const ScrollAreaRoot = styled(ScrollAreaPrimitive.Root)({
   width: '100%',
   height: '100%',
   overflow: 'hidden',
-  '--scrollbar-size': '10px',
+  '--scrollbar-size': '4px',
 });
 
 const ScrollAreaViewport = styled(ScrollAreaPrimitive.Viewport)({
   width: '100%',
   height: '100%',
-  borderRadius: 'inherit',
 });
 
 const ScrollAreaScrollbar = styled(ScrollAreaPrimitive.Scrollbar)({
   display: 'flex',
   userSelect: 'none', // ensures no selection
   touchAction: 'none', // disable browser handling of all panning and zooming gestures on touch devices
-  padding: 2,
-  background: 'rgba(0,0,0,.1)',
-  transition: 'background 160ms ease-out',
+  background: 'rgba(0 ,0 ,0 , 0.08)',
+  transition: 'all 0.2s ease-out',
+  marginRight: 4,
+  marginTop: 4,
+  borderRadius: 'var(--scrollbar-size)',
 
   '&:hover': { background: 'rgba(0,0,0,.15)' },
-
-  '&[data-orientation="vertical"]': { width: 'var(--scrollbar-size)' },
+  '&[data-orientation="vertical"]': { width: 'var(--scrollbar-size)', height: 'calc(100% - 8px)' },
   '&[data-orientation="horizontal"]': { flexDirection: 'column', height: 'var(--scrollbar-size)' },
 });
 
 const ScrollAreaThumb = styled(ScrollAreaPrimitive.Thumb)({
   flex: 1,
-  background: '#c63a3a',
+  background: '#AEB0BC',
   borderRadius: 'var(--scrollbar-size)',
   position: 'relative',
+  transition: 'background 0.2s ease-out',
+
+  '&:hover': { background: '#91939e' },
 
   /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
   '::before': {
@@ -62,7 +65,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   horizontal = false,
   vertical = false,
 }) => (
-  <ScrollAreaRoot type="always">
+  <ScrollAreaRoot>
     <ScrollAreaViewport>{children}</ScrollAreaViewport>
     {horizontal && (
       <ScrollAreaScrollbar orientation="horizontal">
