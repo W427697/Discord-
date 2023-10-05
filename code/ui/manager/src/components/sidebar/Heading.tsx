@@ -45,7 +45,6 @@ const HeadingWrapper = styled.div({
   position: 'relative',
   minHeight: 42,
   paddingLeft: 8,
-  paddingRight: 8,
 });
 
 const SkipToCanvasLink = styled(Button)(({ theme }) => ({
