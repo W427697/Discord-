@@ -43,7 +43,7 @@ const HeadingWrapper = styled.div({
   alignItems: 'center',
   justifyContent: 'space-between',
   position: 'relative',
-  minHeight: 28,
+  minHeight: 42,
 });
 
 const SkipToCanvasLink = styled(Button)(({ theme }) => ({

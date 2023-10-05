@@ -75,7 +75,7 @@ const SearchField = styled.div(({ theme }) => ({
 
 const Input = styled.input(({ theme }) => ({
   appearance: 'none',
-  height: 32,
+  height: 28,
   paddingLeft: 30,
   paddingRight: 32,
   border: `1px solid ${theme.appBorderColor}`,

@@ -14,14 +14,7 @@ import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
-import {
-  ComponentNode,
-  DocumentNode,
-  GroupNode,
-  RootNode,
-  StoryNode,
-  CollapseIcon,
-} from './TreeNode';
+import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
 // eslint-disable-next-line import/no-cycle
@@ -37,6 +30,12 @@ import {
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
 import { useLayout } from '../layout/LayoutProvider';
+import { CollapseIcon } from './components/CollapseIcon';
+
+const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
+  marginTop: props.hasOrphans ? 20 : 0,
+  marginBottom: 20,
+}));
 
 export const Action = styled.button<{ height?: number; width?: number }>(
   ({ theme, height, width }) => ({
@@ -145,6 +144,9 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
     svg: { color: theme.color.lightest },
   },
   a: { color: 'currentColor' },
+
+  minHeight: 28,
+  borderRadius: 4,
 }));
 
 const SkipToContentLink = styled(Button)(({ theme }) => ({
@@ -371,11 +373,6 @@ const Root = React.memo<NodeProps & { expandableDescendants: string[] }>(functio
     />
   );
 });
-
-const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
-  marginTop: props.hasOrphans ? 20 : 0,
-  marginBottom: 20,
-}));
 
 export const Tree = React.memo<{
   isBrowsing: boolean;

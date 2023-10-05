@@ -11,12 +11,12 @@ import { RefIndicator } from './RefIndicator';
 
 // eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
-import { CollapseIcon } from './TreeNode';
 
 import { DEFAULT_REF_ID } from './Sidebar';
 import type { Highlight, RefType } from './types';
 
 import { getStateType } from '../../utils/tree';
+import { CollapseIcon } from './components/CollapseIcon';
 
 export interface RefProps {
   isLoading: boolean;
@@ -28,14 +28,12 @@ export interface RefProps {
 
 const Wrapper = styled.div<{ isMain: boolean }>(({ isMain }) => ({
   position: 'relative',
-  marginLeft: -20,
-  marginRight: -20,
   marginTop: isMain ? undefined : 0,
 }));
 
 const RefHead = styled.div(({ theme }) => ({
   fontWeight: theme.typography.weight.bold,
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
 
   // Similar to ListItem.tsx
   textDecoration: 'none',

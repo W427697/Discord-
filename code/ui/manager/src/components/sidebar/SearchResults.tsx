@@ -43,7 +43,7 @@ const ResultRow = styled.li<{ isHighlighted: boolean }>(({ theme, isHighlighted 
 const NoResults = styled.div(({ theme }) => ({
   marginTop: 20,
   textAlign: 'center',
-  fontSize: `${theme.typography.size.s2 - 1}px`,
+  fontSize: `${theme.typography.size.s2}px`,
   lineHeight: `18px`,
   color: theme.color.defaultText,
   small: {

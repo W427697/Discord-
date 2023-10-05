@@ -43,7 +43,10 @@ const Container = styled.nav(({ theme }) => ({
 }));
 
 const Top = styled(Spaced)({
-  padding: 20,
+  paddingLeft: 12,
+  paddingRight: 12,
+  paddingBottom: 20,
+  paddingTop: 20,
   flex: 1,
 });
 
@@ -150,7 +153,6 @@ export const Sidebar = React.memo(function Sidebar({
             isLoading={isLoading}
             onMenuClick={onMenuClick}
           />
-
           <Search
             dataset={dataset}
             isLoading={isLoading}
