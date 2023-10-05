@@ -14,7 +14,7 @@ const ScrollAreaRoot = styled(ScrollAreaPrimitive.Root)({
   width: '100%',
   height: '100%',
   overflow: 'hidden',
-  '--scrollbar-size': '4px',
+  '--scrollbar-size': '6px',
 });
 
 const ScrollAreaViewport = styled(ScrollAreaPrimitive.Viewport)({
@@ -26,25 +26,24 @@ const ScrollAreaScrollbar = styled(ScrollAreaPrimitive.Scrollbar)({
   display: 'flex',
   userSelect: 'none', // ensures no selection
   touchAction: 'none', // disable browser handling of all panning and zooming gestures on touch devices
-  background: 'rgba(0 ,0 ,0 , 0.08)',
+  background: 'transparent',
   transition: 'all 0.2s ease-out',
-  marginRight: 4,
-  marginTop: 4,
+  marginRight: 8,
+  marginTop: 8,
   borderRadius: 'var(--scrollbar-size)',
 
-  '&:hover': { background: 'rgba(0,0,0,.15)' },
-  '&[data-orientation="vertical"]': { width: 'var(--scrollbar-size)', height: 'calc(100% - 8px)' },
+  '&[data-orientation="vertical"]': { width: 'var(--scrollbar-size)', height: 'calc(100% - 16px)' },
   '&[data-orientation="horizontal"]': { flexDirection: 'column', height: 'var(--scrollbar-size)' },
 });
 
-const ScrollAreaThumb = styled(ScrollAreaPrimitive.Thumb)({
+const ScrollAreaThumb = styled(ScrollAreaPrimitive.Thumb)(({ theme }) => ({
   flex: 1,
-  background: '#AEB0BC',
+  background: theme.base === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
   borderRadius: 'var(--scrollbar-size)',
   position: 'relative',
   transition: 'background 0.2s ease-out',
 
-  '&:hover': { background: '#91939e' },
+  '&:hover': { background: theme.base === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' },
 
   /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
   '::before': {
@@ -58,7 +57,7 @@ const ScrollAreaThumb = styled(ScrollAreaPrimitive.Thumb)({
     minWidth: 44,
     minHeight: 44,
   },
-});
+}));
 
 export const ScrollArea: FC<ScrollAreaProps> = ({
   children,
