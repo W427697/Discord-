@@ -140,6 +140,8 @@ export class CsfFile {
 
   _fileName: string;
 
+  _componentPath?: string;
+
   _makeTitle: (title: string) => string;
 
   _meta?: StaticMeta;
@@ -200,6 +202,19 @@ export class CsfFile {
         } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
           (meta as any)[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
+          let n = p.value;
+          if (t.isIdentifier(n)) {
+            const id = n.name;
+            const importStmt = program.body.find((stmt) => (
+              t.isImportDeclaration(stmt) && stmt.specifiers.find((spec) => spec.local.name === id)
+            )) as t.ImportDeclaration;
+            if (importStmt) {
+              const { source } = importStmt;
+              if (t.isStringLiteral(source)) {
+                this._componentPath = source.value;
+              }
+            }
+          }
           const { code } = recast.print(p.value, {});
           meta.component = code;
         } else if (p.key.name === 'tags') {
@@ -567,6 +582,7 @@ export class CsfFile {
       return {
         type: 'story',
         importPath: this._fileName,
+        componentPath: this._componentPath,
         exportName,
         name: story.name,
         title: this.meta?.title,
