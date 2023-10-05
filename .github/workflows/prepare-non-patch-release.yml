@@ -133,11 +133,13 @@ jobs:
           git push --force origin version-non-patch-from-${{ steps.bump-version.outputs.current-version }}
 
       - name: Resolve merge-conflicts with base branch
-        if: steps.is-prerelease.outputs.prerelease == 'true'
+        if: steps.is-prerelease.outputs.prerelease == 'false'
+        working-directory: .
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git pull origin latest-release
+          git config pull.rebase false
+          git pull --no-commit --no-ff origin latest-release
           git checkout --ours .
           git add .
           git commit -m "Merge latest-release into version-non-patch-from-${{ steps.bump-version.outputs.current-version }} with conflicts resolved to ours [skip ci]"
