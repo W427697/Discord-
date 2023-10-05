@@ -27,7 +27,6 @@ const TypeIcon = styled(Icons)<{ docsMode?: boolean }>(
   {
     width: 14,
     height: 14,
-    marginRight: 5,
     flex: '0 0 auto',
   },
 
@@ -53,30 +52,32 @@ const BranchNode = styled.button<{
   display: 'flex',
   alignItems: 'start',
   textAlign: 'left',
-  paddingLeft: `${(isExpandable ? 8 : 22) + depth * 16}px`,
+  paddingLeft: `${(isExpandable ? 8 : 22) + depth * 18}px`,
   color: 'inherit',
   fontSize: `${theme.typography.size.s2}px`,
   background: 'transparent',
+  minHeight: 28,
+  borderRadius: 4,
+  gap: 6,
+  paddingTop: 5,
+  paddingBottom: 4,
+
   '&:hover, &:focus': {
     background: transparentize(0.93, theme.color.secondary),
     outline: 'none',
   },
-
-  minHeight: 28,
-  borderRadius: 4,
-  gap: 4,
-  paddingTop: 5,
-  paddingBottom: 4,
 }));
 
 const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   cursor: 'pointer',
   color: 'inherit',
   display: 'flex',
+  gap: 6,
   flex: 1,
   alignItems: 'start',
-  padding: 3,
-  paddingLeft: `${18 + depth * 16}px`,
+  paddingLeft: `${22 + depth * 18}px`,
+  paddingTop: 5,
+  paddingBottom: 4,
   fontSize: `${theme.typography.size.s2}px`,
   textDecoration: 'none',
 }));

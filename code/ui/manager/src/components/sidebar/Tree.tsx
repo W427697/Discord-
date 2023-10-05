@@ -127,13 +127,16 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   paddingRight: 20,
-
   color: theme.color.defaultText,
   background: 'transparent',
+  minHeight: 28,
+  borderRadius: 4,
+
   '&:hover, &:focus': {
     outline: 'none',
     background: transparentize(0.93, theme.color.secondary),
   },
+
   '&[data-selected="true"]': {
     color: theme.color.lightest,
     background: theme.color.secondary,
@@ -143,10 +146,8 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
     },
     svg: { color: theme.color.lightest },
   },
-  a: { color: 'currentColor' },
 
-  minHeight: 28,
-  borderRadius: 4,
+  a: { color: 'currentColor' },
 }));
 
 const SkipToContentLink = styled(Button)(({ theme }) => ({
