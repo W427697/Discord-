@@ -1,5 +1,5 @@
-name: Prepare prerelease PR
-run-name: Prepare prerelease PR, triggered by ${{ github.triggering_actor }}
+name: Prepare non-patch PR
+run-name: Prepare non-patch PR, triggered by ${{ github.triggering_actor }}
 
 on:
   push:
@@ -35,7 +35,7 @@ concurrency:
 
 jobs:
   prepare-non-patch-pull-request:
-    name: Prepare prerelease pull request
+    name: Prepare non-patch pull request
     runs-on: ubuntu-latest
     environment: release
     defaults:

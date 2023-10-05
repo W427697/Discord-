@@ -304,7 +304,7 @@ The workflows can be triggered here:
 - [Prepare next PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-non-patch-release.yml)
 - [Prepare patch PR](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml)
 
-Crucially for prereleases, this is also where you change the versioning strategy if you need something else than the default as described in [Preparing - Non-patch Releases](#non-patch-releases). When triggering the prerelease workflow manually, you can optionally add inputs:
+Crucially for prereleases, this is also where you change the versioning strategy if you need something else than the default as described in [Preparing - Non-patch Releases](#non-patch-releases). When triggering the non-patch workflow manually, you can optionally add inputs:
 
 ![Screenshot of triggering the non-patch-release workflow in GitHub Actions, with a form that shows a release type selector and a prerelease identifier text field](prerelease-workflow-inputs.png)
 
