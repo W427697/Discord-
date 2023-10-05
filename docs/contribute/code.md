@@ -15,6 +15,7 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 
 ```shell
 git clone https://github.com/your-username/storybook.git
+cd storybook
 ```
 
 Storybook uses the [yarn](https://v3.yarnpkg.com/) package manager. Use [corepack](https://github.com/nodejs/corepack) to set up the correct version for use with Storybook.
