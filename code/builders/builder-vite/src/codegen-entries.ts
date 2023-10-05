@@ -1,6 +1,5 @@
 import { loadPreviewOrConfigFile } from '@storybook/core-common';
 import type { Options } from '@storybook/types';
-import slash from 'slash';
 import { listStories } from './list-stories';
 
 const absoluteFilesToImport = async (
@@ -14,6 +13,7 @@ const absoluteFilesToImport = async (
 
 export async function generateVirtualStoryEntryCode(options: Options) {
   const { normalizePath } = await import('vite');
+  const slash = await import('slash');
   const storyEntries = await listStories(options);
   const resolveMap = storyEntries.reduce<Record<string, string>>(
     (prev, entry) => ({ ...prev, [entry]: entry.replace(slash(process.cwd()), '.') }),

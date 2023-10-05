@@ -1,6 +1,5 @@
 import type { PreviewAnnotation } from '@storybook/types';
 import { resolve, isAbsolute, relative } from 'path';
-import slash from 'slash';
 import { stripAbsNodeModulesPath } from '@storybook/core-common';
 
 /**
@@ -10,7 +9,12 @@ import { stripAbsNodeModulesPath } from '@storybook/core-common';
  * For node_modules, we want bare imports (so vite can process them),
  * and for files in the user's source, we want URLs absolute relative to project root.
  */
-export function processPreviewAnnotation(path: PreviewAnnotation | undefined, projectRoot: string) {
+export async function processPreviewAnnotation(
+  path: PreviewAnnotation | undefined,
+  projectRoot: string
+) {
+  const slash = await import('slash');
+
   // If entry is an object, take the first, which is the
   // bare (non-absolute) specifier.
   // This is so that webpack can use an absolute path, and
