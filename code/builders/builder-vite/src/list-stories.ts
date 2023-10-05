@@ -1,4 +1,5 @@
 import * as path from 'path';
+import slash from 'slash';
 import { glob } from 'glob';
 import { normalizeStories, commonGlobOptions } from '@storybook/core-common';
 
@@ -6,7 +7,6 @@ import type { Options } from '@storybook/types';
 
 export async function listStories(options: Options) {
   const { normalizePath } = await import('vite');
-  const slash = await import('slash');
 
   return (
     await Promise.all(

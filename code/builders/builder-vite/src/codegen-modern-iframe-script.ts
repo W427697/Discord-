@@ -13,11 +13,9 @@ export async function generateModernIframeScriptCode(options: Options, projectRo
     [],
     options
   );
-  const previewAnnotationURLs = await Promise.all(
-    [...previewAnnotations, previewOrConfigFile]
-      .filter(Boolean)
-      .map((path) => processPreviewAnnotation(path, projectRoot))
-  );
+  const previewAnnotationURLs = [...previewAnnotations, previewOrConfigFile]
+    .filter(Boolean)
+    .map((path) => processPreviewAnnotation(path, projectRoot));
 
   // This is pulled out to a variable because it is reused in both the initial page load
   // and the HMR handler.  We don't use the hot.accept callback params because only the changed

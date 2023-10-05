@@ -12,11 +12,9 @@ export async function generateIframeScriptCode(options: Options, projectRoot: st
     [],
     options
   );
-  const configEntries = await Promise.all(
-    [...previewAnnotations]
-      .filter(Boolean)
-      .map((path) => processPreviewAnnotation(path, projectRoot))
-  );
+  const configEntries = [...previewAnnotations]
+    .filter(Boolean)
+    .map((path) => processPreviewAnnotation(path, projectRoot));
 
   const filesToImport = (files: string[], name: string) =>
     files.map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${el}'`).join('\n');
