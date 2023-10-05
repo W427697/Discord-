@@ -20,10 +20,5 @@ const spawnPackageManagerScript = async (packageManager, args) => {
 };
 
 module.exports = async function postinstall({ packageManager = 'npm' }) {
-  try {
-    await spawnPackageManagerScript(packageManager, ['@storybook/auto-config', 'themes']);
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
-  }
+  await spawnPackageManagerScript(packageManager, ['@storybook/auto-config', 'themes']);
 };
