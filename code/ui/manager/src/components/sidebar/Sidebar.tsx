@@ -46,7 +46,7 @@ const Top = styled(Spaced)({
   paddingLeft: 12,
   paddingRight: 12,
   paddingBottom: 20,
-  paddingTop: 20,
+  paddingTop: 16,
   flex: 1,
 });
 
