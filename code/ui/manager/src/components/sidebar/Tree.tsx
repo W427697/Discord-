@@ -80,28 +80,13 @@ export const Action = styled.button<{ height?: number; width?: number }>(
 );
 
 const CollapseButton = styled.button(({ theme }) => ({
-  // Reset button
-  background: 'transparent',
-  border: 'none',
-  outline: 'none',
-  boxSizing: 'content-box',
-  cursor: 'pointer',
-  position: 'relative',
-  textAlign: 'left',
-  lineHeight: 'normal',
-  font: 'inherit',
-  color: 'inherit',
-  letterSpacing: 'inherit',
-  textTransform: 'inherit',
-
+  all: 'unset',
   display: 'flex',
-  flex: '0 1 auto',
-  padding: '3px 10px 1px 1px',
-  margin: 0,
-  marginLeft: -19,
-  overflow: 'hidden',
+  padding: '0px 8px',
   borderRadius: 26,
   transition: 'color 150ms, box-shadow 150ms',
+  gap: 6,
+  alignItems: 'center',
 
   'span:first-of-type': {
     marginTop: 4,
