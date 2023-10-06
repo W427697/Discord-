@@ -96,8 +96,10 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
             return null;
           }
           return (
-            <SkipToSidebarLink secondary isLink tabIndex={0} href={`#${selectedStoryId}`}>
-              Skip to sidebar
+            <SkipToSidebarLink asChild>
+              <a href={`#${selectedStoryId}`} tabIndex={0} title="Skip to sidebar">
+                Skip to sidebar
+              </a>
             </SkipToSidebarLink>
           );
         }}
