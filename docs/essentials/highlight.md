@@ -32,6 +32,12 @@ To highlight DOM elements with the addon, you'll need to emit the `HIGHLIGHT` ev
 
 </div>
 
+<div class="aside">
+
+ℹ️  The `emit` function derived from the `useChannel` API hook creates a communication channel in Storybook's UI to listen for events and update the UI accordingly. The Highlight addon uses this channel to listen to custom events and update the highlighted elements (if any) accordingly.
+
+</div>
+
 ### Reset highlighted elements
 
 Out of the box, Storybook automatically removes highlighted elements when transitioning between stories. However, if you need to clear them manually, you can emit the `RESET_HIGHLIGHT` event from within a story or an addon. For example:
@@ -71,10 +77,3 @@ By default, the addon applies a standard style to the highlighted elements you'v
 />
 
 <!-- prettier-ignore-end -->
-
-
-<div class="aside">
-
-📚 In all three provided code snippets, the "emit" function comes from the `useChannel` hook, which is imported from the `@storybook/preview-api` package. This `useChannel` hook is used to create a communication channel for sending and receiving messages within the code. The "emit" function obtained from `useChannel` is then used to send messages with specific event types, such as `HIGHLIGHT` or `RESET_HIGHLIGHT`, to control or customize the behavior in the code.
-
-</div>
