@@ -102,7 +102,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
       deprecate(
         `Use of deprecated props in the button ${
-          buttonContent.length > 0 ? `"${buttonContent[0]}"` : 'component'
+          buttonContent.length > 0 ? `"${buttonContent.join(' ')}"` : 'component'
         } detected, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-ui-and-props-for-button-and-iconbutton-components`
       );
     }
