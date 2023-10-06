@@ -323,7 +323,21 @@ In Storybook 7 it was possible to use `addons.setConfig({...});` to configure St
 
 #### New UI and props for Button and IconButton components
 
-We used to have a lot of different buttons in `@storybook/components` that were not used anywhere. We have removed them and added a new `Button` component that can be used in all places. The `IconButton` component has also been updated to use the new `Button` component. Going forward addon creators and Storybook maintainers should use the new `Button` component. `IconButton` is still available for use, but we might remove it in the future as this is just a wrapper around the `Button` component. `Form.Button` is depreciated and will be removed in the future.
+We used to have a lot of different buttons in `@storybook/components` that were not used anywhere. In Storybook 8.0 we are deprecating `Form.Button` and added a new `Button` component that can be used in all places. The `IconButton` component has also been updated to use the new `Button` component under the hood. Going forward addon creators and Storybook maintainers should use the new `Button` component instead of `Form.Button`.
+
+For the `Button` component, the following props are now deprecated:
+
+- `isLink` - Please use the `asChild` prop instead like this: `<Button asChild><a href="">Link</a></Button>`
+- `primary` - Please use the `variant` prop instead.
+- `secondary` - Please use the `variant` prop instead.
+- `tertiary` - Please use the `variant` prop instead.
+- `gray` - Please use the `variant` prop instead.
+- `inForm` - Please use the `variant` prop instead.
+- `small` - Please use the `size` prop instead.
+- `outline` - Please use the `variant` prop instead.
+- `containsIcon`. Please add your icon as a child directly. No need for this prop anymore.
+
+The `IconButton` doesn't have any deprecated props but it now uses the new `Button` component under the hood so all props for `IconButton` will be the same as `Button`.
 
 ## From version 7.4.0 to 7.5.0
 
