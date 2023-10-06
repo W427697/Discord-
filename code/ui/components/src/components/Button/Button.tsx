@@ -194,14 +194,14 @@ const StyledButton = styled('button', {
 
   '&:active': {
     color: variant === 'ghost' ? theme.color.secondary : null,
-    background: `${(() => {
+    background: (() => {
       let bgColor = theme.color.secondary;
       if (variant === 'solid') bgColor = theme.color.secondary;
       if (variant === 'outline') bgColor = theme.button.background;
 
       if (variant === 'ghost') return theme.background.hoverable;
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
-    })()}`,
+    })(),
   },
 
   '&:focus': {
