@@ -64,6 +64,10 @@ export const SmallGray: Story = {
   args: { small: true, gray: true, children: 'Small Gray' },
 };
 
+export const IsLink: Story = {
+  args: { isLink: true, children: 'Button as a link' },
+};
+
 export const IconPrimary: Story = {
   args: {
     primary: true,

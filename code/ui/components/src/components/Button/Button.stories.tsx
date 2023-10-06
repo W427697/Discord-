@@ -7,7 +7,6 @@ import { Icons } from '../icon/icon';
 const meta = {
   title: 'Button',
   component: Button,
-  tags: ['autodocs'],
   args: { children: 'Button' },
 } satisfies Meta<typeof Button>;
 
@@ -65,8 +64,22 @@ export const Variants: Story = {
 };
 
 export const Active: Story = {
-  args: { active: true },
-  render: (args) => (Variants.render as any)({ ...args }),
+  args: {
+    active: true,
+    children: (
+      <>
+        <Icons icon="facehappy" />
+        Button
+      </>
+    ),
+  },
+  render: (args) => (
+    <Row>
+      <Button variant="solid" {...args} />
+      <Button variant="outline" {...args} />
+      <Button variant="ghost" {...args} />
+    </Row>
+  ),
 };
 
 export const WithIcon: Story = {
@@ -78,11 +91,11 @@ export const WithIcon: Story = {
       </>
     ),
   },
-  render: (props) => (
+  render: (args) => (
     <Row>
-      <Button variant="solid" {...props} />
-      <Button variant="outline" {...props} />
-      <Button variant="ghost" {...props} />
+      <Button variant="solid" {...args} />
+      <Button variant="outline" {...args} />
+      <Button variant="ghost" {...args} />
     </Row>
   ),
 };
@@ -92,11 +105,11 @@ export const IconOnly: Story = {
     children: <Icons icon="facehappy" />,
     padding: 'small',
   },
-  render: (props) => (
+  render: (args) => (
     <Row>
-      <Button variant="solid" {...props} />
-      <Button variant="outline" {...props} />
-      <Button variant="ghost" {...props} />
+      <Button variant="solid" {...args} />
+      <Button variant="outline" {...args} />
+      <Button variant="ghost" {...args} />
     </Row>
   ),
 };

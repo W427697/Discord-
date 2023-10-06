@@ -3,6 +3,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { isPropValid, styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 import { Slot } from '@radix-ui/react-slot';
+import { deprecate } from '@storybook/client-logger';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
@@ -52,7 +53,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     let Comp: 'button' | 'a' | typeof Slot = 'button';
     if (props.isLink) Comp = 'a';
     if (asChild) Comp = Slot;
-    let lovalVariant = variant;
+    let localVariant = variant;
     let localSize = size;
 
     const [isAnimating, setIsAnimating] = useState(false);
@@ -73,22 +74,44 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Match the old API with the new API.
     // TODO: Remove this after 9.0.
     if (props.primary) {
-      lovalVariant = 'solid';
+      localVariant = 'solid';
       localSize = 'medium';
     }
 
     // Match the old API with the new API.
     // TODO: Remove this after 9.0.
     if (props.secondary || props.tertiary || props.gray || props.outline || props.inForm) {
-      lovalVariant = 'outline';
+      localVariant = 'outline';
       localSize = 'medium';
+    }
+
+    if (
+      props.small ||
+      props.isLink ||
+      props.primary ||
+      props.secondary ||
+      props.tertiary ||
+      props.gray ||
+      props.outline ||
+      props.inForm ||
+      props.containsIcon
+    ) {
+      const buttonContent = React.Children.toArray(props.children).filter(
+        (e) => typeof e === 'string' && e !== ''
+      );
+
+      deprecate(
+        `Use of deprecated props in the button ${
+          buttonContent.length > 0 ? `"${buttonContent.join(' ')}"` : 'component'
+        } detected, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-ui-and-props-for-button-and-iconbutton-components`
+      );
     }
 
     return (
       <StyledButton
         as={Comp}
         ref={ref}
-        variant={lovalVariant}
+        variant={localVariant}
         size={localSize}
         padding={padding}
         disabled={disabled}
@@ -156,6 +179,8 @@ const StyledButton = styled('button', {
   })(),
   boxShadow: variant === 'outline' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
   borderRadius: theme.input.borderRadius,
+  // Making sure that the button never shrinks below its minimum size
+  flexShrink: 0,
 
   '&:hover': {
     color: variant === 'ghost' ? theme.color.secondary : null,
@@ -171,14 +196,14 @@ const StyledButton = styled('button', {
 
   '&:active': {
     color: variant === 'ghost' ? theme.color.secondary : null,
-    background: `${(() => {
+    background: (() => {
       let bgColor = theme.color.secondary;
       if (variant === 'solid') bgColor = theme.color.secondary;
       if (variant === 'outline') bgColor = theme.button.background;
 
       if (variant === 'ghost') return theme.background.hoverable;
       return theme.base === 'light' ? darken(0.02, bgColor) : lighten(0.03, bgColor);
-    })()}`,
+    })(),
   },
 
   '&:focus': {
