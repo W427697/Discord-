@@ -53,7 +53,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     let Comp: 'button' | 'a' | typeof Slot = 'button';
     if (props.isLink) Comp = 'a';
     if (asChild) Comp = Slot;
-    let lovalVariant = variant;
+    let localVariant = variant;
     let localSize = size;
 
     const [isAnimating, setIsAnimating] = useState(false);
@@ -74,14 +74,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Match the old API with the new API
     // TODO: Remove this after 9.0
     if (props.primary) {
-      lovalVariant = 'solid';
+      localVariant = 'solid';
       localSize = 'medium';
     }
 
     // Match the old API with the new API
     // TODO: Remove this after 9.0
     if (props.secondary || props.tertiary || props.gray || props.outline || props.inForm) {
-      lovalVariant = 'outline';
+      localVariant = 'outline';
       localSize = 'medium';
     }
 
@@ -111,7 +111,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <StyledButton
         as={Comp}
         ref={ref}
-        variant={lovalVariant}
+        variant={localVariant}
         size={localSize}
         padding={padding}
         disabled={disabled}
