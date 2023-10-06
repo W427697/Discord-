@@ -179,6 +179,8 @@ const StyledButton = styled('button', {
   })(),
   boxShadow: variant === 'outline' ? `${theme.button.border} 0 0 0 1px inset` : 'none',
   borderRadius: theme.input.borderRadius,
+  // Making sure that the button never shrinks below its minimum size
+  flexShrink: 0,
 
   '&:hover': {
     color: variant === 'ghost' ? theme.color.secondary : null,
