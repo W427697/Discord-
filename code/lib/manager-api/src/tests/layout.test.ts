@@ -1,5 +1,6 @@
 import { themes } from '@storybook/theming';
 import type { API_Provider } from 'lib/types/src';
+import EventEmitter from 'events';
 import type { SubAPI, SubState } from '../modules/layout';
 import type { SubState as AddonsSubState } from '../modules/addons';
 import { defaultLayoutState, init as initLayout } from '../modules/layout';
@@ -33,7 +34,10 @@ describe('layout API', () => {
         return currentState as unknown as State;
       }),
     } as unknown as Store;
-    provider = { getConfig: jest.fn(() => ({})) } as unknown as API_Provider<API>;
+    provider = {
+      getConfig: jest.fn(() => ({})),
+      channel: new EventEmitter(),
+    } as unknown as API_Provider<API>;
     layoutApi = initLayout({
       store,
       provider,
