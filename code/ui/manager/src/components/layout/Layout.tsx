@@ -171,22 +171,9 @@ export const Layout = ({ managerLayoutState, setManagerLayoutState, ...slots }: 
 
 const LayoutContainer = styled.div<LayoutState>(
   ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition }) => {
-    // To support older browsers we need to set the layout height using JS
-    // In the future we can use the CSS `height: 100dvh` instead
-    const setHeight = () => {
-      const currentHeight = window.innerHeight;
-      document.documentElement.style.setProperty('--vh', `${currentHeight}px`);
-    };
-
-    useEffect(() => {
-      setHeight();
-      window.addEventListener('resize', setHeight);
-      return () => window.removeEventListener('resize', setHeight);
-    }, []);
-
     return {
       width: '100%',
-      height: 'var(--vh, 100vh)',
+      height: ['100vh', '100dvh'],
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
