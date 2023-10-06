@@ -159,13 +159,13 @@ jobs:
           if PR_STATE=$(gh pr view --json state --jq .state 2>/dev/null) && [[ -n "$PR_STATE" && "$PR_STATE" == *"OPEN"* ]]; then
             gh pr edit \
               --repo "${{github.repository }}" \
-              --title "TEST3 Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
+              --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
               --base ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next-release' || 'latest-release' }} \
               --body "${{ steps.description.outputs.description }}"
           else
             gh pr create \
               --repo "${{github.repository }}"\
-              --title "TEST3 Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
+              --title "Release: $CAPITALIZED_RELEASE_TYPE ${{ inputs.pre-id && format('{0} ', inputs.pre-id) }}${{ steps.bump-version.outputs.next-version }}" \
               --label "release" \
               --base ${{ steps.is-prerelease.outputs.prerelease == 'true' && 'next-release' || 'latest-release' }} \
               --head version-non-patch-from-${{ steps.bump-version.outputs.current-version }} \
