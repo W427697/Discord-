@@ -314,8 +314,15 @@ export function getVariableMetasBySpecifier(
 
       const identifierName = declaration.id.name;
       const properties = convertNodeToJSON(types, options);
-      const functionName = declaration.init.callee.name;
-
+      let functionName = declaration.init.callee.name;
+      if (
+        specifier.type === 'ImportSpecifier' &&
+        specifier.imported &&
+        specifier.imported.type === 'Identifier' &&
+        declaration.init.callee.name !== specifier.imported.name
+      ) {
+        functionName = specifier.imported.name;
+      }
       return { identifierName, properties, functionName };
     })
     .filter(isDefined);
