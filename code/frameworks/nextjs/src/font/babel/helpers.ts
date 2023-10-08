@@ -281,13 +281,16 @@ export function getVariableMetasBySpecifier(
         return undefined;
       }
 
+      if (!types.isIdentifier(declaration.init.callee)) {
+        return undefined;
+      }
+
       if (
-        (!types.isIdentifier(declaration.init.callee) ||
-          specifier.type !== 'ImportSpecifier' ||
+        (specifier.type !== 'ImportSpecifier' ||
           specifier.imported.type !== 'Identifier' ||
-          declaration.init.callee.name !== specifier.imported.name) &&
-        (!types.isIdentifier(declaration.init.callee) ||
-          specifier.type !== 'ImportDefaultSpecifier' ||
+          (declaration.init.callee.name !== specifier.imported.name &&
+            declaration.init.callee.name !== specifier.local.name)) &&
+        (specifier.type !== 'ImportDefaultSpecifier' ||
           declaration.init.callee.name !== specifier.local.name)
       ) {
         return undefined;
