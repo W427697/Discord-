@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - latest-release
-      - non-patch-release
+      - next-release
 
 env:
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
