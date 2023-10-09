@@ -9,7 +9,7 @@
           "type": "boolean",
         },
         {
-          "default": "\"Your Message\"",
+          "default": ""Your Message"",
           "description": "Header message",
           "name": "header",
           "type": "string",
@@ -64,7 +64,7 @@
         },
         {
           "attribute": "header",
-          "default": "\"Your Message\"",
+          "default": ""Your Message"",
           "description": "Header message",
           "name": "header",
           "type": "string",

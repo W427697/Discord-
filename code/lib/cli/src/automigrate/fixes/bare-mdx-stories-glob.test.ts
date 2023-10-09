@@ -153,21 +153,21 @@ describe('bare-mdx fix', () => {
 
       expect(result.replaceAll(ansiRegex(), '')).toMatchInlineSnapshot(`
         "We've detected your project has one or more globs in your 'stories' config that matches .stories.mdx files:
-          \\"../src/**/*.stories.@(js|jsx|mdx|ts|tsx)\\"
+          "../src/**/*.stories.@(js|jsx|mdx|ts|tsx)"
           {
-            \\"directory\\": \\"../src/**\\",
-            \\"files\\": \\"*.stories.mdx\\"
+            "directory": "../src/**",
+            "files": "*.stories.mdx"
           }
 
         In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
 
         We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
         That would result in the following 'stories' config:
-          \\"../src/**/*.mdx\\"
-          \\"../src/**/*.stories.@(js|jsx|ts|tsx)\\"
+          "../src/**/*.mdx"
+          "../src/**/*.stories.@(js|jsx|ts|tsx)"
           {
-            \\"directory\\": \\"../src/**\\",
-            \\"files\\": \\"*.mdx\\"
+            "directory": "../src/**",
+            "files": "*.mdx"
           }
 
         To learn more about this change, see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files"

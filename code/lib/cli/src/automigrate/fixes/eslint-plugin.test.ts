@@ -1,12 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
 import { dedent } from 'ts-dedent';
+import * as fsExtraImp from 'fs-extra';
 import type { PackageJson } from '../../js-package-manager';
 import { eslintPlugin } from './eslint-plugin';
 import { makePackageManager } from '../helpers/testing-helpers';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-vi.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+// eslint-disable-next-line jest/no-mocks-import
+import type * as MockedFSExtra from '../../../../../__mocks__/fs-extra';
+
+const fsExtra = fsExtraImp as unknown as typeof MockedFSExtra;
+
+vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
 
 const checkEslint = async ({
   packageJson,
@@ -17,8 +22,7 @@ const checkEslint = async ({
   hasEslint?: boolean;
   eslintExtension?: string;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
+  fsExtra.__setMockFiles({
     [`.eslintrc.${eslintExtension}`]: !hasEslint
       ? null
       : dedent(`
@@ -76,7 +80,7 @@ describe('eslint-plugin fix', () => {
 
     describe('should no-op and warn when', () => {
       it('.eslintrc is not found', async () => {
-        const loggerSpy = vi.spyOn(console, 'warn').mockImplementationOnce(vi.fn);
+        const loggerSpy = vi.spyOn(console, 'warn');
         const result = await checkEslint({
           packageJson,
           hasEslint: false,

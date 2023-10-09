@@ -53,8 +53,9 @@
     "storybook:ui:build": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js build --config-dir ./ui/.storybook",
     "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir ./code --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "task": "cd .. && yarn task",
-    "test": "NODE_OPTIONS=--max_old_space_size=4096 vitest",
-    "test:cli": "npm --prefix lib/cli run test"
+    "test": "NODE_OPTIONS=--max_old_space_size=4096 vitest run",
+    "test:cli": "npm --prefix lib/cli run test",
+    "test:watch": "NODE_OPTIONS=--max_old_space_size=4096 vitest watch"
   },
   "husky": {
     "hooks": {
@@ -247,7 +248,7 @@
     "util": "^0.12.4",
     "vite": "^4.0.0",
     "vite-plugin-turbosnap": "^1.0.1",
-    "vitest": "^0.34.4",
+    "vitest": "^1.0.0-beta.1",
     "wait-on": "^7.0.1"
   },
   "dependenciesMeta": {

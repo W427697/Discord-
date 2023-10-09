@@ -7,7 +7,6 @@ import { run as version } from '../version';
 import { execaCommand } from '../../utils/exec';
 
 // eslint-disable-next-line jest/no-mocks-import
-
 import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
 
 vi.mock('fs-extra', async () => import('../../../code/__mocks__/fs-extra'));
@@ -55,21 +54,21 @@ describe('Version', () => {
     await expect(version({ releaseType: 'invalid' })).rejects.toThrowErrorMatchingInlineSnapshot(`
       "[
         {
-          \\"received\\": \\"invalid\\",
-          \\"code\\": \\"invalid_enum_value\\",
-          \\"options\\": [
-            \\"major\\",
-            \\"minor\\",
-            \\"patch\\",
-            \\"prerelease\\",
-            \\"premajor\\",
-            \\"preminor\\",
-            \\"prepatch\\"
+          "received": "invalid",
+          "code": "invalid_enum_value",
+          "options": [
+            "major",
+            "minor",
+            "patch",
+            "prerelease",
+            "premajor",
+            "preminor",
+            "prepatch"
           ],
-          \\"path\\": [
-            \\"releaseType\\"
+          "path": [
+            "releaseType"
           ],
-          \\"message\\": \\"Invalid enum value. Expected 'major' | 'minor' | 'patch' | 'prerelease' | 'premajor' | 'preminor' | 'prepatch', received 'invalid'\\"
+          "message": "Invalid enum value. Expected 'major' | 'minor' | 'patch' | 'prerelease' | 'premajor' | 'preminor' | 'prepatch', received 'invalid'"
         }
       ]"
     `);
@@ -86,9 +85,9 @@ describe('Version', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "[
         {
-          \\"code\\": \\"custom\\",
-          \\"message\\": \\"Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease\\",
-          \\"path\\": []
+          "code": "custom",
+          "message": "Using prerelease identifier requires one of release types: premajor, preminor, prepatch, prerelease",
+          "path": []
         }
       ]"
     `);
@@ -105,9 +104,9 @@ describe('Version', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "[
         {
-          \\"code\\": \\"custom\\",
-          \\"message\\": \\"Combining --exact with --release-type is invalid, but having one of them is required\\",
-          \\"path\\": []
+          "code": "custom",
+          "message": "Combining --exact with --release-type is invalid, but having one of them is required",
+          "path": []
         }
       ]"
     `);
@@ -123,10 +122,10 @@ describe('Version', () => {
     await expect(version({ exact: 'not-semver' })).rejects.toThrowErrorMatchingInlineSnapshot(`
       "[
         {
-          \\"code\\": \\"custom\\",
-          \\"message\\": \\"--exact version has to be a valid semver string\\",
-          \\"path\\": [
-            \\"exact\\"
+          "code": "custom",
+          "message": "--exact version has to be a valid semver string",
+          "path": [
+            "exact"
           ]
         }
       ]"
@@ -144,9 +143,9 @@ describe('Version', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "[
         {
-          \\"code\\": \\"custom\\",
-          \\"message\\": \\"--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion\\",
-          \\"path\\": []
+          "code": "custom",
+          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+          "path": []
         }
       ]"
     `);
@@ -163,9 +162,9 @@ describe('Version', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "[
         {
-          \\"code\\": \\"custom\\",
-          \\"message\\": \\"--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion\\",
-          \\"path\\": []
+          "code": "custom",
+          "message": "--apply cannot be combined with --exact or --release-type, as it will always read from code/package.json#deferredNextVersion",
+          "path": []
         }
       ]"
     `);
@@ -182,9 +181,9 @@ describe('Version', () => {
       .toThrowErrorMatchingInlineSnapshot(`
       "[
         {
-          \\"code\\": \\"custom\\",
-          \\"message\\": \\"--deferred cannot be combined with --apply\\",
-          \\"path\\": []
+          "code": "custom",
+          "message": "--deferred cannot be combined with --apply",
+          "path": []
         }
       ]"
     `);

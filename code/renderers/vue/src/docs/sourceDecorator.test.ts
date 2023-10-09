@@ -2,6 +2,7 @@
 
 import type { ComponentOptions, VueConstructor } from 'vue';
 import Vue from 'vue/dist/vue';
+import { expect, describe, it } from 'vitest';
 import { vnodeToString } from './sourceDecorator';
 
 expect.addSnapshotSerializer({

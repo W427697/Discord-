@@ -18,19 +18,19 @@
       "required": true,
     },
   },
-  "title": Object {
-    "control": Object {
+  "title": {
+    "control": {
       "type": "radio",
     },
     "description": "A title that brings attention to the alert.",
     "name": "title",
-    "options": Array [
+    "options": [
       "Code Red",
       "Code Yellow",
       "Code Green",
     ],
-    "table": Object {
-      "defaultValue": Object {
+    "table": {
+      "defaultValue": {
         "detail": undefined,
         "summary": "'Code Yellow'",
       },
@@ -40,11 +40,11 @@
         "summary": "union",
       },
     },
-    "type": Object {
+    "type": {
       "name": "enum",
       "raw": "'Code Red' | 'Code Yellow' | 'Code Green'",
       "required": false,
-      "value": Array [
+      "value": [
         "Code Red",
         "Code Yellow",
         "Code Green",

@@ -15,19 +15,19 @@ storiesOf('Addons|Info.React Docgen', module)
     'Comments from PropType declarations',
     withInfo(
       'Comments above the PropType declarations should be extracted from the React component file itself and rendered in the Info Addon prop table'
-    )(() => <DocgenButton label=\\"Docgen Button\\" />)
+    )(() => <DocgenButton label="Docgen Button" />)
   )
   .add(
     'Comments from Flow declarations',
     withInfo(
       'Comments above the Flow declarations should be extracted from the React component file itself and rendered in the Info Addon prop table'
-    )(() => <FlowTypeButton label=\\"Flow Typed Button\\" />)
+    )(() => <FlowTypeButton label="Flow Typed Button" />)
   )
   .add(
     'Comments from component declaration',
     withInfo(
       'Comments above the component declaration should be extracted from the React component file itself and rendered below the Info Addon heading'
-    )(() => <BaseButton label=\\"Button\\" />)
+    )(() => <BaseButton label="Button" />)
   );
 
 const markdownDescription = \`
@@ -43,7 +43,7 @@ Maybe include a [link](http://storybook.js.org) to your project as well.
 
 storiesOf('Addons|Info.Markdown', module).add(
   'Displays Markdown in description',
-  withInfo(markdownDescription)(() => <BaseButton label=\\"Button\\" />)
+  withInfo(markdownDescription)(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.inline', module).add(
@@ -51,7 +51,7 @@ storiesOf('Addons|Info.Options.inline', module).add(
   withInfo({
     text: 'Component should be inlined between description and PropType table',
     inline: true, // Displays info inline vs click button to view
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.header', module).add(
@@ -59,7 +59,7 @@ storiesOf('Addons|Info.Options.header', module).add(
   withInfo({
     text: 'The Info Addon header should be hidden',
     header: false, // Toggles display of header with component name and description
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.source', module).add(
@@ -67,7 +67,7 @@ storiesOf('Addons|Info.Options.source', module).add(
   withInfo({
     text: 'The Info Addon source section should be hidden',
     source: false, // Displays the source of story Component
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.propTables', module).add(
@@ -75,7 +75,7 @@ storiesOf('Addons|Info.Options.propTables', module).add(
   withInfo({
     text: 'There should be a prop table added for a component not included in the story',
     propTables: [FlowTypeButton],
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.propTablesExclude', module).add(
@@ -85,8 +85,8 @@ storiesOf('Addons|Info.Options.propTablesExclude', module).add(
     propTablesExclude: [FlowTypeButton],
   })(() => (
     <div>
-      <BaseButton label=\\"Button\\" />
-      <FlowTypeButton label=\\"Flow Typed Button\\" />
+      <BaseButton label="Button" />
+      <FlowTypeButton label="Flow Typed Button" />
     </div>
   ))
 );
@@ -107,7 +107,7 @@ storiesOf('Addons|Info.Options.styles', module)
           },
         },
       },
-    })(() => <BaseButton label=\\"Button\\" />)
+    })(() => <BaseButton label="Button" />)
   )
   .add(
     'Full control over styles using a function',
@@ -122,25 +122,25 @@ storiesOf('Addons|Info.Options.styles', module)
           },
         },
       }),
-    })(() => <BaseButton label=\\"Button\\" />)
+    })(() => <BaseButton label="Button" />)
   );
 
 storiesOf('Addons|Info.Options.TableComponent', module).add(
   'Use a custom component for the table',
   withInfo({
     TableComponent,
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Decorator', module)
   .addDecorator((story, context) =>
     withInfo('Info could be used as a global or local decorator as well.')(story)(context)
   )
-  .add('Use Info as story decorator', () => <BaseButton label=\\"Button\\" />);
+  .add('Use Info as story decorator', () => <BaseButton label="Button" />);
 
 const hoc = WrapComponent => ({ ...props }) => <WrapComponent {...props} />;
 
-const Input = hoc(() => <input type=\\"text\\" />);
+const Input = hoc(() => <input type="text" />);
 
 const TextArea = hoc(({ children }) => <textarea>{children}</textarea>);
 
@@ -162,7 +162,7 @@ import { storiesOf } from '@storybook/angular';
 
 @Component({
   selector: 'storybook-with-ng-content',
-  template: \`<div style=\\"color: #1e88e5;\\"><ng-content></ng-content></div>\`,
+  template: \`<div style="color: #1e88e5;"><ng-content></ng-content></div>\`,
 })
 class WithNgContentComponent {}
 
@@ -521,19 +521,19 @@ storiesOf('Addons|Info.React Docgen', module).addParameters({ storySource: { sou
     'Comments from PropType declarations',
     withInfo(
       'Comments above the PropType declarations should be extracted from the React component file itself and rendered in the Info Addon prop table'
-    )(() => <DocgenButton label=\\"Docgen Button\\" />)
+    )(() => <DocgenButton label="Docgen Button" />)
   )
   .add(
     'Comments from Flow declarations',
     withInfo(
       'Comments above the Flow declarations should be extracted from the React component file itself and rendered in the Info Addon prop table'
-    )(() => <FlowTypeButton label=\\"Flow Typed Button\\" />)
+    )(() => <FlowTypeButton label="Flow Typed Button" />)
   )
   .add(
     'Comments from component declaration',
     withInfo(
       'Comments above the component declaration should be extracted from the React component file itself and rendered below the Info Addon heading'
-    )(() => <BaseButton label=\\"Button\\" />)
+    )(() => <BaseButton label="Button" />)
   );
 
 const markdownDescription = \`
@@ -549,7 +549,7 @@ Maybe include a [link](http://storybook.js.org) to your project as well.
 
 storiesOf('Addons|Info.Markdown', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add(
   'Displays Markdown in description',
-  withInfo(markdownDescription)(() => <BaseButton label=\\"Button\\" />)
+  withInfo(markdownDescription)(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.inline', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add(
@@ -557,7 +557,7 @@ storiesOf('Addons|Info.Options.inline', module).addParameters({ storySource: { s
   withInfo({
     text: 'Component should be inlined between description and PropType table',
     inline: true, // Displays info inline vs click button to view
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.header', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add(
@@ -565,7 +565,7 @@ storiesOf('Addons|Info.Options.header', module).addParameters({ storySource: { s
   withInfo({
     text: 'The Info Addon header should be hidden',
     header: false, // Toggles display of header with component name and description
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.source', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add(
@@ -573,7 +573,7 @@ storiesOf('Addons|Info.Options.source', module).addParameters({ storySource: { s
   withInfo({
     text: 'The Info Addon source section should be hidden',
     source: false, // Displays the source of story Component
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.propTables', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add(
@@ -581,7 +581,7 @@ storiesOf('Addons|Info.Options.propTables', module).addParameters({ storySource:
   withInfo({
     text: 'There should be a prop table added for a component not included in the story',
     propTables: [FlowTypeButton],
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Options.propTablesExclude', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add(
@@ -591,8 +591,8 @@ storiesOf('Addons|Info.Options.propTablesExclude', module).addParameters({ story
     propTablesExclude: [FlowTypeButton],
   })(() => (
     <div>
-      <BaseButton label=\\"Button\\" />
-      <FlowTypeButton label=\\"Flow Typed Button\\" />
+      <BaseButton label="Button" />
+      <FlowTypeButton label="Flow Typed Button" />
     </div>
   ))
 );
@@ -613,7 +613,7 @@ storiesOf('Addons|Info.Options.styles', module).addParameters({ storySource: { s
           },
         },
       },
-    })(() => <BaseButton label=\\"Button\\" />)
+    })(() => <BaseButton label="Button" />)
   )
   .add(
     'Full control over styles using a function',
@@ -628,25 +628,25 @@ storiesOf('Addons|Info.Options.styles', module).addParameters({ storySource: { s
           },
         },
       }),
-    })(() => <BaseButton label=\\"Button\\" />)
+    })(() => <BaseButton label="Button" />)
   );
 
 storiesOf('Addons|Info.Options.TableComponent', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } }).add(
   'Use a custom component for the table',
   withInfo({
     TableComponent,
-  })(() => <BaseButton label=\\"Button\\" />)
+  })(() => <BaseButton label="Button" />)
 );
 
 storiesOf('Addons|Info.Decorator', module).addParameters({ storySource: { source: __STORY__, locationsMap: __LOCATIONS_MAP__ } })
   .addDecorator((story, context) =>
     withInfo('Info could be used as a global or local decorator as well.')(story)(context)
   )
-  .add('Use Info as story decorator', () => <BaseButton label=\\"Button\\" />);
+  .add('Use Info as story decorator', () => <BaseButton label="Button" />);
 
 const hoc = WrapComponent => ({ ...props }) => <WrapComponent {...props} />;
 
-const Input = hoc(() => <input type=\\"text\\" />);
+const Input = hoc(() => <input type="text" />);
 
 const TextArea = hoc(({ children }) => <textarea>{children}</textarea>);
 
@@ -691,7 +691,7 @@ import { storiesOf } from '@storybook/angular';
 
 @Component({
   selector: 'storybook-with-ng-content',
-  template: \`<div style=\\"color: #1e88e5;\\"><ng-content></ng-content></div>\`,
+  template: \`<div style="color: #1e88e5;"><ng-content></ng-content></div>\`,
 })
 class WithNgContentComponent {}
 
@@ -884,6 +884,6 @@ storiesOf('Foo', module)
 
 exports[`inject-decorator > will not change the source when there are no "storiesOf" functions 1`] = `
 "while(true) {
-  console.log(\\"it's a kind of magic\\");
+  console.log("it's a kind of magic");
 }"
 `;

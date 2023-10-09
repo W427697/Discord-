@@ -45,7 +45,7 @@ describe('Extracting Arguments', () => {
       </style>
 
       <svelte:options accessors={true} />
-      <button class=\\"button\\" class:rounded on:click={onClick}>
+      <button class="button" class:rounded on:click={onClick}>
         <strong>{rounded ? 'Round' : 'Square'} corners</strong>
         <br />
         {text}

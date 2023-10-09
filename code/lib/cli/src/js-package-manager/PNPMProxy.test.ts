@@ -171,8 +171,7 @@ describe('PNPM Proxy', () => {
 
   describe('getVersion', () => {
     it('with a Storybook package listed in versions.json it returns the version', async () => {
-      // eslint-disable-next-line global-require
-      const storybookAngularVersion = require('../versions').default['@storybook/angular'];
+      const storybookAngularVersion = (await import('../versions')).default['@storybook/angular'];
       const executeCommandSpy = vi
         .spyOn(pnpmProxy, 'executeCommand')
         .mockResolvedValueOnce('"5.3.19"');

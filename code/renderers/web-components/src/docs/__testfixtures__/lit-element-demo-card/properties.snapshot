@@ -125,7 +125,7 @@
     "table": {
       "category": "attributes",
       "defaultValue": {
-        "summary": "\"Your Message\"",
+        "summary": ""Your Message"",
       },
       "type": {
         "summary": "string",

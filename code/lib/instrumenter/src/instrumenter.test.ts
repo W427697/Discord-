@@ -400,18 +400,22 @@ describe('Instrumenter', () => {
   });
 
   it('bubbles child exceptions up to parent (in callback)', () => {
-    const { fn1, fn2 } = instrument({
+    const instrumented = instrument({
       fn1: vi.fn((callback: Function) => callback()),
       fn2: () => {
         throw new Error('Boom!');
       },
     });
+
+    vi.spyOn(instrumented, 'fn1');
+
+    const { fn1, fn2 } = instrumented;
     expect(() =>
       fn1(() => {
         fn2();
       })
     ).toThrow('ignoredException');
-    // VITEST_MIGRATION: TypeError: [Function fn1] is not a spy or a call to a spy!
+
     expect(fn1).toHaveBeenCalled();
     expect(logger.warn).toHaveBeenCalledWith(new Error('Boom!'));
     expect((logger.warn as any).mock.calls[0][0].callId).toBe('kind--story [0] fn1 [0] fn2');

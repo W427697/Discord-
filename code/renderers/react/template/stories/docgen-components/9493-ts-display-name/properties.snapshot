@@ -8,10 +8,10 @@
       "description": "A title that brings attention to the alert.",
       "name": "title",
       "required": false,
-      "sbType": Object {
+      "sbType": {
         "name": "enum",
         "raw": "'Code Red' | 'Code Yellow' | 'Code Green'",
-        "value": Array [
+        "value": [
           "Code Red",
           "Code Yellow",
           "Code Green",

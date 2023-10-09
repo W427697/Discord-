@@ -2,8 +2,7 @@ import { describe, afterAll, it, expect, vi } from 'vitest';
 
 import { nodeJsRequirement } from './nodejs-requirement';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-vi.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
+vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
 
 const check = async ({ storybookVersion = '7.0.0' }) => {
   return nodeJsRequirement.check({

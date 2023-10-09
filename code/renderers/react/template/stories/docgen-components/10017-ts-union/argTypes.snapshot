@@ -3,7 +3,7 @@
     "control": {
       "type": "object",
     },
-    "description": "specify icon=\"search\" or icon={IconComponent}",
+    "description": "specify icon="search" or icon={IconComponent}",
     "name": "icon",
     "table": {
       "defaultValue": null,

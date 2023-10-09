@@ -102,7 +102,7 @@ describe('Write changelog', () => {
       "## 7.0.1
 
       - React: Make it reactive
-      - Revert \\"CLI: Not UI\\"
+      - Revert "CLI: Not UI"
       - CLI: Not UI
 
       "
@@ -113,7 +113,7 @@ describe('Write changelog', () => {
       {
         "info": {
           "plain": "- React: Make it reactive
-      - Revert \\\\\\"CLI: Not UI\\\\\\"
+      - Revert \\"CLI: Not UI\\"
       - CLI: Not UI",
         },
         "version": "7.0.1",
