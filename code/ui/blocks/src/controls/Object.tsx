@@ -288,7 +288,6 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
     <Wrapper>
       {['Object', 'Array'].includes(getObjectType(data)) && (
         <RawButton
-          href="#"
           onClick={(e: SyntheticEvent) => {
             e.preventDefault();
             setShowRaw((v) => !v);

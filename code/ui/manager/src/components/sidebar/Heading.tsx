@@ -88,8 +88,10 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
   return (
     <HeadingWrapper {...props}>
       {skipLinkHref && (
-        <SkipToCanvasLink secondary isLink tabIndex={0} href={skipLinkHref}>
-          Skip to canvas
+        <SkipToCanvasLink asChild>
+          <a href={skipLinkHref} tabIndex={0}>
+            Skip to canvas
+          </a>
         </SkipToCanvasLink>
       )}
 

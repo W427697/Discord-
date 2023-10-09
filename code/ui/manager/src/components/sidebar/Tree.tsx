@@ -241,8 +241,8 @@ const Node = React.memo<NodeProps>(function Node({
           {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
         </LeafNode>
         {isSelected && (
-          <SkipToContentLink secondary outline isLink href="#storybook-preview-wrapper">
-            Skip to canvas
+          <SkipToContentLink asChild>
+            <a href="#storybook-preview-wrapper">Skip to canvas</a>
           </SkipToContentLink>
         )}
         {icon ? (

@@ -1,8 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import React from 'react';
 import { styled, isPropValid } from '@storybook/theming';
-import { transparentize } from 'polished';
-import { auto } from '@popperjs/core';
 
 interface BarButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
@@ -94,54 +92,6 @@ export interface IconButtonProps {
   active?: boolean;
   disabled?: boolean;
 }
-
-export const IconButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid })<IconButtonProps>(
-  () => ({
-    alignItems: 'center',
-    background: 'transparent',
-    border: 'none',
-    borderRadius: 4,
-    color: 'inherit',
-    cursor: 'pointer',
-    display: 'inline-flex',
-    fontSize: 13,
-    fontWeight: 'bold',
-    height: 28,
-    justifyContent: 'center',
-    marginTop: 6,
-    padding: '8px 7px',
-
-    '& > svg': {
-      width: 14,
-    },
-  }),
-  ({ active, theme }) =>
-    active
-      ? {
-          backgroundColor: theme.background.hoverable,
-          color: theme.barSelectedColor,
-        }
-      : {},
-  ({ disabled, theme }) =>
-    disabled
-      ? {
-          opacity: 0.5,
-          cursor: 'not-allowed',
-        }
-      : {
-          '&:hover, &:focus-visible': {
-            background: transparentize(0.88, theme.color.secondary),
-            color: theme.barHoverColor,
-          },
-          '&:focus-visible': {
-            outline: auto, // Ensures links have the same focus style
-          },
-          '&:focus:not(:focus-visible)': {
-            outline: 'none',
-          },
-        }
-);
-IconButton.displayName = 'IconButton';
 
 const IconPlaceholder = styled.div(({ theme }) => ({
   width: 14,
