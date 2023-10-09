@@ -543,7 +543,7 @@ describe('stories API', () => {
 
   describe('STORY_SPECIFIED event', () => {
     it('navigates to the story', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/' } });
+      const moduleArgs = createMockModuleArgs({ initialState: { path: '/', index: {} } });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -551,7 +551,7 @@ describe('stories API', () => {
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
     });
     it('DOES not navigate if the story was already selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/story/a--1' } });
+      const moduleArgs = createMockModuleArgs({ initialState: { path: '/story/a--1', index: {} } });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -559,7 +559,9 @@ describe('stories API', () => {
       expect(navigate).not.toHaveBeenCalled();
     });
     it('DOES not navigate if a settings page was selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/settings/about' } });
+      const moduleArgs = createMockModuleArgs({
+        initialState: { path: '/settings/about', index: {} },
+      });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -567,7 +569,9 @@ describe('stories API', () => {
       expect(navigate).not.toHaveBeenCalled();
     });
     it('DOES not navigate if a custom page was selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/custom/page' } });
+      const moduleArgs = createMockModuleArgs({
+        initialState: { path: '/custom/page', index: {} },
+      });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 

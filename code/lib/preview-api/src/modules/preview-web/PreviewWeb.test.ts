@@ -1227,7 +1227,6 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['component-two--c'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
@@ -1238,7 +1237,6 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['component-one--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentOne.stories.js');
@@ -1249,7 +1247,6 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/Introduction.mdx');
@@ -1259,7 +1256,6 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
@@ -1735,7 +1731,6 @@ describe('PreviewWeb', () => {
             // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               await gate;
-              // @ts-expect-error (jest mock)
               return importFn(...args);
             })
             // @ts-expect-error (jest mock)
@@ -1743,7 +1738,6 @@ describe('PreviewWeb', () => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
-              // @ts-expect-error (jest mock)
               return importFn(...args);
             });
 
@@ -1784,7 +1778,6 @@ describe('PreviewWeb', () => {
             // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               await gate;
-              // @ts-expect-error (jest mock)
               return importFn(...args);
             })
             // @ts-expect-error (jest mock)
@@ -1792,7 +1785,6 @@ describe('PreviewWeb', () => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
-              // @ts-expect-error (jest mock)
               return importFn(...args);
             });
 
@@ -1832,7 +1824,6 @@ describe('PreviewWeb', () => {
             // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               await gate;
-              // @ts-expect-error (jest mock)
               return importFn(...args);
             })
             // @ts-expect-error (jest mock)
@@ -1840,7 +1831,6 @@ describe('PreviewWeb', () => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
-              // @ts-expect-error (jest mock)
               return importFn(...args);
             });
 
@@ -3504,6 +3494,19 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
+        composedPath: vi
+          .fn()
+          .mockReturnValue([{ tagName: 'div', getAttribute: vi.fn().mockReturnValue(null) }]),
+      } as any);
+
+      expect(mockChannel.emit).toHaveBeenCalledWith(PREVIEW_KEYDOWN, expect.objectContaining({}));
+    });
+
+    it('emits PREVIEW_KEYDOWN for regular elements, fallback to event.target', async () => {
+      document.location.search = '?id=component-one--docs&viewMode=docs';
+      const preview = await createAndRenderPreview();
+
+      preview.onKeydown({
         target: { tagName: 'div', getAttribute: vi.fn().mockReturnValue(null) },
       } as any);
 
@@ -3515,7 +3518,9 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
-        target: { tagName: 'input', getAttribute: vi.fn().mockReturnValue(null) },
+        composedPath: vi
+          .fn()
+          .mockReturnValue([{ tagName: 'input', getAttribute: vi.fn().mockReturnValue(null) }]),
       } as any);
 
       expect(mockChannel.emit).not.toHaveBeenCalledWith(

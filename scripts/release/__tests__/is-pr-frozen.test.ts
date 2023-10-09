@@ -27,14 +27,24 @@ describe('isPrFrozen', () => {
   it('should return true when PR is frozen', async () => {
     vi.mocked(getPullInfoFromCommit).mockResolvedValue({
       labels: ['freeze'],
-    } as any);
+      state: 'OPEN',
+    });
     await expect(isPrFrozen({ patch: false })).resolves.toBe(true);
   });
 
   it('should return false when PR is not frozen', async () => {
     vi.mocked(getPullInfoFromCommit).mockResolvedValue({
       labels: [],
-    } as any);
+      state: 'OPEN',
+    });
+    await expect(isPrFrozen({ patch: false })).resolves.toBe(false);
+  });
+
+  it('should return false when PR is closed', async () => {
+    vi.mocked(getPullInfoFromCommit).mockResolvedValue({
+      labels: ['freeze'],
+      state: 'CLOSED',
+    });
     await expect(isPrFrozen({ patch: false })).resolves.toBe(false);
   });
 
@@ -55,7 +65,7 @@ describe('isPrFrozen', () => {
     } as any);
     await isPrFrozen({ patch: false });
 
-    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-prerelease-from-1.0.0', {
+    expect(simpleGit.__fetch).toHaveBeenCalledWith('origin', 'version-non-patch-from-1.0.0', {
       '--depth': 1,
     });
   });

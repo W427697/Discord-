@@ -210,9 +210,14 @@ describe('PNPM Proxy', () => {
     it('adds resolutions to package.json and account for existing resolutions', async () => {
       const writePackageSpy = vi.spyOn(pnpmProxy, 'writePackageJson').mockImplementation(vi.fn());
 
+      const basePackageAttributes = {
+        dependencies: {},
+        devDependencies: {},
+      };
+
       vi.spyOn(pnpmProxy, 'retrievePackageJson').mockImplementation(
-        // @ts-expect-error (not strict)
-        vi.fn(() => ({
+        vi.fn(async () => ({
+          ...basePackageAttributes,
           overrides: {
             bar: 'x.x.x',
           },
@@ -225,6 +230,7 @@ describe('PNPM Proxy', () => {
       await pnpmProxy.addPackageResolutions(versions);
 
       expect(writePackageSpy).toHaveBeenCalledWith({
+        ...basePackageAttributes,
         overrides: {
           ...versions,
           bar: 'x.x.x',

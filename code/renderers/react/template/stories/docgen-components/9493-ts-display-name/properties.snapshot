@@ -8,22 +8,13 @@
       "description": "A title that brings attention to the alert.",
       "name": "title",
       "required": false,
-      "sbType": {
-        "name": "union",
+      "sbType": Object {
+        "name": "enum",
         "raw": "'Code Red' | 'Code Yellow' | 'Code Green'",
-        "value": [
-          {
-            "name": "other",
-            "value": "literal",
-          },
-          {
-            "name": "other",
-            "value": "literal",
-          },
-          {
-            "name": "other",
-            "value": "literal",
-          },
+        "value": Array [
+          "Code Red",
+          "Code Yellow",
+          "Code Green",
         ],
       },
       "type": {

@@ -133,7 +133,7 @@ describe('configurePreview', () => {
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },
@@ -164,7 +164,7 @@ describe('configurePreview', () => {
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },
@@ -215,7 +215,7 @@ describe('configurePreview', () => {
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },

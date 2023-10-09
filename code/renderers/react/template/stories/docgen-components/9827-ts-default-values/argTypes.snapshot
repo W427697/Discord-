@@ -10,7 +10,7 @@
       "jsDocTags": undefined,
       "type": {
         "detail": undefined,
-        "summary": "Array",
+        "summary": "string[]",
       },
     },
     "type": {

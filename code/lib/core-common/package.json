@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.5.0-alpha.2",
+  "version": "7.5.0-alpha.4",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -53,7 +53,7 @@
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
     "esbuild": "^0.18.0",
-    "esbuild-register": "^3.4.0",
+    "esbuild-register": "^3.5.0",
     "file-system-cache": "2.3.0",
     "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
@@ -69,6 +69,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
     "@types/mock-fs": "^4.13.1",
     "@types/picomatch": "^2.3.0",
     "mock-fs": "^5.2.0",
