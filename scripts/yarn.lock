@@ -1712,10 +1712,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint-community/regexpp@npm:^4.4.0, @eslint-community/regexpp@npm:^4.6.1":
+"@eslint-community/regexpp@npm:^4.4.0":
   version: 4.8.1
   resolution: "@eslint-community/regexpp@npm:4.8.1"
   checksum: 3443b17de28e42ff2ff07ca6b3488c5d016a01fbedf89dce6c80f6bd4138ec3cf49754dba667844e071bb3fa0b31432e1e6ac6929b32f0bf17ced57073820ec2
+  languageName: node
+  linkType: hard
+
+"@eslint-community/regexpp@npm:^4.6.1":
+  version: 4.9.1
+  resolution: "@eslint-community/regexpp@npm:4.9.1"
+  checksum: d0e1bd1a37cb2cb6bbac88dfe97b62b412d4b6ea3a4bb1c4e1e503be03125063db5d80999cef9728f57b19b49979aa902ac68182bcf5f80dfce6fa9a9d34eee1
   languageName: node
   linkType: hard
 
@@ -1736,10 +1743,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.49.0":
-  version: 8.49.0
-  resolution: "@eslint/js@npm:8.49.0"
-  checksum: 40b4255866161e16b09eae1830c8ff7379276659ee7ce039e4708bcf3c5a5fd8b95418d32c355294e6c738f23ab42f3e3a55100dffb389edd5d5233ca47c01b3
+"@eslint/js@npm:8.50.0":
+  version: 8.50.0
+  resolution: "@eslint/js@npm:8.50.0"
+  checksum: 92cb0a823869e85f287bd172f14a6a20d7d65c3f4db886a0356a9efebfe8fe519e9ead84a5687bd18f45eca417bdcce96e3b83fe3feae8baf0f8f44d14073bae
   languageName: node
   linkType: hard
 
@@ -2524,6 +2531,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/endpoint@npm:^9.0.0":
+  version: 9.0.1
+  resolution: "@octokit/endpoint@npm:9.0.1"
+  dependencies:
+    "@octokit/types": ^12.0.0
+    is-plain-object: ^5.0.0
+    universal-user-agent: ^6.0.0
+  checksum: 757505b1cd634bcd7b71a18c8fe07dfda47790598ddd0d9d13f47d68713070f49953a672ac40ec39787defc2a7e07d08dca97756def7b907118f8f8d4c653f5c
+  languageName: node
+  linkType: hard
+
 "@octokit/graphql@npm:^4.3.1, @octokit/graphql@npm:^4.5.8":
   version: 4.8.0
   resolution: "@octokit/graphql@npm:4.8.0"
@@ -2557,6 +2575,13 @@ __metadata:
   version: 18.0.0
   resolution: "@octokit/openapi-types@npm:18.0.0"
   checksum: d90fab10d962be71e72b85ffab2055cffd9c3196ff1edc3e4106deb78e99e8782965cf7aa6a4c1398f828e4d0c3e0f905915debfe34396d956dfce8e75b21664
+  languageName: node
+  linkType: hard
+
+"@octokit/openapi-types@npm:^19.0.0":
+  version: 19.0.0
+  resolution: "@octokit/openapi-types@npm:19.0.0"
+  checksum: 8270e0a224bbef6d1c82396cda873a3528111cb25a772184b39e1fbada4e6433b41c5f4634ecf204e8a2816a802048197e0132b7615b579fab217f7c1e29545b
   languageName: node
   linkType: hard
 
@@ -2624,6 +2649,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/request-error@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "@octokit/request-error@npm:5.0.1"
+  dependencies:
+    "@octokit/types": ^12.0.0
+    deprecation: ^2.0.0
+    once: ^1.4.0
+  checksum: e72a4627120de345b54876a1f007664095e5be9d624fce2e14fccf7668cd8f5e4929d444d8fc085d48e1fb5cd548538453974aab129a669101110d6679dce6c6
+  languageName: node
+  linkType: hard
+
 "@octokit/request@npm:^5.4.0, @octokit/request@npm:^5.6.0, @octokit/request@npm:^5.6.3":
   version: 5.6.3
   resolution: "@octokit/request@npm:5.6.3"
@@ -2652,6 +2688,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/request@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "@octokit/request@npm:8.1.2"
+  dependencies:
+    "@octokit/endpoint": ^9.0.0
+    "@octokit/request-error": ^5.0.0
+    "@octokit/types": ^12.0.0
+    is-plain-object: ^5.0.0
+    universal-user-agent: ^6.0.0
+  checksum: 49219eb71b856acecc8268f05a7a7d074488f9eaeb59439f5c8872e5b4555a4e6c0cf0ebcadf0983466f88957e74c27765f582e473b0dd89b453274501f0dc37
+  languageName: node
+  linkType: hard
+
 "@octokit/rest@npm:^16.43.0 || ^17.11.0 || ^18.12.0, @octokit/rest@npm:^18.12.0":
   version: 18.12.0
   resolution: "@octokit/rest@npm:18.12.0"
@@ -2673,6 +2722,15 @@ __metadata:
     "@octokit/plugin-request-log": ^1.0.0
     "@octokit/plugin-rest-endpoint-methods": 3.17.0
   checksum: 5f33c94ca40b0c7e820cfb5d184cf7c044ccc21f48c4691f45827369554ad31e0adacc1e9d5acbb081f53905fad2a0a4ba44eb2a789513e2a0850dd83f7dc5a0
+  languageName: node
+  linkType: hard
+
+"@octokit/types@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "@octokit/types@npm:12.0.0"
+  dependencies:
+    "@octokit/openapi-types": ^19.0.0
+  checksum: 6e5b68f8855775638db53244348d2ca07896d36a15aad41d3cb652fafaa1b307c3b6222319174dd5716accd9076e101da838b82f988a7c380a8e9d188e3aadf1
   languageName: node
   linkType: hard
 
@@ -2894,6 +2952,7 @@ __metadata:
     "@jest/globals": ^29.3.1
     "@nx/workspace": 16.2.1
     "@octokit/graphql": ^5.0.5
+    "@octokit/request": ^8.1.2
     "@storybook/eslint-config-storybook": ^3.1.2
     "@storybook/jest": next
     "@storybook/linter-config": ^3.1.2
@@ -7521,13 +7580,13 @@ __metadata:
   linkType: hard
 
 "eslint@npm:^8.28.0":
-  version: 8.49.0
-  resolution: "eslint@npm:8.49.0"
+  version: 8.50.0
+  resolution: "eslint@npm:8.50.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.6.1
     "@eslint/eslintrc": ^2.1.2
-    "@eslint/js": 8.49.0
+    "@eslint/js": 8.50.0
     "@humanwhocodes/config-array": ^0.11.11
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
@@ -7563,7 +7622,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 8d6985a8d60379ea714ad35d7a3d8762ac8c37b986c615e9a7c245794faddf68f61f997ba6f5f903d440e92065a56a4f7832a45adc2d4fc6e977026782f25835
+  checksum: 91629528cb240bc61b25480574d35cd54ed444cb61a70fa76f7d5ab26af2b637b94bf8fba94403c9052c1baa944a169b6ab9cc8070496e925f7eeef730ff9038
   languageName: node
   linkType: hard
 
