@@ -56,12 +56,13 @@ const ScrollAreaScrollbar = styled(ScrollAreaPrimitive.Scrollbar)<{
 
 const ScrollAreaThumb = styled(ScrollAreaPrimitive.Thumb)(({ theme }) => ({
   flex: 1,
-  background: theme.base === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
+  background: theme.textMutedColor,
+  opacity: 0.5,
   borderRadius: `var(--scrollbar-size)`,
   position: 'relative',
-  transition: 'background 0.2s ease-out',
+  transition: 'opacity 0.2s ease-out',
 
-  '&:hover': { background: theme.base === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)' },
+  '&:hover': { opacity: 0.8 },
 
   /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
   '::before': {
