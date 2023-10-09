@@ -29,8 +29,8 @@ const ScrollAreaViewport = styled(ScrollAreaPrimitive.Viewport)({
 
 const ScrollAreaScrollbar = styled(ScrollAreaPrimitive.Scrollbar)<{
   offset: number;
-  horizontal: boolean;
-  vertical: boolean;
+  horizontal: string;
+  vertical: string;
 }>(({ offset, horizontal, vertical }) => ({
   display: 'flex',
   userSelect: 'none', // ensures no selection
@@ -43,14 +43,14 @@ const ScrollAreaScrollbar = styled(ScrollAreaPrimitive.Scrollbar)<{
     width: 'var(--scrollbar-size)',
     paddingRight: offset,
     marginTop: offset,
-    marginBottom: horizontal && vertical ? 0 : offset,
+    marginBottom: horizontal === 'true' && vertical === 'true' ? 0 : offset,
   },
   '&[data-orientation="horizontal"]': {
     flexDirection: 'column',
     height: 'var(--scrollbar-size)',
     paddingBottom: offset,
     marginLeft: offset,
-    marginRight: horizontal && vertical ? 0 : offset,
+    marginRight: horizontal === 'true' && vertical === 'true' ? 0 : offset,
   },
 }));
 
@@ -91,8 +91,8 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
       <ScrollAreaScrollbar
         orientation="horizontal"
         offset={offset}
-        horizontal={horizontal}
-        vertical={vertical}
+        horizontal={horizontal.toString()}
+        vertical={vertical.toString()}
       >
         <ScrollAreaThumb />
       </ScrollAreaScrollbar>
@@ -101,8 +101,8 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
       <ScrollAreaScrollbar
         orientation="vertical"
         offset={offset}
-        horizontal={horizontal}
-        vertical={vertical}
+        horizontal={horizontal.toString()}
+        vertical={vertical.toString()}
       >
         <ScrollAreaThumb />
       </ScrollAreaScrollbar>
