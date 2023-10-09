@@ -20,14 +20,12 @@ const useFullStoryName = () => {
   const { index } = useStorybookState();
   const currentStory = useStorybookApi().getCurrentStoryData();
 
-  if (!currentStory) {
-    return '';
-  }
+  if (!currentStory) return '';
 
   let fullStoryName = currentStory.renderLabel?.(currentStory) || currentStory.name;
   let node = index[currentStory.id];
 
-  while ('parent' in node && node.parent && index[node.parent]) {
+  while ('parent' in node && node.parent && index[node.parent] && fullStoryName.length < 24) {
     node = index[node.parent];
     const parentName = node.renderLabel?.(node) || node.name;
     fullStoryName = `${parentName}/${fullStoryName}`;
