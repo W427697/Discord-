@@ -20,7 +20,6 @@ const Wrapper = styled.div({
   width: 500,
   height: 500,
   overflow: 'hidden',
-  backgroundColor: '#f5f5f5',
 });
 
 const list = (filler: (data: number) => JSX.Element) => {
