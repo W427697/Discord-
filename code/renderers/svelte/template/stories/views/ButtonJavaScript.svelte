@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   /**
    * @component Button View
    * @wrapper
@@ -23,7 +23,7 @@
    */
   export let text = 'You clicked';
 
-  function handleClick(_event: MouseEvent) {
+  function handleClick(_event) {
     count += 1;
   }
 </script>

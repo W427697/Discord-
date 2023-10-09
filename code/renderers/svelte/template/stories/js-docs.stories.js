@@ -1,7 +1,7 @@
-import ButtonView from './views/ButtonView.svelte';
+import ButtonJavaScript from './views/ButtonJavaScript.svelte';
 
 export default {
-  component: ButtonView,
+  component: ButtonJavaScript,
   args: {
     primary: true,
   },

@@ -65,34 +65,43 @@ export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOpt
   const include = /\.(svelte)$/;
   const filter = createFilter(include);
 
-  let docPreprocessOptions: any = null;
-  if (preprocessOptions) {
-    /*
-     * We can't use vitePreprocess() for the documentation
-     * because it uses esbuild which removes jsdoc.
-     *
-     * By default, only typescript is transpiled, and style tags are removed.
-     *
-     * Note: these preprocessors are only used to make the component
-     * compatible to sveltedoc-parser (no ts), not to compile
-     * the component.
-     */
-    docPreprocessOptions = [typescript(), replace([[/<style.+<\/style>/gims, '']])];
-  }
+  let docPreprocessOptions: Parameters<typeof preprocess>[1] | undefined;
 
   return {
     name: 'storybook:svelte-docgen-plugin',
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;
 
+      if (preprocessOptions && !docPreprocessOptions) {
+        /*
+         * We can't use vitePreprocess() for the documentation
+         * because it uses esbuild which removes jsdoc.
+         *
+         * By default, only typescript is transpiled, and style tags are removed.
+         *
+         * Note: these preprocessors are only used to make the component
+         * compatible to sveltedoc-parser (no ts), not to compile
+         * the component.
+         */
+        docPreprocessOptions = [replace([[/<style.+<\/style>/gims, '']])];
+
+        try {
+          const ts = require.resolve('typescript');
+          if (ts) {
+            docPreprocessOptions.unshift(typescript());
+          }
+        } catch {
+          // this will error in JavaScript-only projects, this is okay
+        }
+      }
+
       const resource = path.relative(cwd, id);
 
       let docOptions;
       if (docPreprocessOptions) {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        const src = fs.readFileSync(resource).toString();
+        const rawSource = fs.readFileSync(resource).toString();
 
-        const { code: fileContent } = await preprocess(src, docPreprocessOptions, {
+        const { code: fileContent } = await preprocess(rawSource, docPreprocessOptions, {
           filename: resource,
         });
 

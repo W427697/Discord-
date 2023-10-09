@@ -18,10 +18,21 @@ test.describe('Svelte', () => {
     await new SbPage(page).waitUntilLoaded();
   });
 
-  test('Story have a documentation', async ({ page }) => {
+  test('JS story has auto-generated args table', async ({ page }) => {
     const sbPage = new SbPage(page);
 
-    await sbPage.navigateToStory('stories/renderers/svelte/docs', 'docs');
+    await sbPage.navigateToStory('stories/renderers/svelte/js-docs', 'docs');
+    const root = sbPage.previewRoot();
+    const argsTable = root.locator('.docblock-argstable');
+    await expect(argsTable).toContainText('Rounds the button');
+  });
+
+  test('TS story has auto-generated args table', async ({ page }) => {
+    // eslint-disable-next-line jest/valid-title
+    test.skip(!templateName?.endsWith('ts') || false, 'Only test TS story in TS templates');
+    const sbPage = new SbPage(page);
+
+    await sbPage.navigateToStory('stories/renderers/svelte/ts-docs', 'docs');
     const root = sbPage.previewRoot();
     const argsTable = root.locator('.docblock-argstable');
     await expect(argsTable).toContainText('Rounds the button');
