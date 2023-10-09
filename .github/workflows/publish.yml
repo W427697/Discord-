@@ -36,11 +36,6 @@ jobs:
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
 
-      - name: Cancel all release preparation runs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:cancel-preparation-runs
-
       - name: Checkout ${{ github.ref_name }}
         uses: actions/checkout@v3
         with:
@@ -66,6 +61,11 @@ jobs:
       - name: Install script dependencies
         run: |
           yarn install
+
+      - name: Cancel all release preparation runs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn release:cancel-preparation-runs
 
       - name: Apply deferred version bump and commit
         working-directory: .
