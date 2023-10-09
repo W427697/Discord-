@@ -80,37 +80,22 @@ export async function sendTelemetryError(
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
 
-      const error = _error as Error | Record<string, any>;
-
-      let storybookErrorProperties = {};
-      // if it's an UNCATEGORIZED error, it won't have a coded name, so we just pass the category and source
-      if ((error as any).category) {
-        const { category } = error as any;
-        storybookErrorProperties = {
-          category,
-        };
-      }
-
-      if ((error as any).fromStorybook) {
-        const { code, name } = error as any;
-        storybookErrorProperties = {
-          ...storybookErrorProperties,
-          code,
-          name,
-        };
-      }
+      const error = _error as Error & Record<string, any>;
 
       let errorHash;
       if ('message' in error) {
-        errorHash = error.message ? oneWayHash(error.message) : 'empty-message';
+        errorHash = error.message ? oneWayHash(error.message) : 'EMPTY_MESSAGE';
       } else {
-        errorHash = 'no-message';
+        errorHash = 'NO_MESSAGE';
       }
 
+      const { code, name, category } = error;
       await telemetry(
         'error',
         {
-          ...storybookErrorProperties,
+          code,
+          name,
+          category,
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,

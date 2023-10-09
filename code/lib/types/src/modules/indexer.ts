@@ -66,20 +66,20 @@ export type Indexer = BaseIndexer & {
    * @param options {@link IndexerOptions} for indexing the file.
    * @returns A promise that resolves to an array of {@link IndexInput} objects.
    */
-  index: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
+  createIndex: (fileName: string, options: IndexerOptions) => Promise<IndexInput[]>;
   /**
-   * @soonDeprecated Use {@link index} instead
+   * @deprecated Use {@link index} instead
    */
   indexer?: never;
 };
 
 export type DeprecatedIndexer = BaseIndexer & {
   indexer: (fileName: string, options: IndexerOptions) => Promise<IndexedCSFFile>;
-  index?: never;
+  createIndex?: never;
 };
 
 /**
- * @soonDeprecated Use {@link Indexer} instead
+ * @deprecated Use {@link Indexer} instead
  */
 export type StoryIndexer = Indexer | DeprecatedIndexer;
 
