@@ -145,6 +145,7 @@ export const EmptyBlock: FC<any> = ({ isMain }) => (
                   The glob specified in <code>main.js</code> isn't correct.
                 </li>
                 <li>No stories are defined in your story files.</li>
+                <li>You're using filter-functions, and all stories are filtered away.</li>
               </ul>{' '}
             </>
           ) : (

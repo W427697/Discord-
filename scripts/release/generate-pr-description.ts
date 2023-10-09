@@ -18,7 +18,7 @@ program
     'Which version to generate changelog from, eg. "7.0.7". Defaults to the version at code/package.json'
   )
   .option('-N, --next-version <version>', 'Which version to generate changelog to, eg. "7.0.8"')
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option(
     '-M, --manual-cherry-picks <commits>',
     'A stringified JSON array of commit hashes, of patch PRs that needs to be cherry-picked manually'
@@ -52,6 +52,7 @@ const CHANGE_TITLES_TO_IGNORE = [
   /\[ci skip\]/i,
   /^Update CHANGELOG\.md for.*/i,
   /^Release: (Pre)?(Patch|Minor|Major|Release).*\d+$/i,
+  /^Update \.\/docs\/versions/,
 ];
 
 export const mapToChangelist = ({
@@ -65,7 +66,7 @@ export const mapToChangelist = ({
     .filter((change) => {
       // eslint-disable-next-line no-restricted-syntax
       for (const titleToIgnore of CHANGE_TITLES_TO_IGNORE) {
-        if (change.title.match(titleToIgnore)) {
+        if (change.title?.match(titleToIgnore)) {
           return false;
         }
       }
@@ -90,7 +91,7 @@ export const mapToChangelist = ({
         )[0] || 'unknown') as keyof typeof LABELS_BY_IMPORTANCE;
 
       return `- [ ] **${LABELS_BY_IMPORTANCE[label]}**: ${change.title} ${change.links.pull}${
-        !unpickedPatches && change.labels.includes('patch:yes') ? ' (will also be patched)' : ''
+        !unpickedPatches && change.labels?.includes('patch:yes') ? ' (will also be patched)' : ''
       }`;
     })
     .join('\n');
@@ -141,7 +142,9 @@ export const generateReleaseDescription = ({
   changelogText: string;
   manualCherryPicks?: string;
 }): string => {
-  const workflow = semver.prerelease(nextVersion) ? 'prepare-prerelease' : 'prepare-patch-release';
+  const workflow = semver.prerelease(nextVersion)
+    ? 'prepare-non-patch-release'
+    : 'prepare-patch-release';
   const workflowUrl = `https://github.com/storybookjs/storybook/actions/workflows/${workflow}.yml`;
 
   return (
@@ -174,6 +177,8 @@ export const generateReleaseDescription = ({
   ${manualCherryPicks || ''}
 
   If you've made any changes doing the above QA (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](${workflowUrl}) and wait for it to finish. It will wipe your progress in this to do, which is expected.
+
+  Feel free to manually commit any changes necessary to this branch **after** you've done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs, *especially* if you're making changes to the changelog.
 
   When everything above is done:
   - Merge this PR
@@ -215,6 +220,8 @@ export const generateNonReleaseDescription = (
 
   If you've made any changes (change PR titles, revert PRs), manually trigger a re-generation of this PR with [this workflow](https://github.com/storybookjs/storybook/actions/workflows/prepare-patch-release.yml) and wait for it to finish.
   
+  Feel free to manually commit any changes necessary to this branch **after** you've done the last re-generation, following the [Make Manual Changes](https://github.com/storybookjs/storybook/blob/next/CONTRIBUTING/RELEASING.md#5-make-manual-changes) section in the docs.
+
   When everything above is done:
   - Merge this PR
   - [Follow the run of the publish action](https://github.com/storybookjs/storybook/actions/workflows/publish.yml)`

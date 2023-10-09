@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.1.0",
+  "version": "7.5.0-alpha.5",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -46,7 +46,8 @@
     "templates/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -54,16 +55,18 @@
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {
-    "@babel/core": "^7.22.0",
-    "@babel/preset-env": "^7.22.0",
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/types": "^7.22.5",
     "@ndelangen/get-tarball": "^3.0.7",
-    "@storybook/codemod": "7.1.0",
-    "@storybook/core-common": "7.1.0",
-    "@storybook/core-server": "7.1.0",
-    "@storybook/csf-tools": "7.1.0",
-    "@storybook/node-logger": "7.1.0",
-    "@storybook/telemetry": "7.1.0",
-    "@storybook/types": "7.1.0",
+    "@storybook/codemod": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/core-server": "workspace:*",
+    "@storybook/csf-tools": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/telemetry": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/semver": "^7.3.4",
     "@yarnpkg/fslib": "2.10.3",
     "@yarnpkg/libzip": "2.3.0",
@@ -88,14 +91,14 @@
     "puppeteer-core": "^2.1.1",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
-    "simple-update-notifier": "^1.0.0",
+    "simple-update-notifier": "^2.0.0",
     "strip-json-comments": "^3.0.1",
     "tempy": "^1.0.1",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.1.0",
+    "@storybook/client-api": "workspace:*",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",

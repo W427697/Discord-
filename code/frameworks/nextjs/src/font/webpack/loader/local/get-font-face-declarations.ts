@@ -11,7 +11,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
   const localFontSrc = options.props.src as LocalFontSrc;
 
   // Parent folder relative to the root context
-  const parentFolder = options.filename.split('/').slice(0, -1).join('/').replace(rootContext, '');
+  const parentFolder = path.dirname(options.filename).replace(rootContext, '');
 
   const { validateData } = require('../utils/local-font-utils');
   const { weight, style, variable } = validateData('', options.props);
@@ -23,22 +23,26 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     6
   )}`;
 
+  const arePathsWin32Format = /^[a-z]:\\/iu.test(options.filename);
+  const cleanWin32Path = (pathString: string): string =>
+    arePathsWin32Format ? pathString.replace(/\\/gu, '/') : pathString;
+
   const getFontFaceCSS = () => {
     if (typeof localFontSrc === 'string') {
-      const localFontPath = path.join(parentFolder, localFontSrc);
+      const localFontPath = cleanWin32Path(path.join(parentFolder, localFontSrc));
 
       return `@font-face {
           font-family: ${id};
-          src: url(${localFontPath});
+          src: url(.${localFontPath});
       }`;
     }
     return localFontSrc
       .map((font) => {
-        const localFontPath = path.join(parentFolder, font.path);
+        const localFontPath = cleanWin32Path(path.join(parentFolder, font.path));
 
         return `@font-face {
           font-family: ${id};
-          src: url(${localFontPath});
+          src: url(.${localFontPath});
           ${font.weight ? `font-weight: ${font.weight};` : ''}
           ${font.style ? `font-style: ${font.style};` : ''}
         }`;
