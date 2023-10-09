@@ -11,11 +11,17 @@ const logger = console;
 export const sandbox: Task = {
   description: 'Create the sandbox from a template',
   dependsOn: ({ template }, { link }) => {
+    let shouldLink = link;
+
+    if (template.expected.framework === '@storybook/angular') {
+      shouldLink = false;
+    }
+
     if ('inDevelopment' in template && template.inDevelopment) {
       return ['run-registry', 'generate'];
     }
 
-    if (link) {
+    if (shouldLink) {
       return ['compile'];
     }
 
