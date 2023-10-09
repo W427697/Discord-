@@ -68,12 +68,12 @@ export function svelteDocgen(svelteOptions: Record<string, any> = {}): PluginOpt
   let docPreprocessOptions: any = null;
   if (preprocessOptions) {
     /*
-     * We can't use vitePreprocess() for the documentation.
-     * This preprocessor uses esbuild which removes jsdoc.
+     * We can't use vitePreprocess() for the documentation
+     * because it uses esbuild which removes jsdoc.
      *
      * By default, only typescript is transpiled, and style tags are removed.
      *
-     * Note: theses preprocessors are only used to make the component
+     * Note: these preprocessors are only used to make the component
      * compatible to sveltedoc-parser (no ts), not to compile
      * the component.
      */
