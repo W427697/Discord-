@@ -173,7 +173,7 @@ const LayoutContainer = styled.div<LayoutState>(
   ({ navSize, rightPanelWidth, bottomPanelHeight, viewMode, panelPosition }) => {
     return {
       width: '100%',
-      height: ['100vh', '100dvh'],
+      height: ['100vh', '100dvh'], // This array is a special Emotion syntax to set a fallback if 100dvh is not supported
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
