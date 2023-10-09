@@ -1,9 +1,9 @@
 ```tsx
-// MyComponent.story.ts|tsx
+// MyComponent.story.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { MyComponent } from './MyComponent';
+import MyComponent from './MyComponent.marko';
 
 const meta: Meta<typeof MyComponent> = {
   component: MyComponent,
@@ -15,6 +15,8 @@ type Story = StoryObj<typeof MyComponent>;
 export const Basic: Story = {};
 
 export const WithProp: Story = {
-  render: () => <MyComponent prop="value" />,
+  props: {
+    prop: 'value',
+  },
 };
 ```

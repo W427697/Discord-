@@ -1,7 +1,7 @@
 ```js
-// MyComponent.story.js|jsx
+// MyComponent.story.js
 
-import { MyComponent } from './MyComponent';
+import MyComponent from './MyComponent.marko';
 
 export default {
   component: MyComponent,
@@ -10,6 +10,8 @@ export default {
 export const Basic = {};
 
 export const WithProp = {
-  render: () => <MyComponent prop="value" />,
+  args: {
+    prop: 'value',
+  },
 };
 ```

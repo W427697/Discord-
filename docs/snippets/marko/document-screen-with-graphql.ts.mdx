@@ -1,14 +1,9 @@
-```ts
-// YourPage.ts|tsx
+```marko
+// YourPage.marko
 
-import { createGraphQLClient, gql } from '@solid-primitives/graphql';
+import { gql } from "@marko/urql";
 
-import { PageLayout } from './PageLayout';
-import { DocumentHeader } from './DocumentHeader';
-import { DocumentList } from './DocumentList';
-
-const newQuery = createGraphQLClient('https://foobar.com/v1/api');
-const AllInfoQuery = gql`
+static const AllInfoQuery = gql`
   query AllInfo {
     user {
       userID
@@ -29,57 +24,23 @@ const AllInfoQuery = gql`
       status
     }
   }
-`;
+`
 
-interface Data {
-  AllInfo: {
-    user: {
-      userID: number;
-      name: string;
-      opening_crawl: boolean;
-    };
-    document: {
-      id: number;
-      userID: number;
-      title: string;
-      brief: string;
-      status: string;
-    };
-    subdocuments: {
-      id: number;
-      userID: number;
-      title: string;
-      content: string;
-      status: string;
-    };
-  };
-}
-
-function useFetchInfo() {
-  const [data] = newQuery<Data>(AllInfoQuery, { path: 'home' });
-  return data;
-}
-
-export function DocumentScreen() {
-  const data = useFetchInfo();
-
-  return (
-    <Switch>
-      <Match when={data.loading}>
-        <p>Loading...</p>
-      </Match>
-      <Match when={data.error}>
-        <p>There was an error fetching the data!</p>
-      </Match>
-      <Match when={data()} keyed>
-        {(data) => (
-          <PageLayout user={data.user}>
-            <DocumentHeader document={data.document} />
-            <DocumentList documents={data.subdocuments} />
-          </PageLayout>
-        )}
-      </Match>
-    </Switch>
-  );
-}
+<gql-client url='https://foobar.com/v1/api' />
+<gql-query query=AllInfoQuery>
+  <@then|{ data, error }|>
+    <if(error)>
+      There was an error fetching the data!
+    </if>
+    <else>
+      <PageLayout user={data.user}>
+        <DocumentHeader document={data.document} />
+        <DocumentList documents={data.subdocuments} />
+      </PageLayout>
+    </else>
+  </@then>
+  <@placeholder>
+    <p>Loading...</p>
+  </@placeholder>
+</gql-query>
 ```

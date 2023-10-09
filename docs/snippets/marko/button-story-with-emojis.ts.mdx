@@ -1,9 +1,9 @@
 ```tsx
-// Button.stories.ts|tsx
+// Button.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { Button } from './Button';
+import Button from './Button.marko';
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -14,18 +14,36 @@ type Story = StoryObj<typeof Button>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/solid/api/csf
+ * See https://storybook.js.org/docs/marko/api/csf
  * to learn how to use render functions.
  */
 export const Primary: Story = {
-  render: () => <Button backgroundColor="#ff0" label="Button" />,
+  render: () => ({
+    component: Button,
+    input: {
+      backgroundColor: '#ff0',
+      label: 'Button',
+    },
+  }),
 };
 
 export const Secondary: Story = {
-  render: () => <Button backgroundColor="#ff0" label="😄👍😍💯" />,
+  render: () => ({
+    component: Button,
+    input: {
+      backgroundColor: '#ff0',
+      label: '😄👍😍💯',
+    },
+  }),
 };
 
 export const Tertiary: Story = {
-  render: () => <Button backgroundColor="#ff0" label="📚📕📈🤓" />,
+  render: () => ({
+    component: Button,
+    input: {
+      backgroundColor: '#ff0',
+      label: '📚📕📈🤓',
+    },
+  }),
 };
 ```

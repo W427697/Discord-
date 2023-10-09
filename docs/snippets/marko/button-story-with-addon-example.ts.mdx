@@ -1,13 +1,13 @@
 ```tsx
-// Button.stories.ts|tsx
+// Button.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { Button } from './Button';
+import Button from './Button.marko';
 
 const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/solid/configure/overview#configure-story-loading
+   * See https://storybook.js.org/docs/marko/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Button',
@@ -25,10 +25,15 @@ type Story = StoryObj<typeof Button>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/solid/api/csf
+ * See https://storybook.js.org/docs/marko/api/csf
  * to learn how to use render functions.
  */
 export const Basic: Story = {
-  render: () => <Button>Hello</Button>,
+  render: () => ({
+    component: Button,
+    input: {
+      renderBody: 'Hello',
+    },
+  }),
 };
 ```

@@ -1,10 +1,10 @@
 ```tsx
-// YourComponent.stories.ts|tsx
+// your-component.stories.ts
 
 import { createSignal, createEffect } from 'solid-js';
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { YourComponent } from './your-component';
+import YourComponent from './your-component';
 
 const meta: Meta<typeof YourComponent> = {
   component: YourComponent,
@@ -28,15 +28,16 @@ const someFunction = (valuePropertyA, valuePropertyB) => {
 };
 
 export const ExampleStory: Story = {
-  render: (args) => {
-    const [someFunctionResult, setSomeFunctionResult] = createSignal();
-
-    //👇 Assigns the function result to a signal
-    createEffect(() => {
-      setSomeFunctionResult(someFunction(args.propertyA, args.propertyB));
-    });
-
-    return <YourComponent {...args} someProperty={someFunctionResult()} />;
+  render: (input) => {
+    //👇 Assigns the function result to a variable
+    const someFunctionResult = someFunction(input.propertyA, input.propertyB);
+    return {
+      component: YourComponent,
+      input: {
+        ...input,
+        someProperty: someFunctionResult,
+      },
+    };
   },
   args: {
     propertyA: 'Item One',

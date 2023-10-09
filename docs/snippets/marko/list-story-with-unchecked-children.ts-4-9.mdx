@@ -1,16 +1,17 @@
 ```tsx
-// List.stories.ts|tsx
+// List.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { List } from './List';
+import List from './List.marko';
 
 //👇 Instead of importing ListItem, we import the stories
-import { Unchecked } from './ListItem.stories';
+import * as ListItemStories from './ListItem.stories';
+const { Unchecked } = composeStories(ListItemStories);
 
 const meta = {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/solid/configure/overview#configure-story-loading
+   * See https://storybook.js.org/docs/marko/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'List',
@@ -22,7 +23,9 @@ type Story = StoryObj<typeof meta>;
 
 export const OneItem: Story = {
   args: {
-    children: <Unchecked {...Unchecked.args} />,
+    renderBody(out) {
+      Unchecked.render(Unchecked.args, out);
+    },
   },
 };
 ```

@@ -3,6 +3,9 @@
 
 // Other imports and story implementation
 export const Default = {
-  render: (args) => <Button {...args} />,
+  render: (input) => ({
+    component: Button,
+    input,
+  }),
 };
 ```

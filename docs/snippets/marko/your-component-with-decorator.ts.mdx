@@ -1,20 +1,23 @@
 ```tsx
-// YourComponent.stories.ts|tsx
+// YourComponent.stories.ts
 
-import type { Meta } from 'storybook-solidjs';
+import type { Meta } from '@storybook/marko';
 
-import { YourComponent } from './YourComponent';
+import YourComponent from './YourComponent.marko';
+import MarginDecorator from './margin-decorator.marko';
 
 const meta: Meta<typeof YourComponent> = {
   component: YourComponent,
-  decorators: [
-    (Story) => (
-      <div style={{ margin: '3em' }}>
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: [MarginDecorator],
 };
 
 export default meta;
+```
+
+```marko
+// margin-decorator.marko
+
+<div style={ margin: '3em' }>
+  <${input.renderBody}>
+</div>
 ```

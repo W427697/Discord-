@@ -1,9 +1,10 @@
 ```ts
-// Button.stories.ts|tsx
+// Button.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { Button } from './Button';
+import Button from './Button';
+import MarginDecorator from './margin-decorator.marko';
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -14,11 +15,24 @@ type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   decorators: [
-    (Story) => (
-      <div style={{ margin: '3em' }}>
-        <Story />
-      </div>
-    ),
+    (Story) => ({
+      component: MarginDecorator,
+      input: {
+        renderBody: Story,
+      },
+    }),
   ],
 };
+```
+
+```marko
+// margin-decorator.marko
+
+export interface Input {
+  renderBody: Marko.Renderable;
+}
+
+<div style={ margin: '3em' }>
+  <${input.renderBody}>
+</div>
 ```

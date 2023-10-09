@@ -1,17 +1,17 @@
 ```tsx
-// List.stories.ts|tsx
+// List.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { List } from './List';
-import { ListItem } from './ListItem';
+import List from './List.marko';
+import ListItem from './ListItem.marko';
 
 //👇 Imports a specific story from ListItem stories
 import { Unchecked } from './ListItem.stories';
 
 const meta: Meta<typeof List> = {
   /* 👇 The title prop is optional.
-   * Seehttps://storybook.js.org/docs/solid/configure/overview#configure-story-loading
+   * Seehttps://storybook.js.org/docs/marko/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'List',
@@ -23,15 +23,17 @@ type Story = StoryObj<typeof List>;
 
 //👇 The ListTemplate construct will be spread to the existing stories.
 const ListTemplate: Story = {
-  render: ({ items, ...args }) => {
-    return (
-      <List>
-        {items.map((item) => (
-          <ListItem {...item} />
-        ))}
-      </List>
-    );
-  },
+  render: ({ items, ...input }) => ({
+    component: List,
+    input: {
+      ...input,
+      renderBody(out) {
+        for (item in items) {
+          ListItem.render({ ...item }, out);
+        }
+      },
+    },
+  }),
 };
 
 export const Empty = {

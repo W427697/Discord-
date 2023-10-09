@@ -1,9 +1,9 @@
 ```tsx
-//  MyComponent.stories.ts|tsx
+//  MyComponent.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { MyComponent } from './MyComponent';
+import MyComponent from './MyComponent.marko';
 
 const meta: Meta<typeof MyComponent> = {
   component: MyComponent,
@@ -14,6 +14,12 @@ type Story = StoryObj<typeof MyComponent>;
 
 // Assume image.png is located in the "public" directory.
 export const WithAnImage: Story = {
-  render: () => <img src="/image.png" alt="my image" />,
+  render: () => ({
+    component: MyComponent,
+    input: {
+      image: '/image.png',
+      alt: 'my image',
+    },
+  }),
 };
 ```

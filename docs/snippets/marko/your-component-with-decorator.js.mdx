@@ -1,16 +1,19 @@
 ```js
-// YourComponent.stories.js|jsx
+// YourComponent.stories.js
 
-import { YourComponent } from './YourComponent';
+import YourComponent from './YourComponent.marko';
+import MarginDecorator from './margin-decorator.marko';
 
 export default {
   component: YourComponent,
-  decorators: [
-    (Story) => (
-      <div style={{ margin: '3em' }}>
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: [MarginDecorator],
 };
+```
+
+```marko
+// margin-decorator.marko
+
+<div style={ margin: '3em' }>
+  <${input.renderBody}>
+</div>
 ```

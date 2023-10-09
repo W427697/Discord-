@@ -1,13 +1,18 @@
 ```js
-// Button.stories.js|jsx
+// Button.stories.js
 
-import { Button } from './Button';
+import Button from './Button.marko';
 
 export default {
   component: Button,
 };
 
 export const Sample = {
-  render: () => <Button label="hello button" />,
+  render: () => ({
+    component: Button,
+    input: {
+      label: 'hello button',
+    },
+  }),
 };
 ```

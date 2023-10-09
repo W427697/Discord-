@@ -1,16 +1,8 @@
-```js
-// YourPage.js|jsx
+```marko
+// YourPage.marko
 
-import { PageLayout } from './PageLayout';
-import { DocumentHeader } from './DocumentHeader';
-import { DocumentList } from './DocumentList';
-
-export function DocumentScreen({ user, document, subdocuments }) {
-  return (
-    <PageLayout user={user}>
-      <DocumentHeader document={document} />
-      <DocumentList documents={subdocuments} />
-    </PageLayout>
-  );
-}
+<PageLayout user=input.user>
+  <DocumentHeader document=input.document />
+  <DocumentList documents=input.subdocuments />
+</PageLayout>
 ```

@@ -1,20 +1,23 @@
 ```tsx
-// Page.stories.ts|tsx
+// Page.stories.ts
 
 import type { ComponentProps } from 'solid-js';
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
-import { Page } from './Page';
+import Page from './Page.marko';
 
 type PagePropsAndCustomArgs = ComponentProps<typeof Page> & { footer?: string };
 
 const meta = {
   component: Page,
-  render: ({ footer, ...args }) => (
-    <Page {...args}>
-      <footer>{footer}</footer>
-    </Page>
-  ),
+  render: ({ footer, ...input }) => ({
+    input: {
+      ...input,
+      footer(out) {
+        out.html(`<footer>${footer}</footer>`);
+      },
+    },
+  }),
 } satisfies Meta<PagePropsAndCustomArgs>;
 export default meta;
 

@@ -1,8 +1,8 @@
 ```js
-// List.stories.js|jsx
+// List.stories.js
 
-import { List } from './List';
-import { ListItem } from './ListItem';
+import List from './List.marko';
+import ListItem from './ListItem.marko';
 
 export default {
   component: List,
@@ -12,24 +12,32 @@ export const Empty = {};
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/solid/api/csf
+ * See https://storybook.js.org/docs/marko/api/csf
  * to learn how to use render functions.
  */
 export const OneItem = {
-  render: (args) => (
-    <List {...args}>
-      <ListItem />
-    </List>
-  ),
+  render: (input) => ({
+    component: List,
+    input: {
+      ...input,
+      renderBody(out) {
+        ListItem.render({}, out);
+      },
+    },
+  }),
 };
 
 export const ManyItems = {
-  render: (args) => (
-    <List {...args}>
-      <ListItem />
-      <ListItem />
-      <ListItem />
-    </List>
-  ),
+  render: (input) => ({
+    component: List,
+    input: {
+      ...input,
+      renderBody(out) {
+        ListItem.render({}, out);
+        ListItem.render({}, out);
+        ListItem.render({}, out);
+      },
+    },
+  }),
 };
 ```

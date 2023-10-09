@@ -1,9 +1,9 @@
 ```js
-// MyComponent.stories.js|jsx
+// MyComponent.stories.js
 
 import imageFile from './static/image.png';
 
-import { MyComponent } from './MyComponent';
+import MyComponent from './MyComponent.marko';
 
 export default {
   component: MyComponent,
@@ -15,6 +15,9 @@ const image = {
 };
 
 export const WithAnImage = {
-  render: () => <img src={image.src} alt={image.alt} />,
+  render: () => ({
+    component: MyComponent,
+    input: image,
+  }),
 };
 ```

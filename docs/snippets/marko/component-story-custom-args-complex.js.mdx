@@ -1,8 +1,7 @@
 ```js
-// YourComponent.stories.js|jsx
+// your-component.stories.js
 
-import { createSignal, createEffect } from 'solid-js';
-import { YourComponent } from './your-component';
+import YourComponent from './your-component.marko';
 
 export default {
   component: YourComponent,
@@ -23,15 +22,16 @@ const someFunction = (valuePropertyA, valuePropertyB) => {
 };
 
 export const ExampleStory = {
-  render: (args) => {
-    const [someFunctionResult, setSomeFunctionResult] = createSignal();
-
-    //👇 Assigns the function result to a signal
-    createEffect(() => {
-      setSomeFunctionResult(someFunction(args.propertyA, args.propertyB));
-    });
-
-    return <YourComponent {...args} someProperty={someFunctionResult()} />;
+  render: (input) => {
+    //👇 Assigns the function result to a variable
+    const someFunctionResult = someFunction(input.propertyA, input.propertyB);
+    return {
+      component: YourComponent,
+      input: {
+        ...input,
+        someProperty: someFunctionResult,
+      },
+    };
   },
   args: {
     propertyA: 'Item One',

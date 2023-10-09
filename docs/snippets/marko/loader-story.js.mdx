@@ -1,19 +1,25 @@
 ```js
-// TodoItem.stories.js|jsx
+// TodoItem.stories.js
 
-import { TodoItem } from './TodoItem';
+import TodoItem from './TodoItem.marko';
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/solid/api/csf
+ * See https://storybook.js.org/docs/marko/api/csf
  * to learn how to use render functions.
  */
 export default {
   component: TodoItem,
-  render: (args, { loaded: { todo } }) => <TodoItem {...args} {...todo} />,
 };
 
 export const Primary = {
+  render: (input, { loaded: { todo } }) => ({
+    Component: TodoItem,
+    input: {
+      ...input,
+      todo,
+    },
+  }),
   loaders: [
     async () => ({
       todo: await (await fetch('https://jsonplaceholder.typicode.com/todos/1')).json(),

@@ -1,11 +1,11 @@
 ```tsx
-// MyComponent.stories.ts|tsx
+// MyComponent.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
 import { withDesign } from 'storybook-addon-designs';
 
-import { MyComponent } from './MyComponent';
+import MyComponent from './MyComponent.marko';
 
 const meta = {
   component: MyComponent,

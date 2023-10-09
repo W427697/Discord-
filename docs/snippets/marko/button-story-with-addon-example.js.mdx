@@ -1,11 +1,11 @@
 ```js
-// Button.stories.js|jsx
+// Button.stories.js
 
-import { Button } from './Button';
+import Button from './Button.marko';
 
 export default {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/solid/configure/overview#configure-story-loading
+   * See https://storybook.js.org/docs/marko/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Button',
@@ -19,6 +19,11 @@ export default {
 };
 
 export const Basic = {
-  render: () => <Button>Hello</Button>,
+  render: () => ({
+    component: Button,
+    input: {
+      renderBody: 'Hello',
+    },
+  }),
 };
 ```

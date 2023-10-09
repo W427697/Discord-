@@ -1,13 +1,16 @@
 ```js
 // CSF 2
 
-import { Button } from './Button';
+import Button from './Button.marko';
 
 export default {
   title: 'Button',
   component: Button,
 };
 
-export const Primary = (args) => <Button {...args} />;
+export const Primary = (input) => ({
+  component: Button,
+  input,
+});
 Primary.args = { primary: true };
 ```

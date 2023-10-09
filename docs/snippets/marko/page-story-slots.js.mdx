@@ -1,15 +1,18 @@
 ```js
-// Page.stories.js|jsx
+// Page.stories.js
 
-import { Page } from './Page';
+import Page from './Page.marko';
 
 export default {
   component: Page,
-  render: ({ footer, ...args }) => (
-    <Page {...args}>
-      <footer>{footer}</footer>
-    </Page>
-  ),
+  render: ({ footer, ...input }) => ({
+    input: {
+      ...input,
+      footer(out) {
+        out.html(`<footer>${footer}</footer>`);
+      },
+    },
+  }),
 };
 
 export const CustomFooter = {

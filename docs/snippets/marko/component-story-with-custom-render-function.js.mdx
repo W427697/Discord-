@@ -1,9 +1,8 @@
 ```js
-// MyComponent.stories.js|jsx
+// MyComponent.stories.js
 
-import { Layout } from './Layout';
-
-import { MyComponent } from './MyComponent';
+import MyComponent from './MyComponent.marko';
+import wrapper from './wrapper.marko';
 
 export default {
   title: 'MyComponent',
@@ -12,15 +11,24 @@ export default {
 
 // This story uses a render function to fully control how the component renders.
 export const Example = {
-  render: () => (
-    <Layout>
-      <header>
-        <h1>Example</h1>
-      </header>
-      <article>
-        <MyComponent />
-      </article>
-    </Layout>
-  ),
+  render: () => ({
+    component: wrapper,
+    input: {
+      renderBody: MyComponent,
+    },
+  }),
 };
+```
+
+```marko
+// wrapper.marko
+
+<Layout>
+  <header>
+    <h1>Example</h1>
+  </header>
+  <article>
+    <${input.renderBody}>
+  </article>
+</Layout>
 ```

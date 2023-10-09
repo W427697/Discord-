@@ -1,7 +1,7 @@
 ```js
-// MyComponent.stories.js|jsx
+// MyComponent.stories.js
 
-import { MyComponent } from './MyComponent';
+import MyComponent from './MyComponent.marko';
 
 export default {
   component: MyComponent,
@@ -9,6 +9,12 @@ export default {
 
 // Assume image.png is located in the "public" directory.
 export const WithAnImage = {
-  render: () => <img src="/image.png" alt="my image" />,
+  render: () => ({
+    component: MyComponent,
+    input: {
+      image: '/image.png',
+      alt: 'my image',
+    },
+  }),
 };
 ```

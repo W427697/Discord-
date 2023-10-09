@@ -1,11 +1,11 @@
 ```tsx
-// Button.stories.ts|tsx
+// Button.stories.ts
 
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import type { Meta, StoryObj } from '@storybook/marko';
 
 import { action } from '@storybook/addon-actions';
 
-import { Button } from './Button';
+import Button from './Button.marko';
 
 const meta = {
   component: Button,
@@ -15,6 +15,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  render: () => <Button label="Hello" onClick={action('clicked')} />,
+  render: () => ({
+    component: Button,
+    input: {
+      label: 'Button',
+      onClick: action('clicked'),
+    },
+  }),
 };
 ```
