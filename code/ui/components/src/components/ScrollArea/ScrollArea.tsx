@@ -12,13 +12,13 @@ export interface ScrollAreaProps {
   scrollbarSize?: number;
 }
 
-const ScrollAreaRoot = styled(ScrollAreaPrimitive.Root)<{ scrollbarSize: number; offset: number }>(
-  ({ scrollbarSize, offset }) => ({
+const ScrollAreaRoot = styled(ScrollAreaPrimitive.Root)<{ scrollbarsize: number; offset: number }>(
+  ({ scrollbarsize, offset }) => ({
     width: '100%',
     height: '100%',
     overflow: 'hidden',
-    '--scrollbar-size': `${scrollbarSize + offset}px`,
-    '--radix-scroll-area-thumb-width': `${scrollbarSize}px`,
+    '--scrollbar-size': `${scrollbarsize + offset}px`,
+    '--radix-scroll-area-thumb-width': `${scrollbarsize}px`,
   })
 );
 
@@ -85,7 +85,7 @@ export const ScrollArea: FC<ScrollAreaProps> = ({
   offset = 2,
   scrollbarSize = 6,
 }) => (
-  <ScrollAreaRoot scrollbarSize={scrollbarSize} offset={offset}>
+  <ScrollAreaRoot scrollbarsize={scrollbarSize} offset={offset}>
     <ScrollAreaViewport>{children}</ScrollAreaViewport>
     {horizontal && (
       <ScrollAreaScrollbar
