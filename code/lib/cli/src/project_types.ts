@@ -29,7 +29,7 @@ export const externalFrameworks: ExternalFramework[] = [
 ];
 
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik' | 'solid' | 'marko';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -45,7 +45,8 @@ export type SupportedRenderers =
   | 'html'
   | 'web-components'
   | 'server'
-  | 'solid';
+  | 'solid'
+  | 'marko';
 
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
@@ -58,6 +59,7 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'svelte',
   'qwik',
   'solid',
+  'marko',
 ];
 
 export enum ProjectType {
@@ -83,6 +85,7 @@ export enum ProjectType {
   SERVER = 'SERVER',
   NX = 'NX',
   SOLID = 'SOLID',
+  MARKO = 'MARKO',
 }
 
 export enum CoreBuilder {
@@ -239,6 +242,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.SOLID,
     dependencies: ['solid-js'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.MARKO,
+    dependencies: ['marko'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },

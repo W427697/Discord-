@@ -15,6 +15,7 @@ export const rendererPackages: Record<string, string> = {
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
   '@storybook/server': 'server',
+  '@storybook/marko': 'marko',
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
   'storybook-solidjs': 'solid',
@@ -40,6 +41,7 @@ export const frameworkPackages: Record<string, string> = {
   '@storybook/vue-webpack5': 'vue-webpack5',
   '@storybook/web-components-vite': 'web-components-vite',
   '@storybook/web-components-webpack5': 'web-components-webpack5',
+  '@storybook/marko': 'marko',
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
   'storybook-solidjs-vite': 'solid',

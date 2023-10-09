@@ -29,6 +29,7 @@ import svelteGenerator from './generators/SVELTE';
 import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
+import markoGenerator from './generators/MARKO';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager, PackageManagerName } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
@@ -159,6 +160,11 @@ const installStorybook = async <Project extends ProjectType>(
       case ProjectType.SOLID:
         return solidGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "SolidJS" app')
+        );
+
+      case ProjectType.MARKO:
+        return markoGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Marko" app')
         );
 
       case ProjectType.UNSUPPORTED:

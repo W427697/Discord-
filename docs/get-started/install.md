@@ -105,6 +105,7 @@ Below are some of the most common installation issues and instructions on how to
    'get-started/installation-problems/web-components.mdx',
    'get-started/installation-problems/qwik.mdx',
    'get-started/installation-problems/solid.mdx',
+   'get-started/installation-problems/marko.mdx',
   ]}
 />
 
@@ -126,7 +127,7 @@ Now that you have successfully installed Storybook and understood how it works, 
 
 </IfRenderer>
 
-<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik','solid' ]}>
+<IfRenderer renderer={['angular', 'vue', 'web-components', 'ember', 'html', 'svelte', 'preact', 'qwik', 'solid', 'marko' ]}>
 
 Now that you installed Storybook successfully, let’s take a look at a story that was written for us.
 

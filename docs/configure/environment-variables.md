@@ -31,7 +31,7 @@ Then we can access these environment variables anywhere inside our preview JavaS
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'vue', 'web-components' ]}>
+<IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'marko', 'vue', 'web-components' ]}>
 
 <!-- prettier-ignore-start -->
 
@@ -78,7 +78,7 @@ Then you can access this environment variable anywhere, even within your stories
 
 <!-- prettier-ignore-end -->
 
-<IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'vue', 'web-components' ]}>
+<IfRenderer renderer={['html', 'react', 'qwik', 'preact','svelte', 'solid', 'marko', 'vue', 'web-components' ]}>
 
 #### With Vite
 
