@@ -15,7 +15,6 @@ const meta = {
     info: 'This is info for the Boolean control stories',
     jsx: { useBooleanShorthandSyntax: false },
   },
-  args: { name: 'boolean' },
 } as Meta<typeof BooleanControl>;
 
 export default meta;
@@ -23,25 +22,29 @@ export default meta;
 export const True: StoryObj<typeof BooleanControl> = {
   args: {
     value: true,
+    name: 'True',
   },
 };
 export const False: StoryObj<typeof BooleanControl> = {
   args: {
     value: false,
+    name: 'False',
   },
 };
 
 export const Undefined: StoryObj<typeof BooleanControl> = {
   args: {
     value: undefined,
+    name: 'Undefined',
   },
 };
 
 export const Toggling: StoryObj<typeof BooleanControl> = {
   args: {
     value: undefined,
+    name: 'Toggling',
   },
-  play: async ({ canvasElement, id }) => {
+  play: async ({ canvasElement, id, name, ...props }) => {
     const channel = addons.getChannel();
 
     channel.emit(RESET_STORY_ARGS, { storyId: id });
@@ -55,23 +58,26 @@ export const Toggling: StoryObj<typeof BooleanControl> = {
     const setBooleanControl = canvas.getByText('Set boolean');
     await fireEvent.click(setBooleanControl);
 
-    let toggle = await canvas.findByTitle('Change to true');
-    expect(toggle).toBeInTheDocument();
+    let toggle = await canvas.findByLabelText(name);
+    expect(toggle).toBeVisible();
 
     // from False to True
     await fireEvent.click(toggle);
-    toggle = await canvas.findByTitle('Change to false');
-    expect(toggle).toBeInTheDocument();
+    toggle = await canvas.findByRole('switch');
+    expect(toggle).not.toBeChecked();
 
     // from True to False
     await fireEvent.click(toggle);
-    toggle = await canvas.findByTitle('Change to true');
+    toggle = await canvas.findByRole('switch');
     expect(toggle).toBeInTheDocument();
   },
 };
 
 export const TogglingInDocs: StoryObj<typeof BooleanControl> = {
   ...Toggling,
+  args: {
+    name: 'Toggling In Docs',
+  },
   parameters: {
     docs: {
       autoplay: true,
