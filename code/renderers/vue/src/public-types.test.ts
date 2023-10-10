@@ -5,7 +5,7 @@ import { expectTypeOf } from 'expect-type';
 import type { SetOptional } from 'type-fest';
 import type { Component } from 'vue';
 import type { ExtendedVue } from 'vue/types/vue';
-import { Vue } from 'vue/types/vue';
+import Vue from 'vue';
 import type { Decorator, Meta, StoryObj } from './public-types';
 import Button from './__tests__/Button.vue';
 import type { VueRenderer } from './types';
