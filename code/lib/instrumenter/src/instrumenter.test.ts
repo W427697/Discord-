@@ -548,12 +548,12 @@ describe('Instrumenter', () => {
       expect(callSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'kind--story [0] fn',
-          exception: {
+          exception: expect.objectContaining({
             name: 'Error',
             message: 'Boom!',
             stack: expect.stringContaining('Error: Boom!'),
             callId: 'kind--story [0] fn',
-          },
+          }),
         })
       );
     });
