@@ -14,7 +14,6 @@ import { join, parse } from 'path';
 import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
-import { interopRequireDefault } from './utils/interpret-require';
 import { stripAbsNodeModulesPath } from './utils/strip-abs-node-modules-path';
 
 const isObject = (val: unknown): val is Record<string, any> =>
@@ -210,8 +209,7 @@ async function getContent(input: any) {
     return rest;
   }
   const name = input.name ? input.name : input;
-
-  return interopRequireDefault(name);
+  return import(name);
 }
 
 export async function loadPreset(
