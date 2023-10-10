@@ -8,15 +8,11 @@ import type { JsPackageManager } from './js-package-manager';
 import type { SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
 
-vi.mock('fs', () => ({
+const fsMocks = vi.hoisted(() => ({
   existsSync: vi.fn(),
 }));
-vi.mock('./dirs', () => ({
-  getRendererDir: (_: JsPackageManager, renderer: string) => `@storybook/${renderer}`,
-  getCliDir: () => '@storybook/cli',
-}));
 
-vi.mock('fs-extra', () => ({
+const fseMocks = vi.hoisted(() => ({
   copySync: vi.fn(() => ({})),
   copy: vi.fn(() => ({})),
   ensureDir: vi.fn(() => {}),
@@ -26,17 +22,44 @@ vi.mock('fs-extra', () => ({
   writeFile: vi.fn(),
 }));
 
+vi.mock('fs', async () => {
+  const actual = await vi.importActual<typeof import('fs')>('fs');
+  return {
+    ...actual,
+    ...fsMocks,
+    default: {
+      ...actual,
+      ...fsMocks,
+    },
+  };
+});
+vi.mock('./dirs', () => ({
+  getRendererDir: (_: JsPackageManager, renderer: string) => `@storybook/${renderer}`,
+  getCliDir: () => '@storybook/cli',
+}));
+
+vi.mock('fs-extra', async () => {
+  const actual = await vi.importActual<typeof import('fs-extra')>('fs-extra');
+  return {
+    ...actual,
+    ...fseMocks,
+    default: {
+      ...actual,
+      ...fseMocks,
+    },
+  };
+});
+
 vi.mock('find-up', () => ({
   sync: vi.fn(),
 }));
 
 vi.mock('path', async () => {
-  const path = await vi.importActual('path');
+  const actual = await vi.importActual<typeof import('path')>('path');
   return {
+    ...actual,
     // make it return just the second path, for easier testing
     resolve: vi.fn((_, p) => p),
-    dirname: path.dirname,
-    join: path.join,
   };
 });
 
@@ -51,20 +74,20 @@ describe('Helpers', () => {
 
   describe('copyTemplate', () => {
     it(`should copy template files when directory is present`, () => {
-      const csfDirectory = `template-csf/`;
-      (fs.existsSync as Mock).mockImplementation((filePath) => {
-        return true;
-      });
+      const csfDirectory = /template-csf$/;
+      fsMocks.existsSync.mockReturnValue(true);
+
       helpers.copyTemplate('');
 
-      const copySyncSpy = vi.spyOn(fse, 'copySync');
-      expect(copySyncSpy).toHaveBeenCalledWith(csfDirectory, expect.anything(), expect.anything());
+      expect(fse.copySync).toHaveBeenCalledWith(
+        expect.stringMatching(csfDirectory),
+        expect.anything(),
+        expect.anything()
+      );
     });
 
     it(`should throw an error if template directory cannot be found`, () => {
-      (fs.existsSync as Mock).mockImplementation((filePath) => {
-        return false;
-      });
+      fsMocks.existsSync.mockReturnValue(false);
 
       expect(() => {
         helpers.copyTemplate('');
@@ -88,7 +111,7 @@ describe('Helpers', () => {
       const componentsDirectory = exists.map(
         (folder: string) => `@storybook/react/template/cli/${folder}`
       );
-      (fse.pathExists as Mock).mockImplementation(
+      fseMocks.pathExists.mockImplementation(
         (filePath) =>
           componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
       );
@@ -98,8 +121,7 @@ describe('Helpers', () => {
         packageManager: packageManagerMock,
       });
 
-      const copySpy = vi.spyOn(fse, 'copy');
-      expect(copySpy).toHaveBeenNthCalledWith(
+      expect(fse.copy).toHaveBeenNthCalledWith(
         1,
         '@storybook/cli/rendererAssets/common',
         './stories',
@@ -107,7 +129,12 @@ describe('Helpers', () => {
       );
 
       const expectedDirectory = `@storybook/react/template/cli${expected}`;
-      expect(copySpy).toHaveBeenNthCalledWith(2, expectedDirectory, './stories', expect.anything());
+      expect(fse.copy).toHaveBeenNthCalledWith(
+        2,
+        expectedDirectory,
+        './stories',
+        expect.anything()
+      );
     }
   );
 
