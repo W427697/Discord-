@@ -43,6 +43,11 @@
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs"
     },
+    "./preset": {
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",

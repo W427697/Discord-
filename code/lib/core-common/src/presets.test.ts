@@ -1,7 +1,8 @@
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import path from 'path';
 import { logger } from '@storybook/node-logger';
-import './presets';
+import { isObject } from 'lodash';
+import { getPresets, resolveAddonName, loadPreset } from './presets';
 
 function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
   return {
@@ -10,8 +11,22 @@ function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
   };
 }
 
+// Vitest will error if it tries to access `addons` or `presets` and they haven't been explicitly mocked.
+const basePresetMock = {
+  addons: undefined,
+  presets: undefined,
+};
+
 function mockPreset(name: string, mockPresetObject: any) {
-  vi.mock(name, () => mockPresetObject, { virtual: true });
+  vi.doMock(name, () => {
+    if (Array.isArray(mockPresetObject)) {
+      return mockPresetObject;
+    }
+    if (isObject(mockPresetObject)) {
+      return { ...basePresetMock, ...mockPresetObject };
+    }
+    return mockPresetObject;
+  });
 }
 
 vi.mock('@storybook/node-logger', () => ({
@@ -26,7 +41,7 @@ vi.mock('./utils/safeResolve', () => {
   const KNOWN_FILES = [
     '@storybook/react',
     '@storybook/addon-actions/manager',
-    '@storybook/addon-actions/register',
+    '@storybook/addon-actions/register.js',
     './local/preset',
     './local/addons',
     '/absolute/preset',
@@ -65,7 +80,6 @@ vi.mock('./utils/safeResolve', () => {
 
 describe('presets', () => {
   it('does not throw when there is no preset file', async () => {
-    const { getPresets } = await vi.importActual('./presets');
     let presets;
 
     async function testPresets() {
@@ -80,7 +94,6 @@ describe('presets', () => {
   });
 
   it('does not throw when presets are empty', async () => {
-    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(await getPresets([]));
 
     async function testPresets() {
@@ -92,7 +105,6 @@ describe('presets', () => {
   });
 
   it('does not throw when preset can not be loaded', async () => {
-    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(await getPresets(['preset-foo']));
 
     async function testPresets() {
@@ -104,8 +116,6 @@ describe('presets', () => {
   });
 
   it('throws when preset can not be loaded and is critical', async () => {
-    const { getPresets } = jest.requireActual('./presets');
-
     await expect(getPresets(['preset-foo'], { isCritical: true })).rejects.toThrow();
   });
 
@@ -131,7 +141,6 @@ describe('presets', () => {
       foo: (exec: string[], options: any) => exec.concat(`valar ${options.custom}`),
     });
 
-    const { getPresets } = await vi.importActual('./presets');
     const presets = await getPresets(['preset-foo', 'preset-got', 'preset-bar'], {});
 
     const result = await presets.apply('foo', []);
@@ -151,7 +160,6 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(await getPresets(['preset-foo', 'preset-bar'], {}));
 
     async function testPresets() {
@@ -165,7 +173,7 @@ describe('presets', () => {
     expect(mockPresetBarExtendBabel).toHaveBeenCalled();
   });
 
-  it('loads  and applies presets when they are declared as an object without props', async () => {
+  it('loads and applies presets when they are declared as an object without props', async () => {
     const mockPresetFooExtendWebpack = vi.fn();
     const mockPresetBarExtendBabel = vi.fn();
 
@@ -177,7 +185,6 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets([{ name: 'preset-foo' }, { name: 'preset-bar' }], {})
     );
@@ -205,7 +212,6 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets(
         [
@@ -247,7 +253,6 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets(
         [
@@ -293,7 +298,6 @@ describe('presets', () => {
       webpack: mockPresetBarExtendWebpack,
     });
 
-    const { getPresets } = await vi.importActual('./presets');
     const presets = wrapPreset(
       await getPresets(
         [
@@ -333,7 +337,6 @@ describe('presets', () => {
   });
 
   it('allows for presets to export presets array', async () => {
-    const { getPresets } = await vi.importActual('./presets');
     const input = {};
     const mockPresetBar = vi.fn((...args: any[]) => input);
 
@@ -355,7 +358,6 @@ describe('presets', () => {
   });
 
   it('allows for presets to export presets fn', async () => {
-    const { getPresets } = await vi.importActual('./presets');
     const input = {};
     const storybookOptions = { a: 1 };
     const presetOptions = { b: 2 };
@@ -386,13 +388,11 @@ describe('presets', () => {
 });
 
 describe('resolveAddonName', () => {
-  const { resolveAddonName } = vi.importActual('./presets');
-
   it('should resolve packages with metadata (relative path)', () => {
     mockPreset('./local/preset', {
       presets: [],
     });
-    expect(resolveAddonName({}, './local/preset')).toEqual({
+    expect(resolveAddonName({}, './local/preset', {})).toEqual({
       name: './local/preset',
       type: 'presets',
     });
@@ -402,29 +402,29 @@ describe('resolveAddonName', () => {
     mockPreset('/absolute/preset', {
       presets: [],
     });
-    expect(resolveAddonName({}, '/absolute/preset')).toEqual({
+    expect(resolveAddonName({}, '/absolute/preset', {})).toEqual({
       name: '/absolute/preset',
       type: 'presets',
     });
   });
 
   it('should resolve packages without metadata', () => {
-    expect(resolveAddonName({}, '@storybook/preset-create-react-app')).toEqual({
+    expect(resolveAddonName({}, '@storybook/preset-create-react-app', {})).toEqual({
       name: '@storybook/preset-create-react-app',
       type: 'presets',
     });
   });
 
   it('should resolve managerEntries', () => {
-    expect(resolveAddonName({}, '@storybook/addon-actions/register')).toEqual({
-      name: '@storybook/addon-actions/register',
+    expect(resolveAddonName({}, '@storybook/addon-actions/register.js', {})).toEqual({
+      name: '@storybook/addon-actions/register.js',
       managerEntries: [path.normalize('@storybook/addon-actions/register')],
       type: 'virtual',
     });
   });
 
   it('should resolve managerEntries from new /manager path', () => {
-    expect(resolveAddonName({}, '@storybook/addon-actions/manager')).toEqual({
+    expect(resolveAddonName({}, '@storybook/addon-actions/manager', {})).toEqual({
       name: '@storybook/addon-actions/manager',
       managerEntries: [path.normalize('@storybook/addon-actions/manager')],
       type: 'virtual',
@@ -432,21 +432,21 @@ describe('resolveAddonName', () => {
   });
 
   it('should resolve presets', () => {
-    expect(resolveAddonName({}, '@storybook/addon-docs/preset')).toEqual({
+    expect(resolveAddonName({}, '@storybook/addon-docs/preset', {})).toEqual({
       name: '@storybook/addon-docs/preset',
       type: 'presets',
     });
   });
 
   it('should resolve preset packages', () => {
-    expect(resolveAddonName({}, '@storybook/addon-essentials')).toEqual({
+    expect(resolveAddonName({}, '@storybook/addon-essentials', {})).toEqual({
       name: '@storybook/addon-essentials',
       type: 'presets',
     });
   });
 
   it('should error on invalid inputs', () => {
-    expect(() => resolveAddonName({}, null)).toThrow();
+    expect(() => resolveAddonName({}, null, {})).toThrow();
   });
 });
 
@@ -454,7 +454,7 @@ describe('loadPreset', () => {
   mockPreset('@storybook/react', {});
   mockPreset('@storybook/preset-typescript', {});
   mockPreset('@storybook/addon-docs/preset', {});
-  mockPreset('@storybook/addon-actions/register', {});
+  mockPreset('@storybook/addon-actions/register.js', {});
   mockPreset('addon-foo/register.js', {});
   mockPreset('@storybook/addon-cool', {});
   mockPreset('@storybook/addon-interactions/preset', {});
@@ -464,8 +464,6 @@ describe('loadPreset', () => {
   });
   mockPreset('addon-baz/register.js', {});
   mockPreset('@storybook/addon-notes/register-panel', {});
-
-  const { loadPreset } = await vi.importActual('./presets');
 
   beforeEach(() => {
     vi.spyOn(logger, 'warn');
@@ -484,31 +482,31 @@ describe('loadPreset', () => {
       {}
     );
     expect(loaded).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "name": "@storybook/preset-typescript",
-          "options": Object {},
-          "preset": Object {},
+          "options": {},
+          "preset": {},
         },
-        Object {
+        {
           "name": "@storybook/addon-docs/preset",
-          "options": Object {},
-          "preset": Object {},
+          "options": {},
+          "preset": {},
         },
-        Object {
-          "name": Object {
-            "addons": Array [
+        {
+          "name": {
+            "addons": [
               "@storybook/addon-docs/preset",
             ],
             "framework": "@storybook/react",
             "name": "",
-            "presets": Array [
+            "presets": [
               "@storybook/preset-typescript",
             ],
             "type": "virtual",
           },
-          "options": Object {},
-          "preset": Object {
+          "options": {},
+          "preset": {
             "framework": "@storybook/react",
           },
         },
@@ -524,7 +522,7 @@ describe('loadPreset', () => {
         presets: ['@storybook/preset-typescript'],
         addons: [
           '@storybook/addon-docs/preset',
-          '@storybook/addon-actions/register',
+          '@storybook/addon-actions/register.js',
           'addon-foo/register.js',
           'addon-bar',
           'addon-baz/register.js',
@@ -546,7 +544,7 @@ describe('loadPreset', () => {
         preset: {},
       },
       {
-        name: '@storybook/addon-actions/register',
+        name: '@storybook/addon-actions/register.js',
         options: {},
         preset: {
           managerEntries: [path.normalize('@storybook/addon-actions/register')],
@@ -593,7 +591,7 @@ describe('loadPreset', () => {
           presets: ['@storybook/preset-typescript'],
           addons: [
             '@storybook/addon-docs/preset',
-            '@storybook/addon-actions/register',
+            '@storybook/addon-actions/register.js',
             'addon-foo/register.js',
             'addon-bar',
             'addon-baz/register.js',
@@ -624,32 +622,32 @@ describe('loadPreset', () => {
       'Could not resolve addon "uninstalled-addon", skipping. Is it installed?'
     );
     expect(loaded).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "name": "@storybook/preset-typescript",
-          "options": Object {},
-          "preset": Object {},
+          "options": {},
+          "preset": {},
         },
-        Object {
+        {
           "name": "@storybook/addon-docs/preset",
-          "options": Object {},
-          "preset": Object {},
+          "options": {},
+          "preset": {},
         },
-        Object {
-          "name": Object {
-            "addons": Array [
+        {
+          "name": {
+            "addons": [
               "@storybook/addon-docs/preset",
               "uninstalled-addon",
             ],
             "framework": "@storybook/react",
             "name": "",
-            "presets": Array [
+            "presets": [
               "@storybook/preset-typescript",
             ],
             "type": "virtual",
           },
-          "options": Object {},
-          "preset": Object {
+          "options": {},
+          "preset": {
             "framework": "@storybook/react",
           },
         },
