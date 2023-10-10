@@ -1,8 +1,8 @@
 import type { Mocked } from 'vitest';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
 import { addons } from '@storybook/preview-api';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SELECT_STORY } from '@storybook/core-events';
 import LinkTo from './link';
@@ -35,6 +35,9 @@ const mockAddons = addons as unknown as Mocked<typeof addons>;
 
 describe('LinkTo', () => {
   describe('render', () => {
+    afterEach(() => {
+      cleanup();
+    });
     it('should render a link', async () => {
       const channel = mockChannel() as any;
       mockAddons.getChannel.mockReturnValue(channel);

@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import type { NodeResult } from 'axe-core';
 import HighlightToggle from './HighlightToggle';
 import { A11yContext } from '../A11yContext';
@@ -28,6 +28,10 @@ const defaultProviderValue = {
 };
 
 describe('<HighlightToggle />', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('should render', () => {
     const { container } = render(
       <HighlightToggle elementsToHighlight={[nodeResult('#storybook-root')]} />
@@ -68,6 +72,10 @@ describe('<HighlightToggle />', () => {
   });
 
   describe('toggleHighlight', () => {
+    afterEach(() => {
+      cleanup();
+    });
+
     it.each`
       highlighted            | elementsToHighlight                        | expected
       ${[]}                  | ${['#storybook-root']}                     | ${true}

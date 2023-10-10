@@ -2,7 +2,7 @@
 import { describe, test, expect } from 'vitest';
 import React from 'react';
 import { addons } from '@storybook/preview-api';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 
 import { composeStories, composeStory } from '..';
 
@@ -56,6 +56,7 @@ test('should pass with decorators that need addons channel', () => {
   render(<PrimaryWithChannels>Hello world</PrimaryWithChannels>);
   const buttonElement = screen.getByText(/Hello world/i);
   expect(buttonElement).not.toBeNull();
+  cleanup();
 });
 
 describe('Unsupported formats', () => {
@@ -111,6 +112,7 @@ const testCases = Object.values(composeStories(stories)).map((Story) => [
   Story,
 ]);
 test.each(testCases)('Renders %s story', async (_storyName, Story) => {
+  cleanup();
   const tree = await render(<Story />);
   expect(tree.baseElement).toMatchSnapshot();
 });

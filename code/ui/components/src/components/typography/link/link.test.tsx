@@ -1,7 +1,7 @@
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, afterEach, it, expect } from 'vitest';
 import type { AnchorHTMLAttributes } from 'react';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 import type { LinkProps } from './link';
@@ -20,6 +20,10 @@ function ThemedLink(props: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) 
 }
 
 describe('Link', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   describe('events', () => {
     it('should call onClick on a plain left click', () => {
       const handleClick = vi.fn();

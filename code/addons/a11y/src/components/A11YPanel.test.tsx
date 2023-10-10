@@ -1,7 +1,7 @@
 import type { Mocked } from 'vitest';
-import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import React from 'react';
-import { render, waitFor, fireEvent, act } from '@testing-library/react';
+import { render, waitFor, fireEvent, act, cleanup, screen } from '@testing-library/react';
 
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 import * as api from '@storybook/manager-api';
@@ -75,6 +75,10 @@ describe('A11YPanel', () => {
     // Lazy to mock entire state
     mockedApi.useStorybookState.mockReturnValue(state as any);
     mockedApi.useAddonState.mockImplementation(React.useState);
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should render', () => {

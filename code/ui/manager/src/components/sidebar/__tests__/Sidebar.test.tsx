@@ -1,6 +1,6 @@
-import { describe, test } from 'vitest';
+import { afterEach, describe, test } from 'vitest';
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { ThemeProvider, ensure, themes } from '@storybook/theming';
 
 import type { HashEntry, Refs } from '@storybook/manager-api';
@@ -78,6 +78,10 @@ const generateStories = ({ title, refId }: { title: string; refId?: string }): A
 };
 
 describe('Sidebar', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   test.skip("should not render an extra nested 'Page'", async () => {
     const refId = 'next';
     const title = 'Getting Started/Install';

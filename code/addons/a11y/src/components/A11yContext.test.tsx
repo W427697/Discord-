@@ -1,8 +1,8 @@
 import type { Mocked } from 'vitest';
-import { describe, beforeEach, it, expect, vi } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
-import { render, act } from '@testing-library/react';
+import { render, act, cleanup } from '@testing-library/react';
 import * as api from '@storybook/manager-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { HIGHLIGHT } from '@storybook/addon-highlight';
@@ -53,6 +53,10 @@ const axeResult: Partial<AxeResults> = {
 };
 
 describe('A11YPanel', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   const getCurrentStoryData = vi.fn();
   beforeEach(() => {
     mockedApi.useChannel.mockReset();

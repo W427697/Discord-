@@ -1,6 +1,6 @@
-import { vi, test, expect, describe } from 'vitest';
+import { vi, test, expect, afterEach, describe } from 'vitest';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 
 import type { Meta } from '@storybook/react';
 import { expectTypeOf } from 'expect-type';
@@ -14,34 +14,43 @@ const { CSF3Primary } = composeStories(stories);
 
 // example with composeStory, returns a single story composed with args/decorators
 const Secondary = composeStory(stories.CSF2Secondary, stories.default);
+describe('renders', () => {
+  afterEach(() => {
+    cleanup();
+  });
 
-test('renders primary button', () => {
-  render(<CSF3Primary>Hello world</CSF3Primary>);
-  const buttonElement = screen.getByText(/Hello world/i);
-  expect(buttonElement).not.toBeNull();
-});
+  test('renders primary button', () => {
+    render(<CSF3Primary>Hello world</CSF3Primary>);
+    const buttonElement = screen.getByText(/Hello world/i);
+    expect(buttonElement).not.toBeNull();
+  });
 
-test('reuses args from composed story', () => {
-  render(<Secondary />);
-  const buttonElement = screen.getByRole('button');
-  expect(buttonElement.textContent).toEqual(Secondary.args.children);
-});
+  test('reuses args from composed story', () => {
+    render(<Secondary />);
+    const buttonElement = screen.getByRole('button');
+    expect(buttonElement.textContent).toEqual(Secondary.args.children);
+  });
 
-test('onclick handler is called', async () => {
-  const onClickSpy = vi.fn();
-  render(<Secondary onClick={onClickSpy} />);
-  const buttonElement = screen.getByRole('button');
-  buttonElement.click();
-  expect(onClickSpy).toHaveBeenCalled();
-});
+  test('onclick handler is called', async () => {
+    const onClickSpy = vi.fn();
+    render(<Secondary onClick={onClickSpy} />);
+    const buttonElement = screen.getByRole('button');
+    buttonElement.click();
+    expect(onClickSpy).toHaveBeenCalled();
+  });
 
-test('reuses args from composeStories', () => {
-  const { getByText } = render(<CSF3Primary />);
-  const buttonElement = getByText(/foo/i);
-  expect(buttonElement).not.toBeNull();
+  test('reuses args from composeStories', () => {
+    const { getByText } = render(<CSF3Primary />);
+    const buttonElement = getByText(/foo/i);
+    expect(buttonElement).not.toBeNull();
+  });
 });
 
 describe('projectAnnotations', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   test('renders with default projectAnnotations', () => {
     const WithEnglishText = composeStory(stories.CSF2StoryWithLocale, stories.default);
     const { getByText } = render(<WithEnglishText />);
@@ -66,6 +75,10 @@ describe('projectAnnotations', () => {
 });
 
 describe('CSF3', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   test('renders with inferred globalRender', () => {
     const Primary = composeStory(stories.CSF3Button, stories.default);
 
