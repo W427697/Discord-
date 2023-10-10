@@ -7705,6 +7705,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
     "@storybook/react-dom-shim": "workspace:*"
+    "@storybook/test": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/escodegen": ^0.0.6
     "@types/estree": ^0.0.51
