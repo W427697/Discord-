@@ -75,7 +75,7 @@ describe('eslint-plugin fix', () => {
 
     describe('should no-op and warn when', () => {
       it('.eslintrc is not found', async () => {
-        const loggerSpy = vi.spyOn(console, 'warn');
+        const loggerSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
         const result = await checkEslint({
           packageJson,
           hasEslint: false,
