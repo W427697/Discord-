@@ -7118,7 +7118,9 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
+    "@vitest/utils": ^0.34.6
     typescript: ~4.9.3
+    util: ^0.12.4
   languageName: unknown
   linkType: soft
 
@@ -10249,6 +10251,17 @@ __metadata:
     loupe: ^2.3.6
     pretty-format: ^29.5.0
   checksum: 99cc5974ada1dab2b02220005c0fc97147baba175601a0faa1b2b6687c7f579d21a401077377d6f759b3aa8a07dcc8851cdc3e07f9a550ec289286107487ac36
+  languageName: node
+  linkType: hard
+
+"@vitest/utils@npm:^0.34.6":
+  version: 0.34.7
+  resolution: "@vitest/utils@npm:0.34.7"
+  dependencies:
+    diff-sequences: ^29.4.3
+    loupe: ^2.3.6
+    pretty-format: ^29.5.0
+  checksum: 5f26ec5b4a53709a50efdb57aa753e8090b3411e888774f67a0d192eb7f046ed5fcc6884eb3d6275d2674926e724b731e8d28cd3cea96a7f3d27462a0d44af9e
   languageName: node
   linkType: hard
 

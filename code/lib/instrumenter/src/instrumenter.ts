@@ -10,6 +10,7 @@ import {
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
 import { global } from '@storybook/global';
+import { processError } from '@vitest/utils/error';
 
 import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
 import { CallStates } from './types';
@@ -466,7 +467,16 @@ export class Instrumenter {
     const handleException = (e: any) => {
       if (e instanceof Error) {
         const { name, message, stack, callId = call.id } = e as Error & { callId: Call['id'] };
-        const exception = { name, message, stack, callId };
+
+        // This will calculate the diff for chai errors
+        const {
+          showDiff = undefined,
+          diff = undefined,
+          actual = undefined,
+          expected = undefined,
+        } = processError(e);
+
+        const exception = { name, message, stack, callId, showDiff, diff, actual, expected };
         this.update({ ...info, status: CallStates.ERROR, exception });
 
         // Always track errors to their originating call.
