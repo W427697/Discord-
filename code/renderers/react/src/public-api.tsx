@@ -2,7 +2,8 @@
 import { start } from '@storybook/preview-api';
 import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 
-import { render, renderToCanvas } from './render';
+import { render } from './render';
+import { renderToCanvas } from './renderToCanvas';
 import type { ReactRenderer } from './types';
 
 interface ClientApi extends Addon_ClientStoryApi<ReactRenderer['storyResult']> {

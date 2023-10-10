@@ -4,6 +4,7 @@ export const parameters: {} = { renderer: 'react', ...docsParams };
 
 export { decorators, argTypesEnhancers } from './docs/config';
 
-export { render, renderToCanvas } from './render';
+export { render } from './render';
+export { renderToCanvas } from './renderToCanvas';
 
 export { applyDecorators } from './applyDecorators';
