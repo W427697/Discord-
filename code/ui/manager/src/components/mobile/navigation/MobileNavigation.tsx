@@ -46,9 +46,9 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showP
         <Text>{fullStoryName}</Text>
       </Button>
       {showPanel && (
-        <DrawerIconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
+        <IconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
           <Icons icon="bottombartoggle" />
-        </DrawerIconButton>
+        </IconButton>
       )}
     </Container>
   );
@@ -68,12 +68,6 @@ const Container = styled.div(({ theme }) => ({
   borderTop: `1px solid ${theme.appBorderColor}`,
   color: theme.color.mediumdark,
 }));
-
-// We should not have to reset the margin-top here
-// TODO: remove this once we have a the new IconButton component
-const DrawerIconButton = styled(IconButton)({
-  marginTop: 0,
-});
 
 const Button = styled.button(({ theme }) => ({
   all: 'unset',
