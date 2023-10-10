@@ -5,7 +5,10 @@ import invariant from 'tiny-invariant';
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
 import { logConfig } from '@storybook/core-common';
+import { deprecate, logger } from '@storybook/node-logger';
 
+import dedent from 'ts-dedent';
+import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
@@ -34,6 +37,13 @@ export async function storybookDevServer(options: Options) {
     'experimental_serverChannel',
     getServerChannel(server)
   );
+
+  if (features?.storyStoreV7 === false) {
+    deprecate(
+      dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
+      - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
+    );
+  }
 
   let indexError: Error | undefined;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
@@ -66,7 +76,10 @@ export async function storybookDevServer(options: Options) {
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
-  invariant(core?.builder, 'no builder configured!');
+  if (!core?.builder) {
+    throw new MissingBuilderError();
+  }
+
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 
   const [previewBuilder, managerBuilder] = await Promise.all([
@@ -90,6 +103,7 @@ export async function storybookDevServer(options: Options) {
   let previewStarted: Promise<any> = Promise.resolve();
 
   if (!options.ignorePreview) {
+    logger.info('=> Starting preview..');
     previewStarted = previewBuilder
       .start({
         startTime: process.hrtime(),
@@ -99,6 +113,9 @@ export async function storybookDevServer(options: Options) {
         channel: serverChannel,
       })
       .catch(async (e: any) => {
+        logger.error('=> Failed to build the preview');
+        process.exitCode = 1;
+
         await managerBuilder?.bail().catch();
         // For some reason, even when Webpack fails e.g. wrong main.js config,
         // the preview may continue to print to stdout, which can affect output

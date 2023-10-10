@@ -1,3 +1,86 @@
+## 7.5.0-alpha.5
+
+- Angular: Add CLI options (debugWebpack, webpackStatsJson, and more) - [#24388](https://github.com/storybookjs/storybook/pull/24388), thanks [@yannbf](https://github.com/yannbf)!
+- Angular: Fix Angular 15 support and add zone.js v0.14.x support - [#24367](https://github.com/storybookjs/storybook/pull/24367), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Add class name to Storybook error name - [#24371](https://github.com/storybookjs/storybook/pull/24371), thanks [@yannbf](https://github.com/yannbf)!
+- ManagerAPI: Fix bug with story redirection when URL has partial storyId - [#24345](https://github.com/storybookjs/storybook/pull/24345), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Fix Image Context re-use via singleton - [#24146](https://github.com/storybookjs/storybook/pull/24146), thanks [@martinnabhan](https://github.com/martinnabhan)!
+- NextJS: Fix default next image loader when src has params - [#24187](https://github.com/storybookjs/storybook/pull/24187), thanks [@json-betsec](https://github.com/json-betsec)!
+- React: Upgrade `react-docgen` to 6.0.x and improve argTypes - [#23825](https://github.com/storybookjs/storybook/pull/23825), thanks [@shilman](https://github.com/shilman)!
+- Webpack: Display errors on build - [#24377](https://github.com/storybookjs/storybook/pull/24377), thanks [@yannbf](https://github.com/yannbf)!
+
+## 7.5.0-alpha.4
+
+- CLI: Fix Nextjs project detection - [#24346](https://github.com/storybookjs/storybook/pull/24346), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Deprecate `storyStoreV6` (including `storiesOf`) and `storyIndexers` - [#23938](https://github.com/storybookjs/storybook/pull/23938), thanks [@JReinhold](https://github.com/JReinhold)!
+- Core: Fix Promise cycle bug in useSharedState - [#24268](https://github.com/storybookjs/storybook/pull/24268), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Fix missing favicon during dev - [#24356](https://github.com/storybookjs/storybook/pull/24356), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Change babel plugins from `proposal-...` to `transform-...` - [#24290](https://github.com/storybookjs/storybook/pull/24290), thanks [@roottool](https://github.com/roottool)!
+- Nextjs: Improve support for Windows-style paths - [#23695](https://github.com/storybookjs/storybook/pull/23695), thanks [@T99](https://github.com/T99)!
+- UI: Fix infinite hook call causing browsers to freeze - [#24291](https://github.com/storybookjs/storybook/pull/24291), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Improve contrast ratio between focus / hover - [#24205](https://github.com/storybookjs/storybook/pull/24205), thanks [@chocoscoding](https://github.com/chocoscoding)!
+- Vite: Move mdx-plugin from @storybook/builder-vite to @storybook/addon-docs - [#24166](https://github.com/storybookjs/storybook/pull/24166), thanks [@bryanjtc](https://github.com/bryanjtc)!
+
+## 7.5.0-alpha.3
+
+- Build: Filter some manager errors - [#24217](https://github.com/storybookjs/storybook/pull/24217), thanks [@yannbf](https://github.com/yannbf)!
+- Build: Migrate @storybook/addon-backgrounds to strict-ts - [#22178](https://github.com/storybookjs/storybook/pull/22178), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Build: Upgrade chromatic bin package - [#24133](https://github.com/storybookjs/storybook/pull/24133), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Change `/Date$/` to `/Dates$/i` - [#24195](https://github.com/storybookjs/storybook/pull/24195), thanks [@arup1221](https://github.com/arup1221)!
+- CLI: Fix `sb add` adding duplicative entries - [#24229](https://github.com/storybookjs/storybook/pull/24229), thanks [@ndelangen](https://github.com/ndelangen)!
+- Core: Throw an error when critical presets fail to load - [#24176](https://github.com/storybookjs/storybook/pull/24176), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Unify error when builder is missing - [#24177](https://github.com/storybookjs/storybook/pull/24177), thanks [@yannbf](https://github.com/yannbf)!
+- Core: Upgrade `esbuild-register` to `3.5.0` - [#24175](https://github.com/storybookjs/storybook/pull/24175), thanks [@anneau](https://github.com/anneau)!
+- Dependencies: Upgrade `file-system-cache` - [#24232](https://github.com/storybookjs/storybook/pull/24232), thanks [@seriouz](https://github.com/seriouz)!
+- Indexer: Rename `index` to `createIndex` - [#24075](https://github.com/storybookjs/storybook/pull/24075), thanks [@JReinhold](https://github.com/JReinhold)!
+- Maintenance: Regen lockfiles - [#24152](https://github.com/storybookjs/storybook/pull/24152), thanks [@ndelangen](https://github.com/ndelangen)!
+- Manager: Fix useAddonState when using a setter function - [#24237](https://github.com/storybookjs/storybook/pull/24237), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Add compatibility with nextjs `13.5` - [#24239](https://github.com/storybookjs/storybook/pull/24239), thanks [@ndelangen](https://github.com/ndelangen)!
+- NextJS: Aliases `react` and `react-dom` like `next.js` does - [#23671](https://github.com/storybookjs/storybook/pull/23671), thanks [@sookmax](https://github.com/sookmax)!
+- Nextjs: Improve Google Fonts failure error messages and documentation - [#23891](https://github.com/storybookjs/storybook/pull/23891), thanks [@nsheaps](https://github.com/nsheaps)!
+- Nextjs: Migrate from config to previewAnnotations - [#24178](https://github.com/storybookjs/storybook/pull/24178), thanks [@yannbf](https://github.com/yannbf)!
+- Theming: Add `barHoverColor` - [#20169](https://github.com/storybookjs/storybook/pull/20169), thanks [@julien-deramond](https://github.com/julien-deramond)!
+- Types: Allow `null` in value of `experimental_updateStatus` to clear status - [#24206](https://github.com/storybookjs/storybook/pull/24206), thanks [@ndelangen](https://github.com/ndelangen)!
+- Types: Don't distribute generic type of Meta and Story - [#24110](https://github.com/storybookjs/storybook/pull/24110), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- UI: Expand sidebar for selected story when using composition - [#23781](https://github.com/storybookjs/storybook/pull/23781), thanks [@joaonunomota](https://github.com/joaonunomota)!
+- UI: Fix SVG override fill when path has a fill attribute - [#24156](https://github.com/storybookjs/storybook/pull/24156), thanks [@ndelangen](https://github.com/ndelangen)!
+- UI: Fix TreeNode alignment when using a different font - [#22221](https://github.com/storybookjs/storybook/pull/22221), thanks [@bdriguesdev](https://github.com/bdriguesdev)!
+- UI: Fix custom theme hover-color inconsistency - [#22262](https://github.com/storybookjs/storybook/pull/22262), thanks [@yoshi2no](https://github.com/yoshi2no)!
+- UI: Fix keydown shortcut within shadow tree - [#24179](https://github.com/storybookjs/storybook/pull/24179), thanks [@stropitek](https://github.com/stropitek)!
+- UI: Improve look and feel of status UI in sidebar - [#24099](https://github.com/storybookjs/storybook/pull/24099), thanks [@ndelangen](https://github.com/ndelangen)!
+
+## 7.5.0-alpha.2
+
+- Angular: Categorize legacy build options error - [#24014](https://github.com/storybookjs/storybook/pull/24014), thanks [@yannbf](https://github.com/yannbf)!
+- Builder-Webpack5: Categorize builder error - [#24031](https://github.com/storybookjs/storybook/pull/24031), thanks [@yannbf](https://github.com/yannbf)!
+- CI: Inform the user how to dedupe and strip color from info command - [#24087](https://github.com/storybookjs/storybook/pull/24087), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- CLI: Fix packageManager handling in `sb add` - [#24079](https://github.com/storybookjs/storybook/pull/24079), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+- CLI: Improve sanitization logic in crash reports - [#24028](https://github.com/storybookjs/storybook/pull/24028), thanks [@yannbf](https://github.com/yannbf)!
+- Maintenance: Add more context to explanation in core-events errors - [#24063](https://github.com/storybookjs/storybook/pull/24063), thanks [@yannbf](https://github.com/yannbf)!
+- Monorepo: Fix `svelte-vite` detection - [#24085](https://github.com/storybookjs/storybook/pull/24085), thanks [@legnaleurc](https://github.com/legnaleurc)!
+- NextJS: Fix Image Context reuse (ensure singleton by externalizing it) - [#23881](https://github.com/storybookjs/storybook/pull/23881), thanks [@martinnabhan](https://github.com/martinnabhan)!
+- Source-loader: Fix property key validation - [#24068](https://github.com/storybookjs/storybook/pull/24068), thanks [@MrZillaGold](https://github.com/MrZillaGold)!
+- Svelte: Fix generated properties on Svelte event handler - [#24020](https://github.com/storybookjs/storybook/pull/24020), thanks [@j3rem1e](https://github.com/j3rem1e)!
+- Telemetry: Add platform info to telemetry event - [#24081](https://github.com/storybookjs/storybook/pull/24081), thanks [@yannbf](https://github.com/yannbf)!
+- UI: Fix target id in searchfield label - [#23464](https://github.com/storybookjs/storybook/pull/23464), thanks [@plumpNation](https://github.com/plumpNation)!
+- Vue3: Remove console.log in sourceDecorator - [#24062](https://github.com/storybookjs/storybook/pull/24062), thanks [@oruman](https://github.com/oruman)!
+
+## 7.5.0-alpha.1
+
+- Core: Add CJS entrypoints to errors in core events - [#24038](https://github.com/storybookjs/storybook/pull/24038), thanks [@yannbf](https://github.com/yannbf)!
+
+## 7.5.0-alpha.0
+
+- Addon API: Improve the updateStatus API - [#24007](https://github.com/storybookjs/storybook/pull/24007), thanks [@ndelangen](https://github.com/ndelangen)!
+- CLI: Add more information to `storybook info` command - [#24003](https://github.com/storybookjs/storybook/pull/24003), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Add uncaughtException handler - [#24018](https://github.com/storybookjs/storybook/pull/24018), thanks [@yannbf](https://github.com/yannbf)!
+- CLI: Remove random commas in storybook upgrade logs - [#22333](https://github.com/storybookjs/storybook/pull/22333), thanks [@joaonunomota](https://github.com/joaonunomota)!
+- Doc Blocks: Add `title` to `Meta` prop types - [#23370](https://github.com/storybookjs/storybook/pull/23370), thanks [@iqbalcodes6602](https://github.com/iqbalcodes6602)!
+- Docs: Fix TOC import - [#24047](https://github.com/storybookjs/storybook/pull/24047), thanks [@shilman](https://github.com/shilman)!
+- Docs: Fix table of contents scroll behavior - [#23986](https://github.com/storybookjs/storybook/pull/23986), thanks [@almoghaimo](https://github.com/almoghaimo)!
+- Telemetry: Filter addon options to protect sensitive info - [#24000](https://github.com/storybookjs/storybook/pull/24000), thanks [@shilman](https://github.com/shilman)!
+- Types: Remove `@types/react` dep from `@storybook/types` - [#24042](https://github.com/storybookjs/storybook/pull/24042), thanks [@JReinhold](https://github.com/JReinhold)!
+
 ## 7.4.0-alpha.2
 
 - Addon-docs: Resolve `mdx-react-shim` & `@storybook/global` correctly - [#23941](https://github.com/storybookjs/storybook/pull/23941), thanks [@ndelangen](https://github.com/ndelangen)!
