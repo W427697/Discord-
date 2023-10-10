@@ -10,5 +10,10 @@ export default mergeConfig(
       environment: 'jsdom',
       name: __dirname.split(sep).slice(-2).join(posix.sep),
     },
+    plugins: [
+      import('@sveltejs/vite-plugin-svelte').then(({ svelte, vitePreprocess }) =>
+        svelte({ preprocess: vitePreprocess() })
+      ),
+    ],
   })
 );
