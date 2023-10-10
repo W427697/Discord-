@@ -71,15 +71,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return () => clearTimeout(timer);
     }, [isAnimating]);
 
-    // Match the old API with the new API
-    // TODO: Remove this after 9.0
+    // Match the old API with the new API.
+    // TODO: Remove this after 9.0.
     if (props.primary) {
       localVariant = 'solid';
       localSize = 'medium';
     }
 
-    // Match the old API with the new API
-    // TODO: Remove this after 9.0
+    // Match the old API with the new API.
+    // TODO: Remove this after 9.0.
     if (props.secondary || props.tertiary || props.gray || props.outline || props.inForm) {
       localVariant = 'outline';
       localSize = 'medium';
