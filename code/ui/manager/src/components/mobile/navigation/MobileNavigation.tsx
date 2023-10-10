@@ -43,7 +43,7 @@ export const MobileNavigation: FC<MobileNavigationProps> = ({ menu, panel, showP
       <MobileAddonsDrawer>{panel}</MobileAddonsDrawer>
       <Button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} title="Open navigation menu">
         <Icons icon="menu" />
-        <p>{fullStoryName}</p>
+        <Text>{fullStoryName}</Text>
       </Button>
       {showPanel && (
         <DrawerIconButton onClick={() => setMobilePanelOpen(true)} title="Open addon panel">
@@ -91,11 +91,11 @@ const Button = styled.button(({ theme }) => ({
     height: 14,
     flexShrink: 0,
   },
-
-  '> p': {
-    display: '-webkit-box',
-    WebkitLineClamp: 1,
-    WebkitBoxOrient: 'vertical',
-    overflow: 'hidden',
-  },
 }));
+
+const Text = styled.p({
+  display: '-webkit-box',
+  WebkitLineClamp: 1,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+});
