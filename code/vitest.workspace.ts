@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { defineConfig, defineWorkspace } from 'vitest/config';
 
 export default defineWorkspace([
@@ -14,5 +15,6 @@ export default defineWorkspace([
 export const vitestCommonConfig = defineConfig({
   test: {
     clearMocks: true,
+    setupFiles: [resolve('./vitest-setup.ts')],
   },
 });
