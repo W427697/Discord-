@@ -812,7 +812,7 @@ describe('CsfFile', () => {
     });
 
     it('Object export with storyName', () => {
-      const consoleWarnMock = vi.spyOn(console, 'warn').mockImplementation();
+      const consoleWarnMock = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
       parse(
         dedent`

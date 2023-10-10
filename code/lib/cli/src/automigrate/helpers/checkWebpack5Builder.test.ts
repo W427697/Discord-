@@ -1,4 +1,5 @@
-import { describe, beforeEach, afterEach, it, expect, vi, SpyInstance } from 'vitest';
+import type { SpyInstance } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import { checkWebpack5Builder } from './checkWebpack5Builder';
 import { getBuilderPackageName } from './mainConfigFile';
@@ -16,8 +17,8 @@ describe('checkWebpack5Builder', () => {
   let loggerInfoSpy: SpyInstance;
 
   beforeEach(() => {
-    loggerWarnSpy = vi.spyOn(console, 'warn').mockImplementation();
-    loggerInfoSpy = vi.spyOn(console, 'info').mockImplementation();
+    loggerWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    loggerInfoSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
   });
 
   afterEach(() => {
