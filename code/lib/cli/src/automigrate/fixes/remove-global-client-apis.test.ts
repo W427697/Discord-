@@ -2,19 +2,15 @@
 import { describe, it, expect, vi } from 'vitest';
 
 import path from 'path';
-import * as fsExtraImp from 'fs-extra';
+import * as fsExtra from 'fs-extra';
 import type { JsPackageManager } from '../../js-package-manager';
 import { RemovedAPIs, removedGlobalClientAPIs as migration } from './remove-global-client-apis';
 
-// eslint-disable-next-line jest/no-mocks-import
-import type * as MockedFSExtra from '../../../../../__mocks__/fs-extra';
-
 vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
-const fsExtra = fsExtraImp as unknown as typeof MockedFSExtra;
 
 const check = async ({ contents, previewConfigPath }: any) => {
   if (contents) {
-    fsExtra.__setMockFiles({
+    vi.mocked<typeof import('../../../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles({
       [path.join('.storybook', 'preview.js')]: contents,
     });
   }

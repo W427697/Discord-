@@ -1,15 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
-import * as fsExtraImp from 'fs-extra';
+import * as fsExtra from 'fs-extra';
 import path from 'path';
-
-// eslint-disable-next-line jest/no-mocks-import
-import type * as MockedFSToExtra from '../../../__mocks__/fs-extra';
 
 import { getMonorepoType, monorepoConfigs } from './get-monorepo-type';
 
 vi.mock('fs-extra', async () => import('../../../__mocks__/fs-extra'));
-const fsExtra = fsExtraImp as unknown as typeof MockedFSToExtra;
 
 vi.mock('@storybook/core-common', async () => {
   const coreCommon: any = await vi.importActual('@storybook/core-common');
@@ -28,7 +24,7 @@ const checkMonorepoType = ({ monorepoConfigFile, isYarnWorkspace = false }: any)
     mockFiles[path.join('root', monorepoConfigFile)] = '{}';
   }
 
-  fsExtra.__setMockFiles(mockFiles);
+  vi.mocked<typeof import('../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles(mockFiles);
 
   return getMonorepoType();
 };

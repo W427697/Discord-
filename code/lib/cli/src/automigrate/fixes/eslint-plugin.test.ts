@@ -1,15 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { describe, it, expect, vi } from 'vitest';
 import { dedent } from 'ts-dedent';
-import * as fsExtraImp from 'fs-extra';
+import * as fsExtra from 'fs-extra';
 import type { PackageJson } from '../../js-package-manager';
 import { eslintPlugin } from './eslint-plugin';
 import { makePackageManager } from '../helpers/testing-helpers';
-
-// eslint-disable-next-line jest/no-mocks-import
-import type * as MockedFSExtra from '../../../../../__mocks__/fs-extra';
-
-const fsExtra = fsExtraImp as unknown as typeof MockedFSExtra;
 
 vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
 
@@ -22,7 +17,7 @@ const checkEslint = async ({
   hasEslint?: boolean;
   eslintExtension?: string;
 }) => {
-  fsExtra.__setMockFiles({
+  vi.mocked<typeof import('../../../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles({
     [`.eslintrc.${eslintExtension}`]: !hasEslint
       ? null
       : dedent(`

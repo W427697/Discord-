@@ -2,16 +2,11 @@
 import { describe, afterEach, it, expect, vi } from 'vitest';
 
 import type { StorybookConfig } from '@storybook/types';
-import * as fsExtraImp from 'fs-extra';
+import * as fsExtra from 'fs-extra';
 import { missingBabelRc } from './missing-babelrc';
 import type { JsPackageManager } from '../../js-package-manager';
 
-// eslint-disable-next-line jest/no-mocks-import
-import type * as MockedFSExtra from '../../../../../__mocks__/fs-extra';
-
 vi.mock('fs-extra', async () => import('../../../../../__mocks__/fs-extra'));
-
-const fsExtra = fsExtraImp as unknown as typeof MockedFSExtra;
 
 const babelContent = JSON.stringify({
   sourceType: 'unambiguous',
@@ -42,7 +37,9 @@ const check = async ({
   extraFiles?: Record<string, any>;
 }) => {
   if (extraFiles) {
-    fsExtra.__setMockFiles(extraFiles);
+    vi.mocked<typeof import('../../../../../__mocks__/fs-extra')>(fsExtra as any).__setMockFiles(
+      extraFiles
+    );
   }
 
   return missingBabelRc.check({
