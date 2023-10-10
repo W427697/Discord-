@@ -55,7 +55,7 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/preset-web-components-webpack": "workspace:*",
     "@storybook/web-components": "workspace:*",
-    "@types/node": "^18.18.4"
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "lit": "2.3.1",
