@@ -280,7 +280,7 @@ describe('csf-2-to-3', () => {
 
           export const A: SB.StoryFn<CatProps> = () => <Cat />;
         `)
-      ).toThrowErrorMatchingInlineSnapshot(`
+      ).toThrowErrorMatchingInlineSnapshot(dedent`
         This codemod does not support namespace imports for a @storybook/react package.
         Replace the namespace import with named imports and try again.
       `);
