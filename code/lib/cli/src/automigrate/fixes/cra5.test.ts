@@ -20,7 +20,9 @@ const checkCra5 = async ({
 };
 
 describe('cra5 fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('sb < 6.3', () => {
     describe('cra5 dependency', () => {

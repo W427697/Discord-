@@ -22,7 +22,9 @@ const checkWebpack5 = async ({
 };
 
 describe('webpack5 fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('sb < 6.3', () => {
     describe('webpack5 dependency', () => {

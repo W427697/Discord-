@@ -52,7 +52,9 @@ describe('is not Nx project', () => {
   });
 
   describe('angular builders', () => {
-    afterEach(vi.restoreAllMocks);
+    afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
     describe('Angular not found', () => {
       const packageManager = {

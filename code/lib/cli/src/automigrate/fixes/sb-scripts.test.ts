@@ -17,7 +17,9 @@ const checkSbScripts = async ({
 };
 
 describe('getStorybookScripts', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it('detects default storybook scripts', () => {
     expect(
       getStorybookScripts({

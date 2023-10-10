@@ -24,7 +24,9 @@ const checkBareMdxStoriesGlob = async ({
 };
 
 describe('bare-mdx fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('should no-op', () => {
     it('in SB < v7.0.0', async () => {

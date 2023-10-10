@@ -19,7 +19,9 @@ const checkAutodocs = async ({
 };
 
 describe('autodocs-true fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('should skip when docs.autodocs is already defined', async () => {
     await expect(checkAutodocs({ main: { docs: { autodocs: 'tag' } } })).resolves.toBeFalsy();

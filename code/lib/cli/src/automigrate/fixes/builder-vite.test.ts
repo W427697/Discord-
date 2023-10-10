@@ -19,7 +19,9 @@ const checkBuilderVite = async ({
 };
 
 describe('builder-vite fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   describe('storybook-builder-vite', () => {
     it('using storybook-builder-vite', async () => {

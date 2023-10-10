@@ -70,7 +70,9 @@ const packageManagerWithBabelField = {
 } as Partial<JsPackageManager>;
 
 describe('missing-babelrc fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('skips when storybook version < 7.0.0', async () => {
     await expect(check({ storybookVersion: '6.3.2' })).resolves.toBeNull();

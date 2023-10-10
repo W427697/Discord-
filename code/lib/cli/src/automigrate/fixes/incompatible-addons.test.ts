@@ -22,7 +22,9 @@ const check = async ({
 };
 
 describe('incompatible-addons fix', () => {
-  afterEach(vi.restoreAllMocks);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it('should show incompatible addons', async () => {
     await expect(
