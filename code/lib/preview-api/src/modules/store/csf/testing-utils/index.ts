@@ -11,6 +11,7 @@ import type {
   StoryContext,
   Parameters,
   ComposedStoryFn,
+  StrictArgTypes,
 } from '@storybook/types';
 
 import { HooksContext } from '../../../addons';
@@ -89,6 +90,9 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
       args: story.initialArgs as Partial<TArgs>,
       play: story.playFunction as ComposedStoryPlayFn<TRenderer, Partial<TArgs>>,
       parameters: story.parameters as Parameters,
+      // FIXME: prepareStory doesn't currently keep args information
+      argTypes: story.argTypes as StrictArgTypes<TArgs>,
+      initialArgs: story.initialArgs as TArgs,
       id: story.id,
     }
   );
