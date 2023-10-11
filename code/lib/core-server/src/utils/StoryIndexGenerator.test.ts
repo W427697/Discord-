@@ -1370,7 +1370,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(6);
+        expect(toId).toHaveBeenCalledTimes(5);
 
         toIdMock.mockClear();
         await generator.getIndex();
@@ -1429,7 +1429,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(6);
+        expect(toId).toHaveBeenCalledTimes(5);
 
         generator.invalidate(docsSpecifier, './src/docs2/Title.mdx', false);
 
@@ -1451,13 +1451,13 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(6);
+        expect(toId).toHaveBeenCalledTimes(5);
 
         generator.invalidate(storiesSpecifier, './src/A.stories.js', false);
 
         toIdMock.mockClear();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(3);
+        expect(toId).toHaveBeenCalledTimes(2);
       });
 
       it('does call the sort function a second time', async () => {
@@ -1551,7 +1551,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(6);
+        expect(toId).toHaveBeenCalledTimes(5);
 
         expect(Object.keys((await generator.getIndex()).entries)).toContain('notitle--docs');
 
@@ -1573,7 +1573,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(6);
+        expect(toId).toHaveBeenCalledTimes(5);
 
         expect(Object.keys((await generator.getIndex()).entries)).toContain('a--metaof');
 
