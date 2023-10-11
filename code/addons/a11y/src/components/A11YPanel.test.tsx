@@ -1,4 +1,3 @@
-import type { Mocked } from 'vitest';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, waitFor, fireEvent, act, cleanup, screen } from '@testing-library/react';
@@ -13,7 +12,7 @@ vi.mock('@storybook/manager-api');
 
 global.ResizeObserver = require('resize-observer-polyfill');
 
-const mockedApi = api as Mocked<typeof api>;
+const mockedApi = vi.mocked(api);
 
 const axeResult = {
   incomplete: [

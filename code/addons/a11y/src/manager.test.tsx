@@ -1,4 +1,3 @@
-import type { Mocked } from 'vitest';
 import { describe, it, expect, vi } from 'vitest';
 import * as api from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
@@ -6,9 +5,9 @@ import { PANEL_ID } from './constants';
 import './manager';
 
 vi.mock('@storybook/manager-api');
-const mockedApi = api as unknown as Mocked<api.API>;
+const mockedApi = vi.mocked<api.API>(api as any);
 mockedApi.useAddonState = vi.fn();
-const mockedAddons = api.addons as Mocked<typeof api.addons>;
+const mockedAddons = vi.mocked(api.addons);
 const registrationImpl = mockedAddons.register.mock.calls[0][1];
 
 const isPanel = (input: Parameters<typeof mockedAddons.add>[1]): input is Addon_BaseType =>

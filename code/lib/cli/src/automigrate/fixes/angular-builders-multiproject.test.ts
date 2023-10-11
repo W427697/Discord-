@@ -1,4 +1,3 @@
-import type { Mock, SpyInstance } from 'vitest';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import type { JsPackageManager } from '../../js-package-manager';
@@ -38,7 +37,7 @@ describe('is Nx project', () => {
   } as Partial<JsPackageManager>;
 
   beforeEach(() => {
-    (helpers.isNxProject as any as SpyInstance).mockResolvedValue(true);
+    vi.mocked(helpers.isNxProject).mockResolvedValue('true');
   });
 
   it('should return null', async () => {
@@ -48,13 +47,13 @@ describe('is Nx project', () => {
 
 describe('is not Nx project', () => {
   beforeEach(() => {
-    (helpers.isNxProject as any as SpyInstance).mockResolvedValue(false);
+    vi.mocked(helpers.isNxProject).mockResolvedValue(undefined);
   });
 
   describe('angular builders', () => {
     afterEach(() => {
-    vi.restoreAllMocks();
-  });
+      vi.restoreAllMocks();
+    });
 
     describe('Angular not found', () => {
       const packageManager = {
@@ -100,7 +99,7 @@ describe('is not Nx project', () => {
       describe('has one Storybook builder defined', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          (angularHelpers.AngularJSON as Mock).mockImplementation(() => ({
+          vi.mocked(angularHelpers.AngularJSON).mockImplementation(() => ({
             hasStorybookBuilder: true,
           }));
         });
@@ -118,7 +117,7 @@ describe('is not Nx project', () => {
       describe('has one project', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          (angularHelpers.AngularJSON as Mock).mockImplementation(() => ({
+          vi.mocked(angularHelpers.AngularJSON).mockImplementation(() => ({
             hasStorybookBuilder: false,
             projects: {
               project1: { root: 'project1', architect: {} },
@@ -140,7 +139,7 @@ describe('is not Nx project', () => {
       describe('has multiple projects without root project defined', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          (angularHelpers.AngularJSON as Mock).mockImplementation(() => ({
+          vi.mocked(angularHelpers.AngularJSON).mockImplementation(() => ({
             hasStorybookBuilder: false,
             projects: {
               project1: { root: 'project1', architect: {} },

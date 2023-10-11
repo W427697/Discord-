@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import globby from 'globby';
 import { logger } from '@storybook/node-logger';
@@ -23,7 +22,7 @@ describe('warn', () => {
 
   describe('when TypeScript is not installed as a dependency', () => {
     it('should not warn if `.tsx?` files are not found', () => {
-      (globby.sync as Mock).mockReturnValueOnce([]);
+      vi.mocked(globby.sync).mockReturnValueOnce([]);
       warn({
         hasTSDependency: false,
       });
@@ -31,7 +30,7 @@ describe('warn', () => {
     });
 
     it('should warn if `.tsx?` files are found', () => {
-      (globby.sync as Mock).mockReturnValueOnce(['a.ts']);
+      vi.mocked(globby.sync).mockReturnValueOnce(['a.ts']);
       warn({
         hasTSDependency: false,
       });

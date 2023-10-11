@@ -1,4 +1,3 @@
-import type { Mocked } from 'vitest';
 import { describe, it, expect, vi } from 'vitest';
 import { logger } from '@storybook/client-logger';
 
@@ -84,7 +83,7 @@ describe('inferArgTypes', () => {
     const cyclic: any = {};
     cyclic.foo = cyclic;
 
-    (logger.warn as Mocked<typeof logger.warn>).mockClear();
+    vi.mocked(logger.warn).mockClear();
     expect(
       inferArgTypes({
         initialArgs: {
@@ -101,7 +100,7 @@ describe('inferArgTypes', () => {
   });
 
   it('ensures names', () => {
-    (logger.warn as Mocked<typeof logger.warn>).mockClear();
+    vi.mocked(logger.warn).mockClear();
     expect(
       inferArgTypes({
         initialArgs: {
@@ -125,7 +124,7 @@ describe('inferArgTypes', () => {
   });
 
   it('ensures names even with no arg', () => {
-    (logger.warn as Mocked<typeof logger.warn>).mockClear();
+    vi.mocked(logger.warn).mockClear();
     expect(
       inferArgTypes({
         argTypes: {

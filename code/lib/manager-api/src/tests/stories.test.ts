@@ -1,4 +1,4 @@
-import type { Mock, Mocked } from 'vitest';
+import type { Mocked } from 'vitest';
 import { describe, it, expect, vi } from 'vitest';
 import {
   STORY_ARGS_UPDATED,
@@ -27,10 +27,8 @@ import { mockEntries, docsEntries, preparedEntries, navigationEntries } from './
 import type { ModuleArgs } from '../lib/types';
 
 const mockGetEntries = vi.fn();
-const fetch = global.fetch as Mock<ReturnType<typeof global.fetch>>;
-const getEventMetadata = getEventMetadataOriginal as unknown as Mock<
-  ReturnType<typeof getEventMetadataOriginal>
->;
+const fetch = vi.mocked(global.fetch);
+const getEventMetadata = vi.mocked(getEventMetadataOriginal);
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

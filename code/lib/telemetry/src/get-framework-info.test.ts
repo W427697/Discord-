@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, it, expect, vi } from 'vitest';
 import type { StorybookConfig } from '@storybook/types';
 import path from 'path';
@@ -38,7 +37,7 @@ describe('getFrameworkInfo', () => {
       },
     };
 
-    (getActualPackageJson as Mock).mockResolvedValueOnce(frameworkPackageJson);
+    vi.mocked(getActualPackageJson).mockResolvedValueOnce(frameworkPackageJson);
 
     const result = await getFrameworkInfo({ framework } as StorybookConfig);
 

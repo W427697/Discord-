@@ -1,7 +1,6 @@
 /**
  * @vitest-environment jsdom
  */
-import type { Mock } from 'vitest';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 import { global } from '@storybook/global';
@@ -130,7 +129,7 @@ beforeEach(() => {
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
-  (logger.warn as Mock<typeof logger.warn>).mockClear();
+  vi.mocked(logger.warn).mockClear();
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
@@ -529,7 +528,7 @@ describe('PreviewWeb', () => {
         await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect((preview.view.showErrorDisplay as Mock).mock.calls[0][0]).toMatchInlineSnapshot(`
+        expect(vi.mocked(preview.view.showErrorDisplay).mock.calls[0][0]).toMatchInlineSnapshot(`
                           [Error: Expected your framework's preset to export a \`renderToCanvas\` field.
 
                           Perhaps it needs to be upgraded for Storybook 6.4?
@@ -1224,7 +1223,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      importFn.mockClear();
+      vi.mocked(importFn).mockClear();
       await preview.onPreloadStories({ ids: ['component-two--c'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
     });
@@ -1234,7 +1233,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      importFn.mockClear();
+      vi.mocked(importFn).mockClear();
       await preview.onPreloadStories({ ids: ['component-one--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentOne.stories.js');
     });
@@ -1244,7 +1243,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      importFn.mockClear();
+      vi.mocked(importFn).mockClear();
       await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/Introduction.mdx');
     });
@@ -1253,7 +1252,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
-      importFn.mockClear();
+      vi.mocked(importFn).mockClear();
       await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
     });
@@ -3099,7 +3098,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        (preview.view.showMain as Mock).mockClear();
+        vi.mocked(preview.view.showMain).mockClear();
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForEvents([STORY_UNCHANGED]);

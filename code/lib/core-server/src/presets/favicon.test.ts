@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { expect, vi, test } from 'vitest';
 
 import { join } from 'path';
@@ -44,7 +43,7 @@ vi.mock('@storybook/node-logger', () => {
   };
 });
 
-const pathExists = fs.pathExists as Mock;
+const pathExists = vi.mocked(fs.pathExists);
 
 test('with no staticDirs favicon should return default', async () => {
   const options = createOptions([]);

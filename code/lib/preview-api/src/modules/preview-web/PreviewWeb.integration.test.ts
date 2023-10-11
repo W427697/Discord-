@@ -1,7 +1,6 @@
 /**
  * @vitest-environment jsdom
  */
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import React from 'react';
@@ -101,9 +100,7 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb();
 
       const docsRoot = document.createElement('div');
-      (
-        preview.view.prepareForDocs as any as Mock<typeof preview.view.prepareForDocs>
-      ).mockReturnValue(docsRoot as any);
+      vi.mocked(preview.view.prepareForDocs).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
       );
@@ -122,16 +119,12 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb();
 
       const docsRoot = document.createElement('div');
-      (
-        preview.view.prepareForDocs as any as Mock<typeof preview.view.prepareForDocs>
-      ).mockReturnValue(docsRoot as any);
+      vi.mocked(preview.view.prepareForDocs).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
         throw new Error('Docs rendering error');
       });
 
-      (
-        preview.view.showErrorDisplay as any as Mock<typeof preview.view.showErrorDisplay>
-      ).mockClear();
+      vi.mocked(preview.view.showErrorDisplay).mockClear();
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 

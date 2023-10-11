@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, it, expect, vi } from 'vitest';
 import detectPort from 'detect-port';
 import { getServerAddresses, getServerPort, getServerChannelUrl } from './server-address';
@@ -53,7 +52,7 @@ describe('getServerPort', () => {
   it('should resolve with a free port', async () => {
     const expectedFreePort = 4000;
 
-    (detectPort as Mock).mockResolvedValue(expectedFreePort);
+    vi.mocked(detectPort).mockResolvedValue(expectedFreePort);
 
     const result = await getServerPort(port);
 

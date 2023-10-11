@@ -3,7 +3,6 @@
 /**
  * @vitest-environment node
  */
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import path from 'path';
@@ -39,10 +38,8 @@ vi.mock('@storybook/csf-tools', async (importOriginal) => {
   };
 });
 
-const readCsfMock = readCsf as Mock<ReturnType<typeof readCsf>>;
-const getStorySortParameterMock = getStorySortParameter as Mock<
-  ReturnType<typeof getStorySortParameter>
->;
+const readCsfMock = vi.mocked(readCsf);
+const getStorySortParameterMock = vi.mocked(getStorySortParameter);
 
 const options: StoryIndexGeneratorOptions = {
   configDir: path.join(__dirname, '__mockdata__'),

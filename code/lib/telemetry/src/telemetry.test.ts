@@ -1,6 +1,5 @@
 import fetch from 'node-fetch';
 
-import type { Mock } from 'vitest';
 import { beforeEach, it, expect, vi } from 'vitest';
 
 import { sendTelemetry } from './telemetry';
@@ -18,7 +17,7 @@ vi.mock('./session-id', () => {
   };
 });
 
-const fetchMock = fetch as Mock;
+const fetchMock = vi.mocked(fetch);
 
 beforeEach(() => {
   fetchMock.mockResolvedValue({ status: 200 });

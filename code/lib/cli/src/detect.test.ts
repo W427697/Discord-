@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, afterEach, it, expect, vi } from 'vitest';
 import * as fs from 'fs';
 import { logger } from '@storybook/node-logger';
@@ -246,7 +245,7 @@ describe('Detect', () => {
   });
 
   it(`should return language javascript if the TS dependency is present but less than minimum supported`, async () => {
-    (logger.warn as Mock<typeof logger.warn>).mockClear();
+    vi.mocked(logger.warn).mockClear();
 
     const packageManager = {
       retrievePackageJson: () =>
@@ -440,8 +439,8 @@ describe('Detect', () => {
 
     MOCK_FRAMEWORK_FILES.forEach((structure) => {
       it(`${structure.name}`, () => {
-        (fs.existsSync as Mock).mockImplementation((filePath) => {
-          return Object.keys(structure.files).includes(filePath);
+        vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+          return typeof filePath === 'string' && Object.keys(structure.files).includes(filePath);
         });
 
         const result = detectFrameworkPreset(
@@ -473,8 +472,10 @@ describe('Detect', () => {
         '/node_modules/.bin/react-scripts': 'file content',
       };
 
-      (fs.existsSync as Mock).mockImplementation((filePath) => {
-        return Object.keys(forkedReactScriptsConfig).includes(filePath);
+      vi.mocked(fs.existsSync).mockImplementation((filePath) => {
+        return (
+          typeof filePath === 'string' && Object.keys(forkedReactScriptsConfig).includes(filePath)
+        );
       });
 
       const result = detectFrameworkPreset();

@@ -1,10 +1,10 @@
-import type { Mock, Mocked } from 'vitest';
+import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 
 vi.mock('@storybook/preview-api');
-const mockedAddons = addons as Mocked<typeof addons>;
+const mockedAddons = vi.mocked(addons);
 
 describe('a11yRunner', () => {
   let mockChannel: { on: Mock; emit?: Mock };

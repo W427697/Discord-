@@ -1,4 +1,3 @@
-import type { Mocked } from 'vitest';
 import { beforeEach, expect, vi, test } from 'vitest';
 import * as fs_ from 'node:fs';
 import dedent from 'ts-dedent';
@@ -10,7 +9,7 @@ expect.addSnapshotSerializer({
 });
 
 vi.mock('node:fs');
-const fs = fs_ as Mocked<typeof import('node:fs')>;
+const fs = vi.mocked(fs_);
 
 beforeEach(() => {
   fs.existsSync.mockImplementation(() => false);

@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import fs from 'fs';
 import fse from 'fs-extra';
@@ -139,7 +138,7 @@ describe('Helpers', () => {
   );
 
   it(`should copy to src folder when exists`, async () => {
-    (fse.pathExists as Mock).mockImplementation((filePath) => {
+    vi.mocked(fse.pathExists).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli' || filePath === './src';
     });
     await helpers.copyTemplateFiles({
@@ -151,7 +150,7 @@ describe('Helpers', () => {
   });
 
   it(`should copy to root folder when src doesn't exist`, async () => {
-    (fse.pathExists as Mock).mockImplementation((filePath) => {
+    vi.mocked(fse.pathExists).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli';
     });
     await helpers.copyTemplateFiles({

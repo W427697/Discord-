@@ -1,10 +1,9 @@
-import type { Mocked } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import ip from 'ip';
 import { getServerAddresses } from '../server-address';
 
 vi.mock('ip');
-const mockedIp = ip as Mocked<typeof ip>;
+const mockedIp = vi.mocked(ip);
 
 describe('getServerAddresses', () => {
   beforeEach(() => {

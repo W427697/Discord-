@@ -1,4 +1,3 @@
-import type { Mocked } from 'vitest';
 import { describe, beforeAll, beforeEach, it, expect, vi } from 'vitest';
 import { addons } from '@storybook/preview-api';
 import { SELECT_STORY } from '@storybook/core-events';
@@ -13,7 +12,7 @@ vi.mock('@storybook/global', () => ({
   },
 }));
 
-const mockAddons = addons as unknown as Mocked<typeof addons>;
+const mockAddons = vi.mocked(addons);
 
 describe('preview', () => {
   const channel = { emit: vi.fn() };

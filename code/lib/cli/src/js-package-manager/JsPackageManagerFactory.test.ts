@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
@@ -10,10 +9,10 @@ import { Yarn1Proxy } from './Yarn1Proxy';
 import { Yarn2Proxy } from './Yarn2Proxy';
 
 vi.mock('cross-spawn');
-const spawnSyncMock = spawnSync as Mock;
+const spawnSyncMock = vi.mocked(spawnSync);
 
 vi.mock('find-up');
-const findUpSyncMock = findUpSync as unknown as Mock;
+const findUpSyncMock = vi.mocked(findUpSync);
 
 describe('JsPackageManagerFactory', () => {
   beforeEach(() => {

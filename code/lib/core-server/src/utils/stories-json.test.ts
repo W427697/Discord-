@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import type { Router, Request, Response } from 'express';
@@ -81,7 +80,7 @@ describe('useStoriesJson', () => {
     use.mockClear();
     send.mockClear();
     write.mockClear();
-    (debounce as Mock).mockImplementation((cb) => cb);
+    vi.mocked(debounce).mockImplementation((cb) => cb);
   });
 
   const request: Request = {

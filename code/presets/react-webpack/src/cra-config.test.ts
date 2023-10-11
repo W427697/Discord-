@@ -1,4 +1,3 @@
-import type { Mock } from 'vitest';
 import { describe, beforeEach, it, expect, vi } from 'vitest';
 import fs from 'fs';
 import path from 'path';
@@ -15,7 +14,7 @@ const SCRIPT_PATH = path.join('.bin', 'react-scripts');
 describe('cra-config', () => {
   describe('when used with the default react-scripts package', () => {
     beforeEach(() => {
-      (fs.realpathSync as unknown as Mock).mockImplementationOnce((filePath) =>
+      vi.mocked(fs.realpathSync).mockImplementationOnce((filePath) =>
         filePath.replace(SCRIPT_PATH, `react-scripts/${SCRIPT_PATH}`)
       );
     });
@@ -29,7 +28,7 @@ describe('cra-config', () => {
 
   describe('when used with a custom react-scripts package', () => {
     beforeEach(() => {
-      (fs.realpathSync as unknown as Mock).mockImplementationOnce((filePath) =>
+      vi.mocked(fs.realpathSync).mockImplementationOnce((filePath) =>
         filePath.replace(SCRIPT_PATH, `custom-react-scripts/${SCRIPT_PATH}`)
       );
     });
@@ -45,9 +44,9 @@ describe('cra-config', () => {
     beforeEach(() => {
       // In case of .bin/react-scripts is not symlink (like it happens on Windows),
       // realpathSync() method does not translate the path.
-      (fs.realpathSync as unknown as Mock).mockImplementationOnce((filePath) => filePath);
+      vi.mocked(fs.realpathSync).mockImplementationOnce((filePath) => filePath);
 
-      (fs.readFileSync as unknown as Mock).mockImplementationOnce(
+      vi.mocked(fs.readFileSync).mockImplementationOnce(
         () => `#!/bin/sh
 basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
 

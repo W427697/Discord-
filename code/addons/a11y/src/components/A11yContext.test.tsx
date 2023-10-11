@@ -1,4 +1,3 @@
-import type { Mocked } from 'vitest';
 import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
@@ -11,7 +10,7 @@ import { A11yContextProvider, useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 
 vi.mock('@storybook/manager-api');
-const mockedApi = api as Mocked<typeof api>;
+const mockedApi = vi.mocked(api);
 
 const storyId = 'jest';
 const axeResult: Partial<AxeResults> = {

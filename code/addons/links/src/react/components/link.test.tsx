@@ -1,4 +1,3 @@
-import type { Mocked } from 'vitest';
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
 import { addons } from '@storybook/preview-api';
@@ -31,7 +30,7 @@ const mockChannel = () => {
     once: vi.fn(),
   };
 };
-const mockAddons = addons as unknown as Mocked<typeof addons>;
+const mockAddons = vi.mocked(addons);
 
 describe('LinkTo', () => {
   describe('render', () => {
