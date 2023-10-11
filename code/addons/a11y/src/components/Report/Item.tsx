@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
 
 import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
 
 import type { Result } from 'axe-core';
+import { ChevronDown } from '@storybook/icons';
 import { Info } from './Info';
 
 import { Elements } from './Elements';
@@ -21,9 +21,7 @@ const Wrapper = styled.div(({ theme }) => ({
   },
 }));
 
-const Icon = styled(Icons)(({ theme }) => ({
-  height: 10,
-  width: 10,
+const Icon = styled(ChevronDown)(({ theme }) => ({
   minWidth: 10,
   color: theme.textMutedColor,
   marginRight: 10,
@@ -77,7 +75,7 @@ export const Item = (props: ItemProps) => {
       <Wrapper>
         <HeaderBar onClick={() => onToggle(!open)} role="button">
           <Icon
-            icon="arrowdown"
+            size={10}
             color="#9DA5AB"
             style={{
               transform: `rotate(${open ? 0 : -90}deg)`,
