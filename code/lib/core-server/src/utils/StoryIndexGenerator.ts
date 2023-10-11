@@ -279,10 +279,9 @@ export class StoryIndexGenerator {
    */
   resolveComponentPath(rawComponentPath: Path, absolutePath: Path) {
     const absoluteComponentPath = path.resolve(path.dirname(absolutePath), rawComponentPath);
-    const candidates = ['', '.js', '.ts', '.jsx', '.tsx'].map(
-      (ext) => `${absoluteComponentPath}${ext}`
-    );
-    const existing = candidates.find((candidate) => fs.existsSync(candidate));
+    const existing = ['', '.js', '.ts', '.jsx', '.tsx', '.mjs', '.mts']
+      .map((ext) => `${absoluteComponentPath}${ext}`)
+      .find((candidate) => fs.existsSync(candidate));
     if (existing) {
       const relativePath = path.relative(this.options.workingDir, existing);
       return slash(normalizeStoryPath(relativePath));
