@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { info, warn } from 'npmlog';
+import npmlog from 'npmlog';
 import { logger } from '.';
 
 globalThis.console = { log: vi.fn() } as any;
@@ -30,12 +30,12 @@ describe('node-logger', () => {
   it('should have an info method', () => {
     const message = 'information';
     logger.info(message);
-    expect(info).toHaveBeenCalledWith('', message);
+    expect(npmlog.info).toHaveBeenCalledWith('', message);
   });
   it('should have a warn method', () => {
     const message = 'warning message';
     logger.warn(message);
-    expect(warn).toHaveBeenCalledWith('', message);
+    expect(npmlog.warn).toHaveBeenCalledWith('', message);
   });
   it('should have an error method', () => {
     const message = 'error message';
