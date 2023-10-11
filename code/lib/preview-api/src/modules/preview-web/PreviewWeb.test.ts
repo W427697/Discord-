@@ -96,13 +96,10 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   return [gate, openGate];
 };
 
-// SET_CURRENT_STORY does some stuff in promises, then waits for
-// a timer, so we need to first setImmediate (to get past the resolution), then run the timers
-// Probably jest modern timers do this but they aren't working for some bizarre reason.
 async function waitForSetCurrentStory() {
-  vi.useFakeTimers({ doNotFake: ['setTimeout'] });
-  await new Promise((r) => setTimeout(r, 0));
-  vi.runAllTimers();
+  await vi.waitFor(() => {
+    expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, expect.anything());
+  });
 }
 
 async function createAndRenderPreview({
@@ -1521,12 +1518,10 @@ describe('PreviewWeb', () => {
 
       mockChannel.emit.mockClear();
       emitter.emit(FORCE_REMOUNT, { storyId: 'component-one--a' });
-      await waitForSetCurrentStory();
 
       // Now let the renderToCanvas call resolve
       openGate();
       await waitForRenderPhase('aborted');
-      await waitForSetCurrentStory();
 
       await waitForRenderPhase('rendering');
       expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(2);
@@ -1574,7 +1569,12 @@ describe('PreviewWeb', () => {
         storyId: 'component-one--b',
         viewMode: 'story',
       });
-      await waitForSetCurrentStory();
+      await vi.waitFor(() => {
+        expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
+          storyId: 'component-one--b',
+          viewMode: 'story',
+        });
+      });
 
       expect(mockChannel.emit).toHaveBeenCalledWith(CURRENT_STORY_WAS_SET, {
         storyId: 'component-one--b',
@@ -1706,7 +1706,7 @@ describe('PreviewWeb', () => {
         expect(projectAnnotations.renderToCanvas).not.toHaveBeenCalled();
       });
 
-      it('does NOT call renderToCanvass teardown', async () => {
+      it('does NOT call renderToCanvas teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
@@ -1864,7 +1864,7 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing story in story viewMode', () => {
-      it('calls renderToCanvass teardown', async () => {
+      it('calls renderToCanvas teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
@@ -1873,9 +1873,10 @@ describe('PreviewWeb', () => {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
-        await waitForSetCurrentStory();
 
-        expect(teardownrenderToCanvas).toHaveBeenCalled();
+        await vi.waitFor(() => {
+          expect(teardownrenderToCanvas).toHaveBeenCalled();
+        });
       });
 
       it('updates URL', async () => {
@@ -2309,12 +2310,9 @@ describe('PreviewWeb', () => {
             viewMode: 'story',
           });
 
-          // Wait three ticks without resolving the play function
-          await waitForSetCurrentStory();
-          // We can't mock setTimeout for this test, due to waitForSetCurrentStory hack,
-          // So give some (real) time for the reload to be called
-          await new Promise((r) => setTimeout(r, 100));
-
+          await vi.waitFor(() => {
+            expect(window.location.reload).toHaveBeenCalled();
+          });
           expect(window.location.reload).toHaveBeenCalled();
           expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
           expect(projectAnnotations.renderToCanvas).not.toHaveBeenCalledWith(
@@ -2338,6 +2336,7 @@ describe('PreviewWeb', () => {
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
+        await waitForRender();
 
         expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_PREPARED, {
           id: 'component-one--docs',
@@ -2348,7 +2347,7 @@ describe('PreviewWeb', () => {
         });
       });
 
-      it('calls renderToCanvass teardown', async () => {
+      it('calls renderToCanvas teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
@@ -2356,9 +2355,9 @@ describe('PreviewWeb', () => {
           storyId: 'component-one--docs',
           viewMode: 'docs',
         });
-        await waitForSetCurrentStory();
-
-        expect(teardownrenderToCanvas).toHaveBeenCalled();
+        await vi.waitFor(() => {
+          expect(teardownrenderToCanvas).toHaveBeenCalled();
+        });
       });
 
       it('updates URL', async () => {
@@ -2386,9 +2385,9 @@ describe('PreviewWeb', () => {
           storyId: 'component-one--docs',
           viewMode: 'docs',
         });
-        await waitForSetCurrentStory();
-
-        expect(preview.view.showPreparingDocs).toHaveBeenCalled();
+        await vi.waitFor(() => {
+          expect(preview.view.showPreparingDocs).toHaveBeenCalled();
+        });
       });
 
       it('emits STORY_CHANGED', async () => {
@@ -2769,7 +2768,7 @@ describe('PreviewWeb', () => {
           : componentTwoExports;
       });
 
-      it('calls renderToCanvass teardown', async () => {
+      it('calls renderToCanvas teardown', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
         mockChannel.emit.mockClear();
@@ -3073,7 +3072,7 @@ describe('PreviewWeb', () => {
           : newComponentTwoExports;
       });
 
-      it('does NOT call renderToCanvass teardown', async () => {
+      it('does NOT call renderToCanvas teardown', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
@@ -3211,7 +3210,7 @@ describe('PreviewWeb', () => {
         },
       };
 
-      it('calls renderToCanvass teardown', async () => {
+      it('calls renderToCanvas teardown', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
@@ -3455,7 +3454,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    it('calls renderToCanvass teardown', async () => {
+    it('calls renderToCanvas teardown', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
