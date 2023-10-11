@@ -49,6 +49,16 @@ vi.mock('detect-package-manager', () => ({
   getNpmVersion: () => '3.1.1',
 }));
 
+vi.mock('@storybook/core-common', async () => {
+  const actual = await vi.importActual<typeof import('@storybook/core-common')>(
+    '@storybook/core-common'
+  );
+  return {
+    ...actual,
+    getProjectRoot: () => process.cwd(),
+  };
+});
+
 const originalSep = path.sep;
 
 describe('storybook-metadata', () => {
