@@ -7,7 +7,10 @@ export interface IconsProps extends HTMLOrSVGElement {
   useSymbol?: boolean;
 }
 
-/** @deprecated No longer used, will be removed in Storybook 9.0 */
+/**
+ * @deprecated No longer used, will be removed in Storybook 9.0
+ * Please use the `@storybook/icons` package instead.
+ * */
 export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps) => {
   type NewIconTypes = typeof icons[keyof typeof icons];
   const findIcon: NewIconTypes = icons[icon] || 'FaceHappy';
@@ -21,7 +24,10 @@ export interface SymbolsProps extends HTMLOrSVGElement {
   icons?: IconType;
 }
 
-/** @deprecated No longer used, will be removed in Storybook 9.0 */
+/**
+ * @deprecated No longer used, will be removed in Storybook 9.0
+ * Please use the `@storybook/icons` package instead.
+ * */
 export const Symbols = memo<SymbolsProps>(function Symbols({
   icons: icon,
   ...props
