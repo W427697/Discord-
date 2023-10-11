@@ -7271,6 +7271,7 @@ __metadata:
     "@testing-library/user-event": ^13.2.1
     "@types/express": ^4.17.11
     "@types/fs-extra": ^11.0.1
+    "@types/jest-specific-snapshot": ^0.5.6
     "@types/lodash": ^4.14.167
     "@types/node": ^18.0.0
     "@types/react": ^16.14.34
@@ -7307,6 +7308,7 @@ __metadata:
     jest-junit: ^16.0.0
     jest-os-detection: ^1.3.1
     jest-serializer-html: ^7.1.0
+    jest-specific-snapshot: ^8.0.0
     jest-watch-typeahead: ^2.2.1
     lerna: ^6.4.0
     lint-staged: ^13.2.2
@@ -8667,6 +8669,15 @@ __metadata:
   dependencies:
     "@types/istanbul-lib-report": "*"
   checksum: df6c9e6865006be06bae29f63d5240b96bc7041b18a8c6d66be5b5d92ef5c95675c7a605a603029065f4f8aece7dba7360349e9d0543f512417e64a707a3c4fa
+  languageName: node
+  linkType: hard
+
+"@types/jest-specific-snapshot@npm:^0.5.6":
+  version: 0.5.7
+  resolution: "@types/jest-specific-snapshot@npm:0.5.7"
+  dependencies:
+    "@types/jest": "*"
+  checksum: ad18f3c6e55a533f9d9b04ae99dfdae6e6d0b5c936f348b5280325ced1c35ccf94ce629a71c3116785bb041d0192c22630d38ed30f13849fe9310935e6224fb8
   languageName: node
   linkType: hard
 
