@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren, ReactElement, ReactNode, SyntheticEvent } from 'react';
+import type { FC, ReactElement, ReactNode, SyntheticEvent } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
@@ -213,7 +213,7 @@ Tabs.defaultProps = {
   menuName: 'Tabs',
 };
 
-export interface TabsStateProps extends PropsWithChildren {
+export interface TabsStateProps {
   children: TabsProps['children'];
   initial: string;
   absolute: boolean;

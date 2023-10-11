@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import { createRoot } from 'react-dom/client';
 import React, { useCallback, useMemo } from 'react';
 
@@ -17,6 +17,7 @@ import { App } from './App';
 import Provider from './provider';
 import { settingsPageAddon } from './settings/index';
 import { LayoutProvider } from './components/layout/LayoutProvider';
+import type { Layout } from './components/layout/Layout';
 
 // @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
@@ -51,7 +52,9 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
         >
           {(combo: Combo) => {
             const { state, api } = combo;
-            const setManagerLayoutState = useCallback(
+            const setManagerLayoutState = useCallback<
+              ComponentProps<typeof Layout>['setManagerLayoutState']
+            >(
               (sizes) => {
                 api.setSizes(sizes);
               },
