@@ -119,6 +119,36 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
             "entries": Object {
+              "componentpath-extension--story-one": Object {
+                "id": "componentpath-extension--story-one",
+                "importPath": "./src/componentPath/extension.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/extension",
+                "type": "story",
+              },
+              "componentpath-noextension--story-one": Object {
+                "id": "componentpath-noextension--story-one",
+                "importPath": "./src/componentPath/noExtension.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/noExtension",
+                "type": "story",
+              },
+              "componentpath-package--story-one": Object {
+                "id": "componentpath-package--story-one",
+                "importPath": "./src/componentPath/package.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/package",
+                "type": "story",
+              },
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
@@ -180,6 +210,36 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                   "story",
                 ],
                 "title": "B",
+                "type": "story",
+              },
+              "componentpath-extension--story-one": Object {
+                "id": "componentpath-extension--story-one",
+                "importPath": "./src/componentPath/extension.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/extension",
+                "type": "story",
+              },
+              "componentpath-noextension--story-one": Object {
+                "id": "componentpath-noextension--story-one",
+                "importPath": "./src/componentPath/noExtension.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/noExtension",
+                "type": "story",
+              },
+              "componentpath-package--story-one": Object {
+                "id": "componentpath-package--story-one",
+                "importPath": "./src/componentPath/package.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/package",
                 "type": "story",
               },
               "d--story-one": Object {
@@ -339,6 +399,36 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
                 "title": "B",
                 "type": "story",
               },
+              "componentpath-extension--story-one": Object {
+                "id": "componentpath-extension--story-one",
+                "importPath": "./src/componentPath/extension.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/extension",
+                "type": "story",
+              },
+              "componentpath-noextension--story-one": Object {
+                "id": "componentpath-noextension--story-one",
+                "importPath": "./src/componentPath/noExtension.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/noExtension",
+                "type": "story",
+              },
+              "componentpath-package--story-one": Object {
+                "id": "componentpath-package--story-one",
+                "importPath": "./src/componentPath/package.stories.js",
+                "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
+                "title": "componentPath/package",
+                "type": "story",
+              },
               "d--docs": Object {
                 "id": "d--docs",
                 "importPath": "./src/D.stories.jsx",
@@ -448,6 +538,12 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
             "d--story-one",
             "h--docs",
             "h--story-one",
+            "componentpath-extension--docs",
+            "componentpath-extension--story-one",
+            "componentpath-noextension--docs",
+            "componentpath-noextension--story-one",
+            "componentpath-package--docs",
+            "componentpath-package--story-one",
             "first-nested-deeply-f--docs",
             "first-nested-deeply-f--story-one",
             "nested-button--docs",
@@ -1228,6 +1324,9 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
           "componentreference--docs",
           "notitle--docs",
           "h--story-one",
+          "componentpath-extension--story-one",
+          "componentpath-noextension--story-one",
+          "componentpath-package--story-one",
           "first-nested-deeply-f--story-one",
         ]
       `);
@@ -1246,7 +1345,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(10);
 
         loadCsfMock.mockClear();
         await generator.getIndex();
@@ -1303,7 +1402,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(10);
 
         generator.invalidate(specifier, './src/B.stories.ts', false);
 
@@ -1388,7 +1487,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(10);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 
@@ -1427,7 +1526,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
         const generator = new StoryIndexGenerator([specifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(loadCsfMock).toHaveBeenCalledTimes(7);
+        expect(loadCsfMock).toHaveBeenCalledTimes(10);
 
         generator.invalidate(specifier, './src/B.stories.ts', true);
 

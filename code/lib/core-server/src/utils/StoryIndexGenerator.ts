@@ -270,6 +270,27 @@ export class StoryIndexGenerator {
     );
   }
 
+  /**
+   * Try to find the component path from a raw import string and return it in
+   * the same format as `importPath`.
+   *
+   * If no such file exists, assume that the import is from a package and
+   * return the raw path.
+   */
+  resolveComponentPath(rawComponentPath: Path, absolutePath: Path) {
+    const absoluteComponentPath = path.resolve(path.dirname(absolutePath), rawComponentPath);
+    const candidates = ['', '.js', '.ts', '.jsx', '.tsx'].map(
+      (ext) => `${absoluteComponentPath}${ext}`
+    );
+    const existing = candidates.find((candidate) => fs.existsSync(candidate));
+    if (existing) {
+      const relativePath = path.relative(this.options.workingDir, existing);
+      return slash(normalizeStoryPath(relativePath));
+    }
+
+    return rawComponentPath;
+  }
+
   async extractStories(
     specifier: NormalizedStoriesSpecifier,
     absolutePath: Path
@@ -309,8 +330,10 @@ export class StoryIndexGenerator {
     const entries: ((StoryIndexEntryWithMetaId | DocsCacheEntry) & { tags: Tag[] })[] =
       indexInputs.map((input) => {
         const name = input.name ?? storyNameFromExport(input.exportName);
+        const componentPath =
+          input.rawComponentPath && this.resolveComponentPath(input.rawComponentPath, absolutePath);
         const title = input.title ?? defaultMakeTitle();
-        // eslint-disable-next-line no-underscore-dangle
+
         const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
         const tags = (input.tags || []).concat('story');
 
@@ -321,6 +344,7 @@ export class StoryIndexGenerator {
           name,
           title,
           importPath,
+          componentPath,
           tags,
         };
       });

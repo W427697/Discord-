@@ -140,7 +140,7 @@ export class CsfFile {
 
   _fileName: string;
 
-  _componentPath?: string;
+  _rawComponentPath?: string;
 
   _makeTitle: (title: string) => string;
 
@@ -202,16 +202,18 @@ export class CsfFile {
         } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
           (meta as any)[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
-          let n = p.value;
+          const n = p.value;
           if (t.isIdentifier(n)) {
             const id = n.name;
-            const importStmt = program.body.find((stmt) => (
-              t.isImportDeclaration(stmt) && stmt.specifiers.find((spec) => spec.local.name === id)
-            )) as t.ImportDeclaration;
+            const importStmt = program.body.find(
+              (stmt) =>
+                t.isImportDeclaration(stmt) &&
+                stmt.specifiers.find((spec) => spec.local.name === id)
+            ) as t.ImportDeclaration;
             if (importStmt) {
               const { source } = importStmt;
               if (t.isStringLiteral(source)) {
-                this._componentPath = source.value;
+                this._rawComponentPath = source.value;
               }
             }
           }
@@ -582,7 +584,7 @@ export class CsfFile {
       return {
         type: 'story',
         importPath: this._fileName,
-        componentPath: this._componentPath,
+        rawComponentPath: this._rawComponentPath,
         exportName,
         name: story.name,
         title: this.meta?.title,
