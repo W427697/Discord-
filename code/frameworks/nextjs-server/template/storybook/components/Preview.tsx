@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PreviewWithSelection, addons } from '@storybook/preview-api';
 import { createBrowserChannel } from '@storybook/channels';
-// import { setArgs } from '../args';
+import { setArgs } from './args';
 
 // @ts-ignore
 global.FEATURES = { storyStoreV7: true };
@@ -82,10 +82,9 @@ export const Preview = () => {
           console.log('render', x);
           return x;
         },
-        renderToCanvas({ id, storyFn, storyContext: { args } }: any) {
-          // storyFn() // calls render with the export
+        renderToCanvas({ id, storyContext: { args } }: any) {
+          setArgs(id, args);
 
-          // setArgs(id, args);
           console.log('renderToCanvas', id, args);
           // FIXME hardcoded path
           router.push(`/storybook/${id}`);
