@@ -55,7 +55,7 @@
     "webpack": "5"
   },
   "devDependencies": {
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "peerDependencies": {
     "@babel/core": "*"

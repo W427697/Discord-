@@ -5277,7 +5277,7 @@ __metadata:
     lodash: ^4.17.21
     react-resize-detector: ^7.1.2
     resize-observer-polyfill: ^1.5.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5310,7 +5310,7 @@ __metadata:
     react-inspector: ^6.0.0
     telejson: ^7.2.0
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     uuid: ^9.0.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5337,7 +5337,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     memoizerific: ^1.11.3
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5425,7 +5425,7 @@ __metadata:
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vite: ^4.0.4
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5467,7 +5467,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
     "@types/webpack-env": ^1.16.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -5493,7 +5493,7 @@ __metadata:
     jest-mock: ^27.0.6
     polished: ^4.2.2
     ts-dedent: ^2.2.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5518,7 +5518,7 @@ __metadata:
     "@storybook/theming": "workspace:*"
     react-resize-detector: ^7.1.2
     tiny-invariant: ^1.3.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     upath: ^2.0.1
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5546,7 +5546,7 @@ __metadata:
     fs-extra: ^11.1.0
     prop-types: ^15.7.2
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5565,7 +5565,7 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     remark-gfm: ^3.0.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -5581,7 +5581,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
     tiny-invariant: ^1.3.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5605,7 +5605,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5634,7 +5634,7 @@ __metadata:
     prop-types: ^15.7.2
     react-syntax-highlighter: ^15.5.0
     tiny-invariant: ^1.3.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5658,7 +5658,7 @@ __metadata:
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5679,7 +5679,7 @@ __metadata:
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5704,7 +5704,7 @@ __metadata:
     "@storybook/theming": "workspace:*"
     memoizerific: ^1.11.3
     prop-types: ^15.7.2
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5909,7 +5909,7 @@ __metadata:
     fs-extra: ^11.1.0
     process: ^0.11.10
     slash: ^5.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     util: ^0.12.4
   languageName: unknown
   linkType: soft
@@ -5938,7 +5938,7 @@ __metadata:
     magic-string: ^0.30.0
     rollup: ^3.20.1
     slash: ^5.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vite: ^4.0.4
   peerDependencies:
     "@preact/preset-vite": "*"
@@ -5994,7 +5994,7 @@ __metadata:
     swc-loader: ^0.2.3
     terser-webpack-plugin: ^5.3.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     url: ^0.11.0
     util: ^0.12.4
     util-deprecate: ^1.0.2
@@ -6014,7 +6014,7 @@ __metadata:
   dependencies:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6024,7 +6024,7 @@ __metadata:
   dependencies:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6038,7 +6038,7 @@ __metadata:
     qs: ^6.10.0
     telejson: ^7.2.0
     tiny-invariant: ^1.3.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6093,7 +6093,7 @@ __metadata:
     strip-json-comments: ^3.1.1
     tempy: ^1.0.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     util-deprecate: ^1.0.2
   bin:
     getstorybook: ./bin/index.js
@@ -6124,7 +6124,7 @@ __metadata:
   resolution: "@storybook/client-logger@workspace:lib/client-logger"
   dependencies:
     "@storybook/global": ^5.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6155,7 +6155,7 @@ __metadata:
     remark: ^14.0.2
     remark-mdx: ^2.3.0
     ts-dedent: ^2.2.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     unist-util-is: ^5.2.0
     unist-util-select: ^4.0.3
     unist-util-visit: ^4.1.2
@@ -6188,7 +6188,7 @@ __metadata:
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     use-resize-observer: ^9.1.0
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -6239,7 +6239,7 @@ __metadata:
     slash: ^5.0.0
     ts-dedent: ^2.0.0
     type-fest: ~2.19
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6248,7 +6248,7 @@ __metadata:
   resolution: "@storybook/core-events@workspace:lib/core-events"
   dependencies:
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6303,7 +6303,7 @@ __metadata:
     telejson: ^7.2.0
     tiny-invariant: ^1.3.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     util: ^0.12.4
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
@@ -6320,7 +6320,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     "@types/node": ^18.0.0
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     webpack: 5
   languageName: unknown
   linkType: soft
@@ -6330,7 +6330,7 @@ __metadata:
   resolution: "@storybook/csf-plugin@workspace:lib/csf-plugin"
   dependencies:
     "@storybook/csf-tools": "workspace:*"
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     unplugin: ^1.3.1
   languageName: unknown
   linkType: soft
@@ -6351,7 +6351,7 @@ __metadata:
     js-yaml: ^4.1.0
     recast: ^0.23.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6419,7 +6419,7 @@ __metadata:
     jest-specific-snapshot: ^8.0.0
     lodash: ^4.17.21
     require-from-string: ^2.0.2
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6435,7 +6435,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     ember-source: ~3.28.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
     "@types/ember__component": 4.0.8
@@ -6485,7 +6485,7 @@ __metadata:
     "@storybook/preview-web": "workspace:*"
     "@types/node": ^18.0.0
     magic-string: ^0.30.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6499,7 +6499,7 @@ __metadata:
     "@storybook/html": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@types/node": ^18.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6517,7 +6517,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
   languageName: unknown
@@ -6542,7 +6542,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6609,7 +6609,7 @@ __metadata:
     store2: ^2.14.2
     telejson: ^7.2.0
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6655,7 +6655,7 @@ __metadata:
     semver: ^7.3.7
     store2: ^2.14.2
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6743,7 +6743,7 @@ __metadata:
     chalk: ^4.1.0
     npmlog: ^5.0.1
     pretty-hrtime: ^1.0.3
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6754,7 +6754,7 @@ __metadata:
     jest: ^29.3.1
     jest-specific-snapshot: ^8.0.0
     jscodeshift: ^0.14.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -6766,7 +6766,7 @@ __metadata:
     "@storybook/builder-vite": "workspace:*"
     "@storybook/preact": "workspace:*"
     "@types/node": ^18.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vite: ^4.0.0
   peerDependencies:
     preact: ">=10"
@@ -6784,7 +6784,7 @@ __metadata:
     "@storybook/preset-preact-webpack": "workspace:*"
     "@types/node": ^18.0.0
     preact: ^10.5.13
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -6803,7 +6803,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     preact: ^10.5.13
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     preact: ^8.0.0||^10.0.0
   languageName: unknown
@@ -6822,7 +6822,7 @@ __metadata:
     babel-plugin-react-docgen: ^4.1.0
     pnp-webpack-plugin: ^1.7.0
     semver: ^7.3.5
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
     react-scripts: ">=5.0.0"
@@ -6836,7 +6836,7 @@ __metadata:
     "@storybook/core-webpack": "workspace:*"
     "@types/node": ^18.0.0
     html-loader: ^3.1.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     webpack: 5
   peerDependencies:
     "@babel/core": "*"
@@ -6852,7 +6852,7 @@ __metadata:
     "@storybook/core-webpack": "workspace:*"
     "@types/node": ^18.0.0
     preact: ^10.5.13
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
     preact: ^8.0.0||^10.0.0
@@ -6878,7 +6878,7 @@ __metadata:
     fs-extra: ^11.1.0
     react-refresh: ^0.11.0
     semver: ^7.3.7
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     webpack: 5
   peerDependencies:
     "@babel/core": ^7.22.0
@@ -6905,7 +6905,7 @@ __metadata:
     jest-specific-snapshot: ^8.0.0
     safe-identifier: ^0.4.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     yaml: ^2.3.1
     yaml-loader: ^0.8.0
   languageName: unknown
@@ -6921,7 +6921,7 @@ __metadata:
     svelte-loader: ^3.1.9
     sveltedoc-parser: ^4.2.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
     svelte: ^3.1.0 || ^4.0.0
@@ -6937,7 +6937,7 @@ __metadata:
     "@storybook/docs-tools": "workspace:*"
     "@types/node": ^18.0.0
     ts-loader: ^9.2.8
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vue: ^2.6.12
     vue-docgen-api: ^4.44.23
     vue-docgen-loader: ^1.5.1
@@ -6963,7 +6963,7 @@ __metadata:
     "@types/node": ^18.0.0
     "@vue/compiler-sfc": ^3.2.33
     ts-loader: ^9.2.8
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vue: ^3.2.33
     vue-docgen-api: ^4.46.0
     vue-docgen-loader: ^1.5.1
@@ -6989,7 +6989,7 @@ __metadata:
     babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
     lit: 2.3.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     lit: ^2.0.0
   languageName: unknown
@@ -7040,7 +7040,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
     browser-dtector: ^3.4.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -7067,7 +7067,7 @@ __metadata:
   resolution: "@storybook/react-dom-shim@workspace:lib/react-dom-shim"
   dependencies:
     "@storybook/types": "workspace:*"
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7086,7 +7086,7 @@ __metadata:
     "@vitejs/plugin-react": ^3.0.1
     magic-string: ^0.30.0
     react-docgen: ^6.0.2
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vite: ^4.0.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7325,7 +7325,7 @@ __metadata:
     trash: ^7.0.0
     ts-dedent: ^2.0.0
     ts-node: ^10.9.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     util: ^0.12.4
     vite: ^4.0.0
     vite-plugin-turbosnap: ^1.0.1
@@ -7361,7 +7361,7 @@ __metadata:
     qs: ^6.10.0
     react-router-dom: 6.0.2
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7377,7 +7377,7 @@ __metadata:
     "@storybook/preset-server-webpack": "workspace:*"
     "@storybook/server": "workspace:*"
     "@types/node": ^18.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7397,7 +7397,7 @@ __metadata:
     "@types/fs-extra": ^11.0.1
     fs-extra: ^11.1.0
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     yaml: ^2.3.1
   languageName: unknown
   linkType: soft
@@ -7412,7 +7412,7 @@ __metadata:
     jest-specific-snapshot: ^8.0.0
     lodash: ^4.17.21
     prettier: ^2.8.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7441,7 +7441,7 @@ __metadata:
     svelte: ^4.0.0
     sveltedoc-parser: ^4.2.1
     ts-dedent: ^2.2.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vite: ^4.0.0
   peerDependencies:
     svelte: ^3.0.0 || ^4.0.0
@@ -7459,7 +7459,7 @@ __metadata:
     "@storybook/svelte": "workspace:*"
     svelte: ^4.0.0
     svelte-loader: ^3.1.9
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     "@babel/core": "*"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7521,7 +7521,7 @@ __metadata:
     nanoid: ^4.0.2
     node-fetch: ^3.3.1
     read-pkg-up: ^7.0.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -7569,7 +7569,7 @@ __metadata:
     memoizerific: ^1.11.3
     polished: ^4.2.2
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7587,7 +7587,7 @@ __metadata:
     "@types/fs-extra": ^11.0.1
     "@types/node": ^18.0.0
     file-system-cache: 2.3.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   languageName: unknown
   linkType: soft
 
@@ -7600,7 +7600,7 @@ __metadata:
     "@storybook/core-server": "workspace:*"
     "@storybook/vue": "workspace:*"
     magic-string: ^0.30.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vite: ^4.0.0
     vue: ^2.7.10
     vue-docgen-api: ^4.40.0
@@ -7621,7 +7621,7 @@ __metadata:
     "@storybook/preset-vue-webpack": "workspace:*"
     "@storybook/vue": "workspace:*"
     "@types/node": ^18.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vue: ^2.6.12
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.14
@@ -7647,7 +7647,7 @@ __metadata:
     "@types/node": ^18.0.0
     "@vitejs/plugin-vue": ^4.0.0
     magic-string: ^0.30.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vite: ^4.0.0
     vue-docgen-api: ^4.40.0
   peerDependencies:
@@ -7667,7 +7667,7 @@ __metadata:
     "@storybook/vue3": "workspace:*"
     "@types/node": ^18.0.0
     "@vue/compiler-sfc": 3.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vue: 3.0.0
   peerDependencies:
     "@babel/core": "*"
@@ -7695,7 +7695,7 @@ __metadata:
     lodash: ^4.17.21
     ts-dedent: ^2.0.0
     type-fest: ~2.19
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vue: ^3.2.47
     vue-component-type-helpers: latest
     vue-tsc: latest
@@ -7717,7 +7717,7 @@ __metadata:
     "@storybook/types": "workspace:*"
     ts-dedent: ^2.0.0
     type-fest: ~2.19
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     vue: 2.6.14
     vue-tsc: latest
   peerDependencies:
@@ -7741,7 +7741,7 @@ __metadata:
     "@storybook/web-components": "workspace:*"
     "@types/node": ^18.0.0
     magic-string: ^0.30.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7759,7 +7759,7 @@ __metadata:
     "@storybook/web-components": "workspace:*"
     "@types/node": ^18.0.0
     lit: 2.3.1
-    typescript: ~4.9.3
+    typescript: ~5.2.2
   peerDependencies:
     lit: ^2.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7784,7 +7784,7 @@ __metadata:
     lit: 2.3.1
     tiny-invariant: ^1.3.1
     ts-dedent: ^2.0.0
-    typescript: ~4.9.3
+    typescript: ~5.2.2
     web-component-analyzer: ^1.1.6
   peerDependencies:
     lit: ^2.0.0
@@ -29870,7 +29870,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3 || ^4, typescript@npm:^4.9.3, typescript@npm:~4.9.3":
+"typescript@npm:^3 || ^4, typescript@npm:^4.9.3":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
   bin:
@@ -29890,7 +29890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.0.3, typescript@npm:^5.0.4":
+"typescript@npm:^5.0.3, typescript@npm:^5.0.4, typescript@npm:~5.2.2":
   version: 5.2.2
   resolution: "typescript@npm:5.2.2"
   bin:
@@ -29900,7 +29900,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3 || ^4#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>, typescript@patch:typescript@~4.9.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@^3 || ^4#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"
   bin:
@@ -29920,7 +29920,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@^5.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>, typescript@patch:typescript@~5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
   resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=77c9e2"
   bin:
