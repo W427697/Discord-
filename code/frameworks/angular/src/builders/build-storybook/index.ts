@@ -42,7 +42,14 @@ export type StorybookBuilderOptions = JsonObject & {
 } & Pick<
     // makes sure the option exists
     CLIOptions,
-    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
+    | 'outputDir'
+    | 'configDir'
+    | 'loglevel'
+    | 'quiet'
+    | 'webpackStatsJson'
+    | 'disableTelemetry'
+    | 'debugWebpack'
+    | 'previewUrl'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & { [key: string]: any };
@@ -81,8 +88,10 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         quiet,
         enableProdMode = true,
         webpackStatsJson,
+        debugWebpack,
         disableTelemetry,
         assets,
+        previewUrl,
       } = options;
 
       const standaloneOptions: StandaloneBuildOptions = {
@@ -103,6 +112,8 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         },
         tsConfig,
         webpackStatsJson,
+        debugWebpack,
+        previewUrl,
       };
 
       return standaloneOptions;

@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: '.nvmrc'
       - uses: actions/checkout@v3
         with:
           ref: next
@@ -43,7 +43,7 @@ jobs:
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
       - name: Generate
-        run: yarn generate-sandboxes --local-registry --exclude=angular-cli/prerelease
+        run: yarn generate-sandboxes --local-registry --exclude=angular-cli/prerelease --debug
         working-directory: ./code
       - name: Publish
         run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push --branch=next
