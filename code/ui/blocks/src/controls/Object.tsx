@@ -132,9 +132,7 @@ const ButtonInline = styled.button<{ primary?: boolean }>(({ theme, primary }) =
   order: primary ? 'initial' : 9,
 }));
 
-type ActionIconProps = IconsProps & { disabled?: boolean };
-
-const ActionIcon = styled(Icons)(({ theme, icon, disabled }: ActionIconProps) => ({
+const ActionIcon = styled(Icons)<{ disabled?: boolean }>(({ theme, icon, disabled }) => ({
   display: 'inline-block',
   verticalAlign: 'middle',
   width: 15,
