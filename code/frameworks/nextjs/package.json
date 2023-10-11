@@ -120,7 +120,7 @@
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
     "next": "13.4.19",
-    "typescript": "^4.9.3",
+    "typescript": "~5.2.2",
     "webpack": "^5.65.0"
   },
   "peerDependencies": {

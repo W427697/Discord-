@@ -6714,7 +6714,7 @@ __metadata:
     ts-dedent: ^2.0.0
     tsconfig-paths: ^4.0.0
     tsconfig-paths-webpack-plugin: ^4.0.1
-    typescript: ^4.9.3
+    typescript: ~5.2.2
     webpack: ^5.65.0
   peerDependencies:
     "@next/font": ^13.0.0
