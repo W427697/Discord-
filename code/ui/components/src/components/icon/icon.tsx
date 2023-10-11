@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { memo } from 'react';
 import * as StorybookIcons from '@storybook/icons';
 
-export interface IconsProps extends HTMLOrSVGElement {
+export interface IconsProps {
   icon: IconType;
   useSymbol?: boolean;
 }
@@ -20,7 +20,7 @@ export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps)
 
 export type IconType = keyof typeof icons;
 
-export interface SymbolsProps extends HTMLOrSVGElement {
+export interface SymbolsProps {
   icons?: IconType;
 }
 
