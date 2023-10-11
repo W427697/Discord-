@@ -1,6 +1,17 @@
 import type { FC } from 'react';
 import React, { memo } from 'react';
 import * as StorybookIcons from '@storybook/icons';
+import { styled } from '@storybook/theming';
+
+const Svg = styled.svg`
+  display: inline-block;
+  shape-rendering: inherit;
+  vertical-align: middle;
+  fill: currentColor;
+  path {
+    fill: currentColor;
+  }
+`;
 
 export interface IconsProps {
   icon: IconType;
@@ -21,19 +32,29 @@ export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps)
 
 export type IconType = keyof typeof icons;
 
+type IconKey = keyof typeof icons;
 export interface SymbolsProps {
-  icons?: IconType;
+  icons?: IconKey[];
 }
 
 /**
  * @deprecated No longer used, will be removed in Storybook 9.0
  * Please use the `@storybook/icons` package instead.
  * */
-export const Symbols = memo<SymbolsProps>(function Symbols({
-  icons: icon,
-  ...props
-}: SymbolsProps) {
-  return <Icons {...props} icon={icon} useSymbol />;
+export const Symbols = memo<SymbolsProps>(function Symbols({ icons: keys = Object.keys(icons) }) {
+  return (
+    <Svg
+      viewBox="0 0 14 14"
+      style={{ position: 'absolute', width: 0, height: 0 }}
+      data-chromatic="ignore"
+    >
+      {keys.map((key: IconKey) => (
+        <symbol id={`icon--${key}`} key={key}>
+          {icons[key]}
+        </symbol>
+      ))}
+    </Svg>
+  );
 });
 
 export const icons = {

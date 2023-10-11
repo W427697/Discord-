@@ -11,6 +11,7 @@ import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
 import type { RefType } from './types';
 import { LayoutProvider } from '../layout/LayoutProvider';
+import { IconSymbols } from './IconSymbols';
 
 const wait = (ms: number) =>
   new Promise<void>((resolve) => {
@@ -21,10 +22,15 @@ const meta = {
   component: Sidebar,
   title: 'Sidebar/Sidebar',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen', withSymbols: true },
+  parameters: { layout: 'fullscreen' },
   decorators: [
     ExplorerStories.default.decorators[0],
-    (storyFn) => <LayoutProvider>{storyFn()}</LayoutProvider>,
+    (storyFn) => (
+      <LayoutProvider>
+        <IconSymbols />
+        {storyFn()}
+      </LayoutProvider>
+    ),
   ],
 } as Meta<typeof Sidebar>;
 

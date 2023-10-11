@@ -37,6 +37,7 @@ import {
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
 import { useLayout } from '../layout/LayoutProvider';
+import { IconSymbols } from './IconSymbols';
 
 export const Action = styled.button<{ height?: number; width?: number }>(
   ({ theme, height, width }) => ({
@@ -507,6 +508,7 @@ export const Tree = React.memo<{
 
   return (
     <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>
+      <IconSymbols />
       {collapsedItems.map((itemId) => {
         const item = collapsedData[itemId];
         const id = createId(itemId, refId);
