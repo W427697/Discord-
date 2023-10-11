@@ -27,7 +27,8 @@
     },
     "./globals": {
       "types": "./dist/globals.d.ts",
-      "require": "./dist/globals.js"
+      "require": "./dist/globals.js",
+      "import": "./dist/globals.js"
     },
     "./package.json": "./package.json"
   },
