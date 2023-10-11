@@ -13,7 +13,7 @@ const Container = styled.div(({ theme }) => ({
   zIndex: 1,
 }));
 
-export const ActionButton = styled.button<{ disabled: boolean }>(
+export const ActionButton = styled.button<{ disabled: boolean; defaultFocus: boolean }>(
   ({ theme }) => ({
     margin: 0,
     border: '0 none',
@@ -41,16 +41,16 @@ export const ActionButton = styled.button<{ disabled: boolean }>(
       borderLeft: `1px solid ${theme.appBorderColor}`,
       borderRadius: 0,
     },
-
-    '&:focus': {
-      boxShadow: `${theme.color.secondary} 0 -3px 0 0 inset`,
-      outline: '0 none',
-    },
   }),
   ({ disabled }) =>
     disabled && {
       cursor: 'not-allowed',
       opacity: 0.5,
+    },
+  ({ theme, defaultFocus }) =>
+    !defaultFocus && {
+      boxShadow: `${theme.color.secondary} 0 -3px 0 0 inset`,
+      outline: '0 none',
     }
 );
 ActionButton.displayName = 'ActionButton';
@@ -60,6 +60,7 @@ export interface ActionItem {
   className?: string;
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
+  defaultFocus?: boolean;
 }
 
 export interface ActionBarProps {
@@ -68,9 +69,15 @@ export interface ActionBarProps {
 
 export const ActionBar: FC<ActionBarProps> = ({ actionItems, ...props }) => (
   <Container {...props}>
-    {actionItems.map(({ title, className, onClick, disabled }, index: number) => (
-      // eslint-disable-next-line react/no-array-index-key
-      <ActionButton key={index} className={className} onClick={onClick} disabled={disabled}>
+    {actionItems.map(({ title, className, onClick, disabled, defaultFocus }, index: number) => (
+      <ActionButton
+        // eslint-disable-next-line react/no-array-index-key
+        key={index}
+        className={className}
+        onClick={onClick}
+        disabled={disabled}
+        defaultFocus={defaultFocus}
+      >
         {title}
       </ActionButton>
     ))}

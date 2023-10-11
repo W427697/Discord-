@@ -4,16 +4,16 @@ import { styled } from '@storybook/theming';
 
 import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
-import type { AxeResults } from 'axe-core';
 import { useChannel, useParameter, useStorybookState } from '@storybook/manager-api';
+import type { AxeResults } from 'axe-core';
 
 import { Report } from './Report';
 
 import { Tabs } from './Tabs';
 
-import { useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
 import type { A11yParameters } from '../params';
+import { useA11yContext } from './A11yContext';
 
 export enum RuleType {
   VIOLATION,
@@ -112,6 +112,7 @@ export const A11YPanel: React.FC = () => {
             </>
           ),
         onClick: handleManual,
+        defaultFocus: true,
       },
     ],
     [status, handleManual]
