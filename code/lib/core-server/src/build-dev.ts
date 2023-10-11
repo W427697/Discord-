@@ -7,7 +7,6 @@ import type {
   StorybookConfig,
 } from '@storybook/types';
 import {
-  cache,
   loadAllPresets,
   loadMainConfig,
   resolveAddonName,
@@ -15,12 +14,13 @@ import {
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
+import invariant from 'tiny-invariant';
 import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
+import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
-import { getReleaseNotesData, getReleaseNotesFailedState } from './utils/release-notes';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
@@ -31,18 +31,17 @@ import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
 export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
 ): Promise<{ port: number; address: string; networkAddress: string }> {
-  const { packageJson, versionUpdates, releaseNotes } = options;
-  const { version } = packageJson;
-
-  // updateInfo and releaseNotesData are cached, so this is typically pretty fast
-  const [port, versionCheck, releaseNotesData] = await Promise.all([
+  const { packageJson, versionUpdates } = options;
+  invariant(
+    packageJson.version !== undefined,
+    `Expected package.json#version to be defined in the "${packageJson.name}" package}`
+  );
+  // updateInfo are cached, so this is typically pretty fast
+  const [port, versionCheck] = await Promise.all([
     getServerPort(options.port),
     versionUpdates
-      ? updateCheck(version)
+      ? updateCheck(packageJson.version)
       : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
-    releaseNotes
-      ? getReleaseNotesData(version, cache)
-      : Promise.resolve(getReleaseNotesFailedState(version)),
   ]);
 
   if (!options.ci && !options.smokeTest && options.port != null && port !== options.port) {
@@ -58,7 +57,6 @@ export async function buildDevStandalone(
   /* eslint-disable no-param-reassign */
   options.port = port;
   options.versionCheck = versionCheck;
-  options.releaseNotesData = releaseNotesData;
   options.configType = 'DEVELOPMENT';
   options.configDir = resolve(options.configDir);
   options.outputDir = options.smokeTest
@@ -83,11 +81,18 @@ export async function buildDevStandalone(
   // We hope to remove this in SB8
   let presets = await loadAllPresets({
     corePresets,
-    overridePresets: [],
+    overridePresets: [
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
+    isCritical: true,
   });
 
   const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
+
+  if (!builder) {
+    throw new MissingBuilderError();
+  }
 
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {
@@ -95,11 +100,13 @@ export async function buildDevStandalone(
     }
   }
 
-  const builderName = typeof builder === 'string' ? builder : builder?.name;
+  const builderName = typeof builder === 'string' ? builder : builder.name;
   const [previewBuilder, managerBuilder] = await Promise.all([
     getPreviewBuilder(builderName, options.configDir),
     getManagerBuilder(),
   ]);
+
+  const resolvedRenderer = renderer && resolveAddonName(options.configDir, renderer, options);
 
   // Load second pass: all presets are applied in order
   presets = await loadAllPresets({
@@ -107,11 +114,14 @@ export async function buildDevStandalone(
       require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
-      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
+      ...(resolvedRenderer ? [resolvedRenderer] : []),
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets,
+    overridePresets: [
+      ...(previewBuilder.overridePresets || []),
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 
@@ -128,11 +138,10 @@ export async function buildDevStandalone(
     fullOptions
   );
 
-  const previewTotalTime = previewResult && previewResult.totalTime;
-  const managerTotalTime = managerResult && managerResult.totalTime;
-
-  const previewStats = previewResult && previewResult.stats;
-  const managerStats = managerResult && managerResult.stats;
+  const previewTotalTime = previewResult?.totalTime;
+  const managerTotalTime = managerResult?.totalTime;
+  const previewStats = previewResult?.stats;
+  const managerStats = managerResult?.stats;
 
   if (options.webpackStatsJson) {
     const target = options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
@@ -160,15 +169,17 @@ export async function buildDevStandalone(
         ? frameworkName.split('@storybook/')[1]
         : frameworkName;
 
-    outputStartupInformation({
-      updateInfo: versionCheck,
-      version,
-      name,
-      address,
-      networkAddress,
-      managerTotalTime,
-      previewTotalTime,
-    });
+    if (!options.quiet) {
+      outputStartupInformation({
+        updateInfo: versionCheck,
+        version: packageJson.version,
+        name,
+        address,
+        networkAddress,
+        managerTotalTime,
+        previewTotalTime,
+      });
+    }
   }
   return { port, address, networkAddress };
 }

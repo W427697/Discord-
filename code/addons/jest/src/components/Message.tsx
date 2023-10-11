@@ -15,11 +15,11 @@ const titleEndToken = ':';
 type MsgElement = string | ReactElement;
 
 class TestDetail {
-  description: MsgElement[];
+  description!: MsgElement[];
 
-  result: MsgElement[];
+  result!: MsgElement[];
 
-  stackTrace: string;
+  stackTrace!: string;
 }
 const StackTrace = styled.pre(({ theme }) => ({
   background: theme.color.lighter,

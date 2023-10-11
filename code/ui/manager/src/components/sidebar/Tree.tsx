@@ -1,7 +1,14 @@
 import { useStorybookApi } from '@storybook/manager-api';
-import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/manager-api';
+import type {
+  StoriesHash,
+  GroupEntry,
+  ComponentEntry,
+  StoryEntry,
+  State,
+  API,
+} from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Button, Icons } from '@storybook/components';
+import { Button, Icons, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
@@ -21,46 +28,57 @@ import type { ExpandAction, ExpandedState } from './useExpanded';
 import { useExpanded } from './useExpanded';
 import type { Highlight, Item } from './types';
 
-import { isStoryHoistable, createId, getAncestorIds, getDescendantIds, getLink } from './utils';
+import {
+  isStoryHoistable,
+  createId,
+  getAncestorIds,
+  getDescendantIds,
+  getLink,
+} from '../../utils/tree';
+import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
 
-export const Action = styled.button(({ theme }) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: 20,
-  height: 20,
-  margin: 0,
-  marginLeft: 'auto',
-  padding: 0,
-  outline: 0,
-  lineHeight: 'normal',
-  background: 'none',
-  border: `1px solid transparent`,
-  borderRadius: '100%',
-  cursor: 'pointer',
-  transition: 'all 150ms ease-out',
-  color:
-    theme.base === 'light'
-      ? transparentize(0.3, theme.color.defaultText)
-      : transparentize(0.6, theme.color.defaultText),
+export const Action = styled.button<{ height?: number; width?: number }>(
+  ({ theme, height, width }) => ({
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: width || 20,
+    height: height || 20,
+    boxSizing: 'border-box',
+    margin: 0,
+    marginLeft: 'auto',
+    padding: 0,
+    outline: 0,
+    lineHeight: 'normal',
+    background: 'none',
+    border: `1px solid transparent`,
+    borderRadius: '100%',
+    cursor: 'pointer',
+    transition: 'all 150ms ease-out',
+    color:
+      theme.base === 'light'
+        ? transparentize(0.3, theme.color.defaultText)
+        : transparentize(0.6, theme.color.defaultText),
 
-  '&:hover': {
-    color: theme.color.secondary,
-  },
-  '&:focus': {
-    color: theme.color.secondary,
-    borderColor: theme.color.secondary,
-
-    '&:not(:focus-visible)': {
-      borderColor: 'transparent',
+    '&:hover': {
+      color: theme.color.secondary,
     },
-  },
+    '&:focus': {
+      color: theme.color.secondary,
+      borderColor: theme.color.secondary,
 
-  svg: {
-    width: 10,
-    height: 10,
-  },
-}));
+      '&:not(:focus-visible)': {
+        borderColor: 'transparent',
+      },
+    },
+
+    svg: {
+      width: 10,
+      height: 10,
+    },
+  })
+);
 
 const CollapseButton = styled.button(({ theme }) => ({
   // Reset button
@@ -104,24 +122,49 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
+export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
   position: 'relative',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingRight: 20,
+
+  color: theme.color.defaultText,
+  background: 'transparent',
+  '&:hover, &:focus': {
+    outline: 'none',
+    background: transparentize(0.93, theme.color.secondary),
+  },
+  '&[data-selected="true"]': {
+    color: theme.color.lightest,
+    background: theme.color.secondary,
+    fontWeight: theme.typography.weight.bold,
+    '&:hover, &:focus': {
+      background: theme.color.secondary,
+    },
+    svg: { color: theme.color.lightest },
+  },
+  a: { color: 'currentColor' },
 }));
 
 const SkipToContentLink = styled(Button)(({ theme }) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     display: 'block',
-    zIndex: -1,
-    position: 'absolute',
-    top: 1,
-    right: 20,
-    height: '20px',
     fontSize: '10px',
-    padding: '5px 10px',
+    overflow: 'hidden',
+    width: 1,
+    height: '20px',
+    boxSizing: 'border-box',
+    opacity: 0,
+    padding: 0,
+
     '&:focus': {
+      opacity: 1,
+      padding: '5px 10px',
       background: 'white',
-      zIndex: 1,
+      color: theme.color.secondary,
+      width: 'auto',
     },
   },
 }));
@@ -132,60 +175,97 @@ interface NodeProps {
   docsMode: boolean;
   isOrphan: boolean;
   isDisplayed: boolean;
+  color: string | undefined;
   isSelected: boolean;
   isFullyExpanded?: boolean;
   isExpanded: boolean;
   setExpanded: (action: ExpandAction) => void;
   setFullyExpanded?: () => void;
   onSelectStoryId: (itemId: string) => void;
+  status: State['status'][keyof State['status']];
+  api: API;
 }
 
 const Node = React.memo<NodeProps>(function Node({
   item,
+  status,
   refId,
   docsMode,
   isOrphan,
   isDisplayed,
   isSelected,
   isFullyExpanded,
+  color,
   setFullyExpanded,
   isExpanded,
   setExpanded,
   onSelectStoryId,
+  api,
 }) {
-  const api = useStorybookApi();
-  if (!isDisplayed) return null;
+  const { isDesktop, isMobile, setMobileMenuOpen } = useLayout();
+
+  if (!isDisplayed) {
+    return null;
+  }
 
   const id = createId(item.id, refId);
   if (item.type === 'story' || item.type === 'docs') {
     const LeafNode = item.type === 'docs' ? DocumentNode : StoryNode;
+
+    const statusValue = getHighestStatus(Object.values(status || {}).map((s) => s.status));
+    const [icon, textColor] = statusMapping[statusValue];
+
     return (
-      <LeafNodeStyleWrapper>
+      <LeafNodeStyleWrapper
+        data-selected={isSelected}
+        data-ref-id={refId}
+        data-item-id={item.id}
+        data-parent-id={item.parent}
+        data-nodetype={item.type === 'docs' ? 'document' : 'story'}
+        data-highlightable={isDisplayed}
+        className="sidebar-item"
+      >
         <LeafNode
+          style={isSelected ? {} : { color: textColor }}
           key={id}
-          id={id}
-          className="sidebar-item"
-          data-ref-id={refId}
-          data-item-id={item.id}
-          data-parent-id={item.parent}
-          data-nodetype={item.type === 'docs' ? 'document' : 'story'}
-          data-selected={isSelected}
-          data-highlightable={isDisplayed}
-          depth={isOrphan ? item.depth : item.depth - 1}
           href={getLink(item, refId)}
+          id={id}
+          depth={isOrphan ? item.depth : item.depth - 1}
           onClick={(event) => {
             event.preventDefault();
             onSelectStoryId(item.id);
+            if (isMobile) setMobileMenuOpen(false);
           }}
           {...(item.type === 'docs' && { docsMode })}
         >
           {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
         </LeafNode>
         {isSelected && (
-          <SkipToContentLink secondary outline isLink href="#storybook-preview-wrapper">
-            Skip to canvas
+          <SkipToContentLink asChild>
+            <a href="#storybook-preview-wrapper">Skip to canvas</a>
           </SkipToContentLink>
         )}
+        {icon ? (
+          <WithTooltip
+            placement="top"
+            style={{ display: 'flex' }}
+            tooltip={() => (
+              <TooltipLinkList
+                links={Object.entries(status || {}).map(([k, v]) => ({
+                  id: k,
+                  title: v.title,
+                  description: v.description,
+                  right: statusMapping[v.status][0],
+                }))}
+              />
+            )}
+            closeOnOutsideClick
+          >
+            <Action type="button" height={22}>
+              {icon}
+            </Action>
+          </WithTooltip>
+        ) : null}
       </LeafNodeStyleWrapper>
     );
   }
@@ -231,40 +311,45 @@ const Node = React.memo<NodeProps>(function Node({
     );
   }
 
-  const BranchNode = item.type === 'component' ? ComponentNode : GroupNode;
-  return (
-    <BranchNode
-      key={id}
-      id={id}
-      className="sidebar-item"
-      data-ref-id={refId}
-      data-item-id={item.id}
-      data-parent-id={item.parent}
-      data-nodetype={item.type === 'component' ? 'component' : 'group'}
-      data-highlightable={isDisplayed}
-      aria-controls={item.children && item.children[0]}
-      aria-expanded={isExpanded}
-      depth={isOrphan ? item.depth : item.depth - 1}
-      isComponent={item.type === 'component'}
-      isExpandable={item.children && item.children.length > 0}
-      isExpanded={isExpanded}
-      onClick={(event) => {
-        event.preventDefault();
-        setExpanded({ ids: [item.id], value: !isExpanded });
-        if (item.type === 'component' && !isExpanded) onSelectStoryId(item.id);
-      }}
-      onMouseEnter={() => {
-        if (item.isComponent) {
-          api.emit(PRELOAD_ENTRIES, {
-            ids: [item.children[0]],
-            options: { target: refId },
-          });
-        }
-      }}
-    >
-      {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
-    </BranchNode>
-  );
+  if (item.type === 'component' || item.type === 'group') {
+    const BranchNode = item.type === 'component' ? ComponentNode : GroupNode;
+    return (
+      <BranchNode
+        key={id}
+        id={id}
+        style={color ? { color } : {}}
+        className="sidebar-item"
+        data-ref-id={refId}
+        data-item-id={item.id}
+        data-parent-id={item.parent}
+        data-nodetype={item.type === 'component' ? 'component' : 'group'}
+        data-highlightable={isDisplayed}
+        aria-controls={item.children && item.children[0]}
+        aria-expanded={isExpanded}
+        depth={isOrphan ? item.depth : item.depth - 1}
+        isComponent={item.type === 'component'}
+        isExpandable={item.children && item.children.length > 0}
+        isExpanded={isExpanded}
+        onClick={(event) => {
+          event.preventDefault();
+          setExpanded({ ids: [item.id], value: !isExpanded });
+          if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
+        }}
+        onMouseEnter={() => {
+          if (item.isComponent) {
+            api.emit(PRELOAD_ENTRIES, {
+              ids: [item.children[0]],
+              options: { target: refId },
+            });
+          }
+        }}
+      >
+        {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
+      </BranchNode>
+    );
+  }
+
+  return null;
 });
 
 const Root = React.memo<NodeProps & { expandableDescendants: string[] }>(function Root({
@@ -295,6 +380,7 @@ const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
 export const Tree = React.memo<{
   isBrowsing: boolean;
   isMain: boolean;
+  status?: State['status'];
   refId: string;
   data: StoriesHash;
   docsMode: boolean;
@@ -307,6 +393,7 @@ export const Tree = React.memo<{
   isMain,
   refId,
   data,
+  status,
   docsMode,
   highlightedRef,
   setHighlightedItemId,
@@ -314,6 +401,7 @@ export const Tree = React.memo<{
   onSelectStoryId,
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const api = useStorybookApi();
 
   // Find top-level nodes and group them so we can hoist any orphans and expand any roots.
   const [rootIds, orphanIds, initialExpanded] = useMemo(
@@ -366,9 +454,10 @@ export const Tree = React.memo<{
   }, [data]);
 
   // Omit single-story components from the list of nodes.
-  const collapsedItems = useMemo(() => {
-    return Object.keys(data).filter((id) => !singleStoryComponentIds.includes(id));
-  }, [singleStoryComponentIds]);
+  const collapsedItems = useMemo(
+    () => Object.keys(data).filter((id) => !singleStoryComponentIds.includes(id)),
+    [singleStoryComponentIds]
+  );
 
   // Rewrite the dataset to place the child story in place of the component.
   const collapsedData = useMemo(() => {
@@ -414,6 +503,8 @@ export const Tree = React.memo<{
     onSelectStoryId,
   });
 
+  const groupStatus = useMemo(() => getGroupStatus(collapsedData, status), [collapsedData, status]);
+
   return (
     <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>
       {collapsedItems.map((itemId) => {
@@ -442,11 +533,16 @@ export const Tree = React.memo<{
         }
 
         const isDisplayed = !item.parent || ancestry[itemId].every((a: string) => expanded[a]);
+        const color = groupStatus[itemId] ? statusMapping[groupStatus[itemId]][1] : null;
+
         return (
           <Node
+            api={api}
             key={id}
             item={item}
+            status={status?.[itemId]}
             refId={refId}
+            color={color}
             docsMode={docsMode}
             isOrphan={orphanIds.some((oid) => itemId === oid || itemId.startsWith(`${oid}-`))}
             isDisplayed={isDisplayed}

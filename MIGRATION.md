@@ -1,5 +1,14 @@
 <h1>Migration</h1>
 
+- [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Core changes](#core-changes)
+    - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
+    - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
+- [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
+  - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
+  - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
+- [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
+  - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -25,6 +34,7 @@
     - [Deploying build artifacts](#deploying-build-artifacts)
       - [Dropped support for file URLs](#dropped-support-for-file-urls)
       - [Serving with nginx](#serving-with-nginx)
+      - [Ignore story files from node_modules](#ignore-story-files-from-node_modules)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -36,7 +46,7 @@
     - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -86,7 +96,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -122,6 +132,7 @@
     - [Main.js framework field](#mainjs-framework-field)
     - [Using the v7 store](#using-the-v7-store)
     - [v7-style story sort](#v7-style-story-sort)
+    - [v7 default sort behavior](#v7-default-sort-behavior)
     - [v7 Store API changes for addon authors](#v7-store-api-changes-for-addon-authors)
     - [Storyshots compatibility in the v7 store](#storyshots-compatibility-in-the-v7-store)
   - [Emotion11 quasi-compatibility](#emotion11-quasi-compatibility)
@@ -297,6 +308,128 @@
   - [Webpack upgrade](#webpack-upgrade)
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
+
+## From version 7.x to 8.0.0
+
+### Core changes
+
+#### UI layout state has changed shape
+
+In Storybook 7 it was possible to use `addons.setConfig({...});` to configure Storybook UI features and behavior as documented [here (v7)](https://storybook.js.org/docs/7.3/react/configure/features-and-behavior), [(latest)](https://storybook.js.org/docs/react/configure/features-and-behavior). The state and API for the UI layout has changed:
+
+- `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
+- `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
+- `isFullscreen: boolean` is no longer supported, but can be achieved by setting a combination of the above.
+
+#### New UI and props for Button and IconButton components
+
+We used to have a lot of different buttons in `@storybook/components` that were not used anywhere. In Storybook 8.0 we are deprecating `Form.Button` and added a new `Button` component that can be used in all places. The `IconButton` component has also been updated to use the new `Button` component under the hood. Going forward addon creators and Storybook maintainers should use the new `Button` component instead of `Form.Button`.
+
+For the `Button` component, the following props are now deprecated:
+
+- `isLink` - Please use the `asChild` prop instead like this: `<Button asChild><a href="">Link</a></Button>`
+- `primary` - Please use the `variant` prop instead.
+- `secondary` - Please use the `variant` prop instead.
+- `tertiary` - Please use the `variant` prop instead.
+- `gray` - Please use the `variant` prop instead.
+- `inForm` - Please use the `variant` prop instead.
+- `small` - Please use the `size` prop instead.
+- `outline` - Please use the `variant` prop instead.
+- `containsIcon`. Please add your icon as a child directly. No need for this prop anymore.
+
+The `IconButton` doesn't have any deprecated props but it now uses the new `Button` component under the hood so all props for `IconButton` will be the same as `Button`.
+
+## From version 7.4.0 to 7.5.0
+
+#### `storyStoreV6` and `storiesOf` is deprecated
+
+`storyStoreV6` and `storiesOf` is deprecated and will be completely removed in Storybook 8.0.0.
+
+If you're using `storiesOf` we recommend you migrate your stories to CSF3 for a better story writing experience.
+In many cases you can get started with the migration by using two migration scripts:
+
+```bash
+
+# 1. convert storiesOf to CSF
+npx storybook@latest migrate storiesof-to-csf --glob="**/*.stories.tsx" --parser=tsx
+
+# 2. Convert CSF 2 to CSF 3
+npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
+```
+
+They won't do a perfect migration so we recommend that you manually go through each file afterwards.
+
+Alternatively you can build your own `storiesOf` implementation by leveraging the new (experimental) indexer API ([documentation](https://storybook.js.org/docs/react/api/main-config-indexers), [migration](#storyindexers-is-replaced-with-experimental_indexers)). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's `README.md` for a deeper explanation of the implementation.
+
+#### `storyIndexers` is replaced with `experimental_indexers`
+
+Defining custom indexers for stories has become a more official - yet still experimental - API which is now configured at `experimental_indexers` instead of `storyIndexers` in `main.ts`. `storyIndexers` has been deprecated and will be fully removed in version 8.0.0.
+
+The new experimental indexers are documented [here](https://storybook.js.org/docs/react/api/main-config-indexers). The most notable change from `storyIndexers` is that the indexer must now return a list of [`IndexInput`](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/indexer.ts#L104-L148) instead of `CsfFile`. It's possible to construct an `IndexInput` from a `CsfFile` using the `CsfFile.indexInputs` getter.
+
+That means you can convert an existing story indexer like this:
+
+```diff
+// .storybook/main.ts
+
+import { readFileSync } from 'fs';
+import { loadCsf } from '@storybook/csf-tools';
+
+export default {
+-  storyIndexers = (indexers) => {
+-    const indexer = async (fileName, opts) => {
++  experimental_indexers = (indexers) => {
++    const createIndex = async (fileName, opts) => {
+      const code = readFileSync(fileName, { encoding: 'utf-8' });
+      const makeTitle = (userTitle) => {
+        // Do something with the auto title retrieved by Storybook
+        return userTitle;
+      };
+
+      // Parse the CSF file with makeTitle as a custom context
+-      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse();
++      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse().indexInputs;
+    };
+
+    return [
+      {
+        test: /(stories|story)\.[tj]sx?$/,
+-        indexer,
++        createIndex,
+      },
+      ...(indexers || []),
+    ];
+  },
+};
+```
+
+As an addon author you can support previous versions of Storybook by setting both `storyIndexers` and `indexers_experimental`, without triggering the deprecation warning.
+
+## From version 7.0.0 to 7.2.0
+
+#### Addon API is more type-strict
+
+When registering an addon using `@storybook/manager-api`, the addon API is now more type-strict. This means if you use TypeScript to compile your addon before publishing, it might start giving you errors.
+
+The `type` property is now a required field, and the `id` property should not be set anymore.
+
+Here's a correct example:
+
+```tsx
+import { addons, types } from '@storybook/manager-api';
+
+addons.register('my-addon', () => {
+  addons.add('my-addon/panel', {
+    type: types.PANEL,
+    title: 'My Addon',
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
+  });
+});
+```
+
+The API: `addons.addPanel()` is now deprecated, and will be removed in 8.0.0. Please use `addons.add()` instead.
+
+The `render` method can now be a `React.FunctionComponent` (without the `children` prop). Storybook will now render it, rather than calling it as a function.
 
 ## From version 6.5.x to 7.0.0
 
@@ -511,7 +644,6 @@ Storybook 7 introduces the concept of `frameworks`, which abstracts configuratio
 > Note:
 > All of the following changes can be done automatically either via `npx storybook@latest upgrade --prerelease` or via the `npx storybook@latest automigrate` command. It's highly recommended to use these commands, which will tell you exactly what to do.
 
-
 ##### Available framework packages
 
 In 7.0, `frameworks` combine a `renderer` and a `builder`, with the exception of a few packages that do not contain multiple builders, such as `@storybook/angular`, which only has Webpack 5 support.
@@ -675,7 +807,7 @@ import type { StorybookConfig } from '@storybook/react-vite';
 const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-vite',
-    options: {}
+    options: {},
   },
   // ... your configuration
 };
@@ -832,6 +964,28 @@ With [nginx](https://www.nginx.com/), you need to extend [the MIME type handling
 ```
 
 It would otherwise default to serving the `.mjs` files as `application/octet-stream`.
+
+##### Ignore story files from node_modules
+
+In 6.x Storybook literally followed the glob patterns specified in your `.storybook/main.js` `stories` field. Storybook 7.0 ignores files from `node_modules` unless your glob pattern includes the string `"node_modules"`.
+
+Given the following `main.js`:
+
+```js
+export default {
+  stories: ['../**/*.stories.*'],
+};
+```
+
+If you want to restore the previous behavior to include `node_modules`, you can update it to:
+
+```js
+export default {
+  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*'],
+};
+```
+
+The first glob would have node_modules automatically excluded by Storybook, and the second glob would include all stories that are under a nested `node_modules` directory.
 
 ### 7.0 Core changes
 
@@ -994,7 +1148,11 @@ Starting in 7.0, we drop support for Angular < 14
 
 #### Angular: Drop support for calling Storybook directly
 
-In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+_Has automigration_
+
+In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook.
+
+You can run `npx storybook@next automigrate` to automatically fix your configuration, or visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/README.md#how-do-i-migrate-to-an-angular-storybook-builder for instructions on how to set up Storybook for Angular manually.
 
 #### Angular: Application providers and ModuleWithProviders
 
@@ -1110,7 +1268,7 @@ In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2
 
 #### Create React App: dropped CRA4 support
 
-Since v7 [drops webpack4 support](#webpack4-support-discontinued), it longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
+Since v7 [drops webpack4 support](#webpack4-support-discontinued), it no longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
 
 #### HTML: No longer auto-dedents source code
 
@@ -1126,7 +1284,7 @@ Storybook 7 adds 2 new packages for addon authors to use: `@storybook/preview-ap
 These 2 packages replace `@storybook/addons`.
 
 When adding addons to storybook, you can (for example) add panels:
-  
+
 ```js
 import { addons } from '@storybook/manager-api';
 
@@ -1141,7 +1299,7 @@ The `addons` export is now a named export only, there's no default export anymor
 
 The package `@storybook/addons` is still available, but it's only for backwards compatibility. It's not recommended to use it anymore.
 
-It's also been used by addon creators to gain access to a few APIs like `makeDecorator`. 
+It's also been used by addon creators to gain access to a few APIs like `makeDecorator`.
 These APIs are now available in `@storybook/preview-api`.
 
 Storybook users have had access to a few storybook-lifecycle hooks such as `useChannel`, `useParameter`, `useStorybookState`;
@@ -1179,7 +1337,6 @@ It should no longer depend on `@storybook/addons`, but instead on `@storybook/pr
 You might also depend (and use) these packages in your addon's decorators: `@storybook/store`, `@storybook/preview-web`, `@storybook/core-client`, `@storybook/client-api`; these have all been consolidated into `@storybook/preview-api`.
 So if you use any of these packages, please import what you need from `@storybook/preview-api` instead.
 
-
 Storybook 7 will prepare manager-code for the browser using ESbuild (before it was using a combination of webpack + babel).
 This is a very important change, though it will not affect most addons.
 It means that when creating custom addons, particularly custom addons within the repo in which they are consumed,
@@ -1188,8 +1345,8 @@ This can result in errors if you are using experimental JS features in your addo
 or using babel dependent features such as Component selectors in Emotion.
 
 ESbuild also places some constraints on things you can import into your addon's manager code: only woff2 files are supported, and not all image file types are supported.
-Here's the list of supported file types:
-https://github.com/storybookjs/storybook/blob/4a37372f649e85e7a0c35b0493da016dbb5dee17/code/lib/builder-manager/src/index.ts#L54-L64
+Here's the [list](https://github.com/storybookjs/storybook/blob/next/code/builders/builder-manager/src/index.ts#L53-L70) of supported file types.
+
 This is not configurable.
 
 If this is a problem for your addon, you need to pre-compile your addon's manager code to ensure it works.
@@ -1209,17 +1366,19 @@ All of storybook's core addons have been updated and are ready to use with Story
 We're working with the community to update the most popular addons.
 But if you're using an addon that hasn't been updated yet, it might not work.
 
-It's possible for example for older addons to use APIs that are no longer available in Storybook 7. 
+It's possible for example for older addons to use APIs that are no longer available in Storybook 7.
 Your addon might not show upside of the storybook (manager) UI, or storybook might fail to start entirely.
 
 When this happens to you please open an issue on the addon's repo, and ask the addon author to update their addon to be compatible with Storybook 7.
 It's also useful for the storybook team to know which addons are not yet compatible, so please open an issue on the storybook repo as well; particularly if the addon is popular and causes a critical failure.
 
 Here's a list of popular addons that are known not to be compatible with Storybook 7 yet:
+
 - [ ] [storybook-addon-jsx](https://github.com/storybookjs/addon-jsx)
 - [ ] [storybook-addon-dark-mode](https://github.com/hipstersmoothie/storybook-dark-mode)
 
 Though storybook should de-duplicate storybook packages, storybook CLI's `upgrade` command will warn you when you have multiple storybook-dependencies, because it is a possibility that this causes addons/storybook to not work, so when running into issues, please run this:
+
 ```
 npx sb upgrade
 ```
@@ -1618,7 +1777,7 @@ If you're using `storiesOf` and want to restore the previous behavior, you can a
 ```js
 module.exports = {
   webpackFinal: (config) => {
-    config.modules.rules.push({
+    config.module.rules.push({
       test: /\.stories\.[tj]sx?$/,
       use: [
         {
@@ -2184,9 +2343,39 @@ function storySort(a, b) {
 ```
 
 **NOTE:** v7-style sorting is statically analyzed by Storybook, which puts a variety of constraints versus v6:
-- Sorting must be specified in the user's `.storybook/preview.js`. It cannot be specified by an addon or preset. 
+
+- Sorting must be specified in the user's `.storybook/preview.js`. It cannot be specified by an addon or preset.
 - The `preview.js` export should not be generated by a function.
 - `storySort` must be a self-contained function that does not reference external variables.
+
+#### v7 default sort behavior
+
+The behavior of the default `storySort` function has also changed in v7 thanks to [#18423](https://github.com/storybookjs/storybook/pull/18243), which gives better control over hierarchical sorting.
+
+In 6.x, the following configuration would sort any story/doc containing the title segment `Introduction` to the top of the sidebar, so this would match `Introduction`, `Example/Introduction`, `Very/Nested/Introduction`, etc.
+
+```js
+// preview.js
+export default {
+  parameters: {
+    options: {
+      storySort: {
+        order: ['Introduction', '*'],
+      },
+    },
+  },
+};
+```
+
+In 7.0+, the targeting is more precise, so the preceding example would match `Introduction`, but not anything nested. If you wanted to sort `Example/Introduction` first, you'd need to specify that:
+
+```js
+storySort: {
+  order: ['*', ['Introduction', '*']],
+}
+```
+
+This would sort `*/Introduction` first, but not `Introduction` or `Very/Nested/Introduction`. If you want to target `Introduction` stories/docs anywhere in the hierarchy, you can do this with a [custom sort function](https://storybook.js.org/docs/react/writing-stories/naming-components-and-hierarchy#sorting-stories).
 
 #### v7 Store API changes for addon authors
 

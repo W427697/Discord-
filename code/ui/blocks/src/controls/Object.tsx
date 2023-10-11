@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';
-import { Form, Icons, type IconsProps, IconButton } from '@storybook/components';
+import { Form, Icons, type IconsProps, IconButton, Button } from '@storybook/components';
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';
@@ -52,7 +52,7 @@ const Wrapper = styled.div(({ theme }) => ({
   '.rejt-plus-menu': {
     marginLeft: 5,
   },
-  '.rejt-object-node > span > *': {
+  '.rejt-object-node > span > *, .rejt-array-node > span > *': {
     position: 'relative',
     zIndex: 2,
   },
@@ -120,7 +120,7 @@ const Wrapper = styled.div(({ theme }) => ({
   },
 }));
 
-const Button = styled.button<{ primary?: boolean }>(({ theme, primary }) => ({
+const ButtonInline = styled.button<{ primary?: boolean }>(({ theme, primary }) => ({
   border: 0,
   height: 20,
   margin: 1,
@@ -265,9 +265,9 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
 
   if (!hasData) {
     return (
-      <Form.Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
+      <Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
         Set object
-      </Form.Button>
+      </Button>
     );
   }
 
@@ -288,7 +288,6 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
     <Wrapper>
       {['Object', 'Array'].includes(getObjectType(data)) && (
         <RawButton
-          href="#"
           onClick={(e: SyntheticEvent) => {
             e.preventDefault();
             setShowRaw((v) => !v);
@@ -304,12 +303,12 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
           rootName={name}
           onFullyUpdate={onChange}
           getStyle={getCustomStyleFunction(theme)}
-          cancelButtonElement={<Button type="button">Cancel</Button>}
-          editButtonElement={<Button type="submit">Save</Button>}
+          cancelButtonElement={<ButtonInline type="button">Cancel</ButtonInline>}
+          editButtonElement={<ButtonInline type="submit">Save</ButtonInline>}
           addButtonElement={
-            <Button type="submit" primary>
+            <ButtonInline type="submit" primary>
               Save
-            </Button>
+            </ButtonInline>
           }
           plusMenuElement={<ActionIcon icon="add" />}
           minusMenuElement={<ActionIcon icon="subtract" />}

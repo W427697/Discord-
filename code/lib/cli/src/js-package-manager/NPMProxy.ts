@@ -1,6 +1,10 @@
 import sort from 'semver/functions/sort';
 import { platform } from 'os';
 import dedent from 'ts-dedent';
+import { sync as findUpSync } from 'find-up';
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
+import semver from 'semver';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -77,6 +81,31 @@ export class NPMProxy extends JsPackageManager {
     return this.executeCommand({ command: 'npm', args: ['--version'] });
   }
 
+  public async getPackageJSON(
+    packageName: string,
+    basePath = this.cwd
+  ): Promise<PackageJson | null> {
+    const packageJsonPath = await findUpSync(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson;
+  }
+
+  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJson = await this.getPackageJSON(packageName, basePath);
+    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
+  }
+
   getInstallArgs(): string[] {
     if (!this.installArgs) {
       this.installArgs = [];
@@ -113,6 +142,9 @@ export class NPMProxy extends JsPackageManager {
       args: ['ls', '--json', '--depth=99', pipeToNull],
       // ignore errors, because npm ls will exit with code 1 if there are e.g. unmet peer dependencies
       ignoreError: true,
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -243,6 +275,7 @@ export class NPMProxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'npm ls --depth=1',
+      dedupeCommand: 'npm dedupe',
     };
   }
 

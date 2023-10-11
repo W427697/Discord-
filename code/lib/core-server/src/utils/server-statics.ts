@@ -1,28 +1,24 @@
 import { logger } from '@storybook/node-logger';
 import type { Options, StorybookConfig } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
+import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 import chalk from 'chalk';
+import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path from 'path';
-import favicon from 'serve-favicon';
+import path, { basename } from 'path';
 import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
 import { defaultStaticDirs } from './constants';
 
-export async function useStatics(router: any, options: Options) {
-  const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+export async function useStatics(router: Router, options: Options) {
+  const staticDirs =
+    (await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
-    throw new Error(dedent`
-      Conflict when trying to read staticDirs:
-      * Storybook's configuration option: 'staticDirs'
-      * Storybook's CLI flag: '--staticDir' or '-s'
-      
-      Choose one of them, but not both.
-    `);
+    throw new ConflictingStaticDirConfigError();
   }
 
   const statics = [
@@ -52,13 +48,13 @@ export async function useStatics(router: any, options: Options) {
 
           router.use(targetEndpoint, express.static(staticPath, { index: false }));
         } catch (e) {
-          logger.warn(e.message);
+          if (e instanceof Error) logger.warn(e.message);
         }
       })
     );
   }
 
-  router.use(favicon(faviconPath));
+  router.get(`/${basename(faviconPath)}`, (req, res) => res.sendFile(faviconPath));
 }
 
 export const parseStaticDir = async (arg: string) => {

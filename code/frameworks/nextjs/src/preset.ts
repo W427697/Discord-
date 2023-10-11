@@ -7,7 +7,6 @@ import { getProjectRoot } from '@storybook/core-common';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
-import { configureRouting } from './routing/webpack';
 import { configureStyledJsx } from './styledJsx/webpack';
 import { configureImages } from './images/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
@@ -16,6 +15,8 @@ import { configureNextImport } from './nextImport/webpack';
 import TransformFontImports from './font/babel';
 import { configureNextFont } from './font/webpack/configureNextFont';
 import nextBabelPreset from './babel/preset';
+import { configureNodePolyfills } from './nodePolyfills/webpack';
+import { configureAliasing } from './dependency-map';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -67,7 +68,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   };
 };
 
-export const config: StorybookConfig['previewAnnotations'] = (entry = []) => [
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
   ...entry,
   require.resolve('@storybook/nextjs/preview.js'),
 ];
@@ -142,14 +143,15 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
     configDir: options.configDir,
   });
 
+  configureAliasing(baseConfig);
   configureNextFont(baseConfig);
   configureNextImport(baseConfig);
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports({ baseConfig, configDir: options.configDir });
   configureCss(baseConfig, nextConfig);
-  configureImages(baseConfig);
-  configureRouting(baseConfig);
+  configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
+  configureNodePolyfills(baseConfig);
 
   return baseConfig;
 };

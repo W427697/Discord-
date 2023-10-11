@@ -6,7 +6,7 @@ As of version 7.0, Storybook now re-uses your project’s Babel configuration to
 
 <div class="aside">
 
-If you're not using Storybook 7, please reference the <LinkWithVersion version="6.5" href="./babel.md">previous documentation</LinkWithVersion> for guidance on configuring your Babel setup.
+If you're not using Storybook 7, please reference the [previous documentation](../../../release-6-5/docs/configure/babel.md) for guidance on configuring your Babel setup.
 
 </div>
 
@@ -115,6 +115,8 @@ However, when your Storybook refers to files outside of the current project dire
 
 ## Troubleshooting
 
+### Babel configuration not working
+
 To troubleshoot your Babel configuration, set the `BABEL_SHOW_CONFIG_FOR` environment variable. For example, to see how Storybook is transpiling your `.storybook/preview.js` file, add the following environment variable:
 
 ```sh
@@ -130,3 +132,22 @@ When the command finishes running, it will display the available Babel configura
 </div>
 
 For more info, please refer to the [Babel documentation](https://babeljs.io/docs/en/configuration#print-effective-configs).
+
+### SWC alternative
+
+(⚠️ **Experimental**)
+
+If you're working with a Webpack-based project, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler, which can be faster for some projects. To do so, update your [Storybook configuration file](../api/main-config.md) (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-framework-options-builder-use-swc.js.mdx',
+    'common/main-config-framework-options-builder-use-swc.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+See the [`useSWC` API reference](../api/main-config-framework.md#optionsbuilderuseswc) for more information.

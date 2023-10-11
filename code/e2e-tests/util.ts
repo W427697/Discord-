@@ -24,6 +24,20 @@ export class SbPage {
     }
   }
 
+  /**
+   * Visit a story via the URL instead of selecting from the sidebar.
+   */
+  async deepLinkToStory(baseURL: string, title: string, name: 'docs' | string) {
+    const titleId = toId(title);
+    const storyId = toId(name);
+    const storyLinkId = `${titleId}--${storyId}`;
+    const viewMode = name === 'docs' ? 'docs' : 'story';
+    await this.page.goto(`${baseURL}/?path=/${viewMode}/${storyLinkId}`);
+  }
+
+  /**
+   * Visit a story by selecting it from the sidebar.
+   */
   async navigateToStory(title: string, name: string) {
     await this.openComponent(title);
 
@@ -31,7 +45,7 @@ export class SbPage {
     const storyId = toId(name);
     const storyLinkId = `#${titleId}--${storyId}`;
     await this.page.waitForSelector(storyLinkId);
-    const storyLink = this.page.locator(storyLinkId);
+    const storyLink = this.page.locator('*', { has: this.page.locator(`> ${storyLinkId}`) });
     await storyLink.click({ force: true });
 
     // assert url changes
@@ -46,6 +60,18 @@ export class SbPage {
   }
 
   async waitUntilLoaded() {
+    // make sure we start every test with clean state – to avoid possible flakyness
+    await this.page.context().addInitScript(() => {
+      const storeState = {
+        layout: {
+          showToolbar: true,
+          navSize: 300,
+          bottomPanelHeight: 300,
+          rightPanelWidth: 300,
+        },
+      };
+      window.sessionStorage.setItem('@storybook/manager/store', JSON.stringify(storeState));
+    }, {});
     const root = this.previewRoot();
     const docsLoadingPage = root.locator('.sb-preparing-docs');
     const storyLoadingPage = root.locator('.sb-preparing-story');

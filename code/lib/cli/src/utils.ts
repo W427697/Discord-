@@ -2,12 +2,27 @@ import type { WriteStream } from 'fs-extra';
 import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
 import { join } from 'path';
 import tempy from 'tempy';
+import { rendererPackages } from '@storybook/core-common';
+import type { JsPackageManager } from './js-package-manager';
 
 export function parseList(str: string): string[] {
   return str
     .split(',')
     .map((item) => item.trim())
     .filter((item) => item.length > 0);
+}
+
+export async function getStorybookVersion(packageManager: JsPackageManager) {
+  const packages = (
+    await Promise.all(
+      Object.keys(rendererPackages).map(async (pkg) => ({
+        name: pkg,
+        version: await packageManager.getPackageVersion(pkg),
+      }))
+    )
+  ).filter(({ version }) => !!version);
+
+  return packages[0]?.version;
 }
 
 export function getEnvConfig(program: Record<string, any>, configEnv: Record<string, any>): void {
@@ -82,3 +97,34 @@ export const createLogStream = async (
     logStream.once('error', reject);
   });
 };
+
+const PACKAGES_EXCLUDED_FROM_CORE = [
+  '@storybook/addon-bench',
+  '@storybook/addon-console',
+  '@storybook/addon-postcss',
+  '@storybook/addon-styling',
+  '@storybook/addon-styling-webpack',
+  '@storybook/babel-plugin-require-context-hook',
+  '@storybook/bench',
+  '@storybook/builder-vite',
+  '@storybook/csf',
+  '@storybook/design-system',
+  '@storybook/ember-cli-storybook',
+  '@storybook/eslint-config-storybook',
+  '@storybook/expect',
+  '@storybook/jest',
+  '@storybook/linter-config',
+  '@storybook/mdx1-csf',
+  '@storybook/mdx2-csf',
+  '@storybook/react-docgen-typescript-plugin',
+  '@storybook/storybook-deployer',
+  '@storybook/test-runner',
+  '@storybook/testing-library',
+  '@storybook/testing-react',
+  '@nrwl/storybook',
+  '@nx/storybook',
+];
+export const isCorePackage = (pkg: string) =>
+  pkg.startsWith('@storybook/') &&
+  !pkg.startsWith('@storybook/preset-') &&
+  !PACKAGES_EXCLUDED_FROM_CORE.includes(pkg);

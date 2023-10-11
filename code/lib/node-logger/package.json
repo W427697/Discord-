@@ -1,6 +1,6 @@
 {
   "name": "@storybook/node-logger",
-  "version": "7.1.0-alpha.20",
+  "version": "7.5.0-alpha.5",
   "description": "",
   "keywords": [
     "storybook"
@@ -24,32 +24,29 @@
     ".": {
       "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@types/npmlog": "^4.1.2",
+    "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
     "npmlog": "^5.0.1",
-    "pretty-hrtime": "^1.0.3"
-  },
-  "devDependencies": {
-    "@types/pretty-hrtime": "^1.0.0",
+    "pretty-hrtime": "^1.0.3",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
@@ -58,7 +55,10 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
-  "gitHead": "4d0c4eda02b8afb329f1794fd62088e576fb1ec9"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

@@ -35,13 +35,21 @@ export type StorybookBuilderOptions = JsonObject & {
   docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
 } & Pick<
     // makes sure the option exists
     CLIOptions,
-    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
+    | 'outputDir'
+    | 'configDir'
+    | 'loglevel'
+    | 'quiet'
+    | 'webpackStatsJson'
+    | 'disableTelemetry'
+    | 'debugWebpack'
+    | 'previewUrl'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & { [key: string]: any };
@@ -78,9 +86,12 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode = true,
         webpackStatsJson,
+        debugWebpack,
         disableTelemetry,
         assets,
+        previewUrl,
       } = options;
 
       const standaloneOptions: StandaloneBuildOptions = {
@@ -90,6 +101,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode,
         disableTelemetry,
         angularBrowserTarget: browserTarget,
         angularBuilderContext: context,
@@ -100,6 +112,8 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         },
         tsConfig,
         webpackStatsJson,
+        debugWebpack,
+        previewUrl,
       };
 
       return standaloneOptions;

@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
 
+import invariant from 'tiny-invariant';
 import { CODE_DIRECTORY, JUNIT_DIRECTORY, SANDBOX_DIRECTORY } from './utils/constants';
 import type { OptionValues } from './utils/options';
 import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
@@ -26,6 +27,7 @@ import { testRunnerDev } from './tasks/test-runner-dev';
 import { chromatic } from './tasks/chromatic';
 import { e2eTestsBuild } from './tasks/e2e-tests-build';
 import { e2eTestsDev } from './tasks/e2e-tests-dev';
+import { bench } from './tasks/bench';
 
 import {
   allTemplates as TEMPLATES,
@@ -72,7 +74,7 @@ export type Task = {
   /**
    * Is this task already "ready", and potentially not required?
    */
-  ready: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<boolean>;
+  ready: (details: TemplateDetails, options?: PassedOptionValues) => MaybePromise<boolean>;
   /**
    * Run the task
    */
@@ -107,6 +109,7 @@ export const tasks = {
   chromatic,
   'e2e-tests': e2eTestsBuild,
   'e2e-tests-dev': e2eTestsDev,
+  bench,
 };
 type TaskKey = keyof typeof tasks;
 
@@ -172,6 +175,11 @@ export const options = createOptions({
   skipTemplateStories: {
     type: 'boolean',
     description: 'Do not include template stories and their addons',
+    promptType: false,
+  },
+  disableDocs: {
+    type: 'boolean',
+    description: 'Disable addon-docs from essentials',
     promptType: false,
   },
 });
@@ -300,12 +308,20 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   const { junitFilename } = details;
   const startTime = new Date();
   try {
-    const controller = await task.run(details, optionValues);
+    let updatedOptions = optionValues;
+    if (details.template?.modifications?.skipTemplateStories) {
+      updatedOptions = { ...updatedOptions, skipTemplateStories: true };
+    }
+    if (details.template?.modifications?.disableDocs) {
+      updatedOptions = { ...updatedOptions, disableDocs: true };
+    }
+    const controller = await task.run(details, updatedOptions);
 
     if (junitFilename && !task.junit) await writeJunitXml(getTaskKey(task), details.key, startTime);
 
     return controller;
   } catch (err) {
+    invariant(err instanceof Error);
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
@@ -325,6 +341,9 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 const controllers: AbortController[] = [];
 
 async function run() {
+  // useful for other scripts to know whether they're running in the creation of a sandbox in the monorepo
+  process.env.IN_STORYBOOK_SANDBOX = 'true';
+
   const allOptionValues = await getOptionsOrPrompt('yarn task', options);
 
   const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;
@@ -449,6 +468,7 @@ async function run() {
         });
         if (controller) controllers.push(controller);
       } catch (err) {
+        invariant(err instanceof Error);
         logger.error(`Error running task ${getTaskKey(task)}:`);
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {

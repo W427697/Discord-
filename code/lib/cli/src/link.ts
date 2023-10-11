@@ -1,10 +1,10 @@
 import fse from 'fs-extra';
 import path from 'path';
-import { sync as spawnSync } from 'cross-spawn';
+import { sync as spawnSync, spawn as spawnAsync } from 'cross-spawn';
 import { logger } from '@storybook/node-logger';
-import shell from 'shelljs';
 import chalk from 'chalk';
-import type { ExecOptions } from 'shelljs';
+
+type ExecOptions = Parameters<typeof spawnAsync>[2];
 
 interface LinkOptions {
   target: string;
@@ -31,17 +31,14 @@ export const exec = async (
 
   logger.info(command);
   return new Promise((resolve, reject) => {
-    const defaultOptions: ExecOptions = {
-      silent: false,
-    };
-    const child = shell.exec(command, {
-      ...defaultOptions,
+    const child = spawnAsync(command, {
       ...options,
-      async: true,
-      silent: false,
+      shell: true,
+      stdio: 'pipe',
     });
 
-    child.stderr.pipe(process.stderr);
+    child.stderr.pipe(process.stdout);
+    child.stdout.pipe(process.stdout);
 
     child.on('exit', (code) => {
       if (code === 0) {
@@ -108,7 +105,7 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   }
 
   // ensure that linking is possible
-  await exec(`yarn add @types/node@16`, { cwd: reproDir });
+  await exec(`yarn add @types/node@18`, { cwd: reproDir });
 
   if (start) {
     logger.info(`Running ${reproName} storybook`);

@@ -1,4 +1,8 @@
 import dedent from 'ts-dedent';
+import { sync as findUpSync } from 'find-up';
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
+import semver from 'semver';
 import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -59,10 +63,37 @@ export class Yarn1Proxy extends JsPackageManager {
     return this.executeCommand({ command: `yarn`, args: [command, ...args], cwd });
   }
 
+  public async getPackageJSON(
+    packageName: string,
+    basePath = this.cwd
+  ): Promise<PackageJson | null> {
+    const packageJsonPath = await findUpSync(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    return JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
+  }
+
+  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJson = await this.getPackageJSON(packageName, basePath);
+    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
+  }
+
   public async findInstallations(pattern: string[]) {
     const commandResult = await this.executeCommand({
       command: 'yarn',
       args: ['list', '--pattern', pattern.map((p) => `"${p}"`).join(' '), '--recursive', '--json'],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -187,6 +218,7 @@ export class Yarn1Proxy extends JsPackageManager {
         dependencies: acc,
         duplicatedDependencies,
         infoCommand: 'yarn why',
+        dedupeCommand: 'yarn dedupe',
       };
     }
 

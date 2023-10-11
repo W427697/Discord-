@@ -31,7 +31,7 @@ class ErrorBoundary extends Component<
     const { hasError } = this.state;
     const { children } = this.props;
 
-    return hasError ? null : children;
+    return hasError ? null : <>{children}</>;
   }
 }
 

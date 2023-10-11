@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-create-react-app",
-  "version": "7.1.0-alpha.20",
+  "version": "7.5.0-alpha.5",
   "description": "Storybook for Create React App preset",
   "keywords": [
     "storybook"
@@ -41,24 +41,25 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
-    "@storybook/types": "7.1.0-alpha.20",
+    "@storybook/types": "workspace:*",
     "@types/babel__core": "^7.1.7",
     "babel-plugin-react-docgen": "^4.1.0",
     "pnp-webpack-plugin": "^1.7.0",
     "semver": "^7.3.5"
   },
   "devDependencies": {
-    "@storybook/node-logger": "7.1.0-alpha.20",
-    "@types/node": "^16.0.0",
+    "@storybook/node-logger": "workspace:*",
+    "@types/node": "^18.0.0",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
@@ -76,5 +77,5 @@
       "cjs"
     ]
   },
-  "gitHead": "4d0c4eda02b8afb329f1794fd62088e576fb1ec9"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }
