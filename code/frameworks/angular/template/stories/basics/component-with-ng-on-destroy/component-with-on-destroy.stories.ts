@@ -32,7 +32,6 @@ export default {
   component: OnDestroyComponent,
   parameters: {
     // disabled due to new Date()
-    storyshots: { disable: true },
     chromatic: { disable: true },
   },
 } as Meta;

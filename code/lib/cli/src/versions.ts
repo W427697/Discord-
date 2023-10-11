@@ -14,8 +14,6 @@ export default {
   '@storybook/addon-measure': '7.5.0-alpha.5',
   '@storybook/addon-outline': '7.5.0-alpha.5',
   '@storybook/addon-themes': '7.5.0-alpha.5',
-  '@storybook/addon-storyshots': '7.5.0-alpha.5',
-  '@storybook/addon-storyshots-puppeteer': '7.5.0-alpha.5',
   '@storybook/addon-storysource': '7.5.0-alpha.5',
   '@storybook/addon-toolbars': '7.5.0-alpha.5',
   '@storybook/addon-viewport': '7.5.0-alpha.5',
