@@ -5,6 +5,7 @@ import * as StorybookIcons from '@storybook/icons';
 export interface IconsProps {
   icon: IconType;
   useSymbol?: boolean;
+  onClick?: () => void;
 }
 
 /**
