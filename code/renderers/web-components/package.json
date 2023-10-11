@@ -71,7 +71,7 @@
     "web-component-analyzer": "^1.1.6"
   },
   "peerDependencies": {
-    "lit": "^2.0.0"
+    "lit": "^2.0.0 || ^3.0.0"
   },
   "engines": {
     "node": ">=16.0.0"
