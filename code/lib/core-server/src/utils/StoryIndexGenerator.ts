@@ -333,6 +333,7 @@ export class StoryIndexGenerator {
           input.rawComponentPath && this.resolveComponentPath(input.rawComponentPath, absolutePath);
         const title = input.title ?? defaultMakeTitle();
 
+        // eslint-disable-next-line no-underscore-dangle
         const id = input.__id ?? toId(input.metaId ?? title, storyNameFromExport(input.exportName));
         const tags = (input.tags || []).concat('story');
 
