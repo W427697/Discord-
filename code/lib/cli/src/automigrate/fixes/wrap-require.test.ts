@@ -3,8 +3,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { wrapRequire } from './wrap-require';
 import * as detect from '../../detect';
 
-vi.mock('../../detect', async () => ({
-  ...(await vi.importActual('../../detect')),
+vi.mock('../../detect', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../detect')>()),
   detectPnp: vi.fn(),
 }));
 

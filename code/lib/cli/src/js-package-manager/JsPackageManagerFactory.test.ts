@@ -108,7 +108,9 @@ describe('JsPackageManagerFactory', () => {
 
       it('when a pnpm-lock.yaml file is closer than a yarn.lock', async () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
-        findUpSyncMock.mockImplementation((await vi.importActual('find-up')).sync);
+        findUpSyncMock.mockImplementation(
+          (await vi.importActual<typeof import('find-up')>('find-up')).sync
+        );
 
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
@@ -219,7 +221,9 @@ describe('JsPackageManagerFactory', () => {
 
       it('when multiple lockfiles are in a project, prefers yarn', async () => {
         // Allow find-up to work as normal, we'll set the cwd to our fixture package
-        findUpSyncMock.mockImplementation((await vi.importActual('find-up')).sync);
+        findUpSyncMock.mockImplementation(
+          (await vi.importActual<typeof import('find-up')>('find-up')).sync
+        );
 
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok

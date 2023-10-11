@@ -7,17 +7,22 @@ import { StoryStore } from './StoryStore';
 import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
-vi.mock('./csf/prepareStory', async () => ({
-  ...(await vi.importActual('./csf/prepareStory')),
-  prepareStory: vi.fn((await vi.importActual('./csf/prepareStory')).prepareStory),
-}));
-vi.mock('./csf/processCSFFile', async () => ({
-  processCSFFile: vi.fn((await vi.importActual('./csf/processCSFFile')).processCSFFile),
+vi.mock('./csf/prepareStory', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('./csf/prepareStory')>();
+  return {
+    ...actual,
+    prepareStory: vi.fn(actual.prepareStory),
+  };
+});
+vi.mock('./csf/processCSFFile', async (importOriginal) => ({
+  processCSFFile: vi.fn(
+    (await importOriginal<typeof import('./csf/processCSFFile')>()).processCSFFile
+  ),
 }));
 
-vi.mock('@storybook/global', async () => ({
+vi.mock('@storybook/global', async (importOriginal) => ({
   global: {
-    ...((await vi.importActual('@storybook/global')) as any),
+    ...(await importOriginal<typeof import('@storybook/global')>()),
   },
 }));
 

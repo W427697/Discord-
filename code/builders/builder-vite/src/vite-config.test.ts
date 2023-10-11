@@ -3,8 +3,8 @@ import type { Options, Presets } from '@storybook/types';
 import { loadConfigFromFile } from 'vite';
 import { commonConfig } from './vite-config';
 
-vi.mock('vite', async () => ({
-  ...(await vi.importActual('vite')),
+vi.mock('vite', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('vite')>()),
   loadConfigFromFile: vi.fn(async () => ({})),
 }));
 const loadConfigFromFileMock = vi.mocked(loadConfigFromFile);

@@ -61,9 +61,9 @@ const { history, document } = global;
 const mockStoryIndex = vi.fn(() => storyIndex);
 
 let mockFetchResult: any;
-vi.mock('@storybook/global', async () => ({
+vi.mock('@storybook/global', async (importOriginal) => ({
   global: {
-    ...((await vi.importActual('@storybook/global')) as any),
+    ...(await importOriginal<typeof import('@storybook/global')>),
     history: { replaceState: vi.fn() },
     document: {
       location: {

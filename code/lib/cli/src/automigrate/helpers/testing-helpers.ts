@@ -1,13 +1,13 @@
 import { vi } from 'vitest';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 
-vi.mock('./mainConfigFile', async () => ({
-  ...(await vi.importActual('./mainConfigFile')),
+vi.mock('./mainConfigFile', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('./mainConfigFile')>()),
   getStorybookData: vi.fn(),
 }));
 
-vi.mock('@storybook/core-common', async () => ({
-  ...(await vi.importActual('@storybook/core-common')),
+vi.mock('@storybook/core-common', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@storybook/core-common')>()),
   loadMainConfig: vi.fn(),
 }));
 

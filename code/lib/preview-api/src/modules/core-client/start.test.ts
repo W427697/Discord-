@@ -43,17 +43,16 @@ vi.mock('@storybook/client-logger');
 vi.mock('react-dom');
 
 // for the auto-title test
-vi.mock('../../store', async () => {
-  const actualStore = await vi.importActual('../../store');
+vi.mock('../../store', async (importOriginal) => {
   return {
-    ...actualStore,
+    ...(await importOriginal<typeof import('../../store')>()),
     userOrAutoTitle: (importPath: Path, specifier: any, userTitle?: string) =>
       userTitle || 'auto-title',
   };
 });
 
-vi.mock('../../preview-web', async () => {
-  const actualPreviewWeb = await vi.importActual('../../preview-web');
+vi.mock('../../preview-web', async (importOriginal) => {
+  const actualPreviewWeb = await importOriginal<typeof import('../../preview-web')>();
 
   class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb {
     constructor() {

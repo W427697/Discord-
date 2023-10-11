@@ -22,8 +22,8 @@ const fseMocks = vi.hoisted(() => ({
   writeFile: vi.fn(),
 }));
 
-vi.mock('fs', async () => {
-  const actual = await vi.importActual<typeof import('fs')>('fs');
+vi.mock('fs', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('fs')>();
   return {
     ...actual,
     ...fsMocks,
@@ -38,8 +38,8 @@ vi.mock('./dirs', () => ({
   getCliDir: () => '@storybook/cli',
 }));
 
-vi.mock('fs-extra', async () => {
-  const actual = await vi.importActual<typeof import('fs-extra')>('fs-extra');
+vi.mock('fs-extra', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('fs-extra')>();
   return {
     ...actual,
     ...fseMocks,
@@ -54,8 +54,8 @@ vi.mock('find-up', () => ({
   sync: vi.fn(),
 }));
 
-vi.mock('path', async () => {
-  const actual = await vi.importActual<typeof import('path')>('path');
+vi.mock('path', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('path')>();
   return {
     ...actual,
     // make it return just the second path, for easier testing

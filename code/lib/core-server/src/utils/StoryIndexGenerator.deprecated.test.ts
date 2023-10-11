@@ -13,8 +13,8 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 vi.mock('@storybook/node-logger');
-vi.mock('@storybook/csf', async () => {
-  const csf: typeof csfMod = vi.mocked(await vi.importActual('@storybook/csf'));
+vi.mock('@storybook/csf', async (importOriginal) => {
+  const csf = await importOriginal<typeof import('@storybook/csf')>();
   return {
     ...csf,
     toId: vi.fn(csf.toId),
@@ -1160,7 +1160,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
               test: /\.stories\.(m?js|ts)x?$/,
               createIndex: async (fileName, options) => {
                 const code = (await fs.readFile(fileName, 'utf-8')).toString();
-                const csf = loadCsf(code, { ...options, fileName }).parse();
+                const csf = csfToolsMod.loadCsf(code, { ...options, fileName }).parse();
 
                 // eslint-disable-next-line no-underscore-dangle
                 return Object.entries(csf._stories).map(([exportName, story]) => ({

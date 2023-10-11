@@ -4,16 +4,13 @@ import { nanoid } from 'nanoid';
 import { cache } from '@storybook/core-common';
 import { resetSessionIdForTest, getSessionId, SESSION_TIMEOUT } from './session-id';
 
-vi.mock('@storybook/core-common', async () => {
-  const actual = await vi.importActual('@storybook/core-common');
-  return {
-    ...actual,
-    cache: {
-      get: vi.fn(),
-      set: vi.fn(),
-    },
-  };
-});
+vi.mock('@storybook/core-common', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@storybook/core-common')>()),
+  cache: {
+    get: vi.fn(),
+    set: vi.fn(),
+  },
+}));
 vi.mock('nanoid');
 
 const spy = (x: any) => x as SpyInstance;

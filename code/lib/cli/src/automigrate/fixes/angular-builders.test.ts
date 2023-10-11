@@ -22,13 +22,13 @@ const checkAngularBuilders = async ({
   });
 };
 
-vi.mock('../../helpers', async () => ({
-  ...(await vi.importActual('../../helpers')),
+vi.mock('../../helpers', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../helpers')>()),
   isNxProject: vi.fn(),
 }));
 
-vi.mock('../../generators/ANGULAR/helpers', async () => ({
-  ...(await vi.importActual('../../generators/ANGULAR/helpers')),
+vi.mock('../../generators/ANGULAR/helpers', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../generators/ANGULAR/helpers')>()),
   AngularJSON: vi.fn(),
 }));
 

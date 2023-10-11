@@ -6,9 +6,9 @@ import { addons, HooksContext } from '../../addons';
 import { UNTARGETED } from '../args';
 import { prepareStory, prepareMeta, prepareContext } from './prepareStory';
 
-vi.mock('@storybook/global', async () => ({
+vi.mock('@storybook/global', async (importOriginal) => ({
   global: {
-    ...((await vi.importActual('@storybook/global')) as any),
+    ...(await importOriginal<typeof import('@storybook/global')>()),
   },
 }));
 

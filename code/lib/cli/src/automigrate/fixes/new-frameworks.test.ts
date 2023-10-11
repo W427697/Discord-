@@ -6,8 +6,10 @@ import { newFrameworks } from './new-frameworks';
 import type { JsPackageManager } from '../../js-package-manager';
 
 vi.mock('find-up');
-vi.mock('../helpers/detectRenderer', async () => ({
-  detectRenderer: vi.fn((await vi.importActual('../helpers/detectRenderer')).detectRenderer),
+vi.mock('../helpers/detectRenderer', async (importOriginal) => ({
+  detectRenderer: vi.fn(
+    (await importOriginal<typeof import('../helpers/detectRenderer')>()).detectRenderer
+  ),
 }));
 
 const checkNewFrameworks = async ({

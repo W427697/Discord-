@@ -19,8 +19,8 @@ import type { StoryIndexGeneratorOptions } from './StoryIndexGenerator';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { csfIndexer } from '../presets/common-preset';
 
-vi.mock('@storybook/csf', async () => {
-  const csf = await vi.importActual('@storybook/csf');
+vi.mock('@storybook/csf', async (importOriginal) => {
+  const csf = await importOriginal<typeof import('@storybook/csf')>();
   return {
     ...csf,
     toId: vi.fn(csf.toId),
@@ -29,9 +29,9 @@ vi.mock('@storybook/csf', async () => {
 
 vi.mock('@storybook/node-logger');
 
-const toIdMock = toId as Mock<ReturnType<typeof toId>>;
-vi.mock('@storybook/csf-tools', async () => {
-  const csfTools = await vi.importActual('@storybook/csf-tools');
+const toIdMock = vi.mocked(toId);
+vi.mock('@storybook/csf-tools', async (importOriginal) => {
+  const csfTools = await importOriginal<typeof import('@storybook/csf-tools')>();
   return {
     ...csfTools,
     readCsf: vi.fn(csfTools.readCsf),
