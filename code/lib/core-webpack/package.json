@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-webpack",
-  "version": "7.5.0-alpha.4",
+  "version": "7.5.0-alpha.5",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -47,7 +47,7 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/types": "workspace:*",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

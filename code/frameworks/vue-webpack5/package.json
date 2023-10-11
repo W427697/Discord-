@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue-webpack5",
-  "version": "7.5.0-alpha.4",
+  "version": "7.5.0-alpha.5",
   "description": "Storybook for Vue: Develop Vue Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -51,7 +51,7 @@
     "@storybook/core-common": "workspace:*",
     "@storybook/preset-vue-webpack": "workspace:*",
     "@storybook/vue": "workspace:*",
-    "@types/node": "^16.0.0"
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3",
