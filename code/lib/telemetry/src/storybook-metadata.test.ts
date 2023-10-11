@@ -281,24 +281,24 @@ describe('storybook-metadata', () => {
       });
 
       expect(result.addons).toMatchInlineSnapshot(`
-        Object {
-          "@storybook/addon-essentials": Object {
+        {
+          "@storybook/addon-essentials": {
             "options": undefined,
             "version": "x.x.x",
           },
-          "@storybook/addon-knobs": Object {
+          "@storybook/addon-knobs": {
             "options": undefined,
             "version": "x.x.x",
           },
-          "storybook-addon-deprecated": Object {
+          "storybook-addon-deprecated": {
             "options": undefined,
             "version": "x.x.x",
           },
         }
       `);
       expect(result.storybookPackages).toMatchInlineSnapshot(`
-        Object {
-          "@storybook/react": Object {
+        {
+          "@storybook/react": {
             "version": "x.x.x",
           },
         }
@@ -363,14 +363,14 @@ describe('storybook-metadata', () => {
         },
       });
       expect(res.addons).toMatchInlineSnapshot(`
-        Object {
-          "@storybook/addon-essentials": Object {
-            "options": Object {
+        {
+          "@storybook/addon-essentials": {
+            "options": {
               "controls": false,
             },
             "version": "x.x.x",
           },
-          "addon-foo": Object {
+          "addon-foo": {
             "options": undefined,
             "version": "x.x.x",
           },
