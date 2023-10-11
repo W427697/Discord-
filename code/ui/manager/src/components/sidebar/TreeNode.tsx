@@ -17,12 +17,22 @@ export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExp
   transition: 'transform .1s ease-out',
 }));
 
-const TypeIcon = styled.svg({
-  width: 12,
-  height: 12,
-  marginRight: 5,
-  flex: '0 0 auto',
-});
+const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
+  ({ theme, type }) => ({
+    width: 12,
+    height: 12,
+    marginRight: 5,
+    flex: '0 0 auto',
+    color: (() => {
+      if (type === 'group')
+        return theme.base === 'dark' ? theme.color.primary : theme.color.ultraviolet;
+      if (type === 'component') return theme.color.secondary;
+      if (type === 'document') return theme.base === 'dark' ? theme.color.gold : '#ff8300';
+      if (type === 'story') return theme.color.seafoam;
+      return 'currentColor';
+    })(),
+  })
+);
 
 const BranchNode = styled.button<{
   depth?: number;
@@ -132,8 +142,8 @@ export const GroupNode: FC<
     <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
       <IconsWrapper>
         {isExpandable ? <CollapseIcon isExpanded={isExpanded} /> : null}
-        <TypeIcon viewBox="0 0 14 14" width="14" height="14">
-          <use href="#icon--folder" />
+        <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="group">
+          <use href="#icon--group" />
         </TypeIcon>
       </IconsWrapper>
       {children}
@@ -147,7 +157,7 @@ export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
       <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
         <IconsWrapper>
           {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
-          <TypeIcon viewBox="0 0 14 14" width="12" height="12">
+          <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="component">
             <use href="#icon--component" />
           </TypeIcon>
         </IconsWrapper>
@@ -162,7 +172,7 @@ export const DocumentNode: FC<ComponentProps<typeof LeafNode> & { docsMode: bool
     return (
       <LeafNode tabIndex={-1} {...props}>
         <IconsWrapper>
-          <TypeIcon viewBox="0 0 14 14" width="12" height="12">
+          <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="document">
             <use href="#icon--document" />
           </TypeIcon>
         </IconsWrapper>
@@ -180,7 +190,7 @@ export const StoryNode: FC<ComponentProps<typeof LeafNode>> = React.memo(functio
   return (
     <LeafNode tabIndex={-1} {...props}>
       <IconsWrapper>
-        <TypeIcon viewBox="0 0 14 14" width="12" height="12">
+        <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="story">
           <use href="#icon--story" />
         </TypeIcon>
       </IconsWrapper>
