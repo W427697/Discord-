@@ -13,6 +13,8 @@
     "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
     "lint:package": "sort-package-json",
     "migrate-docs": "node --require esbuild-register ./ts-to-ts49.ts",
+    "release:cancel-preparation-runs": "ts-node --swc ./release/cancel-preparation-runs.ts",
+    "release:ensure-next-ahead": "ts-node --swc ./release/ensure-next-ahead.ts",
     "release:generate-pr-description": "ts-node --swc ./release/generate-pr-description.ts",
     "release:get-changelog-from-file": "ts-node --swc ./release/get-changelog-from-file.ts",
     "release:get-current-version": "ts-node --swc ./release/get-current-version.ts",
@@ -73,6 +75,7 @@
     "@jest/globals": "^29.3.1",
     "@nx/workspace": "16.2.1",
     "@octokit/graphql": "^5.0.5",
+    "@octokit/request": "^8.1.2",
     "@storybook/eslint-config-storybook": "^3.1.2",
     "@storybook/jest": "next",
     "@storybook/linter-config": "^3.1.2",
@@ -91,7 +94,7 @@
     "@types/http-server": "^0.12.1",
     "@types/jest": "^29.5.5",
     "@types/lodash": "^4",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/prettier": "^2",
     "@types/pretty-hrtime": "^1.0.0",
@@ -201,6 +204,6 @@
   },
   "packageManager": "yarn@3.3.0",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
 }
