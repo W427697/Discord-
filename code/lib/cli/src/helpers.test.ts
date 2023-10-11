@@ -1,5 +1,4 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest';
-import fs from 'fs';
 import fse from 'fs-extra';
 
 import * as helpers from './helpers';

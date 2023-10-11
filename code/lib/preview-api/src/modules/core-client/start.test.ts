@@ -2,7 +2,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { describe, beforeEach, afterEach, afterAll, it, expect, vi } from 'vitest';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX, CONFIG_ERROR } from '@storybook/core-events';
 
 import type { ModuleExports, Path } from '@storybook/types';

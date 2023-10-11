@@ -51,11 +51,7 @@ const options: StoryIndexGeneratorOptions = {
 
 describe('StoryIndexGenerator with deprecated indexer API', () => {
   beforeEach(async () => {
-    // const actual: typeof csfToolsMod = await vi.importActual('@storybook/csf-tools');
-    // loadCsf.mockImplementation(actual.loadCsf);
     vi.clearAllMocks();
-    // vi.mocked(logger.warn).mockClear();
-    // vi.mocked(once.warn).mockClear();
   });
   describe('extraction', () => {
     const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
