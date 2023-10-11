@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { componentWrapperDecorator, Meta, StoryFn, StoryObj } from '@storybook/angular';
+import { componentWrapperDecorator, Meta, StoryObj } from '@storybook/angular';
 
 @Component({
   selector: 'sb-button',
@@ -54,5 +54,5 @@ export const InH1: Story = {
     template: 'My button in h1',
   }),
   decorators: [componentWrapperDecorator((story) => `<h1>${story}</h1>`)],
-  storyName: 'In <h1>',
+  name: 'In <h1>',
 };

@@ -33,11 +33,11 @@ export default meta;
 
 type Story = StoryObj<ChipsGroupComponent>;
 
-export const Base = {
-  storyName: 'Chips group',
+export const Base: Story = {
+  name: 'Chips group',
 };
 
-export const WithCustomProvider = {
+export const WithCustomProvider: Story = {
   decorators: [
     moduleMetadata({
       providers: [
@@ -48,5 +48,5 @@ export const WithCustomProvider = {
       ],
     }),
   ],
-  storyName: 'Chips group with overridden provider',
+  name: 'Chips group with overridden provider',
 };

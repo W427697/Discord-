@@ -19,5 +19,5 @@ export default meta;
 type Story = StoryObj<OnPushBoxComponent>;
 
 export const ClassSpecifiedComponentWithOnPushAndArgs: Story = {
-  storyName: 'Class-specified component with OnPush and Args',
+  name: 'Class-specified component with OnPush and Args',
 };

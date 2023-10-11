@@ -22,7 +22,7 @@ export default meta;
 type Story = StoryObj<CustomCvaComponent>;
 
 export const SimpleInput: Story = {
-  storyName: 'Simple input',
+  name: 'Simple input',
   render: () => ({
     props: {
       ngModel: 'Type anything',

@@ -11,5 +11,5 @@ export default meta;
 type Story = StoryObj<StyledComponent>;
 
 export const ComponentWithStyles: Story = {
-  storyName: 'Component with styles',
+  name: 'Component with styles',
 };

@@ -26,7 +26,7 @@ export const Simple: Story = {
 };
 
 export const WithArgsStory: Story = {
-  storyName: 'With args',
+  name: 'With args',
   argTypes: {
     field: { control: 'text' },
   },

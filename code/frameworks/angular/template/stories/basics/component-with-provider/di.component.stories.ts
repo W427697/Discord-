@@ -16,11 +16,11 @@ export const InputsAndInjectDependencies: Story = {
       title: 'Component dependencies',
     },
   }),
-  storyName: 'inputs and inject dependencies',
+  name: 'inputs and inject dependencies',
 };
 
 export const InputsAndInjectDependenciesWithArgs: Story = {
-  storyName: 'inputs and inject dependencies with args',
+  name: 'inputs and inject dependencies with args',
   argTypes: {
     title: { control: 'text' },
   },
