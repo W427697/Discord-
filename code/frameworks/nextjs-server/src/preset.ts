@@ -1,6 +1,6 @@
-import { readFile, writeFile } from 'fs/promises';
+import { cp, readFile, writeFile } from 'fs/promises';
 import { ensureDir } from 'fs-extra';
-import { dirname, join, relative } from 'path';
+import { dirname, join, relative, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 
 import type { PresetProperty, Indexer } from '@storybook/types';
@@ -25,27 +25,57 @@ const rewritingIndexer: Indexer = {
     const code = (await readFile(fileName, 'utf-8')).toString();
     const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
-    const storiesDir = join(process.cwd(), 'app', 'nextjs-stories');
+    const inputStorybookDir = resolve(__dirname, '../template/storybook');
+    const storybookDir = join(process.cwd(), 'app', 'storybook');
+    try {
+      await cp(inputStorybookDir, storybookDir, { recursive: true });
+    } catch (err) {
+      // FIXME: assume we've copied already
+    }
+
     await Promise.all(
       csf.stories.map(async (story) => {
-        const storyDir = join(storiesDir, story.id);
+        const storyDir = join(storybookDir, story.id);
         await ensureDir(storyDir);
-        const pageFile = join(storyDir, 'page.jsx');
+        const pageFile = join(storyDir, 'page.tsx');
         const relativePath = relative(dirname(pageFile), fileName);
         const { exportName } = story;
         console.log({ story });
 
-        const pageJsx = dedent`
-          import { indexStory } from '@storybook/nextjs-server/server';
+        const pageTsx = dedent`
+          import React from 'react';
+          import { composeStory } from '@storybook/react/testing-api';
+          import { getArgs } from '../components/args';
+          import { Prepare } from '../components/Prepare';
+          import { StoryAnnotations } from '../components/Storybook';
+          import { Args } from '@storybook/types';
 
-          const page = async ({ searchParams }) => {
+          const page = async () => {
             const stories = await import('${relativePath}');
-            const Component = indexStory('${exportName}', stories);
-            return <Component {...searchParams } />;
-          }
+            const Composed = composeStory(stories.${exportName}, stories.default, {}, '${exportName}');
+            const extraArgs = await getArgs(Composed.id);
+
+            const { id, parameters, argTypes, initialArgs } = Composed;
+            const args = { ...initialArgs, ...extraArgs };
+
+            const storyAnnotations: StoryAnnotations<Args> = {
+              id,
+              parameters,
+              argTypes,
+              initialArgs,
+              args,
+            };
+            return (
+              <>
+                <Prepare story={storyAnnotations} />
+                {/* @ts-ignore TODO -- why? */}
+                <Composed {...extraArgs} />
+              </>
+            );
+          };
           export default page;
         `;
-        await writeFile(pageFile, pageJsx);
+        await writeFile(pageFile, pageTsx);
       })
     );
 
