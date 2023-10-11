@@ -87,4 +87,16 @@ describe('argsToTemplate', () => {
     const result = argsToTemplate(args, options);
     expect(result).toBe('[prop1]="prop1" [prop2]="prop2"');
   });
+
+  it('should bind events correctly when value is a function', () => {
+    const args = { event1: () => {}, event2: () => {} };
+    const result = argsToTemplate(args, {});
+    expect(result).toEqual('(event1)="event1($event)" (event2)="event2($event)"');
+  });
+
+  it('should mix properties and events correctly', () => {
+    const args = { input: 'Value1', event1: () => {} };
+    const result = argsToTemplate(args, {});
+    expect(result).toEqual('[input]="input" (event1)="event1($event)"');
+  });
 });
