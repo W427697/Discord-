@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: next
+          ref: valentin/setup-sandboxes
       - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
