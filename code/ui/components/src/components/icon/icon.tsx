@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import React, { memo } from 'react';
 import * as StorybookIcons from '@storybook/icons';
 import { styled } from '@storybook/theming';
@@ -13,7 +13,7 @@ const Svg = styled.svg`
   }
 `;
 
-export interface IconsProps {
+export interface IconsProps extends ComponentProps<typeof Svg> {
   icon: IconType;
   useSymbol?: boolean;
   onClick?: () => void;
@@ -26,8 +26,12 @@ export interface IconsProps {
 export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps) => {
   type NewIconTypes = typeof icons[keyof typeof icons];
   const findIcon: NewIconTypes = icons[icon] || 'FaceHappy';
-  const Icon = StorybookIcons[findIcon];
+  const Icon: FC = StorybookIcons[findIcon];
   return <Icon {...props} />;
+};
+
+export const Test: FC = () => {
+  return <div>Test</div>;
 };
 
 export type IconType = keyof typeof icons;
@@ -111,6 +115,7 @@ export const icons = {
   rss: 'RSS',
   sharealt: 'ShareAlt',
   share: 'Share',
+  circle: 'Circle',
   circlehollow: 'CircleHollow',
   bookmarkhollow: 'BookmarkHollow',
   bookmark: 'Bookmark',
