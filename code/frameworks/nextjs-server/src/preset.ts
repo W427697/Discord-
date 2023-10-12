@@ -49,10 +49,11 @@ const rewritingIndexer: Indexer = {
           import { Prepare } from '../components/Prepare';
           import { StoryAnnotations } from '../components/Storybook';
           import { Args } from '@storybook/types';
+          import projectAnnotations from '@/.storybook/preview';
 
           const page = async () => {
             const stories = await import('${relativePath}');
-            const Composed = composeStory(stories.${exportName}, stories.default, {}, '${exportName}');
+            const Composed = composeStory(stories.${exportName}, stories.default, projectAnnotations || {}, '${exportName}');
             const extraArgs = await getArgs(Composed.id);
 
             const { id, parameters, argTypes, initialArgs } = Composed;

@@ -38,6 +38,12 @@
       "types": "./dist/preview.d.ts",
       "import": "./dist/preview.mjs"
     },
+    "./mock": {
+      "types": "./dist/mock.d.ts",
+      "node": "./dist/mock.js",
+      "require": "./dist/mock.js",
+      "import": "./dist/mock.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -92,7 +98,7 @@
       "./src/preset.ts",
       "./src/preview.ts",
       "./src/plugin.ts",
-      "./src/server/index.tsx"
+      "./src/mock.ts"
     ],
     "platform": "node"
   },
