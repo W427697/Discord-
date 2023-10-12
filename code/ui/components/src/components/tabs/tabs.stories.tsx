@@ -99,6 +99,7 @@ const onSelect = action('onSelect');
 
 const content = Object.entries(panels).map(([k, v]) => (
   <div key={k} id={k} title={v.title as any}>
+    {/* @ts-expect-error (we know this is broken) */}
     {v.render}
   </div>
 ));
@@ -210,6 +211,7 @@ export const StatefulDynamicWithOpenTooltip = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title as any}>
+          {/* @ts-expect-error (we know this is broken) */}
           {v.render}
         </div>
       ))}
@@ -238,6 +240,7 @@ export const StatefulDynamicWithSelectedAddon = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title as any}>
+          {/* @ts-expect-error (we know this is broken) */}
           {v.render}
         </div>
       ))}

@@ -1,4 +1,4 @@
-import type { FC, ReactElement, ReactNode, SyntheticEvent } from 'react';
+import type { FC, PropsWithChildren, ReactElement, ReactNode, SyntheticEvent } from 'react';
 import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
@@ -114,8 +114,8 @@ export const panelProps = {};
 
 export interface TabsProps {
   children?: ReactElement<{
-    children: FC<Addon_RenderOptions>;
-    title: ReactNode | FC;
+    children: FC<Addon_RenderOptions & PropsWithChildren>;
+    title: ReactNode | FC<PropsWithChildren>;
   }>[];
   id?: string;
   tools?: ReactNode;

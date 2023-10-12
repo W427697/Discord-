@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
@@ -17,7 +17,7 @@ const PlaceholderBlock = styled.div({
   overflow: 'hidden',
 });
 
-const PlaceholderClock: FC = ({ children }) => {
+const PlaceholderClock: FC<PropsWithChildren> = ({ children }) => {
   const [count, setCount] = React.useState(0);
   React.useEffect(() => {
     const interval = setInterval(() => {
