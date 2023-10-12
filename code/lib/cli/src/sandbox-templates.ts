@@ -137,6 +137,16 @@ const baseTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
+  'nextjs/prerelease': {
+    name: 'Next.js Prerelease (Webpack | TypeScript)',
+    script: 'yarn create next-app@canary {{beforeDir}} --typescript --eslint',
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
   'react-vite/default-js': {
     name: 'React Latest (Vite | JavaScript)',
     script: 'npm create vite@latest --yes {{beforeDir}} -- --template react',
@@ -597,6 +607,7 @@ export const daily: TemplateKey[] = [
   'svelte-vite/default-js',
   'nextjs/12-js',
   'nextjs/default-js',
+  'nextjs/prerelease',
   'qwik-vite/default-ts',
   'preact-webpack5/default-js',
   'preact-vite/default-js',
