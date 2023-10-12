@@ -98,7 +98,6 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.ts",
-      "./src/plugin.ts",
       "./src/mock.ts"
     ],
     "platform": "node"
