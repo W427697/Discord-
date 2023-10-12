@@ -1,4 +1,4 @@
-import type { StorybookConfig as StorybookConfigBase } from '@storybook/preset-server-webpack';
+import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
 import type {
   StorybookConfigVite,
   BuilderOptions,

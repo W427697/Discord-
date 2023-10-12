@@ -90,9 +90,7 @@ export const experimental_indexers = async (existingIndexers?: Indexer[]) => {
   return [rewritingIndexer, ...(existingIndexers || [])];
 };
 
-// @ts-expect-error FIXME
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  // @ts-expect-error FIXME
   const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
 
   return {
