@@ -586,8 +586,7 @@ export const merged: TemplateKey[] = [
 ];
 export const daily: TemplateKey[] = [
   ...merged,
-  // TODO: Should be re-added after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
-  // 'angular-cli/prerelease',
+  'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',
