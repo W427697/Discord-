@@ -9,7 +9,6 @@ export type ToolbarMenuListItemProps = {
 } & ToolbarItem;
 
 export const ToolbarMenuListItem = ({
-  left,
   right,
   title,
   value,
