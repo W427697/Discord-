@@ -139,7 +139,7 @@ const baseTemplates = {
   },
   'nextjs/prerelease': {
     name: 'Next.js Prerelease (Webpack | TypeScript)',
-    script: 'yarn create next-app@canary {{beforeDir}} --typescript --eslint',
+    script: 'npx create-next-app@canary {{beforeDir}} --typescript --eslint',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
