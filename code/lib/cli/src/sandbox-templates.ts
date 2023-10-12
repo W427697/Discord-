@@ -139,14 +139,14 @@ const baseTemplates = {
   },
   'nextjs/prerelease': {
     name: 'Next.js Prerelease (Webpack | TypeScript)',
-    script: 'npx create-next-app@canary {{beforeDir}} --typescript --eslint',
+    script:
+      'npx create-next-app@canary {{beforeDir}} --typescript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
-    inDevelopment: true,
   },
   'react-vite/default-js': {
     name: 'React Latest (Vite | JavaScript)',
@@ -307,8 +307,6 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
-    // TODO: Should be removed after we merge this PR: https://github.com/storybookjs/storybook/pull/24188
-    inDevelopment: true,
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI Latest (Webpack | TypeScript)',
