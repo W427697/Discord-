@@ -6021,6 +6021,7 @@ __metadata:
     "@storybook/csf": ^0.1.0
     "@storybook/docs-tools": "workspace:*"
     "@storybook/global": ^5.0.0
+    "@storybook/icons": ^1.2.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -6330,7 +6331,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/csf": ^0.1.0
     "@storybook/global": ^5.0.0
-    "@storybook/icons": ^1.1.7
+    "@storybook/icons": ^1.2.0
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/react-syntax-highlighter": 11.0.5
@@ -6678,13 +6679,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/icons@npm:^1.1.7":
-  version: 1.1.7
-  resolution: "@storybook/icons@npm:1.1.7"
+"@storybook/icons@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@storybook/icons@npm:1.2.0"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 5bb97f948f2a1cfc067a120f8e17004cdf9cdef0d08558ec51659e4e4d4b1620c76ced6d15a57d84aed888c664a0f9daa7a6e7b4ef22302d95f3228aa627bc83
+  checksum: 85eb08c8d36558b066ca1aebc54c4a683cf86e8d081ed8d951d7a8401939ae9d4b069ac4e4a8401fdb9807c907fc41e38229224084b374ca9b8ea8acc4d48180
   languageName: node
   linkType: hard
 
@@ -6783,7 +6784,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": ^1.1.7
+    "@storybook/icons": ^1.2.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/router": "workspace:*"
     "@storybook/theming": "workspace:*"
