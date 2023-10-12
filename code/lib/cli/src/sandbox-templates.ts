@@ -146,6 +146,7 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
+    inDevelopment: true,
   },
   'react-vite/default-js': {
     name: 'React Latest (Vite | JavaScript)',
