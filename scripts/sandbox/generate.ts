@@ -235,6 +235,7 @@ export const generate = async ({
   debug,
 }: OptionValues<typeof options>) => {
   const generatorConfigs = Object.entries(sandboxTemplates)
+    .filter(([key]) => key === 'nextjs/prerelease' || key === 'angular-cli/prerelease')
     .map(([dirName, configuration]) => ({
       dirName,
       ...configuration,
