@@ -118,6 +118,7 @@ describe('PropertyExtractor', () => {
         TestModuleWithImportsAndProviders,
         StandaloneTestComponent,
       ]);
+    });
 
     it('should return standalone directives', () => {
       const imports = extractImports(
