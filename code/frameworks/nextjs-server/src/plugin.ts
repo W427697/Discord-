@@ -49,13 +49,15 @@ const transformCsf = (csf: CsfFile, options: TransformOptions) => {
   return csf;
 };
 
-export const transformCode = (code: string, options: TransformOptions) => {
+export const transformCode = (
+  code: string,
+  options: TransformOptions
+): { code: string; map?: any } => {
   try {
     const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
     transformCsf(csf, options);
     const transformed = formatCsf(csf, { sourceMaps: true });
-    console.log({ transformed });
-    return transformed;
+    return transformed as { code: string; map: any };
   } catch (err: any) {
     // This can be called on legacy storiesOf files, so just ignore
     // those errors. But warn about other errors.
@@ -63,7 +65,7 @@ export const transformCode = (code: string, options: TransformOptions) => {
       logger.warn(err.message);
     }
   }
-  return code;
+  return { code };
 };
 
 export const unplugin = createUnplugin<TransformOptions>((options) => {
