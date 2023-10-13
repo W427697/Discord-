@@ -2,6 +2,7 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { FC, ComponentProps } from 'react';
 import React from 'react';
+import { UseSymbol } from './IconSymbols';
 
 export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
   display: 'inline-block',
@@ -143,7 +144,7 @@ export const GroupNode: FC<
       <IconsWrapper>
         {isExpandable ? <CollapseIcon isExpanded={isExpanded} /> : null}
         <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="group">
-          <use href="#icon--group" />
+          <UseSymbol type="group" />
         </TypeIcon>
       </IconsWrapper>
       {children}
@@ -158,7 +159,7 @@ export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
         <IconsWrapper>
           {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
           <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="component">
-            <use href="#icon--component" />
+            <UseSymbol type="component" />
           </TypeIcon>
         </IconsWrapper>
         {children}
@@ -173,7 +174,7 @@ export const DocumentNode: FC<ComponentProps<typeof LeafNode> & { docsMode: bool
       <LeafNode tabIndex={-1} {...props}>
         <IconsWrapper>
           <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="document">
-            <use href="#icon--document" />
+            <UseSymbol type="document" />
           </TypeIcon>
         </IconsWrapper>
         {children}
@@ -191,7 +192,7 @@ export const StoryNode: FC<ComponentProps<typeof LeafNode>> = React.memo(functio
     <LeafNode tabIndex={-1} {...props}>
       <IconsWrapper>
         <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="story">
-          <use href="#icon--story" />
+          <UseSymbol type="story" />
         </TypeIcon>
       </IconsWrapper>
       {children}

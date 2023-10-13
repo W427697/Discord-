@@ -14,10 +14,15 @@ const Svg = styled.svg`
 // We are importing the icons from @storybook/icons as we need to add symbols inside of them.
 // This will allow to set icons once and use them everywhere.
 
+const GROUP_ID = 'icon--group';
+const COMPONENT_ID = 'icon--group';
+const DOCUMENT_ID = 'icon--document';
+const STORY_ID = 'icon--story';
+
 export const IconSymbols: FC = () => {
   return (
     <Svg data-chromatic="ignore">
-      <symbol id="icon--group">
+      <symbol id={GROUP_ID}>
         {/* https://github.com/storybookjs/icons/blob/main/src/icons/Folder.tsx */}
         <path
           fillRule="evenodd"
@@ -26,7 +31,7 @@ export const IconSymbols: FC = () => {
           fill="currentColor"
         />
       </symbol>
-      <symbol id="icon--component">
+      <symbol id={COMPONENT_ID}>
         {/* https://github.com/storybookjs/icons/blob/main/src/icons/Component.tsx */}
         <path
           fillRule="evenodd"
@@ -35,7 +40,7 @@ export const IconSymbols: FC = () => {
           fill="currentColor"
         />
       </symbol>
-      <symbol id="icon--document">
+      <symbol id={DOCUMENT_ID}>
         {/* https://github.com/storybookjs/icons/blob/main/src/icons/Document.tsx */}
         <path
           d="M4 5.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5zM4.5 7.5a.5.5 0 000 1h5a.5.5 0 000-1h-5zM4 10.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5a.5.5 0 01-.5-.5z"
@@ -48,7 +53,7 @@ export const IconSymbols: FC = () => {
           fill="currentColor"
         />
       </symbol>
-      <symbol id="icon--story">
+      <symbol id={STORY_ID}>
         {/* https://github.com/storybookjs/icons/blob/main/src/icons/BookmarkHollow.tsx */}
         <path
           fillRule="evenodd"
@@ -59,4 +64,12 @@ export const IconSymbols: FC = () => {
       </symbol>
     </Svg>
   );
+};
+
+export const UseSymbol: FC<{ type: 'group' | 'component' | 'document' | 'story' }> = ({ type }) => {
+  if (type === 'group') return <use xlinkHref={`#${GROUP_ID}`} />;
+  if (type === 'component') return <use xlinkHref={`#${COMPONENT_ID}`} />;
+  if (type === 'document') return <use xlinkHref={`#${DOCUMENT_ID}`} />;
+  if (type === 'story') return <use xlinkHref={`#${STORY_ID}`} />;
+  return null;
 };
