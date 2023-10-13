@@ -2,6 +2,10 @@ import type { ComponentProps, FC } from 'react';
 import React, { memo } from 'react';
 import * as StorybookIcons from '@storybook/icons';
 import { styled } from '@storybook/theming';
+import { deprecate, logger } from '@storybook/client-logger';
+
+export type IconType = keyof typeof icons;
+type NewIconTypes = typeof icons[IconType];
 
 const Svg = styled.svg`
   display: inline-block;
@@ -24,21 +28,27 @@ export interface IconsProps extends ComponentProps<typeof Svg> {
  * Please use the `@storybook/icons` package instead.
  * */
 export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps) => {
-  type NewIconTypes = typeof icons[keyof typeof icons];
-  const findIcon: NewIconTypes = icons[icon] || 'FaceHappy';
+  deprecate(
+    `Use of the deprecated Icons ${
+      `(${icon})` || ''
+    } component detected. Please use the @storybook/icons component directly. For more informations, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated`
+  );
+  const findIcon: NewIconTypes = icons[icon] || null;
+  if (!findIcon) {
+    logger.warn(
+      `Use of an unknown prop ${
+        `(${icon})` || ''
+      } in the Icons component. The Icons component is deprecated. Please use the @storybook/icons component directly. For more informations, see the migration notes at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#icons-is-deprecated`
+    );
+    return null;
+  }
   const Icon: FC = StorybookIcons[findIcon];
+
   return <Icon {...props} />;
 };
 
-export const Test: FC = () => {
-  return <div>Test</div>;
-};
-
-export type IconType = keyof typeof icons;
-
-type IconKey = keyof typeof icons;
 export interface SymbolsProps {
-  icons?: IconKey[];
+  icons?: IconType[];
 }
 
 /**
@@ -52,7 +62,7 @@ export const Symbols = memo<SymbolsProps>(function Symbols({ icons: keys = Objec
       style={{ position: 'absolute', width: 0, height: 0 }}
       data-chromatic="ignore"
     >
-      {keys.map((key: IconKey) => (
+      {keys.map((key: IconType) => (
         <symbol id={`icon--${key}`} key={key}>
           {icons[key]}
         </symbol>
