@@ -1,6 +1,6 @@
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, fireEvent, waitFor } from '@storybook/testing-library';
 import { addons } from '@storybook/preview-api';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { BooleanControl } from './Boolean';
@@ -44,7 +44,7 @@ export const Toggling: StoryObj<typeof BooleanControl> = {
     value: undefined,
     name: 'Toggling',
   },
-  play: async ({ canvasElement, id, args }) => {
+  play: async ({ canvasElement, id, args, step }) => {
     const channel = addons.getChannel();
 
     channel.emit(RESET_STORY_ARGS, { storyId: id });
@@ -53,24 +53,29 @@ export const Toggling: StoryObj<typeof BooleanControl> = {
     });
 
     const canvas = within(canvasElement);
+    await step('Change from Undefined to False', async () => {
+      const setBooleanControl = canvas.getByText('Set boolean');
+      await fireEvent.click(setBooleanControl);
 
-    // from Undefined to False
-    const setBooleanControl = canvas.getByText('Set boolean');
-    await userEvent.click(setBooleanControl);
+      const toggle = await canvas.findByLabelText(args.name);
+      await expect(toggle).toBeVisible();
+    });
 
-    let toggle = await canvas.findByLabelText(args.name);
-    await expect(toggle).toBeVisible();
-    await expect(toggle).not.toBeChecked();
+    await step('Change from False to True', async () => {
+      const toggle = canvas.getByRole('switch');
+      await fireEvent.click(toggle);
+      await waitFor(async () => {
+        await expect(toggle).toBeChecked();
+      });
+    });
 
-    // from False to True
-    await userEvent.click(toggle);
-    toggle = await canvas.findByRole('switch');
-    await expect(toggle).toBeChecked();
-
-    // from True to False
-    await userEvent.click(toggle);
-    toggle = await canvas.findByRole('switch');
-    await expect(toggle).toBeInTheDocument();
+    await step('Change from True to False', async () => {
+      const toggle = canvas.getByRole('switch');
+      await fireEvent.click(toggle);
+      await waitFor(async () => {
+        await expect(toggle).not.toBeChecked();
+      });
+    });
   },
 };
 
