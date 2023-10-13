@@ -15,7 +15,7 @@ const Svg = styled.svg`
 // This will allow to set icons once and use them everywhere.
 
 const GROUP_ID = 'icon--group';
-const COMPONENT_ID = 'icon--group';
+const COMPONENT_ID = 'icon--component';
 const DOCUMENT_ID = 'icon--document';
 const STORY_ID = 'icon--story';
 
