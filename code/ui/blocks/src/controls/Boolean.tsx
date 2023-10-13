@@ -98,14 +98,7 @@ export type BooleanProps = ControlProps<BooleanValue> & BooleanConfig;
  * <BooleanControl name="isTrue" value={value} onChange={handleValueChange}/>
  * ```
  */
-export const BooleanControl: FC<BooleanProps> = ({
-  name,
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-  ...props
-}) => {
+export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur, onFocus }) => {
   const onSetFalse = useCallback(() => onChange(false), [onChange]);
   if (value === undefined) {
     return (

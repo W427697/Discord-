@@ -1,6 +1,6 @@
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, fireEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/testing-library';
 import { addons } from '@storybook/preview-api';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { BooleanControl } from './Boolean';
@@ -44,7 +44,7 @@ export const Toggling: StoryObj<typeof BooleanControl> = {
     value: undefined,
     name: 'Toggling',
   },
-  play: async ({ canvasElement, id, name, ...props }) => {
+  play: async ({ canvasElement, id, args }) => {
     const channel = addons.getChannel();
 
     channel.emit(RESET_STORY_ARGS, { storyId: id });
@@ -56,20 +56,21 @@ export const Toggling: StoryObj<typeof BooleanControl> = {
 
     // from Undefined to False
     const setBooleanControl = canvas.getByText('Set boolean');
-    await fireEvent.click(setBooleanControl);
+    await userEvent.click(setBooleanControl);
 
-    let toggle = await canvas.findByLabelText(name);
-    expect(toggle).toBeVisible();
+    let toggle = await canvas.findByLabelText(args.name);
+    await expect(toggle).toBeVisible();
+    await expect(toggle).not.toBeChecked();
 
     // from False to True
-    await fireEvent.click(toggle);
+    await userEvent.click(toggle);
     toggle = await canvas.findByRole('switch');
-    expect(toggle).not.toBeChecked();
+    await expect(toggle).toBeChecked();
 
     // from True to False
-    await fireEvent.click(toggle);
+    await userEvent.click(toggle);
     toggle = await canvas.findByRole('switch');
-    expect(toggle).toBeInTheDocument();
+    await expect(toggle).toBeInTheDocument();
   },
 };
 
