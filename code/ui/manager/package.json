@@ -59,7 +59,6 @@
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/icons": "^1.2.0",
     "@storybook/manager-api": "workspace:*",
     "@storybook/router": "workspace:*",
     "@storybook/theming": "workspace:*",
@@ -102,5 +101,8 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
+  "dependencies": {
+    "@storybook/icons": "^1.2.0"
+  }
 }
