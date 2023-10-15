@@ -114,7 +114,7 @@ jobs:
 
       - name: Check release vs prerelease
         id: is-prerelease
-        run: yarn release:is-prerelease
+        run: yarn release:is-prerelease ${{ steps.bump-version.outputs.next-version }} --verbose
 
       - name: Write changelog
         env:
