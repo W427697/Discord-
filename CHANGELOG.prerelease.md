@@ -1,3 +1,17 @@
+## 7.5.0-alpha.7
+
+- Angular: Allow loading standalone directives - [#24448](https://github.com/storybookjs/storybook/pull/24448), thanks [@osnoser1](https://github.com/osnoser1)!
+- Svelte: Fix docs generating when using `lang="ts"` or optional chaining - [#24096](https://github.com/storybookjs/storybook/pull/24096), thanks [@j3rem1e](https://github.com/j3rem1e)!
+- Vite: Support Vite 5 - [#24395](https://github.com/storybookjs/storybook/pull/24395), thanks [@IanVS](https://github.com/IanVS)!
+
+## 7.5.0-alpha.6
+
+- Angular: Introduce argsToTemplate for property and event Bindings - [#24434](https://github.com/storybookjs/storybook/pull/24434), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Controls: Fix select / multiselect when value contains multiple spaces - [#22334](https://github.com/storybookjs/storybook/pull/22334), thanks [@oxcened](https://github.com/oxcened)!
+- Next.js: Support rename font import - [#24406](https://github.com/storybookjs/storybook/pull/24406), thanks [@yoshi2no](https://github.com/yoshi2no)!
+- UI: Update ScrollArea with radix - [#24413](https://github.com/storybookjs/storybook/pull/24413), thanks [@cdedreuille](https://github.com/cdedreuille)!
+- Web-components: Add Lit3 support - [#24437](https://github.com/storybookjs/storybook/pull/24437), thanks [@shilman](https://github.com/shilman)!
+
 ## 7.5.0-alpha.5
 
 - Angular: Add CLI options (debugWebpack, webpackStatsJson, and more) - [#24388](https://github.com/storybookjs/storybook/pull/24388), thanks [@yannbf](https://github.com/yannbf)!
