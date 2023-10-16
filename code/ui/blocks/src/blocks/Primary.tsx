@@ -49,7 +49,7 @@ export const Primary: FC<PrimaryProps> = (props) => {
 
   let story;
   if (of) {
-    const resolvedOf = useOf(of || 'meta');
+    const resolvedOf = useOf(of || 'meta', ['meta']);
     story = getPrimaryFromResolvedOf(resolvedOf);
   }
 
