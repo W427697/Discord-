@@ -1,12 +1,5 @@
-import {
-  Type,
-  Component,
-  Directive,
-  Input,
-  Output,
-  Pipe,
-  ɵReflectionCapabilities as ReflectionCapabilities,
-} from '@angular/core';
+import { Type, Component, ɵReflectionCapabilities as ReflectionCapabilities } from '@angular/core';
+import { isDecoratorInstanceOf } from './isDecoratorInstanceOf';
 
 const reflectionCapabilities = new ReflectionCapabilities();
 
@@ -55,8 +48,10 @@ export const getComponentInputsOutputs = (component: any): ComponentInputsOutput
   // Browses component properties to extract I/O
   // Filters properties that have the same name as the one present in the @Component property
   return Object.entries(componentPropsMetadata).reduce((previousValue, [propertyName, values]) => {
-    const value = values.find((v) => v instanceof Input || v instanceof Output);
-    if (value instanceof Input) {
+    const value = values.find(
+      (v) => isDecoratorInstanceOf(v, 'Input') || isDecoratorInstanceOf(v, 'Output')
+    );
+    if (isDecoratorInstanceOf(value, 'Input')) {
       const inputToAdd = {
         propName: propertyName,
         templateName: value.bindingPropertyName ?? value.alias ?? propertyName,
@@ -70,7 +65,7 @@ export const getComponentInputsOutputs = (component: any): ComponentInputsOutput
         inputs: [...previousInputsFiltered, inputToAdd],
       };
     }
-    if (value instanceof Output) {
+    if (isDecoratorInstanceOf(value, 'Output')) {
       const outputToAdd = {
         propName: propertyName,
         templateName: value.bindingPropertyName ?? value.alias ?? propertyName,
@@ -95,9 +90,13 @@ export const isDeclarable = (component: any): boolean => {
 
   const decorators = reflectionCapabilities.annotations(component);
 
-  return !!(decorators || []).find(
-    (d) => d instanceof Directive || d instanceof Pipe || d instanceof Component
-  );
+  return !!(decorators || []).find((d) => {
+    return (
+      isDecoratorInstanceOf(d, 'Directive') ||
+      isDecoratorInstanceOf(d, 'Pipe') ||
+      isDecoratorInstanceOf(d, 'Component')
+    );
+  });
 };
 
 export const isComponent = (component: any): component is Type<unknown> => {
@@ -107,7 +106,7 @@ export const isComponent = (component: any): component is Type<unknown> => {
 
   const decorators = reflectionCapabilities.annotations(component);
 
-  return (decorators || []).some((d) => d instanceof Component);
+  return (decorators || []).some((d) => isDecoratorInstanceOf(d, 'Component'));
 };
 
 export const isStandaloneComponent = (component: any): component is Type<unknown> => {
@@ -117,10 +116,12 @@ export const isStandaloneComponent = (component: any): component is Type<unknown
 
   const decorators = reflectionCapabilities.annotations(component);
 
-  // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
-  // Angular deps are updated to v14.x.x.
   return (decorators || []).some(
-    (d) => (d instanceof Component || d instanceof Directive || d instanceof Pipe) && d.standalone
+    (d) =>
+      (isDecoratorInstanceOf(d, 'Component') ||
+        isDecoratorInstanceOf(d, 'Directive') ||
+        isDecoratorInstanceOf(d, 'Pipe')) &&
+      d.standalone
   );
 };
 
@@ -138,5 +139,5 @@ export const getComponentPropsDecoratorMetadata = (component: any) => {
 export const getComponentDecoratorMetadata = (component: any): Component | undefined => {
   const decorators = reflectionCapabilities.annotations(component);
 
-  return decorators.reverse().find((d) => d instanceof Component);
+  return decorators.reverse().find((d) => isDecoratorInstanceOf(d, 'Component'));
 };

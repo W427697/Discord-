@@ -1,4 +1,5 @@
 import { NgModule, ɵReflectionCapabilities as ReflectionCapabilities } from '@angular/core';
+import { isDecoratorInstanceOf } from './isDecoratorInstanceOf';
 
 const reflectionCapabilities = new ReflectionCapabilities();
 
@@ -45,11 +46,13 @@ const extractNgModuleMetadata = (importItem: any): NgModule => {
     return null;
   }
 
-  const ngModuleDecorator: NgModule | undefined = decorators.find(
-    (decorator) => decorator instanceof NgModule
-  );
+  const ngModuleDecorator: NgModule | undefined = decorators.find((decorator) => {
+    return isDecoratorInstanceOf(decorator, 'NgModule');
+  });
+
   if (!ngModuleDecorator) {
     return null;
   }
+
   return ngModuleDecorator;
 };

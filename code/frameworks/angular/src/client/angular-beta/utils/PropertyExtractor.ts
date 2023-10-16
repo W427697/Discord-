@@ -1,15 +1,9 @@
 /* eslint-disable no-console */
 import { CommonModule } from '@angular/common';
 import {
-  Component,
-  Directive,
   importProvidersFrom,
-  Injectable,
   InjectionToken,
-  Input,
   NgModule,
-  Output,
-  Pipe,
   Provider,
   ɵReflectionCapabilities as ReflectionCapabilities,
 } from '@angular/core';
@@ -23,6 +17,7 @@ import {
 import dedent from 'ts-dedent';
 import { NgModuleMetadata } from '../../types';
 import { isComponentAlreadyDeclared } from './NgModulesAnalyzer';
+import { isDecoratorInstanceOf } from './isDecoratorInstanceOf';
 
 export const reflectionCapabilities = new ReflectionCapabilities();
 export const REMOVED_MODULES = new InjectionToken('REMOVED_MODULES');
@@ -168,40 +163,13 @@ export class PropertyExtractor implements NgModuleMetadata {
   static analyzeDecorators = (component: any) => {
     const decorators = reflectionCapabilities.annotations(component);
 
-    const isComponent = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Component'));
-    const isDirective = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Directive'));
-    const isPipe = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Pipe'));
+    const isComponent = decorators.some((d) => isDecoratorInstanceOf(d, 'Component'));
+    const isDirective = decorators.some((d) => isDecoratorInstanceOf(d, 'Directive'));
+    const isPipe = decorators.some((d) => isDecoratorInstanceOf(d, 'Pipe'));
 
     const isDeclarable = isComponent || isDirective || isPipe;
     const isStandalone = (isComponent || isDirective) && decorators.some((d) => d.standalone);
 
     return { isDeclarable, isStandalone };
-  };
-
-  static isDecoratorInstanceOf = (decorator: any, name: string) => {
-    let factory;
-    switch (name) {
-      case 'Component':
-        factory = Component;
-        break;
-      case 'Directive':
-        factory = Directive;
-        break;
-      case 'Pipe':
-        factory = Pipe;
-        break;
-      case 'Injectable':
-        factory = Injectable;
-        break;
-      case 'Input':
-        factory = Input;
-        break;
-      case 'Output':
-        factory = Output;
-        break;
-      default:
-        throw new Error(`Unknown decorator type: ${name}`);
-    }
-    return decorator instanceof factory || decorator.ngMetadataName === name;
   };
 }
