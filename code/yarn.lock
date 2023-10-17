@@ -6733,15 +6733,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@npm:7.4.6":
-  version: 7.4.6
-  resolution: "@storybook/client-logger@npm:7.4.6"
-  dependencies:
-    "@storybook/global": ^5.0.0
-  checksum: 170ad58c17e2608639533fe24aaa96ddd4d77d23b4b28f265b2cb67510fef966fc20b029e070fdc7216ba1cdb724d1210b2f8edc8aa538de32fd6e549f9010cf
-  languageName: node
-  linkType: hard
-
 "@storybook/client-logger@workspace:*, @storybook/client-logger@workspace:lib/client-logger":
   version: 0.0.0-use.local
   resolution: "@storybook/client-logger@workspace:lib/client-logger"
@@ -8159,22 +8150,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/theming@npm:^7.0.2":
-  version: 7.4.6
-  resolution: "@storybook/theming@npm:7.4.6"
-  dependencies:
-    "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
-    "@storybook/client-logger": 7.4.6
-    "@storybook/global": ^5.0.0
-    memoizerific: ^1.11.3
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 6250a413c346971792623bf5a907811fc009ff4a36b8f292d0f45c677269b2a50c29d84ab1e869ada7df3eb23d49614e1342bd2c88e71d4467702b92ebc42f2d
-  languageName: node
-  linkType: hard
-
-"@storybook/theming@workspace:*, @storybook/theming@workspace:lib/theming":
+"@storybook/theming@^7.0.2, @storybook/theming@workspace:*, @storybook/theming@workspace:lib/theming":
   version: 0.0.0-use.local
   resolution: "@storybook/theming@workspace:lib/theming"
   dependencies:
