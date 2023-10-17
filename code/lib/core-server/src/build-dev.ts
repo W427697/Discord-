@@ -19,6 +19,7 @@ import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
+import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
@@ -80,13 +81,18 @@ export async function buildDevStandalone(
   // We hope to remove this in SB8
   let presets = await loadAllPresets({
     corePresets,
-    overridePresets: [],
+    overridePresets: [
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
+    isCritical: true,
   });
 
   const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
 
-  invariant(builder, 'No builder configured in core.builder');
+  if (!builder) {
+    throw new MissingBuilderError();
+  }
 
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {
@@ -112,7 +118,10 @@ export async function buildDevStandalone(
       ...corePresets,
       require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
-    overridePresets: previewBuilder.overridePresets ?? [],
+    overridePresets: [
+      ...(previewBuilder.overridePresets || []),
+      require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
+    ],
     ...options,
   });
 

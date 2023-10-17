@@ -26,16 +26,35 @@ describe('StorybookError', () => {
     const error = new TestError();
     error.documentation = true;
     const expectedMessage =
-      'This is a test error.\n\nMore info: https://storybook.js.org/error/SB_TEST_CATEGORY_0123';
+      'This is a test error.\n\nMore info: https://storybook.js.org/error/SB_TEST_CATEGORY_0123\n';
     expect(error.message).toBe(expectedMessage);
   });
 
   it('should generate the correct message with external documentation link', () => {
     const error = new TestError();
     error.documentation = 'https://example.com/docs/test-error';
-    const expectedMessage =
-      'This is a test error.\n\nMore info: https://example.com/docs/test-error';
-    expect(error.message).toBe(expectedMessage);
+    expect(error.message).toMatchInlineSnapshot(`
+      "This is a test error.
+
+      More info: https://example.com/docs/test-error
+      "
+    `);
+  });
+
+  it('should generate the correct message with multiple external documentation links', () => {
+    const error = new TestError();
+    error.documentation = [
+      'https://example.com/docs/first-error',
+      'https://example.com/docs/second-error',
+    ];
+    expect(error.message).toMatchInlineSnapshot(`
+      "This is a test error.
+
+      More info: 
+      	- https://example.com/docs/first-error
+      	- https://example.com/docs/second-error
+      "
+    `);
   });
 
   it('should have default documentation value of false', () => {

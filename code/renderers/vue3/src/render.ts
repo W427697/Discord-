@@ -1,3 +1,4 @@
+/* eslint-disable local-rules/no-uncategorized-errors */
 /* eslint-disable no-param-reassign */
 import type { App, Component } from 'vue';
 import { createApp, h, reactive, isReactive } from 'vue';
@@ -22,19 +23,14 @@ export const render: VueRenderArgsFn = (props, context) => {
   return h(Component, props, createOrUpdateSlots(context));
 };
 
-// set of setup functions that will be called when story is created
-const setupFunctions = new Set<(app: App, storyContext?: StoryContext) => void>();
-/** add a setup function to set that will be call when story is created a d
- *
- * @param fn
- */
-export const setup = (fn: (app: App, storyContext?: StoryContext) => void) => {
-  setupFunctions.add(fn);
+export const setup = (fn: (app: App, storyContext?: StoryContext) => unknown) => {
+  globalThis.PLUGINS_SETUP_FUNCTIONS ??= new Set();
+  globalThis.PLUGINS_SETUP_FUNCTIONS.add(fn);
 };
 
-const runSetupFunctions = async (app: App, storyContext: StoryContext): Promise<any> => {
-  setupFunctions.forEach((fn) => fn(app, storyContext));
-  await installGlobalPlugins(app, storyContext);
+const runSetupFunctions = async (app: App, storyContext: StoryContext): Promise<void> => {
+  if (globalThis && globalThis.PLUGINS_SETUP_FUNCTIONS)
+    await Promise.all([...globalThis.PLUGINS_SETUP_FUNCTIONS].map((fn) => fn(app, storyContext)));
 };
 
 const map = new Map<
@@ -155,10 +151,4 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
-}
-
-async function installGlobalPlugins(app: App<any>, storyContext: StoryContext) {
-  if (window.APPLY_PLUGINS_FUNC) {
-    await window.APPLY_PLUGINS_FUNC(app, storyContext);
-  }
 }

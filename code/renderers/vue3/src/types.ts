@@ -5,7 +5,8 @@ import type {
   ArgsStoryFn as RenderArgsFn,
 } from '@storybook/types';
 import type { Args } from '@storybook/csf';
-import type { Component, h } from 'vue';
+
+import type { App, Component, h } from 'vue';
 
 export type RenderContext = RenderContextBase<VueRenderer>;
 export type { Args };
@@ -21,6 +22,8 @@ export interface ShowErrorArgs {
 export type StoryFnVueReturnType = ReturnType<typeof h> | Component<any>;
 
 export type StoryContext = StoryContextBase<VueRenderer>;
+
+export type StorybookVueApp = { vueApp: App<any>; storyContext: StoryContext };
 
 /**
  * @deprecated Use `VueRenderer` instead.

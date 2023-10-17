@@ -4,8 +4,7 @@ import memoize from 'memoizerific';
 
 import { useParameter, useGlobals } from '@storybook/manager-api';
 import { logger } from '@storybook/client-logger';
-import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import { ColorIcon } from '../components/ColorIcon';
@@ -19,10 +18,10 @@ import { getBackgroundColorByName } from '../helpers';
 
 const createBackgroundSelectorItem = memoize(1000)(
   (
-    id: string,
+    id: string | null,
     name: string,
     value: string,
-    hasSwatch: boolean,
+    hasSwatch: boolean | null,
     change: (arg: { selected: string; name: string }) => void,
     active: boolean
   ): BackgroundSelectorItem => ({
@@ -103,7 +102,7 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
   }
 
   const onBackgroundChange = useCallback(
-    (value: string) => {
+    (value: string | undefined) => {
       updateGlobals({ [BACKGROUNDS_PARAM_KEY]: { ...globals[BACKGROUNDS_PARAM_KEY], value } });
     },
     [backgroundsConfig, globals, updateGlobals]
@@ -141,7 +140,7 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
           title="Change the background of the preview"
           active={selectedBackgroundColor !== 'transparent' || isTooltipVisible}
         >
-          <Icon.Photo />
+          <Icons icon="photo" />
         </IconButton>
       </WithTooltip>
     </Fragment>

@@ -16,11 +16,14 @@ type MetaSource = {
   MetaCheckerOptions['schema'];
 
 export function vueComponentMeta(): PluginOption {
+  // not stories files
+  const exclude = /(\.stories\.ts|\.stories\.js|\.stories\.tsx|\.stories\.jsx)$/;
   const include = /\.(vue|ts|js|tsx|jsx)$/;
-  const filter = createFilter(include);
+  const filter = createFilter(include, exclude);
 
   const checkerOptions: MetaCheckerOptions = {
     forceUseTs: true,
+    noDeclarations: true,
     schema: { ignore: ['MyIgnoredNestedProps'] },
     printer: { newLine: 1 },
   };
@@ -37,12 +40,15 @@ export function vueComponentMeta(): PluginOption {
   return {
     name: 'storybook:vue-component-meta-plugin',
     async transform(src: string, id: string) {
+      // console.log('. ');
       if (!filter(id)) return undefined;
 
       let metaSource;
       try {
         const exportNames = checker.getExportNames(id);
+
         const componentsMeta = exportNames.map((name) => checker.getComponentMeta(id, name));
+
         const metaSources: MetaSource[] = [];
         componentsMeta.forEach((meta) => {
           const exportName = exportNames[componentsMeta.indexOf(meta)];
