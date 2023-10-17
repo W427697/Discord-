@@ -8,7 +8,7 @@ import { styled } from '@storybook/theming';
 import { screen, userEvent, within } from '@storybook/testing-library';
 import type { State } from '@storybook/manager-api';
 import { SidebarMenu, ToolbarMenu } from './Menu';
-import { useMenu } from '../../container/Menu';
+import { useDropdownMenu } from '../../container/Menu';
 import { LayoutProvider } from '../layout/LayoutProvider';
 
 const fakemenu: ComponentProps<typeof TooltipLinkList>['links'] = [
@@ -48,7 +48,7 @@ const DoubleThemeRenderingHack = styled.div({
 
 export const Expanded: Story = {
   render: () => {
-    const menu = useMenu(
+    const menu = useDropdownMenu(
       { whatsNewData: { status: 'SUCCESS', disableWhatsNewNotifications: false } } as State,
       {
         // @ts-expect-error (Converted from ts-ignore)
@@ -91,7 +91,7 @@ export const Expanded: Story = {
 export const ExpandedWithoutWhatsNew: Story = {
   ...Expanded,
   render: () => {
-    const menu = useMenu(
+    const menu = useDropdownMenu(
       { whatsNewData: undefined } as State,
       {
         // @ts-expect-error (invalid)
