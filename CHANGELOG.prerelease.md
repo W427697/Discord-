@@ -1,3 +1,7 @@
+## 7.6.0-alpha.0
+
+- UI: Fix className missing in syntaxhighlighter - [#24491](https://github.com/storybookjs/storybook/pull/24491), thanks [@ndelangen](https://github.com/ndelangen)!
+
 ## 7.5.0-alpha.7
 
 - Angular: Allow loading standalone directives - [#24448](https://github.com/storybookjs/storybook/pull/24448), thanks [@osnoser1](https://github.com/osnoser1)!
