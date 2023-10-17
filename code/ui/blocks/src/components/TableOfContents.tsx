@@ -40,9 +40,12 @@ const Wrapper = styled.div(({ theme }) => ({
 
 const Content = styled.div(({ theme }) => ({
   position: 'fixed',
+  bottom: 0,
   top: 0,
   width: '10rem',
   paddingTop: '4rem',
+  paddingBottom: '2rem',
+  overflowY: 'auto',
 
   fontFamily: theme.typography.fonts.base,
   fontSize: theme.typography.size.s2,
