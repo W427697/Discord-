@@ -59,6 +59,8 @@ export default {
     'DL',
     'Div',
     'DocumentWrapper',
+    'DropdownMenu',
+    'DropdownMenuItemList',
     'ErrorFormatter',
     'FlexBar',
     'Form',
