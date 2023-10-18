@@ -18,26 +18,6 @@ interface PrimaryProps {
   of?: Of;
 }
 
-const getPrimaryFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>) => {
-  switch (resolvedOf.type) {
-    case 'meta': {
-      return resolvedOf.csfFile.stories[0] || null;
-    }
-    case 'component': {
-      throw new Error(
-        `Unsupported module type. Primary's \`of\` prop only supports \`meta\`, got: ${
-          (resolvedOf as any).type
-        }`
-      );
-    }
-    default: {
-      throw new Error(
-        `Unrecognized module type resolved from 'useOf', got: ${(resolvedOf as any).type}`
-      );
-    }
-  }
-};
-
 export const Primary: FC<PrimaryProps> = (props) => {
   const { name, of } = props;
 
@@ -50,7 +30,7 @@ export const Primary: FC<PrimaryProps> = (props) => {
   let story;
   if (of) {
     const resolvedOf = useOf(of || 'meta', ['meta']);
-    story = getPrimaryFromResolvedOf(resolvedOf);
+    story = resolvedOf.csfFile.stories[0] || null;
   }
 
   if (!story) {
