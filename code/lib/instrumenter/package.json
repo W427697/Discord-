@@ -51,7 +51,7 @@
     "@storybook/preview-api": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "publishConfig": {
     "access": "public"
