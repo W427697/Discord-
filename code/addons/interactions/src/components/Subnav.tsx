@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Button,
   IconButton,
-  Icons,
   Separator,
   P,
   TooltipNote,
@@ -14,6 +13,7 @@ import type { Call, ControlStates } from '@storybook/instrumenter';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
+import { FastForward, PlayBack, PlayNext, Rewind, Sync } from '@storybook/icons';
 import { StatusBadge } from './StatusBadge';
 
 import type { Controls } from './InteractionsPanel';
@@ -135,7 +135,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.start}
                 disabled={!controlStates.start}
               >
-                <Icons icon="rewind" />
+                <Rewind />
               </RewindButton>
             </WithTooltip>
 
@@ -146,7 +146,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.back}
                 disabled={!controlStates.back}
               >
-                <Icons icon="playback" />
+                <PlayBack />
               </StyledIconButton>
             </WithTooltip>
 
@@ -157,7 +157,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.next}
                 disabled={!controlStates.next}
               >
-                <Icons icon="playnext" />
+                <PlayNext />
               </StyledIconButton>
             </WithTooltip>
 
@@ -168,13 +168,13 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.end}
                 disabled={!controlStates.end}
               >
-                <Icons icon="fastforward" />
+                <FastForward />
               </StyledIconButton>
             </WithTooltip>
 
             <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Rerun" />}>
               <RerunButton aria-label="Rerun" containsIcon onClick={controls.rerun}>
-                <Icons icon="sync" />
+                <Sync />
               </RerunButton>
             </WithTooltip>
           </Group>

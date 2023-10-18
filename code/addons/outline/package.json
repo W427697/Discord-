@@ -83,6 +83,7 @@
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
+    "@storybook/icons": "1.2.1--canary.21.2230fe1.0",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/types": "workspace:*",
