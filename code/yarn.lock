@@ -5313,7 +5313,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -5377,7 +5377,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -5528,7 +5528,7 @@ __metadata:
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/instrumenter": "workspace:*"
     "@storybook/jest": next
     "@storybook/manager-api": "workspace:*"
@@ -5625,7 +5625,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -5650,7 +5650,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/types": "workspace:*"
@@ -5813,7 +5813,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -5860,7 +5860,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -6028,7 +6028,7 @@ __metadata:
     "@storybook/csf": ^0.1.0
     "@storybook/docs-tools": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
@@ -6338,7 +6338,7 @@ __metadata:
     "@storybook/client-logger": "workspace:*"
     "@storybook/csf": ^0.1.0
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/theming": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/react-syntax-highlighter": 11.0.5
@@ -6686,13 +6686,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/icons@npm:1.2.1--canary.21.2230fe1.0":
-  version: 1.2.1--canary.21.2230fe1.0
-  resolution: "@storybook/icons@npm:1.2.1--canary.21.2230fe1.0"
+"@storybook/icons@npm:1.2.1--canary.21.f9be3b6.0":
+  version: 1.2.1--canary.21.f9be3b6.0
+  resolution: "@storybook/icons@npm:1.2.1--canary.21.f9be3b6.0"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 1a2d9bcf4d95baf08c4c4973652e3e5db4e9e2c4679925d3c5e7ebf5ee478dfba2f4ac50db271fc2796aa0f949f503890ccee4a038d3f8cbe69281d72b6f2e1f
+  languageName: node
+  linkType: hard
+
+"@storybook/icons@npm:1.2.1--canary.21.f9be3b6.0":
+  version: 1.2.1--canary.21.f9be3b6.0
+  resolution: "@storybook/icons@npm:1.2.1--canary.21.f9be3b6.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: f14276cebd55e1ec18571acd800d378718269693f8b50bf5a6b4e35660c2e089d8d5847484851ea9248f6a06fc534fa5cd0312969960a03d5d0b042b510f9856
   languageName: node
   linkType: hard
 
@@ -6791,7 +6801,7 @@ __metadata:
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
-    "@storybook/icons": 1.2.1--canary.21.2230fe1.0
+    "@storybook/icons": 1.2.1--canary.21.f9be3b6.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/router": "workspace:*"
     "@storybook/theming": "workspace:*"
