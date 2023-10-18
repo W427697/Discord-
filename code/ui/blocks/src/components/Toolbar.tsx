@@ -1,7 +1,7 @@
 import type { FC, MouseEvent } from 'react';
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
-import { FlexBar, Icons, IconButton, IconButtonSkeleton } from '@storybook/components';
+import { FlexBar, IconButton, IconButtonSkeleton } from '@storybook/components';
 import { Zoom as ZoomIcon, ZoomOut, ZoomReset } from '@storybook/icons';
 
 interface ZoomProps {
