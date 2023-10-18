@@ -7295,7 +7295,6 @@ __metadata:
     husky: ^4.3.7
     jest: ^29.5.0
     jest-environment-jsdom: ^29.5.0
-    jest-image-snapshot: ^6.0.0
     jest-junit: ^16.0.0
     jest-os-detection: ^1.3.1
     jest-serializer-html: ^7.1.0
@@ -16963,13 +16962,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-stdin@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "get-stdin@npm:5.0.1"
-  checksum: 309f933f08a4d6783681674451027802299124e596324cd628c5e5138bbc5de843bbaa345a8ce0fc72304869f9de3b50086407aca551e292b13f7cb02351479e
-  languageName: node
-  linkType: hard
-
 "get-stdin@npm:^6.0.0":
   version: 6.0.0
   resolution: "get-stdin@npm:6.0.0"
@@ -17350,13 +17342,6 @@ __metadata:
     pify: ^3.0.0
     slash: ^1.0.0
   checksum: 016d4dfac6069221b2db18ad6afb0011639899920dbec87492ddc048fcd433361e6c094b12451ab14cf062013a776f47ef21bb8289d5e09a2f23e81d5aec0f8e
-  languageName: node
-  linkType: hard
-
-"glur@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "glur@npm:1.1.2"
-  checksum: 756fcbc7f1a8576755811e31367feeaffbd13b7f20d788672bccbd65956839065e256621a7576f4ab321352b28a0aea442d64567bca23882526b891767ffbe3e
   languageName: node
   linkType: hard
 
@@ -19578,27 +19563,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-image-snapshot@npm:^6.0.0":
-  version: 6.2.0
-  resolution: "jest-image-snapshot@npm:6.2.0"
-  dependencies:
-    chalk: ^4.0.0
-    get-stdin: ^5.0.1
-    glur: ^1.1.2
-    lodash: ^4.17.4
-    pixelmatch: ^5.1.0
-    pngjs: ^3.4.0
-    rimraf: ^2.6.2
-    ssim.js: ^3.1.1
-  peerDependencies:
-    jest: ">=20 <=29"
-  peerDependenciesMeta:
-    jest:
-      optional: true
-  checksum: 62e415f86f2bed30fe126520519014beed61a38a678285de44c6544d10eed7381b28958d3406f131a60c05715f42ab7bf7ea4ecfdab4f55946cec6739de23924
-  languageName: node
-  linkType: hard
-
 "jest-junit@npm:^16.0.0":
   version: 16.0.0
   resolution: "jest-junit@npm:16.0.0"
@@ -21155,7 +21119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.7.0":
+"lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.7.0":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -24790,17 +24754,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pixelmatch@npm:^5.1.0":
-  version: 5.3.0
-  resolution: "pixelmatch@npm:5.3.0"
-  dependencies:
-    pngjs: ^6.0.0
-  bin:
-    pixelmatch: bin/pixelmatch
-  checksum: 30850661db29b57cefbe6cf36e930b7517aea4e0ed129e85fcc8ec04a7e6e7648a822a972f8e01d2d3db268ca3c735555caf6b8099a164d8b64d105986d682d2
-  languageName: node
-  linkType: hard
-
 "pkg-dir@npm:^3.0.0":
   version: 3.0.0
   resolution: "pkg-dir@npm:3.0.0"
@@ -24879,20 +24832,6 @@ __metadata:
   version: 8.0.0
   resolution: "pluralize@npm:8.0.0"
   checksum: 2044cfc34b2e8c88b73379ea4a36fc577db04f651c2909041b054c981cd863dd5373ebd030123ab058d194ae615d3a97cfdac653991e499d10caf592e8b3dc33
-  languageName: node
-  linkType: hard
-
-"pngjs@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "pngjs@npm:3.4.0"
-  checksum: 88ee73e2ad3f736e0b2573722309eb80bd2aa28916f0862379b4fd0f904751b4f61bb6bd1ecd7d4242d331f2b5c28c13309dd4b7d89a9b78306e35122fdc5011
-  languageName: node
-  linkType: hard
-
-"pngjs@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "pngjs@npm:6.0.0"
-  checksum: ac23ea329b1881d1a10575aff58116dc27b894ec3f5b84ba15c7f527d21e609fbce7ba16d48f8ccb86c7ce45ceed622472765476ab2875949d4bec55e153f87a
   languageName: node
   linkType: hard
 
@@ -28342,13 +28281,6 @@ __metadata:
   version: 1.0.3
   resolution: "sprintf-js@npm:1.0.3"
   checksum: ecadcfe4c771890140da5023d43e190b7566d9cf8b2d238600f31bec0fc653f328da4450eb04bd59a431771a8e9cc0e118f0aa3974b683a4981b4e07abc2a5bb
-  languageName: node
-  linkType: hard
-
-"ssim.js@npm:^3.1.1":
-  version: 3.5.0
-  resolution: "ssim.js@npm:3.5.0"
-  checksum: 9e7101da17395d3acbd417aac712d8f156522e79059a27cb38882eedd5a8868e31871c8f58bec3a150f8cf0660883cf22310cbd2fd63b408c1fd0ab02fda9fbc
   languageName: node
   linkType: hard
 
