@@ -95,7 +95,8 @@
     "pre": "./scripts/generate-exports-file.ts",
     "browserEntries": [
       "./src/index.tsx",
-      "./src/runtime.ts"
+      "./src/runtime.ts",
+      "./src/globals-runtime.ts"
     ],
     "nodeEntries": [
       "./src/globals.ts"
