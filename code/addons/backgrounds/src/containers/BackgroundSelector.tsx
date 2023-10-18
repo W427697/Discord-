@@ -6,7 +6,7 @@ import { useParameter, useGlobals } from '@storybook/manager-api';
 import { logger } from '@storybook/client-logger';
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
-import { Photo } from '@storybook/icons';
+import { PhotoIcon } from '@storybook/icons';
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import { ColorIcon } from '../components/ColorIcon';
 import type {
@@ -141,7 +141,7 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
           title="Change the background of the preview"
           active={selectedBackgroundColor !== 'transparent' || isTooltipVisible}
         >
-          <Photo />
+          <PhotoIcon />
         </IconButton>
       </WithTooltip>
     </Fragment>

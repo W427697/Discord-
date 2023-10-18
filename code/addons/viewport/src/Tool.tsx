@@ -7,7 +7,7 @@ import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
-import { Grow, Transfer } from '@storybook/icons';
+import { GrowIcon, TransferIcon } from '@storybook/icons';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
@@ -187,7 +187,7 @@ export const ViewportTool: FC = memo(
               setState({ ...state, selected: responsiveViewport.id });
             }}
           >
-            <Grow />
+            <GrowIcon />
             {styles ? (
               <IconButtonLabel>
                 {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
@@ -218,7 +218,7 @@ export const ViewportTool: FC = memo(
                 setState({ ...state, isRotated: !isRotated });
               }}
             >
-              <Transfer />
+              <TransferIcon />
             </IconButton>
             <ActiveViewportLabel title="Viewport height">
               {styles.height.replace('px', '')}

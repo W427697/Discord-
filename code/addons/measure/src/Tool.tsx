@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 import { IconButton } from '@storybook/components';
-import { Ruler } from '@storybook/icons';
+import { RulerIcon } from '@storybook/icons';
 import { TOOL_ID, ADDON_ID } from './constants';
 
 export const Tool = () => {
@@ -34,7 +34,7 @@ export const Tool = () => {
       title="Enable measure"
       onClick={toggleMeasure}
     >
-      <Ruler />
+      <RulerIcon />
     </IconButton>
   );
 };

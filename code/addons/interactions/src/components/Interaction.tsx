@@ -4,7 +4,7 @@ import { type Call, CallStates, type ControlStates } from '@storybook/instrument
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
-import { ListUnordered } from '@storybook/icons';
+import { ListUnorderedIcon } from '@storybook/icons';
 import { MatcherResult } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
@@ -175,7 +175,7 @@ export const Interaction = ({
               tooltip={<Note note={`${isCollapsed ? 'Show' : 'Hide'} interactions`} />}
             >
               <StyledIconButton containsIcon onClick={toggleCollapsed}>
-                <ListUnordered />
+                <ListUnorderedIcon />
               </StyledIconButton>
             </WithTooltip>
           )}

@@ -4,7 +4,7 @@ import { NAVIGATE_URL } from '@storybook/core-events';
 import { Code, components, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
-import { Link as LinkIcon } from '@storybook/icons';
+import { LinkIcon } from '@storybook/icons';
 import { Source } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';

@@ -2,7 +2,7 @@ import type { FunctionComponent, MouseEvent, ReactElement } from 'react';
 import React, { Children, cloneElement } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Linux } from '@storybook/icons';
+import { LinuxIcon } from '@storybook/icons';
 import { WithTooltip } from './WithTooltip';
 import { TooltipLinkList } from './TooltipLinkList';
 import ellipseUrl from './assets/ellipse.png';
@@ -186,7 +186,7 @@ export const WithCustomIcon = {
         id: '1',
         title: 'Link 1',
         active: true,
-        icon: <Linux />,
+        icon: <LinuxIcon />,
         right: <img src={ellipseUrl} width="16" height="16" alt="ellipse" />,
         center: 'This is an addition description',
         href: 'http://google.com',

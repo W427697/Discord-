@@ -13,7 +13,13 @@ import type { Call, ControlStates } from '@storybook/instrumenter';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
-import { FastForward, PlayBack, PlayNext, Rewind, Sync } from '@storybook/icons';
+import {
+  FastForwardIcon,
+  PlayBackIcon,
+  PlayNextIcon,
+  RewindIcon,
+  SyncIcon,
+} from '@storybook/icons';
 import { StatusBadge } from './StatusBadge';
 
 import type { Controls } from './InteractionsPanel';
@@ -135,7 +141,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.start}
                 disabled={!controlStates.start}
               >
-                <Rewind />
+                <RewindIcon />
               </RewindButton>
             </WithTooltip>
 
@@ -146,7 +152,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.back}
                 disabled={!controlStates.back}
               >
-                <PlayBack />
+                <PlayBackIcon />
               </StyledIconButton>
             </WithTooltip>
 
@@ -157,7 +163,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.next}
                 disabled={!controlStates.next}
               >
-                <PlayNext />
+                <PlayNextIcon />
               </StyledIconButton>
             </WithTooltip>
 
@@ -168,13 +174,13 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.end}
                 disabled={!controlStates.end}
               >
-                <FastForward />
+                <FastForwardIcon />
               </StyledIconButton>
             </WithTooltip>
 
             <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Rerun" />}>
               <RerunButton aria-label="Rerun" containsIcon onClick={controls.rerun}>
-                <Sync />
+                <SyncIcon />
               </RerunButton>
             </WithTooltip>
           </Group>

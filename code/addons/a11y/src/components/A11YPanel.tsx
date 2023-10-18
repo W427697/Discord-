@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
 
 import { ActionBar, ScrollArea } from '@storybook/components';
-import { Sync, Check } from '@storybook/icons';
+import { SyncIcon, CheckIcon } from '@storybook/icons';
 
 import type { AxeResults } from 'axe-core';
 import { useChannel, useParameter, useStorybookState } from '@storybook/manager-api';
@@ -22,7 +22,7 @@ export enum RuleType {
   INCOMPLETION,
 }
 
-const Icon = styled(Sync)({
+const Icon = styled(SyncIcon)({
   marginRight: 4,
 });
 
@@ -107,7 +107,7 @@ export const A11YPanel: React.FC = () => {
             'Rerun tests'
           ) : (
             <>
-              <Check /> Tests completed
+              <CheckIcon /> Tests completed
             </>
           ),
         onClick: handleManual,

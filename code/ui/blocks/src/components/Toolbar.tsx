@@ -2,7 +2,7 @@ import type { FC, MouseEvent } from 'react';
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import { FlexBar, IconButton, IconButtonSkeleton } from '@storybook/components';
-import { Zoom as ZoomIcon, ZoomOut, ZoomReset } from '@storybook/icons';
+import { ZoomIcon, ZoomOutIcon, ZoomResetIcon } from '@storybook/icons';
 
 interface ZoomProps {
   zoom: (val: number) => void;
@@ -44,7 +44,7 @@ const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
       }}
       title="Zoom out"
     >
-      <ZoomOut />
+      <ZoomOutIcon />
     </IconButton>
     <IconButton
       key="zoomreset"
@@ -54,7 +54,7 @@ const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
       }}
       title="Reset zoom"
     >
-      <ZoomReset />
+      <ZoomResetIcon />
     </IconButton>
   </>
 );

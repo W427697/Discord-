@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect } from 'react';
 import { useGlobals, useStorybookApi } from '@storybook/manager-api';
 import { IconButton } from '@storybook/components';
-import { Outline } from '@storybook/icons';
+import { OutlineIcon } from '@storybook/icons';
 import { ADDON_ID, PARAM_KEY } from './constants';
 
 export const OutlineSelector = memo(function OutlineSelector() {
@@ -35,7 +35,7 @@ export const OutlineSelector = memo(function OutlineSelector() {
       title="Apply outlines to the preview"
       onClick={toggleOutline}
     >
-      <Outline />
+      <OutlineIcon />
     </IconButton>
   );
 });

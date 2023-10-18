@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Eye } from '@storybook/icons';
+import { EyeIcon } from '@storybook/icons';
 import ListItem from './ListItem';
 
 export default {
@@ -11,10 +11,10 @@ export const All = {
     <div>
       <ListItem loading />
       <ListItem title="Default" />
-      <ListItem title="Default icon" right={<Eye />} />
+      <ListItem title="Default icon" right={<EyeIcon />} />
       <ListItem title="title" center="center" right="right" />
       <ListItem active title="active" center="center" right="right" />
-      <ListItem active title="active icon" center="center" right={<Eye />} />
+      <ListItem active title="active icon" center="center" right={<EyeIcon />} />
       <ListItem disabled title="disabled" center="center" right="right" />
     </div>
   ),
@@ -35,21 +35,21 @@ export const Loading = {
 export const DefaultIcon = {
   args: {
     title: 'Default icon',
-    right: <Eye />,
+    right: <EyeIcon />,
   },
 };
 export const ActiveIcon = {
   args: {
     title: 'Active icon',
     active: true,
-    right: <Eye />,
+    right: <EyeIcon />,
   },
 };
 export const ActiveIconLeft = {
   args: {
     title: 'Active icon',
     active: true,
-    left: <Eye />,
+    left: <EyeIcon />,
   },
 };
 export const ActiveIconLeftColored = {

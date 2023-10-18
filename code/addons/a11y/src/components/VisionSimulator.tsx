@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Global, styled } from '@storybook/theming';
 import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
-import { Accessibility } from '@storybook/icons';
+import { AccessibilityIcon } from '@storybook/icons';
 import { Filters } from './ColorFilters';
 
 const iframeId = 'storybook-preview-iframe';
@@ -145,7 +145,7 @@ export const VisionSimulator = () => {
         onDoubleClick={() => setFilter(null)}
       >
         <IconButton key="filter" active={!!filter} title="Vision simulator">
-          <Accessibility />
+          <AccessibilityIcon />
         </IconButton>
       </WithTooltip>
       <Hidden>
