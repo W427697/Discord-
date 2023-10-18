@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-create-react-app",
-  "version": "7.5.0-alpha.4",
+  "version": "7.6.0-alpha.0",
   "description": "Storybook for Create React App preset",
   "keywords": [
     "storybook"
@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@storybook/node-logger": "workspace:*",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
