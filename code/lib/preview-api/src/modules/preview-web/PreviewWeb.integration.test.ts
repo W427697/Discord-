@@ -119,29 +119,29 @@ describe('PreviewWeb', () => {
     });
 
     // TODO @tmeasday please help fixing this test
-    // it('sends docs rendering exceptions to showException', async () => {
-    //   const { DocsRenderer } = await import('@storybook/addon-docs');
-    //   projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+    it.skip('sends docs rendering exceptions to showException', async () => {
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
-    //   document.location.search = '?id=component-one--docs&viewMode=docs';
-    //   const preview = new PreviewWeb();
+      document.location.search = '?id=component-one--docs&viewMode=docs';
+      const preview = new PreviewWeb();
 
-    //   const docsRoot = document.createElement('div');
-    //   (
-    //     preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
-    //   ).mockReturnValue(docsRoot as any);
-    //   componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
-    //     throw new Error('Docs rendering error');
-    //   });
+      const docsRoot = document.createElement('div');
+      (
+        preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
+      ).mockReturnValue(docsRoot as any);
+      componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
+        throw new Error('Docs rendering error');
+      });
 
-    //   (
-    //     preview.view.showErrorDisplay as any as jest.Mock<typeof preview.view.showErrorDisplay>
-    //   ).mockClear();
-    //   await preview.initialize({ importFn, getProjectAnnotations });
-    //   await waitForRender();
+      (
+        preview.view.showErrorDisplay as any as jest.Mock<typeof preview.view.showErrorDisplay>
+      ).mockClear();
+      await preview.initialize({ importFn, getProjectAnnotations });
+      await waitForRender();
 
-    //   expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-    // });
+      expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+    });
   });
 
   describe('onGetGlobalMeta changed (HMR)', () => {
