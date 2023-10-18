@@ -3,6 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Badge, Icons, Spaced } from '@storybook/components';
 import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
+import { BellIcon } from '@storybook/icons';
 import { AddonPanel } from './Panel';
 import { defaultShortcuts } from '../../settings/defaultShortcuts';
 
@@ -70,7 +71,7 @@ export const JSXTitles = () => {
             <div>
               <Spaced col={1}>
                 <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>Alert!</div>
-                <Icons icon="bell" />
+                <BellIcon />
               </Spaced>
             </div>
           ),

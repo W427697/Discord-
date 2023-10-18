@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import React, { useRef } from 'react';
 import { Transition, type TransitionStatus } from 'react-transition-group';
 import { styled } from '@storybook/theming';
-import { Icons, Link } from '@storybook/components';
+import { Link } from '@storybook/components';
+import { ArrowLeftIcon, GithubIcon, ShareAltIcon, StorybookIcon } from '@storybook/icons';
 import { UpgradeBlock } from '../../upgrade/UpgradeBlock';
 import { MOBILE_TRANSITION_DURATION } from '../../../constants';
 import { useLayout } from '../../layout/LayoutProvider';
@@ -23,26 +24,26 @@ export const MobileAbout: FC = () => {
       {(state) => (
         <Container ref={aboutRef} state={state} transitionDuration={MOBILE_TRANSITION_DURATION}>
           <Button onClick={() => setMobileAboutOpen(false)} title="Close about section">
-            <Icons icon="arrowleftalt" />
+            <ArrowLeftIcon />
             Back
           </Button>
           <LinkContainer>
             <LinkLine href="https://github.com/storybookjs/storybook" target="_blank">
               <LinkLeft>
-                <Icons icon="github" />
+                <GithubIcon />
                 <span>Github</span>
               </LinkLeft>
-              <Icons icon="sharealt" width={12} />
+              <ShareAltIcon width={12} />
             </LinkLine>
             <LinkLine
               href="https://storybook.js.org/docs/react/get-started/install/"
               target="_blank"
             >
               <LinkLeft>
-                <Icons icon="storybook" />
+                <StorybookIcon />
                 <span>Documentation</span>
               </LinkLeft>
-              <Icons icon="sharealt" width={12} />
+              <ShareAltIcon width={12} />
             </LinkLine>
           </LinkContainer>
           <UpgradeBlock />

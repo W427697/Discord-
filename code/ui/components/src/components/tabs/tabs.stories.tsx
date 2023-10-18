@@ -10,9 +10,9 @@ import {
   userEvent,
   findByText,
 } from '@storybook/testing-library';
+import { CPUIcon, MemoryIcon } from '@storybook/icons';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 import type { ChildrenList } from './tabs.helpers';
-import { Icons } from '../icon/icon';
 import { IconButton } from '../IconButton/IconButton';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
@@ -275,10 +275,10 @@ export const StatelessWithTools = {
       tools={
         <Fragment>
           <IconButton title="Tool 1">
-            <Icons icon="memory" />
+            <MemoryIcon />
           </IconButton>
           <IconButton title="Tool 2">
-            <Icons icon="cpu" />
+            <CPUIcon />
           </IconButton>
         </Fragment>
       }

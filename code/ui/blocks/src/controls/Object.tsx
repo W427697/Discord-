@@ -4,6 +4,7 @@ import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';
 import { Form, Icons, IconButton, Button } from '@storybook/components';
+import { EyeCloseIcon, EyeIcon } from '@storybook/icons';
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';
@@ -291,7 +292,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
             setShowRaw((v) => !v);
           }}
         >
-          <Icons icon={showRaw ? 'eyeclose' : 'eye'} />
+          {showRaw ? <EyeCloseIcon /> : <EyeIcon />}
           <span>RAW</span>
         </RawButton>
       )}

@@ -1,9 +1,10 @@
 import { global } from '@storybook/global';
 import React from 'react';
-import { getStoryHref, IconButton, Icons } from '@storybook/components';
+import { getStoryHref, IconButton } from '@storybook/components';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
+import { ShareAltIcon } from '@storybook/icons';
 
 const { PREVIEW_URL } = global;
 
@@ -35,7 +36,7 @@ export const ejectTool: Addon_BaseType = {
               rel="noopener noreferrer"
               title="Open canvas in new tab"
             >
-              <Icons icon="sharealt" />
+              <ShareAltIcon />
             </a>
           </IconButton>
         ) : null

@@ -8,12 +8,13 @@ import type {
   API,
 } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Button, Icons, TooltipLinkList, WithTooltip } from '@storybook/components';
+import { Button, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
 import {
   ComponentNode,
   DocumentNode,
@@ -305,7 +306,7 @@ const Node = React.memo<NodeProps>(function Node({
               setFullyExpanded();
             }}
           >
-            <Icons icon={isFullyExpanded ? 'collapse' : 'expandalt'} />
+            {isFullyExpanded ? <CollapseIconSvg /> : <ExpandAltIcon />}
           </Action>
         )}
       </RootNode>
