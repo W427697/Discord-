@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Badge, Icons, Spaced } from '@storybook/components';
+import { Badge, Spaced } from '@storybook/components';
 import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { BellIcon } from '@storybook/icons';
