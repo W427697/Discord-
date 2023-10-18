@@ -72,20 +72,18 @@ const AboutScreen: FC<{ onNavigateToWhatsNew?: () => void }> = ({ onNavigateToWh
       <div style={{ flex: '1.2' }} />
       <Footer>
         <div style={{ marginBottom: 12 }}>
-          <SquareButton
-            isLink
-            outline
-            small
-            href="https://github.com/storybookjs/storybook"
-            style={{ marginRight: 12 }}
-          >
-            <Icons icon="github" style={{ display: 'inline', marginRight: 5 }} />
-            GitHub
+          <SquareButton asChild style={{ marginRight: 12 }}>
+            <a href="https://github.com/storybookjs/storybook">
+              <Icons icon="github" />
+              GitHub
+            </a>
           </SquareButton>
 
-          <SquareButton isLink outline small href="https://storybook.js.org/docs">
-            <Icons icon="document" style={{ display: 'inline', marginRight: 5 }} />
-            Documentation
+          <SquareButton asChild>
+            <a href="https://storybook.js.org/docs">
+              <Icons icon="document" style={{ display: 'inline', marginRight: 5 }} />
+              Documentation
+            </a>
           </SquareButton>
         </div>
         <div>

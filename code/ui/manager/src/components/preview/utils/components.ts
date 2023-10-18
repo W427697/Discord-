@@ -1,7 +1,7 @@
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/router';
 
-export const PreviewContainer = styled.div({
+export const PreviewContainer = styled.main({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',

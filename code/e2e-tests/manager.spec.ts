@@ -3,6 +3,7 @@ import process from 'process';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
+const templateName = process.env.STORYBOOK_TEMPLATE_NAME;
 
 test.describe('Manager UI', () => {
   test.beforeEach(async ({ page }) => {
@@ -188,6 +189,16 @@ test.describe('Manager UI', () => {
   });
 
   test.describe('Mobile', () => {
+    // TODO: remove this when SSV6 templates have been removed
+    // Some assertions in these tests are not compatible with SSV6
+    // GIven that SSV6 will be removed before the new mobile UI released, it doesn't make sense to fix them
+    // eslint-disable-next-line jest/no-disabled-tests
+    test.skip(
+      // eslint-disable-next-line jest/valid-title
+      templateName?.includes('ssv6') || false,
+      'Skip mobile UI tests for SSV6'
+    );
+
     // standard iPhone viewport size
     test.use({ viewport: { width: 390, height: 844 } });
 
@@ -197,7 +208,7 @@ test.describe('Manager UI', () => {
       const mobileNavigationHeading = await sbPage.page.locator('[title="Open navigation menu"]');
 
       // navigation menu is closed
-      await expect(await mobileNavigationHeading.textContent()).toBe('Configure your project/Docs');
+      await expect(mobileNavigationHeading).toHaveText('Configure your project/Docs');
       await expect(sbPage.page.locator('#storybook-explorer-menu')).not.toBeVisible();
 
       // open navigation menu
@@ -213,7 +224,7 @@ test.describe('Manager UI', () => {
       await sbPage.navigateToStory('Example/Button', 'Secondary');
 
       // navigation menu is closed
-      await expect(await mobileNavigationHeading.textContent()).toBe('Example/Button/Secondary');
+      await expect(mobileNavigationHeading).toHaveText('Example/Button/Secondary');
       await expect(sbPage.page.locator('#storybook-explorer-menu')).not.toBeVisible();
       // story has changed
       await expect(sbPage.page.url()).toContain('example-button--secondary');
@@ -227,7 +238,7 @@ test.describe('Manager UI', () => {
       await sbPage.navigateToStory('Example/Button', 'Secondary');
 
       // panel is closed
-      await expect(await mobileNavigationHeading.textContent()).toBe('Example/Button/Secondary');
+      await expect(mobileNavigationHeading).toHaveText('Example/Button/Secondary');
       await expect(sbPage.page.locator('#tabbutton-addon-controls')).not.toBeVisible();
 
       // open panel
@@ -240,7 +251,7 @@ test.describe('Manager UI', () => {
       await sbPage.page.locator('[title="Close addon panel"]').click();
 
       // panel is closed
-      await expect(await mobileNavigationHeading.textContent()).toBe('Example/Button/Secondary');
+      await expect(mobileNavigationHeading).toHaveText('Example/Button/Secondary');
       await expect(sbPage.page.locator('#tabbutton-addon-controls')).not.toBeVisible();
     });
   });

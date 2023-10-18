@@ -28,13 +28,15 @@ export const ejectTool: Addon_BaseType = {
     <Consumer filter={ejectMapper}>
       {({ baseUrl, storyId, queryParams }) =>
         storyId ? (
-          <IconButton
-            key="opener"
-            href={getStoryHref(baseUrl, storyId, queryParams)}
-            target="_blank"
-            title="Open canvas in new tab"
-          >
-            <Icons icon="sharealt" />
+          <IconButton key="opener" asChild>
+            <a
+              href={getStoryHref(baseUrl, storyId, queryParams)}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open canvas in new tab"
+            >
+              <Icons icon="sharealt" />
+            </a>
           </IconButton>
         ) : null
       }

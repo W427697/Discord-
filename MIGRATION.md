@@ -3,6 +3,10 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Core changes](#core-changes)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
+    - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
+- [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
+  - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
+  - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
   - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
@@ -316,6 +320,90 @@ In Storybook 7 it was possible to use `addons.setConfig({...});` to configure St
 - `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
 - `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
 - `isFullscreen: boolean` is no longer supported, but can be achieved by setting a combination of the above.
+
+#### New UI and props for Button and IconButton components
+
+We used to have a lot of different buttons in `@storybook/components` that were not used anywhere. In Storybook 8.0 we are deprecating `Form.Button` and added a new `Button` component that can be used in all places. The `IconButton` component has also been updated to use the new `Button` component under the hood. Going forward addon creators and Storybook maintainers should use the new `Button` component instead of `Form.Button`.
+
+For the `Button` component, the following props are now deprecated:
+
+- `isLink` - Please use the `asChild` prop instead like this: `<Button asChild><a href="">Link</a></Button>`
+- `primary` - Please use the `variant` prop instead.
+- `secondary` - Please use the `variant` prop instead.
+- `tertiary` - Please use the `variant` prop instead.
+- `gray` - Please use the `variant` prop instead.
+- `inForm` - Please use the `variant` prop instead.
+- `small` - Please use the `size` prop instead.
+- `outline` - Please use the `variant` prop instead.
+- `containsIcon`. Please add your icon as a child directly. No need for this prop anymore.
+
+The `IconButton` doesn't have any deprecated props but it now uses the new `Button` component under the hood so all props for `IconButton` will be the same as `Button`.
+
+## From version 7.4.0 to 7.5.0
+
+#### `storyStoreV6` and `storiesOf` is deprecated
+
+`storyStoreV6` and `storiesOf` is deprecated and will be completely removed in Storybook 8.0.0.
+
+If you're using `storiesOf` we recommend you migrate your stories to CSF3 for a better story writing experience.
+In many cases you can get started with the migration by using two migration scripts:
+
+```bash
+
+# 1. convert storiesOf to CSF
+npx storybook@latest migrate storiesof-to-csf --glob="**/*.stories.tsx" --parser=tsx
+
+# 2. Convert CSF 2 to CSF 3
+npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
+```
+
+They won't do a perfect migration so we recommend that you manually go through each file afterwards.
+
+Alternatively you can build your own `storiesOf` implementation by leveraging the new (experimental) indexer API ([documentation](https://storybook.js.org/docs/react/api/main-config-indexers), [migration](#storyindexers-is-replaced-with-experimental_indexers)). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's `README.md` for a deeper explanation of the implementation.
+
+#### `storyIndexers` is replaced with `experimental_indexers`
+
+Defining custom indexers for stories has become a more official - yet still experimental - API which is now configured at `experimental_indexers` instead of `storyIndexers` in `main.ts`. `storyIndexers` has been deprecated and will be fully removed in version 8.0.0.
+
+The new experimental indexers are documented [here](https://storybook.js.org/docs/react/api/main-config-indexers). The most notable change from `storyIndexers` is that the indexer must now return a list of [`IndexInput`](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/indexer.ts#L104-L148) instead of `CsfFile`. It's possible to construct an `IndexInput` from a `CsfFile` using the `CsfFile.indexInputs` getter.
+
+That means you can convert an existing story indexer like this:
+
+```diff
+// .storybook/main.ts
+
+import { readFileSync } from 'fs';
+import { loadCsf } from '@storybook/csf-tools';
+
+export default {
+-  storyIndexers = (indexers) => {
+-    const indexer = async (fileName, opts) => {
++  experimental_indexers = (indexers) => {
++    const createIndex = async (fileName, opts) => {
+      const code = readFileSync(fileName, { encoding: 'utf-8' });
+      const makeTitle = (userTitle) => {
+        // Do something with the auto title retrieved by Storybook
+        return userTitle;
+      };
+
+      // Parse the CSF file with makeTitle as a custom context
+-      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse();
++      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse().indexInputs;
+    };
+
+    return [
+      {
+        test: /(stories|story)\.[tj]sx?$/,
+-        indexer,
++        createIndex,
+      },
+      ...(indexers || []),
+    ];
+  },
+};
+```
+
+As an addon author you can support previous versions of Storybook by setting both `storyIndexers` and `indexers_experimental`, without triggering the deprecation warning.
 
 ## From version 7.0.0 to 7.2.0
 
