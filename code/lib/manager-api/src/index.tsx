@@ -167,7 +167,11 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
     const store = new Store({
       getState: () => this.state,
-      setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
+      setState: (stateChange: Partial<State>, callback) => {
+        this.setState(stateChange, () => callback(this.state));
+
+        return this.state;
+      },
     });
 
     const routeData = { location, path, viewMode, singleStory, storyId, refId };
@@ -411,7 +415,9 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   }, [quicksync]);
 
   const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
-    const result = await api.setAddonState<S>(stateId, s, options);
+    await api.setAddonState<S>(stateId, s, options);
+    const result = api.getAddonState(stateId);
+
     STORYBOOK_ADDON_STATE[stateId] = result;
     return result;
   };
@@ -457,7 +463,8 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   return [
     state,
     async (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
-      const result = await setState(newStateOrMerger, options);
+      await setState(newStateOrMerger, options);
+      const result = api.getAddonState(stateId);
       emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, result);
     },
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
