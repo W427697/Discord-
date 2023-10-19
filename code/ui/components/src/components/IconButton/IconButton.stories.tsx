@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
+import { FaceHappyIcon } from '@storybook/icons';
 import { IconButton } from './IconButton';
-import { Icons } from '../icon/icon';
 
 const meta = {
   title: 'IconButton',
   component: IconButton,
   tags: ['autodocs'],
-  args: { children: <Icons icon="facehappy" /> },
+  args: { children: <FaceHappyIcon /> },
 } satisfies Meta<typeof IconButton>;
 
 export default meta;
@@ -73,7 +73,7 @@ export const WithHref: Story = {
       <IconButton {...args} onClick={() => console.log('Hello')} />
       <IconButton {...args} asChild>
         <a href="https://storybook.js.org/" aria-label="Visit Storybook website">
-          <Icons icon="facehappy" />
+          <FaceHappyIcon />
         </a>
       </IconButton>
     </div>

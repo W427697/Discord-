@@ -4,7 +4,6 @@ import React from 'react';
 import { Route } from '@storybook/router';
 
 import { Global, createGlobal } from '@storybook/theming';
-import { Symbols } from '@storybook/components';
 import type { Addon_PageType } from '@storybook/types';
 import Sidebar from './container/Sidebar';
 import Preview from './container/Preview';
@@ -25,7 +24,6 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
   return (
     <>
       <Global styles={createGlobal} />
-      <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
       <Layout
         managerLayoutState={managerLayoutState}
         setManagerLayoutState={setManagerLayoutState}

@@ -23,6 +23,7 @@ declare var __STORYBOOKCOREEVENTS__: any;
 declare var __STORYBOOKROUTER__: any;
 declare var __STORYBOOKTHEMING__: any;
 declare var __STORYBOOKAPI__: any;
+declare var __STORYBOOKICONS__: any;
 declare var __STORYBOOKADDONS__: any;
 declare var __STORYBOOKCLIENTLOGGER__: any;
 declare var __STORYBOOK_ADDONS_CHANNEL__: any;

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 import React from 'react';
+import { FaceHappyIcon } from '@storybook/icons';
 import { Button } from './Button';
-import { Icons } from '../icon/icon';
 
 const meta = {
   title: 'Button',
@@ -39,24 +39,24 @@ export const Variants: Story = {
       </Row>
       <Row>
         <Button variant="solid" {...args}>
-          <Icons icon="facehappy" /> Solid
+          <FaceHappyIcon /> Solid
         </Button>
         <Button variant="outline" {...args}>
-          <Icons icon="facehappy" /> Outline
+          <FaceHappyIcon /> Outline
         </Button>
         <Button variant="ghost" {...args}>
-          <Icons icon="facehappy" /> Ghost
+          <FaceHappyIcon /> Ghost
         </Button>
       </Row>
       <Row>
         <Button variant="solid" padding="small" {...args}>
-          <Icons icon="facehappy" />
+          <FaceHappyIcon />
         </Button>
         <Button variant="outline" padding="small" {...args}>
-          <Icons icon="facehappy" />
+          <FaceHappyIcon />
         </Button>
         <Button variant="ghost" padding="small" {...args}>
-          <Icons icon="facehappy" />
+          <FaceHappyIcon />
         </Button>
       </Row>
     </Stack>
@@ -68,7 +68,7 @@ export const Active: Story = {
     active: true,
     children: (
       <>
-        <Icons icon="facehappy" />
+        <FaceHappyIcon />
         Button
       </>
     ),
@@ -86,7 +86,7 @@ export const WithIcon: Story = {
   args: {
     children: (
       <>
-        <Icons icon="facehappy" />
+        <FaceHappyIcon />
         Button
       </>
     ),
@@ -102,7 +102,7 @@ export const WithIcon: Story = {
 
 export const IconOnly: Story = {
   args: {
-    children: <Icons icon="facehappy" />,
+    children: <FaceHappyIcon />,
     padding: 'small',
   },
   render: (args) => (
@@ -160,24 +160,24 @@ export const Animated: Story = {
       </Row>
       <Row>
         <Button animation="glow" {...args}>
-          <Icons icon="facehappy" /> Button
+          <FaceHappyIcon /> Button
         </Button>
         <Button animation="jiggle" {...args}>
-          <Icons icon="facehappy" /> Button
+          <FaceHappyIcon /> Button
         </Button>
         <Button animation="rotate360" {...args}>
-          <Icons icon="facehappy" /> Button
+          <FaceHappyIcon /> Button
         </Button>
       </Row>
       <Row>
         <Button animation="glow" padding="small" {...args}>
-          <Icons icon="facehappy" />
+          <FaceHappyIcon />
         </Button>
         <Button animation="jiggle" padding="small" {...args}>
-          <Icons icon="facehappy" />
+          <FaceHappyIcon />
         </Button>
         <Button animation="rotate360" padding="small" {...args}>
-          <Icons icon="facehappy" />
+          <FaceHappyIcon />
         </Button>
       </Row>
     </Stack>

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
+import { LinkIcon } from '@storybook/icons';
 import { Button } from './Button';
-import { Icons } from '../icon/icon';
 import { Form } from '../form';
 
 const meta: Meta<typeof Button> = {
@@ -73,11 +73,11 @@ export const IconPrimary: Story = {
     primary: true,
     containsIcon: true,
     title: 'link',
-    children: <Icons icon="link" />,
+    children: <LinkIcon />,
   },
 };
 export const IconOutline: Story = {
-  args: { outline: true, containsIcon: true, title: 'link', children: <Icons icon="link" /> },
+  args: { outline: true, containsIcon: true, title: 'link', children: <LinkIcon /> },
 };
 export const IconOutlineSmall: Story = {
   args: {
@@ -85,6 +85,6 @@ export const IconOutlineSmall: Story = {
     containsIcon: true,
     small: true,
     title: 'link',
-    children: <Icons icon="link" />,
+    children: <LinkIcon />,
   },
 };

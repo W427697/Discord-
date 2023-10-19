@@ -8,6 +8,7 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 
+import { ChevronDownIcon, GlobeIcon } from '@storybook/icons';
 import type { RefType } from './types';
 
 import type { getStateType } from '../../utils/tree';
@@ -159,7 +160,7 @@ const CurrentVersion: FC<CurrentVersionProps> = ({ url, versions }) => {
   return (
     <Version>
       <span>{currentVersionId}</span>
-      <Icons icon="arrowdown" />
+      <ChevronDownIcon />
     </Version>
   );
 };
@@ -204,7 +205,7 @@ export const RefIndicator = React.memo(
             }
           >
             <IndicatorClickTarget data-action="toggle-indicator" aria-label="toggle indicator">
-              <Icons icon="globe" />
+              <GlobeIcon />
             </IndicatorClickTarget>
           </WithTooltip>
 
