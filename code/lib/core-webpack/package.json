@@ -51,7 +51,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.9.3",
+    "typescript": "~5.2.2",
     "webpack": "5"
   },
   "publishConfig": {
