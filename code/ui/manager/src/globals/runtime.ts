@@ -4,6 +4,7 @@ import * as REACTDOM from 'react-dom';
 import * as STORYBOOKCOMPONENTS from '@storybook/components';
 import * as STORYBOOKCHANNELS from '@storybook/channels';
 import * as STORYBOOKEVENTS from '@storybook/core-events';
+import * as STORYBOOKICONS from '@storybook/icons';
 import * as STORYBOOKROUTER from '@storybook/router';
 import * as STORYBOOKTHEMING from '@storybook/theming';
 import * as STORYBOOKMANAGERAPI from '@storybook/manager-api';
@@ -19,6 +20,7 @@ export const values: Required<Record<keyof typeof Keys, any>> = {
   '@storybook/channels': STORYBOOKCHANNELS,
   '@storybook/core-events': STORYBOOKEVENTS,
   '@storybook/router': STORYBOOKROUTER,
+  '@storybook/icons': STORYBOOKICONS,
   '@storybook/theming': STORYBOOKTHEMING,
   '@storybook/api': STORYBOOKMANAGERAPI, // deprecated, remove in 8.0
   '@storybook/manager-api': STORYBOOKMANAGERAPI,

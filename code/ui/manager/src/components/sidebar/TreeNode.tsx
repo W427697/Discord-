@@ -1,9 +1,8 @@
 import { styled } from '@storybook/theming';
-import type { Color, Theme } from '@storybook/theming';
-import { Icons } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { FC, ComponentProps } from 'react';
 import React from 'react';
+import { UseSymbol } from './IconSymbols';
 
 export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
   display: 'inline-block',
@@ -19,38 +18,21 @@ export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExp
   transition: 'transform .1s ease-out',
 }));
 
-const iconColors = {
-  light: {
-    document: '#ff8300',
-    docsModeDocument: 'secondary',
-    bookmarkhollow: 'seafoam',
-    component: 'secondary',
-    folder: 'ultraviolet',
-  },
-  dark: {
-    document: 'gold',
-    docsModeDocument: 'secondary',
-    bookmarkhollow: 'seafoam',
-    component: 'secondary',
-    folder: 'primary',
-  },
-};
-const isColor = (theme: Theme, color: string): color is keyof Color => color in theme.color;
-const TypeIcon = styled(Icons)<{ docsMode?: boolean }>(
-  {
+const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
+  ({ theme, type }) => ({
     width: 12,
     height: 12,
     marginRight: 5,
     flex: '0 0 auto',
-  },
-
-  // @ts-expect-error (TODO)
-  ({ theme, icon, symbol = icon, docsMode }) => {
-    const colors = theme.base === 'dark' ? iconColors.dark : iconColors.light;
-    const colorKey = docsMode && symbol === 'document' ? 'docsModeDocument' : symbol;
-    const color = colors[colorKey as keyof typeof colors];
-    return { color: isColor(theme, color) ? theme.color[color] : color };
-  }
+    color: (() => {
+      if (type === 'group')
+        return theme.base === 'dark' ? theme.color.primary : theme.color.ultraviolet;
+      if (type === 'component') return theme.color.secondary;
+      if (type === 'document') return theme.base === 'dark' ? theme.color.gold : '#ff8300';
+      if (type === 'story') return theme.color.seafoam;
+      return 'currentColor';
+    })(),
+  })
 );
 
 const BranchNode = styled.button<{
@@ -161,7 +143,9 @@ export const GroupNode: FC<
     <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
       <IconsWrapper>
         {isExpandable ? <CollapseIcon isExpanded={isExpanded} /> : null}
-        <TypeIcon icon="folder" useSymbol color="primary" />
+        <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="group">
+          <UseSymbol type="group" />
+        </TypeIcon>
       </IconsWrapper>
       {children}
     </BranchNode>
@@ -174,7 +158,9 @@ export const ComponentNode: FC<ComponentProps<typeof BranchNode>> = React.memo(
       <BranchNode isExpandable={isExpandable} tabIndex={-1} {...props}>
         <IconsWrapper>
           {isExpandable && <CollapseIcon isExpanded={isExpanded} />}
-          <TypeIcon icon="component" useSymbol color="secondary" />
+          <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="component">
+            <UseSymbol type="component" />
+          </TypeIcon>
         </IconsWrapper>
         {children}
       </BranchNode>
@@ -187,7 +173,9 @@ export const DocumentNode: FC<ComponentProps<typeof LeafNode> & { docsMode: bool
     return (
       <LeafNode tabIndex={-1} {...props}>
         <IconsWrapper>
-          <TypeIcon icon="document" useSymbol docsMode={docsMode} />
+          <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="document">
+            <UseSymbol type="document" />
+          </TypeIcon>
         </IconsWrapper>
         {children}
       </LeafNode>
@@ -203,7 +191,9 @@ export const StoryNode: FC<ComponentProps<typeof LeafNode>> = React.memo(functio
   return (
     <LeafNode tabIndex={-1} {...props}>
       <IconsWrapper>
-        <TypeIcon icon="bookmarkhollow" useSymbol />
+        <TypeIcon viewBox="0 0 14 14" width="12" height="12" type="story">
+          <UseSymbol type="story" />
+        </TypeIcon>
       </IconsWrapper>
       {children}
     </LeafNode>
