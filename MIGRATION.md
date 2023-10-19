@@ -4,11 +4,14 @@
   - [Core changes](#core-changes)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
+    - [Icons is deprecated](#icons-is-deprecated)
+- [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
+      - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
-  - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
-  - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
+    - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
+    - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
-  - [Addon API is more type-strict](#addon-api-is-more-type-strict)
+    - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
@@ -34,7 +37,7 @@
     - [Deploying build artifacts](#deploying-build-artifacts)
       - [Dropped support for file URLs](#dropped-support-for-file-urls)
       - [Serving with nginx](#serving-with-nginx)
-      - [Ignore story files from node_modules](#ignore-story-files-from-node_modules)
+      - [Ignore story files from node\_modules](#ignore-story-files-from-node_modules)
   - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
@@ -46,7 +49,7 @@
     - [Addon-interactions: Interactions debugger is now default](#addon-interactions-interactions-debugger-is-now-default)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -96,7 +99,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -338,6 +341,16 @@ For the `Button` component, the following props are now deprecated:
 - `containsIcon`. Please add your icon as a child directly. No need for this prop anymore.
 
 The `IconButton` doesn't have any deprecated props but it now uses the new `Button` component under the hood so all props for `IconButton` will be the same as `Button`.
+
+#### Icons is deprecated
+
+In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
+
+## From version 7.5.0 to 7.6.0
+
+##### Primary doc block accepts of prop
+
+The `Primary` doc block now also accepts an `of` prop as described in the [Doc Blocks](#doc-blocks) section. It still accepts being passed `name` or no props at all.
 
 ## From version 7.4.0 to 7.5.0
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Tabs, Icons, IconButton } from '@storybook/components';
+import { Tabs, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
 import { styled } from '@storybook/theming';
+import { BottomBarIcon, CloseIcon, SidebarAltIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 
 export interface SafeTabProps {
@@ -70,19 +71,19 @@ export const AddonPanel = React.memo<{
                     shortcuts.panelPosition
                   )}]`}
                 >
-                  <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+                  {panelPosition === 'bottom' ? <SidebarAltIcon /> : <BottomBarIcon />}
                 </IconButton>
                 <IconButton
                   key="visibility"
                   onClick={actions.toggleVisibility}
                   title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
                 >
-                  <Icons icon="close" />
+                  <CloseIcon />
                 </IconButton>
               </>
             ) : (
               <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
-                <Icons icon="close" />
+                <CloseIcon />
               </IconButton>
             )}
           </Actions>
