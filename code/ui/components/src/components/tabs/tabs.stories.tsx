@@ -99,6 +99,7 @@ const onSelect = action('onSelect');
 
 const content = Object.entries(panels).map(([k, v]) => (
   <div key={k} id={k} title={v.title as any}>
+    {/* @ts-expect-error (we know this is broken) */}
     {v.render}
   </div>
 ));
@@ -116,8 +117,9 @@ export const StatefulStatic = {
   render: (args) => (
     <TabsState initial="test2" {...args}>
       <div id="test1" title="With a function">
-        {({ active, selected }: { active: boolean; selected: string }) =>
-          active ? <div>{selected} is selected</div> : null
+        {
+          (({ active, selected }: { active: boolean; selected: string }) =>
+            active ? <div>{selected} is selected</div> : null) as any
         }
       </div>
       <div id="test2" title="With markup">
@@ -132,8 +134,9 @@ export const StatefulStaticWithSetButtonTextColors = {
     <div>
       <TabsState initial="test2" {...args}>
         <div id="test1" title="With a function" color="#e00000">
-          {({ active, selected }: { active: boolean; selected: string }) =>
-            active ? <div>{selected} is selected</div> : null
+          {
+            (({ active, selected }: { active: boolean; selected: string }) =>
+              active ? <div>{selected} is selected</div> : null) as any
           }
         </div>
         <div id="test2" title="With markup" color="green">
@@ -149,8 +152,9 @@ export const StatefulStaticWithSetBackgroundColor = {
     <div>
       <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)" {...args}>
         <div id="test1" title="With a function" color="#e00000">
-          {({ active, selected }: { active: boolean; selected: string }) =>
-            active ? <div>{selected} is selected</div> : null
+          {
+            (({ active, selected }: { active: boolean; selected: string }) =>
+              active ? <div>{selected} is selected</div> : null) as any
           }
         </div>
         <div id="test2" title="With markup" color="green">
@@ -207,6 +211,7 @@ export const StatefulDynamicWithOpenTooltip = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title as any}>
+          {/* @ts-expect-error (we know this is broken) */}
           {v.render}
         </div>
       ))}
@@ -235,6 +240,7 @@ export const StatefulDynamicWithSelectedAddon = {
     <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title as any}>
+          {/* @ts-expect-error (we know this is broken) */}
           {v.render}
         </div>
       ))}

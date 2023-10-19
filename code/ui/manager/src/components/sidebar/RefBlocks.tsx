@@ -52,7 +52,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
     globalWindow.document.location.reload();
   }, []);
 
-  const open = useCallback((e) => {
+  const open = useCallback<React.MouseEventHandler>((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
 

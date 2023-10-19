@@ -1,4 +1,4 @@
-import type { FunctionComponent, MouseEvent, ReactElement } from 'react';
+import type { FunctionComponent, MouseEvent, PropsWithChildren, ReactElement } from 'react';
 import React, { Children, cloneElement } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -14,7 +14,7 @@ interface StoryLinkWrapperProps {
   passHref?: boolean;
 }
 
-const StoryLinkWrapper: FunctionComponent<StoryLinkWrapperProps> = ({
+const StoryLinkWrapper: FunctionComponent<PropsWithChildren<StoryLinkWrapperProps>> = ({
   href,
   passHref = false,
   children,

@@ -20,7 +20,7 @@ export const assertIsFn = (val: any) => {
 };
 
 // Hacky utility for adding mdxStoryToId to the default context
-export const AddContext: FC<DocsContextProps> = (props) => {
+export const AddContext: FC<PropsWithChildren<DocsContextProps>> = (props) => {
   const { children, ...rest } = props;
   const parentContext = React.useContext(DocsContext);
   return (
@@ -32,7 +32,11 @@ interface CodeOrSourceMdxProps {
   className?: string;
 }
 
-export const CodeOrSourceMdx: FC<CodeOrSourceMdxProps> = ({ className, children, ...rest }) => {
+export const CodeOrSourceMdx: FC<PropsWithChildren<CodeOrSourceMdxProps>> = ({
+  className,
+  children,
+  ...rest
+}) => {
   // markdown-to-jsx does not add className to inline code
   if (
     typeof className !== 'string' &&

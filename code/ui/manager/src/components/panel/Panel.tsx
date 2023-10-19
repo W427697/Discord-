@@ -25,6 +25,7 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
     console.error(error, info);
   }
 
+  // @ts-expect-error (we know this is broken)
   render() {
     const { hasError } = this.state;
     const { children } = this.props;
@@ -90,6 +91,7 @@ export const AddonPanel = React.memo<{
         id="storybook-panel-root"
       >
         {Object.entries(panels).map(([k, v]) => (
+          // @ts-expect-error (we know this is broken)
           <SafeTab key={k} id={k} title={typeof v.title === 'function' ? <v.title /> : v.title}>
             {v.render}
           </SafeTab>

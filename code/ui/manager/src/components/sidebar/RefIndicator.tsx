@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import type { TooltipLinkListLink } from '@storybook/components';
@@ -256,7 +256,7 @@ const ReadyMessage: FC<{
 );
 
 const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
-  const open = useCallback((e) => {
+  const open = useCallback<MouseEventHandler>((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
 
