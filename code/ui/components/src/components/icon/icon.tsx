@@ -42,7 +42,8 @@ export const Icons: FC<IconsProps> = ({ icon, useSymbol, ...props }: IconsProps)
     );
     return null;
   }
-  const Icon: FC = StorybookIcons[findIcon];
+  // TODO: Find a better way to type this component
+  const Icon: FC = (StorybookIcons as any)[findIcon];
 
   return <Icon {...props} />;
 };
