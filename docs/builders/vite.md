@@ -39,9 +39,9 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 ## Configuration
 
-Out of the box, Storybook's Vite builder includes a set of configuration defaults for the supported frameworks, which are merged alongside your existing configuration file. For an optimal experience when using the Vite builder, we recommend applying any configuration directly inside Vite's configuration file (i.e., [`vite.config.js`](https://vitejs.dev/config/)).
+Out of the box, Storybook's Vite builder includes a set of configuration defaults for the supported frameworks, which are merged alongside your existing configuration file. For an optimal experience when using the Vite builder, we recommend applying any configuration directly inside Vite's configuration file (i.e., [`vite.config.js|ts`](https://vitejs.dev/config/)).
 
-When Storybook loads, it automatically merges the configuration into its own. However, not all projects have the same requirements, and you may need to provide a custom configuration created specifically for Storybook. In that case, you can adjust your configuration file (.storybook/main.js|ts) and add the `viteFinal` configuration function as follows:
+When Storybook loads, it automatically merges the configuration into its own. However, since different projects may have specific requirements, you may need to provide a custom configuration for Storybook. In such cases, you can modify your configuration file (`.storybook/main.js|ts`) and add the `viteFinal` configuration function as follows:
 
 <!-- prettier-ignore-start -->
 
@@ -53,15 +53,31 @@ When Storybook loads, it automatically merges the configuration into its own. Ho
 
 <!-- prettier-ignore-end -->
 
-The asynchronous function `viteFinal` receives a `config` object with the default builder configuration and returns the updated configuration.
+The asynchronous function [`viteFinal`](../api/main-config-vite-final.md) receives a `config` object with the default builder configuration and returns the updated configuration.
 
-You can also override the builder's configuration based on the environment. For instance, if you need to provide a custom configuration for development purposes and another for production, you can extend the default configuration as follows:
+### Environment-based configuration
+
+If you need to customize the builder's configuration and apply specific options based on your environment, extend the `viteFinal` function as follows:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/main-config-vite-final.js.mdx',
+    'common/main-config-vite-final-env.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Override the default configuration
+
+By default, the Vite builder in Storybook searches for the Vite configuration file in the root directory of your Storybook project. However, you can customize it to look for the configuration file in a different location. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-builder-custom-config.js.mdx',
   ]}
 />
 
