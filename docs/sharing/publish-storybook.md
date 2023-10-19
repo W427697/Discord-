@@ -129,9 +129,39 @@ When you publish Storybook, you also get component history and versioning down t
 
 ![Library history in Chromatic](./workflow-history-versioning.png)
 
+## Publish to GitHub Pages
+
+To deploy to GitHub Pages, simply use the [deploy-storybook-to-github-pages](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) GitHub Action.  
+
+From your project's root directory, add a new file called `deploy-ghp.yml` inside the `.github/workflows` directory:
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/ghp-github-action.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+
+It does the build for you, and it publishes the built site to GitHub pages with the Actions based pages deployment. 
+
+The action has many customizable options including build command (default is, helpfully, `npm run build-storybook`) and output directory.
+
+
+<div class="aside">
+
+ℹ️ Be sure to [set up your project](https://github.com/marketplace/actions/deploy-storybook-to-github-pages#set-up-your-project-for-actions-deployed-pages) for Actions-deployed pages!
+
+</div>
+
+Commit and push the file. Congratulations, you've successfully automated publishing your Storybook to GitHub Pages!
+
+
 ## Publish Storybook to other services
 
-Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md),
+Since Storybook is built as a static web application, you can also publish it to any web host, including [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md),
 [embedding stories](./embed.md), history, and versioning require tighter integration with Storybook APIs and secure authentication. Your hosting provider may not be capable of supporting these features. Learn about the Component Publishing Protocol (CPP) to see what.
 
 <div class="aside">
