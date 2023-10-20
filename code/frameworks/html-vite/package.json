@@ -47,13 +47,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "workspace:*",
     "@storybook/builder-vite": "workspace:*",
-    "@storybook/client-api": "workspace:*",
     "@storybook/core-server": "workspace:*",
     "@storybook/html": "workspace:*",
     "@storybook/node-logger": "workspace:*",
-    "@storybook/preview-web": "workspace:*",
     "magic-string": "^0.30.0"
   },
   "devDependencies": {
