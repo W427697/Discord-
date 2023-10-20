@@ -2,9 +2,6 @@
 
 exports[`react component properties ts-react-fc 1`] = `
 "import React from 'react';
-function concat(a, b) {
-  return a + b;
-}
 var DefaultEnum = /*#__PURE__*/function (DefaultEnum) {
   DefaultEnum[DefaultEnum[\\"TopLeft\\"] = 0] = \\"TopLeft\\";
   DefaultEnum[DefaultEnum[\\"TopRight\\"] = 1] = \\"TopRight\\";
@@ -23,7 +20,7 @@ var StringEnum = /*#__PURE__*/function (StringEnum) {
   StringEnum[\\"TopCenter\\"] = \\"top-center\\";
   return StringEnum;
 }(StringEnum || {});
-export const TypeScriptProps = () => /*#__PURE__*/React.createElement(\\"div\\", null, \\"TypeScript!\\");
+export const TypeScriptProps = props => /*#__PURE__*/React.createElement(\\"div\\", null, \\"TypeScript!\\");
 export const component = TypeScriptProps;
 TypeScriptProps.__docgenInfo = {
   \\"description\\": \\"\\",
