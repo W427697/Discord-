@@ -22,7 +22,6 @@ export const values: Required<Record<keyof typeof Keys, any>> = {
   '@storybook/router': STORYBOOKROUTER,
   '@storybook/icons': STORYBOOKICONS,
   '@storybook/theming': STORYBOOKTHEMING,
-  '@storybook/api': STORYBOOKMANAGERAPI, // deprecated, remove in 8.0
   '@storybook/manager-api': STORYBOOKMANAGERAPI,
   '@storybook/client-logger': STORYBOOKCLIENTLOGGER,
 };

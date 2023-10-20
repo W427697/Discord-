@@ -18,7 +18,6 @@ export default {
   '@storybook/addon-toolbars': '7.6.0-alpha.0',
   '@storybook/addon-viewport': '7.6.0-alpha.0',
   '@storybook/angular': '7.6.0-alpha.0',
-  '@storybook/api': '7.6.0-alpha.0',
   '@storybook/blocks': '7.6.0-alpha.0',
   '@storybook/builder-manager': '7.6.0-alpha.0',
   '@storybook/builder-vite': '7.6.0-alpha.0',
