@@ -2,7 +2,7 @@ import type { FunctionComponent, MouseEvent, PropsWithChildren, ReactElement } f
 import React, { Children, cloneElement } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
-import { LinuxIcon } from '@storybook/icons';
+import { LinkIcon, LinuxIcon } from '@storybook/icons';
 import { WithTooltip } from './WithTooltip';
 import { TooltipLinkList } from './TooltipLinkList';
 import ellipseUrl from './assets/ellipse.png';
@@ -76,7 +76,7 @@ export const WithOneIcon = {
         id: '1',
         title: 'Link 1',
         center: 'This is an addition description',
-        icon: 'link',
+        icon: <LinkIcon />,
         href: 'http://google.com',
       },
       {
