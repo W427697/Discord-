@@ -26,7 +26,6 @@
     "@storybook/addon-storysource": "portal:../../code/addons/storysource",
     "@storybook/addon-toolbars": "portal:../../code/addons/toolbars",
     "@storybook/addon-viewport": "portal:../../code/addons/viewport",
-    "@storybook/addons": "portal:../../code/deprecated/addons",
     "@storybook/angular": "portal:../../code/frameworks/angular",
     "@storybook/blocks": "portal:../../code/ui/blocks",
     "@storybook/builder-manager": "portal:../../code/builders/builder-manager",

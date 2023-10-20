@@ -12,7 +12,6 @@ export enum Keys {
   '@storybook/api' = '__STORYBOOKAPI__', // deprecated, remove in 8.0
   '@storybook/icons' = '__STORYBOOKICONS__',
   '@storybook/manager-api' = '__STORYBOOKAPI__',
-  '@storybook/addons' = '__STORYBOOKADDONS__',
   '@storybook/client-logger' = '__STORYBOOKCLIENTLOGGER__',
 }
 

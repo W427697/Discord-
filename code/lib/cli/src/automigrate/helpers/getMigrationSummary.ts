@@ -107,7 +107,6 @@ export function getMigrationSummary({
 const allowList = [
   '@storybook/csf',
   // see this file for more info: code/lib/preview/src/globals/types.ts
-  '@storybook/addons',
   '@storybook/channel-postmessage', // @deprecated: remove in 8.0
   '@storybook/channel-websocket', // @deprecated: remove in 8.0
   '@storybook/channels',

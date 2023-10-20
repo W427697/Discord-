@@ -47,7 +47,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "workspace:*",
     "@storybook/builder-vite": "workspace:*",
     "@storybook/client-api": "workspace:*",
     "@storybook/core-server": "workspace:*",

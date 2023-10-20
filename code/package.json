@@ -117,7 +117,6 @@
     "@storybook/addon-storysource": "workspace:*",
     "@storybook/addon-toolbars": "workspace:*",
     "@storybook/addon-viewport": "workspace:*",
-    "@storybook/addons": "workspace:*",
     "@storybook/angular": "workspace:*",
     "@storybook/api": "workspace:*",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",

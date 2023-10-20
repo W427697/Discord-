@@ -24,11 +24,5 @@ export const values: Required<Record<keyof typeof Keys, any>> = {
   '@storybook/theming': STORYBOOKTHEMING,
   '@storybook/api': STORYBOOKMANAGERAPI, // deprecated, remove in 8.0
   '@storybook/manager-api': STORYBOOKMANAGERAPI,
-  // backwards compatibility
-  '@storybook/addons': {
-    addons: STORYBOOKMANAGERAPI.addons,
-    types: STORYBOOKMANAGERAPI.types,
-    mockChannel: STORYBOOKMANAGERAPI.mockChannel,
-  },
   '@storybook/client-logger': STORYBOOKCLIENTLOGGER,
 };
