@@ -24,47 +24,17 @@ interface LoadingProps {
 
 export type ToolbarProps = BarProps & ZoomProps & EjectProps & LoadingProps;
 
-const Zoom: FC<ZoomProps> = ({ zoom, resetZoom }) => (
-  <>
-    <IconButton
-      key="zoomin"
-      onClick={(e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        zoom(0.8);
-      }}
-      title="Zoom in"
-    >
-      <ZoomIcon />
-    </IconButton>
-    <IconButton
-      key="zoomout"
-      onClick={(e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        zoom(1.25);
-      }}
-      title="Zoom out"
-    >
-      <ZoomOutIcon />
-    </IconButton>
-    <IconButton
-      key="zoomreset"
-      onClick={(e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        resetZoom();
-      }}
-      title="Reset zoom"
-    >
-      <ZoomResetIcon />
-    </IconButton>
-  </>
-);
-
 const Bar = styled(FlexBar)({
   position: 'absolute',
   left: 0,
   right: 0,
   top: 0,
   transition: 'transform .2s linear',
+});
+
+const Wrapper = styled.div({
+  display: 'flex',
+  alignItems: 'center',
 });
 
 export const Toolbar: FC<ToolbarProps> = ({
@@ -76,12 +46,43 @@ export const Toolbar: FC<ToolbarProps> = ({
   ...rest
 }) => (
   <Bar {...rest}>
-    <Fragment key="left">
+    <Wrapper key="left">
       {isLoading ? (
         [1, 2, 3].map((key) => <IconButtonSkeleton key={key} />)
       ) : (
-        <Zoom {...{ zoom, resetZoom }} />
+        <>
+          <IconButton
+            key="zoomin"
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              zoom(0.8);
+            }}
+            title="Zoom in"
+          >
+            <ZoomIcon />
+          </IconButton>
+          <IconButton
+            key="zoomout"
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              zoom(1.25);
+            }}
+            title="Zoom out"
+          >
+            <ZoomOutIcon />
+          </IconButton>
+          <IconButton
+            key="zoomreset"
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              resetZoom();
+            }}
+            title="Reset zoom"
+          >
+            <ZoomResetIcon />
+          </IconButton>
+        </>
       )}
-    </Fragment>
+    </Wrapper>
   </Bar>
 );
