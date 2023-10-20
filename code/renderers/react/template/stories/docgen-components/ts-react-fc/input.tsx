@@ -1,10 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
 
-function concat(a: string, b: string): string {
-  return a + b;
-}
-
 interface ItemInterface {
   text: string;
   value: string;
