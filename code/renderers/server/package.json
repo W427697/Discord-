@@ -54,7 +54,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "workspace:*",
     "@storybook/csf": "^0.1.0",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/global": "^5.0.0",

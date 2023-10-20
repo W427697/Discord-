@@ -110,9 +110,7 @@ const allowList = [
   '@storybook/channel-postmessage', // @deprecated: remove in 8.0
   '@storybook/channel-websocket', // @deprecated: remove in 8.0
   '@storybook/channels',
-  '@storybook/client-api',
   '@storybook/client-logger',
-  '@storybook/core-client',
   '@storybook/core-events',
   '@storybook/preview-web',
   '@storybook/preview-api',

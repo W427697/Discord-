@@ -13,7 +13,6 @@ const INCLUDE_CANDIDATES = [
   '@storybook/addon-docs',
   '@storybook/addon-essentials/docs/mdx-react-shim',
   '@storybook/channels',
-  '@storybook/client-api',
   '@storybook/client-logger',
   '@storybook/core/client',
   '@storybook/global',
