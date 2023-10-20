@@ -49,14 +49,14 @@ export const ActiveIconLeft = {
   args: {
     title: 'Active icon',
     active: true,
-    left: <EyeIcon />,
+    icon: <EyeIcon />,
   },
 };
 export const ActiveIconLeftColored = {
   args: {
     title: 'Active icon',
     active: true,
-    left: (
+    icon: (
       <Fragment>
         <svg
           width="16"

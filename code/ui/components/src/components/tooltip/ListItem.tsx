@@ -102,12 +102,7 @@ const Left = styled.span<LeftProps>(
   ({ active, theme }) =>
     active
       ? {
-          '& svg': {
-            opacity: 1,
-          },
-          '& svg path:not([fill])': {
-            fill: theme.color.secondary,
-          },
+          color: theme.color.secondary,
         }
       : {},
   () => ({
