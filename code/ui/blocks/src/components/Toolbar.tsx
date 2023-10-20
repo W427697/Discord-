@@ -35,7 +35,17 @@ const Bar = styled(FlexBar)({
 const Wrapper = styled.div({
   display: 'flex',
   alignItems: 'center',
+  gap: 4,
 });
+
+const IconPlaceholder = styled.div(({ theme }) => ({
+  width: 14,
+  height: 14,
+  borderRadius: 2,
+  margin: '0 7px',
+  backgroundColor: theme.appBorderColor,
+  animation: `${theme.animation.glow} 1.5s ease-in-out infinite`,
+}));
 
 export const Toolbar: FC<ToolbarProps> = ({
   isLoading,
@@ -48,7 +58,7 @@ export const Toolbar: FC<ToolbarProps> = ({
   <Bar {...rest}>
     <Wrapper key="left">
       {isLoading ? (
-        [1, 2, 3].map((key) => <IconButtonSkeleton key={key} />)
+        [1, 2, 3].map((key) => <IconPlaceholder key={key} />)
       ) : (
         <>
           <IconButton

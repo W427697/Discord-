@@ -2,6 +2,7 @@ import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
   DetailedHTMLProps,
+  FC,
   ForwardedRef,
   ForwardRefExoticComponent,
   ReactElement,
@@ -142,7 +143,11 @@ const IconButtonSkeletonWrapper = styled.div(() => ({
   height: 28,
 }));
 
-export const IconButtonSkeleton = () => (
+/**
+ * @deprecated
+ * This component will be removed in Storybook 9.0
+ * */
+export const IconButtonSkeleton: FC = () => (
   <IconButtonSkeletonWrapper>
     <IconPlaceholder />
   </IconButtonSkeletonWrapper>
