@@ -22,8 +22,6 @@ export default {
   '@storybook/builder-manager': '7.6.0-alpha.0',
   '@storybook/builder-vite': '7.6.0-alpha.0',
   '@storybook/builder-webpack5': '7.6.0-alpha.0',
-  '@storybook/channel-postmessage': '7.6.0-alpha.0',
-  '@storybook/channel-websocket': '7.6.0-alpha.0',
   '@storybook/channels': '7.6.0-alpha.0',
   '@storybook/cli': '7.6.0-alpha.0',
   '@storybook/client-logger': '7.6.0-alpha.0',
