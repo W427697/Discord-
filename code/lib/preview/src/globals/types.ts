@@ -7,5 +7,4 @@ export const globals = {
   '@storybook/client-logger': '__STORYBOOK_MODULE_CLIENT_LOGGER__',
   '@storybook/core-events': '__STORYBOOK_MODULE_CORE_EVENTS__',
   '@storybook/preview-api': '__STORYBOOK_MODULE_PREVIEW_API__',
-  '@storybook/store': '__STORYBOOK_MODULE_STORE__',
 };

@@ -113,7 +113,6 @@ const allowList = [
   '@storybook/client-logger',
   '@storybook/core-events',
   '@storybook/preview-api',
-  '@storybook/store',
 
   // see this file for more info: code/ui/manager/src/globals/types.ts
   '@storybook/components',

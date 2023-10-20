@@ -6,9 +6,6 @@ import * as CORE_EVENTS from '@storybook/core-events';
 import * as PREVIEW_API from '@storybook/preview-api';
 import * as GLOBAL from '@storybook/global';
 
-// DEPRECATED, remove in 8.0
-import * as STORE from '@storybook/preview-api/dist/store';
-
 import type { globals } from './types';
 
 // Here we map the name of a module to their VALUE in the global scope.
@@ -20,7 +17,4 @@ export const values: Required<Record<keyof typeof globals, any>> = {
   '@storybook/core-events': CORE_EVENTS,
   '@storybook/preview-api': PREVIEW_API,
   '@storybook/global': GLOBAL,
-
-  // DEPRECATED, remove in 8.0
-  '@storybook/store': STORE,
 };

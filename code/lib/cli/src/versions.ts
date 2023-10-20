@@ -69,7 +69,6 @@ export default {
   '@storybook/server': '7.6.0-alpha.0',
   '@storybook/server-webpack5': '7.6.0-alpha.0',
   '@storybook/source-loader': '7.6.0-alpha.0',
-  '@storybook/store': '7.6.0-alpha.0',
   '@storybook/svelte': '7.6.0-alpha.0',
   '@storybook/svelte-vite': '7.6.0-alpha.0',
   '@storybook/svelte-webpack5': '7.6.0-alpha.0',

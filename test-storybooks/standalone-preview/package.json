@@ -63,7 +63,6 @@
     "@storybook/server": "portal:../../code/renderers/server",
     "@storybook/server-webpack5": "portal:../../code/frameworks/server-webpack5",
     "@storybook/source-loader": "portal:../../code/lib/source-loader",
-    "@storybook/store": "portal:../../code/deprecated/store",
     "@storybook/svelte": "portal:../../code/renderers/svelte",
     "@storybook/svelte-vite": "portal:../../code/frameworks/svelte-vite",
     "@storybook/svelte-webpack5": "portal:../../code/frameworks/svelte-webpack5",
