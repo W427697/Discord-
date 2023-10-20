@@ -1,5 +1,5 @@
 import { chromium } from 'playwright';
-import { now } from './utils';
+import { now, getPreviewPage } from './utils';
 
 interface Result {
   managerHeaderVisible?: number;
@@ -44,14 +44,7 @@ async function benchAutodocs(url: string) {
 
   const tasks = [
     async () => {
-      await page.waitForFunction(() => {
-        const iframe = document.querySelector('iframe');
-        if (!iframe) {
-          return false;
-        }
-        return iframe.contentDocument.readyState === 'complete';
-      });
-      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      const previewPage = await getPreviewPage(page);
       await previewPage.setDefaultTimeout(40000);
 
       await previewPage.waitForLoadState('load');
@@ -78,14 +71,7 @@ async function benchMDX(url: string) {
 
   const tasks = [
     async () => {
-      await page.waitForFunction(() => {
-        const iframe = document.querySelector('iframe');
-        if (!iframe) {
-          return false;
-        }
-        return iframe.contentDocument.readyState === 'complete';
-      });
-      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      const previewPage = await getPreviewPage(page);
       await previewPage.setDefaultTimeout(40000);
 
       await previewPage.waitForLoadState('load');
@@ -121,14 +107,7 @@ async function benchStory(url: string) {
       result.managerIndexVisible = now() - start;
     },
     async () => {
-      await page.waitForFunction(() => {
-        const iframe = document.querySelector('iframe');
-        if (!iframe) {
-          return false;
-        }
-        return iframe.contentDocument.readyState === 'complete';
-      });
-      const previewPage = await page.frame({ url: /iframe.html/ }).page();
+      const previewPage = await getPreviewPage(page);
       await previewPage.setDefaultTimeout(40000);
 
       await previewPage.waitForLoadState('load');
