@@ -7,7 +7,6 @@ import * as PREVIEW_API from '@storybook/preview-api';
 import * as GLOBAL from '@storybook/global';
 
 // DEPRECATED, remove in 8.0
-import * as PREVIEW_WEB from '@storybook/preview-api/dist/preview-web';
 import * as STORE from '@storybook/preview-api/dist/store';
 
 import type { globals } from './types';
@@ -23,6 +22,5 @@ export const values: Required<Record<keyof typeof globals, any>> = {
   '@storybook/global': GLOBAL,
 
   // DEPRECATED, remove in 8.0
-  '@storybook/preview-web': PREVIEW_WEB,
   '@storybook/store': STORE,
 };

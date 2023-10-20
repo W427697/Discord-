@@ -61,7 +61,6 @@ export default {
   '@storybook/preset-web-components-webpack': '7.6.0-alpha.0',
   '@storybook/preview': '7.6.0-alpha.0',
   '@storybook/preview-api': '7.6.0-alpha.0',
-  '@storybook/preview-web': '7.6.0-alpha.0',
   '@storybook/react': '7.6.0-alpha.0',
   '@storybook/react-dom-shim': '7.6.0-alpha.0',
   '@storybook/react-vite': '7.6.0-alpha.0',

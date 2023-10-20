@@ -92,7 +92,6 @@
     "@storybook/addon-essentials": "7.2.0-alpha.0",
     "@storybook/blocks": "7.2.0-alpha.0",
     "@storybook/components": "7.2.0-alpha.0",
-    "@storybook/preview-web": "7.2.0-alpha.0",
     "@storybook/react": "7.2.0-alpha.0",
     "@storybook/react-webpack5": "7.2.0-alpha.0",
     "@storybook/theming": "7.2.0-alpha.0",

@@ -112,7 +112,6 @@ const allowList = [
   '@storybook/channels',
   '@storybook/client-logger',
   '@storybook/core-events',
-  '@storybook/preview-web',
   '@storybook/preview-api',
   '@storybook/store',
 
