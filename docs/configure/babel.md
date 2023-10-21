@@ -110,7 +110,7 @@ Babel has two different configuration modes: babelrc and Babel config. As explai
 - **babelrc** configures Babel for files in the same folder (or descendant folders) of the location of the babelrc
 - **Babel config** configures Babel globally
 
-Babel recommends to use babelrc, and it's what Storybook generates when you run `npx storybook babelrc`. If your stories are located in the current project directory (e.g., `stories: ['../src/**/*.stories.js']`) this approach will work well.
+We chose babelrc, and it's what Storybook generates when you run `npx storybook babelrc`. If your stories are located in the current project directory (e.g., `stories: ['../src/**/*.stories.js']`) this approach will work well.
 However, when your Storybook refers to files outside of the current project directory (e.g., `stories: ['../../some-other-directory/**/*.stories.js']`), the babelrc will not apply to those files. However, a Babel config will, and is the recommended approach in that situation.
 
 ## Troubleshooting
