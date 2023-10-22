@@ -98,7 +98,6 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "workspace:*",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -107,7 +106,7 @@
     "boxen": "^5.1.2",
     "slash": "^5.0.0",
     "strip-json-comments": "^3.1.1",
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "publishConfig": {
     "access": "public"

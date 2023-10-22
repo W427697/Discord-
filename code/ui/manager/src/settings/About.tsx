@@ -2,7 +2,8 @@ import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 
-import { Button as BaseButton, Icons, Link, StorybookIcon } from '@storybook/components';
+import { Button as BaseButton, Link, StorybookIcon } from '@storybook/components';
+import { DocumentIcon, GithubIcon } from '@storybook/icons';
 import { UpgradeBlock } from '../components/upgrade/UpgradeBlock';
 
 const Header = styled.header(({ theme }) => ({
@@ -72,20 +73,18 @@ const AboutScreen: FC<{ onNavigateToWhatsNew?: () => void }> = ({ onNavigateToWh
       <div style={{ flex: '1.2' }} />
       <Footer>
         <div style={{ marginBottom: 12 }}>
-          <SquareButton
-            isLink
-            outline
-            small
-            href="https://github.com/storybookjs/storybook"
-            style={{ marginRight: 12 }}
-          >
-            <Icons icon="github" style={{ display: 'inline', marginRight: 5 }} />
-            GitHub
+          <SquareButton asChild style={{ marginRight: 12 }}>
+            <a href="https://github.com/storybookjs/storybook">
+              <GithubIcon />
+              GitHub
+            </a>
           </SquareButton>
 
-          <SquareButton isLink outline small href="https://storybook.js.org/docs">
-            <Icons icon="document" style={{ display: 'inline', marginRight: 5 }} />
-            Documentation
+          <SquareButton asChild>
+            <a href="https://storybook.js.org/docs">
+              <DocumentIcon style={{ display: 'inline', marginRight: 5 }} />
+              Documentation
+            </a>
           </SquareButton>
         </div>
         <div>

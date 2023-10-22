@@ -8,12 +8,13 @@ import type {
   API,
 } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Button, Icons, TooltipLinkList, WithTooltip } from '@storybook/components';
+import { Button, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
 import {
   ComponentNode,
   DocumentNode,
@@ -37,6 +38,7 @@ import {
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
 import { useLayout } from '../layout/LayoutProvider';
+import { IconSymbols } from './IconSymbols';
 
 export const Action = styled.button<{ height?: number; width?: number }>(
   ({ theme, height, width }) => ({
@@ -241,8 +243,8 @@ const Node = React.memo<NodeProps>(function Node({
           {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
         </LeafNode>
         {isSelected && (
-          <SkipToContentLink secondary outline isLink href="#storybook-preview-wrapper">
-            Skip to canvas
+          <SkipToContentLink asChild>
+            <a href="#storybook-preview-wrapper">Skip to canvas</a>
           </SkipToContentLink>
         )}
         {icon ? (
@@ -304,7 +306,7 @@ const Node = React.memo<NodeProps>(function Node({
               setFullyExpanded();
             }}
           >
-            <Icons icon={isFullyExpanded ? 'collapse' : 'expandalt'} />
+            {isFullyExpanded ? <CollapseIconSvg /> : <ExpandAltIcon />}
           </Action>
         )}
       </RootNode>
@@ -507,6 +509,7 @@ export const Tree = React.memo<{
 
   return (
     <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>
+      <IconSymbols />
       {collapsedItems.map((itemId) => {
         const item = collapsedData[itemId];
         const id = createId(itemId, refId);
