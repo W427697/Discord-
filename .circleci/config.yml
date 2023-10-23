@@ -92,15 +92,14 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - prettydocs-yarn-2-cache-v5--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - prettydocs-yarn-2-cache-v6--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Install
           command: |
-            cd scripts
-            yarn install
+            yarn task --task install
       - save_cache:
           name: Save Yarn cache
-          key: prettydocs-yarn-2-cache-v5--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          key: prettydocs-yarn-2-cache-v6--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - run:
