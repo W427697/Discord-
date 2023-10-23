@@ -13,7 +13,7 @@ export const Object: StoryObj<typeof ObjectControl> = {
     value: {
       name: 'Michael',
       someDate: new Date('2022-10-30T12:31:11'),
-      nested: { someBool: true, someNumber: 22 },
+      nested: { someBool: true, someNumber: 22, someBigInt: 999n },
     },
   },
 };

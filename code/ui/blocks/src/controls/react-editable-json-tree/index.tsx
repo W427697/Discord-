@@ -163,7 +163,8 @@ JsonTree.defaultProps = {
   beforeAddAction: () => Promise.resolve(),
   beforeUpdateAction: () => Promise.resolve(),
   logger: { error: () => {} },
-  onSubmitValueParser: (isEditMode, keyPath, deep, name, rawValue) => parse(rawValue),
+  onSubmitValueParser: (isEditMode, keyPath, deep, name, rawValue, dataType) =>
+    parse(rawValue, dataType),
   inputElement: () => <input />,
   textareaElement: () => <textarea />,
   fallback: null,

@@ -7,6 +7,7 @@
 
 import type { ReactElement } from 'react';
 import React, { cloneElement, Component } from 'react';
+import stringify from 'safe-stable-stringify';
 import * as inputUsageTypes from './types/inputUsageTypes';
 
 import * as dataTypes from './types/dataTypes';
@@ -1005,6 +1006,27 @@ export class JsonNode extends Component<JsonNodeProps, JsonNodeState> {
             onSubmitValueParser={onSubmitValueParser}
           />
         );
+      case dataTypes.BIG_INT:
+        return (
+          <JsonValue
+            name={name}
+            value={`${data.toString()}n`}
+            originalValue={data}
+            keyPath={keyPath}
+            deep={deep}
+            handleRemove={handleRemove}
+            handleUpdateValue={handleUpdateValue}
+            readOnly={readOnly}
+            dataType={dataType}
+            getStyle={getStyle}
+            cancelButtonElement={cancelButtonElement}
+            editButtonElement={editButtonElement}
+            inputElementGenerator={inputElementGenerator}
+            minusMenuElement={minusMenuElement}
+            logger={logger}
+            onSubmitValueParser={onSubmitValueParser}
+          />
+        );
       default:
         return null;
     }
@@ -1453,11 +1475,12 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
   }
 
   handleEdit() {
-    const { handleUpdateValue, originalValue, logger, onSubmitValueParser, keyPath } = this.props;
+    const { handleUpdateValue, originalValue, logger, onSubmitValueParser, keyPath, dataType } =
+      this.props;
     const { inputRef, name, deep } = this.state;
     if (!inputRef) return;
 
-    const newValue = onSubmitValueParser(true, keyPath, deep, name, inputRef.value);
+    const newValue = onSubmitValueParser(true, keyPath, deep, name, inputRef.value, dataType);
 
     const result = {
       value: newValue,
@@ -1527,7 +1550,7 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
     });
     const inputElementLayout = cloneElement(inputElement, {
       ref: this.refInput,
-      defaultValue: JSON.stringify(originalValue),
+      defaultValue: stringify(originalValue),
     });
     const minusMenuLayout = cloneElement(minusMenuElement, {
       onClick: handleRemove,

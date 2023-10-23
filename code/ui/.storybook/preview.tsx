@@ -15,6 +15,7 @@ import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
+import { stringify } from 'safe-stable-stringify';
 
 import { DocsContext } from '@storybook/blocks';
 
@@ -262,7 +263,7 @@ export const decorators = [
         />
         <div style={{ marginTop: '1rem' }}>
           Current <code>{parameters.withRawArg}</code>:{' '}
-          <pre>{JSON.stringify(args[parameters.withRawArg], null, 2) || 'undefined'}</pre>
+          <pre>{stringify(args[parameters.withRawArg], null, 2) || 'undefined'}</pre>
         </div>
       </>
     );
