@@ -78,7 +78,7 @@ export const testBuild: Task = {
     const testBuildPreviewSize = testBuildSize - testBuildPrebuildSize - testBuildStaticSize;
 
     await saveBench(
-      'build',
+      'test-build',
       {
         testBuildTime,
         testBuildSize,

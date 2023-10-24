@@ -364,8 +364,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - sandbox/*/bench/*.json
-            - sandbox/*/storybook-static
+            - sandbox/*/bench/test-build.json
   test-runner-production:
     parameters:
       parallelism:
