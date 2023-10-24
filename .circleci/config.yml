@@ -527,6 +527,10 @@ workflows:
           parallelism: 12
           requires:
             - build
+      - build-test-sandboxes:
+          parallelism: 12
+          requires:
+            - create-sandboxes
       - build-sandboxes:
           parallelism: 12
           requires:
@@ -583,6 +587,10 @@ workflows:
           parallelism: 21
           requires:
             - build
+      - build-test-sandboxes:
+          parallelism: 12
+          requires:
+            - create-sandboxes
       - build-sandboxes:
           parallelism: 21
           requires:
@@ -640,6 +648,10 @@ workflows:
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
+      - build-test-sandboxes:
+          parallelism: 12
+          requires:
+            - create-sandboxes
       - build-sandboxes:
           parallelism: 36
           requires:
