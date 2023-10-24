@@ -69,7 +69,10 @@ export const testBuild: Task = {
     const testBuildSbManagerSize = await getSize(join(dir, 'sb-manager'));
     const testBuildSbPreviewSize = await getSize(join(dir, 'sb-preview'));
     const testBuildPrebuildSize =
-      testBuildSbAddonsSize + testBuildSbCommonSize + testBuildSbManagerSize + testBuildSbPreviewSize;
+      testBuildSbAddonsSize +
+      testBuildSbCommonSize +
+      testBuildSbManagerSize +
+      testBuildSbPreviewSize;
 
     const testBuildStaticSize = await getSize(join(dir, 'static')).catch(() => 0);
     const testBuildPreviewSize = testBuildSize - testBuildPrebuildSize - testBuildStaticSize;
