@@ -33,7 +33,6 @@ addToGlobalContext('cliVersion', versions.storybook);
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
-  test: boolean;
   docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
