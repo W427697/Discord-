@@ -14,37 +14,63 @@ export const build: Task = {
   },
   async run({ sandboxDir }, { dryRun, debug }) {
     const start = now();
-
     await exec(`yarn build-storybook --quiet`, { cwd: sandboxDir }, { dryRun, debug });
-
     const buildTime = now() - start;
-    const dir = join(sandboxDir, 'storybook-static');
-    const getSize = promisify(dirSize);
-    const buildSize = await getSize(dir);
-    const buildSbAddonsSize = await getSize(join(dir, 'sb-addons'));
-    const buildSbCommonSize = await getSize(join(dir, 'sb-common-assets'));
-    const buildSbManagerSize = await getSize(join(dir, 'sb-manager'));
-    const buildSbPreviewSize = await getSize(join(dir, 'sb-preview'));
-    const buildPrebuildSize =
-      buildSbAddonsSize + buildSbCommonSize + buildSbManagerSize + buildSbPreviewSize;
 
-    const buildStaticSize = await getSize(join(dir, 'static')).catch(() => 0);
-    const buildPreviewSize = buildSize - buildPrebuildSize - buildStaticSize;
-
-    await saveBench(
-      'build',
-      {
-        buildTime,
-        buildSize,
-        buildSbAddonsSize,
-        buildSbCommonSize,
-        buildSbManagerSize,
-        buildSbPreviewSize,
-        buildStaticSize,
-        buildPrebuildSize,
-        buildPreviewSize,
-      },
-      { rootDir: sandboxDir }
-    );
+    await benchmarkBuild({ name: 'build', buildTime, sandboxDir });
   },
 };
+
+export const testBuild: Task = {
+  description: 'Build the static version of the sandbox optimized for testing purposes',
+  dependsOn: ['sandbox'],
+  async ready({ builtSandboxDir }) {
+    return pathExists(builtSandboxDir);
+  },
+  async run({ sandboxDir }, { dryRun, debug }) {
+    const start = now();
+    await exec(`yarn build-storybook --test --quiet`, { cwd: sandboxDir }, { dryRun, debug });
+    const buildTime = now() - start;
+
+    await benchmarkBuild({ name: 'test-build', buildTime, sandboxDir });
+  },
+};
+
+async function benchmarkBuild({
+  name,
+  buildTime,
+  sandboxDir,
+}: {
+  name: string;
+  buildTime: number;
+  sandboxDir: string;
+}) {
+  const dir = join(sandboxDir, 'storybook-static');
+  const getSize = promisify(dirSize);
+  const buildSize = await getSize(dir);
+  const buildSbAddonsSize = await getSize(join(dir, 'sb-addons'));
+  const buildSbCommonSize = await getSize(join(dir, 'sb-common-assets'));
+  const buildSbManagerSize = await getSize(join(dir, 'sb-manager'));
+  const buildSbPreviewSize = await getSize(join(dir, 'sb-preview'));
+  const buildPrebuildSize =
+    buildSbAddonsSize + buildSbCommonSize + buildSbManagerSize + buildSbPreviewSize;
+
+  const buildStaticSize = await getSize(join(dir, 'static')).catch(() => 0);
+  const buildPreviewSize = buildSize - buildPrebuildSize - buildStaticSize;
+
+  await saveBench(
+    name,
+    {
+      buildTime,
+      buildSize,
+      buildSbAddonsSize,
+      buildSbCommonSize,
+      buildSbManagerSize,
+      buildSbPreviewSize,
+      buildStaticSize,
+      buildPrebuildSize,
+      buildPreviewSize,
+    },
+    { rootDir: sandboxDir }
+  );
+}
