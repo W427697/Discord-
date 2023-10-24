@@ -555,6 +555,7 @@ workflows:
           parallelism: 3
           requires:
             - build-sandboxes
+            - build-test-sandboxes
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
