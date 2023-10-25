@@ -149,9 +149,6 @@ const runGenerators = async (
 
         // We do the creation inside a temp dir to avoid yarn container problems
         const createBaseDir = directory();
-        if (!script.includes('pnp')) {
-          await setupYarn({ cwd: createBaseDir });
-        }
 
         const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
 
@@ -172,8 +169,6 @@ const runGenerators = async (
           await ensureDir(createBeforeDir);
           await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT }, debug);
         }
-
-        await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
 
         // Now move the created before dir into it's final location and add storybook
         await move(createBeforeDir, beforeDir);
