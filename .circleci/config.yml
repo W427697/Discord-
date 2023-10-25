@@ -341,30 +341,6 @@ jobs:
           paths:
             - sandbox/*/bench/*.json
             - sandbox/*/storybook-static
-  build-test-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-    executor:
-      class: large
-      name: sb_node_16_browsers
-    parallelism: << parameters.parallelism >>
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Building Sandboxes
-          command: yarn task --task test-build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
-      - report-workflow-on-failure:
-          template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
-      - store_test_results:
-          path: test-results
-      - persist_to_workspace:
-          root: .
-          paths:
-            - sandbox/*/bench/test-build.json
   test-runner-production:
     parameters:
       parallelism:
@@ -530,10 +506,6 @@ workflows:
           parallelism: 12
           requires:
             - create-sandboxes
-      - build-test-sandboxes:
-          parallelism: 12
-          requires:
-            - create-sandboxes
       - chromatic-sandboxes:
           parallelism: 9
           requires:
@@ -554,7 +526,6 @@ workflows:
           parallelism: 3
           requires:
             - build-sandboxes
-            - build-test-sandboxes
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     requires:
@@ -587,10 +558,6 @@ workflows:
           parallelism: 21
           requires:
             - build
-      - build-test-sandboxes:
-          parallelism: 21
-          requires:
-            - create-sandboxes
       - build-sandboxes:
           parallelism: 21
           requires:
@@ -615,7 +582,6 @@ workflows:
           parallelism: 3
           requires:
             - build-sandboxes
-            - build-test-sandboxes
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     parallelism: 4
@@ -649,10 +615,6 @@ workflows:
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
-      - build-test-sandboxes:
-          parallelism: 36
-          requires:
-            - create-sandboxes
       - build-sandboxes:
           parallelism: 36
           requires:

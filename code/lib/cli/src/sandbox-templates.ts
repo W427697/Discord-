@@ -67,6 +67,7 @@ export type Template = {
   modifications?: {
     skipTemplateStories?: boolean;
     mainConfig?: Partial<StorybookConfig>;
+    testBuild?: boolean;
     disableDocs?: boolean;
   };
   /**
@@ -556,6 +557,37 @@ const benchTemplates = {
     modifications: {
       skipTemplateStories: true,
       disableDocs: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+  },
+  'bench/test-build/react-vite-default-ts': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'Bench (react-vite/default-ts)',
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      testBuild: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+  },
+  'bench/test-build/react-webpack-18-ts': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'Bench (react-webpack/18-ts)',
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      testBuild: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+  },
+  'bench/test-build/react-vite-default-ts-nodocs': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'Bench (react-vite/default-ts, no docs)',
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      disableDocs: true,
+      testBuild: true,
     },
     skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
   },
