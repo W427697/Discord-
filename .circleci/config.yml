@@ -526,11 +526,11 @@ workflows:
           parallelism: 12
           requires:
             - build
-      - build-test-sandboxes:
+      - build-sandboxes:
           parallelism: 12
           requires:
             - create-sandboxes
-      - build-sandboxes:
+      - build-test-sandboxes:
           parallelism: 12
           requires:
             - create-sandboxes
