@@ -54,11 +54,10 @@
     "@vitest/expect": "^0.34.2",
     "@vitest/spy": "^0.34.1",
     "chai": "^4.3.7",
-    "expect": "^29.6.2",
-    "ts-dedent": "^2.2.0",
     "util": "^0.12.4"
   },
   "devDependencies": {
+    "ts-dedent": "^2.2.0",
     "type-fest": "~2.19",
     "typescript": "~4.9.3"
   },
@@ -68,6 +67,12 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
+    ],
+    "noExternal": [
+      "@testing-library/dom",
+      "@testing-library/jest-dom",
+      "@testing-library/user-event",
+      "chai"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

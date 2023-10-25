@@ -8166,7 +8166,6 @@ __metadata:
     "@vitest/expect": ^0.34.2
     "@vitest/spy": ^0.34.1
     chai: ^4.3.7
-    expect: ^29.6.2
     ts-dedent: ^2.2.0
     type-fest: ~2.19
     typescript: ~4.9.3
@@ -16910,7 +16909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect@npm:^29.0.0, expect@npm:^29.6.2, expect@npm:^29.7.0":
+"expect@npm:^29.0.0, expect@npm:^29.7.0":
   version: 29.7.0
   resolution: "expect@npm:29.7.0"
   dependencies:
