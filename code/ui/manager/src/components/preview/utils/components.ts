@@ -43,6 +43,6 @@ export const LoaderWrapper = styled.div(({ theme }) => ({
   left: 0,
   bottom: 0,
   right: 0,
-  background: theme.background.content,
+  background: theme.background.preview,
   zIndex: 1,
 }));
