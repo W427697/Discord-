@@ -1,18 +1,17 @@
 import { getProjectRoot } from '@storybook/core-common';
+import { getVirtualModuleMapping } from '@storybook/core-webpack';
 import type { Options } from '@storybook/types';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import type { NextConfig } from 'next';
 import { getSupportedBrowsers } from 'next/dist/build/utils';
-import { ProfilingPlugin } from 'next/dist/build/webpack/plugins/profiling-plugin';
-import { trace } from 'next/dist/trace';
 import path from 'path';
 
 export const configureSWCLoader = async (
   baseConfig: any,
-  { configType }: Options,
+  options: Options,
   nextConfig: NextConfig
 ) => {
-  const isDevelopment = configType !== 'PRODUCTION';
+  const isDevelopment = options.configType !== 'PRODUCTION';
 
   const dir = getProjectRoot();
 
@@ -23,15 +22,16 @@ export const configureSWCLoader = async (
         sockIntegration: 'whm',
       },
     }),
-    // new ProfilingPlugin({ runWebpackSpan: trace('Storybook') }),
   ];
+
+  const virtualModules = await getVirtualModuleMapping(options);
 
   baseConfig.module.rules = [
     ...baseConfig.module.rules,
     {
       test: /\.(m?(j|t)sx?)$/,
       include: [getProjectRoot()],
-      exclude: /(node_modules)/,
+      exclude: [/(node_modules)/, ...Object.keys(virtualModules)],
       use: {
         loader: require.resolve('next/dist/build/webpack/loaders/next-swc-loader.js'),
         options: {

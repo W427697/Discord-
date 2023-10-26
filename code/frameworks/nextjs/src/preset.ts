@@ -2,7 +2,6 @@
 import { dirname, join } from 'path';
 import type { Options, PresetProperty } from '@storybook/types';
 
-import * as webpack from 'next/dist/compiled/webpack/webpack';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
@@ -100,7 +99,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
-  configureSWCLoader(baseConfig, options, nextConfig);
+  await configureSWCLoader(baseConfig, options, nextConfig);
 
   return baseConfig;
 };
