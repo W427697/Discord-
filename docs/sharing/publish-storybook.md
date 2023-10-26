@@ -147,7 +147,7 @@ From your project's root directory, add a new file called `deploy-ghp.yml` insid
 
 It does the build for you, and it publishes the built site to GitHub pages with the Actions based pages deployment. 
 
-The action has many customizable options including build command (default is, helpfully, `npm run build-storybook`) and output directory.
+The action has many customizable options including `install_command` (default is `npm ci`) and `build_command` (default is `npm run build-storybook`) and output directory.
 
 
 <div class="aside">
