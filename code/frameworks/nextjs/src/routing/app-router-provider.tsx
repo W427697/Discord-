@@ -58,7 +58,11 @@ const getParallelRoutes = (segmentsList: Array<string>): FlightRouterState => {
   return [] as any;
 };
 
-const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action, routeParams }) => {
+const AppRouterProvider: React.FC<React.PropsWithChildren<AppRouterProviderProps>> = ({
+  children,
+  action,
+  routeParams,
+}) => {
   const { pathname, query, segments = [], ...restRouteParams } = routeParams;
 
   const tree: FlightRouterState = [pathname, { children: getParallelRoutes([...segments]) }];

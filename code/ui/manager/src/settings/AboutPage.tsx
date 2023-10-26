@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React, { Component, useCallback } from 'react';
 
 import { type API, useStorybookApi, useStorybookState } from '@storybook/manager-api';
@@ -6,7 +6,9 @@ import { type API, useStorybookApi, useStorybookState } from '@storybook/manager
 import { AboutScreen } from './About';
 
 // Clear a notification on mount. This could be exported by core/notifications.js perhaps?
-class NotificationClearer extends Component<{ api: API; notificationId: string }> {
+class NotificationClearer extends Component<
+  PropsWithChildren<{ api: API; notificationId: string }>
+> {
   componentDidMount() {
     const { api, notificationId } = this.props;
     api.clearNotification(notificationId);

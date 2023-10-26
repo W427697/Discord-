@@ -17,7 +17,7 @@ Button component is used to trigger an action or event, such as submitting a for
 import { Button } from '@storybook/components
 
 // If you would like to use icons, please import them from the icons library
-import { FaceHappy, Heart } from '@storybook/icons'
+import { FaceHappyIcon, HeartIcon } from '@storybook/icons'
 `} />
 
 ## Usage
@@ -73,7 +73,7 @@ You can add an icon to the button by adding the icon on the left of the text. Pl
   dark={true}
   code={`
 <Button>
-  <FaceHappy />Button
+  <FaceHappyIcon />Button
 </Button>
 `} />
 
@@ -87,7 +87,7 @@ You can also use the button as an icon only button by removing the text. to make
   dark={true}
   code={`
 <Button padding="small">
-  <FaceHappy />
+  <FaceHappyIcon />
 </Button>
 `} />
 
@@ -118,13 +118,13 @@ You can use the `animate` prop to add animations to the button. You can set the 
   dark={true}
   code={`
 <Button animation="glow">
-  <Icons icon="facehappy" />Button
+  <FaceHappyIcon />Button
 </Button>
 <Button animation="jiggle">
-  <Icons icon="facehappy" />Button
+  <FaceHappyIcon />Button
 </Button>
 <Button animation="rotate360">
-  <Icons icon="facehappy" />Button
+  <FaceHappyIcon />Button
 </Button>
 `} />
 
@@ -138,7 +138,7 @@ You can use the `active` prop to set the button as active. This will change the 
   dark={true}
   code={`
 <Button active>
-  <Icons icon="facehappy" />Button
+  <FaceHappyIcon />Button
 </Button>
  `}
 />
@@ -153,7 +153,7 @@ You can use the `disabled` prop to set the button as disabled.
   dark={true}
   code={`
 <Button disabled>
-  <Icons icon="facehappy" />Button
+  <FaceHappyIcon />Button
 </Button>
  `}
 />

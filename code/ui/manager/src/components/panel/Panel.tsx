@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Tabs, Icons, IconButton } from '@storybook/components';
+import { Tabs, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
 import { styled } from '@storybook/theming';
+import { BottomBarIcon, CloseIcon, SidebarAltIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 
 export interface SafeTabProps {
@@ -24,6 +25,7 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
     console.error(error, info);
   }
 
+  // @ts-expect-error (we know this is broken)
   render() {
     const { hasError } = this.state;
     const { children } = this.props;
@@ -69,19 +71,19 @@ export const AddonPanel = React.memo<{
                     shortcuts.panelPosition
                   )}]`}
                 >
-                  <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+                  {panelPosition === 'bottom' ? <SidebarAltIcon /> : <BottomBarIcon />}
                 </IconButton>
                 <IconButton
                   key="visibility"
                   onClick={actions.toggleVisibility}
                   title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
                 >
-                  <Icons icon="close" />
+                  <CloseIcon />
                 </IconButton>
               </>
             ) : (
               <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
-                <Icons icon="close" />
+                <CloseIcon />
               </IconButton>
             )}
           </Actions>
@@ -89,6 +91,7 @@ export const AddonPanel = React.memo<{
         id="storybook-panel-root"
       >
         {Object.entries(panels).map(([k, v]) => (
+          // @ts-expect-error (we know this is broken)
           <SafeTab key={k} id={k} title={typeof v.title === 'function' ? <v.title /> : v.title}>
             {v.render}
           </SafeTab>

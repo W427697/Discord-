@@ -3,7 +3,8 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';
-import { Form, Icons, type IconsProps, IconButton, Button } from '@storybook/components';
+import { Form, Icons, IconButton, Button } from '@storybook/components';
+import { EyeCloseIcon, EyeIcon } from '@storybook/icons';
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';
@@ -132,9 +133,7 @@ const ButtonInline = styled.button<{ primary?: boolean }>(({ theme, primary }) =
   order: primary ? 'initial' : 9,
 }));
 
-type ActionIconProps = IconsProps & { disabled?: boolean };
-
-const ActionIcon = styled(Icons)(({ theme, icon, disabled }: ActionIconProps) => ({
+const ActionIcon = styled(Icons)<{ disabled?: boolean }>(({ theme, icon, disabled }) => ({
   display: 'inline-block',
   verticalAlign: 'middle',
   width: 15,
@@ -293,7 +292,7 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
             setShowRaw((v) => !v);
           }}
         >
-          <Icons icon={showRaw ? 'eyeclose' : 'eye'} />
+          {showRaw ? <EyeCloseIcon /> : <EyeIcon />}
           <span>RAW</span>
         </RawButton>
       )}

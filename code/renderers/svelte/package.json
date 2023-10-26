@@ -1,6 +1,6 @@
 {
   "name": "@storybook/svelte",
-  "version": "7.5.0-alpha.6",
+  "version": "7.6.0-alpha.2",
   "description": "Storybook Svelte renderer",
   "keywords": [
     "storybook"
@@ -54,7 +54,6 @@
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
-    "@storybook/core-client": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",

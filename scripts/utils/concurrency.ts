@@ -6,4 +6,3 @@ const os = require('os');
  * @type {number}
  */
 export const maxConcurrentTasks = Math.min(Math.max(1, os.cpus().length - 1), 15);
-

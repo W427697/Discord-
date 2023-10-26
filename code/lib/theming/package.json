@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.5.0-alpha.6",
+  "version": "7.6.0-alpha.2",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -65,7 +65,7 @@
     "fs-extra": "^11.1.0",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

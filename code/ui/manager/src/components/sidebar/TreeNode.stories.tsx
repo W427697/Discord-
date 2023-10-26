@@ -3,11 +3,20 @@ import { HighlightStyles } from './HighlightStyles';
 import { LeafNodeStyleWrapper } from './Tree';
 
 import { ComponentNode, DocumentNode, GroupNode, StoryNode } from './TreeNode';
+import { IconSymbols } from './IconSymbols';
 
 export default {
   title: 'Sidebar/TreeNode',
-  parameters: { layout: 'fullscreen', withSymbols: true },
+  parameters: { layout: 'fullscreen' },
   component: StoryNode,
+  decorators: [
+    (StoryFn: any) => (
+      <>
+        <IconSymbols />
+        <StoryFn />
+      </>
+    ),
+  ],
 };
 
 export const Types = () => (
