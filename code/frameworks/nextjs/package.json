@@ -121,7 +121,7 @@
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
-    "next": "^14.0.0",
+    "next": "patch:next@npm%3A13.5.4#~/.yarn/patches/next-npm-13.5.4-c8e2015917.patch",
     "typescript": "^4.9.3",
     "webpack": "^5.89.0"
   },

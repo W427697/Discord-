@@ -17,6 +17,7 @@ test-results
 
 # Yarn stuff
 /**/.yarn/*
+!/**/.yarn/patches
 !/**/.yarn/releases
 !/**/.yarn/plugins
 !/**/.yarn/sdks

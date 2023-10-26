@@ -1,0 +1,79 @@
+diff --git a/dist/build/webpack/loaders/next-swc-loader.js b/dist/build/webpack/loaders/next-swc-loader.js
+index 62469a0e6823cdd901ef3107d51daf8e01263610..ef674cb254ee14275c0ac0c3903857a8c22894df 100644
+--- a/dist/build/webpack/loaders/next-swc-loader.js
++++ b/dist/build/webpack/loaders/next-swc-loader.js
+@@ -33,6 +33,12 @@ Object.defineProperty(exports, "__esModule", {
+     default: null,
+     raw: null
+ });
++
++const mockCurrentTraceSpan = {
++    traceChild: (name) => mockCurrentTraceSpan,
++    traceAsyncFn: async (fn) => await fn(),
++};
++
+ function _export(target, all) {
+     for(var name in all)Object.defineProperty(target, name, {
+         enumerable: true,
+@@ -97,15 +103,9 @@ async function loaderTransform(parentTrace, source, inputSourceMap) {
+     // Make the loader async
+     const filename = this.resourcePath;
+     let loaderOptions = this.getOptions() || {};
+-    const { isServer, rootDir, pagesDir, appDir, hasReactRefresh, nextConfig, jsConfig, supportedBrowsers, swcCacheDir, hasServerComponents, isServerLayer, optimizeBarrelExports, bundleTarget } = loaderOptions;
++    const { isServer, rootDir, pagesDir, appDir, hasReactRefresh, nextConfig, jsConfig, supportedBrowsers, swcCacheDir, hasServerComponents, isServerLayer, bundleTarget } = loaderOptions;
+     const isPageFile = filename.startsWith(pagesDir);
+     const relativeFilePathFromRoot = _path.default.relative(rootDir, filename);
+-    // For testing purposes
+-    if (process.env.NEXT_TEST_MODE) {
+-        if (loaderOptions.optimizeBarrelExports) {
+-            console.log("optimizeBarrelExports:", filename);
+-        }
+-    }
+     const swcOptions = (0, _options.getLoaderSWCOptions)({
+         pagesDir,
+         appDir,
+@@ -126,7 +126,6 @@ async function loaderTransform(parentTrace, source, inputSourceMap) {
+         hasServerComponents,
+         isServerActionsEnabled: nextConfig == null ? void 0 : (_nextConfig_experimental3 = nextConfig.experimental) == null ? void 0 : _nextConfig_experimental3.serverActions,
+         isServerLayer,
+-        optimizeBarrelExports,
+         bundleTarget
+     });
+     const programmaticOptions = {
+@@ -167,7 +166,7 @@ function pitch() {
+     (async ()=>{
+         if (// TODO: investigate swc file reading in PnP mode?
+         !process.versions.pnp && !EXCLUDED_PATHS.test(this.resourcePath) && this.loaders.length - 1 === this.loaderIndex && (0, _path.isAbsolute)(this.resourcePath) && !await (0, _swc.isWasm)()) {
+-            const loaderSpan = this.currentTraceSpan.traceChild("next-swc-loader");
++            const loaderSpan = mockCurrentTraceSpan.traceChild("next-swc-loader");
+             this.addDependency(this.resourcePath);
+             return loaderSpan.traceAsyncFn(()=>loaderTransform.call(this, loaderSpan));
+         }
+@@ -177,7 +176,8 @@ function pitch() {
+     }, callback);
+ }
+ function swcLoader(inputSource, inputSourceMap) {
+-    const loaderSpan = this.currentTraceSpan.traceChild("next-swc-loader");
++    console.trace('opa', {this: this})
++    const loaderSpan = mockCurrentTraceSpan.traceChild("next-swc-loader");
+     const callback = this.async();
+     loaderSpan.traceAsyncFn(()=>loaderTransform.call(this, loaderSpan, inputSource, inputSourceMap)).then(([transformedSource, outputSourceMap])=>{
+         callback(null, transformedSource, outputSourceMap || inputSourceMap);
+diff --git a/dist/build/webpack/plugins/profiling-plugin.js b/dist/build/webpack/plugins/profiling-plugin.js
+index 5e925f8fd5361819669f1ce7b50bccbf661076f8..5a6c9b000e48c1a947ce126339d407e390eeda9d 100644
+--- a/dist/build/webpack/plugins/profiling-plugin.js
++++ b/dist/build/webpack/plugins/profiling-plugin.js
+@@ -174,7 +174,12 @@ class ProfilingPlugin {
+             moduleHooks.loader.tap(pluginName, (loaderContext, module1)=>{
+                 var _moduleSpansByCompilation_get;
+                 const moduleSpan = (_moduleSpansByCompilation_get = moduleSpansByCompilation.get(compilation)) == null ? void 0 : _moduleSpansByCompilation_get.get(module1);
+-                loaderContext.currentTraceSpan = moduleSpan;
++
++                const mockCurrentTraceSpan = {
++                    traceChild: (name) => mockCurrentTraceSpan,
++                    traceAsyncFn: async (fn) => await fn(),
++                };
++                loaderContext.currentTraceSpan = mockCurrentTraceSpan;
+             });
+             compilation.hooks.succeedModule.tap(pluginName, (module1)=>{
+                 var _moduleSpansByCompilation_get_get, _moduleSpansByCompilation_get;
