@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-toolbars",
-  "version": "7.5.0-alpha.2",
+  "version": "7.6.0-alpha.2",
   "description": "Create your own toolbar items that control story rendering",
   "keywords": [
     "addon",
@@ -76,7 +76,7 @@
     "@storybook/theming": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

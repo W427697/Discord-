@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "7.5.0-alpha.2",
+  "version": "7.6.0-alpha.2",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
@@ -50,7 +50,6 @@
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
-    "@storybook/core-client": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
@@ -59,7 +58,7 @@
     "type-fest": "~2.19"
   },
   "devDependencies": {
-    "typescript": "~4.9.3",
+    "typescript": "~5.2.2",
     "vue": "2.6.14",
     "vue-tsc": "latest"
   },

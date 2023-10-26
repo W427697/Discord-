@@ -20,26 +20,27 @@ import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import type { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
+import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav(
-  {
-    position: 'absolute',
-    zIndex: 1,
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  ({ theme }) => ({
+const Container = styled.nav(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 1,
+  left: 0,
+  top: 0,
+  bottom: 0,
+  right: 0,
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  background: theme.background.content,
+
+  [MEDIA_DESKTOP_BREAKPOINT]: {
     background: theme.background.app,
-  })
-);
+  },
+}));
 
 const Top = styled(Spaced)({
   padding: 20,
@@ -58,15 +59,6 @@ const Bottom = styled.div(({ theme }) => ({
     display: 'none',
   },
 }));
-
-const CustomScrollArea = styled(ScrollArea)({
-  '&&&&& .os-scrollbar-handle:before': {
-    left: -12,
-  },
-  '&&&&& .os-scrollbar-vertical': {
-    right: 5,
-  },
-});
 
 const Swap = React.memo(function Swap({
   children,
@@ -138,7 +130,7 @@ export const Sidebar = React.memo(function Sidebar({
 
   return (
     <Container className="container sidebar-container">
-      <CustomScrollArea vertical>
+      <ScrollArea vertical offset={8}>
         <Top row={1.6}>
           <Heading
             className="sidebar-header"
@@ -186,7 +178,7 @@ export const Sidebar = React.memo(function Sidebar({
             )}
           </Search>
         </Top>
-      </CustomScrollArea>
+      </ScrollArea>
       {isLoading ? null : (
         <Bottom>
           {bottom.map(({ id, render: Render }) => (

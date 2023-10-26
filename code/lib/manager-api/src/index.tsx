@@ -133,7 +133,7 @@ export interface Combo {
 
 export type ManagerProviderProps = RouterData &
   API_ProviderData<API> & {
-    children: ReactNode | ((props: Combo) => ReactNode);
+    children: ReactNode | FC<Combo>;
   };
 
 // This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
@@ -167,7 +167,11 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
     const store = new Store({
       getState: () => this.state,
-      setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback),
+      setState: (stateChange: Partial<State>, callback) => {
+        this.setState(stateChange, () => callback(this.state));
+
+        return this.state;
+      },
     });
 
     const routeData = { location, path, viewMode, singleStory, storyId, refId };
@@ -397,7 +401,6 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     existingState,
     STORYBOOK_ADDON_STATE[stateId] ? STORYBOOK_ADDON_STATE[stateId] : defaultState
   );
-
   let quicksync = false;
 
   if (state === defaultState && defaultState !== undefined) {
@@ -409,10 +412,12 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
     if (quicksync) {
       api.setAddonState<S>(stateId, defaultState);
     }
-  });
+  }, [quicksync]);
 
-  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
-    const result = api.setAddonState<S>(stateId, s, options);
+  const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
+    await api.setAddonState<S>(stateId, s, options);
+    const result = api.getAddonState(stateId);
+
     STORYBOOK_ADDON_STATE[stateId] = result;
     return result;
   };
@@ -458,7 +463,8 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   return [
     state,
     async (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
-      const result = await setState(newStateOrMerger, options);
+      await setState(newStateOrMerger, options);
+      const result = api.getAddonState(stateId);
       emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, result);
     },
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];

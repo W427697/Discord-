@@ -57,6 +57,8 @@ export class SbPage {
 
     const selected = await storyLink.getAttribute('data-selected');
     await expect(selected).toBe('true');
+
+    await this.previewRoot();
   }
 
   async waitUntilLoaded() {

@@ -1,8 +1,10 @@
+import type { EventHandler, FocusEvent, MouseEvent } from 'react';
 import React, { useCallback, useRef, useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Badge, Icons, Spaced } from '@storybook/components';
+import { Badge, Spaced } from '@storybook/components';
 import type { Addon_BaseType, Addon_Collection } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
+import { BellIcon } from '@storybook/icons';
 import { AddonPanel } from './Panel';
 import { defaultShortcuts } from '../../settings/defaultShortcuts';
 
@@ -70,7 +72,7 @@ export const JSXTitles = () => {
             <div>
               <Spaced col={1}>
                 <div style={{ display: 'inline-block', verticalAlign: 'middle' }}>Alert!</div>
-                <Icons icon="bell" />
+                <BellIcon />
               </Spaced>
             </div>
           ),
@@ -83,7 +85,7 @@ export const JSXTitles = () => {
             const [count, setCount] = useState(0);
             const timer = useRef(null);
 
-            const startTimer = useCallback((event) => {
+            const startTimer = useCallback<EventHandler<MouseEvent<any>>>((event) => {
               event.stopPropagation();
               if (timer.current) {
                 return;
@@ -99,13 +101,16 @@ export const JSXTitles = () => {
                 });
               }, 1000);
             }, []);
-            const stopTimer = useCallback((event) => {
-              event.stopPropagation();
-              if (timer.current) {
-                clearInterval(timer.current);
-                timer.current = null;
-              }
-            }, []);
+            const stopTimer = useCallback<EventHandler<MouseEvent<any> | FocusEvent<any>>>(
+              (event) => {
+                event.stopPropagation();
+                if (timer.current) {
+                  clearInterval(timer.current);
+                  timer.current = null;
+                }
+              },
+              []
+            );
 
             return (
               <div

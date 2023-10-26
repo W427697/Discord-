@@ -3,7 +3,7 @@ import React, { Fragment, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 
-import { IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
+import { IconButton, Separator, TabButton, TabBar } from '@storybook/components';
 import {
   shortcutToHumanString,
   Consumer,
@@ -18,6 +18,7 @@ import {
 
 import { Location, type RenderData } from '@storybook/router';
 import type { Addon_BaseType } from '@storybook/types';
+import { CloseIcon, ExpandIcon } from '@storybook/icons';
 import { zoomTool } from './tools/zoom';
 
 import * as S from './utils/components';
@@ -28,8 +29,7 @@ import { ejectTool } from './tools/eject';
 import { menuTool } from './tools/menu';
 import { addonsTool } from './tools/addons';
 import { remountTool } from './tools/remount';
-import { useMediaQuery } from '../hooks/useMedia';
-import { BREAKPOINT_MIN_600 } from '../../constants';
+import { useLayout } from '../layout/LayoutProvider';
 
 export const getTools = (getFn: API['getElements']) => Object.values(getFn(types.TOOL));
 export const getToolsExtra = (getFn: API['getElements']) => Object.values(getFn(types.TOOLEXTRA));
@@ -50,10 +50,10 @@ export const fullScreenTool: Addon_BaseType = {
   type: types.TOOL,
   match: (p) => ['story', 'docs'].includes(p.viewMode),
   render: () => {
-    const isDesktop = useMediaQuery(BREAKPOINT_MIN_600);
-    if (!isDesktop) {
-      return null;
-    }
+    const { isMobile } = useLayout();
+
+    if (isMobile) return null;
+
     return (
       <Consumer filter={fullScreenMapper}>
         {({ toggle, isFullscreen, shortcut, hasPanel, singleStory }) =>
@@ -64,7 +64,7 @@ export const fullScreenTool: Addon_BaseType = {
               title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
               aria-label={isFullscreen ? 'Exit full screen' : 'Go full screen'}
             >
-              <Icons icon={isFullscreen ? 'close' : 'expand'} />
+              {isFullscreen ? <CloseIcon /> : <ExpandIcon />}
             </IconButton>
           )
         }
@@ -98,7 +98,7 @@ export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
                 return (
                   <S.UnstyledLink key={t.id || `l${index}`} to={to}>
                     <TabButton disabled={t.disabled} active={isActive}>
-                      {t.title}
+                      {t.title as any}
                     </TabButton>
                   </S.UnstyledLink>
                 );
@@ -279,7 +279,8 @@ const ToolbarLeft = styled.div({
   display: 'flex',
   whiteSpace: 'nowrap',
   flexBasis: 'auto',
-  gap: 4,
+  gap: 6,
+  alignItems: 'center',
 });
 
 const ToolbarRight = styled(ToolbarLeft)({

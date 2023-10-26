@@ -1,11 +1,11 @@
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React, { Fragment } from 'react';
 import type { Addon_WrapperType } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import type { ApplyWrappersProps } from './utils/types';
 import { IframeWrapper } from './utils/components';
 
-export const ApplyWrappers: FC<ApplyWrappersProps> = ({
+export const ApplyWrappers: FC<PropsWithChildren<ApplyWrappersProps>> = ({
   wrappers,
   id,
   storyId,

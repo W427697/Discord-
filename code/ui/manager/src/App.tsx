@@ -4,14 +4,13 @@ import React from 'react';
 import { Route } from '@storybook/router';
 
 import { Global, createGlobal } from '@storybook/theming';
-import { Symbols } from '@storybook/components';
 import type { Addon_PageType } from '@storybook/types';
 import Sidebar from './container/Sidebar';
 import Preview from './container/Preview';
 import Panel from './container/Panel';
 
 import { Layout } from './components/layout/Layout';
-import { useMobileLayoutContext } from './components/mobile/MobileLayoutProvider';
+import { useLayout } from './components/layout/LayoutProvider';
 
 type Props = {
   managerLayoutState: ComponentProps<typeof Layout>['managerLayoutState'];
@@ -20,12 +19,11 @@ type Props = {
 };
 
 export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props) => {
-  const { setMobileAboutOpen } = useMobileLayoutContext();
+  const { setMobileAboutOpen } = useLayout();
 
   return (
     <>
       <Global styles={createGlobal} />
-      <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
       <Layout
         managerLayoutState={managerLayoutState}
         setManagerLayoutState={setManagerLayoutState}

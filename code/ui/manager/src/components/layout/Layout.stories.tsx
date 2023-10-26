@@ -1,11 +1,11 @@
 import { action } from '@storybook/addon-actions';
-import type { FC } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import React, { useState } from 'react';
 
 import { styled } from '@storybook/theming';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Layout } from './Layout';
-import { MobileLayoutProvider } from '../mobile/MobileLayoutProvider';
+import { LayoutProvider } from './LayoutProvider';
 import MobileNavigationStoriesMeta from '../mobile/navigation/MobileNavigation.stories';
 
 const PlaceholderBlock = styled.div({
@@ -17,7 +17,7 @@ const PlaceholderBlock = styled.div({
   overflow: 'hidden',
 });
 
-const PlaceholderClock: FC = ({ children }) => {
+const PlaceholderClock: FC<PropsWithChildren> = ({ children }) => {
   const [count, setCount] = React.useState(0);
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -65,7 +65,7 @@ const meta = {
   },
   decorators: [
     MobileNavigationStoriesMeta.decorators[0] as any,
-    (storyFn) => <MobileLayoutProvider>{storyFn()}</MobileLayoutProvider>,
+    (storyFn) => <LayoutProvider>{storyFn()}</LayoutProvider>,
   ],
   render: (args) => {
     const [managerLayoutState, setManagerLayoutState] = useState(args.managerLayoutState);
