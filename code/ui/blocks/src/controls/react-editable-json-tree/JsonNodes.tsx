@@ -122,8 +122,8 @@ export class JsonAddValue extends Component<JsonAddValueProps, JsonAddValueState
       <span className="rejt-add-value-node">
         {inputElementKeyLayout}
         {inputElementValueLayout}
-        {cancelButtonElementLayout}
         {addButtonElementLayout}
+        {cancelButtonElementLayout}
       </span>
     );
   }
@@ -1547,8 +1547,8 @@ export class JsonValue extends Component<JsonValueProps, JsonValueState> {
         </span>
         {isEditing ? (
           <span className="rejt-edit-form" style={style.editForm}>
-            {inputElementLayout} {cancelButtonElementLayout}
-            {editButtonElementLayout}
+            {inputElementLayout} {editButtonElementLayout}
+            {cancelButtonElementLayout}
           </span>
         ) : (
           <span
