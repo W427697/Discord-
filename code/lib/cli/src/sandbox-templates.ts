@@ -67,6 +67,7 @@ export type Template = {
   modifications?: {
     skipTemplateStories?: boolean;
     mainConfig?: Partial<StorybookConfig>;
+    testBuild?: boolean;
     disableDocs?: boolean;
   };
   /**
@@ -559,6 +560,28 @@ const benchTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
   },
+  'bench/react-vite-default-ts/test-build': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'Bench (react-vite/default-ts, test-build)',
+    inDevelopment: true,
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      testBuild: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+  },
+  'bench/react-webpack-18-ts/test-build': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'Bench (react-webpack/18-ts, test-build)',
+    inDevelopment: true,
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      testBuild: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+  },
 } satisfies Record<`bench/${string}`, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {
@@ -580,6 +603,8 @@ export const normal: TemplateKey[] = [
   'bench/react-vite-default-ts',
   'bench/react-webpack-18-ts',
   'bench/react-vite-default-ts-nodocs',
+  'bench/react-vite-default-ts/test-build',
+  'bench/react-webpack-18-ts/test-build',
 ];
 export const merged: TemplateKey[] = [
   ...normal,
