@@ -563,7 +563,6 @@ const benchTemplates = {
   'bench/react-vite-default-ts-test-build': {
     ...baseTemplates['react-vite/default-ts'],
     name: 'Bench (react-vite/default-ts, test-build)',
-    inDevelopment: true,
     isInternal: true,
     modifications: {
       skipTemplateStories: true,
@@ -574,7 +573,6 @@ const benchTemplates = {
   'bench/react-webpack-18-ts-test-build': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'Bench (react-webpack/18-ts, test-build)',
-    inDevelopment: true,
     isInternal: true,
     modifications: {
       skipTemplateStories: true,
