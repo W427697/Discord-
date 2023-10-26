@@ -88,17 +88,17 @@ Only available for React Storybook projects. Options to pass to react-docgen-typ
 
 <!-- prettier-ignore-end -->
 
-## `skipBabel`
+## `skipCompiler`
 
 Type: `boolean`
 
-Disable parsing of TypeScript files through babel.
+Disable parsing of TypeScript files through compiler.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/main-config-typescript-skip-babel.ts.mdx',
+    'common/main-config-typescript-skip-compiler.ts.mdx',
   ]}
 />
 

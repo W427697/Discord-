@@ -41,21 +41,6 @@ This type of preset is user-facing and responsible for registering the addon wit
 
 When writing a preset, you can access a select set of APIs to interact with the Storybook environment, including the supported builders (e.g., Webpack, Vite), the Storybook configuration, and UI. Below are the available APIs you can use when writing a preset addon.
 
-### Babel
-
-To customize Storybook's Babel configuration and add support for additional features, you can use the [`babelDefault`](../api/main-config-babel-default.md) API. It will apply the provided configuration ahead of any other user presets, which can be further customized by the end user via the [`babel`](../api/main-config-babel.md) configuration option. For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-addons-preset-babelDefault.js.mdx',
-    'common/storybook-addons-preset-babelDefault.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 ### Builders
 
 By default, Storybook provides support for the leading industry builders, including [Webpack](../builders/webpack.md) and [Vite](../builders/vite.md). If you need additional features for any of these builders, you can use APIs to extend the builder configuration based on your specific needs.

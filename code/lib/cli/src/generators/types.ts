@@ -23,7 +23,7 @@ export interface FrameworkOptions {
   addScripts?: boolean;
   addMainFile?: boolean;
   addComponents?: boolean;
-  skipBabel?: boolean;
+  skipCompiler?: boolean;
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;

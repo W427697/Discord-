@@ -70,9 +70,8 @@ export const react: Parameters = {
   renderer: 'react',
   name: 'react',
   version: 'latest',
-  generator: fromDeps('react', 'react-dom', '@babel/preset-react'),
+  generator: fromDeps('react', 'react-dom'),
   additionalDeps: ['prop-types'],
-  additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
 };
 
 export const react_legacy_root_api: Parameters = {
@@ -80,8 +79,7 @@ export const react_legacy_root_api: Parameters = {
   name: 'react_legacy_root_api',
   version: 'latest',
   generator: fromDeps('react', 'react-dom'),
-  additionalDeps: ['prop-types', '@babel/preset-react'],
-  additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
+  additionalDeps: ['prop-types'],
   mainOverrides: {
     reactOptions: {
       legacyRootApi: true,
@@ -95,13 +93,6 @@ export const react_typescript: Parameters = {
   version: 'latest',
   generator: fromDeps('react', 'react-dom'),
   typescript: true,
-  additionalDeps: ['@babel/preset-react', '@babel/preset-typescript'],
-  additionalFiles: [
-    {
-      path: '.babelrc',
-      contents: '{ "presets": ["@babel/preset-react", "@babel/preset-typescript"] }',
-    },
-  ],
 };
 
 export const nextjs: Parameters = {
@@ -189,13 +180,6 @@ export const web_components_typescript: Parameters = {
   ...web_components,
   name: 'web_components_typescript',
   typescript: true,
-  additionalDeps: ['@babel/preset-typescript'],
-  additionalFiles: [
-    {
-      path: '.babelrc',
-      contents: '{ "presets": ["@babel/preset-typescript"] }',
-    },
-  ],
 };
 
 export const web_components_lit2: Parameters = {
@@ -204,13 +188,6 @@ export const web_components_lit2: Parameters = {
   name: 'web_components_lit2',
   generator: fromDeps('lit'),
   typescript: true,
-  additionalDeps: ['@babel/preset-typescript'],
-  additionalFiles: [
-    {
-      path: '.babelrc',
-      contents: '{ "presets": ["@babel/preset-typescript"] }',
-    },
-  ],
 };
 
 // #endregion

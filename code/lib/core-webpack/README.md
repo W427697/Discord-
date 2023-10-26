@@ -1,6 +1,6 @@
 # Storybook Core-Common
 
-Common utilities used across `@storybook/core-server` (manager UI configuration) and `@storybook/builder-webpack{4,5}` (preview configuration).
+Common utilities used across `@storybook/core-server` (manager UI configuration) and `@storybook/builder-webpack5` (preview configuration).
 
 This is a lot of code extracted for convenience, not because it made sense.
 

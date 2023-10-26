@@ -63,7 +63,7 @@
     "ts-dedent": "^2.0.0",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
     "util-deprecate": "^1.0.2",
-    "webpack": "5"
+    "webpack": "^5.89.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1600.0-rc.4",
@@ -86,7 +86,6 @@
     "jest-specific-snapshot": "^8.0.0",
     "tmp": "^0.2.1",
     "typescript": "^5.0.4",
-    "webpack": "5",
     "zone.js": "^0.13.0"
   },
   "peerDependencies": {

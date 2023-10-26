@@ -492,25 +492,6 @@ const internalTemplates = {
     },
     skipTasks: ['bench'],
   },
-  'internal/swc-webpack': {
-    ...baseTemplates['react-webpack/18-ts'],
-    name: 'SWC (react-webpack/18-ts)',
-    isInternal: true,
-    inDevelopment: true,
-    modifications: {
-      mainConfig: {
-        framework: {
-          name: '@storybook/react-webpack5',
-          options: {
-            builder: {
-              useSWC: true,
-            },
-          },
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
   'internal/server-webpack5': {
     name: 'Server Webpack5',
     script: 'yarn init -y && echo "module.exports = {}" > webpack.config.js',

@@ -380,11 +380,6 @@ module.exports = {
               type: 'link',
             },
             {
-              pathSegment: 'babel',
-              title: 'Babel',
-              type: 'link',
-            },
-            {
               pathSegment: 'typescript',
               title: 'TypeScript',
               type: 'link',
@@ -495,16 +490,6 @@ module.exports = {
             {
               title: 'addons',
               pathSegment: 'main-config-addons',
-              type: 'link',
-            },
-            {
-              title: 'babel',
-              pathSegment: 'main-config-babel',
-              type: 'link',
-            },
-            {
-              title: 'babelDefault',
-              pathSegment: 'main-config-babel-default',
               type: 'link',
             },
             {

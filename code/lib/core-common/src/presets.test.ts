@@ -2,9 +2,8 @@ import path from 'path';
 import { logger } from '@storybook/node-logger';
 import './presets';
 
-function wrapPreset(basePresets: any): { babel: Function; webpack: Function } {
+function wrapPreset(basePresets: any): { webpack: Function } {
   return {
-    babel: async (config: any, args: any) => basePresets.apply('babel', config, args),
     webpack: async (config: any, args: any) => basePresets.apply('webpack', config, args),
   };
 }
@@ -70,7 +69,6 @@ describe('presets', () => {
     async function testPresets() {
       presets = wrapPreset(await getPresets());
       await presets.webpack();
-      await presets.babel();
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
@@ -84,7 +82,6 @@ describe('presets', () => {
 
     async function testPresets() {
       await presets.webpack();
-      await presets.babel();
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
@@ -96,7 +93,6 @@ describe('presets', () => {
 
     async function testPresets() {
       await presets.webpack();
-      await presets.babel();
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
@@ -113,10 +109,6 @@ describe('presets', () => {
       foo: (exec: string[]) => exec.concat('foo'),
     });
 
-    mockPreset('preset-bar', {
-      foo: (exec: string[]) => exec.concat('bar'),
-    });
-
     mockPreset('preset-got', [
       'preset-dracarys',
       { name: 'preset-valar', options: { custom: 'morghulis' } },
@@ -131,49 +123,37 @@ describe('presets', () => {
     });
 
     const { getPresets } = jest.requireActual('./presets');
-    const presets = await getPresets(['preset-foo', 'preset-got', 'preset-bar'], {});
+    const presets = await getPresets(['preset-foo', 'preset-got'], {});
 
     const result = await presets.apply('foo', []);
 
-    expect(result).toEqual(['foo', 'dracarys', 'valar morghulis', 'bar']);
+    expect(result).toEqual(['foo', 'dracarys', 'valar morghulis']);
   });
 
   it('loads and applies presets when they are declared as a string', async () => {
     const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
     });
 
-    mockPreset('preset-bar', {
-      babel: mockPresetBarExtendBabel,
-    });
-
     const { getPresets } = jest.requireActual('./presets');
-    const presets = wrapPreset(await getPresets(['preset-foo', 'preset-bar'], {}));
+    const presets = wrapPreset(await getPresets(['preset-foo'], {}));
 
     async function testPresets() {
       await presets.webpack();
-      await presets.babel();
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
 
     expect(mockPresetFooExtendWebpack).toHaveBeenCalled();
-    expect(mockPresetBarExtendBabel).toHaveBeenCalled();
   });
 
   it('loads  and applies presets when they are declared as an object without props', async () => {
     const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
-    });
-
-    mockPreset('preset-bar', {
-      babel: mockPresetBarExtendBabel,
     });
 
     const { getPresets } = jest.requireActual('./presets');
@@ -183,41 +163,25 @@ describe('presets', () => {
 
     async function testPresets() {
       await presets.webpack();
-      await presets.babel();
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
 
     expect(mockPresetFooExtendWebpack).toHaveBeenCalled();
-    expect(mockPresetBarExtendBabel).toHaveBeenCalled();
   });
 
   it('loads and applies presets when they are declared as an object with props', async () => {
     const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
     });
 
-    mockPreset('preset-bar', {
-      babel: mockPresetBarExtendBabel,
-    });
-
     const { getPresets } = jest.requireActual('./presets');
-    const presets = wrapPreset(
-      await getPresets(
-        [
-          { name: 'preset-foo', options: { foo: 1 } },
-          { name: 'preset-bar', options: { bar: 'a' } },
-        ],
-        {}
-      )
-    );
+    const presets = wrapPreset(await getPresets([{ name: 'preset-foo', options: { foo: 1 } }], {}));
 
     async function testPresets() {
       await presets.webpack({});
-      await presets.babel({});
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
@@ -227,69 +191,32 @@ describe('presets', () => {
       presetsList: expect.anything(),
       presets: expect.anything(),
     });
-    expect(mockPresetBarExtendBabel).toHaveBeenCalledWith(expect.anything(), {
-      bar: 'a',
-      presetsList: expect.anything(),
-      presets: expect.anything(),
-    });
   });
 
   it('loads and applies presets when they are declared as a string and as an object', async () => {
     const mockPresetFooExtendWebpack = jest.fn();
-    const mockPresetBarExtendBabel = jest.fn();
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
     });
 
-    mockPreset('preset-bar', {
-      babel: mockPresetBarExtendBabel,
-    });
-
     const { getPresets } = jest.requireActual('./presets');
-    const presets = wrapPreset(
-      await getPresets(
-        [
-          'preset-foo',
-          {
-            name: 'preset-bar',
-            options: {
-              bar: 'a',
-            },
-          },
-        ],
-        {}
-      )
-    );
+    const presets = wrapPreset(await getPresets(['preset-foo'], {}));
 
     async function testPresets() {
       await presets.webpack({});
-      await presets.babel({});
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
 
     expect(mockPresetFooExtendWebpack).toHaveBeenCalled();
-    expect(mockPresetBarExtendBabel).toHaveBeenCalledWith(expect.anything(), {
-      bar: 'a',
-      presetsList: expect.arrayContaining([
-        expect.objectContaining({ name: 'preset-foo' }),
-        expect.objectContaining({ name: 'preset-bar' }),
-      ]),
-      presets: expect.anything(),
-    });
   });
 
   it('applies presets in chain', async () => {
     const mockPresetFooExtendWebpack = jest.fn((...args: any[]) => ({}));
-    const mockPresetBarExtendWebpack = jest.fn((...args: any[]) => ({}));
 
     mockPreset('preset-foo', {
       webpack: mockPresetFooExtendWebpack,
-    });
-
-    mockPreset('preset-bar', {
-      webpack: mockPresetBarExtendWebpack,
     });
 
     const { getPresets } = jest.requireActual('./presets');
@@ -315,20 +242,11 @@ describe('presets', () => {
 
     async function testPresets() {
       await presets.webpack();
-      await presets.babel();
     }
 
     await expect(testPresets()).resolves.toBeUndefined();
 
     expect(mockPresetFooExtendWebpack).toHaveBeenCalled();
-    expect(mockPresetBarExtendWebpack).toHaveBeenCalledWith(expect.anything(), {
-      bar: 'a',
-      presetsList: expect.arrayContaining([
-        expect.objectContaining({ name: 'preset-foo' }),
-        expect.objectContaining({ name: 'preset-bar' }),
-      ]),
-      presets: expect.anything(),
-    });
   });
 
   it('allows for presets to export presets array', async () => {

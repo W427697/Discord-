@@ -35,12 +35,6 @@ export interface StorybookConfigWebpack extends Pick<StorybookConfig, 'webpack' 
   ) => Configuration | Promise<Configuration>;
 }
 
-export type BuilderOptions = {
-  fsCache?: boolean;
-  useSWC?: boolean;
-  lazyCompilation?: boolean;
-};
-
 export interface BuilderResult extends BuilderResultBase {
   stats?: Stats;
 }

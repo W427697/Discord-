@@ -15,16 +15,6 @@ import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 async function webpack(
   webpackConfig: any = {},
   options: Options & {
-    /**
-     * @deprecated
-     * Use `jsxOptions` to customize options used by @babel/preset-react
-     */
-    configureJsx: boolean;
-    /**
-     * @deprecated
-     * Use `jsxOptions` to customize options used by @babel/preset-react
-     */
-    mdxBabelOptions?: any;
     /** @deprecated */
     sourceLoaderOptions: any;
     csfPluginOptions: CsfPluginOptions | null;
@@ -42,8 +32,6 @@ async function webpack(
     csfPluginOptions = {},
     jsxOptions = {},
     sourceLoaderOptions = null,
-    configureJsx,
-    mdxBabelOptions,
     mdxPluginOptions = {},
   } = options;
 
@@ -70,16 +58,6 @@ async function webpack(
       To update your configuration, please see migration instructions here:
 
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-source-loader--storiesof-static-snippets
-    `);
-  }
-
-  if (mdxBabelOptions || configureJsx) {
-    throw new Error(dedent`
-      Addon-docs no longer uses configureJsx or mdxBabelOptions in 7.0.
-
-      To update your configuration, please see migration instructions here:
-
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-addon-docs-manual-babel-configuration
     `);
   }
 

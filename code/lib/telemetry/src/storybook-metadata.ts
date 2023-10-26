@@ -46,7 +46,6 @@ export const computeStorybookMetadata = async ({
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
     generatedAt: new Date().getTime(),
-    hasCustomBabel: false,
     hasCustomWebpack: false,
     hasStaticDirs: false,
     hasStorybookEslint: false,
@@ -87,7 +86,6 @@ export const computeStorybookMetadata = async ({
     // eslint-disable-next-line no-empty
   } catch (err) {}
 
-  metadata.hasCustomBabel = !!mainConfig.babel;
   metadata.hasCustomWebpack = !!mainConfig.webpackFinal;
   metadata.hasStaticDirs = !!mainConfig.staticDirs;
 

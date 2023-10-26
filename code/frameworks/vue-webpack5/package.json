@@ -60,8 +60,6 @@
     "vue-template-compiler": "^2.6.14"
   },
   "peerDependencies": {
-    "@babel/core": "*",
-    "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "css-loader": "*",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",

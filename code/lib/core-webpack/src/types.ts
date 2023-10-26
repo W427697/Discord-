@@ -22,6 +22,11 @@ export interface WebpackConfiguration {
   devtool?: false | string;
 }
 
+export type BuilderOptions = {
+  fsCache?: boolean;
+  lazyCompilation?: boolean;
+};
+
 export type StorybookConfig<TWebpackConfiguration = WebpackConfiguration> = StorybookConfigBase & {
   /**
    * Modify or return a custom Webpack config after the Storybook's default configuration

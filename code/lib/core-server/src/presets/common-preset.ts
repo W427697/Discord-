@@ -106,12 +106,6 @@ export const favicon = async (
   return defaultFavicon;
 };
 
-export const babel = async (_: unknown, options: Options) => {
-  const { presets } = options;
-
-  return presets.apply('babelDefault', {}, options);
-};
-
 export const title = (previous: string, options: Options) =>
   previous || options.packageJson.name || false;
 

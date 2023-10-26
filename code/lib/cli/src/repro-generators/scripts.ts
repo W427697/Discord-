@@ -4,7 +4,6 @@ import chalk from 'chalk';
 import { command } from 'execa';
 import type spawn from 'cross-spawn';
 import { spawn as spawnAsync } from 'cross-spawn';
-import { cra, cra_typescript } from './configs';
 import storybookVersions from '../versions';
 
 const logger = console;
@@ -129,15 +128,6 @@ const installYarn2 = async ({ cwd, pnp, name }: Options) => {
     `yarn config set checksumBehavior ignore`,
     `yarn config set nodeLinker ${pnp ? 'pnp' : 'node-modules'}`,
   ];
-
-  // FIXME: Some dependencies used by CRA aren't listed in its package.json
-  // Next line is a hack to remove as soon as CRA will have added these missing deps
-  // for details see https://github.com/facebook/create-react-app/pull/11751
-  if ([cra.name, cra_typescript.name].includes(name)) {
-    command.push(
-      `yarn config set packageExtensions --json '{ "babel-preset-react-app@10.0.x": { "dependencies": { "@babel/plugin-proposal-private-property-in-object": "^7.16.0" } } }'`
-    );
-  }
 
   await exec(
     command.join(' && '),

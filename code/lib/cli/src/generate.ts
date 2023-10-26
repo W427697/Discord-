@@ -17,7 +17,6 @@ import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
 import { automigrate } from './automigrate';
-import { generateStorybookBabelConfigInCWD } from './babel-config';
 import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
@@ -48,7 +47,7 @@ command('init')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager for installing deps')
   .option('-N --use-npm', 'Use npm to install deps (deprecated)')
   .option('--use-pnp', 'Enable pnp mode for Yarn 2+')
-  .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
+  .option('-p --parser <babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
@@ -66,10 +65,6 @@ command('add <addon>')
   .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName: string, options: any) => add(addonName, options));
-
-command('babelrc')
-  .description('generate the default storybook babel config into your current working directory')
-  .action(() => generateStorybookBabelConfigInCWD());
 
 command('upgrade')
   .description('Upgrade your Storybook packages to the latest')
@@ -112,7 +107,7 @@ command('migrate [migration]')
   .description('Run a Storybook codemod migration on your source files')
   .option('-l --list', 'List available migrations')
   .option('-g --glob <glob>', 'Glob for files upon which to apply the migration', '**/*.js')
-  .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
+  .option('-p --parser <babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option(
     '-n --dry-run',
     'Dry run: verify the migration exists and show the files to which it will be applied'

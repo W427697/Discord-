@@ -65,18 +65,15 @@
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.44.23",
     "vue-docgen-loader": "^1.5.1",
-    "webpack": "5"
+    "webpack": "^5.89.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3",
     "vue": "^2.6.12",
     "vue-loader": "^15.7.0",
-    "vue-template-compiler": "^2.6.14",
-    "webpack": "5"
+    "vue-template-compiler": "^2.6.14"
   },
   "peerDependencies": {
-    "@babel/core": "*",
-    "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "css-loader": "*",
     "vue": "^2.6.8",
     "vue-loader": "^15.7.0",

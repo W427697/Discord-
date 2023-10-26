@@ -159,6 +159,20 @@ export const init: Task['run'] = async (
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
   }
+
+  // TODO: remove this once tests are done. DO NOT MERGE WITH THIS
+  for (const addon of [
+    'storybook-addon-themes',
+    'storybook-dark-mode',
+    'storybook-addon-pseudo-states',
+    'storybook-mobile-addon',
+    '@storybook/addon-designs',
+    '@storybook/addon-styling',
+    '@storybook/addon-mdx-gfm',
+    '@storybook/addon-console',
+  ]) {
+    await executeCLIStep(steps.add, { argument: addon, cwd, dryRun, debug }).catch();
+  }
 };
 
 // Ensure that sandboxes can refer to story files defined in `code/`.

@@ -52,7 +52,6 @@ export type StorybookMetadata = {
   hasStorybookEslint?: boolean;
   hasStaticDirs?: boolean;
   hasCustomWebpack?: boolean;
-  hasCustomBabel?: boolean;
   features?: StorybookConfig['features'];
   refCount?: number;
   preview?: {

@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { resolve } from 'path';
 import type { Configuration, RuleSetCondition, RuleSetRule } from 'webpack';
 import semver from 'semver';
-import type { PluginItem, TransformOptions } from '@babel/core';
 import type { PluginOptions } from '../types';
 
 type RuleSetConditions = RuleSetCondition[];
 
 const isRegExp = (value: RegExp | unknown): value is RegExp => value instanceof RegExp;
-
-const isString = (value: string | unknown): value is string => typeof value === 'string';
 
 // This handles arrays in Webpack rule tests.
 const testMatch = (rule: RuleSetRule, string: string): boolean => {
@@ -27,7 +23,7 @@ export const processCraConfig = (
 
   /*
    * NOTE: As of version 5.3.0 of Storybook, Storybook's default loaders are no
-   * longer appended when using this preset, meaning less customisation is
+   * longer appended when using this preset, meaning less customization is
    * needed when used alongside that version.
    *
    * When loaders were appended in previous Storybook versions, some CRA loaders
@@ -87,52 +83,6 @@ export const processCraConfig = (
                 ...oneOfRule,
                 include: isStorybook530 ? undefined : [configDir],
                 exclude: [oneOfRule.exclude as RegExp, /@storybook/],
-              };
-            }
-
-            // Used for the next two rules modifications.
-            const isBabelLoader =
-              isString(oneOfRule.loader) && /[/\\]babel-loader[/\\]/.test(oneOfRule.loader);
-
-            // Target `babel-loader` and add user's Babel config.
-            if (isBabelLoader && isRegExp(oneOfRule.test) && oneOfRule.test.test('.jsx')) {
-              const { include: _include, options: ruleOptions } = oneOfRule;
-
-              const {
-                plugins: rulePlugins,
-                presets: rulePresets,
-                overrides: ruleOverrides,
-              } = (typeof ruleOptions === 'object' ? ruleOptions : {}) as {
-                plugins: PluginItem[] | null;
-                presets: PluginItem[] | null;
-                overrides: TransformOptions[] | null;
-              };
-
-              const {
-                extends: _extends,
-                plugins,
-                presets,
-                overrides,
-              } = (options as any).babelOptions;
-
-              return {
-                ...oneOfRule,
-                include: [_include as string, configDir].filter(Boolean),
-                options: {
-                  ...(ruleOptions as Record<string, unknown>),
-                  extends: _extends,
-                  plugins: [...(plugins ?? []), ...(rulePlugins ?? [])],
-                  presets: [...(presets ?? []), ...(rulePresets ?? [])],
-                  overrides: [...(overrides ?? []), ...(ruleOverrides ?? [])],
-                },
-              };
-            }
-
-            // Target `babel-loader` that processes `node_modules`, and add Storybook config dir.
-            if (isBabelLoader && isRegExp(oneOfRule.test) && oneOfRule.test.test('.js')) {
-              return {
-                ...oneOfRule,
-                include: [configDir],
               };
             }
 

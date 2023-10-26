@@ -398,11 +398,6 @@ PropTypesProps.defaultProps = {
   string: 'Default string',
   func: () => {},
   funcWithJsDoc: (foo, bar) => {
-    // eslint-disable-next-line no-undef
-    const yo = window.document;
-    // eslint-disable-next-line no-undef
-    const pouf = souffle;
-
     return { foo, bar };
   },
   namedDefaultFunc: concat,

@@ -179,9 +179,7 @@ export async function detectLanguage(packageManager: JsPackageManager) {
 
   const typescriptVersion = await packageManager.getPackageVersion('typescript');
   const prettierVersion = await packageManager.getPackageVersion('prettier');
-  const babelPluginTransformTypescriptVersion = await packageManager.getPackageVersion(
-    '@babel/plugin-transform-typescript'
-  );
+
   const typescriptEslintParserVersion = await packageManager.getPackageVersion(
     '@typescript-eslint/parser'
   );
@@ -194,8 +192,6 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     if (
       semver.gte(typescriptVersion, '4.9.0') &&
       (!prettierVersion || semver.gte(prettierVersion, '2.8.0')) &&
-      (!babelPluginTransformTypescriptVersion ||
-        semver.gte(babelPluginTransformTypescriptVersion, '7.20.0')) &&
       (!typescriptEslintParserVersion || semver.gte(typescriptEslintParserVersion, '5.44.0')) &&
       (!eslintPluginStorybookVersion || semver.gte(eslintPluginStorybookVersion, '0.6.8'))
     ) {

@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
-import type { Configuration, RuleSetRule } from 'webpack';
-import semver from 'semver';
+import type { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
@@ -38,12 +37,6 @@ const core = (existing: { disableWebpackDefaults: boolean }) => ({
   disableWebpackDefaults: true,
 });
 
-// Don't use Storybook's default Babel config.
-const babelDefault = (): Record<string, (string | [string, object])[]> => ({
-  presets: [],
-  plugins: [],
-});
-
 // Update the core Webpack config.
 const webpack = async (
   webpackConfig: Configuration = {},
@@ -76,15 +69,6 @@ const webpack = async (
 
   logger.info(`=> Loading Webpack configuration from \`${relative(CWD, scriptsPath)}\``);
 
-  // Remove existing rules related to JavaScript and TypeScript.
-  logger.info(`=> Removing existing JavaScript and TypeScript rules.`);
-  const filteredRules =
-    webpackConfig.module &&
-    webpackConfig.module.rules.filter(
-      ({ test }: RuleSetRule) =>
-        !(test instanceof RegExp && ((test && test.test('.js')) || test.test('.ts')))
-    );
-
   // Require the CRA config and set the appropriate mode.
   const craWebpackConfigPath = join(scriptsPath, 'config', 'webpack.config');
   // eslint-disable-next-line global-require, import/no-dynamic-require
@@ -94,8 +78,6 @@ const webpack = async (
   logger.info(`=> Modifying Create React App rules.`);
   const craRules = processCraConfig(craWebpackConfig, options);
 
-  // NOTE: These are set by default in Storybook 6.
-  const isStorybook6 = semver.gte(options.packageJson.version || '', '6.0.0');
   const {
     typescriptOptions = {
       reactDocgen: 'react-docgen-typescript',
@@ -103,7 +85,7 @@ const webpack = async (
     },
   } = options;
   const tsDocgenPlugin =
-    !isStorybook6 && typescriptOptions.reactDocgen === 'react-docgen-typescript'
+    typescriptOptions.reactDocgen === 'react-docgen-typescript'
       ? [new ReactDocgenTypescriptPlugin(typescriptOptions.reactDocgenTypescriptOptions)]
       : [];
 
@@ -128,7 +110,7 @@ const webpack = async (
     ...lazyCompilationConfig,
     module: {
       ...webpackConfig.module,
-      rules: [...(filteredRules || []), ...craRules],
+      rules: [...(webpackConfig.module.rules || []), ...craRules],
     },
     // NOTE: this prioritizes the storybook version of a plugin
     // when there are duplicates between SB and CRA
@@ -154,6 +136,5 @@ const webpack = async (
 // we do not care of the typings exported from this package
 const exportedCore = core as any;
 const exportedWebpack = webpack as any;
-const exportedBabelDefault = babelDefault as any;
 
-export { exportedCore as core, exportedWebpack as webpack, exportedBabelDefault as babelDefault };
+export { exportedCore as core, exportedWebpack as webpack };
