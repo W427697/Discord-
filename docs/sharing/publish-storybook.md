@@ -2,6 +2,8 @@
 title: 'Publish Storybook'
 ---
 
+<YouTubeCallout id="zhrboql8UuU" title="How to Test UI AUTOMATICALLY — Storybook and Chromatic" />
+
 Teams publish Storybook online to review and collaborate on works in progress. That allows developers, designers, PMs, and other stakeholders to check if the UI looks right without touching code or requiring a local dev environment.
 
 <video autoPlay muted playsInline loop>
@@ -149,7 +151,7 @@ Storybook can communicate with services that host built Storybooks online. This 
 This level of service serves published Storybooks and makes the following available:
 
 - Versioned endpoints, URLs that resolve to different published Storybooks depending on a `version=x.y.z` query parameter (where `x.y.z` is the released version of the package).
-- Support for `/stories.json`
+- Support for `/index.json` (formerly `/stories.json`) endpoint, which returns a list of stories and their metadata.
 - Support for `/metadata.json` and the `releases` field.
 
 Example: [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)
@@ -164,7 +166,7 @@ Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3
 
 ## Search engine optimization (SEO)
 
-If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
+If your Storybook is publicly viewable, you may wish to configure how it is represented in search engine result pages.
 
 ### Description
 

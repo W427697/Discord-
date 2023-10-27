@@ -17,7 +17,7 @@ import type {
   StorybookConfig,
 } from '@storybook/types';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -25,6 +25,7 @@ import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
+  TELEMETRY_ERROR,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
@@ -60,15 +61,16 @@ export const favicon = async (
     const lists = await Promise.all(
       statics.map(async (dir) => {
         const results = [];
-        const relativeDir = staticDirsValue
-          ? getDirectoryFromWorkingDir({
-              configDir: options.configDir,
-              workingDir: process.cwd(),
-              directory: dir,
-            })
-          : dir;
+        const normalizedDir =
+          staticDirsValue && !isAbsolute(dir)
+            ? getDirectoryFromWorkingDir({
+                configDir: options.configDir,
+                workingDir: process.cwd(),
+                directory: dir,
+              })
+            : dir;
 
-        const { staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+        const { staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
         if (targetEndpoint === '/') {
           const url = 'favicon.svg';
@@ -195,8 +197,8 @@ export const features = async (
 });
 
 export const csfIndexer: Indexer = {
-  test: /\.stories\.(m?js|ts)x?$/,
-  index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
+  test: /(stories|story)\.(m?js|ts)x?$/,
+  createIndex: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -328,6 +330,18 @@ export const experimental_serverChannel = async (
       }
     }
   );
+
+  channel.on(TELEMETRY_ERROR, async (error) => {
+    const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
+
+    if (isTelemetryEnabled) {
+      await sendTelemetryError(error, 'browser', {
+        cliOptions: options,
+        presetOptions: { ...options, corePresets: [], overridePresets: [] },
+        skipPrompt: true,
+      });
+    }
+  });
 
   return channel;
 };

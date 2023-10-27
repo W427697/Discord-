@@ -2,6 +2,8 @@
 title: 'Install Storybook'
 ---
 
+<YouTubeCallout id="CtfU1UnizHU" title="New Storybook" />
+
 Use the Storybook CLI to install it in a single command. Run this inside your _existing project’s_ root directory:
 
 <!-- prettier-ignore-start -->
@@ -9,6 +11,7 @@ Use the Storybook CLI to install it in a single command. Run this inside your _e
 <CodeSnippets
   paths={[
    'common/init-command.npx.js.mdx',
+   'common/init-command.yarn.js.mdx',
    'common/init-command.pnpm.js.mdx',
   ]}
 />

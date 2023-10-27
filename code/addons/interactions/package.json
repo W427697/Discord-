@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.2.2-alpha.0",
+  "version": "7.6.0-alpha.2",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -65,7 +65,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -90,7 +91,7 @@
     "@devtools-ds/object-inspector": "^1.1.2",
     "@storybook/jest": "next",
     "@storybook/testing-library": "next",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "formik": "^2.2.9",
     "typescript": "~4.9.3"
   },
