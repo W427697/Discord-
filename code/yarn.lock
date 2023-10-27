@@ -7323,7 +7323,7 @@ __metadata:
     fs-extra: "npm:^11.1.0"
     image-size: "npm:^1.0.0"
     loader-utils: "npm:^3.2.0"
-    next: "npm:14.0.0"
+    next: "npm:^14.0.0"
     node-polyfill-webpack-plugin: "npm:^2.0.1"
     pnp-webpack-plugin: "npm:^1.7.0"
     postcss: "npm:^8.4.21"
@@ -7339,7 +7339,7 @@ __metadata:
     typescript: "npm:^4.9.3"
     webpack: "npm:^5.65.0"
   peerDependencies:
-    "@next/font": ^13.0.0
+    "@next/font": ^13.0.0|| ^14.0.0
     next: ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -23937,7 +23937,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:14.0.0":
+"next@npm:^14.0.0":
   version: 14.0.0
   resolution: "next@npm:14.0.0"
   dependencies:
