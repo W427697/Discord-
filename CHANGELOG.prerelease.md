@@ -1,3 +1,23 @@
+## 7.6.0-alpha.2
+
+- Actions: Fix missing crypto module crashing React Native - [#24546](https://github.com/storybookjs/storybook/pull/24546), thanks [@dannyhw](https://github.com/dannyhw)!
+- Core: Fix post message channel location.search access for React Native - [#24545](https://github.com/storybookjs/storybook/pull/24545), thanks [@dannyhw](https://github.com/dannyhw)!
+- ManagerBuilder: Fix `"type": "commonjs"` compatibility - [#24534](https://github.com/storybookjs/storybook/pull/24534), thanks [@ndelangen](https://github.com/ndelangen)!
+- React: Upgrade `react-docgen` to v7 - [#24530](https://github.com/storybookjs/storybook/pull/24530), thanks [@shilman](https://github.com/shilman)!
+
+## 7.6.0-alpha.1
+
+- Angular: Add source-map option to builder - [#24466](https://github.com/storybookjs/storybook/pull/24466), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Angular: update wrong type for webpackStatsJson in start-storybook schema.json - [#24494](https://github.com/storybookjs/storybook/pull/24494), thanks [@LucaVazz](https://github.com/LucaVazz)!
+- CLI: Add @storybook/addon-designs to non-core list - [#24507](https://github.com/storybookjs/storybook/pull/24507), thanks [@yannbf](https://github.com/yannbf)!
+- Doc Blocks: Add support for `of` prop to `Primary` block - [#23849](https://github.com/storybookjs/storybook/pull/23849), thanks [@Wilson2k](https://github.com/Wilson2k)!
+- Doc Blocks: Remove `defaultProps` in `Stories` block - [#24506](https://github.com/storybookjs/storybook/pull/24506), thanks [@WouterK12](https://github.com/WouterK12)!
+- Themes: Run postinstall in shell for windows - [#24389](https://github.com/storybookjs/storybook/pull/24389), thanks [@Integrayshaun](https://github.com/Integrayshaun)!
+
+## 7.6.0-alpha.0
+
+Empty release identical to `7.5.0`.
+
 ## 7.5.0-alpha.7
 
 - Angular: Allow loading standalone directives - [#24448](https://github.com/storybookjs/storybook/pull/24448), thanks [@osnoser1](https://github.com/osnoser1)!
@@ -122,7 +142,7 @@
 - Publish: Don't distribute src files or unnecessary template files - [#23853](https://github.com/storybookjs/storybook/pull/23853), thanks [@shilman](https://github.com/shilman)!
 - UI: Add an experimental API for adding sidebar filter functions at runtime - [#23722](https://github.com/storybookjs/storybook/pull/23722), thanks [@ndelangen](https://github.com/ndelangen)!
 - UI: Removal of experimental components - [#23907](https://github.com/storybookjs/storybook/pull/23907), thanks [@ndelangen](https://github.com/ndelangen)!
-- Vue3: Add support for  Global Apps install - [#23772](https://github.com/storybookjs/storybook/pull/23772), thanks [@chakAs3](https://github.com/chakAs3)!
+- Vue3: Add support for Global Apps install - [#23772](https://github.com/storybookjs/storybook/pull/23772), thanks [@chakAs3](https://github.com/chakAs3)!
 - Vue3: Use slot value directly if it's a string in source decorator - [#23784](https://github.com/storybookjs/storybook/pull/23784), thanks [@nasvillanueva](https://github.com/nasvillanueva)!
 
 ## 7.4.0-alpha.0

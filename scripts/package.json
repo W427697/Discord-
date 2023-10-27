@@ -92,6 +92,7 @@
     "@types/express": "^4.17.11",
     "@types/fs-extra": "^11.0.1",
     "@types/http-server": "^0.12.1",
+    "@types/jest": "^29.5.5",
     "@types/lodash": "^4",
     "@types/node": "^18.0.0",
     "@types/node-fetch": "^2.5.7",
@@ -201,7 +202,7 @@
     "verdaccio": "^5.19.1",
     "verdaccio-auth-memory": "^10.2.0"
   },
-  "packageManager": "yarn@3.3.0",
+  "packageManager": "yarn@4.0.0",
   "engines": {
     "node": ">=18.0.0"
   }
