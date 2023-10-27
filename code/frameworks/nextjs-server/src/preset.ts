@@ -97,7 +97,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
     ...config,
     builder: {
       name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
-      options: typeof framework === 'string' ? {} : framework.options.builder || {},
+      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
     },
     renderer: wrapForPnP('@storybook/server'),
   };
