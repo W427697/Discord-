@@ -4,9 +4,9 @@ import type {
 } from '@storybook/preset-vue3-webpack';
 import type {
   StorybookConfigWebpack,
-  BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
+import type { BuilderOptions } from '@storybook/core-webpack';
 
 type FrameworkName = '@storybook/vue3-webpack5';
 type BuilderName = '@storybook/builder-webpack5';

@@ -124,7 +124,7 @@
     "@types/babel__preset-env": "^7",
     "next": "^13.5.4",
     "typescript": "^4.9.3",
-    "webpack": "^5.89.0"
+    "webpack": "^5.88.2"
   },
   "peerDependencies": {
     "@next/font": "^13.0.0|| ^14.0.0",

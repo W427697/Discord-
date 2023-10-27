@@ -3,10 +3,10 @@ import type {
   TypescriptOptions as TypescriptOptionsWebComponents,
 } from '@storybook/preset-web-components-webpack';
 import type {
-  BuilderOptions,
   StorybookConfigWebpack,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
+import type { BuilderOptions } from '@storybook/core-webpack';
 
 type FrameworkName = '@storybook/web-components-webpack5';
 type BuilderName = '@storybook/builder-webpack5';

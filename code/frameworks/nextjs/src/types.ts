@@ -5,9 +5,9 @@ import type {
 } from '@storybook/preset-react-webpack';
 import type {
   StorybookConfigWebpack,
-  BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
+import type { BuilderOptions } from '@storybook/core-webpack';
 
 type FrameworkName = '@storybook/nextjs';
 type BuilderName = '@storybook/builder-webpack5';

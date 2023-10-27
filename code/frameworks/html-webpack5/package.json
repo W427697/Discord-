@@ -49,6 +49,7 @@
   "dependencies": {
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
+    "@storybook/core-webpack": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/html": "workspace:*",
     "@storybook/preset-html-webpack": "workspace:*",

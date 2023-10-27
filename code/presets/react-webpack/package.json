@@ -75,7 +75,7 @@
     "fs-extra": "^11.1.0",
     "react-refresh": "^0.14.0",
     "semver": "^7.3.7",
-    "webpack": "^5.89.0"
+    "webpack": "^5.88.2"
   },
   "devDependencies": {
     "@types/react-refresh": "^0",
