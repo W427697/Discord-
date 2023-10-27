@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { resolve } from 'path';
 import type { Configuration, RuleSetCondition, RuleSetRule } from 'webpack';
 import semver from 'semver';
@@ -6,6 +7,8 @@ import type { PluginOptions } from '../types';
 type RuleSetConditions = RuleSetCondition[];
 
 const isRegExp = (value: RegExp | unknown): value is RegExp => value instanceof RegExp;
+
+const isString = (value: string | unknown): value is string => typeof value === 'string';
 
 // This handles arrays in Webpack rule tests.
 const testMatch = (rule: RuleSetRule, string: string): boolean => {
@@ -83,6 +86,31 @@ export const processCraConfig = (
                 ...oneOfRule,
                 include: isStorybook530 ? undefined : [configDir],
                 exclude: [oneOfRule.exclude as RegExp, /@storybook/],
+              };
+            }
+
+            // Used for the next two rules modifications.
+            const isBabelLoader =
+              isString(oneOfRule.loader) && /[/\\]babel-loader[/\\]/.test(oneOfRule.loader);
+
+            // Target `babel-loader` and add user's Babel config.
+            if (isBabelLoader && isRegExp(oneOfRule.test) && oneOfRule.test.test('.jsx')) {
+              const { include: _include, options: ruleOptions } = oneOfRule;
+
+              return {
+                ...oneOfRule,
+                include: [_include as string, configDir].filter(Boolean),
+                options: {
+                  ...(ruleOptions as Record<string, unknown>),
+                },
+              };
+            }
+
+            // Target `babel-loader` that processes `node_modules`, and add Storybook config dir.
+            if (isBabelLoader && isRegExp(oneOfRule.test) && oneOfRule.test.test('.js')) {
+              return {
+                ...oneOfRule,
+                include: [configDir],
               };
             }
 

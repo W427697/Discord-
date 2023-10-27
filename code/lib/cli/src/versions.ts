@@ -19,6 +19,8 @@ export default {
   '@storybook/addon-storysource': '7.6.0-alpha.3',
   '@storybook/addon-toolbars': '7.6.0-alpha.3',
   '@storybook/addon-viewport': '7.6.0-alpha.3',
+  '@storybook/addon-webpack5-compiler-babel7': '7.6.0-alpha.3',
+  '@storybook/addon-webpack5-compiler-swc': '7.6.0-alpha.3',
   '@storybook/addons': '7.6.0-alpha.3',
   '@storybook/angular': '7.6.0-alpha.3',
   '@storybook/api': '7.6.0-alpha.3',

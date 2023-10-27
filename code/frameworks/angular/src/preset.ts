@@ -33,7 +33,6 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
     builder: {
       name: getAbsolutePath('@storybook/builder-webpack5'),
       options: {
-        useSWC: false,
         ...(typeof framework === 'string' ? {} : framework.options.builder || {}),
       },
     },

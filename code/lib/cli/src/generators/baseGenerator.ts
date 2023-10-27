@@ -4,7 +4,7 @@ import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { SupportedLanguage, externalFrameworks } from '../project_types';
+import { CoreBuilder, ProjectType, SupportedLanguage, externalFrameworks } from '../project_types';
 import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
@@ -245,6 +245,19 @@ export async function baseGenerator(
     '@storybook/blocks',
     ...extraAddonsToInstall,
   ].filter(Boolean);
+
+  const shouldUseSWCCompiler =
+    builder === CoreBuilder.Webpack5 &&
+    (projectType === ProjectType.HTML ||
+      projectType === ProjectType.REACT ||
+      projectType === ProjectType.REACT_PROJECT ||
+      projectType === ProjectType.PREACT);
+
+  if (shouldUseSWCCompiler) {
+    // The Default compiler for Webpack5 in Storybook 8 is SWC
+    addons.push('@storybook/addon-webpack5-compiler-swc');
+    addonPackages.push('@storybook/addon-webpack5-compiler-swc');
+  }
 
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');

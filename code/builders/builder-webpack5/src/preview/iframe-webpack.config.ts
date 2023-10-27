@@ -20,7 +20,6 @@ import { dedent } from 'ts-dedent';
 import type { BuilderOptions } from '@storybook/core-webpack';
 import { getVirtualModuleMapping } from '@storybook/core-webpack';
 import type { TypescriptOptions } from '../types';
-import { createSWCLoader } from './loaders';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
@@ -83,7 +82,6 @@ export default async (
     docsOptions,
     entries,
     nonNormalizedStories,
-    swc,
     modulesCount = 1000,
   ] = await Promise.all([
     presets.apply<CoreConfig>('core'),
@@ -96,7 +94,6 @@ export default async (
     presets.apply<DocsOptions>('docs'),
     presets.apply<string[]>('entries', []),
     presets.apply('stories', []),
-    presets.apply('swc', {}),
     options.cache?.get('modulesCount').catch(() => {}),
   ]);
 
@@ -106,8 +103,6 @@ export default async (
   });
 
   const builderOptions = await getBuilderOptions<BuilderOptions>(options);
-
-  const useSWCLoader = builderOptions.useSWC ?? true;
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipCompiler;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
@@ -207,7 +202,7 @@ export default async (
       new ProvidePlugin({ process: require.resolve('process/browser.js') }),
       isProd ? null : new HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
-      quiet ? null : new ProgressPlugin({ modulesCount }),
+      quiet ? null : new ProgressPlugin({ modulesCount: modulesCount as number | undefined }),
       shouldCheckTs ? new ForkTsCheckerWebpackPlugin(tsCheckOptions) : null,
     ].filter(Boolean),
     module: {
@@ -222,9 +217,6 @@ export default async (
             fullySpecified: false,
           },
         },
-        useSWCLoader
-          ? createSWCLoader(Object.keys(virtualModuleMapping), swc, typescriptOptions)
-          : {},
         {
           test: /\.md$/,
           type: 'asset/source',
@@ -260,27 +252,16 @@ export default async (
       ...(isProd
         ? {
             minimize: true,
-            minimizer: useSWCLoader
-              ? [
-                  new TerserWebpackPlugin({
-                    minify: TerserWebpackPlugin.swcMinify,
-                    terserOptions: {
-                      sourceMap: true,
-                      mangle: false,
-                      keep_fnames: true,
-                    },
-                  }),
-                ]
-              : [
-                  new TerserWebpackPlugin({
-                    parallel: true,
-                    terserOptions: {
-                      sourceMap: true,
-                      mangle: false,
-                      keep_fnames: true,
-                    },
-                  }),
-                ],
+            minimizer: [
+              new TerserWebpackPlugin({
+                parallel: true,
+                terserOptions: {
+                  sourceMap: true,
+                  mangle: false,
+                  keep_fnames: true,
+                },
+              }),
+            ],
           }
         : {}),
     },

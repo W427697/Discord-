@@ -71,6 +71,7 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<BabelOptions>;
   apply(extension: 'swc', config?: {}, args?: any): Promise<SWCOptions>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
@@ -337,11 +338,13 @@ export interface StorybookConfig {
 
   /**
    * Modify or return babel7 config.
+   * Works only with `@storybook/addon-webpack5-compiler-babel`
    */
   babel?: (config: BabelOptions, options: Options) => BabelOptions | Promise<BabelOptions>;
 
   /**
    * Modify or return swc config.
+   * Works only with `@storybook/addon-webpack5-compiler-swc`
    */
   swc?: (config: SWCOptions, options: Options) => SWCOptions | Promise<SWCOptions>;
 

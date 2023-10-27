@@ -1,10 +1,10 @@
 import {
+  BuilderOptions,
   StorybookConfig as StorybookConfigBase,
   TypescriptOptions as TypescriptOptionsReact,
 } from '@storybook/core-webpack';
 import {
   StorybookConfigWebpack,
-  BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
 
