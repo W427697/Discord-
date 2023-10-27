@@ -2,6 +2,7 @@
 
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
   - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
+  - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
   - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
   - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
@@ -83,7 +84,6 @@
       - [Source block](#source-block)
       - [Canvas block](#canvas-block)
       - [ArgsTable block](#argstable-block)
-      - [Subtitle block and `parameters.componentSubtitle`](#subtitle-block-and-parameterscomponentsubtitle)
     - [Configuring Autodocs](#configuring-autodocs)
     - [MDX2 upgrade](#mdx2-upgrade)
     - [Legacy MDX1 support](#legacy-mdx1-support)
@@ -313,6 +313,12 @@
 ##### Primary doc block accepts of prop
 
 The `Primary` doc block now also accepts an `of` prop as described in the [Doc Blocks](#doc-blocks) section. It still accepts being passed `name` or no props at all.
+
+##### Subtitle block and `parameters.componentSubtitle`
+
+The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
+
+`parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
 
 ## From version 7.4.0 to 7.5.0
 
@@ -1462,7 +1468,6 @@ We've renamed many of the parameters that control docs rendering for consistency
 - `docs.inlineStories` has been renamed `docs.story.inline`
 - `docs.iframeHeight` has been renamed `docs.story.iframeHeight`
 - `notes` and `info` are no longer supported, instead use `docs.description.story | component`
-- `componentSubtitle` is no longer supported, instead use `docs.subtitle`
 
 #### MDX docs files
 
@@ -1623,12 +1628,6 @@ The following props are not supported in the new blocks:
 - `story="^"` to reference the primary story (just omit `of` in that case, for `Controls`).
 - `story="."` to reference the current story (this no longer makes sense in Docs 2).
 - `story="name"` to reference a story (use `of={}`).
-- 
-##### Subtitle block and `parameters.componentSubtitle`
-
-The `Subtitle` block now accepts an `of` prop, which can be a reference to a CSF file or a default export (meta).
-
-`parameters.componentSubtitle` has been deprecated to be consistent with other parameters related to autodocs, instead use `parameters.docs.subtitle`.
 
 #### Configuring Autodocs
 
