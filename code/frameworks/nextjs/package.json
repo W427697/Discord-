@@ -97,6 +97,7 @@
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
@@ -114,7 +115,7 @@
     "styled-jsx": "5.1.1",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths": "^4.0.0",
-    "tsconfig-paths-webpack-plugin": "^4.0.1"
+    "tsconfig-paths-webpack-plugin": "^4.1.0"
   },
   "devDependencies": {
     "@babel/types": "^7.23.0",

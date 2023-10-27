@@ -4,9 +4,9 @@ import type {
 } from '@storybook/preset-server-webpack';
 import type {
   StorybookConfigWebpack,
-  BuilderOptions,
   TypescriptOptions as TypescriptOptionsBuilder,
 } from '@storybook/builder-webpack5';
+import type { BuilderOptions } from '@storybook/core-webpack';
 
 type FrameworkName = '@storybook/server-webpack5';
 type BuilderName = '@storybook/builder-webpack5';
