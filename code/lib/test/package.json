@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/instrumenter",
-  "version": "7.6.0-alpha.2",
+  "name": "@storybook/test",
+  "version": "7.4.0-alpha.0",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/instrumenter",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/test",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/instrumenter"
+    "directory": "code/lib/test"
   },
   "funding": {
     "type": "opencollective",
@@ -36,23 +36,29 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!src/**/*"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/global": "^5.0.0",
+    "@storybook/instrumenter": "workspace:*",
     "@storybook/preview-api": "workspace:*",
-    "@vitest/utils": "^0.34.6",
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/jest-dom": "^6.1.3",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/chai": "^4",
+    "@vitest/expect": "^0.34.2",
+    "@vitest/spy": "^0.34.1",
+    "chai": "^4.3.7",
     "util": "^0.12.4"
   },
   "devDependencies": {
+    "ts-dedent": "^2.2.0",
+    "type-fest": "~2.19",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
@@ -61,6 +67,12 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
+    ],
+    "noExternal": [
+      "@testing-library/dom",
+      "@testing-library/jest-dom",
+      "@testing-library/user-event",
+      "chai"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
