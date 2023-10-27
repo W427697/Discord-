@@ -39,7 +39,6 @@ const addSpies = (id: string, val: any, key?: string): any => {
     if (Array.isArray(val)) {
       return val.map((item, index) => addSpies(id, item, `${key}[${index}]`));
     }
-    // eslint-disable-next-line no-underscore-dangle
     if (typeof val === 'function' && val.isAction && !val._isMockFunction) {
       Object.defineProperty(val, 'name', { value: key, writable: false });
       Object.defineProperty(val, '__storyId__', { value: id, writable: false });
