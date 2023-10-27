@@ -33,7 +33,9 @@ export const configureSWCLoader = async (
       include: [getProjectRoot()],
       exclude: [/(node_modules)/, ...Object.keys(virtualModules)],
       use: {
-        loader: require.resolve('next/dist/build/webpack/loaders/next-swc-loader.js'),
+        // we use our own patch because we need to remove tracing from the original code
+        // which is not possible otherwise
+        loader: require.resolve('./swc/next-swc-loader-patch.js'),
         options: {
           isServer: false,
           rootDir: dir,
