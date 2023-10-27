@@ -6,18 +6,17 @@ export default {
   parameters: {
     chromatic: { disable: true },
   },
+  args: {
+    content: '<div><code id="content">Waiting for hrefTo to resolve...</code></div>',
+  },
 };
 
 export const Default = {
-  render: () => {
-    hrefTo('addons-links-hrefto', 'target').then((href) => {
-      const root = document.querySelector('#storybook-root');
-      if (!root) {
-        return;
-      }
-      const node = document.createElement('code');
-      node.innerHTML = href;
-      root.appendChild(node);
-    });
+  play: async () => {
+    const href = await hrefTo('addons-links-hrefto', 'target');
+    const content = document.querySelector('#content');
+    if (content) {
+      content.textContent = href;
+    }
   },
 };
