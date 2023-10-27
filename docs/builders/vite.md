@@ -83,6 +83,12 @@ By default, the Vite builder in Storybook searches for the Vite configuration fi
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+💡 If you do not want Storybook to load the Vite configuration file automatically, you can use the `viteConfigPath` option to point to a non-existent file.
+
+</div>
+
 ### TypeScript
 
 If you need, you can also configure Storybook's Vite builder using TypeScript. Rename your `.storybook/main.js` to `.storybook/main.ts` and adjust it as follows:
@@ -115,6 +121,20 @@ Currently, [automatic argType inference](../api/argtypes.md#automatic-argtype-in
 <CodeSnippets
   paths={[
     'common/storybook-vite-builder-react-docgen.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Interaction tests not working as expected
+
+If you are migrating from a Webpack-based project, such as [CRA](https://create-react-app.dev/), to Vite, and you have enabled Interaction testing with the [`@storybook/addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions) addon, you may run into a situation where your tests fail to execute notifying you that the `window` object is not defined. To resolve this issue, you can create a `preview-head.html` file in your Storybook configuration directory and include the following:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-vite-builder-jest-mock.html.mdx',
   ]}
 />
 
