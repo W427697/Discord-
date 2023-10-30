@@ -4,7 +4,7 @@ import React from 'react';
 import type { Combo } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
-import NotificationList from '../components/notifications/NotificationList';
+import { NotificationList } from '../components/notifications/NotificationList';
 
 const mapper = ({ state, api }: Combo) => {
   return {
@@ -13,10 +13,8 @@ const mapper = ({ state, api }: Combo) => {
   };
 };
 
-const NotificationConnect: FC<any> = (props) => (
+export const Notifications: FC = (props) => (
   <Consumer filter={mapper}>
     {(fromState) => <NotificationList {...props} {...fromState} />}
   </Consumer>
 );
-
-export default NotificationConnect;

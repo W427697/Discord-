@@ -1,7 +1,7 @@
 import React from 'react';
 import { LocationProvider } from '@storybook/router';
 
-import NotificationList from './NotificationList';
+import { NotificationList } from './NotificationList';
 import itemMeta, * as itemStories from './NotificationItem.stories.jsx';
 
 export default {
