@@ -1,12 +1,10 @@
 import { dedent } from 'ts-dedent';
-import { global } from '@storybook/global';
 import {
   CURRENT_STORY_WAS_SET,
   DOCS_PREPARED,
   PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
   SET_CURRENT_STORY,
-  SET_INDEX,
   STORY_ARGS_UPDATED,
   STORY_CHANGED,
   STORY_ERRORED,
@@ -115,10 +113,10 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
-    return super.initializeWithStoryIndex(storyIndex).then(() => {
-      return this.selectSpecifiedStory();
-    });
+  async initializeWithStoryIndex(storyIndex: StoryIndex): Promise<void> {
+    await super.initializeWithStoryIndex(storyIndex);
+
+    return this.selectSpecifiedStory();
   }
 
   // Use the selection specifier to choose a story, then render it

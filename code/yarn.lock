@@ -6940,7 +6940,6 @@ __metadata:
     qs: ^6.10.0
     react: ^18.2.0
     slash: ^5.0.0
-    synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   languageName: unknown
@@ -28860,13 +28859,6 @@ __metadata:
     rimraf: ^2.2.8
     username-sync: ^1.0.2
   checksum: a009a974789587b820fd9560ee821f9918ca998724a7a43b0b7f5d10094d776a93d934017e54e647d86e0b708971c1fd300712a9e0413c1f45de32382c5ba8b9
-  languageName: node
-  linkType: hard
-
-"synchronous-promise@npm:^2.0.15":
-  version: 2.0.17
-  resolution: "synchronous-promise@npm:2.0.17"
-  checksum: 1babe643d8417789ef6e5a2f3d4b8abcda2de236acd09bbe2c98f6be82c0a2c92ed21a6e4f934845fa8de18b1435a9cba1e8c3d945032e8a532f076224c024b1
   languageName: node
   linkType: hard
 
