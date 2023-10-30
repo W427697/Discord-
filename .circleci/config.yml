@@ -555,11 +555,11 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 23
+          parallelism: 21
           requires:
             - build
       - build-sandboxes:
-          parallelism: 23
+          parallelism: 21
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
