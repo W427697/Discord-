@@ -52,9 +52,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
-    "@babel/types": "^7.22.5",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/types": "^7.23.0",
     "@storybook/csf": "^0.1.0",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/node-logger": "workspace:*",
