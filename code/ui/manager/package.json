@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.6.0-alpha.2",
+  "version": "7.6.0-alpha.3",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -61,6 +61,7 @@
     "@storybook/icons": "^1.2.1",
     "@storybook/manager-api": "workspace:*",
     "@storybook/router": "workspace:*",
+    "@storybook/test": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
     "@testing-library/react": "^11.2.2",
