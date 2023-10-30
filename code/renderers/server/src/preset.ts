@@ -1,6 +1,14 @@
 import fs from 'fs-extra';
 import yaml from 'yaml';
-import type { StorybookConfig, Tag, StoryName, ComponentTitle } from '@storybook/types';
+import type {
+  StorybookConfig,
+  Tag,
+  StoryName,
+  ComponentTitle,
+  LoadedPreset,
+} from '@storybook/types';
+
+import { join } from 'path';
 
 type FileContent = {
   title: ComponentTitle;
@@ -34,3 +42,13 @@ export const experimental_indexers: StorybookConfig['experimental_indexers'] = (
   },
   ...(existingIndexers || []),
 ];
+
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = async (input, options) => {
+  const { presetsList } = options;
+  if (!presetsList) {
+    return input;
+  }
+  const result: string[] = [];
+
+  return result.concat(input).concat([join(__dirname, 'preview.mjs')]);
+};
