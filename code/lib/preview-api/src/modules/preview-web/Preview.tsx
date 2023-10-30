@@ -67,13 +67,6 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   // INITIALIZATION
-
-  // NOTE: the reason that the preview and store's initialization code is written in a promise
-  // style and not `async-await`, and the use of `SynchronousPromise`s is in order to allow
-  // storyshots to immediately call `raw()` on the store without waiting for a later tick.
-  // (Even simple things like `Promise.resolve()` and `await` involve the callback happening
-  // in the next promise "tick").
-  // See the comment in `storyshots-core/src/api/index.ts` for more detail.
   async initialize({
     getStoryIndex,
     importFn,

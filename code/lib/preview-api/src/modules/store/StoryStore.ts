@@ -63,7 +63,7 @@ export class StoryStore<TRenderer extends Renderer> {
 
   initializationPromise: Promise<void>;
 
-  // This *does* get set in the constructor but the semantics of `new SynchronousPromise` trip up TS
+  // This *does* get set in the constructor but the semantics of `new Promise` trip up TS
   resolveInitializationPromise!: () => void;
 
   constructor() {
