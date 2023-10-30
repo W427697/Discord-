@@ -38,13 +38,6 @@ export async function storybookDevServer(options: Options) {
     getServerChannel(server)
   );
 
-  if (features?.storyStoreV7 === false) {
-    deprecate(
-      dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
-      - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
-    );
-  }
-
   let indexError: Error | undefined;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
   const initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =

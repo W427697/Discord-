@@ -69,10 +69,6 @@ jest.mock('@storybook/global', () => ({
         search: '?id=*',
       },
     },
-    FEATURES: {
-      storyStoreV7: true,
-      // xxx
-    },
     fetch: async () => mockFetchResult,
   },
 }));

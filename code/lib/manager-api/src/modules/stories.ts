@@ -814,10 +814,8 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       filters: config?.sidebar?.filters || {},
     },
     init: async () => {
-      if (FEATURES?.storyStoreV7) {
-        provider.channel.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
-        await api.fetchIndex();
-      }
+      provider.channel.on(STORY_INDEX_INVALIDATED, () => api.fetchIndex());
+      await api.fetchIndex();
     },
   };
 };

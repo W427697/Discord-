@@ -61,7 +61,7 @@ export class Preview<TRenderer extends Renderer> {
   previewEntryError?: Error;
 
   constructor(protected channel: Channel = addons.getChannel()) {
-    if (global.FEATURES?.storyStoreV7 && addons.hasServerChannel()) {
+    if (addons.hasServerChannel()) {
       this.serverChannel = addons.getServerChannel();
     }
     this.storyStore = new StoryStore();
@@ -142,15 +142,7 @@ export class Preview<TRenderer extends Renderer> {
 
     this.setInitialGlobals();
 
-    let storyIndexPromise: Promise<StoryIndex>;
-    if (global.FEATURES?.storyStoreV7) {
-      storyIndexPromise = this.getStoryIndexFromServer();
-    } else {
-      if (!this.getStoryIndex) {
-        throw new Error('No `getStoryIndex` passed defined in v6 mode');
-      }
-      storyIndexPromise = SynchronousPromise.resolve().then(this.getStoryIndex);
-    }
+    const storyIndexPromise = this.getStoryIndexFromServer();
 
     return storyIndexPromise
       .then((storyIndex: StoryIndex) => this.initializeWithStoryIndex(storyIndex))
@@ -192,7 +184,7 @@ export class Preview<TRenderer extends Renderer> {
     return this.storyStore.initialize({
       storyIndex,
       importFn: this.importFn,
-      cache: !global.FEATURES?.storyStoreV7,
+      cache: false, // FIXME -- drop this option
     });
   }
 

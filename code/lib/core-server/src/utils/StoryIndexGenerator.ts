@@ -429,11 +429,6 @@ export class StoryIndexGenerator {
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
-      invariant(
-        this.options.storyStoreV7,
-        `You cannot use \`.mdx\` files without using \`storyStoreV7\`.`
-      );
-
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
@@ -613,13 +608,9 @@ export class StoryIndexGenerator {
   async sortStories(entries: StoryIndex['entries']) {
     const sortableStories = Object.values(entries);
 
-    // Skip sorting if we're in v6 mode because we don't have
-    // all the info we need here
-    if (this.options.storyStoreV7) {
-      const storySortParameter = await this.getStorySortParameter();
-      const fileNameOrder = this.storyFileNames();
-      sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
-    }
+    const storySortParameter = await this.getStorySortParameter();
+    const fileNameOrder = this.storyFileNames();
+    sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
 
     return sortableStories.reduce((acc, item) => {
       acc[item.id] = item;

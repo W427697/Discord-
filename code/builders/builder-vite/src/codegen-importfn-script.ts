@@ -31,7 +31,7 @@ async function toImportFn(stories: string[]) {
     const ext = path.extname(file);
     const relativePath = normalizePath(path.relative(process.cwd(), file));
     if (!['.js', '.jsx', '.ts', '.tsx', '.mdx', '.svelte', '.vue'].includes(ext)) {
-      logger.warn(`Cannot process ${ext} file with storyStoreV7: ${relativePath}`);
+      logger.warn(`Cannot process ${ext} file: ${relativePath}`);
     }
 
     return `  '${toImportPath(relativePath)}': async () => import('/@fs/${file}')`;

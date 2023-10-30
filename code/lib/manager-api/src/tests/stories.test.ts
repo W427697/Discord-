@@ -40,7 +40,6 @@ jest.mock('@storybook/global', () => ({
   global: {
     ...globalThis,
     fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
-    FEATURES: { storyStoreV7: true },
     CONFIG_TYPE: 'DEVELOPMENT',
   },
 }));
