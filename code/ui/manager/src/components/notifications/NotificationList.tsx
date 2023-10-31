@@ -34,6 +34,8 @@ const List = styled.div<{ placement?: CSSObject }>({
   position: 'fixed',
   left: 20,
   bottom: 60,
+  maxHeight: 'calc(100vh - 40px)',
+  overflowY: 'scroll',
 
   [MEDIA_DESKTOP_BREAKPOINT]: {
     bottom: 20,
