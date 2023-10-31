@@ -91,18 +91,24 @@ You can also define args at the component level; they will apply to all the comp
 
 ## Global args
 
-You can also define args at the global level; they will apply to every component's stories unless you overwrite them. To do so, export the `args` key in your `preview.js`:
+You can also define args at the global level; they will apply to every component's stories unless you overwrite them. To do so, define the `args` property in the default export of `preview.js`:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/button-story-project-args-theme.js.mdx',
-    'common/button-story-project-args-theme.ts.mdx',
+    'common/args-in-preview.js.mdx',
+    'common/args-in-preview.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+💡 For most uses of global args, [globals](../essentials/toolbars-and-globals.md) are a better tool for defining globally-applied settings, such as a theme. Using globals enables users to change the value with the toolbar menu.
+
+</div>
 
 ## Args composition
 
@@ -206,6 +212,25 @@ The `args` param is always a set of `key: value` pairs delimited with a semicolo
 Similarly, special formats are available for dates and colors. Date objects will be encoded as `!date(value)` with value represented as an ISO date string. Colors are encoded as `!hex(value)`, `!rgba(value)` or `!hsla(value)`. Note that rgb(a) and hsl(a) should not contain spaces or percentage signs in the URL.
 
 Args specified through the URL will extend and override any default values of args set on the story.
+
+<IfRenderer renderer='react'>
+
+## Setting args from within a story
+
+Interactive components often need to be controlled by their containing component or page to respond to events, modify their state and reflect those changes in the UI. For example, when a user toggles a switch component, the switch should be checked, and the arg shown in Storybook should reflect the change. To enable this, you can use the `useArgs` API exported by `@storybook/preview-api`:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[    
+    'react/page-story-args-within-story.js.mdx',
+    'react/page-story-args-within-story.ts.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+</IfRenderer>
 
 ## Mapping to complex arg values
 

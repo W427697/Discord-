@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { normalizePath, resolveConfig } from 'vite';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
 import type { Options } from '@storybook/types';
 import { listStories } from './list-stories';
@@ -14,8 +13,6 @@ const INCLUDE_CANDIDATES = [
   '@storybook/addon-docs',
   '@storybook/addon-essentials/docs/mdx-react-shim',
   '@storybook/channels',
-  '@storybook/channel-postmessage',
-  '@storybook/channel-websocket',
   '@storybook/client-api',
   '@storybook/client-logger',
   '@storybook/core/client',
@@ -130,6 +127,7 @@ const asyncFilter = async (arr: string[], predicate: (val: string) => Promise<bo
 
 export async function getOptimizeDeps(config: ViteInlineConfig, options: Options) {
   const { root = process.cwd() } = config;
+  const { normalizePath, resolveConfig } = await import('vite');
   const absoluteStories = await listStories(options);
   const stories = absoluteStories.map((storyPath) => normalizePath(path.relative(root, storyPath)));
   // TODO: check if resolveConfig takes a lot of time, possible optimizations here

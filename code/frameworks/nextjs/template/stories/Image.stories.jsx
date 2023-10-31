@@ -69,25 +69,6 @@ export const Lazy = {
       </>
     ),
   ],
-  loaders: [
-    async () => {
-      // make sure we start at the top to test the scrolling into view functionality every time the story renders
-      // eslint-disable-next-line no-undef
-      window.scrollTo({ top: 0 });
-      await new Promise((res) => {
-        setTimeout(res, 16);
-      });
-      return {};
-    },
-  ],
-  play: async ({ canvasElement, step }) => {
-    await step('scroll image into view', () => {
-      canvasElement.scrollIntoView(false);
-    });
-    await step('wait for images to load', async () => {
-      await waitFor(waitForImagesToLoad);
-    });
-  },
 };
 
 export const Eager = {
@@ -100,19 +81,3 @@ export const Eager = {
     },
   },
 };
-
-async function waitForImagesToLoad() {
-  // eslint-disable-next-line no-undef
-  const images = Array.from(document.getElementsByTagName('img'));
-
-  await Promise.all(
-    images.map((image) => {
-      if (image.complete) {
-        return Promise.resolve();
-      }
-      return new Promise((resolve) => {
-        image.addEventListener('load', resolve);
-      });
-    })
-  );
-}

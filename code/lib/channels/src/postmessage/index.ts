@@ -72,6 +72,7 @@ export class PostMessageTransport implements ChannelTransport {
       allowFunction,
       allowSymbol,
       allowDate,
+      allowError,
       allowUndefined,
       allowClass,
       maxDepth,
@@ -85,6 +86,7 @@ export class PostMessageTransport implements ChannelTransport {
         allowFunction,
         allowSymbol,
         allowDate,
+        allowError,
         allowUndefined,
         allowClass,
         maxDepth,
@@ -101,7 +103,7 @@ export class PostMessageTransport implements ChannelTransport {
 
     const frames = this.getFrames(target);
 
-    const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const query = qs.parse(location?.search || '', { ignoreQueryPrefix: true });
 
     const data = stringify(
       {

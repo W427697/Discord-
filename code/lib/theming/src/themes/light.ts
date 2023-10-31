@@ -11,6 +11,7 @@ const theme: ThemeVars = {
   // UI
   appBg: background.app,
   appContentBg: color.lightest,
+  appPreviewBg: color.lightest,
   appBorderColor: color.border,
   appBorderRadius: 4,
 
@@ -25,6 +26,7 @@ const theme: ThemeVars = {
 
   // Toolbar default and active colors
   barTextColor: color.mediumdark,
+  barHoverColor: color.secondary,
   barSelectedColor: color.secondary,
   barBg: color.lightest,
 

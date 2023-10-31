@@ -4,7 +4,7 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['normal', 'merged', 'daily', 'skipped']
+    enum: ['normal', 'merged', 'daily', 'skipped', 'docs']
     default: 'skipped'
 
 executors:
@@ -17,7 +17,7 @@ executors:
         default: 'small'
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:16.20.0
+      - image: cimg/node:18.18.0
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -30,7 +30,7 @@ executors:
         default: 'small'
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:16.20.0-browsers
+      - image: cimg/node:18.18.0-browsers
         environment:
           NODE_OPTIONS: --max_old_space_size=6144
     resource_class: <<parameters.class>>
@@ -84,7 +84,7 @@ commands:
 jobs:
   pretty-docs:
     executor:
-      class: small
+      class: medium
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -92,7 +92,7 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - prettydocs-yarn-2-cache-v7--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Install
           command: |
@@ -100,7 +100,7 @@ jobs:
             yarn install
       - save_cache:
           name: Save Yarn cache
-          key: prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          key: prettydocs-yarn-2-cache-v7--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - run:
@@ -183,7 +183,7 @@ jobs:
             git diff --exit-code
       - report-workflow-on-failure
       - cancel-workflow-on-failure
-  script-unit-tests:
+  script-checks:
     executor: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -191,7 +191,17 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Test
+          name: Check parallelism count
+          command: |
+            cd scripts
+            yarn get-template --check
+      - run:
+          name: Type check
+          command: |
+            cd scripts
+            yarn check
+      - run:
+          name: Run tests
           command: |
             cd scripts
             yarn test --coverage --ci
@@ -459,6 +469,11 @@ jobs:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
 
 workflows:
+  docs:
+    when:
+      equal: [docs, << pipeline.parameters.workflow >>]
+    jobs:
+      - pretty-docs
   normal:
     when:
       equal: [normal, << pipeline.parameters.workflow >>]
@@ -474,7 +489,7 @@ workflows:
       - unit-tests:
           requires:
             - build
-      - script-unit-tests:
+      - script-checks:
           requires:
             - build
       - chromatic-internal-storybooks:
@@ -484,11 +499,11 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 11
+          parallelism: 14
           requires:
             - build
       - build-sandboxes:
-          parallelism: 11
+          parallelism: 14
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
@@ -508,7 +523,7 @@ workflows:
           requires:
             - build-sandboxes
       - bench:
-          parallelism: 2
+          parallelism: 5
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -530,7 +545,7 @@ workflows:
       - unit-tests:
           requires:
             - build
-      - script-unit-tests:
+      - script-checks:
           requires:
             - build
       - chromatic-internal-storybooks:
@@ -540,11 +555,11 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 20
+          parallelism: 23
           requires:
             - build
       - build-sandboxes:
-          parallelism: 20
+          parallelism: 23
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
@@ -564,7 +579,7 @@ workflows:
           requires:
             - build-sandboxes
       - bench:
-          parallelism: 2
+          parallelism: 5
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -587,29 +602,29 @@ workflows:
       - unit-tests:
           requires:
             - build
-      - script-unit-tests:
+      - script-checks:
           requires:
             - build
       - chromatic-internal-storybooks:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 34
+          parallelism: 38
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 34
+          parallelism: 38
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 32
+          parallelism: 33
           requires:
             - build-sandboxes
       - e2e-production:
-          parallelism: 32
+          parallelism: 33
           requires:
             - build-sandboxes
       - e2e-dev:
@@ -617,7 +632,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-production:
-          parallelism: 32
+          parallelism: 33
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -625,3 +640,4 @@ workflows:
       #     parallelism: 4
       #     requires:
       #       - create-sandboxes
+
