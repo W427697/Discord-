@@ -27,7 +27,7 @@
       "import": "./dist/index.mjs"
     },
     "./preset": "./preset.js",
-    "./dist/preview.mjs": "./dist/preview.mjs",
+    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -70,7 +70,7 @@
     "entries": [
       "./src/index.ts",
       "./src/preset.ts",
-      "./src/preview.ts"
+      "./src/entry-preview.ts"
     ],
     "platform": "browser"
   },

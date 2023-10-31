@@ -7,11 +7,12 @@ export const addons: StorybookConfig['addons'] = [
 ];
 
 export const previewAnnotations: StorybookConfig['previewAnnotations'] = async (input, options) => {
-  const docsEnabled = Object.keys(await options.presets.apply('docs', {}, options)).length > 0;
+  const docsConfig = await options.presets.apply('docs', {}, options);
+  const docsEnabled = Object.keys(docsConfig).length > 0;
   const result: string[] = [];
 
   return result
     .concat(input)
-    .concat([join(__dirname, 'preview.mjs')])
-    .concat(docsEnabled ? [join(__dirname, 'preview-docs.mjs')] : []);
+    .concat([join(__dirname, 'entry-preview.mjs')])
+    .concat(docsEnabled ? [join(__dirname, 'entry-docs.mjs')] : []);
 };

@@ -44,5 +44,5 @@ export const previewAnnotations: StorybookConfig['previewAnnotations'] = async (
   }
   const result: string[] = [];
 
-  return result.concat(input).concat([join(__dirname, 'preview.mjs')]);
+  return result.concat(input).concat([join(__dirname, 'entry-preview.mjs')]);
 };
