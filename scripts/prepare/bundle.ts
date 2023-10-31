@@ -63,6 +63,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...extraExternals,
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
+    ...GLOBALIZED_PACKAGES,
   ];
 
   const allEntries = entries.map((e: string) => slash(join(cwd, e)));
@@ -156,6 +157,21 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 };
 
 /* UTILS */
+
+// keep in sync with code/lib/manager-api/src/index.ts
+const GLOBALIZED_PACKAGES = [
+  'react',
+  'react-dom',
+  '@storybook/components',
+  '@storybook/channels',
+  '@storybook/core-events',
+  '@storybook/router',
+  '@storybook/theming',
+  '@storybook/api',
+  '@storybook/manager-api',
+  '@storybook/addons',
+  '@storybook/client-logger',
+];
 
 async function getDTSConfigs({
   formats,

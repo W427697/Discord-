@@ -215,6 +215,7 @@ export default {
   '@storybook/api': [
     'ActiveTabs',
     'Consumer',
+    'GLOBALIZED_PACKAGES',
     'ManagerContext',
     'Provider',
     'addons',
@@ -247,6 +248,7 @@ export default {
   '@storybook/manager-api': [
     'ActiveTabs',
     'Consumer',
+    'GLOBALIZED_PACKAGES',
     'ManagerContext',
     'Provider',
     'addons',

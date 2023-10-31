@@ -506,5 +506,7 @@ export function useArgTypes(): ArgTypes {
 
 export { addons } from './lib/addons';
 
+export { GLOBALIZED_PACKAGES } from './globals';
+
 /* deprecated */
 export { mockChannel, types, type Addon, type AddonStore } from './lib/addons';
