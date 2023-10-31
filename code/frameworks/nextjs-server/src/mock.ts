@@ -29,7 +29,7 @@ export const Mock = {
   module(original: Exports, mocks: Exports) {
     const result = { ...original };
     Object.keys(mocks).forEach((key) => {
-      result.key = Mock.fn(original[key], mocks[key]);
+      result[key] = Mock.fn(original[key], mocks[key]);
     });
     return result;
   },
