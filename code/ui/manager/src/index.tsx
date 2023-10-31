@@ -68,7 +68,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
 
             return (
               <ThemeProvider key="theme.provider" theme={ensureTheme(state.theme)}>
-                <LayoutProvider>
+                <LayoutProvider managerState={state}>
                   <App
                     key="app"
                     pages={pages}

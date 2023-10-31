@@ -11,6 +11,7 @@ import Panel from './container/Panel';
 
 import { Layout } from './components/layout/Layout';
 import { useLayout } from './components/layout/LayoutProvider';
+import { sbTheme } from './theme';
 
 type Props = {
   managerLayoutState: ComponentProps<typeof Layout>['managerLayoutState'];
@@ -23,7 +24,12 @@ export const App = ({ managerLayoutState, setManagerLayoutState, pages }: Props)
 
   return (
     <>
+      {/* Global reset styles */}
       <Global styles={createGlobal} />
+
+      {/* This is the new theme using CSS variables */}
+      <Global styles={sbTheme} />
+
       <Layout
         managerLayoutState={managerLayoutState}
         setManagerLayoutState={setManagerLayoutState}

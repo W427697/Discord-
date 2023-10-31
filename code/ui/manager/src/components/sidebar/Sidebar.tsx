@@ -21,10 +21,11 @@ import { SearchResults } from './SearchResults';
 import type { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
 import { MEDIA_DESKTOP_BREAKPOINT } from '../../constants';
+import { useLayout } from '../layout/LayoutProvider';
 
 export const DEFAULT_REF_ID = 'storybook_internal';
 
-const Container = styled.nav(({ theme }) => ({
+const Container = styled.nav<{ themeVersion: '1.0' | '2.0' }>(({ theme, themeVersion }) => ({
   position: 'absolute',
   zIndex: 1,
   left: 0,
@@ -35,10 +36,10 @@ const Container = styled.nav(({ theme }) => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  background: theme.background.content,
+  background: themeVersion === '1.0' ? theme.background.content : 'var(--sb-sidebar-bg)',
 
   [MEDIA_DESKTOP_BREAKPOINT]: {
-    background: theme.background.app,
+    background: themeVersion === '1.0' ? theme.background.app : 'var(--sb-sidebar-bg)',
   },
 }));
 
@@ -127,9 +128,10 @@ export const Sidebar = React.memo(function Sidebar({
   const dataset = useCombination({ index, indexError, previewInitialized, status }, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
+  const { themeVersion } = useLayout();
 
   return (
-    <Container className="container sidebar-container">
+    <Container className="container sidebar-container" themeVersion={themeVersion}>
       <ScrollArea vertical offset={8}>
         <Top row={1.6}>
           <Heading
