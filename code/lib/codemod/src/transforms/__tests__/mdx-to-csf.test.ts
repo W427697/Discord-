@@ -473,6 +473,43 @@ test('story name equals component name', () => {
   `);
 });
 
+test('story name equals component name for vue', () => {
+  const input = dedent`
+      import { Meta, Story } from '@storybook/addon-docs';
+      import Button from './Button.vue';
+
+      <Meta title="Button" />
+
+      <Story name="Button"><Button label='Story 1' /></Story>
+    `;
+
+  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+  const [, csf] = fs.writeFileSync.mock.calls[0];
+
+  expect(mdx).toMatchInlineSnapshot(`
+    import { Meta, Story } from '@storybook/blocks';
+    import Button from './Button.vue';
+    import * as FoobarStories from './Foobar.stories';
+
+    <Meta of={FoobarStories} />
+
+    <Story of={FoobarStories.Button_} />
+
+  `);
+  expect(csf).toMatchInlineSnapshot(`
+    import Button from './Button.vue';
+
+    export default {
+      title: 'Button',
+    };
+
+    export const Button_ = {
+      render: () => <Button label="Story 1" />,
+    };
+
+  `);
+});
+
 test('kebab case file name', () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';

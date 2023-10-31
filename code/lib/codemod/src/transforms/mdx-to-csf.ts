@@ -253,7 +253,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       },
       ImportDeclaration: (path) => {
         path.node.specifiers.forEach((specifier) => {
-          if (specifier.type === 'ImportSpecifier' && specifier.local.name === name) {
+          if (specifier.local.name === name) {
             found = true;
           }
         });
