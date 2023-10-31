@@ -149,7 +149,6 @@ test('convert correct story nodes', () => {
 
     export const Primary = {
       render: () => 'Story',
-      name: 'Primary',
     };
 
   `);
@@ -208,7 +207,6 @@ test('convert story nodes with spaces', () => {
 
     export const PrimarySpace = {
       render: () => 'Story',
-      name: 'Primary Space',
     };
 
   `);
@@ -281,7 +279,6 @@ test('extract esm into csf head code', () => {
 
     export const Unchecked = {
       render: Template.bind({}),
-      name: 'Unchecked',
 
       args: {
         ...args,
@@ -376,7 +373,6 @@ test('extract all story attributes', () => {
 
     export const Unchecked = {
       render: Template.bind({}),
-      name: 'Unchecked',
 
       args: {
         ...args,
@@ -386,7 +382,6 @@ test('extract all story attributes', () => {
 
     export const Second = {
       render: Template.bind({}),
-      name: 'Second',
     };
 
   `);
@@ -437,12 +432,10 @@ test('duplicate story name', () => {
 
     export const Default_ = {
       render: Default.bind({}),
-      name: 'Default',
     };
 
     export const Second = {
       render: Default.bind({}),
-      name: 'Second',
     };
 
   `);
@@ -480,7 +473,6 @@ test('story name equals component name', () => {
 
     export const Button_ = {
       render: () => <Button label="Story 1" />,
-      name: 'Button',
     };
 
   `);
@@ -570,8 +562,6 @@ test('story child is jsx', () => {
             <div>Hello!</div>
           </Button>
         ),
-
-        name: 'Primary',
       };
 
     `);
@@ -594,7 +584,6 @@ test('story child is CSF3', () => {
     export default {};
 
     export const Primary = {
-      name: 'Primary',
       render: (args) => <Button {...args}></Button>,
 
       args: {
@@ -625,7 +614,6 @@ test('story child is arrow function', () => {
 
       export const Primary = {
         render: (args) => <Button />,
-        name: 'Primary',
       };
 
     `);
@@ -651,7 +639,6 @@ test('story child is identifier', () => {
 
       export const Primary = {
         render: Button,
-        name: 'Primary',
       };
 
     `);

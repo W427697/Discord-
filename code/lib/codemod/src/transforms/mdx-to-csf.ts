@@ -21,6 +21,7 @@ import * as path from 'node:path';
 import prettier from 'prettier';
 import * as fs from 'node:fs';
 import camelCase from 'lodash/camelCase';
+import startCase from 'lodash/startCase';
 import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
@@ -58,6 +59,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     string,
     | {
         type: 'value';
+        name: string;
         attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>;
         children: (MdxJsxFlowElement | MdxJsxTextElement)['children'];
       }
@@ -111,6 +113,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
 
           storiesMap.set(name, {
             type: 'value',
+            name,
             attributes: node.attributes,
             children: node.children,
           });
@@ -273,6 +276,9 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         ...value.attributes.flatMap((attribute) => {
           if (attribute.type === 'mdxJsxAttribute') {
             if (typeof attribute.value === 'string') {
+              if (attribute.name === 'name' && attribute.value === startCase(value.name)) {
+                return [];
+              }
               return [
                 t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value)),
               ];
