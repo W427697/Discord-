@@ -17,13 +17,14 @@ export const NotificationList: FC<NotificationListProps> = ({
 }) => {
   return (
     <List>
-      {notifications.map((notification) => (
-        <NotificationItem
-          key={notification.id}
-          onDismissNotification={(id: string) => clearNotification(id)}
-          notification={notification}
-        />
-      ))}
+      {notifications &&
+        notifications.map((notification) => (
+          <NotificationItem
+            key={notification.id}
+            onDismissNotification={(id: string) => clearNotification(id)}
+            notification={notification}
+          />
+        ))}
     </List>
   );
 };
