@@ -69,6 +69,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
+    "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
     "@storybook/blocks": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
@@ -79,20 +83,8 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
-    "lodash": "^4.17.21",
-    "ts-dedent": "^2.0.0"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "publishConfig": {
     "access": "public"

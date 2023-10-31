@@ -46,18 +46,6 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/manager-api": "workspace:*"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
-  },
   "publishConfig": {
     "access": "public"
   },

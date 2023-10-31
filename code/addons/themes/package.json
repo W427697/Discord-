@@ -74,6 +74,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
@@ -81,22 +84,7 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
-    "ts-dedent": "^2.0.0"
-  },
-  "devDependencies": {
     "typescript": "~4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"

@@ -71,31 +71,21 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "workspace:*",
-    "@storybook/components": "workspace:*",
-    "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
-    "react-resize-detector": "^7.1.2",
     "tiny-invariant": "^1.3.1",
     "upath": "^2.0.1"
   },
   "devDependencies": {
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/manager-api": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-resize-detector": "^7.1.2",
     "typescript": "~4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"
