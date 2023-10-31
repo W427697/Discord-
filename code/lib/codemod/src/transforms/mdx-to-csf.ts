@@ -4,6 +4,7 @@ import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
 import type { Root } from 'remark-mdx';
 import remarkMdx from 'remark-mdx';
+import type { Parent } from 'unist';
 import { SKIP, visit } from 'unist-util-visit';
 import { is } from 'unist-util-is';
 import type {
@@ -205,6 +206,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     return [mdxProcessor.stringify(root), null];
   }
 
+  cleanUpMdx(root);
   addStoriesImport(root, baseName, storyNamespaceName);
 
   const newStatements: t.Statement[] = [
@@ -333,6 +335,27 @@ function getEsmAst(root: Root) {
     { code: esmSource, ast: babelParse(esmSource) }
   );
   return file;
+}
+
+function cleanUpMdx(root: Root): void {
+  visit(root, ['mdxjsEsm'], (node: MdxjsEsm, index?: number, parent?: Parent) => {
+    // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+    const file: BabelFile = new babel.File(
+      { filename: 'info.path' },
+      { code: node.value, ast: babelParse(node.value) }
+    );
+
+    file.path.traverse({
+      ExportDeclaration: (path) => path.remove(),
+    });
+    const code = recast.print(file.path.node).code.trim();
+    if (code === '') {
+      parent.children.splice(index, 1);
+      return index;
+    }
+    node.value = code;
+    return index + 1;
+  });
 }
 
 function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {

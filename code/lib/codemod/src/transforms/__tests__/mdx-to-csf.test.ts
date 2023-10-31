@@ -247,9 +247,6 @@ test('extract esm into csf head code', () => {
 
     # hello
 
-    export const args = { bla: 1 };
-    export const Template = (args) => <Button {...args} />;
-
     <Meta of={FoobarStories} />
 
     world {2 + 1}
@@ -412,8 +409,6 @@ test('duplicate story name', () => {
     import { Button } from './Button';
     import * as FoobarStories from './Foobar.stories';
 
-    export const Default = (args) => <Button {...args} />;
-
     <Meta of={FoobarStories} />
 
     <Story of={FoobarStories.Default_} />
@@ -501,8 +496,6 @@ test('kebab case file name', () => {
     import { Meta, Story } from '@storybook/blocks';
     import { Kebab } from './my-component/some-kebab-case';
     import * as SomeKebabCaseStories from './some-kebab-case.stories';
-
-    export const Template = (args) => <Kebab {...args} />;
 
     <Meta of={SomeKebabCaseStories} />
 
