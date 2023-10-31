@@ -459,7 +459,7 @@ const baseTemplates = {
     skipTasks: ['e2e-tests', 'e2e-tests-dev', 'bench'],
   },
   'ember/3-js': {
-    name: 'Create Ember 3 app (Javascript)',
+    name: 'Create Ember 3 app (Webpack | Javascript)',
     script: 'npx --package ember-cli@3.28.1 ember new {{beforeDir}}',
     inDevelopment: true,
     expected: {
@@ -469,7 +469,7 @@ const baseTemplates = {
     },
   },
   'ember/default-js': {
-    name: 'Create Ember 4 app (Javascript)',
+    name: 'Create Ember 4 app (Webpack | Javascript)',
     script:
       'npx --package ember-cli@4.12.1 ember new {{beforeDir}} --yarn && cd {{beforeDir}} && yarn add --dev @storybook/ember-cli-storybook && yarn build',
     inDevelopment: true,
