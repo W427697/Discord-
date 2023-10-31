@@ -3,7 +3,7 @@ import { LocationProvider } from '@storybook/router';
 import type { Meta } from '@storybook/react';
 
 import { NotificationList } from './NotificationList';
-import itemMeta, * as itemStories from './NotificationItem.stories';
+import * as itemStories from './NotificationItem.stories';
 
 const meta = {
   component: NotificationList,
@@ -29,8 +29,10 @@ export default meta;
 type ItemStories = typeof itemStories & { [key: string]: any };
 
 const items = Array.from(Object.keys(itemStories as ItemStories))
-  .filter((key) => itemMeta.excludeStories.exec(key))
-  .map((key) => (itemStories as ItemStories)[key]);
+  .filter((key) => !['default', '__namedExportsOrder'].includes(key))
+  .map((key) => (itemStories as ItemStories)[key].args.notification);
+
+console.log(items);
 
 export const singleData = [items[0]];
 export const allData = items;
