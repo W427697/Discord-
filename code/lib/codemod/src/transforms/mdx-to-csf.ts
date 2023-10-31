@@ -107,7 +107,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         );
         if (typeof nameAttribute?.value === 'string') {
           let name = nameToValidExport(nameAttribute.value);
-          while (variableNameExists(name)) name += '_';
+          while (identifierExists(name)) name += '_';
 
           storiesMap.set(name, {
             type: 'value',
@@ -239,12 +239,19 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     return t.arrowFunctionExpression([], expression);
   }
 
-  function variableNameExists(name: string) {
+  function identifierExists(name: string) {
     let found = false;
     file.path.traverse({
       VariableDeclarator: (path) => {
         const lVal = path.node.id;
         if (t.isIdentifier(lVal) && lVal.name === name) found = true;
+      },
+      ImportDeclaration: (path) => {
+        path.node.specifiers.forEach((specifier) => {
+          if (specifier.type === 'ImportSpecifier' && specifier.local.name === name) {
+            found = true;
+          }
+        });
       },
     });
     return found;
