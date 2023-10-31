@@ -190,19 +190,19 @@ However, you might want to pair the test runner and Chromatic in some cases.
 
 ## Advanced configuration
 
-### Test hook API (experimental)
+### Test hook API
 
 The test-runner renders a story and executes its [play function](../writing-stories/play-function.md) if one exists. However, certain behaviors are impossible to achieve via the play function, which executes in the browser. For example, if you want the test-runner to take visual snapshots for you, this is possible via Playwright/Jest but must be executed in Node.
 
 The test-runner exports test hooks that can be overridden globally to enable use cases like visual or DOM snapshots. These hooks give you access to the test lifecycle _before_ and _after_ the story is rendered.
 Listed below are the available hooks and an overview of how to use them.
 
-| Hook         | Description                                                                                        |
-| ------------ | -------------------------------------------------------------------------------------------------- |
-| `prepare`    | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`  |
-| `setup`      | Executes once before all the tests run<br/>`setup() {}`                                            |
-| `preRender`  | Executes before a story is rendered<br/>`async preRender(page, context) {}`                        |
-| `postRender` | Executes after the story is rendered<br/>`async postRender(page, context) {}`                      |
+| Hook         | Description                                                                                       |
+| ------------ | ------------------------------------------------------------------------------------------------- |
+| `prepare`    | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}` |
+| `setup`      | Executes once before all the tests run<br/>`setup() {}`                                           |
+| `preRender`  | Executes before a story is rendered<br/>`async preRender(page, context) {}`                       |
+| `postRender` | Executes after the story is rendered<br/>`async postRender(page, context) {}`                     |
 
 <div class="aside">
 

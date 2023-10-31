@@ -1,7 +1,7 @@
 ```js
 // .storybook/test-runner.js
 
-const { getStoryContext } = require('@storybook/test-runner');
+const { getStoryContext, waitForPageReady } = require('@storybook/test-runner');
 
 module.exports = {
   // Hook that is executed before the test runner starts running tests
@@ -22,6 +22,9 @@ module.exports = {
   async postRender(page, context) {
     // Get the entire context of a story, including parameters, args, argTypes, etc.
     const storyContext = await getStoryContext(page, context);
+
+    // This utility function is designed for image snapshot testing. It will wait for the page to be fully loaded, including all the async items (e.g., images, fonts, etc.).
+    await waitForPageReady(page);
 
     // Add your configuration here.
   },
