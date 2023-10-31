@@ -17,10 +17,11 @@ import {
 import * as matchers from '@testing-library/jest-dom/matchers';
 import type { PromisifyObject } from './utils';
 
+type Matchers<T> = PromisifyObject<JestAssertion<T>> &
+  matchers.TestingLibraryMatchers<ReturnType<ExpectStatic['stringContaining']>, Promise<void>>;
+
 // We only expose the jest compatible API for now
-export interface Assertion<T>
-  extends PromisifyObject<JestAssertion<T>>,
-    matchers.TestingLibraryMatchers<ReturnType<ExpectStatic['stringContaining']>, Promise<void>> {
+export interface Assertion<T> extends Matchers<T> {
   toHaveBeenCalledOnce(): Promise<void>;
   toSatisfy<E>(matcher: (value: E) => boolean, message?: string): Promise<void>;
   resolves: Assertion<T>;
