@@ -14,7 +14,6 @@ import type {
   LoaderFunction,
   Globals,
   GlobalTypes,
-  Addon_ClientApiAddons,
   Path,
   ModuleImportFn,
   ModuleExports,
