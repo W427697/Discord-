@@ -4,10 +4,8 @@ import * as fs from 'fs';
 import type { Plugin } from 'vite';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from '../transform-iframe-html';
-import { generateIframeScriptCode } from '../codegen-iframe-script';
 import { generateModernIframeScriptCode } from '../codegen-modern-iframe-script';
 import { generateImportFnScriptCode } from '../codegen-importfn-script';
-import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from '../codegen-entries';
 import { generateAddonSetupCode } from '../codegen-set-addon-channel';
 
 import {
