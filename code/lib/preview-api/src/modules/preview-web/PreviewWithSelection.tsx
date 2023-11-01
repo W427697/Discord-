@@ -117,9 +117,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   // If initialization gets as far as the story index, this function runs.
   initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     return super.initializeWithStoryIndex(storyIndex).then(() => {
-      if (!global.FEATURES?.storyStoreV7) {
-        this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
-      }
+      this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
 
       return this.selectSpecifiedStory();
     });
@@ -204,9 +202,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }) {
     await super.onStoriesChanged({ importFn, storyIndex });
 
-    if (!global.FEATURES?.storyStoreV7) {
-      this.channel.emit(SET_INDEX, await this.storyStore.getSetIndexPayload());
-    }
+    this.channel.emit(SET_INDEX, await this.storyStore.getSetIndexPayload());
 
     if (this.selectionStore.selection) {
       await this.renderSelection();
@@ -396,15 +392,13 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
         render.story
       );
 
-      if (global.FEATURES?.storyStoreV7) {
-        this.channel.emit(STORY_PREPARED, {
-          id: storyId,
-          parameters,
-          initialArgs,
-          argTypes,
-          args: unmappedArgs,
-        });
-      }
+      this.channel.emit(STORY_PREPARED, {
+        id: storyId,
+        parameters,
+        initialArgs,
+        argTypes,
+        args: unmappedArgs,
+      });
 
       // For v6 mode / compatibility
       // If the implementation changed, or args were persisted, the args may have changed,
@@ -412,8 +406,10 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
       if (implementationChanged || persistedArgs) {
         this.channel.emit(STORY_ARGS_UPDATED, { storyId, args: unmappedArgs });
       }
-    } else if (global.FEATURES?.storyStoreV7) {
-      if (!this.storyStore.projectAnnotations) throw new Error('Store not initialized');
+    } else {
+      if (!this.storyStore.projectAnnotations) {
+        throw new Error('Store not initialized');
+      }
 
       // Default to the project parameters for MDX docs
       let { parameters } = this.storyStore.projectAnnotations;
@@ -467,9 +463,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
       Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.`);
     }
 
-    if (global.FEATURES?.storyStoreV7) {
-      await this.storyStore.cacheAllCSFFiles();
-    }
+    await this.storyStore.cacheAllCSFFiles();
 
     return this.storyStore.extract(options);
   }

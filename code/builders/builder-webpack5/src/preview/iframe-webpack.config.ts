@@ -13,16 +13,14 @@ import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@story
 import { globals } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
-  getRendererName,
   stringifyProcessEnvs,
   handlebars,
-  interpolate,
   normalizeStories,
   readTemplate,
   loadPreviewOrConfigFile,
   isPreservingSymlinks,
 } from '@storybook/core-common';
-import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import { toImportFn } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader, createSWCLoader } from './loaders';
@@ -132,68 +130,25 @@ export default async (
   ].filter(Boolean);
 
   const virtualModuleMapping: Record<string, string> = {};
-  if (features?.storyStoreV7) {
-    const storiesFilename = 'storybook-stories.js';
-    const storiesPath = resolve(join(workingDir, storiesFilename));
+  const storiesFilename = 'storybook-stories.js';
+  const storiesPath = resolve(join(workingDir, storiesFilename));
 
-    const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
-    virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
-    const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.js'));
-    virtualModuleMapping[configEntryPath] = handlebars(
-      await readTemplate(
-        require.resolve(
-          '@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
-        )
-      ),
-      {
-        storiesFilename,
-        previewAnnotations,
-      }
-      // We need to double escape `\` for webpack. We may have some in windows paths
-    ).replace(/\\/g, '\\\\');
-    entries.push(configEntryPath);
-  } else {
-    const rendererName = await getRendererName(options);
-
-    const rendererInitEntry = resolve(join(workingDir, 'storybook-init-renderer-entry.js'));
-    virtualModuleMapping[rendererInitEntry] = `import '${slash(rendererName)}';`;
-    entries.push(rendererInitEntry);
-
-    const entryTemplate = await readTemplate(
-      join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
-    );
-
-    previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
-      if (!previewAnnotationFilename) return;
-
-      // Ensure that relative paths end up mapped to a filename in the cwd, so a later import
-      // of the `previewAnnotationFilename` in the template works.
-      const entryFilename = previewAnnotationFilename.startsWith('.')
-        ? `${previewAnnotationFilename.replace(/(\w)(\/|\\)/g, '$1-')}-generated-config-entry.js`
-        : `${previewAnnotationFilename}-generated-config-entry.js`;
-      // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
-      // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
-      virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
-        previewAnnotationFilename,
-      });
-      entries.push(entryFilename);
-    });
-    if (stories.length > 0) {
-      const storyTemplate = await readTemplate(
-        join(__dirname, '..', '..', 'templates', 'virtualModuleStory.template.js')
-      );
-      // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
-      // in the user's webpack mode, which may be strict about the use of require/import.
-      // See https://github.com/storybookjs/storybook/issues/14877
-      const storiesFilename = resolve(join(workingDir, `generated-stories-entry.cjs`));
-      virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
-        rendererName,
-      })
-        // Make sure we also replace quotes for this one
-        .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
-      entries.push(storiesFilename);
+  const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
+  virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
+  const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.js'));
+  virtualModuleMapping[configEntryPath] = handlebars(
+    await readTemplate(
+      require.resolve(
+        '@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
+      )
+    ),
+    {
+      storiesFilename,
+      previewAnnotations,
     }
-  }
+    // We need to double escape `\` for webpack. We may have some in windows paths
+  ).replace(/\\/g, '\\\\');
+  entries.push(configEntryPath);
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};

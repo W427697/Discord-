@@ -142,14 +142,11 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
       if (global.FEATURES?.storyStoreV7MdxErrors !== false) {
         throw new Error(dedent`
-        Cannot index \`.mdx\` file (\`${fileName}\`) in \`storyStoreV7: false\` mode.
+        Cannot index \`.mdx\` file (\`${fileName}\`) in SB8.
 
         The legacy story store does not support new-style \`.mdx\` files. If the file above
         is not intended to be indexed (i.e. displayed as an entry in the sidebar), either
-        exclude it from your \`stories\` glob, or add <Meta isTemplate /> to it.
-        
-        If you wanted to index the file, you'll need to name it \`stories.mdx\` and stick to the
-        legacy (6.x) MDX API, or use the new store.`);
+        exclude it from your \`stories\` glob, or add <Meta isTemplate /> to it.`);
       }
     }
 

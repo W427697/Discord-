@@ -90,27 +90,16 @@ export function codeGeneratorPlugin(options: Options): Plugin {
       return undefined;
     },
     async load(id, config) {
-      const storyStoreV7 = options.features?.storyStoreV7;
       if (id === virtualStoriesFile) {
-        if (storyStoreV7) {
-          return generateImportFnScriptCode(options);
-        }
-        return generateVirtualStoryEntryCode(options);
+        return generateImportFnScriptCode(options);
       }
 
       if (id === virtualAddonSetupFile) {
         return generateAddonSetupCode();
       }
 
-      if (id === virtualPreviewFile && !storyStoreV7) {
-        return generatePreviewEntryCode(options);
-      }
-
       if (id === virtualFileId) {
-        if (storyStoreV7) {
-          return generateModernIframeScriptCode(options, projectRoot);
-        }
-        return generateIframeScriptCode(options, projectRoot);
+        return generateModernIframeScriptCode(options, projectRoot);
       }
 
       if (id === iframeId) {

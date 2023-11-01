@@ -19,11 +19,6 @@ export const testRunnerBuild: Task & { port: number } = {
       '--failOnConsole',
     ];
 
-    // index-json mode is only supported in ssv7
-    if (template.modifications?.mainConfig?.features?.storyStoreV7 !== false) {
-      flags.push('--index-json');
-    }
-
     await exec(
       `yarn test-storybook ${flags.join(' ')}`,
       {

@@ -53,8 +53,6 @@ const options: StoryIndexGeneratorOptions = {
     { test: /\.stories\.(m?js|ts)x?$/, indexer: csfIndexer },
   ],
   indexers: [],
-  storiesV2Compatibility: false,
-  storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
 

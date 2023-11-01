@@ -53,8 +53,6 @@ type SpecifierStoriesCache = Record<Path, CacheEntry>;
 export type StoryIndexGeneratorOptions = {
   workingDir: Path;
   configDir: Path;
-  storiesV2Compatibility: boolean;
-  storyStoreV7: boolean;
   storyIndexers: StoryIndexer[];
   indexers: Indexer[];
   docs: DocsOptions;
@@ -429,11 +427,6 @@ export class StoryIndexGenerator {
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
-      invariant(
-        this.options.storyStoreV7,
-        `You cannot use \`.mdx\` files without using \`storyStoreV7\`.`
-      );
-
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
@@ -613,13 +606,9 @@ export class StoryIndexGenerator {
   async sortStories(entries: StoryIndex['entries']) {
     const sortableStories = Object.values(entries);
 
-    // Skip sorting if we're in v6 mode because we don't have
-    // all the info we need here
-    if (this.options.storyStoreV7) {
-      const storySortParameter = await this.getStorySortParameter();
-      const fileNameOrder = this.storyFileNames();
-      sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
-    }
+    const storySortParameter = await this.getStorySortParameter();
+    const fileNameOrder = this.storyFileNames();
+    sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
 
     return sortableStories.reduce((acc, item) => {
       acc[item.id] = item;
@@ -659,31 +648,7 @@ export class StoryIndexGenerator {
 
       const sorted = await this.sortStories(indexEntries);
 
-      let compat = sorted;
-      if (this.options.storiesV2Compatibility) {
-        const titleToStoryCount = Object.values(sorted).reduce((acc, story) => {
-          acc[story.title] = (acc[story.title] || 0) + 1;
-          return acc;
-        }, {} as Record<ComponentTitle, number>);
-
-        // @ts-expect-error (Converted from ts-ignore)
-        compat = Object.entries(sorted).reduce((acc, entry) => {
-          const [id, story] = entry;
-          if (story.type === 'docs') return acc;
-
-          acc[id] = {
-            ...story,
-            kind: story.title,
-            story: story.name,
-            parameters: {
-              __id: story.id,
-              docsOnly: titleToStoryCount[story.title] === 1 && story.name === 'Page',
-              fileName: story.importPath,
-            },
-          };
-          return acc;
-        }, {} as Record<StoryId, V3CompatIndexEntry>);
-      }
+      const compat = sorted;
 
       this.lastIndex = {
         v: 4,

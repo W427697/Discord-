@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 
-import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
 import type {
   Args,
@@ -37,14 +36,6 @@ const warningAlternatives = {
 };
 
 const checkMethod = (method: keyof typeof warningAlternatives) => {
-  if (global.FEATURES?.storyStoreV7) {
-    throw new Error(
-      dedent`You cannot use \`${method}\` with the new Story Store.
-
-      ${warningAlternatives[method]}`
-    );
-  }
-
   if (!global.__STORYBOOK_CLIENT_API__) {
     throw new Error(`Singleton client API not yet initialized, cannot call \`${method}\`.`);
   }

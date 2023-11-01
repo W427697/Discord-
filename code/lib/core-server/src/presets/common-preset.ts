@@ -191,7 +191,6 @@ export const features = async (
   ...existing,
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
-  storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
 });

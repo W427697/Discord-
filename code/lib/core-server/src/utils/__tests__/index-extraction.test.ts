@@ -19,7 +19,6 @@ const options: StoryIndexGeneratorOptions = {
   storyIndexers: [],
   indexers: [],
   storiesV2Compatibility: false,
-  storyStoreV7: true,
   docs: { defaultName: 'docs', autodocs: false },
 };
 

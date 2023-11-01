@@ -34,7 +34,7 @@ class ReactProvider extends Provider {
     this.channel = channel;
     global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
-    if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
+    if (CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
       addons.setServerChannel(this.serverChannel);
     }

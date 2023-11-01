@@ -160,7 +160,7 @@ const Canvas: FC<{ withLoader: boolean; baseUrl: string; children?: never }> = (
 
         const [progress, setProgress] = useState(undefined);
         useEffect(() => {
-          if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
+          if (global.CONFIG_TYPE === 'DEVELOPMENT') {
             try {
               const channel = addons.getServerChannel();
 

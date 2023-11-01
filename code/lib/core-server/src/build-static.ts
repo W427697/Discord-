@@ -124,13 +124,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       presets.apply<DocsOptions>('docs', {}),
     ]);
 
-  if (features?.storyStoreV7 === false) {
-    deprecate(
-      dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
-        - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
-    );
-  }
-
   const fullOptions: Options = {
     ...options,
     presets,
@@ -164,7 +157,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
     Promise.resolve(undefined);
-  if ((features?.buildStoriesJson || features?.storyStoreV7) && !options.ignorePreview) {
+  if (features?.buildStoriesJson && !options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
@@ -176,8 +169,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       storyIndexers: deprecatedStoryIndexers,
       indexers,
       docs: docsOptions,
-      storiesV2Compatibility: !features?.storyStoreV7,
-      storyStoreV7: !!features?.storyStoreV7,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);
