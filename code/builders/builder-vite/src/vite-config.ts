@@ -77,6 +77,12 @@ export async function commonConfig(
 
 export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
+  const { features } = options;
+  const globalsObj: Record<string, string> = globals;
+
+  if (features?.fastBuildEmptyBlocks) {
+    globalsObj['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+  }
 
   const plugins = [
     codeGeneratorPlugin(options),
