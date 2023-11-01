@@ -2,8 +2,6 @@
 
 import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
-import { logger } from '@storybook/client-logger';
-import { toId, sanitize } from '@storybook/csf';
 import type {
   Args,
   StepRunner,
@@ -14,12 +12,9 @@ import type {
   ArgTypesEnhancer,
   ArgsEnhancer,
   LoaderFunction,
-  StoryFn,
   Globals,
   GlobalTypes,
   Addon_ClientApiAddons,
-  Addon_StoryApi,
-  NormalizedComponentAnnotations,
   Path,
   ModuleImportFn,
   ModuleExports,
