@@ -5,9 +5,8 @@ import invariant from 'tiny-invariant';
 import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
 
 import { logConfig } from '@storybook/core-common';
-import { deprecate, logger } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 
-import dedent from 'ts-dedent';
 import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';

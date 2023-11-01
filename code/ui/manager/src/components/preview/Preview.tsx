@@ -18,8 +18,6 @@ import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
 
-const { FEATURES } = global;
-
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn(types.TAB));
 

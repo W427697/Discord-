@@ -16,8 +16,6 @@ import type {
   Path,
   Tag,
   StoryIndex,
-  V3CompatIndexEntry,
-  StoryId,
   StoryName,
   Indexer,
   IndexerOptions,

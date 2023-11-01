@@ -18,7 +18,6 @@ const options: StoryIndexGeneratorOptions = {
   workingDir: path.join(__dirname, '..', '__mockdata__'),
   storyIndexers: [],
   indexers: [],
-  storiesV2Compatibility: false,
   docs: { defaultName: 'docs', autodocs: false },
 };
 

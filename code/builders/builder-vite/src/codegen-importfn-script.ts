@@ -1,7 +1,6 @@
 import * as path from 'path';
 
 import type { Options } from '@storybook/types';
-import { logger } from '@storybook/node-logger';
 
 import { listStories } from './list-stories';
 

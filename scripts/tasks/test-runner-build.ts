@@ -10,7 +10,7 @@ export const testRunnerBuild: Task & { port: number } = {
   async ready() {
     return false;
   },
-  async run({ sandboxDir, junitFilename, template }, { dryRun, debug }) {
+  async run({ sandboxDir, junitFilename }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
     const flags = [
       `--url http://localhost:${this.port}`,

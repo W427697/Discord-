@@ -550,9 +550,7 @@ describe('useStoriesJson', () => {
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
         router,
-        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({
-          storiesV2Compatibility: true,
-        }),
+        initializedStoryIndexGenerator: getInitializedStoryIndexGenerator({}),
         workingDir,
         serverChannel: mockServerChannel,
         normalizedStories,
