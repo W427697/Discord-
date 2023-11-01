@@ -23,7 +23,7 @@ function migrateType(oldType: string) {
 
 export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
   // TODO what do I need to with the title?
-  const csf = loadCsf(info.source, { makeTitle: (title) => title });
+  const csf = loadCsf(info.source, info.source, { makeTitle: (title) => title });
   const fileNode = csf._ast;
   // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
   const file: BabelFile = new babel.File(

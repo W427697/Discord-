@@ -11,10 +11,12 @@ expect.addSnapshotSerializer({
   test: (val) => true,
 });
 
-const enrich = (code: string, options?: EnrichCsfOptions) => {
+const enrich = (code: string, originalCode: string, options?: EnrichCsfOptions) => {
   // we don't actually care about the title
 
-  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
+  const csf = loadCsf(code, originalCode, {
+    makeTitle: (userTitle) => userTitle || 'default',
+  }).parse();
   enrichCsf(csf, options);
   return formatCsf(csf);
 };
@@ -23,17 +25,28 @@ describe('enrichCsf', () => {
   describe('source', () => {
     it('csf1', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+          // compiled code
           export default {
            title: 'Button',
           }
-          export const Basic = () => <Button />
-        `)
+          export const Basic = () => React.createElement(Button)
+        `,
+          dedent`
+        // original code
+        export default {
+         title: 'Button',
+        }
+        export const Basic = () => <Button />
+      `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -48,19 +61,32 @@ describe('enrichCsf', () => {
     });
     it('csf2', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+          title: 'Button',
+        }
+        const Template = (args) => React.createElement(Button, args);
+        export const Basic = Template.bind({});
+        Basic.parameters = { foo: 'bar' }
+      `,
+          dedent`
+          // original code
           export default {
             title: 'Button',
           }
           const Template = (args) => <Button {...args} />
           export const Basic = Template.bind({});
           Basic.parameters = { foo: 'bar' }
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        const Template = args => <Button {...args} />;
+        const Template = args => React.createElement(Button, args);
         export const Basic = Template.bind({});
         Basic.parameters = {
           foo: 'bar'
@@ -79,15 +105,26 @@ describe('enrichCsf', () => {
     });
     it('csf3', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+          title: 'Button',
+        }
+        export const Basic = { parameters: { foo: 'bar' } }
+      `,
+          dedent`
+          // original code
           export default {
             title: 'Button',
           }
           export const Basic = {
             parameters: { foo: 'bar' }
           }
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
@@ -110,14 +147,26 @@ describe('enrichCsf', () => {
     });
     it('multiple stories', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+          title: 'Button',
+        }
+        export const A = {}
+        export const B = {}
+      `,
+          dedent`
+          // original code
           export default {
             title: 'Button',
           }
           export const A = {}
           export const B = {}
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
@@ -150,19 +199,31 @@ describe('enrichCsf', () => {
   describe('story descriptions', () => {
     it('skips inline comments', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+         title: 'Button',
+        }
+        // The most basic button
+        export const Basic = () => React.createElement(Button);
+      `,
+          dedent`
+          // original code
           export default {
            title: 'Button',
           }
           // The most basic button
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
         // The most basic button
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -178,19 +239,29 @@ describe('enrichCsf', () => {
 
     it('skips blocks without jsdoc', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+          // compiled code
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => React.createElement(Button)
+        `,
+          dedent`
+          // original code
           export default {
            title: 'Button',
           }
           /* The most basic button */
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        /* The most basic button */
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -206,19 +277,29 @@ describe('enrichCsf', () => {
 
     it('JSDoc single-line', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+          // compiled code
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => React.createElement(Button);
+        `,
+          dedent`
+          // original code
           export default {
            title: 'Button',
           }
           /** The most basic button */
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        /** The most basic button */
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -238,7 +319,16 @@ describe('enrichCsf', () => {
 
     it('JSDoc multi-line', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+         title: 'Button',
+        }
+        export const Basic = () => React.createElement(Button);
+      `,
+          dedent`
+          // original code
           export default {
            title: 'Button',
           }
@@ -248,17 +338,14 @@ describe('enrichCsf', () => {
            * In a block!
            */
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        /**
-         * The most basic button
-         * 
-         * In a block!
-         */
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -278,27 +365,33 @@ describe('enrichCsf', () => {
 
     it('preserves indentation', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+          // compiled code
           export default {
            title: 'Button',
           }
-          /**
-           * - A bullet list
-           *   - A sub-bullet
-           * - A second bullet
-           */
-          export const Basic = () => <Button />
-        `)
-      ).toMatchInlineSnapshot(`
+          export const Basic = () => React.createElement(Button);
+        `,
+          dedent`
+        // original code
         export default {
-          title: 'Button'
-        };
+         title: 'Button',
+        }
         /**
          * - A bullet list
          *   - A sub-bullet
          * - A second bullet
          */
-        export const Basic = () => <Button />;
+        export const Basic = () => <Button />
+      `
+        )
+      ).toMatchInlineSnapshot(`
+        // compiled code
+        export default {
+          title: 'Button'
+        };
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -320,19 +413,29 @@ describe('enrichCsf', () => {
   describe('meta descriptions', () => {
     it('skips inline comments', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+          title: 'Button',
+        }
+        export const Basic = () => React.createElement(Button);
+        `,
+          dedent`
+        // original code
         // The most basic button
         export default {
-           title: 'Button',
-          }
-          export const Basic = () => <Button />
-        `)
+          title: 'Button',
+        }
+        export const Basic = () => <Button />
+        `
+        )
       ).toMatchInlineSnapshot(`
-        // The most basic button
+        // compiled code
         export default {
           title: 'Button'
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -348,19 +451,29 @@ describe('enrichCsf', () => {
 
     it('skips blocks without jsdoc', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+         title: 'Button',
+        }
+        export const Basic = () => React.createElement();
+      `,
+          dedent`
+          // original code
           /* The most basic button */
           export default {
            title: 'Button',
           }
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
-        /* The most basic button */
+        // compiled code
         export default {
           title: 'Button'
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement();
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -376,15 +489,25 @@ describe('enrichCsf', () => {
 
     it('JSDoc single-line', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+          // compiled code
+          export default {
+           title: 'Button'
+          }
+          export const Basic = () => React.createElement(Button)
+        `,
+          dedent`
+          // original code
           /** The most basic button */
           export default {
            title: 'Button'
           }
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
-        /** The most basic button */
+        // compiled code
         export default {
           title: 'Button',
           parameters: {
@@ -395,7 +518,7 @@ describe('enrichCsf', () => {
             }
           }
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -411,7 +534,16 @@ describe('enrichCsf', () => {
 
     it('JSDoc multi-line', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+         title: 'Button',
+        }
+        export const Basic = () => React.createElement();
+      `,
+          dedent`
+          // original code
           /**
            * The most basic button
            * 
@@ -421,13 +553,10 @@ describe('enrichCsf', () => {
            title: 'Button',
           }
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
-        /**
-         * The most basic button
-         * 
-         * In a block!
-         */
+        // compiled code
         export default {
           title: 'Button',
           parameters: {
@@ -438,7 +567,7 @@ describe('enrichCsf', () => {
             }
           }
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement();
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -454,7 +583,16 @@ describe('enrichCsf', () => {
 
     it('preserves indentation', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+         title: 'Button',
+        }
+        export const Basic = () => React.createElement(Button);
+      `,
+          dedent`
+          // original code
           /**
            * - A bullet list
            *   - A sub-bullet
@@ -464,13 +602,10 @@ describe('enrichCsf', () => {
            title: 'Button',
           }
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
-        /**
-         * - A bullet list
-         *   - A sub-bullet
-         * - A second bullet
-         */
+        // compiled code
         export default {
           title: 'Button',
           parameters: {
@@ -481,7 +616,7 @@ describe('enrichCsf', () => {
             }
           }
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -497,7 +632,19 @@ describe('enrichCsf', () => {
 
     it('correctly interleaves parameters', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+          title: 'Button',
+          parameters: {
+            foo: 'bar',
+            docs: { inlineStories: true }
+          }
+        }
+        export const Basic = () => React.createElement(Button);
+      `,
+          dedent`
           /** The most basic button */
           export default {
             title: 'Button',
@@ -507,9 +654,10 @@ describe('enrichCsf', () => {
             }
           }
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
-        /** The most basic button */
+        // compiled code
         export default {
           title: 'Button',
           parameters: {
@@ -522,7 +670,7 @@ describe('enrichCsf', () => {
             }
           }
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -538,7 +686,23 @@ describe('enrichCsf', () => {
 
     it('respects user component description', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        export default {
+          title: 'Button',
+          parameters: {
+            docs: {
+              description: {
+                component: 'hahaha'
+              }
+            }
+          }
+        }
+        export const Basic = () => React.createElement(Button);
+      `,
+          dedent`
+          // original code
           /** The most basic button */
           export default {
             title: 'Button',
@@ -551,9 +715,10 @@ describe('enrichCsf', () => {
             }
           }
           export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
-        /** The most basic button */
+        // compiled code
         export default {
           title: 'Button',
           parameters: {
@@ -564,7 +729,7 @@ describe('enrichCsf', () => {
             }
           }
         };
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -580,7 +745,17 @@ describe('enrichCsf', () => {
 
     it('respects meta variables', () => {
       expect(
-        enrich(dedent`
+        enrich(
+          dedent`
+        // compiled code
+        const meta = {
+          title: 'Button'
+        }
+        export default meta;
+        export const Basic = () => React.createElement(Button);
+        `,
+          dedent`
+        // original code
         /** The most basic button */
         const meta = {
           title: 'Button'
@@ -588,9 +763,10 @@ describe('enrichCsf', () => {
         /** This should be ignored */
         export default meta;
         export const Basic = () => <Button />
-        `)
+        `
+        )
       ).toMatchInlineSnapshot(`
-        /** The most basic button */
+        // compiled code
         const meta = {
           title: 'Button',
           parameters: {
@@ -601,9 +777,8 @@ describe('enrichCsf', () => {
             }
           }
         };
-        /** This should be ignored */
         export default meta;
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -623,6 +798,14 @@ describe('enrichCsf', () => {
       expect(
         enrich(
           dedent`
+          // compiled code
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => React.createElement(Button);
+        `,
+          dedent`
+          // original code
           export default {
            title: 'Button',
           }
@@ -632,11 +815,11 @@ describe('enrichCsf', () => {
           { disableSource: true }
         )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        /** The most basic button */
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -654,6 +837,14 @@ describe('enrichCsf', () => {
       expect(
         enrich(
           dedent`
+          // compiled code
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => React.createElement(Button);
+        `,
+          dedent`
+          // original code
           export default {
            title: 'Button',
           }
@@ -663,11 +854,11 @@ describe('enrichCsf', () => {
           { disableDescription: true }
         )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        /** The most basic button */
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
         Basic.parameters = {
           ...Basic.parameters,
           docs: {
@@ -685,6 +876,14 @@ describe('enrichCsf', () => {
       expect(
         enrich(
           dedent`
+          // compiled code
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => React.createElement(Button);
+        `,
+          dedent`
+          // original code
           export default {
            title: 'Button',
           }
@@ -694,11 +893,11 @@ describe('enrichCsf', () => {
           { disableSource: true, disableDescription: true }
         )
       ).toMatchInlineSnapshot(`
+        // compiled code
         export default {
           title: 'Button'
         };
-        /** The most basic button */
-        export const Basic = () => <Button />;
+        export const Basic = () => React.createElement(Button);
       `);
     });
   });
@@ -709,8 +908,8 @@ const source = (csfExport: string) => {
     export default { title: 'Button' }
     ${csfExport}
   `;
-  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle }).parse();
-  const exportNode = Object.values(csf._storyExports)[0];
+  const csf = loadCsf(code, code, { makeTitle: (userTitle) => userTitle }).parse();
+  const exportNode = Object.values(csf._originalStoryExports)[0];
   return extractSource(exportNode);
 };
 

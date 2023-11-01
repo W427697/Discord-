@@ -5,7 +5,7 @@ import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
 import type { DocsOptions, Indexer, Options, PresetProperty } from '@storybook/types';
-import type { CsfPluginOptions } from '@storybook/csf-plugin';
+import type { CsfOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
 import { loadCsf } from '@storybook/csf-tools';
@@ -27,7 +27,7 @@ async function webpack(
     mdxBabelOptions?: any;
     /** @deprecated */
     sourceLoaderOptions: any;
-    csfPluginOptions: CsfPluginOptions | null;
+    csfPluginOptions: CsfOptions | null;
     jsxOptions?: JSXOptions;
     mdxPluginOptions?: CompileOptions;
   } /* & Parameters<
@@ -92,17 +92,22 @@ async function webpack(
 
   const result = {
     ...webpackConfig,
-    plugins: [
-      ...(webpackConfig.plugins || []),
-
-      ...(csfPluginOptions
-        ? [(await import('@storybook/csf-plugin')).webpack(csfPluginOptions)]
-        : []),
-    ],
-
     module: {
       ...module,
       rules: [
+        ...(csfPluginOptions
+          ? [
+              {
+                test: /\.(story|stories)\.[tj]sx?$/,
+                use: [
+                  {
+                    loader: require.resolve('@storybook/csf-plugin/webpack'),
+                    options: csfPluginOptions,
+                  },
+                ],
+              },
+            ]
+          : []),
         ...(module.rules || []),
         {
           test: /(stories|story)\.mdx$/,
@@ -141,7 +146,7 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
       ? await import('@storybook/mdx1-csf')
       : await import('@storybook/mdx2-csf');
     code = await compile(code, {});
-    const csf = loadCsf(code, { ...opts, fileName }).parse();
+    const csf = loadCsf(code, code, { ...opts, fileName }).parse();
 
     const { indexInputs, stories } = csf;
 
@@ -202,4 +207,9 @@ const optimizeViteDeps = [
   'markdown-to-jsx',
 ];
 
-export { webpackX as webpack, indexersX as experimental_indexers, docsX as docs, optimizeViteDeps };
+export {
+  webpackX as webpackFinal,
+  indexersX as experimental_indexers,
+  docsX as docs,
+  optimizeViteDeps,
+};

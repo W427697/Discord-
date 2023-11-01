@@ -12,7 +12,8 @@ export interface EnrichCsfOptions {
 export const enrichCsfStory = (csf: CsfFile, key: string, options?: EnrichCsfOptions) => {
   const storyExport = csf.getStoryExport(key);
   const source = !options?.disableSource && extractSource(storyExport);
-  const description = !options?.disableDescription && extractDescription(csf._storyStatements[key]);
+  const description =
+    !options?.disableDescription && extractDescription(csf._originalStoryStatements[key]);
   const parameters = [];
   const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
   parameters.push(t.spreadElement(originalParameters));
@@ -112,7 +113,9 @@ const addComponentDescription = (
 };
 
 export const enrichCsfMeta = (csf: CsfFile, options?: EnrichCsfOptions) => {
-  const description = !options?.disableDescription && extractDescription(csf._metaStatement);
+  const description =
+    !options?.disableDescription && extractDescription(csf._originalMetaStatement);
+
   // docs: { description: { component: %%description%% } },
   if (description) {
     const metaNode = csf._metaNode;
@@ -128,7 +131,7 @@ export const enrichCsfMeta = (csf: CsfFile, options?: EnrichCsfOptions) => {
 
 export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
   enrichCsfMeta(csf, options);
-  Object.keys(csf._storyExports).forEach((key) => {
+  Object.keys(csf._originalStoryExports).forEach((key) => {
     enrichCsfStory(csf, key, options);
   });
 };

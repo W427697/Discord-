@@ -15,7 +15,7 @@ const makeTitle = (userTitle?: string) => {
 };
 
 const parse = (code: string, includeParameters?: boolean) => {
-  const { stories, meta } = loadCsf(code, { makeTitle }).parse();
+  const { stories, meta } = loadCsf(code, code, { makeTitle }).parse();
   const filtered = includeParameters ? stories : stories.map(({ parameters, ...rest }) => rest);
   return { meta, stories: filtered };
 };
@@ -684,8 +684,8 @@ describe('CsfFile', () => {
       const input = dedent`
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(Object.keys(csf._metaAnnotations)).toEqual(['title', 'x', 'y']);
+      const csf = loadCsf(input, input, { makeTitle }).parse();
+      expect(Object.keys(csf._originalMetaAnnotations)).toEqual(['title', 'x', 'y']);
     });
 
     it('story annotations', () => {
@@ -697,9 +697,9 @@ describe('CsfFile', () => {
         export const B = () => {};
         B.z = 3;
     `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
-      expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
+      const csf = loadCsf(input, input, { makeTitle }).parse();
+      expect(Object.keys(csf._originalStoryAnnotations.A)).toEqual(['x', 'y']);
+      expect(Object.keys(csf._originalStoryAnnotations.B)).toEqual(['z']);
     });
 
     it('v1-style story annotations', () => {
@@ -715,9 +715,9 @@ describe('CsfFile', () => {
           z: 3,
         }
     `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
-      expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
+      const csf = loadCsf(input, input, { makeTitle }).parse();
+      expect(Object.keys(csf._originalStoryAnnotations.A)).toEqual(['x', 'y']);
+      expect(Object.keys(csf._originalStoryAnnotations.B)).toEqual(['z']);
     });
   });
 
@@ -839,8 +839,8 @@ describe('CsfFile', () => {
         import { Check } from './Check';
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(csf.imports).toMatchInlineSnapshot(`
+      const csf = loadCsf(input, input, { makeTitle }).parse();
+      expect(csf.originalImports).toMatchInlineSnapshot(`
         - ./Button
         - ./Check
       `);
@@ -851,8 +851,8 @@ describe('CsfFile', () => {
         const Button = await import('./Button');
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(csf.imports).toMatchInlineSnapshot();
+      const csf = loadCsf(input, input, { makeTitle }).parse();
+      expect(csf.originalImports).toMatchInlineSnapshot();
     });
     // eslint-disable-next-line jest/no-disabled-tests
     it.skip('requires', () => {
@@ -860,8 +860,8 @@ describe('CsfFile', () => {
         const Button = require('./Button');
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(csf.imports).toMatchInlineSnapshot();
+      const csf = loadCsf(input, input, { makeTitle }).parse();
+      expect(csf.originalImports).toMatchInlineSnapshot();
     });
   });
 
@@ -1067,8 +1067,7 @@ describe('CsfFile', () => {
 
   describe('index inputs', () => {
     it('generates index inputs', () => {
-      const { indexInputs } = loadCsf(
-        dedent`
+      const code = dedent`
       export default {
         id: 'component-id',
         title: 'custom foo title',
@@ -1084,9 +1083,11 @@ describe('CsfFile', () => {
         play: () => {},
         tags: ['story-tag'],
       };
-    `,
-        { makeTitle, fileName: 'foo/bar.stories.js' }
-      ).parse();
+    `;
+      const { indexInputs } = loadCsf(code, code, {
+        makeTitle,
+        fileName: 'foo/bar.stories.js',
+      }).parse();
 
       expect(indexInputs).toMatchInlineSnapshot(`
         - type: story
@@ -1115,8 +1116,7 @@ describe('CsfFile', () => {
     });
 
     it('supports custom parameters.__id', () => {
-      const { indexInputs } = loadCsf(
-        dedent`
+      const code = dedent`
       export default {
         id: 'component-id',
         title: 'custom foo title',
@@ -1126,9 +1126,11 @@ describe('CsfFile', () => {
       export const A = {
         parameters: { __id: 'custom-story-id' }
       };
-    `,
-        { makeTitle, fileName: 'foo/bar.stories.js' }
-      ).parse();
+    `;
+      const { indexInputs } = loadCsf(code, code, {
+        makeTitle,
+        fileName: 'foo/bar.stories.js',
+      }).parse();
 
       expect(indexInputs).toMatchInlineSnapshot(`
         - type: story
@@ -1144,8 +1146,7 @@ describe('CsfFile', () => {
     });
 
     it('removes duplicate tags', () => {
-      const { indexInputs } = loadCsf(
-        dedent`
+      const code = dedent`
       export default {
         title: 'custom foo title',
         tags: ['component-tag', 'component-tag-dup', 'component-tag-dup', 'inherit-tag-dup']
@@ -1154,9 +1155,11 @@ describe('CsfFile', () => {
       export const A = {
         tags: ['story-tag', 'story-tag-dup', 'story-tag-dup', 'inherit-tag-dup']
       };
-    `,
-        { makeTitle, fileName: 'foo/bar.stories.js' }
-      ).parse();
+    `;
+      const { indexInputs } = loadCsf(code, code, {
+        makeTitle,
+        fileName: 'foo/bar.stories.js',
+      }).parse();
 
       expect(indexInputs).toMatchInlineSnapshot(`
         - type: story
@@ -1175,8 +1178,7 @@ describe('CsfFile', () => {
     });
 
     it('throws if getting indexInputs without filename option', () => {
-      const csf = loadCsf(
-        dedent`
+      const code = dedent`
       export default {
         title: 'custom foo title',
         tags: ['component-tag', 'component-tag-dup', 'component-tag-dup', 'inherit-tag-dup']
@@ -1185,9 +1187,8 @@ describe('CsfFile', () => {
       export const A = {
         tags: ['story-tag', 'story-tag-dup', 'story-tag-dup', 'inherit-tag-dup']
       };
-    `,
-        { makeTitle }
-      ).parse();
+    `;
+      const csf = loadCsf(code, code, { makeTitle }).parse();
 
       expect(() => csf.indexInputs).toThrowErrorMatchingInlineSnapshot(`
         "Cannot automatically create index inputs with CsfFile.indexInputs because the CsfFile instance was created without a the fileName option.

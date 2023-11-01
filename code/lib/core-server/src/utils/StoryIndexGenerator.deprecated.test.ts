@@ -35,14 +35,14 @@ const getStorySortParameterMock = getStorySortParameter as jest.Mock<
 
 const csfIndexer = async (fileName: string, opts: any) => {
   const code = (await fs.readFile(fileName, 'utf-8')).toString();
-  return loadCsf(code, { ...opts, fileName }).parse();
+  return loadCsf(code, code, { ...opts, fileName }).parse();
 };
 
 const storiesMdxIndexer = async (fileName: string, opts: any) => {
   let code = (await fs.readFile(fileName, 'utf-8')).toString();
   const { compile } = await import('@storybook/mdx2-csf');
   code = await compile(code, {});
-  return loadCsf(code, { ...opts, fileName }).parse();
+  return loadCsf(code, code, { ...opts, fileName }).parse();
 };
 
 const options: StoryIndexGeneratorOptions = {
@@ -1168,7 +1168,7 @@ describe('StoryIndexGenerator with deprecated indexer API', () => {
               test: /\.stories\.(m?js|ts)x?$/,
               createIndex: async (fileName, options) => {
                 const code = (await fs.readFile(fileName, 'utf-8')).toString();
-                const csf = loadCsf(code, { ...options, fileName }).parse();
+                const csf = loadCsf(code, code, { ...options, fileName }).parse();
 
                 // eslint-disable-next-line no-underscore-dangle
                 return Object.entries(csf._stories).map(([exportName, story]) => ({
