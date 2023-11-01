@@ -9,7 +9,7 @@ import { CHANNEL_CREATED } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
-const { FEATURES, CONFIG_TYPE } = global;
+const { CONFIG_TYPE } = global;
 
 class ReactProvider extends Provider {
   private addons: AddonStore;

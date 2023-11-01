@@ -58,7 +58,7 @@ import {
 import type { ComposedRef } from '../index';
 import type { ModuleFn } from '../lib/types';
 
-const { FEATURES, fetch } = global;
+const { fetch } = global;
 const STORY_INDEX_PATH = './index.json';
 
 type Direction = -1 | 1;
