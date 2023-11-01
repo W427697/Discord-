@@ -313,7 +313,7 @@ export interface StorybookConfig {
     legacyDecoratorFileOrder?: boolean;
 
     /**
-     * Warn when there are incompatible addons detected.
+     * Warn when there are incompatible addons detected, default to true.
      */
     warnOnIncompatibleAddons?: boolean;
   };
