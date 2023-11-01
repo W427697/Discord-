@@ -1,1 +1,5 @@
-export { parameters } from './docs/config';
+export const parameters = {
+  docs: {
+    story: { inline: true },
+  },
+};
