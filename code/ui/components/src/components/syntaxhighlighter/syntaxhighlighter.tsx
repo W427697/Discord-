@@ -100,10 +100,7 @@ const Wrapper = styled.div<WrapperProps>(
       : {}
 );
 
-const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({
-  children,
-  className,
-}): JSX.Element => (
+const UnstyledScroller: FC<ComponentProps<typeof ScrollArea>> = ({ children, className }) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>

@@ -542,7 +542,7 @@ describe('stories API', () => {
 
   describe('STORY_SPECIFIED event', () => {
     it('navigates to the story', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/' } });
+      const moduleArgs = createMockModuleArgs({ initialState: { path: '/', index: {} } });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -550,7 +550,7 @@ describe('stories API', () => {
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
     });
     it('DOES not navigate if the story was already selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/story/a--1' } });
+      const moduleArgs = createMockModuleArgs({ initialState: { path: '/story/a--1', index: {} } });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -558,7 +558,9 @@ describe('stories API', () => {
       expect(navigate).not.toHaveBeenCalled();
     });
     it('DOES not navigate if a settings page was selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/settings/about' } });
+      const moduleArgs = createMockModuleArgs({
+        initialState: { path: '/settings/about', index: {} },
+      });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -566,7 +568,9 @@ describe('stories API', () => {
       expect(navigate).not.toHaveBeenCalled();
     });
     it('DOES not navigate if a custom page was selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/custom/page' } });
+      const moduleArgs = createMockModuleArgs({
+        initialState: { path: '/custom/page', index: {} },
+      });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -894,6 +898,16 @@ describe('stories API', () => {
       });
       api.selectStory('intro');
       expect(navigate).toHaveBeenCalledWith('/docs/intro--docs');
+    });
+    it('updates lastTrackedStoryId', () => {
+      const initialState = { path: '/story/a--1', storyId: 'a--1', viewMode: 'story' };
+      const moduleArgs = createMockModuleArgs({ initialState });
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      api.setIndex({ v: 4, entries: navigationEntries });
+      api.selectStory('a--1');
+      expect(store.getState().settings.lastTrackedStoryId).toBe('a--1');
     });
     describe('deprecated api', () => {
       it('allows navigating to a combination of title + name', () => {

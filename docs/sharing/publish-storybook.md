@@ -89,7 +89,7 @@ View it online at https://www.chromatic.com/build?appId=...&number=1.
 
 ### Setup CI to publish automatically
 
-Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
+Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
 
 In your project's root directory, add a new file called `chromatic.yml` inside the `.github/workflows` directory:
 
@@ -166,7 +166,7 @@ Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3
 
 ## Search engine optimization (SEO)
 
-If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
+If your Storybook is publicly viewable, you may wish to configure how it is represented in search engine result pages.
 
 ### Description
 

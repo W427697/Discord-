@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "7.5.0-alpha.2",
+  "version": "7.6.0-alpha.3",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -83,7 +83,7 @@
     "upath": "^2.0.1"
   },
   "devDependencies": {
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

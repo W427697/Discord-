@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { loadConfigFromFile, mergeConfig } from 'vite';
 import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
@@ -15,7 +14,6 @@ import {
   codeGeneratorPlugin,
   csfPlugin,
   injectExportOrderPlugin,
-  mdxPlugin,
   stripStoryHMRBoundary,
   externalGlobalsPlugin,
 } from './plugins';
@@ -42,6 +40,8 @@ export async function commonConfig(
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
+  const { loadConfigFromFile, mergeConfig } = await import('vite');
+
   const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
 
   const projectRoot = path.resolve(options.configDir, '..');
@@ -68,6 +68,10 @@ export async function commonConfig(
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,
     // otherwise, add VITE_ and STORYBOOK_ so that vite doesn't lose its default.
     envPrefix: userConfig.envPrefix ? ['STORYBOOK_'] : ['VITE_', 'STORYBOOK_'],
+    // Pass build.target option from user's vite config
+    build: {
+      target: buildProperty?.target,
+    },
   };
 
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);
@@ -81,9 +85,8 @@ export async function pluginConfig(options: Options) {
   const plugins = [
     codeGeneratorPlugin(options),
     await csfPlugin(options),
-    await mdxPlugin(options),
-    injectExportOrderPlugin,
-    stripStoryHMRBoundary(),
+    await injectExportOrderPlugin(),
+    await stripStoryHMRBoundary(),
     {
       name: 'storybook:allow-storybook-dir',
       enforce: 'post',
