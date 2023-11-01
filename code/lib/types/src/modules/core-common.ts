@@ -156,6 +156,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   docs?: boolean;
+  test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -310,6 +311,11 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+
+    /**
+     * Globalize @storybook/blocks
+     */
+    fastBuildEmptyBlocks?: boolean;
   };
 
   /**
