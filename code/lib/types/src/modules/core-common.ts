@@ -159,6 +159,7 @@ export interface CLIOptions {
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
+  warnOnIncompatibleAddons?: boolean;
 }
 
 export interface BuilderOptions {
@@ -310,6 +311,11 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+
+    /**
+     * Warn when there are incompatible addons detected.
+     */
+    warnOnIncompatibleAddons?: boolean;
   };
 
   /**

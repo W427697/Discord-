@@ -6,6 +6,10 @@ import dedent from 'ts-dedent';
 import { getIncompatibleAddons } from '../../../cli/src/automigrate/helpers/getIncompatibleAddons';
 
 export const warnOnIncompatibleAddons = async (config: StorybookConfig) => {
+  if (config.features.warnOnIncompatibleAddons === false) {
+    return 
+  }
+
   const incompatibleAddons = await getIncompatibleAddons(config);
 
   if (incompatibleAddons.length > 0) {
