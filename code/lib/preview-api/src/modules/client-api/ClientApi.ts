@@ -103,24 +103,18 @@ export const setGlobalRender = (render: StoryStoreFacade<any>['projectAnnotation
   }
 };
 
-const invalidStoryTypes = new Set(['string', 'number', 'boolean', 'symbol']);
 export class ClientApi<TRenderer extends Renderer> {
   facade: StoryStoreFacade<TRenderer>;
 
   storyStore?: StoryStore<TRenderer>;
 
-  private addons: Addon_ClientApiAddons<TRenderer['storyResult']>;
-
   onImportFnChanged?: ({ importFn }: { importFn: ModuleImportFn }) => void;
 
   // If we don't get passed modules so don't know filenames, we can
   // just use numeric indexes
-  private lastFileName = 0;
 
   constructor({ storyStore }: { storyStore?: StoryStore<TRenderer> } = {}) {
     this.facade = new StoryStoreFacade();
-
-    this.addons = {};
 
     this.storyStore = storyStore;
   }
