@@ -2,6 +2,7 @@
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Core changes](#core-changes)
+    - [Autotitle breaking fixes](#autotitle-breaking-fixes)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
@@ -315,6 +316,16 @@
 ## From version 7.x to 8.0.0
 
 ### Core changes
+
+#### Autotitle breaking fixes
+
+In Storybook 7, the file name `path/to/foo.bar.stories.js` would result in the [autotitle](https://storybook.js.org/docs/react/configure/overview#configure-story-loading) `path/to/foo`. In 8.0, this has been changed to generate `path/to/foo.bar`. We consider this a bugfix but it is also a breaking change if you depended on the old behavior. To get the old titles, you can manually specify the desired title in the default export of your component file. For example:
+
+```js
+export default {
+  title: 'path/to/foo',
+}
+```
 
 #### UI layout state has changed shape
 
