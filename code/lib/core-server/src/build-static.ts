@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { global } from '@storybook/global';
-import { deprecate, logger } from '@storybook/node-logger';
+import { logger } from '@storybook/node-logger';
 import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type {
   BuilderOptions,
@@ -23,7 +23,6 @@ import {
 import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 
 import isEqual from 'lodash/isEqual.js';
-import dedent from 'ts-dedent';
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
