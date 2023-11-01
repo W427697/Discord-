@@ -1,5 +1,4 @@
 import program from 'commander';
-import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
