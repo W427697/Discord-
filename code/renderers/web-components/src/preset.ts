@@ -8,5 +8,5 @@ export const previewAnnotations: StorybookConfig['previewAnnotations'] = async (
   return result
     .concat(input)
     .concat([join(__dirname, 'entry-preview.mjs')])
-    .concat(docsEnabled ? [join(__dirname, 'entry-docs.mjs')] : []);
+    .concat(docsEnabled ? [join(__dirname, 'entry-preview-docs.mjs')] : []);
 };
