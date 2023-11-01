@@ -1,4 +1,5 @@
 #!/usr/bin/env ./node_modules/.bin/ts-node-script
+/* eslint-disable no-console */
 
 import { join } from 'path';
 import * as ts from 'typescript';
