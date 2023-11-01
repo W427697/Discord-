@@ -43,7 +43,7 @@ const Template = (args) => <Button {...args} />;
 export const Demo = Template.bind({});
 Demo.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);
-  await userEvent.click(await canvas.getByRole('button'));
+  await userEvent.click(canvas.getByRole('button'));
   await expect(args.onClick).toHaveBeenCalled();
 };
 ```
@@ -53,3 +53,5 @@ be `await`-ed. While debugging, these functions return a Promise that won't reso
 
 While you can technically use `screen`, it's recommended to use `within(canvasElement)`. Besides giving you a better error
 message when a DOM element can't be found, it will also ensure your play function is compatible with Storybook Docs.
+
+Note that the `fn` function will assign a spy to your arg, so that you can assert invocations.
