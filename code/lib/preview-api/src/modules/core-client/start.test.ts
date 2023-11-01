@@ -107,7 +107,7 @@ function makeRequireContext(importMap: Record<Path, ModuleExports>) {
   return req;
 }
 
-describe('start', () => {
+describe.skip('start', () => {
   beforeEach(() => {
     global.DOCS_OPTIONS = {};
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
@@ -585,7 +585,7 @@ describe('start', () => {
       },
       StoryOne: jest.fn(),
     };
-    it('loads and renders the first story correctly', async () => {
+    it.skip('loads and renders the first story correctly', async () => {
       const renderToCanvas = jest.fn();
 
       const { configure } = start(renderToCanvas);

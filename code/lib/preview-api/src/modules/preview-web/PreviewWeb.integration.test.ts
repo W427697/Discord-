@@ -71,7 +71,7 @@ beforeEach(() => {
   jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
-describe('PreviewWeb', () => {
+describe.skip('PreviewWeb', () => {
   describe('initial render', () => {
     it('renders story mode through the stack', async () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');

@@ -567,6 +567,46 @@ describe('useStoriesJson', () => {
       expect(JSON.parse(send.mock.calls[0][0])).toMatchInlineSnapshot(`
         Object {
           "stories": Object {
+            "a--metaof": Object {
+              "id": "a--metaof",
+              "importPath": "./src/docs2/MetaOf.mdx",
+              "kind": "A",
+              "name": "MetaOf",
+              "parameters": Object {
+                "__id": "a--metaof",
+                "docsOnly": true,
+                "fileName": "./src/docs2/MetaOf.mdx",
+              },
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "story": "MetaOf",
+              "tags": Array [
+                "attached-mdx",
+                "docs",
+              ],
+              "title": "A",
+            },
+            "a--second-docs": Object {
+              "id": "a--second-docs",
+              "importPath": "./src/docs2/SecondMetaOf.mdx",
+              "kind": "A",
+              "name": "Second Docs",
+              "parameters": Object {
+                "__id": "a--second-docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/SecondMetaOf.mdx",
+              },
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "story": "Second Docs",
+              "tags": Array [
+                "attached-mdx",
+                "docs",
+              ],
+              "title": "A",
+            },
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
@@ -619,6 +659,60 @@ describe('useStoriesJson', () => {
               ],
               "title": "D",
             },
+            "docs2-componentreference--docs": Object {
+              "id": "docs2-componentreference--docs",
+              "importPath": "./src/docs2/ComponentReference.mdx",
+              "kind": "docs2/ComponentReference",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-componentreference--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/ComponentReference.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "unattached-mdx",
+                "docs",
+              ],
+              "title": "docs2/ComponentReference",
+            },
+            "docs2-notitle--docs": Object {
+              "id": "docs2-notitle--docs",
+              "importPath": "./src/docs2/NoTitle.mdx",
+              "kind": "docs2/NoTitle",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-notitle--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/NoTitle.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "unattached-mdx",
+                "docs",
+              ],
+              "title": "docs2/NoTitle",
+            },
+            "docs2-yabbadabbadooo--docs": Object {
+              "id": "docs2-yabbadabbadooo--docs",
+              "importPath": "./src/docs2/Title.mdx",
+              "kind": "docs2/Yabbadabbadooo",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-yabbadabbadooo--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/Title.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "unattached-mdx",
+                "docs",
+              ],
+              "title": "docs2/Yabbadabbadooo",
+            },
             "first-nested-deeply-f--story-one": Object {
               "id": "first-nested-deeply-f--story-one",
               "importPath": "./src/first-nested/deeply/F.stories.js",
@@ -668,6 +762,24 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
+            },
+            "nested-page--docs": Object {
+              "id": "nested-page--docs",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "nested-page--docs",
+                "docsOnly": true,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "stories-mdx",
+                "docs",
+              ],
+              "title": "nested/Page",
             },
             "nested-page--story-one": Object {
               "id": "nested-page--story-one",

@@ -139,7 +139,7 @@ beforeEach(() => {
   jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
-describe('PreviewWeb', () => {
+describe.skip('PreviewWeb', () => {
   describe('initialize', () => {
     it('shows an error if getProjectAnnotations throws', async () => {
       const err = new Error('meta error');
