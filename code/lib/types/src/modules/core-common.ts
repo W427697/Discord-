@@ -314,8 +314,8 @@ export interface StorybookConfig {
     legacyDecoratorFileOrder?: boolean;
   };
 
-  build: {
-    test: {
+  build?: {
+    test?: {
       /**
        * Globalize @storybook/blocks
        */
