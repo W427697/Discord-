@@ -220,6 +220,7 @@ export default async (
   }
 
   if (test?.emptyBlocks) {
+    // @ts-expect-error (force add empty blocks module)
     globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
@@ -275,6 +276,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
+            ...(test?.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
           bodyHtmlSnippet,

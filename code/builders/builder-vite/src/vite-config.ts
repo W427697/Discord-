@@ -80,6 +80,7 @@ export async function pluginConfig(options: Options) {
   const { test } = await options.presets.apply('build');
 
   if (test?.emptyBlocks) {
+    // @ts-expect-error (force add empty blocks module)
     globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
