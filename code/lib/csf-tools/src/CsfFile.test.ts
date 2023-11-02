@@ -1278,6 +1278,11 @@ describe('CsfFile', () => {
             inlineParameters: {}
       `);
     });
+
+    // This test was to show that you could also include functions like
+    // `() => 'bar'` in the inline parameters, but the YAML test serialization
+    // fails in that case. So instead I just included a more complex AST
+    // expression that can also be seralized in the test.
     it('non-JSON parameters', () => {
       expect(
         parse(dedent`
