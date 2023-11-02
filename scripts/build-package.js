@@ -4,26 +4,21 @@
 const { resolve, join, posix, sep } = require('path');
 const { readJSON } = require('fs-extra');
 
-const getStorybookPackages = async () => {
-  const process = require('util').promisify(require('child_process').exec);
-  const contents = await process('lerna ls --json', { cwd: join(__dirname, '..', 'code') });
-
-  const projects = JSON.parse(contents.stdout);
-  return projects.reduce((acc, project) => {
-    acc.push({
-      name: project.name,
-      location: project.location,
-    });
-    return acc;
-  }, []);
-};
+async function getWorkspaces(includePrivate = true) {
+  const { execaCommand } = await import('execa');
+  const { stdout } = await execaCommand(`yarn workspaces list --json --no-private`, {
+    cwd: join(__dirname, '..', 'code'),
+    shell: true,
+  });
+  return JSON.parse(`[${stdout.split('\n').join(',')}]`);
+}
 
 async function run() {
   const prompts = require('prompts');
   const program = require('commander');
   const chalk = require('chalk');
 
-  const packages = await getStorybookPackages();
+  const packages = await getWorkspaces();
   const packageTasks = packages
     .map((package) => {
       return {
