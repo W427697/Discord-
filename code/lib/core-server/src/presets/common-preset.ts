@@ -11,7 +11,7 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
-  FastBuildFlags,
+  TestBuildFlags,
   Indexer,
   Options,
   PresetPropertyFn,
@@ -186,9 +186,10 @@ export const previewAnnotations = async (base: any, options: Options) => {
   return [...config, ...base];
 };
 
-const testBuildFeatures = (value: boolean): Required<FastBuildFlags> => ({
+const testBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   emptyBlocks: value,
   removeAllAddons: value,
+  removeMDXEntries: value,
 });
 
 export const features = async (

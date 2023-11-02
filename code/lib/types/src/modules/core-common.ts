@@ -180,7 +180,10 @@ export interface StorybookConfigOptions {
   presetsList?: LoadedPreset[];
 }
 
-export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
+export type Options = LoadOptions &
+  StorybookConfigOptions &
+  CLIOptions &
+  BuilderOptions & { build: TestBuildConfig };
 
 export interface Builder<Config, BuilderStats extends Stats = Stats> {
   getConfig: (options: Options) => Promise<Config>;
@@ -257,15 +260,23 @@ export type DocsOptions = {
   docsMode?: boolean;
 };
 
-export interface FastBuildFlags {
+export interface TestBuildFlags {
   /**
    * Globalize @storybook/blocks
    */
   emptyBlocks?: boolean;
   /**
-   * Globalize @storybook/blocks
+   * disable all addons
    */
   removeAllAddons?: boolean;
+  /**
+   * Remove .mdx stories entries
+   */
+  removeMDXEntries?: boolean;
+}
+
+export interface TestBuildConfig {
+  test?: TestBuildFlags;
 }
 
 /**
@@ -325,9 +336,7 @@ export interface StorybookConfig {
     legacyDecoratorFileOrder?: boolean;
   };
 
-  build?: {
-    test?: FastBuildFlags;
-  };
+  build?: TestBuildConfig;
 
   /**
    * Tells Storybook where to find stories.
