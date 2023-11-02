@@ -140,22 +140,6 @@ Neither option is perfect, so here's everything you should know if you're thinki
 | react-docgen            | 29s        |
 | none                    | 28s        |
 
-The biggest limitation of `react-docgen` is [lack of support for `React.FC`](https://github.com/reactjs/react-docgen/issues/387). This means that the following common pattern **DOESN'T WORK**:
-
-```tsx
-import React, { FC } from 'react';
-interface IProps { ... };
-const MyComponent: FC<IProps> = ({ ... }) => ...
-```
-
-Fortunately, the following workaround works:
-
-```tsx
-const MyComponent: FC<IProps> = ({ ... }: IProps) => ...
-```
-
-Please upvote [the issue](https://github.com/reactjs/react-docgen/issues/387) if this is affecting your productivity, or better yet, submit a fix!
-
 ## More resources
 
 Want to learn more? Here are some more articles on Storybook Docs:
