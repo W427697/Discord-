@@ -217,10 +217,8 @@ export default async (
     `);
   }
 
-  const globalObj: Record<string, string> = globals;
-
   if (features?.fastBuildEmptyBlocks) {
-    globalObj['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
   return {

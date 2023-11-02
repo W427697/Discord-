@@ -1,5 +1,5 @@
 // Here we map the name of a module to their NAME in the global scope.
-export const globals = {
+export const globals: Record<string, string> = {
   '@storybook/addons': '__STORYBOOK_MODULE_ADDONS__',
   '@storybook/global': '__STORYBOOK_MODULE_GLOBAL__',
   '@storybook/channel-postmessage': '__STORYBOOK_MODULE_CHANNEL_POSTMESSAGE__', // @deprecated: remove in 8.0
