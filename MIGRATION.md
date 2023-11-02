@@ -3,6 +3,7 @@
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Core changes](#core-changes)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
+    - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
@@ -321,6 +322,22 @@ In Storybook 7 it was possible to use `addons.setConfig({...});` to configure St
 - `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
 - `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
 - `isFullscreen: boolean` is no longer supported, but can be achieved by setting a combination of the above.
+
+#### React-docgen component analysis by default
+
+In Storybook 7, we used `react-docgen-typescript` to analyze React component props and auto-generated control. In Storybook 8, we have moved to `react-docgen` as the new default. `react-docgen` is dramatically more efficient, shaving seconds off of dev startup times. However, it only analyzes basic TypeScript constructs.
+
+We feel `react-docgen` is the right tradeoff for most React projects. However, if you need the full fidelity of `react-docgen-typescript`, you can opt-in using the following setting in `.storybook/main.js`:
+
+```js
+export default {
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+  }
+}
+```
+
+For more information see: https://storybook.js.org/docs/react/api/main-config-typescript#reactdocgen
 
 ## From version 7.5.0 to 7.6.0
 
