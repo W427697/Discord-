@@ -27,7 +27,7 @@ describe('getFrameworks', () => {
       dependencies: VUE,
       devDependencies: REACT,
     });
-    expect(frameworks.sort()).toEqual(['react', 'vue']);
+    expect(frameworks.sort()).toEqual(['react', 'vue3']);
   });
   it('no deps', () => {
     const frameworks = getFrameworks({});

@@ -12,7 +12,7 @@ const FRAMEWORKS = [
   'react',
   'react-native',
   'svelte',
-  'vue',
+  'vue3',
   'web-components',
 ];
 
