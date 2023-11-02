@@ -185,13 +185,12 @@ export const previewAnnotations = async (base: any, options: Options) => {
   return [...config, ...base];
 };
 
-const fastBuildFeatures = (value: boolean) => ({
-  fastBuildEmptyBlocks: value,
+const testBuildFeatures = (value: boolean) => ({
+  emptyBlocks: value,
 });
 
 export const features = async (
-  existing: StorybookConfig['features'],
-  options: Options
+  existing: StorybookConfig['features']
 ): Promise<StorybookConfig['features']> => ({
   ...existing,
   warnOnLegacyHierarchySeparator: true,
@@ -199,8 +198,17 @@ export const features = async (
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
-  ...fastBuildFeatures(!!options.test),
 });
+
+export const build = async (value: StorybookConfig['build'], options: Options) => {
+  return {
+    ...value,
+    test: {
+      ...testBuildFeatures(!!options.test),
+      ...value?.test,
+    },
+  };
+};
 
 export const csfIndexer: Indexer = {
   test: /(stories|story)\.(m?js|ts)x?$/,

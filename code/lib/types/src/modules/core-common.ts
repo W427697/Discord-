@@ -76,6 +76,7 @@ export interface Presets {
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
+  apply(extension: 'build', config?: {}, args?: any): Promise<StorybookConfig['build']>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -311,11 +312,15 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+  };
 
-    /**
-     * Globalize @storybook/blocks
-     */
-    fastBuildEmptyBlocks?: boolean;
+  build: {
+    test: {
+      /**
+       * Globalize @storybook/blocks
+       */
+      emptyBlocks?: boolean;
+    };
   };
 
   /**

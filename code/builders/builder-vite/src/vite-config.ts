@@ -77,9 +77,9 @@ export async function commonConfig(
 
 export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
-  const { features } = options;
+  const { test } = await options.presets.apply('build');
 
-  if (features?.fastBuildEmptyBlocks) {
+  if (test?.emptyBlocks) {
     globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
