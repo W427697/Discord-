@@ -2,6 +2,7 @@
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Core changes](#core-changes)
+    - [Removal of `sb extract` CLI command](#removal-of-sb-extract-cli-command)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
@@ -315,6 +316,12 @@
 ## From version 7.x to 8.0.0
 
 ### Core changes
+
+#### Removal of `sb extract` CLI command
+
+In Storybook 7 it was possible to use `storyStoreV7: false`. This is no longer supported and will be removed in Storybook 8.0.0.
+
+The storybook CLI had a command to take a deployed or built storybook and extract the stories from it into a `.json`-file. This command is removed, as it serves no purpose anymore as when `storyStoreV7` is `true`, an index `.json`-file is generated during the build & dev.
 
 #### UI layout state has changed shape
 
