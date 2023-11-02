@@ -1,3 +1,2 @@
-// TODO: We need to configure an eslint-import typescript resolver for export maps to be considered
-
+// @ts-expect-error (no types needed for this)
 export * from '@storybook/addon-highlight/preview';
