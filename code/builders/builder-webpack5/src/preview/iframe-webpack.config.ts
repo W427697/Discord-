@@ -90,7 +90,7 @@ export default async (
     entries,
     nonNormalizedStories,
     modulesCount = 1000,
-    { test },
+    build,
   ] = await Promise.all([
     presets.apply<CoreConfig>('core'),
     presets.apply('frameworkOptions'),
@@ -276,7 +276,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
-            ...(test?.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
+            ...(build?.test?.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
           bodyHtmlSnippet,
