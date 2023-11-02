@@ -5,7 +5,7 @@ export type PreviewHtml = string | undefined;
 
 export async function transformIframeHtml(html: string, options: Options) {
   const { configType, features, presets } = options;
-  const { test } = await presets.apply('build');
+  const build = await presets.apply('build');
   const frameworkOptions = await presets.apply<Record<string, any> | null>('frameworkOptions');
   const headHtmlSnippet = await presets.apply<PreviewHtml>('previewHead');
   const bodyHtmlSnippet = await presets.apply<PreviewHtml>('previewBody');
@@ -22,7 +22,7 @@ export async function transformIframeHtml(html: string, options: Options) {
   }));
 
   const otherGlobals = {
-    ...(test.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
+    ...(build?.test.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
   };
 
   return html
