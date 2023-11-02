@@ -2,6 +2,8 @@
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
   - [Core changes](#core-changes)
+    - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
+      - [Storyshots has been removed](#storyshots-has-been-removed)
     - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
@@ -315,6 +317,32 @@
 ## From version 7.x to 8.0.0
 
 ### Core changes
+
+#### React v18 in the manager UI (including addons)
+
+Storybook 7 used React 16 in the manager. In Storybook 8 this is upgraded to react v18.
+Addons that inject UI into panels, tools, etc. are possibly affected by this.
+
+Addon authors are advised to upgrade to react v18.
+
+##### Storyshots has been removed
+
+Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
+
+Every story would automatically be taken into account and created a snapshot-file for.
+
+Snapshot-testing has since fallen out of favor and is no longer recommended.
+
+In addition to it's limited use, and high chance of false-positives, storyshots ran code developed to run in the browser in NodeJS via JSDOM.
+JSDOM has limitations and is not a perfect emulation of the browser environment; therefore storyshots was always a pain to setup and maintain.
+
+The storybook team has build the test-runner as a direct replacement, which utilizes playwright to connect to an actual browser where storybook runs the code.
+
+In addition CSF has expanded to allow for play-function to be defined on stories, which allows for more complex testing scenarios, fully integrated within storybook itself (and supported by the test-runner, and not storyshots).
+
+Finally `storyStoreV7: true` (the default and only options in storybook 8), was not supported by storyshots.
+
+By removing storyshots, the storybook team was unblocked from moving (eventually) to an ESM-only storybook, which is a big step towards a more modern storybook.
 
 #### UI layout state has changed shape
 
