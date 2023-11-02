@@ -12,10 +12,14 @@ export const build: Task = {
   async ready({ builtSandboxDir }) {
     return pathExists(builtSandboxDir);
   },
-  async run({ sandboxDir }, { dryRun, debug }) {
+  async run({ sandboxDir, template }, { dryRun, debug }) {
     const start = now();
 
-    await exec(`yarn build-storybook --quiet`, { cwd: sandboxDir }, { dryRun, debug });
+    await exec(
+      `yarn build-storybook --quiet ${template.modifications?.testBuild ? '--test' : ''}`,
+      { cwd: sandboxDir },
+      { dryRun, debug }
+    );
 
     const buildTime = now() - start;
     const dir = join(sandboxDir, 'storybook-static');
