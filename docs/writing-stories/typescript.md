@@ -68,7 +68,6 @@ Sometimes stories need to define args that aren’t included in the component's 
 <CodeSnippets
   paths={[
     'react/page-story-slots.ts.mdx',
-    'vue/page-story-slots.2.ts.mdx',
     'vue/page-story-slots.3.ts.mdx',
     'angular/page-story-slots.ts.mdx',
     'web-components/page-story-slots.ts.mdx',

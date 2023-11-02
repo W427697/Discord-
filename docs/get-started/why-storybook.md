@@ -42,8 +42,6 @@ You write stories for granular UI component variation and then use those stories
     'react/histogram-story.js.mdx',
     'react/histogram-story.ts.mdx',
     'angular/histogram-story.ts.mdx',
-    'vue/histogram-story.2.js.mdx',
-    'vue/histogram-story.2.ts.mdx',
     'vue/histogram-story.3.js.mdx',
     'vue/histogram-story.3.ts.mdx',
     'svelte/histogram-story.js.mdx',

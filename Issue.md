@@ -1,11 +1,11 @@
-*What:*
+_What:_
 We want to step our TS game in the monorepo and enable strict typescript in all packages!
 
-*Why:*
-Having TS track for you if a variable might be null or not, enables us to code with much more confidence, 
-and also gives us quick in editor feedback, when you make assumptions that are not actually true! 
+_Why:_
+Having TS track for you if a variable might be null or not, enables us to code with much more confidence,
+and also gives us quick in editor feedback, when you make assumptions that are not actually true!
 
-*How:*
+_How:_
 We would like to change as little as possible of the actual runtime behavior in this migration.
 However, we also don't want to simply silence the compiler everywhere with `!`, `as` or `ts-ignore` to get this migration in.
 As a rule of thumb, if the logic is easy enough, prefer improving the code (e.g. add a null check) over silencing the compiler.
@@ -50,7 +50,6 @@ Feel free to contribute too any of packages in the list below!
 - [ ] @storybook/postinstall
 - [ ] @storybook/preact-vite
 - [ ] @storybook/preset-create-react-app
-- [ ] @storybook/preset-vue-webpack
 - [ ] @storybook/preset-vue3-webpack
 - [ ] @storybook/react-vite
 - [ ] @storybook/router
