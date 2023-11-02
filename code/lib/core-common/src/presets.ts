@@ -9,6 +9,7 @@ import type {
   LoadOptions,
   PresetConfig,
   Presets,
+  StorybookConfig,
 } from '@storybook/types';
 import { join, parse } from 'path';
 import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
@@ -16,6 +17,13 @@ import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
 import { stripAbsNodeModulesPath } from './utils/strip-abs-node-modules-path';
+
+type InterPresetOptions = Omit<
+  CLIOptions &
+    LoadOptions &
+    BuilderOptions & { isCritical?: boolean; build?: StorybookConfig['build'] },
+  'frameworkPresets'
+>;
 
 const isObject = (val: unknown): val is Record<string, any> =>
   val != null && typeof val === 'object' && Array.isArray(val) === false;
@@ -241,6 +249,16 @@ export async function loadPreset(
     if (isObject(contents)) {
       const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
 
+      if (storybookOptions.isCritical !== true && storybookOptions.build?.test?.removeAllAddons) {
+        return [
+          {
+            name: presetName,
+            preset: rest,
+            options: presetOptions,
+          },
+        ];
+      }
+
       const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
       const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
 
@@ -354,11 +372,6 @@ function applyPresets(
   }, presetResult);
 }
 
-type InterPresetOptions = Omit<
-  CLIOptions & LoadOptions & BuilderOptions & { isCritical?: boolean },
-  'frameworkPresets'
->;
-
 export async function getPresets(
   presets: PresetConfig[],
   storybookOptions: InterPresetOptions
@@ -379,6 +392,7 @@ export async function loadAllPresets(
       overridePresets: PresetConfig[];
       /** Whether preset failures should be critical or not */
       isCritical?: boolean;
+      build?: StorybookConfig['build'];
     }
 ) {
   const { corePresets = [], overridePresets = [], ...restOptions } = options;

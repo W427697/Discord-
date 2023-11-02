@@ -257,6 +257,17 @@ export type DocsOptions = {
   docsMode?: boolean;
 };
 
+export interface FastBuildFlags {
+  /**
+   * Globalize @storybook/blocks
+   */
+  emptyBlocks?: boolean;
+  /**
+   * Globalize @storybook/blocks
+   */
+  removeAllAddons?: boolean;
+}
+
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
@@ -315,12 +326,7 @@ export interface StorybookConfig {
   };
 
   build?: {
-    test?: {
-      /**
-       * Globalize @storybook/blocks
-       */
-      emptyBlocks?: boolean;
-    };
+    test?: FastBuildFlags;
   };
 
   /**

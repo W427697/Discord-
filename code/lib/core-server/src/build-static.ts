@@ -94,6 +94,8 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
   const { renderer } = await presets.apply<CoreConfig>('core', {});
+  const build = await presets.apply('build', {});
+
   const resolvedRenderer = renderer
     ? resolveAddonName(options.configDir, renderer, options)
     : undefined;
@@ -111,6 +113,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
     ...options,
+    build,
   });
 
   const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
