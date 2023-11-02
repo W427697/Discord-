@@ -218,6 +218,8 @@ describe('CsfFile', () => {
             name: Just Custom Meta Id
           - id: custom-id
             name: Custom Paremeters Id
+            inlineParameters:
+              __id: custom-id
       `);
     });
 
@@ -1196,7 +1198,7 @@ describe('CsfFile', () => {
     });
   });
 
-  describe.only('inline parameters', () => {
+  describe('inline parameters', () => {
     it('meta parameters', () => {
       expect(
         parse(dedent`
@@ -1305,6 +1307,29 @@ describe('CsfFile', () => {
           const nonInline = 'non inline';
           export const A = {
             parameters: { nonInline, chromatic: { disable: true } }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            inlineParameters:
+              chromatic:
+                disable: true
+      `);
+    });
+
+    it('object spread', () => {
+      expect(
+        parse(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const spread = { foo: 'bar' };
+          export const A = {
+            parameters: { ...spread, chromatic: { disable: true } }
           };
         `)
       ).toMatchInlineSnapshot(`
