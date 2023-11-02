@@ -27,7 +27,7 @@ describe('vue3 fix', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {
           switch (packageName) {
-            case '@storybook/vue':
+            case '@storybook/vue3':
               return Promise.resolve('6.2.0');
             case 'vue':
               return Promise.resolve('3.0.0');
@@ -50,7 +50,7 @@ describe('vue3 fix', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {
           switch (packageName) {
-            case '@storybook/vue':
+            case '@storybook/vue3':
               return Promise.resolve('6.2.0');
             default:
               return null;
@@ -72,7 +72,7 @@ describe('vue3 fix', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {
           switch (packageName) {
-            case '@storybook/vue':
+            case '@storybook/vue3':
               return Promise.resolve('6.3.0');
             case 'vue':
               return Promise.resolve('3.0.0');
@@ -172,7 +172,7 @@ describe('vue3 fix', () => {
       const packageManager = {
         getPackageVersion: (packageName) => {
           switch (packageName) {
-            case '@storybook/vue':
+            case '@storybook/vue3':
               return Promise.resolve('7.0.0-alpha.0');
             case 'vue':
               return Promise.resolve('3.0.0');

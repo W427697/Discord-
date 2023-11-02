@@ -142,7 +142,7 @@ That being said, there is a system in place to remove the necessity of this trad
 import React from 'react';
 import { render } from 'react-dom';
 import toReact from '@egoist/vue-to-react';
-import { addParameters } from '@storybook/vue';
+import { addParameters } from '@storybook/vue3';
 
 addParameters({
   docs: {

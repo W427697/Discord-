@@ -144,7 +144,7 @@ describe('getRendererPackageNameFromFramework', () => {
 
   it('should return the corresponding key of rendererPackages if the value is the same as the frameworkPackageName', () => {
     const frameworkPackageName = 'vue';
-    const expectedPackageName = '@storybook/vue';
+    const expectedPackageName = '@storybook/vue3';
     const packageName = getRendererPackageNameFromFramework(frameworkPackageName);
     expect(packageName).toBe(expectedPackageName);
   });

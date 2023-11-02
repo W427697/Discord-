@@ -81,7 +81,7 @@ export default {
 If you haven't upgraded from `storiesOf`, you can use a parameter to do the same thing:
 
 ```ts
-import { storiesOf } from '@storybook/vue';
+import { storiesOf } from '@storybook/vue3';
 import { InfoButton } from './InfoButton.vue';
 
 storiesOf('InfoButton', module)

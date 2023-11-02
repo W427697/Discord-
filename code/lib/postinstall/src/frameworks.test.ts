@@ -6,7 +6,7 @@ const REACT = {
 };
 
 const VUE = {
-  '@storybook/vue': '5.2.5',
+  '@storybook/vue3': '5.2.5',
 };
 
 const NONE = {
