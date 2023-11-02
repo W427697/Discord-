@@ -215,7 +215,6 @@ export default {
   '@storybook/api': [
     'ActiveTabs',
     'Consumer',
-    'GLOBALIZED_PACKAGES',
     'ManagerContext',
     'Provider',
     'addons',
@@ -248,7 +247,6 @@ export default {
   '@storybook/manager-api': [
     'ActiveTabs',
     'Consumer',
-    'GLOBALIZED_PACKAGES',
     'ManagerContext',
     'Provider',
     'addons',
@@ -280,4 +278,5 @@ export default {
   ],
   '@storybook/addons': ['addons', 'types', 'mockChannel'],
   '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
+  '@storybook/types': ['Addon_TypesEnum'],
 } as const;

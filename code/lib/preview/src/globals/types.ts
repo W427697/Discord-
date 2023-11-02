@@ -1,4 +1,6 @@
 // Here we map the name of a module to their NAME in the global scope.
+import type { ModuleInfo } from '@fal-works/esbuild-plugin-global-externals';
+
 export const globals = {
   '@storybook/addons': '__STORYBOOK_MODULE_ADDONS__',
   '@storybook/global': '__STORYBOOK_MODULE_GLOBAL__',
@@ -12,4 +14,7 @@ export const globals = {
   '@storybook/preview-web': '__STORYBOOK_MODULE_PREVIEW_WEB__',
   '@storybook/preview-api': '__STORYBOOK_MODULE_PREVIEW_API__',
   '@storybook/store': '__STORYBOOK_MODULE_STORE__',
+  '@storybook/types': '__STORYBOOK_MODULE_TYPES__',
 };
+
+export type Definitions = Required<Record<keyof typeof globals, Required<ModuleInfo>>>;

@@ -10,13 +10,18 @@ import dedent from 'ts-dedent';
 import slash from 'slash';
 import { exec } from '../utils/exec';
 
+import { GLOBALIZED_PACKAGES as PREVIEW_GLOBALIZED_PACKAGES } from '../../code/lib/preview/src/globals/definitions';
+import { GLOBALIZED_PACKAGES as MANAGER_GLOBALIZED_PACKAGES } from '../../code/ui/manager/src/globals/definitions';
+
 /* TYPES */
 
 type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
-  entries: string[];
+  previewEntries: string[];
+  managerEntries: string[];
+  nodeEntries: string[];
+  exportEntries: string[];
   externals: string[];
-  platform: Options['platform'];
   pre: string;
   post: string;
   formats: Formats[];
@@ -34,9 +39,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     dependencies,
     peerDependencies,
     bundler: {
-      entries = [],
+      managerEntries = [],
+      previewEntries = [],
+      nodeEntries = [],
+      exportEntries = [],
       externals: extraExternals = [],
-      platform,
       pre,
       post,
       formats = ['esm', 'cjs'],
@@ -57,77 +64,140 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
   const tasks: Promise<any>[] = [];
 
-  const outDir = join(process.cwd(), 'dist');
-  const externals = [
+  const commonOptions: Options = {
+    outDir: join(process.cwd(), 'dist'),
+    silent: true,
+    treeshake: true,
+    shims: false,
+    watch,
+    clean: false,
+    esbuildPlugins: [
+      aliasPlugin({
+        process: require.resolve('../node_modules/process/browser.js'),
+        util: require.resolve('../node_modules/util/util.js'),
+        assert: require.resolve('browser-assert'),
+      }),
+    ],
+  };
+
+  const commonExternals = [
     name,
     ...extraExternals,
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
 
-  const allEntries = entries.map((e: string) => slash(join(cwd, e)));
+  if (exportEntries.length > 0) {
+    const { dtsConfig, tsConfigExists } = await getDTSConfigs({
+      formats,
+      entries: exportEntries,
+      optimized,
+    });
 
-  const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
-    formats,
-    entries,
-    optimized,
-  });
+    console.log({
+      exportEntries,
+      commonExternals,
+      MANAGER_GLOBALIZED_PACKAGES,
+      PREVIEW_GLOBALIZED_PACKAGES,
+    });
 
-  /* preset files are always CJS only.
-   * Generating an ESM file for them anyway is problematic because they often have a reference to `require`.
-   * TSUP generated code will then have a `require` polyfill/guard in the ESM files, which causes issues for webpack.
-   */
-  const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
-
-  if (formats.includes('esm')) {
     tasks.push(
       build({
-        silent: true,
-        treeshake: true,
-        entry: nonPresetEntries,
-        shims: false,
-        watch,
-        outDir,
-        sourcemap: false,
+        ...commonOptions,
+        ...(optimized ? dtsConfig : {}),
+        entry: exportEntries,
         format: ['esm'],
         target: ['chrome100', 'safari15', 'firefox91'],
-        clean: false,
-        ...(dtsBuild === 'esm' ? dtsConfig : {}),
-        platform: platform || 'browser',
-        esbuildPlugins: [
-          aliasPlugin({
-            process: path.resolve('../node_modules/process/browser.js'),
-            util: path.resolve('../node_modules/util/util.js'),
-          }),
+        platform: 'browser',
+        external: [
+          ...commonExternals,
+          ...MANAGER_GLOBALIZED_PACKAGES,
+          ...PREVIEW_GLOBALIZED_PACKAGES,
         ],
-        external: externals,
+        esbuildOptions: (options) => {
+          /* eslint-disable no-param-reassign */
+          options.conditions = ['module'];
+          options.platform = 'browser';
+          Object.assign(options, getESBuildOptions(optimized));
+          /* eslint-enable no-param-reassign */
+        },
+      }),
+      build({
+        ...commonOptions,
+        ...(optimized ? dtsConfig : {}),
+        entry: exportEntries,
+        format: ['cjs'],
+        target: 'node16',
+        platform: 'node',
+        external: commonExternals,
+        esbuildOptions: (options) => {
+          /* eslint-disable no-param-reassign */
+          options.conditions = ['module'];
+          options.platform = 'node';
+          Object.assign(options, getESBuildOptions(optimized));
+          /* eslint-enable no-param-reassign */
+        },
+      })
+    );
 
+    if (tsConfigExists && !optimized) {
+      tasks.push(...exportEntries.map(generateDTSMapperFile));
+    }
+  }
+
+  if (managerEntries.length > 0) {
+    tasks.push(
+      build({
+        ...commonOptions,
+        entry: managerEntries.map((e: string) => slash(join(cwd, e))),
+        outExtension: () => ({
+          js: '.js',
+        }),
+        format: ['esm'],
+        target: ['chrome100', 'safari15', 'firefox91'],
+        platform: 'browser',
+        external: [...commonExternals, ...MANAGER_GLOBALIZED_PACKAGES],
+        esbuildOptions: (options) => {
+          /* eslint-disable no-param-reassign */
+          options.conditions = ['module'];
+          options.platform = 'browser';
+          Object.assign(options, getESBuildOptions(optimized));
+          /* eslint-enable no-param-reassign */
+        },
+      })
+    );
+  }
+  if (previewEntries.length > 0) {
+    tasks.push(
+      build({
+        ...commonOptions,
+        entry: previewEntries.map((e: string) => slash(join(cwd, e))),
+        outExtension: () => ({
+          js: '.js',
+        }),
+        format: ['esm'],
+        target: ['chrome100', 'safari15', 'firefox91'],
+        platform: 'browser',
+        external: [...commonExternals, ...PREVIEW_GLOBALIZED_PACKAGES],
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
           c.conditions = ['module'];
-          c.platform = platform || 'browser';
+          c.platform = 'browser';
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
       })
     );
   }
-
-  if (formats.includes('cjs')) {
+  if (nodeEntries.length > 0) {
     tasks.push(
       build({
-        silent: true,
-        entry: allEntries,
-        watch,
-        outDir,
-        sourcemap: false,
+        ...commonOptions,
+        entry: nodeEntries.map((e: string) => slash(join(cwd, e))),
         format: ['cjs'],
         target: 'node16',
-        ...(dtsBuild === 'cjs' ? dtsConfig : {}),
         platform: 'node',
-        clean: false,
-        external: externals,
-
+        external: commonExternals,
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
           c.platform = 'node';
@@ -136,10 +206,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         },
       })
     );
-  }
-
-  if (tsConfigExists && !optimized) {
-    tasks.push(...entries.map(generateDTSMapperFile));
   }
 
   await Promise.all(tasks);
@@ -156,6 +222,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 };
 
 /* UTILS */
+
+// keep in sync with code/lib/manager-api/src/index.ts
 
 async function getDTSConfigs({
   formats,

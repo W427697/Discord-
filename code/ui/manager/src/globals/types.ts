@@ -13,6 +13,7 @@ export enum Keys {
   '@storybook/manager-api' = '__STORYBOOKAPI__',
   '@storybook/addons' = '__STORYBOOKADDONS__',
   '@storybook/client-logger' = '__STORYBOOKCLIENTLOGGER__',
+  '@storybook/types' = '__STORYBOOKTYPES__',
 }
 
 export type Definitions = Required<Record<keyof typeof Keys, Required<ModuleInfo>>>;

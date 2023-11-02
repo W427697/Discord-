@@ -43,6 +43,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/csf": "^0.1.0",
+    "@storybook/global": "^5.0.0",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
@@ -56,8 +58,6 @@
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "^0.1.0",
-    "@storybook/global": "^5.0.0",
     "@storybook/router": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
@@ -75,6 +75,20 @@
   "bundler": {
     "entries": [
       "./src/index.tsx"
+    ],
+    "externals": [
+      "react",
+      "react-dom",
+      "@storybook/addons",
+      "@storybook/api",
+      "@storybook/channels",
+      "@storybook/client-logger",
+      "@storybook/components",
+      "@storybook/core-events",
+      "@storybook/manager-api",
+      "@storybook/router",
+      "@storybook/theming",
+      "@storybook/types"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

@@ -62,12 +62,15 @@
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
     "browser-dtector": "^3.4.0",
+    "fs-extra": "^11.1.0",
+    "ts-dedent": "^2.0.0",
     "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
+    "pre": "./scripts/generate-exports-file.ts",
     "browserEntries": [
       "./src/runtime.ts"
     ],

@@ -28,15 +28,8 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preset": {
-      "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js"
-    },
-    "./manager": {
-      "types": "./dist/manager.d.ts",
-      "require": "./dist/manager.js",
-      "import": "./dist/manager.mjs"
-    },
+    "./preset": "./dist/preset.js",
+    "./manager": "./dist/manager.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -51,7 +44,7 @@
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
     "estraverse": "^5.2.0",
@@ -76,9 +69,13 @@
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/index.ts",
-      "./src/manager.tsx",
+    "exportEntries": [
+      "./src/index.ts"
+    ],
+    "managerEntries": [
+      "./src/manager.tsx"
+    ],
+    "nodeEntries": [
       "./src/preset.ts"
     ]
   },

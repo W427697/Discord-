@@ -5779,7 +5779,6 @@ __metadata:
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -5830,7 +5829,6 @@ __metadata:
   dependencies:
     "@storybook/client-logger": "workspace:*"
     "@storybook/components": "workspace:*"
-    "@storybook/core-events": "workspace:*"
     "@storybook/global": ^5.0.0
     "@storybook/manager-api": "workspace:*"
     "@storybook/preview-api": "workspace:*"
@@ -6003,6 +6001,7 @@ __metadata:
     react-dom: ^16.8.0
     react-resize-detector: ^7.1.2
     tiny-invariant: ^1.3.1
+    ts-dedent: ^2.0.0
     typescript: ~4.9.3
     upath: ^2.0.1
   languageName: unknown
@@ -6025,11 +6024,8 @@ __metadata:
     typescript: ~4.9.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     react:
-      optional: true
-    react-dom:
       optional: true
   languageName: unknown
   linkType: soft
@@ -7563,6 +7559,8 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": "workspace:*"
     browser-dtector: ^3.4.0
+    fs-extra: ^11.1.0
+    ts-dedent: ^2.0.0
     typescript: ~4.9.3
   languageName: unknown
   linkType: soft

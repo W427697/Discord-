@@ -7,6 +7,7 @@ import * as STORYBOOKEVENTS from '@storybook/core-events';
 import * as STORYBOOKROUTER from '@storybook/router';
 import * as STORYBOOKTHEMING from '@storybook/theming';
 import * as STORYBOOKMANAGERAPI from '@storybook/manager-api';
+import * as STORYBOOKTYPES from '@storybook/types';
 import * as STORYBOOKCLIENTLOGGER from '@storybook/client-logger';
 
 import type { Keys } from './types';
@@ -29,4 +30,5 @@ export const values: Required<Record<keyof typeof Keys, any>> = {
     mockChannel: STORYBOOKMANAGERAPI.mockChannel,
   },
   '@storybook/client-logger': STORYBOOKCLIENTLOGGER,
+  '@storybook/types': STORYBOOKTYPES,
 };
