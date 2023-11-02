@@ -76,7 +76,7 @@ export interface Presets {
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
-  apply(extension: 'test', config?: {}, args?: any): Promise<StorybookConfig['test']>;
+  apply(extension: 'build', config?: {}, args?: any): Promise<StorybookConfig['build']>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -314,8 +314,8 @@ export interface StorybookConfig {
     legacyDecoratorFileOrder?: boolean;
   };
 
-  test: {
-    build: {
+  build: {
+    test: {
       /**
        * Globalize @storybook/blocks
        */
