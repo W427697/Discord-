@@ -6,18 +6,22 @@ import type { NormalizedStoriesSpecifier } from '@storybook/types';
 // FIXME: types duplicated type from `core-common', to be
 // removed when we remove v6 back-compat.
 
-const stripExtension = (parts: string[]) => {
-  const last = parts[parts.length - 1]?.replace(/(?:[.](?:story|stories))?([.][^.]+)$/i, '');
-  return last ? [...parts.slice(0, -1), last] : parts;
-};
-
 // deal with files like "atoms/button/{button,index}.stories.js"
-const removeRedundantFilename = (parts: string[]) => {
+const sanitize = (parts: string[]) => {
+  if (parts.length === 0) return parts;
+
   const last = parts[parts.length - 1];
+  const lastStripped = last?.replace(/(?:[.](?:story|stories))?([.][^.]+)$/i, '');
+  if (parts.length === 1) return [lastStripped];
+
   const nextToLast = parts[parts.length - 2];
-  return last && nextToLast && (last === nextToLast || /^(?:index|story|stories)$/i.test(last))
+  return lastStripped &&
+    nextToLast &&
+    (lastStripped === nextToLast ||
+      /^(story|stories)([.][^.]+)$/i.test(last) ||
+      /^index$/i.test(lastStripped))
     ? parts.slice(0, -1)
-    : parts;
+    : [...parts.slice(0, -1), lastStripped];
 };
 
 /**
@@ -57,8 +61,7 @@ export const userOrAutoTitleFromSpecifier = (
     if (!userTitle) {
       const suffix = normalizedFileName.replace(directory, '');
       let parts = pathJoin([titlePrefix, suffix]).split('/');
-      parts = stripExtension(parts);
-      parts = removeRedundantFilename(parts);
+      parts = sanitize(parts);
       return parts.join('/');
     }
 

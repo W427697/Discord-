@@ -324,5 +324,21 @@ describe('userOrAutoTitleFromSpecifier', () => {
         ).toMatchInlineSnapshot(`to_my/MyButton`);
       });
     });
+
+    it('Story.stories.js', () => {
+      expect(
+        userOrAuto(
+          '../blocks/src/Story.stories.tsx',
+          normalizeStoriesEntry(
+            {
+              directory: '../blocks/src',
+              titlePrefix: '@blocks',
+            },
+            options
+          ),
+          undefined
+        )
+      ).toMatchInlineSnapshot(`@blocks/Story`);
+    });
   });
 });
