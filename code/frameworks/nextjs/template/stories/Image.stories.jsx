@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { waitFor } from '@storybook/testing-library';
 
@@ -87,5 +87,18 @@ export const Eager = {
         loading: 'eager',
       },
     },
+  },
+};
+
+export const WithRef = {
+  render() {
+    const [ref, setRef] = useState(null);
+
+    return (
+      <div>
+        <Image src={Accessibility} alt="Accessibility" ref={setRef} />
+        <p>Alt attribute of image: {ref?.alt}</p>
+      </div>
+    );
   },
 };

@@ -315,6 +315,7 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+
 ## From version 7.x to 8.0.0
 
 ### Core changes
