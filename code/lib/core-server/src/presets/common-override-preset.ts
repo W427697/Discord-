@@ -18,7 +18,7 @@ export const framework: PresetProperty<'framework', StorybookConfig> = async (co
 };
 
 export const stories: PresetProperty<'stories', StorybookConfig> = async (entries, options) => {
-  if (options.build.test?.removeMDXEntries) {
+  if (options?.build?.test?.removeMDXEntries) {
     const out = (
       await Promise.all(
         normalizeStories(entries, {

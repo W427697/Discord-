@@ -92,9 +92,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
   });
 
-  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
   const { renderer } = await presets.apply<CoreConfig>('core', {});
   const build = await presets.apply('build', {});
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets, build });
 
   const resolvedRenderer = renderer
     ? resolveAddonName(options.configDir, renderer, options)
@@ -138,6 +138,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     ...options,
     presets,
     features,
+    build,
   };
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
