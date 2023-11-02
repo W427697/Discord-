@@ -70,7 +70,7 @@ module.exports = {
     },
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
-      files: ['builder-vite/**/*.html'],
+      files: ['**/builder-vite/**/*.html'],
       rules: {
         '@typescript-eslint/no-unused-expressions': 'off', // should become error, in the future
       },
