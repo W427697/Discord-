@@ -129,7 +129,7 @@ When you publish Storybook, you also get component history and versioning down t
 
 ![Library history in Chromatic](./workflow-history-versioning.png)
 
- ## Publish Storybook to other services
+## Publish Storybook to other services
 
 Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md), [embedding stories](./embed.md), history, versioning, and assets may require tighter integration with Storybook APIs and secure authentication. If you want to know more about headers, you can refer to the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts). Additionally, if you want to learn about the Component Publishing Protocol (CPP), you can find more information below.
 
@@ -142,7 +142,7 @@ To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook t
 
 <CodeSnippets
   paths={[
-    'common/ghp-github-action.js.mdx',
+    'common/ghp-github-action.yml.mdx',
   ]}
 />
 
