@@ -200,12 +200,12 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
-export const build = async (value: StorybookConfig['build'], options: Options) => {
+export const test = async (value: StorybookConfig['test'], options: Options) => {
   return {
     ...value,
-    test: {
+    build: {
       ...testBuildFeatures(!!options.test),
-      ...value?.test,
+      ...value?.build,
     },
   };
 };
