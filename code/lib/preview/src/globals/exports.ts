@@ -122,6 +122,7 @@ export default {
     'userOrAutoTitleFromSpecifier',
   ],
   '@storybook/global': ['global'],
+  '@storybook/types': ['Addon_TypesEnum'],
   '@storybook/addons': [
     'AddonStore',
     'HooksContext',
