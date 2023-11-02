@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { join } from 'path';
 import { BigQuery } from '@google-cloud/bigquery';
 
@@ -34,6 +35,15 @@ const defaults: Record<keyof BenchResults, null> = {
   buildStaticSize: null,
   buildPrebuildSize: null,
   buildPreviewSize: null,
+  testBuildTime: null,
+  testBuildSize: null,
+  testBuildSbAddonsSize: null,
+  testBuildSbCommonSize: null,
+  testBuildSbManagerSize: null,
+  testBuildSbPreviewSize: null,
+  testBuildStaticSize: null,
+  testBuildPrebuildSize: null,
+  testBuildPreviewSize: null,
   devPreviewResponsive: null,
   devManagerResponsive: null,
   devManagerHeaderVisible: null,
