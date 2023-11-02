@@ -160,6 +160,13 @@ module.exports = {
       },
     },
     {
+      files: ['**/renderers/preact/**/*'],
+      rules: {
+        'react/react-in-jsx-scope': 'off',
+        'react/prop-types': 'off',
+      },
+    },
+    {
       files: ['**/*.tsx', '**/*.ts'],
       rules: {
         'no-shadow': 'off',
