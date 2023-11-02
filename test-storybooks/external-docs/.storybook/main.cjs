@@ -20,7 +20,6 @@ const config = {
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   features: {
-    buildStoriesJson: true,
     warnOnLegacyHierarchySeparator: false,
     previewMdx2: true,
   },

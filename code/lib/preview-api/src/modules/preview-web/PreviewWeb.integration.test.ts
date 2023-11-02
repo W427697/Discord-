@@ -44,7 +44,6 @@ jest.mock('@storybook/global', () => ({
         search: '?id=*',
       },
     },
-    FEATURES: {},
     fetch: async () => ({ status: 200, json: async () => mockStoryIndex }),
   },
 }));

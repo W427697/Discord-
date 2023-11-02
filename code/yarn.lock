@@ -433,7 +433,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.23.2, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.18.9, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.12, @babel/core@npm:^7.22.1, @babel/core@npm:^7.23.2, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5":
+"@babel/core@npm:7.23.2, @babel/core@npm:^7.23.2":
   version: 7.23.2
   resolution: "@babel/core@npm:7.23.2"
   dependencies:
@@ -453,6 +453,29 @@ __metadata:
     json5: "npm:^2.2.3"
     semver: "npm:^6.3.1"
   checksum: 14ad6e0a3ac0085dc008e7fb0c8513f0a3e39f2ab883a964a89ef1311338d49cf085c94cb6165c07fdec0fdcc6e865ce4811253c479f9f45ac375226dfe3ad3b
+  languageName: node
+  linkType: hard
+
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.18.9, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.12, @babel/core@npm:^7.22.1, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5":
+  version: 7.23.0
+  resolution: "@babel/core@npm:7.23.0"
+  dependencies:
+    "@ampproject/remapping": "npm:^2.2.0"
+    "@babel/code-frame": "npm:^7.22.13"
+    "@babel/generator": "npm:^7.23.0"
+    "@babel/helper-compilation-targets": "npm:^7.22.15"
+    "@babel/helper-module-transforms": "npm:^7.23.0"
+    "@babel/helpers": "npm:^7.23.0"
+    "@babel/parser": "npm:^7.23.0"
+    "@babel/template": "npm:^7.22.15"
+    "@babel/traverse": "npm:^7.23.0"
+    "@babel/types": "npm:^7.23.0"
+    convert-source-map: "npm:^2.0.0"
+    debug: "npm:^4.1.0"
+    gensync: "npm:^1.0.0-beta.2"
+    json5: "npm:^2.2.3"
+    semver: "npm:^6.3.1"
+  checksum: ba3604b28de28cdb07d7829f67127b03ad2e826c4e28a0560a037c8bbe16b8dc8cdb8baf344e916ad3c28c63aab88c1a1a38f5e3df6047ab79c910b41bb3a4e8
   languageName: node
   linkType: hard
 
@@ -718,7 +741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helpers@npm:^7.22.6, @babel/helpers@npm:^7.23.2":
+"@babel/helpers@npm:^7.22.6, @babel/helpers@npm:^7.23.0, @babel/helpers@npm:^7.23.2":
   version: 7.23.2
   resolution: "@babel/helpers@npm:7.23.2"
   dependencies:
@@ -2221,7 +2244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.1.6, @babel/traverse@npm:^7.18.9, @babel/traverse@npm:^7.22.8, @babel/traverse@npm:^7.23.2, @babel/traverse@npm:^7.4.5, @babel/traverse@npm:^7.7.0":
+"@babel/traverse@npm:^7.1.6, @babel/traverse@npm:^7.18.9, @babel/traverse@npm:^7.22.8, @babel/traverse@npm:^7.23.0, @babel/traverse@npm:^7.23.2, @babel/traverse@npm:^7.4.5, @babel/traverse@npm:^7.7.0":
   version: 7.23.2
   resolution: "@babel/traverse@npm:7.23.2"
   dependencies:
@@ -6933,7 +6956,6 @@ __metadata:
     qs: "npm:^6.10.0"
     react: "npm:^18.2.0"
     slash: "npm:^5.0.0"
-    synchronous-promise: "npm:^2.0.15"
     ts-dedent: "npm:^2.0.0"
     util-deprecate: "npm:^1.0.2"
   languageName: unknown
@@ -18783,7 +18805,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.11.0, is-core-module@npm:^2.13.0, is-core-module@npm:^2.13.1, is-core-module@npm:^2.5.0, is-core-module@npm:^2.8.1":
+"is-core-module@npm:^2.11.0, is-core-module@npm:^2.13.0, is-core-module@npm:^2.5.0, is-core-module@npm:^2.8.1":
+  version: 2.13.0
+  resolution: "is-core-module@npm:2.13.0"
+  dependencies:
+    has: "npm:^1.0.3"
+  checksum: a8e7f46f8cefd7c9f6f5d54f3dbf1c40bf79467b6612d6023421ec6ea7e8e4c22593b3963ff7a3f770db07bc19fccbe7987a550a8bc1a4d6ec4115db5e4c5dca
+  languageName: node
+  linkType: hard
+
+"is-core-module@npm:^2.13.1":
   version: 2.13.1
   resolution: "is-core-module@npm:2.13.1"
   dependencies:
@@ -21468,7 +21499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"make-fetch-happen@npm:^10.0.3, make-fetch-happen@npm:^10.0.6":
+"make-fetch-happen@npm:^10.0.6":
   version: 10.2.1
   resolution: "make-fetch-happen@npm:10.2.1"
   dependencies:
@@ -21492,7 +21523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"make-fetch-happen@npm:^11.0.0, make-fetch-happen@npm:^11.0.1, make-fetch-happen@npm:^11.1.1":
+"make-fetch-happen@npm:^11.0.0, make-fetch-happen@npm:^11.0.1, make-fetch-happen@npm:^11.0.3, make-fetch-happen@npm:^11.1.1":
   version: 11.1.1
   resolution: "make-fetch-happen@npm:11.1.1"
   dependencies:
@@ -23241,14 +23272,14 @@ __metadata:
   linkType: hard
 
 "node-gyp@npm:^9.0.0, node-gyp@npm:^9.3.1":
-  version: 9.4.1
-  resolution: "node-gyp@npm:9.4.1"
+  version: 9.4.0
+  resolution: "node-gyp@npm:9.4.0"
   dependencies:
     env-paths: "npm:^2.2.0"
     exponential-backoff: "npm:^3.1.1"
     glob: "npm:^7.1.4"
     graceful-fs: "npm:^4.2.6"
-    make-fetch-happen: "npm:^10.0.3"
+    make-fetch-happen: "npm:^11.0.3"
     nopt: "npm:^6.0.0"
     npmlog: "npm:^6.0.0"
     rimraf: "npm:^3.0.2"
@@ -23257,7 +23288,7 @@ __metadata:
     which: "npm:^2.0.2"
   bin:
     node-gyp: bin/node-gyp.js
-  checksum: f7d676cfa79f27d35edf17fe9c80064123670362352d19729e5dc9393d7e99f1397491c3107eddc0c0e8941442a6244a7ba6c860cfbe4b433b4cae248a55fe10
+  checksum: e8dfbe2b02f23d056f69e01c409381963e92c71cafba6c9cfbf63b038f65ca19ab8183bb6891d080e59c4eb2cc425fc736f42e90afc0f0030ecd97bfc64fb7ad
   languageName: node
   linkType: hard
 
@@ -29210,13 +29241,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"synchronous-promise@npm:^2.0.15":
-  version: 2.0.17
-  resolution: "synchronous-promise@npm:2.0.17"
-  checksum: 1babe643d8417789ef6e5a2f3d4b8abcda2de236acd09bbe2c98f6be82c0a2c92ed21a6e4f934845fa8de18b1435a9cba1e8c3d945032e8a532f076224c024b1
-  languageName: node
-  linkType: hard
-
 "tapable@npm:^2.0.0, tapable@npm:^2.1.1, tapable@npm:^2.2.0, tapable@npm:^2.2.1":
   version: 2.2.1
   resolution: "tapable@npm:2.2.1"
@@ -31793,7 +31817,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"which-typed-array@npm:^1.1.11, which-typed-array@npm:^1.1.13, which-typed-array@npm:^1.1.2, which-typed-array@npm:^1.1.9":
+"which-typed-array@npm:^1.1.11, which-typed-array@npm:^1.1.2, which-typed-array@npm:^1.1.9":
+  version: 1.1.11
+  resolution: "which-typed-array@npm:1.1.11"
+  dependencies:
+    available-typed-arrays: "npm:^1.0.5"
+    call-bind: "npm:^1.0.2"
+    for-each: "npm:^0.3.3"
+    gopd: "npm:^1.0.1"
+    has-tostringtag: "npm:^1.0.0"
+  checksum: 2cf4ce417beb50ae0ec3b1b479ea6d72d3e71986462ebd77344ca6398f77c7c59804eebe88f4126ce79f85edbcaa6c7783f54b0a5bf34f785eab7cbb35c30499
+  languageName: node
+  linkType: hard
+
+"which-typed-array@npm:^1.1.13":
   version: 1.1.13
   resolution: "which-typed-array@npm:1.1.13"
   dependencies:

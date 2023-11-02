@@ -190,7 +190,6 @@ export const features = async (
 ): Promise<StorybookConfig['features']> => ({
   ...existing,
   warnOnLegacyHierarchySeparator: true,
-  buildStoriesJson: false,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
 });

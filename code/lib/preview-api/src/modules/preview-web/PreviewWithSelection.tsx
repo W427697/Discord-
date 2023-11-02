@@ -5,7 +5,6 @@ import {
   PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
   SET_CURRENT_STORY,
-  SET_INDEX,
   STORY_ARGS_UPDATED,
   STORY_CHANGED,
   STORY_ERRORED,
@@ -114,12 +113,10 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
-    return super.initializeWithStoryIndex(storyIndex).then(() => {
-      this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
+  async initializeWithStoryIndex(storyIndex: StoryIndex): Promise<void> {
+    await super.initializeWithStoryIndex(storyIndex);
 
-      return this.selectSpecifiedStory();
-    });
+    return this.selectSpecifiedStory();
   }
 
   // Use the selection specifier to choose a story, then render it
@@ -200,8 +197,6 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     storyIndex?: StoryIndex;
   }) {
     await super.onStoriesChanged({ importFn, storyIndex });
-
-    this.channel.emit(SET_INDEX, await this.storyStore.getSetIndexPayload());
 
     if (this.selectionStore.selection) {
       await this.renderSelection();

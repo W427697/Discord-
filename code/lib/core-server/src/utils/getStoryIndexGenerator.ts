@@ -7,7 +7,6 @@ import { router } from './router';
 
 export async function getStoryIndexGenerator(
   features: {
-    buildStoriesJson?: boolean;
     argTypeTargetsV7?: boolean;
     warnOnLegacyHierarchySeparator?: boolean;
   },

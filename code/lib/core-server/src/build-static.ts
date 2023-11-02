@@ -156,7 +156,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
     Promise.resolve(undefined);
-  if (features?.buildStoriesJson && !options.ignorePreview) {
+  if (!options.ignorePreview) {
     const workingDir = process.cwd();
     const directories = {
       configDir: options.configDir,
