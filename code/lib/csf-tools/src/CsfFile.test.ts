@@ -1195,4 +1195,128 @@ describe('CsfFile', () => {
       `);
     });
   });
+
+  describe.only('inline parameters', () => {
+    it('meta parameters', () => {
+      expect(
+        parse(dedent`
+        export default {
+          title: 'foo/bar',
+          parameters: { chromatic: { disable: true } }
+        }
+        export const A = {};
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          inlineParameters:
+            chromatic:
+              disable: true
+        stories:
+          - id: foo-bar--a
+            name: A
+      `);
+    });
+    it('story parameters', () => {
+      expect(
+        parse(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          export const A = {
+            parameters: { chromatic: { disable: true } }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            inlineParameters:
+              chromatic:
+                disable: true
+      `);
+    });
+    it('non-inline parameters', () => {
+      expect(
+        parse(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const chromaticParameters = { chromatic: { disable: true } }
+          export const A = {
+            parameters: chromaticParameters,
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+      `);
+
+      expect(
+        parse(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const chromatic = { disable: true };
+          export const A = {
+            parameters: { chromatic },
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            inlineParameters: {}
+      `);
+    });
+    it('non-JSON parameters', () => {
+      expect(
+        parse(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          export const A = {
+            parameters: { foo: (() => 'bar')() }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            inlineParameters:
+              foo: bar
+      `);
+    });
+    it('mixed parameters', () => {
+      expect(
+        parse(dedent`
+          export default {
+            title: 'foo/bar'
+          }
+          const nonInline = 'non inline';
+          export const A = {
+            parameters: { nonInline, chromatic: { disable: true } }
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories:
+          - id: foo-bar--a
+            name: A
+            inlineParameters:
+              chromatic:
+                disable: true
+      `);
+    });
+  });
 });

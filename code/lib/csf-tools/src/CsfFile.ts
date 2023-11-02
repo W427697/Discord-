@@ -22,6 +22,33 @@ import { findVarInitialization } from './findVarInitialization';
 
 const logger = console;
 
+function evalParameter(node: t.Node) {
+  if (node) {
+    const { code } = generate.default(node, {});
+
+    // eslint-disable-next-line no-eval
+    const value = (0, eval)(`(() => (${code}))()`);
+    return value;
+  }
+  throw new Error('undefined parameter');
+}
+
+function parseInlineParameters(node: t.Node) {
+  if (t.isObjectExpression(node)) {
+    return node.properties.reduce((acc, prop) => {
+      if (t.isObjectProperty(prop) && t.isIdentifier(prop.key)) {
+        try {
+          acc[prop.key.name] = evalParameter(prop.value);
+        } catch (e) {
+          // just skip parameters that don't eval
+        }
+      }
+      return acc;
+    }, {} as Record<string, any>);
+  }
+  return undefined;
+}
+
 function parseIncludeExclude(prop: t.Node) {
   if (t.isArrayExpression(prop)) {
     return prop.elements.map((e) => {
@@ -123,16 +150,19 @@ export class NoMetaError extends Error {
   }
 }
 
+type InlineParameters = Record<string, any>;
 export interface StaticMeta
   extends Pick<
     ComponentAnnotations,
     'id' | 'title' | 'includeStories' | 'excludeStories' | 'tags'
   > {
   component?: string;
+  inlineParameters?: InlineParameters;
 }
 
 export interface StaticStory extends Pick<StoryAnnotations, 'name' | 'parameters' | 'tags'> {
   id: string;
+  inlineParameters?: InlineParameters;
 }
 
 export class CsfFile {
@@ -214,6 +244,8 @@ export class CsfFile {
           } else {
             throw new Error(`Unexpected component id: ${p.value}`);
           }
+        } else if (p.key.name === 'parameters') {
+          meta.inlineParameters = parseInlineParameters(p.value);
         }
       }
     });
@@ -332,6 +364,7 @@ export class CsfFile {
                 } else {
                   storyNode = decl;
                 }
+                let inlineParameters: InlineParameters | undefined;
                 const parameters: { [key: string]: any } = {};
                 if (t.isObjectExpression(storyNode)) {
                   parameters.__isArgsStory = true; // assume default render is an args story
@@ -360,6 +393,7 @@ export class CsfFile {
                         if (idProperty) {
                           parameters.__id = (idProperty.value as t.StringLiteral).value;
                         }
+                        inlineParameters = parseInlineParameters(p.value);
                       }
 
                       self._storyAnnotations[exportName][p.key.name] = p.value;
@@ -372,6 +406,7 @@ export class CsfFile {
                   id: 'FIXME',
                   name,
                   parameters,
+                  inlineParameters,
                 };
               }
             });
