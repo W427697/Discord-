@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`react component properties jsdoc 1`] = `
-"/* eslint-disable react/require-default-props, react/no-unused-prop-types */
-import React from 'react';
+"import React from 'react';
 import PropTypes from 'prop-types';
 const JsDocProps = () => /*#__PURE__*/React.createElement(\\"div\\", null, \\"JSDoc with PropTypes!\\");
 JsDocProps.propTypes = {

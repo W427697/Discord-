@@ -122,6 +122,18 @@ module.exports = {
       },
     },
     {
+      files: [
+        '**/addons/essentials/src/actions/*.*',
+        '**/addons/essentials/src/backgrounds/*.*',
+        '**/addons/essentials/src/highlight/*.*',
+        '**/addons/essentials/src/measure/*.*',
+        '**/addons/essentials/src/outline/*.*',
+      ],
+      rules: {
+        'import/export': 'off',
+      },
+    },
+    {
       files: ['**/*.tsx', '**/*.ts'],
       rules: {
         'react/require-default-props': 'off',
