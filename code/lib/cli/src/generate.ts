@@ -1,5 +1,4 @@
 import program from 'commander';
-import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
@@ -12,7 +11,6 @@ import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
-import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
@@ -136,15 +134,6 @@ command('migrate [migration]')
     });
   });
 
-command('extract [location] [output]')
-  .description('extract stories.json from a built version')
-  .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
-    extract(location, output).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
-
 command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
@@ -259,6 +248,7 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--test', 'Build stories optimized for testing purposes.')
   .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);

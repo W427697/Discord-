@@ -412,6 +412,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({
 
         if (!entry) throw new Error(`Unknown id or title: '${titleOrId}'`);
 
+        store.setState({
+          settings: { ...store.getState().settings, lastTrackedStoryId: entry.id },
+        });
+
         // We want to navigate to the first ancestor entry that is a leaf
         const leafEntry = api.findLeafEntry(hash, entry.id);
         const fullId = leafEntry.refId ? `${leafEntry.refId}_${leafEntry.id}` : leafEntry.id;
@@ -637,15 +641,18 @@ export const init: ModuleFn<SubAPI, SubState> = ({
           state.path === '/' || state.viewMode === 'story' || state.viewMode === 'docs';
         const stateHasSelection = state.viewMode && state.storyId;
         const stateSelectionDifferent = state.viewMode !== viewMode || state.storyId !== storyId;
+        const { type } = state.index[state.storyId] || {};
+        const isStory = !(type === 'root' || type === 'component' || type === 'group');
+
         /**
          * When storybook starts, we want to navigate to the first story.
          * But there are a few exceptions:
-         * - If the current storyId and viewMode are already set/correct.
+         * - If the current storyId and viewMode are already set/correct AND the url section is a leaf-type.
          * - If the user has navigated away already.
          * - If the user started storybook with a specific page-URL like "/settings/about"
          */
         if (isCanvasRoute) {
-          if (stateHasSelection && stateSelectionDifferent) {
+          if (stateHasSelection && stateSelectionDifferent && isStory) {
             // The manager state is correct, the preview state is lagging behind
             provider.channel.emit(SET_CURRENT_STORY, {
               storyId: state.storyId,

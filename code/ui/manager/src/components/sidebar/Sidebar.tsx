@@ -63,15 +63,6 @@ const Bottom = styled.div(({ theme }) => ({
   },
 }));
 
-const CustomScrollArea = styled(ScrollArea)({
-  '&&&&& .os-scrollbar-handle:before': {
-    left: -12,
-  },
-  '&&&&& .os-scrollbar-vertical': {
-    right: 5,
-  },
-});
-
 const Swap = React.memo(function Swap({
   children,
   condition,
@@ -142,7 +133,7 @@ export const Sidebar = React.memo(function Sidebar({
 
   return (
     <Container className="container sidebar-container">
-      <CustomScrollArea vertical>
+      <ScrollArea vertical offset={8}>
         <Top row={1.6}>
           <Heading
             className="sidebar-header"
@@ -189,7 +180,7 @@ export const Sidebar = React.memo(function Sidebar({
             )}
           </Search>
         </Top>
-      </CustomScrollArea>
+      </ScrollArea>
       {isLoading ? null : (
         <Bottom>
           {bottom.map(({ id, render: Render }) => (

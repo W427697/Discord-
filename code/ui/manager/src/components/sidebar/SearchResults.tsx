@@ -1,7 +1,7 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import { global } from '@storybook/global';
-import type { FC, MouseEventHandler, ReactNode } from 'react';
+import type { FC, MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
@@ -94,7 +94,10 @@ const ActionKey = styled.code(({ theme }) => ({
   pointerEvents: 'none',
 }));
 
-const Highlight: FC<{ match?: Match }> = React.memo(function Highlight({ children, match }) {
+const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function Highlight({
+  children,
+  match,
+}) {
   if (!match) return <>{children}</>;
   const { value, indices } = match;
   const { nodes: result } = indices.reduce<{ cursor: number; nodes: ReactNode[] }>(

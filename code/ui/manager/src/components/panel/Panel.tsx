@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react';
-import { Tabs, Icons, IconButton } from '@storybook/components';
+import React, { Component } from 'react';
+import { Tabs, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
+import { styled } from '@storybook/theming';
+import { BottomBarIcon, CloseIcon, SidebarAltIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 
 export interface SafeTabProps {
@@ -23,6 +25,7 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
     console.error(error, info);
   }
 
+  // @ts-expect-error (we know this is broken)
   render() {
     const { hasError } = this.state;
     const { children } = this.props;
@@ -58,34 +61,37 @@ export const AddonPanel = React.memo<{
         menuName="Addons"
         actions={actions}
         tools={
-          isDesktop ? (
-            <Fragment>
-              <IconButton
-                key="position"
-                onClick={actions.togglePosition}
-                title={`Change addon orientation [${shortcutToHumanString(
-                  shortcuts.panelPosition
-                )}]`}
-              >
-                <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+          <Actions>
+            {isDesktop ? (
+              <>
+                <IconButton
+                  key="position"
+                  onClick={actions.togglePosition}
+                  title={`Change addon orientation [${shortcutToHumanString(
+                    shortcuts.panelPosition
+                  )}]`}
+                >
+                  {panelPosition === 'bottom' ? <SidebarAltIcon /> : <BottomBarIcon />}
+                </IconButton>
+                <IconButton
+                  key="visibility"
+                  onClick={actions.toggleVisibility}
+                  title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </>
+            ) : (
+              <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
+                <CloseIcon />
               </IconButton>
-              <IconButton
-                key="visibility"
-                onClick={actions.toggleVisibility}
-                title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
-              >
-                <Icons icon="close" />
-              </IconButton>
-            </Fragment>
-          ) : (
-            <IconButton onClick={() => setMobilePanelOpen(false)} title="Close addon panel">
-              <Icons icon="close" />
-            </IconButton>
-          )
+            )}
+          </Actions>
         }
         id="storybook-panel-root"
       >
         {Object.entries(panels).map(([k, v]) => (
+          // @ts-expect-error (we know this is broken)
           <SafeTab key={k} id={k} title={typeof v.title === 'function' ? <v.title /> : v.title}>
             {v.render}
           </SafeTab>
@@ -96,3 +102,9 @@ export const AddonPanel = React.memo<{
 );
 
 AddonPanel.displayName = 'AddonPanel';
+
+const Actions = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+});

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "7.5.0-alpha.4",
+  "version": "7.6.0-alpha.3",
   "description": "Core Storybook Manager API & Context",
   "keywords": [
     "storybook"
@@ -65,7 +65,7 @@
     "@types/qs": "^6",
     "flush-promises": "^1.0.2",
     "qs": "^6.10.0",
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
