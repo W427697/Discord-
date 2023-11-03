@@ -141,6 +141,23 @@ module.exports = {
       },
     },
     {
+      files: ['**/renderers/*/template/**/*.*', '**/frameworks/*/template/**/*.*'],
+      rules: {
+        'react/require-default-props': 'off',
+        'react/prop-types': 'off',
+        'react/forbid-prop-types': 'off',
+        'react/no-unused-prop-types': 'off',
+        'react/default-props-match-prop-types': 'off',
+        'react/destructuring-assignment': 'warn',
+      },
+    },
+    {
+      files: ['**/renderers/preact/**/*.*'],
+      rules: {
+        'react/react-in-jsx-scope': 'off',
+      },
+    },
+    {
       files: ['**/*.d.ts'],
       rules: {
         'vars-on-top': 'off',

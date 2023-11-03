@@ -104,15 +104,12 @@ Consider the following input:
 ```js
 // Button.js
 import React from 'react';
-import PropTypes from 'prop-types';
-export const Button = ({ label }) => <button>{label}</button>;
-Button.propTypes = {
-  /** demo description */
-  label: PropTypes.string,
-};
-Button.defaultProps = {
-  label: 'Hello',
-};
+
+/**
+ * Button component
+ * @param {string} [label]
+ */
+export const Button = ({ label = 'Hello' }) => <button>{label}</button>;
 
 // Button.stories.js
 export default { title: 'Button', component: Button };

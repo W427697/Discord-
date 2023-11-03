@@ -1,8 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import React from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import PropTypes from 'prop-types';
 
+/**
+ * @param {object} props
+ * @param {string} props.label
+ */
 export const ReactFunctionalComponent = ({ label }) => {
   const [clicks, setValue] = React.useState(0);
   return (
@@ -19,10 +21,10 @@ export const ReactFunctionalComponent = ({ label }) => {
   );
 };
 
-ReactFunctionalComponent.propTypes = {
-  label: PropTypes.string.isRequired,
-};
-
+/**
+ * @param {object} props
+ * @param {string} props.label
+ */
 export class ReactClassComponent extends React.Component {
   state = {
     clicks: 0,
@@ -45,7 +47,3 @@ export class ReactClassComponent extends React.Component {
     );
   }
 }
-
-ReactClassComponent.propTypes = {
-  label: PropTypes.string.isRequired,
-};

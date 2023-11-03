@@ -5906,7 +5906,6 @@ __metadata:
     dequal: "npm:^2.0.2"
     lodash: "npm:^4.17.21"
     polished: "npm:^4.2.2"
-    prop-types: "npm:^15.7.2"
     react-inspector: "npm:^6.0.0"
     telejson: "npm:^7.2.0"
     ts-dedent: "npm:^2.0.0"
@@ -6144,7 +6143,6 @@ __metadata:
     "@storybook/router": "workspace:*"
     "@storybook/types": "workspace:*"
     fs-extra: "npm:^11.1.0"
-    prop-types: "npm:^15.7.2"
     ts-dedent: "npm:^2.0.0"
     typescript: "npm:~4.9.3"
   peerDependencies:
@@ -6341,7 +6339,6 @@ __metadata:
     "@types/react": "npm:^16.14.34"
     "@types/react-syntax-highlighter": "npm:11.0.5"
     estraverse: "npm:^5.2.0"
-    prop-types: "npm:^15.7.2"
     react-syntax-highlighter: "npm:^15.5.0"
     tiny-invariant: "npm:^1.3.1"
     typescript: "npm:~4.9.3"
@@ -6413,7 +6410,6 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@storybook/theming": "workspace:*"
     memoizerific: "npm:^1.11.3"
-    prop-types: "npm:^15.7.2"
     typescript: "npm:~4.9.3"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0

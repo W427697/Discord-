@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Rubik_Puddles } from 'next/font/google';
 import localFont from 'next/font/local';
 

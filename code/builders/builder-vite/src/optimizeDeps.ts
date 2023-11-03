@@ -86,7 +86,6 @@ const INCLUDE_CANDIDATES = [
   'prettier/parser-babel',
   'prettier/parser-flow',
   'prettier/parser-typescript',
-  'prop-types',
   'qs',
   'react-dom',
   'react-dom/client',

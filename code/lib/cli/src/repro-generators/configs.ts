@@ -71,7 +71,7 @@ export const react: Parameters = {
   name: 'react',
   version: 'latest',
   generator: fromDeps('react', 'react-dom', '@babel/preset-react'),
-  additionalDeps: ['prop-types'],
+  additionalDeps: [],
   additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
 };
 
@@ -80,7 +80,7 @@ export const react_legacy_root_api: Parameters = {
   name: 'react_legacy_root_api',
   version: 'latest',
   generator: fromDeps('react', 'react-dom'),
-  additionalDeps: ['prop-types', '@babel/preset-react'],
+  additionalDeps: ['@babel/preset-react'],
   additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
   mainOverrides: {
     reactOptions: {

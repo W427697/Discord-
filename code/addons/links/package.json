@@ -89,7 +89,6 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/router": "workspace:*",
     "@storybook/types": "workspace:*",
-    "prop-types": "^15.7.2",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

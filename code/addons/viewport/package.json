@@ -81,8 +81,7 @@
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
-    "memoizerific": "^1.11.3",
-    "prop-types": "^15.7.2"
+    "memoizerific": "^1.11.3"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
