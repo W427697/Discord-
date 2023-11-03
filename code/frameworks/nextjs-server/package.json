@@ -44,6 +44,9 @@
       "require": "./dist/mock.js",
       "import": "./dist/mock.mjs"
     },
+    "./next-config": {
+      "node": "./dist/next-config"
+    },
     "./channels": {
       "types": "./dist/reexports/channels.d.ts",
       "node": "./dist/reexports/channels.js",
@@ -120,6 +123,7 @@
       "./src/preset.ts",
       "./src/preview.ts",
       "./src/mock.ts",
+      "./src/next-config.ts",
       "./src/reexports/channels.ts",
       "./src/reexports/core-events.ts",
       "./src/reexports/preview-api.ts",

@@ -25,8 +25,8 @@ const rewritingIndexer: Indexer = {
     const code = (await readFile(fileName, 'utf-8')).toString();
     const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
-    const inputStorybookDir = resolve(__dirname, '../template/storybook');
-    const storybookDir = join(process.cwd(), 'app', 'storybook');
+    const inputStorybookDir = resolve(__dirname, '../template/storybookPreview');
+    const storybookDir = join(process.cwd(), 'app', 'storybookPreview');
     try {
       await cp(inputStorybookDir, storybookDir, { recursive: true });
     } catch (err) {

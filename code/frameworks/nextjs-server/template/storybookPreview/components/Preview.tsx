@@ -76,7 +76,7 @@ export const Preview = () => {
         render: () => {},
         renderToCanvas: ({ id, storyContext: { args } }) => {
           setArgs(id, args);
-          router.push(`/storybook/${id}`);
+          router.push(`/storybookPreview/${id}`);
         },
       }),
     });
