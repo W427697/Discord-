@@ -20,6 +20,7 @@ The test package exports instrumented versions of [@vitest/spy](https://vitest.d
 The instrumentation makes sure you can debug those methods in the [addon-interactions](https://storybook.js.org/addons/@storybook/addon-interactions) panel.
 
 ```ts
+// Button.stories.ts
 import { Button } from './Button';
 import { within, userEvent, expect, fn } from '@storybook/test';
 
