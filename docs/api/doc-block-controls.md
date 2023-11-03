@@ -6,17 +6,17 @@ title: 'Controls'
 
 The `Controls` block can be used to show a dynamic table of args for a given story, as a way to document its interface, and to allow you to change the args for a (separately) rendered story (via the [`Story`](./doc-block-story.md) or [`Canvas`](./doc-block-canvas.md) blocks).
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you’re looking for a static table that shows a component's arg types with no controls, see the [`ArgTypes`](./doc-block-argtypes.md) block instead.
+If you’re looking for a static table that shows a component's arg types with no controls, see the [`ArgTypes`](./doc-block-argtypes.md) block instead.
 
-</div>
+</Callout>
 
-<div class="aside">
+<Callout variant="warning">
 
-⚠️ The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/introduction.md)).
+The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/introduction.md)).
 
-</div>
+</Callout>
 
 ![Screenshot of Controls block](./doc-block-controls.png)
 
@@ -74,11 +74,11 @@ The example above applied the parameter at the [component](../writing-stories/pa
 
 </details>
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 This API configures Controls blocks used within docs pages. To configure the Controls addon panel, see the [Controls addon docs](../essentials/controls.md). To configure individual controls, you can specify [argTypes](./arg-types.md#control) for each.
+This API configures Controls blocks used within docs pages. To configure the Controls addon panel, see the [Controls addon docs](../essentials/controls.md). To configure individual controls, you can specify [argTypes](./arg-types.md#control) for each.
 
-</div>
+</Callout>
 
 ### `exclude`
 

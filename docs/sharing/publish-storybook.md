@@ -31,11 +31,11 @@ First, we'll need to build Storybook as a static web application. The functional
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
+You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
 
-</div>
+</Callout>
 
 Storybook will create a static web application capable of being served by any web server. Preview it locally by running the following command:
 
@@ -103,11 +103,11 @@ In your project's root directory, add a new file called `chromatic.yml` inside t
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
+Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
 
-</div>
+</Callout>
 
 Commit and push the file. Congratulations, you've successfully automated publishing your Storybook. Now whenever you open a PR you’ll get a handy link to your published Storybook in your PR checks.
 
@@ -134,11 +134,11 @@ When you publish Storybook, you also get component history and versioning down t
 Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md),
 [embedding stories](./embed.md), history, and versioning require tighter integration with Storybook APIs and secure authentication. Your hosting provider may not be capable of supporting these features. Learn about the Component Publishing Protocol (CPP) to see what.
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ Additional header configuration may be required to serve Storybook's static files correctly on your host. For more information on the required headers, see the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts).
+Additional header configuration may be required to serve Storybook's static files correctly on your host. For more information on the required headers, see the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts).
 
-</div>
+</Callout>
 
 <details>
 

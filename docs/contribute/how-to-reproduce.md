@@ -24,9 +24,10 @@ First, open a terminal and run the following command:
 npx storybook@next sandbox
 ```
 
-<div class="aside">
-💡 You can append a template name in the command to get filtered results e.g. <code>npx storybook@next sandbox react</code>
-</div>
+<Callout variant="info" icon="💡">
+You can append a template name in the command to get filtered results e.g. <code>npx storybook@next sandbox react</code>
+
+</Callout>
 
 Next, choose the template you want to work with:
 
@@ -36,9 +37,10 @@ Finally, enter a location for your reproduction:
 
 ![Storybook reproduction location](./storybook-reproduction-generator-location.png)
 
-<div class="aside">
-💡 If you don't provide a full path for the reproduction it will be generated in the current directory.
-</div>
+<Callout variant="info" icon="💡">
+
+If you don't provide a full path for the reproduction it will be generated in the current directory.
+</Callout>
 
 If everything worked as it should, you should have a fully functional Storybook set up in your local environment.
 
@@ -62,9 +64,11 @@ Then, follow GitHub's instructions to set up the repository.
 
 ![github repository instructions](./github-repository-steps-optimized.png)
 
-<div class="aside">
- 💡 Don't forget to replace <code>your-username</code> with your own account name.
-</div>
+<Callout variant="info" icon="💡">
+
+Don't forget to replace <code>your-username</code> with your own account name.
+
+</Callout>
 
 ## Publish
 

@@ -44,11 +44,11 @@ Use this boilerplate code to add a new `button` to Storybook's Toolbar:
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 The <code>icon</code> element used in the example loads the icons from the <code>@storybook/components</code> package. See [here](../faq.md#what-icons-are-available-for-my-toolbar-or-my-addon) for the list of available icons that you can use.
 
-</div>
+</Callout>
 
 ### Tabs
 
@@ -68,9 +68,11 @@ Use this boilerplate code to add a new `Tab` to Storybook's UI:
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
+
 Learn how to write your own addon that includes these UI elements <a href="./writing-addons">here</a>.
-</div>
+
+</Callout>
 
 ## Preset addons
 

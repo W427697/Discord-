@@ -91,9 +91,11 @@ Create React App does not allow providing options to Jest in your `package.json`
 npm test -- --coverage --collectCoverageFrom='["src/**/*.{js,jsx}","!src/**/stories/*"]'
 ```
 
-<div class="aside">
-💡 If you're using <a href="https://yarnpkg.com/">yarn</a> as a package manager, you'll need to adjust the command accordingly.
-</div>
+<Callout variant="info" icon="💡">
+
+ If you're using <a href="https://yarnpkg.com/">yarn</a> as a package manager, you'll need to adjust the command accordingly.
+
+</Callout>
 
 ## I see `ReferenceError: React is not defined` when using Storybook with Next.js
 
@@ -163,9 +165,11 @@ export default {
 };
 ```
 
-<div class="aside">
-💡 Fast Refresh only works in development mode with React 16.10 or higher.
-</div>
+<Callout variant="info" icon="💡">
+
+Fast Refresh only works in development mode with React 16.10 or higher.
+
+</Callout>
 
 ## How do I setup the new React Context Root API with Storybook?
 
@@ -343,9 +347,12 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Frameworks                                   | [See current documentation](./api/new-frameworks.md)                                                                   | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | CLI options                                  | [See current documentation](./api/cli-options.md)                                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                       |
 
-<div class="aside">
+<!-- TODO: Update this notice -->
+<Callout variant="info">
+
 With the release of version 5.3, we've updated how you can write your stories more compactly and easily. It doesn't mean that the <code>storiesOf</code> format has been removed. For the time being, we're still supporting it, and we have documentation for it. But be advised that this is bound to change in the future.
-</div>
+
+</Callout>
 
 ## What icons are available for my toolbar or my addon?
 
@@ -364,9 +371,11 @@ We recommend that you use [http-server](https://www.npmjs.com/package/http-serve
 npx http-server storybook-static
 ```
 
-<div class="aside">
+<Callout variant="info">
+
 Suppose you don't want to run the command above frequently. Add <code>http-server</code> as a development dependency and create a new script to preview your production build of Storybook.
-</div>
+
+</Callout>
 
 ## Can I use Storybook with Vue 3?
 
