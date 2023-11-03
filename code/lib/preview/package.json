@@ -70,7 +70,6 @@
     "access": "public"
   },
   "bundler": {
-    "pre": "./scripts/generate-exports-file.ts",
     "browserEntries": [
       "./src/runtime.ts"
     ],
