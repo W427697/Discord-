@@ -507,7 +507,7 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build-sandboxes
       - e2e-production:
@@ -563,7 +563,7 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 16
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-production:
@@ -620,7 +620,7 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 31
+          parallelism: 33
           requires:
             - build-sandboxes
       - e2e-production:

@@ -540,7 +540,7 @@ const benchTemplates = {
       skipTemplateStories: true,
       testBuild: true,
     },
-    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
   },
   'bench/react-webpack-18-ts-test-build': {
     ...baseTemplates['react-webpack/18-ts'],
@@ -550,7 +550,7 @@ const benchTemplates = {
       skipTemplateStories: true,
       testBuild: true,
     },
-    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
   },
 } satisfies Record<string, Template & { isInternal: true }>;
 
