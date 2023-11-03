@@ -4,7 +4,7 @@ The `@storybook/test` package contains utilities for testing your stories inside
 
 ## Installation
 
-Install this addon by adding the `@storybook/test` dependency:
+Install the package by adding the `@storybook/test` dev dependency:
 
 ```sh
 npm install -D @storybook/test
