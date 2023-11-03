@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { STORY_PREPARED } from '@storybook/core-events';
-import type { Args, Parameters, StoryId, StrictArgTypes } from '@storybook/types';
-import { addons } from '@storybook/preview-api';
+import { STORY_PREPARED } from '@storybook/nextjs-server/core-events';
+import type { Args, Parameters, StoryId, StrictArgTypes } from '@storybook/nextjs-server/types';
+import { addons } from '@storybook/nextjs-server/preview-api';
 
 export type StoryAnnotations<TArgs extends Args> = {
   id: StoryId;

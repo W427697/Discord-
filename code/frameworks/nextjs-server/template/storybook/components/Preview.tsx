@@ -1,11 +1,13 @@
+/* eslint-disable no-underscore-dangle */
+
 'use client';
 
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import type { View } from '@storybook/preview-api';
-import { PreviewWithSelection, addons, UrlStore } from '@storybook/preview-api';
-import { createBrowserChannel } from '@storybook/channels';
-import type { StoryIndex } from '@storybook/types';
+import type { View } from '@storybook/nextjs-server/preview-api';
+import { PreviewWithSelection, addons, UrlStore } from '@storybook/nextjs-server/preview-api';
+import { createBrowserChannel } from '@storybook/nextjs-server/channels';
+import type { StoryIndex } from '@storybook/nextjs-server/types';
 import { setArgs } from './args';
 
 global.FEATURES = { storyStoreV7: true };
