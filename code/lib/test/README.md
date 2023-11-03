@@ -12,6 +12,8 @@ pnpm add -D @storybook/test
 yarn add -D @storybook/test
 ```
 
+Note that this package is not an addon, so you don't have to add it to your `main.js/main.ts` file.
+
 ## Usage
 
 The test package exports instrumented versions of [@vitest/spy](https://vitest.dev/api/mock.html), [@vitest/expect](https://vitest.dev/api/expect.html) (based on [chai](https://www.chaijs.com/)), [@testing-library/dom](https://testing-library.com/docs/dom-testing-library/intro) and [@testing-library/user-event](https://testing-library.com/docs/user-event/intro).
