@@ -15,14 +15,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
-import {
-  ComponentNode,
-  DocumentNode,
-  GroupNode,
-  RootNode,
-  StoryNode,
-  CollapseIcon,
-} from './TreeNode';
+import { ComponentNode, DocumentNode, GroupNode, RootNode, StoryNode } from './TreeNode';
 
 import type { ExpandAction, ExpandedState } from './useExpanded';
 // eslint-disable-next-line import/no-cycle
@@ -39,6 +32,7 @@ import {
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
 import { useLayout } from '../layout/LayoutProvider';
 import { IconSymbols } from './IconSymbols';
+import { CollapseIcon } from './components/CollapseIcon';
 
 const Container = styled.div<{ hasOrphans: boolean }>((props) => ({
   marginTop: props.hasOrphans ? 20 : 0,

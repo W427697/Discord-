@@ -3,20 +3,7 @@ import { transparentize } from 'polished';
 import type { FC, ComponentProps } from 'react';
 import React from 'react';
 import { UseSymbol } from './IconSymbols';
-
-export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
-  display: 'inline-block',
-  width: 0,
-  height: 0,
-  marginLeft: 8,
-  marginRight: 5,
-  color: transparentize(0.4, theme.textMutedColor),
-  borderTop: '3px solid transparent',
-  borderBottom: '3px solid transparent',
-  borderLeft: `3px solid`,
-  transform: isExpanded ? 'rotateZ(90deg)' : 'none',
-  transition: 'transform .1s ease-out',
-}));
+import { CollapseIcon } from './components/CollapseIcon';
 
 const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
   ({ theme, type }) => ({
