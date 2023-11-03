@@ -16,6 +16,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'off',
     'import/extensions': 'off', // for mjs, we sometimes need extensions
     'jest/no-done-callback': 'off',
+    'jsx-a11y/control-has-associated-label': 'off',
     '@typescript-eslint/dot-notation': [
       'error',
       {
