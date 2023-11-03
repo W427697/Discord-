@@ -133,7 +133,7 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
 
 export const typescript = () => ({
   check: false,
-  // 'react-docgen' faster but produces lower quality typescript results
+  // 'react-docgen' faster than `react-docgen-typescript` but produces lower quality results
   reactDocgen: 'react-docgen',
   reactDocgenTypescriptOptions: {
     shouldExtractLiteralValuesFromEnum: true,

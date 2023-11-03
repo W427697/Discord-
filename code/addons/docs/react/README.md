@@ -110,7 +110,7 @@ export const parameters = { docs: { story: { inline: false } } };
 
 ## TypeScript props with `react-docgen-typescript`
 
-If you're using TypeScript, there are two different options for generating props: `react-docgen-typescript` (default) or `react-docgen`.
+If you're using TypeScript, there are two different options for generating props: `react-docgen` (default) or `react-docgen-typescript`.
 
 You can add the following lines to your `.storybook/main.js` to switch between the two (or disable docgen):
 
