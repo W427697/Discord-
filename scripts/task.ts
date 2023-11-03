@@ -472,7 +472,7 @@ async function run() {
         logger.error(`Error running task ${getTaskKey(task)}:`);
         // If it is the last task, we don't need to log the full trace
         if (task === finalTask) {
-          logger.error(err.message);
+          logger.error(err.stack || err.message || err);
         } else {
           logger.error(err);
         }
