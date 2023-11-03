@@ -41,8 +41,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader esbuild-register/loader -r esbuild-register ../../../scripts/prepare/check.ts",
+    "prep": "node --loader esbuild-register/loader -r esbuild-register ../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
     "jest": "^29.7.0",

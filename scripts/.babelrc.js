@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   compact: false,
   presets: [
     '@babel/preset-typescript',

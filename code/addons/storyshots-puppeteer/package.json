@@ -32,8 +32,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/tsc.ts"
+    "check": "node --loader esbuild-register/loader -r esbuild-register ../../../scripts/prepare/check.ts",
+    "prep": "node --loader esbuild-register/loader -r esbuild-register ../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@axe-core/puppeteer": "^4.2.0",

@@ -26,7 +26,7 @@
   },
   "scripts": {
     "await-serve-storybooks": "wait-on http://localhost:8001",
-    "build": "NODE_ENV=production ts-node --swc --esm ../scripts/build-package.ts",
+    "build": "NODE_ENV=production yarn --cwd ../scripts build-package",
     "changelog": "pr-log --sloppy --cherry-pick",
     "changelog:next": "pr-log --sloppy --since-prerelease",
     "check": "NODE_ENV=production node ../scripts/check-package.js",
