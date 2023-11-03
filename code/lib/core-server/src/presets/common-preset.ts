@@ -191,6 +191,7 @@ const testBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   removeAllAddons: value,
   removeMDXEntries: value,
   removeAutoDocs: value,
+  disableDocgen: value,
 });
 
 export const features = async (

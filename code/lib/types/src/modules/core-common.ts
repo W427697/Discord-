@@ -262,21 +262,25 @@ export type DocsOptions = {
 
 export interface TestBuildFlags {
   /**
-   * Globalize @storybook/blocks
+   * The package @storybook/blocks will be excluded from the bundle, even when imported in e.g. the preview.
    */
   emptyBlocks?: boolean;
   /**
-   * disable all addons
+   * Disable all addons
    */
   removeAllAddons?: boolean;
   /**
-   * Remove .mdx stories entries
+   * Filter out .mdx stories entries
    */
   removeMDXEntries?: boolean;
   /**
-   * Remove autodocs
+   * Override autodocs to be disabled
    */
   removeAutoDocs?: boolean;
+  /**
+   * Override docgen to be disabled.
+   */
+  disableDocgen?: boolean;
 }
 
 export interface TestBuildConfig {

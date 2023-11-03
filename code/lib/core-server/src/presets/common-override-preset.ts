@@ -40,3 +40,10 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
   }
   return entries;
 };
+
+export const typescript: PresetProperty<'typescript', StorybookConfig> = async (input, options) => {
+  if (options?.build?.test?.disableDocgen) {
+    return { ...(input ?? {}), reactDocgen: false, check: false };
+  }
+  return input;
+};
