@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
   - [Core changes](#core-changes)
     - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
       - [Storyshots has been removed](#storyshots-has-been-removed)
@@ -315,6 +316,55 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 7.x to 8.0.0
+
+### Implicit actions can not be used during rendering (for example in the play function)
+
+In Storybook 7, we inferred if the component accepts any action props,
+by checking if it starts with `onX` (for example `onClick`), or as configured by `actions.argTypesRegex`.
+If that was the case, we would fill in jest spies for those args automatically.
+
+```ts
+export default {
+  component: Button,
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    // args.onClick is a jest spy in 7.0
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+In Storybook 8 this feature is removed, and spies have to added explicitly:
+
+```ts
+import { fn } from '@storybook/test';
+
+export default {
+  component: Button,
+  args: {
+    onClick: fn(),
+  },
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+For more context, see this RFC:
+https://github.com/storybookjs/storybook/discussions/23649
+
+To summarize:
+
+- This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
+- This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
+- This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
 
 ### Core changes
 
