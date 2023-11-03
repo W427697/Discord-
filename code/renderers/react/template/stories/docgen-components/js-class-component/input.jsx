@@ -1,5 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -50,7 +48,7 @@ PropsWriter.defaultProps = {
   importedReference: imported,
   globalReference: Date,
   stringGlobalName: 'top',
-  // eslint-disable-next-line react/default-props-match-prop-types
+
   stringNoPropType: 'stringNoPropType',
 };
 
