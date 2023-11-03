@@ -1,39 +1,41 @@
 #!/usr/bin/env node
 
 /* eslint-disable global-require */
-const { resolve, join, posix, sep } = require('path');
-const { readJSON } = require('fs-extra');
-
-async function getWorkspaces(includePrivate = true) {
-  const { execaCommand } = await import('execa');
-  const { stdout } = await execaCommand(`yarn workspaces list --json --no-private`, {
-    cwd: join(__dirname, '..', 'code'),
-    shell: true,
-  });
-  return JSON.parse(`[${stdout.split('\n').join(',')}]`);
-}
+import { resolve, posix, sep } from 'path';
+import { readJSON } from 'fs-extra';
+import prompts from 'prompts';
+import program from 'commander';
+import chalk from 'chalk';
+import { getWorkspaces } from './utils/workspace';
+import { getExeca } from './utils/exec';
 
 async function run() {
-  const prompts = require('prompts');
-  const program = require('commander');
-  const chalk = require('chalk');
-
   const packages = await getWorkspaces();
   const packageTasks = packages
-    .map((package) => {
+    .map((pkg) => {
       return {
-        ...package,
-        suffix: package.name.replace('@storybook/', ''),
+        ...pkg,
+        suffix: pkg.name.replace('@storybook/', ''),
         defaultValue: false,
-        helpText: `build only the ${package.name} package`,
+        helpText: `build only the ${pkg.name} package`,
       };
     })
     .reduce((acc, next) => {
       acc[next.name] = next;
       return acc;
-    }, {});
+    }, {} as Record<string, { name: string; defaultValue: boolean; suffix: string; helpText: string }>);
 
-  const tasks = {
+  const tasks: Record<
+    string,
+    {
+      name: string;
+      defaultValue: boolean;
+      suffix: string;
+      helpText: string;
+      value?: any;
+      location?: string;
+    }
+  > = {
     watch: {
       name: `watch`,
       defaultValue: false,
@@ -92,6 +94,7 @@ async function run() {
         name: 'todo',
         min: 1,
         hint: 'You can also run directly with package name like `yarn build core`, or `yarn build --all` for all packages!',
+        // @ts-expect-error @types incomplete
         optionsPerPage: require('window-size').height - 3, // 3 lines for extra info
         choices: packages.map(({ name: key }) => ({
           value: key,
@@ -99,7 +102,7 @@ async function run() {
           selected: (tasks[key] && tasks[key].defaultValue) || false,
         })),
       },
-    ]).then(({ watch, prod, todo }) => {
+    ]).then(({ watch, prod, todo }: { watch: boolean; prod: boolean; todo: Array<string> }) => {
       watchMode = watch;
       prodMode = prod;
       return todo?.map((key) => tasks[key]);
@@ -119,9 +122,9 @@ async function run() {
       .join(sep);
 
     const cwd = resolve(__dirname, '..', 'code', v.location);
-    const { execaCommand } = await import('execa');
     const tsNode = require.resolve('ts-node/dist/bin');
-    const sub = execaCommand(
+    const execa = await getExeca();
+    const sub = execa.execa(
       `node ${tsNode} ${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
       {
         cwd,
@@ -144,6 +147,7 @@ async function run() {
 }
 
 run().catch((e) => {
+  // eslint-disable-next-line no-console
   console.log(e);
   process.exit(1);
 });
