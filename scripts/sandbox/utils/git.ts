@@ -5,7 +5,7 @@ import { execaCommand } from '../../utils/exec';
 // eslint-disable-next-line import/no-cycle
 import { logger } from '../publish';
 
-const { version: storybookVersion } = require('../../../code/package.json');
+import { version as storybookVersion } from '../../../code/package.json';
 
 const getTheLastCommitHashThatUpdatedTheSandboxRepo = async (branch: string) => {
   const owner = 'storybookjs';

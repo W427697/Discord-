@@ -6,6 +6,7 @@ import { readFile } from 'fs-extra';
 import path from 'path';
 import semver from 'semver';
 import dedent from 'ts-dedent';
+import url from 'url';
 import { getCurrentVersion } from './get-current-version';
 
 program
@@ -54,7 +55,8 @@ export const getChangelogFromFile = async (args: {
   return result;
 };
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   const parsed = program.parse();
   getChangelogFromFile({
     version: parsed.args[0],

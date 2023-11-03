@@ -6,6 +6,7 @@ import { join, resolve } from 'path';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import { globSync } from 'glob';
 import { directory } from 'tempy';
+import url from 'url';
 import { execaCommand } from './utils/exec';
 
 const logger = console;
@@ -67,7 +68,8 @@ async function run(cwd: string) {
   await writeFile(join(cwd, 'documentation.json'), JSON.stringify(documentation));
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   run(resolve(process.argv[2]))
     .then(() => process.exit(0))
     .catch((err) => {

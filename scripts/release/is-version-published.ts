@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import program from 'commander';
 import { setOutput } from '@actions/core';
 import fetch from 'node-fetch';
+import url from 'url';
 import { getCurrentVersion } from './get-current-version';
 
 program
@@ -77,7 +78,8 @@ export const run = async (args: unknown[], options: unknown) => {
   return isAlreadyPublished;
 };
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   const parsed = program.parse();
   run(parsed.args, parsed.opts()).catch((err) => {
     console.error(err);

@@ -4,6 +4,7 @@ import { program } from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
 import yaml from 'yaml';
+import url from 'url';
 import {
   allTemplates,
   templatesByCadence,
@@ -179,7 +180,8 @@ async function run({ cadence, task, check }: RunOptions) {
   );
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   program
     .description('Retrieve the template to run for a given cadence and task')
     .option('--cadence <cadence>', 'Which cadence you want to run the script for')

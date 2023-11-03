@@ -6,6 +6,7 @@
 import chalk from 'chalk';
 import program from 'commander';
 import dedent from 'ts-dedent';
+import url from 'url';
 import { githubRestClient } from './utils/github-client';
 
 program
@@ -99,7 +100,8 @@ export const run = async () => {
   }
 };
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   run().catch((err) => {
     console.error(err);
     // this is non-critical work, so we don't want to fail the CI build if this fails

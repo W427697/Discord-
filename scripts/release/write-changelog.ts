@@ -5,6 +5,7 @@ import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
 import { readFile, writeFile, writeJson } from 'fs-extra';
+import url from 'url';
 import { getChanges } from './utils/get-changes';
 
 program
@@ -132,7 +133,8 @@ export const run = async (args: unknown[], options: unknown) => {
   console.log(`✅ Wrote Changelog to file`);
 };
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   const parsed = program.parse();
   run(parsed.args, parsed.opts()).catch((err) => {
     console.error(err);

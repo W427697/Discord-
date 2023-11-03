@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { readJson } from 'fs-extra';
 import { join } from 'path';
+import url from 'url';
 import { CODE_DIRECTORY } from './utils/constants';
 import { execaCommand } from './utils/exec';
 
@@ -63,7 +64,8 @@ async function run() {
   console.log(`${title}${body}${footer}`.replace(/\n/g, '\\n'));
 }
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   run().catch((err) => {
     console.error(err);
     process.exit(1);

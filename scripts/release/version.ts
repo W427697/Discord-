@@ -6,6 +6,7 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
+import url from 'url';
 import type { Workspace } from '../utils/workspace';
 import { getWorkspaces } from '../utils/workspace';
 import { execaCommand } from '../utils/exec';
@@ -293,7 +294,8 @@ export const run = async (options: unknown) => {
   }
 };
 
-if (require.main === module) {
+const modulePath = url.fileURLToPath(import.meta.url);
+if (process.argv[1] === modulePath) {
   const options = program.parse().opts();
   run(options).catch((err) => {
     console.error(err);
