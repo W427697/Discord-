@@ -1,6 +1,6 @@
 # Storybook Test
 
-The `@storybook/test` package contains utilities to be used to test your story in the `play` function.
+The `@storybook/test` package contains utilities for testing your stories inside `play` functions.
 
 ## Installation
 
