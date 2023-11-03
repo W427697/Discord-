@@ -80,7 +80,7 @@ const Input = styled.input(({ theme }) => ({
   paddingRight: 32,
   border: `1px solid ${theme.appBorderColor}`,
   background: 'transparent',
-  borderRadius: 32,
+  borderRadius: 4,
   fontSize: `${theme.typography.size.s1 + 1}px`,
   fontFamily: 'inherit',
   transition: 'all 150ms',

@@ -133,7 +133,7 @@ export const Sidebar = React.memo(function Sidebar({
 
   return (
     <Container className="container sidebar-container">
-      <ScrollArea vertical offset={8}>
+      <ScrollArea vertical offset={6} scrollbarSize={6}>
         <Top row={1.6}>
           <Heading
             className="sidebar-header"
