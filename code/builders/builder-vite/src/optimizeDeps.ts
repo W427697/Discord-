@@ -8,17 +8,9 @@ const INCLUDE_CANDIDATES = [
   '@emotion/core',
   '@emotion/is-prop-valid',
   '@emotion/styled',
-  '@storybook/channels',
-  '@storybook/client-api',
-  '@storybook/client-logger',
-  '@storybook/core/client',
-  '@storybook/global',
-  '@storybook/preview-api',
-  '@storybook/preview-web',
   '@storybook/react > acorn-jsx',
   '@storybook/react',
   '@storybook/svelte',
-  '@storybook/types',
   '@storybook/vue3',
   'acorn-jsx',
   'acorn-walk',
@@ -121,7 +113,7 @@ const asyncFilter = async (arr: string[], predicate: (val: string) => Promise<bo
   Promise.all(arr.map(predicate)).then((results) => arr.filter((_v, index) => results[index]));
 
 export async function getOptimizeDeps(config: ViteInlineConfig, options: Options) {
-  const extraOptimizeDeps = await options.presets.apply('optimizeDeps', []);
+  const extraOptimizeDeps = await options.presets.apply('optimizeViteDeps', []);
 
   const { root = process.cwd() } = config;
   const { normalizePath, resolveConfig } = await import('vite');
