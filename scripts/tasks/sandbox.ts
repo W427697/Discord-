@@ -5,14 +5,6 @@ import { promisify } from 'util';
 import dirSize from 'fast-folder-size';
 import type { Task } from '../task';
 import { now, saveBench } from '../bench/utils';
-import {
-  create,
-  install,
-  addStories,
-  extendMain,
-  init,
-  addExtraDependencies,
-} from './sandbox-parts';
 
 const logger = console;
 
@@ -62,6 +54,10 @@ export const sandbox: Task = {
       logger.info('🗑  Removing old sandbox dir');
       await remove(details.sandboxDir);
     }
+
+    const { create, install, addStories, extendMain, init, addExtraDependencies } = await import(
+      './sandbox-parts'
+    );
 
     let startTime = now();
     await create(details, options);
