@@ -1,5 +1,6 @@
 // Here we map the name of a module to their NAME in the global scope.
-export const globals = {
+// eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
+const _globals = {
   '@storybook/addons': '__STORYBOOK_MODULE_ADDONS__',
   '@storybook/global': '__STORYBOOK_MODULE_GLOBAL__',
   '@storybook/channel-postmessage': '__STORYBOOK_MODULE_CHANNEL_POSTMESSAGE__', // @deprecated: remove in 8.0
@@ -12,4 +13,6 @@ export const globals = {
   '@storybook/preview-web': '__STORYBOOK_MODULE_PREVIEW_WEB__',
   '@storybook/preview-api': '__STORYBOOK_MODULE_PREVIEW_API__',
   '@storybook/store': '__STORYBOOK_MODULE_STORE__',
-} as const;
+};
+
+export const globals: typeof _globals & Record<string, string> = _globals;
