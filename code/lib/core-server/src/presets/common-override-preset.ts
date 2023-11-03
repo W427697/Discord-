@@ -47,3 +47,10 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
   }
   return input;
 };
+
+export const docs: PresetProperty<'docs', StorybookConfig> = async (input, options) => {
+  if (options?.build?.test?.removeAutoDocs) {
+    return {};
+  }
+  return input;
+};
