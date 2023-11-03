@@ -273,6 +273,10 @@ export interface TestBuildFlags {
    * Remove .mdx stories entries
    */
   removeMDXEntries?: boolean;
+  /**
+   * Remove autodocs
+   */
+  removeAutoDocs?: boolean;
 }
 
 export interface TestBuildConfig {

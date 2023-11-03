@@ -182,6 +182,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
+      build,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);

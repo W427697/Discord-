@@ -190,6 +190,7 @@ const testBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   emptyBlocks: value,
   removeAllAddons: value,
   removeMDXEntries: value,
+  removeAutoDocs: value,
 });
 
 export const features = async (
