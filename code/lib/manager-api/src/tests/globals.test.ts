@@ -2,18 +2,21 @@ import { describe, beforeEach, it, expect, vi } from 'vitest';
 import { EventEmitter } from 'events';
 import { SET_STORIES, SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 
-import { logger } from '@storybook/client-logger';
+import { logger as _logger } from '@storybook/client-logger';
 import type { API } from '../index';
 import type { SubAPI } from '../modules/globals';
 import { init as initModule } from '../modules/globals';
 import type { ModuleArgs } from '../lib/types';
 
-import { getEventMetadata } from '../lib/events';
+import { getEventMetadata as _getEventData } from '../lib/events';
+
+const getEventMetadata = vi.mocked(_getEventData, true);
+const logger = vi.mocked(_logger, true);
 
 vi.mock('@storybook/client-logger');
 vi.mock('../lib/events');
 beforeEach(() => {
-  getEventMetadata.mockReset().mockReturnValue({ sourceType: 'local' });
+  getEventMetadata.mockReset().mockReturnValue({ sourceType: 'local' } as any);
 });
 
 function createMockStore() {
@@ -68,7 +71,7 @@ describe('globals API', () => {
     } as unknown as ModuleArgs);
     store.setState(state);
 
-    getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
+    getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } } as any);
     channel.emit(SET_STORIES, { globals: { a: 'b' } });
     expect(store.getState()).toEqual({ globals: {}, globalTypes: {} });
   });
@@ -84,7 +87,7 @@ describe('globals API', () => {
     } as unknown as ModuleArgs);
     store.setState(state);
 
-    getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
+    getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } } as any);
     channel.emit(SET_GLOBALS, {
       globals: { a: 'b' },
       globalTypes: { a: { type: { name: 'string' } } },
@@ -125,7 +128,7 @@ describe('globals API', () => {
     } as unknown as ModuleArgs);
     store.setState(state);
 
-    getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } });
+    getEventMetadata.mockReturnValueOnce({ sourceType: 'external', ref: { id: 'ref' } } as any);
     logger.warn.mockClear();
     channel.emit(GLOBALS_UPDATED, { globals: { a: 'b' } });
     expect(store.getState()).toEqual({ globals: {}, globalTypes: {} });

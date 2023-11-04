@@ -15,7 +15,7 @@ describe('cra-config', () => {
   describe('when used with the default react-scripts package', () => {
     beforeEach(() => {
       vi.mocked(fs.realpathSync).mockImplementationOnce((filePath) =>
-        filePath.replace(SCRIPT_PATH, `react-scripts/${SCRIPT_PATH}`)
+        filePath.toString().replace(SCRIPT_PATH, `react-scripts/${SCRIPT_PATH}`)
       );
     });
 
@@ -29,7 +29,7 @@ describe('cra-config', () => {
   describe('when used with a custom react-scripts package', () => {
     beforeEach(() => {
       vi.mocked(fs.realpathSync).mockImplementationOnce((filePath) =>
-        filePath.replace(SCRIPT_PATH, `custom-react-scripts/${SCRIPT_PATH}`)
+        filePath.toString().replace(SCRIPT_PATH, `custom-react-scripts/${SCRIPT_PATH}`)
       );
     });
 
@@ -44,7 +44,7 @@ describe('cra-config', () => {
     beforeEach(() => {
       // In case of .bin/react-scripts is not symlink (like it happens on Windows),
       // realpathSync() method does not translate the path.
-      vi.mocked(fs.realpathSync).mockImplementationOnce((filePath) => filePath);
+      vi.mocked(fs.realpathSync).mockImplementationOnce((filePath) => filePath.toString());
 
       vi.mocked(fs.readFileSync).mockImplementationOnce(
         () => `#!/bin/sh

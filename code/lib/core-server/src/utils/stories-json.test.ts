@@ -80,7 +80,7 @@ describe('useStoriesJson', () => {
     use.mockClear();
     send.mockClear();
     write.mockClear();
-    vi.mocked(debounce).mockImplementation((cb) => cb);
+    vi.mocked(debounce).mockImplementation((cb) => cb as any);
   });
 
   const request: Request = {

@@ -1,4 +1,4 @@
-/// <reference types="vitest" />;
+/* eslint-disable import/no-extraneous-dependencies */
 import type { Mock, Mocked } from 'vitest';
 import { vi } from 'vitest';
 
@@ -65,7 +65,7 @@ export const docsRenderer = {
   render: vi.fn().mockImplementation((context, parameters, element) => Promise.resolve()),
   unmount: vi.fn(),
 };
-export const teardownrenderToCanvas: Mock<TeardownRenderToCanvas> = vi.fn();
+export const teardownrenderToCanvas: Mock<[TeardownRenderToCanvas]> = vi.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},

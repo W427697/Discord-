@@ -99,9 +99,12 @@ describe('is not Nx project', () => {
       describe('has one Storybook builder defined', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          vi.mocked(angularHelpers.AngularJSON).mockImplementation(() => ({
-            hasStorybookBuilder: true,
-          }));
+          vi.mocked(angularHelpers.AngularJSON).mockImplementation(
+            () =>
+              ({
+                hasStorybookBuilder: true,
+              } as any)
+          );
         });
 
         it('should return null', async () => {
@@ -117,13 +120,16 @@ describe('is not Nx project', () => {
       describe('has one project', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          vi.mocked(angularHelpers.AngularJSON).mockImplementation(() => ({
-            hasStorybookBuilder: false,
-            projects: {
-              project1: { root: 'project1', architect: {} },
-            },
-            rootProject: 'project1',
-          }));
+          vi.mocked(angularHelpers.AngularJSON).mockImplementation(
+            () =>
+              ({
+                hasStorybookBuilder: false,
+                projects: {
+                  project1: { root: 'project1', architect: {} },
+                },
+                rootProject: 'project1',
+              } as any)
+          );
         });
 
         it('should return null', async () => {
@@ -139,14 +145,17 @@ describe('is not Nx project', () => {
       describe('has multiple projects without root project defined', () => {
         beforeEach(() => {
           // Mock AngularJSON.constructor
-          vi.mocked(angularHelpers.AngularJSON).mockImplementation(() => ({
-            hasStorybookBuilder: false,
-            projects: {
-              project1: { root: 'project1', architect: {} },
-              project2: { root: 'project2', architect: {} },
-            },
-            rootProject: null,
-          }));
+          vi.mocked(angularHelpers.AngularJSON).mockImplementation(
+            () =>
+              ({
+                hasStorybookBuilder: false,
+                projects: {
+                  project1: { root: 'project1', architect: {} },
+                  project2: { root: 'project2', architect: {} },
+                },
+                rootProject: null,
+              } as any)
+          );
         });
 
         it('should return an empty object', async () => {

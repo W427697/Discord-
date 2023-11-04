@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import { expect } from 'vitest';
 
 import { userOrAutoTitleFromSpecifier as userOrAuto } from './autoTitle';
 

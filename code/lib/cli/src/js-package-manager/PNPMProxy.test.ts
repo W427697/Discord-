@@ -104,7 +104,9 @@ describe('PNPM Proxy', () => {
         const executeCommandSpy = vi
           .spyOn(pnpmProxy, 'executeCommand')
           .mockResolvedValueOnce('7.0.0');
-        const writePackageSpy = vi.spyOn(pnpmProxy, 'writePackageJson').mockImplementation(vi.fn());
+        const writePackageSpy = vi
+          .spyOn(pnpmProxy, 'writePackageJson')
+          .mockImplementation(vi.fn<any>());
 
         await pnpmProxy.removeDependencies(
           {
@@ -207,7 +209,9 @@ describe('PNPM Proxy', () => {
 
   describe('addPackageResolutions', () => {
     it('adds resolutions to package.json and account for existing resolutions', async () => {
-      const writePackageSpy = vi.spyOn(pnpmProxy, 'writePackageJson').mockImplementation(vi.fn());
+      const writePackageSpy = vi
+        .spyOn(pnpmProxy, 'writePackageJson')
+        .mockImplementation(vi.fn<any>());
 
       const basePackageAttributes = {
         dependencies: {},

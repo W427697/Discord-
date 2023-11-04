@@ -33,8 +33,8 @@ describe('ClientApi', () => {
       const module2 = {
         id: 'file2',
       };
-      clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', vi.fn());
-      clientApi.storiesOf('kind2', module2 as unknown as NodeModule).add('story2', vi.fn());
+      clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', vi.fn<any>());
+      clientApi.storiesOf('kind2', module2 as unknown as NodeModule).add('story2', vi.fn<any>());
       // This gets called by configure
       // eslint-disable-next-line no-underscore-dangle
       clientApi._loadAddedExports();
@@ -45,7 +45,7 @@ describe('ClientApi', () => {
       ]);
 
       disposeCallback();
-      clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', vi.fn());
+      clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', vi.fn<any>());
       await new Promise((r) => setTimeout(r, 0));
       expect(Object.keys(clientApi.getStoryIndex().entries)).toEqual([
         'kind1--story1',

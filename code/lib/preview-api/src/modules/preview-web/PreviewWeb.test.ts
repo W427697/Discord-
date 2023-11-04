@@ -1727,17 +1727,17 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
           const [importedGate, openImportedGate] = createGate();
           importFn
-            // @ts-expect-error (jest mock)
-            .mockImplementationOnce(async (...args) => {
+            // @ts-expect-error (mock)
+            .mockImplementationOnce(async (m) => {
               await gate;
-              return importFn(...args);
+              return importFn(m);
             })
-            // @ts-expect-error (jest mock)
-            .mockImplementationOnce(async (...args) => {
+            // @ts-expect-error (mock)
+            .mockImplementationOnce(async (m) => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
-              return importFn(...args);
+              return importFn(m);
             });
 
           const preview = new PreviewWeb();
@@ -1774,17 +1774,17 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
           const [importedGate, openImportedGate] = createGate();
           importFn
-            // @ts-expect-error (jest mock)
-            .mockImplementationOnce(async (...args) => {
+            // @ts-expect-error (mock)
+            .mockImplementationOnce(async (m) => {
               await gate;
-              return importFn(...args);
+              return importFn(m);
             })
-            // @ts-expect-error (jest mock)
-            .mockImplementationOnce(async (...args) => {
+            // @ts-expect-error (mock)
+            .mockImplementationOnce(async (m) => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
-              return importFn(...args);
+              return importFn(m);
             });
 
           const preview = new PreviewWeb();
@@ -1820,17 +1820,17 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
           const [importedGate, openImportedGate] = createGate();
           importFn
-            // @ts-expect-error (jest mock)
-            .mockImplementationOnce(async (...args) => {
+            // @ts-expect-error (mock)
+            .mockImplementationOnce(async (m) => {
               await gate;
-              return importFn(...args);
+              return importFn(m);
             })
-            // @ts-expect-error (jest mock)
-            .mockImplementationOnce(async (...args) => {
+            // @ts-expect-error (mock)
+            .mockImplementationOnce(async (m) => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
-              return importFn(...args);
+              return importFn(m);
             });
 
           const preview = new PreviewWeb();

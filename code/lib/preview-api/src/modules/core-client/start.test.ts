@@ -54,10 +54,11 @@ vi.mock('../../store', async (importOriginal) => {
 vi.mock('../../preview-web', async (importOriginal) => {
   const actualPreviewWeb = await importOriginal<typeof import('../../preview-web')>();
 
-  class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb {
+  class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb<any> {
     constructor() {
       super();
 
+      // @ts-expect-error (incomplete)
       this.view = {
         ...Object.fromEntries(
           Object.getOwnPropertyNames(this.view.constructor.prototype).map((key) => [key, vi.fn()])
@@ -124,12 +125,12 @@ describe('start', () => {
       configure('test', () => {
         clientApi
           .storiesOf('Component A', { id: 'file1' } as NodeModule)
-          .add('Story One', vi.fn())
-          .add('Story Two', vi.fn());
+          .add('Story One', vi.fn<any>())
+          .add('Story Two', vi.fn<any>());
 
         clientApi
           .storiesOf('Component B', { id: 'file2' } as NodeModule)
-          .add('Story Three', vi.fn());
+          .add('Story Three', vi.fn<any>());
       });
 
       await waitForRender();
@@ -220,7 +221,9 @@ describe('start', () => {
       const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
-        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', vi.fn());
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('default', vi.fn<any>());
       });
 
       await waitForRender();
@@ -234,7 +237,9 @@ describe('start', () => {
       const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
-        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('storyOne', vi.fn());
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('storyOne', vi.fn<any>());
       });
 
       await waitForRender();
@@ -248,7 +253,9 @@ describe('start', () => {
       const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
-        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('Story One', vi.fn());
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('Story One', vi.fn<any>());
       });
 
       await waitForRender();
@@ -263,7 +270,9 @@ describe('start', () => {
       const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
-        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('story0', vi.fn());
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('story0', vi.fn<any>());
       });
 
       await waitForRender();
@@ -277,9 +286,15 @@ describe('start', () => {
       const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
-        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', vi.fn());
-        clientApi.storiesOf('Component B', { id: 'file1' } as NodeModule).add('default', vi.fn());
-        clientApi.storiesOf('Component C', { id: 'file1' } as NodeModule).add('default', vi.fn());
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('default', vi.fn<any>());
+        clientApi
+          .storiesOf('Component B', { id: 'file1' } as NodeModule)
+          .add('default', vi.fn<any>());
+        clientApi
+          .storiesOf('Component C', { id: 'file1' } as NodeModule)
+          .add('default', vi.fn<any>());
       });
 
       await waitForRender();
@@ -307,7 +322,7 @@ describe('start', () => {
             args: { a: 'a' },
             argTypes: { a: { type: 'string' } },
           })
-          .add('default', vi.fn(), {
+          .add('default', vi.fn<any>(), {
             args: { b: 'b' },
             argTypes: { b: { type: 'string' } },
           });
@@ -338,7 +353,9 @@ describe('start', () => {
       const { configure, clientApi, forceReRender } = start(renderToCanvas);
 
       configure('test', () => {
-        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', vi.fn());
+        clientApi
+          .storiesOf('Component A', { id: 'file1' } as NodeModule)
+          .add('default', vi.fn<any>());
       });
 
       await waitForRender();
@@ -403,7 +420,7 @@ describe('start', () => {
         },
       };
       configure('test', () => {
-        clientApi.storiesOf('Component A', module as any).add('default', vi.fn());
+        clientApi.storiesOf('Component A', module as any).add('default', vi.fn<any>());
       });
 
       await waitForRender();
@@ -412,8 +429,8 @@ describe('start', () => {
       disposeCallback();
       clientApi
         .storiesOf('Component A', module as any)
-        .add('default', vi.fn())
-        .add('new', vi.fn());
+        .add('default', vi.fn<any>())
+        .add('new', vi.fn<any>());
 
       await waitForEvents([SET_INDEX]);
       expect(mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1])
@@ -482,8 +499,8 @@ describe('start', () => {
         },
       };
       configure('test', () => {
-        clientApi.storiesOf('Component A', { id: 'file1' } as any).add('default', vi.fn());
-        clientApi.storiesOf('Component B', moduleB as any).add('default', vi.fn());
+        clientApi.storiesOf('Component A', { id: 'file1' } as any).add('default', vi.fn<any>());
+        clientApi.storiesOf('Component B', moduleB as any).add('default', vi.fn<any>());
       });
 
       await waitForEvents([SET_INDEX]);
@@ -1041,12 +1058,12 @@ describe('start', () => {
       configure('test', () => {
         clientApi
           .storiesOf('Component A', { id: 'file1' } as NodeModule)
-          .add('Story One', vi.fn())
-          .add('Story Two', vi.fn());
+          .add('Story One', vi.fn<any>())
+          .add('Story Two', vi.fn<any>());
 
         clientApi
           .storiesOf('Component B', { id: 'file2' } as NodeModule)
-          .add('Story Three', vi.fn());
+          .add('Story Three', vi.fn<any>());
 
         return [componentCExports];
       });
@@ -1183,13 +1200,13 @@ describe('start', () => {
         configure('test', () => {
           clientApi
             .storiesOf('Component A', { id: 'file1' } as NodeModule)
-            .add('Story One', vi.fn())
-            .add('Story Two', vi.fn());
+            .add('Story One', vi.fn<any>())
+            .add('Story Two', vi.fn<any>());
 
           clientApi
             .storiesOf('Component B', { id: 'file2' } as NodeModule)
             .addParameters({ tags: ['autodocs'] })
-            .add('Story Three', vi.fn());
+            .add('Story Three', vi.fn<any>());
 
           return [componentCExports];
         });
@@ -1354,13 +1371,13 @@ describe('start', () => {
           });
           clientApi
             .storiesOf('Component A', { id: 'file1' } as NodeModule)
-            .add('Story One', vi.fn())
-            .add('Story Two', vi.fn());
+            .add('Story One', vi.fn<any>())
+            .add('Story Two', vi.fn<any>());
 
           clientApi
             .storiesOf('Component B', { id: 'file2' } as NodeModule)
             .addParameters({ tags: ['autodocs'] })
-            .add('Story Three', vi.fn());
+            .add('Story Three', vi.fn<any>());
 
           return [componentCExports];
         });

@@ -53,7 +53,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // There is only a package-lock.json
@@ -96,7 +96,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any as any;
         });
 
         // There is only a pnpm-lock.yaml
@@ -136,7 +136,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
         const fixture = path.join(__dirname, 'fixtures', 'pnpm-workspace', 'package');
         expect(JsPackageManagerFactory.getPackageManager({}, fixture)).toBeInstanceOf(PNPMProxy);
@@ -174,7 +174,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // there is no lockfile
@@ -209,7 +209,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // There is a yarn.lock
@@ -249,7 +249,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
         const fixture = path.join(__dirname, 'fixtures', 'multiple-lockfiles');
         expect(JsPackageManagerFactory.getPackageManager({}, fixture)).toBeInstanceOf(Yarn1Proxy);
@@ -287,7 +287,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn2Proxy);
@@ -319,7 +319,7 @@ describe('JsPackageManagerFactory', () => {
           // Unknown package manager is ko
           return {
             status: 1,
-          };
+          } as any;
         });
 
         // There is a yarn.lock
@@ -330,7 +330,7 @@ describe('JsPackageManagerFactory', () => {
     });
 
     it('throws an error if Yarn, NPM, and PNPM are not found', () => {
-      spawnSyncMock.mockReturnValue({ status: 1 });
+      spawnSyncMock.mockReturnValue({ status: 1 } as any);
       expect(() => JsPackageManagerFactory.getPackageManager()).toThrow();
     });
   });

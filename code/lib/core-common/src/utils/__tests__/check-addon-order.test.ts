@@ -35,7 +35,9 @@ const fromName = (name: string): CoreCommon_AddonInfo => ({
 const str = (name: unknown) => JSON.stringify(name);
 
 const warn = vi.spyOn(logger, 'warn');
-afterEach(() => warn.mockReset());
+afterEach(() => {
+  warn.mockReset();
+});
 
 describe.each([
   ['docs', 'controls', ['docs', 'controls']],

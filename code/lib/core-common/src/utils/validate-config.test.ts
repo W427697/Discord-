@@ -2,7 +2,9 @@ import { describe, afterEach, it, expect, vi } from 'vitest';
 import { validateFrameworkName } from './validate-config';
 
 describe('validateFrameworkName', () => {
-  afterEach(vi.resetAllMocks);
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
   it('should throw if name is undefined', () => {
     expect(() => validateFrameworkName(undefined)).toThrow();
   });

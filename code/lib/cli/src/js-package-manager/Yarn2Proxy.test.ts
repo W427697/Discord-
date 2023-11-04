@@ -101,7 +101,9 @@ describe('Yarn 2 Proxy', () => {
       const executeCommandSpy = vi
         .spyOn(yarn2Proxy, 'executeCommand')
         .mockResolvedValueOnce('7.0.0');
-      const writePackageSpy = vi.spyOn(yarn2Proxy, 'writePackageJson').mockImplementation(vi.fn());
+      const writePackageSpy = vi
+        .spyOn(yarn2Proxy, 'writePackageJson')
+        .mockImplementation(vi.fn<any>());
 
       await yarn2Proxy.removeDependencies(
         {
@@ -169,7 +171,9 @@ describe('Yarn 2 Proxy', () => {
 
   describe('addPackageResolutions', () => {
     it('adds resolutions to package.json and account for existing resolutions', async () => {
-      const writePackageSpy = vi.spyOn(yarn2Proxy, 'writePackageJson').mockImplementation(vi.fn());
+      const writePackageSpy = vi
+        .spyOn(yarn2Proxy, 'writePackageJson')
+        .mockImplementation(vi.fn<any>());
 
       vi.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
         vi.fn(async () => ({

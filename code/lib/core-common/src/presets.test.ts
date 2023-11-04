@@ -83,6 +83,7 @@ describe('presets', () => {
     let presets;
 
     async function testPresets() {
+      // @ts-expect-error (invalid use)
       presets = wrapPreset(await getPresets());
       await presets.webpack();
       await presets.babel();
@@ -94,6 +95,7 @@ describe('presets', () => {
   });
 
   it('does not throw when presets are empty', async () => {
+    // @ts-expect-error (invalid use)
     const presets = wrapPreset(await getPresets([]));
 
     async function testPresets() {
@@ -105,6 +107,7 @@ describe('presets', () => {
   });
 
   it('does not throw when preset can not be loaded', async () => {
+    // @ts-expect-error (invalid use)
     const presets = wrapPreset(await getPresets(['preset-foo']));
 
     async function testPresets() {
@@ -116,6 +119,7 @@ describe('presets', () => {
   });
 
   it('throws when preset can not be loaded and is critical', async () => {
+    // @ts-expect-error (invalid use)
     await expect(getPresets(['preset-foo'], { isCritical: true })).rejects.toThrow();
   });
 
@@ -141,7 +145,7 @@ describe('presets', () => {
       foo: (exec: string[], options: any) => exec.concat(`valar ${options.custom}`),
     });
 
-    const presets = await getPresets(['preset-foo', 'preset-got', 'preset-bar'], {});
+    const presets = await getPresets(['preset-foo', 'preset-got', 'preset-bar'], {} as any);
 
     const result = await presets.apply('foo', []);
 
@@ -160,7 +164,7 @@ describe('presets', () => {
       babel: mockPresetBarExtendBabel,
     });
 
-    const presets = wrapPreset(await getPresets(['preset-foo', 'preset-bar'], {}));
+    const presets = wrapPreset(await getPresets(['preset-foo', 'preset-bar'], {} as any));
 
     async function testPresets() {
       await presets.webpack();
@@ -186,7 +190,7 @@ describe('presets', () => {
     });
 
     const presets = wrapPreset(
-      await getPresets([{ name: 'preset-foo' }, { name: 'preset-bar' }], {})
+      await getPresets([{ name: 'preset-foo' }, { name: 'preset-bar' }], {} as any)
     );
 
     async function testPresets() {
@@ -218,7 +222,7 @@ describe('presets', () => {
           { name: 'preset-foo', options: { foo: 1 } },
           { name: 'preset-bar', options: { bar: 'a' } },
         ],
-        {}
+        {} as any
       )
     );
 
@@ -264,7 +268,7 @@ describe('presets', () => {
             },
           },
         ],
-        {}
+        {} as any
       )
     );
 
@@ -314,7 +318,7 @@ describe('presets', () => {
             },
           },
         ],
-        {}
+        {} as any
       )
     );
 
@@ -348,7 +352,7 @@ describe('presets', () => {
       bar: mockPresetBar,
     });
 
-    const presets = await getPresets(['preset-foo'], {});
+    const presets = await getPresets(['preset-foo'], {} as any);
 
     const output = await presets.apply('bar');
 
@@ -372,7 +376,10 @@ describe('presets', () => {
       bar: mockPresetBar,
     });
 
-    const presets = await getPresets([{ name: 'preset-foo', options: { b: 2 } }], storybookOptions);
+    const presets = await getPresets(
+      [{ name: 'preset-foo', options: { b: 2 } }],
+      storybookOptions as any
+    );
 
     const output = await presets.apply('bar');
 
@@ -392,7 +399,7 @@ describe('resolveAddonName', () => {
     mockPreset('./local/preset', {
       presets: [],
     });
-    expect(resolveAddonName({}, './local/preset', {})).toEqual({
+    expect(resolveAddonName({} as any, './local/preset', {})).toEqual({
       name: './local/preset',
       type: 'presets',
     });
@@ -402,21 +409,21 @@ describe('resolveAddonName', () => {
     mockPreset('/absolute/preset', {
       presets: [],
     });
-    expect(resolveAddonName({}, '/absolute/preset', {})).toEqual({
+    expect(resolveAddonName({} as any, '/absolute/preset', {})).toEqual({
       name: '/absolute/preset',
       type: 'presets',
     });
   });
 
   it('should resolve packages without metadata', () => {
-    expect(resolveAddonName({}, '@storybook/preset-create-react-app', {})).toEqual({
+    expect(resolveAddonName({} as any, '@storybook/preset-create-react-app', {})).toEqual({
       name: '@storybook/preset-create-react-app',
       type: 'presets',
     });
   });
 
   it('should resolve managerEntries', () => {
-    expect(resolveAddonName({}, '@storybook/addon-actions/register.js', {})).toEqual({
+    expect(resolveAddonName({} as any, '@storybook/addon-actions/register.js', {})).toEqual({
       name: '@storybook/addon-actions/register.js',
       managerEntries: [path.normalize('@storybook/addon-actions/register')],
       type: 'virtual',
@@ -424,7 +431,7 @@ describe('resolveAddonName', () => {
   });
 
   it('should resolve managerEntries from new /manager path', () => {
-    expect(resolveAddonName({}, '@storybook/addon-actions/manager', {})).toEqual({
+    expect(resolveAddonName({} as any, '@storybook/addon-actions/manager', {})).toEqual({
       name: '@storybook/addon-actions/manager',
       managerEntries: [path.normalize('@storybook/addon-actions/manager')],
       type: 'virtual',
@@ -432,21 +439,22 @@ describe('resolveAddonName', () => {
   });
 
   it('should resolve presets', () => {
-    expect(resolveAddonName({}, '@storybook/addon-docs/preset', {})).toEqual({
+    expect(resolveAddonName({} as any, '@storybook/addon-docs/preset', {})).toEqual({
       name: '@storybook/addon-docs/preset',
       type: 'presets',
     });
   });
 
   it('should resolve preset packages', () => {
-    expect(resolveAddonName({}, '@storybook/addon-essentials', {})).toEqual({
+    expect(resolveAddonName({} as any, '@storybook/addon-essentials', {})).toEqual({
       name: '@storybook/addon-essentials',
       type: 'presets',
     });
   });
 
   it('should error on invalid inputs', () => {
-    expect(() => resolveAddonName({}, null, {})).toThrow();
+    // @ts-expect-error (invalid use)
+    expect(() => resolveAddonName({} as any, null, {})).toThrow();
   });
 });
 
@@ -473,6 +481,7 @@ describe('loadPreset', () => {
     const loaded = await loadPreset(
       {
         name: '',
+        // @ts-expect-error (invalid use)
         type: 'virtual',
         framework: '@storybook/react',
         presets: ['@storybook/preset-typescript'],
@@ -518,6 +527,7 @@ describe('loadPreset', () => {
     const loaded = await loadPreset(
       {
         name: '',
+        // @ts-expect-error (invalid use)
         type: 'virtual',
         presets: ['@storybook/preset-typescript'],
         addons: [
@@ -610,6 +620,7 @@ describe('loadPreset', () => {
     const loaded = await loadPreset(
       {
         name: '',
+        // @ts-expect-error (invalid use)
         type: 'virtual',
         framework: '@storybook/react',
         presets: ['@storybook/preset-typescript'],
