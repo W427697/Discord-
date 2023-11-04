@@ -141,6 +141,7 @@ If you're working with pure presentational screens, adding stories through [args
 <CodeSnippets
   paths={[
     'react/document-screen-fetch.js.mdx',
+    'react/document-screen-fetch.ts.mdx',
     'vue/document-screen-fetch.3.js.mdx',
     'vue/document-screen-fetch.3.ts.mdx',
     'angular/document-screen-fetch.ts.mdx',
@@ -287,6 +288,8 @@ Another mocking approach is to use libraries that intercept calls at a lower lev
 
 Like the [import mocking](##mocking-imports) above, once you have a mock, you’ll still want to set the return value of the mock per-story basis. Do this in Storybook with a [decorator](./decorators.md) that reads the story's [parameters](./parameters.md).
 
+<IfRenderer renderer={['react', 'solid']}>
+
 ### Avoiding mocking dependencies
 
 It's possible to avoid mocking the dependencies of connected "container" components entirely by passing them around via props or React context. However, it requires a strict split of the container and presentational component logic. For example, if you have a component responsible for data fetching logic and rendering DOM, it will need to be mocked as previously described.
@@ -394,3 +397,5 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
 />
 
 <!-- prettier-ignore-end -->
+
+</IfRenderer>

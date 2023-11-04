@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.5.0-alpha.4",
+  "version": "7.6.0-alpha.4",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -121,9 +121,9 @@
   },
   "devDependencies": {
     "@rollup/pluginutils": "^5.0.2",
-    "react": "^16.14.0",
-    "react-dom": "^16.8.0",
-    "typescript": "~4.9.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "~5.2.2",
     "vite": "^4.0.4"
   },
   "peerDependencies": {

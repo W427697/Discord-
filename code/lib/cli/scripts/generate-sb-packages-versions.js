@@ -25,9 +25,11 @@ const getMonorepoPackages = async () => {
 };
 
 const run = async () => {
-  const updatedVersion = process.argv[process.argv.length - 1];
+  let updatedVersion = process.argv[process.argv.length - 1];
 
-  if (!semver.valid(updatedVersion)) throw new Error(`Invalid version: ${updatedVersion}`);
+  if (!semver.valid(updatedVersion)) {
+    updatedVersion = (await readJson(path.join(rootDirectory, 'package.json'))).version;
+  }
 
   logger.log(`Generating versions.ts with v${updatedVersion}`);
 

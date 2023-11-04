@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "7.5.0-alpha.4",
+  "version": "7.6.0-alpha.4",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
@@ -26,11 +26,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "types": "./dist/config.d.ts",
-      "require": "./dist/config.js",
-      "import": "./dist/config.mjs"
-    },
+    "./preset": "./preset.js",
+    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
+    "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -50,7 +48,6 @@
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
-    "@storybook/core-client": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "workspace:*",
@@ -59,7 +56,7 @@
     "type-fest": "~2.19"
   },
   "devDependencies": {
-    "typescript": "~4.9.3",
+    "typescript": "~5.2.2",
     "vite-plugin-vue2": "^2.0.3",
     "vue": "2.6.14",
     "vue-template-compiler": "~2.6.0",
@@ -88,7 +85,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts"
+      "./src/preset.ts",
+      "./src/entry-preview.ts",
+      "./src/entry-preview-docs.ts"
     ],
     "platform": "browser"
   },

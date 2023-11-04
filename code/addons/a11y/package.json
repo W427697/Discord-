@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "7.5.0-alpha.4",
+  "version": "7.6.0-alpha.4",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -70,6 +70,7 @@
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
+    "@storybook/icons": "^1.2.1",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
@@ -79,9 +80,9 @@
     "react-resize-detector": "^7.1.2"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.2.2",
+    "@testing-library/react": "^14.0.0",
     "resize-observer-polyfill": "^1.5.1",
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

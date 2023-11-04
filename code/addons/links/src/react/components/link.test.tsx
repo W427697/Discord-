@@ -65,7 +65,7 @@ describe('LinkTo', () => {
   });
 
   describe('events', () => {
-    it('should select the kind and story on click', () => {
+    it('should select the kind and story on click', async () => {
       const channel = {
         emit: vi.fn(),
         on: vi.fn(),
@@ -78,7 +78,15 @@ describe('LinkTo', () => {
           link
         </LinkTo>
       );
-      userEvent.click(screen.getByText('link'));
+
+      await waitFor(() => {
+        expect(screen.getByText('link')).toHaveAttribute(
+          'href',
+          'originpathname?path=/story/foo--bar'
+        );
+      });
+
+      await userEvent.click(screen.getByText('link'));
 
       expect(channel.emit).toHaveBeenLastCalledWith(
         SELECT_STORY,

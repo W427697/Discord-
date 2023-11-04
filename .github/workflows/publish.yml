@@ -36,11 +36,6 @@ jobs:
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
 
-      - name: Cancel all release preparation runs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release:cancel-preparation-runs
-
       - name: Checkout ${{ github.ref_name }}
         uses: actions/checkout@v3
         with:
@@ -66,6 +61,11 @@ jobs:
       - name: Install script dependencies
         run: |
           yarn install
+
+      - name: Cancel all release preparation runs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn release:cancel-preparation-runs
 
       - name: Apply deferred version bump and commit
         working-directory: .
@@ -98,7 +98,7 @@ jobs:
       - name: Check release vs prerelease
         if: steps.publish-needed.outputs.published == 'false'
         id: is-prerelease
-        run: yarn release:is-prerelease
+        run: yarn release:is-prerelease ${{ steps.version.outputs.current-version }} --verbose
 
       - name: Install code dependencies
         if: steps.publish-needed.outputs.published == 'false'
@@ -163,7 +163,7 @@ jobs:
           yarn release:ensure-next-ahead --main-version "${{ steps.version.outputs.current-version }}"
 
           git add ..
-          git commit -m "Bump next to be one minor ahead of main [skip ci]"
+          git diff --staged --quiet || git commit -m "Bump next to be one minor ahead of main [skip ci]"
           git push origin next
 
       - name: Sync CHANGELOG.md from `main` to `next`

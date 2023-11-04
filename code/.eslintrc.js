@@ -15,6 +15,7 @@ module.exports = {
     'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
     'import/extensions': 'off', // for mjs, we sometimes need extensions
+    'jsx-a11y/control-has-associated-label': 'off',
     '@typescript-eslint/dot-notation': [
       'error',
       {
@@ -57,6 +58,13 @@ module.exports = {
       rules: {
         'no-shadow': 'off',
         '@typescript-eslint/ban-types': 'warn', // should become error, in the future
+      },
+    },
+    {
+      // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
+      files: ['**/builder-vite/**/*.html'],
+      rules: {
+        '@typescript-eslint/no-unused-expressions': 'off', // should become error, in the future
       },
     },
     {

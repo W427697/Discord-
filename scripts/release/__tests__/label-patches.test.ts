@@ -16,9 +16,9 @@ vi.mock('../utils/git-client', async () => {
   return mockDeep(y);
 });
 
-const gitClient = vi.mocked(gitClient_);
-const github = vi.mocked(github_);
-const githubInfo = vi.mocked(githubInfo_);
+const gitClient = vi.mocked(gitClient_, true);
+const github = vi.mocked(github_, true);
+const githubInfo = vi.mocked(githubInfo_, true);
 
 const remoteMock = [
   {

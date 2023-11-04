@@ -21,7 +21,11 @@ describe('initial state', () => {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ isFullscreen: true });
+      expect(layout).toMatchObject({
+        bottomPanelHeight: 0,
+        navSize: 0,
+        rightPanelWidth: 0,
+      });
     });
 
     it('handles nav parameter', () => {
@@ -32,7 +36,7 @@ describe('initial state', () => {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ showNav: false });
+      expect(layout).toMatchObject({ navSize: 0 });
     });
 
     it('handles shortcuts parameter', () => {
@@ -54,7 +58,7 @@ describe('initial state', () => {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ panelPosition: 'bottom' });
+      expect(layout).toMatchObject({ panelPosition: 'bottom' });
     });
 
     it('handles panel parameter, right', () => {
@@ -65,7 +69,7 @@ describe('initial state', () => {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ panelPosition: 'right' });
+      expect(layout).toMatchObject({ panelPosition: 'right' });
     });
 
     it('handles panel parameter, 0', () => {
@@ -76,7 +80,10 @@ describe('initial state', () => {
         state: { layout },
       } = initURL({ navigate, state: { location }, provider: { channel: new EventEmitter() } });
 
-      expect(layout).toEqual({ showPanel: false });
+      expect(layout).toMatchObject({
+        bottomPanelHeight: 0,
+        rightPanelWidth: 0,
+      });
     });
   });
 });

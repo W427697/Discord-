@@ -2,7 +2,7 @@
 // MyComponent.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/web-components';
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 const meta: Meta = {
   component: 'demo-my-component',
@@ -20,7 +20,7 @@ export const DelayedStory: Story = {
 
     const exampleElement = canvas.getByLabelText('example-element');
 
-    // The delay option set the ammount of milliseconds between characters being typed
+    // The delay option sets the amount of milliseconds between characters being typed
     await userEvent.type(exampleElement, 'random string', {
       delay: 100,
     });

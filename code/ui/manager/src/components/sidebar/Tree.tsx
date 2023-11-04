@@ -8,12 +8,13 @@ import type {
   API,
 } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Button, Icons, TooltipLinkList, WithTooltip } from '@storybook/components';
+import { Button, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { ExpandAltIcon, CollapseIcon as CollapseIconSvg } from '@storybook/icons';
 import {
   ComponentNode,
   DocumentNode,
@@ -36,6 +37,8 @@ import {
   getLink,
 } from '../../utils/tree';
 import { statusMapping, getHighestStatus, getGroupStatus } from '../../utils/status';
+import { useLayout } from '../layout/LayoutProvider';
+import { IconSymbols } from './IconSymbols';
 
 export const Action = styled.button<{ height?: number; width?: number }>(
   ({ theme, height, width }) => ({
@@ -201,6 +204,8 @@ const Node = React.memo<NodeProps>(function Node({
   onSelectStoryId,
   api,
 }) {
+  const { isDesktop, isMobile, setMobileMenuOpen } = useLayout();
+
   if (!isDisplayed) {
     return null;
   }
@@ -231,14 +236,15 @@ const Node = React.memo<NodeProps>(function Node({
           onClick={(event) => {
             event.preventDefault();
             onSelectStoryId(item.id);
+            if (isMobile) setMobileMenuOpen(false);
           }}
           {...(item.type === 'docs' && { docsMode })}
         >
           {(item.renderLabel as (i: typeof item) => React.ReactNode)?.(item) || item.name}
         </LeafNode>
         {isSelected && (
-          <SkipToContentLink secondary outline isLink href="#storybook-preview-wrapper">
-            Skip to canvas
+          <SkipToContentLink asChild>
+            <a href="#storybook-preview-wrapper">Skip to canvas</a>
           </SkipToContentLink>
         )}
         {icon ? (
@@ -300,7 +306,7 @@ const Node = React.memo<NodeProps>(function Node({
               setFullyExpanded();
             }}
           >
-            <Icons icon={isFullyExpanded ? 'collapse' : 'expandalt'} />
+            {isFullyExpanded ? <CollapseIconSvg /> : <ExpandAltIcon />}
           </Action>
         )}
       </RootNode>
@@ -329,7 +335,7 @@ const Node = React.memo<NodeProps>(function Node({
         onClick={(event) => {
           event.preventDefault();
           setExpanded({ ids: [item.id], value: !isExpanded });
-          if (item.type === 'component' && !isExpanded) onSelectStoryId(item.id);
+          if (item.type === 'component' && !isExpanded && isDesktop) onSelectStoryId(item.id);
         }}
         onMouseEnter={() => {
           if (item.isComponent) {
@@ -503,6 +509,7 @@ export const Tree = React.memo<{
 
   return (
     <Container ref={containerRef} hasOrphans={isMain && orphanIds.length > 0}>
+      <IconSymbols />
       {collapsedItems.map((itemId) => {
         const item = collapsedData[itemId];
         const id = createId(itemId, refId);

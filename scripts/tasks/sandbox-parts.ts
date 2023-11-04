@@ -32,7 +32,7 @@ import { detectLanguage } from '../../code/lib/cli/src/detect';
 import { SupportedLanguage } from '../../code/lib/cli/src/project_types';
 import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
-import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
+import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 import { CODE_DIRECTORY, REPROS_DIRECTORY } from '../utils/constants';
@@ -354,7 +354,7 @@ async function linkPackageStories(
   );
 }
 
-async function addExtraDependencies({
+export async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -378,7 +378,7 @@ async function addExtraDependencies({
 
 export const addStories: Task['run'] = async (
   { sandboxDir, template, key },
-  { addon: extraAddons, dryRun, debug, disableDocs }
+  { addon: extraAddons, disableDocs }
 ) => {
   logger.log('💃 adding stories');
   const cwd = sandboxDir;
@@ -515,9 +515,6 @@ export const addStories: Task['run'] = async (
       addEsbuildLoaderToStories(mainConfig);
     }
   }
-
-  // Some addon stories require extra dependencies
-  await addExtraDependencies({ cwd, dryRun, debug });
 
   await writeConfig(mainConfig);
 };
