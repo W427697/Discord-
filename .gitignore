@@ -51,3 +51,4 @@ code/playwright/.cache/
 code/bench-results/
 
 /packs
+code/.nx/cache
