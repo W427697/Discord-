@@ -89,7 +89,7 @@ Inside your `.storybook` directory, create a new file called `YourTheme.js` and 
 
 <Callout variant="info" icon="💡">
 
-If you're using <code>brandImage</code> to add your custom logo, you can use any of the most common image formats.
+If you're using `brandImage` to add your custom logo, you can use any of the most common image formats.
 
 </Callout>
 
@@ -139,7 +139,7 @@ With the new changes introduced, the custom theme should yield a similar result.
 
 <Callout variant="info" icon="💡">
 
-Many theme variables are optional, the <code>base</code> property is <strong>NOT</strong>.
+Many theme variables are optional, the <code>base</code> property is **NOT**.
 
 </Callout>
 
@@ -156,7 +156,7 @@ To style these elements, insert style tags into:
 
 <Callout variant="warning" title="Caution">
 
-The same way as you can adjust your [preview’s head tag](../configure/story-rendering.md#adding-to-head), Storybook allows you to modify the code on the manager's side, through <code>.storybook/manager-head.html</code>. It can be helpful when adding theme styles that target Storybook's HTML, but it comes with a cost as Storybook's inner HTML can change at any time through the release cycle.
+The same way as you can adjust your [preview’s head tag](../configure/story-rendering.md#adding-to-head), Storybook allows you to modify the code on the manager's side, through `.storybook/manager-head.html`. It can be helpful when adding theme styles that target Storybook's HTML, but it comes with a cost as Storybook's inner HTML can change at any time through the release cycle.
 
 </Callout>
 

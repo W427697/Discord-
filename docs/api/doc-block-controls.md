@@ -12,12 +12,6 @@ If you’re looking for a static table that shows a component's arg types with n
 
 </Callout>
 
-<Callout variant="warning">
-
-The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/introduction.md)).
-
-</Callout>
-
 ![Screenshot of Controls block](./doc-block-controls.png)
 
 <!-- prettier-ignore-start -->
@@ -34,6 +28,12 @@ import * as ButtonStories from './Button.stories'
 <Controls of={ButtonStories.Primary} />
 ```
 <!-- prettier-ignore-end -->
+
+<Callout variant="warning">
+
+The Controls doc block will only have functioning UI controls if you have also installed and registered [`@storybook/addon-controls`](../essentials/controls.md) (included in [`@storybook/addon-essentials`](../essentials/introduction.md)).
+
+</Callout>
 
 ## Controls
 

@@ -287,9 +287,9 @@ In Storybook 5 and before we passed the context as the first argument. If you’
 
 <!-- prettier-ignore-end -->
 
-  <Callout variant="info" icon="💡">
+<Callout variant="info" icon="💡">
 
-    Note that `args` is still available as a key in the context.
-    
-  </Callout>
+Note that `args` is still available as a key in the context.
+
+</Callout>
 </details>

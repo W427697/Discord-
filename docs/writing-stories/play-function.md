@@ -189,7 +189,7 @@ If you need, you can also adjust your `play` function to find elements based on 
 
 <Callout variant="info" icon="💡">
 
-You can read more about the querying elements in the <a href="https://testing-library.com/docs/queries/about/"> Testing library documentation</a>.
+You can read more about the querying elements in the [Testing Library documentation](https://testing-library.com/docs/queries/about/).
 
 </Callout>
 

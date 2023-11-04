@@ -77,6 +77,6 @@ Options include:
 
 <Callout variant="info" icon="💡">
 
-If you're using npm instead of yarn to publish Storybook, the commands work slightly different. For example, <code>npm run storybook build -- -o ./path/to/build</code>.
+If you're using npm instead of yarn to publish Storybook, the commands work slightly different. For example, `npm run storybook build -- -o ./path/to/build`.
 
 </Callout>

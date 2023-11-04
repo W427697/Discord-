@@ -80,7 +80,7 @@ Complementing the components, also included is a set of UI primitives. Use the c
 
 <Callout variant="info">
 
-The color palette implemented by <code>@storybook/components</code> is a high-level abstraction of the <a href="https://github.com/storybookjs/storybook/tree/next/code/lib/theming/src"><code>@storybook/theming</code></a> package.
+The color palette implemented by `@storybook/components` is a high-level abstraction of the [`@storybook/theming`](https://github.com/storybookjs/storybook/tree/next/code/lib/theming/src) package.
 
 </Callout>
 
@@ -98,7 +98,7 @@ When you're developing your addon as a package, you can’t use `npm link` to ad
 
 <Callout variant="info">
 
-Run either <code>yarn</code> or <code>npm install</code> to install the addon.
+Run either `yarn` or `npm install` to install the addon.
 
 </Callout>
 

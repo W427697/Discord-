@@ -18,7 +18,7 @@ With Storybook's Measure addon, you can quickly visualize each component's measu
 
 <Callout variant="info" icon="💡">
 
-Alternatively you can press the <code>m</code> key on your keyboard to toggle the addon.
+Alternatively you can press the `m` key on your keyboard to toggle the addon.
 
 </Callout>
 

@@ -56,7 +56,7 @@ Use the list below as a reference when filling in the values for both the `suppo
 
 <Callout variant="info" icon="💡">
 
-Make sure to copy each item <strong>exactly</strong> as listed so that we can properly index your addon in our catalog.
+Make sure to copy each item **exactly** as listed so that we can properly index your addon in our catalog.
 
 </Callout>
 

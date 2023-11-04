@@ -50,7 +50,7 @@ You can also access these variables in your custom `<head>`/`<body>` using the s
 
 <Callout variant="info" icon="💡">
 
-If using the environment variables as attributes or values in JavaScript, you may need to add quotes, as the value will be inserted directly. e.g. `<link rel="stylesheet" href="%STORYBOOK_STYLE_URL%" />`
+If using the environment variables as attributes or values in JavaScript, you may need to add quotes, as the value will be inserted directly, for example: `<link rel="stylesheet" href="%STORYBOOK_STYLE_URL%" />`.
 
 </Callout>
 

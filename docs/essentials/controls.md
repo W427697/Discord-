@@ -23,7 +23,7 @@ To use the Controls addon, you need to write your stories using [args](../writin
 
 <Callout variant="info" icon="💡">
 
-If you have stories in the older pre-Storybook 6 style, check the <a href="https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5">args & controls migration guide</a> to learn how to convert your existing stories for args.
+If you have stories in the older pre-Storybook 6 style, check the [args & controls migration guide](https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5) to learn how to convert your existing stories for args.
 
 </Callout>
 
@@ -231,7 +231,7 @@ As shown above, you can configure individual controls with the “control" annot
 
 <Callout variant="info" icon="💡">
 
-The <code>date</code> control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
+The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
 
 </Callout>
 
@@ -252,7 +252,7 @@ The <code>date</code> control will convert the date into a UNIX timestamp when t
 
 <Callout variant="info" icon="💡">
 
-Numeric data types will default to a <code>number</code> control unless additional configuration is provided.
+Numeric data types will default to a `number` control unless additional configuration is provided.
 
 </Callout>
 

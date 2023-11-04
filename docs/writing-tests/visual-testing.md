@@ -56,7 +56,7 @@ View it online at https://www.chromatic.com/build?appId=...&number=1.
 
 <Callout variant="info" icon="💡">
 
-Before running Chromatic's CLI ensure you have at least two commits added to the repository to prevent build failures, as Chromatic relies on a full Git history graph to establish the baselines. Read more about baselines in Chromatic's <a href="https://www.chromatic.com/docs/branching-and-baselines?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook"> documentation</a>
+Before running Chromatic's CLI ensure you have at least two commits added to the repository to prevent build failures, as Chromatic relies on a full Git history graph to establish the baselines. Read more about baselines in Chromatic's [documentation](https://www.chromatic.com/docs/branching-and-baselines?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook).
 
 </Callout>
 

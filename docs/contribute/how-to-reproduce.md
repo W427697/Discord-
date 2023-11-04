@@ -25,7 +25,8 @@ npx storybook@next sandbox
 ```
 
 <Callout variant="info" icon="💡">
-You can append a template name in the command to get filtered results e.g. <code>npx storybook@next sandbox react</code>
+
+You can append a template name in the command to get filtered results (e.g., `npx storybook@next sandbox react`).
 
 </Callout>
 
@@ -40,6 +41,7 @@ Finally, enter a location for your reproduction:
 <Callout variant="info" icon="💡">
 
 If you don't provide a full path for the reproduction it will be generated in the current directory.
+
 </Callout>
 
 If everything worked as it should, you should have a fully functional Storybook set up in your local environment.
@@ -66,7 +68,7 @@ Then, follow GitHub's instructions to set up the repository.
 
 <Callout variant="info" icon="💡">
 
-Don't forget to replace <code>your-username</code> with your own account name.
+Don't forget to replace `your-username` with your own account name.
 
 </Callout>
 

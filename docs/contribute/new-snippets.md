@@ -87,7 +87,7 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
 
 <Callout variant="info" icon="💡">
 
-Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding JavaScript files use <code>.js.mdx</code>.
+Code snippets are divided into various file extensions, if you're contributing a TypeScript file use `.ts.mdx`, or if you're adding JavaScript files use `.js.mdx`.
 
 </Callout>
 
