@@ -171,8 +171,6 @@ describe('StoryStore', () => {
     });
   });
 
-  describe('loadDocsFileById', () => {});
-
   describe('setProjectAnnotations', () => {
     it('busts the loadStory cache', async () => {
       const store = new StoryStore();
