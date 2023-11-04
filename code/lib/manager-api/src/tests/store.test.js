@@ -106,7 +106,7 @@ describe('store', () => {
       const setState = vi.fn().mockImplementation((x, inputCb) => {
         cb = inputCb;
       });
-      const getState = jest.fn();
+      const getState = vi.fn();
       const store = new Store({ setState, getState });
 
       // NOTE: not awaiting here
@@ -126,22 +126,22 @@ describe('store', () => {
 
     it('returns react.setState result', async () => {
       const setState = vi.fn().mockImplementation((x, cb) => cb('RESULT'));
-      const getState = vi.fn();
+      const getState = vi.fn(() => 'RESULT');
       const store = new Store({ setState, getState });
 
       const result = await store.setState({ foo: 'bar' });
 
-      expect(result).toBe('RESULT');
+      expect(result).toEqual('RESULT');
     });
 
     it('allows a callback', async () =>
       new Promise((resolve) => {
         const setState = vi.fn().mockImplementation((x, cb) => cb('RESULT'));
-        const getState = vi.fn();
+        const getState = vi.fn(() => 'RESULT');
         const store = new Store({ setState, getState });
 
         store.setState({ foo: 'bar' }, (result) => {
-          expect(result).toBe('RESULT');
+          expect(result).toEqual('RESULT');
           resolve();
         });
       }));
@@ -151,7 +151,7 @@ describe('store', () => {
         x('OLD_STATE');
         cb();
       });
-      const getState = jest.fn();
+      const getState = vi.fn();
       const store = new Store({ setState, getState });
 
       const patch = vi.fn().mockReturnValue({ foo: 'bar' });
