@@ -110,6 +110,7 @@
     "access": "public"
   },
   "bundler": {
+    "pre": "./scripts/generate-sb-packages-versions.js",
     "entries": [
       "./src/generate.ts",
       "./src/index.ts"
