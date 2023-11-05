@@ -1,3 +1,40 @@
+## 7.6.0-alpha.4
+
+-  CLI: Ensure errors with opening the browser are caught - [#24668](https://github.com/storybookjs/storybook/pull/24668), thanks [@xueyawei](https://github.com/xueyawei)!
+- Babel: Update all @babel/* dependencies - [#24610](https://github.com/storybookjs/storybook/pull/24610), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Catch when prettier failed to prettify main and preview config files - [#24604](https://github.com/storybookjs/storybook/pull/24604), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- CLI: Ignore `addon-onboarding` when checking versions - [#24634](https://github.com/storybookjs/storybook/pull/24634), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Use @storybook/test in template stories - [#24393](https://github.com/storybookjs/storybook/pull/24393), thanks [@yannbf](https://github.com/yannbf)!
+- Controls: Improve accessibility of BooleanControl for screen readers - [#24418](https://github.com/storybookjs/storybook/pull/24418), thanks [@danielmarcano](https://github.com/danielmarcano)!
+- Dependencies: Update @babel/traverse and @babel/core to fix vulnerability - [#24670](https://github.com/storybookjs/storybook/pull/24670), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Dependencies: Update browserify-sign transitive dependency - [#24674](https://github.com/storybookjs/storybook/pull/24674), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Dependencies: Update nx dependencies to v17 - [#24671](https://github.com/storybookjs/storybook/pull/24671), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Maintenance: Split renderers preview entrypoints - [#24623](https://github.com/storybookjs/storybook/pull/24623), thanks [@ndelangen](https://github.com/ndelangen)!
+- Next.js: Add avif support - [#24611](https://github.com/storybookjs/storybook/pull/24611), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Fix forwarding ref for Image component - [#24648](https://github.com/storybookjs/storybook/pull/24648), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Theming: Add theme variable to set the preview background color - [#24575](https://github.com/storybookjs/storybook/pull/24575), thanks [@JReinhold](https://github.com/JReinhold)!
+- UI: Fix button contrast-ratio - [#24525](https://github.com/storybookjs/storybook/pull/24525), thanks [@maheshchandra10](https://github.com/maheshchandra10)!
+- UI: Update zIndex on NotificationList to fix the notification not being clickable in certain cases - [#24602](https://github.com/storybookjs/storybook/pull/24602), thanks [@yoshi2no](https://github.com/yoshi2no)!
+
+## 7.6.0-alpha.3
+
+- Action: Attach spies on actions across stories when defined in meta - [#24451](https://github.com/storybookjs/storybook/pull/24451), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Addon A11y: Avoid CSP issue - [#24477](https://github.com/storybookjs/storybook/pull/24477), thanks [@Marklb](https://github.com/Marklb)!
+- Addon-themes: Fix globals not being set when using absolute path - [#24596](https://github.com/storybookjs/storybook/pull/24596), thanks [@JReinhold](https://github.com/JReinhold)!
+- CLI: Allow Yarn v4 in `link` command - [#24551](https://github.com/storybookjs/storybook/pull/24551), thanks [@yannbf](https://github.com/yannbf)!
+- Core-Server: Ignore all node_module folders for watchpack - [#24553](https://github.com/storybookjs/storybook/pull/24553), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Core: Fix pnp support when cache dir is outside working dir - [#24572](https://github.com/storybookjs/storybook/pull/24572), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Manager: Update `store.settings.lastTrackedStoryId` - [#24115](https://github.com/storybookjs/storybook/pull/24115), thanks [@rashidshamloo](https://github.com/rashidshamloo)!
+- Next.js: Support v14.0.0 - [#24593](https://github.com/storybookjs/storybook/pull/24593), thanks [@nikospapcom](https://github.com/nikospapcom)!
+- Test: Create @storybook/test package based on vitest - [#24392](https://github.com/storybookjs/storybook/pull/24392), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+
+## 7.6.0-alpha.2
+
+- Actions: Fix missing crypto module crashing React Native - [#24546](https://github.com/storybookjs/storybook/pull/24546), thanks [@dannyhw](https://github.com/dannyhw)!
+- Core: Fix post message channel location.search access for React Native - [#24545](https://github.com/storybookjs/storybook/pull/24545), thanks [@dannyhw](https://github.com/dannyhw)!
+- ManagerBuilder: Fix `"type": "commonjs"` compatibility - [#24534](https://github.com/storybookjs/storybook/pull/24534), thanks [@ndelangen](https://github.com/ndelangen)!
+- React: Upgrade `react-docgen` to v7 - [#24530](https://github.com/storybookjs/storybook/pull/24530), thanks [@shilman](https://github.com/shilman)!
+
 ## 7.6.0-alpha.1
 
 - Angular: Add source-map option to builder - [#24466](https://github.com/storybookjs/storybook/pull/24466), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
