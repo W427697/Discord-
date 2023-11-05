@@ -45,7 +45,7 @@
       "import": "./dist/mock.mjs"
     },
     "./next-config": {
-      "node": "./dist/next-config"
+      "node": "./dist/next-config.js"
     },
     "./channels": {
       "types": "./dist/reexports/channels.d.ts",
