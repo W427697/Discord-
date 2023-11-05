@@ -219,8 +219,9 @@ export default async (
     `);
   }
 
+  const externals: Record<string, string> = globalsNameReferenceMap;
   if (build?.test?.emptyBlocks) {
-    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+    externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
   return {
@@ -241,7 +242,7 @@ export default async (
     watchOptions: {
       ignored: /node_modules/,
     },
-    externals: globalsNameReferenceMap,
+    externals,
     ignoreWarnings: [
       {
         message: /export '\S+' was not found in 'global'/,
