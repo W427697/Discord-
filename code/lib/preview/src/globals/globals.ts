@@ -1,5 +1,6 @@
 // Here we map the name of a module to their REFERENCE in the global scope.
-export const globalsNameReferenceMap = {
+// eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
+const _globalsNameReferenceMap = {
   '@storybook/addons': '__STORYBOOK_MODULE_ADDONS__',
   '@storybook/global': '__STORYBOOK_MODULE_GLOBAL__',
   '@storybook/channel-postmessage': '__STORYBOOK_MODULE_CHANNEL_POSTMESSAGE__', // @deprecated: remove in 8.0
@@ -15,6 +16,9 @@ export const globalsNameReferenceMap = {
   '@storybook/types': '__STORYBOOK_MODULE_TYPES__',
 } as const;
 
-export const globalPackages = Object.keys(globalsNameReferenceMap) as Array<
-  keyof typeof globalsNameReferenceMap
+export const globalPackages = Object.keys(_globalsNameReferenceMap) as Array<
+  keyof typeof _globalsNameReferenceMap
 >;
+
+export const globalsNameReferenceMap: typeof _globalsNameReferenceMap & Record<string, string> =
+  _globalsNameReferenceMap;
