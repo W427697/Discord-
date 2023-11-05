@@ -10,8 +10,8 @@ import dedent from 'ts-dedent';
 import slash from 'slash';
 import { exec } from '../utils/exec';
 
-import { globalPackages as globalPreviewPackages } from '../../code/lib/preview/src/globals';
-import { GLOBALIZED_PACKAGES as MANAGER_GLOBALIZED_PACKAGES } from '../../code/ui/manager/src/globals/definitions';
+import { globalPackages as globalPreviewPackages } from '../../code/lib/preview/src/globals/globals';
+import { globalPackages as globalManagerPackages } from '../../code/ui/manager/src/globals/globals';
 
 /* TYPES */
 
@@ -94,13 +94,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       optimized,
     });
 
-    console.log({
-      exportEntries,
-      commonExternals,
-      MANAGER_GLOBALIZED_PACKAGES,
-      globalPreviewPackages,
-    });
-
     tasks.push(
       build({
         ...commonOptions,
@@ -109,7 +102,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         format: ['esm'],
         target: ['chrome100', 'safari15', 'firefox91'],
         platform: 'browser',
-        external: [...commonExternals, ...MANAGER_GLOBALIZED_PACKAGES, ...globalPreviewPackages],
+        external: [...commonExternals, ...globalManagerPackages, ...globalPreviewPackages],
         esbuildOptions: (options) => {
           /* eslint-disable no-param-reassign */
           options.conditions = ['module'];
@@ -152,7 +145,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         format: ['esm'],
         target: ['chrome100', 'safari15', 'firefox91'],
         platform: 'browser',
-        external: [...commonExternals, ...MANAGER_GLOBALIZED_PACKAGES],
+        external: [...commonExternals, ...globalManagerPackages],
         esbuildOptions: (options) => {
           /* eslint-disable no-param-reassign */
           options.conditions = ['module'];
