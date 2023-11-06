@@ -10,7 +10,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import slash from 'slash';
 
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
-import { globals } from '@storybook/preview/globals';
+import { Keys } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
   getRendererName,
@@ -235,7 +235,7 @@ export default async (
     watchOptions: {
       ignored: /node_modules/,
     },
-    externals: globals,
+    externals: Keys,
     ignoreWarnings: [
       {
         message: /export '\S+' was not found in 'global'/,

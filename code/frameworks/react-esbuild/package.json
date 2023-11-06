@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/builder-manager",
+  "name": "@storybook/react-esbuild",
   "version": "7.6.0-alpha.3",
-  "description": "Storybook manager builder",
+  "description": "Storybook for React and Vite: Develop React components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/builders/builder-manager",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/frameworks/react-vite",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/builders/builder-manager"
+    "directory": "code/frameworks/react-vite"
   },
   "funding": {
     "type": "opencollective",
@@ -26,6 +26,10 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./preset": {
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -33,7 +37,6 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "templates/**/*",
     "README.md",
     "*.js",
     "*.d.ts",
@@ -44,33 +47,27 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/core-common": "workspace:*",
-    "@storybook/manager": "workspace:*",
-    "@storybook/node-logger": "workspace:*",
-    "@types/ejs": "^3.1.1",
-    "@types/find-cache-dir": "^3.2.1",
-    "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.10",
-    "browser-assert": "^1.2.1",
-    "ejs": "^3.1.8",
-    "esbuild": "^0.19.5",
-    "esbuild-plugin-alias": "^0.2.1",
-    "express": "^4.17.3",
-    "find-cache-dir": "^3.0.0",
-    "fs-extra": "^11.1.0",
-    "process": "^0.11.10",
-    "util": "^0.12.4"
+    "@storybook/builder-esbuild": "workspace:*",
+    "@storybook/react": "workspace:*"
   },
   "devDependencies": {
-    "slash": "^5.0.0",
+    "@types/node": "^18.0.0",
     "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "engines": {
+    "node": ">=16"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/preset.ts"
     ],
     "platform": "node"
   },

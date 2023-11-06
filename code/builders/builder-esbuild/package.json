@@ -1,0 +1,80 @@
+{
+  "name": "@storybook/builder-esbuild",
+  "version": "7.6.0-alpha.3",
+  "description": "A plugin to run and build Storybooks with Esbuild",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/builders/builder-esbuild/#readme",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/builders/builder-esbuild"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "author": "Valentin Palkovic",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./presets/preview-preset": {
+      "types": "./dist/presets/preview-preset.d.ts",
+      "node": "./dist/presets/preview-preset.js",
+      "require": "./dist/presets/preview-preset.js"
+    },
+    "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
+    "./templates/preview.ejs": "./templates/preview.ejs",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "input/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts",
+    "!src/**/*"
+  ],
+  "scripts": {
+    "check": "../../../scripts/prepare/check.ts",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/presets/preview-preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
+  "devDependencies": {
+    "@types/fs-extra": "^11",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@craftamap/esbuild-plugin-html": "^0.6.1",
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@storybook/core-common": "workspace:^",
+    "@storybook/preview": "workspace:^",
+    "@storybook/types": "workspace:^",
+    "dedent": "^1.5.1",
+    "esbuild": "^0.19.5",
+    "esbuild-plugin-alias": "^0.2.1",
+    "fs-extra": "^11.1.1",
+    "process": "^0.11.10",
+    "slash": "^5.1.0",
+    "ts-dedent": "^2.2.0"
+  }
+}
