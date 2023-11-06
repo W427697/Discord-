@@ -27,6 +27,8 @@ const rewritingIndexer: Indexer = {
 
     const inputStorybookDir = resolve(__dirname, '../template/storybookPreview');
     const storybookDir = join(process.cwd(), 'app', 'storybookPreview');
+    const storybookPreview = join(process.cwd(), '.storybook', 'preview');
+
     try {
       await cp(inputStorybookDir, storybookDir, { recursive: true });
     } catch (err) {
@@ -38,7 +40,8 @@ const rewritingIndexer: Indexer = {
         const storyDir = join(storybookDir, story.id);
         await ensureDir(storyDir);
         const pageFile = join(storyDir, 'page.tsx');
-        const relativePath = relative(dirname(pageFile), fileName);
+        const relativeStoryPath = relative(storyDir, fileName).replace(/\.tsx?$/, '');
+        const relativePreviewPath = relative(storyDir, storybookPreview);
         const { exportName } = story;
         console.log({ story });
 
@@ -46,14 +49,13 @@ const rewritingIndexer: Indexer = {
           import React from 'react';
           import { composeStory } from '@storybook/react/testing-api';
           import { getArgs } from '../components/args';
-          import { Prepare } from '../components/Prepare';
-          import { StoryAnnotations } from '../components/Storybook';
+          import { Prepare, StoryAnnotations } from '../components/Prepare';
           import { Args } from '@storybook/types';
-          import projectAnnotations from '@/.storybook/preview';
 
           const page = async () => {
-            const stories = await import('${relativePath}');
-            const Composed = composeStory(stories.${exportName}, stories.default, projectAnnotations || {}, '${exportName}');
+            const stories = await import('${relativeStoryPath}');
+            const projectAnnotations = await import('${relativePreviewPath}') as any;
+            const Composed = composeStory(stories.${exportName}, stories.default, projectAnnotations?.default || {}, '${exportName}');
             const extraArgs = await getArgs(Composed.id);
 
             const { id, parameters, argTypes, initialArgs } = Composed;

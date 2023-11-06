@@ -24,7 +24,7 @@ export const withStorybook = ({
   sbPort = 34567,
   managerPath = 'storybook',
   // TODO -- how to pass this to codegen if changed?
-  previewPath = '/storybookPreview',
+  previewPath = 'storybookPreview',
 }) => {
   spawn(
     'yarn',
