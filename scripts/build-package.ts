@@ -4,8 +4,8 @@ import prompts from 'prompts';
 import program from 'commander';
 import chalk from 'chalk';
 import windowSize from 'window-size';
+import { execa } from 'execa';
 import { getWorkspaces } from './utils/workspace';
-import { execaCommand } from './utils/exec';
 
 async function run() {
   const packages = await getWorkspaces();
@@ -120,7 +120,7 @@ async function run() {
       .join(sep);
 
     const cwd = resolve(__dirname, '..', 'code', v.location);
-    const sub = await execaCommand(
+    const sub = await execa(
       `${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
       {
         cwd,
