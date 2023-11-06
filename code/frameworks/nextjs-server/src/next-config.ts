@@ -4,6 +4,9 @@ import type { NextConfig } from 'next';
 import { buildDevStandalone, withTelemetry } from '@storybook/nextjs-server/core-server';
 import { cache } from '@storybook/nextjs-server/core-common';
 
+let storybookServer: any;
+const logger = console;
+
 function addRewrites(
   existing: NextConfig['rewrites'] | undefined,
   ourRewrites: { source: string; destination: string }[]
@@ -29,6 +32,9 @@ export const withStorybook = ({
   // TODO -- how to pass this to codegen if changed?
   previewPath = 'storybookPreview',
 }) => {
+  if (storybookServer) return (config: NextConfig) => config;
+
+  storybookServer = true;
   const cliOptions = {
     ci: true,
     port: sbPort,
@@ -45,15 +51,39 @@ export const withStorybook = ({
     packageJson,
   } as Parameters<typeof buildDevStandalone>[0];
 
-  const storybook = withTelemetry(
-    'dev',
-    {
-      cliOptions,
-      presetOptions: options as Parameters<typeof withTelemetry>[1]['presetOptions'],
-      printError: console.error,
-    },
-    () => buildDevStandalone(options)
-  );
+  [
+    'SIGHUP',
+    'SIGINT',
+    'SIGQUIT',
+    'SIGILL',
+    'SIGTRAP',
+    'SIGABRT',
+    'SIGBUS',
+    'SIGFPE',
+    'SIGUSR1',
+    'SIGSEGV',
+    'SIGUSR2',
+    'SIGTERM',
+  ].forEach((sig) => {
+    logger.error(`setting up signal handler for ${sig}`);
+    process.on(sig, () => {
+      logger.error(`signal: ${sig}`);
+    });
+  });
+
+  try {
+    withTelemetry(
+      'dev',
+      {
+        cliOptions,
+        presetOptions: options as Parameters<typeof withTelemetry>[1]['presetOptions'],
+        printError: logger.error,
+      },
+      () => buildDevStandalone(options)
+    );
+  } catch (err) {
+    logger.error(err);
+  }
 
   return (config: NextConfig) => ({
     ...config,
