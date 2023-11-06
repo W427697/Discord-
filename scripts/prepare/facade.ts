@@ -70,7 +70,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   ]);
 
   if (pre) {
-    await exec(`${tsnodePath} ${post}`, { cwd });
+    await exec(`node --loader esbuild-register/loader -r esbuild-register ${post}`, { cwd });
   }
 };
 
