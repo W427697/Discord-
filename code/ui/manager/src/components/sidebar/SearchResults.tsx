@@ -9,7 +9,7 @@ import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
-import { isCloseType, isClearType, isExpandType } from './types';
+import { isExpandType } from './types';
 // eslint-disable-next-line import/no-cycle
 import { getLink } from '../../utils/tree';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
@@ -17,7 +17,7 @@ import { statusMapping } from '../../utils/status';
 
 const { document } = global;
 
-const ResultsList = styled.ol({
+const ResultsList = styled.ul({
   listStyle: 'none',
   margin: 0,
   // marginLeft: -20,
@@ -255,35 +255,6 @@ export const SearchResults: FC<{
         </li>
       )}
       {results.map((result: DownshiftItem, index) => {
-        if (isCloseType(result)) {
-          return (
-            <BackActionRow
-              key="search-result-back"
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-              className="search-result-back"
-            >
-              <ActionIcon icon="arrowleft" />
-              <ActionLabel>Back to components</ActionLabel>
-              <ActionKey>ESC</ActionKey>
-            </BackActionRow>
-          );
-        }
-        if (isClearType(result)) {
-          return (
-            <ActionRow
-              key="search-result-clearHistory"
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-              className="search-result-clearHistory"
-            >
-              <ActionIcon icon="trash" />
-              <ActionLabel>Clear history</ActionLabel>
-            </ActionRow>
-          );
-        }
         if (isExpandType(result)) {
           return (
             <ActionRow

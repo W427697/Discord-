@@ -63,6 +63,7 @@ const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   paddingBottom: 4,
   fontSize: `${theme.typography.size.s2}px`,
   textDecoration: 'none',
+  wordBreak: 'break-all',
 }));
 
 export const Path = styled.span(({ theme }) => ({

@@ -17,7 +17,7 @@ import type {
   SearchChildrenFn,
   Selection,
 } from './types';
-import { isSearchResult, isExpandType, isClearType, isCloseType } from './types';
+import { isSearchResult, isExpandType } from './types';
 
 import { scrollIntoView, searchItem } from '../../utils/tree';
 import { getGroupStatus, getHighestStatus } from '../../utils/status';
@@ -274,17 +274,6 @@ export const Search = React.memo<{
             // Downshift should completely ignore this
             return {};
           }
-          if (isClearType(changes.selectedItem)) {
-            changes.selectedItem.clearLastViewed();
-            inputRef.current.blur();
-            // Nothing to see anymore, so return to the tree view
-            return { isOpen: false };
-          }
-          if (isCloseType(changes.selectedItem)) {
-            inputRef.current.blur();
-            // Return to the tree view
-            return { isOpen: false };
-          }
           return changes;
         }
 
@@ -339,10 +328,6 @@ export const Search = React.memo<{
             }
             return acc;
           }, []);
-          results.push({ closeMenu });
-          if (results.length > 0) {
-            results.push({ clearLastViewed });
-          }
         }
 
         const inputId = 'storybook-explorer-searchfield';
