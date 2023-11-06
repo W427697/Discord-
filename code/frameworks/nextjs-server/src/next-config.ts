@@ -4,8 +4,8 @@ import { exists, readJSON, rmSync } from 'fs-extra';
 import { readFile, open } from 'node:fs/promises';
 import type { NextConfig } from 'next';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
-import { buildDevStandalone, withTelemetry } from '@storybook/nextjs-server/core-server';
-import { cache } from '@storybook/nextjs-server/core-common';
+import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
+import { cache } from '@storybook/core-common';
 
 const logger = console;
 const LOCKFILE = join(tmpdir(), 'storybook-nextjs.lock');

@@ -53,23 +53,11 @@
       "require": "./dist/reexports/channels.js",
       "import": "./dist/reexports/channels.mjs"
     },
-    "./core-common": {
-      "types": "./dist/reexports/core-common.d.ts",
-      "node": "./dist/reexports/core-common.js",
-      "require": "./dist/reexports/core-common.js",
-      "import": "./dist/reexports/core-common.mjs"
-    },
     "./core-events": {
       "types": "./dist/reexports/core-events.d.ts",
       "node": "./dist/reexports/core-events.js",
       "require": "./dist/reexports/core-events.js",
       "import": "./dist/reexports/core-events.mjs"
-    },
-    "./core-server": {
-      "types": "./dist/reexports/core-server.d.ts",
-      "node": "./dist/reexports/core-server.js",
-      "require": "./dist/reexports/core-server.js",
-      "import": "./dist/reexports/core-server.mjs"
     },
     "./preview-api": {
       "types": "./dist/reexports/preview-api.d.ts",
@@ -137,9 +125,7 @@
       "./src/mock.ts",
       "./src/next-config.ts",
       "./src/reexports/channels.ts",
-      "./src/reexports/core-common.ts",
       "./src/reexports/core-events.ts",
-      "./src/reexports/core-server.ts",
       "./src/reexports/preview-api.ts",
       "./src/reexports/types.ts"
     ],
