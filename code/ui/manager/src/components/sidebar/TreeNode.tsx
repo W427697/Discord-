@@ -5,11 +5,10 @@ import React from 'react';
 import { UseSymbol } from './IconSymbols';
 import { CollapseIcon } from './components/CollapseIcon';
 
-const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
+export const TypeIcon = styled.svg<{ type: 'component' | 'story' | 'group' | 'document' }>(
   ({ theme, type }) => ({
     width: 14,
     height: 14,
-    marginRight: 5,
     flex: '0 0 auto',
     color: (() => {
       if (type === 'group')
@@ -63,7 +62,9 @@ const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   paddingBottom: 4,
   fontSize: `${theme.typography.size.s2}px`,
   textDecoration: 'none',
-  wordBreak: 'break-all',
+  overflowWrap: 'break-word',
+  wordWrap: 'break-word',
+  wordBreak: 'break-word',
 }));
 
 export const Path = styled.span(({ theme }) => ({

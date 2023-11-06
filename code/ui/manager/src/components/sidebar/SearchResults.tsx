@@ -1,5 +1,5 @@
 import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { Button } from '@storybook/components';
 import { global } from '@storybook/global';
 import type { FC, MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
@@ -7,37 +7,54 @@ import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
-import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
+import { transparentize } from 'polished';
+import { Path, RootNode, TypeIcon } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isExpandType } from './types';
-// eslint-disable-next-line import/no-cycle
-import { getLink } from '../../utils/tree';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
+// eslint-disable-next-line import/no-cycle
 import { statusMapping } from '../../utils/status';
+import { UseSymbol } from './IconSymbols';
 
 const { document } = global;
 
 const ResultsList = styled.ul({
   listStyle: 'none',
   margin: 0,
-  // marginLeft: -20,
-  // marginRight: -20,
   padding: 0,
 });
 
-const ResultRow = styled.li<{ isHighlighted: boolean }>(({ theme, isHighlighted }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  margin: 0,
-  padding: 0,
-  paddingRight: 20,
-  background: isHighlighted ? theme.background.hoverable : 'transparent',
+const ResultRow = styled.li(({ theme }) => ({
+  width: '100%',
+  border: 'none',
   cursor: 'pointer',
-  'a:hover, button:hover': {
-    background: 'transparent',
+  display: 'flex',
+  alignItems: 'start',
+  textAlign: 'left',
+  color: 'inherit',
+  fontSize: `${theme.typography.size.s2}px`,
+  background: 'transparent',
+  minHeight: 28,
+  borderRadius: 4,
+  gap: 6,
+  paddingTop: 7,
+  paddingBottom: 7,
+  paddingLeft: 8,
+  paddingRight: 8,
+
+  '&:hover, &:focus': {
+    background: transparentize(0.93, theme.color.secondary),
+    outline: 'none',
   },
-  gap: 10,
+}));
+
+const IconWrapper = styled.div({
+  marginTop: 2,
+});
+
+const ResultRowContent = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
 const NoResults = styled.div(({ theme }) => ({
@@ -57,42 +74,9 @@ const Mark = styled.mark(({ theme }) => ({
   color: theme.color.secondary,
 }));
 
-const ActionRow = styled(ResultRow)({
-  display: 'flex',
-  padding: '6px 19px',
-  alignItems: 'center',
-});
-
-const BackActionRow = styled(ActionRow)({
+const MoreWrapper = styled.div({
   marginTop: 8,
 });
-
-const ActionLabel = styled.span(({ theme }) => ({
-  flexGrow: 1,
-  color: theme.textMutedColor,
-  fontSize: `${theme.typography.size.s1}px`,
-}));
-
-const ActionIcon = styled(Icons)(({ theme }) => ({
-  display: 'inline-block',
-  width: 10,
-  height: 10,
-  marginRight: 6,
-  color: theme.textMutedColor,
-}));
-
-const ActionKey = styled.code(({ theme }) => ({
-  minWidth: 16,
-  height: 16,
-  lineHeight: '16px',
-  textAlign: 'center',
-  fontSize: '11px',
-  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
-  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
-  borderRadius: 2,
-  userSelect: 'none',
-  pointerEvents: 'none',
-}));
 
 const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function Highlight({
   children,
@@ -113,7 +97,7 @@ const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function 
     },
     { cursor: 0, nodes: [] }
   );
-  return <>{result}</>;
+  return <span>{result}</span>;
 });
 
 const Result: FC<
@@ -145,41 +129,41 @@ const Result: FC<
 
   const nameMatch = matches.find((match: Match) => match.key === 'name');
   const pathMatches = matches.filter((match: Match) => match.key === 'path');
-  const label = (
-    <div className="search-result-item--label">
-      <strong>
-        <Highlight match={nameMatch}>{item.name}</Highlight>
-      </strong>
-      <Path>
-        {item.path.map((group, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <span key={index}>
-            <Highlight match={pathMatches.find((match: Match) => match.arrayIndex === index)}>
-              {group}
-            </Highlight>
-          </span>
-        ))}
-      </Path>
-    </div>
-  );
-  const title = `${item.path.join(' / ')} / ${item.name}`;
-
-  const nodeProps = { depth: 0, onClick: click, title, children: label };
-  let node;
-  if (item.type === 'component') {
-    node = <ComponentNode isExpanded={false} {...nodeProps} />;
-  } else if (item.type === 'story') {
-    node = <StoryNode href={getLink(item, item.refId)} {...nodeProps} />;
-  } else {
-    // @ts-expect-error (TODO)
-    node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
-  }
 
   const [i] = item.status ? statusMapping[item.status] : [];
 
   return (
-    <ResultRow {...props}>
-      {node}
+    <ResultRow {...props} onClick={click}>
+      <IconWrapper>
+        {item.type === 'component' && (
+          <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="component">
+            <UseSymbol type="component" />
+          </TypeIcon>
+        )}
+        {item.type === 'story' && (
+          <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="story">
+            <UseSymbol type="story" />
+          </TypeIcon>
+        )}
+        {!(item.type === 'component' || item.type === 'story') && (
+          <TypeIcon viewBox="0 0 14 14" width="14" height="14" type="document">
+            <UseSymbol type="document" />
+          </TypeIcon>
+        )}
+      </IconWrapper>
+      <ResultRowContent className="search-result-item--label">
+        <Highlight match={nameMatch}>{item.name}</Highlight>
+        <Path>
+          {item.path.map((group, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <span key={index}>
+              <Highlight match={pathMatches.find((match: Match) => match.arrayIndex === index)}>
+                {group}
+              </Highlight>
+            </span>
+          ))}
+        </Path>
+      </ResultRowContent>
       {item.status ? i : null}
     </ResultRow>
   );
@@ -257,16 +241,15 @@ export const SearchResults: FC<{
       {results.map((result: DownshiftItem, index) => {
         if (isExpandType(result)) {
           return (
-            <ActionRow
-              key="search-result-more"
-              {...result}
-              {...getItemProps({ key: index, index, item: result })}
-              isHighlighted={highlightedIndex === index}
-              className="search-result-more"
-            >
-              <ActionIcon icon="plus" />
-              <ActionLabel>Show {result.moreCount} more results</ActionLabel>
-            </ActionRow>
+            <MoreWrapper key="search-result-expand">
+              <Button
+                {...result}
+                {...getItemProps({ key: index, index, item: result })}
+                size="small"
+              >
+                Show {result.moreCount} more results
+              </Button>
+            </MoreWrapper>
           );
         }
 
