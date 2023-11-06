@@ -25,7 +25,7 @@ export const withStorybook = ({
   managerPath = 'storybook',
   // TODO -- how to pass this to codegen if changed?
   previewPath = 'storybookPreview',
-}) => {
+} = {}) => {
   spawn(
     'yarn',
     [
