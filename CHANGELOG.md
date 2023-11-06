@@ -1,3 +1,9 @@
+## 7.5.3
+
+- Angular: Support v17 - [#24717](https://github.com/storybookjs/storybook/pull/24717), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- CLI: Catch when prettier failed to prettify main and preview config files - [#24604](https://github.com/storybookjs/storybook/pull/24604), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- UI: Fix button contrast-ratio - [#24525](https://github.com/storybookjs/storybook/pull/24525), thanks [@maheshchandra10](https://github.com/maheshchandra10)!
+
 ## 7.5.2
 
 - Addon-themes: Fix globals not being set when using absolute path - [#24596](https://github.com/storybookjs/storybook/pull/24596), thanks [@JReinhold](https://github.com/JReinhold)!
