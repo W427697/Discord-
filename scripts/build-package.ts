@@ -4,7 +4,7 @@ import prompts from 'prompts';
 import program from 'commander';
 import chalk from 'chalk';
 import windowSize from 'window-size';
-import { execa } from 'execa';
+import { execaCommand } from 'execa';
 import { getWorkspaces } from './utils/workspace';
 
 async function run() {
@@ -120,7 +120,7 @@ async function run() {
       .join(sep);
 
     const cwd = resolve(__dirname, '..', 'code', v.location);
-    const sub = await execa(
+    const sub = execaCommand(
       `${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
       {
         cwd,
@@ -133,13 +133,12 @@ async function run() {
       }
     );
 
-    if (sub.stdout) {
-      process.stdout.write(`${chalk.cyan(v.name)}:\n${sub.stdout}`);
-    }
-
-    if (sub.stderr) {
-      process.stderr.write(`${chalk.red(v.name)}:\n${sub.stderr}`);
-    }
+    sub.stdout?.on('data', (data) => {
+      process.stdout.write(`${chalk.cyan(v.name)}:\n${data}`);
+    });
+    sub.stderr?.on('data', (data) => {
+      process.stderr.write(`${chalk.red(v.name)}:\n${data}`);
+    });
   });
 }
 
