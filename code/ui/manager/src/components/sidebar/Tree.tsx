@@ -8,7 +8,7 @@ import type {
   API,
 } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import { Button, TooltipLinkList, WithTooltip } from '@storybook/components';
+import { Button, IconButton, TooltipLinkList, WithTooltip } from '@storybook/components';
 import { transparentize } from 'polished';
 import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
@@ -65,6 +65,7 @@ export const Action = styled.button<{ height?: number; width?: number }>(
     '&:hover': {
       color: theme.color.secondary,
     },
+
     '&:focus': {
       color: theme.color.secondary,
       borderColor: theme.color.secondary,
@@ -85,22 +86,16 @@ const CollapseButton = styled.button(({ theme }) => ({
   all: 'unset',
   display: 'flex',
   padding: '0px 8px',
-  borderRadius: 26,
+  borderRadius: 4,
   transition: 'color 150ms, box-shadow 150ms',
   gap: 6,
   alignItems: 'center',
   cursor: 'pointer',
+  height: 28,
 
-  '&:focus': {
-    boxShadow: `0 0 0 1px ${theme.color.secondary}`,
-    color: theme.color.secondary,
-    'span:first-of-type': {
-      color: theme.color.secondary,
-    },
-
-    '&:not(:focus-visible)': {
-      boxShadow: 'none',
-    },
+  '&:hover, &:focus': {
+    outline: 'none',
+    background: transparentize(0.93, theme.color.secondary),
   },
 }));
 
@@ -124,6 +119,7 @@ export const LeafNodeStyleWrapper = styled.div(({ theme }) => ({
     color: theme.color.lightest,
     background: theme.color.secondary,
     fontWeight: theme.typography.weight.bold,
+
     '&:hover, &:focus': {
       background: theme.color.secondary,
     },
@@ -279,8 +275,7 @@ const Node = React.memo<NodeProps>(function Node({
           {item.renderLabel?.(item) || item.name}
         </CollapseButton>
         {isExpanded && (
-          <Action
-            type="button"
+          <IconButton
             className="sidebar-subheading-action"
             aria-label="expand"
             data-action="expand-all"
@@ -291,7 +286,7 @@ const Node = React.memo<NodeProps>(function Node({
             }}
           >
             {isFullyExpanded ? <CollapseIconSvg /> : <ExpandAltIcon />}
-          </Action>
+          </IconButton>
         )}
       </RootNode>
     );
