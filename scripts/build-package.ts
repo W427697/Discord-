@@ -124,7 +124,7 @@ async function run() {
     const cwd = resolve(__dirname, '..', 'code', v.location);
     const tsNode = require.resolve('ts-node/dist/bin');
     const execa = await getExeca();
-    const sub = execa.execa(
+    const sub = execa.execaCommand(
       `node ${tsNode} ${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
       {
         cwd,
@@ -137,10 +137,10 @@ async function run() {
       }
     );
 
-    sub.stdout.on('data', (data) => {
+    sub.stdout?.on('data', (data) => {
       process.stdout.write(`${chalk.cyan(v.name)}:\n${data}`);
     });
-    sub.stderr.on('data', (data) => {
+    sub.stderr?.on('data', (data) => {
       process.stderr.write(`${chalk.red(v.name)}:\n${data}`);
     });
   });
