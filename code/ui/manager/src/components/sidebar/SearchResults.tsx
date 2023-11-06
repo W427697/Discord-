@@ -203,7 +203,7 @@ export const SearchResults: FC<{
   highlightedIndex: number | null;
   isLoading?: boolean;
   enableShortcuts?: boolean;
-  clearLastViewed: () => void;
+  clearLastViewed?: () => void;
 }> = React.memo(function SearchResults({
   query,
   results,
