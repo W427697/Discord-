@@ -1,5 +1,5 @@
 import { styled } from '@storybook/theming';
-import { Button } from '@storybook/components';
+import { Button, IconButton } from '@storybook/components';
 import { global } from '@storybook/global';
 import type { FC, MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
@@ -8,7 +8,8 @@ import type { ControllerStateAndHelpers } from 'downshift';
 import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { transparentize } from 'polished';
-import { Path, RootNode, TypeIcon } from './TreeNode';
+import { TrashIcon } from '@storybook/icons';
+import { Path, TypeIcon } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isExpandType } from './types';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
@@ -77,6 +78,30 @@ const Mark = styled.mark(({ theme }) => ({
 const MoreWrapper = styled.div({
   marginTop: 8,
 });
+
+const RecentlyOpenedTitle = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  fontSize: `${theme.typography.size.s1 - 1}px`,
+  fontWeight: theme.typography.weight.bold,
+  minHeight: 28,
+  letterSpacing: '0.16em',
+  textTransform: 'uppercase',
+  color: theme.textMutedColor,
+  marginTop: 16,
+  marginBottom: 4,
+  alignItems: 'center',
+
+  '.search-result-recentlyOpened-clear': {
+    visibility: 'hidden',
+  },
+
+  '&:hover': {
+    '.search-result-recentlyOpened-clear': {
+      visibility: 'visible',
+    },
+  },
+}));
 
 const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function Highlight({
   children,
@@ -178,6 +203,7 @@ export const SearchResults: FC<{
   highlightedIndex: number | null;
   isLoading?: boolean;
   enableShortcuts?: boolean;
+  clearLastViewed: () => void;
 }> = React.memo(function SearchResults({
   query,
   results,
@@ -187,6 +213,7 @@ export const SearchResults: FC<{
   highlightedIndex,
   isLoading = false,
   enableShortcuts = true,
+  clearLastViewed,
 }) {
   const api = useStorybookApi();
   useEffect(() => {
@@ -222,12 +249,23 @@ export const SearchResults: FC<{
     }
   }, []);
 
+  const handleClearLastViewed = () => {
+    clearLastViewed();
+    closeMenu();
+  };
+
   return (
     <ResultsList {...getMenuProps()}>
       {results.length > 0 && !query && (
-        <li>
-          <RootNode className="search-result-recentlyOpened">Recently opened</RootNode>
-        </li>
+        <RecentlyOpenedTitle className="search-result-recentlyOpened">
+          Recently opened
+          <IconButton
+            className="search-result-recentlyOpened-clear"
+            onClick={handleClearLastViewed}
+          >
+            <TrashIcon />
+          </IconButton>
+        </RecentlyOpenedTitle>
       )}
       {results.length === 0 && query && (
         <li>

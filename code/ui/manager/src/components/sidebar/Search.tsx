@@ -145,18 +145,14 @@ const FocusContainer = styled.div({ outline: 0 });
 export const Search = React.memo<{
   children: SearchChildrenFn;
   dataset: CombinedDataset;
-  isLoading?: boolean;
   enableShortcuts?: boolean;
   getLastViewed: () => Selection[];
-  clearLastViewed: () => void;
   initialQuery?: string;
 }>(function Search({
   children,
   dataset,
-  isLoading = false,
   enableShortcuts = true,
   getLastViewed,
-  clearLastViewed,
   initialQuery = '',
 }) {
   const api = useStorybookApi();

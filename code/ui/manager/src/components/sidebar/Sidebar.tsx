@@ -144,12 +144,7 @@ export const Sidebar = React.memo(function Sidebar({
             isLoading={isLoading}
             onMenuClick={onMenuClick}
           />
-          <Search
-            dataset={dataset}
-            isLoading={isLoading}
-            enableShortcuts={enableShortcuts}
-            {...lastViewedProps}
-          >
+          <Search dataset={dataset} enableShortcuts={enableShortcuts} {...lastViewedProps}>
             {({
               query,
               results,
@@ -175,6 +170,7 @@ export const Sidebar = React.memo(function Sidebar({
                   highlightedIndex={highlightedIndex}
                   enableShortcuts={enableShortcuts}
                   isLoading={isLoading}
+                  clearLastViewed={lastViewedProps.clearLastViewed}
                 />
               </Swap>
             )}
