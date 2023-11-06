@@ -114,16 +114,13 @@ const Input = styled.input(({ theme }) => ({
 const FocusKey = styled.code(({ theme }) => ({
   position: 'absolute',
   top: 8,
-  right: 8,
-  minWidth: 16,
+  right: 9,
   height: 16,
   zIndex: 1,
   lineHeight: '16px',
   textAlign: 'center',
   fontSize: '11px',
-  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
   color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
-  borderRadius: 3,
   userSelect: 'none',
   pointerEvents: 'none',
 }));
