@@ -1,5 +1,8 @@
+import { join } from 'path';
+import { readFileSync } from 'fs';
 import type { NextConfig } from 'next';
-import { spawn } from 'child_process';
+import { buildDevStandalone, withTelemetry } from '@storybook/nextjs-server/core-server';
+import { cache } from '@storybook/nextjs-server/core-common';
 
 function addRewrites(
   existing: NextConfig['rewrites'] | undefined,
@@ -26,17 +29,30 @@ export const withStorybook = ({
   // TODO -- how to pass this to codegen if changed?
   previewPath = 'storybookPreview',
 }) => {
-  spawn(
-    'yarn',
-    [
-      'storybook',
-      '--preview-url',
-      `http://localhost:${port}/${previewPath}`,
-      '-p',
-      sbPort.toString(),
-      '--ci',
-    ],
-    { stdio: 'inherit' }
+  const cliOptions = {
+    ci: true,
+    port: sbPort,
+    previewUrl: `http://localhost:${port}/${previewPath}`,
+  };
+  const packageJson = JSON.parse(readFileSync(join(process.cwd(), 'package.json')).toString());
+
+  const options = {
+    ...cliOptions,
+    configDir: join(process.cwd(), '.storybook'),
+    configType: 'DEVELOPMENT',
+    ignorePreview: !!cliOptions.previewUrl,
+    cache,
+    packageJson,
+  } as Parameters<typeof buildDevStandalone>[0];
+
+  const storybook = withTelemetry(
+    'dev',
+    {
+      cliOptions,
+      presetOptions: options as Parameters<typeof withTelemetry>[1]['presetOptions'],
+      printError: console.error,
+    },
+    () => buildDevStandalone(options)
   );
 
   return (config: NextConfig) => ({
