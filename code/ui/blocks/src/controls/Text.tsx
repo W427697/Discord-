@@ -37,7 +37,12 @@ export const TextControl: FC<TextProps> = ({
   }, [setForceVisible]);
   if (value === undefined) {
     return (
-      <Button id={getControlSetterButtonId(name)} onClick={onForceVisible}>
+      <Button
+        variant="outline"
+        size="medium"
+        id={getControlSetterButtonId(name)}
+        onClick={onForceVisible}
+      >
         Set string
       </Button>
     );
