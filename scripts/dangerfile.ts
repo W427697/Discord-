@@ -32,7 +32,7 @@ const checkRequiredLabels = (labels: string[]) => {
 
   const requiredLabels = flatten([
     prLogConfig.skipLabels || [],
-    (prLogConfig.validLabels || []).map((keyVal: string) => keyVal[0]),
+    (prLogConfig.validLabels || []).map((keyVal) => keyVal[0]),
   ]);
 
   const blockingLabels = intersection(forbiddenLabels, labels);
