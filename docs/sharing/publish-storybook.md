@@ -89,7 +89,7 @@ View it online at https://www.chromatic.com/build?appId=...&number=1.
 
 ### Setup CI to publish automatically
 
-Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
+Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
 
 In your project's root directory, add a new file called `chromatic.yml` inside the `.github/workflows` directory:
 
@@ -131,14 +131,29 @@ When you publish Storybook, you also get component history and versioning down t
 
 ## Publish Storybook to other services
 
-Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md),
-[embedding stories](./embed.md), history, and versioning require tighter integration with Storybook APIs and secure authentication. Your hosting provider may not be capable of supporting these features. Learn about the Component Publishing Protocol (CPP) to see what.
+Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md), [embedding stories](./embed.md), history, versioning, and assets may require tighter integration with Storybook APIs and secure authentication. If you want to know more about headers, you can refer to the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts). Additionally, if you want to learn about the Component Publishing Protocol (CPP), you can find more information below.
+
+### GitHub Pages
+
+To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook to GitHub Pages](https://github.com/bitovi/github-actions-storybook-to-github-pages) Action. To enable it, create a new workflow file inside your `.github/workflows` directory with the following content:
+
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/ghp-github-action.yml.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <div class="aside">
 
-ℹ️ Additional header configuration may be required to serve Storybook's static files correctly on your host. For more information on the required headers, see the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts).
+ℹ️ The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
 
 </div>
+
 
 <details>
 
@@ -166,7 +181,7 @@ Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3
 
 ## Search engine optimization (SEO)
 
-If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
+If your Storybook is publicly viewable, you may wish to configure how it is represented in search engine result pages.
 
 ### Description
 
