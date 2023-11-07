@@ -261,7 +261,7 @@ const Drag = styled.div<{ orientation?: 'horizontal' | 'vertical'; position?: 'l
   ({ orientation = 'vertical', position = 'left' }) => {
     if (orientation === 'vertical')
       return {
-        width: '13px',
+        width: position === 'left' ? 10 : 13,
         height: '100%',
         top: 0,
         right: position === 'left' ? '-7px' : null,
@@ -270,7 +270,7 @@ const Drag = styled.div<{ orientation?: 'horizontal' | 'vertical'; position?: 'l
         '&:after': {
           width: 1,
           height: '100%',
-          marginLeft: 6,
+          marginLeft: position === 'left' ? 3 : 6,
         },
 
         '&:hover': {

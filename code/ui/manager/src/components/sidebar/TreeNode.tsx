@@ -67,30 +67,6 @@ const LeafNode = styled.a<{ depth?: number }>(({ theme, depth = 0 }) => ({
   wordBreak: 'break-word',
 }));
 
-export const Path = styled.span(({ theme }) => ({
-  display: 'grid',
-  justifyContent: 'start',
-  gridAutoColumns: 'auto',
-  gridAutoFlow: 'column',
-  color: theme.textMutedColor,
-  fontSize: `${theme.typography.size.s1 - 1}px`,
-  '& > span': {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  '& > span + span': {
-    position: 'relative',
-    marginLeft: 4,
-    paddingLeft: 7,
-    '&:before': {
-      content: "'/'",
-      position: 'absolute',
-      left: 0,
-    },
-  },
-}));
-
 export const RootNode = styled.div(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',

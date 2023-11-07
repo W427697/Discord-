@@ -2,14 +2,14 @@ import { styled } from '@storybook/theming';
 import { Button, IconButton } from '@storybook/components';
 import { global } from '@storybook/global';
 import type { FC, MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
-import React, { useCallback, useEffect } from 'react';
+import React, { Fragment, useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { transparentize } from 'polished';
 import { TrashIcon } from '@storybook/icons';
-import { Path, TypeIcon } from './TreeNode';
+import { TypeIcon } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isExpandType } from './types';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
@@ -107,23 +107,58 @@ const Highlight: FC<PropsWithChildren<{ match?: Match }>> = React.memo(function 
   children,
   match,
 }) {
-  if (!match) return <>{children}</>;
+  if (!match) return children;
   const { value, indices } = match;
   const { nodes: result } = indices.reduce<{ cursor: number; nodes: ReactNode[] }>(
     ({ cursor, nodes }, [start, end], index, { length }) => {
-      /* eslint-disable react/no-array-index-key */
-      nodes.push(<span key={`${index}-0`}>{value.slice(cursor, start)}</span>);
-      nodes.push(<Mark key={`${index}-1`}>{value.slice(start, end + 1)}</Mark>);
+      nodes.push(<span>{value.slice(cursor, start)}</span>);
+      nodes.push(<Mark>{value.slice(start, end + 1)}</Mark>);
       if (index === length - 1) {
-        nodes.push(<span key={`${index}-2`}>{value.slice(end + 1)}</span>);
+        nodes.push(<span>{value.slice(end + 1)}</span>);
       }
-      /* eslint-enable react/no-array-index-key */
       return { cursor: end + 1, nodes };
     },
     { cursor: 0, nodes: [] }
   );
   return <span>{result}</span>;
 });
+
+const Title = styled.div(({ theme }) => ({
+  display: 'grid',
+  justifyContent: 'start',
+  gridAutoColumns: 'auto',
+  gridAutoFlow: 'column',
+  color: theme.textMutedColor,
+
+  '& > span': {
+    display: 'block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+}));
+
+const Path = styled.div(({ theme }) => ({
+  display: 'grid',
+  justifyContent: 'start',
+  gridAutoColumns: 'auto',
+  gridAutoFlow: 'column',
+  color: theme.textMutedColor,
+  fontSize: `${theme.typography.size.s1 - 1}px`,
+
+  '& > span': {
+    display: 'block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+
+  '& > span + span': {
+    '&:before': {
+      content: "' / '",
+    },
+  },
+}));
 
 const Result: FC<
   SearchResult & {
@@ -177,7 +212,9 @@ const Result: FC<
         )}
       </IconWrapper>
       <ResultRowContent className="search-result-item--label">
-        <Highlight match={nameMatch}>{item.name}</Highlight>
+        <Title>
+          <Highlight match={nameMatch}>{item.name}</Highlight>
+        </Title>
         <Path>
           {item.path.map((group, index) => (
             // eslint-disable-next-line react/no-array-index-key
