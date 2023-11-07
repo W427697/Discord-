@@ -3,8 +3,15 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import type { Button, TooltipLinkListLink } from '@storybook/components';
-import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
+import type { Button, TooltipLinkListLink, DropdownMenuItemListProps } from '@storybook/components';
+import {
+  WithTooltip,
+  TooltipLinkList,
+  Icons,
+  IconButton,
+  DropdownMenu,
+  DropdownMenuItemList,
+} from '@storybook/components';
 import { CloseIcon, CogIcon, MenuIcon } from '@storybook/icons';
 import { useLayout } from '../layout/LayoutProvider';
 
