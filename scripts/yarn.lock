@@ -2873,7 +2873,7 @@ __metadata:
     uuid: "npm:^9.0.0"
     verdaccio: "npm:^5.19.1"
     verdaccio-auth-memory: "npm:^10.2.0"
-    vitest: "npm:^1.0.0-beta.1"
+    vitest: "npm:^1.0.0-beta.3"
     vitest-mock-extended: "npm:^1.2.1"
     wait-on: "npm:^7.0.1"
     window-size: "npm:^1.1.1"
@@ -16229,7 +16229,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^1.0.0-beta.1":
+"vitest@npm:^1.0.0-beta.3":
   version: 1.0.0-beta.3
   resolution: "vitest@npm:1.0.0-beta.3"
   dependencies:

@@ -1,3 +1,4 @@
+/// <reference types="@testing-library/jest-dom" />;
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
 import { addons } from '@storybook/preview-api';
@@ -72,7 +73,7 @@ describe('LinkTo', () => {
       } as any;
       mockAddons.getChannel.mockReturnValue(channel);
 
-      render(
+      const out = await render(
         // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <LinkTo title="foo" name="bar">
           link
@@ -80,13 +81,13 @@ describe('LinkTo', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('link')).toHaveAttribute(
+        expect(out.getByText('link')).toHaveAttribute(
           'href',
           'originpathname?path=/story/foo--bar'
         );
       });
 
-      await userEvent.click(screen.getByText('link'));
+      await userEvent.click(out.getByText('link'));
 
       expect(channel.emit).toHaveBeenLastCalledWith(
         SELECT_STORY,
