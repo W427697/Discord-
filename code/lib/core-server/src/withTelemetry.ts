@@ -120,7 +120,7 @@ export async function withTelemetry<T>(
   options: TelemetryOptions,
   run: () => Promise<T>
 ): Promise<T | undefined> {
-  const enableTelemtry = !(options.cliOptions.disableTelemetry || options.cliOptions.test === true);
+  const enableTelemetry = !(options.cliOptions.disableTelemetry || options.cliOptions.test === true);
 
   let canceled = false;
 
