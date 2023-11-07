@@ -2,7 +2,7 @@ import { styled } from '@storybook/theming';
 import { Button, IconButton } from '@storybook/components';
 import { global } from '@storybook/global';
 import type { FC, MouseEventHandler, PropsWithChildren, ReactNode } from 'react';
-import React, { Fragment, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/manager-api';
