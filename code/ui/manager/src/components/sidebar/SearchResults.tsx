@@ -25,7 +25,7 @@ const ResultsList = styled.ul({
   padding: 0,
 });
 
-const ResultRow = styled.li(({ theme }) => ({
+const ResultRow = styled.li<{ isHighlighted: boolean }>(({ theme, isHighlighted }) => ({
   width: '100%',
   border: 'none',
   cursor: 'pointer',
@@ -34,7 +34,7 @@ const ResultRow = styled.li(({ theme }) => ({
   textAlign: 'left',
   color: 'inherit',
   fontSize: `${theme.typography.size.s2}px`,
-  background: 'transparent',
+  background: isHighlighted ? theme.background.hoverable : 'transparent',
   minHeight: 28,
   borderRadius: 4,
   gap: 6,
