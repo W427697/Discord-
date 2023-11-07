@@ -84,7 +84,7 @@ commands:
 jobs:
   pretty-docs:
     executor:
-      class: small
+      class: medium
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -92,7 +92,7 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - prettydocs-yarn-2-cache-v7--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Install
           command: |
@@ -100,7 +100,7 @@ jobs:
             yarn install
       - save_cache:
           name: Save Yarn cache
-          key: prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          key: prettydocs-yarn-2-cache-v7--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - run:
@@ -499,15 +499,15 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 12
+          parallelism: 14
           requires:
             - build
       - build-sandboxes:
-          parallelism: 12
+          parallelism: 14
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build-sandboxes
       - e2e-production:
@@ -523,7 +523,7 @@ workflows:
           requires:
             - build-sandboxes
       - bench:
-          parallelism: 3
+          parallelism: 5
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -555,15 +555,15 @@ workflows:
           requires:
             - unit-tests
       - create-sandboxes:
-          parallelism: 21
+          parallelism: 23
           requires:
             - build
       - build-sandboxes:
-          parallelism: 21
+          parallelism: 23
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 18
+          parallelism: 20
           requires:
             - build-sandboxes
       - e2e-production:
@@ -579,7 +579,7 @@ workflows:
           requires:
             - build-sandboxes
       - bench:
-          parallelism: 3
+          parallelism: 5
           requires:
             - build-sandboxes
       # TODO: reenable once we find out the source of flakyness
@@ -609,18 +609,18 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 36
+          parallelism: 38
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 36
+          parallelism: 38
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 33
+          parallelism: 35
           requires:
             - build-sandboxes
       - e2e-production:
@@ -640,3 +640,4 @@ workflows:
       #     parallelism: 4
       #     requires:
       #       - create-sandboxes
+

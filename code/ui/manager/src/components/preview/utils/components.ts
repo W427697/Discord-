@@ -44,7 +44,6 @@ export const IframeWrapper = styled.div(({ theme }) => ({
   position: 'relative',
   width: '100%',
   height: '100%',
-  background: theme.background.content,
 }));
 
 export const LoaderWrapper = styled.div(({ theme }) => ({
@@ -53,6 +52,6 @@ export const LoaderWrapper = styled.div(({ theme }) => ({
   left: 0,
   bottom: 0,
   right: 0,
-  background: theme.background.content,
+  background: theme.background.preview,
   zIndex: 1,
 }));
