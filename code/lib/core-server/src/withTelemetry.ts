@@ -150,7 +150,7 @@ export async function withTelemetry<T>(
     const { printError = logger.error } = options;
     printError(error);
 
-    if (enableTelemtry) await sendTelemetryError(error, eventType, options);
+    if (enableTelemetry) await sendTelemetryError(error, eventType, options);
 
     throw error;
   } finally {
