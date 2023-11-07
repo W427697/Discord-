@@ -6,7 +6,7 @@ import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
-import url from 'url';
+import esMain from '../utils/esmain';
 import { execaCommand } from '../utils/exec';
 
 import type { OptionValues } from '../utils/options';
@@ -251,8 +251,7 @@ export const generate = async ({
   await runGenerators(generatorConfigs, localRegistry, debug);
 };
 
-const modulePath = url.fileURLToPath(import.meta.url);
-if (process.argv[1] === modulePath) {
+if (esMain(import.meta)) {
   program
     .description('Generate sandboxes from a set of possible templates')
     .option('--templates [templates...]', 'Space-delimited list of templates to include')

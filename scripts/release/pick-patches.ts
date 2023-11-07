@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { setOutput } from '@actions/core';
 import invariant from 'tiny-invariant';
-import url from 'url';
+import esMain from '../utils/esmain';
 import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
 
@@ -86,8 +86,7 @@ export const run = async (_: unknown) => {
   }
 };
 
-const modulePath = url.fileURLToPath(import.meta.url);
-if (process.argv[1] === modulePath) {
+if (esMain(import.meta)) {
   const options = program.parse(process.argv);
   run(options).catch((err) => {
     console.error(err);

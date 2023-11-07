@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { setOutput } from '@actions/core';
 import path from 'path';
 import { readJson } from 'fs-extra';
-import url from 'url';
+import esMain from '../utils/esmain';
 
 const CODE_DIR_PATH = path.join(__dirname, '..', '..', 'code');
 const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
@@ -18,8 +18,7 @@ export const getCurrentVersion = async () => {
   return version;
 };
 
-const modulePath = url.fileURLToPath(import.meta.url);
-if (process.argv[1] === modulePath) {
+if (esMain(import.meta)) {
   getCurrentVersion().catch((err) => {
     console.error(err);
     process.exit(1);

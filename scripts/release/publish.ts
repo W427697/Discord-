@@ -8,7 +8,7 @@ import { readJson } from 'fs-extra';
 import fetch from 'node-fetch';
 import dedent from 'ts-dedent';
 import pRetry from 'p-retry';
-import url from 'url';
+import esMain from '../utils/esmain';
 import { execaCommand } from '../utils/exec';
 
 program
@@ -190,8 +190,7 @@ export const run = async (options: unknown) => {
   );
 };
 
-const modulePath = url.fileURLToPath(import.meta.url);
-if (process.argv[1] === modulePath) {
+if (esMain(import.meta)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

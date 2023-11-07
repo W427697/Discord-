@@ -2,7 +2,7 @@
 import { setOutput } from '@actions/core';
 import chalk from 'chalk';
 import { program } from 'commander';
-import url from 'url';
+import esMain from '../utils/esmain';
 import { getCurrentVersion } from './get-current-version';
 import { getChanges } from './utils/get-changes';
 
@@ -27,8 +27,7 @@ export const getVersionChangelog = async (args: { version?: string; verbose?: bo
   return changelogText;
 };
 
-const modulePath = url.fileURLToPath(import.meta.url);
-if (process.argv[1] === modulePath) {
+if (esMain(import.meta)) {
   const parsed = program.parse();
   getVersionChangelog({ version: parsed.args[0], verbose: parsed.opts().verbose }).catch((err) => {
     console.error(err);

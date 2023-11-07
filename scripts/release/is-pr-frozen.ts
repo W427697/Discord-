@@ -4,7 +4,7 @@ import program from 'commander';
 import { setOutput } from '@actions/core';
 import path from 'path';
 import { readJson } from 'fs-extra';
-import url from 'url';
+import esMain from '../utils/esmain';
 import { getPullInfoFromCommit } from './utils/get-github-info';
 import { git } from './utils/git-client';
 
@@ -99,8 +99,7 @@ export const run = async (options: unknown) => {
   return isFrozen;
 };
 
-const modulePath = url.fileURLToPath(import.meta.url);
-if (process.argv[1] === modulePath) {
+if (esMain(import.meta)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

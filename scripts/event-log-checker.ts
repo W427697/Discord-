@@ -2,7 +2,7 @@
 import chalk from 'chalk';
 import assert from 'assert';
 import fetch from 'node-fetch';
-import url from 'url';
+import esMain from './utils/esmain';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
 import versions from '../code/lib/cli/src/versions';
 import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
@@ -115,8 +115,7 @@ async function run() {
 
 export {};
 
-const modulePath = url.fileURLToPath(import.meta.url);
-if (process.argv[1] === modulePath) {
+if (esMain(import.meta)) {
   run()
     .then(() => process.exit(0))
     .catch((err) => {
