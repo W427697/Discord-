@@ -75,6 +75,7 @@ export enum ProjectType {
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
   NEXTJS = 'NEXTJS',
+  NEXTJS_SERVER = 'NEXTJS_SERVER',
   VUE = 'VUE',
   VUE3 = 'VUE3',
   SFC_VUE = 'SFC_VUE',
@@ -165,6 +166,16 @@ export const supportedTemplates: TemplateConfiguration[] = [
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },
+  },
+  {
+    preset: ProjectType.NEXTJS_SERVER,
+    dependencies: {
+      next: (versionRange) => eqMajor(versionRange, 13) || gtMajor(versionRange, 13),
+    },
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+    files: ['app'],
   },
   {
     preset: ProjectType.NEXTJS,

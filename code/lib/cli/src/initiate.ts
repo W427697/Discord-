@@ -18,6 +18,7 @@ import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
 import nextjsGenerator from './generators/NEXTJS';
+import nextjsServerGenerator from './generators/NEXTJS_SERVER';
 import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
@@ -96,6 +97,11 @@ const installStorybook = async <Project extends ProjectType>(
 
       case ProjectType.NEXTJS:
         return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Next" app')
+        );
+
+      case ProjectType.NEXTJS_SERVER:
+        return nextjsServerGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Next" app')
         );
 

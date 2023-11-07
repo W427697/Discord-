@@ -9,9 +9,10 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     { ...options, builder: CoreBuilder.Vite },
     'react',
     {
-      extraAddons: ['@storybook/addon-onboarding'],
+      extraPackages: ['vite'],
+      extraMain: { docs: { autodocs: false } },
     },
-    'nextjs'
+    'nextjs-server'
   );
 };
 
