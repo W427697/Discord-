@@ -1,5 +1,31 @@
 import type { NextConfig } from 'next';
+import type { ChildProcess } from 'child_process';
 import { spawn } from 'child_process';
+
+const logger = console;
+let childProcess: ChildProcess | undefined;
+
+[
+  'SIGHUP',
+  'SIGINT',
+  'SIGQUIT',
+  'SIGILL',
+  'SIGTRAP',
+  'SIGABRT',
+  'SIGBUS',
+  'SIGFPE',
+  'SIGUSR1',
+  'SIGSEGV',
+  'SIGUSR2',
+  'SIGTERM',
+].forEach((sig) => {
+  process.on(sig, () => {
+    if (childProcess) {
+      logger.log('Stopping storybook');
+      childProcess.kill();
+    }
+  });
+});
 
 function addRewrites(
   existing: NextConfig['rewrites'] | undefined,
@@ -26,7 +52,7 @@ export const withStorybook = ({
   // TODO -- how to pass this to codegen if changed?
   previewPath = 'storybookPreview',
 } = {}) => {
-  spawn(
+  childProcess = spawn(
     'yarn',
     [
       'storybook',
@@ -35,6 +61,10 @@ export const withStorybook = ({
       '-p',
       sbPort.toString(),
       '--ci',
+      // NOTE that this is still a race condition. However, if two instances of SB use the exact port,
+      // the second will fail and the first will still be running, which is what we want. There must be
+      // a more graceful way to handle this.
+      '--exact-port',
     ],
     { stdio: 'inherit' }
   );
