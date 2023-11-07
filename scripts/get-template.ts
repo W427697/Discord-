@@ -180,7 +180,7 @@ async function run({ cadence, task, check }: RunOptions) {
   );
 }
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   program
     .description('Retrieve the template to run for a given cadence and task')
     .option('--cadence <cadence>', 'Which cadence you want to run the script for')

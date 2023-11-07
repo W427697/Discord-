@@ -78,7 +78,7 @@ ${chalk.blue(changesToRelease.map(({ title, pull }) => `  #${pull}: ${title}`).j
   return { changesToRelease, hasChangesToRelease };
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

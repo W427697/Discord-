@@ -39,7 +39,7 @@ export const isPrerelease = async (args: { version?: string; verbose?: boolean }
   return result;
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   isPrerelease({
     version: parsed.args[0],

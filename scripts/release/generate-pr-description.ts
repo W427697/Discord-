@@ -296,7 +296,7 @@ export const run = async (rawOptions: unknown) => {
   }
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);

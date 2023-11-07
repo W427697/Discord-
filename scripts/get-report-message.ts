@@ -64,7 +64,7 @@ async function run() {
   console.log(`${title}${body}${footer}`.replace(/\n/g, '\\n'));
 }
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   run().catch((err) => {
     console.error(err);
     process.exit(1);

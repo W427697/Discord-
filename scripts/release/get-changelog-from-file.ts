@@ -55,7 +55,7 @@ export const getChangelogFromFile = async (args: {
   return result;
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   getChangelogFromFile({
     version: parsed.args[0],

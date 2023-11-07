@@ -86,7 +86,7 @@ export const run = async (_: unknown) => {
   }
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   const options = program.parse(process.argv);
   run(options).catch((err) => {
     console.error(err);

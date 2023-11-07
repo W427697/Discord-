@@ -251,7 +251,7 @@ export const generate = async ({
   await runGenerators(generatorConfigs, localRegistry, debug);
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   program
     .description('Generate sandboxes from a set of possible templates')
     .option('--templates [templates...]', 'Space-delimited list of templates to include')

@@ -18,7 +18,7 @@ export const getCurrentVersion = async () => {
   return version;
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   getCurrentVersion().catch((err) => {
     console.error(err);
     process.exit(1);

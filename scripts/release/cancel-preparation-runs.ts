@@ -100,7 +100,7 @@ export const run = async () => {
   }
 };
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   run().catch((err) => {
     console.error(err);
     // this is non-critical work, so we don't want to fail the CI build if this fails

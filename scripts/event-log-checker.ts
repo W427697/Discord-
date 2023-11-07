@@ -115,7 +115,7 @@ async function run() {
 
 export {};
 
-if (esMain(import.meta)) {
+if (esMain(import.meta.url)) {
   run()
     .then(() => process.exit(0))
     .catch((err) => {
