@@ -6,8 +6,8 @@ import { join, resolve } from 'path';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import { globSync } from 'glob';
 import { directory } from 'tempy';
+import { execaCommand } from 'execa';
 import esMain from './utils/esmain';
-import { execaCommand } from './utils/exec';
 
 const logger = console;
 
