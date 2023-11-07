@@ -126,7 +126,7 @@ export async function withTelemetry<T>(
 
   async function cancelTelemetry() {
     canceled = true;
-    if (enableTelemtry) {
+    if (enableTelemetry) {
       await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
     }
 
