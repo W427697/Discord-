@@ -138,7 +138,7 @@ export async function withTelemetry<T>(
     process.on('SIGINT', cancelTelemetry);
   }
 
-  if (enableTelemtry) telemetry('boot', { eventType }, { stripMetadata: true });
+  if (enableTelemetry) telemetry('boot', { eventType }, { stripMetadata: true });
 
   try {
     return await run();
