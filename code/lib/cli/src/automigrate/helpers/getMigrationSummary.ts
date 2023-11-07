@@ -107,23 +107,15 @@ export function getMigrationSummary({
 const allowList = [
   '@storybook/csf',
   // see this file for more info: code/lib/preview/src/globals/types.ts
-  '@storybook/addons',
-  '@storybook/channel-postmessage', // @deprecated: remove in 8.0
-  '@storybook/channel-websocket', // @deprecated: remove in 8.0
   '@storybook/channels',
-  '@storybook/client-api',
   '@storybook/client-logger',
-  '@storybook/core-client',
   '@storybook/core-events',
-  '@storybook/preview-web',
   '@storybook/preview-api',
-  '@storybook/store',
 
   // see this file for more info: code/ui/manager/src/globals/types.ts
   '@storybook/components',
   '@storybook/router',
   '@storybook/theming',
-  '@storybook/api', // @deprecated: remove in 8.0
   '@storybook/manager-api',
 ];
 

@@ -7,12 +7,13 @@ import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { screen, userEvent, within } from '@storybook/testing-library';
 import type { State } from '@storybook/manager-api';
+import { LinkIcon } from '@storybook/icons';
 import { SidebarMenu, ToolbarMenu } from './Menu';
 import { useDropdownMenu } from '../../container/Menu';
 import { LayoutProvider } from '../layout/LayoutProvider';
 
 const fakemenu: ComponentProps<typeof TooltipLinkList>['links'] = [
-  { title: 'has icon', icon: 'link', id: 'icon' },
+  { title: 'has icon', icon: <LinkIcon />, id: 'icon' },
   { title: 'has no icon', id: 'non' },
 ];
 

@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import { ScrollArea } from './ScrollArea';
@@ -20,7 +21,7 @@ const Wrapper = styled.div({
   overflow: 'hidden',
 });
 
-const list = (filler: (data: number) => JSX.Element) => {
+const list = (filler: (data: number) => ReactElement) => {
   const data = [];
 
   // eslint-disable-next-line no-plusplus

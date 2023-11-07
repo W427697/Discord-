@@ -3,7 +3,7 @@ import React, { Fragment, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 
-import { IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
+import { IconButton, Separator, TabButton, TabBar } from '@storybook/components';
 import {
   shortcutToHumanString,
   Consumer,
@@ -18,6 +18,7 @@ import {
 
 import { Location, type RenderData } from '@storybook/router';
 import type { Addon_BaseType } from '@storybook/types';
+import { CloseIcon, ExpandIcon } from '@storybook/icons';
 import { zoomTool } from './tools/zoom';
 
 import * as S from './utils/components';
@@ -63,7 +64,7 @@ export const fullScreenTool: Addon_BaseType = {
               title={`${isFullscreen ? 'Exit full screen' : 'Go full screen'} [${shortcut}]`}
               aria-label={isFullscreen ? 'Exit full screen' : 'Go full screen'}
             >
-              <Icons icon={isFullscreen ? 'close' : 'expand'} />
+              {isFullscreen ? <CloseIcon /> : <ExpandIcon />}
             </IconButton>
           )
         }
@@ -97,7 +98,7 @@ export const createTabsTool = (tabs: Addon_BaseType[]): Addon_BaseType => ({
                 return (
                   <S.UnstyledLink key={t.id || `l${index}`} to={to}>
                     <TabButton disabled={t.disabled} active={isActive}>
-                      {t.title}
+                      {t.title as any}
                     </TabButton>
                   </S.UnstyledLink>
                 );
@@ -260,6 +261,7 @@ const Toolbar = styled.div<{ shown: boolean }>(({ theme, shown }) => ({
   marginTop: shown ? 0 : -40,
   boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
   background: theme.barBg,
+  zIndex: 4,
 }));
 
 const ToolbarInner = styled.div({

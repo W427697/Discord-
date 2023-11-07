@@ -48,12 +48,12 @@ The following options are configurable under the `toolbar` namespace:
 
 You can use URL parameters to configure some of the available features:
 
-| Config option       | Query param  |      Supported values      |
-| ------------------- | :----------: | :------------------------: |
-| **enableShortcuts** | `shortcuts`  |          `false`           |
-| **isFullscreen**    |    `full`    |           `true`           |
-| **showNav**         |    `nav`     |          `false`           |
-| **showPanel**       |   `panel`    | `false`, `right`, `bottom` |
-| **selectedPanel**   | `addonPanel` |        Any panel ID        |
-| **showTabs**        |    `tabs`    |           `true`           |
-| ---                 | `instrument` |      `false`, `true`       |
+| Config option       | Query param  |        Supported values        |
+| ------------------- | :----------: | :----------------------------: |
+| **enableShortcuts** | `shortcuts`  |            `false`             |
+| --- (fullscreen)    |    `full`    |        `true`, `false`         |
+| --- (show sidebar)  |    `nav`     |        `true`, `false`         |
+| --- (show panel)    |   `panel`    | `false`, `'right'`, `'bottom'` |
+| **selectedPanel**   | `addonPanel` |          Any panel ID          |
+| **showTabs**        |    `tabs`    |             `true`             |
+| ---                 | `instrument` |        `false`, `true`         |

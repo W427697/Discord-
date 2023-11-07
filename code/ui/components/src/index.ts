@@ -73,7 +73,7 @@ export { AddonPanel } from './components/addon-panel/addon-panel';
 // Graphics
 export type { IconsProps, IconType } from './components/icon/icon';
 export { Icons, Symbols } from './components/icon/icon';
-export { icons } from './components/icon/icons';
+export { icons } from './components/icon/icon';
 export { StorybookLogo } from './components/brand/StorybookLogo';
 export { StorybookIcon } from './components/brand/StorybookIcon';
 export { DropdownMenu } from './components/DropdownMenu/DropdownMenu';

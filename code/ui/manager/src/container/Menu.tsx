@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
-import { Badge, Icons } from '@storybook/components';
+import { Badge } from '@storybook/components';
 import type { API, State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
 import { styled, useTheme } from '@storybook/theming';
 import type { DropdownMenuItemProps } from '@storybook/components';
 import { STORIES_COLLAPSE_ALL } from '@storybook/core-events';
+import { CheckIcon } from '@storybook/icons';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',
@@ -108,7 +109,7 @@ export const useMenu = (
       onClick: () => api.toggleNav(),
       active: isNavShown,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.toggleNav} /> : null,
-      left: isNavShown ? <Icons icon="check" /> : null,
+      left: isNavShown ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, isNavShown]
   );
@@ -120,7 +121,7 @@ export const useMenu = (
       onClick: () => api.toggleToolbar(),
       active: showToolbar,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.toolbar} /> : null,
-      left: showToolbar ? <Icons icon="check" /> : null,
+      left: showToolbar ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, showToolbar]
   );
@@ -132,7 +133,7 @@ export const useMenu = (
       onClick: () => api.togglePanel(),
       active: isPanelShown,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.togglePanel} /> : null,
-      left: isPanelShown ? <Icons icon="check" /> : null,
+      left: isPanelShown ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, isPanelShown]
   );
@@ -154,7 +155,7 @@ export const useMenu = (
       onClick: () => api.toggleFullscreen(),
       active: isFullscreen,
       right: enableShortcuts ? <Shortcut keys={shortcutKeys.fullScreen} /> : null,
-      left: isFullscreen ? <Icons icon="check" /> : null,
+      left: isFullscreen ? <CheckIcon /> : null,
     }),
     [api, enableShortcuts, shortcutKeys, isFullscreen]
   );

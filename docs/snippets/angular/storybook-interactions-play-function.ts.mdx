@@ -3,16 +3,15 @@
 
 import type { Meta, StoryObj } from '@storybook/angular';
 
-import { userEvent, waitFor, within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within, expect, fn } from '@storybook/test';
 
 import { Form } from './Form.component';
 
 const meta: Meta<Form> = {
   component: MyComponent,
-  argTypes: {
-    onSubmit: { action: true },
+  args: {
+    // 👇 Use `fn` to spy on the onSubmit arg
+    onSubmit: fn(),
   },
 };
 
@@ -36,6 +35,7 @@ export const Submitted: Story = {
       await userEvent.click(canvas.getByRole('button'));
     });
 
+    // 👇 Now we can assert that the onSubmit arg was called
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
   },
 };
