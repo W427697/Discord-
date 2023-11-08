@@ -399,6 +399,24 @@ async function doInitiate(
     return { shouldRunDev: false };
   }
 
+  if (projectType === ProjectType.NEXTJS_SERVER) {
+    logger.log();
+    logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
+    logger.log(`To set up Storybook, replace contents of ${chalk.cyan('next-config.js')} with:\n`);
+    codeLog([
+      "const { withStorybook } = require('@storybook/nextjs-server/next-config');",
+      'const nextConfig = withStorybook()({ /* your custom config here */ });',
+      'module.exports = nextConfig;',
+    ]);
+    logger.log('\n Then to run your NextJS app:\n');
+    codeLog([packageManager.getRunCommand('dev')]);
+    logger.log('\n And open the URL:\n');
+    logger.log(chalk.cyan('https://localhost:3000/storybook'));
+    logger.log();
+
+    return { shouldRunDev: false };
+  }
+
   const storybookCommand =
     projectType === ProjectType.ANGULAR
       ? `ng run ${installResult.projectName}:storybook`
