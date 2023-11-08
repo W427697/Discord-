@@ -11,6 +11,7 @@ export default mergeConfig(
       name: __dirname.split(sep).slice(-2).join(posix.sep),
     },
     plugins: [
+      // eslint-disable-next-line import/no-unresolved
       import('@sveltejs/vite-plugin-svelte').then(({ svelte, vitePreprocess }) =>
         svelte({ preprocess: vitePreprocess() })
       ),

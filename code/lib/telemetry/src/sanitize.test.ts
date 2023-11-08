@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
 /* eslint-disable local-rules/no-uncategorized-errors */
+import { describe, it, expect, vi } from 'vitest';
 import { sanitizeError, cleanPaths } from './sanitize';
 
 describe(`Errors Helpers`, () => {
