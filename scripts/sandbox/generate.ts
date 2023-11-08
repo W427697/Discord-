@@ -6,8 +6,8 @@ import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
+import { execaCommand } from 'execa';
 import esMain from '../utils/esmain';
-import { execaCommand } from '../utils/exec';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
@@ -99,6 +99,7 @@ export const runCommand = async (script: string, options: ExecaOptions, debug = 
   return execaCommand(script, {
     stdout: debug ? 'inherit' : 'ignore',
     shell: true,
+    cleanup: true,
     ...options,
   });
 };

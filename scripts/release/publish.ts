@@ -8,8 +8,8 @@ import { readJson } from 'fs-extra';
 import fetch from 'node-fetch';
 import dedent from 'ts-dedent';
 import pRetry from 'p-retry';
+import { execaCommand } from 'execa';
 import esMain from '../utils/esmain';
-import { execaCommand } from '../utils/exec';
 
 program
   .name('publish')
@@ -111,6 +111,7 @@ const buildAllPackages = async () => {
   console.log(`🏗️ Building all packages...`);
   await execaCommand('yarn task --task=compile --start-from=compile --no-link', {
     stdio: 'inherit',
+    cleanup: true,
     cwd: CODE_DIR_PATH,
   });
   console.log(`🏗️ Packages successfully built`);
@@ -146,6 +147,7 @@ const publishAllPackages = async ({
     () =>
       execaCommand(command, {
         stdio: 'inherit',
+        cleanup: true,
         cwd: CODE_DIR_PATH,
       }),
     {

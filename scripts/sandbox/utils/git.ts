@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import invariant from 'tiny-invariant';
 
-import { execaCommand } from '../../utils/exec';
+import { execaCommand } from 'execa';
 // eslint-disable-next-line import/no-cycle
 import { logger } from '../publish';
 
@@ -50,9 +50,9 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
   try {
     logger.log(`💪 Committing everything to the repository`);
 
-    await execaCommand('git add .', { cwd });
+    await execaCommand('git add .', { cwd, cleanup: true });
 
-    const currentCommitHash = (await execaCommand('git rev-parse HEAD')).stdout
+    const currentCommitHash = (await execaCommand('git rev-parse HEAD', { cleanup: true })).stdout
       .toString()
       .slice(0, 12);
 
@@ -63,7 +63,8 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
       const previousCommitHash = await getTheLastCommitHashThatUpdatedTheSandboxRepo(branch);
       const mergeCommits = (
         await execaCommand(
-          `git log ${previousCommitHash}..${currentCommitHash} --merges --pretty=%s`
+          `git log ${previousCommitHash}..${currentCommitHash} --merges --pretty=%s`,
+          { cleanup: true }
         )
       ).stdout
         .toString()
@@ -95,6 +96,7 @@ export async function commitAllToGit({ cwd, branch }: { cwd: string; branch: str
 
     await execaCommand(gitCommitCommand, {
       shell: true,
+      cleanup: true,
       cwd,
     });
   } catch (e) {

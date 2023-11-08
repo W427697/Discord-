@@ -13,19 +13,6 @@ type StepOptions = {
   signal?: AbortSignal;
 };
 
-// Reimplementation of `execaCommand` to use `getExeca`
-export const execaCommand = async (
-  command: string,
-  options: Options = {}
-): Promise<ExecaChildProcess<string>> => {
-  // We await here because execaCommand returns a promise, but that's not what the user expects
-  // eslint-disable-next-line @typescript-eslint/return-await
-  return await execa(command, {
-    cleanup: true,
-    ...options,
-  });
-};
-
 export const exec = async (
   command: string | string[],
   options: Options = {},
