@@ -2,14 +2,13 @@
 import { fail, danger } from 'danger';
 import { execSync } from 'child_process';
 
-import flatten from 'lodash/flatten.js';
-import intersection from 'lodash/intersection.js';
-import isEmpty from 'lodash/isEmpty.js';
-
-import pkg from '../code/package.json';
-
 execSync('npm install lodash');
 
+const flatten = require('lodash/flatten.js');
+const intersection = require('lodash/intersection.js');
+const isEmpty = require('lodash/isEmpty.js');
+
+const pkg = require('../code/package.json'); // eslint-disable-line import/newline-after-import
 const prLogConfig = pkg['pr-log'];
 
 const Versions = {
@@ -32,7 +31,7 @@ const checkRequiredLabels = (labels: string[]) => {
 
   const requiredLabels = flatten([
     prLogConfig.skipLabels || [],
-    (prLogConfig.validLabels || []).map((keyVal) => keyVal[0]),
+    (prLogConfig.validLabels || []).map((keyVal: string) => keyVal[0]),
   ]);
 
   const blockingLabels = intersection(forbiddenLabels, labels);
