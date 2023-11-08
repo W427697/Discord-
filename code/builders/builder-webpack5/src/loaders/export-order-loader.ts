@@ -1,11 +1,12 @@
 import { parse } from 'es-module-lexer';
 import MagicString from 'magic-string';
-import { LoaderContext } from 'webpack';
+import type { LoaderContext } from 'webpack';
 
 export default async function loader(this: LoaderContext<any>, source: string) {
   const callback = this.async();
 
   try {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const [_, exports] = parse(source);
 
     if (exports.includes('__namedExportsOrder')) {
@@ -21,4 +22,4 @@ export default async function loader(this: LoaderContext<any>, source: string) {
   } catch (err) {
     return callback(err as any);
   }
-};
+}
