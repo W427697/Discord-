@@ -1,3 +1,5 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import {
   PREPARE_NON_PATCH_WORKFLOW_PATH,
   PREPARE_PATCH_WORKFLOW_PATH,
@@ -5,17 +7,17 @@ import {
 } from '../cancel-preparation-runs';
 import * as github_ from '../utils/github-client';
 
-jest.mock('../utils/github-client');
+vi.mock('../utils/github-client');
 
-const github = jest.mocked(github_);
+const github = vi.mocked(github_);
 
-jest.spyOn(console, 'log').mockImplementation(() => {});
-jest.spyOn(console, 'warn').mockImplementation(() => {});
-jest.spyOn(console, 'error').mockImplementation(() => {});
+vi.spyOn(console, 'log').mockImplementation(() => {});
+vi.spyOn(console, 'warn').mockImplementation(() => {});
+vi.spyOn(console, 'error').mockImplementation(() => {});
 
 describe('Cancel preparation runs', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     github.githubRestClient.mockImplementation(((route: string, options: any) => {
       switch (route) {
         case 'GET /repos/{owner}/{repo}/actions/workflows':

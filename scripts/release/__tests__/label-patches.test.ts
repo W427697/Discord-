@@ -1,7 +1,7 @@
 import { beforeEach, expect, vi, test } from 'vitest';
 import type { LogResult } from 'simple-git';
 import ansiRegex from 'ansi-regex';
-import { mock, mockDeep } from 'vitest-mock-extended';
+import { mockDeep } from 'vitest-mock-extended';
 import { run } from '../label-patches';
 import * as gitClient_ from '../utils/git-client';
 import * as githubInfo_ from '../utils/get-github-info';
@@ -107,7 +107,7 @@ test('it should fail early when no GH_TOKEN is set', async () => {
 test.only('it should label the PR associated with cherry picks in the current branch', async () => {
   process.env.GH_TOKEN = 'MY_SECRET';
 
-  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation();
+  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation((() => {}) as any);
 
   await run({});
   expect(github.githubGraphQlClient.mock.calls).toMatchInlineSnapshot(`
@@ -167,7 +167,7 @@ test('it should label all PRs when the --all flag is passed', async () => {
     total: 0,
   });
 
-  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation();
+  const writeStderr = vi.spyOn(process.stderr, 'write').mockImplementation((() => {}) as any);
 
   await run({ all: true });
   expect(github.githubGraphQlClient.mock.calls).toMatchInlineSnapshot(`

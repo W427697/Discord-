@@ -1,4 +1,4 @@
-/* eslint-disable import/no-duplicates, jest/no-mocks-import, import/no-unresolved, no-underscore-dangle, global-require */
+/* eslint-disable jest/no-mocks-import, no-underscore-dangle */
 import path from 'path';
 import { vi, describe, expect, it } from 'vitest';
 import * as fsExtraImp from 'fs-extra';
@@ -28,7 +28,7 @@ describe('isPrFrozen', () => {
     vi.mocked(getPullInfoFromCommit).mockResolvedValue({
       labels: ['freeze'],
       state: 'OPEN',
-    });
+    } as any);
     await expect(isPrFrozen({ patch: false })).resolves.toBe(true);
   });
 
@@ -36,7 +36,7 @@ describe('isPrFrozen', () => {
     vi.mocked(getPullInfoFromCommit).mockResolvedValue({
       labels: [],
       state: 'OPEN',
-    });
+    } as any);
     await expect(isPrFrozen({ patch: false })).resolves.toBe(false);
   });
 
@@ -44,7 +44,7 @@ describe('isPrFrozen', () => {
     vi.mocked(getPullInfoFromCommit).mockResolvedValue({
       labels: ['freeze'],
       state: 'CLOSED',
-    });
+    } as any);
     await expect(isPrFrozen({ patch: false })).resolves.toBe(false);
   });
 
