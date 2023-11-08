@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../test-typings.d.ts" />
 /// <reference types="@testing-library/jest-dom" />;
 
 import { describe, it, expect, vi } from 'vitest';
