@@ -50,7 +50,7 @@ const rewritingIndexer: Indexer = {
           import { composeStory } from '@storybook/react/testing-api';
           import { getArgs } from '../components/args';
           import { Prepare, StoryAnnotations } from '../components/Prepare';
-          import { Args } from '@storybook/types';
+          import { Args } from '@storybook/react';
 
           const page = async () => {
             const stories = await import('${relativeStoryPath}');

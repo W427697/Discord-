@@ -18,6 +18,7 @@ import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
 import nextjsGenerator from './generators/NEXTJS';
+import nextjsServerGenerator from './generators/NEXTJS_SERVER';
 import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
@@ -96,6 +97,11 @@ const installStorybook = async <Project extends ProjectType>(
 
       case ProjectType.NEXTJS:
         return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Next" app')
+        );
+
+      case ProjectType.NEXTJS_SERVER:
+        return nextjsServerGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Next" app')
         );
 
@@ -388,6 +394,24 @@ async function doInitiate(
     codeLog([packageManager.getRunCommand('start')]);
     logger.log('\n For more in information, see the github readme:\n');
     logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
+    logger.log();
+
+    return { shouldRunDev: false };
+  }
+
+  if (projectType === ProjectType.NEXTJS_SERVER) {
+    logger.log();
+    logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
+    logger.log(`To set up Storybook, replace contents of ${chalk.cyan('next-config.js')} with:\n`);
+    codeLog([
+      "const { withStorybook } = require('@storybook/nextjs-server/next-config');",
+      'const nextConfig = withStorybook()({ /* your custom config here */ });',
+      'module.exports = nextConfig;',
+    ]);
+    logger.log('\n Then to run your NextJS app:\n');
+    codeLog([packageManager.getRunCommand('dev')]);
+    logger.log('\n And open the URL:\n');
+    logger.log(chalk.cyan('https://localhost:3000/storybook'));
     logger.log();
 
     return { shouldRunDev: false };
