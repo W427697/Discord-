@@ -204,7 +204,7 @@ jobs:
           name: Run tests
           command: |
             cd scripts
-            yarn test --coverage --ci
+            yarn test --coverage
       - store_test_results:
           path: scripts/junit.xml
       - report-workflow-on-failure
