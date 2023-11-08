@@ -34,6 +34,7 @@
     },
     "./globals": {
       "types": "./dist/globals.d.ts",
+      "import": "./dist/globals.js",
       "require": "./dist/globals.js"
     },
     "./paths": "./paths.js",
