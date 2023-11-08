@@ -1,6 +1,8 @@
+/* eslint-disable global-require */
 import { dirname, join, parse } from 'path';
 import fs from 'fs-extra';
 import express from 'express';
+import { sync as findUpSync } from 'find-up';
 
 import { logger } from '@storybook/node-logger';
 
@@ -42,6 +44,13 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
 
   const realEntryPoints = await wrapManagerEntries(entryPoints);
 
+  const userTsConfigPath = findUpSync('tsconfig.json', { cwd: options.configDir });
+  // read tsconfig with ts
+  const userTsConfig = userTsConfigPath
+    ? require('typescript').readConfigFile(userTsConfigPath, require('typescript').sys.readFile)
+    : null;
+  const templateTsConfig = await fs.readJson(tsconfigPath);
+
   return {
     entryPoints: realEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
@@ -80,8 +89,14 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     jsx: 'transform',
     jsxImportSource: 'react',
 
-    tsconfig: tsconfigPath,
-
+    tsconfigRaw: {
+      ...templateTsConfig,
+      ...userTsConfig.config,
+      compilerOptions: {
+        ...userTsConfig?.config.compilerOptions,
+        ...templateTsConfig?.compilerOptions,
+      },
+    },
     legalComments: 'external',
     plugins: [
       aliasPlugin({

@@ -6095,11 +6095,17 @@ __metadata:
     esbuild-plugin-alias: "npm:^0.2.1"
     express: "npm:^4.17.3"
     find-cache-dir: "npm:^3.0.0"
+    find-up: "npm:^5.0.0"
     fs-extra: "npm:^11.1.0"
     process: "npm:^0.11.10"
     slash: "npm:^5.0.0"
     typescript: "npm:~4.9.3"
     util: "npm:^0.12.4"
+  peerDependencies:
+    typescript: "*"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
   languageName: unknown
   linkType: soft
 
