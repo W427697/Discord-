@@ -76,6 +76,7 @@ export interface Presets {
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
+  apply(extension: 'build', config?: {}, args?: any): Promise<StorybookConfig['build']>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -156,6 +157,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   docs?: boolean;
+  test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -312,6 +314,15 @@ export interface StorybookConfig {
     legacyDecoratorFileOrder?: boolean;
   };
 
+  build?: {
+    test?: {
+      /**
+       * Globalize @storybook/blocks
+       */
+      emptyBlocks?: boolean;
+    };
+  };
+
   /**
    * Tells Storybook where to find stories.
    *
@@ -369,7 +380,7 @@ export interface StorybookConfig {
 
   /**
    * Process CSF files for the story index.
-   * @soonDeprecated use {@link experimental_indexers} instead
+   * @deprecated use {@link experimental_indexers} instead
    */
   storyIndexers?: PresetValue<StoryIndexer[]>;
 

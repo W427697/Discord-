@@ -1,5 +1,4 @@
 import * as path from 'path';
-import { loadConfigFromFile, mergeConfig } from 'vite';
 import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
@@ -15,7 +14,6 @@ import {
   codeGeneratorPlugin,
   csfPlugin,
   injectExportOrderPlugin,
-  mdxPlugin,
   stripStoryHMRBoundary,
   externalGlobalsPlugin,
 } from './plugins';
@@ -42,6 +40,8 @@ export async function commonConfig(
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
+  const { loadConfigFromFile, mergeConfig } = await import('vite');
+
   const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
 
   const projectRoot = path.resolve(options.configDir, '..');
@@ -77,13 +77,17 @@ export async function commonConfig(
 
 export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
+  const build = await options.presets.apply('build');
+
+  if (build?.test?.emptyBlocks) {
+    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+  }
 
   const plugins = [
     codeGeneratorPlugin(options),
     await csfPlugin(options),
-    await mdxPlugin(options),
-    injectExportOrderPlugin,
-    stripStoryHMRBoundary(),
+    await injectExportOrderPlugin(),
+    await stripStoryHMRBoundary(),
     {
       name: 'storybook:allow-storybook-dir',
       enforce: 'post',

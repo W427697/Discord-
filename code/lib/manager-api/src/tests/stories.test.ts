@@ -542,7 +542,7 @@ describe('stories API', () => {
 
   describe('STORY_SPECIFIED event', () => {
     it('navigates to the story', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/' } });
+      const moduleArgs = createMockModuleArgs({ initialState: { path: '/', index: {} } });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -550,7 +550,7 @@ describe('stories API', () => {
       expect(navigate).toHaveBeenCalledWith('/story/a--1');
     });
     it('DOES not navigate if the story was already selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/story/a--1' } });
+      const moduleArgs = createMockModuleArgs({ initialState: { path: '/story/a--1', index: {} } });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -558,7 +558,9 @@ describe('stories API', () => {
       expect(navigate).not.toHaveBeenCalled();
     });
     it('DOES not navigate if a settings page was selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/settings/about' } });
+      const moduleArgs = createMockModuleArgs({
+        initialState: { path: '/settings/about', index: {} },
+      });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -566,7 +568,9 @@ describe('stories API', () => {
       expect(navigate).not.toHaveBeenCalled();
     });
     it('DOES not navigate if a custom page was selected', async () => {
-      const moduleArgs = createMockModuleArgs({ initialState: { path: '/custom/page' } });
+      const moduleArgs = createMockModuleArgs({
+        initialState: { path: '/custom/page', index: {} },
+      });
       initStories(moduleArgs as unknown as ModuleArgs);
       const { navigate, provider } = moduleArgs;
 
@@ -894,6 +898,16 @@ describe('stories API', () => {
       });
       api.selectStory('intro');
       expect(navigate).toHaveBeenCalledWith('/docs/intro--docs');
+    });
+    it('updates lastTrackedStoryId', () => {
+      const initialState = { path: '/story/a--1', storyId: 'a--1', viewMode: 'story' };
+      const moduleArgs = createMockModuleArgs({ initialState });
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      api.setIndex({ v: 4, entries: navigationEntries });
+      api.selectStory('a--1');
+      expect(store.getState().settings.lastTrackedStoryId).toBe('a--1');
     });
     describe('deprecated api', () => {
       it('allows navigating to a combination of title + name', () => {
@@ -1260,6 +1274,90 @@ describe('stories API', () => {
             "a-addon-id": Object {
               "description": "an addon description",
               "status": "pending",
+              "title": "an addon title",
+            },
+          },
+          "another-story-id": Object {
+            "a-addon-id": Object {
+              "description": "",
+              "status": "success",
+              "title": "a addon title",
+            },
+          },
+        }
+      `);
+    });
+    it('delete when value is null', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      await api.setIndex({ v: 4, entries: mockEntries });
+
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        })
+      ).resolves.not.toThrow();
+
+      // do a second update, this time with null
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': null,
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        })
+      ).resolves.not.toThrow();
+
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "another-story-id": Object {
+            "a-addon-id": Object {
+              "description": "",
+              "status": "success",
+              "title": "a addon title",
+            },
+          },
+        }
+      `);
+    });
+    it('updates with a function', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
+
+      await api.setIndex({ v: 4, entries: mockEntries });
+
+      // setup initial state
+      await expect(
+        api.experimental_updateStatus('a-addon-id', () => ({
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+          'another-story-id': { status: 'success', title: 'a addon title', description: '' },
+        }))
+      ).resolves.not.toThrow();
+
+      // use existing state in function
+      await expect(
+        api.experimental_updateStatus('a-addon-id', (current) => {
+          return Object.fromEntries(
+            Object.entries(current).map(([k, v]) => [k, { ...v['a-addon-id'], status: 'success' }])
+          );
+        })
+      ).resolves.not.toThrow();
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "a-story-id": Object {
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "success",
               "title": "an addon title",
             },
           },

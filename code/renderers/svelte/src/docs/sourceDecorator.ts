@@ -1,16 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, useEffect } from '@storybook/preview-api';
 import { deprecate } from '@storybook/client-logger';
-import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
+import type { ArgTypes, Args, StoryContext } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import type { SvelteRenderer } from '../types';
 
 /**
- * Check if the sourcecode should be generated.
+ * Check if the source-code should be generated.
  *
  * @param context StoryContext
  */
-const skipSourceRender = (context: StoryContext<Renderer>) => {
+const skipSourceRender = (context: StoryContext<SvelteRenderer>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
 
@@ -38,8 +39,15 @@ function toSvelteProperty(key: string, value: any, argTypes: ArgTypes): string |
     return null;
   }
 
+  const argType = argTypes[key];
+
   // default value ?
-  if (argTypes[key] && argTypes[key].defaultValue === value) {
+  if (argType && argType.defaultValue === value) {
+    return null;
+  }
+
+  // event should be skipped
+  if (argType && argType.action) {
     return null;
   }
 
@@ -49,6 +57,11 @@ function toSvelteProperty(key: string, value: any, argTypes: ArgTypes): string |
 
   if (typeof value === 'string') {
     return `${key}=${JSON.stringify(value)}`;
+  }
+
+  // handle function
+  if (typeof value === 'function') {
+    return `${key}={<handler>}`;
   }
 
   return `${key}={${JSON.stringify(value)}}`;
@@ -98,19 +111,21 @@ export function generateSvelteSource(
     return null;
   }
 
-  const props = Object.entries(args)
+  const propsArray = Object.entries(args)
     .filter(([k]) => k !== slotProperty)
     .map(([k, v]) => toSvelteProperty(k, v, argTypes))
-    .filter((p) => p)
-    .join(' ');
+    .filter((p) => p);
 
+  const props = propsArray.join(' ');
+
+  const multiline = props.length > 50;
   const slotValue = slotProperty ? args[slotProperty] : null;
 
+  const srcStart = multiline ? `<${name}\n  ${propsArray.join('\n  ')}` : `<${name} ${props}`;
   if (slotValue) {
-    return `<${name} ${props}>\n    ${slotValue}\n</${name}>`;
+    return `${srcStart}>\n    ${slotValue}\n</${name}>`;
   }
-
-  return `<${name} ${props}/>`;
+  return `${srcStart}/>`;
 }
 
 /**
@@ -148,7 +163,7 @@ function getWrapperProperties(component: any) {
  * @param storyFn Fn
  * @param context  StoryContext
  */
-export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) => {
+export const sourceDecorator = (storyFn: any, context: StoryContext<SvelteRenderer>) => {
   const channel = addons.getChannel();
   const skip = skipSourceRender(context);
   const story = storyFn();

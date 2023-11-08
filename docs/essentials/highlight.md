@@ -26,11 +26,11 @@ To highlight DOM elements with the addon, you'll need to emit the `HIGHLIGHT` ev
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 We recommend choosing the most specific selector possible to avoid highlighting elements other addons use. This is because the addon tries to match selectors against the entire DOM tree.
+We recommend choosing the most specific selector possible to avoid highlighting elements other addons use. This is because the addon tries to match selectors against the entire DOM tree.
 
-</div>
+</Callout>
 
 ### Reset highlighted elements
 
@@ -51,6 +51,12 @@ Out of the box, Storybook automatically removes highlighted elements when transi
 />
 
 <!-- prettier-ignore-end -->
+
+<Callout variant="info">
+
+The `emit` function derived from the `useChannel` API hook creates a communication channel in Storybook's UI to listen for events and update the UI accordingly. The Highlight addon uses this channel to listen to custom events and update the highlighted elements (if any) accordingly.
+
+</Callout>
 
 ## Customize style
 

@@ -4,11 +4,11 @@ title: 'Configure Storybook'
 
 Storybook is configured via a folder called `.storybook`, which contains various configuration files.
 
-<div class="aside">
+<Callout variant="info">
 
 Note that you can change the folder that Storybook uses by setting the `-c` flag to your `storybook dev` and `storybook build` [CLI commands](../api/cli-options.md).
 
-</div>
+</Callout>
 
 ## Configure your Storybook project
 
@@ -25,11 +25,11 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ This configuration file is a [preset](../addons/addon-types.md) and, as such, has a powerful interface, which can be further customized. Read our documentation on writing [presets](../addons/writing-presets.md) to learn more.
+This configuration file is a [preset](../addons/addon-types.md) and, as such, has a powerful interface, which can be further customized. Read our documentation on writing [presets](../addons/writing-presets.md) to learn more.
 
-</div>
+</Callout>
 
 | Configuration element | Description                                                                                                                                                                                              |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -51,11 +51,11 @@ Storybook's main configuration (i.e., the `main.js|ts`) defines your Storybook p
 
 Additionally, you can also provide additional feature flags to your Storybook configuration. Below is an abridged list of available features that are currently available.
 
-| Configuration element | Description                                                                                                                                                       |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up <br/> `features: { storyStoreV7: true }`                   |
-| `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on-demand mode <br/> `features: { buildStoriesJson: true }`                                        |
-| `legacyMdx1`          | Enables support for MDX version 1 as a fallback. Requires [`@storybook/mdx1-csf`](https://github.com/storybookjs/mdx1-csf) <br/> `features: { legacyMdx1: true }` |
+| Configuration element | Description                                                                                                                                                                                   |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up (defaults to `true` as of `v7.0`) <br/> `features: { storyStoreV7: true }`             |
+| `buildStoriesJson`    | Generates `index.json` and `stories.json` files to help story loading with the on-demand mode (defaults to `true` when `storyStoreV7` is `true`) <br/> `features: { buildStoriesJson: true }` |
+| `legacyMdx1`          | Enables support for MDX version 1 as a fallback. Requires [`@storybook/mdx1-csf`](https://github.com/storybookjs/mdx1-csf) <br/> `features: { legacyMdx1: true }`                             |
 
 ## Configure story loading
 

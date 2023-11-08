@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { global } from '@storybook/global';
-import { logger } from '@storybook/node-logger';
+import { deprecate, logger } from '@storybook/node-logger';
 import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type {
   BuilderOptions,
@@ -23,6 +23,7 @@ import {
 import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 
 import isEqual from 'lodash/isEqual.js';
+import dedent from 'ts-dedent';
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
@@ -87,6 +88,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     overridePresets: [
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
+    isCritical: true,
     ...options,
   });
 
@@ -121,6 +123,13 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       presets.apply('stories'),
       presets.apply<DocsOptions>('docs', {}),
     ]);
+
+  if (features?.storyStoreV7 === false) {
+    deprecate(
+      dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
+        - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
+    );
+  }
 
   const fullOptions: Options = {
     ...options,
@@ -199,23 +208,33 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   if (options.ignorePreview) {
     logger.info(`=> Not building preview`);
+  } else {
+    logger.info('=> Building preview..');
   }
 
+  const startTime = process.hrtime();
   await Promise.all([
     ...(options.ignorePreview
       ? []
       : [
           previewBuilder
             .build({
-              startTime: process.hrtime(),
+              startTime,
               options: fullOptions,
             })
             .then(async (previewStats) => {
+              logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
+
               if (options.webpackStatsJson) {
                 const target =
                   options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
                 await outputStats(target, previewStats);
               }
+            })
+            .catch((error) => {
+              logger.error('=> Failed to build the preview');
+              process.exitCode = 1;
+              throw error;
             }),
         ]),
     ...effects,
