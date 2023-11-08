@@ -1,4 +1,4 @@
-import { open } from 'fs/promises';
+import { open, appendFile } from 'fs/promises';
 import { CoreBuilder } from '../../project_types';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
@@ -37,12 +37,11 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   // add /app/storybookPreview to .gitignore
   // overwrite .storybook/preview.js
   const preview = await open('./.storybook/preview.ts', 'w');
+  await preview.truncate();
   await preview.write(previewTS);
   await preview.close();
 
-  const gitignore = await open('./.gitignore', 'a');
-  await gitignore.write('\n/app/storybookPreview');
-  await preview.close();
+  await appendFile('./.gitignore', '\n/app/storybookPreview\n');
 };
 
 export default generator;
