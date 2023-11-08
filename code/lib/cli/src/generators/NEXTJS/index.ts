@@ -11,7 +11,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     {
       extraAddons: ['@storybook/addon-onboarding'],
     },
-    'nextjs-server'
+    'nextjs'
   );
 };
 
