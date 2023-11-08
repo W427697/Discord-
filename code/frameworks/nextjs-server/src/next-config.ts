@@ -71,9 +71,6 @@ export const withStorybook = ({
 
   return (config: NextConfig) => ({
     ...config,
-    experimental: {
-      serverActions: true, // TODO: not needed for next 14, how to disambiguate?
-    },
     rewrites: addRewrites(config.rewrites, [
       {
         source: '/logo.svg',
