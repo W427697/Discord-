@@ -16,5 +16,6 @@ export const vitestCommonConfig = defineConfig({
   test: {
     clearMocks: true,
     setupFiles: [resolve('./vitest-setup.ts')],
+    globals: true,
   },
 });
