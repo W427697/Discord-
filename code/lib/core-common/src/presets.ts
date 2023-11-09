@@ -247,24 +247,33 @@ export async function loadPreset(
     }
 
     if (isObject(contents)) {
-      const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
+      const { addons: addonsInput = [], presets: presetsInput = [], ...rest } = contents;
 
-      let filter = (i: string) => true;
+      let filter = (i: PresetConfig) => {
+        return true;
+      };
 
       if (
         storybookOptions.isCritical !== true &&
         storybookOptions.build?.test?.removeNonFastAddons
       ) {
-        filter = (i: string) =>
-          i.includes('storybook/addon-docs') || i.includes('storybook/addon-coverage');
+        filter = (i: PresetConfig) => {
+          const name = i.name ? i.name : i;
+
+          return (
+            !name.includes('@storybook/addon-docs') && !name.includes('@storybook/addon-coverage')
+          );
+        };
       }
 
       const subPresets = resolvePresetFunction(
-        presetsInput.filter(filter),
+        presetsInput,
         presetOptions,
         storybookOptions
+      ).filter(filter);
+      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions).filter(
+        filter
       );
-      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
 
       return [
         ...(await loadPresets([...subPresets], level + 1, storybookOptions)),
