@@ -7109,6 +7109,7 @@ __metadata:
     "@typescript-eslint/experimental-utils": "npm:^5.45.0"
     "@typescript-eslint/parser": "npm:^5.45.0"
     "@vitejs/plugin-react": "npm:^2.1.0"
+    "@vitest/coverage-v8": "npm:^0.34.6"
     babel-eslint: "npm:^10.1.0"
     babel-loader: "npm:^9.1.2"
     chromatic: "npm:7.1.0"
@@ -9346,6 +9347,27 @@ __metadata:
     vite: ^4.0.0
     vue: ^3.2.25
   checksum: a430fbc504e2d14848b94866d52c8d5044ec216b1bf9304f53e3d3f3045da634db9c986e8ed2b0605fcc94e19fe67dc9c7e10971bd5aab444ca4167a71cd197d
+  languageName: node
+  linkType: hard
+
+"@vitest/coverage-v8@npm:^0.34.6":
+  version: 0.34.6
+  resolution: "@vitest/coverage-v8@npm:0.34.6"
+  dependencies:
+    "@ampproject/remapping": "npm:^2.2.1"
+    "@bcoe/v8-coverage": "npm:^0.2.3"
+    istanbul-lib-coverage: "npm:^3.2.0"
+    istanbul-lib-report: "npm:^3.0.1"
+    istanbul-lib-source-maps: "npm:^4.0.1"
+    istanbul-reports: "npm:^3.1.5"
+    magic-string: "npm:^0.30.1"
+    picocolors: "npm:^1.0.0"
+    std-env: "npm:^3.3.3"
+    test-exclude: "npm:^6.0.0"
+    v8-to-istanbul: "npm:^9.1.0"
+  peerDependencies:
+    vitest: ">=0.32.0 <1"
+  checksum: 089d68be42993604606eaafa727370ed4494d69cb1e636b939423a37286bec36a9868bb5a26c59c0cf3b1faec741e6688a8f9bfd1f365927fa44e2cb2e88e92c
   languageName: node
   linkType: hard
 
@@ -19339,7 +19361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-lib-report@npm:^3.0.0":
+"istanbul-lib-report@npm:^3.0.0, istanbul-lib-report@npm:^3.0.1":
   version: 3.0.1
   resolution: "istanbul-lib-report@npm:3.0.1"
   dependencies:
@@ -19350,7 +19372,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-lib-source-maps@npm:^4.0.0":
+"istanbul-lib-source-maps@npm:^4.0.0, istanbul-lib-source-maps@npm:^4.0.1":
   version: 4.0.1
   resolution: "istanbul-lib-source-maps@npm:4.0.1"
   dependencies:
@@ -19361,7 +19383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-reports@npm:^3.1.3, istanbul-reports@npm:^3.1.4":
+"istanbul-reports@npm:^3.1.3, istanbul-reports@npm:^3.1.4, istanbul-reports@npm:^3.1.5":
   version: 3.1.6
   resolution: "istanbul-reports@npm:3.1.6"
   dependencies:
@@ -21348,7 +21370,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.30.0, magic-string@npm:^0.30.3, magic-string@npm:^0.30.4, magic-string@npm:^0.30.5":
+"magic-string@npm:^0.30.0, magic-string@npm:^0.30.1, magic-string@npm:^0.30.3, magic-string@npm:^0.30.4, magic-string@npm:^0.30.5":
   version: 0.30.5
   resolution: "magic-string@npm:0.30.5"
   dependencies:
@@ -30775,7 +30797,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"v8-to-istanbul@npm:^9.0.0, v8-to-istanbul@npm:^9.0.1":
+"v8-to-istanbul@npm:^9.0.0, v8-to-istanbul@npm:^9.0.1, v8-to-istanbul@npm:^9.1.0":
   version: 9.1.3
   resolution: "v8-to-istanbul@npm:9.1.3"
   dependencies:
