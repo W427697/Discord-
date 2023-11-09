@@ -268,7 +268,7 @@ export interface TestBuildFlags {
   /**
    * Disable all addons
    */
-  removeAllAddons?: boolean;
+  removeNonFastAddons?: boolean;
   /**
    * Filter out .mdx stories entries
    */
