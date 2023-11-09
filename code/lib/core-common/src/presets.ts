@@ -258,6 +258,7 @@ export async function loadPreset(
         storybookOptions.build?.test?.removeNonFastAddons
       ) {
         filter = (i: PresetConfig) => {
+          // @ts-expect-error (Converted from ts-ignore)
           const name = i.name ? i.name : i;
 
           return (
