@@ -29,6 +29,17 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./src/components/LinkListener.svelte": "./src/components/LinkListener.svelte",
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs"
+    },
+    "./dist/preview.js": {
+      "types": "./dist/preview.d.ts",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs"
+    },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
@@ -43,7 +54,8 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    "!src/**/*"
+    "!src/**/*",
+    "src/components/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -72,6 +84,7 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
+      "./src/preview.ts",
       "./src/preset.ts"
     ],
     "platform": "node"

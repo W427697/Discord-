@@ -13,6 +13,10 @@ export const core: PresetProperty<'core', StorybookConfig> = {
   builder: getAbsolutePath('@storybook/builder-vite'),
   renderer: getAbsolutePath('@storybook/svelte'),
 };
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
+  ...entry,
+  require.resolve('@storybook/sveltekit/preview'),
+];
 
 export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (config, options) => {
   const baseConfig = await svelteViteFinal(config, options);
