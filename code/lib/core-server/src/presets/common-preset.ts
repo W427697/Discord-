@@ -188,7 +188,7 @@ export const previewAnnotations = async (base: any, options: Options) => {
 
 const testBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   emptyBlocks: value,
-  removeAllAddons: value,
+  removeNonFastAddons: value,
   removeMDXEntries: value,
   removeAutoDocs: value,
   disableDocgen: value,
