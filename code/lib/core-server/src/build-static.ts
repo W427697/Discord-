@@ -77,7 +77,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  await warnOnIncompatibleAddons(config);
+  if (options.test) {
+    await warnOnIncompatibleAddons(config);
+  }
 
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
