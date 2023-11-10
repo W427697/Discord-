@@ -54,7 +54,8 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    "src/components/**/*"
+    "src/components/**/*",
+    "src/mocks/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
