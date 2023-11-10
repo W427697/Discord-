@@ -1,12 +1,10 @@
 import { getContext, onMount, setContext } from 'svelte';
 
 export async function goto(...args: any[]) {
-  // try {
-  //   const { action } = await import('@storybook/addon-actions');
-  //   action('sveltekit.goto')(...args);
-  // } catch (e) {
-  //   console.log(e);
-  // }
+  const event = new CustomEvent('storybook:goto', {
+    detail: args,
+  });
+  window.dispatchEvent(event);
 }
 
 export function setAfterNavigateArgument(afterNavigateArgs: any) {
@@ -27,21 +25,15 @@ export function beforeNavigate() {}
 export function disableScrollHandling() {}
 
 export async function invalidate(...args: any[]) {
-  // try {
-  //   const { action } = await import('@storybook/addon-actions');
-  //   action('sveltekit.invalidate')(...args);
-  // } catch (e) {
-  //   console.log(e);
-  // }
+  const event = new CustomEvent('storybook:invalidate', {
+    detail: args,
+  });
+  window.dispatchEvent(event);
 }
 
 export async function invalidateAll() {
-  // try {
-  //   const { action } = await import('@storybook/addon-actions');
-  //   action('sveltekit.invalidateAll')();
-  // } catch (e) {
-  //   console.log(e);
-  // }
+  const event = new CustomEvent('storybook:invalidateAll');
+  window.dispatchEvent(event);
 }
 
 export function preloadCode() {}

@@ -1,9 +1,6 @@
 export function enhance(form: HTMLFormElement) {
-  // import('@storybook/addon-actions')
-  //   .then(({ action }) => {
-  //     action('sveltekit.enhance')();
-  //   })
-  //   .catch(console.log);
+  const event = new CustomEvent('storybook:enhance');
+  window.dispatchEvent(event);
 }
 
 export function applyAction() {}
