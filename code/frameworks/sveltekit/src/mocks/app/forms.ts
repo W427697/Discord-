@@ -1,16 +1,17 @@
 export function enhance(form: HTMLFormElement) {
-  const event = new CustomEvent('storybook:enhance');
-  window.dispatchEvent(event);
+  const listener = (e: Event) => {
+    e.preventDefault();
+    const event = new CustomEvent('storybook:enhance');
+    window.dispatchEvent(event);
+  };
+  form.addEventListener('submit', listener);
+  return {
+    destroy() {
+      form.removeEventListener('submit', listener);
+    },
+  };
 }
 
 export function applyAction() {}
 
-export function deserialize() {
-  return deserializeResponse;
-}
-
-let deserializeResponse: any;
-
-export function setDeserializeResponse(answer: any) {
-  deserializeResponse = answer;
-}
+export function deserialize() {}
