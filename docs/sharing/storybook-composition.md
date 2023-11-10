@@ -17,7 +17,7 @@ You’ll see the composed Storybook’s stories in the sidebar alongside your ow
 
 ## Compose published Storybooks
 
-In your [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) file add a `refs` field with information about the reference Storybook. Pass in a URL to a statically built Storybook.
+In your [`.storybook/main.js`](../configure/index.md#configure-story-rendering) file add a `refs` field with information about the reference Storybook. Pass in a URL to a statically built Storybook.
 
 <!-- prettier-ignore-start -->
 

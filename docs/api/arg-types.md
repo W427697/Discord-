@@ -12,7 +12,7 @@ The most concrete realization of argTypes is the [`ArgTypes` doc block](./doc-bl
 
 ## Automatic argType inference
 
-If you are using the Storybook [docs](../writing-docs/introduction.md) addon (installed by default as part of [essentials](../essentials/introduction.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/introduction#default-export) of the CSF file.
+If you are using the Storybook [docs](../writing-docs/index.md) addon (installed by default as part of [essentials](../essentials/index.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/introduction#default-export) of the CSF file.
 
 To do so, Storybook uses various static analysis tools depending on your framework.
 
