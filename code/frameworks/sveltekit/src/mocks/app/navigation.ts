@@ -14,7 +14,9 @@ export function setAfterNavigateArgument(afterNavigateArgs: any) {
 export function afterNavigate(cb: any) {
   const argument = getContext('after-navigate-args');
   onMount(() => {
-    cb(argument);
+    if (cb && cb instanceof Function) {
+      cb(argument);
+    }
   });
 }
 

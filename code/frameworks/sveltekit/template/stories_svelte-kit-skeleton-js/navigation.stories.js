@@ -50,7 +50,6 @@ export const InvalidateAll = {
     const canvas = within(canvasElement);
     const button = canvas.getByText('invalidateAll');
     button.click();
-    console.log({ button });
     expect(invalidateAll).toHaveBeenCalledWith();
   },
   parameters: {

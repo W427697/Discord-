@@ -2,8 +2,9 @@
 	import { goto, invalidate, invalidateAll, afterNavigate } from '$app/navigation';
 
 	export let afterNavigateFn;
-
-	afterNavigate(afterNavigateFn);
+	if(afterNavigateFn){
+		afterNavigate(afterNavigateFn);
+	}
 </script>
 
 <button

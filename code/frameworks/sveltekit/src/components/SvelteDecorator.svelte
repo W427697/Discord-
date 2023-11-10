@@ -30,7 +30,6 @@
 			for(let func of functions){
 				if(ctx?.parameters?.sveltekit?.[baseModule]?.[func] && ctx.parameters.sveltekit[baseModule][func] instanceof Function){
 					const listener = ({ detail = [] })=>{
-						console.log("event", func, ctx);
 						const args = Array.isArray(detail) ? detail : [];
 						ctx.parameters.sveltekit[baseModule][func](...args);
 					}
