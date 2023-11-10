@@ -91,9 +91,9 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
 
     tsconfigRaw: {
       ...templateTsConfig,
-      ...userTsConfig.config,
+      ...(userTsConfig?.config ?? {}),
       compilerOptions: {
-        ...userTsConfig?.config.compilerOptions,
+        ...(userTsConfig?.config.compilerOptions ?? {}),
         ...templateTsConfig?.compilerOptions,
       },
     },
