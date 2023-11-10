@@ -26,10 +26,10 @@ However SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/mo
 | **Module**                                                                         | **Status**             | **Note**                                                                                                                            |
 | ---------------------------------------------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | [`$app/environment`](https://kit.svelte.dev/docs/modules#$app-environment)         | ✅ Supported           | `version` is always empty in Storybook.                                                                                             |
-| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ⏳ Future              | Will use mocks. Tracked in [#20999](https://github.com/storybookjs/storybook/issues/20999)                                          |
-| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ⏳ Future              | Will use mocks. Tracked in [#20999](https://github.com/storybookjs/storybook/issues/20999)                                          |
+| [`$app/forms`](https://kit.svelte.dev/docs/modules#$app-forms)                     | ✅ Supported           | See [How to mock](#how-to-mock)                                                                                                     |
+| [`$app/navigation`](https://kit.svelte.dev/docs/modules#$app-navigation)           | ✅ Supported           | See [How to mock](#how-to-mock)                                                                                                     |
 | [`$app/paths`](https://kit.svelte.dev/docs/modules#$app-paths)                     | ✅ Supported           | Requires SvelteKit 1.4.0 or newer                                                                                                   |
-| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | ✅ Supported           | Mocks planned, so you can set different store values per story.                                                                     |
+| [`$app/stores`](https://kit.svelte.dev/docs/modules#$app-stores)                   | ✅ Supported           | See [How to mock](#how-to-mock)                                                                                                     |
 | [`$env/dynamic/private`](https://kit.svelte.dev/docs/modules#$env-dynamic-private) | ⛔ Not supported       | They are meant to only be available server-side, and Storybook renders all components on the client.                                |
 | [`$env/dynamic/public`](https://kit.svelte.dev/docs/modules#$env-dynamic-public)   | 🚧 Partially supported | Only supported in development mode. Storybook is built as a static app with no server-side API so cannot dynamically serve content. |
 | [`$env/static/private`](https://kit.svelte.dev/docs/modules#$env-static-private)   | ⛔ Not supported       | They are meant to only be available server-side, and Storybook renders all components on the client.                                |
@@ -125,3 +125,46 @@ You'll experience this if anything in your story is importing from `$app/forms` 
 ## Acknowledgements
 
 Integrating with SvelteKit would not have been possible if it weren't for the fantastic efforts by the Svelte core team - especially [Ben McCann](https://twitter.com/benjaminmccann) - to make integrations with the wider ecosystem possible.
+
+## How to mock
+
+To mock a SvelteKit import you can make use of the `parameters.sveltekit` object either on the `Story`, on the `Template` or on the `Meta`
+
+```ts
+export const MyStory = {
+  parameters: {
+    sveltekit: {
+      stores: {
+        page: {
+          data: {
+            test: 'passed',
+          },
+        },
+        navigating: {
+          route: {
+            id: '/storybook',
+          },
+        },
+        updated: true,
+      },
+    },
+  },
+};
+```
+
+on this object you can add the name of the module you are mocking (in the example above we are mocking the `stores` module which correspond to `$app/stores`) and than pass the following kind of objects
+
+| Module                                          | Path in parameters                              | Kind of objects                                                                                    |
+| ----------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| import { page } from "$app/stores"              | `parameters.sveltekit.stores.page`              | A Partial of the page store                                                                        |
+| import { navigating } from "$app/stores"        | `parameters.sveltekit.stores.navigating`        | A Partial of the navigating store                                                                  |
+| import { updated } from "$app/stores"           | `parameters.sveltekit.stores.updated`           | A boolean representing the value of updated (you can also access `check()` which will be a noop)   |
+| import { goto } from "$app/navigation"          | `parameters.sveltekit.navigation.goto`          | A callback that will be called whenever goto is called                                             |
+| import { invalidate } from "$app/navigation"    | `parameters.sveltekit.navigation.invalidate`    | A callback that will be called whenever invalidate is called                                       |
+| import { invalidateAll } from "$app/navigation" | `parameters.sveltekit.navigation.invalidateAll` | A callback that will be called whenever invalidateAll is called                                    |
+| import { afterNavigate } from "$app/navigation" | `parameters.sveltekit.navigation.afterNavigate` | An object that will be passed to the afterNavigate function (which will be invoked onMount) called |
+| import { enhance } from "$app/forms"            | `parameters.sveltekit.forms.enhance`            | A callback that will called when a form with `use:enhance` is submitted                            |
+
+All the other functions are still exported as `noop` from the mocked modules so that your application will still work. There was no way of make them work in a customizable way.
+
+Additionally you can pass an object to `parameter.sveltekit.linkOverrides` where the keys are regex representing a link and the values are functions. If you have an `<a />` tag inside your code with the `href` attribute that matches one or more regex the corresponding function will be called.

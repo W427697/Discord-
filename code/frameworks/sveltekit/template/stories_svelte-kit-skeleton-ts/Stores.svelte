@@ -2,6 +2,8 @@
 	import { page, navigating, updated, getStores } from '$app/stores';
 
 	let { navigating: navigatingStore, page: pageStore, updated: updatedStore } = getStores();
+
+	updated.check();
 </script>
 
 <p>Directly importing</p>
