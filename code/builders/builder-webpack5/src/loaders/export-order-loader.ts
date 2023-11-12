@@ -20,6 +20,7 @@ export default async function loader(this: LoaderContext<any>, source: string) {
     const map = magicString.generateMap({ hires: true });
     return callback(null, magicString.toString(), map);
   } catch (err) {
+    console.log({ err, source });
     return callback(err as any);
   }
 }
