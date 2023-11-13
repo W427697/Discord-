@@ -283,6 +283,18 @@ export interface TestBuildFlags {
    * Override docgen to be disabled.
    */
   disableDocgen?: boolean;
+  /**
+   * Override sourcemaps generation to be disabled.
+   */
+  disableSourcemaps?: boolean;
+  /**
+   * Override tree-shaking (dead code elimination) to be disabled.
+   */
+  disableTreeShaking?: boolean;
+  /**
+   * Compile/Optimize with SWC.
+   */
+  optimizeCompilation?: boolean;
 }
 
 export interface TestBuildConfig {

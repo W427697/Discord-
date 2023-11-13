@@ -17,7 +17,12 @@ export async function build(options: Options) {
         external: ['./sb-preview/runtime.js'],
       },
       ...(options.test
-        ? { reportCompressedSize: false, sourcemap: false, target: 'esnext', treeshake: false }
+        ? {
+            reportCompressedSize: false,
+            sourcemap: !options.build?.test?.disableSourcemaps,
+            target: 'esnext',
+            treeshake: !options.build?.test?.disableTreeShaking,
+          }
         : {}),
     },
   }).build;

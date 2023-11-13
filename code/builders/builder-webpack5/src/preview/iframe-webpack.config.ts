@@ -228,7 +228,7 @@ export default async (
     name: 'preview',
     mode: isProd ? 'production' : 'development',
     bail: isProd,
-    devtool: options.test ? false : 'cheap-module-source-map',
+    devtool: options.build?.test?.disableSourcemaps ? false : 'cheap-module-source-map',
     entry: entries,
     output: {
       path: resolve(process.cwd(), outputDir),
@@ -323,7 +323,7 @@ export default async (
             fullySpecified: false,
           },
         },
-        builderOptions.useSWC || options.test
+        builderOptions.useSWC || options.build?.test?.optimizeCompilation
           ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
@@ -356,20 +356,20 @@ export default async (
       },
       runtimeChunk: true,
       sideEffects: true,
-      usedExports: options.test ? false : isProd,
+      usedExports: options.build?.test?.disableTreeShaking ? false : isProd,
       moduleIds: 'named',
       ...(isProd
         ? {
             minimize: true,
             // eslint-disable-next-line no-nested-ternary
-            minimizer: options.test
+            minimizer: options.build?.test?.optimizeCompilation
               ? [
                   new TerserWebpackPlugin({
                     parallel: true,
                     minify: TerserWebpackPlugin.esbuildMinify,
                     terserOptions: {
                       compress: false,
-                      sourceMap: false,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_classnames: true,
                       keep_fnames: true,
