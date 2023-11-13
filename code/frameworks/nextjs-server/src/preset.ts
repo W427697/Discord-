@@ -1,13 +1,11 @@
 import { cp, readFile, writeFile } from 'fs/promises';
 import { ensureDir } from 'fs-extra';
-import { dirname, join, relative, resolve } from 'path';
+import { join, relative, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 
 import type { PresetProperty, Indexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import type { StorybookConfig } from './types';
-
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
 // export const addons: PresetProperty<'addons', StorybookConfig> = [
 //   wrapForPnP('@storybook/preset-server-webpack'),

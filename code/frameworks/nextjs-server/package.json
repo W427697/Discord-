@@ -121,7 +121,6 @@
       "./src/null-builder.ts",
       "./src/null-renderer.ts",
       "./src/preset.ts",
-      "./src/preview.ts",
       "./src/mock.ts",
       "./src/next-config.ts",
       "./src/reexports/channels.ts",
