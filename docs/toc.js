@@ -1,5 +1,4 @@
 module.exports = {
-  // version: 2, // TODO: Maybe?
   toc: [
     {
       pathSegment: 'get-started',
