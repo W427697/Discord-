@@ -92,15 +92,13 @@ export const experimental_indexers = async (existingIndexers?: Indexer[]) => {
   return [rewritingIndexer, ...(existingIndexers || [])];
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
-
+export const core: PresetProperty<'core', StorybookConfig> = async (config) => {
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
-      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
+      name: require.resolve('./null-builder') as '@storybook/builder-vite',
+      options: {},
     },
-    renderer: wrapForPnP('@storybook/server'),
+    renderer: require.resolve('./null-renderer'),
   };
 };
