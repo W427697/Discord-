@@ -29,7 +29,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     { ...options, builder: CoreBuilder.Vite },
     'react',
     {
-      extraPackages: ['vite'],
       extraMain: { docs: { autodocs: false } },
     },
     'nextjs-server'

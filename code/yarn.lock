@@ -7333,7 +7333,6 @@ __metadata:
   dependencies:
     "@babel/core": ^7.22.9
     "@babel/types": ^7.22.5
-    "@storybook/builder-vite": "workspace:*"
     "@storybook/channels": "workspace:*"
     "@storybook/core-common": "workspace:*"
     "@storybook/core-events": "workspace:*"
@@ -7342,7 +7341,6 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/preview-api": "workspace:*"
     "@storybook/react": "workspace:*"
-    "@storybook/server": "workspace:*"
     "@storybook/types": "workspace:*"
     "@types/node": ^16.0.0
     fs-extra: ^11.1.0

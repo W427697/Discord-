@@ -1,22 +1,11 @@
 import { cp, readFile, writeFile } from 'fs/promises';
 import { ensureDir } from 'fs-extra';
-import { dirname, join, relative, resolve } from 'path';
+import { join, relative, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 
 import type { PresetProperty, Indexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import type { StorybookConfig } from './types';
-
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
-
-// export const addons: PresetProperty<'addons', StorybookConfig> = [
-//   wrapForPnP('@storybook/preset-server-webpack'),
-// ];
-
-// FIXME: preview.js is not being loaded for frameworks?
-export const previewAnnotations = (entry = []) => {
-  return [...entry, require.resolve('../dist/preview.mjs')];
-};
 
 const rewritingIndexer: Indexer = {
   test: /(stories|story)\.[tj]sx?$/,
@@ -92,15 +81,13 @@ export const experimental_indexers = async (existingIndexers?: Indexer[]) => {
   return [rewritingIndexer, ...(existingIndexers || [])];
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
-
+export const core: PresetProperty<'core', StorybookConfig> = async (config) => {
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
-      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
+      name: require.resolve('./null-builder') as '@storybook/builder-vite',
+      options: {},
     },
-    renderer: wrapForPnP('@storybook/server'),
+    renderer: require.resolve('./null-renderer'),
   };
 };

@@ -87,7 +87,6 @@
   "dependencies": {
     "@babel/core": "^7.22.9",
     "@babel/types": "^7.22.5",
-    "@storybook/builder-vite": "workspace:*",
     "@storybook/channels": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
@@ -96,7 +95,6 @@
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react": "workspace:*",
-    "@storybook/server": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/node": "^16.0.0",
     "fs-extra": "^11.1.0",
@@ -120,8 +118,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
+      "./src/null-builder.ts",
+      "./src/null-renderer.ts",
       "./src/preset.ts",
-      "./src/preview.ts",
       "./src/mock.ts",
       "./src/next-config.ts",
       "./src/reexports/channels.ts",
