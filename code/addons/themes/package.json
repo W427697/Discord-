@@ -33,14 +33,35 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./manager": "./dist/manager.js",
-    "./preview": "./dist/preview.js",
+    "./manager": {
+      "types": "./dist/manager.d.ts",
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs"
+    },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs"
+    },
     "./package.json": "./package.json",
     "./postinstall": "./postinstall.js"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -50,12 +71,9 @@
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/addon-bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "ts-dedent": "^2.0.0"
-  },
-  "devDependencies": {
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
@@ -63,19 +81,30 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/theming": "workspace:*",
     "@storybook/types": "workspace:*",
+    "ts-dedent": "^2.0.0"
+  },
+  "devDependencies": {
     "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "exportEntries": [
-      "./src/index.ts"
-    ],
-    "managerEntries": [
-      "./src/manager.tsx"
-    ],
-    "previewEntries": [
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx",
       "./src/preview.tsx"
     ]
   },

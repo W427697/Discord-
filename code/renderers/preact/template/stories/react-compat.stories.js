@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { ReactFunctionalComponent, ReactClassComponent } from './React';
 
 export default {

@@ -30,12 +30,26 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": "./dist/preview.js",
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -45,14 +59,14 @@
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/addon-bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/global": "^5.0.0"
+    "@storybook/core-events": "workspace:*",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "workspace:*"
   },
   "devDependencies": {
-    "@storybook/core-events": "workspace:*",
-    "@storybook/preview-api": "workspace:*",
     "@types/webpack-env": "^1.16.0",
     "typescript": "~4.9.3"
   },
@@ -60,10 +74,8 @@
     "access": "public"
   },
   "bundler": {
-    "exportEntries": [
-      "./src/index.ts"
-    ],
-    "previewEntries": [
+    "entries": [
+      "./src/index.ts",
       "./src/preview.ts"
     ]
   },

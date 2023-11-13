@@ -8,7 +8,7 @@ import type {
   InlineConfig,
 } from 'vite';
 import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
-import { globalsNameReferenceMap } from '@storybook/preview/globals';
+import { globals } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
@@ -79,10 +79,8 @@ export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
   const build = await options.presets.apply('build');
 
-  const externals: Record<string, string> = globalsNameReferenceMap;
-
   if (build?.test?.emptyBlocks) {
-    externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
   const plugins = [
@@ -103,7 +101,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    await externalGlobalsPlugin(externals),
+    await externalGlobalsPlugin(globals),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built

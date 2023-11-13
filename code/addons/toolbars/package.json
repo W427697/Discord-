@@ -32,13 +32,31 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./manager": "./dist/manager.js",
-    "./register": "./dist/manager.js",
+    "./manager": {
+      "types": "./dist/manager.d.ts",
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs"
+    },
+    "./register": {
+      "types": "./dist/manager.d.ts",
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -48,28 +66,39 @@
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/addon-bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
-  "devDependencies": {
+  "dependencies": {
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
-    "@storybook/theming": "workspace:*",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "@storybook/theming": "workspace:*"
+  },
+  "devDependencies": {
     "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "exportEntries": [
-      "./src/index.ts"
-    ],
-    "managerEntries": [
+    "entries": [
+      "./src/index.ts",
       "./src/manager.tsx"
-    ]
+    ],
+    "platform": "browser"
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
   "storybook": {
