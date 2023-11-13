@@ -325,5 +325,6 @@
         "Dependency Upgrades"
       ]
     ]
-  }
+  },
+  "deferredNextVersion": "7.6.0-alpha.5"
 }
