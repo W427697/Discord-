@@ -7,15 +7,6 @@ import type { PresetProperty, Indexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import type { StorybookConfig } from './types';
 
-// export const addons: PresetProperty<'addons', StorybookConfig> = [
-//   wrapForPnP('@storybook/preset-server-webpack'),
-// ];
-
-// FIXME: preview.js is not being loaded for frameworks?
-export const previewAnnotations = (entry = []) => {
-  return [...entry, require.resolve('../dist/preview.mjs')];
-};
-
 const rewritingIndexer: Indexer = {
   test: /(stories|story)\.[tj]sx?$/,
   createIndex: async (fileName, opts) => {
