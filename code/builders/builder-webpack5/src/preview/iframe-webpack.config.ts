@@ -364,6 +364,7 @@ export default async (
             minimizer: options.test
               ? [
                   new TerserWebpackPlugin({
+                    parallel: true,
                     minify: TerserWebpackPlugin.esbuildMinify,
                     terserOptions: {
                       compress: false,
