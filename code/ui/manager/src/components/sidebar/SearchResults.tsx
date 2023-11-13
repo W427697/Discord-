@@ -19,7 +19,7 @@ import { UseSymbol } from './IconSymbols';
 
 const { document } = global;
 
-const ResultsList = styled.ul({
+const ResultsList = styled.ol({
   listStyle: 'none',
   margin: 0,
   padding: 0,
