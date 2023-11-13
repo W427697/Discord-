@@ -367,7 +367,6 @@ export default async (
                     parallel: true,
                     minify: TerserWebpackPlugin.esbuildMinify,
                     terserOptions: {
-                      compress: false,
                       sourceMap: false,
                       mangle: false,
                       keep_classnames: true,
