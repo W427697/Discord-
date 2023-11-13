@@ -323,7 +323,7 @@ export default async (
           },
         },
         builderOptions.useSWC
-          ? createSWCLoader(Object.keys(virtualModuleMapping))
+          ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
