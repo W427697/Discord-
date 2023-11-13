@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
-
+import type { Options as SWCOptions } from '@swc/core';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { TransformOptions } from '@babel/core';
+import type { TransformOptions as BabelOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
+
 import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
 
 /**
@@ -70,12 +71,14 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<BabelOptions>;
+  apply(extension: 'swc', config?: {}, args?: any): Promise<SWCOptions>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
+  apply(extension: 'build', config?: {}, args?: any): Promise<StorybookConfig['build']>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -156,6 +159,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   docs?: boolean;
+  test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -178,7 +182,10 @@ export interface StorybookConfigOptions {
   presetsList?: LoadedPreset[];
 }
 
-export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
+export type Options = LoadOptions &
+  StorybookConfigOptions &
+  CLIOptions &
+  BuilderOptions & { build?: TestBuildConfig };
 
 export interface Builder<Config, BuilderStats extends Stats = Stats> {
   getConfig: (options: Options) => Promise<Config>;
@@ -255,6 +262,45 @@ export type DocsOptions = {
   docsMode?: boolean;
 };
 
+export interface TestBuildFlags {
+  /**
+   * The package @storybook/blocks will be excluded from the bundle, even when imported in e.g. the preview.
+   */
+  emptyBlocks?: boolean;
+  /**
+   * Disable all addons
+   */
+  removeNonFastAddons?: boolean;
+  /**
+   * Filter out .mdx stories entries
+   */
+  removeMDXEntries?: boolean;
+  /**
+   * Override autodocs to be disabled
+   */
+  removeAutoDocs?: boolean;
+  /**
+   * Override docgen to be disabled.
+   */
+  disableDocgen?: boolean;
+  /**
+   * Override sourcemaps generation to be disabled.
+   */
+  disableSourcemaps?: boolean;
+  /**
+   * Override tree-shaking (dead code elimination) to be disabled.
+   */
+  disableTreeShaking?: boolean;
+  /**
+   * Compile/Optimize with SWC.
+   */
+  optimizeCompilation?: boolean;
+}
+
+export interface TestBuildConfig {
+  test?: TestBuildFlags;
+}
+
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
@@ -312,6 +358,8 @@ export interface StorybookConfig {
     legacyDecoratorFileOrder?: boolean;
   };
 
+  build?: TestBuildConfig;
+
   /**
    * Tells Storybook where to find stories.
    *
@@ -337,10 +385,12 @@ export interface StorybookConfig {
   /**
    * Modify or return babel config.
    */
-  babel?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  babel?: (config: BabelOptions, options: Options) => BabelOptions | Promise<BabelOptions>;
+
+  /**
+   * Modify or return swc config.
+   */
+  swc?: (config: SWCOptions, options: Options) => SWCOptions | Promise<SWCOptions>;
 
   /**
    * Modify or return env config.
@@ -350,10 +400,7 @@ export interface StorybookConfig {
   /**
    * Modify or return babel config.
    */
-  babelDefault?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  babelDefault?: (config: BabelOptions, options: Options) => BabelOptions | Promise<BabelOptions>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
