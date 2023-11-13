@@ -305,6 +305,7 @@ export default async (
       rules: [
         {
           test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          enforce: 'post',
           use: [
             {
               loader: require.resolve('@storybook/builder-webpack5/loaders/export-order-loader'),
@@ -322,7 +323,7 @@ export default async (
           },
         },
         builderOptions.useSWC
-          ? createSWCLoader(Object.keys(virtualModuleMapping))
+          ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
