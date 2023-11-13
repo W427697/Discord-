@@ -25,8 +25,16 @@
   },
   "license": "MIT",
   "exports": {
-    ".": "./dist/index.js",
-    "./preset": "./dist/index.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./preset": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -41,7 +49,7 @@
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/addon-bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/node-logger": "workspace:*",
@@ -55,8 +63,11 @@
     "access": "public"
   },
   "bundler": {
-    "nodeEntries": [
+    "entries": [
       "./src/index.ts"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

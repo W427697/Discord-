@@ -1,18 +1,6 @@
 const path = require('path');
-const fs = require('fs');
 
 const scriptPath = path.join(__dirname, '..', 'scripts');
-
-const addonsPackages = fs
-  .readdirSync(path.join(__dirname, 'addons'))
-  .filter((p) => fs.statSync(path.join(__dirname, 'addons', p)).isDirectory());
-const libPackages = fs
-  .readdirSync(path.join(__dirname, 'lib'))
-  .filter((p) => fs.statSync(path.join(__dirname, 'lib', p)).isDirectory());
-const uiPackages = fs
-  .readdirSync(path.join(__dirname, 'ui'))
-  .filter((p) => fs.statSync(path.join(__dirname, 'ui', p)).isDirectory())
-  .filter((p) => !p.startsWith('.'));
 
 module.exports = {
   root: true,
@@ -65,6 +53,7 @@ module.exports = {
         project: null,
       },
       rules: {
+        // '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/dot-notation': 'off',
         '@typescript-eslint/no-implied-eval': 'off',
         '@typescript-eslint/no-throw-literal': 'off',
@@ -88,7 +77,15 @@ module.exports = {
     },
     {
       // these packages use pre-bundling, dependencies will be bundled, and will be in devDepenencies
-      files: ['frameworks/**/*', 'builders/**/*', 'deprecated/**/*', 'renderers/**/*'],
+      files: [
+        'addons/**/*',
+        'frameworks/**/*',
+        'lib/**/*',
+        'builders/**/*',
+        'deprecated/**/*',
+        'renderers/**/*',
+        'ui/**/*',
+      ],
       excludedFiles: ['frameworks/angular/**/*', 'frameworks/ember/**/*', 'lib/core-server/**/*'],
       rules: {
         'import/no-extraneous-dependencies': [
@@ -98,47 +95,11 @@ module.exports = {
       },
     },
     {
-      files: ['**/ui/.storybook/**'],
+      files: ['**/ui/*', '**/ui/.storybook/*'],
       rules: {
-        'import/no-extraneous-dependencies': [
-          'error',
-          { packageDir: [__dirname], devDependencies: true },
-        ],
+        'import/no-extraneous-dependencies': ['error', { packageDir: __dirname }],
       },
     },
-    ...addonsPackages.map((directory) => ({
-      files: [path.join('**', 'addons', directory, '**', '*.*')],
-      rules: {
-        'import/no-extraneous-dependencies': [
-          'error',
-          {
-            packageDir: [__dirname, path.join(__dirname, 'addons', directory)],
-            devDependencies: true,
-          },
-        ],
-      },
-    })),
-    ...uiPackages.map((directory) => ({
-      files: [path.join('**', 'ui', directory, '**', '*.*')],
-      rules: {
-        'import/no-extraneous-dependencies': [
-          'error',
-          { packageDir: [__dirname, path.join(__dirname, 'ui', directory)], devDependencies: true },
-        ],
-      },
-    })),
-    ...libPackages.map((directory) => ({
-      files: [path.join('**', 'lib', directory, '**', '*.*')],
-      rules: {
-        'import/no-extraneous-dependencies': [
-          'error',
-          {
-            packageDir: [__dirname, path.join(__dirname, 'lib', directory)],
-            devDependencies: true,
-          },
-        ],
-      },
-    })),
     {
       files: [
         '**/__tests__/**',
@@ -160,6 +121,7 @@ module.exports = {
         'react/require-default-props': 'off',
       },
     },
+    { files: '**/.storybook/config.js', rules: { 'global-require': 'off' } },
     {
       files: ['**/*.stories.*'],
       rules: {
@@ -167,17 +129,8 @@ module.exports = {
       },
     },
     {
-      files: ['**/renderers/preact/**/*'],
-      rules: {
-        'react/react-in-jsx-scope': 'off',
-        'react/prop-types': 'off',
-      },
-    },
-    {
       files: ['**/*.tsx', '**/*.ts'],
       rules: {
-        'no-shadow': 'off',
-        '@typescript-eslint/ban-types': 'warn', // should become error, in the future
         'react/require-default-props': 'off',
         'react/prop-types': 'off', // we should use types
         'react/forbid-prop-types': 'off', // we should use types

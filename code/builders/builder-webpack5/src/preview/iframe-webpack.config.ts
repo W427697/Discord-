@@ -11,7 +11,7 @@ import slash from 'slash';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
-import { globalsNameReferenceMap } from '@storybook/preview/globals';
+import { globals } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
   getRendererName,
@@ -220,9 +220,8 @@ export default async (
     `);
   }
 
-  const externals: Record<string, string> = globalsNameReferenceMap;
   if (build?.test?.emptyBlocks) {
-    externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
   return {
@@ -243,7 +242,7 @@ export default async (
     watchOptions: {
       ignored: /node_modules/,
     },
-    externals,
+    externals: globals,
     ignoreWarnings: [
       {
         message: /export '\S+' was not found in 'global'/,
