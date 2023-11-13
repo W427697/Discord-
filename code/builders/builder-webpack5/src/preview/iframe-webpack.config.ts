@@ -322,7 +322,7 @@ export default async (
             fullySpecified: false,
           },
         },
-        builderOptions.useSWC
+        builderOptions.useSWC || options.test
           ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
@@ -355,12 +355,26 @@ export default async (
       },
       runtimeChunk: true,
       sideEffects: true,
-      usedExports: isProd,
+      usedExports: options.test ? false : isProd,
       moduleIds: 'named',
       ...(isProd
         ? {
             minimize: true,
-            minimizer: builderOptions.useSWC
+            // eslint-disable-next-line no-nested-ternary
+            minimizer: options.test
+              ? [
+                  new TerserWebpackPlugin({
+                    minify: TerserWebpackPlugin.esbuildMinify,
+                    terserOptions: {
+                      compress: false,
+                      sourceMap: false,
+                      mangle: false,
+                      keep_classnames: true,
+                      keep_fnames: true,
+                    },
+                  }),
+                ]
+              : builderOptions.useSWC
               ? [
                   new TerserWebpackPlugin({
                     minify: TerserWebpackPlugin.swcMinify,
