@@ -305,6 +305,7 @@ export default async (
       rules: [
         {
           test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          enforce: 'post',
           use: [
             {
               loader: require.resolve('@storybook/builder-webpack5/loaders/export-order-loader'),
