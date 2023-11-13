@@ -15,7 +15,7 @@ const rewritingIndexer: Indexer = {
     const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
     const inputStorybookDir = resolve(__dirname, '../template/storybookPreview');
-    const storybookDir = join(process.cwd(), 'app', 'storybookPreview');
+    const storybookDir = join(process.cwd(), 'app', '(sb)', 'storybookPreview');
     const storybookPreview = join(process.cwd(), '.storybook', 'preview');
 
     try {
