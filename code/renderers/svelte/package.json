@@ -59,6 +59,7 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/types": "workspace:*",
     "sveltedoc-parser": "^4.2.1",
+    "ts-dedent": "^2.0.0",
     "type-fest": "~2.19"
   },
   "devDependencies": {
