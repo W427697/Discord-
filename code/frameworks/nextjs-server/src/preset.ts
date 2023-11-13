@@ -27,7 +27,7 @@ const rewritingIndexer: Indexer = {
         LAYOUT_FILES.map((file) => exists(join(appDir, file)))
       );
       const inputLayout = hasRootLayout ? 'layout-nested.tsx' : 'layout-root.tsx';
-      await cp(`${inputStorybookDir}/${inputLayout}`, `${storybookPreview}/layout.tsx`);
+      await cp(`${inputStorybookDir}/${inputLayout}`, `${storybookDir}/layout.tsx`);
     } catch (err) {
       // FIXME: assume we've copied already
     }
