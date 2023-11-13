@@ -1,11 +1,13 @@
 import { cp, readFile, writeFile } from 'fs/promises';
-import { ensureDir } from 'fs-extra';
+import { ensureDir, exists } from 'fs-extra';
 import { join, relative, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 
 import type { PresetProperty, Indexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import type { StorybookConfig } from './types';
+
+const LAYOUT_FILES = ['layout.tsx', 'layout.jsx'];
 
 const rewritingIndexer: Indexer = {
   test: /(stories|story)\.[tj]sx?$/,
@@ -14,12 +16,18 @@ const rewritingIndexer: Indexer = {
     const code = (await readFile(fileName, 'utf-8')).toString();
     const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
+    const appDir = join(process.cwd(), 'app');
     const inputStorybookDir = resolve(__dirname, '../template/storybookPreview');
-    const storybookDir = join(process.cwd(), 'app', '(sb)', 'storybookPreview');
+    const storybookDir = join(appDir, '(sb)', 'storybookPreview');
     const storybookPreview = join(process.cwd(), '.storybook', 'preview');
 
     try {
       await cp(inputStorybookDir, storybookDir, { recursive: true });
+      const hasRootLayout = await Promise.any(
+        LAYOUT_FILES.map((file) => exists(join(appDir, file)))
+      );
+      const inputLayout = hasRootLayout ? 'layout-nested.tsx' : 'layout-root.tsx';
+      await cp(`${inputStorybookDir}/${inputLayout}`, `${storybookPreview}/layout.tsx`);
     } catch (err) {
       // FIXME: assume we've copied already
     }
