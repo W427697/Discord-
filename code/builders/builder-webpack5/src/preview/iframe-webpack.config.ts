@@ -379,7 +379,7 @@ export default async (
                   new TerserWebpackPlugin<SwcOptions>({
                     minify: TerserWebpackPlugin.swcMinify,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },
@@ -389,7 +389,7 @@ export default async (
                   new TerserWebpackPlugin({
                     parallel: true,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },
