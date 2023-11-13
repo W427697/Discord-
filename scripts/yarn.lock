@@ -3146,6 +3146,7 @@ __metadata:
     babel-eslint: "npm:^10.1.0"
     babel-loader: "npm:^9.1.2"
     boxen: "npm:^5.1.2"
+    browser-assert: "npm:^1.2.1"
     chalk: "npm:^4.1.0"
     codecov: "npm:^3.8.1"
     commander: "npm:^6.2.1"
@@ -5464,6 +5465,13 @@ __metadata:
   dependencies:
     fill-range: "npm:^7.0.1"
   checksum: 321b4d675791479293264019156ca322163f02dc06e3c4cab33bb15cd43d80b51efef69b0930cfde3acd63d126ebca24cd0544fa6f261e093a0fb41ab9dda381
+  languageName: node
+  linkType: hard
+
+"browser-assert@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "browser-assert@npm:1.2.1"
+  checksum: 902abf999f92c9c951fdb6d7352c09eea9a84706258699655f7e7906e42daa06a1ae286398a755872740e05a6a71c43c5d1a0c0431d67a8cdb66e5d859a3fc0c
   languageName: node
   linkType: hard
 
