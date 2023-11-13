@@ -8,7 +8,8 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import slash from 'slash';
-
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
@@ -364,21 +365,18 @@ export default async (
             // eslint-disable-next-line no-nested-ternary
             minimizer: options.build?.test?.optimizeCompilation
               ? [
-                  new TerserWebpackPlugin({
+                  new TerserWebpackPlugin<EsbuildOptions>({
                     parallel: true,
                     minify: TerserWebpackPlugin.esbuildMinify,
                     terserOptions: {
-                      compress: false,
-                      sourceMap: !options.build?.test?.disableSourcemaps,
-                      mangle: false,
-                      keep_classnames: true,
-                      keep_fnames: true,
+                      sourcemap: !options.build?.test?.disableSourcemaps,
+                      treeShaking: !options.build?.test?.disableTreeShaking,
                     },
                   }),
                 ]
               : builderOptions.useSWC
               ? [
-                  new TerserWebpackPlugin({
+                  new TerserWebpackPlugin<SwcOptions>({
                     minify: TerserWebpackPlugin.swcMinify,
                     terserOptions: {
                       sourceMap: true,
