@@ -21,7 +21,7 @@ export function stripExt(name: string) {
  * Check if a module was run directly with node as opposed to being
  * imported from another module.
  */
-export default function esMain(url: string) {
+export function esMain(url: string) {
   if (!url || !process.argv[1]) {
     return false;
   }

@@ -9,7 +9,7 @@ import fetch from 'node-fetch';
 import dedent from 'ts-dedent';
 import pRetry from 'p-retry';
 import { execaCommand } from 'execa';
-import esMain from '../utils/esmain';
+import { esMain } from '../utils/esmain';
 
 program
   .name('publish')

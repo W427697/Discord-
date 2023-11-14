@@ -7,7 +7,7 @@ import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-e
 import { program } from 'commander';
 import { directory } from 'tempy';
 import { execaCommand } from 'execa';
-import esMain from '../utils/esmain';
+import { esMain } from '../utils/esmain';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';

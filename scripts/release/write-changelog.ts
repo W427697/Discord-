@@ -5,7 +5,7 @@ import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
 import { readFile, writeFile, writeJson } from 'fs-extra';
-import esMain from '../utils/esmain';
+import { esMain } from '../utils/esmain';
 import { getChanges } from './utils/get-changes';
 
 program

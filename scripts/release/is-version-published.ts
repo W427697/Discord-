@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import program from 'commander';
 import { setOutput } from '@actions/core';
 import fetch from 'node-fetch';
-import esMain from '../utils/esmain';
+import { esMain } from '../utils/esmain';
 import { getCurrentVersion } from './get-current-version';
 
 program

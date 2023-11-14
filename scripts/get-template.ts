@@ -4,7 +4,7 @@ import { program } from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
 import yaml from 'yaml';
-import esMain from './utils/esmain';
+import { esMain } from './utils/esmain';
 import {
   allTemplates,
   templatesByCadence,

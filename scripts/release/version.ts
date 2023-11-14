@@ -7,7 +7,7 @@ import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
 import { execaCommand } from 'execa';
-import esMain from '../utils/esmain';
+import { esMain } from '../utils/esmain';
 import type { Workspace } from '../utils/workspace';
 import { getWorkspaces } from '../utils/workspace';
 

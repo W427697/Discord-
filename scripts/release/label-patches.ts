@@ -1,7 +1,7 @@
 import program from 'commander';
 import { v4 as uuidv4 } from 'uuid';
 import ora from 'ora';
-import esMain from '../utils/esmain';
+import { esMain } from '../utils/esmain';
 import { getLabelIds, githubGraphQlClient, getUnpickedPRs } from './utils/github-client';
 import { getPullInfoFromCommits, getRepo } from './utils/get-changes';
 import { getLatestTag, git } from './utils/git-client';

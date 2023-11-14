@@ -4,7 +4,7 @@ import program from 'commander';
 import { z } from 'zod';
 import { setOutput } from '@actions/core';
 import { intersection } from 'lodash';
-import esMain from '../utils/esmain';
+import { esMain } from '../utils/esmain';
 import type { Change } from './utils/get-changes';
 import { RELEASED_LABELS, getChanges } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';

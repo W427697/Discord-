@@ -2,7 +2,7 @@
 import { readJson } from 'fs-extra';
 import { join } from 'path';
 import { execaCommand } from 'execa';
-import esMain from './utils/esmain';
+import { esMain } from './utils/esmain';
 import { CODE_DIRECTORY } from './utils/constants';
 
 type Branch = 'main' | 'next' | 'alpha' | 'next-release' | 'latest-release';
