@@ -71,7 +71,8 @@ async function run() {
             8,
             `Expected 8 stories but received ${exampleStoryCount} instead.`
           );
-          const expectedDocsCount = template.modifications?.disableDocs ? 0 : 3;
+          const expectedDocsCount =
+            template.modifications?.disableDocs || template.modifications?.testBuild ? 0 : 3;
           assert.equal(
             exampleDocsCount,
             expectedDocsCount,

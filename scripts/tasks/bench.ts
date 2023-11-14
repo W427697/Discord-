@@ -6,6 +6,8 @@ import type { Task } from '../task';
 import { PORT as devPort, dev } from './dev';
 import { PORT as servePort, serve } from './serve';
 
+const logger = console;
+
 export const bench: Task = {
   description: 'Run benchmarks against a sandbox in dev mode',
   dependsOn: ['build'],
@@ -70,6 +72,10 @@ export const bench: Task = {
         }
       });
     } catch (e) {
+      logger.log(
+        `An error occurred while running the benchmarks for the ${details.sandboxDir} sandbox`
+      );
+      logger.error(e);
       controllers.forEach((c) => c.abort());
       throw e;
     }
