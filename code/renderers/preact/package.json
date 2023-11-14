@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preact",
-  "version": "7.3.0-alpha.0",
+  "version": "7.6.0-alpha.5",
   "description": "Storybook Preact renderer",
   "keywords": [
     "storybook"
@@ -26,11 +26,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "types": "./dist/config.d.ts",
-      "require": "./dist/config.js",
-      "import": "./dist/config.mjs"
-    },
+    "./preset": "./preset.js",
+    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
+    "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -38,10 +36,11 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -70,7 +69,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts"
+      "./src/preset.ts",
+      "./src/entry-preview.ts",
+      "./src/entry-preview-docs.ts"
     ],
     "platform": "browser"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/sveltekit",
-  "version": "7.3.0-alpha.0",
+  "version": "7.6.0-alpha.5",
   "description": "Storybook for SvelteKit",
   "keywords": [
     "storybook",
@@ -40,10 +40,10 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -55,7 +55,7 @@
     "@storybook/svelte-vite": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "typescript": "^4.9.3",
     "vite": "^4.0.0"
   },

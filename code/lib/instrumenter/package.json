@@ -1,6 +1,6 @@
 {
   "name": "@storybook/instrumenter",
-  "version": "7.3.0-alpha.0",
+  "version": "7.6.0-alpha.5",
   "description": "",
   "keywords": [
     "storybook"
@@ -36,7 +36,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -47,7 +48,9 @@
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "workspace:*"
+    "@storybook/preview-api": "workspace:*",
+    "@vitest/utils": "^0.34.6",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

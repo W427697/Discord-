@@ -1,6 +1,6 @@
 {
   "name": "@storybook/types",
-  "version": "7.3.0-alpha.0",
+  "version": "7.6.0-alpha.5",
   "description": "Core Storybook TS Types",
   "keywords": [
     "storybook"
@@ -36,7 +36,8 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "../../../scripts/prepare/check.ts",
@@ -50,7 +51,8 @@
   },
   "devDependencies": {
     "@storybook/csf": "^0.1.0",
-    "@types/node": "^16.0.0",
+    "@types/fs-extra": "^11.0.1",
+    "@types/node": "^18.0.0",
     "typescript": "~4.9.3"
   },
   "publishConfig": {

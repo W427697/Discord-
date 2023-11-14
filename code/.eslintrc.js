@@ -9,6 +9,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  plugins: ['local-rules'],
   rules: {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
@@ -65,6 +66,13 @@ module.exports = {
       rules: {
         'no-shadow': 'off',
         '@typescript-eslint/ban-types': 'warn', // should become error, in the future
+      },
+    },
+    {
+      // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
+      files: ['**/builder-vite/**/*.html'],
+      rules: {
+        '@typescript-eslint/no-unused-expressions': 'off', // should become error, in the future
       },
     },
     {
@@ -164,6 +172,19 @@ module.exports = {
       files: ['**/template/cli/**/*'],
       rules: {
         'import/no-unresolved': 'off',
+      },
+    },
+    {
+      files: ['**/*.ts', '!**/*.test.*', '!**/*.spec.*'],
+      rules: {
+        'local-rules/no-uncategorized-errors': 'warn',
+      },
+    },
+    {
+      files: ['**/core-events/src/**/*'],
+      excludedFiles: ['**/*.test.*'],
+      rules: {
+        'local-rules/no-duplicated-error-codes': 'error',
       },
     },
   ],

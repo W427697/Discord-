@@ -11,13 +11,14 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
+  TestBuildFlags,
   Indexer,
   Options,
   PresetPropertyFn,
   StorybookConfig,
 } from '@storybook/types';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -25,6 +26,7 @@ import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
+  TELEMETRY_ERROR,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
@@ -60,15 +62,16 @@ export const favicon = async (
     const lists = await Promise.all(
       statics.map(async (dir) => {
         const results = [];
-        const relativeDir = staticDirsValue
-          ? getDirectoryFromWorkingDir({
-              configDir: options.configDir,
-              workingDir: process.cwd(),
-              directory: dir,
-            })
-          : dir;
+        const normalizedDir =
+          staticDirsValue && !isAbsolute(dir)
+            ? getDirectoryFromWorkingDir({
+                configDir: options.configDir,
+                workingDir: process.cwd(),
+                directory: dir,
+              })
+            : dir;
 
-        const { staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+        const { staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
         if (targetEndpoint === '/') {
           const url = 'favicon.svg';
@@ -166,7 +169,7 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
  */
 export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
-  disableTelemetry: options.disableTelemetry === true,
+  disableTelemetry: options.disableTelemetry === true || options.test === true,
   enableCrashReports:
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
@@ -183,6 +186,17 @@ export const previewAnnotations = async (base: any, options: Options) => {
   return [...config, ...base];
 };
 
+const testBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
+  emptyBlocks: value,
+  removeNonFastAddons: value,
+  removeMDXEntries: value,
+  removeAutoDocs: value,
+  disableDocgen: value,
+  disableSourcemaps: value,
+  disableTreeShaking: value,
+  optimizeCompilation: value,
+});
+
 export const features = async (
   existing: StorybookConfig['features']
 ): Promise<StorybookConfig['features']> => ({
@@ -194,9 +208,19 @@ export const features = async (
   legacyDecoratorFileOrder: false,
 });
 
+export const build = async (value: StorybookConfig['build'], options: Options) => {
+  return {
+    ...value,
+    test: {
+      ...testBuildFeatures(!!options.test),
+      ...value?.test,
+    },
+  };
+};
+
 export const csfIndexer: Indexer = {
-  test: /\.stories\.(m?js|ts)x?$/,
-  index: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
+  test: /(stories|story)\.(m?js|ts)x?$/,
+  createIndex: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -223,10 +247,13 @@ export const frameworkOptions = async (
 export const docs = (
   docsOptions: StorybookConfig['docs'],
   { docs: docsMode }: CLIOptions
-): StorybookConfig['docs'] => ({
-  ...docsOptions,
-  docsMode,
-});
+): StorybookConfig['docs'] =>
+  docsOptions && docsMode !== undefined
+    ? {
+        ...docsOptions,
+        docsMode,
+      }
+    : docsOptions;
 
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');
@@ -328,6 +355,18 @@ export const experimental_serverChannel = async (
       }
     }
   );
+
+  channel.on(TELEMETRY_ERROR, async (error) => {
+    const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
+
+    if (isTelemetryEnabled) {
+      await sendTelemetryError(error, 'browser', {
+        cliOptions: options,
+        presetOptions: { ...options, corePresets: [], overridePresets: [] },
+        skipPrompt: true,
+      });
+    }
+  });
 
   return channel;
 };

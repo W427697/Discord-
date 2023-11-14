@@ -182,9 +182,9 @@ Run the following command to install the required dependencies.
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-axe-playwright.yarn.js.mdx',
-    'common/storybook-test-runner-axe-playwright.npm.js.mdx',
-    'common/storybook-test-runner-axe-playwright.pnpm.js.mdx',
+    'common/test-runner-axe-playwright.yarn.js.mdx',
+    'common/test-runner-axe-playwright.npm.js.mdx',
+    'common/test-runner-axe-playwright.pnpm.js.mdx',
   ]}
 />
 
@@ -196,18 +196,18 @@ Add a new [configuration file](./test-runner.md#test-hook-api-experimental) insi
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-a11y-config.js.mdx',
-    'common/storybook-test-runner-a11y-config.ts.mdx',
+    'common/test-runner-a11y-config.js.mdx',
+    'common/test-runner-a11y-config.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 `preRender` and `postRender` are convenient hooks that allow you to extend the test runner's default configuration. They are **experimental** and subject to changes. Read more about them [here](./test-runner.md#test-hook-api-experimental).
+`preRender` and `postRender` are convenient hooks that allow you to extend the test runner's default configuration. They are **experimental** and subject to changes. Read more about them [here](./test-runner.md#test-hook-api-experimental).
 
-</div>
+</Callout>
 
 When you execute the test runner (for example, with `yarn test-storybook`), it will run the accessibility audit and any [interaction tests](./interaction-testing.md) you might have configured for each component story.
 
@@ -223,8 +223,8 @@ The test runner provides [helper methods](./test-runner.md#helpers), allowing ac
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-a11y-configure.js.mdx',
-    'common/storybook-test-runner-a11y-configure.ts.mdx',
+    'common/test-runner-a11y-configure.js.mdx',
+    'common/test-runner-a11y-configure.ts.mdx',
   ]}
 />
 
@@ -238,8 +238,8 @@ Additionally, if you have already [disabled accessibility](#how-to-disable-a11y-
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-a11y-disable.js.mdx',
-    'common/storybook-test-runner-a11y-disable.ts.mdx',
+    'common/test-runner-a11y-disable.js.mdx',
+    'common/test-runner-a11y-disable.ts.mdx',
   ]}
 />
 

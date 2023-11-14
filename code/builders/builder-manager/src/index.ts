@@ -45,7 +45,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
   return {
     entryPoints: realEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
-    format: 'esm',
+    format: 'iife',
     write: false,
     ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
@@ -72,7 +72,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     platform: 'browser',
     bundle: true,
     minify: true,
-    sourcemap: true,
+    sourcemap: false,
     conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',
