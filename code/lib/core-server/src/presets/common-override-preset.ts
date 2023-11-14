@@ -63,7 +63,7 @@ const createTestBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
   disableDocgen: value,
   disableSourcemaps: value,
   disableTreeShaking: value,
-  fastCompilation: value,
+  esbuildMinify: value,
 });
 
 export const build = async (value: StorybookConfig['build'], options: Options) => {
