@@ -40,7 +40,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   await preview.write(previewTS);
   await preview.close();
 
-  await appendFile('./.gitignore', '\n/app/storybookPreview\n');
+  await appendFile('./.gitignore', '\n/app/(sb)/storybookPreview\n');
 };
 
 export default generator;
