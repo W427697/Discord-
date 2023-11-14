@@ -149,11 +149,11 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
       const docsOnly = stories[index].parameters?.docsOnly;
       const tags = input.tags ? input.tags : [];
       if (docsOnly) {
-        tags.push('stories-mdx-docsOnly');
+        tags.push('sb:stories-mdx-docsOnly');
       }
       // the mdx-csf compiler automatically adds the 'stories-mdx' tag to meta, here' we're just making sure it is always there
-      if (!tags.includes('stories-mdx')) {
-        tags.push('stories-mdx');
+      if (!tags.includes('sb:stories-mdx')) {
+        tags.push('sb:stories-mdx');
       }
       return { ...input, tags };
     });
