@@ -323,7 +323,7 @@ export default async (
             fullySpecified: false,
           },
         },
-        builderOptions.useSWC || options.build?.test?.fastCompilation
+        builderOptions.useSWC
           ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
@@ -362,7 +362,7 @@ export default async (
         ? {
             minimize: true,
             // eslint-disable-next-line no-nested-ternary
-            minimizer: options.build?.test?.fastCompilation
+            minimizer: options.build?.test?.esbuildMinify
               ? [
                   new TerserWebpackPlugin<EsbuildOptions>({
                     parallel: true,
