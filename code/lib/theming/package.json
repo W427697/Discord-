@@ -79,6 +79,20 @@
       "./src/index.ts",
       "./src/create.ts"
     ],
+    "externals": [
+      "react",
+      "react-dom",
+      "@storybook/addons",
+      "@storybook/api",
+      "@storybook/channels",
+      "@storybook/client-logger",
+      "@storybook/components",
+      "@storybook/core-events",
+      "@storybook/manager-api",
+      "@storybook/router",
+      "@storybook/theming",
+      "@storybook/types"
+    ],
     "post": "./scripts/fix-theme-type-export.ts"
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

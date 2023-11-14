@@ -87,7 +87,6 @@
     "@jest/globals": "^29.5.0",
     "@storybook/core-common": "workspace:*",
     "ansi-to-html": "^0.6.11",
-    "react": "^16.14.0",
     "slash": "^5.0.0"
   },
   "publishConfig": {

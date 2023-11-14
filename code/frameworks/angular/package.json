@@ -46,7 +46,6 @@
     "@storybook/core-webpack": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/telemetry": "workspace:*",
@@ -102,8 +101,6 @@
     "@angular/platform-browser": ">=14.1.0 < 18.0.0",
     "@angular/platform-browser-dynamic": ">=14.1.0 < 18.0.0",
     "@babel/core": "*",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^4.0.0 || ^5.0.0",
     "zone.js": ">= 0.11.1 < 1.0.0"
