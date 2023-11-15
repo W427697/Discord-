@@ -1,5 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
+import type { PreviewWeb } from '@storybook/preview-api';
 import { addons } from '@storybook/preview-api';
+import type { Renderer } from '@storybook/types';
+import { global } from '@storybook/global';
+import { ImplicitActionsDuringRendering } from '@storybook/core-events/preview-errors';
+import dedent from 'ts-dedent';
 import { EVENT_ID } from '../constants';
 import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';
@@ -54,22 +59,37 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
   };
 
   const handler = function actionHandler(...args: any[]) {
-    // TODO: Enable once codemods are finished
-    // if (options.implicit) {
-    //   const preview =
-    //     '__STORYBOOK_PREVIEW__' in global
-    //       ? (global.__STORYBOOK_PREVIEW__ as PreviewWeb<Renderer>)
-    //       : undefined;
-    //   if (
-    //     preview?.storyRenders.some(
-    //       (render) => render.phase === 'playing' || render.phase === 'rendering'
-    //     )
-    //   ) {
-    //     console.warn(
-    //       'Can not use implicit actions during rendering or playing of a story.'
-    //     );
-    //   }
-    // }
+    if (options.implicit) {
+      const preview =
+        '__STORYBOOK_PREVIEW__' in global
+          ? // eslint-disable-next-line no-underscore-dangle
+            (global.__STORYBOOK_PREVIEW__ as PreviewWeb<Renderer>)
+          : undefined;
+      const storyRenderer = preview?.storyRenders.find(
+        (render) => render.phase === 'playing' || render.phase === 'rendering'
+      );
+
+      if (storyRenderer) {
+        if (window?.FEATURES?.disallowImplicitActionsInRenderV8) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          throw new ImplicitActionsDuringRendering({ phase: storyRenderer.phase!, name });
+        } else {
+          console.warn(dedent`
+            We detected that you use an implicit action arg during ${storyRenderer.phase} of your story. 
+            This is deprecated and won't work in Storybook 8 anymore. 
+            
+            Please provide an explicit spy to your args like this:
+              import { fn } from '@storybook/test';
+              ... 
+              args: {
+                 ${name}: fn()
+              }
+              
+            See: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#using-implicit-actions-during-rendering-is-deprecated-for-example-in-the-play-function
+          `);
+        }
+      }
+    }
 
     const channel = addons.getChannel();
     // this makes sure that in js enviroments like react native you can still get an id
