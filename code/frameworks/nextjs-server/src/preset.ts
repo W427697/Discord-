@@ -1,5 +1,5 @@
 import { cp, readFile, writeFile } from 'fs/promises';
-import { ensureDir } from 'fs-extra';
+import { ensureDir, exists } from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 
@@ -16,10 +16,7 @@ const appDir = false;
 //   wrapForPnP('@storybook/preset-server-webpack'),
 // ];
 
-// FIXME: preview.js is not being loaded for frameworks?
-export const previewAnnotations = (entry = []) => {
-  return [...entry, require.resolve('../dist/preview.mjs')];
-};
+const LAYOUT_FILES = ['layout.tsx', 'layout.jsx'];
 
 const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer => {
   const workingDir = process.cwd(); // TODO we should probably put this on the preset options
@@ -38,6 +35,11 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
       if (appDir) {
         try {
           await cp(inputStorybookDir, storybookDir, { recursive: true });
+          const hasRootLayout = await Promise.any(
+            LAYOUT_FILES.map((file) => exists(join(appDir, file)))
+          );
+          const inputLayout = hasRootLayout ? 'layout-nested.tsx' : 'layout-root.tsx';
+          await cp(`${inputStorybookDir}/${inputLayout}`, join(storybookDir, 'layout.tsx'));
         } catch (err) {
           // FIXME: assume we've copied already
         }
@@ -180,15 +182,13 @@ export const experimental_indexers: StorybookConfig['experimental_indexers'] = a
   return [rewritingIndexer(allPreviewAnnotations), ...(existingIndexers || [])];
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
-
+export const core: PresetProperty<'core', StorybookConfig> = async (config) => {
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
-      options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
+      name: require.resolve('./null-builder') as '@storybook/builder-vite',
+      options: {},
     },
-    renderer: appDir ? wrapForPnP('@storybook/server') : wrapForPnP('@storybook/react'),
+    renderer: appDir ? require.resolve('./null-renderer') : wrapForPnP('@storybook/react'),
   };
 };
