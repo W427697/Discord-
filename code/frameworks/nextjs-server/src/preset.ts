@@ -9,6 +9,9 @@ import type { StorybookConfig } from './types';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
+// TODO
+const appDir = false;
+
 // export const addons: PresetProperty<'addons', StorybookConfig> = [
 //   wrapForPnP('@storybook/preset-server-webpack'),
 // ];
@@ -19,12 +22,11 @@ export const previewAnnotations = (entry = []) => {
 };
 
 const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer => {
+  const workingDir = process.cwd(); // TODO we should probably put this on the preset options
+
   return {
     test: /(stories|story)\.[tj]sx?$/,
     createIndex: async (fileName, opts) => {
-      // TODO
-      const appDir = false;
-
       console.log('indexing', fileName);
       const code = (await readFile(fileName, 'utf-8')).toString();
       const csf = await loadCsf(code, { ...opts, fileName }).parse();
@@ -33,25 +35,66 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
       const inputStorybookDir = resolve(__dirname, `../template/${routeDir}/storybookPreview`);
       const storybookDir = join(process.cwd(), routeDir, 'storybookPreview');
 
-      try {
-        await cp(inputStorybookDir, storybookDir, { recursive: true });
-      } catch (err) {
-        // FIXME: assume we've copied already
+      if (appDir) {
+        try {
+          await cp(inputStorybookDir, storybookDir, { recursive: true });
+        } catch (err) {
+          // FIXME: assume we've copied already
+        }
+      } else {
+        const indexTsx = dedent`
+          import React from 'react';
+          import { Storybook } from './components/Storybook';
+          
+          const page = () => <Storybook />;
+          export default page;
+        `;
+        const indexFile = join(storybookDir, 'index.tsx');
+        await writeFile(indexFile, indexTsx);
+
+        const projectAnnotationImports = allPreviewAnnotations
+          .map((path, index) => `const projectAnnotations${index} = await import('${path}');`)
+          .join('\n');
+
+        const projectAnnotationArray = allPreviewAnnotations
+          .map((_, index) => `projectAnnotations${index}`)
+          .join(',');
+
+        const storybookTsx = dedent`
+          import React, { useEffect } from 'react';
+          import { composeConfigs } from '@storybook/preview-api';
+          import { Preview } from '@storybook/nextjs-server/pages';
+
+          const getProjectAnnotations = async () => {
+            ${projectAnnotationImports}
+            return composeConfigs([${projectAnnotationArray}]);
+          }
+
+          export const Storybook = () => <Preview getProjectAnnotations={getProjectAnnotations} />;
+        `;
+
+        const componentsDir = join(storybookDir, 'components');
+        await ensureDir(componentsDir);
+        const storybookFile = join(componentsDir, 'Storybook.tsx');
+        await writeFile(storybookFile, storybookTsx);
       }
 
-      await Promise.all(
-        csf.stories.map(async (story) => {
-          const storyDir = join(storybookDir, story.id);
-          await ensureDir(storyDir);
-          const relativeStoryPath = relative(storyDir, fileName).replace(/\.tsx?$/, '');
-          // const relativePreviewPath = relative(storyDir, storybookPreview);
-          const { exportName } = story;
-          console.log({ story });
+      if (appDir) {
+        await Promise.all(
+          csf.stories.map(async (story) => {
+            const storyDir = join(storybookDir, story.id);
+            await ensureDir(storyDir);
+            const relativeStoryPath = relative(storyDir, fileName).replace(/\.tsx?$/, '');
+            // const relativePreviewPath = relative(storyDir, storybookPreview);
+            const { exportName } = story;
 
-          console.log({ previewAnnotations: allPreviewAnnotations });
-
-          if (appDir) {
             const pageTsx = dedent`
+              import React from 'react';
+              import { StorybookUI } from '../components/StorybookUI';
+              import { Preview }
+
+
+
             import React from 'react';
             import { composeStory } from '@storybook/react/testing-api';
             import { getArgs } from '../components/args';
@@ -88,63 +131,30 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
 
             const pageFile = join(storyDir, 'page.tsx');
             await writeFile(pageFile, pageTsx);
-          } else {
-            const projectAnnotationImports = allPreviewAnnotations
-              .map((path, index) => `import * as projectAnnotations${index} from '${path}';`)
-              .join('\n');
+          })
+        );
+      } else {
+        const componentId = csf.stories[0].id.split('--')[0];
+        const relativeStoryPath = relative(storybookDir, fileName).replace(/\.tsx?$/, '');
+        const importPath = relative(workingDir, fileName).replace(/^([^./])/, './$1');
 
-            const projectAnnotationArray = allPreviewAnnotations
-              .map((_, index) => `projectAnnotations${index}`)
-              .join(',');
-
-            const indexTsx = dedent`
-            import React, { useRef } from 'react';
-            import { composeStory } from '@storybook/react/testing-api';
-            import { useArgs } from '../components/args';
-            import { Storybook } from '../components/Storybook';
-            import { Prepare, StoryAnnotations } from '../components/Prepare';
-            import { Args } from '@storybook/react';
-            import { composeConfigs } from '@storybook/preview-api';
-            
-            import * as stories from '${relativeStoryPath}';
-
-            ${projectAnnotationImports}
-            
-            const page = () => {
-              const projectAnnotations = composeConfigs([${projectAnnotationArray}]);
-              const Composed = composeStory(stories.${exportName}, stories.default, projectAnnotations?.default || {}, '${exportName}');
-              const extraArgs = useArgs(Composed.id);
-              
-              const { id, parameters, argTypes, initialArgs, play } = Composed;
-              const args = { ...initialArgs, ...extraArgs };
-              
-              const storyAnnotations: StoryAnnotations<Args> = {
-                id,
-                parameters,
-                argTypes,
-                initialArgs,
-                args,
-                play
-              };
-
-              const storybookRootRef = useRef();
-
-              return (
-                <Storybook ref={storybookRootRef}>
-                  <Prepare story={storyAnnotations} canvasElement={storybookRootRef.current} />
-                  {/* @ts-ignore TODO -- why? */}
-                  <Composed {...extraArgs} />
-                </Storybook>
-                );
-              };
-              export default page;
-            `;
-
-            const indexFile = join(storyDir, 'index.tsx');
-            await writeFile(indexFile, indexTsx);
+        const csfImportTsx = dedent`
+          import React from 'react';
+          import { Storybook } from './components/Storybook';
+          import * as stories from '${relativeStoryPath}';
+          
+          if (typeof window !== 'undefined') {
+            window._storybook_onImport('${importPath}', stories);
           }
-        })
-      );
+          
+
+          const page = () => <Storybook />;
+          export default page;
+        `;
+
+        const csfImportFile = join(storybookDir, `${componentId}.tsx`);
+        await writeFile(csfImportFile, csfImportTsx);
+      }
 
       return csf.indexInputs;
     },
@@ -181,6 +191,6 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
       name: wrapForPnP('@storybook/builder-vite') as '@storybook/builder-vite',
       options: typeof framework === 'string' ? {} : framework?.options?.builder || {},
     },
-    renderer: wrapForPnP('@storybook/server'),
+    renderer: appDir ? wrapForPnP('@storybook/server') : wrapForPnP('@storybook/react'),
   };
 };

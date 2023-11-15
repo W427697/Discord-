@@ -1,5 +1,6 @@
 import type { ServerRenderer, Args, ArgTypes } from '@storybook/server';
 import type { RenderContext } from '@storybook/types';
+import { renderToCanvas as reactRenderToCanvas } from '@storybook/react/preview';
 import { simulatePageLoad } from '@storybook/preview-api';
 
 // Use Storybook's story ID by default, allow overrides with parameters.server.id?
@@ -39,57 +40,60 @@ const buildStoryArgs = (args: Args, argTypes: ArgTypes) => {
   return storyArgs;
 };
 
-export const renderToCanvas = async (
-  {
-    id,
-    // title,
-    // name,
-    showMain,
-    // showError,
-    // forceRemount,
-    storyFn,
-    storyContext,
-    storyContext: { parameters, args, argTypes },
-  }: RenderContext<ServerRenderer>,
-  canvasElement: ServerRenderer['canvasElement']
-) => {
-  // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
-  storyFn();
-  const storyArgs = buildStoryArgs(args, argTypes);
+const appDir = false; // TODO AGAIN
+export const renderToCanvas = !appDir
+  ? reactRenderToCanvas
+  : async (
+      {
+        id,
+        // title,
+        // name,
+        showMain,
+        // showError,
+        // forceRemount,
+        storyFn,
+        storyContext,
+        storyContext: { parameters, args, argTypes },
+      }: RenderContext<ServerRenderer>,
+      canvasElement: ServerRenderer['canvasElement']
+    ) => {
+      // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
+      storyFn();
+      const storyArgs = buildStoryArgs(args, argTypes);
 
-  const {
-    server: { url, id: storyId, params },
-  } = parameters;
+      const {
+        server: { url, id: storyId, params },
+      } = parameters;
 
-  const fetchId = storyId || id;
-  const storyParams = { ...params, ...storyArgs };
-  const iframeUrl = `${url}/${fetchId}?${new URLSearchParams(storyParams).toString()}`;
+      const fetchId = storyId || id;
+      const storyParams = { ...params, ...storyArgs };
+      const iframeUrl = `${url}/${fetchId}?${new URLSearchParams(storyParams).toString()}`;
 
-  showMain();
+      showMain();
 
-  let iframe: any;
-  if (canvasElement.children.length === 1 && canvasElement.children[0].nodeName === 'IFRAME') {
-    iframe = canvasElement.children[0] as HTMLIFrameElement;
-  } else {
-    const iframeStyle = 'border: 0; min-width: 100vw; min-height: 100vh;';
-    iframe = document.createElement('iframe');
-    iframe.id = 'nextjs-iframe';
-    iframe.setAttribute('style', iframeStyle);
-    // eslint-disable-next-line no-param-reassign
-    canvasElement.innerHTML = '';
-    canvasElement.appendChild(iframe);
-  }
-  console.log('iframeUrl', iframeUrl);
-  iframe.setAttribute('src', iframeUrl);
+      let iframe: any;
+      if (canvasElement.children.length === 1 && canvasElement.children[0].nodeName === 'IFRAME') {
+        iframe = canvasElement.children[0] as HTMLIFrameElement;
+      } else {
+        const iframeStyle = 'border: 0; min-width: 100vw; min-height: 100vh;';
+        iframe = document.createElement('iframe');
+        iframe.id = 'nextjs-iframe';
+        iframe.setAttribute('style', iframeStyle);
+        // eslint-disable-next-line no-param-reassign
+        canvasElement.innerHTML = '';
+        canvasElement.appendChild(iframe);
+      }
+      console.log('iframeUrl', iframeUrl);
+      iframe.setAttribute('src', iframeUrl);
 
-  // We need this so that "playing" render phase
-  // waits unti the iframe content has actually loaded
-  await new Promise((resolve) => iframe.addEventListener('load', resolve));
+      // We need this so that "playing" render phase
+      // waits unti the iframe content has actually loaded
+      await new Promise((resolve) => iframe.addEventListener('load', resolve));
 
-  // await iframeLoaded(iframe);
+      // await iframeLoaded(iframe);
 
-  simulatePageLoad(canvasElement);
-};
+      simulatePageLoad(canvasElement);
+    };
 export default {
   parameters: {
     server: {

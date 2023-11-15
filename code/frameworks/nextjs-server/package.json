@@ -47,6 +47,10 @@
     "./next-config": {
       "node": "./dist/next-config.js"
     },
+    "./pages": {
+      "types": "./dist/pages/index.d.ts",
+      "import": "./dist/pages/index.mjs"
+    },
     "./channels": {
       "types": "./dist/reexports/channels.d.ts",
       "node": "./dist/reexports/channels.js",
@@ -124,6 +128,7 @@
       "./src/preview.ts",
       "./src/mock.ts",
       "./src/next-config.ts",
+      "./src/pages/index.ts",
       "./src/reexports/channels.ts",
       "./src/reexports/core-events.ts",
       "./src/reexports/preview-api.ts",
