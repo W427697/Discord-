@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue3-webpack5",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "Storybook for Vue 3: Develop Vue 3 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -62,8 +62,6 @@
     "@babel/core": "*",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "vue": "^3.0.0"
   },
   "engines": {

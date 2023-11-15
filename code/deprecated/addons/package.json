@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addons",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "Storybook addons store",
   "keywords": [
     "storybook"
@@ -47,10 +47,6 @@
     "@storybook/manager-api": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/types": "workspace:*"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"

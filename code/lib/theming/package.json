@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.6.0-alpha.5",
+  "version": "7.6.0-alpha.6",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -78,6 +78,20 @@
     "entries": [
       "./src/index.ts",
       "./src/create.ts"
+    ],
+    "externals": [
+      "react",
+      "react-dom",
+      "@storybook/addons",
+      "@storybook/api",
+      "@storybook/channels",
+      "@storybook/client-logger",
+      "@storybook/components",
+      "@storybook/core-events",
+      "@storybook/manager-api",
+      "@storybook/router",
+      "@storybook/theming",
+      "@storybook/types"
     ],
     "post": "./scripts/fix-theme-type-export.ts"
   },
