@@ -33,8 +33,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc",
-    "prep": "../../../scripts/prepare/tsc.ts"
+    "check": "node ../../../scripts/node_modules/.bin/tsc",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@storybook/builder-webpack5": "workspace:*",
