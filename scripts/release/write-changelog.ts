@@ -4,7 +4,7 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readFile, writeFile, writeJson } from 'fs-extra';
+import fs from 'fs-extra';
 import { esMain } from '../utils/esmain';
 import { getChanges } from './utils/get-changes';
 
@@ -72,10 +72,10 @@ const writeToChangelogFile = async ({
     console.log(`📝 Writing changelog to ${chalk.blue(changelogPath)}`);
   }
 
-  const currentChangelog = await readFile(changelogPath, 'utf-8');
+  const currentChangelog = await fs.readFile(changelogPath, 'utf-8');
   const nextChangelog = [changelogText, currentChangelog].join('\n\n');
 
-  await writeFile(changelogPath, nextChangelog);
+  await fs.writeFile(changelogPath, nextChangelog);
 };
 
 const writeToDocsVersionFile = async ({
@@ -104,7 +104,7 @@ const writeToDocsVersionFile = async ({
     },
   };
 
-  await writeJson(filepath, content);
+  await fs.writeJson(filepath, content);
 };
 
 export const run = async (args: unknown[], options: unknown) => {

@@ -1,5 +1,5 @@
 import { readdir } from 'fs/promises';
-import { pathExists, readFile } from 'fs-extra';
+import fs from 'fs-extra';
 import { program } from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
@@ -32,7 +32,7 @@ export async function getTemplate(
   { index, total }: { index: number; total: number }
 ) {
   let potentialTemplateKeys: TemplateKey[] = [];
-  if (await pathExists(sandboxDir)) {
+  if (await fs.pathExists(sandboxDir)) {
     const sandboxes = await getDirectories(sandboxDir);
     potentialTemplateKeys = sandboxes
       .map((dirName) => {
@@ -91,7 +91,7 @@ const tasks = Object.keys(tasksMap) as TaskKey[];
 const CONFIG_YML_FILE = '../.circleci/config.yml';
 
 async function checkParallelism(cadence?: Cadence, scriptName?: TaskKey) {
-  const configYml = await readFile(CONFIG_YML_FILE, 'utf-8');
+  const configYml = await fs.readFile(CONFIG_YML_FILE, 'utf-8');
   const data = yaml.parse(configYml);
 
   let potentialTemplateKeys: TemplateKey[] = [];

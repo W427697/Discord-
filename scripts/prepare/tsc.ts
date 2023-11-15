@@ -1,5 +1,5 @@
 import { join } from 'path';
-import fs, { move } from 'fs-extra';
+import fs from 'fs-extra';
 import * as ts from 'typescript';
 import { globSync } from 'glob';
 import { exec } from '../utils/exec';
@@ -12,7 +12,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   } = await fs.readJson(join(cwd, 'package.json'));
 
   if (pre) {
-    await exec(`node -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`, { cwd });
+    await exec(`${__dirname}/../node_modules/tsx/dist/cli.mjs ${pre}`, { cwd });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -57,7 +57,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     }).emit();
 
     const files = globSync(join(process.cwd(), 'dist', '*.js'));
-    await Promise.all(files.map((file) => move(file, file.replace('.js', '.mjs'), {})));
+    await Promise.all(files.map((file) => fs.move(file, file.replace('.js', '.mjs'), {})));
 
     ts.createProgram({
       rootNames: out.fileNames,
@@ -66,11 +66,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   }
 
   if (post) {
-    await exec(
-      `node -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
-      { cwd },
-      { debug: true }
-    );
+    await exec(`${__dirname}/../node_modules/tsx/dist/cli.mjs ${post}`, { cwd }, { debug: true });
   }
 
   if (!watch) {

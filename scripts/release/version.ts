@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { setOutput } from '@actions/core';
-import { readFile, readJson, writeFile, writeJson } from 'fs-extra';
+import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import program from 'commander';
@@ -107,17 +107,17 @@ const validateOptions = (options: { [key: string]: any }): options is Options =>
 
 const getCurrentVersion = async () => {
   console.log(`📐 Reading current version of Storybook...`);
-  const { version } = await readJson(CODE_PACKAGE_JSON_PATH);
+  const { version } = await fs.readJson(CODE_PACKAGE_JSON_PATH);
   return version;
 };
 
 const bumpCodeVersion = async (nextVersion: string) => {
   console.log(`🤜 Bumping version of ${chalk.cyan('code')}'s package.json...`);
 
-  const codePkgJson = await readJson(CODE_PACKAGE_JSON_PATH);
+  const codePkgJson = await fs.readJson(CODE_PACKAGE_JSON_PATH);
 
   codePkgJson.version = nextVersion;
-  await writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
+  await fs.writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
 
   console.log(`✅ Bumped version of ${chalk.cyan('code')}'s package.json`);
 };
@@ -131,9 +131,9 @@ const bumpVersionSources = async (currentVersion: string, nextVersion: string) =
 
   await Promise.all(
     filesToUpdate.map(async (filename) => {
-      const currentContent = await readFile(filename, { encoding: 'utf-8' });
+      const currentContent = await fs.readFile(filename, { encoding: 'utf-8' });
       const nextContent = currentContent.replaceAll(currentVersion, nextVersion);
-      return writeFile(filename, nextContent);
+      return fs.writeFile(filename, nextContent);
     })
   );
 
@@ -162,7 +162,7 @@ const bumpAllPackageJsons = async ({
       const packageJson: {
         version: string;
         [key: string]: any;
-      } = await readJson(packageJsonPath);
+      } = await fs.readJson(packageJsonPath);
       // 3. bump the version
       packageJson.version = nextVersion;
       if (verbose) {
@@ -170,7 +170,7 @@ const bumpAllPackageJsons = async ({
           `    Bumping ${chalk.blue(pkg.name)}'s version to ${chalk.yellow(nextVersion)}`
         );
       }
-      await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+      await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
     })
   );
 };
@@ -181,7 +181,7 @@ const bumpDeferred = async (nextVersion: string) => {
       'code/package.json#deferredNextVersion'
     )} = ${chalk.yellow(nextVersion)}...`
   );
-  const codePkgJson = await readJson(CODE_PACKAGE_JSON_PATH);
+  const codePkgJson = await fs.readJson(CODE_PACKAGE_JSON_PATH);
 
   if (codePkgJson.deferredNextVersion) {
     console.warn(
@@ -192,7 +192,7 @@ const bumpDeferred = async (nextVersion: string) => {
   }
 
   codePkgJson.deferredNextVersion = nextVersion;
-  await writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
+  await fs.writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
 
   console.log(`✅ Set a ${chalk.cyan('deferred')} version bump. Not bumping any packages.`);
 };
@@ -203,7 +203,7 @@ const applyDeferredVersionBump = async () => {
       'code/package.json#deferredNextVersion'
     )}...`
   );
-  const codePkgJson = await readJson(CODE_PACKAGE_JSON_PATH);
+  const codePkgJson = await fs.readJson(CODE_PACKAGE_JSON_PATH);
 
   const { deferredNextVersion } = codePkgJson;
 
@@ -214,7 +214,7 @@ const applyDeferredVersionBump = async () => {
   }
 
   delete codePkgJson.deferredNextVersion;
-  await writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
+  await fs.writeJson(CODE_PACKAGE_JSON_PATH, codePkgJson, { spaces: 2 });
 
   console.log(
     `✅ Extracted and removed deferred version ${chalk.green(

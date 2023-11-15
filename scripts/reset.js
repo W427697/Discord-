@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { remove } from 'fs-extra';
+import fsExtra from 'fs-extra';
 import { spawn } from 'child_process';
 import trash from 'trash';
 
@@ -31,7 +31,7 @@ cleaningProcess.stdout.on('data', (data) => {
             uri.match(/\.cache/) ||
             uri.match(/dll/)
           ) {
-            remove(uri).then(() => {
+            fsExtra.remove(uri).then(() => {
               logger.log(`deleted ${uri}`);
             });
           } else {
@@ -41,7 +41,7 @@ cleaningProcess.stdout.on('data', (data) => {
               })
               .catch((e) => {
                 logger.log('failed to trash, will try permanent delete');
-                remove(uri);
+                fsExtra.remove(uri);
               });
           }
         }

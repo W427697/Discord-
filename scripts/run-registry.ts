@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { remove, pathExists, readJSON } from 'fs-extra';
+import fs from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import program from 'commander';
@@ -51,7 +51,7 @@ const startVerdaccio = async () => {
 };
 
 const currentVersion = async () => {
-  const { version } = await readJSON(path.join(__dirname, '..', 'code', 'package.json'));
+  const { version } = await fs.readJSON(path.join(__dirname, '..', 'code', 'package.json'));
   return version;
 };
 
@@ -130,9 +130,9 @@ const run = async () => {
   if (!process.env.CI) {
     // when running e2e locally, clear cache to avoid EPUBLISHCONFLICT errors
     const verdaccioCache = path.resolve(__dirname, '..', '.verdaccio-cache');
-    if (await pathExists(verdaccioCache)) {
+    if (await fs.pathExists(verdaccioCache)) {
       logger.log(`🗑 cleaning up cache`);
-      await remove(verdaccioCache);
+      await fs.remove(verdaccioCache);
     }
   }
 

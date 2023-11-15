@@ -1,4 +1,4 @@
-import { pathExists, readJSON, writeJSON } from 'fs-extra';
+import fs from 'fs-extra';
 import path from 'path';
 
 import { exec } from './exec';
@@ -19,7 +19,7 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
   if (dryRun) return;
 
   const packageJsonPath = path.join(cwd, 'package.json');
-  const packageJson = await readJSON(packageJsonPath);
+  const packageJson = await fs.readJSON(packageJsonPath);
   packageJson.resolutions = {
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
@@ -28,11 +28,11 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
     'playwright-core': '1.36.0',
     '@playwright/test': '1.36.0',
   };
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  await fs.writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
-  const pnpApiExists = await pathExists(path.join(cwd, '.pnp.cjs'));
+  const pnpApiExists = await fs.pathExists(path.join(cwd, '.pnp.cjs'));
 
   const command = [
     touch('yarn.lock'),
@@ -64,12 +64,12 @@ export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => 
   if (dryRun) return;
 
   const packageJsonPath = path.join(cwd, 'package.json');
-  const packageJson = await readJSON(packageJsonPath);
+  const packageJson = await fs.readJSON(packageJsonPath);
   packageJson.resolutions = {
     ...packageJson.resolutions,
     '@vitejs/plugin-react': '^4.0.0', // due to conflicting version in @storybook/vite-react
   };
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  await fs.writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOptions) => {

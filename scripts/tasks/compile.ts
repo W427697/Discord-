@@ -1,4 +1,4 @@
-import { readFile } from 'fs-extra';
+import fs from 'fs-extra';
 import { resolve } from 'path';
 
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
@@ -19,7 +19,7 @@ export const compile: Task = {
       // To check if the code has been compiled as we need, we check the compiled output of
       // `@storybook/preview`. To check if it has been built for publishing (i.e. `--no-link`),
       // we check if it built types or references source files directly.
-      const contents = await readFile(
+      const contents = await fs.readFile(
         resolve(codeDir, './lib/manager-api/dist/index.d.ts'),
         'utf8'
       );

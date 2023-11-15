@@ -1,4 +1,4 @@
-import { pathExists } from 'fs-extra';
+import fs from 'fs-extra';
 import { resolve } from 'path';
 
 import { exec } from '../utils/exec';
@@ -10,7 +10,7 @@ export const publish: Task = {
   description: 'Publish the packages of the monorepo to an internal npm server',
   dependsOn: ['compile'],
   async ready() {
-    return pathExists(verdaccioCacheDir);
+    return fs.pathExists(verdaccioCacheDir);
   },
   async run({ codeDir }, { dryRun, debug }) {
     return exec(

@@ -3,7 +3,7 @@
 // then combine the results into one large documentation.json
 
 import { join, resolve } from 'path';
-import { realpath, readFile, writeFile, lstat } from 'fs-extra';
+import fs from 'fs-extra';
 import { globSync } from 'glob';
 import { directory } from 'tempy';
 import { execaCommand } from 'execa';
@@ -18,7 +18,8 @@ async function findSymlinks(dir: string) {
   return (
     await Promise.all(
       potentialDirs.map(
-        async (p) => [p, (await lstat(p.replace(/\/$/, ''))).isSymbolicLink()] as [string, boolean]
+        async (p) =>
+          [p, (await fs.lstat(p.replace(/\/$/, ''))).isSymbolicLink()] as [string, boolean]
       )
     )
   )
@@ -37,12 +38,12 @@ async function run(cwd: string) {
   const docsArray: Record<string, any>[] = await Promise.all(
     dirs.map(async (dir) => {
       const outputDir = directory();
-      const resolvedDir = await realpath(dir);
+      const resolvedDir = await fs.realpath(dir);
       await execaCommand(
         `yarn compodoc ${resolvedDir} -p ./tsconfig.json -e json -d ${outputDir}`,
         { cwd }
       );
-      const contents = await readFile(join(outputDir, 'documentation.json'), 'utf8');
+      const contents = await fs.readFile(join(outputDir, 'documentation.json'), 'utf8');
       try {
         return JSON.parse(contents);
       } catch (err) {
@@ -65,7 +66,7 @@ async function run(cwd: string) {
     );
   }, docsArray[0]);
 
-  await writeFile(join(cwd, 'documentation.json'), JSON.stringify(documentation));
+  await fs.writeFile(join(cwd, 'documentation.json'), JSON.stringify(documentation));
 }
 
 if (esMain(import.meta.url)) {

@@ -4,7 +4,7 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readJson } from 'fs-extra';
+import fs from 'fs-extra';
 import fetch from 'node-fetch';
 import dedent from 'ts-dedent';
 import pRetry from 'p-retry';
@@ -50,7 +50,7 @@ const getCurrentVersion = async (verbose?: boolean) => {
   if (verbose) {
     console.log(`📐 Reading current version of Storybook...`);
   }
-  const { version } = await readJson(CODE_PACKAGE_JSON_PATH);
+  const { version } = await fs.readJson(CODE_PACKAGE_JSON_PATH);
   console.log(`📐 Current version of Storybook is ${chalk.green(version)}`);
   return version;
 };

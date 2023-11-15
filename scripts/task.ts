@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import type { TestCase } from 'junit-xml';
 import { getJunitXml } from 'junit-xml';
-import { outputFile, readFile, pathExists } from 'fs-extra';
+import fs from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
@@ -218,7 +218,7 @@ async function writeJunitXml(
   const suite = { name, timestamp: startTime, time, testCases: [testCase, metadata] };
   const junitXml = getJunitXml({ time, name, suites: [suite] });
   const path = getJunitFilename(taskKey);
-  await outputFile(path, junitXml);
+  await fs.outputFile(path, junitXml);
   logger.log(`Test results written to ${resolve(path)}`);
 }
 
@@ -322,7 +322,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
     return controller;
   } catch (err) {
     invariant(err instanceof Error);
-    const hasJunitFile = await pathExists(junitFilename);
+    const hasJunitFile = await fs.pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
       await writeJunitXml(getTaskKey(task), details.key, startTime, err, true);
@@ -330,10 +330,10 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     throw err;
   } finally {
-    if (await pathExists(junitFilename)) {
-      const junitXml = await (await readFile(junitFilename)).toString();
+    if (await fs.pathExists(junitFilename)) {
+      const junitXml = await (await fs.readFile(junitFilename)).toString();
       const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${details.key} $1"`);
-      await outputFile(junitFilename, prefixedXml);
+      await fs.outputFile(junitFilename, prefixedXml);
     }
   }
 }

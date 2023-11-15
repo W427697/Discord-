@@ -1,3 +1,5 @@
+#!/usr/bin/env tsx
+
 import { join } from 'path';
 import fs from 'fs-extra';
 import ts from 'typescript';

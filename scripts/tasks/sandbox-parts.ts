@@ -2,15 +2,7 @@
 // the repo to work properly. So we load it async in the task runner *after* those steps.
 
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
-import {
-  copy,
-  ensureSymlink,
-  ensureDir,
-  existsSync,
-  pathExists,
-  readJson,
-  writeJson,
-} from 'fs-extra';
+import fs from 'fs-extra';
 import { join, resolve, sep } from 'path';
 import { createRequire } from 'module';
 import slash from 'slash';
@@ -54,14 +46,14 @@ export const essentialsAddons = [
 
 export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRun, debug }) => {
   const parentDir = resolve(sandboxDir, '..');
-  await ensureDir(parentDir);
+  await fs.ensureDir(parentDir);
 
   if ('inDevelopment' in template && template.inDevelopment) {
     const srcDir = join(REPROS_DIRECTORY, key, 'after-storybook');
-    if (!existsSync(srcDir)) {
+    if (!fs.existsSync(srcDir)) {
       throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
-    await copy(srcDir, sandboxDir);
+    await fs.copy(srcDir, sandboxDir);
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
@@ -134,7 +126,7 @@ export const init: Task['run'] = async (
     '--preserve-symlinks-main',
   ].filter(Boolean);
 
-  const pnp = await pathExists(join(cwd, '.pnp.cjs')).catch(() => {});
+  const pnp = await fs.pathExists(join(cwd, '.pnp.cjs')).catch(() => {});
   if (pnp && !nodeOptions.find((s) => s.includes('--require'))) {
     nodeOptions.push('--require ./.pnp.cjs');
   }
@@ -324,7 +316,7 @@ async function linkPackageStories(
     ? resolve(linkInDir, variant ? getStoriesFolderWithVariant(variant, packageDir) : packageDir)
     : resolve(cwd, 'template-stories', packageDir);
 
-  await ensureSymlink(source, target);
+  await fs.ensureSymlink(source, target);
 
   if (!linkInDir) {
     addStoriesEntry(mainConfig, packageDir, disableDocs);
@@ -343,10 +335,10 @@ async function linkPackageStories(
         storiesFolderName,
         previewFile
       );
-      if (await pathExists(previewPath)) {
+      if (await fs.pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
-          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
+          storiesDir = (await fs.pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
         }
         addPreviewAnnotations(mainConfig, [
           `./${join(storiesDir, variant ? `${packageDir}_${variant}` : packageDir, previewFile)}`,
@@ -405,7 +397,7 @@ export const addStories: Task['run'] = async (
   if (isCoreRenderer) {
     // Link in the template/components/index.js from preview-api, the renderer and the addons
     const rendererPath = await workspacePath('renderer', template.expected.renderer);
-    await ensureSymlink(
+    await fs.ensureSymlink(
       join(CODE_DIRECTORY, rendererPath, 'template', 'components'),
       resolve(cwd, storiesPath, 'components')
     );
@@ -420,7 +412,7 @@ export const addStories: Task['run'] = async (
     });
 
     if (
-      await pathExists(
+      await fs.pathExists(
         resolve(CODE_DIRECTORY, rendererPath, join('template', storiesVariantFolder))
       )
     ) {
@@ -443,7 +435,7 @@ export const addStories: Task['run'] = async (
     const frameworkPath = await workspacePath('frameworks', template.expected.framework);
 
     // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
-    if (await pathExists(resolve(CODE_DIRECTORY, frameworkPath, join('template', 'stories')))) {
+    if (await fs.pathExists(resolve(CODE_DIRECTORY, frameworkPath, join('template', 'stories')))) {
       await linkPackageStories(frameworkPath, {
         mainConfig,
         cwd,
@@ -453,7 +445,7 @@ export const addStories: Task['run'] = async (
     }
 
     if (
-      await pathExists(
+      await fs.pathExists(
         resolve(CODE_DIRECTORY, frameworkPath, join('template', storiesVariantFolder))
       )
     ) {
@@ -567,25 +559,24 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disabl
  * Compodoc documentation.json, which respects symlinks
  * */
 async function prepareAngularSandbox(cwd: string) {
-  const angularJson = await readJson(join(cwd, 'angular.json'));
+  const angularJson = await fs.readJson(join(cwd, 'angular.json'));
 
   Object.keys(angularJson.projects).forEach((projectName: string) => {
     angularJson.projects[projectName].architect.storybook.options.compodoc = false;
     angularJson.projects[projectName].architect['build-storybook'].options.compodoc = false;
   });
 
-  await writeJson(join(cwd, 'angular.json'), angularJson, { spaces: 2 });
+  await fs.writeJson(join(cwd, 'angular.json'), angularJson, { spaces: 2 });
 
   const packageJsonPath = join(cwd, 'package.json');
-  const packageJson = await readJson(packageJsonPath);
+  const packageJson = await fs.readJson(packageJsonPath);
 
   packageJson.scripts = {
     ...packageJson.scripts,
-    'docs:json':
-      'DIR=$PWD; cd ../../scripts; node --loader esbuild-register/loader -r esbuild-register combine-compodoc $DIR',
+    'docs:json': 'DIR=$PWD; cd ../../scripts; yarn tsx combine-compodoc $DIR',
     storybook: `yarn docs:json && ${packageJson.scripts.storybook}`,
     'build-storybook': `yarn docs:json && ${packageJson.scripts['build-storybook']}`,
   };
 
-  await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+  await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
 }

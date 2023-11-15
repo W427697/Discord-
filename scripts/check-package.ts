@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { readJSON } from 'fs-extra';
+import fs from 'fs-extra';
 import prompts from 'prompts';
 import program from 'commander';
 import chalk from 'chalk';
@@ -98,7 +98,8 @@ async function run() {
   }
 
   selection?.filter(Boolean).forEach(async (v) => {
-    const commmand = (await readJSON(resolve('../code', v.location, 'package.json'))).scripts.check;
+    const commmand = (await fs.readJSON(resolve('../code', v.location, 'package.json'))).scripts
+      .check;
     const cwd = resolve(__dirname, '..', 'code', v.location);
     const sub = execaCommand(`${commmand}${watchMode ? ' --watch' : ''}`, {
       cwd,

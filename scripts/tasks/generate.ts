@@ -1,4 +1,4 @@
-import { pathExists, remove } from 'fs-extra';
+import fs from 'fs-extra';
 import { join } from 'path';
 import { REPROS_DIRECTORY } from '../utils/constants';
 
@@ -10,7 +10,7 @@ export const generate: Task = {
   description: 'Create the template repro',
   dependsOn: ['run-registry'],
   async ready({ key, template }, { link }) {
-    const isReady = pathExists(join(REPROS_DIRECTORY, key, 'after-storybook'));
+    const isReady = fs.pathExists(join(REPROS_DIRECTORY, key, 'after-storybook'));
     if (isReady) {
       return isReady;
     }
@@ -23,7 +23,7 @@ export const generate: Task = {
     const reproDir = join(REPROS_DIRECTORY, details.key);
     if (await this.ready(details, options)) {
       logger.info('🗑  Removing old repro dir');
-      await remove(reproDir);
+      await fs.remove(reproDir);
     }
 
     // This uses an async import as it depends on `lib/cli` which requires `code` to be installed.

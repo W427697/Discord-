@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { readJson } from 'fs-extra';
+import fs from 'fs-extra';
 import { join } from 'path';
 import { execaCommand } from 'execa';
 import { esMain } from './utils/esmain';
@@ -15,7 +15,7 @@ const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
 
   // The CI workflows can run on release branches and we should display the version number
   if (branch === 'next-release' || branch === 'latest-release') {
-    const packageJson = await readJson(join(CODE_DIRECTORY, 'package.json'));
+    const packageJson = await fs.readJson(join(CODE_DIRECTORY, 'package.json'));
 
     // running in alpha branch we should just show the version which failed
     return `\n**Version: ${packageJson.version}**`;

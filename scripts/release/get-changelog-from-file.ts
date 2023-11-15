@@ -2,7 +2,7 @@
 import { setOutput } from '@actions/core';
 import chalk from 'chalk';
 import { program } from 'commander';
-import { readFile } from 'fs-extra';
+import fs from 'fs-extra';
 import path from 'path';
 import semver from 'semver';
 import dedent from 'ts-dedent';
@@ -30,7 +30,7 @@ export const getChangelogFromFile = async (args: {
 
   console.log(`📝 Getting changelog from ${chalk.blue(changelogPath)}`);
 
-  const fullChangelog = await readFile(changelogPath, 'utf-8');
+  const fullChangelog = await fs.readFile(changelogPath, 'utf-8');
   const changelogForVersion = fullChangelog.split(/(^|\n)## /).find((v) => v.startsWith(version));
   if (!changelogForVersion) {
     throw new Error(

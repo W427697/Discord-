@@ -1,4 +1,6 @@
-import * as fs from 'fs-extra';
+#!/usr/bin/env tsx
+
+import fs from 'fs-extra';
 import path, { dirname, join, relative } from 'path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
@@ -44,7 +46,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   } = (await fs.readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
 
   if (pre) {
-    await exec(`node -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`, { cwd });
+    await exec(`${__dirname}/../node_modules/tsx/dist/cli.mjs ${pre}`, { cwd });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -149,11 +151,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   await Promise.all(tasks);
 
   if (post) {
-    await exec(
-      `node -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
-      { cwd },
-      { debug: true }
-    );
+    await exec(`${__dirname}/../node_modules/tsx/dist/cli.mjs ${post}`, { cwd }, { debug: true });
   }
 
   console.log('done');

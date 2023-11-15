@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import program from 'commander';
 import { setOutput } from '@actions/core';
 import path from 'path';
-import { readJson } from 'fs-extra';
+import fs from 'fs-extra';
 import { esMain } from '../utils/esmain';
 import { getPullInfoFromCommit } from './utils/get-github-info';
 import { git } from './utils/git-client';
@@ -21,7 +21,7 @@ const CODE_PACKAGE_JSON_PATH = path.join(CODE_DIR_PATH, 'package.json');
 
 const getCurrentVersion = async () => {
   console.log(`📐 Reading current version of Storybook...`);
-  const { version } = await readJson(CODE_PACKAGE_JSON_PATH);
+  const { version } = await fs.readJson(CODE_PACKAGE_JSON_PATH);
   return version;
 };
 

@@ -1,5 +1,5 @@
 import { resolve, posix, sep } from 'path';
-import { readJSON } from 'fs-extra';
+import fs from 'fs-extra';
 import prompts from 'prompts';
 import program from 'commander';
 import chalk from 'chalk';
@@ -115,7 +115,9 @@ async function run() {
   }
 
   selection?.filter(Boolean).forEach(async (v) => {
-    const commmand = (await readJSON(resolve('../code', v.location, 'package.json'))).scripts.prep
+    const commmand = (
+      await fs.readJSON(resolve('../code', v.location, 'package.json'))
+    ).scripts.prep
       .split(posix.sep)
       .join(sep);
 

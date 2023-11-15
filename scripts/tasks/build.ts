@@ -1,4 +1,4 @@
-import { pathExists } from 'fs-extra';
+import fs from 'fs-extra';
 import dirSize from 'fast-folder-size';
 import { promisify } from 'util';
 import { join } from 'path';
@@ -10,7 +10,7 @@ export const build: Task = {
   description: 'Build the static version of the sandbox',
   dependsOn: ['sandbox'],
   async ready({ builtSandboxDir }) {
-    return pathExists(builtSandboxDir);
+    return fs.pathExists(builtSandboxDir);
   },
   async run({ sandboxDir, template }, { dryRun, debug }) {
     const start = now();

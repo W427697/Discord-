@@ -13,7 +13,7 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
-import { readJson } from 'fs-extra';
+import fs from 'fs-extra';
 import { esMain } from '../utils/esmain';
 import { run as bumpVersion } from './version';
 import { git } from './utils/git-client';
@@ -44,7 +44,7 @@ const validateOptions = (options: { [key: string]: any }): options is Options =>
 };
 
 const getCurrentVersion = async () => {
-  const { version } = await readJson(CODE_PACKAGE_JSON_PATH);
+  const { version } = await fs.readJson(CODE_PACKAGE_JSON_PATH);
   console.log(`📐 Current version of Storybook is ${chalk.green(version)}`);
   return version;
 };
