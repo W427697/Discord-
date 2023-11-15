@@ -13,7 +13,6 @@ type Path = string;
 const csfFiles: Record<Path, ModuleExports> = {};
 const csfResolvers: Record<Path, (moduleExports: ModuleExports) => void> = {};
 const csfPromises: Record<Path, Promise<ModuleExports>> = {};
-let useEffect = (_1: any, _2: any) => {};
 if (typeof window !== 'undefined') {
   window.FEATURES = { storyStoreV7: true };
 
@@ -22,8 +21,6 @@ if (typeof window !== 'undefined') {
     csfFiles[path] = moduleExports;
     csfResolvers[path]?.(moduleExports);
   };
-
-  useEffect = (cb, _) => cb();
 }
 
 export const importFn = async (
