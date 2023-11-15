@@ -85,7 +85,6 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
             const storyDir = join(storybookDir, story.id);
             await ensureDir(storyDir);
             const relativeStoryPath = relative(storyDir, fileName).replace(/\.tsx?$/, '');
-            // const relativePreviewPath = relative(storyDir, storybookPreview);
             const { exportName } = story;
 
             const pageTsx = dedent`
@@ -103,7 +102,6 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
             
             const page = async () => {
               const stories = await import('${relativeStoryPath}');
-              // const projectAnnotations = await import('${relativePreviewPath}') as any;
               const projectAnnotations = {};
               const Composed = composeStory(stories.${exportName}, stories.default, projectAnnotations?.default || {}, '${exportName}');
               const extraArgs = await getArgs(Composed.id);
