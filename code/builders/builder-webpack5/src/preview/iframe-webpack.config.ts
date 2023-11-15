@@ -221,7 +221,7 @@ export default async (
   }
 
   const externals: Record<string, string> = globalsNameReferenceMap;
-  if (build?.test?.emptyBlocks) {
+  if (build?.test?.disableBlocks) {
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
@@ -277,7 +277,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
-            ...(build?.test?.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
+            ...(build?.test?.disableBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
           bodyHtmlSnippet,
@@ -324,7 +324,7 @@ export default async (
             fullySpecified: false,
           },
         },
-        builderOptions.useSWC || options.build?.test?.optimizeCompilation
+        builderOptions.useSWC
           ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
@@ -363,7 +363,7 @@ export default async (
         ? {
             minimize: true,
             // eslint-disable-next-line no-nested-ternary
-            minimizer: options.build?.test?.optimizeCompilation
+            minimizer: options.build?.test?.esbuildMinify
               ? [
                   new TerserWebpackPlugin<EsbuildOptions>({
                     parallel: true,

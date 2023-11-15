@@ -1,4 +1,4 @@
-import type { PresetProperty, StorybookConfig } from '@storybook/types';
+import type { Options, PresetProperty, StorybookConfig, TestBuildFlags } from '@storybook/types';
 import { normalizeStories, commonGlobOptions } from '@storybook/core-common';
 import { isAbsolute, join } from 'path';
 import slash from 'slash';
@@ -18,8 +18,8 @@ export const framework: PresetProperty<'framework', StorybookConfig> = async (co
 };
 
 export const stories: PresetProperty<'stories', StorybookConfig> = async (entries, options) => {
-  if (options?.build?.test?.removeMDXEntries) {
-    const out = (
+  if (options?.build?.test?.disableMDXEntries) {
+    return (
       await Promise.all(
         normalizeStories(entries, {
           configDir: options.configDir,
@@ -34,9 +34,15 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
           });
         })
       )
-    ).reduce((carry, s) => carry.concat(s), []);
-
-    return out.filter((s) => !s.endsWith('.mdx'));
+    ).flatMap((expanded, i) => {
+      const filteredEntries = expanded.filter((s) => !s.endsWith('.mdx'));
+      // only return the filtered entries when there is something to filter
+      // as webpack is faster with unexpanded globs
+      if (filteredEntries.length < expanded.length) {
+        return filteredEntries;
+      }
+      return entries[i];
+    });
   }
   return entries;
 };
@@ -49,8 +55,29 @@ export const typescript: PresetProperty<'typescript', StorybookConfig> = async (
 };
 
 export const docs: PresetProperty<'docs', StorybookConfig> = async (input, options) => {
-  if (options?.build?.test?.removeAutoDocs) {
+  if (options?.build?.test?.disableAutoDocs) {
     return {};
   }
   return input;
+};
+
+const createTestBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
+  disableBlocks: value,
+  disabledAddons: value ? ['@storybook/addon-docs', '@storybook/addon-coverage'] : [],
+  disableMDXEntries: value,
+  disableAutoDocs: value,
+  disableDocgen: value,
+  disableSourcemaps: value,
+  disableTreeShaking: value,
+  esbuildMinify: value,
+});
+
+export const build = async (value: StorybookConfig['build'], options: Options) => {
+  return {
+    ...value,
+    test: {
+      ...createTestBuildFeatures(!!options.test),
+      ...value?.test,
+    },
+  };
 };
