@@ -9,7 +9,8 @@
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
-      - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
+    - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
+    - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
     - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
     - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
@@ -426,9 +427,32 @@ In Storybook 8.0 we are introducing a new icon library available with `@storyboo
 
 ## From version 7.5.0 to 7.6.0
 
-##### Primary doc block accepts of prop
+#### Primary doc block accepts of prop
 
 The `Primary` doc block now also accepts an `of` prop as described in the [Doc Blocks](#doc-blocks) section. It still accepts being passed `name` or no props at all.
+
+#### Addons no longer need a peer dependency on React
+
+Historically the majority of addons have had a peer dependency on React and a handful of Storybook core packages. In most cases this has not been necessary since 7.0 because the Storybook manager makes those available on the global scope. It has created an unnecessary burden for users in non-React projects.
+
+We've migrated all the core addons (except for `addon-docs`) to not depend on these packages by:
+
+1. Moving `react`, `react-dom` and the globalized Storybook packages from `peerDependencies` to `devDependencies`
+2. Added the list of globalized packages to the `externals` property in the `tsup` configuration, to ensure they are not part of the bundle.
+
+As of Storybook 7.6.0 the list of globalized packages can be imported like this:
+
+```ts
+// tsup.config.ts
+
+import { globalPackages as globalManagerPackages } from '@storybook/manager/globals';
+import { globalPackages as globalPreviewPackages } from '@storybook/preview/globals';
+
+const allGlobalPackages = [...globalManagerPackages, ...globalPreviewPackages];
+```
+
+We recommend checking out [the updates we've made to the addon-kit](https://github.com/storybookjs/addon-kit/pull/60/files#diff-8fed899bdbc24789a7bb4973574e624ed6207c6ce572338bc3c3e117672b2a20), that can serve as a base for the changes you can do in your own addon. These changes are not necessary for your addon to keep working, but they will remove the need for your users to unnecessary install `react` and `react-dom` to their projects, and they'll significantly reduce the install size of your addon.
+These changes should not be breaking for your users, unless you support Storybook pre-v7.
 
 ## From version 7.4.0 to 7.5.0
 

@@ -1,10 +1,12 @@
+import prettyBytes from 'pretty-bytes';
+import prettyTime from 'pretty-ms';
+
 import type { Task } from '../task';
 
 import { PORT as devPort, dev } from './dev';
 import { PORT as servePort, serve } from './serve';
 
-// eslint-disable-next-line @typescript-eslint/no-implied-eval
-const dynamicImport = new Function('specifier', 'return import(specifier)');
+const logger = console;
 
 export const bench: Task = {
   description: 'Run benchmarks against a sandbox in dev mode',
@@ -19,8 +21,6 @@ export const bench: Task = {
       const { disableDocs } = options;
       const { browse } = await import('../bench/browse');
       const { saveBench, loadBench } = await import('../bench/utils');
-      const { default: prettyBytes } = await dynamicImport('pretty-bytes');
-      const { default: prettyTime } = await dynamicImport('pretty-ms');
 
       const devController = await dev.run(details, { ...options, debug: false });
       if (!devController) {
@@ -72,6 +72,10 @@ export const bench: Task = {
         }
       });
     } catch (e) {
+      logger.log(
+        `An error occurred while running the benchmarks for the ${details.sandboxDir} sandbox`
+      );
+      logger.error(e);
       controllers.forEach((c) => c.abort());
       throw e;
     }

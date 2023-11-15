@@ -45,11 +45,16 @@ Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
+<<<<<<< HEAD
 💡 Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon.
+=======
+Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
 
-</div>
+> > > > > > > next
+
+</Callout>
 
 Now when you run Storybook, the Interactions addon will be enabled.
 
@@ -81,4 +86,10 @@ The above example uses the `canvasElement` to scope your element queries to the 
 
 While you can refer to the [Testing Library documentation](https://testing-library.com/docs/) for details on how to use it, there's an important detail that's different when using the Storybook wrapper: **method invocations must be `await`-ed**. It allows you to step back and forth through your interactions using the debugger.
 
-In the example above, the `fn` utility is applied to the `onSubmit` arg. `fn` maps to [`vi.fn`](https://vitest.dev/api/vi.html#vi-fn), a Vitest spy utility that allows you to make assertions about calls to these functions. This makes it possible to assert whether that arg was called during the play function.
+Any `args` that have been marked as an Action, either using the [argTypes annotation](./actions.md#action-argtype-annotation) or the [argTypesRegex](./actions.md#automatically-matching-args), will be automatically converted to a [Jest mock function](https://jestjs.io/docs/mock-function-api) (spy). This allows you to make assertions about calls to these functions.
+
+<Callout variant="info">
+
+To mock functions in your Storybook stories for reliable and isolated component testing, use the `jest` import from `@storybook/jest`. This allows you to avoid configuring Jest globally in your project.
+
+</Callout>
