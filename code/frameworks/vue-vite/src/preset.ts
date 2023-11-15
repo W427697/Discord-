@@ -23,6 +23,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
 export const typescript: PresetProperty<'typescript', StorybookConfig> = async (config) => ({
   ...config,
   skipBabel: true,
+  skipCompiler: true,
 });
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

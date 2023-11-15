@@ -90,6 +90,8 @@ Only available for React Storybook projects. Options to pass to react-docgen-typ
 
 ## `skipBabel`
 
+Deprecated: Will be removed in Storybook 8.0. Use `skipCompiler` instead
+
 Type: `boolean`
 
 Disable parsing of TypeScript files through babel.
@@ -99,6 +101,22 @@ Disable parsing of TypeScript files through babel.
 <CodeSnippets
   paths={[
     'common/main-config-typescript-skip-babel.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+## `skipCompiler`
+
+Type: `boolean`
+
+Disable parsing of TypeScript files through the compiler, which is used for Webpack5.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-typescript-skip-compiler.ts.mdx',
   ]}
 />
 
