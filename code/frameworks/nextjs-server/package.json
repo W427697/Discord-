@@ -34,10 +34,6 @@
       "types": "./dist/plugin.d.ts",
       "require": "./dist/plugin.js"
     },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "import": "./dist/preview.mjs"
-    },
     "./mock": {
       "types": "./dist/mock.d.ts",
       "node": "./dist/mock.js",
