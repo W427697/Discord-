@@ -1,5 +1,6 @@
-// Here we map the name of a module to their NAME in the global scope.
-export const globals = {
+// Here we map the name of a module to their REFERENCE in the global scope.
+
+export const globalsNameReferenceMap = {
   '@storybook/addons': '__STORYBOOK_MODULE_ADDONS__',
   '@storybook/global': '__STORYBOOK_MODULE_GLOBAL__',
   '@storybook/channel-postmessage': '__STORYBOOK_MODULE_CHANNEL_POSTMESSAGE__', // @deprecated: remove in 8.0
@@ -12,4 +13,9 @@ export const globals = {
   '@storybook/preview-web': '__STORYBOOK_MODULE_PREVIEW_WEB__',
   '@storybook/preview-api': '__STORYBOOK_MODULE_PREVIEW_API__',
   '@storybook/store': '__STORYBOOK_MODULE_STORE__',
-};
+  '@storybook/types': '__STORYBOOK_MODULE_TYPES__',
+} as const;
+
+export const globalPackages = Object.keys(globalsNameReferenceMap) as Array<
+  keyof typeof globalsNameReferenceMap
+>;
