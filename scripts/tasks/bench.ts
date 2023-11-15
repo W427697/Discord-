@@ -19,8 +19,12 @@ export const bench: Task = {
     const controllers: AbortController[] = [];
     try {
       const { disableDocs } = options;
-      const { browse } = await import('../bench/browse');
-      const { saveBench, loadBench } = await import('../bench/utils');
+      // @ts-expect-error esbuild for some reason exports a default object
+      // eslint-disable-next-line import/extensions
+      const { browse } = (await import('../bench/browse.ts')).default;
+      // @ts-expect-error esbuild for some reason exports a default object
+      // eslint-disable-next-line import/extensions
+      const { saveBench, loadBench } = (await import('../bench/utils.ts')).default;
 
       const devController = await dev.run(details, { ...options, debug: false });
       if (!devController) {
