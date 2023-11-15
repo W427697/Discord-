@@ -38,7 +38,7 @@ export const importFn = async (
     return csfFiles[path];
   }
 
-  // @ts-expect-error weird use of promises
+  // @ts-expect-error TS is confused, this is not a bug
   if (csfPromises[path]) {
     console.log('got promise, short circuiting');
     return csfPromises[path];
