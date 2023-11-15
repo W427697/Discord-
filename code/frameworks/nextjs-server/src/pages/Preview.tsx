@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-// import React, { useEffect } from 'react';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import type { Renderer } from '@storybook/csf';
@@ -81,7 +80,11 @@ export const Preview = ({
   getProjectAnnotations: GetProjectAnnotations;
 }) => {
   const router = useRouter();
-  useEffect(() => {
+
+  // We can't use React's useEffect in the monorepo because of dependency issues,
+  // but we only need to ensure code runs *once* on the client only, so let's just make
+  // our own version of that
+  if (typeof window !== 'undefined') {
     if (!window.__STORYBOOK_PREVIEW__) {
       console.log('creating preview');
       const channel = createBrowserChannel({ page: 'preview' });
@@ -102,9 +105,7 @@ export const Preview = ({
     if (!document.querySelector('#storybook-root')) {
       document.body.innerHTML += previewHtml;
     }
-
-    return () => {};
-  }, [getProjectAnnotations, router]);
+  }
 
   return <></>;
 };
