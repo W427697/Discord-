@@ -14,7 +14,7 @@ type Path = string;
 const csfFiles: Record<Path, ModuleExports> = {};
 const csfResolvers: Record<Path, (moduleExports: ModuleExports) => void> = {};
 const csfPromises: Record<Path, Promise<ModuleExports>> = {};
-let useEffect = (_1, _2) => {};
+let useEffect = (_1: any, _2: any) => {};
 if (typeof window !== 'undefined') {
   window.FEATURES = { storyStoreV7: true };
 
@@ -39,6 +39,7 @@ export const importFn = async (
     return csfFiles[path];
   }
 
+  // @ts-expect-error weird use of promises
   if (csfPromises[path]) {
     console.log('got promise, short circuiting');
     return csfPromises[path];
