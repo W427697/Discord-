@@ -1,8 +1,7 @@
 import { join } from 'path';
-import semver from 'semver';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
-import { CoreBuilder } from '../../project_types';
+import { CoreBuilder, ProjectType } from '../../project_types';
 import { AngularJSON, compoDocPreviewPrefix, promptForCompoDocs } from './helpers';
 import { getCliDir } from '../../dirs';
 import { paddedLog, copyTemplate } from '../../helpers';
@@ -13,10 +12,6 @@ const generator: Generator<{ projectName: string }> = async (
   options,
   commandOptions
 ) => {
-  const angularVersion = await packageManager.getPackageVersion('@angular/core');
-  const isWebpack5 = angularVersion && semver.gte(angularVersion, '12.0.0');
-  const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
-
   const angularJSON = new AngularJSON();
 
   if (
@@ -62,7 +57,9 @@ const generator: Generator<{ projectName: string }> = async (
     packageManager,
     npmOptions,
     {
-      ...updatedOptions,
+      ...options,
+      builder: CoreBuilder.Webpack5,
+      projectType: ProjectType.ANGULAR,
       ...(useCompodoc && {
         frameworkPreviewParts: {
           prefix: compoDocPreviewPrefix,
