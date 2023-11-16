@@ -31,12 +31,13 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
       const routeDir = appDir ? 'app' : 'pages';
       const inputStorybookDir = resolve(__dirname, `../template/${routeDir}/storybookPreview`);
       const storybookDir = join(process.cwd(), routeDir, 'storybookPreview');
+      await ensureDir(storybookDir);
 
       if (appDir) {
         try {
           await cp(inputStorybookDir, storybookDir, { recursive: true });
           const hasRootLayout = await Promise.any(
-            LAYOUT_FILES.map((file) => exists(join(appDir, file)))
+            LAYOUT_FILES.map((file) => exists(join(process.cwd(), routeDir, file)))
           );
           const inputLayout = hasRootLayout ? 'layout-nested.tsx' : 'layout-root.tsx';
           await cp(`${inputStorybookDir}/${inputLayout}`, join(storybookDir, 'layout.tsx'));
@@ -91,43 +92,37 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
 
             const pageTsx = dedent`
               import React from 'react';
-              import { StorybookUI } from '../components/StorybookUI';
-              import { Preview }
-
-
-
-            import React from 'react';
-            import { composeStory } from '@storybook/react/testing-api';
-            import { getArgs } from '../components/args';
-            import { Prepare, StoryAnnotations } from '../components/Prepare';
-            import { Args } from '@storybook/react';
-            
-            const page = async () => {
-              const stories = await import('${relativeStoryPath}');
-              const projectAnnotations = {};
-              const Composed = composeStory(stories.${exportName}, stories.default, projectAnnotations?.default || {}, '${exportName}');
-              const extraArgs = await getArgs(Composed.id);
+              import { composeStory } from '@storybook/react/testing-api';
+              import { getArgs } from '../components/args';
+              import { Prepare, StoryAnnotations } from '../components/Prepare';
+              import { Args } from '@storybook/react';
               
-              const { id, parameters, argTypes, initialArgs } = Composed;
-              const args = { ...initialArgs, ...extraArgs };
-              
-              const storyAnnotations: StoryAnnotations<Args> = {
-                id,
-                parameters,
-                argTypes,
-                initialArgs,
-                args,
-              };
-              return (
-                <>
-                <Prepare story={storyAnnotations} />
-                {/* @ts-ignore TODO -- why? */}
-                <Composed {...extraArgs} />
-                </>
-                );
-              };
-              export default page;
-            `;
+              const page = async () => {
+                const stories = await import('${relativeStoryPath}');
+                const projectAnnotations = {};
+                const Composed = composeStory(stories.${exportName}, stories.default, projectAnnotations?.default || {}, '${exportName}');
+                const extraArgs = await getArgs(Composed.id);
+                
+                const { id, parameters, argTypes, initialArgs } = Composed;
+                const args = { ...initialArgs, ...extraArgs };
+                
+                const storyAnnotations: StoryAnnotations<Args> = {
+                  id,
+                  parameters,
+                  argTypes,
+                  initialArgs,
+                  args,
+                };
+                return (
+                  <>
+                  <Prepare story={storyAnnotations} />
+                  {/* @ts-ignore TODO -- why? */}
+                  <Composed {...extraArgs} />
+                  </>
+                  );
+                };
+                export default page;
+              `;
 
             const pageFile = join(storyDir, 'page.tsx');
             await writeFile(pageFile, pageTsx);
