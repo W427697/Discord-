@@ -74,7 +74,7 @@ export const getVirtualModuleMapping = async (options: Options) => {
     virtualModuleMapping[rendererInitEntry] = `import '${slash(rendererName)}';`;
 
     const entryTemplate = await readTemplate(
-      join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
+      join(__dirname, '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
     previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
@@ -93,7 +93,7 @@ export const getVirtualModuleMapping = async (options: Options) => {
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        join(__dirname, '..', '..', 'templates', 'virtualModuleStory.template.js')
+        join(__dirname, '..', 'templates', 'virtualModuleStory.template.js')
       );
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.
