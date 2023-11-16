@@ -90,11 +90,11 @@ Only available for React Storybook projects. Options to pass to react-docgen-typ
 
 ## `skipBabel`
 
-Deprecated: Will be removed in Storybook 8.0. Use `skipCompiler` instead
+Deprecated: Will be removed in Storybook 8.0. Use `skipCompiler` instead.
 
 Type: `boolean`
 
-Disable parsing of TypeScript files through babel.
+Disable parsing of TypeScript files through Babel.
 
 <!-- prettier-ignore-start -->
 
