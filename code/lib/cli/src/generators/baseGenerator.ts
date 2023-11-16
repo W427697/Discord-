@@ -4,7 +4,7 @@ import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
+import { SupportedLanguage, externalFrameworks, CoreBuilder, ProjectType } from '../project_types';
 import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
@@ -171,6 +171,15 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
   ['angular', 'nextjs'].includes(framework);
 
+function shouldUseSWCCompiler(builder: Builder, projectType: ProjectType) {
+  return (
+    builder === CoreBuilder.Webpack5 &&
+    projectType !== ProjectType.ANGULAR &&
+    // TODO: Remove in Storybook 8.0
+    projectType !== ProjectType.NEXTJS
+  );
+}
+
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
@@ -194,22 +203,7 @@ export async function baseGenerator(
     builder = await detectBuilder(packageManager, projectType);
   }
 
-  const {
-    extraAddons: extraAddonPackages,
-    extraPackages,
-    staticDir,
-    addScripts,
-    addMainFile,
-    addComponents,
-    skipBabel,
-    extraMain,
-    extensions,
-    storybookConfigFolder,
-    componentsDestinationPath,
-  } = {
-    ...defaultOptions,
-    ...options,
-  };
+  const useSWC = shouldUseSWCCompiler(builder, projectType);
 
   const {
     packages: frameworkPackages,
@@ -225,6 +219,31 @@ export async function baseGenerator(
     framework,
     shouldApplyRequireWrapperOnPackageNames
   );
+
+  const {
+    extraAddons: extraAddonPackages,
+    extraPackages,
+    staticDir,
+    addScripts,
+    addMainFile,
+    addComponents,
+    extraMain,
+    extensions,
+    storybookConfigFolder,
+    componentsDestinationPath,
+  } = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  let { skipBabel } = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  if (useSWC) {
+    skipBabel = true;
+  }
 
   const extraAddonsToInstall =
     typeof extraAddonPackages === 'function'
@@ -401,7 +420,19 @@ export async function baseGenerator(
       : [];
 
     await configureMain({
-      framework: { name: frameworkInclude, options: options.framework || {} },
+      framework: {
+        name: frameworkInclude,
+        options: useSWC
+          ? {
+              ...(options.framework ?? {}),
+              builder: {
+                ...(options.framework?.builder ?? {}),
+                useSWC: true,
+              },
+            }
+          : options.framework || {},
+      },
+      useSWC,
       prefixes,
       storybookConfigFolder,
       docs: { autodocs: 'tag' },
