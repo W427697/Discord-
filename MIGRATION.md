@@ -9,6 +9,7 @@
     - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
     - [Icons is deprecated](#icons-is-deprecated)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
+    - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
     - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
@@ -426,6 +427,10 @@ The `IconButton` doesn't have any deprecated props but it now uses the new `Butt
 In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
 
 ## From version 7.5.0 to 7.6.0
+
+#### typescript.skipBabel deprecated
+
+We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescirpt.skipCompiler` instead.
 
 #### Primary doc block accepts of prop
 

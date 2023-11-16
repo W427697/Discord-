@@ -478,4 +478,5 @@ export default {
     'useStorybookState',
   ],
   '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
+  '@storybook/types': ['Addon_TypesEnum'],
 } as const;

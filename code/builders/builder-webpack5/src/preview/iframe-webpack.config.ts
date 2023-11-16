@@ -11,7 +11,7 @@ import slash from 'slash';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
-import { globals } from '@storybook/preview/globals';
+import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
   getRendererName,
@@ -198,7 +198,8 @@ export default async (
     }
   }
 
-  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
+  const shouldCheckTs =
+    typescriptOptions.check && !typescriptOptions.skipBabel && !typescriptOptions.skipCompiler;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
@@ -218,8 +219,9 @@ export default async (
     `);
   }
 
+  const externals: Record<string, string> = globalsNameReferenceMap;
   if (build?.test?.disableBlocks) {
-    globals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+    externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
   return {
@@ -240,7 +242,7 @@ export default async (
     watchOptions: {
       ignored: /node_modules/,
     },
-    externals: globals,
+    externals,
     ignoreWarnings: [
       {
         message: /export '\S+' was not found in 'global'/,

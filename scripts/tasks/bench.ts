@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import prettyBytes from 'pretty-bytes';
 import prettyTime from 'pretty-ms';
 
@@ -19,11 +20,9 @@ export const bench: Task = {
     const controllers: AbortController[] = [];
     try {
       const { disableDocs } = options;
-      // @ts-expect-error esbuild for some reason exports a default object
-      // eslint-disable-next-line import/extensions
+      // @ts-expect-error Default import required for dynamic import processed by esbuild
       const { browse } = (await import('../bench/browse.ts')).default;
-      // @ts-expect-error esbuild for some reason exports a default object
-      // eslint-disable-next-line import/extensions
+      // @ts-expect-error Default import required for dynamic import processed by esbuild
       const { saveBench, loadBench } = (await import('../bench/utils.ts')).default;
 
       const devController = await dev.run(details, { ...options, debug: false });
@@ -32,6 +31,7 @@ export const bench: Task = {
       }
       controllers.push(devController);
       const devBrowseResult = await browse(`http://localhost:${devPort}`, { disableDocs });
+
       devController.abort();
 
       const serveController = await serve.run(details, { ...options, debug: false });
@@ -39,6 +39,7 @@ export const bench: Task = {
         throw new Error('serve: controller is null');
       }
       controllers.push(serveController);
+
       const buildBrowseResult = await browse(`http://localhost:${servePort}`, { disableDocs });
       serveController.abort();
 

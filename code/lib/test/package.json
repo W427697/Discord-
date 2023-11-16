@@ -59,7 +59,7 @@
   "devDependencies": {
     "ts-dedent": "^2.2.0",
     "type-fest": "~2.19",
-    "typescript": "~4.9.3"
+    "typescript": "~5.2.2"
   },
   "publishConfig": {
     "access": "public"
