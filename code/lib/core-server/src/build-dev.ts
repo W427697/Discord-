@@ -74,7 +74,11 @@ export async function buildDevStandalone(
 
   corePresets.push(join(frameworkName, 'preset'));
 
-  await warnOnIncompatibleAddons(config);
+  try {
+    await warnOnIncompatibleAddons(config);
+  } catch (e) {
+    console.warn("Failed to check for incompatible addons", e);
+  }
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account
