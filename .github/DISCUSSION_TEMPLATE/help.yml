@@ -21,7 +21,7 @@ When you're ready to post:
     attributes:
       label: Additional information
       description: |
-        Share Your Storybook configuration (`main.js or main.ts`), your Storybook version number, any error messages, or any relevant dependencies. These help us get a clearer understanding of what might be going wrong.
+        Share Your Storybook configuration (`main.js` or `main.ts`), your Storybook version number, any error messages, and any relevant dependencies. These help us get a clearer understanding of what might be going wrong.
 
         P.s. please share code as text rather than as a screenshot! It makes debugging much easier and faster.
       render: js
