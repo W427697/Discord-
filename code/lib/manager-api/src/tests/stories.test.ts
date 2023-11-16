@@ -1256,8 +1256,6 @@ describe('stories API', () => {
       const { api } = initStories(moduleArgs as unknown as ModuleArgs);
       const { store } = moduleArgs;
 
-      // await api.setIndex({ v: 4, entries: mockEntries });
-
       await expect(
         api.experimental_updateStatus('a-addon-id', {
           'a-story-id': {
