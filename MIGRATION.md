@@ -2,6 +2,7 @@
 
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated) 
+    - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
     - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
@@ -359,6 +360,10 @@ To summarize:
 - This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
 - This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
 - This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
+
+#### typescript.skipBabel deprecated
+
+We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescirpt.skipCompiler` instead.
 
 #### Primary doc block accepts of prop
 

@@ -223,8 +223,16 @@ export interface TypescriptOptions {
    * Disable parsing typescript files through babel.
    *
    * @default `false`
+   * @deprecated use `skipCompiler` instead
    */
   skipBabel: boolean;
+
+  /**
+   * Disable parsing typescript files through compiler.
+   *
+   * @default `false`
+   */
+  skipCompiler: boolean;
 }
 
 export type Preset =
