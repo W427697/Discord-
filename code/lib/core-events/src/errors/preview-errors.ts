@@ -57,14 +57,14 @@ export class ImplicitActionsDuringRendering extends StorybookError {
   readonly documentation =
     'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#using-implicit-actions-during-rendering-is-deprecated-for-example-in-the-play-function';
 
-  constructor(public data: { phase: string; name: string }) {
+  constructor(public data: { phase: string; name: string; deprecated: boolean }) {
     super();
   }
 
   template() {
     return dedent`
       We detected that you use an implicit action arg during ${this.data.phase} of your story.  
-         
+      ${this.data.deprecated ? `\nThis is deprecated and won't work in Storybook 8 anymore.\n` : ``}
       Please provide an explicit spy to your args like this:
         import { fn } from '@storybook/test';
         ... 

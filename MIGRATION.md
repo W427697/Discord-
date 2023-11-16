@@ -1,7 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
-    - [Using implicit actions during rendering is deprecated (for example in the play function)](#using-implicit-actions-during-rendering-is-deprecated-for-example-in-the-play-function) 
+    - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated) 
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
     - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
@@ -311,7 +311,7 @@
 
 ## From version 7.5.0 to 7.6.0
 
-#### Using implicit actions during rendering is deprecated (for example in the play function)
+#### Using implicit actions during rendering is deprecated
 
 In Storybook 7, we inferred if the component accepts any action props,
 by checking if it starts with `onX` (for example `onClick`), or as configured by `actions.argTypesRegex`.

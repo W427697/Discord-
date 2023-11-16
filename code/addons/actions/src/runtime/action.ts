@@ -4,7 +4,6 @@ import { addons } from '@storybook/preview-api';
 import type { Renderer } from '@storybook/types';
 import { global } from '@storybook/global';
 import { ImplicitActionsDuringRendering } from '@storybook/core-events/preview-errors';
-import dedent from 'ts-dedent';
 import { EVENT_ID } from '../constants';
 import type { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';
@@ -70,23 +69,17 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
       );
 
       if (storyRenderer) {
-        if (window?.FEATURES?.disallowImplicitActionsInRenderV8) {
+        const deprecated = !window?.FEATURES?.disallowImplicitActionsInRenderV8;
+        const error = new ImplicitActionsDuringRendering({
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          throw new ImplicitActionsDuringRendering({ phase: storyRenderer.phase!, name });
+          phase: storyRenderer.phase!,
+          name,
+          deprecated,
+        });
+        if (deprecated) {
+          console.warn(error);
         } else {
-          console.warn(dedent`
-            We detected that you use an implicit action arg during ${storyRenderer.phase} of your story. 
-            This is deprecated and won't work in Storybook 8 anymore. 
-            
-            Please provide an explicit spy to your args like this:
-              import { fn } from '@storybook/test';
-              ... 
-              args: {
-                 ${name}: fn()
-              }
-              
-            See: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#using-implicit-actions-during-rendering-is-deprecated-for-example-in-the-play-function
-          `);
+          throw error;
         }
       }
     }
