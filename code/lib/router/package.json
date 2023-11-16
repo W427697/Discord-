@@ -57,13 +57,11 @@
     "@storybook/global": "^5.0.0",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "react-router-dom": "6.0.2",
     "ts-dedent": "^2.0.0",
     "typescript": "~4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -73,6 +71,20 @@
     "entries": [
       "./src/index.ts",
       "./src/utils.ts"
+    ],
+    "externals": [
+      "react",
+      "react-dom",
+      "@storybook/addons",
+      "@storybook/api",
+      "@storybook/channels",
+      "@storybook/client-logger",
+      "@storybook/components",
+      "@storybook/core-events",
+      "@storybook/manager-api",
+      "@storybook/router",
+      "@storybook/theming",
+      "@storybook/types"
     ]
   },
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"

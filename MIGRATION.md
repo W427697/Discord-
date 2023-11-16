@@ -1,6 +1,7 @@
 <h1>Migration</h1>
 
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
+    - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
     - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
@@ -309,6 +310,10 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 7.5.0 to 7.6.0
+
+#### typescript.skipBabel deprecated
+
+We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescirpt.skipCompiler` instead.
 
 #### Primary doc block accepts of prop
 

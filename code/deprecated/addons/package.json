@@ -48,10 +48,6 @@
     "@storybook/preview-api": "workspace:*",
     "@storybook/types": "workspace:*"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
   "publishConfig": {
     "access": "public"
   },
