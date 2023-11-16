@@ -27,6 +27,7 @@ import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
+import { buildOrThrow } from './utils/build-or-throw';
 
 export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
@@ -134,8 +135,8 @@ export async function buildDevStandalone(
     features,
   };
 
-  const { address, networkAddress, managerResult, previewResult } = await storybookDevServer(
-    fullOptions
+  const { address, networkAddress, managerResult, previewResult } = await buildOrThrow(async () =>
+    storybookDevServer(fullOptions)
   );
 
   const previewTotalTime = previewResult?.totalTime;
