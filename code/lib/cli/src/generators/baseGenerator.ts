@@ -172,8 +172,6 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
   ['angular', 'nextjs'].includes(framework);
 
 function shouldUseSWCCompiler(builder: Builder, projectType: ProjectType) {
-  console.log({ builder, projectType });
-
   return (
     builder === CoreBuilder.Webpack5 &&
     projectType !== ProjectType.ANGULAR &&
