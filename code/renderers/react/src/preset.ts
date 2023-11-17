@@ -1,4 +1,4 @@
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { StorybookConfig } from '@storybook/types';
 
 import { dirname, join } from 'path';
 
