@@ -1,0 +1,20 @@
+```ts
+// MyComponent.stories.ts|tsx
+
+// Replace your-framework with the name of your framework
+import type { Meta, StoryObj } from '@storybook/your-framework';
+
+import { MyComponent } from './MyComponent';
+
+const meta: Meta<typeof MyComponent> = {
+  component: MyComponent,
+  tags: ['test-only'], // 👈 Runs tests only for stories with this tag
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+export const IncludeStory: Story = {
+  tags: ['test-only'], // 👈 Configures the story to be added to the test suite with the test-runner
+};
+```

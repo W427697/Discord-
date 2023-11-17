@@ -1,0 +1,14 @@
+```js
+// MyComponent.stories.js|jsx
+
+import { MyComponent } from './MyComponent';
+
+export default {
+  component: MyComponent,
+  tags: ['skip-test'], // 👈 Skips running tests on this story
+};
+
+export const SkipStory = {
+  tags: ['skip-test'], // 👈 Configures the story to be skipped when running tests with the test-runner
+};
+```

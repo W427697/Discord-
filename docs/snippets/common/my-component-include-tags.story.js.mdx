@@ -1,0 +1,14 @@
+```js
+// MyComponent.stories.js|jsx
+
+import { MyComponent } from './MyComponent';
+
+export default {
+  component: MyComponent,
+  tags: ['test-only'], // 👈 Runs tests only for stories with this tag
+};
+
+export const IncludeStory = {
+  tags: ['test-only'], // 👈 Configures the story to be added to the test suite with the test-runner
+};
+```

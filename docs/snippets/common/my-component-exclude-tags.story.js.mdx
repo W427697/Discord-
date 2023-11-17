@@ -1,0 +1,14 @@
+```js
+// MyComponent.stories.js|jsx
+
+import { MyComponent } from './MyComponent';
+
+export default {
+  component: MyComponent,
+  tags: ['no-tests'], // 👈 Excludes all stories from being tested with the test-runner
+};
+
+export const ExcludeStory = {
+  tags: ['no-tests'], // 👈 Configures the story to be excluded from testing via the `no-tests` tag
+};
+```
