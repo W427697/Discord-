@@ -61,12 +61,10 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
           ...expanded,
           files: `**/${k}`,
         }));
-        console.log({ a: filteredEntries.length, b: expanded.files.length });
         acc.push(...items);
       } else {
         items = [entries[i]];
       }
-      console.log({ items });
       acc.push(...items);
 
       return acc;
