@@ -1270,7 +1270,7 @@ describe('CsfFile', () => {
       expect(indexInputs).toMatchInlineSnapshot(`
         - type: story
           importPath: foo/bar.stories.js
-          componentPath: ../src/Component.js
+          rawComponentPath: ../src/Component.js
           exportName: A
           name: A
           title: custom foo title
@@ -1298,7 +1298,7 @@ describe('CsfFile', () => {
       expect(indexInputs).toMatchInlineSnapshot(`
         - type: story
           importPath: foo/bar.stories.js
-          componentPath: some-library
+          rawComponentPath: some-library
           exportName: A
           name: A
           title: custom foo title
