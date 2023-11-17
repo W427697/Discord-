@@ -49,12 +49,8 @@ export const createSWCLoader = async (excludes: string[] = [], options: Options)
   };
   return {
     test: typescriptOptions.skipCompiler ? /\.(mjs|cjs|jsx?)$/ : /\.(mjs|cjs|tsx?|jsx?)$/,
-    use: [
-      {
-        loader: require.resolve('swc-loader'),
-        options: config,
-      },
-    ],
+    loader: require.resolve('swc-loader'),
+    options: config,
     include: [getProjectRoot()],
     exclude: [/node_modules/, ...excludes],
   };

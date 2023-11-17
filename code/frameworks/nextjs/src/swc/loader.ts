@@ -43,10 +43,9 @@ export const configureSWCLoader = async (
 
   baseConfig.module.rules = [
     // TODO: Remove filtering in Storybook 8.0
-    ...baseConfig.module.rules.filter(
-      (r: RuleSetRule) =>
-        !(typeof r.use === 'object' && 'loader' in r.use && r.use.loader?.includes('swc-loader'))
-    ),
+    ...baseConfig.module.rules.filter((r: RuleSetRule) => {
+      return !r.loader?.includes('swc-loader');
+    }),
     {
       test: /\.(m?(j|t)sx?)$/,
       include: [getProjectRoot()],
@@ -62,14 +61,12 @@ export const configureSWCLoader = async (
           pagesDir: `${dir}/pages`,
           appDir: `${dir}/apps`,
           hasReactRefresh: isDevelopment,
-          hasServerComponents: true,
           nextConfig,
           supportedBrowsers: require('next/dist/build/utils').getSupportedBrowsers(
             dir,
             isDevelopment
           ),
           swcCacheDir: path.join(dir, nextConfig?.distDir ?? '.next', 'cache', 'swc'),
-          isServerLayer: false,
           bundleTarget: 'default',
         },
       },
