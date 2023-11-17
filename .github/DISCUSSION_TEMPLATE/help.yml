@@ -31,6 +31,7 @@ When you're ready to post:
   - type: input
     attributes:
       label: Create a reproduction
-      description: Help us debug by creating a minimal reproduction with [https://storybook.new](https://storybook.new)
+      description: |
+        Help us debug by creating a minimal reproduction with [https://storybook.new](https://storybook.new). [Learn more about creating a reproduction](ttps://storybook.js.org/docs/react/contribute/how-to-reproduce).
     validations:
       required: false
