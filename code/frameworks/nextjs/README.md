@@ -14,7 +14,6 @@
   - [Next.js's Image Component](#nextjss-image-component)
     - [Local Images](#local-images)
     - [Remote Images](#remote-images)
-    - [AVIF](#avif)
   - [Next.js Font Optimization](#nextjs-font-optimization)
     - [next/font/google](#nextfontgoogle)
     - [next/font/local](#nextfontlocal)
@@ -147,7 +146,7 @@ export default {
 
 ### Options
 
-You can be pass an options object for addional configuration if needed.
+You can be pass an options object for additional configuration if needed.
 
 For example:
 
@@ -219,10 +218,6 @@ export default function Home() {
   );
 }
 ```
-
-#### AVIF
-
-This format is not supported by this framework yet. Feel free to [open up an issue](https://github.com/storybookjs/storybook/issues) if this is something you want to see.
 
 ### Next.js Font Optimization
 
@@ -864,7 +859,7 @@ Next.js comes with a lot of things for free out of the box like sass support, bu
 
 Any webpack modifications desired for Storybook should be made in [.storybook/main.js](https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config).
 
-Note: Not all webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js`. It is recommended to do your reasearch on how to properly make your modifcation to Storybook's webpack config and on how [webpack works](https://webpack.js.org/concepts/).
+Note: Not all webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js`. It is recommended to do your research on how to properly make your modification to Storybook's webpack config and on how [webpack works](https://webpack.js.org/concepts/).
 
 Below is an example of how to add svgr support to Storybook with this framework.
 

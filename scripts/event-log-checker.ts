@@ -2,6 +2,7 @@
 import chalk from 'chalk';
 import assert from 'assert';
 import fetch from 'node-fetch';
+import { esMain } from './utils/esmain';
 import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
 import versions from '../code/lib/cli/src/versions';
 import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
@@ -70,7 +71,8 @@ async function run() {
             8,
             `Expected 8 stories but received ${exampleStoryCount} instead.`
           );
-          const expectedDocsCount = template.modifications?.disableDocs ? 0 : 3;
+          const expectedDocsCount =
+            template.modifications?.disableDocs || template.modifications?.testBuild ? 0 : 3;
           assert.equal(
             exampleDocsCount,
             expectedDocsCount,
@@ -114,7 +116,7 @@ async function run() {
 
 export {};
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   run()
     .then(() => process.exit(0))
     .catch((err) => {
