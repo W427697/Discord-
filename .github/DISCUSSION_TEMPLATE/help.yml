@@ -8,7 +8,7 @@ Before you post:
 - Check if someone has already asked/answered your question in a previous discussion.
         
 When you're ready to post:
-- Add tags to your discussion (e.g. 'React', 'Vue', 'Vite') to make it clearer for other users.
+- Add labels to your discussion (e.g. 'React', 'Vue', 'Vite') to make it clearer for other users.
         
   - type: textarea 
     attributes:
