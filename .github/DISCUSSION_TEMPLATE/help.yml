@@ -4,11 +4,11 @@ body:
       value: |
         Thanks for taking the time to start a new discussion!
         
-        Before you post:
-        - Check if someone has already asked/answered your question in a previous discussion.
+        ### Before you post
+        Check if someone has already asked/answered your question in a previous discussion.
         
-        When you're ready to post:
-        - Add labels to your discussion (e.g. React, Vue, Vite) to make it clearer for other users.
+        ### When you're ready to post
+        Add labels to your discussion (e.g. React, Vue, Vite) to make it clearer for other users.
 
   - type: textarea 
     attributes:
@@ -32,6 +32,6 @@ body:
     attributes:
       label: Create a reproduction
       description: |
-        Help us debug by creating a minimal reproduction with [https://storybook.new](https://storybook.new). [Learn more about creating a reproduction](ttps://storybook.js.org/docs/react/contribute/how-to-reproduce).
+        Help us debug by creating a minimal reproduction with [https://storybook.new](https://storybook.new). Learn more about creating a reproduction [here](https://storybook.js.org/docs/react/contribute/how-to-reproduce).
     validations:
       required: false
