@@ -165,11 +165,20 @@ export function pitch(this: any) {
   }, callback);
 }
 
+function sanitizeSourceMap(rawSourceMap: any): any {
+  const { sourcesContent, ...sourceMap } = rawSourceMap ?? {};
+
+  // JSON parse/stringify trick required for swc to accept the SourceMap
+  return JSON.parse(JSON.stringify(sourceMap));
+}
+
 export default function swcLoader(this: any, inputSource: string, inputSourceMap: any) {
   const loaderSpan = mockCurrentTraceSpan.traceChild('next-swc-loader');
   const callback = this.async();
   loaderSpan
-    .traceAsyncFn(() => loaderTransform.call(this, loaderSpan, inputSource, inputSourceMap))
+    .traceAsyncFn(() =>
+      loaderTransform.call(this, loaderSpan, inputSource, sanitizeSourceMap(inputSourceMap))
+    )
     .then(
       ([transformedSource, outputSourceMap]: any) => {
         callback(null, transformedSource, outputSourceMap || inputSourceMap);
