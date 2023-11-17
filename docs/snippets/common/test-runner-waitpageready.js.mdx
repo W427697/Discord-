@@ -10,7 +10,7 @@ module.exports = {
   setup() {
     expect.extend({ toMatchImageSnapshot });
   },
-  async postRender(page, context) {
+  async postVisit(page, context) {
     // Awaits for the page to be loaded and available including assets (e.g., fonts)
     await waitForPageReady(page);
 

@@ -202,12 +202,12 @@ The test-runner renders a story and executes its [play function](../writing-stor
 The test-runner exports test hooks that can be overridden globally to enable use cases like visual or DOM snapshots. These hooks give you access to the test lifecycle _before_ and _after_ the story is rendered.
 Listed below are the available hooks and an overview of how to use them.
 
-| Hook         | Description                                                                                       |
-| ------------ | ------------------------------------------------------------------------------------------------- |
-| `prepare`    | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}` |
-| `setup`      | Executes once before all the tests run<br/>`setup() {}`                                           |
-| `preRender`  | Executes before a story is rendered<br/>`async preRender(page, context) {}`                       |
-| `postRender` | Executes after the story is rendered<br/>`async postRender(page, context) {}`                     |
+| Hook        | Description                                                                                                     |
+| ----------- | --------------------------------------------------------------------------------------------------------------- |
+| `prepare`   | Prepares the browser for tests<br/>`async prepare({ page, browserContext, testRunnerConfig }) {}`               |
+| `setup`     | Executes once before all the tests run<br/>`setup() {}`                                                         |
+| `preVisit`  | Executes before a story is initially visited and rendered in the browser<br/>`async preVisit(page, context) {}` |
+| `postVisit` | Executes after the story is is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
 
 To enable the hooks API, you'll need to add a new configuration file inside your Storybook directory and set them up as follows:
 
@@ -224,7 +224,7 @@ To enable the hooks API, you'll need to add a new configuration file inside your
 
 <Callout variant="info" icon="💡">
 
-Except for the `setup` function, all other functions run asynchronously. Both `preRender` and `postRender` functions include two additional arguments, a [Playwright page](https://playwright.dev/docs/pages) and a context object which contains the `id`, `title`, and the `name` of the story.
+Except for the `setup` function, all other functions run asynchronously. Both `preVisit` and `postVisit` functions include two additional arguments, a [Playwright page](https://playwright.dev/docs/pages) and a context object which contains the `id`, `title`, and the `name` of the story.
 
 </Callout>
 
@@ -233,9 +233,9 @@ When the test-runner executes, your existing tests will go through the following
 - The `setup` function is executed before all the tests run.
 - The context object is generated containing the required information.
 - Playwright navigates to the story's page.
-- The `preRender` function is executed.
+- The `preVisit` function is executed.
 - The story is rendered, and any existing `play` functions are executed.
-- The `postRender` function is executed.
+- The `postVisit` function is executed.
 
 ### (Experimental) Filter tests
 
@@ -306,7 +306,7 @@ Applying tags for the component's stories should either be done at the component
 
 #### Skip tests
 
-If you want to skip running tests on a particular story or subset of stories, you can configure your story with a custom tag, enable it in the test-runner configuration file, or run the test-runner with the `--skipTags` [CLI](#cli-options) flag. Running tests with this option will cause the test-runner to skip over the story and flag them accordingly in the test results. For example:
+If you want to skip running tests on a particular story or subset of stories, you can configure your story with a custom tag, enable it in the test-runner configuration file, or run the test-runner with the `--skipTags` [CLI](#cli-options) flag. Running tests with this option will cause the test-runner to ignore and flag them accordingly in the test results, indicating that the tests are temporarily disabled. For example:
 
 <!-- prettier-ignore-start -->
 

@@ -205,7 +205,7 @@ Add a new [configuration file](./test-runner.md#test-hook-api) inside your Story
 
 <Callout variant="info" icon="💡">
 
-`preRender` and `postRender` are convenient hooks that allow you to extend the test runner's default configuration. Read more about them [here](./test-runner.md#test-hook-api).
+`preVisit` and `postVisit` are convenient hooks that allow you to extend the test runner's default configuration. Read more about them [here](./test-runner.md#test-hook-api).
 
 </Callout>
 

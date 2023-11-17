@@ -5,10 +5,11 @@ import { MyComponent } from './MyComponent';
 
 export default {
   component: MyComponent,
-  tags: ['test-only'], // 👈 Runs tests only for stories with this tag
+  tags: ['test-only'], // 👈 Provides the `test-only` tag to all stories in this file
 };
 
 export const IncludeStory = {
-  tags: ['test-only'], // 👈 Configures the story to be added to the test suite with the test-runner
+  //👇 Adds the `test-only` tag to this story to be included in the tests when enabled in the test-runner configuration
+  tags: ['test-only'],
 };
 ```

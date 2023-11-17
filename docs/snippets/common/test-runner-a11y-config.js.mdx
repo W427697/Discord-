@@ -8,10 +8,10 @@ const { injectAxe, checkA11y } = require('axe-playwright');
  * to learn more about the test-runner hooks API.
  */
 module.exports = {
-  async preRender(page) {
+  async preVisit(page) {
     await injectAxe(page);
   },
-  async postRender(page) {
+  async postVisit(page) {
     await checkA11y(page, '#storybook-root', {
       detailedReport: true,
       detailedReportOptions: {

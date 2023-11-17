@@ -8,11 +8,11 @@ import { injectAxe, checkA11y } from 'axe-playwright';
  * See https://storybook.js.org/docs/react/writing-tests/test-runner#test-hook-api
  * to learn more about the test-runner hooks API.
  */
-const a11yConfig: TestRunnerConfig = {
-  async preRender(page) {
+const config: TestRunnerConfig = {
+  async preVisit(page) {
     await injectAxe(page);
   },
-  async postRender(page) {
+  async postVisit(page) {
     await checkA11y(page, '#storybook-root', {
       detailedReport: true,
       detailedReportOptions: {
@@ -22,5 +22,5 @@ const a11yConfig: TestRunnerConfig = {
   },
 };
 
-export default a11yConfig;
+export default config;
 ```
