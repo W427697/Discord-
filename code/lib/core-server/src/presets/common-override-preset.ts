@@ -1,5 +1,4 @@
 import type {
-  NormalizedStoriesSpecifier,
   Options,
   PresetProperty,
   StoriesEntry,
