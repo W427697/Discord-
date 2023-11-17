@@ -51,7 +51,7 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
           };
         })
       )
-    ).reduce<StoriesEntry[]>((acc, expanded, i) => {
+    ).flatMap<StoriesEntry>((expanded, i) => {
       const filteredEntries = expanded.files.filter((s) => !s.endsWith('.mdx'));
       // only return the filtered entries when there is something to filter
       // as webpack is faster with unexpanded globs
@@ -61,14 +61,12 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
           ...expanded,
           files: `**/${k}`,
         }));
-        acc.push(...items);
       } else {
         items = [list[i]];
       }
-      acc.push(...items);
 
-      return acc;
-    }, []);
+      return items;
+    });
     return result;
   }
   return entries;
