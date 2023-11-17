@@ -7,7 +7,7 @@ export async function buildOrThrow<T>(callback: () => Promise<T>): Promise<T> {
     const builderErrors = err.errors as { text: string }[];
     if (builderErrors) {
       const inconsistentVersionsError = builderErrors.find((er) =>
-        er.text.includes('No matching export')
+        er.text?.includes('No matching export')
       );
 
       if (inconsistentVersionsError) {
