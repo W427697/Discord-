@@ -67,7 +67,6 @@ const Container = styled.div(({ theme }) => ({
   background: theme.barBg,
   padding: '0 6px',
   borderTop: `1px solid ${theme.appBorderColor}`,
-  color: theme.color.mediumdark,
 }));
 
 const Button = styled.button(({ theme }) => ({
@@ -75,7 +74,7 @@ const Button = styled.button(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: 10,
-  color: 'currentColor',
+  color: theme.color.mediumdark,
   fontSize: `${theme.typography.size.s2 - 1}px`,
   padding: '0 7px',
   fontWeight: theme.typography.weight.bold,
