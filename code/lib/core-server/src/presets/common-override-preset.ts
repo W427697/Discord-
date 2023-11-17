@@ -1,6 +1,13 @@
-import type { Options, PresetProperty, StorybookConfig, TestBuildFlags } from '@storybook/types';
+import type {
+  NormalizedStoriesSpecifier,
+  Options,
+  PresetProperty,
+  StoriesEntry,
+  StorybookConfig,
+  TestBuildFlags,
+} from '@storybook/types';
 import { normalizeStories, commonGlobOptions } from '@storybook/core-common';
-import { isAbsolute, join } from 'path';
+import { isAbsolute, join, relative } from 'path';
 import slash from 'slash';
 import { glob } from 'glob';
 
@@ -19,30 +26,51 @@ export const framework: PresetProperty<'framework', StorybookConfig> = async (co
 
 export const stories: PresetProperty<'stories', StorybookConfig> = async (entries, options) => {
   if (options?.build?.test?.disableMDXEntries) {
-    return (
+    const result = (
       await Promise.all(
         normalizeStories(entries, {
           configDir: options.configDir,
           workingDir: options.configDir,
-        }).map(({ directory, files }) => {
+        }).map(async ({ directory, files, titlePrefix }) => {
           const pattern = join(directory, files);
           const absolutePattern = isAbsolute(pattern) ? pattern : join(options.configDir, pattern);
+          const absoluteDirectory = isAbsolute(directory)
+            ? directory
+            : join(options.configDir, directory);
 
-          return glob(slash(absolutePattern), {
-            ...commonGlobOptions(absolutePattern),
-            follow: true,
-          });
+          return {
+            files: (
+              await glob(slash(absolutePattern), {
+                ...commonGlobOptions(absolutePattern),
+                follow: true,
+              })
+            ).map((f) => relative(absoluteDirectory, f)),
+            directory,
+            titlePrefix,
+          };
         })
       )
-    ).flatMap((expanded, i) => {
-      const filteredEntries = expanded.filter((s) => !s.endsWith('.mdx'));
+    ).reduce<StoriesEntry[]>((acc, expanded, i) => {
+      const filteredEntries = expanded.files.filter((s) => !s.endsWith('.mdx'));
       // only return the filtered entries when there is something to filter
       // as webpack is faster with unexpanded globs
-      if (filteredEntries.length < expanded.length) {
-        return filteredEntries;
+      let items = [];
+      if (filteredEntries.length < expanded.files.length) {
+        items = filteredEntries.map((k) => ({
+          ...expanded,
+          files: `**/${k}`,
+        }));
+        console.log({ a: filteredEntries.length, b: expanded.files.length });
+        acc.push(...items);
+      } else {
+        items = [entries[i]];
       }
-      return entries[i];
-    });
+      console.log({ items });
+      acc.push(...items);
+
+      return acc;
+    }, []);
+    return result;
   }
   return entries;
 };
