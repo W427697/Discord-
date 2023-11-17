@@ -1,6 +1,6 @@
 body:
   - type: markdown
-  value: |
+    value: |
         Thanks for taking the time to start a new discussion!
         
         Before you post:
