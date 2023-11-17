@@ -31,9 +31,9 @@ export const resolvedReact = async (existing: any) => {
   try {
     return {
       ...existing,
-      react: join(dirname(require.resolve('react/package.json'))),
-      reactDom: join(dirname(require.resolve('react-dom/package.json'))),
-      mdx: join(dirname(require.resolve('@mdx-js/react/package.json'))),
+      react: dirname(require.resolve('react/package.json')),
+      reactDom: dirname(require.resolve('react-dom/package.json')),
+      mdx: dirname(require.resolve('@mdx-js/react/package.json')),
     };
   } catch (e) {
     return existing;

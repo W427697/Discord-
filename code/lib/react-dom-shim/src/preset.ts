@@ -15,8 +15,7 @@ const getIsReactVersion18 = async (options: Options) => {
   }
 
   const resolvedReact = await options.presets.apply<{ reactDom?: string }>('resolvedReact', {});
-  const reactDom =
-    resolvedReact.reactDom || join(dirname(require.resolve('react-dom/package.json')));
+  const reactDom = resolvedReact.reactDom || dirname(require.resolve('react-dom/package.json'));
 
   const { version } = JSON.parse(await readFile(join(reactDom, 'package.json'), 'utf-8'));
 

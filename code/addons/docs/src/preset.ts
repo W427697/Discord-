@@ -20,14 +20,14 @@ const getResolvedReact = async (options: Options) => {
   const resolvedReact = (await options.presets.apply('resolvedReact', {})) as any;
   // resolvedReact should always be set by the time we get here, but just in case, we'll default to addon-docs's react dependencies
   return {
-    react: resolvedReact.react ?? join(dirname(require.resolve('react/package.json'))),
-    reactDom: resolvedReact.reactDom ?? join(dirname(require.resolve('react-dom/package.json'))),
+    react: resolvedReact.react ?? dirname(require.resolve('react/package.json')),
+    reactDom: resolvedReact.reactDom ?? dirname(require.resolve('react-dom/package.json')),
     // In Webpack, symlinked MDX files will cause @mdx-js/react to not be resolvable if it is not hoisted
     // This happens for the SB monorepo's template stories when a sandbox has a different react version than
     // addon-docs, causing addon-docs's dependencies not to be hoisted.
     // This might also affect regular users who have a similar setup.
     // Explicitly alias @mdx-js/react to avoid this issue.
-    mdx: resolvedReact.mdx ?? join(dirname(require.resolve('@mdx-js/react/package.json'))),
+    mdx: resolvedReact.mdx ?? dirname(require.resolve('@mdx-js/react/package.json')),
   };
 };
 
@@ -267,9 +267,9 @@ const docsX = docs as any;
  * but ensures that there is always a resolved react.
  */
 export const resolvedReact = async (existing: any) => ({
-  react: existing?.react ?? join(dirname(require.resolve('react/package.json'))),
-  reactDom: existing?.reactDom ?? join(dirname(require.resolve('react-dom/package.json'))),
-  mdx: existing?.mdx ?? join(dirname(require.resolve('@mdx-js/react/package.json'))),
+  react: existing?.react ?? dirname(require.resolve('react/package.json')),
+  reactDom: existing?.reactDom ?? dirname(require.resolve('react-dom/package.json')),
+  mdx: existing?.mdx ?? dirname(require.resolve('@mdx-js/react/package.json')),
 });
 
 const optimizeViteDeps = [
