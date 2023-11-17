@@ -25,13 +25,14 @@ export const framework: PresetProperty<'framework', StorybookConfig> = async (co
 
 export const stories: PresetProperty<'stories', StorybookConfig> = async (entries, options) => {
   if (options?.build?.test?.disableMDXEntries) {
+    const list = normalizeStories(entries, {
+      configDir: options.configDir,
+      workingDir: options.configDir,
+      default_files_pattern: '**/*.@(stories.@(js|jsx|mjs|ts|tsx))',
+    });
     const result = (
       await Promise.all(
-        normalizeStories(entries, {
-          configDir: options.configDir,
-          workingDir: options.configDir,
-          default_files_pattern: '**/*.@(stories.@(js|jsx|mjs|ts|tsx))',
-        }).map(async ({ directory, files, titlePrefix }) => {
+        list.map(async ({ directory, files, titlePrefix }) => {
           const pattern = join(directory, files);
           const absolutePattern = isAbsolute(pattern) ? pattern : join(options.configDir, pattern);
           const absoluteDirectory = isAbsolute(directory)
@@ -62,7 +63,7 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
         }));
         acc.push(...items);
       } else {
-        items = [entries[i]];
+        items = [list[i]];
       }
       acc.push(...items);
 
