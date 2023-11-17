@@ -10,6 +10,7 @@ import { RESET_STORY_ARGS } from '@storybook/core-events';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 import { addons } from '@storybook/preview-api';
+import { mount } from 'svelte';
 
 import type { SvelteRenderer } from './types';
 
@@ -66,7 +67,7 @@ export function renderToCanvas(
   }
 
   if (!existingComponent || remount) {
-    const createdComponent = new PreviewRender({
+    const createdComponent = mount(PreviewRender, {
       target: canvasElement,
       props: {
         storyFn,
@@ -75,7 +76,7 @@ export function renderToCanvas(
         kind,
         showError,
       },
-    }) as SvelteComponentTyped;
+    });
     componentsByDomElement.set(canvasElement, createdComponent);
   } else {
     existingComponent.$set({
