@@ -31,6 +31,7 @@ export const stories: PresetProperty<'stories', StorybookConfig> = async (entrie
         normalizeStories(entries, {
           configDir: options.configDir,
           workingDir: options.configDir,
+          default_files_pattern: '**/*.@(stories.@(js|jsx|mjs|ts|tsx))',
         }).map(async ({ directory, files, titlePrefix }) => {
           const pattern = join(directory, files);
           const absolutePattern = isAbsolute(pattern) ? pattern : join(options.configDir, pattern);
