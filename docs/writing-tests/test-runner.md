@@ -106,7 +106,7 @@ If you're already using any of those flags in your project, you should be able t
 | `--shard [index/count]`         | Requires CI. Splits the test suite execution into multiple machines <br/> `test-storybook --shard=1/8`                                                                                                  |
 | `--failOnConsole`               | Makes tests fail on browser console errors<br/>`test-storybook --failOnConsole`                                                                                                                         |
 | `--includeTags`                 | Experimental feature <br/>Defines a subset of stories to be tested if they match the enabled [tags](#experimental-filter-tests). <br/>`test-storybook --includeTags="test-only, pages"`                 |
-| `--excludeTags`                 | Experimental feature <br/>Prevents stories from being tested if they match the provided [tags](#experimental-filter-tests). <br/>`test-storybook --skipTags="no-tests, tokens"`                         |
+| `--excludeTags`                 | Experimental feature <br/>Prevents stories from being tested if they match the provided [tags](#experimental-filter-tests). <br/>`test-storybook --excludeTags="no-tests, tokens"`                      |
 | `--skipTags`                    | Experimental feature <br/>Configures the test runner to skip running tests for stories that match the provided [tags](#experimental-filter-tests). <br/>`test-storybook --skipTags="skip-test, layout"` |
 
 <!-- prettier-ignore-start -->
@@ -239,7 +239,7 @@ When the test-runner executes, your existing tests will go through the following
 
 ### (Experimental) Filter tests
 
-When you run the test-runner on Storybook, it tests every story by default. However, if you want to filter the tests, you can use the `tags` configuration option. Storybook originally introduced this feature to generate [automatic documentation](../writing-docs/autodocs.md) for stories. But it can be further extended to configure the test-runner to run tests according to the provided tags using a similar configuration option or via CLI flags (e.g., `--includeTags`, `--excludeTags`, `--skipTags`). Listed below are the available options and an overview of how to use them.
+When you run the test-runner on Storybook, it tests every story by default. However, if you want to filter the tests, you can use the `tags` configuration option. Storybook originally introduced this feature to generate [automatic documentation](../writing-docs/autodocs.md) for stories. But it can be further extended to configure the test-runner to run tests according to the provided tags using a similar configuration option or via CLI flags (e.g., `--includeTags`, `--excludeTags`, `--skipTags`), only available with the latest stable release (`0.15` or higher). Listed below are the available options and an overview of how to use them.
 
 | Option    | Description                                                                   |
 | --------- | ----------------------------------------------------------------------------- |
