@@ -74,6 +74,7 @@ Options include:
 | `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`storybook build --webpack-stats-json /my-storybook/webpack-stats`                                                                     |
 | `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`storybook build --docs` |
 | `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`storybook build --disable-telemetry`                                            |
+| `--test`                        | Optimize Storybook's production build for performance and tests by removing unnecessary features with the `test` option. Learn more [here](../api/main-config-build.md).    |
 
 <Callout variant="info" icon="💡">
 

@@ -50,6 +50,16 @@ Storybook will create a static web application capable of being served by any we
 
 <!-- prettier-ignore-end -->
 
+### Customizing the build for for performance
+
+By default, Storybook's production build will encapsulate all stories and documentation into the published bundle. This is great for small projects, but can cause performance issues for larger projects or when decreased build times are a priority. If you
+
+<!-- prettier-ignore-start -->
+
+<!-- prettier-ignore-end -->
+
+. To optimize Storybook's production build for performance and tests, you can remove unnecessary features with the `test` option. Learn more [here](../api/main-config-test.md).
+
 ## Publish Storybook with Chromatic
 
 Once you've built your Storybook as a static web application, you can publish it to your web host. We recommend [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook), a free publishing service made for Storybook that documents, versions, and indexes your UI components securely in the cloud.
@@ -137,7 +147,6 @@ Since Storybook is built as a static web application, you can also publish it to
 
 To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook to GitHub Pages](https://github.com/bitovi/github-actions-storybook-to-github-pages) Action. To enable it, create a new workflow file inside your `.github/workflows` directory with the following content:
 
-
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
@@ -153,7 +162,6 @@ To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook t
 The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
 
 </Callout>
-
 
 <details>
 
