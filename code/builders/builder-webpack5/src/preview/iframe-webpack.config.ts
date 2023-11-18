@@ -8,7 +8,8 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import slash from 'slash';
-
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import type { JsMinifyOptions as SwcOptions } from '@swc/core';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
@@ -199,7 +200,8 @@ export default async (
     }
   }
 
-  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
+  const shouldCheckTs =
+    typescriptOptions.check && !typescriptOptions.skipBabel && !typescriptOptions.skipCompiler;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
@@ -220,7 +222,7 @@ export default async (
   }
 
   const externals: Record<string, string> = globalsNameReferenceMap;
-  if (build?.test?.emptyBlocks) {
+  if (build?.test?.disableBlocks) {
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 
@@ -228,7 +230,7 @@ export default async (
     name: 'preview',
     mode: isProd ? 'production' : 'development',
     bail: isProd,
-    devtool: options.test ? false : 'cheap-module-source-map',
+    devtool: options.build?.test?.disableSourcemaps ? false : 'cheap-module-source-map',
     entry: entries,
     output: {
       path: resolve(process.cwd(), outputDir),
@@ -276,7 +278,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
-            ...(build?.test?.emptyBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
+            ...(build?.test?.disableBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
           bodyHtmlSnippet,
@@ -356,17 +358,29 @@ export default async (
       },
       runtimeChunk: true,
       sideEffects: true,
-      usedExports: isProd,
+      usedExports: options.build?.test?.disableTreeShaking ? false : isProd,
       moduleIds: 'named',
       ...(isProd
         ? {
             minimize: true,
-            minimizer: builderOptions.useSWC
+            // eslint-disable-next-line no-nested-ternary
+            minimizer: options.build?.test?.esbuildMinify
               ? [
-                  new TerserWebpackPlugin({
+                  new TerserWebpackPlugin<EsbuildOptions>({
+                    parallel: true,
+                    minify: TerserWebpackPlugin.esbuildMinify,
+                    terserOptions: {
+                      sourcemap: !options.build?.test?.disableSourcemaps,
+                      treeShaking: !options.build?.test?.disableTreeShaking,
+                    },
+                  }),
+                ]
+              : builderOptions.useSWC
+              ? [
+                  new TerserWebpackPlugin<SwcOptions>({
                     minify: TerserWebpackPlugin.swcMinify,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },
@@ -376,7 +390,7 @@ export default async (
                   new TerserWebpackPlugin({
                     parallel: true,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },

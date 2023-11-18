@@ -81,7 +81,7 @@ export async function pluginConfig(options: Options) {
 
   const externals: Record<string, string> = globalsNameReferenceMap;
 
-  if (build?.test?.emptyBlocks) {
+  if (build?.test?.disableBlocks) {
     externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
   }
 

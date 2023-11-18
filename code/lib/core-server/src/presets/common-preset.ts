@@ -11,7 +11,6 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
-  TestBuildFlags,
   Indexer,
   Options,
   PresetPropertyFn,
@@ -186,14 +185,6 @@ export const previewAnnotations = async (base: any, options: Options) => {
   return [...config, ...base];
 };
 
-const testBuildFeatures = (value: boolean): Required<TestBuildFlags> => ({
-  emptyBlocks: value,
-  removeNonFastAddons: value,
-  removeMDXEntries: value,
-  removeAutoDocs: value,
-  disableDocgen: value,
-});
-
 export const features = async (
   existing: StorybookConfig['features']
 ): Promise<StorybookConfig['features']> => ({
@@ -203,17 +194,8 @@ export const features = async (
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
+  disallowImplicitActionsInRenderV8: false,
 });
-
-export const build = async (value: StorybookConfig['build'], options: Options) => {
-  return {
-    ...value,
-    test: {
-      ...testBuildFeatures(!!options.test),
-      ...value?.test,
-    },
-  };
-};
 
 export const csfIndexer: Indexer = {
   test: /(stories|story)\.(m?js|ts)x?$/,

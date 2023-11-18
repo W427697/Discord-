@@ -223,8 +223,16 @@ export interface TypescriptOptions {
    * Disable parsing typescript files through babel.
    *
    * @default `false`
+   * @deprecated use `skipCompiler` instead
    */
   skipBabel: boolean;
+
+  /**
+   * Disable parsing typescript files through compiler.
+   *
+   * @default `false`
+   */
+  skipCompiler: boolean;
 }
 
 export type Preset =
@@ -266,23 +274,35 @@ export interface TestBuildFlags {
   /**
    * The package @storybook/blocks will be excluded from the bundle, even when imported in e.g. the preview.
    */
-  emptyBlocks?: boolean;
+  disableBlocks?: boolean;
   /**
-   * Disable all addons
+   * Disable specific addons
    */
-  removeNonFastAddons?: boolean;
+  disabledAddons?: string[];
   /**
    * Filter out .mdx stories entries
    */
-  removeMDXEntries?: boolean;
+  disableMDXEntries?: boolean;
   /**
    * Override autodocs to be disabled
    */
-  removeAutoDocs?: boolean;
+  disableAutoDocs?: boolean;
   /**
    * Override docgen to be disabled.
    */
   disableDocgen?: boolean;
+  /**
+   * Override sourcemaps generation to be disabled.
+   */
+  disableSourcemaps?: boolean;
+  /**
+   * Override tree-shaking (dead code elimination) to be disabled.
+   */
+  disableTreeShaking?: boolean;
+  /**
+   * Minify with ESBuild when using webpack.
+   */
+  esbuildMinify?: boolean;
 }
 
 export interface TestBuildConfig {
@@ -344,6 +364,13 @@ export interface StorybookConfig {
      * Apply decorators from preview.js before decorators from addons or frameworks
      */
     legacyDecoratorFileOrder?: boolean;
+
+    /**
+     * Disallow implicit actions during rendering. This will be the default in Storybook 8.
+     *
+     * This will make sure that your story renders the same no matter if docgen is enabled or not.
+     */
+    disallowImplicitActionsInRenderV8?: boolean;
   };
 
   build?: TestBuildConfig;

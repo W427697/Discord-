@@ -16,7 +16,7 @@ const uiPackages = fs
 
 module.exports = {
   root: true,
-  extends: [path.join(scriptPath, '.eslintrc.js')],
+  extends: [path.join(scriptPath, '.eslintrc.cjs')],
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
