@@ -209,6 +209,12 @@ Listed below are the available hooks and an overview of how to use them.
 | `preVisit`  | Executes before a story is initially visited and rendered in the browser<br/>`async preVisit(page, context) {}` |
 | `postVisit` | Executes after the story is is visited and fully rendered<br/>`async postVisit(page, context) {}`               |
 
+<Callout variant="info" icon="💡">
+
+These test hooks are experimental and may be subject to breaking changes. We encourage you to test as much as possible within the story's [play function](../writing-stories/play-function.md).
+
+</Callout>
+
 To enable the hooks API, you'll need to add a new configuration file inside your Storybook directory and set them up as follows:
 
 <!-- prettier-ignore-start -->
