@@ -50,15 +50,21 @@ Storybook will create a static web application capable of being served by any we
 
 <!-- prettier-ignore-end -->
 
-### Customizing the build for for performance
+### Customizing the build for performance
 
-By default, Storybook's production build will encapsulate all stories and documentation into the published bundle. This is great for small projects, but can cause performance issues for larger projects or when decreased build times are a priority. If you
+By default, Storybook's production build will encapsulate all stories and documentation into the production bundle. This is ideal for small projects but can cause performance issues for larger projects or when decreased build times are a priority (e.g., testing, CI/CD). If you need, you can customize the production build with the [`test` option](../api/main-config-build.md#test) in your `main.js|ts` configuration file and adjust your build script to enable the optimizations with the `--test` [flag](../api/cli-options.md#build).
 
 <!-- prettier-ignore-start -->
 
-<!-- prettier-ignore-end -->
+<CodeSnippets
+  paths={[
+    'common/storybook-build-test-flag.yarn.js.mdx',
+    'common/storybook-build-test-flag.npm.js.mdx',
+    'common/storybook-build-test-flag.pnpm.js.mdx',
+  ]}
+/>
 
-. To optimize Storybook's production build for performance and tests, you can remove unnecessary features with the `test` option. Learn more [here](../api/main-config-test.md).
+<!-- prettier-ignore-end -->
 
 ## Publish Storybook with Chromatic
 
