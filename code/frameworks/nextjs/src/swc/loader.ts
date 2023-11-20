@@ -6,7 +6,7 @@ import type { NextConfig } from 'next';
 import path from 'path';
 import type { RuleSetRule } from 'webpack';
 import semver from 'semver';
-import { NextjsSWCNotSupportedError } from 'lib/core-events/src/errors/server-errors';
+import { NextjsSWCNotSupportedError } from '@storybook/core-events/server-errors';
 import { getNextjsVersion } from '../utils';
 
 export const configureSWCLoader = async (
