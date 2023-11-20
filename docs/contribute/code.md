@@ -1,5 +1,6 @@
 ---
 title: 'Code contributions'
+hideRendererSelector: true
 ---
 
 Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com/storybookjs/storybook). This page outlines how to get your environment set up to contribute code.

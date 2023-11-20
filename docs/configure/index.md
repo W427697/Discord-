@@ -1,5 +1,6 @@
 ---
 title: 'Configure Storybook'
+hideRendererSelector: true
 ---
 
 Storybook is configured via a folder called `.storybook`, which contains various configuration files.

@@ -1,5 +1,6 @@
 ---
 title: 'How to contribute'
+hideRendererSelector: true
 ---
 
 Storybook is a community-oriented open source project that welcomes contributions. Some of our most popular features started with a developer wanting to solve a problem for themselves.

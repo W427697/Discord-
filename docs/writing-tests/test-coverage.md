@@ -1,5 +1,6 @@
 ---
 title: 'Test coverage'
+hideRendererSelector: true
 ---
 
 <YouTubeCallout id="wEa6W8uUGSA" title="These tests use NO CODE | component testing in Storybook" />

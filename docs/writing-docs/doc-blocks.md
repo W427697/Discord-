@@ -1,5 +1,6 @@
 ---
 title: Doc blocks
+hideRendererSelector: true
 ---
 
 <YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook Doc Blocks" />

@@ -1,5 +1,6 @@
 ---
 title: 'Install addons'
+hideRendererSelector: true
 ---
 
 Storybook has [hundreds of reusable addons](https://storybook.js.org/addons) that are packaged as NPM modules. Let's walk through how to extend Storybook by installing and registering addons.

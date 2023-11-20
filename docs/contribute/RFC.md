@@ -1,5 +1,6 @@
 ---
 title: 'RFC process'
+hideRendererSelector: true
 ---
 
 The RFC (Request for Comment) process is intended to provide a consistent and controlled path for new features to enter the project. It helps ensure that new features are well-designed, well-implemented, and well-tested, and they do not conflict with the project's overall direction and scope.

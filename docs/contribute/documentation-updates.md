@@ -1,5 +1,6 @@
 ---
 title: 'Documentation updates'
+hideRendererSelector: true
 ---
 
 Fix a typo or clarify a section of the docs. This page outlines how to edit the documentation.

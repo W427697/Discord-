@@ -1,5 +1,6 @@
 ---
 title: 'Conclusion'
+hideRendererSelector: true
 ---
 
 Congratulations! You learned the basics. Storybook is the most popular tool for UI component development and documentation. You’ll be able to transfer these skills to thousands of companies that use Storybook to build UIs including GitHub, Airbnb, and Stripe.

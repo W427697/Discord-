@@ -1,5 +1,6 @@
 ---
 title: 'Introduction to addons'
+hideRendererSelector: true
 ---
 
 Addons extend Storybook with features and integrations that are not built into the core. Most Storybook features are implemented as addons. For instance: [documentation](../writing-docs/index.md), [accessibility testing](https://github.com/storybookjs/storybook/tree/master/addons/a11y), [interactive controls](../essentials/controls.md), among others.

@@ -2,6 +2,7 @@ module.exports = {
   toc: [
     {
       pathSegment: 'get-started',
+      redirectPath: 'get-started/install',
       title: 'Get started',
       type: 'heading',
       children: [

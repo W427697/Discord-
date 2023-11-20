@@ -1,5 +1,6 @@
 ---
 title: 'Preview and build docs'
+hideRendererSelector: true
 ---
 
 Storybook allows you to create rich and extensive [documentation](./index.md) that will help you and any other stakeholder involved in the development process. Out of the box you have the tooling required to not only write it but also to preview it and build it.

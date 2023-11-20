@@ -1,5 +1,6 @@
 ---
 title: 'Browse Stories'
+hideRendererSelector: true
 ---
 
 Last chapter, we learned that stories correspond with discrete component states. This chapter demonstrates how to use Storybook as a workshop for building components.
