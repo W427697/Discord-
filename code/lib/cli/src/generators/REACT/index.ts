@@ -1,5 +1,5 @@
 import { detectLanguage } from '../../detect';
-import { SupportedLanguage } from '../../project_types';
+import { CoreBuilder, SupportedLanguage } from '../../project_types';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 

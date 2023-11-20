@@ -4,7 +4,7 @@ import { dedent } from 'ts-dedent';
 import ora from 'ora';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { SupportedLanguage, externalFrameworks, CoreBuilder, ProjectType } from '../project_types';
+import { SupportedLanguage, externalFrameworks, CoreBuilder } from '../project_types';
 import { copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
