@@ -13,13 +13,6 @@
     // instance can be undefined if a decorator doesn't have <slot/>
     return instance || decoratorInstance;
   }
-
-  if (on) {
-    // Attach svelte event listeners.
-    Object.keys(on).forEach((eventName) => {
-      onMount(() => getInstance().$on(eventName, on[eventName]));
-    });
-  }
 </script>
 
 {#if decorator}
