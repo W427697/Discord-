@@ -36,7 +36,10 @@
     },
     "./dist/preview.js": {
       "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
+      "require": "./dist/preview.js"
+    },
+    "./dist/preview.mjs": {
+      "types": "./dist/preview.d.ts",
       "import": "./dist/preview.mjs"
     },
     "./preset": {
