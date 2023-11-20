@@ -7,16 +7,19 @@ import { removeMDXEntries } from '../remove-mdx-entries';
 
 const glob = globlOriginal as jest.MockedFunction<typeof globlOriginal>;
 
+const configDir = '/configDir/';
+const workingDir = '/';
+
 jest.mock('glob', () => ({ glob: jest.fn() }));
 
-const createList = (list: { entry: StoriesEntry; result: string[] }[], configDir: string) => {
+const createList = (list: { entry: StoriesEntry; result: string[] }[]) => {
   return list.reduce<Record<string, { result: string[]; entry: StoriesEntry }>>(
     (acc, { entry, result }) => {
       const { directory, files } = normalizeStoriesEntry(entry, {
         configDir,
-        workingDir: '/',
+        workingDir,
       });
-      acc[join('/', directory, files)] = { result, entry };
+      acc[slash(join('/', directory, files))] = { result, entry };
       return acc;
     },
     {}
@@ -28,15 +31,17 @@ const createGlobMock = (input: ReturnType<typeof createList>) => {
     if (Array.isArray(k)) {
       throw new Error('do not pass an array to glob during tests');
     }
-    const result = input[slash(k)].result || [];
-    return result;
+    if (input[slash(k)]) {
+      return input[slash(k)]?.result;
+    }
+
+    console.log({ k, input });
+    throw new Error('can not find key in input');
   };
 };
 
-const configDir = '/configDir/';
-
 test('empty', async () => {
-  const list = createList([], configDir);
+  const list = createList([]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(() => removeMDXEntries(Object.keys(list), { configDir })).rejects
@@ -52,7 +57,7 @@ test('empty', async () => {
 });
 
 test('minimal', async () => {
-  const list = createList([{ entry: '*.js', result: [] }], configDir);
+  const list = createList([{ entry: '*.js', result: [] }]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(
@@ -73,13 +78,10 @@ test('minimal', async () => {
 });
 
 test('multiple', async () => {
-  const list = createList(
-    [
-      { entry: '*.ts', result: [] },
-      { entry: '*.js', result: [] },
-    ],
-    configDir
-  );
+  const list = createList([
+    { entry: '*.ts', result: [] },
+    { entry: '*.js', result: [] },
+  ]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(
@@ -106,13 +108,10 @@ test('multiple', async () => {
 });
 
 test('mdx but not matching any files', async () => {
-  const list = createList(
-    [
-      { entry: '*.mdx', result: [] },
-      { entry: '*.js', result: [] },
-    ],
-    configDir
-  );
+  const list = createList([
+    { entry: '*.mdx', result: [] },
+    { entry: '*.js', result: [] },
+  ]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(
@@ -139,13 +138,10 @@ test('mdx but not matching any files', async () => {
 });
 
 test('removes entries that only yield mdx files', async () => {
-  const list = createList(
-    [
-      { entry: '*.mdx', result: ['/configDir/my-file.mdx'] },
-      { entry: '*.js', result: [] },
-    ],
-    configDir
-  );
+  const list = createList([
+    { entry: '*.mdx', result: ['/configDir/my-file.mdx'] },
+    { entry: '*.js', result: [] },
+  ]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(
@@ -166,13 +162,10 @@ test('removes entries that only yield mdx files', async () => {
 });
 
 test('expands entries that only yield mixed files', async () => {
-  const list = createList(
-    [
-      { entry: '*.@(mdx|ts)', result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'] },
-      { entry: '*.js', result: [] },
-    ],
-    configDir
-  );
+  const list = createList([
+    { entry: '*.@(mdx|ts)', result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'] },
+    { entry: '*.js', result: [] },
+  ]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(
@@ -198,15 +191,12 @@ test('expands entries that only yield mixed files', async () => {
 });
 
 test('passes titlePrefix', async () => {
-  const list = createList(
-    [
-      {
-        entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
-        result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'],
-      },
-    ],
-    configDir
-  );
+  const list = createList([
+    {
+      entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
+      result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'],
+    },
+  ]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(
@@ -226,20 +216,17 @@ test('passes titlePrefix', async () => {
 });
 
 test('expands to multiple entries', async () => {
-  const list = createList(
-    [
-      {
-        entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
-        result: [
-          '/configDir/my-file.mdx',
-          '/configDir/my-file1.ts',
-          '/configDir/my-file2.ts',
-          '/configDir/my-file3.ts',
-        ],
-      },
-    ],
-    configDir
-  );
+  const list = createList([
+    {
+      entry: { files: '*.@(mdx|ts)', directory: '.', titlePrefix: 'foo' },
+      result: [
+        '/configDir/my-file.mdx',
+        '/configDir/my-file1.ts',
+        '/configDir/my-file2.ts',
+        '/configDir/my-file3.ts',
+      ],
+    },
+  ]);
   glob.mockImplementation(createGlobMock(list));
 
   await expect(
