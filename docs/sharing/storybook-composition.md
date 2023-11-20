@@ -95,7 +95,7 @@ If you're using Storybook 6.4, or higher, you can optimize your composition via 
 
 <Callout variant="info" icon="💡">
 
-If you already enabled automatic code splitting via the [`storyStoreV7`](https://storybook.js.org/docs/react/builders/webpack#code-splitting), you won't need this flag as it will automatically generate the `index.json` file.
+If you already enabled automatic code splitting via the [`storyStoreV7`](https://storybook.js.org/docs/builders/webpack#code-splitting), you won't need this flag as it will automatically generate the `index.json` file.
 
 </Callout>
 
