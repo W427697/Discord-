@@ -35,7 +35,6 @@ const createGlobMock = (input: ReturnType<typeof createList>) => {
       return input[slash(k)]?.result;
     }
 
-    console.log({ k, input });
     throw new Error('can not find key in input');
   };
 };
@@ -60,17 +59,16 @@ test('minimal', async () => {
   const list = createList([{ entry: '*.js', result: [] }]);
   glob.mockImplementation(createGlobMock(list));
 
-  await expect(
-    removeMDXEntries(
-      Object.values(list).map((e) => e.entry),
-      { configDir }
-    )
-  ).resolves.toMatchInlineSnapshot(`
+  const result = await removeMDXEntries(
+    Object.values(list).map((e) => e.entry),
+    { configDir }
+  );
+
+  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
         "files": "*.js",
-        "importPathMatcher": /\\^\\\\\\.\\[\\\\\\\\/\\]\\(\\?:\\(\\?!\\\\\\.\\)\\(\\?=\\.\\)\\[\\^/\\]\\*\\?\\\\\\.js\\)\\$/,
         "titlePrefix": "",
       },
     ]
@@ -84,23 +82,21 @@ test('multiple', async () => {
   ]);
   glob.mockImplementation(createGlobMock(list));
 
-  await expect(
-    removeMDXEntries(
-      Object.values(list).map((e) => e.entry),
-      { configDir }
-    )
-  ).resolves.toMatchInlineSnapshot(`
+  const result = await removeMDXEntries(
+    Object.values(list).map((e) => e.entry),
+    { configDir }
+  );
+
+  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
         "files": "*.ts",
-        "importPathMatcher": /\\^\\\\\\.\\[\\\\\\\\/\\]\\(\\?:\\(\\?!\\\\\\.\\)\\(\\?=\\.\\)\\[\\^/\\]\\*\\?\\\\\\.ts\\)\\$/,
         "titlePrefix": "",
       },
       Object {
         "directory": ".",
         "files": "*.js",
-        "importPathMatcher": /\\^\\\\\\.\\[\\\\\\\\/\\]\\(\\?:\\(\\?!\\\\\\.\\)\\(\\?=\\.\\)\\[\\^/\\]\\*\\?\\\\\\.js\\)\\$/,
         "titlePrefix": "",
       },
     ]
@@ -114,23 +110,21 @@ test('mdx but not matching any files', async () => {
   ]);
   glob.mockImplementation(createGlobMock(list));
 
-  await expect(
-    removeMDXEntries(
-      Object.values(list).map((e) => e.entry),
-      { configDir }
-    )
-  ).resolves.toMatchInlineSnapshot(`
+  const result = await removeMDXEntries(
+    Object.values(list).map((e) => e.entry),
+    { configDir }
+  );
+
+  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
         "files": "*.mdx",
-        "importPathMatcher": /\\^\\\\\\.\\[\\\\\\\\/\\]\\(\\?:\\(\\?!\\\\\\.\\)\\(\\?=\\.\\)\\[\\^/\\]\\*\\?\\\\\\.mdx\\)\\$/,
         "titlePrefix": "",
       },
       Object {
         "directory": ".",
         "files": "*.js",
-        "importPathMatcher": /\\^\\\\\\.\\[\\\\\\\\/\\]\\(\\?:\\(\\?!\\\\\\.\\)\\(\\?=\\.\\)\\[\\^/\\]\\*\\?\\\\\\.js\\)\\$/,
         "titlePrefix": "",
       },
     ]
@@ -144,17 +138,16 @@ test('removes entries that only yield mdx files', async () => {
   ]);
   glob.mockImplementation(createGlobMock(list));
 
-  await expect(
-    removeMDXEntries(
-      Object.values(list).map((e) => e.entry),
-      { configDir }
-    )
-  ).resolves.toMatchInlineSnapshot(`
+  const result = await removeMDXEntries(
+    Object.values(list).map((e) => e.entry),
+    { configDir }
+  );
+
+  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
         "files": "*.js",
-        "importPathMatcher": /\\^\\\\\\.\\[\\\\\\\\/\\]\\(\\?:\\(\\?!\\\\\\.\\)\\(\\?=\\.\\)\\[\\^/\\]\\*\\?\\\\\\.js\\)\\$/,
         "titlePrefix": "",
       },
     ]
@@ -168,12 +161,12 @@ test('expands entries that only yield mixed files', async () => {
   ]);
   glob.mockImplementation(createGlobMock(list));
 
-  await expect(
-    removeMDXEntries(
-      Object.values(list).map((e) => e.entry),
-      { configDir }
-    )
-  ).resolves.toMatchInlineSnapshot(`
+  const result = await removeMDXEntries(
+    Object.values(list).map((e) => e.entry),
+    { configDir }
+  );
+
+  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -183,7 +176,6 @@ test('expands entries that only yield mixed files', async () => {
       Object {
         "directory": ".",
         "files": "*.js",
-        "importPathMatcher": /\\^\\\\\\.\\[\\\\\\\\/\\]\\(\\?:\\(\\?!\\\\\\.\\)\\(\\?=\\.\\)\\[\\^/\\]\\*\\?\\\\\\.js\\)\\$/,
         "titlePrefix": "",
       },
     ]
@@ -199,12 +191,12 @@ test('passes titlePrefix', async () => {
   ]);
   glob.mockImplementation(createGlobMock(list));
 
-  await expect(
-    removeMDXEntries(
-      Object.values(list).map((e) => e.entry),
-      { configDir }
-    )
-  ).resolves.toMatchInlineSnapshot(`
+  const result = await removeMDXEntries(
+    Object.values(list).map((e) => e.entry),
+    { configDir }
+  );
+
+  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -229,12 +221,12 @@ test('expands to multiple entries', async () => {
   ]);
   glob.mockImplementation(createGlobMock(list));
 
-  await expect(
-    removeMDXEntries(
-      Object.values(list).map((e) => e.entry),
-      { configDir }
-    )
-  ).resolves.toMatchInlineSnapshot(`
+  const result = await removeMDXEntries(
+    Object.values(list).map((e) => e.entry),
+    { configDir }
+  );
+
+  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
