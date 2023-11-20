@@ -16,7 +16,7 @@ export const appIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer 
       const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
       const routeDir = join('app', '(sb)');
-      const inputStorybookDir = resolve(__dirname, `../template/${routeDir}/storybookPreview`);
+      const inputStorybookDir = resolve(__dirname, `../template/app/storybookPreview`);
       const storybookDir = join(process.cwd(), routeDir, 'storybookPreview');
       await ensureDir(storybookDir);
 
