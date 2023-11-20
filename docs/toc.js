@@ -1,51 +1,51 @@
 module.exports = {
   toc: [
     {
-      title: '🚀 Get started',
+      title: 'Get started',
       pathSegment: 'get-started',
       type: 'menu',
       children: [
         {
           pathSegment: 'why-storybook',
           title: 'Why Storybook?',
-          type: 'bullet-link',
+          type: 'link',
           description: 'Learn why Storybook can help you build better UIs',
         },
         {
           pathSegment: 'install',
           title: 'Install',
-          type: 'bullet-link',
+          type: 'link',
           description: 'Install the Storybook package in your project',
         },
         {
           pathSegment: 'whats-a-story',
           title: "What's a story?",
-          type: 'bullet-link',
+          type: 'link',
           description: 'Learn how to save component examples as stories',
         },
         {
           pathSegment: 'browse-stories',
           title: 'Browse stories',
-          type: 'bullet-link',
+          type: 'link',
           description: 'Learn how to explore your stories within Storybook',
         },
         {
           pathSegment: 'setup',
           title: 'Setup',
-          type: 'bullet-link',
+          type: 'link',
           description:
             'Write your first story & adjust Storybook configuration for your environment',
         },
         {
           pathSegment: 'conclusion',
           title: 'Conclusion',
-          type: 'bullet-link',
+          type: 'link',
           description: 'Take your Storybook skills to the next level',
         },
       ],
     },
     {
-      title: '🖋 Write stories',
+      title: 'Stories',
       pathSegment: 'writing-stories',
       type: 'menu',
       children: [
@@ -102,7 +102,7 @@ module.exports = {
       ],
     },
     {
-      title: '📖 Write docs',
+      title: 'Docs',
       pathSegment: 'writing-docs',
       type: 'menu',
       children: [
@@ -134,7 +134,7 @@ module.exports = {
       ],
     },
     {
-      title: '🔬 Testing',
+      title: 'Testing',
       pathSegment: 'writing-tests',
       type: 'menu',
       children: [
@@ -205,7 +205,7 @@ module.exports = {
       ],
     },
     {
-      title: '🔖 Sharing',
+      title: 'Sharing',
       pathSegment: 'sharing',
       type: 'menu',
       children: [
@@ -237,7 +237,7 @@ module.exports = {
       ],
     },
     {
-      title: '🧩 Essential addons',
+      title: 'Essential addons',
       pathSegment: 'essentials',
       type: 'menu',
       children: [
@@ -295,7 +295,7 @@ module.exports = {
       ],
     },
     {
-      title: '🔧 Addons',
+      title: 'Addons',
       pathSegment: 'addons',
       type: 'menu',
       children: [
@@ -352,7 +352,7 @@ module.exports = {
       ],
     },
     {
-      title: '⚙️ Configure',
+      title: 'Configure',
       pathSegment: 'configure',
       type: 'menu',
       children: [
@@ -453,7 +453,7 @@ module.exports = {
       ],
     },
     {
-      title: '🧰 Builders',
+      title: 'Builders',
       pathSegment: 'builders',
       type: 'menu',
       children: [
@@ -480,7 +480,7 @@ module.exports = {
       ],
     },
     {
-      title: '🔌 API',
+      title: 'API',
       pathSegment: 'api',
       type: 'menu',
       children: [
@@ -726,7 +726,7 @@ module.exports = {
       ],
     },
     {
-      title: '🛠 Contribute',
+      title: 'Contribute',
       pathSegment: 'contribute',
       type: 'menu',
       children: [
@@ -775,12 +775,12 @@ module.exports = {
       ],
     },
     {
-      title: '❓ FAQ',
+      title: 'FAQ',
       pathSegment: 'faq',
       type: 'link',
     },
     {
-      title: '↗️ Migrate to 7.0',
+      title: 'Migrate to 7.0',
       pathSegment: 'migration-guide',
       type: 'link',
     },
