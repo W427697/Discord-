@@ -28,7 +28,7 @@ const rewritingIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer =
       const code = (await readFile(fileName, 'utf-8')).toString();
       const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
-      const routeDir = appDir ? 'app' : 'pages';
+      const routeDir = appDir ? join('app', '(sb)') : 'pages';
       const inputStorybookDir = resolve(__dirname, `../template/${routeDir}/storybookPreview`);
       const storybookDir = join(process.cwd(), routeDir, 'storybookPreview');
       await ensureDir(storybookDir);
