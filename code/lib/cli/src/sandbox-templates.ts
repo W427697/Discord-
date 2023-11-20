@@ -120,7 +120,8 @@ const baseTemplates = {
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
-    script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --javascript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -130,7 +131,8 @@ const baseTemplates = {
   },
   'nextjs/default-ts': {
     name: 'Next.js Latest (Webpack | TypeScript)',
-    script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --typescript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
