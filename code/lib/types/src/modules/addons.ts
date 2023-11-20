@@ -184,19 +184,19 @@ export interface Addon_BaseAnnotations<
 > {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
-   * @see [Arg story inputs](https://storybook.js.org/docs/react/api/csf#args-story-inputs)
+   * @see [Arg story inputs](https://storybook.js.org/docs/api/csf#args-story-inputs)
    */
   args?: Partial<TArgs>;
 
   /**
    * ArgTypes encode basic metadata for args, such as `name`, `description`, `defaultValue` for an arg. These get automatically filled in by Storybook Docs.
-   * @see [Arg types](https://storybook.js.org/docs/react/api/arg-types)
+   * @see [Arg types](https://storybook.js.org/docs/api/arg-types)
    */
   argTypes?: Addons_ArgTypes<TArgs>;
 
   /**
    * Custom metadata for a story.
-   * @see [Parameters](https://storybook.js.org/docs/react/writing-stories/parameters)
+   * @see [Parameters](https://storybook.js.org/docs/writing-stories/parameters)
    */
   parameters?: Parameters;
 
@@ -265,7 +265,7 @@ export interface Addon_BaseMeta<ComponentType> {
    *
    * Storybook will prioritize the id over the title for ID generation, if provided, and will prioritize the story.storyName over the export key for display.
    *
-   * @see [Sidebar and URLs](https://storybook.js.org/docs/react/configure/sidebar-and-urls#permalinking-to-stories)
+   * @see [Sidebar and URLs](https://storybook.js.org/docs/configure/sidebar-and-urls#permalinking-to-stories)
    */
   id?: string;
 

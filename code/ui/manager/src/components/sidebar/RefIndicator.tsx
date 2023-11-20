@@ -282,7 +282,7 @@ const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
 };
 
 const ReadDocsMessage: FC = () => (
-  <Message href="https://storybook.js.org/docs/react/sharing/storybook-composition" target="_blank">
+  <Message href="https://storybook.js.org/docs/sharing/storybook-composition" target="_blank">
     <GreenIcon icon="document" />
     <div>
       <MessageTitle>Read Composition docs</MessageTitle>
@@ -313,7 +313,7 @@ const LoadingMessage: FC<{ url: string }> = ({ url }) => (
 
 const PerformanceDegradedMessage: FC = () => (
   <Message
-    href="https://storybook.js.org/docs/react/sharing/storybook-composition#improve-your-storybook-composition"
+    href="https://storybook.js.org/docs/sharing/storybook-composition#improve-your-storybook-composition"
     target="_blank"
   >
     <YellowIcon icon="lightning" />

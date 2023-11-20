@@ -126,7 +126,7 @@ export class ConflictingStaticDirConfigError extends StorybookError {
   readonly code = 1;
 
   public readonly documentation =
-    'https://storybook.js.org/docs/react/configure/images-and-assets#serving-static-files-via-storybook-configuration';
+    'https://storybook.js.org/docs/configure/images-and-assets#serving-static-files-via-storybook-configuration';
 
   template() {
     return dedent`
@@ -145,7 +145,7 @@ export class InvalidStoriesEntryError extends StorybookError {
   readonly code = 4;
 
   public readonly documentation =
-    'https://storybook.js.org/docs/react/faq#can-i-have-a-storybook-with-no-local-stories';
+    'https://storybook.js.org/docs/faq#can-i-have-a-storybook-with-no-local-stories';
 
   template() {
     return dedent`
@@ -164,7 +164,7 @@ export class WebpackMissingStatsError extends StorybookError {
 
   public documentation = [
     'https://webpack.js.org/configuration/stats/',
-    'https://storybook.js.org/docs/react/builders/webpack#configure',
+    'https://storybook.js.org/docs/builders/webpack#configure',
   ];
 
   template() {
@@ -242,7 +242,7 @@ export class MissingAngularJsonError extends StorybookError {
   readonly code = 2;
 
   public readonly documentation =
-    'https://storybook.js.org/docs/angular/faq#error-no-angularjson-file-found';
+    'https://storybook.js.org/docs/faq#error-no-angularjson-file-found';
 
   constructor(
     public data: {

@@ -1,4 +1,4 @@
-// https://storybook.js.org/docs/react/addons/writing-presets
+// https://storybook.js.org/docs/addons/writing-presets
 import { dirname, join } from 'path';
 import type { Options, PresetProperty } from '@storybook/types';
 import type { ConfigItem, PluginItem, TransformOptions } from '@babel/core';

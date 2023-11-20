@@ -91,7 +91,7 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
             </Link>
             <Divider />
             <Link
-              href="https://storybook.js.org/docs/react/essentials/controls"
+              href="https://storybook.js.org/docs/essentials/controls"
               target="_blank"
               withArrow
             >
@@ -101,7 +101,7 @@ export const Empty: FC<EmptyProps> = ({ inAddonPanel }) => {
         )}
         {!inAddonPanel && (
           <Link
-            href="https://storybook.js.org/docs/react/essentials/controls"
+            href="https://storybook.js.org/docs/essentials/controls"
             target="_blank"
             withArrow
           >

@@ -138,7 +138,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
           <Placeholder>
             No interactions found
             <Link
-              href="https://storybook.js.org/docs/react/writing-stories/play-function"
+              href="https://storybook.js.org/docs/writing-stories/play-function"
               target="_blank"
               withArrow
             >
