@@ -10,6 +10,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
 
   await baseGenerator(packageManager, npmOptions, options, 'react', {
     extraPackages,
+    useSWC: ({ builder }) => builder === CoreBuilder.Webpack5,
     extraAddons: ['@storybook/addon-onboarding'],
   });
 };

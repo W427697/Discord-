@@ -1,5 +1,5 @@
 import type { NpmOptions } from '../NpmOptions';
-import type { SupportedLanguage, Builder, ProjectType } from '../project_types';
+import type { SupportedLanguage, Builder, ProjectType, CoreBuilder } from '../project_types';
 import type { JsPackageManager, PackageManagerName } from '../js-package-manager/JsPackageManager';
 import type { FrameworkPreviewParts } from './configure';
 
@@ -24,6 +24,7 @@ export interface FrameworkOptions {
   addMainFile?: boolean;
   addComponents?: boolean;
   skipBabel?: boolean;
+  useSWC?: ({ builder }: { builder: Builder }) => boolean;
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;

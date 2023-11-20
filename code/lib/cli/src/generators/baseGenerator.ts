@@ -29,6 +29,7 @@ const defaultOptions: FrameworkOptions = {
   addMainFile: true,
   addComponents: true,
   skipBabel: false,
+  useSWC: () => false,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -171,15 +172,6 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
   ['angular', 'nextjs'].includes(framework);
 
-function shouldUseSWCCompiler(builder: Builder, projectType: ProjectType) {
-  return (
-    builder === CoreBuilder.Webpack5 &&
-    projectType !== ProjectType.ANGULAR &&
-    // TODO: Remove in Storybook 8.0
-    projectType !== ProjectType.NEXTJS
-  );
-}
-
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
@@ -202,8 +194,6 @@ export async function baseGenerator(
     // eslint-disable-next-line no-param-reassign
     builder = await detectBuilder(packageManager, projectType);
   }
-
-  const useSWC = shouldUseSWCCompiler(builder, projectType);
 
   const {
     packages: frameworkPackages,
@@ -231,6 +221,7 @@ export async function baseGenerator(
     extensions,
     storybookConfigFolder,
     componentsDestinationPath,
+    useSWC,
   } = {
     ...defaultOptions,
     ...options,
@@ -241,7 +232,9 @@ export async function baseGenerator(
     ...options,
   };
 
-  if (useSWC) {
+  const swc = useSWC({ builder });
+
+  if (swc) {
     skipBabel = true;
   }
 
@@ -422,7 +415,7 @@ export async function baseGenerator(
     await configureMain({
       framework: {
         name: frameworkInclude,
-        options: useSWC
+        options: swc
           ? {
               ...(options.framework ?? {}),
               builder: {
