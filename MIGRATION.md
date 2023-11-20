@@ -926,7 +926,7 @@ import ReadMe from './README.md?raw';
 #### Stories field in .storybook/main.js is mandatory
 
 In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
-Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/configure/#configure-your-storybook-project) section to configure your Storybook project.
 
 #### Stricter global types
 

@@ -24,6 +24,6 @@ You can also build a [static version](https://storybook.js.org/docs/sharing/publ
 
 ## Docs
 
-- [Basics](https://storybook.js.org/docs/get-started/introduction)
-- [Configurations](https://storybook.js.org/docs/configure/overview)
+- [Basics](https://storybook.js.org/docs/get-started)
+- [Configurations](https://storybook.js.org/docs/configure)
 - [Addons](https://storybook.js.org/docs/configure/storybook-addons)

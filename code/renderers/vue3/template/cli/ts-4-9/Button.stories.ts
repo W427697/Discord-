@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import Button from './Button.vue';
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories/introduction
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
   title: 'Example/Button',
   component: Button,

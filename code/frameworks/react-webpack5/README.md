@@ -42,6 +42,6 @@ But you probably also need to use types from `@types/node @types/react`.
 
 ## Docs
 
-- [Basics](https://storybook.js.org/docs/get-started/introduction)
-- [Configurations](https://storybook.js.org/docs/configure/overview)
+- [Basics](https://storybook.js.org/docs/get-started)
+- [Configurations](https://storybook.js.org/docs/configure)
 - [Addons](https://storybook.js.org/docs/configure/storybook-addons)

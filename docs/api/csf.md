@@ -468,4 +468,4 @@ Finally, CSF 3 can automatically generate titles.
 
 <!-- prettier-ignore-end -->
 
-You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/overview#configure-story-loading).
+You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/#configure-story-loading).
