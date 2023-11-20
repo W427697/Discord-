@@ -303,7 +303,7 @@ const baseTemplates = {
   'angular-cli/prerelease': {
     name: 'Angular CLI Prerelease (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -314,7 +314,7 @@ const baseTemplates = {
   'angular-cli/default-ts': {
     name: 'Angular CLI Latest (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
