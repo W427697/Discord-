@@ -6,8 +6,7 @@ import type { NextConfig } from 'next';
 import path from 'path';
 import type { RuleSetRule } from 'webpack';
 import semver from 'semver';
-import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/node-logger';
+import { NextjsSWCNotSupportedError } from 'lib/core-events/src/errors/server-errors';
 import { getNextjsVersion } from '../utils';
 
 export const configureSWCLoader = async (
@@ -19,13 +18,7 @@ export const configureSWCLoader = async (
   const version = getNextjsVersion();
 
   if (semver.lt(version, '14.0.0')) {
-    logger.warn(
-      dedent`You have activated the SWC mode for Next.js, but you are not using Next.js 14.0.0 or higher. 
-      SWC is only supported in Next.js 14.0.0 and higher. 
-      Skipping SWC and using Babel instead.
-      `
-    );
-    return;
+    throw new NextjsSWCNotSupportedError();
   }
 
   const dir = getProjectRoot();
@@ -43,14 +36,14 @@ export const configureSWCLoader = async (
 
   baseConfig.module.rules = [
     // TODO: Remove filtering in Storybook 8.0
-    ...baseConfig.module.rules.filter(
-      (r: RuleSetRule) =>
-        !(typeof r.use === 'object' && 'loader' in r.use && r.use.loader?.includes('swc-loader'))
-    ),
+    ...baseConfig.module.rules.filter((r: RuleSetRule) => {
+      return !r.loader?.includes('swc-loader');
+    }),
     {
       test: /\.(m?(j|t)sx?)$/,
       include: [getProjectRoot()],
       exclude: [/(node_modules)/, ...Object.keys(virtualModules)],
+      enforce: 'post',
       use: {
         // we use our own patch because we need to remove tracing from the original code
         // which is not possible otherwise
@@ -61,14 +54,12 @@ export const configureSWCLoader = async (
           pagesDir: `${dir}/pages`,
           appDir: `${dir}/apps`,
           hasReactRefresh: isDevelopment,
-          hasServerComponents: true,
           nextConfig,
           supportedBrowsers: require('next/dist/build/utils').getSupportedBrowsers(
             dir,
             isDevelopment
           ),
           swcCacheDir: path.join(dir, nextConfig?.distDir ?? '.next', 'cache', 'swc'),
-          isServerLayer: false,
           bundleTarget: 'default',
         },
       },
