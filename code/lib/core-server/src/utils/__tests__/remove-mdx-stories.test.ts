@@ -2,6 +2,7 @@ import { glob as globlOriginal } from 'glob';
 import { type StoriesEntry } from '@storybook/types';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import { join } from 'path';
+import slash from 'slash';
 import { removeMDXEntries } from '../remove-mdx-entries';
 
 const glob = globlOriginal as jest.MockedFunction<typeof globlOriginal>;
@@ -27,13 +28,14 @@ const createGlobMock = (input: ReturnType<typeof createList>) => {
     if (Array.isArray(k)) {
       throw new Error('do not pass an array to glob during tests');
     }
-    const result = input[k].result || [];
+    const result = input[slash(k)].result || [];
     return result;
   };
 };
 
+const configDir = '/configDir/';
+
 test('empty', async () => {
-  const configDir = '/configDir/';
   const list = createList([], configDir);
   glob.mockImplementation(createGlobMock(list));
 
@@ -50,7 +52,6 @@ test('empty', async () => {
 });
 
 test('minimal', async () => {
-  const configDir = '/configDir/';
   const list = createList([{ entry: '*.js', result: [] }], configDir);
   glob.mockImplementation(createGlobMock(list));
 
@@ -72,7 +73,6 @@ test('minimal', async () => {
 });
 
 test('multiple', async () => {
-  const configDir = '/configDir/';
   const list = createList(
     [
       { entry: '*.ts', result: [] },
@@ -106,7 +106,6 @@ test('multiple', async () => {
 });
 
 test('mdx but not matching any files', async () => {
-  const configDir = '/configDir/';
   const list = createList(
     [
       { entry: '*.mdx', result: [] },
@@ -140,7 +139,6 @@ test('mdx but not matching any files', async () => {
 });
 
 test('removes entries that only yield mdx files', async () => {
-  const configDir = '/configDir/';
   const list = createList(
     [
       { entry: '*.mdx', result: ['/configDir/my-file.mdx'] },
@@ -168,7 +166,6 @@ test('removes entries that only yield mdx files', async () => {
 });
 
 test('expands entries that only yield mixed files', async () => {
-  const configDir = '/configDir/';
   const list = createList(
     [
       { entry: '*.@(mdx|ts)', result: ['/configDir/my-file.mdx', '/configDir/my-file.ts'] },
@@ -201,7 +198,6 @@ test('expands entries that only yield mixed files', async () => {
 });
 
 test('passes titlePrefix', async () => {
-  const configDir = '/configDir/';
   const list = createList(
     [
       {
@@ -230,7 +226,6 @@ test('passes titlePrefix', async () => {
 });
 
 test('expands to multiple entries', async () => {
-  const configDir = '/configDir/';
   const list = createList(
     [
       {
