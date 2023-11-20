@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.6.0-alpha.4",
+  "version": "7.6.0-alpha.6",
   "description": "",
   "keywords": [
     "storybook"
@@ -27,8 +27,8 @@
     },
     "./globals": {
       "types": "./dist/globals.d.ts",
-      "require": "./dist/globals.js",
-      "import": "./dist/globals.js"
+      "import": "./dist/globals.js",
+      "require": "./dist/globals.js"
     },
     "./package.json": "./package.json"
   },
@@ -53,8 +53,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/esm-bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
     "@storybook/channels": "workspace:*",

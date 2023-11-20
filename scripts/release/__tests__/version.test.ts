@@ -4,7 +4,7 @@ import { describe, it, expect, vi } from 'vitest';
 import path from 'path';
 import * as fsExtraImp from 'fs-extra';
 import { run as version } from '../version';
-import { execaCommand } from '../../utils/exec';
+import { execaCommand } from 'execa';
 
 // eslint-disable-next-line jest/no-mocks-import
 import type * as MockedFSToExtra from '../../../code/__mocks__/fs-extra';
@@ -16,7 +16,8 @@ vi.mock('../../../code/lib/cli/src/versions', () => ({
   '@storybook/addon-a11y': '7.1.0-alpha.29',
 }));
 
-vi.mock('../../utils/exec');
+vi.mock('execa');
+
 
 vi.mock('../../utils/workspace', () => ({
   getWorkspaces: vi.fn().mockResolvedValue([
@@ -288,6 +289,7 @@ describe('Version', () => {
       );
       expect(execaCommand).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
         cwd: path.join(CODE_DIR_PATH),
+        cleanup: true,
         stdio: undefined,
       });
     }
