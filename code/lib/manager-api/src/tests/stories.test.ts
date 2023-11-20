@@ -1265,9 +1265,9 @@ describe('stories API', () => {
         })
       ).resolves.not.toThrow();
       expect(store.getState().status).toMatchInlineSnapshot(`
-        Object {
-          "a-story-id": Object {
-            "a-addon-id": Object {
+        {
+          "a-story-id": {
+            "a-addon-id": {
               "description": "an addon description",
               "status": "pending",
               "title": "an addon title",
