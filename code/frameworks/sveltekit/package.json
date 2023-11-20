@@ -29,7 +29,6 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./src/components/SvelteDecorator.svelte": "./src/components/SvelteDecorator.svelte",
     "./preview": {
       "types": "./dist/preview.d.ts",
       "require": "./dist/preview.js",
@@ -54,7 +53,6 @@
     "README.md",
     "*.js",
     "*.d.ts",
-    "src/components/**/*",
     "src/mocks/**/*"
   ],
   "scripts": {
