@@ -10,7 +10,7 @@ import { RESET_STORY_ARGS } from '@storybook/core-events';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 import { addons } from '@storybook/preview-api';
-import { mount } from 'svelte';
+import { createRoot } from 'svelte';
 
 import type { SvelteRenderer } from './types';
 
@@ -67,7 +67,7 @@ export function renderToCanvas(
   }
 
   if (!existingComponent || remount) {
-    const createdComponent = mount(PreviewRender, {
+    const createdComponent = createRoot(PreviewRender, {
       target: canvasElement,
       props: {
         storyFn,
