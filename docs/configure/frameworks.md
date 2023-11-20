@@ -56,7 +56,7 @@ The latest release of [NextJS](https://nextjs.org/) introduced breaking changes 
 
 ### My framework doesn't work with Storybook
 
-Out of the box, most frameworks work seamlessly with Storybook. However, some frameworks (e.g., [CRACO](https://craco.js.org/)) provide their own configuration that Storybook isn't prepared to handle without additional steps, either [via addon](../addons/writing-presets.md) or integration. To learn more, read our [addons guide](../addons/introduction.md).
+Out of the box, most frameworks work seamlessly with Storybook. However, some frameworks (e.g., [CRACO](https://craco.js.org/)) provide their own configuration that Storybook isn't prepared to handle without additional steps, either [via addon](../addons/writing-presets.md) or integration. To learn more, read our [addons guide](../addons/index.md).
 
 ### How do I build a Storybook framework?
 
