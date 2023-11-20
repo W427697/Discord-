@@ -7,7 +7,7 @@ import { glob } from 'glob';
 export async function removeMDXEntries(
   entries: StoriesEntry[],
   options: Pick<Options, 'configDir'>
-): Promise<ReturnType<typeof normalizeStories>[]> {
+): Promise<ReturnType<typeof normalizeStories>> {
   const list = normalizeStories(entries, {
     configDir: options.configDir,
     workingDir: options.configDir,
