@@ -6,8 +6,7 @@ import type { NextConfig } from 'next';
 import path from 'path';
 import type { RuleSetRule } from 'webpack';
 import semver from 'semver';
-import { dedent } from 'ts-dedent';
-import { logger } from '@storybook/node-logger';
+import { NextjsSWCNotSupportedError } from 'lib/core-events/src/errors/server-errors';
 import { getNextjsVersion } from '../utils';
 
 export const configureSWCLoader = async (
@@ -19,13 +18,7 @@ export const configureSWCLoader = async (
   const version = getNextjsVersion();
 
   if (semver.lt(version, '14.0.0')) {
-    logger.warn(
-      dedent`You have activated the SWC mode for Next.js, but you are not using Next.js 14.0.0 or higher. 
-      SWC is only supported in Next.js 14.0.0 and higher. 
-      Skipping SWC and using Babel instead.
-      `
-    );
-    return;
+    throw new NextjsSWCNotSupportedError();
   }
 
   const dir = getProjectRoot();
