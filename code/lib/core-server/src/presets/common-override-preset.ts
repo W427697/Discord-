@@ -1,8 +1,5 @@
 import type { Options, PresetProperty, StorybookConfig, TestBuildFlags } from '@storybook/types';
-import { normalizeStories, commonGlobOptions } from '@storybook/core-common';
-import { isAbsolute, join } from 'path';
-import slash from 'slash';
-import { glob } from 'glob';
+import { removeMDXEntries } from '../utils/remove-mdx-entries';
 
 export const framework: PresetProperty<'framework', StorybookConfig> = async (config) => {
   // This will get called with the values from the user's main config, but before
@@ -19,30 +16,7 @@ export const framework: PresetProperty<'framework', StorybookConfig> = async (co
 
 export const stories: PresetProperty<'stories', StorybookConfig> = async (entries, options) => {
   if (options?.build?.test?.disableMDXEntries) {
-    return (
-      await Promise.all(
-        normalizeStories(entries, {
-          configDir: options.configDir,
-          workingDir: options.configDir,
-        }).map(({ directory, files }) => {
-          const pattern = join(directory, files);
-          const absolutePattern = isAbsolute(pattern) ? pattern : join(options.configDir, pattern);
-
-          return glob(slash(absolutePattern), {
-            ...commonGlobOptions(absolutePattern),
-            follow: true,
-          });
-        })
-      )
-    ).flatMap((expanded, i) => {
-      const filteredEntries = expanded.filter((s) => !s.endsWith('.mdx'));
-      // only return the filtered entries when there is something to filter
-      // as webpack is faster with unexpanded globs
-      if (filteredEntries.length < expanded.length) {
-        return filteredEntries;
-      }
-      return entries[i];
-    });
+    return removeMDXEntries(entries, options);
   }
   return entries;
 };
