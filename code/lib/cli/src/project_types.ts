@@ -5,11 +5,6 @@ function ltMajor(versionRange: string, major: number) {
   return validRange(versionRange) && minVersion(versionRange).major < major;
 }
 
-function gtMajor(versionRange: string, major: number) {
-  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  return validRange(versionRange) && minVersion(versionRange).major > major;
-}
-
 function eqMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
   return validRange(versionRange) && minVersion(versionRange).major === major;
@@ -162,9 +157,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
   },
   {
     preset: ProjectType.NEXTJS,
-    dependencies: {
-      next: (versionRange) => eqMajor(versionRange, 9) || gtMajor(versionRange, 9),
-    },
+    dependencies: ['next'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },
@@ -275,7 +268,11 @@ export const unsupportedTemplate: TemplateConfiguration = {
   },
 };
 
-const notInstallableProjectTypes: ProjectType[] = [ProjectType.UNDETECTED, ProjectType.UNSUPPORTED];
+const notInstallableProjectTypes: ProjectType[] = [
+  ProjectType.UNDETECTED,
+  ProjectType.UNSUPPORTED,
+  ProjectType.NX,
+];
 
 export const installableProjectTypes = Object.values(ProjectType)
   .filter((type) => !notInstallableProjectTypes.includes(type))

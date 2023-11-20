@@ -7,6 +7,8 @@ import type { KeyboardEventHandler, ReactNode } from 'react';
 import React from 'react';
 
 import type { SetOptional } from 'type-fest';
+import type { Mock } from '@storybook/test';
+import { fn } from '@storybook/test';
 
 import type { Decorator, Meta, StoryObj } from './public-types';
 import type { ReactRenderer } from './types';
@@ -272,5 +274,57 @@ test('Components without Props can be used, issue #21768', () => {
   const Basic: StoryObj<typeof meta> = {};
 
   type Expected = ReactStory<{}, {}>;
+  expectTypeOf(Basic).toEqualTypeOf<Expected>();
+});
+
+test('Meta is broken when using discriminating types, issue #23629', () => {
+  type TestButtonProps = {
+    text: string;
+  } & (
+    | {
+        id?: string;
+        onClick?: (e: unknown, id: string | undefined) => void;
+      }
+    | {
+        id: string;
+        onClick: (e: unknown, id: string) => void;
+      }
+  );
+  const TestButton: React.FC<TestButtonProps> = ({ text }) => {
+    return <p>{text}</p>;
+  };
+
+  expectTypeOf({
+    title: 'Components/Button',
+    component: TestButton,
+    args: {
+      text: 'Button',
+    },
+  }).toMatchTypeOf<Meta<TestButtonProps>>();
+});
+
+test('Infer mock function given to args in meta.', () => {
+  type Props = { label: string; onClick: () => void; onRender: () => JSX.Element };
+  const TestButton = (props: Props) => <></>;
+
+  const meta = {
+    component: TestButton,
+    args: { label: 'label', onClick: fn(), onRender: () => <>some jsx</> },
+  } satisfies Meta<typeof TestButton>;
+
+  type Story = StoryObj<typeof meta>;
+
+  const Basic: Story = {
+    play: async ({ args }) => {
+      expectTypeOf(args.onClick).toEqualTypeOf<Mock<[], void>>();
+      expectTypeOf(args.onRender).toEqualTypeOf<() => JSX.Element>();
+    },
+  };
+  type Expected = StoryAnnotations<
+    ReactRenderer,
+    Props & { onClick: Mock<[], void> },
+    Partial<Props>
+  >;
+
   expectTypeOf(Basic).toEqualTypeOf<Expected>();
 });

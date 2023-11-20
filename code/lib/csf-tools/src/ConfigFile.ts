@@ -1,18 +1,41 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
+import dedent from 'ts-dedent';
 
 import * as t from '@babel/types';
 
 import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
-import * as recast from 'recast';
-import prettier from 'prettier';
-
 import type { Options } from 'recast';
+import * as recast from 'recast';
 import { babelParse } from './babelParse';
 
 const logger = console;
+
+const getCsfParsingErrorMessage = ({
+  expectedType,
+  foundType,
+  node,
+}: {
+  expectedType: string;
+  foundType: string | undefined;
+  node: any | undefined;
+}) => {
+  let nodeInfo = '';
+  if (node) {
+    try {
+      nodeInfo = JSON.stringify(node);
+    } catch (e) {
+      //
+    }
+  }
+
+  return dedent`
+      CSF Parsing error: Expected '${expectedType}' but found '${foundType}' instead in '${node?.type}'.
+      ${nodeInfo}
+    `;
+};
 
 const propKey = (p: t.ObjectProperty) => {
   if (t.isIdentifier(p.key)) return p.key.name;
@@ -165,7 +188,13 @@ export class ConfigFile {
               }
             });
           } else {
-            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+            logger.warn(
+              getCsfParsingErrorMessage({
+                expectedType: 'ObjectExpression',
+                foundType: decl?.type,
+                node: decl || node.declaration,
+              })
+            );
           }
         },
       },
@@ -185,7 +214,13 @@ export class ConfigFile {
               }
             });
           } else {
-            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+            logger.warn(
+              getCsfParsingErrorMessage({
+                expectedType: 'VariableDeclaration',
+                foundType: node.declaration?.type,
+                node: node.declaration,
+              })
+            );
           }
         },
       },
@@ -225,7 +260,13 @@ export class ConfigFile {
                   }
                 });
               } else {
-                logger.warn(`Unexpected ${JSON.stringify(node)}`);
+                logger.warn(
+                  getCsfParsingErrorMessage({
+                    expectedType: 'ObjectExpression',
+                    foundType: exportObject?.type,
+                    node: exportObject,
+                  })
+                );
               }
             }
           }
@@ -718,27 +759,11 @@ export const loadConfig = (code: string, fileName?: string) => {
 };
 
 export const formatConfig = (config: ConfigFile) => {
-  const { code } = generate.default(config._ast, {});
-  return code;
+  return printConfig(config).code;
 };
 
 export const printConfig = (config: ConfigFile, options: Options = {}) => {
-  const result = recast.print(config._ast, options);
-  const prettierConfig = prettier.resolveConfig.sync('.');
-
-  if (prettierConfig) {
-    let pretty: string;
-    try {
-      pretty = prettier.format(result.code, {
-        ...prettierConfig,
-        filepath: config.fileName ?? 'main.ts',
-      });
-    } catch (_) {
-      pretty = result.code;
-    }
-    return { ...result, code: pretty };
-  }
-  return result;
+  return recast.print(config._ast, options);
 };
 
 export const readConfig = async (fileName: string) => {

@@ -39,9 +39,11 @@ The `add` method allows you to register the type of UI component associated with
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-ℹ️  The render function is called with `active` and `key`. The `active` value will be true when the panel is focused on the UI.
-</div>
+<Callout variant="info">
+
+The render function is called with `active` and `key`. The `active` value will be true when the panel is focused on the UI.
+
+</Callout>
 
 ### addons.register()
 
@@ -89,11 +91,11 @@ Use the `makeDecorator` API to create decorators in the style of the official ad
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ If the story's parameters include `{ exampleParameter: { disable: true } }` (where `exampleParameter` is the `parameterName` of your addon), your decorator will not be called.
+ If the story's parameters include `{ exampleParameter: { disable: true } }` (where `exampleParameter` is the `parameterName` of your addon), your decorator will not be called.
 
-</div>
+</Callout>
 
 The `makeDecorator` API requires the following arguments:
 
@@ -277,7 +279,7 @@ To help streamline addon development and reduce boilerplate code, the API expose
 
 ### useStorybookState
 
-It allows access to Storybook's internal state. Similar to the [`useglobals`](#useglobals) hook, we recommend optimizing your addon to rely on [`React.memo`](https://reactjs.org/docs/react-api.html#reactmemo), or the following hooks; [`useMemo`](https://reactjs.org/docs/hooks-reference.html#usememo), [`useCallback`](https://reactjs.org/docs/hooks-reference.html#usecallback) to prevent a high volume of re-render cycles.
+It allows access to Storybook's internal state. Similar to the [`useglobals`](#useglobals) hook, we recommend optimizing your addon to rely on [`React.memo`](https://react.dev/reference/react/memo), or the following hooks; [`useMemo`](https://react.dev/reference/react/useMemo), [`useCallback`](https://react.dev/reference/react/useCallback) to prevent a high volume of re-render cycles.
 
 <!-- prettier-ignore-start -->
 
@@ -349,7 +351,7 @@ The `useParameter` retrieves the current story's parameters. If the parameter's 
 
 ### useGlobals
 
-Extremely useful hook for addons that rely on Storybook [Globals](../essentials/toolbars-and-globals.md). It allows you to obtain and update `global` values. We also recommend optimizing your addon to rely on [`React.memo`](https://reactjs.org/docs/react-api.html#reactmemo), or the following hooks; [`useMemo`](https://reactjs.org/docs/hooks-reference.html#usememo), [`useCallback`](https://reactjs.org/docs/hooks-reference.html#usecallback) to prevent a high volume of re-render cycles.
+Extremely useful hook for addons that rely on Storybook [Globals](../essentials/toolbars-and-globals.md). It allows you to obtain and update `global` values. We also recommend optimizing your addon to rely on [`React.memo`](https://react.dev/reference/react/memo), or the following hooks; [`useMemo`](https://react.dev/reference/react/useMemo), [`useCallback`](https://react.dev/reference/react/useCallback) to prevent a high volume of re-render cycles.
 
 <!-- prettier-ignore-start -->
 

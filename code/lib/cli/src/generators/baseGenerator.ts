@@ -17,6 +17,7 @@ import {
   extractEslintInfo,
   suggestESLintPlugin,
 } from '../automigrate/helpers/eslintPlugin';
+import { detectBuilder } from '../detect';
 
 const logger = console;
 
@@ -28,6 +29,7 @@ const defaultOptions: FrameworkOptions = {
   addMainFile: true,
   addComponents: true,
   skipBabel: false,
+  useSWC: () => false,
   extraMain: undefined,
   framework: undefined,
   extensions: undefined,
@@ -175,10 +177,11 @@ export async function baseGenerator(
   npmOptions: NpmOptions,
   {
     language,
-    builder = CoreBuilder.Webpack5,
+    builder,
     pnp,
     frameworkPreviewParts,
     yes: skipPrompts,
+    projectType,
   }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
@@ -187,22 +190,10 @@ export async function baseGenerator(
   const isStorybookInMonorepository = packageManager.isStorybookInMonorepo();
   const shouldApplyRequireWrapperOnPackageNames = isStorybookInMonorepository || pnp;
 
-  const {
-    extraAddons: extraAddonPackages,
-    extraPackages,
-    staticDir,
-    addScripts,
-    addMainFile,
-    addComponents,
-    skipBabel,
-    extraMain,
-    extensions,
-    storybookConfigFolder,
-    componentsDestinationPath,
-  } = {
-    ...defaultOptions,
-    ...options,
-  };
+  if (!builder) {
+    // eslint-disable-next-line no-param-reassign
+    builder = await detectBuilder(packageManager, projectType);
+  }
 
   const {
     packages: frameworkPackages,
@@ -219,23 +210,67 @@ export async function baseGenerator(
     shouldApplyRequireWrapperOnPackageNames
   );
 
+  const {
+    extraAddons: extraAddonPackages,
+    extraPackages,
+    staticDir,
+    addScripts,
+    addMainFile,
+    addComponents,
+    extraMain,
+    extensions,
+    storybookConfigFolder,
+    componentsDestinationPath,
+    useSWC,
+  } = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  let { skipBabel } = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  const swc = useSWC({ builder });
+
+  if (swc) {
+    skipBabel = true;
+  }
+
+  const extraAddonsToInstall =
+    typeof extraAddonPackages === 'function'
+      ? await extraAddonPackages({
+          builder: builder || builderInclude,
+          framework: framework || frameworkInclude,
+        })
+      : extraAddonPackages;
+
   // added to main.js
   const addons = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    ...stripVersions(extraAddonPackages),
-  ];
+    ...stripVersions(extraAddonsToInstall),
+  ].filter(Boolean);
+
   // added to package.json
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/blocks',
-    ...extraAddonPackages,
-  ];
+    ...extraAddonsToInstall,
+  ].filter(Boolean);
 
   if (hasInteractiveStories(rendererId)) {
     addons.push('@storybook/addon-interactions');
-    addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library@^0.2.0-next.0');
+    addonPackages.push('@storybook/addon-interactions');
+
+    // TODO: migrate template stories in solid and qwik to use @storybook/test
+    if (['solid', 'qwik'].includes(rendererId)) {
+      addonPackages.push('@storybook/testing-library');
+    } else {
+      addonPackages.push('@storybook/test');
+    }
   }
 
   const files = await fse.readdir(process.cwd());
@@ -265,12 +300,20 @@ export async function baseGenerator(
     );
   }
 
+  const extraPackagesToInstall =
+    typeof extraPackages === 'function'
+      ? await extraPackages({
+          builder: builder || builderInclude,
+          framework: framework || frameworkInclude,
+        })
+      : extraPackages;
+
   const allPackages = [
     'storybook',
     getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
-    ...extraPackages,
+    ...extraPackagesToInstall,
   ].filter(Boolean);
 
   const packages = [...new Set(allPackages)].filter(
@@ -370,7 +413,18 @@ export async function baseGenerator(
       : [];
 
     await configureMain({
-      framework: { name: frameworkInclude, options: options.framework || {} },
+      framework: {
+        name: frameworkInclude,
+        options: swc
+          ? {
+              ...(options.framework ?? {}),
+              builder: {
+                ...(options.framework?.builder ?? {}),
+                useSWC: true,
+              },
+            }
+          : options.framework || {},
+      },
       prefixes,
       storybookConfigFolder,
       docs: { autodocs: 'tag' },

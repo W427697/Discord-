@@ -6,7 +6,8 @@ import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
-import { execaCommand } from '../utils/exec';
+import { execaCommand } from 'execa';
+import { esMain } from '../utils/esmain';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
@@ -98,6 +99,7 @@ export const runCommand = async (script: string, options: ExecaOptions, debug = 
   return execaCommand(script, {
     stdout: debug ? 'inherit' : 'ignore',
     shell: true,
+    cleanup: true,
     ...options,
   });
 };
@@ -125,6 +127,10 @@ const runGenerators = async (
   localRegistry = true,
   debug = false
 ) => {
+  if (debug) {
+    console.log('Debug mode enabled. Verbose logs will be printed to the console.');
+  }
+
   console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
@@ -202,10 +208,15 @@ const runGenerators = async (
 };
 
 export const options = createOptions({
-  template: {
-    type: 'string',
-    description: 'Which template would you like to create?',
+  templates: {
+    type: 'string[]',
+    description: 'Which templates would you like to create?',
     values: Object.keys(sandboxTemplates),
+  },
+  exclude: {
+    type: 'string[]',
+    description: 'Space-delimited list of templates to exclude. Takes precedence over --templates',
+    promptType: false,
   },
   localRegistry: {
     type: 'boolean',
@@ -220,7 +231,8 @@ export const options = createOptions({
 });
 
 export const generate = async ({
-  template,
+  templates,
+  exclude,
   localRegistry,
   debug,
 }: OptionValues<typeof options>) => {
@@ -230,20 +242,24 @@ export const generate = async ({
       ...configuration,
     }))
     .filter(({ dirName }) => {
-      if (template) {
-        return dirName === template;
+      let include = Array.isArray(templates) ? templates.includes(dirName) : true;
+      if (Array.isArray(exclude) && include) {
+        include = !exclude.includes(dirName);
       }
-
-      return true;
+      return include;
     });
 
   await runGenerators(generatorConfigs, localRegistry, debug);
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   program
     .description('Generate sandboxes from a set of possible templates')
-    .option('--template <template>', 'Create a single template')
+    .option('--templates [templates...]', 'Space-delimited list of templates to include')
+    .option(
+      '--exclude [templates...]',
+      'Space-delimited list of templates to exclude. Takes precedence over --templates'
+    )
     .option('--debug', 'Print all the logs to the console')
     .option('--local-registry', 'Use local registry', false)
     .action((optionValues) => {

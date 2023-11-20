@@ -1,6 +1,6 @@
 {
   "name": "@storybook/store",
-  "version": "7.2.0",
+  "version": "7.6.0-alpha.6",
   "description": "",
   "keywords": [
     "storybook"
@@ -35,11 +35,12 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/facade.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
@@ -54,6 +55,5 @@
     ],
     "platform": "node",
     "shim": "@storybook/preview-api/dist/store"
-  },
-  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
+  }
 }
