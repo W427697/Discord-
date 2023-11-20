@@ -2,7 +2,7 @@
 
 `storiesOf` is Storybook's Legacy API for adding stories. Up until Storybook 5.2, it has been the primary way to create stories in Storybook.
 
-In Storybook 5.2 we introduced a simpler and more portable [Component Story Format](https://storybook.js.org/docs/react/api/csf), and all future tools and infrastructure will be oriented towards CSF. Therefore, we recommend migrating your stories out of `storiesOf` API, and even provide [automated tools to do this](#component-story-format-migration).
+In Storybook 5.2 we introduced a simpler and more portable [Component Story Format](https://storybook.js.org/docs/api/csf), and all future tools and infrastructure will be oriented towards CSF. Therefore, we recommend migrating your stories out of `storiesOf` API, and even provide [automated tools to do this](#component-story-format-migration).
 
 That said, the `storiesOf` API is not officially deprecated. For the time being we plan to support it for the foreseeable future.
 
@@ -37,7 +37,7 @@ Each `.add` call takes a story name, a story function that returns a renderable 
 
 ## Decorators and parameters
 
-[Decorators](https://storybook.js.org/docs/react/writing-stories/decorators) and [parameters](https://storybook.js.org/docs/react/writing-stories/parameters) can be specified globally, at the component level, or locally at the story level.
+[Decorators](https://storybook.js.org/docs/writing-stories/decorators) and [parameters](https://storybook.js.org/docs/writing-stories/parameters) can be specified globally, at the component level, or locally at the story level.
 
 In the `storiesOf` API, story-level parameters are provided as a third argument to `.add`:
 
@@ -84,11 +84,11 @@ storiesOf('Button', module)
   ));
 ```
 
-Parameters and decorators can also be used globally, you can define them in your .storybook/preview.js. Take a look [here](https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters) to learn more about global parameters and [here](https://storybook.js.org/docs/react/writing-stories/decorators#global-decorators) for global decorators.
+Parameters and decorators can also be used globally, you can define them in your .storybook/preview.js. Take a look [here](https://storybook.js.org/docs/writing-stories/parameters#global-parameters) to learn more about global parameters and [here](https://storybook.js.org/docs/writing-stories/decorators#global-decorators) for global decorators.
 
 ## Component Story Format migration
 
-To make it easier to adopt the new [Component Story Format (CSF)](https://storybook.js.org/docs/react/api/csf), we've created an automatic migration tool to transform `storiesOf` API to Module format.
+To make it easier to adopt the new [Component Story Format (CSF)](https://storybook.js.org/docs/api/csf), we've created an automatic migration tool to transform `storiesOf` API to Module format.
 
 ```sh
 sb migrate storiesof-to-csf --glob=src/**/*.stories.js

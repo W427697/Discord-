@@ -58,4 +58,4 @@ message when a DOM element can't be found, it will also ensure your play functio
 
 Any `args` that are marked as an `action` (typically via `argTypes` or `argTypesRegex`) will be automatically wrapped in
 a [Jest mock function](https://jestjs.io/docs/jest-object#jestfnimplementation) so you can assert invocations. See
-[addon-actions](https://storybook.js.org/docs/react/essentials/actions) for how to setup actions.
+[addon-actions](https://storybook.js.org/docs/essentials/actions) for how to setup actions.

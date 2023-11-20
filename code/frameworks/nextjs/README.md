@@ -91,7 +91,7 @@ Follow the prompts after running this command in your Next.js project's root dir
 npx storybook@latest init
 ```
 
-[More on getting started with Storybook](https://storybook.js.org/docs/react/get-started/install)
+[More on getting started with Storybook](https://storybook.js.org/docs/get-started/install)
 
 ### In a project with Storybook
 
@@ -314,13 +314,13 @@ module.exports = {
 
 ### Next.js Routing
 
-[Next.js's router](https://nextjs.org/docs/routing/introduction) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the Actions ctions panel if you have the [Storybook actions addon](https://storybook.js.org/docs/react/essentials/actions).
+[Next.js's router](https://nextjs.org/docs/routing/introduction) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the Actions ctions panel if you have the [Storybook actions addon](https://storybook.js.org/docs/essentials/actions).
 
 > When using Next.js 13+, you should only use `next/router` in the `pages` directory. In the `app` directory, it is necessary to use `next/navigation`.
 
 #### Overriding defaults
 
-Per-story overrides can be done by adding a `nextjs.router` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
+Per-story overrides can be done by adding a `nextjs.router` property onto the story [parameters](https://storybook.js.org/docs/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
 
 ```js
 // SomeComponentThatUsesTheRouter.stories.js
@@ -349,7 +349,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -367,7 +367,7 @@ export const parameters = {
 
 #### Default Router
 
-The default values on the stubbed router are as follows (see [globals](https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals) for more details on how globals work)
+The default values on the stubbed router are as follows (see [globals](https://storybook.js.org/docs/essentials/toolbars-and-globals#globals) for more details on how globals work)
 
 ```ts
 const defaultRouter = {
@@ -406,7 +406,7 @@ const defaultRouter = {
       action('nextRouter.events.emit')(...args);
     },
   },
-  // The locale should be configured [globally](https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals)
+  // The locale should be configured [globally](https://storybook.js.org/docs/essentials/toolbars-and-globals#globals)
   locale: globals?.locale,
   asPath: '/',
   basePath: '/',
@@ -484,7 +484,7 @@ export const Example = {
 },
 ```
 
-If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
+If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/configure/overview#configure-story-rendering) file to apply it to all stories.
 
 ```js
 // .storybook/preview.js
@@ -500,7 +500,7 @@ The parameter `nextjs.appDirectory` defaults to `false` if not set.
 
 #### Overriding defaults
 
-Per-story overrides can be done by adding a `nextjs.navigation` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
+Per-story overrides can be done by adding a `nextjs.navigation` property onto the story [parameters](https://storybook.js.org/docs/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
 
 ```js
 // SomeComponentThatUsesTheNavigation.stories.js
@@ -529,7 +529,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -689,7 +689,7 @@ export const parameters = {
 
 ### Sass/Scss
 
-[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering)
+[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/configure/overview#configure-story-rendering)
 
 ```js
 import '../styles/globals.scss';
@@ -857,7 +857,7 @@ Calls to `getConfig` would return the following object when called within Storyb
 
 Next.js comes with a lot of things for free out of the box like sass support, but sometimes you add [custom webpack config modifications to Next.js](https://nextjs.org/docs/api-reference/next.config.js/custom-webpack-config). This framework takes care of most of the webpack modifications you would want to add. If Next.js supports a feature out of the box, then that feature will work out of the box in Storybook. If Next.js doesn't support something out of the box, but makes it easy to configure, then this framework will do the same for that thing for Storybook.
 
-Any webpack modifications desired for Storybook should be made in [.storybook/main.js](https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config).
+Any webpack modifications desired for Storybook should be made in [.storybook/main.js](https://storybook.js.org/docs/builders/webpack#extending-storybooks-webpack-config).
 
 Note: Not all webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js`. It is recommended to do your research on how to properly make your modification to Storybook's webpack config and on how [webpack works](https://webpack.js.org/concepts/).
 
@@ -917,7 +917,7 @@ This is because those versions of Yarn have different package resolution rules t
 
 #### Stories for pages/components which fetch data
 
-Next.js page files can contain imports to modules meant to run in a node environment (for use in data fetching functions). If you import from a Next.js page file containing those node module imports in your stories, your Storybook's Webpack will crash because those modules will not run in a browser. To get around this, you can extract the component in your page file into a separate file and import that pure component in your stories. Or, if that's not feasible for some reason, you can [polyfill those modules](https://webpack.js.org/configuration/node/) in your Storybook's [`webpackFinal` configuration](https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config).
+Next.js page files can contain imports to modules meant to run in a node environment (for use in data fetching functions). If you import from a Next.js page file containing those node module imports in your stories, your Storybook's Webpack will crash because those modules will not run in a browser. To get around this, you can extract the component in your page file into a separate file and import that pure component in your stories. Or, if that's not feasible for some reason, you can [polyfill those modules](https://webpack.js.org/configuration/node/) in your Storybook's [`webpackFinal` configuration](https://storybook.js.org/docs/builders/webpack#extending-storybooks-webpack-config).
 
 **Before**
 

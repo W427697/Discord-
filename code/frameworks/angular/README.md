@@ -316,9 +316,9 @@ In this case you have to adjust your `angular.json` and `package.json` as descri
 
 You can run `npx sb init` sequentially for each project to setup Storybook for each of them to automatically create the `.storybook` folder and create the necessary configuration in your `angular.json`.
 
-You can then use [Storybook composition](https://storybook.js.org/docs/angular/sharing/storybook-composition) to composite multiple Storybooks into one.
+You can then use [Storybook composition](https://storybook.js.org/docs/sharing/storybook-composition) to composite multiple Storybooks into one.
 
 ---
 
 Storybook also comes with a lot of [addons](https://storybook.js.org/addons) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/docs/angular/sharing/publish-storybook) of your Storybook and deploy it anywhere you want.
+You can also build a [static version](https://storybook.js.org/docs/sharing/publish-storybook) of your Storybook and deploy it anywhere you want.

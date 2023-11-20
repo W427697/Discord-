@@ -20,7 +20,7 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 ---
 
 Storybook also comes with a lot of [addons](https://storybook.js.org/addons) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/docs/react/sharing/publish-storybook) of your Storybook and deploy it anywhere you want.
+You can also build a [static version](https://storybook.js.org/docs/sharing/publish-storybook) of your Storybook and deploy it anywhere you want.
 
 Here are some featured storybooks that you can reference to see how Storybook works:
 
@@ -42,6 +42,6 @@ But you probably also need to use types from `@types/node @types/react`.
 
 ## Docs
 
-- [Basics](https://storybook.js.org/docs/react/get-started/introduction)
-- [Configurations](https://storybook.js.org/docs/react/configure/overview)
-- [Addons](https://storybook.js.org/docs/react/configure/storybook-addons)
+- [Basics](https://storybook.js.org/docs/get-started/introduction)
+- [Configurations](https://storybook.js.org/docs/configure/overview)
+- [Addons](https://storybook.js.org/docs/configure/storybook-addons)

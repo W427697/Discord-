@@ -87,7 +87,7 @@ View [Component Encyclopedia](https://storybook.js.org/showcase) to see how lead
 
 Use [storybook.new](https://storybook.new) to quickly create an example project in Stackblitz.
 
-Storybook comes with a lot of [addons](https://storybook.js.org/docs/react/configure/storybook-addons) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
+Storybook comes with a lot of [addons](https://storybook.js.org/docs/configure/storybook-addons) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
 
 ### Community
 
@@ -135,7 +135,7 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 | [storysource](code/addons/storysource/)                                   | View the code of your stories within the Storybook UI                      |
 | [viewport](code/addons/viewport/)                                         | Change display sizes and layouts for responsive components using Storybook |
 
-See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/frameworks-feature-support)
+See [Addon / Framework Support Table](https://storybook.js.org/docs/api/frameworks-feature-support)
 
 ### Deprecated Addons
 

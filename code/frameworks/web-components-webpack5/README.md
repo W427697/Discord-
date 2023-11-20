@@ -22,7 +22,7 @@ For more information visit: [storybook.js.org](https://storybook.js.org)
 ---
 
 Storybook also comes with a lot of [addons](https://storybook.js.org/addons) and a great API to customize as you wish.
-You can also build a [static version](https://storybook.js.org/docs/web-components/sharing/publish-storybook) of your storybook and deploy it anywhere you want.
+You can also build a [static version](https://storybook.js.org/docs/sharing/publish-storybook) of your storybook and deploy it anywhere you want.
 
 # Hot Module Reloading (HMR)
 

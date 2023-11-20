@@ -2,7 +2,7 @@
 
 StoryShots adds automatic Jest Snapshot Testing for [Storybook](https://storybook.js.org/).
 
-[Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
+[Framework Support](https://storybook.js.org/docs/api/frameworks-feature-support)
 
 ![StoryShots In Action](https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/storyshots/storyshots-core/docs/storyshots-fail.png)
 
@@ -470,7 +470,7 @@ Whenever you change your data requirements by adding (and rendering) or (acciden
 
 ## Using a custom directory
 
-Depending on your project's needs, you can configure the `@storybook/addon-storyshots` to use a custom directory for the snapshots. You can read more about it in the [official docs](https://storybook.js.org/docs/react/writing-tests/snapshot-testing).
+Depending on your project's needs, you can configure the `@storybook/addon-storyshots` to use a custom directory for the snapshots. You can read more about it in the [official docs](https://storybook.js.org/docs/writing-tests/snapshot-testing).
 
 ## Options
 
@@ -718,7 +718,7 @@ Like the default, but allows you to specify a set of options for the renderer, j
 ### `multiSnapshotWithOptions(options)`
 
 Like `snapshotWithOptions`, but generate a separate snapshot file for each stories file rather than a single monolithic file (as is the convention in Jest). This makes it dramatically easier to review changes. If you'd like the benefit of separate snapshot files, but don't have custom options to pass, you can pass an empty object.
-If you use [Component Story Format](https://storybook.js.org/docs/react/api/csf), you may also need to add an additional Jest transform to automate detecting story file names:
+If you use [Component Story Format](https://storybook.js.org/docs/api/csf), you may also need to add an additional Jest transform to automate detecting story file names:
 
 ```js
 // jest.config.js

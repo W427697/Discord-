@@ -76,7 +76,7 @@ class ReactProvider extends Provider {
   handleAPI(api) {
     api.setOptions({
       // see available options in
-      // https://storybook.js.org/docs/react/configure/features-and-behavior
+      // https://storybook.js.org/docs/configure/features-and-behavior
     });
   }
 }
