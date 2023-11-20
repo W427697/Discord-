@@ -15,8 +15,6 @@ import { allTemplates as sandboxTemplates } from '../../code/lib/cli/src/sandbox
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
-import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
-
 // eslint-disable-next-line import/no-cycle
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import type { GeneratorConfig } from './utils/types';
@@ -139,9 +137,9 @@ const runGenerators = async (
     console.log('Debug mode enabled. Verbose logs will be printed to the console.');
   }
 
-  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
+  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${1}`);
 
-  const limit = pLimit(maxConcurrentTasks);
+  const limit = pLimit(1);
 
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
