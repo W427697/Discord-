@@ -1,4 +1,4 @@
-import mock from 'mock-fs';
+import mock from '../../mock';
 import { getInterpretedFile } from '../interpret-files';
 
 describe('interpret-files', () => {

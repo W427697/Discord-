@@ -1,4 +1,4 @@
-import mock from 'mock-fs';
+import mock from '../../mock';
 import { getPreviewHeadTemplate, getPreviewBodyTemplate } from '../template';
 
 const HEAD_HTML_CONTENTS = '<script>console.log("custom script!");</script>';
