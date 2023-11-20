@@ -226,7 +226,7 @@ We're working on overcoming this limitation, and soon you'll be able to use them
 
 Storybook does not work unless you have at least one local story (or docs page) defined in your project. In this context, local means a `.stories.*` or `.mdx` file that is referenced in your project's `.storybook/main.js` config.
 
-If you're in a [Storybook composition](https://storybook.js.org/docs/react/sharing/storybook-composition) scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
+If you're in a [Storybook composition](https://storybook.js.org/docs/sharing/storybook-composition) scenario, where you have multiple Storybooks, and want to have an extra Storybook with no stories of its own, that serves as a "glue" for all the other Storybooks in a project for demo/documentation purposes, you can do the following steps:
 
 Introduce a single `.mdx` docs page (addon-essentials or addon-docs required), that serves as an Introduction page, like so:
 
@@ -506,7 +506,7 @@ import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 const StoryMeta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * See https://storybook.js.org/docs/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Button',

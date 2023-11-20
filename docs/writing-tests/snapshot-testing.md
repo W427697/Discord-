@@ -88,7 +88,7 @@ You can name the test file differently to suit your needs. Bear in mind that it 
 
 </Callout>
 
-Run your first test. Storyshots will recognize your stories (based on [.storybook/main.js's setup](https://storybook.js.org/docs/react/configure/story-rendering)) and save them in the **snapshots** directory.
+Run your first test. Storyshots will recognize your stories (based on [.storybook/main.js's setup](https://storybook.js.org/docs/configure/story-rendering)) and save them in the **snapshots** directory.
 
 ```shell
 npm test storybook.test.js
