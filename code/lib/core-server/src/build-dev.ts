@@ -77,7 +77,7 @@ export async function buildDevStandalone(
   try {
     await warnOnIncompatibleAddons(config);
   } catch (e) {
-    console.warn('Failed to check for incompatible addons', e);
+    console.warn('Storybook failed to check addon compatibility', e);
   }
 
   // Load first pass: We need to determine the builder
