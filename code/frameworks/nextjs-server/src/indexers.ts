@@ -15,20 +15,21 @@ export const appIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer 
       const code = (await readFile(fileName, 'utf-8')).toString();
       const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
-      const routeDir = join('app', '(sb)');
       const inputStorybookDir = resolve(__dirname, `../template/app/storybookPreview`);
-      const storybookDir = join(process.cwd(), routeDir, 'storybookPreview');
+      const appDir = join(process.cwd(), 'app');
+      const storybookDir = join(appDir, '(sb)', 'storybookPreview');
       await ensureDir(storybookDir);
 
       try {
         await cp(inputStorybookDir, storybookDir, { recursive: true });
         const hasRootLayout = await Promise.any(
-          LAYOUT_FILES.map((file) => exists(join(process.cwd(), routeDir, file)))
+          LAYOUT_FILES.map((file) => exists(join(appDir, file)))
         );
         const inputLayout = hasRootLayout ? 'layout-nested.tsx' : 'layout-root.tsx';
         await cp(`${inputStorybookDir}/${inputLayout}`, join(storybookDir, 'layout.tsx'));
       } catch (err) {
         // FIXME: assume we've copied already
+        // console.log({ err });
       }
 
       await Promise.all(
