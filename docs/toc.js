@@ -1,9 +1,10 @@
 module.exports = {
   toc: [
     {
-      title: 'Get started',
       pathSegment: 'get-started',
-      type: 'menu',
+      redirectPath: 'get-started/install',
+      title: 'Get started',
+      type: 'heading',
       children: [
         {
           pathSegment: 'why-storybook',
@@ -45,15 +46,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Stories',
       pathSegment: 'writing-stories',
-      type: 'menu',
+      title: 'Stories',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'introduction',
-          title: 'Introduction',
-          type: 'link',
-        },
         {
           pathSegment: 'args',
           title: 'Args',
@@ -102,15 +98,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Docs',
       pathSegment: 'writing-docs',
-      type: 'menu',
+      title: 'Docs',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'introduction',
-          title: 'Introduction',
-          type: 'link',
-        },
         {
           pathSegment: 'autodocs',
           title: 'Autodocs',
@@ -134,15 +125,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Testing',
       pathSegment: 'writing-tests',
-      type: 'menu',
+      title: 'Testing',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'introduction',
-          title: 'Introduction',
-          type: 'link',
-        },
         {
           pathSegment: 'test-runner',
           title: 'Test runner',
@@ -205,9 +191,9 @@ module.exports = {
       ],
     },
     {
-      title: 'Sharing',
       pathSegment: 'sharing',
-      type: 'menu',
+      title: 'Sharing',
+      type: 'heading',
       children: [
         {
           pathSegment: 'publish-storybook',
@@ -237,15 +223,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Essential addons',
       pathSegment: 'essentials',
-      type: 'menu',
+      title: 'Essential addons',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'introduction',
-          title: 'Introduction',
-          type: 'link',
-        },
         {
           pathSegment: 'actions',
           title: 'Actions',
@@ -295,15 +276,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Addons',
       pathSegment: 'addons',
-      type: 'menu',
+      title: 'Addons',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'introduction',
-          title: 'Introduction',
-          type: 'link',
-        },
         {
           pathSegment: 'install-addons',
           title: 'Install',
@@ -352,15 +328,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Configure',
       pathSegment: 'configure',
-      type: 'menu',
+      title: 'Configure',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'overview',
-          title: 'Overview',
-          type: 'link',
-        },
         {
           pathSegment: 'styling-and-css',
           title: 'Styling and CSS',
@@ -453,15 +424,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Builders',
       pathSegment: 'builders',
-      type: 'menu',
+      title: 'Builders',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'overview',
-          title: 'Introduction',
-          type: 'link',
-        },
         {
           pathSegment: 'vite',
           title: 'Vite',
@@ -480,9 +446,9 @@ module.exports = {
       ],
     },
     {
-      title: 'API',
       pathSegment: 'api',
-      type: 'menu',
+      title: 'API',
+      type: 'heading',
       children: [
         {
           title: 'main.js|ts configuration',
@@ -726,15 +692,10 @@ module.exports = {
       ],
     },
     {
-      title: 'Contribute',
       pathSegment: 'contribute',
-      type: 'menu',
+      title: 'Contribute',
+      type: 'heading',
       children: [
-        {
-          pathSegment: 'how-to-contribute',
-          title: 'How to',
-          type: 'link',
-        },
         {
           pathSegment: 'RFC',
           title: 'RFC Process',

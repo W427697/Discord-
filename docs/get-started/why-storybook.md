@@ -111,7 +111,7 @@ When you write stories for components, you get a bunch of additional benefits fo
 
 #### 📝 Develop UIs that are more durable
 
-Isolate components and pages and track their use cases as [stories](../writing-stories/introduction.md). Verify hard-to-reach edge cases of UI. Use addons to mock everything a component needs—context, API requests, device features, etc.
+Isolate components and pages and track their use cases as [stories](../writing-stories/index.md). Verify hard-to-reach edge cases of UI. Use addons to mock everything a component needs—context, API requests, device features, etc.
 
 #### ✅ Test UIs with less effort and no flakes
 
@@ -119,7 +119,7 @@ Stories are a pragmatic, reproducible way of tracking UI states. Use them to spo
 
 #### 📚 Document UI for your team to reuse
 
-Storybook is the single source of truth for your UI. Stories index all your components and their various states, making it easy for your team to find and reuse existing UI patterns. Storybook also auto-generates [documentation](../writing-docs/introduction.md) from those stories.
+Storybook is the single source of truth for your UI. Stories index all your components and their various states, making it easy for your team to find and reuse existing UI patterns. Storybook also auto-generates [documentation](../writing-docs/index.md) from those stories.
 
 #### 📤 Share how the UI actually works
 
