@@ -64,7 +64,7 @@ test('minimal', async () => {
     { configDir }
   );
 
-  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
+  expect(result).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -87,7 +87,7 @@ test('multiple', async () => {
     { configDir }
   );
 
-  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
+  expect(result).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -115,7 +115,7 @@ test('mdx but not matching any files', async () => {
     { configDir }
   );
 
-  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
+  expect(result).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -143,7 +143,7 @@ test('removes entries that only yield mdx files', async () => {
     { configDir }
   );
 
-  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
+  expect(result).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -166,7 +166,7 @@ test('expands entries that only yield mixed files', async () => {
     { configDir }
   );
 
-  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
+  expect(result).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -196,7 +196,7 @@ test('passes titlePrefix', async () => {
     { configDir }
   );
 
-  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
+  expect(result).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",
@@ -226,7 +226,7 @@ test('expands to multiple entries', async () => {
     { configDir }
   );
 
-  expect(result.map(({ importPathMatcher, ...v }) => v)).toMatchInlineSnapshot(`
+  expect(result).toMatchInlineSnapshot(`
     Array [
       Object {
         "directory": ".",

@@ -7,7 +7,7 @@ import { glob } from 'glob';
 export async function removeMDXEntries(
   entries: StoriesEntry[],
   options: Pick<Options, 'configDir'>
-): Promise<ReturnType<typeof normalizeStories>> {
+): Promise<StoriesEntry[]> {
   const list = normalizeStories(entries, {
     configDir: options.configDir,
     workingDir: options.configDir,
@@ -34,18 +34,21 @@ export async function removeMDXEntries(
         };
       })
     )
-  ).flatMap<StoriesEntry>((expanded, i) => {
-    const filteredEntries = expanded.files.filter((s) => !s.endsWith('.mdx'));
+  ).flatMap<StoriesEntry>(({ directory, files, titlePrefix }, i) => {
+    const filteredEntries = files.filter((s) => !s.endsWith('.mdx'));
     // only return the filtered entries when there is something to filter
     // as webpack is faster with unexpanded globs
     let items = [];
-    if (filteredEntries.length < expanded.files.length) {
+    if (filteredEntries.length < files.length) {
       items = filteredEntries.map((k) => ({
-        ...expanded,
+        directory,
+        titlePrefix,
         files: `**/${k}`,
       }));
     } else {
-      items = [list[i]];
+      items = [
+        { directory: list[i].directory, titlePrefix: list[i].titlePrefix, files: list[i].files },
+      ];
     }
 
     return items;
