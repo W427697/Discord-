@@ -259,6 +259,7 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--test', 'Build stories optimized for testing purposes.')
   .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
@@ -272,7 +273,11 @@ command('build')
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    await build({ ...options, packageJson: pkg }).catch(() => process.exit(1));
+    await build({
+      ...options,
+      packageJson: pkg,
+      test: !!options.test || process.env.SB_TESTBUILD === 'true',
+    }).catch(() => process.exit(1));
   });
 
 program.on('command:*', ([invalidCmd]) => {
