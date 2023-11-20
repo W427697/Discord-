@@ -71,23 +71,31 @@ const addStorybook = async ({
 }) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
-  const tmpDir = join(baseDir, 'tmp');
 
-  await ensureDir(tmpDir);
-  await emptyDir(tmpDir);
+  const tmpDir = directory();
 
-  await copy(beforeDir, tmpDir);
+  try {
+    await copy(beforeDir, tmpDir);
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
-  if (localRegistry) {
-    await withLocalRegistry(packageManager, async () => {
-      await packageManager.addPackageResolutions(storybookVersions);
+    const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
+    if (localRegistry) {
+      await withLocalRegistry(packageManager, async () => {
+        await packageManager.addPackageResolutions({
+          ...storybookVersions,
+          // Yarn1 Issue: https://github.com/storybookjs/storybook/issues/22431
+          jackspeak: '2.1.1',
+        });
 
+        await sbInit(tmpDir, flags, debug);
+      });
+    } else {
       await sbInit(tmpDir, flags, debug);
-    });
-  } else {
-    await sbInit(tmpDir, flags, debug);
+    }
+  } catch (e) {
+    await remove(tmpDir);
+    throw e;
   }
+
   await rename(tmpDir, afterDir);
 };
 
