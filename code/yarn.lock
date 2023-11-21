@@ -7630,6 +7630,7 @@ __metadata:
     ts-dedent: "npm:^2.2.0"
     typescript: "npm:~4.9.3"
     vite: "npm:^4.0.0"
+    vitefu: "npm:^0.2.5"
   peerDependencies:
     svelte: ^3.0.0 || ^4.0.0
     vite: ^3.0.0 || ^4.0.0 || ^5.0.0
@@ -30293,7 +30294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitefu@npm:^0.2.4":
+"vitefu@npm:^0.2.4, vitefu@npm:^0.2.5":
   version: 0.2.5
   resolution: "vitefu@npm:0.2.5"
   peerDependencies:
