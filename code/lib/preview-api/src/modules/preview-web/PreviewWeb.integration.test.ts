@@ -70,7 +70,7 @@ beforeEach(() => {
   jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
-describe.skip('PreviewWeb', () => {
+describe('PreviewWeb', () => {
   describe('initial render', () => {
     it('renders story mode through the stack', async () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');
@@ -115,8 +115,7 @@ describe.skip('PreviewWeb', () => {
       `);
     });
 
-    // TODO @tmeasday please help fixing this test
-    it.skip('sends docs rendering exceptions to showException', async () => {
+    it('sends docs rendering exceptions to showException', async () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
@@ -127,7 +126,7 @@ describe.skip('PreviewWeb', () => {
       (
         preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
       ).mockReturnValue(docsRoot as any);
-      componentOneExports.default.parameters.docs.container.mockImplementationOnce(() => {
+      componentOneExports.default.parameters.docs.container.mockImplementation(() => {
         throw new Error('Docs rendering error');
       });
 
