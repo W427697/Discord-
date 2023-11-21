@@ -7,6 +7,8 @@ import { getOptions } from './build';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
+export * from './types';
+
 export const build: EsbuildBuilder['build'] = async ({ options }) => {
   const esbuildOptions = await getOptions(options);
   const esbuildCompilation = esbuild(esbuildOptions);
