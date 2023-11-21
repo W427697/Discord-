@@ -60,9 +60,12 @@ export const withStorybook = ({
   };
 
   childProcess = spawn(
-    'yarn',
+    'npm',
     [
+      'exec',
       'storybook',
+      '--',
+      'dev',
       '--preview-url',
       `http://localhost:${port}/${previewPath}`,
       '-p',
