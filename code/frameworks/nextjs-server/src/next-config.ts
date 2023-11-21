@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
 import type { ChildProcess } from 'child_process';
 import { spawn } from 'child_process';
+import { existsSync } from 'fs';
+import type { StorybookNextJSOptions } from './types';
 
 const logger = console;
 let childProcess: ChildProcess | undefined;
@@ -51,7 +53,12 @@ export const withStorybook = ({
   managerPath = 'storybook',
   // TODO -- how to pass this to codegen if changed?
   previewPath = 'storybookPreview',
+  appDir = undefined,
 } = {}) => {
+  const storybookNextJSOptions: StorybookNextJSOptions = {
+    appDir: appDir ?? existsSync('./app'),
+  };
+
   childProcess = spawn(
     'yarn',
     [
@@ -66,7 +73,10 @@ export const withStorybook = ({
       // a more graceful way to handle this.
       '--exact-port',
     ],
-    { stdio: 'inherit' }
+    {
+      stdio: 'inherit',
+      env: { ...process.env, STORYBOOK_NEXTJS_OPTIONS: JSON.stringify(storybookNextJSOptions) },
+    }
   );
 
   return (config: NextConfig) => ({
