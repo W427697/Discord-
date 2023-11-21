@@ -287,6 +287,8 @@ jobs:
             - sandbox
       - store_test_results:
           path: test-results
+      - store_artifacts:
+          path: storybook.log
   smoke-test-sandboxes:
     parameters:
       parallelism:
