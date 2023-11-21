@@ -54,7 +54,10 @@ test.describe('Svelte', () => {
     const sbPage = new SbPage(page);
     const lines: string[] = [];
     page.on('console', (msg) => {
-      lines.push(msg.text());
+      const text = msg.text();
+      if (text === 'decorator called') {
+        lines.push(text);
+      }
     });
 
     await sbPage.navigateToStory('stories/renderers/svelte/decorators-runs-once', 'default');
