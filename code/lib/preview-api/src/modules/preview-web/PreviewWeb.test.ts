@@ -1,3 +1,4 @@
+/* eslint-disable local-rules/no-uncategorized-errors */
 /**
  * @vitest-environment jsdom
  */
@@ -134,7 +135,7 @@ beforeEach(() => {
   vi.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
-describe.skip('PreviewWeb', () => {
+describe('PreviewWeb', () => {
   describe('initialize', () => {
     it('shows an error if getProjectAnnotations throws', async () => {
       const err = new Error('meta error');

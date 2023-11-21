@@ -6199,6 +6199,7 @@ __metadata:
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
     "@jest/globals": "npm:^29.5.0"
+    "@storybook/addon-docs": "workspace:*"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
