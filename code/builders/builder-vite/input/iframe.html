@@ -28,6 +28,8 @@
     // doesn't fail (it will simply be disabled)
     window.module = undefined;
     window.global = window;
+    // prevent: "ReferenceError: process is not defined"
+    window.process = window.process || {};
   </script>
   <!-- [HEAD HTML SNIPPET HERE] -->
 </head>
