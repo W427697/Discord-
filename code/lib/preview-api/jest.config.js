@@ -1,5 +1,5 @@
 const path = require('path');
-const baseConfig = require('../../jest.config.node');
+const baseConfig = require('../../jest.config.browser');
 
 module.exports = {
   ...baseConfig,
