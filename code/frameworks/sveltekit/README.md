@@ -128,7 +128,7 @@ Integrating with SvelteKit would not have been possible if it weren't for the fa
 
 ## How to mock
 
-To mock a SvelteKit import you can make use of the `parameters.sveltekit` object either on the `Story`, on the `Template` or on the `Meta`
+To mock a SvelteKit import you can set it on `parameters.sveltekit`:
 
 ```ts
 export const MyStory = {
