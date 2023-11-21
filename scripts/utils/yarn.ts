@@ -27,11 +27,6 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
     playwright: '1.36.0',
     'playwright-core': '1.36.0',
     '@playwright/test': '1.36.0',
-
-    // Due to support of older vite versions
-    '@vitejs/plugin-react': '4.2.0',
-    '@sveltejs/vite-plugin-svelte': '3.0.1',
-    '@vitejs/plugin-vue': '4.5.0',
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
@@ -72,7 +67,10 @@ export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => 
   const packageJson = await readJSON(packageJsonPath);
   packageJson.resolutions = {
     ...packageJson.resolutions,
-    '@vitejs/plugin-react': '4.2.0', // due to conflicting version in @storybook/vite-react
+    // Due to our support of older vite versions
+    '@vitejs/plugin-react': '4.2.0',
+    '@sveltejs/vite-plugin-svelte': '3.0.1',
+    '@vitejs/plugin-vue': '4.5.0',
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
