@@ -10,6 +10,29 @@ If you're not using Storybook 7, please reference the [previous documentation](.
 
 </Callout>
 
+### SWC
+
+If you're working with a Webpack-based project, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler, which can be faster for some projects. To do so, update your [Storybook configuration file](../api/main-config.md) (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-framework-options-builder-use-swc.js.mdx',
+    'common/main-config-framework-options-builder-use-swc.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info" icon="ℹ️">
+
+See the [`useSWC` API reference](../api/main-config-swc.md) for more information.
+
+</Callout>
+
+## Babel
+
 ## CRA (Create React App)
 
 [CRA](https://create-react-app.dev/) apps using `@storybook/react-webpack5` with the `@storybook/preset-create-react-app` package use CRA's Babel handling to behave as close as possible to your actual application. None of the other documentation on this page applies.
@@ -115,6 +138,14 @@ However, when your Storybook refers to files outside of the current project dire
 
 ## Troubleshooting
 
+<IfRenderer renderer='react'>
+
+### Why is
+
+If you're working with a React project
+
+</IfRenderer>
+
 ### Babel configuration not working
 
 To troubleshoot your Babel configuration, set the `BABEL_SHOW_CONFIG_FOR` environment variable. For example, to see how Storybook is transpiling your `.storybook/preview.js` file, add the following environment variable:
@@ -132,22 +163,3 @@ Due to what appears to be a Babel bug, setting this flag causes Babel transpilat
 </Callout>
 
 For more info, please refer to the [Babel documentation](https://babeljs.io/docs/en/configuration#print-effective-configs).
-
-### SWC alternative
-
-(⚠️ **Experimental**)
-
-If you're working with a Webpack-based project, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler, which can be faster for some projects. To do so, update your [Storybook configuration file](../api/main-config.md) (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/main-config-framework-options-builder-use-swc.js.mdx',
-    'common/main-config-framework-options-builder-use-swc.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-See the [`useSWC` API reference](../api/main-config-framework.md#optionsbuilderuseswc) for more information.

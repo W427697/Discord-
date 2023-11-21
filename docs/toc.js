@@ -572,6 +572,11 @@ module.exports = {
               pathSegment: 'main-config-static-dirs',
               type: 'link',
             },
+             {
+              title: 'swc',
+              pathSegment: 'main-config-swc',
+              type: 'link',
+            },
             {
               title: 'typescript',
               pathSegment: 'main-config-typescript',

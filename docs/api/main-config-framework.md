@@ -41,8 +41,6 @@ Configures Storybook's builder, [Vite](../builders/vite.md) or [Webpack](../buil
 
 #### `options.builder.useSWC`
 
-(⚠️ **Experimental**)
-
 For frameworks made with the [Webpack](../builders/webpack.md) builder, this option allows you to use the [SWC](https://swc.rs/) compiler instead of [Babel](../configure/babel.md).
 
 When Storybook loads, it will update Webpack's configuration including the required loaders (e.g., [`TerserPlugin`](https://webpack.js.org/plugins/terser-webpack-plugin/), [`babel-loader`](https://webpack.js.org/loaders/babel-loader/)) with SWC equivalents (e.g., [`swc-loader`](https://swc.rs/docs/usage/swc-loader)) for bundling and minification.
