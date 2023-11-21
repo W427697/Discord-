@@ -152,7 +152,7 @@ export const MyStory = {
 };
 ```
 
-on this object you can add the name of the module you are mocking (in the example above we are mocking the `stores` module which correspond to `$app/stores`) and than pass the following kind of objects
+You can add the name of the module you want to mock to `parameters.sveltekit` (in the example above we are mocking the `stores` module which correspond to `$app/stores`) and then pass the following kind of objects:
 
 | Module                                          | Path in parameters                              | Kind of objects                                                                                    |
 | ----------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------- |
