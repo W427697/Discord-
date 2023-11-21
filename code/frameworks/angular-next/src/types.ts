@@ -1,12 +1,9 @@
-import type {StorybookConfig as StorybookConfigBase} from '@storybook/builder-esbuild'
+import { StorybookConfig as StorybookConfigBase } from '@storybook/builder-esbuild';
 
 type FrameworkName = '@storybook/angular-next';
-type BuilderName = '@storybook/builder-esbuild';
 
 // TODO
-type BuilderOptions = {
-
-}
+type BuilderOptions = {};
 
 export type FrameworkOptions = {
   builder?: BuilderOptions;
@@ -21,12 +18,9 @@ type StorybookConfigFramework = {
       };
   core?: StorybookConfigBase['core'] & {
     builder?:
-      | BuilderName
+      | string
       | {
-          name: '@storybook/builder-webpack5';
-          options: BuilderOptions;
-        } | {
-          name: BuilderName;
+          name: string;
           options: BuilderOptions;
         };
   };

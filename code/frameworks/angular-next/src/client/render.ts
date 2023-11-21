@@ -1,5 +1,3 @@
-import '@angular/compiler';
-
 import { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import { AngularRenderer } from './types';

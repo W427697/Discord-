@@ -8,6 +8,7 @@ const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
 export * from './types';
+export * from './build';
 
 export const build: EsbuildBuilder['build'] = async ({ options }) => {
   const esbuildOptions = await getOptions(options);

@@ -180,10 +180,14 @@ export interface StorybookConfigOptions {
 
 export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
 
-export interface Builder<Config, BuilderStats extends Stats = Stats> {
-  getConfig: (options: Options) => Promise<Config>;
+export interface Builder<
+  Config,
+  BuilderStats extends Stats = Stats,
+  BuilderOpts extends Options = Options
+> {
+  getConfig: (options: BuilderOpts) => Promise<Config>;
   start: (args: {
-    options: Options;
+    options: BuilderOpts;
     startTime: ReturnType<typeof process.hrtime>;
     router: Router;
     server: Server;
@@ -194,7 +198,7 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
     bail: (e?: Error) => Promise<void>;
   }>;
   build: (arg: {
-    options: Options;
+    options: BuilderOpts;
     startTime: ReturnType<typeof process.hrtime>;
   }) => Promise<void | BuilderStats>;
   bail: (e?: Error) => Promise<void>;
