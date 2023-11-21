@@ -13,3 +13,17 @@ declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
 declare var REFS: any;
 declare var VERSIONCHECK: any;
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;
+
+declare var __REACT__: any;
+declare var __REACT_DOM__: any;
+declare var __STORYBOOK_COMPONENTS__: any;
+declare var __STORYBOOK_CHANNELS__: any;
+declare var __STORYBOOK_CORE_EVENTS__: any;
+declare var __STORYBOOK_ROUTER__: any;
+declare var __STORYBOOK_THEMING__: any;
+declare var __STORYBOOK_API__: any;
+declare var __STORYBOOK_ADDONS__: any;
+declare var __STORYBOOK_CLIENT_LOGGER__: any;
+declare var __STORYBOOK_ADDONS_CHANNEL__: any;
+declare var __STORYBOOK_TYPES__: any;
+declare var sendTelemetryError: (error: any) => void;

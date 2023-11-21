@@ -22,6 +22,7 @@ import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
 import versions from './versions';
+import { JsPackageManagerFactory } from './js-package-manager';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
@@ -87,17 +88,24 @@ command('upgrade')
 
 command('info')
   .description('Prints debugging information about the local environment')
-  .action(() => {
-    consoleLogger.log(chalk.bold('\nEnvironment Info:'));
-    envinfo
-      .run({
-        System: ['OS', 'CPU'],
-        Binaries: ['Node', 'Yarn', 'npm'],
-        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-        npmPackages: '@storybook/*',
-        npmGlobalPackages: '@storybook/*',
-      })
-      .then(consoleLogger.log);
+  .action(async () => {
+    consoleLogger.log(chalk.bold('\nStorybook Environment Info:'));
+    const pkgManager = await JsPackageManagerFactory.getPackageManager();
+    const activePackageManager = pkgManager.type.replace(/\d/, ''); // 'yarn1' -> 'yarn'
+    const output = await envinfo.run({
+      System: ['OS', 'CPU', 'Shell'],
+      Binaries: ['Node', 'Yarn', 'npm', 'pnpm'],
+      Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+      npmPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+      npmGlobalPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+    });
+    const activePackageManagerLine = output.match(new RegExp(`${activePackageManager}:.*`, 'i'));
+    consoleLogger.log(
+      output.replace(
+        activePackageManagerLine,
+        chalk.bold(`${activePackageManagerLine} <----- active`)
+      )
+    );
   });
 
 command('migrate [migration]')
@@ -251,6 +259,7 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--test', 'Build stories optimized for testing purposes.')
   .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
@@ -264,7 +273,11 @@ command('build')
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    await build({ ...options, packageJson: pkg }).catch(() => process.exit(1));
+    await build({
+      ...options,
+      packageJson: pkg,
+      test: !!options.test || process.env.SB_TESTBUILD === 'true',
+    }).catch(() => process.exit(1));
   });
 
 program.on('command:*', ([invalidCmd]) => {
