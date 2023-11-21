@@ -19,3 +19,7 @@ type StorybookConfigFramework = {
  * The interface for Storybook configuration in `main.ts` files.
  */
 export type StorybookConfig = StorybookConfigBase & StorybookConfigFramework;
+
+export interface StorybookNextJSOptions {
+  appDir: boolean;
+}

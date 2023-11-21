@@ -45,6 +45,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/config.d.ts"
+      ],
+      "testing-api": [
+        "dist/testing-api.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "template/cli/**/*",

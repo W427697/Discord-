@@ -34,10 +34,6 @@
       "types": "./dist/plugin.d.ts",
       "require": "./dist/plugin.js"
     },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "import": "./dist/preview.mjs"
-    },
     "./mock": {
       "types": "./dist/mock.d.ts",
       "node": "./dist/mock.js",
@@ -46,6 +42,10 @@
     },
     "./next-config": {
       "node": "./dist/next-config.js"
+    },
+    "./pages": {
+      "types": "./dist/pages/index.d.ts",
+      "import": "./dist/pages/index.mjs"
     },
     "./channels": {
       "types": "./dist/reexports/channels.d.ts",
@@ -123,6 +123,7 @@
       "./src/preset.ts",
       "./src/mock.ts",
       "./src/next-config.ts",
+      "./src/pages/index.ts",
       "./src/reexports/channels.ts",
       "./src/reexports/core-events.ts",
       "./src/reexports/preview-api.ts",
