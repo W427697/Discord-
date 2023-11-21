@@ -1,6 +1,5 @@
 import type { CoreConfig, DocsOptions, Options, PreviewAnnotation } from '@storybook/types';
 import type { BuildOptions } from 'esbuild';
-import { build as buildEsbuild } from 'esbuild';
 import {
   handlebars,
   isPreservingSymlinks,
@@ -15,7 +14,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 
 import path, { join, resolve, dirname } from 'path';
 import slash from 'slash';
-import { definitions } from '@storybook/preview/globals';
+import { globalsModuleInfoMap } from '@storybook/preview/globals-module-info';
 import { toImportFn } from './toImportFn';
 import { virtualModulePlugin } from './plugins/virtualModulePlugin';
 
@@ -152,7 +151,7 @@ export async function getOptions(options: Options): Promise<BuildOptions> {
     metafile: true,
     plugins: [
       virtualModulePlugin(virtualModuleMapping),
-      globalsPlugin(definitions),
+      globalsPlugin(globalsModuleInfoMap),
       aliasPlugin({
         process: require.resolve('process/browser.js'),
         util: require.resolve('util/util.js'),

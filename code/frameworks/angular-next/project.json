@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/angular",
+  "name": "@storybook/angular-next",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

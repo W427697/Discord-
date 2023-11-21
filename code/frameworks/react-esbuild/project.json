@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/react-vite",
+  "name": "@storybook/react-esbuild",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"
