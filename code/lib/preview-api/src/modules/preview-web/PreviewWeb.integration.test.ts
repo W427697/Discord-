@@ -80,7 +80,7 @@ describe.skip('PreviewWeb', () => {
         storyFn()
       );
       document.location.search = '?id=component-one--a';
-      await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
+      await new PreviewWeb(importFn, getProjectAnnotations).initialize();
 
       await waitForRender();
 
@@ -93,7 +93,7 @@ describe.skip('PreviewWeb', () => {
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = new PreviewWeb();
+      const preview = new PreviewWeb(importFn, getProjectAnnotations);
 
       const docsRoot = document.createElement('div');
       (
@@ -103,7 +103,7 @@ describe.skip('PreviewWeb', () => {
         React.createElement('div', {}, 'INSIDE')
       );
 
-      await preview.initialize({ importFn, getProjectAnnotations });
+      await preview.initialize();
       await waitForRender();
 
       expect(docsRoot.outerHTML).toMatchInlineSnapshot(`
@@ -121,7 +121,7 @@ describe.skip('PreviewWeb', () => {
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = new PreviewWeb();
+      const preview = new PreviewWeb(importFn, getProjectAnnotations);
 
       const docsRoot = document.createElement('div');
       (
@@ -134,7 +134,7 @@ describe.skip('PreviewWeb', () => {
       (
         preview.view.showErrorDisplay as any as jest.Mock<typeof preview.view.showErrorDisplay>
       ).mockClear();
-      await preview.initialize({ importFn, getProjectAnnotations });
+      await preview.initialize();
       await waitForRender();
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
@@ -157,8 +157,8 @@ describe.skip('PreviewWeb', () => {
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
       document.location.search = '?id=component-one--a';
-      const preview = new PreviewWeb();
-      await preview.initialize({ importFn, getProjectAnnotations });
+      const preview = new PreviewWeb(importFn, getProjectAnnotations);
+      await preview.initialize();
       await waitForRender();
 
       projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>

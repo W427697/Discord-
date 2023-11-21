@@ -56,39 +56,44 @@ export function isMdxEntry({ tags }: DocsIndexEntry) {
   return !tags?.includes(AUTODOCS_TAG) && !tags?.includes(STORIES_MDX_TAG);
 }
 
-type PossibleRender<TFramework extends Renderer> =
-  | StoryRender<TFramework>
-  | CsfDocsRender<TFramework>
-  | MdxDocsRender<TFramework>;
+type PossibleRender<TRenderer extends Renderer> =
+  | StoryRender<TRenderer>
+  | CsfDocsRender<TRenderer>
+  | MdxDocsRender<TRenderer>;
 
-function isStoryRender<TFramework extends Renderer>(
-  r: PossibleRender<TFramework>
-): r is StoryRender<TFramework> {
+function isStoryRender<TRenderer extends Renderer>(
+  r: PossibleRender<TRenderer>
+): r is StoryRender<TRenderer> {
   return r.type === 'story';
 }
 
-function isDocsRender<TFramework extends Renderer>(
-  r: PossibleRender<TFramework>
-): r is CsfDocsRender<TFramework> | MdxDocsRender<TFramework> {
+function isDocsRender<TRenderer extends Renderer>(
+  r: PossibleRender<TRenderer>
+): r is CsfDocsRender<TRenderer> | MdxDocsRender<TRenderer> {
   return r.type === 'docs';
 }
 
-function isCsfDocsRender<TFramework extends Renderer>(
-  r: PossibleRender<TFramework>
-): r is CsfDocsRender<TFramework> {
+function isCsfDocsRender<TRenderer extends Renderer>(
+  r: PossibleRender<TRenderer>
+): r is CsfDocsRender<TRenderer> {
   return isDocsRender(r) && r.subtype === 'csf';
 }
 
-export class PreviewWithSelection<TFramework extends Renderer> extends Preview<TFramework> {
+export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TRenderer> {
   currentSelection?: Selection;
 
-  currentRender?: PossibleRender<TFramework>;
+  currentRender?: PossibleRender<TRenderer>;
 
   constructor(
+    public importFn: ModuleImportFn,
+
+    public getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>,
+
     public selectionStore: SelectionStore,
-    public view: View<TFramework['canvasElement']>
+
+    public view: View<TRenderer['canvasElement']>
   ) {
-    super();
+    super(importFn, getProjectAnnotations);
   }
 
   setupListeners() {
@@ -179,7 +184,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   async onGetProjectAnnotationsChanged({
     getProjectAnnotations,
   }: {
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>;
   }) {
     await super.onGetProjectAnnotationsChanged({ getProjectAnnotations });
 
@@ -300,9 +305,9 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
       await this.teardownRender(this.currentRender);
     }
 
-    let render: PossibleRender<TFramework>;
+    let render: PossibleRender<TRenderer>;
     if (entry.type === 'story') {
-      render = new StoryRender<TFramework>(
+      render = new StoryRender<TRenderer>(
         this.channel,
         this.storyStore,
         (...args: Parameters<typeof renderToCanvas>) => {
@@ -315,14 +320,14 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
         'story'
       );
     } else if (isMdxEntry(entry)) {
-      render = new MdxDocsRender<TFramework>(
+      render = new MdxDocsRender<TRenderer>(
         this.channel,
         this.storyStore,
         entry,
         this.mainStoryCallbacks(storyId)
       );
     } else {
-      render = new CsfDocsRender<TFramework>(
+      render = new CsfDocsRender<TRenderer>(
         this.channel,
         this.storyStore,
         entry,
@@ -422,8 +427,8 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
     if (isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
-      this.storyRenders.push(render as StoryRender<TFramework>);
-      (this.currentRender as StoryRender<TFramework>).renderToElement(
+      this.storyRenders.push(render as StoryRender<TRenderer>);
+      (this.currentRender as StoryRender<TRenderer>).renderToElement(
         this.view.prepareForStory(render.story)
       );
     } else {
@@ -436,7 +441,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   async teardownRender(
-    render: PossibleRender<TFramework>,
+    render: PossibleRender<TRenderer>,
     { viewModeChanged = false }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

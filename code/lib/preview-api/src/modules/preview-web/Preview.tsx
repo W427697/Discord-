@@ -49,17 +49,19 @@ export class Preview<TRenderer extends Renderer> {
 
   storyStore: StoryStore<TRenderer>;
 
-  getStoryIndex?: () => StoryIndex;
-
-  importFn?: ModuleImportFn;
-
   renderToCanvas?: RenderToCanvas<TRenderer>;
 
   storyRenders: StoryRender<TRenderer>[] = [];
 
   previewEntryError?: Error;
 
-  constructor(protected channel: Channel = addons.getChannel()) {
+  constructor(
+    public importFn: ModuleImportFn,
+
+    public getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>,
+
+    protected channel: Channel = addons.getChannel()
+  ) {
     if (addons.hasServerChannel()) {
       this.serverChannel = addons.getServerChannel();
     }
@@ -67,25 +69,10 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   // INITIALIZATION
-  async initialize({
-    getStoryIndex,
-    importFn,
-    getProjectAnnotations,
-  }: {
-    // In the case of the v6 store, we can only get the index from the facade *after*
-    // getProjectAnnotations has been run, thus this slightly awkward approach
-    getStoryIndex?: () => StoryIndex;
-    importFn: ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>;
-  }) {
-    // We save these two on initialization in case `getProjectAnnotations` errors,
-    // in which case we may need them later when we recover.
-    this.getStoryIndex = getStoryIndex;
-    this.importFn = importFn;
-
+  async initialize() {
     this.setupListeners();
 
-    const projectAnnotations = await this.getProjectAnnotationsOrRenderError(getProjectAnnotations);
+    const projectAnnotations = await this.getProjectAnnotationsOrRenderError();
     return this.initializeWithProjectAnnotations(projectAnnotations);
   }
 
@@ -98,11 +85,9 @@ export class Preview<TRenderer extends Renderer> {
     this.channel.on(FORCE_REMOUNT, this.onForceRemount.bind(this));
   }
 
-  async getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>
-  ): Promise<ProjectAnnotations<TRenderer>> {
+  async getProjectAnnotationsOrRenderError(): Promise<ProjectAnnotations<TRenderer>> {
     try {
-      const projectAnnotations = await getProjectAnnotations();
+      const projectAnnotations = await this.getProjectAnnotations();
 
       this.renderToCanvas = projectAnnotations.renderToCanvas;
       if (!this.renderToCanvas) {
@@ -179,8 +164,9 @@ export class Preview<TRenderer extends Renderer> {
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>;
   }) {
     delete this.previewEntryError;
+    this.getProjectAnnotations = getProjectAnnotations;
 
-    const projectAnnotations = await this.getProjectAnnotationsOrRenderError(getProjectAnnotations);
+    const projectAnnotations = await this.getProjectAnnotationsOrRenderError();
     if (!this.storyStore.projectAnnotations) {
       await this.initializeWithProjectAnnotations(projectAnnotations);
       return;
