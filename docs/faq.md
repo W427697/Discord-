@@ -91,9 +91,11 @@ Create React App does not allow providing options to Jest in your `package.json`
 npm test -- --coverage --collectCoverageFrom='["src/**/*.{js,jsx}","!src/**/stories/*"]'
 ```
 
-<div class="aside">
-💡 If you're using <a href="https://yarnpkg.com/">yarn</a> as a package manager, you'll need to adjust the command accordingly.
-</div>
+<Callout variant="info" icon="💡">
+
+If you're using [`Yarn`](https://yarnpkg.com/) as a package manager, you'll need to adjust the command accordingly.
+
+</Callout>
 
 ## I see `ReferenceError: React is not defined` when using Storybook with Next.js
 
@@ -119,7 +121,7 @@ export default {
 
 ## How do I fix module resolution in special environments?
 
-In case you are using [yarn Plug-n-Play](https://yarnpkg.com/features/pnp) or your project is set up within a mono repository environment, you might run into issues with module resolution similar to this when running Storybook:
+In case you are using [Yarn Plug-n-Play](https://yarnpkg.com/features/pnp) or your project is set up within a mono repository environment, you might run into issues with module resolution similar to this when running Storybook:
 
 ```shell
 WARN   Failed to load preset: "@storybook/react-webpack5/preset"`
@@ -163,9 +165,11 @@ export default {
 };
 ```
 
-<div class="aside">
-💡 Fast Refresh only works in development mode with React 16.10 or higher.
-</div>
+<Callout variant="info" icon="💡">
+
+Fast Refresh only works in development mode with React 16.10 or higher.
+
+</Callout>
 
 ## How do I setup the new React Context Root API with Storybook?
 
@@ -261,7 +265,7 @@ We're actively working to provide a better way to address this situation, but in
 
 ## Is it possible to browse the documentation for past versions of Storybook?
 
-With the release of version 6.0, we updated our documentation as well. That doesn't mean that the old documentation was removed. We kept it to help you with your Storybook migration process. Use the content from the table below in conjunction with our <a href="https://github.com/storybookjs/storybook/blob/next/MIGRATION.md">migration guide</a> .
+With the release of version 6.0, we updated our documentation as well. That doesn't mean that the old documentation was removed. We kept it to help you with your Storybook migration process. Use the content from the table below in conjunction with our [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md).
 
 We're only covering versions 5.3 and 5.0 as they were important milestones for Storybook. If you want to go back in time a little more, you'll have to check the specific release in the monorepo.
 
@@ -340,12 +344,39 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | @storybook/blocks/useOf                      | [See current documentation](./api/doc-block-useof.md)                                                                  | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Stories/Component Story Format               | [See current documentation](./api/csf.md)                                                                              | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/component-story-format)                                                                                                                               | Non existing feature or undocumented                                                                                                                     |
 |                  | Stories/StoriesOF format (see note below)    | [See current documentation](https://github.com/storybookjs/storybook/blob/main/code/lib/preview-api/docs/storiesOf.md) | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/storiesof-api)                                                                                                                                        | Non existing feature or undocumented                                                                                                                     |
+|                  | ArgTypes                                     | [See current documentation](./api/arg-types.md)                                                                        | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/Overview             | [See current documentation](./api/main-config.md)                                                                      | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/framework            | [See current documentation](./api/main-config-framework.md)                                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/stories              | [See current documentation](./api/main-config-stories.md)                                                              | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/addons               | [See current documentation](./api/main-config-addons.md)                                                               | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/babel                | [See current documentation](./api/main-config-babel.md)                                                                | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/babelDefault         | [See current documentation](./api/main-config-babel-default.md)                                                        | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/build                | [See current documentation](./api/main-config-build.md)                                                                | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/core                 | [See current documentation](./api/main-config-core.md)                                                                 | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/docs                 | [See current documentation](./api/main-config-docs.md)                                                                 | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/env                  | [See current documentation](./api/main-config-env.md)                                                                  | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/features             | [See current documentation](./api/main-config-features.md)                                                             | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/indexers             | [See current documentation](./api/main-config-indexers.md)                                                             | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/logLevel             | [See current documentation](./api/main-config-log-level.md)                                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/managerHead          | [See current documentation](./api/main-config-manager-head.md)                                                         | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/previewAnnotations   | [See current documentation](./api/main-config-preview-annotations.md)                                                  | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/previewBody          | [See current documentation](./api/main-config-preview-body.md)                                                         | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/previewHead          | [See current documentation](./api/main-config-preview-head.md)                                                         | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/refs                 | [See current documentation](./api/main-config-refs.md)                                                                 | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/staticDirs           | [See current documentation](./api/main-config-static-dirs.md)                                                          | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/typescript           | [See current documentation](./api/main-config-typescript.md)                                                           | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/viteFinal            | [See current documentation](./api/main-config-vite-final.md)                                                           | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/webpackFinal         | [See current documentation](./api/main-config-webpack-final.md)                                                        | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
+|                  | `main.js` configuration/config               | [See current documentation](./api/main-config-config.md)                                                               | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Frameworks                                   | [See current documentation](./api/new-frameworks.md)                                                                   | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | CLI options                                  | [See current documentation](./api/cli-options.md)                                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                       |
 
-<div class="aside">
-With the release of version 5.3, we've updated how you can write your stories more compactly and easily. It doesn't mean that the <code>storiesOf</code> format has been removed. For the time being, we're still supporting it, and we have documentation for it. But be advised that this is bound to change in the future.
-</div>
+<!-- TODO: Update this notice -->
+<Callout variant="info">
+
+With the release of version 5.3, we've updated how you can write your stories more compactly and easily. It doesn't mean that the `storiesOf` format has been removed. For the time being, we're still supporting it, and we have documentation for it. But be advised that this is bound to change in the future.
+
+</Callout>
 
 ## What icons are available for my toolbar or my addon?
 
@@ -364,9 +395,11 @@ We recommend that you use [http-server](https://www.npmjs.com/package/http-serve
 npx http-server storybook-static
 ```
 
-<div class="aside">
-Suppose you don't want to run the command above frequently. Add <code>http-server</code> as a development dependency and create a new script to preview your production build of Storybook.
-</div>
+<Callout variant="info">
+
+Suppose you don't want to run the command above frequently. Add `http-server` as a development dependency and create a new script to preview your production build of Storybook.
+
+</Callout>
 
 ## Can I use Storybook with Vue 3?
 
@@ -443,11 +476,11 @@ export default {
 };
 ```
 
-With Angular, the most common issue is the placement of the `mockServiceWorker.js` file. Use this [example](https://github.com/mswjs/examples/tree/master/examples/rest-angular/) as a point of reference.
+With Angular, the most common issue is the placement of the `mockServiceWorker.js` file. Use this [example](https://github.com/mswjs/examples/tree/main/examples/with-angular) as a point of reference.
 
 ## Can I use other GraphQL providers with Storybook's MSW addon?
 
-Yes, check the [addon's examples](https://github.com/mswjs/msw-storybook-addon/tree/master/packages/docs/src/demos) to learn how to integrate different providers.
+Yes, check the [addon's examples](https://github.com/mswjs/msw-storybook-addon/tree/main/packages/docs/src/demos) to learn how to integrate different providers.
 
 ## Can I mock GraphQL mutations with Storybook's MSW addon?
 
