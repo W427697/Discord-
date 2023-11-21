@@ -4,6 +4,7 @@ import type { PresetProperty } from '@storybook/types';
 import { withoutVitePlugins } from '@storybook/builder-vite';
 import { dirname, join } from 'path';
 import { configOverrides } from './plugins/config-overrides';
+import { mockSveltekitStores } from './plugins/mock-sveltekit-stores';
 import { type StorybookConfig } from './types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
@@ -29,7 +30,9 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
       'vite-plugin-sveltekit-compile',
       'vite-plugin-sveltekit-guard',
     ])
-  ).concat(configOverrides());
+  )
+    .concat(configOverrides())
+    .concat(mockSveltekitStores());
 
   return { ...baseConfig, plugins };
 };

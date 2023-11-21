@@ -18,7 +18,7 @@ export const Link = {
   },
   parameters: {
     sveltekit: {
-      linkOverrides: {
+      hrefs: {
         '/storybook': link,
       },
     },

@@ -100,32 +100,6 @@ yarn remove storybook-builder-vite
 yarn remove @storybook/builder-vite
 ```
 
-## Troubleshooting
-
-### Error: `ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared` when starting Storybook
-
-> When starting Storybook after upgrading to v7.0, it breaks with the following error:
->
-> ```
-> ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared
-> ```
-
-You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.js`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
-
-### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
-
-> Some stories don't load, instead they show the following error in the preview:
->
-> ```
-> Cannot read properties of undefined (reading 'disable_scroll_handling')
-> ```
-
-You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
-
-## Acknowledgements
-
-Integrating with SvelteKit would not have been possible if it weren't for the fantastic efforts by the Svelte core team - especially [Ben McCann](https://twitter.com/benjaminmccann) - to make integrations with the wider ecosystem possible.
-
 ## How to mock
 
 To mock a SvelteKit import you can set it on `parameters.sveltekit`:
@@ -167,4 +141,30 @@ You can add the name of the module you want to mock to `parameters.sveltekit` (i
 
 All the other functions are still exported as `noop` from the mocked modules so that your application will still work. There was no way of make them work in a customizable way.
 
-Additionally you can pass an object to `parameter.sveltekit.linkOverrides` where the keys are regex representing a link and the values are functions. If you have an `<a />` tag inside your code with the `href` attribute that matches one or more regex the corresponding function will be called.
+Additionally you can pass an object to `parameter.sveltekit.hrefs` where the keys are regex representing a link and the values are functions. If you have an `<a />` tag inside your code with the `href` attribute that matches one or more regex the corresponding function will be called.
+
+## Troubleshooting
+
+### Error: `ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared` when starting Storybook
+
+> When starting Storybook after upgrading to v7.0, it breaks with the following error:
+>
+> ```
+> ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared
+> ```
+
+You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.js`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
+
+### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
+
+> Some stories don't load, instead they show the following error in the preview:
+>
+> ```
+> Cannot read properties of undefined (reading 'disable_scroll_handling')
+> ```
+
+You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
+
+## Acknowledgements
+
+Integrating with SvelteKit would not have been possible if it weren't for the fantastic efforts by the Svelte core team - especially [Ben McCann](https://twitter.com/benjaminmccann) - to make integrations with the wider ecosystem possible.
