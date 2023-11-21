@@ -17,7 +17,7 @@ export const Goto = {
     expect(goto).toHaveBeenCalledWith('/storybook');
   },
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       navigation: {
         goto,
       },
@@ -35,7 +35,7 @@ export const Invalidate = {
     expect(invalidate).toHaveBeenCalledWith('/storybook');
   },
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       navigation: {
         invalidate,
       },
@@ -53,7 +53,7 @@ export const InvalidateAll = {
     expect(invalidateAll).toHaveBeenCalledWith();
   },
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       navigation: {
         invalidateAll,
       },
@@ -71,7 +71,7 @@ export const AfterNavigate = {
     afterNavigateFn,
   },
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       navigation: {
         afterNavigate: {
           test: 'passed',

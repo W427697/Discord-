@@ -17,7 +17,7 @@ export const Enhance = {
     expect(enhance).toHaveBeenCalled();
   },
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       forms: {
         enhance,
       },

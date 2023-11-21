@@ -10,7 +10,7 @@ export const AllUndefined = {};
 
 export const PageStore = {
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       stores: {
         page: {
           data: {
@@ -24,7 +24,7 @@ export const PageStore = {
 
 export const NavigatingStore = {
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       stores: {
         navigating: {
           route: {
@@ -38,7 +38,7 @@ export const NavigatingStore = {
 
 export const UpdatedStore = {
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       stores: {
         updated: true,
       },
@@ -48,7 +48,7 @@ export const UpdatedStore = {
 
 export const PageAndNavigatingStore = {
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       stores: {
         page: {
           data: {
@@ -67,7 +67,7 @@ export const PageAndNavigatingStore = {
 
 export const PageAndUpdatedStore = {
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       stores: {
         page: {
           data: {
@@ -82,7 +82,7 @@ export const PageAndUpdatedStore = {
 
 export const NavigatingAndUpdatedStore = {
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       stores: {
         navigating: {
           route: {
@@ -97,7 +97,7 @@ export const NavigatingAndUpdatedStore = {
 
 export const AllThreeStores = {
   parameters: {
-    sveltekit: {
+    sveltekit_experimental: {
       stores: {
         page: {
           data: {

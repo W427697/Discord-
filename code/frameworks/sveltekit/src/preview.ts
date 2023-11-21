@@ -6,10 +6,10 @@ import { setNavigating, setPage, setUpdated } from './mocks/app/stores';
 
 export const decorators: Decorator[] = [
   (Story, ctx) => {
-    setPage(ctx.parameters?.sveltekit?.stores?.page);
-    setUpdated(ctx.parameters?.sveltekit?.stores?.updated);
-    setNavigating(ctx.parameters?.sveltekit?.stores?.navigating);
-    setAfterNavigateArgument(ctx.parameters?.sveltekit?.navigation?.afterNavigate);
+    setPage(ctx.parameters?.sveltekit_experimental?.stores?.page);
+    setUpdated(ctx.parameters?.sveltekit_experimental?.stores?.updated);
+    setNavigating(ctx.parameters?.sveltekit_experimental?.stores?.navigating);
+    setAfterNavigateArgument(ctx.parameters?.sveltekit_experimental?.navigation?.afterNavigate);
 
     onMount(() => {
       const globalClickListener = (e: MouseEvent) => {
@@ -20,16 +20,32 @@ export const decorators: Decorator[] = [
           // if it has a link we get the href of the link and we check over every provided href using the
           // key as a regex
           const to = hasLink.getAttribute('href');
-          if (ctx?.parameters?.sveltekit?.hrefs && to) {
-            Object.entries(ctx.parameters.sveltekit.hrefs).forEach(([link, override]) => {
-              if (override instanceof Function) {
-                const regex = new RegExp(link);
-                if (regex.test(to)) {
-                  // if the regex pass we call the function the user provided
-                  override();
+          if (ctx?.parameters?.sveltekit_experimental?.hrefs && to) {
+            Object.entries(ctx.parameters.sveltekit_experimental.hrefs).forEach(
+              ([link, override]) => {
+                if (
+                  override &&
+                  typeof override === 'object' &&
+                  'callback' in override &&
+                  override.callback instanceof Function
+                ) {
+                  const isRegex =
+                    'asRegex' in override &&
+                    typeof override.asRegex === 'boolean' &&
+                    override.asRegex;
+                  let shoudlRunCallback = false;
+                  if (isRegex) {
+                    const regex = new RegExp(link);
+                    shoudlRunCallback = regex.test(to);
+                  } else {
+                    shoudlRunCallback = to === link;
+                  }
+                  if (shoudlRunCallback) {
+                    override.callback();
+                  }
                 }
               }
-            });
+            );
           }
           e.preventDefault();
         }
@@ -53,20 +69,20 @@ export const decorators: Decorator[] = [
         }> = [];
         functions.forEach((func) => {
           // we loop over every function and check if the user actually passed
-          // a function in sveltekit[baseModule][func] eg. sveltekit.navigation.goto
+          // a function in sveltekit_experimental[baseModule][func] eg. sveltekit_experimental.navigation.goto
           if (
-            ctx?.parameters?.sveltekit?.[baseModule]?.[func] &&
-            ctx.parameters.sveltekit[baseModule][func] instanceof Function
+            ctx?.parameters?.sveltekit_experimental?.[baseModule]?.[func] &&
+            ctx.parameters.sveltekit_experimental[baseModule][func] instanceof Function
           ) {
             // we create the listener that will just get the detail array from the custom element
             // and call the user provided function spreading this args in...this will basically call
             // the function that the user provide with the same arguments the function is invoked to
 
-            // eg. if it calls goto("/my-route") inside the component the function sveltekit.navigation.goto
+            // eg. if it calls goto("/my-route") inside the component the function sveltekit_experimental.navigation.goto
             // it provided to storybook will be called with "/my-route"
             const listener = ({ detail = [] as any[] }) => {
               const args = Array.isArray(detail) ? detail : [];
-              ctx.parameters.sveltekit[baseModule][func](...args);
+              ctx.parameters.sveltekit_experimental[baseModule][func](...args);
             };
             const eventType = `storybook:${func}`;
             toRemove.push({ eventType, listener });

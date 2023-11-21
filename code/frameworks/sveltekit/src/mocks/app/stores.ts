@@ -19,7 +19,7 @@ export const [page, setPage] = createMockedStore('page-ctx');
 export const [navigating, setNavigating] = createMockedStore('navigating-ctx');
 const [updated, setUpdated] = createMockedStore('updated-ctx');
 
-updated.check = () => {};
+(updated as any).check = () => {};
 
 export { updated, setUpdated };
 
