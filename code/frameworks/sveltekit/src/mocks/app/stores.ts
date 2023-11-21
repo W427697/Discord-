@@ -19,9 +19,7 @@ export const [page, setPage] = createMockedStore('page-ctx');
 export const [navigating, setNavigating] = createMockedStore('navigating-ctx');
 const [updated, setUpdated] = createMockedStore('updated-ctx');
 
-Object.defineProperty(updated, 'check', {
-  value: () => {},
-});
+updated.check = () => {};
 
 export { updated, setUpdated };
 
