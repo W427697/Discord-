@@ -2,7 +2,7 @@ import { expect, fn, within } from '@storybook/test';
 import Navigation from './Navigation.svelte';
 
 export default {
-  title: 'stories/sveltekit/modules/Navigation',
+  title: 'stories/sveltekit/modules/navigation',
   component: Navigation,
   tags: ['autodocs'],
 };

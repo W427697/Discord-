@@ -1,53 +1,84 @@
 import type { Decorator } from '@storybook/svelte';
-
+import { action } from '@storybook/addon-actions';
 import { onMount } from 'svelte';
+import type { enhance } from './mocks/app/forms';
+import type { goto, invalidate, invalidateAll, afterNavigate } from './mocks/app/navigation';
 import { setAfterNavigateArgument } from './mocks/app/navigation';
 import { setNavigating, setPage, setUpdated } from './mocks/app/stores';
 
+type NormalizedHrefConfig = {
+  callback: (to: string, event: Event) => void;
+  asRegex?: boolean;
+};
+
+type HrefConfig = NormalizedHrefConfig | NormalizedHrefConfig['callback'];
+
+type SvelteKitParameters = Partial<{
+  hrefs: Record<string, HrefConfig>;
+  stores: {
+    page: Record<string, any>;
+    navigating: boolean;
+    updated: boolean;
+  };
+  navigation: {
+    goto: typeof goto;
+    invalidate: typeof invalidate;
+    invalidateAll: typeof invalidateAll;
+    afterNavigate: typeof afterNavigate;
+  };
+  forms: {
+    enhance: typeof enhance;
+  };
+}>;
+
+const normalizeHrefConfig = (hrefConfig: HrefConfig): NormalizedHrefConfig => {
+  if (typeof hrefConfig === 'function') {
+    return { callback: hrefConfig, asRegex: false };
+  }
+  return hrefConfig;
+};
+
 export const decorators: Decorator[] = [
   (Story, ctx) => {
-    setPage(ctx.parameters?.sveltekit_experimental?.stores?.page);
-    setUpdated(ctx.parameters?.sveltekit_experimental?.stores?.updated);
-    setNavigating(ctx.parameters?.sveltekit_experimental?.stores?.navigating);
-    setAfterNavigateArgument(ctx.parameters?.sveltekit_experimental?.navigation?.afterNavigate);
+    const svelteKitParameters: SvelteKitParameters = ctx.parameters?.sveltekit_experimental ?? {};
+    setPage(svelteKitParameters?.stores?.page);
+    setNavigating(svelteKitParameters?.stores?.navigating);
+    setUpdated(svelteKitParameters?.stores?.updated);
+    setAfterNavigateArgument(svelteKitParameters?.navigation?.afterNavigate);
 
     onMount(() => {
       const globalClickListener = (e: MouseEvent) => {
         // we add a global click event listener and we check if there's a link in the composedPath
         const path = e.composedPath();
-        const hasLink = path.findLast((el) => el instanceof HTMLElement && el.tagName === 'A');
-        if (hasLink && hasLink instanceof HTMLAnchorElement) {
-          // if it has a link we get the href of the link and we check over every provided href using the
-          // key as a regex
-          const to = hasLink.getAttribute('href');
-          if (ctx?.parameters?.sveltekit_experimental?.hrefs && to) {
-            Object.entries(ctx.parameters.sveltekit_experimental.hrefs).forEach(
-              ([link, override]) => {
-                if (
-                  override &&
-                  typeof override === 'object' &&
-                  'callback' in override &&
-                  override.callback instanceof Function
-                ) {
-                  const isRegex =
-                    'asRegex' in override &&
-                    typeof override.asRegex === 'boolean' &&
-                    override.asRegex;
-                  let shoudlRunCallback = false;
-                  if (isRegex) {
-                    const regex = new RegExp(link);
-                    shoudlRunCallback = regex.test(to);
-                  } else {
-                    shoudlRunCallback = to === link;
-                  }
-                  if (shoudlRunCallback) {
-                    override.callback();
-                  }
-                }
-              }
-            );
+        const element = path.findLast((el) => el instanceof HTMLElement && el.tagName === 'A');
+        if (element && element instanceof HTMLAnchorElement) {
+          // if the element is an a-tag we get the href of the element
+          // and compare it to the hrefs-parameter set by the user
+          const to = element.getAttribute('href');
+          if (!to) {
+            return;
           }
           e.preventDefault();
+          const defaultActionCallback = () => action('navigate')(to, e);
+          if (!svelteKitParameters.hrefs) {
+            defaultActionCallback();
+            return;
+          }
+
+          let callDefaultCallback = true;
+          // we loop over every href set by the user and check if the href matches
+          // if it does we call the callback provided by the user and disable the default callback
+          Object.entries(svelteKitParameters.hrefs).forEach(([href, hrefConfig]) => {
+            const { callback, asRegex } = normalizeHrefConfig(hrefConfig);
+            const isMatch = asRegex ? new RegExp(href).test(to) : to === href;
+            if (isMatch) {
+              callDefaultCallback = false;
+              callback?.(to, e);
+            }
+          });
+          if (callDefaultCallback) {
+            defaultActionCallback();
+          }
         }
       };
 
@@ -60,7 +91,7 @@ export const decorators: Decorator[] = [
        * @param functions the list of functions in that module that emit events
        * @returns a function to remove all the listener added
        */
-      function createListeners(baseModule: string, functions: string[]) {
+      function createListeners(baseModule: keyof SvelteKitParameters, functions: string[]) {
         // the array of every added listener, we can use this in the return function
         // to clean them
         const toRemove: Array<{
@@ -71,8 +102,8 @@ export const decorators: Decorator[] = [
           // we loop over every function and check if the user actually passed
           // a function in sveltekit_experimental[baseModule][func] eg. sveltekit_experimental.navigation.goto
           if (
-            ctx?.parameters?.sveltekit_experimental?.[baseModule]?.[func] &&
-            ctx.parameters.sveltekit_experimental[baseModule][func] instanceof Function
+            (svelteKitParameters as any)[baseModule]?.[func] &&
+            (svelteKitParameters as any)[baseModule][func] instanceof Function
           ) {
             // we create the listener that will just get the detail array from the custom element
             // and call the user provided function spreading this args in...this will basically call
@@ -82,13 +113,12 @@ export const decorators: Decorator[] = [
             // it provided to storybook will be called with "/my-route"
             const listener = ({ detail = [] as any[] }) => {
               const args = Array.isArray(detail) ? detail : [];
-              ctx.parameters.sveltekit_experimental[baseModule][func](...args);
+              (svelteKitParameters as any)[baseModule][func](...args);
             };
             const eventType = `storybook:${func}`;
             toRemove.push({ eventType, listener });
             // add the listener to window
-            // @ts-expect-error apparently you can't add a custom listener to the window with TS
-            window.addEventListener(eventType, listener);
+            (window.addEventListener as any)(eventType, listener);
           }
         });
         return () => {

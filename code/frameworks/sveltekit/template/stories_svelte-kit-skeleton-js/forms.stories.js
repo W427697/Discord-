@@ -2,7 +2,7 @@ import { expect, fn, within } from '@storybook/test';
 import Forms from './Forms.svelte';
 
 export default {
-  title: 'stories/sveltekit/modules/Forms',
+  title: 'stories/sveltekit/modules/forms',
   component: Forms,
   tags: ['autodocs'],
 };

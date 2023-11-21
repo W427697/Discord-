@@ -1,7 +1,7 @@
 import Stores from './Stores.svelte';
 
 export default {
-  title: 'stories/sveltekit/modules/Stores',
+  title: 'stories/sveltekit/modules/stores',
   component: Stores,
   tags: ['autodocs'],
 };

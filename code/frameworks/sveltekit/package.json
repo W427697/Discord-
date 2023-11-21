@@ -29,17 +29,7 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
-    },
-    "./dist/preview.js": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js"
-    },
     "./dist/preview.mjs": {
-      "types": "./dist/preview.d.ts",
       "import": "./dist/preview.mjs"
     },
     "./preset": {
@@ -63,6 +53,7 @@
     "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-vite": "workspace:*",
     "@storybook/svelte": "workspace:*",
     "@storybook/svelte-vite": "workspace:*"
