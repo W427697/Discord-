@@ -107,8 +107,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   }
 
   async setInitialGlobals() {
-    if (!this.storyStore.globals)
-      throw new Error(`Cannot call setInitialGlobals before initialization`);
+    if (!this.storyStore) throw new Error(`Cannot call setInitialGlobals before initialization`);
 
     const { globals } = this.selectionStore.selectionSpecifier || {};
     if (globals) {
@@ -126,8 +125,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
   // Use the selection specifier to choose a story, then render it
   async selectSpecifiedStory() {
-    if (!this.storyStore.storyIndex)
-      throw new Error(`Cannot call selectSpecifiedStory before initialization`);
+    if (!this.storyStore) throw new Error(`Cannot call selectSpecifiedStory before initialization`);
 
     // If the story has been selected during initialization - if `SET_CURRENT_STORY` is
     // emitted while we are loading the preview, we don't need to do any selection now.
@@ -228,7 +226,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
      */
     this.selectionStore.setSelection({ viewMode: 'story', ...selection });
 
-    await this.storyStore.initializationPromise;
+    await this.storeInitializationPromise;
 
     this.channel.emit(CURRENT_STORY_WAS_SET, this.selectionStore.selection);
     this.renderSelection();
@@ -253,13 +251,15 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   }
 
   async onPreloadStories({ ids }: { ids: string[] }) {
+    const { storyStore } = this;
+    if (!storyStore) throw new Error(`Cannot call onPreloadStories before initialization`);
     /**
      * It's possible that we're trying to preload a story in a ref we haven't loaded the iframe for yet.
      * Because of the way the targeting works, if we can't find the targeted iframe,
      * we'll use the currently active iframe which can cause the event to be targeted
      * to the wrong iframe, causing an error if the storyId does not exists there.
      */
-    await Promise.allSettled(ids.map((id) => this.storyStore.loadEntry(id)));
+    await Promise.allSettled(ids.map((id) => storyStore.loadEntry(id)));
   }
 
   // RENDERING
@@ -270,6 +270,8 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   // - a story selected in "docs" viewMode,
   //     in which case we render the docsPage for that story
   async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
+    if (!this.storyStore) throw new Error(`Cannot call renderSelection before initialization`);
+
     const { renderToCanvas } = this;
     if (!renderToCanvas) throw new Error('Cannot call renderSelection before initialization');
     const { selection } = this.selectionStore;
@@ -454,7 +456,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
       throw this.previewEntryError;
     }
 
-    if (!this.storyStore.projectAnnotations) {
+    if (!this.storyStore) {
       // In v6 mode, if your preview.js throws, we never get a chance to initialize the preview
       // or store, and the error is simply logged to the browser console. This is the best we can do
       throw new Error(dedent`Failed to initialize Storybook.
