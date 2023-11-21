@@ -3,6 +3,7 @@ import type { ChildProcess } from 'child_process';
 import { spawn } from 'child_process';
 import { existsSync } from 'fs';
 import type { StorybookNextJSOptions } from './types';
+import { verifyPort } from './verifyPort';
 
 const logger = console;
 let childProcess: ChildProcess | undefined;
@@ -48,7 +49,7 @@ function addRewrites(
 }
 
 export const withStorybook = ({
-  port = 3000,
+  port = process.env.PORT ?? 3000,
   sbPort = 34567,
   managerPath = 'storybook',
   // TODO -- how to pass this to codegen if changed?
@@ -78,6 +79,8 @@ export const withStorybook = ({
       env: { ...process.env, STORYBOOK_NEXTJS_OPTIONS: JSON.stringify(storybookNextJSOptions) },
     }
   );
+
+  verifyPort(port, { appDir });
 
   return (config: NextConfig) => ({
     ...config,
