@@ -67,7 +67,7 @@ export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => 
   const packageJson = await readJSON(packageJsonPath);
   packageJson.resolutions = {
     ...packageJson.resolutions,
-    '@vitejs/plugin-react': '^4.0.0', // due to conflicting version in @storybook/vite-react
+    // '@vitejs/plugin-react': '^4.0.0', // due to conflicting version in @storybook/vite-react
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
