@@ -36,5 +36,6 @@ const resetAllMocksLoader: LoaderFunction = ({ parameters }) => {
   }
 };
 
-// @ts-expect-error Wwe are using this as a default loader, if the test package is used. But we don't want to get into optional peer dep shenanigans.
-global.testPackageLoaders = [resetAllMocksLoader];
+// @ts-expect-error We are using this as a default Storybook loader, when the test package is used. This avoids the need for optional peer dependency workarounds.
+// eslint-disable-next-line no-underscore-dangle
+global.__STORYBOOK_TEST_LOADERS__ = [resetAllMocksLoader];

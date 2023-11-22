@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-syntax,no-await-in-loop,@typescript-eslint/no-loop-func */
+/* eslint-disable no-restricted-syntax,no-await-in-loop,@typescript-eslint/no-loop-func,no-underscore-dangle */
 import { global } from '@storybook/global';
 
 import type {
@@ -55,8 +55,8 @@ export function prepareStory<TRenderer extends Renderer>(
   ): Promise<StoryContextForLoaders<TRenderer> & { loaded: StoryContext<TRenderer>['loaded'] }> => {
     let updatedContext = { ...context, loaded: {} };
     for (const loaders of [
-      ...('testPackageLoaders' in global && Array.isArray(global.testPackageLoaders)
-        ? [global.testPackageLoaders]
+      ...('__STORYBOOK_TEST_LOADERS__' in global && Array.isArray(global.__STORYBOOK_TEST_LOADERS__)
+        ? [global.__STORYBOOK_TEST_LOADERS__]
         : []),
       normalizeArrays(projectAnnotations.loaders),
       normalizeArrays(componentAnnotations.loaders),
@@ -173,7 +173,6 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
 
     const { passArgsFirst = true } = parameters;
 
-    // eslint-disable-next-line no-underscore-dangle
     parameters.__isArgsStory = passArgsFirst && render && render.length > 0;
   }
 
