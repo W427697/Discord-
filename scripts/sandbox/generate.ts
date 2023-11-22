@@ -6,15 +6,14 @@ import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
-import { execaCommand } from '../utils/exec';
+import { execaCommand } from 'execa';
+import { esMain } from '../utils/esmain';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
 import { allTemplates as sandboxTemplates } from '../../code/lib/cli/src/sandbox-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
-
-import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
 // eslint-disable-next-line import/no-cycle
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
@@ -70,23 +69,31 @@ const addStorybook = async ({
 }) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
-  const tmpDir = join(baseDir, 'tmp');
 
-  await ensureDir(tmpDir);
-  await emptyDir(tmpDir);
+  const tmpDir = directory();
 
-  await copy(beforeDir, tmpDir);
+  try {
+    await copy(beforeDir, tmpDir);
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
-  if (localRegistry) {
-    await withLocalRegistry(packageManager, async () => {
-      await packageManager.addPackageResolutions(storybookVersions);
+    const packageManager = JsPackageManagerFactory.getPackageManager({}, tmpDir);
+    if (localRegistry) {
+      await withLocalRegistry(packageManager, async () => {
+        await packageManager.addPackageResolutions({
+          ...storybookVersions,
+          // Yarn1 Issue: https://github.com/storybookjs/storybook/issues/22431
+          jackspeak: '2.1.1',
+        });
 
+        await sbInit(tmpDir, flags, debug);
+      });
+    } else {
       await sbInit(tmpDir, flags, debug);
-    });
-  } else {
-    await sbInit(tmpDir, flags, debug);
+    }
+  } catch (e) {
+    await remove(tmpDir);
+    throw e;
   }
+
   await rename(tmpDir, afterDir);
 };
 
@@ -98,6 +105,7 @@ export const runCommand = async (script: string, options: ExecaOptions, debug = 
   return execaCommand(script, {
     stdout: debug ? 'inherit' : 'ignore',
     shell: true,
+    cleanup: true,
     ...options,
   });
 };
@@ -129,9 +137,9 @@ const runGenerators = async (
     console.log('Debug mode enabled. Verbose logs will be printed to the console.');
   }
 
-  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
+  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${1}`);
 
-  const limit = pLimit(maxConcurrentTasks);
+  const limit = pLimit(1);
 
   await Promise.all(
     generators.map(({ dirName, name, script, expected }) =>
@@ -250,7 +258,7 @@ export const generate = async ({
   await runGenerators(generatorConfigs, localRegistry, debug);
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   program
     .description('Generate sandboxes from a set of possible templates')
     .option('--templates [templates...]', 'Space-delimited list of templates to include')
