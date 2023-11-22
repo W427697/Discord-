@@ -1,6 +1,6 @@
 {
   "name": "@storybook/node-logger",
-  "version": "7.1.0",
+  "version": "7.6.0-alpha.6",
   "description": "",
   "keywords": [
     "storybook"
@@ -34,11 +34,12 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
     "@types/npmlog": "^4.1.2",

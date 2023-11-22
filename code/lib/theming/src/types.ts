@@ -17,6 +17,7 @@ export interface ThemeVarsColors {
   // UI
   appBg: string;
   appContentBg: string;
+  appPreviewBg: string;
   appBorderColor: string;
   appBorderRadius: number;
 
@@ -31,6 +32,7 @@ export interface ThemeVarsColors {
 
   // Toolbar default and active colors
   barTextColor: string;
+  barHoverColor: string;
   barSelectedColor: string;
   barBg: string;
 
@@ -87,6 +89,7 @@ export interface StorybookTheme {
 
   // Toolbar default/active colors
   barTextColor: string;
+  barHoverColor: string;
   barSelectedColor: string;
   barBg: string;
 

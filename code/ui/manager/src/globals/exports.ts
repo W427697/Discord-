@@ -114,7 +114,6 @@ export default {
     'resetComponents',
     'withReset',
   ],
-  '@storybook/components/experimental': ['Button'],
   '@storybook/channels': [
     'Channel',
     'PostMessageTransport',
@@ -164,6 +163,7 @@ export default {
     'STORY_SPECIFIED',
     'STORY_THREW_EXCEPTION',
     'STORY_UNCHANGED',
+    'TELEMETRY_ERROR',
     'TOGGLE_WHATS_NEW_NOTIFICATIONS',
     'UPDATE_GLOBALS',
     'UPDATE_QUERY_PARAMS',
@@ -278,4 +278,5 @@ export default {
   ],
   '@storybook/addons': ['addons', 'types', 'mockChannel'],
   '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
+  '@storybook/types': ['Addon_TypesEnum'],
 } as const;

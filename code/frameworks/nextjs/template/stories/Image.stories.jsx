@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { waitFor } from '@storybook/testing-library';
 
 import Accessibility from '../../assets/accessibility.svg';
+import AvifImage from '../../assets/avif-test-image.avif';
 
 export default {
   component: Image,
@@ -13,6 +14,13 @@ export default {
 };
 
 export const Default = {};
+
+export const Avif = {
+  args: {
+    src: AvifImage,
+    alt: 'Avif Test Image',
+  },
+};
 
 export const BlurredPlaceholder = {
   args: {
@@ -69,25 +77,6 @@ export const Lazy = {
       </>
     ),
   ],
-  loaders: [
-    async () => {
-      // make sure we start at the top to test the scrolling into view functionality every time the story renders
-      // eslint-disable-next-line no-undef
-      window.scrollTo({ top: 0 });
-      await new Promise((res) => {
-        setTimeout(res, 16);
-      });
-      return {};
-    },
-  ],
-  play: async ({ canvasElement, step }) => {
-    await step('scroll image into view', () => {
-      canvasElement.scrollIntoView(false);
-    });
-    await step('wait for images to load', async () => {
-      await waitFor(waitForImagesToLoad);
-    });
-  },
 };
 
 export const Eager = {
@@ -101,18 +90,15 @@ export const Eager = {
   },
 };
 
-async function waitForImagesToLoad() {
-  // eslint-disable-next-line no-undef
-  const images = Array.from(document.getElementsByTagName('img'));
+export const WithRef = {
+  render() {
+    const [ref, setRef] = useState(null);
 
-  await Promise.all(
-    images.map((image) => {
-      if (image.complete) {
-        return Promise.resolve();
-      }
-      return new Promise((resolve) => {
-        image.addEventListener('load', resolve);
-      });
-    })
-  );
-}
+    return (
+      <div>
+        <Image src={Accessibility} alt="Accessibility" ref={setRef} />
+        <p>Alt attribute of image: {ref?.alt}</p>
+      </div>
+    );
+  },
+};

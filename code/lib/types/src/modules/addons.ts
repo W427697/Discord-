@@ -10,6 +10,7 @@ import type {
 } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
+import type { API_SidebarOptions } from './api';
 import type {
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
@@ -26,9 +27,14 @@ import type {
   StoryKind,
   StoryName,
 } from './csf';
-import type { IndexEntry } from './storyIndex';
+import type { IndexEntry } from './indexer';
 
-export type Addon_Types = Exclude<Addon_TypesEnum, Addon_TypesEnum.experimental_PAGE>;
+export type Addon_Types = Exclude<
+  Addon_TypesEnum,
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
+>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -184,13 +190,13 @@ export interface Addon_BaseAnnotations<
 
   /**
    * ArgTypes encode basic metadata for args, such as `name`, `description`, `defaultValue` for an arg. These get automatically filled in by Storybook Docs.
-   * @see [Control annotations](https://github.com/storybookjs/storybook/blob/91e9dee33faa8eff0b342a366845de7100415367/addons/controls/README.md#control-annotations)
+   * @see [Arg types](https://storybook.js.org/docs/react/api/arg-types)
    */
   argTypes?: Addons_ArgTypes<TArgs>;
 
   /**
    * Custom metadata for a story.
-   * @see [Parameters](https://storybook.js.org/docs/basics/writing-stories/#parameters)
+   * @see [Parameters](https://storybook.js.org/docs/react/writing-stories/parameters)
    */
   parameters?: Parameters;
 
@@ -307,7 +313,11 @@ export type BaseStory<TArgs, StoryFnReturnType> =
 
 export interface Addon_RenderOptions {
   active: boolean;
-  key: string;
+  /**
+   * @deprecated You should not use key anymore as of Storybook 7.2 this render method is invoked as a React component.
+   * This property will be removed in 8.0.
+   * */
+  key?: unknown;
 }
 
 /**
@@ -319,7 +329,12 @@ export type ReactJSXElement = {
   key: any;
 };
 
-export type Addon_Type = Addon_BaseType | Addon_PageType | Addon_WrapperType;
+export type Addon_Type =
+  | Addon_BaseType
+  | Addon_PageType
+  | Addon_WrapperType
+  | Addon_SidebarBottomType
+  | Addon_SidebarTopType;
 export interface Addon_BaseType {
   /**
    * The title of the addon.
@@ -330,7 +345,13 @@ export interface Addon_BaseType {
    * The type of the addon.
    * @example Addon_TypesEnum.PANEL
    */
-  type: Exclude<Addon_Types, Addon_TypesEnum.PREVIEW>;
+  type: Exclude<
+    Addon_Types,
+    | Addon_TypesEnum.PREVIEW
+    | Addon_TypesEnum.experimental_PAGE
+    | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+    | Addon_TypesEnum.experimental_SIDEBAR_TOP
+  >;
   /**
    * The unique id of the addon.
    * @warn This will become non-optional in 8.0
@@ -443,15 +464,43 @@ export interface Addon_WrapperType {
     }>
   >;
 }
+export interface Addon_SidebarBottomType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_BOTTOM;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FCWithoutChildren;
+}
+
+export interface Addon_SidebarTopType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_TOP;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FCWithoutChildren;
+}
 
 type Addon_TypeBaseNames = Exclude<
   Addon_TypesEnum,
-  Addon_TypesEnum.PREVIEW | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.PREVIEW
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
 >;
 
 export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
   [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
   [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
+  [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_SidebarBottomType;
+  [Addon_TypesEnum.experimental_SIDEBAR_TOP]: Addon_SidebarTopType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -473,6 +522,7 @@ export interface Addon_Config {
   toolbar?: {
     [id: string]: Addon_ToolbarConfig;
   };
+  sidebar?: API_SidebarOptions;
   [key: string]: any;
 }
 
@@ -504,6 +554,16 @@ export enum Addon_TypesEnum {
    * @unstable
    */
   experimental_PAGE = 'page',
+  /**
+   * This adds items in the bottom of the sidebar.
+   * @unstable
+   */
+  experimental_SIDEBAR_BOTTOM = 'sidebar-bottom',
+  /**
+   * This adds items in the top of the sidebar.
+   * @unstable This will get replaced with a new API in 8.0, use at your own risk.
+   */
+  experimental_SIDEBAR_TOP = 'sidebar-top',
 
   /**
    * @deprecated This property does nothing, and will be removed in Storybook 8.0.

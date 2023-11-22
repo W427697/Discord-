@@ -6,7 +6,8 @@ import { logger } from '@storybook/node-logger';
 import type { Options, Preset } from '@storybook/core-webpack';
 import type { StorybookConfig, ReactOptions } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
 
 const applyFastRefresh = async (options: Options) => {
   const isDevelopment = options.configType === 'DEVELOPMENT';
@@ -26,7 +27,7 @@ export const babel: StorybookConfig['babel'] = async (config, options) => {
     ],
   };
 };
-const storybookReactDirName = wrapForPnP('@storybook/preset-react-webpack');
+const storybookReactDirName = getAbsolutePath('@storybook/preset-react-webpack');
 // TODO: improve node_modules detection
 const context = storybookReactDirName.includes('node_modules')
   ? join(storybookReactDirName, '../../') // Real life case, already in node_modules
@@ -80,5 +81,28 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
         },
       }),
     ],
+  };
+};
+
+export const swc: StorybookConfig['swc'] = async (config, options) => {
+  const isDevelopment = options.configType !== 'PRODUCTION';
+
+  if (!(await applyFastRefresh(options))) {
+    return config;
+  }
+
+  return {
+    ...config,
+    jsc: {
+      ...(config?.jsc ?? {}),
+      transform: {
+        ...(config?.jsc?.transform ?? {}),
+        react: {
+          ...(config?.jsc?.transform?.react ?? {}),
+          development: isDevelopment,
+          refresh: isDevelopment,
+        },
+      },
+    },
   };
 };

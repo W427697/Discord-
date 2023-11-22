@@ -114,7 +114,9 @@ export const computeStorybookMetadata = async ({
       if (typeof addon === 'string') {
         addonName = sanitizeAddonName(addon);
       } else {
-        options = addon.options;
+        if (addon.name.includes('addon-essentials')) {
+          options = addon.options;
+        }
         addonName = sanitizeAddonName(addon.name);
       }
 
@@ -162,13 +164,17 @@ export const computeStorybookMetadata = async ({
 
   const storybookInfo = getStorybookInfo(packageJson);
 
-  const { previewConfig } = storybookInfo;
-  if (previewConfig) {
-    const config = await readConfig(previewConfig);
-    const usesGlobals = !!(
-      config.getFieldNode(['globals']) || config.getFieldNode(['globalTypes'])
-    );
-    metadata.preview = { ...metadata.preview, usesGlobals };
+  try {
+    const { previewConfig } = storybookInfo;
+    if (previewConfig) {
+      const config = await readConfig(previewConfig);
+      const usesGlobals = !!(
+        config.getFieldNode(['globals']) || config.getFieldNode(['globalTypes'])
+      );
+      metadata.preview = { ...metadata.preview, usesGlobals };
+    }
+  } catch (e) {
+    // gracefully handle error, as it's not critical information and AST parsing can cause trouble
   }
 
   const storybookVersion = storybookPackages[storybookInfo.frameworkPackage]?.version;
