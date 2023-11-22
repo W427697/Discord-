@@ -75,4 +75,4 @@ We also recommend releasing your own addon using the `next` tag to test it out i
 
 ## Support
 
-If you're still having issues with your addon after following this guide, please open [new discussion](https://github.com/storybookjs/storybook/discussions/new?category=help) in our GitHub repository. We will assist you in resolving the issue and update this guide accordingly.
+If you're still having issues with your addon after following this guide, please open a [new discussion](https://github.com/storybookjs/storybook/discussions/new?category=help) in our GitHub repository.
