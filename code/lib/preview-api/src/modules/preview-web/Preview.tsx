@@ -1,4 +1,3 @@
-import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
 import {
   CONFIG_ERROR,
@@ -28,6 +27,11 @@ import type {
   StoryRenderOptions,
   SetGlobalsPayload,
 } from '@storybook/types';
+import {
+  CalledPreviewMethodBeforeInitializationError,
+  MissingRenderToCanvasError,
+  StoryIndexFetchError,
+} from '@storybook/core-events/preview-errors';
 import { addons } from '../addons';
 import { StoryStore } from '../../store';
 
@@ -101,15 +105,8 @@ export class Preview<TRenderer extends Renderer> {
       const projectAnnotations = await this.getProjectAnnotations();
 
       this.renderToCanvas = projectAnnotations.renderToCanvas;
-      if (!this.renderToCanvas) {
-        throw new Error(dedent`
-            Expected your framework's preset to export a \`renderToCanvas\` field.
+      if (!this.renderToCanvas) throw new MissingRenderToCanvasError({});
 
-            Perhaps it needs to be upgraded for Storybook 6.4?
-
-            More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field
-          `);
-      }
       return projectAnnotations;
     } catch (err) {
       // This is an error extracting the projectAnnotations (i.e. evaluating the previewEntries) and
@@ -137,12 +134,14 @@ export class Preview<TRenderer extends Renderer> {
       return result.json() as any as StoryIndex;
     }
 
-    throw new Error(await result.text());
+    throw new StoryIndexFetchError({ text: await result.text() });
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: StoryIndex): void {
+  protected initializeWithStoryIndex(storyIndex: StoryIndex): void {
     if (!this.projectAnnotationsBeforeInitialization)
+      // This is a protected method and so shouldn't be called out of order by users
+      // eslint-disable-next-line local-rules/no-uncategorized-errors
       throw new Error('Cannot call initializeWithStoryIndex until project annotations resolve');
 
     this.storyStore = new StoryStore(
@@ -162,7 +161,8 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   emitGlobals() {
-    if (!this.storyStore) throw new Error(`Cannot emit before initialization`);
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'emitGlobals' });
 
     const payload: SetGlobalsPayload = {
       globals: this.storyStore.globals.get() || {},
@@ -226,13 +226,14 @@ export class Preview<TRenderer extends Renderer> {
     importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
-    if (!this.storyStore) throw new Error(`Cannot call onStoriesChanged before initialization`);
-
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onStoriesChanged' });
     await this.storyStore.onStoriesChanged({ importFn, storyIndex });
   }
 
   async onUpdateGlobals({ globals }: { globals: Globals }) {
-    if (!this.storyStore) throw new Error(`Cannot call onUpdateGlobals before initialization`);
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onUpdateGlobals' });
     this.storyStore.globals.update(globals);
 
     await Promise.all(this.storyRenders.map((r) => r.rerender()));
@@ -244,7 +245,8 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   async onUpdateArgs({ storyId, updatedArgs }: { storyId: StoryId; updatedArgs: Args }) {
-    if (!this.storyStore) throw new Error(`Cannot call onUpdateArgs before initialization`);
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onUpdateArgs' });
     this.storyStore.args.update(storyId, updatedArgs);
 
     await Promise.all(
@@ -260,7 +262,8 @@ export class Preview<TRenderer extends Renderer> {
   }
 
   async onResetArgs({ storyId, argNames }: { storyId: string; argNames?: string[] }) {
-    if (!this.storyStore) throw new Error(`Cannot call onResetArgs before initialization`);
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onResetArgs' });
 
     // NOTE: we have to be careful here and avoid await-ing when updating a rendered's args.
     // That's because below in `renderStoryToElement` we have also bound to this event and will
@@ -306,7 +309,9 @@ export class Preview<TRenderer extends Renderer> {
     options: StoryRenderOptions
   ) {
     if (!this.renderToCanvas || !this.storyStore)
-      throw new Error(`Cannot call renderStoryToElement before initialization`);
+      throw new CalledPreviewMethodBeforeInitializationError({
+        methodName: 'renderStoryToElement',
+      });
 
     const render = new StoryRender<TRenderer>(
       this.channel,
@@ -337,19 +342,10 @@ export class Preview<TRenderer extends Renderer> {
 
   // API
   async extract(options?: { includeDocsOnly: boolean }) {
-    if (!this.storyStore) throw new Error(`Cannot call extract before initialization`);
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'extract' });
 
-    if (this.previewEntryError) {
-      throw this.previewEntryError;
-    }
-
-    if (!this.storyStore.projectAnnotations) {
-      // In v6 mode, if your preview.js throws, we never get a chance to initialize the preview
-      // or store, and the error is simply logged to the browser console. This is the best we can do
-      throw new Error(dedent`Failed to initialize Storybook.
-
-      Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.`);
-    }
+    if (this.previewEntryError) throw this.previewEntryError;
 
     await this.storyStore.cacheAllCSFFiles();
 

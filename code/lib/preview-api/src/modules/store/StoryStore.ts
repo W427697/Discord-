@@ -24,6 +24,11 @@ import type {
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
 
+import {
+  CalledExtractOnStoreError,
+  MissingStoryFromCsfFileError,
+} from '@storybook/core-events/preview-errors';
+import { deprecate } from '@storybook/client-logger';
 import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
@@ -184,9 +189,8 @@ export class StoryStore<TRenderer extends Renderer> {
     csfFile: CSFFile<TRenderer>;
   }): PreparedStory<TRenderer> {
     const storyAnnotations = csfFile.stories[storyId];
-    if (!storyAnnotations) {
-      throw new Error(`Didn't find '${storyId}' in CSF file, this is unexpected`);
-    }
+    if (!storyAnnotations) throw new MissingStoryFromCsfFileError({ storyId });
+
     const componentAnnotations = csfFile.meta;
 
     const story = this.prepareStoryWithCache(
@@ -248,8 +252,7 @@ export class StoryStore<TRenderer extends Renderer> {
     options: { includeDocsOnly?: boolean } = { includeDocsOnly: false }
   ): Record<StoryId, StoryContextForEnhancers<TRenderer>> {
     const { cachedCSFFiles } = this;
-    if (!cachedCSFFiles)
-      throw new Error('Cannot call extract() unless you call cacheAllCSFFiles() first.');
+    if (!cachedCSFFiles) throw new CalledExtractOnStoreError({});
 
     return Object.entries(this.storyIndex.entries).reduce(
       (acc, [storyId, { type, importPath }]) => {
