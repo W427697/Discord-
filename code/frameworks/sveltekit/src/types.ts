@@ -45,14 +45,14 @@ export type SvelteKitParameters = Partial<{
   hrefs: Record<string, HrefConfig>;
   stores: {
     page: Record<string, any>;
-    navigating: boolean;
+    navigating: Record<string, any>;
     updated: boolean;
   };
   navigation: {
     goto: typeof goto;
     invalidate: typeof invalidate;
     invalidateAll: typeof invalidateAll;
-    afterNavigate: typeof afterNavigate;
+    afterNavigate: Record<string, any>;
   };
   forms: {
     enhance: typeof enhance;
