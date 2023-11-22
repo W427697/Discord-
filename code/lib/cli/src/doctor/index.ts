@@ -3,16 +3,16 @@ import boxen from 'boxen';
 import { createWriteStream, move, remove } from 'fs-extra';
 import tempy from 'tempy';
 import dedent from 'ts-dedent';
-
 import { join } from 'path';
+
 import { JsPackageManagerFactory } from '../js-package-manager';
 import type { PackageManagerName } from '../js-package-manager';
-
 import { getStorybookData } from '../automigrate/helpers/mainConfigFile';
-import { getDuplicatedDepsWarnings } from '../automigrate/helpers/getDuplicatedDepsWarnings';
 import { cleanLog } from '../automigrate/helpers/cleanLog';
-import { getIncompatibleAddons } from '../automigrate/helpers/getIncompatibleAddons';
 import { incompatibleAddons } from '../automigrate/fixes/incompatible-addons';
+import { getDuplicatedDepsWarnings } from './getDuplicatedDepsWarnings';
+import { getIncompatibleAddons } from './getIncompatibleAddons';
+import { getMismatchingVersionsWarnings } from './getMismatchingVersionsWarning';
 
 const logger = console;
 const LOG_FILE_NAME = 'doctor-storybook.log';
@@ -85,18 +85,27 @@ export const doctor = async ({
     process.exit(1);
   }
 
+  const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
+  console.log({ incompatibleAddonList });
+  if (incompatibleAddonList.length > 0) {
+    diagnosticMessages.push(incompatibleAddons.prompt({ incompatibleAddonList }));
+  }
+
   const installationMetadata = await packageManager.findInstallations([
     '@storybook/*',
     'storybook',
   ]);
 
-  diagnosticMessages.push(getDuplicatedDepsWarnings(installationMetadata)?.join('\n'));
-
-  const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
-  if (incompatibleAddonList.length > 0) {
-    diagnosticMessages.push(incompatibleAddons.prompt({ incompatibleAddonList }));
+  const allDependencies = await packageManager.getAllDependencies();
+  const mismatchingVersionMessage = getMismatchingVersionsWarnings(
+    installationMetadata,
+    allDependencies
+  );
+  if (mismatchingVersionMessage) {
+    diagnosticMessages.push(mismatchingVersionMessage);
+  } else {
+    diagnosticMessages.push(getDuplicatedDepsWarnings(installationMetadata)?.join('\n'));
   }
-
   logger.info();
 
   const finalMessages = diagnosticMessages.filter(Boolean);

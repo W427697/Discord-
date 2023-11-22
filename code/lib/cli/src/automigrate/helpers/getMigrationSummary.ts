@@ -4,7 +4,7 @@ import dedent from 'ts-dedent';
 import type { FixSummary } from '../types';
 import { FixStatus } from '../types';
 import type { InstallationMetadata } from '../../js-package-manager/types';
-import { getDuplicatedDepsWarnings } from './getDuplicatedDepsWarnings';
+import { getDuplicatedDepsWarnings } from '../../doctor/getDuplicatedDepsWarnings';
 
 export const messageDivider = '\n\n';
 const segmentDivider = '\n\n─────────────────────────────────────────────────\n\n';
