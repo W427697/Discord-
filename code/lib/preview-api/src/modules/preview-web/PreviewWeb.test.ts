@@ -516,12 +516,12 @@ describe('PreviewWeb', () => {
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
         expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
           .toMatchInlineSnapshot(`
-                          [Error: Expected your framework's preset to export a \`renderToCanvas\` field.
+          [SB_PREVIEW_API_0004 (MissingRenderToCanvasError): Expected your framework's preset to export a \`renderToCanvas\` field.
 
-                          Perhaps it needs to be upgraded for Storybook 6.4?
+          Perhaps it needs to be upgraded for Storybook 6.4?
 
-                          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field]
-                      `);
+          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field]
+        `);
       });
 
       describe('when `throwPlayFunctionExceptions` is set', () => {
@@ -3558,8 +3558,8 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb(importFn, () => {
         throw err;
       });
-      await expect(preview.initialize()).rejects.toThrow(err);
-      await expect(preview.extract()).rejects.toThrow(err);
+      await expect(preview.initialize()).rejects.toThrow(/meta error/);
+      await expect(preview.extract()).rejects.toThrow();
     });
 
     it('shows an error if the stories.json endpoint 500s', async () => {
@@ -3569,7 +3569,7 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb(importFn, getProjectAnnotations);
       await expect(preview.initialize()).rejects.toThrow('sort error');
 
-      await expect(preview.extract()).rejects.toThrow('sort error');
+      await expect(preview.extract()).rejects.toThrow();
     });
 
     it('waits for stories to be cached', async () => {
