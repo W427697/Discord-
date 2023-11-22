@@ -335,13 +335,22 @@ export class StoryStore<TRenderer extends Renderer> {
   };
 
   raw(): BoundStory<TRenderer>[] {
+    deprecate(
+      'StoryStore.raw() is deprecated and will be removed in 9.0, please use extract() instead'
+    );
     return Object.values(this.extract())
       .map(({ id }: { id: StoryId }) => this.fromId(id))
       .filter(Boolean) as BoundStory<TRenderer>[];
   }
 
   fromId(storyId: StoryId): BoundStory<TRenderer> | null {
+    deprecate(
+      'StoryStore.fromId() is deprecated and will be removed in 9.0, please use loadStory() instead'
+    );
+
+    // Deprecated so won't make a proper error for this
     if (!this.cachedCSFFiles)
+      // eslint-disable-next-line local-rules/no-uncategorized-errors
       throw new Error('Cannot call fromId/raw() unless you call cacheAllCSFFiles() first.');
 
     let importPath;
