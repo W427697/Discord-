@@ -25,6 +25,8 @@ export const Goto = {
   },
 };
 
+export const DefaultActions = {};
+
 const invalidate = fn();
 
 export const Invalidate = {

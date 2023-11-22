@@ -91,4 +91,41 @@ test.describe('SvelteKit', () => {
     });
     await expect(complexLogItem).toBeVisible();
   });
+
+  test('goto are logged in Actions panel', async ({ page }) => {
+    const sbPage = new SbPage(page);
+
+    await sbPage.navigateToStory('stories/sveltekit/modules/navigation', 'default-actions');
+    const root = sbPage.previewRoot();
+    await sbPage.viewAddonPanel('Actions');
+
+    const goto = root.locator('button', { hasText: 'goto' });
+    await goto.click();
+
+    const gotoLogItem = await page.locator('#storybook-panel-root #panel-tab-content', {
+      hasText: `/storybook`,
+    });
+    await expect(gotoLogItem).toBeVisible();
+
+    const clear = root.locator('button', { hasText: 'Clear' });
+    await clear.click();
+
+    const invalidate = root.locator('button', { hasText: 'invalidate' });
+    await invalidate.click();
+
+    const invalidateLogItem = await page.locator('#storybook-panel-root #panel-tab-content', {
+      hasText: `/storybook`,
+    });
+    await expect(invalidateLogItem).toBeVisible();
+
+    await clear.click();
+
+    const invalidateAll = root.locator('button', { hasText: 'invalidateAll' });
+    await invalidateAll.click();
+
+    const invalidateAllLogItem = await page.locator('#storybook-panel-root #panel-tab-content', {
+      hasText: `invalidateAll`,
+    });
+    await expect(invalidateAllLogItem).toBeVisible();
+  });
 });
