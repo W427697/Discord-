@@ -7,7 +7,7 @@ export default {
   },
   decorators: [
     (Story) => {
-      console.log('decorator');
+      console.log('decorator called');
       return Story();
     },
   ],
