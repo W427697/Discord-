@@ -40,8 +40,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/channels": "workspace:*",
@@ -50,7 +50,7 @@
     "file-system-cache": "2.3.0"
   },
   "devDependencies": {
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.0.0",
     "typescript": "~4.9.3"

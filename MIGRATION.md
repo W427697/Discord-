@@ -1,6 +1,9 @@
 <h1>Migration</h1>
 
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
+    - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
+    - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
+    - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
     - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
@@ -309,6 +312,65 @@
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
 ## From version 7.5.0 to 7.6.0
+
+#### CommonJS with Vite is deprecated
+
+Using CommonJS in the `main` configuration with `main.cjs` or `main.cts` is deprecated, and will be removed in Storybook 8.0. This is a necessary change because [Vite will remove support for CommonJS in an upcoming release](https://github.com/vitejs/vite/discussions/13928).
+
+You can address this by converting your `main` configuration file to ESM syntax and renaming it to `main.mjs` or `main.mts` if your project does not have `"type": "module"` in its `package.json`. To convert the config file to ESM you will need to replace any CommonJS syntax like `require()`, `module.exports`, or `__dirname`. If you haven't already, you may also consider adding `"type": "module"` to your package.json and converting your project to ESM.
+
+#### Using implicit actions during rendering is deprecated
+
+In Storybook 7, we inferred if the component accepts any action props,
+by checking if it starts with `onX` (for example `onClick`), or as configured by `actions.argTypesRegex`.
+If that was the case, we would fill in jest spies for those args automatically.
+
+```ts
+export default {
+  component: Button,
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    // args.onClick is a jest spy in 7.0
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+In Storybook 8 this feature will be removed, and spies have to added explicitly:
+
+```ts
+import { fn } from '@storybook/test';
+
+export default {
+  component: Button,
+  args: {
+    onClick: fn(),
+  },
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+For more context, see this RFC:
+https://github.com/storybookjs/storybook/discussions/23649
+
+To summarize:
+
+- This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
+- This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
+- This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
+
+#### typescript.skipBabel deprecated
+
+We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescirpt.skipCompiler` instead.
 
 #### Primary doc block accepts of prop
 
