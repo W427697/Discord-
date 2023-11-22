@@ -46,7 +46,7 @@
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "0.1.2--canary.71.cad875c.0",
+    "@storybook/csf": "0.1.2-next.0",
     "@storybook/global": "^5.0.0",
     "@storybook/router": "workspace:*",
     "@storybook/theming": "workspace:*",
