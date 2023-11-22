@@ -75,7 +75,11 @@ export async function buildDevStandalone(
 
   corePresets.push(join(frameworkName, 'preset'));
 
-  await warnOnIncompatibleAddons(config);
+  try {
+    await warnOnIncompatibleAddons(config);
+  } catch (e) {
+    console.warn('Storybook failed to check addon compatibility', e);
+  }
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account
