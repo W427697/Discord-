@@ -86,7 +86,6 @@ export const doctor = async ({
   }
 
   const incompatibleAddonList = await getIncompatibleAddons(mainConfig);
-  console.log({ incompatibleAddonList });
   if (incompatibleAddonList.length > 0) {
     diagnosticMessages.push(incompatibleAddons.prompt({ incompatibleAddonList }));
   }
