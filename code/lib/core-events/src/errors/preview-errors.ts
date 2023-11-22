@@ -96,18 +96,15 @@ export class MissingRenderToCanvasError extends StorybookError {
   readonly category = Category.PREVIEW_API;
 
   readonly code = 4;
-
-  constructor(public data: object) {
-    super();
-  }
+  
+  readonly documentation =
+    'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field';
 
   template() {
     return dedent`
       Expected your framework's preset to export a \`renderToCanvas\` field.
 
-      Perhaps it needs to be upgraded for Storybook 6.4?
-
-      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field`;
+      Perhaps it needs to be upgraded for Storybook 6.4?`;
   }
 }
 
