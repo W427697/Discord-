@@ -6199,7 +6199,6 @@ __metadata:
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
     "@jest/globals": "npm:^29.5.0"
-    "@storybook/addon-docs": "workspace:*"
     "@storybook/channels": "workspace:*"
     "@storybook/client-logger": "workspace:*"
     "@storybook/core-common": "workspace:*"
@@ -6214,6 +6213,7 @@ __metadata:
     memoizerific: "npm:^1.11.3"
     qs: "npm:^6.10.0"
     slash: "npm:^5.0.0"
+    tiny-invariant: "npm:^1.3.1"
     ts-dedent: "npm:^2.0.0"
     util-deprecate: "npm:^1.0.2"
   languageName: unknown

@@ -1,3 +1,4 @@
+import invariant from 'tiny-invariant';
 import { dedent } from 'ts-dedent';
 import {
   CURRENT_STORY_WAS_SET,
@@ -29,6 +30,12 @@ import type {
   DocsIndexEntry,
 } from '@storybook/types';
 
+import {
+  CalledPreviewMethodBeforeInitializationError,
+  EmptyIndexError,
+  MdxFileWithNoCsfReferencesError,
+  NoStoryMatchError,
+} from '@storybook/core-events/preview-errors';
 import type { MaybePromise } from './Preview';
 import { Preview } from './Preview';
 
@@ -107,7 +114,8 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   }
 
   async setInitialGlobals() {
-    if (!this.storyStore) throw new Error(`Cannot call setInitialGlobals before initialization`);
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'setInitialGlobals' });
 
     const { globals } = this.selectionStore.selectionSpecifier || {};
     if (globals) {
@@ -125,7 +133,10 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
   // Use the selection specifier to choose a story, then render it
   async selectSpecifiedStory() {
-    if (!this.storyStore) throw new Error(`Cannot call selectSpecifiedStory before initialization`);
+    if (!this.storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({
+        methodName: 'selectSpecifiedStory',
+      });
 
     // If the story has been selected during initialization - if `SET_CURRENT_STORY` is
     // emitted while we are loading the preview, we don't need to do any selection now.
@@ -144,23 +155,11 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
     if (!entry) {
       if (storySpecifier === '*') {
-        this.renderStoryLoadingException(
-          storySpecifier,
-          new Error(dedent`
-            Couldn't find any stories in your Storybook.
-            - Please check your stories field of your main.js config.
-            - Also check the browser console and terminal for error messages.
-          `)
-        );
+        this.renderStoryLoadingException(storySpecifier, new EmptyIndexError({}));
       } else {
         this.renderStoryLoadingException(
           storySpecifier,
-          new Error(dedent`
-            Couldn't find story matching '${storySpecifier}'.
-            - Are you sure a story with that id exists?
-            - Please check your stories field of your main.js config.
-            - Also check the browser console and terminal for error messages.
-          `)
+          new NoStoryMatchError({ storySpecifier: storySpecifier.toString() })
         );
       }
 
@@ -252,7 +251,9 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
 
   async onPreloadStories({ ids }: { ids: string[] }) {
     const { storyStore } = this;
-    if (!storyStore) throw new Error(`Cannot call onPreloadStories before initialization`);
+    if (!storyStore)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'onPreloadStories' });
+
     /**
      * It's possible that we're trying to preload a story in a ref we haven't loaded the iframe for yet.
      * Because of the way the targeting works, if we can't find the targeted iframe,
@@ -269,12 +270,14 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   //     in which case we render it to the root element, OR
   // - a story selected in "docs" viewMode,
   //     in which case we render the docsPage for that story
-  async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
-    if (!this.storyStore) throw new Error(`Cannot call renderSelection before initialization`);
-
+  protected async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
     const { renderToCanvas } = this;
-    if (!renderToCanvas) throw new Error('Cannot call renderSelection before initialization');
+    if (!this.storyStore || !renderToCanvas)
+      throw new CalledPreviewMethodBeforeInitializationError({ methodName: 'renderSelection' });
+
     const { selection } = this.selectionStore;
+    // Protected function, shouldn't be possible
+    // eslint-disable-next-line local-rules/no-uncategorized-errors
     if (!selection) throw new Error('Cannot call renderSelection as no selection was made');
 
     const { storyId } = selection;
@@ -360,7 +363,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     const implementationChanged = !storyIdChanged && lastRender && !render.isEqual(lastRender);
 
     if (persistedArgs && isStoryRender(render)) {
-      if (!render.story) throw new Error('Render has not been prepared!');
+      invariant(!!render.story);
       this.storyStore.args.updateFromPersisted(render.story, persistedArgs);
     }
 
@@ -388,7 +391,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     }
 
     if (isStoryRender(render)) {
-      if (!render.story) throw new Error('Render has not been prepared!');
+      invariant(!!render.story);
       const { parameters, initialArgs, argTypes, unmappedArgs } = this.storyStore.getStoryContext(
         render.story
       );
@@ -408,17 +411,14 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
         this.channel.emit(STORY_ARGS_UPDATED, { storyId, args: unmappedArgs });
       }
     } else {
-      if (!this.storyStore.projectAnnotations) {
-        throw new Error('Store not initialized');
-      }
-
       // Default to the project parameters for MDX docs
       let { parameters } = this.storyStore.projectAnnotations;
 
       if (isCsfDocsRender(render) || render.entry.tags?.includes(ATTACHED_MDX_TAG)) {
-        if (!render.csfFiles)
-          throw new Error('Render not prepared, or attached MDX file has no CSF references');
-        ({ parameters } = this.storyStore.preparedMetaFromCSFFile({ csfFile: render.csfFiles[0] }));
+        if (!render.csfFiles) throw new MdxFileWithNoCsfReferencesError({ storyId });
+        ({ parameters } = this.storyStore.preparedMetaFromCSFFile({
+          csfFile: render.csfFiles[0],
+        }));
       }
 
       this.channel.emit(DOCS_PREPARED, {
@@ -428,7 +428,7 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
     }
 
     if (isStoryRender(render)) {
-      if (!render.story) throw new Error('Render has not been prepared!');
+      invariant(!!render.story);
       this.storyRenders.push(render as StoryRender<TRenderer>);
       (this.currentRender as StoryRender<TRenderer>).renderToElement(
         this.view.prepareForStory(render.story)
@@ -448,25 +448,6 @@ export class PreviewWithSelection<TRenderer extends Renderer> extends Preview<TR
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);
     await render?.teardown?.({ viewModeChanged });
-  }
-
-  // API
-  async extract(options?: { includeDocsOnly: boolean }) {
-    if (this.previewEntryError) {
-      throw this.previewEntryError;
-    }
-
-    if (!this.storyStore) {
-      // In v6 mode, if your preview.js throws, we never get a chance to initialize the preview
-      // or store, and the error is simply logged to the browser console. This is the best we can do
-      throw new Error(dedent`Failed to initialize Storybook.
-
-      Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.`);
-    }
-
-    await this.storyStore.cacheAllCSFFiles();
-
-    return this.storyStore.extract(options);
   }
 
   // UTILITIES
