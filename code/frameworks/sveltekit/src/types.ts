@@ -1,5 +1,7 @@
 import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
 import type { StorybookConfigVite, BuilderOptions } from '@storybook/builder-vite';
+import type { afterNavigate, goto, invalidate, invalidateAll } from './mocks/app/navigation';
+import type { enhance } from './mocks/app/forms';
 
 type FrameworkName = '@storybook/sveltekit';
 type BuilderName = '@storybook/builder-vite';
@@ -25,12 +27,34 @@ type StorybookConfigFramework = {
   };
 };
 
-/**
- * The interface for Storybook configuration in `main.ts` files.
- */
 export type StorybookConfig = Omit<
   StorybookConfigBase,
   keyof StorybookConfigVite | keyof StorybookConfigFramework
 > &
   StorybookConfigVite &
   StorybookConfigFramework;
+
+export type NormalizedHrefConfig = {
+  callback: (to: string, event: Event) => void;
+  asRegex?: boolean;
+};
+
+export type HrefConfig = NormalizedHrefConfig | NormalizedHrefConfig['callback'];
+
+export type SvelteKitParameters = Partial<{
+  hrefs: Record<string, HrefConfig>;
+  stores: {
+    page: Record<string, any>;
+    navigating: boolean;
+    updated: boolean;
+  };
+  navigation: {
+    goto: typeof goto;
+    invalidate: typeof invalidate;
+    invalidateAll: typeof invalidateAll;
+    afterNavigate: typeof afterNavigate;
+  };
+  forms: {
+    enhance: typeof enhance;
+  };
+}>;

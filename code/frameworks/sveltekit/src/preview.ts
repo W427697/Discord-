@@ -1,35 +1,9 @@
 import type { Decorator } from '@storybook/svelte';
 import { action } from '@storybook/addon-actions';
 import { onMount } from 'svelte';
-import type { enhance } from './mocks/app/forms';
-import type { goto, invalidate, invalidateAll, afterNavigate } from './mocks/app/navigation';
 import { setAfterNavigateArgument } from './mocks/app/navigation';
 import { setNavigating, setPage, setUpdated } from './mocks/app/stores';
-
-type NormalizedHrefConfig = {
-  callback: (to: string, event: Event) => void;
-  asRegex?: boolean;
-};
-
-type HrefConfig = NormalizedHrefConfig | NormalizedHrefConfig['callback'];
-
-type SvelteKitParameters = Partial<{
-  hrefs: Record<string, HrefConfig>;
-  stores: {
-    page: Record<string, any>;
-    navigating: boolean;
-    updated: boolean;
-  };
-  navigation: {
-    goto: typeof goto;
-    invalidate: typeof invalidate;
-    invalidateAll: typeof invalidateAll;
-    afterNavigate: typeof afterNavigate;
-  };
-  forms: {
-    enhance: typeof enhance;
-  };
-}>;
+import type { HrefConfig, NormalizedHrefConfig, SvelteKitParameters } from './types';
 
 const normalizeHrefConfig = (hrefConfig: HrefConfig): NormalizedHrefConfig => {
   if (typeof hrefConfig === 'function') {
