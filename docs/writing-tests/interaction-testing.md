@@ -160,9 +160,9 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-execute.yarn.js.mdx',
-    'common/storybook-test-runner-execute.npm.js.mdx',
-    'common/storybook-test-runner-execute.pnpm.js.mdx',
+    'common/test-runner-execute.yarn.js.mdx',
+    'common/test-runner-execute.npm.js.mdx',
+    'common/test-runner-execute.pnpm.js.mdx',
   ]}
 />
 
@@ -170,11 +170,11 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
 
 ![Interaction test with test runner](./storybook-interaction-test-runner-loginform-optimized.png)
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you need, you can provide additional flags to the test-runner. Read the [documentation](./test-runner.md#cli-options) to learn more.
+If you need, you can provide additional flags to the test-runner. Read the [documentation](./test-runner.md#cli-options) to learn more.
 
-</div>
+</Callout>
 
 ## Automate
 
@@ -211,4 +211,5 @@ Interaction tests integrate Jest and Testing Library into Storybook. The biggest
 - Interaction tests for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [Import stories in other tests](./importing-stories-in-tests.md) for other tools
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

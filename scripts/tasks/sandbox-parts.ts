@@ -12,8 +12,9 @@ import {
   writeJson,
 } from 'fs-extra';
 import { join, resolve, sep } from 'path';
-
+import { createRequire } from 'module';
 import slash from 'slash';
+
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import {
@@ -92,6 +93,25 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
     await addPackageResolutions({ cwd, dryRun, debug });
     await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
 
+    // Add vite plugin workarounds for frameworks that need it
+    // (to support vite 5 without peer dep errors)
+    if (
+      [
+        'bench-react-vite-default-ts',
+        'bench-react-vite-default-ts-nodocs',
+        'bench-react-vite-default-ts-test-build',
+        'internal-ssv6-vite',
+        'react-vite-default-js',
+        'react-vite-default-ts',
+        'svelte-vite-default-js',
+        'svelte-vite-default-ts',
+        'vue3-vite-default-js',
+        'vue3-vite-default-ts',
+      ].includes(sandboxDir.split(sep).at(-1))
+    ) {
+      await addWorkaroundResolutions({ cwd, dryRun, debug });
+    }
+
     await exec(
       'yarn install',
       { cwd },
@@ -139,7 +159,7 @@ export const init: Task['run'] = async (
   }
 
   const nodeOptionsString = nodeOptions.join(' ');
-  const prefix = `NODE_OPTIONS="${nodeOptionsString}" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"`;
+  const prefix = `NODE_OPTIONS='${nodeOptionsString}' STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"`;
 
   await updatePackageScripts({
     cwd,
@@ -167,6 +187,7 @@ export const init: Task['run'] = async (
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
 function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
+  const require = createRequire(import.meta.url);
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
   const storiesMdxLoaderPath = require.resolve(
     '../../code/node_modules/@storybook/mdx2-csf/loader'
@@ -283,13 +304,13 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 }
 
 // Add a stories field entry for the passed symlink
-function addStoriesEntry(mainConfig: ConfigFile, path: string) {
+function addStoriesEntry(mainConfig: ConfigFile, path: string, disableDocs: boolean) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   const entry = {
     directory: slash(join('../template-stories', path)),
     titlePrefix: slash(path),
-    files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
+    files: disableDocs ? '**/*.stories.@(js|jsx|ts|tsx)' : '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
 
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
@@ -302,7 +323,12 @@ function getStoriesFolderWithVariant(variant?: string, folder = 'stories') {
 // packageDir is eg 'renderers/react', 'addons/actions'
 async function linkPackageStories(
   packageDir: string,
-  { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string },
+  {
+    mainConfig,
+    cwd,
+    linkInDir,
+    disableDocs,
+  }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string; disableDocs: boolean },
   variant?: string
 ) {
   const storiesFolderName = variant ? getStoriesFolderWithVariant(variant) : 'stories';
@@ -320,7 +346,7 @@ async function linkPackageStories(
   await ensureSymlink(source, target);
 
   if (!linkInDir) {
-    addStoriesEntry(mainConfig, packageDir);
+    addStoriesEntry(mainConfig, packageDir, disableDocs);
   }
 
   // Add `previewAnnotation` entries of the form
@@ -349,7 +375,7 @@ async function linkPackageStories(
   );
 }
 
-async function addExtraDependencies({
+export async function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -373,7 +399,7 @@ async function addExtraDependencies({
 
 export const addStories: Task['run'] = async (
   { sandboxDir, template, key },
-  { addon: extraAddons, dryRun, debug }
+  { addon: extraAddons, disableDocs }
 ) => {
   logger.log('💃 adding stories');
   const cwd = sandboxDir;
@@ -409,6 +435,7 @@ export const addStories: Task['run'] = async (
       mainConfig,
       cwd,
       linkInDir: resolve(cwd, storiesPath),
+      disableDocs,
     });
 
     if (
@@ -422,6 +449,7 @@ export const addStories: Task['run'] = async (
           mainConfig,
           cwd,
           linkInDir: resolve(cwd, storiesPath),
+          disableDocs,
         },
         sandboxSpecificStoriesFolder
       );
@@ -439,6 +467,7 @@ export const addStories: Task['run'] = async (
         mainConfig,
         cwd,
         linkInDir: resolve(cwd, storiesPath),
+        disableDocs,
       });
     }
 
@@ -453,6 +482,7 @@ export const addStories: Task['run'] = async (
           mainConfig,
           cwd,
           linkInDir: resolve(cwd, storiesPath),
+          disableDocs,
         },
         sandboxSpecificStoriesFolder
       );
@@ -465,6 +495,7 @@ export const addStories: Task['run'] = async (
     await linkPackageStories(await workspacePath('core package', '@storybook/preview-api'), {
       mainConfig,
       cwd,
+      disableDocs,
     });
   }
 
@@ -475,7 +506,10 @@ export const addStories: Task['run'] = async (
       if (!match) return acc;
       const suffix = match[1];
       if (suffix === 'essentials') {
-        return [...acc, ...essentialsAddons];
+        const essentials = disableDocs
+          ? essentialsAddons.filter((a) => a !== 'docs')
+          : essentialsAddons;
+        return [...acc, ...essentials];
       }
       return [...acc, suffix];
     },
@@ -494,7 +528,7 @@ export const addStories: Task['run'] = async (
   if (isCoreRenderer) {
     const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
     for (const packageDir of existingStories) {
-      await linkPackageStories(packageDir, { mainConfig, cwd });
+      await linkPackageStories(packageDir, { mainConfig, cwd, disableDocs });
     }
 
     // Add some extra settings (see above for what these do)
@@ -503,13 +537,10 @@ export const addStories: Task['run'] = async (
     }
   }
 
-  // Some addon stories require extra dependencies
-  await addExtraDependencies({ cwd, dryRun, debug });
-
   await writeConfig(mainConfig);
 };
 
-export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
+export const extendMain: Task['run'] = async ({ template, sandboxDir }, { disableDocs }) => {
   logger.log('📝 Extending main.js');
   const mainConfig = await readMainConfig({ cwd: sandboxDir });
   const templateConfig = template.modifications?.mainConfig || {};
@@ -518,9 +549,31 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
     features: {
       ...templateConfig.features,
     },
+    core: {
+      ...templateConfig.core,
+      // We don't want to show the "What's new" notifications in the sandbox as it can affect E2E tests
+      disableWhatsNewNotifications: true,
+    },
   };
 
   Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
+
+  // Simulate Storybook Lite
+  if (disableDocs) {
+    const addons = mainConfig.getFieldValue(['addons']);
+    const addonsNoDocs = addons.map((addon: any) =>
+      addon !== '@storybook/addon-essentials' ? addon : { name: addon, options: { docs: false } }
+    );
+    mainConfig.setFieldValue(['addons'], addonsNoDocs);
+
+    // remove the docs options so that docs tags are ignored
+    mainConfig.setFieldValue(['docs'], {});
+    mainConfig.setFieldValue(['typescript'], { reactDocgen: false });
+
+    let updatedStories = mainConfig.getFieldValue(['stories']) as string[];
+    updatedStories = updatedStories.filter((specifier) => !specifier.endsWith('.mdx'));
+    mainConfig.setFieldValue(['stories'], updatedStories);
+  }
 
   if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
@@ -547,7 +600,8 @@ async function prepareAngularSandbox(cwd: string) {
 
   packageJson.scripts = {
     ...packageJson.scripts,
-    'docs:json': 'DIR=$PWD; cd ../../scripts; yarn ts-node combine-compodoc $DIR',
+    'docs:json':
+      'DIR=$PWD; cd ../../scripts; node --loader esbuild-register/loader -r esbuild-register combine-compodoc $DIR',
     storybook: `yarn docs:json && ${packageJson.scripts.storybook}`,
     'build-storybook': `yarn docs:json && ${packageJson.scripts['build-storybook']}`,
   };

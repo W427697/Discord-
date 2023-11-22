@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-client",
-  "version": "7.2.0-rc.0",
+  "version": "7.6.0-alpha.6",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -31,12 +31,12 @@
   "module": "dist/entry.mjs",
   "types": "dist/entry.d.ts",
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/facade.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.2.0-rc.0",
-    "@storybook/preview-api": "7.2.0-rc.0"
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/preview-api": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
