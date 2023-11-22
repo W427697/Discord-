@@ -50,4 +50,15 @@ test.describe('Svelte', () => {
     const expectedSource = '<ButtonJavaScript primary/>';
     await expect(sourceCode.textContent()).resolves.toContain(expectedSource);
   });
+
+  test('Decorators runs only once', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    const lines: string[] = [];
+    page.on('console', (msg) => {
+      lines.push(msg.text());
+    });
+
+    await sbPage.navigateToStory('stories/renderers/svelte/decorators-runs-once', 'default');
+    expect(lines).toHaveLength(1);
+  });
 });
