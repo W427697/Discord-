@@ -406,7 +406,7 @@ export class NoMatchingExportError extends StorybookError {
       Correct example:
       { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.5.3", "storybook": "7.5.3" }
 
-      Clearing your lock file and reinstalling your dependencies might help as well, as sometimes the version you see in your package.json might not be the one defined in your lock file, leading to version inconsistency issues.
+      Please run \`npx storybook@latest doctor\` for guidance on how to fix this issue.
     `;
   }
 }
