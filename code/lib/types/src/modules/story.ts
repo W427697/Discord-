@@ -65,8 +65,8 @@ export type NormalizedComponentAnnotations<TRenderer extends Renderer = Renderer
   id: ComponentId;
   title: ComponentTitle;
   argTypes?: StrictArgTypes;
-  decorators: DecoratorFunction<TRenderer>[];
-  loaders: LoaderFunction<TRenderer>[];
+  decorators?: DecoratorFunction<TRenderer>[];
+  loaders?: LoaderFunction<TRenderer>[];
 };
 
 export type NormalizedStoryAnnotations<TRenderer extends Renderer = Renderer> = Omit<
