@@ -41,6 +41,43 @@ export const Expandable = () => (
   </>
 );
 
+export const ExpandableLongName = () => (
+  <>
+    <ComponentNode isExpandable>
+      Collapsed component with a very very very very very very very very very very very very very
+      very very very very very very veryvery very very very very very very very very veryvery very
+      very very very very very very very veryvery very very very very very very very very veryvery
+      very very very very very very very very veryvery very very very very very very very very
+      veryvery very very very very very very very very veryvery very very very very very very very
+      very very long name
+    </ComponentNode>
+    <ComponentNode isExpandable isExpanded>
+      Expanded component with a very very very very very very very very very very very very very
+      very very very very very very veryvery very very very very very very very very veryvery very
+      very very very very very very very veryvery very very very very very very very very veryvery
+      very very very very very very very very veryvery very very very very very very very very
+      veryvery very very very very very very very very veryvery very very very very very very very
+      very very long name
+    </ComponentNode>
+    <GroupNode isExpandable>
+      Collapsed group with a very very very very very very very very very very very very very very
+      very very very very very veryvery very very very very very very very very veryvery very very
+      very very very very very very veryvery very very very very very very very very veryvery very
+      very very very very very very very veryvery very very very very very very very very veryvery
+      very very very very very very very very veryvery very very very very very very very very very
+      long name
+    </GroupNode>
+    <GroupNode isExpandable isExpanded>
+      Expanded group with a very very very very very very very very very very very very very very
+      very very very very very veryvery very very very very very very very very veryvery very very
+      very very very very very very veryvery very very very very very very very very veryvery very
+      very very very very very very very veryvery very very very very very very very very veryvery
+      very very very very very very very very veryvery very very very very very very very very very
+      long name
+    </GroupNode>
+  </>
+);
+
 export const Nested = () => (
   <>
     <DocumentNode docsMode={false} depth={0}>
@@ -116,6 +153,108 @@ export const Selection = () => (
       className="sidebar-item"
     >
       <GroupNode>Highlighted group</GroupNode>
+    </LeafNodeStyleWrapper>
+  </>
+);
+
+export const SelectionWithLongName = () => (
+  <>
+    <HighlightStyles refId="foo" itemId="bar" />
+    <LeafNodeStyleWrapper
+      data-ref-id="baz"
+      data-item-id="bar"
+      data-nodetype="story"
+      data-selected="false"
+      className="sidebar-item"
+    >
+      <StoryNode>
+        Default story with a very very very very very very very very very very very very very very
+        very very very very very veryvery very very very very very very very very veryvery very very
+        very very very very very very veryvery very very very very very very very very veryvery very
+        very very very very very very very veryvery very very very very very very very very veryvery
+        very very very very very very very very veryvery very very very very very very very very
+        very long name
+      </StoryNode>
+    </LeafNodeStyleWrapper>
+    <LeafNodeStyleWrapper
+      data-ref-id="baz"
+      data-item-id="bar"
+      data-nodetype="story"
+      data-selected="true"
+      className="sidebar-item"
+    >
+      <StoryNode>
+        Selected story with a very very very very very very very very very very very very very very
+        very very very very very veryvery very very very very very very very very veryvery very very
+        very very very very very very veryvery very very very very very very very very veryvery very
+        very very very very very very very veryvery very very very very very very very very veryvery
+        very very very very very very very very veryvery very very very very very very very very
+        very long name
+      </StoryNode>
+    </LeafNodeStyleWrapper>
+    <LeafNodeStyleWrapper
+      data-ref-id="foo"
+      data-item-id="bar"
+      data-nodetype="story"
+      data-selected="false"
+      className="sidebar-item"
+    >
+      <StoryNode>
+        Highlighted story with a very very very very very very very very very very very very very
+        very very very very very very veryvery very very very very very very very very veryvery very
+        very very very very very very very veryvery very very very very very very very very veryvery
+        very very very very very very very very veryvery very very very very very very very very
+        veryvery very very very very very very very very veryvery very very very very very very very
+        very very long name
+      </StoryNode>
+    </LeafNodeStyleWrapper>
+    <LeafNodeStyleWrapper
+      data-ref-id="foo"
+      data-item-id="bar"
+      data-nodetype="story"
+      data-selected="true"
+      className="sidebar-item"
+    >
+      <StoryNode>
+        Highlighted + Selected story with a very very very very very very very very very very very
+        very very very very very very very very veryvery very very very very very very very very
+        veryvery very very very very very very very very veryvery very very very very very very very
+        very veryvery very very very very very very very very veryvery very very very very very very
+        very very veryvery very very very very very very very very veryvery very very very very very
+        very very very very long name
+      </StoryNode>
+    </LeafNodeStyleWrapper>
+    <LeafNodeStyleWrapper
+      data-ref-id="foo"
+      data-item-id="baz"
+      data-nodetype="group"
+      data-selected="false"
+      className="sidebar-item"
+    >
+      <GroupNode>
+        Default group with a very very very very very very very very very very very very very very
+        very very very very very veryvery very very very very very very very very veryvery very very
+        very very very very very very veryvery very very very very very very very very veryvery very
+        very very very very very very very veryvery very very very very very very very very veryvery
+        very very very very very very very very veryvery very very very very very very very very
+        very long name
+      </GroupNode>
+    </LeafNodeStyleWrapper>
+    <LeafNodeStyleWrapper
+      data-ref-id="foo"
+      data-item-id="bar"
+      data-nodetype="group"
+      data-selected="false"
+      className="sidebar-item"
+    >
+      <GroupNode>
+        Highlighted group with a very very very very very very very very very very very very very
+        very very very very very very veryvery very very very very very very very very veryvery very
+        very very very very very very very veryvery very very very very very very very very veryvery
+        very very very very very very very very veryvery very very very very very very very very
+        veryvery very very very very very very very very veryvery very very very very very very very
+        very very long name
+      </GroupNode>
     </LeafNodeStyleWrapper>
   </>
 );

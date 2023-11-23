@@ -314,6 +314,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     isPrepared: (storyId, refId) => {
       const data = api.getData(storyId, refId);
+      if (!data) {
+        return false;
+      }
       return data.type === 'story' ? data.prepared : true;
     },
     resolveStory: (storyId, refId) => {
@@ -612,7 +615,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       });
 
       await store.setState({ status: newStatus }, { persistence: 'session' });
-      await api.setIndex(index);
+      if (index) {
+        await api.setIndex(index);
+      }
     },
     experimental_setFilter: async (id, filterFunction) => {
       const { internal_index: index } = store.getState();

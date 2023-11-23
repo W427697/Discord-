@@ -1,6 +1,6 @@
 {
   "name": "@storybook/blocks",
-  "version": "7.6.0-alpha.3",
+  "version": "7.6.0-alpha.7",
   "description": "Storybook Doc Blocks",
   "keywords": [
     "storybook"
@@ -40,15 +40,15 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/components": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.1",

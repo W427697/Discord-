@@ -156,9 +156,11 @@ export class ClientApi<TRenderer extends Renderer> {
     }
   };
 
-  addStepRunner = (stepRunner: StepRunner) => {
+  addStepRunner = (stepRunner: StepRunner<TRenderer>) => {
     this.facade.projectAnnotations.runStep = composeStepRunners(
-      [this.facade.projectAnnotations.runStep, stepRunner].filter(Boolean) as StepRunner[]
+      [this.facade.projectAnnotations.runStep, stepRunner].filter(
+        Boolean
+      ) as StepRunner<TRenderer>[]
     );
   };
 

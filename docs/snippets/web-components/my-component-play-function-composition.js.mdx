@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 export default {
   component: 'demo-my-component',
@@ -15,7 +15,7 @@ export const FirstStory = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
+    await userEvent.type(canvas.getByTestId('an-element'), 'example-value');
   },
 };
 
