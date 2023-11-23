@@ -107,7 +107,7 @@ test.describe('SvelteKit', () => {
     });
     await expect(gotoLogItem).toBeVisible();
 
-    const invalidate = root.locator('button', { hasText: 'invalidate' });
+    const invalidate = root.getByRole('button', { name: 'invalidate', exact: true });
     await invalidate.click();
 
     const invalidateLogItem = page.locator('#storybook-panel-root #panel-tab-content', {
@@ -115,7 +115,7 @@ test.describe('SvelteKit', () => {
     });
     await expect(invalidateLogItem).toBeVisible();
 
-    const invalidateAll = root.locator('button', { hasText: 'invalidateAll' });
+    const invalidateAll = root.getByRole('button', { name: 'invalidateAll' });
     await invalidateAll.click();
 
     const invalidateAllLogItem = page.locator('#storybook-panel-root #panel-tab-content', {
