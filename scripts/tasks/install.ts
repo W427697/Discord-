@@ -53,7 +53,7 @@ const checkDependencies = async () => {
     });
 
     // give the filesystem some time
-    await new Promise((res, rej) => {
+    await new Promise((res) => {
       setTimeout(res, 1000);
     });
   }
