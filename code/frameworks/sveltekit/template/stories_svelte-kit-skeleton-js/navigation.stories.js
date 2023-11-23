@@ -14,7 +14,7 @@ export const Goto = {
     const canvas = within(canvasElement);
     const button = canvas.getByText('goto');
     button.click();
-    expect(goto).toHaveBeenCalledWith('/storybook');
+    expect(goto).toHaveBeenCalledWith('/storybook-goto');
   },
   parameters: {
     sveltekit_experimental: {
@@ -34,7 +34,7 @@ export const Invalidate = {
     const canvas = within(canvasElement);
     const button = canvas.getByText('invalidate', { exact: true });
     button.click();
-    expect(invalidate).toHaveBeenCalledWith('/storybook');
+    expect(invalidate).toHaveBeenCalledWith('/storybook-invalidate');
   },
   parameters: {
     sveltekit_experimental: {

@@ -103,22 +103,17 @@ test.describe('SvelteKit', () => {
     await goto.click();
 
     const gotoLogItem = await page.locator('#storybook-panel-root #panel-tab-content', {
-      hasText: `/storybook`,
+      hasText: `/storybook-goto`,
     });
     await expect(gotoLogItem).toBeVisible();
-
-    const clear = root.locator('button', { hasText: 'Clear' });
-    await clear.click();
 
     const invalidate = root.locator('button', { hasText: 'invalidate' });
     await invalidate.click();
 
     const invalidateLogItem = await page.locator('#storybook-panel-root #panel-tab-content', {
-      hasText: `/storybook`,
+      hasText: `/storybook-invalidate`,
     });
     await expect(invalidateLogItem).toBeVisible();
-
-    await clear.click();
 
     const invalidateAll = root.locator('button', { hasText: 'invalidateAll' });
     await invalidateAll.click();
