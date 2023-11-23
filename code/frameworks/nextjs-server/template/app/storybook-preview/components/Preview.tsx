@@ -4,11 +4,16 @@
 
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import type { View } from '@storybook/nextjs-server/preview-api';
-import { PreviewWithSelection, addons, UrlStore } from '@storybook/nextjs-server/preview-api';
+import {
+  PreviewWithSelection,
+  addons,
+  UrlStore,
+  WebView,
+} from '@storybook/nextjs-server/preview-api';
 import { createBrowserChannel } from '@storybook/nextjs-server/channels';
 import type { StoryIndex } from '@storybook/nextjs-server/types';
 import { setArgs } from './args';
+import { previewHtml } from './previewHtml';
 
 global.FEATURES = { storyStoreV7: true };
 
@@ -18,33 +23,6 @@ class StaticUrlStore extends UrlStore {
   setSelection(selection: Parameters<typeof UrlStore.prototype.setSelection>[0]) {
     this.selection = selection;
   }
-}
-
-// A view that doesn't do anything when called, as we don't need to display errors etc.
-class NoopView implements View<Record<string, never>> {
-  prepareForStory() {
-    return {}; // canvasElement
-  }
-
-  prepareForDocs() {
-    return {}; // canvasElement
-  }
-
-  showErrorDisplay() {}
-
-  showNoPreview() {}
-
-  showPreparingStory() {}
-
-  showPreparingDocs() {}
-
-  showMain() {}
-
-  showDocs() {}
-
-  showStory() {}
-
-  showStoryDuringRender() {}
 }
 
 // Construct a CSF file from all the index entries on a path
@@ -66,23 +44,33 @@ function pathToCSFile(allEntries: StoryIndex['entries'], path: string) {
 export const Preview = ({ previewPath }: { previewPath: string }) => {
   const router = useRouter();
   useEffect(() => {
-    const channel = createBrowserChannel({ page: 'preview' });
-    addons.setChannel(channel);
+    if (!window.__STORYBOOK_ADDONS_CHANNEL__) {
+      const channel = createBrowserChannel({ page: 'preview' });
+      addons.setChannel(channel);
+      window.__STORYBOOK_ADDONS_CHANNEL__ = channel;
+    }
 
-    const preview = new PreviewWithSelection(new StaticUrlStore(), new NoopView());
-    preview.initialize({
-      importFn: async (path) => pathToCSFile(preview.storyStore.storyIndex!.entries, path),
-      getProjectAnnotations: () => ({
-        render: () => {},
-        renderToCanvas: ({ id, storyContext: { args } }) => {
-          setArgs(previewPath, id, args);
-          router.push(`/${previewPath}/${id}`);
-        },
-      }),
-    });
+    if (!window.__STORYBOOK_PREVIEW__) {
+      const preview = new PreviewWithSelection(new StaticUrlStore(), new WebView());
+      preview.initialize({
+        importFn: async (path) => pathToCSFile(preview.storyStore.storyIndex!.entries, path),
+        getProjectAnnotations: () => ({
+          render: () => {},
+          renderToCanvas: async ({ id, showMain, storyContext: { args } }) => {
+            setArgs(previewPath, id, args);
+            await router.push(`/${previewPath}/${id}`);
+            showMain();
+          },
+        }),
+      });
+      window.__STORYBOOK_PREVIEW__ = preview;
+    }
 
-    window.__STORYBOOK_PREVIEW__ = preview;
-    window.__STORYBOOK_ADDONS_CHANNEL__ = channel;
+    // Render the the SB UI (ie iframe.html / preview.ejs) in a non-react way to ensure
+    // it doesn't get ripped down when a new route renders
+    if (!document.querySelector('#storybook-docs')) {
+      document.body.insertAdjacentHTML('beforeend', previewHtml);
+    }
 
     return () => {};
   }, []);
