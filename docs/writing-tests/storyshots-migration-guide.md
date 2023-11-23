@@ -181,6 +181,8 @@ Alternatively, you may want to consider migrating to the other available option 
 
 </IfRenderer>
 
+---
+
 ## Troubleshooting
 
 As running snapshot tests with Storybook and the test-runner can lead to some technical limitations that may prevent you from setting up or running your tests successfully, we've prepared a set of instructions to help you troubleshoot any issues you may encounter.
