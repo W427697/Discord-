@@ -1,4 +1,4 @@
-import { Meta, StoryObj, applicationConfig } from '@storybook/angular';
+import { Meta, StoryObj, applicationConfig } from '@storybook/angular-next';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { within, userEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';

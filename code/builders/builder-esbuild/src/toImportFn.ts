@@ -11,6 +11,7 @@ export function toImportFnPart(specifier: NormalizedStoriesSpecifier) {
         }
 
         const pathRemainder = path.substring(${directory.length + 1});
+
         return import(
           '${directory}/' + pathRemainder
         );
@@ -21,6 +22,8 @@ export function toImportFnPart(specifier: NormalizedStoriesSpecifier) {
 
 export function toImportFn(stories: NormalizedStoriesSpecifier[]) {
   const pipelinedImport = `const pipeline = (x) => x();`;
+
+  console.log({ stories });
 
   return dedent`
     ${pipelinedImport}

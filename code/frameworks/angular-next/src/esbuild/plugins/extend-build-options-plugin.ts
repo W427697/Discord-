@@ -27,6 +27,9 @@ export const getExtendBuildOptionPlugin = (options: BuildOptions): Plugin => ({
     initialOptions.conditions = ['browser', 'module', 'default'];
     initialOptions.format = 'esm';
     initialOptions.metafile = true;
-    initialOptions.plugins = [...(initialOptions.plugins ?? []), ...options.plugins];
+    initialOptions.loader = {
+      ...initialOptions.loader,
+      ...options.loader,
+    };
   },
 });

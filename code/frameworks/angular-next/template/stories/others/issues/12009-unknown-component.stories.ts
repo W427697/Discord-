@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular-next';
 import Button from '../../button.component';
 
 const meta: Meta<Button> = {

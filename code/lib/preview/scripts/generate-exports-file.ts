@@ -31,7 +31,7 @@ async function generate(text: string) {
 const run = async () => {
   const data = Object.entries(globalsNameValueMap).reduce<Record<string, string[]>>(
     (acc, [key, value]) => {
-      acc[key] = Object.keys(globalsNameValueMap).filter(removeDefault);
+      acc[key] = Object.keys(globalsNameValueMap[key]).filter(removeDefault);
       return acc;
     },
     {}

@@ -1,5 +1,5 @@
 import { OnInit, Type, Component, Injector, Input } from '@angular/core';
-import { Meta, componentWrapperDecorator, moduleMetadata, StoryObj } from '@storybook/angular';
+import { Meta, componentWrapperDecorator, moduleMetadata, StoryObj } from '@storybook/angular-next';
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
 const meta: Meta<WithoutSelectorComponent> = {

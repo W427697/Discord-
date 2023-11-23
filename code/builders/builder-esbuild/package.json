@@ -39,6 +39,7 @@
   "files": [
     "dist/**/*",
     "input/**/*",
+    "templates/**/*",
     "README.md",
     "*.js",
     "*.d.ts",
@@ -61,6 +62,7 @@
   "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
   "devDependencies": {
     "@types/fs-extra": "^11",
+    "@types/node": "^18.0.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {

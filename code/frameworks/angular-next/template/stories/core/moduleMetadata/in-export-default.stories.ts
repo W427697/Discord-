@@ -1,4 +1,4 @@
-import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
+import { StoryFn, Meta, moduleMetadata } from '@storybook/angular-next';
 import { TokenComponent, ITEMS, DEFAULT_NAME } from './angular-src/token.component';
 
 export const Story1: StoryFn = () => ({

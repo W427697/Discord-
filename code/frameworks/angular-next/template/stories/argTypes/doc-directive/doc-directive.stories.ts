@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular-next';
 import { DocDirective } from './doc-directive.directive';
 
 const meta: Meta<DocDirective> = {

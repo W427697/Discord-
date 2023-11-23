@@ -10,11 +10,6 @@
       "pattern": "^[^:\\s]+:[^:\\s]+(:[^\\s]+)?$",
       "default": null
     },
-    "debugWebpack": {
-      "type": "boolean",
-      "description": "Debug the Webpack configuration",
-      "default": false
-    },
     "tsConfig": {
       "type": "string",
       "description": "The full path for the TypeScript configuration file, relative to the current workspace."
@@ -78,8 +73,7 @@
     },
     "compodoc": {
       "type": "boolean",
-      "description": "Execute compodoc before.",
-      "default": true
+      "description": "Execute compodoc before."
     },
     "compodocArgs": {
       "type": "array",
@@ -94,8 +88,7 @@
       "description": "Global styles to be included in the build.",
       "items": {
         "$ref": "#/definitions/styleElement"
-      },
-      "default": ""
+      }
     },
     "stylePreprocessorOptions": {
       "description": "Options to pass to style preprocessors.",
@@ -109,13 +102,11 @@
           }
         }
       },
-      "additionalProperties": false,
-      "default": ""
+      "additionalProperties": false
     },
     "assets": {
       "type": "array",
       "description": "List of static application assets.",
-      "default": [],
       "items": {
         "$ref": "#/definitions/assetPattern"
       }

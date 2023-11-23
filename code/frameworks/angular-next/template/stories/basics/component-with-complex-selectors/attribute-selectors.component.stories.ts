@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular-next';
 import { AttributeSelectorComponent } from './attribute-selector.component';
 
 const meta: Meta<AttributeSelectorComponent> = {

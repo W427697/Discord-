@@ -1,4 +1,4 @@
-import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular-next';
 
 import { CustomPipePipe } from './custom.pipe';
 import { WithPipeComponent } from './with-pipe.component';

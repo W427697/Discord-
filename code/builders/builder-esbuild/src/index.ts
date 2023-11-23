@@ -10,7 +10,7 @@ const getAbsolutePath = <I extends string>(input: I): I =>
 export * from './types';
 export * from './build';
 
-export const build: EsbuildBuilder['build'] = async ({ options }) => {
+export const build: EsbuildBuilder['build'] = async ({ options }): Promise<any> => {
   const esbuildOptions = await getOptions(options);
   const esbuildCompilation = esbuild(esbuildOptions);
 

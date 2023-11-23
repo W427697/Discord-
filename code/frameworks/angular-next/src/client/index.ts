@@ -1,5 +1,3 @@
-/// <reference types="webpack-env" />
-
 import './globals';
 
 // eslint-disable-next-line import/export

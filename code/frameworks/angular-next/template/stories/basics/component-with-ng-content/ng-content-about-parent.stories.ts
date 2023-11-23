@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { componentWrapperDecorator, Meta, StoryObj } from '@storybook/angular';
+import { componentWrapperDecorator, Meta, StoryObj } from '@storybook/angular-next';
 
 @Component({
   selector: 'sb-button',

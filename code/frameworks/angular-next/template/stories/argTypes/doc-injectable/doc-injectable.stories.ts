@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular-next';
 import { DocInjectableService } from './doc-injectable.service';
 
 const meta: Meta<DocInjectableService> = {

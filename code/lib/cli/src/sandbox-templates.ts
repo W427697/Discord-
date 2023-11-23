@@ -316,8 +316,8 @@ const baseTemplates = {
     script:
       'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
-      framework: '@storybook/angular',
-      renderer: '@storybook/angular',
+      framework: '@storybook/angular-next',
+      renderer: '@storybook/angular-next',
       builder: '@storybook/builder-webpack5',
     },
     skipTasks: ['e2e-tests-dev', 'bench'],

@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular-next';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { within, userEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';

@@ -1,4 +1,4 @@
-import { Meta, StoryObj, argsToTemplate } from '@storybook/angular';
+import { Meta, StoryObj, argsToTemplate } from '@storybook/angular-next';
 import { DocButtonComponent } from './doc-button.component';
 
 const meta: Meta<DocButtonComponent<any>> = {

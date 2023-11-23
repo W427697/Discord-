@@ -84,7 +84,8 @@ export async function getOptions(options: Options): Promise<BuildOptions> {
     presets.apply<string>('previewBody'),
   ]);
 
-  const storiesFilename = 'storybook-stories.js';
+  // The file extension `vjs` should hinder other tools like Angular to hook in and interpret the file
+  const storiesFilename = 'storybook-stories.vjs';
   const storiesPath = `./${storiesFilename}`;
   const isProd = configType === 'PRODUCTION';
 
@@ -113,7 +114,8 @@ export async function getOptions(options: Options): Promise<BuildOptions> {
   const virtualModuleMapping: Record<string, string> = {};
 
   virtualModuleMapping[storiesPath] = toImportFn(stories);
-  const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.js'));
+  // The file extension `vjs` should hinder other tools like Angular to hook in and interpret the file
+  const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.vjs'));
   virtualModuleMapping[configEntryPath] = handlebars(
     await readTemplate(
       require.resolve('@storybook/builder-esbuild/templates/virtualModuleModernEntry.js.handlebars')
@@ -138,7 +140,7 @@ export async function getOptions(options: Options): Promise<BuildOptions> {
     sourcemap: !isProd ? 'inline' : false,
     define: {
       ...stringifyProcessEnvs(envs),
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       global: 'window',
     },
     sourceRoot: projectRoot,
@@ -209,6 +211,10 @@ export async function getOptions(options: Options): Promise<BuildOptions> {
       '.png': 'file',
       '.svg': 'file',
       '.avif': 'file',
+      '.gitkeep': 'file',
+      '.html': 'file',
+      '.ico': 'file',
+      '.scss': 'file',
     },
   };
 }

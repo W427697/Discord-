@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular-next';
 import { BaseButtonComponent } from './base-button.component';
 
 const meta: Meta<BaseButtonComponent> = {

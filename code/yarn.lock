@@ -6385,6 +6385,7 @@ __metadata:
     "@storybook/preview": "workspace:^"
     "@storybook/types": "workspace:^"
     "@types/fs-extra": "npm:^11"
+    "@types/node": "npm:^18.0.0"
     dedent: "npm:^1.5.1"
     esbuild: "npm:^0.19.5"
     esbuild-plugin-alias: "npm:^0.2.1"

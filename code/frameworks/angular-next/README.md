@@ -45,7 +45,7 @@ Storybook supports Angular multi-project workspace. You can setup Storybook for 
       "architect": {
         ...
         "storybook": {
-          "builder": "@storybook/angular:start-storybook",
+          "builder": "@storybook/angular-next:start-storybook",
           "options": {
             // the path to the storybook config directory
             "configDir": ".storybook",
@@ -58,7 +58,7 @@ Storybook supports Angular multi-project workspace. You can setup Storybook for 
           }
         },
         "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
+          "builder": "@storybook/angular-next:build-storybook",
           "options": {
             "configDir": ".storybook",
             "browserTarget": "your-project:build",

@@ -1,4 +1,4 @@
-import { Meta, StoryObj, argsToTemplate } from '@storybook/angular';
+import { Meta, StoryObj, argsToTemplate } from '@storybook/angular-next';
 import { Template } from './template.component';
 
 const meta: Meta<Template> = {

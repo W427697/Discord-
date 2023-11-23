@@ -21,6 +21,7 @@ export default {
   '@storybook/addon-viewport': '7.6.0-alpha.6',
   '@storybook/addons': '7.6.0-alpha.6',
   '@storybook/angular': '7.6.0-alpha.6',
+  '@storybook/angular-next': '7.6.0-alpha.6',
   '@storybook/api': '7.6.0-alpha.6',
   '@storybook/blocks': '7.6.0-alpha.6',
   '@storybook/builder-manager': '7.6.0-alpha.6',

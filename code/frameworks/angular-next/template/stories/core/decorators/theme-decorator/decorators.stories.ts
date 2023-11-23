@@ -1,4 +1,4 @@
-import { Args, Meta, componentWrapperDecorator } from '@storybook/angular';
+import { Args, Meta, componentWrapperDecorator } from '@storybook/angular-next';
 
 export const Base = (args: Args) => ({
   template: 'Change theme with the brush in toolbar',

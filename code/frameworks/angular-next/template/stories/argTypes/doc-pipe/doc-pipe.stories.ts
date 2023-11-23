@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj } from '@storybook/angular-next';
 import { DocPipe } from './doc-pipe.pipe';
 
 const meta: Meta<DocPipe> = {

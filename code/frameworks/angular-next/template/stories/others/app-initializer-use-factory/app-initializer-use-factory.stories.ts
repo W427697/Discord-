@@ -1,4 +1,4 @@
-import { moduleMetadata, Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata, Meta, StoryObj } from '@storybook/angular-next';
 import { APP_INITIALIZER } from '@angular/core';
 import { action } from '@storybook/addon-actions';
 import Button from '../../button.component';

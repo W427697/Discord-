@@ -1,4 +1,4 @@
-import { StoryFn, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { StoryFn, Meta, moduleMetadata, StoryObj } from '@storybook/angular-next';
 import { ChipsModule } from './angular-src/chips.module';
 import { ChipsGroupComponent } from './angular-src/chips-group.component';
 import { CHIP_COLOR } from './angular-src/chip-color.token';

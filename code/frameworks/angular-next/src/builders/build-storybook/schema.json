@@ -29,11 +29,6 @@
       "description": "Controls level of logging during build. Can be one of: [silly, verbose, info (default), warn, error, silent].",
       "pattern": "(silly|verbose|info|warn|silent)"
     },
-    "debugWebpack": {
-      "type": "boolean",
-      "description": "Debug the Webpack configuration",
-      "default": false
-    },
     "quiet": {
       "type": "boolean",
       "description": "Suppress verbose build output.",
@@ -51,8 +46,7 @@
     },
     "compodoc": {
       "type": "boolean",
-      "description": "Execute compodoc before.",
-      "default": true
+      "description": "Execute compodoc before."
     },
     "compodocArgs": {
       "type": "array",
@@ -61,11 +55,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "webpackStatsJson": {
-      "type": ["boolean", "string"],
-      "description": "Write Webpack Stats JSON to disk",
-      "default": false
     },
     "previewUrl": {
       "type": "string",
@@ -76,8 +65,7 @@
       "description": "Global styles to be included in the build.",
       "items": {
         "$ref": "#/definitions/styleElement"
-      },
-      "default": ""
+      }
     },
     "stylePreprocessorOptions": {
       "description": "Options to pass to style preprocessors.",
@@ -91,13 +79,11 @@
           }
         }
       },
-      "additionalProperties": false,
-      "default": ""
+      "additionalProperties": false
     },
     "assets": {
       "type": "array",
       "description": "List of static application assets.",
-      "default": [],
       "items": {
         "$ref": "#/definitions/assetPattern"
       }

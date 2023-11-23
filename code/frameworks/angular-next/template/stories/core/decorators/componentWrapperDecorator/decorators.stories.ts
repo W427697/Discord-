@@ -6,7 +6,7 @@ import {
   StoryObj,
   componentWrapperDecorator,
   moduleMetadata,
-} from '@storybook/angular';
+} from '@storybook/angular-next';
 import ChildComponent from './child.component';
 import ParentComponent from './parent.component';
 

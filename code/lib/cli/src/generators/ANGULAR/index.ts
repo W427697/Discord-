@@ -72,7 +72,7 @@ const generator: Generator<{ projectName: string }> = async (
       componentsDestinationPath: root ? `${root}/src/stories` : undefined,
       storybookConfigFolder: storybookFolder,
     },
-    'angular'
+    'angular-next'
   );
 
   if (Object.keys(projects).length === 1) {
