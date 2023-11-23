@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import loaderUtils from 'next/dist/compiled/loader-utils3';
+import { getProjectRoot } from '@storybook/core-common';
 import path from 'path';
 
 import type { LoaderOptions } from '../types';
@@ -11,7 +12,9 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
   const localFontSrc = options.props.src as LocalFontSrc;
 
   // Parent folder relative to the root context
-  const parentFolder = options.filename.split('/').slice(0, -1).join('/').replace(rootContext, '');
+  const parentFolder = path
+    .dirname(path.join(getProjectRoot(), options.filename))
+    .replace(rootContext, '');
 
   const { validateData } = require('../utils/local-font-utils');
   const { weight, style, variable } = validateData('', options.props);
@@ -23,9 +26,13 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     6
   )}`;
 
+  const arePathsWin32Format = /^[a-z]:\\/iu.test(options.filename);
+  const cleanWin32Path = (pathString: string): string =>
+    arePathsWin32Format ? pathString.replace(/\\/gu, '/') : pathString;
+
   const getFontFaceCSS = () => {
     if (typeof localFontSrc === 'string') {
-      const localFontPath = path.join(parentFolder, localFontSrc);
+      const localFontPath = cleanWin32Path(path.join(parentFolder, localFontSrc));
 
       return `@font-face {
           font-family: ${id};
@@ -34,7 +41,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     }
     return localFontSrc
       .map((font) => {
-        const localFontPath = path.join(parentFolder, font.path);
+        const localFontPath = cleanWin32Path(path.join(parentFolder, font.path));
 
         return `@font-face {
           font-family: ${id};

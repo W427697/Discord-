@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.5.0-alpha.3",
+  "version": "7.6.0-alpha.7",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -26,15 +26,9 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "types": "./dist/config.d.ts",
-      "require": "./dist/config.js",
-      "import": "./dist/config.mjs"
-    },
-    "./dist/preset": {
-      "types": "./dist/preset.d.ts",
-      "require": "./dist/preset.js"
-    },
+    "./preset": "./preset.js",
+    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
+    "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -49,8 +43,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
@@ -62,7 +56,7 @@
     "@storybook/types": "workspace:*",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "acorn": "^7.4.1",
     "acorn-jsx": "^5.3.1",
     "acorn-walk": "^7.2.0",
@@ -76,7 +70,8 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.23.2",
+    "@storybook/test": "workspace:*",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.15.0",
     "jest-specific-snapshot": "^8.0.0",
@@ -101,8 +96,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts",
-      "./src/preset.ts"
+      "./src/preset.ts",
+      "./src/entry-preview.ts",
+      "./src/entry-preview-docs.ts"
     ],
     "platform": "browser"
   },
