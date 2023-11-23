@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from 'react';
 import React from 'react';
-import { Storybook } from './components/Storybook';
 
 export default function RootLayout({ children }: PropsWithChildren<{}>) {
   return (
@@ -8,7 +7,7 @@ export default function RootLayout({ children }: PropsWithChildren<{}>) {
       <body>
         <main>
           <div className="page">
-            <Storybook>{children}</Storybook>
+            <>{children}</>
           </div>
         </main>
       </body>
