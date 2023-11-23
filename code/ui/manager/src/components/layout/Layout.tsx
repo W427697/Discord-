@@ -261,16 +261,16 @@ const Drag = styled.div<{ orientation?: 'horizontal' | 'vertical'; position?: 'l
   ({ orientation = 'vertical', position = 'left' }) => {
     if (orientation === 'vertical')
       return {
-        width: '20px',
+        width: position === 'left' ? 10 : 13,
         height: '100%',
         top: 0,
-        right: position === 'left' ? '-10px' : null,
-        left: position === 'right' ? '-10px' : null,
+        right: position === 'left' ? '-7px' : null,
+        left: position === 'right' ? '-7px' : null,
 
         '&:after': {
           width: 1,
           height: '100%',
-          marginLeft: 10,
+          marginLeft: position === 'left' ? 3 : 6,
         },
 
         '&:hover': {
@@ -279,14 +279,14 @@ const Drag = styled.div<{ orientation?: 'horizontal' | 'vertical'; position?: 'l
       };
     return {
       width: '100%',
-      height: '20px',
-      top: '-10px',
+      height: '13px',
+      top: '-7px',
       left: 0,
 
       '&:after': {
         width: '100%',
         height: 1,
-        marginTop: 9,
+        marginTop: 6,
       },
 
       '&:hover': {

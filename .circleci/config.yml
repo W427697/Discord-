@@ -322,7 +322,7 @@ jobs:
           at: .
       - run:
           name: Starting Event Collector
-          command: yarn ts-node ./event-log-collector.ts
+          command: node --loader esbuild-register/loader -r esbuild-register ./event-log-collector.ts
           working_directory: scripts
           background: true
       - run:
@@ -330,7 +330,12 @@ jobs:
           command: yarn task --task build --template $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build) --no-link --start-from=never --junit
       - run:
           name: Verifying Telemetry
-          command: yarn ts-node ./event-log-checker build $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
+          command: |
+            TEMPLATE=$(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
+            if [[ $TEMPLATE != bench/* ]]
+            then
+              node --loader esbuild-register/loader -r esbuild-register ./event-log-checker build $TEMPLATE
+            fi
           working_directory: scripts
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task build)
@@ -507,7 +512,7 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 9
+          parallelism: 11
           requires:
             - build-sandboxes
       - e2e-production:
@@ -563,7 +568,7 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 16
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-production:
@@ -620,7 +625,7 @@ workflows:
           requires:
             - create-sandboxes
       - chromatic-sandboxes:
-          parallelism: 31
+          parallelism: 33
           requires:
             - build-sandboxes
       - e2e-production:
