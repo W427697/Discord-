@@ -1,13 +1,19 @@
 import { getProjectRoot } from '@storybook/core-common';
 import { getVirtualModuleMapping } from '@storybook/core-webpack';
-import type { Options } from '@storybook/types';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import type { Options, Preset } from '@storybook/types';
 import type { NextConfig } from 'next';
 import path from 'path';
 import type { RuleSetRule } from 'webpack';
 import semver from 'semver';
 import { NextjsSWCNotSupportedError } from '@storybook/core-events/server-errors';
 import { getNextjsVersion } from '../utils';
+
+const applyFastRefresh = async (options: Options) => {
+  const isDevelopment = options.configType === 'DEVELOPMENT';
+  const framework = await options.presets.apply<Preset>('framework');
+  const reactOptions = typeof framework === 'object' ? framework.options : {};
+  return isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
+};
 
 export const configureSWCLoader = async (
   baseConfig: any,
@@ -22,15 +28,6 @@ export const configureSWCLoader = async (
   }
 
   const dir = getProjectRoot();
-
-  baseConfig.plugins = [
-    ...baseConfig.plugins,
-    new ReactRefreshWebpackPlugin({
-      overlay: {
-        sockIntegration: 'whm',
-      },
-    }),
-  ];
 
   const virtualModules = await getVirtualModuleMapping(options);
 
@@ -53,7 +50,7 @@ export const configureSWCLoader = async (
           rootDir: dir,
           pagesDir: `${dir}/pages`,
           appDir: `${dir}/apps`,
-          hasReactRefresh: isDevelopment,
+          hasReactRefresh: applyFastRefresh(options),
           nextConfig,
           supportedBrowsers: require('next/dist/build/utils').getSupportedBrowsers(
             dir,
