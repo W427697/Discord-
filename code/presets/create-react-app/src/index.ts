@@ -98,7 +98,7 @@ const webpack = async (
   const isStorybook6 = semver.gte(options.packageJson.version || '', '6.0.0');
   const {
     typescriptOptions = {
-      reactDocgen: 'react-docgen-typescript',
+      reactDocgen: 'react-docgen',
       reactDocgenTypescriptOptions: {},
     },
   } = options;
