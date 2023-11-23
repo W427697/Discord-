@@ -82,7 +82,7 @@ describe('PreviewWeb', () => {
         storyFn()
       );
       document.location.search = '?id=component-one--a';
-      await new PreviewWeb(importFn, getProjectAnnotations).initialize();
+      await new PreviewWeb(importFn, getProjectAnnotations).ready();
 
       await waitForRender();
 
@@ -103,7 +103,7 @@ describe('PreviewWeb', () => {
         React.createElement('div', {}, 'INSIDE')
       );
 
-      await preview.initialize();
+      await preview.ready();
       await waitForRender();
 
       expect(docsRoot.outerHTML).toMatchInlineSnapshot('"<div><div>INSIDE</div></div>"');
@@ -126,7 +126,7 @@ describe('PreviewWeb', () => {
 
       vi.mocked(preview.view.showErrorDisplay).mockClear();
 
-      await preview.initialize();
+      await preview.ready();
       await waitForRender();
 
       expect(preview.view.showErrorDisplay).toHaveBeenCalled();
@@ -150,7 +150,7 @@ describe('PreviewWeb', () => {
 
       document.location.search = '?id=component-one--a';
       const preview = new PreviewWeb(importFn, getProjectAnnotations);
-      await preview.initialize();
+      await preview.ready();
       await waitForRender();
 
       projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>

@@ -77,14 +77,21 @@ export class Preview<TRenderer extends Renderer> {
     this.storeInitializationPromise = new Promise((resolve) => {
       this.resolveStoreInitializationPromise = resolve;
     });
+
+    // Cannot await this in constructor, but if you want to await it, use `ready()`
+    this.initialize();
   }
 
   // INITIALIZATION
-  async initialize() {
+  private async initialize() {
     this.setupListeners();
 
     const projectAnnotations = await this.getProjectAnnotationsOrRenderError();
     await this.initializeWithProjectAnnotations(projectAnnotations);
+  }
+
+  ready() {
+    return this.storeInitializationPromise;
   }
 
   setupListeners() {

@@ -21,8 +21,6 @@ window.__STORYBOOK_PREVIEW__ = preview;
 window.__STORYBOOK_STORY_STORE__ = preview.storyStore;
 window.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
-preview.initialize();
-
 if (import.meta.webpackHot) {
   import.meta.webpackHot.accept('./{{storiesFilename}}', () => {
     // importFn has changed so we need to patch the new one in
