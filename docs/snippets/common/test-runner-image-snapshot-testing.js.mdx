@@ -1,7 +1,7 @@
 ```js
 // .storybook/test-runner.js
 
-import { toMatchImageSnapshot } from 'jest-image-snapshot';
+const { toMatchImageSnapshot } = require('jest-image-snapshot');
 
 const customSnapshotsDir = `${process.cwd()}/__snapshots__`;
 

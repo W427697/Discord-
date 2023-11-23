@@ -1,6 +1,6 @@
 # StoryShots
 
-> **Note** This addon is now deprecated, will not receive any further updates, and will be discontinued in a future release. If you're using this addon, we recommend migrating to one of the available options outlined in the [Storyshots migration guide](https://storybook.js.org/docs/react/writing-tests/snapshot-testing#migrating-tests).
+> **Note** This addon is now deprecated, will not receive any further updates, and will be discontinued in a future release. If you're using this addon, we recommend migrating to one of the available options outlined in the [Storyshots migration guide](https://storybook.js.org/docs/react/writing-tests/storyshots-migration-guide).
 
 StoryShots adds automatic Jest Snapshot Testing for [Storybook](https://storybook.js.org/).
 
