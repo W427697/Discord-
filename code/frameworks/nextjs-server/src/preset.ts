@@ -6,14 +6,14 @@ import { appIndexer, pagesIndexer } from './indexers';
 
 const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
 
-const { appDir }: StorybookNextJSOptions = process.env.STORYBOOK_NEXTJS_OPTIONS
+const nextJsOptions: StorybookNextJSOptions = process.env.STORYBOOK_NEXTJS_OPTIONS
   ? JSON.parse(process.env.STORYBOOK_NEXTJS_OPTIONS)
   : {};
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const experimental_indexers: StorybookConfig['experimental_indexers'] = async (
   existingIndexers,
-  { presets }
+  { presets, configDir }
 ) => {
   console.log('experimental_indexers');
 
@@ -24,13 +24,13 @@ export const experimental_indexers: StorybookConfig['experimental_indexers'] = a
       }
       return entry;
     }),
-    join(process.cwd(), '.storybook', 'preview'), // FIXME is :point_down: better?
+    join(configDir, 'preview'), // FIXME is :point_down: better?
     // loadPreviewOrConfigFile(options),
   ].filter(Boolean);
 
-  const rewritingIndexer = appDir
-    ? appIndexer(allPreviewAnnotations)
-    : pagesIndexer(allPreviewAnnotations);
+  const rewritingIndexer = nextJsOptions.appDir
+    ? appIndexer(allPreviewAnnotations, nextJsOptions)
+    : pagesIndexer(allPreviewAnnotations, nextJsOptions);
   return [rewritingIndexer, ...(existingIndexers || [])];
 };
 
@@ -41,6 +41,8 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config) => {
       name: require.resolve('./null-builder') as '@storybook/builder-vite',
       options: {},
     },
-    renderer: appDir ? require.resolve('./null-renderer') : wrapForPnP('@storybook/react'),
+    renderer: nextJsOptions.appDir
+      ? require.resolve('./null-renderer')
+      : wrapForPnP('@storybook/react'),
   };
 };

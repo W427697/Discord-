@@ -19,9 +19,8 @@ export async function getArgs(storyId: string): Promise<Args> {
   return args[sessionId]?.[storyId] || {};
 }
 
-export async function setArgs(storyId: string, newArgs: any) {
-  // FIXME hardcoded path
-  revalidatePath(`/storybookPreview/${storyId}`);
+export async function setArgs(previewPath: string, storyId: string, newArgs: any) {
+  revalidatePath(`/${previewPath}/${storyId}`);
 
   let sessionId = getSessionId();
   if (!sessionId) {

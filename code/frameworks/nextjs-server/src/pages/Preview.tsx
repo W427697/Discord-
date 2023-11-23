@@ -22,8 +22,10 @@ type GetProjectAnnotations = Parameters<
 
 export const Preview = ({
   getProjectAnnotations,
+  previewPath,
 }: {
   getProjectAnnotations: GetProjectAnnotations;
+  previewPath: string;
 }) => {
   const router = useRouter();
 
@@ -40,7 +42,8 @@ export const Preview = ({
       const preview = new PreviewWithSelection(new StaticUrlStore(), new WebView());
 
       preview.initialize({
-        importFn: (path) => importFn(preview.storyStore.storyIndex!.entries, router, path),
+        importFn: (path) =>
+          importFn(preview.storyStore.storyIndex!.entries, router, previewPath, path),
         getProjectAnnotations,
       });
       window.__STORYBOOK_PREVIEW__ = preview;

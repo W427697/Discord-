@@ -23,6 +23,7 @@ if (typeof window !== 'undefined') {
 export const importFn = async (
   allEntries: StoryIndex['entries'],
   router: ReturnType<typeof useRouter>,
+  previewPath: Path,
   path: Path
 ) => {
   console.log('importing', path);
@@ -52,7 +53,7 @@ export const importFn = async (
     csfResolvers[path] = resolve;
   });
 
-  router.push(`/storybookPreview/${componentId}`);
+  router.push(`/${previewPath}/${componentId}`);
 
   return csfPromises[path];
 };

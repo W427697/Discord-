@@ -51,12 +51,14 @@ export const withStorybook = ({
   port = 3000,
   sbPort = 34567,
   managerPath = 'storybook',
-  // TODO -- how to pass this to codegen if changed?
-  previewPath = 'storybookPreview',
+  previewPath = 'storybook-preview',
+  configDir = '.storybook',
   appDir = undefined,
 } = {}) => {
   const storybookNextJSOptions: StorybookNextJSOptions = {
     appDir: appDir ?? existsSync('./app'),
+    managerPath,
+    previewPath,
   };
 
   childProcess = spawn(
@@ -75,6 +77,8 @@ export const withStorybook = ({
       // the second will fail and the first will still be running, which is what we want. There must be
       // a more graceful way to handle this.
       '--exact-port',
+      '--config-dir',
+      configDir,
     ],
     {
       stdio: 'inherit',

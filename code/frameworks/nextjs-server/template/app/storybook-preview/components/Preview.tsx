@@ -63,7 +63,7 @@ function pathToCSFile(allEntries: StoryIndex['entries'], path: string) {
   return Object.fromEntries([['default', { title: entries[0].title }] as const, ...mappedEntries]);
 }
 
-export const Preview = () => {
+export const Preview = ({ previewPath }: { previewPath: string }) => {
   const router = useRouter();
   useEffect(() => {
     const channel = createBrowserChannel({ page: 'preview' });
@@ -75,8 +75,8 @@ export const Preview = () => {
       getProjectAnnotations: () => ({
         render: () => {},
         renderToCanvas: ({ id, storyContext: { args } }) => {
-          setArgs(id, args);
-          router.push(`/storybookPreview/${id}`);
+          setArgs(previewPath, id, args);
+          router.push(`/${previewPath}/${id}`);
         },
       }),
     });
