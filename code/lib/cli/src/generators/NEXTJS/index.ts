@@ -10,6 +10,9 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
     'react',
     {
       extraAddons: ['@storybook/addon-onboarding'],
+      useSWC({ builder }) {
+        return true;
+      },
     },
     'nextjs'
   );
