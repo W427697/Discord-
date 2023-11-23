@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "7.6.0-alpha.6",
+  "version": "7.6.0-alpha.7",
   "description": "Core Storybook Manager API & Context",
   "keywords": [
     "storybook"
@@ -46,7 +46,7 @@
     "@storybook/channels": "workspace:*",
     "@storybook/client-logger": "workspace:*",
     "@storybook/core-events": "workspace:*",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@storybook/global": "^5.0.0",
     "@storybook/router": "workspace:*",
     "@storybook/theming": "workspace:*",
