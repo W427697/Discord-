@@ -122,19 +122,5 @@ export const withStorybook = ({
         destination: `http://localhost:${sbPort}/index.json`,
       },
     ]),
-    async headers() {
-      return [
-        ...(config.headers ? await config.headers() : []),
-        {
-          source: `/${previewPath}/:path*`,
-          headers: [
-            {
-              key: 'x-frame-options',
-              value: '',
-            },
-          ],
-        },
-      ];
-    },
   });
 };
