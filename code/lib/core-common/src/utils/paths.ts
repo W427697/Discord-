@@ -46,8 +46,7 @@ export const getProjectRoot = () => {
     //
   }
 
-  // If none of the above yield a result, just go with the current working directory
-  return process.cwd();
+  return result || process.cwd();
 };
 
 export const nodePathsToArray = (nodePath: string) =>
