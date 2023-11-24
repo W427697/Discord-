@@ -55,7 +55,7 @@
   "devDependencies": {
     "svelte": "^4.0.0",
     "svelte-loader": "^3.1.9",
-    "typescript": "~5.2.2"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
     "@babel/core": "*",
