@@ -6,12 +6,13 @@ import { readFile } from 'fs-extra';
 import path from 'path';
 import semver from 'semver';
 import dedent from 'ts-dedent';
+import { esMain } from '../utils/esmain';
 import { getCurrentVersion } from './get-current-version';
 
 program
   .name('get-changelog-from-file')
   .description(
-    'get changelog entry for specific version. If not version argument specified it will use the current version in code/package.json'
+    'get changelog entry for specific version. If no version argument specified it will use the current version in code/package.json'
   )
   .arguments('[version]')
   .option('-E, --no-escape', 'Escape quote-like characters, so the output is safe in CLIs', true)
@@ -54,7 +55,7 @@ export const getChangelogFromFile = async (args: {
   return result;
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   getChangelogFromFile({
     version: parsed.args[0],
