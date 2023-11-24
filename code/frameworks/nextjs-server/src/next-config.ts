@@ -56,8 +56,9 @@ export const withStorybook = ({
   configDir = '.storybook',
   appDir = undefined,
 } = {}) => {
+  const isAppDir = appDir ?? existsSync('app');
   const storybookNextJSOptions: StorybookNextJSOptions = {
-    appDir: appDir ?? existsSync('./app'),
+    appDir: isAppDir,
     managerPath,
     previewPath,
   };
@@ -87,7 +88,7 @@ export const withStorybook = ({
     }
   );
 
-  verifyPort(port, { appDir });
+  verifyPort(port, { appDir: isAppDir, previewPath });
 
   return (config: NextConfig) => ({
     ...config,
