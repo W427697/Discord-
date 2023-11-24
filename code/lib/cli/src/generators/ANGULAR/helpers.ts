@@ -1,8 +1,8 @@
 import fs from 'fs';
+import { join } from 'path';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
-
-import { commandLog } from '../../helpers';
+import { MissingAngularJsonError } from '@storybook/core-events/server-errors';
 
 export const ANGULAR_JSON_PATH = 'angular.json';
 
@@ -24,16 +24,12 @@ export const promptForCompoDocs = async (): Promise<boolean> => {
 
 export class AngularJSON {
   json: {
-    projects: Record<string, { root: string; architect: Record<string, any> }>;
+    projects: Record<string, { root: string; projectType: string; architect: Record<string, any> }>;
   };
 
   constructor() {
     if (!fs.existsSync(ANGULAR_JSON_PATH)) {
-      commandLog(
-        'An angular.json file was not found in the current directory. Storybook needs it to work properly.'
-      );
-
-      throw new Error('No angular.json file found');
+      throw new MissingAngularJsonError({ path: join(process.cwd(), ANGULAR_JSON_PATH) });
     }
 
     const jsonContent = fs.readFileSync(ANGULAR_JSON_PATH, 'utf8');

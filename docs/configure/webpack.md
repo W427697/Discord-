@@ -45,10 +45,10 @@ If you want to know the exact details of the webpack config, the best way is to 
 ```shell
 
 ## Development mode
-yarn start-storybook --debug-webpack
+yarn storybook dev --debug-webpack
 
 ## Production mode
-yarn build-storybook --debug-webpack
+yarn storybook build --debug-webpack
 ```
 
 ### Bundle splitting
@@ -59,7 +59,7 @@ Starting with Storybook 6.4, [bundle splitting](https://v4.webpack.js.org/guides
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
+    'common/main-config-features-story-store-v7.js.mdx',
   ]}
 />
 
@@ -121,13 +121,14 @@ To extend the above configuration, use the `webpackFinal` field of [`.storybook/
 
 The value should export a `function`, which will receive the default config as its first argument. The second argument is an options object from Storybook, and this will have information about where config came from, whether we're in production or development mode, etc.
 
-For example, if you wanted to add [Sass](https://sass-lang.com/) support, you can adjust your configuration as such:
+For example, if you need to adjust the config for a specific environment, you can do so like this:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-add-sass-config.js.mdx',
+    'common/main-config-webpack-final.js.mdx',
+    'common/main-config-webpack-final.ts.mdx',
   ]}
 />
 
@@ -172,9 +173,11 @@ The following code snippet shows how you can replace the loaders from Storybook 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside"> 
-💡 Projects initialized via generators (e.g, Vue CLI) may require that you import their own webpack config file (i.e., <code>/projectRoot/node_modules/@vue/cli-service/webpack.config.js</code>) to use a certain feature with Storybook. For other generators, make sure to check the documentation for instructions. 
-</div>
+<Callout variant="info" icon="💡">
+
+Projects initialized via generators (e.g, Vue CLI) may require that you import their own webpack config file (i.e., <code>/projectRoot/node_modules/@vue/cli-service/webpack.config.js</code>) to use a certain feature with Storybook. For other generators, make sure to check the documentation for instructions.
+
+</Callout>
 
 ### TypeScript Module Resolution
 
@@ -190,6 +193,8 @@ When working with TypeScript projects, the default Webpack configuration may fai
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Learn more about Storybook's <a href="./typescript">built-in TypeScript support</a> or see <a href="https://github.com/storybookjs/storybook/issues/14087">this issue</a> for more information.
-</div>
+<Callout variant="info" icon="💡">
+
+Learn more about Storybook's <a href="./typescript">built-in TypeScript support</a> or see <a href="https://github.com/storybookjs/storybook/issues/14087">this issue</a> for more information.
+
+</Callout>

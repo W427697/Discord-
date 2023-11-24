@@ -8,7 +8,7 @@ Storybook Controls gives you a graphical UI to interact with a component's argum
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-optimized.mp4"
+    src="addon-controls-demo-optimized.mp4"
     type="video/mp4"
   />
 </video>
@@ -21,11 +21,11 @@ Controls do not require any modification to your components. Stories for control
 
 To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/argtypes.md), see below.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you have stories in the older pre-Storybook 6 style, check the <a href="https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5">args & controls migration guide</a> to learn how to convert your existing stories for args.
+If you have stories in the older pre-Storybook 6 style, check the [args & controls migration guide](https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5) to learn how to convert your existing stories for args.
 
-</div>
+</Callout>
 
 ## Choosing the control type
 
@@ -89,11 +89,11 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
+ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
 
-</div>
+</Callout>
 
 This replaces the input with a radio group for a more intuitive experience.
 
@@ -123,26 +123,26 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 
 ## Fully custom args
 
-Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component.
+Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component. For example, here's how you could use a `footer` arg to populate a child component:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'react/table-story-fully-customize-controls.js.mdx',
-    'react/table-story-fully-customize-controls.ts.mdx',
-    'vue/table-story-fully-customize-controls.v2-js.js.mdx',
-    'vue/table-story-fully-customize-controls.v2-ts.ts.mdx',
-    'vue/table-story-fully-customize-controls.v2-ts-4-9.ts.mdx',
-    'vue/table-story-fully-customize-controls.v3-js.js.mdx',
-    'vue/table-story-fully-customize-controls.v3-ts.ts.mdx',
-    'vue/table-story-fully-customize-controls.v3-ts-4-9.ts.mdx',
-    'angular/table-story-fully-customize-controls.ts.mdx',
-    'web-components/table-story-fully-customize-controls.js.mdx',
-    'web-components/table-story-fully-customize-controls.ts.mdx',
+    'react/page-story-slots.js.mdx',
+    'react/page-story-slots.ts.mdx',
+    'vue/page-story-slots.2.js.mdx',
+    'vue/page-story-slots.2.ts.mdx',
+    'vue/page-story-slots.3.js.mdx',
+    'vue/page-story-slots.3.ts.mdx',
+    'angular/page-story-slots.ts.mdx',
+    'web-components/page-story-slots.js.mdx',
+    'web-components/page-story-slots.ts.mdx',
+    'solid/page-story-slots.js.mdx',
+    'solid/page-story-slots.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="essentials/controls#snippet-table-story-fully-customize-controls"
+  csf2Path="writing-stories/args#snippet-page-story-slots"
 />
 
 <!-- prettier-ignore-end -->
@@ -173,6 +173,8 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
     'svelte/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.ts.mdx',
+    'solid/component-story-custom-args-complex.js.mdx',
+    'solid/component-story-custom-args-complex.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/controls#snippet-component-story-custom-args-complex"
@@ -227,9 +229,11 @@ As shown above, you can configure individual controls with the “control" annot
 |             | `color`        | Provides a color picker component to handle color values.<br/> Can be additionally configured to include a set of color presets.<br/> `argTypes: { color: { control: { type: 'color', presetColors: ['red', 'green']} }}` |
 |             | `date`         | Provides a datepicker component to handle date selection. `argTypes: { startDate: { control: 'date' }}`                                                                                                                   |
 
-<div class="aside">
-💡 The <code>date</code> control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
-</div>
+<Callout variant="info" icon="💡">
+
+The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
+
+</Callout>
 
 <!-- prettier-ignore-start -->
 
@@ -246,9 +250,11 @@ As shown above, you can configure individual controls with the “control" annot
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Numeric data types will default to a <code>number</code> control unless additional configuration is provided.
-</div>
+<Callout variant="info" icon="💡">
+
+Numeric data types will default to a `number` control unless additional configuration is provided.
+
+</Callout>
 
 ### Parameters
 
@@ -316,7 +322,7 @@ Resulting in the following change in Storybook UI:
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-disable-specific-prop.mp4"
+    src="addon-controls-disable-specific-prop-optimized.mp4"
     type="video/mp4"
   />
 </video>
@@ -337,15 +343,15 @@ The previous example also removed the prop documentation from the table. In some
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
 💡 As with other Storybook properties, such as [decorators](../writing-stories/decorators.md), you can apply the same pattern at a story level for more granular cases.
 
-</div>
+</Callout>
 
 ### Conditional controls
 
-In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can takes a simple query object to determine whether to include the control.
+In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can take a simple query object to determine whether to include the control.
 
 Consider a collection of "advanced" settings that are only visible when the user toggles an "advanced" toggle.
 

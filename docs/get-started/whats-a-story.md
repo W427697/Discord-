@@ -22,9 +22,12 @@ Let’s start with the `Button` component. A story is a function that describes 
     'web-components/button-story.js.mdx',
     'web-components/button-story.ts.mdx',
     'svelte/button-story.js.mdx',
+    'svelte/button-story.ts.mdx',
     'html/button-story.js.mdx',
     'html/button-story.ts.mdx',
     'preact/button-story.js.mdx',
+    'solid/button-story.js.mdx',
+    'solid/button-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="get-started/whats-a-story#snippet-button-story"
@@ -44,19 +47,20 @@ The above story definition can be further improved to take advantage of [Storybo
   paths={[
     'react/button-story-with-args.js.mdx',
     'react/button-story-with-args.ts.mdx',
-    'vue/button-story-with-args.v2-js.js.mdx',
-    'vue/button-story-with-args.v2-ts.ts.mdx',
-    'vue/button-story-with-args.v2-ts-4-9.ts.mdx',
-    'vue/button-story-with-args.v3-js.js.mdx',
-    'vue/button-story-with-args.v3-ts.ts.mdx',
-    'vue/button-story-with-args.v3-ts-4-9.ts.mdx',
+    'vue/button-story-with-args.2.js.mdx',
+    'vue/button-story-with-args.2.ts.mdx',
+    'vue/button-story-with-args.3.js.mdx',
+    'vue/button-story-with-args.3.ts.mdx',
     'angular/button-story-with-args.ts.mdx',
     'web-components/button-story-with-args.js.mdx',
     'web-components/button-story-with-args.ts.mdx',
     'svelte/button-story-with-args.js.mdx',
+    'svelte/button-story-with-args.ts.mdx',
     'html/button-story-with-args.js.mdx',
     'html/button-story-with-args.ts.mdx',
     'preact/button-story-with-args.js.mdx',
+    'solid/button-story-with-args.js.mdx',
+    'solid/button-story-with-args.ts.mdx',
   ]}
   usesCsf3
   csf2Path="get-started/whats-a-story#snippet-button-story-with-args"

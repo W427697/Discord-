@@ -9,11 +9,21 @@ import type {
   LoadOptions,
   PresetConfig,
   Presets,
+  StorybookConfig,
 } from '@storybook/types';
 import { join, parse } from 'path';
+import { CriticalPresetLoadError } from '@storybook/core-events/server-errors';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
+import { stripAbsNodeModulesPath } from './utils/strip-abs-node-modules-path';
+
+type InterPresetOptions = Omit<
+  CLIOptions &
+    LoadOptions &
+    BuilderOptions & { isCritical?: boolean; build?: StorybookConfig['build'] },
+  'frameworkPresets'
+>;
 
 const isObject = (val: unknown): val is Record<string, any> =>
   val != null && typeof val === 'object' && Array.isArray(val) === false;
@@ -149,7 +159,13 @@ export const resolveAddonName = (
         ? {
             previewAnnotations: [
               previewFileAbsolute
-                ? { bare: previewFile, absolute: previewFileAbsolute }
+                ? {
+                    // TODO: Evaluate if searching for node_modules in a yarn pnp environment is correct
+                    bare: previewFile.includes('node_modules')
+                      ? stripAbsNodeModulesPath(previewFile)
+                      : previewFile,
+                    absolute: previewFileAbsolute,
+                  }
                 : previewFile,
             ],
           }
@@ -211,9 +227,10 @@ export async function loadPreset(
   level: number,
   storybookOptions: InterPresetOptions
 ): Promise<LoadedPreset[]> {
+  // @ts-expect-error (Converted from ts-ignore)
+  const presetName: string = input.name ? input.name : input;
+
   try {
-    // @ts-expect-error (Converted from ts-ignore)
-    const name: string = input.name ? input.name : input;
     // @ts-expect-error (Converted from ts-ignore)
     const presetOptions = input.options ? input.options : {};
 
@@ -230,10 +247,32 @@ export async function loadPreset(
     }
 
     if (isObject(contents)) {
-      const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
+      const { addons: addonsInput = [], presets: presetsInput = [], ...rest } = contents;
 
-      const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
-      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
+      let filter = (i: PresetConfig) => {
+        return true;
+      };
+
+      if (
+        storybookOptions.isCritical !== true &&
+        (storybookOptions.build?.test?.disabledAddons?.length || 0) > 0
+      ) {
+        filter = (i: PresetConfig) => {
+          // @ts-expect-error (Converted from ts-ignore)
+          const name = i.name ? i.name : i;
+
+          return !storybookOptions.build?.test?.disabledAddons?.find((n) => name.includes(n));
+        };
+      }
+
+      const subPresets = resolvePresetFunction(
+        presetsInput,
+        presetOptions,
+        storybookOptions
+      ).filter(filter);
+      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions).filter(
+        filter
+      );
 
       return [
         ...(await loadPresets([...subPresets], level + 1, storybookOptions)),
@@ -243,7 +282,7 @@ export async function loadPreset(
           storybookOptions
         )),
         {
-          name,
+          name: presetName,
           preset: rest,
           options: presetOptions,
         },
@@ -253,14 +292,21 @@ export async function loadPreset(
     throw new Error(dedent`
       ${input} is not a valid preset
     `);
-  } catch (e: any) {
+  } catch (error: any) {
+    if (storybookOptions?.isCritical) {
+      throw new CriticalPresetLoadError({
+        error,
+        presetName,
+      });
+    }
+
     const warning =
       level > 0
         ? `  Failed to load preset: ${JSON.stringify(input)} on level ${level}`
         : `  Failed to load preset: ${JSON.stringify(input)}`;
 
     logger.warn(warning);
-    logger.error(e);
+    logger.error(error);
     return [];
   }
 }
@@ -338,8 +384,6 @@ function applyPresets(
   }, presetResult);
 }
 
-type InterPresetOptions = Omit<CLIOptions & LoadOptions & BuilderOptions, 'frameworkPresets'>;
-
 export async function getPresets(
   presets: PresetConfig[],
   storybookOptions: InterPresetOptions
@@ -358,6 +402,9 @@ export async function loadAllPresets(
     BuilderOptions & {
       corePresets: PresetConfig[];
       overridePresets: PresetConfig[];
+      /** Whether preset failures should be critical or not */
+      isCritical?: boolean;
+      build?: StorybookConfig['build'];
     }
 ) {
   const { corePresets = [], overridePresets = [], ...restOptions } = options;

@@ -11,13 +11,18 @@ import { scopedResolve } from '../utils';
 export const configureCss = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
   const rules = baseConfig.module?.rules;
   rules?.forEach((rule, i) => {
-    if (typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.css')) {
+    if (
+      rule &&
+      typeof rule !== 'string' &&
+      rule.test instanceof RegExp &&
+      rule.test.test('test.css')
+    ) {
       rules[i] = {
         test: /\.css$/,
         use: [
-          'style-loader',
+          require.resolve('style-loader'),
           {
-            loader: 'css-loader',
+            loader: require.resolve('css-loader'),
             options: {
               importLoaders: 1,
               ...getImportAndUrlCssLoaderOptions(nextConfig),
@@ -27,27 +32,30 @@ export const configureCss = (baseConfig: WebpackConfig, nextConfig: NextConfig):
               },
             },
           },
-          'postcss-loader',
+          require.resolve('postcss-loader'),
         ],
+        // We transform the "target.css" files from next.js into Javascript
+        // for Next.js to support fonts, so it should be ignored by the css-loader.
+        exclude: /next\/.*\/target.css$/,
       };
     }
   });
   rules?.push({
     test: /\.(scss|sass)$/,
     use: [
-      'style-loader',
+      require.resolve('style-loader'),
       {
-        loader: 'css-loader',
+        loader: require.resolve('css-loader'),
         options: {
           importLoaders: 3,
           ...getImportAndUrlCssLoaderOptions(nextConfig),
           modules: { auto: true, getLocalIdent: getCssModuleLocalIdent },
         },
       },
-      'postcss-loader',
-      'resolve-url-loader',
+      require.resolve('postcss-loader'),
+      require.resolve('resolve-url-loader'),
       {
-        loader: 'sass-loader',
+        loader: require.resolve('sass-loader'),
         options: {
           sourceMap: true,
           sassOptions: nextConfig.sassOptions,

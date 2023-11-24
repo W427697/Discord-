@@ -2,6 +2,8 @@
 title: 'Decorators'
 ---
 
+<YouTubeCallout id="4yi_yCTkgng" title="Storybook Decorators Crash Course" />
+
 A decorator is a way to wrap a story in extra “rendering” functionality. Many addons define decorators to augment your stories with extra rendering or gather details about how your story renders.
 
 When writing stories, decorators are typically used to wrap stories with extra markup or context mocking.
@@ -24,6 +26,8 @@ Some components require a “harness” to render in a useful way. For instance,
     'web-components/your-component-with-decorator.js.mdx',
     'web-components/your-component-with-decorator.ts.mdx',
     'svelte/your-component-with-decorator.js.mdx',
+    'solid/your-component-with-decorator.js.mdx',
+    'solid/your-component-with-decorator.ts.mdx'
   ]}
 />
 
@@ -43,18 +47,20 @@ For example, if you're working with React's Styled Components and your component
   paths={[
     'react/storybook-preview-with-styled-components-decorator.js.mdx',
     'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v2-js.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v2-ts.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v3-js.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v3-ts.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v2-js.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v2-ts.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v3.js.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v3-ts.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-v2-js.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-v2-ts.ts.mdx',
+    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
+    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
+    'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
+    'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
+    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
+    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/add-localize-package-to-polyfills.ts.mdx',
     'angular/storybook-preview-with-angular-polyfills.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 
@@ -71,9 +77,11 @@ The second argument to a decorator function is the **story context** which in pa
 - `parameters`- the story's static metadata, most commonly used to control Storybook's behavior of features and addons.
 - `viewMode`- Storybook's current active window (e.g., canvas, docs).
 
-<div class="aside">
-💡 This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., vue 2).
-</div>
+<Callout variant="info" icon="💡">
+
+This pattern can also be applied to your own stories. Some of Storybook's supported frameworks already use it (e.g., vue 2).
+
+</Callout>
 
 ### Using decorators to provide data
 
@@ -95,6 +103,8 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'web-components/button-story-decorator.js.mdx',
     'web-components/button-story-decorator.ts.mdx',
     'svelte/button-story-decorator.js.mdx',
+    'solid/button-story-decorator.js.mdx',
+    'solid/button-story-decorator.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/decorators#snippet-button-story-decorator"
@@ -103,7 +113,7 @@ To define a decorator for a single story, use the `decorators` key on a named ex
 
 <!-- prettier-ignore-end -->
 
-It is useful to ensure that the story remains a “pure” rendering of the component under test, and any extra HTML or components don't pollute that. In particular the [Source](../api/doc-block-source.md) doc block works best when you do this.
+It is useful to ensure that the story remains a “pure” rendering of the component under test and that any extra HTML or components are used only as decorators. In particular the [Source](../api/doc-block-source.md) Doc Block works best when you do this.
 
 ## Component decorators
 
@@ -121,6 +131,8 @@ To define a decorator for all stories of a component, use the `decorators` key o
     'web-components/button-story-component-decorator.js.mdx',
     'web-components/button-story-component-decorator.ts.mdx',
     'svelte/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.ts.mdx',
   ]}
 />
 
@@ -141,6 +153,8 @@ We can also set a decorator for **all stories** via the `decorators` export of y
     'angular/storybook-preview-global-decorator.ts.mdx',
     'web-components/storybook-preview-global-decorator.js.mdx',
     'svelte/storybook-preview-global-decorator.js.mdx',
+    'solid/storybook-preview-global-decorator.js.mdx',
+    'solid/storybook-preview-global-decorator.ts.mdx',
   ]}
 />
 

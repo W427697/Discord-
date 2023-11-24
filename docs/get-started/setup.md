@@ -4,7 +4,7 @@ title: 'Setup Storybook'
 
 Now that you’ve learned what stories are and how to browse them, let’s demo working on one of your components.
 
-Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.mdx` file to go along with it. It might look something like this:
+Pick a simple component from your project, like a Button, and write a `.stories.js`, or a `.stories.ts` file to go along with it. It might look something like this:
 
 <!-- prettier-ignore-start -->
 
@@ -13,18 +13,19 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'react/your-component.js.mdx',
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
-    'vue/your-component.v2-js.js.mdx',
-    'vue/your-component.v2-ts.ts.mdx',
-    'vue/your-component.v2-ts-4-9.ts.mdx',
-    'vue/your-component.v3-js.js.mdx',
-    'vue/your-component.v3-ts.ts.mdx',
-    'vue/your-component.v3-ts-4-9.ts.mdx',
+    'vue/your-component.2.js.mdx',
+    'vue/your-component.2.ts.mdx',
+    'vue/your-component.3.js.mdx',
+    'vue/your-component.3.ts.mdx',
     'web-components/your-component.js.mdx',
     'web-components/your-component.ts.mdx',
     'svelte/your-component.js.mdx',
+    'svelte/your-component.ts.mdx',
     'html/your-component.js.mdx',
     'html/your-component.ts.mdx',
     'preact/your-component.js.mdx',
+    'solid/your-component.js.mdx',
+    'solid/your-component.ts.mdx',
   ]}
   usesCsf3
   csf2Path="get-started/setup#snippet-your-component"
@@ -35,6 +36,24 @@ Pick a simple component from your project, like a Button, and write a `.stories.
 Go to your Storybook to view the rendered component. It’s OK if it looks a bit unusual right now.
 
 Depending on your technology stack, you also might need to configure the Storybook environment further.
+
+## Render component styles
+
+Storybook isn’t opinionated about how you generate or load CSS. It renders whatever DOM elements you provide. But sometimes, things won’t “look right” out of the box.
+
+You may have to configure your CSS tooling for Storybook’s rendering environment. Here are some setup guides for popular tools in the community.
+
+- [Tailwind](https://storybook.js.org/recipes/tailwindcss/)
+- [Material UI](https://storybook.js.org/recipes/@mui/material/)
+- [Vuetify](https://storybook.js.org/recipes/vuetify/)
+- [Styled Components](https://storybook.js.org/recipes/styled-components/)
+- [Emotion](https://storybook.js.org/recipes/@emotion/styled/)
+- [Sass](https://storybook.js.org/recipes/sass/)
+- [Bootstrap](https://storybook.js.org/recipes/bootstrap/)
+- [Less](https://storybook.js.org/recipes/less/)
+- [Vanilla-extract](https://storybook.js.org/recipes/@vanilla-extract/css/)
+
+Don't see the tool that you're looking for? Check out the [styling and css](../configure/styling-and-css.md) page for more details.
 
 ## Configure Storybook for your stack
 
@@ -75,62 +94,23 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
   paths={[
     'react/storybook-preview-with-styled-components-decorator.js.mdx',
     'react/storybook-preview-with-styled-components-decorator.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v2-js.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v2-ts.ts.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v3-js.js.mdx',
-    'vue/storybook-preview-with-library-decorator.library-v3-ts.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v2-js.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v2-ts.ts.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v3.js.js.mdx',
-    'vue/storybook-preview-with-hoc-component-decorator.component-v3-ts.ts.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-v2-js.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.mixin-v2-ts.ts.mdx',
+    'vue/storybook-preview-with-library-decorator.library-2.js.mdx',
+    'vue/storybook-preview-with-library-decorator.library-2.ts.mdx',
+    'vue/storybook-preview-with-library-decorator.library-3.js.mdx',
+    'vue/storybook-preview-with-library-decorator.library-3.ts.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-2.js.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-2.ts.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-3.js.mdx',
+    'vue/storybook-preview-with-hoc-component-decorator.component-3.ts.mdx',
+    'vue/storybook-preview-with-mixin-decorator.mixin-2.js.mdx',
+    'vue/storybook-preview-with-mixin-decorator.mixin-2.ts.mdx',
     'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
-
-</details>
-
-## Render component styles
-
-Storybook isn’t opinionated about how you generate or load CSS. It renders whatever DOM elements you provide. But sometimes, things won’t “look right” out of the box.
-
-You may have to configure your CSS tooling for Storybook’s rendering environment. Here are some tips on what could help:
-
-<details>
-  <summary>CSS-in-JS like styled-components and Emotion</summary>
-
-If you are using CSS-in-JS, chances are your styles are working because they’re generated in JavaScript and served alongside each component. Theme users may need to add a decorator to `.storybook/preview.js`, [see above](#component-context).
-
-</details>
-
-<details>
-  <summary>@import CSS into components</summary>
-
-Storybook allows you to import CSS files in your components directly. But in some cases you may need to [tweak its Webpack configuration](../builders/webpack.md#extendingstorybooks-webpack-config). Angular components require [a special import](../configure/styling-and-css.md#importing-css-files).
-
-</details>
-
-<details>
-  <summary>Global imported styles</summary>
-
-If you have global imported styles, create a file called [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) and import the styles there. They will be added by Storybook automatically for all stories.
-
-</details>
-
-<details>
-  <summary>Add external CSS or webfonts in the &lt;head&gt;</summary>
-
-Alternatively, if you want to inject a CSS link tag to the `<head>` directly (or some other resource like a webfont link), you can use [`.storybook/preview-head.html`](../configure/story-rendering.md#adding-to-&#60head&#62) to add arbitrary HTML.
-
-</details>
-
-<details>
-  <summary>Load fonts or images from a local directory</summary>
-
-If you're referencing fonts or images from a local directory, you'll need to configure the Storybook script to [serve the static files](../configure/images-and-assets.md).
 
 </details>
 
