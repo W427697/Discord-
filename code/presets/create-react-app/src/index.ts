@@ -134,7 +134,7 @@ const webpack = async (
     // NOTE: this prioritizes the storybook version of a plugin
     // when there are duplicates between SB and CRA
     plugins: mergePlugins(
-      ...(webpackConfig.plugins || []),
+      ...(webpackConfig.plugins ?? []),
       ...(craWebpackConfig.plugins ?? []),
       ...tsDocgenPlugin
     ),

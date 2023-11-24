@@ -1,10 +1,11 @@
 import type { Configuration } from 'webpack';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
+//@ts-ignore
 export const mergePlugins = (...args: Configuration['plugins']): Configuration['plugins'] =>
-  args.reduce((plugins, plugin) => {
+  args?.reduce((plugins, plugin) => {
     if (
-      plugins.some(
+      plugins?.some(
         (includedPlugin) => includedPlugin.constructor.name === plugin.constructor.name
       ) ||
       plugin.constructor.name === 'WebpackManifestPlugin'
@@ -22,5 +23,5 @@ export const mergePlugins = (...args: Configuration['plugins']): Configuration['
         },
       });
     }
-    return [...plugins, updatedPlugin];
+    return [...plugins ?? [], updatedPlugin];
   }, [] as Configuration['plugins']);
