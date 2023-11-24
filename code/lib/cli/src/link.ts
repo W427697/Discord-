@@ -1,10 +1,10 @@
 import fse from 'fs-extra';
 import path from 'path';
-import { sync as spawnSync } from 'cross-spawn';
+import { sync as spawnSync, spawn as spawnAsync } from 'cross-spawn';
 import { logger } from '@storybook/node-logger';
-import shell from 'shelljs';
 import chalk from 'chalk';
-import type { ExecOptions } from 'shelljs';
+
+type ExecOptions = Parameters<typeof spawnAsync>[2];
 
 interface LinkOptions {
   target: string;
@@ -31,17 +31,14 @@ export const exec = async (
 
   logger.info(command);
   return new Promise((resolve, reject) => {
-    const defaultOptions: ExecOptions = {
-      silent: false,
-    };
-    const child = shell.exec(command, {
-      ...defaultOptions,
+    const child = spawnAsync(command, {
       ...options,
-      async: true,
-      silent: false,
+      shell: true,
+      stdio: 'pipe',
     });
 
-    child.stderr.pipe(process.stderr);
+    child.stderr.pipe(process.stdout);
+    child.stdout.pipe(process.stdout);
 
     child.on('exit', (code) => {
       if (code === 0) {
@@ -89,8 +86,8 @@ export const link = async ({ target, local, start }: LinkOptions) => {
     shell: true,
   }).stdout.toString();
 
-  if (!/^[23]\./.test(version)) {
-    logger.warn(`🚨 Expected yarn 2 or 3 in ${reproDir}!`);
+  if (!/^[2-4]\./.test(version)) {
+    logger.warn(`🚨 Expected yarn 2 or higher in ${reproDir}!`);
     logger.warn('');
     logger.warn('Please set it up with `yarn set version berry`,');
     logger.warn(`then link '${reproDir}' with the '--local' flag.`);
@@ -104,16 +101,11 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   await exec(`yarn install`, { cwd: reproDir });
 
   if (!reproPackageJson.devDependencies?.vite) {
-    // ⚠️ TODO: Fix peer deps in `@storybook/preset-create-react-app`
-    logger.info(
-      `Magic stuff related to @storybook/preset-create-react-app, we need to fix peerDependencies`
-    );
-
     await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
   }
 
   // ensure that linking is possible
-  await exec(`yarn add @types/node@16`, { cwd: reproDir });
+  await exec(`yarn add @types/node@18`, { cwd: reproDir });
 
   if (start) {
     logger.info(`Running ${reproName} storybook`);

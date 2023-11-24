@@ -1,18 +1,18 @@
 {
   "name": "@storybook/vue3",
-  "version": "7.0.0-beta.38",
+  "version": "7.6.0-beta.1",
   "description": "Storybook Vue 3 renderer",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/renderers/vue3",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/renderers/vue3",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "renderers/vue3"
+    "directory": "code/renderers/vue3"
   },
   "funding": {
     "type": "opencollective",
@@ -21,16 +21,14 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
-    "./preview": {
-      "require": "./dist/config.js",
-      "import": "./dist/config.mjs",
-      "types": "./dist/config.d.ts"
-    },
+    "./preset": "./preset.js",
+    "./dist/entry-preview.mjs": "./dist/entry-preview.mjs",
+    "./dist/entry-preview-docs.mjs": "./dist/entry-preview-docs.mjs",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -38,33 +36,39 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
+    "template/cli/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
     "check": "vue-tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "7.0.0-beta.38",
-    "@storybook/docs-tools": "7.0.0-beta.38",
+    "@storybook/core-client": "workspace:*",
+    "@storybook/docs-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.0.0-beta.38",
-    "@storybook/types": "7.0.0-beta.38",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/types": "workspace:*",
+    "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0",
-    "type-fest": "2.19.0"
+    "type-fest": "~2.19",
+    "vue-component-type-helpers": "latest"
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
     "@types/prettier": "2.7.2",
+    "@vue/compiler-core": "^3.3.4",
     "@vue/vue3-jest": "29",
+    "babel-jest": "^29.7.0",
     "typescript": "~4.9.3",
-    "vue": "^3.2.45",
-    "vue-tsc": "^1.0.8"
+    "vue": "^3.2.47",
+    "vue-tsc": "latest"
   },
   "peerDependencies": {
+    "@vue/compiler-core": "^3.0.0",
     "vue": "^3.0.0"
   },
   "engines": {
@@ -76,9 +80,11 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts"
+      "./src/preset.ts",
+      "./src/entry-preview.ts",
+      "./src/entry-preview-docs.ts"
     ],
     "platform": "browser"
   },
-  "gitHead": "91302a6818a7794e1e8bbff01c68513b8516cb53"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

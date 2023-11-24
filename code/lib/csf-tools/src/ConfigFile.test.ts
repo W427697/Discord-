@@ -1,7 +1,8 @@
 /// <reference types="@types/jest" />;
 
 import { dedent } from 'ts-dedent';
-import { formatConfig, loadConfig } from './ConfigFile';
+import { loadConfig, printConfig } from './ConfigFile';
+import { babelPrint } from './babelParse';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
@@ -16,13 +17,19 @@ const getField = (path: string[], source: string) => {
 const setField = (path: string[], value: any, source: string) => {
   const config = loadConfig(source).parse();
   config.setFieldValue(path, value);
-  return formatConfig(config);
+  return printConfig(config).code;
+};
+
+const appendToArray = (path: string[], value: any, source: string) => {
+  const config = loadConfig(source).parse();
+  config.appendValueToArray(path, value);
+  return printConfig(config).code;
 };
 
 const removeField = (path: string[], source: string) => {
   const config = loadConfig(source).parse();
   config.removeField(path);
-  return formatConfig(config);
+  return printConfig(config).code;
 };
 
 describe('ConfigFile', () => {
@@ -226,6 +233,7 @@ describe('ConfigFile', () => {
           )
         ).toMatchInlineSnapshot(`
           export const addons = [];
+
           export const core = {
             builder: "webpack5"
           };
@@ -256,11 +264,18 @@ describe('ConfigFile', () => {
               export const core = { builder: 'webpack4' };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = {
-            builder: 'webpack5'
-          };
-        `);
+        ).toMatchInlineSnapshot(`export const core = { builder: 'webpack5' };`);
+      });
+      it('found top-level scalar', () => {
+        expect(
+          setField(
+            ['foo'],
+            'baz',
+            dedent`
+              export const foo = 'bar';
+            `
+          )
+        ).toMatchInlineSnapshot(`export const foo = 'baz';`);
       });
       it('found object', () => {
         expect(
@@ -272,11 +287,9 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export const core = {
-            builder: {
-              name: 'webpack5'
-            }
-          };
+          export const core = { builder: {
+            name: 'webpack5'
+          } };
         `);
       });
       it('variable export', () => {
@@ -290,9 +303,7 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          const coreVar = {
-            builder: 'webpack5'
-          };
+          const coreVar = { builder: 'webpack5' };
           export const core = coreVar;
         `);
       });
@@ -311,6 +322,7 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           module.exports = {
             addons: [],
+
             core: {
               builder: "webpack5"
             }
@@ -327,12 +339,10 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              foo: 'bar',
-              builder: 'webpack5'
-            }
-          };
+          module.exports = { core: {
+            foo: 'bar',
+            builder: 'webpack5'
+          }};
         `);
       });
       it('found scalar', () => {
@@ -344,13 +354,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              builder: 'webpack5'
-            }
-          };
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: { builder: 'webpack5' } };`);
       });
     });
 
@@ -367,6 +371,7 @@ describe('ConfigFile', () => {
         ).toMatchInlineSnapshot(`
           export default {
             addons: [],
+
             core: {
               builder: "webpack5"
             }
@@ -383,12 +388,10 @@ describe('ConfigFile', () => {
             `
           )
         ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              foo: 'bar',
-              builder: 'webpack5'
-            }
-          };
+          export default { core: {
+            foo: 'bar',
+            builder: 'webpack5'
+          }};
         `);
       });
       it('found scalar', () => {
@@ -400,13 +403,7 @@ describe('ConfigFile', () => {
               export default { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              builder: 'webpack5'
-            }
-          };
-        `);
+        ).toMatchInlineSnapshot(`export default { core: { builder: 'webpack5' } };`);
       });
     });
 
@@ -421,7 +418,8 @@ describe('ConfigFile', () => {
       it('more single quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', "c"];
+          export const stories = ['a', 'b', "c"]
+
           export const foo = {
             bar: 'baz'
           };
@@ -430,12 +428,68 @@ describe('ConfigFile', () => {
       it('more double quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', "b", "c"];
+          export const stories = ['a', "b", "c"]
+
           export const foo = {
             bar: "baz"
           };
         `);
       });
+    });
+  });
+
+  describe('appendToArray', () => {
+    it('missing export', () => {
+      expect(
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { core: { builder: 'webpack5' } };
+            `
+        )
+      ).toMatchInlineSnapshot(`
+        export default {
+          core: { builder: 'webpack5' },
+          addons: ['docs']
+        };
+      `);
+    });
+    it('found scalar', () => {
+      expect(() =>
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { addons: 5 };
+            `
+        )
+      ).toThrowErrorMatchingInlineSnapshot(`Expected array at 'addons', got 'NumericLiteral'`);
+    });
+    it('array of simple values', () => {
+      expect(
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { addons: ['a11y', 'viewport'] };
+            `
+        )
+      ).toMatchInlineSnapshot(`export default { addons: ['a11y', 'viewport', 'docs'] };`);
+    });
+
+    it('array of complex values', () => {
+      expect(
+        appendToArray(
+          ['addons'],
+          'docs',
+          dedent`
+              export default { addons: [require.resolve('a11y'), someVariable] };
+            `
+        )
+      ).toMatchInlineSnapshot(
+        `export default { addons: [require.resolve('a11y'), someVariable, 'docs'] };`
+      );
     });
   });
 
@@ -459,11 +513,7 @@ describe('ConfigFile', () => {
               export const core = { foo: 'bar' };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = {
-            foo: 'bar'
-          };
-        `);
+        ).toMatchInlineSnapshot(`export const core = { foo: 'bar' };`);
       });
       it('found scalar', () => {
         expect(
@@ -493,11 +543,7 @@ describe('ConfigFile', () => {
               export const core = { builder: { name: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export const core = {
-            builder: {}
-          };
-        `);
+        ).toMatchInlineSnapshot(`export const core = { builder: {} };`);
       });
       it('string literal key', () => {
         expect(
@@ -546,11 +592,7 @@ describe('ConfigFile', () => {
               module.exports = { addons: [] };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = {
-            addons: []
-          };
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { addons: [] };`);
       });
       it('missing field', () => {
         expect(
@@ -560,13 +602,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { foo: 'bar' }};
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              foo: 'bar'
-            }
-          };
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: { foo: 'bar' }};`);
       });
       it('found scalar', () => {
         expect(
@@ -576,11 +612,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {}
-          };
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: {} };`);
       });
       it('nested scalar', () => {
         expect(
@@ -590,13 +622,7 @@ describe('ConfigFile', () => {
               module.exports = { core: { builder: { name: 'webpack4' } } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = {
-            core: {
-              builder: {}
-            }
-          };
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { core: { builder: {} } };`);
       });
       it('string literal key', () => {
         expect(
@@ -606,11 +632,7 @@ describe('ConfigFile', () => {
               module.exports = { 'core': { 'builder': 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          module.exports = {
-            'core': {}
-          };
-        `);
+        ).toMatchInlineSnapshot(`module.exports = { 'core': {} };`);
       });
       it('root property', () => {
         expect(
@@ -637,11 +659,7 @@ describe('ConfigFile', () => {
               export default { addons: [] };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default {
-            addons: []
-          };
-        `);
+        ).toMatchInlineSnapshot(`export default { addons: [] };`);
       });
       it('missing field', () => {
         expect(
@@ -651,13 +669,7 @@ describe('ConfigFile', () => {
               export default { core: { foo: 'bar' }};
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              foo: 'bar'
-            }
-          };
-        `);
+        ).toMatchInlineSnapshot(`export default { core: { foo: 'bar' }};`);
       });
       it('found scalar', () => {
         expect(
@@ -667,11 +679,7 @@ describe('ConfigFile', () => {
               export default { core: { builder: 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default {
-            core: {}
-          };
-        `);
+        ).toMatchInlineSnapshot(`export default { core: {} };`);
       });
       it('nested scalar', () => {
         expect(
@@ -681,13 +689,7 @@ describe('ConfigFile', () => {
               export default { core: { builder: { name: 'webpack4' } } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default {
-            core: {
-              builder: {}
-            }
-          };
-        `);
+        ).toMatchInlineSnapshot(`export default { core: { builder: {} } };`);
       });
       it('string literal key', () => {
         expect(
@@ -697,11 +699,7 @@ describe('ConfigFile', () => {
               export default { 'core': { 'builder': 'webpack4' } };
             `
           )
-        ).toMatchInlineSnapshot(`
-          export default {
-            'core': {}
-          };
-        `);
+        ).toMatchInlineSnapshot(`export default { 'core': {} };`);
       });
       it('root property', () => {
         expect(
@@ -730,7 +728,8 @@ describe('ConfigFile', () => {
       it('more single quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', 'b', "c"];
+          export const stories = ['a', 'b', "c"]
+
           export const foo = {
             bar: 'baz'
           };
@@ -739,7 +738,8 @@ describe('ConfigFile', () => {
       it('more double quotes', () => {
         expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
           .toMatchInlineSnapshot(`
-          export const stories = ['a', "b", "c"];
+          export const stories = ['a', "b", "c"]
+
           export const foo = {
             bar: "baz"
           };
@@ -761,6 +761,48 @@ describe('ConfigFile', () => {
         `;
         const config = loadConfig(source).parse();
         expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      describe('satisfies', () => {
+        it(`supports string literal node`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            const config = {
+              framework: 'foo',
+            } satisfies StorybookConfig
+            export default config;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        });
+
+        it(`supports string literal node without variables`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            export default {
+              framework: 'foo',
+            } satisfies StorybookConfig;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+        });
+
+        it(`supports object expression node with name property`, () => {
+          const source = dedent`
+            import type { StorybookConfig } from '@storybook/react-webpack5';
+  
+            const config = {
+              framework: { name: 'foo', options: { bar: require('baz') } },
+              "otherField": { "name": 'foo', options: { bar: require('baz') } },
+            } satisfies StorybookConfig
+            export default config;
+          `;
+          const config = loadConfig(source).parse();
+          expect(config.getNameFromPath(['framework'])).toEqual('foo');
+          expect(config.getNameFromPath(['otherField'])).toEqual('foo');
+        });
       });
 
       it(`supports object expression node with name property`, () => {
@@ -826,6 +868,94 @@ describe('ConfigFile', () => {
         expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
         expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
       });
+
+      describe('satisfies', () => {
+        describe('default export', () => {
+          it(`supports an array with string literal and object expression with name property`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              const config = {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig
+              export default config;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+
+          it(`supports an array with string literal and object expression with name property without variable`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              export default {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+        });
+
+        describe('module exports', () => {
+          it(`supports an array with string literal and object expression with name property`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              const config = {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig
+              module.exports = config;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+
+          it(`supports an array with string literal and object expression with name property without variable`, () => {
+            const source = dedent`
+              import type { StorybookConfig } from '@storybook/react-webpack5';
+    
+              module.exports = {
+                addons: [
+                  'foo',
+                  { name: 'bar', options: {} },
+                ],
+                "otherField": [
+                  "foo",
+                  { "name": 'bar', options: {} },
+                ],
+              } satisfies StorybookConfig;
+            `;
+            const config = loadConfig(source).parse();
+            expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+            expect(config.getNamesFromPath(['otherField'])).toEqual(['foo', 'bar']);
+          });
+        });
+      });
     });
 
     it(`returns undefined when accessing a field that does not exist`, () => {
@@ -837,6 +967,175 @@ describe('ConfigFile', () => {
       `;
       const config = loadConfig(source).parse();
       expect(config.getNamesFromPath(['addons'])).toBeUndefined();
+    });
+  });
+
+  describe('setImport', () => {
+    it(`supports setting a default import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import path from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a default import for a field that does exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import path from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import { dirname } from 'path';
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field where the source already exists`, () => {
+      const source = dedent`
+        import { dirname } from 'path';
+
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        import { dirname } from 'path';
+
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+  });
+
+  describe('setRequireImport', () => {
+    it(`supports setting a default import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const path = require('path');
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a default import for a field that does exist`, () => {
+      const source = dedent`
+        const path = require('path');
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport('path', 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const path = require('path');
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field that does not exist`, () => {
+      const source = dedent`
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport(['dirname'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const {
+          dirname,
+        } = require('path');
+
+        const config: StorybookConfig = { };
+        export default config;
+      `);
+    });
+
+    it(`supports setting a named import for a field where the source already exists`, () => {
+      const source = dedent`
+        const { dirname } = require('path');
+
+        const config: StorybookConfig = { };
+        export default config;
+      `;
+
+      const config = loadConfig(source).parse();
+      config.setRequireImport(['dirname', 'basename'], 'path');
+
+      // eslint-disable-next-line no-underscore-dangle
+      const parsed = babelPrint(config._ast);
+
+      expect(parsed).toMatchInlineSnapshot(`
+        const {
+          dirname,
+          basename,
+        } = require('path');
+
+        const config: StorybookConfig = { };
+        export default config;
+      `);
     });
   });
 });

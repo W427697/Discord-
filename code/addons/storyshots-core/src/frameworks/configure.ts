@@ -60,7 +60,8 @@ function getConfigPathParts(input: string): Output {
       output.preview = preview;
     }
     if (main) {
-      const { stories = [], features = {} } = jest.requireActual(main);
+      const { default: defaultExport, ...rest } = jest.requireActual(main);
+      const { stories = [], features = {} } = defaultExport || rest;
 
       output.features = features;
 
@@ -73,7 +74,7 @@ function getConfigPathParts(input: string): Output {
 
         return specifier;
       });
-      output.requireContexts = output.stories.map((specifier) => {
+      output.requireContexts = output.stories?.map((specifier) => {
         const { path: basePath, recursive, match } = toRequireContext(specifier);
 
         // eslint-disable-next-line no-underscore-dangle
@@ -107,13 +108,14 @@ function configure<TRenderer extends Renderer>(
   } = getConfigPathParts(configPath);
 
   global.FEATURES = features;
+  global.CONFIG_TYPE = 'DEVELOPMENT';
   global.STORIES = stories.map((specifier) => ({
     ...specifier,
     importPathMatcher: specifier.importPathMatcher.source,
   }));
 
   if (preview) {
-    // This is essentially the same code as lib/builder-webpack5/templates/virtualModuleEntry.template
+    // This is essentially the same code as builders/builder-webpack5/templates/virtualModuleEntry.template
     const {
       parameters,
       decorators,

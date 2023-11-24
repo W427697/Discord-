@@ -1,11 +1,10 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import { getStorybookInfo } from '@storybook/core-common';
 import { loadPartialConfigAsync } from '@babel/core';
-import { readConfig } from '@storybook/csf-tools';
 import type { Fix } from '../types';
 import { generateStorybookBabelConfigInCWD } from '../../babel-config';
+import { getFrameworkPackageName } from '../helpers/mainConfigFile';
 
 interface MissingBabelRcOptions {
   needsBabelRc: boolean;
@@ -18,44 +17,34 @@ const frameworksThatNeedBabelConfig = [
   '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
   '@storybook/html-webpack5',
+  '@storybook/web-components-webpack5',
 ];
 
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {
   id: 'missing-babelrc',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { mainConfig, version: storybookVersion } = getStorybookInfo(packageJson);
+  async check({ packageManager, mainConfig, storybookVersion }) {
+    const packageJson = await packageManager.retrievePackageJson();
 
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
-      `);
-    }
-
-    if (!semver.gte(storybookCoerced, '7.0.0')) {
+    if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    if (!mainConfig) {
-      logger.warn('Unable to find storybook main.js config, skipping');
-      return null;
-    }
-
-    const main = await readConfig(mainConfig);
-
-    const frameworkPackage = main.getNameFromPath(['framework']);
-
-    const addons = main.getNamesFromPath(['addons']);
+    const { addons } = mainConfig;
 
     const hasCraPreset =
-      addons && addons.find((addon) => addon === '@storybook/preset-create-react-app');
+      addons &&
+      addons.find((addon) =>
+        typeof addon === 'string'
+          ? addon.endsWith('@storybook/preset-create-react-app')
+          : addon.name.endsWith('@storybook/preset-create-react-app')
+      );
+
+    const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
     if (
-      frameworkPackage &&
-      frameworksThatNeedBabelConfig.includes(frameworkPackage) &&
+      frameworkPackageName &&
+      frameworksThatNeedBabelConfig.includes(frameworkPackageName) &&
       !hasCraPreset
     ) {
       const config = await loadPartialConfigAsync({
@@ -83,6 +72,11 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
       We can create a ${chalk.blue(
         '.babelrc.json'
       )} file with some basic configuration and add any necessary package devDependencies.
+
+      ${chalk.bold(
+        'Note:'
+      )} After installing the necessary presets, if it does not work in a monorepo, see the babel documentation for reference:
+      ${chalk.yellow('https://babeljs.io/docs')}
 
       Please see the migration guide for more information:
       ${chalk.yellow(

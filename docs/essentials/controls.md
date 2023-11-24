@@ -8,7 +8,7 @@ Storybook Controls gives you a graphical UI to interact with a component's argum
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-optimized.mp4"
+    src="addon-controls-demo-optimized.mp4"
     type="video/mp4"
   />
 </video>
@@ -21,11 +21,11 @@ Controls do not require any modification to your components. Stories for control
 
 To use the Controls addon, you need to write your stories using [args](../writing-stories/args.md). Storybook will automatically generate UI controls based on your args and what it can infer about your component. Still, you can configure the controls further using [argTypes](../api/argtypes.md), see below.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you have stories in the older pre-Storybook 6 style, check the <a href="https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5">args & controls migration guide</a> to learn how to convert your existing stories for args.
+If you have stories in the older pre-Storybook 6 style, check the [args & controls migration guide](https://medium.com/storybookjs/storybook-6-migration-guide-200346241bb5) to learn how to convert your existing stories for args.
 
-</div>
+</Callout>
 
 ## Choosing the control type
 
@@ -52,6 +52,9 @@ For instance, suppose you have a `variant` arg on your story that should be `pri
 
 <CodeSnippets
   paths={[
+    'angular/button-story-controls-primary-variant.ts.mdx',
+    'web-components/button-story-controls-primary-variant.js.mdx',
+    'web-components/button-story-controls-primary-variant.ts.mdx',
     'common/button-story-controls-primary-variant.js.mdx',
     'common/button-story-controls-primary-variant.ts.mdx',
   ]}
@@ -75,6 +78,9 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 
 <CodeSnippets
   paths={[
+    'angular/button-story-controls-radio-group.ts.mdx',
+    'web-components/button-story-controls-radio-group.js.mdx',
+    'web-components/button-story-controls-radio-group.ts.mdx',
     'common/button-story-controls-radio-group.js.mdx',
     'common/button-story-controls-radio-group.ts.mdx',
   ]}
@@ -83,11 +89,11 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
+ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
 
-</div>
+</Callout>
 
 This replaces the input with a radio group for a more intuitive experience.
 
@@ -97,10 +103,10 @@ This replaces the input with a radio group for a more intuitive experience.
 
 For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
-| Data type | Default regex                            | Description                                               |
+| Data type |              Default regex               |                        Description                        |
 | :-------: | :--------------------------------------: | :-------------------------------------------------------: |
 | **color** | <code>/(background&#124;color)$/i</code> | Will display a color picker UI for the args that match it |
-| **date**  | `/Date$/`                                | Will display a date picker UI for the args that match it  |
+| **date**  |                `/Date$/`                 | Will display a date picker UI for the args that match it  |
 
 If you haven't used the CLI to setup the configuration, or if you want to define your own patterns, use the `matchers` property in the `controls` parameter:
 
@@ -109,6 +115,7 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 <CodeSnippets
   paths={[
     'common/storybook-addon-controls-custom-matchers.js.mdx',
+    'common/storybook-addon-controls-custom-matchers.ts.mdx',
   ]}
 />
 
@@ -116,31 +123,33 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 
 ## Fully custom args
 
-Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component.
+Until now, we only used auto-generated controls based on the component we're writing stories for. If we are writing [complex stories](../writing-stories/stories-for-multiple-components.md), we may want to add controls for args that aren’t part of the component. For example, here's how you could use a `footer` arg to populate a child component:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'react/table-story-fully-customize-controls.js.mdx',
-    'react/table-story-fully-customize-controls.ts.mdx',
-    'vue/table-story-fully-customize-controls.2.js.mdx',
-    'vue/table-story-fully-customize-controls.ts-2.ts.mdx',
-    'vue/table-story-fully-customize-controls.3.js.mdx',
-    'vue/table-story-fully-customize-controls.ts-3.ts.mdx',
-    'angular/table-story-fully-customize-controls.ts.mdx',
-    'web-components/table-story-fully-customize-controls.js.mdx',
-    'web-components/table-story-fully-customize-controls.ts.mdx',
+    'react/page-story-slots.js.mdx',
+    'react/page-story-slots.ts.mdx',
+    'vue/page-story-slots.2.js.mdx',
+    'vue/page-story-slots.2.ts.mdx',
+    'vue/page-story-slots.3.js.mdx',
+    'vue/page-story-slots.3.ts.mdx',
+    'angular/page-story-slots.ts.mdx',
+    'web-components/page-story-slots.js.mdx',
+    'web-components/page-story-slots.ts.mdx',
+    'solid/page-story-slots.js.mdx',
+    'solid/page-story-slots.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="essentials/controls#snippet-table-story-fully-customize-controls"
+  csf2Path="writing-stories/args#snippet-page-story-slots"
 />
 
 <!-- prettier-ignore-end -->
 
 By default, Storybook will add controls for all args that:
 
-- It infers from the component definition [if your framework supports it](../api/frameworks-feature-support.md).
+- It infers from the component definition [if your framework supports it](../configure/frameworks-feature-support.md).
 
 - Appear in the list of args for your story.
 
@@ -158,12 +167,14 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
   paths={[
     'react/component-story-custom-args-complex.js.mdx',
     'react/component-story-custom-args-complex.ts.mdx',
-    'vue/component-story-custom-args-complex.3.js.mdx',
-    'vue/component-story-custom-args-complex.ts-3.ts.mdx',
+    'vue/component-story-custom-args-complex.js.mdx',
+    'vue/component-story-custom-args-complex.ts.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.ts.mdx',
+    'solid/component-story-custom-args-complex.js.mdx',
+    'solid/component-story-custom-args-complex.ts.mdx',
   ]}
   usesCsf3
   csf2Path="essentials/controls#snippet-component-story-custom-args-complex"
@@ -177,6 +188,9 @@ Unless you need the flexibility of a function, an easier way to map primitives t
 
 <CodeSnippets
   paths={[
+    'angular/component-story-custom-args-mapping.ts.mdx',
+    'web-components/component-story-custom-args-mapping.js.mdx',
+    'web-components/component-story-custom-args-mapping.ts.mdx',
     'common/component-story-custom-args-mapping.js.mdx',
     'common/component-story-custom-args-mapping.ts.mdx',
   ]}
@@ -215,14 +229,19 @@ As shown above, you can configure individual controls with the “control" annot
 |             | `color`        | Provides a color picker component to handle color values.<br/> Can be additionally configured to include a set of color presets.<br/> `argTypes: { color: { control: { type: 'color', presetColors: ['red', 'green']} }}` |
 |             | `date`         | Provides a datepicker component to handle date selection. `argTypes: { startDate: { control: 'date' }}`                                                                                                                   |
 
-<div class="aside">
-💡 The <code>date</code> control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
-</div>
+<Callout variant="info" icon="💡">
+
+The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
+
+</Callout>
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
+    'angular/gizmo-story-controls-customization.ts.mdx',
+    'web-components/gizmo-story-controls-customization.js.mdx',
+    'web-components/gizmo-story-controls-customization.ts.mdx',
     'common/gizmo-story-controls-customization.js.mdx',
     'common/gizmo-story-controls-customization.ts.mdx',
   ]}
@@ -231,9 +250,11 @@ As shown above, you can configure individual controls with the “control" annot
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Numeric data types will default to a <code>number</code> control unless additional configuration is provided.
-</div>
+<Callout variant="info" icon="💡">
+
+Numeric data types will default to a `number` control unless additional configuration is provided.
+
+</Callout>
 
 ### Parameters
 
@@ -241,7 +262,7 @@ Controls supports the following configuration [parameters](../writing-stories/pa
 
 ## Show full documentation for each property
 
-Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [ArgsTable](../writing-docs/doc-block-argstable.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
+Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [`Controls`](../api/doc-block-controls.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
 
 To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
 
@@ -250,6 +271,7 @@ To enable expanded mode globally, add the following to [`.storybook/preview.js`]
 <CodeSnippets
   paths={[
     'common/storybook-preview-expanded-controls.js.mdx',
+    'common/storybook-preview-expanded-controls.ts.mdx',
   ]}
 />
 
@@ -268,6 +290,7 @@ For `color` controls, you can specify an array of `presetColors`, either on the 
 <CodeSnippets
   paths={[
     'common/storybook-preview-parameters-color-swatches.js.mdx',
+    'common/storybook-preview-parameters-color-swatches.ts.mdx',
   ]}
 />
 
@@ -285,6 +308,9 @@ Suppose you want to disable Controls for a property called `foo` in a component'
 
 <CodeSnippets
   paths={[
+    'angular/component-story-disable-controls.ts.mdx',
+    'web-components/component-story-disable-controls.js.mdx',
+    'web-components/component-story-disable-controls.ts.mdx',
     'common/component-story-disable-controls.js.mdx',
     'common/component-story-disable-controls.ts.mdx',
   ]}
@@ -296,7 +322,7 @@ Resulting in the following change in Storybook UI:
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-disable-specific-prop.mp4"
+    src="addon-controls-disable-specific-prop-optimized.mp4"
     type="video/mp4"
   />
 </video>
@@ -307,6 +333,9 @@ The previous example also removed the prop documentation from the table. In some
 
 <CodeSnippets
   paths={[
+    'angular/component-story-disable-controls-alt.ts.mdx',
+    'web-components/component-story-disable-controls-alt.js.mdx',
+    'web-components/component-story-disable-controls-alt.ts.mdx',
     'common/component-story-disable-controls-alt.js.mdx',
     'common/component-story-disable-controls-alt.ts.mdx',
   ]}
@@ -314,15 +343,15 @@ The previous example also removed the prop documentation from the table. In some
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
 💡 As with other Storybook properties, such as [decorators](../writing-stories/decorators.md), you can apply the same pattern at a story level for more granular cases.
 
-</div>
+</Callout>
 
 ### Conditional controls
 
-In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can takes a simple query object to determine whether to include the control.
+In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can take a simple query object to determine whether to include the control.
 
 Consider a collection of "advanced" settings that are only visible when the user toggles an "advanced" toggle.
 
@@ -330,6 +359,9 @@ Consider a collection of "advanced" settings that are only visible when the user
 
 <CodeSnippets
   paths={[
+    'angular/component-story-conditional-controls-toggle.ts.mdx',
+    'web-components/component-story-conditional-controls-toggle.js.mdx',
+    'web-components/component-story-conditional-controls-toggle.ts.mdx',
     'common/component-story-conditional-controls-toggle.js.mdx',
     'common/component-story-conditional-controls-toggle.ts.mdx',
   ]}
@@ -343,6 +375,9 @@ Or consider a constraint where if the user sets one control value, it doesn't ma
 
 <CodeSnippets
   paths={[
+    'angular/component-story-conditional-controls-mutual-exclusion.ts.mdx',
+    'web-components/component-story-conditional-controls-mutual-exclusion.js.mdx',
+    'web-components/component-story-conditional-controls-mutual-exclusion.ts.mdx',
     'common/component-story-conditional-controls-mutual-exclusion.js.mdx',
     'common/component-story-conditional-controls-mutual-exclusion.ts.mdx',
   ]}
@@ -376,6 +411,9 @@ If you don't plan to handle the control args inside your Story, you can remove t
 
 <CodeSnippets
   paths={[
+   'angular/button-story-hide-nocontrols-warning.ts.mdx',
+   'web-components/button-story-hide-nocontrols-warning.js.mdx',
+   'web-components/button-story-hide-nocontrols-warning.ts.mdx',
    'common/button-story-hide-nocontrols-warning.js.mdx',
    'common/button-story-hide-nocontrols-warning.ts.mdx',
   ]}
@@ -397,6 +435,9 @@ Consider the following story snippets:
 
 <CodeSnippets
   paths={[
+    'angular/component-story-disable-controls-regex.ts.mdx',
+    'web-components/component-story-disable-controls-regex.js.mdx',
+    'web-components/component-story-disable-controls-regex.ts.mdx',
     'common/component-story-disable-controls-regex.js.mdx',
     'common/component-story-disable-controls-regex.ts.mdx',
   ]}
@@ -416,6 +457,9 @@ Consider the following snippet to force required args first:
 
 <CodeSnippets
   paths={[
+    'angular/component-story-sort-controls.ts.mdx',
+    'web-components/component-story-sort-controls.js.mdx',
+    'web-components/component-story-sort-controls.ts.mdx',
     'common/component-story-sort-controls.js.mdx',
     'common/component-story-sort-controls.ts.mdx',
   ]}

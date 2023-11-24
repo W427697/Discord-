@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { global } from '@storybook/global';
-import { PREVIEW_KEYDOWN } from '@storybook/core-events';
+import { FORCE_REMOUNT, PREVIEW_KEYDOWN } from '@storybook/core-events';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 import type { KeyboardEventLike } from '../lib/shortcut';
 import { shortcutMatchesShortcut, eventToShortcut } from '../lib/shortcut';
@@ -23,19 +23,70 @@ export interface SubState {
 }
 
 export interface SubAPI {
+  /**
+   * Returns the current shortcuts.
+   */
   getShortcutKeys(): API_Shortcuts;
+  /**
+   * Returns the default shortcuts.
+   */
   getDefaultShortcuts(): API_Shortcuts | API_AddonShortcutDefaults;
+  /**
+   * Returns the shortcuts for addons.
+   */
   getAddonsShortcuts(): API_AddonShortcuts;
+  /**
+   * Returns the labels for addon shortcuts.
+   */
   getAddonsShortcutLabels(): API_AddonShortcutLabels;
+  /**
+   * Returns the default shortcuts for addons.
+   */
   getAddonsShortcutDefaults(): API_AddonShortcutDefaults;
+  /**
+   * Sets the shortcuts to the given value.
+   * @param shortcuts The new shortcuts to set.
+   * @returns A promise that resolves to the new shortcuts.
+   */
   setShortcuts(shortcuts: API_Shortcuts): Promise<API_Shortcuts>;
+  /**
+   * Sets the shortcut for the given action to the given value.
+   * @param action The action to set the shortcut for.
+   * @param value The new shortcut to set.
+   * @returns A promise that resolves to the new shortcut.
+   */
   setShortcut(action: API_Action, value: API_KeyCollection): Promise<API_KeyCollection>;
+  /**
+   * Sets the shortcut for the given addon to the given value.
+   * @param addon The addon to set the shortcut for.
+   * @param shortcut The new shortcut to set.
+   * @returns A promise that resolves to the new addon shortcut.
+   */
   setAddonShortcut(addon: string, shortcut: API_AddonShortcut): Promise<API_AddonShortcut>;
+  /**
+   * Restores all default shortcuts.
+   * @returns A promise that resolves to the new shortcuts.
+   */
   restoreAllDefaultShortcuts(): Promise<API_Shortcuts>;
+  /**
+   * Restores the default shortcut for the given action.
+   * @param action The action to restore the default shortcut for.
+   * @returns A promise that resolves to the new shortcut.
+   */
   restoreDefaultShortcut(action: API_Action): Promise<API_KeyCollection>;
+  /**
+   * Handles a keydown event.
+   * @param event The event to handle.
+   */
   handleKeydownEvent(event: KeyboardEventLike): void;
-  handleShortcutFeature(feature: API_Action): void;
+  /**
+   * Handles a shortcut feature.
+   * @param feature The feature to handle.
+   * @param event The event to handle.
+   */
+  handleShortcutFeature(feature: API_Action, event: KeyboardEventLike): void;
 }
+
 export type API_KeyCollection = string[];
 
 export interface API_Shortcuts {
@@ -57,6 +108,7 @@ export interface API_Shortcuts {
   escape: API_KeyCollection;
   collapseAll: API_KeyCollection;
   expandAll: API_KeyCollection;
+  remount: API_KeyCollection;
 }
 
 export type API_Action = keyof API_Shortcuts;
@@ -91,6 +143,7 @@ export const defaultShortcuts: API_Shortcuts = Object.freeze({
   escape: ['escape'], // This one is not customizable
   collapseAll: [controlOrMetaKey(), 'shift', 'ArrowUp'],
   expandAll: [controlOrMetaKey(), 'shift', 'ArrowDown'],
+  remount: ['alt', 'R'],
 });
 
 const addonsShortcuts: API_AddonShortcuts = {};
@@ -100,7 +153,7 @@ function focusInInput(event: KeyboardEvent) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-export const init: ModuleFn = ({ store, fullAPI }) => {
+export const init: ModuleFn = ({ store, fullAPI, provider }) => {
   const api: SubAPI = {
     // Getting and setting shortcuts
     getShortcutKeys(): API_Shortcuts {
@@ -166,21 +219,22 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
         shortcutMatchesShortcut(shortcut, shortcuts[feature])
       );
       if (matchedFeature) {
-        // Event.prototype.preventDefault is missing when received from the MessageChannel.
-        if (event?.preventDefault) event.preventDefault();
-        api.handleShortcutFeature(matchedFeature);
+        api.handleShortcutFeature(matchedFeature, event);
       }
     },
 
     // warning: event might not have a full prototype chain because it may originate from the channel
-    handleShortcutFeature(feature) {
+    handleShortcutFeature(feature, event) {
       const {
         layout: { isFullscreen, showNav, showPanel },
         ui: { enableShortcuts },
+        storyId,
       } = store.getState();
       if (!enableShortcuts) {
         return;
       }
+      // Event.prototype.preventDefault is missing when received from the MessageChannel.
+      if (event?.preventDefault) event.preventDefault();
       switch (feature) {
         case 'escape': {
           if (isFullscreen) {
@@ -320,6 +374,10 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
           fullAPI.expandAll();
           break;
         }
+        case 'remount': {
+          fullAPI.emit(FORCE_REMOUNT, { storyId });
+          break;
+        }
         default:
           addonsShortcuts[feature].action();
           break;
@@ -340,13 +398,13 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
     // Listen for keydown events in the manager
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (!focusInInput(event)) {
-        fullAPI.handleKeydownEvent(event);
+        api.handleKeydownEvent(event);
       }
     });
 
     // Also listen to keydown events sent over the channel
-    fullAPI.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
-      fullAPI.handleKeydownEvent(data.event);
+    provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
+      api.handleKeydownEvent(data.event);
     });
   };
 

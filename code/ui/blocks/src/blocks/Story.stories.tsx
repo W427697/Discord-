@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Story as StoryBlock } from './Story';
@@ -9,6 +10,7 @@ const meta: Meta<typeof StoryBlock> = {
   component: StoryBlock,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories', '../examples/StoryParameters.stories'],
+    docsStyles: true,
   },
 };
 export default meta;
@@ -36,6 +38,22 @@ export const OfWithMetaUnattached: Story = {
     of: ButtonStories.Secondary,
     meta: ButtonStories.default,
   },
+};
+
+export const OfError: Story = {
+  args: {
+    of: ButtonStories.ErrorStory,
+  },
+};
+
+export const OfUndefined: Story = {
+  args: {
+    // @ts-expect-error this is supposed to be undefined
+    // eslint-disable-next-line import/namespace
+    of: ButtonStories.NotDefined,
+  },
+  parameters: { chromatic: { disableSnapshot: true } },
+  decorators: [(s) => (window?.navigator.userAgent.match(/StorybookTestRunner/) ? <div /> : s())],
 };
 
 export const Inline: Story = {

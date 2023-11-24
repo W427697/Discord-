@@ -1,26 +1,15 @@
-import type { ReactElement } from 'react';
 import React, { Component, Fragment } from 'react';
-import { styled } from '@storybook/theming';
 import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/manager-api';
 import { shortcutToHumanString } from '@storybook/manager-api';
-
-const DesktopOnlyIconButton = styled(IconButton)({
-  // Hides full screen icon at mobile breakpoint defined in app.js
-  '@media (max-width: 599px)': {
-    display: 'none',
-  },
-});
+import type { Addon_BaseType } from '@storybook/types';
+import useMediaQuery from '../hooks/useMedia';
 
 export interface SafeTabProps {
-  title: (() => string) | string;
+  title: Addon_BaseType['title'];
   id: string;
-  children: ReactElement;
+  children: Addon_BaseType['render'];
 }
-
-const SafeTabContent = React.memo<SafeTabProps>(function SafeTabContent({ children }) {
-  return children;
-});
 
 class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
   constructor(props: SafeTabProps) {
@@ -36,22 +25,18 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
 
   render() {
     const { hasError } = this.state;
-    const { children, title, id } = this.props;
+    const { children } = this.props;
     if (hasError) {
       return <h1>Something went wrong.</h1>;
     }
-    return (
-      <SafeTabContent id={id} title={title}>
-        {children}
-      </SafeTabContent>
-    );
+    return children;
   }
 }
 
 const AddonPanel = React.memo<{
   selectedPanel?: string;
   actions: { onSelect: (id: string) => void } & Record<string, any>;
-  panels: Record<string, any>;
+  panels: Record<string, Addon_BaseType>;
   shortcuts: State['shortcuts'];
   panelPosition?: 'bottom' | 'right';
   absolute?: boolean;
@@ -63,38 +48,46 @@ const AddonPanel = React.memo<{
     selectedPanel = null,
     panelPosition = 'right',
     absolute = true,
-  }) => (
-    <Tabs
-      absolute={absolute}
-      {...(selectedPanel ? { selected: selectedPanel } : {})}
-      actions={actions}
-      tools={
-        <Fragment>
-          <DesktopOnlyIconButton
-            key="position"
-            onClick={actions.togglePosition}
-            title={`Change addon orientation [${shortcutToHumanString(shortcuts.panelPosition)}]`}
-          >
-            <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
-          </DesktopOnlyIconButton>
-          <DesktopOnlyIconButton
-            key="visibility"
-            onClick={actions.toggleVisibility}
-            title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
-          >
-            <Icons icon="close" />
-          </DesktopOnlyIconButton>
-        </Fragment>
-      }
-      id="storybook-panel-root"
-    >
-      {Object.entries(panels).map(([k, v]) => (
-        <SafeTab key={k} id={k} title={v.title}>
-          {v.render}
-        </SafeTab>
-      ))}
-    </Tabs>
-  )
+  }) => {
+    const isTablet = useMediaQuery('(min-width: 599px)');
+    return (
+      <Tabs
+        absolute={absolute}
+        {...(selectedPanel ? { selected: selectedPanel } : {})}
+        menuName="Addons"
+        actions={actions}
+        tools={
+          isTablet ? (
+            <Fragment>
+              <IconButton
+                key="position"
+                onClick={actions.togglePosition}
+                title={`Change addon orientation [${shortcutToHumanString(
+                  shortcuts.panelPosition
+                )}]`}
+              >
+                <Icons icon={panelPosition === 'bottom' ? 'sidebaralt' : 'bottombar'} />
+              </IconButton>
+              <IconButton
+                key="visibility"
+                onClick={actions.toggleVisibility}
+                title={`Hide addons [${shortcutToHumanString(shortcuts.togglePanel)}]`}
+              >
+                <Icons icon="close" />
+              </IconButton>
+            </Fragment>
+          ) : undefined
+        }
+        id="storybook-panel-root"
+      >
+        {Object.entries(panels).map(([k, v]) => (
+          <SafeTab key={k} id={k} title={typeof v.title === 'function' ? <v.title /> : v.title}>
+            {v.render}
+          </SafeTab>
+        ))}
+      </Tabs>
+    );
+  }
 );
 
 AddonPanel.displayName = 'AddonPanel';

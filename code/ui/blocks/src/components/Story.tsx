@@ -2,7 +2,7 @@ import { global } from '@storybook/global';
 import type { FunctionComponent } from 'react';
 import React, { useRef, useEffect, useState } from 'react';
 import type { DocsContextProps, PreparedStory } from '@storybook/types';
-import { Loader, getStoryHref } from '@storybook/components';
+import { Loader, getStoryHref, ErrorFormatter } from '@storybook/components';
 import { IFrame } from './IFrame';
 import { ZoomContext } from './ZoomContext';
 
@@ -36,6 +36,7 @@ export const storyBlockIdFromId = ({ story, primary }: StoryProps) =>
 const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   const storyRef = useRef();
   const [showLoader, setShowLoader] = useState(true);
+  const [error, setError] = useState<Error>();
 
   const { story, height, autoplay, forceInitialArgs, renderStoryToElement } = props;
 
@@ -44,31 +45,42 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
       return () => {};
     }
     const element = storyRef.current as HTMLElement;
-    const cleanup = renderStoryToElement(story, element, { autoplay, forceInitialArgs });
+    const cleanup = renderStoryToElement(
+      story,
+      element,
+      {
+        showMain: () => {},
+        showError: ({ title, description }: { title: string; description: string }) =>
+          setError(new Error(`${title} - ${description}`)),
+        showException: (err: Error) => setError(err),
+      },
+      { autoplay, forceInitialArgs }
+    );
     setShowLoader(false);
     return () => {
-      cleanup();
+      // It seems like you are supposed to unmount components outside of `useEffect`:
+      //   https://github.com/facebook/react/issues/25675#issuecomment-1363957941
+      Promise.resolve().then(() => cleanup());
     };
   }, [autoplay, renderStoryToElement, story]);
 
-  // We do this so React doesn't complain when we replace the span in a secondary render
-  const htmlContents = `<span></span>`;
+  if (error) {
+    return (
+      <pre>
+        <ErrorFormatter error={error} />
+      </pre>
+    );
+  }
 
   return (
     <>
       {height ? (
-        <style>{`${storyBlockIdFromId(
+        <style>{`#${storyBlockIdFromId(
           props
         )} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
       ) : null}
       {showLoader && <StorySkeleton />}
-      <div
-        ref={storyRef}
-        id={`${storyBlockIdFromId(props)}-inner`}
-        data-name={story.name}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: htmlContents }}
-      />
+      <div ref={storyRef} id={`${storyBlockIdFromId(props)}-inner`} data-name={story.name} />
     </>
   );
 };
@@ -105,7 +117,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   const { inline } = props;
 
   return (
-    <div id={storyBlockIdFromId(props)} className="sb-story">
+    <div id={storyBlockIdFromId(props)} className="sb-story sb-unstyled" data-story-block="true">
       {inline ? (
         <InlineStory {...(props as InlineStoryProps)} />
       ) : (

@@ -1,20 +1,20 @@
 import { global } from '@storybook/global';
-import type { FC, ComponentProps } from 'react';
+import type { FC } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
+import type { TooltipLinkListLink } from '@storybook/components';
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 
-import { MenuItemIcon } from './Menu';
 import type { RefType } from './types';
 
-import type { getStateType } from './utils';
+import type { getStateType } from '../../utils/tree';
 
 const { document, window: globalWindow } = global;
 
-export type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
+export type ClickHandler = TooltipLinkListLink['onClick'];
 export interface IndicatorIconProps {
   type: ReturnType<typeof getStateType>;
 }
@@ -178,19 +178,12 @@ export const RefIndicator = React.memo(
         [list]
       );
 
-      const changeVersion = useCallback(
-        ((event, item) => {
-          event.preventDefault();
-          api.changeRefVersion(ref.id, item.href);
-        }) as ClickHandler,
-        []
-      );
-
       return (
         <IndicatorPlacement ref={forwardedRef}>
           <WithTooltip
             placement="bottom-start"
             trigger="click"
+            closeOnOutsideClick
             tooltip={
               <MessageWrapper>
                 <Spaced row={0}>
@@ -219,17 +212,22 @@ export const RefIndicator = React.memo(
             <WithTooltip
               placement="bottom-start"
               trigger="click"
-              tooltip={
+              closeOnOutsideClick
+              tooltip={(tooltip) => (
                 <TooltipLinkList
                   links={Object.entries(ref.versions).map(([id, href]) => ({
-                    left: href === ref.url ? <MenuItemIcon icon="check" /> : <span />,
+                    icon: href === ref.url ? 'check' : undefined,
                     id,
                     title: id,
                     href,
-                    onClick: changeVersion,
+                    onClick: (event, item) => {
+                      event.preventDefault();
+                      api.changeRefVersion(ref.id, item.href);
+                      tooltip.onHide();
+                    },
                   }))}
                 />
-              }
+              )}
             >
               <CurrentVersion url={ref.url} versions={ref.versions} />
             </WithTooltip>
@@ -284,7 +282,7 @@ const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
 };
 
 const ReadDocsMessage: FC = () => (
-  <Message href="https://storybook.js.org" target="_blank">
+  <Message href="https://storybook.js.org/docs/react/sharing/storybook-composition" target="_blank">
     <GreenIcon icon="document" />
     <div>
       <MessageTitle>Read Composition docs</MessageTitle>
@@ -314,7 +312,10 @@ const LoadingMessage: FC<{ url: string }> = ({ url }) => (
 );
 
 const PerformanceDegradedMessage: FC = () => (
-  <Message href="https://storybook.js.org/docs" target="_blank">
+  <Message
+    href="https://storybook.js.org/docs/react/sharing/storybook-composition#improve-your-storybook-composition"
+    target="_blank"
+  >
     <YellowIcon icon="lightning" />
     <div>
       <MessageTitle>Reduce lag</MessageTitle>

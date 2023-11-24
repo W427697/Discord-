@@ -2,27 +2,37 @@
 import { viteFinal as svelteViteFinal } from '@storybook/svelte-vite/preset';
 import type { PresetProperty } from '@storybook/types';
 import { withoutVitePlugins } from '@storybook/builder-vite';
+import { dirname, join } from 'path';
 import { configOverrides } from './plugins/config-overrides';
+import { mockSveltekitStores } from './plugins/mock-sveltekit-stores';
 import { type StorybookConfig } from './types';
 
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
+
 export const core: PresetProperty<'core', StorybookConfig> = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/svelte',
+  builder: getAbsolutePath('@storybook/builder-vite'),
+  renderer: getAbsolutePath('@storybook/svelte'),
 };
+export const previewAnnotations: StorybookConfig['previewAnnotations'] = (entry = []) => [
+  ...entry,
+  join(dirname(require.resolve('@storybook/sveltekit/package.json')), 'dist/preview.mjs'),
+];
 
 export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (config, options) => {
   const baseConfig = await svelteViteFinal(config, options);
 
   let { plugins = [] } = baseConfig;
 
-  // Remove vite-plugin-svelte-kit from plugins if using SvelteKit
-  // see https://github.com/storybookjs/storybook/issues/19280#issuecomment-1281204341
+  // disable specific plugins that are not compatible with Storybook
   plugins = (
     await withoutVitePlugins(plugins, [
-      // @sveltejs/kit@1.0.0-next.587 and later
       'vite-plugin-sveltekit-compile',
+      'vite-plugin-sveltekit-guard',
     ])
-  ).concat(configOverrides());
+  )
+    .concat(configOverrides())
+    .concat(mockSveltekitStores());
 
   return { ...baseConfig, plugins };
 };

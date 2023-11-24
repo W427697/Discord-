@@ -1,11 +1,41 @@
 import path from 'path';
 import findUp from 'find-up';
 
-// Try and figure out what the root folder of the project is.  This is used to generate some configuration.
-export const getProjectRoot = (): string => {
+export const getProjectRoot = () => {
+  let result;
   // Allow manual override in cases where auto-detect doesn't work
   if (process.env.STORYBOOK_PROJECT_ROOT) {
     return process.env.STORYBOOK_PROJECT_ROOT;
+  }
+
+  try {
+    const found = findUp.sync('.git', { type: 'directory' });
+    if (found) {
+      result = path.join(found, '..');
+    }
+  } catch (e) {
+    //
+  }
+  try {
+    const found = findUp.sync('.svn', { type: 'directory' });
+    if (found) {
+      result = result || path.join(found, '..');
+    }
+  } catch (e) {
+    //
+  }
+  try {
+    const found = findUp.sync('.yarn', { type: 'directory' });
+    if (found) {
+      result = result || path.join(found, '..');
+    }
+  } catch (e) {
+    //
+  }
+  try {
+    result = result || __dirname.split('node_modules')[0];
+  } catch (e) {
+    //
   }
 
   // Check if the working directory or a parent contains a folder that is normally only in a project root

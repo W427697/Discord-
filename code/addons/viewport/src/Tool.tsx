@@ -1,6 +1,5 @@
-/* eslint-disable no-fallthrough */
 import type { ReactNode, FC } from 'react';
-import React, { Fragment, useEffect, useRef, memo } from 'react';
+import React, { useState, Fragment, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { styled, Global, type Theme, withTheme } from '@storybook/theming';
@@ -37,25 +36,16 @@ const baseViewports: ViewportItem[] = [responsiveViewport];
 
 const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state, close): Link[] => {
   return list
+    .filter((i) => i.id !== responsiveViewport.id || active.id !== i.id)
     .map((i) => {
-      switch (i.id) {
-        case responsiveViewport.id: {
-          if (active.id === i.id) {
-            return null;
-          }
-        }
-        default: {
-          return {
-            ...i,
-            onClick: () => {
-              set({ ...state, selected: i.id });
-              close();
-            },
-          };
-        }
-      }
-    })
-    .filter(Boolean);
+      return {
+        ...i,
+        onClick: () => {
+          set({ ...state, selected: i.id });
+          close();
+        },
+      };
+    });
 });
 
 const wrapperId = 'storybook-preview-wrapper';
@@ -112,13 +102,14 @@ interface ViewportToolState {
 }
 
 const getStyles = (
-  prevStyles: ViewportStyles,
+  prevStyles: ViewportStyles | undefined,
   styles: Styles,
   isRotated: boolean
-): ViewportStyles => {
+): ViewportStyles | undefined => {
   if (styles === null) {
-    return null;
+    return undefined;
   }
+
   const result = typeof styles === 'function' ? styles(prevStyles) : styles;
   return isRotated ? flip(result) : result;
 };
@@ -127,16 +118,18 @@ export const ViewportTool: FC = memo(
   withTheme(({ theme }: { theme: Theme }) => {
     const {
       viewports = MINIMAL_VIEWPORTS,
+      defaultOrientation = 'portrait',
       defaultViewport = responsiveViewport.id,
       disable,
     } = useParameter<ViewportAddonParameter>(PARAM_KEY, {});
     const [state, setState] = useAddonState<ViewportToolState>(ADDON_ID, {
       selected: defaultViewport,
-      isRotated: false,
+      isRotated: defaultOrientation === 'landscape',
     });
 
     const list = toList(viewports);
     const api = useStorybookApi();
+    const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
     if (!list.find((i) => i.id === defaultViewport)) {
       // eslint-disable-next-line no-console
@@ -152,10 +145,11 @@ export const ViewportTool: FC = memo(
     useEffect(() => {
       setState({
         selected:
-          defaultViewport || (viewports[state.selected] ? state.selected : responsiveViewport.id),
-        isRotated: state.isRotated,
+          defaultViewport ||
+          (state.selected && viewports[state.selected] ? state.selected : responsiveViewport.id),
+        isRotated: defaultOrientation === 'landscape',
       });
-    }, [defaultViewport]);
+    }, [defaultOrientation, defaultViewport]);
 
     const { selected, isRotated } = state;
     const item =
@@ -180,16 +174,16 @@ export const ViewportTool: FC = memo(
       <Fragment>
         <WithTooltip
           placement="top"
-          trigger="click"
           tooltip={({ onHide }) => (
             <TooltipLinkList links={toLinks(list, item, setState, state, onHide)} />
           )}
-          closeOnClick
+          closeOnOutsideClick
+          onVisibleChange={setIsTooltipVisible}
         >
           <IconButtonWithLabel
             key="viewport"
             title="Change the size of the preview"
-            active={!!styles}
+            active={isTooltipVisible || !!styles}
             onDoubleClick={() => {
               setState({ ...state, selected: responsiveViewport.id });
             }}
@@ -209,7 +203,7 @@ export const ViewportTool: FC = memo(
               styles={{
                 [`iframe[data-is-storybook="true"]`]: {
                   margin: `auto`,
-                  transition: 'width .3s, height .3s',
+                  transition: 'none',
                   position: 'relative',
                   border: `1px solid black`,
                   boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',

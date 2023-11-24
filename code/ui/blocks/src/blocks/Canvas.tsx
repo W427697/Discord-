@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { ModuleExport, ModuleExports, Renderer } from '@storybook/types';
+import type { ModuleExport, ModuleExports, PreparedStory, Renderer } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 import dedent from 'ts-dedent';
 import type { Layout, PreviewProps as PurePreviewProps } from '../components';
@@ -115,7 +115,10 @@ const useDeprecatedPreviewProps = (
   const stories = useStories(storyIds, docsContext);
   const isLoading = stories.some((s) => !s);
   const sourceProps = useSourceProps(
-    mdxSource ? { code: decodeURI(mdxSource), of: props.of } : { ids: storyIds, of: props.of },
+    {
+      ...(mdxSource ? { code: decodeURI(mdxSource) } : { ids: storyIds }),
+      ...(props.of && { of: props.of }),
+    },
     docsContext,
     sourceContext
   );
@@ -155,9 +158,13 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const docsContext = useContext(DocsContext);
   const sourceContext = useContext(SourceContext);
   const { children, of, source } = props;
+  if ('of' in props && of === undefined) {
+    throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
+  }
+
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
 
-  let story;
+  let story: PreparedStory;
   let sourceProps;
   /**
    * useOf and useSourceProps will throw if they can't find the story, in the scenario where
@@ -175,38 +182,39 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
     }
   }
   try {
-    sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
+    sourceProps = useSourceProps({ ...source, ...(of && { of }) }, docsContext, sourceContext);
   } catch (error) {
     if (!children) {
       hookError = error;
     }
   }
   if (hookError) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw hookError;
   }
 
   if (props.withSource) {
     deprecate(dedent`Setting source state with \`withSource\` is deprecated, please use \`sourceState\` with 'hidden', 'shown' or 'none' instead. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
     `);
   }
   if (props.mdxSource) {
     deprecate(dedent`Setting source code with \`mdxSource\` is deprecated, please use source={{code: '...'}} instead. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
     `);
   }
   if (props.isColumn !== undefined || props.columns !== undefined) {
     deprecate(dedent`\`isColumn\` and \`columns\` props are deprecated as the Canvas block now only supports showing a single story. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
     `);
   }
   if (children) {
     deprecate(dedent`Passing children to Canvas is deprecated, please use the \`of\` prop instead to reference a story. 
     
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block
   `);
     return isLoading ? (
       <PreviewSkeleton />

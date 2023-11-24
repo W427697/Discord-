@@ -133,7 +133,6 @@ export const VisionSimulator = () => {
       )}
       <WithTooltip
         placement="top"
-        trigger="click"
         tooltip={({ onHide }) => {
           const colorList = getColorList(filter, (i) => {
             setFilter(i);
@@ -141,7 +140,7 @@ export const VisionSimulator = () => {
           });
           return <TooltipLinkList links={colorList} />;
         }}
-        closeOnClick
+        closeOnOutsideClick
         onDoubleClick={() => setFilter(null)}
       >
         <IconButton key="filter" active={!!filter} title="Vision simulator">

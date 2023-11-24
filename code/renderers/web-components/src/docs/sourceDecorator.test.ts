@@ -1,5 +1,5 @@
-import { html } from 'lit-html';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { html, render } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { StoryContext } from '../types';
@@ -22,6 +22,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: Partial<S
     kind: 'js-text',
     name,
     parameters,
+    unmappedArgs: args,
     args,
     argTypes: {},
     globals: {},
@@ -43,11 +44,11 @@ describe('sourceDecorator', () => {
     const context = makeContext('args', { __isArgsStory: true }, {});
     sourceDecorator(storyFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<div>args story</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: {},
+      source: '<div>args story</div>',
+    });
   });
 
   it('should skip dynamic rendering for no-args stories', async () => {
@@ -78,52 +79,40 @@ describe('sourceDecorator', () => {
     );
     sourceDecorator(decoratedStoryFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<div>args story</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: {},
+      source: '<div>args story</div>',
+    });
   });
 
-  it('allows the snippet output to be modified by transformSource', async () => {
-    const storyFn = (args: any) => html`<div>args story</div>`;
-    const transformSource = (dom: string) => `<p>${dom}</p>`;
-    const docs = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, docs }, {});
-    sourceDecorator(storyFn, context);
+  it('should handle document fragment without removing its child nodes', async () => {
+    const storyFn = () =>
+      html`my
+        <div>args story</div>`;
+    const decoratedStoryFn = () => {
+      const fragment = document.createDocumentFragment();
+      render(storyFn(), fragment);
+      return fragment;
+    };
+    const context = makeContext('args', { __isArgsStory: true }, {});
+    const story = sourceDecorator(decoratedStoryFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<p><div>args story</div></p>'
-    );
-  });
-
-  it('provides the story context to transformSource', () => {
-    const storyFn = (args: any) => html`<div>args story</div>`;
-    const transformSource = jest.fn((x) => x);
-    const docs = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, docs }, {});
-    sourceDecorator(storyFn, context);
-    expect(transformSource).toHaveBeenCalledWith('<div>args story</div>', context);
-  });
-
-  it('should clean lit expression comments', async () => {
-    const storyFn = (args: any) => html`<div>${args.slot}</div>`;
-    const context = makeContext(
-      'args',
-      { __isArgsStory: true },
-      { slot: 'some content' },
-      { originalStoryFn: storyFn }
-    );
-    // bind args to storyFn, as it's done in Storybook
-    const boundStoryFn = storyFn.bind(null, context.args);
-    sourceDecorator(boundStoryFn, context);
-    await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<div>some content</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: {},
+      source: `my
+        <div>args story</div>`,
+    });
+    expect(story).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <!---->
+        my
+              
+        <div>
+          args story
+        </div>
+      </DocumentFragment>
+    `);
   });
 });

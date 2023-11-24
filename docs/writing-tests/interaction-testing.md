@@ -8,7 +8,12 @@ In a nutshell, you start by supplying the appropriate props for the initial stat
 
 In Storybook, this familiar workflow happens in your browser. That makes it easier to debug failures because you're running tests in the same environment as you develop components: the browser.
 
-![Storybook interaction testing](./storybook-interaction-tests.gif)
+<video autoPlay muted playsInline loop>
+  <source
+    src="component-interaction-testing.mp4"
+    type="video/mp4"
+  />
+</video>
 
 ## How does component testing in Storybook work?
 
@@ -37,13 +42,14 @@ Run the following command to install the interactions addon and related dependen
 
 <!-- prettier-ignore-end -->
 
-Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon and enable playback controls for debugging.
+Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-enable-interactive-debugger.js.mdx',
+    'common/storybook-interactions-addon-registration.js.mdx',
+    'common/storybook-interactions-addon-registration.ts.mdx',
   ]}
 />
 
@@ -60,13 +66,13 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.2.js.mdx',
-    'vue/login-form-with-play-function.ts-2.ts.mdx',
-    'vue/login-form-with-play-function.3.js.mdx',
-    'vue/login-form-with-play-function.ts-3.ts.mdx',
+    'vue/login-form-with-play-function.js.mdx',
+    'vue/login-form-with-play-function.ts.mdx',
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"
@@ -94,7 +100,7 @@ Below is an abridged API for user-event. For more, check out the [official user-
 | `clear`           | Selects the text inside inputs, or textareas and deletes it <br/>`userEvent.clear(await within(canvasElement).getByRole('myinput'));`                    |
 | `click`           | Clicks the element, calling a click() function <br/>`userEvent.click(await within(canvasElement).getByText('mycheckbox'));`                              |
 | `dblClick`        | Clicks the element twice <br/>`userEvent.dblClick(await within(canvasElement).getByText('mycheckbox'));`                                                 |
-| `deselectOptions` | Removes the selection from a specific option of a select element <br/>`userEvent.deselectOptions(await within(canvasElement).getByRole('listbox','1'));` |
+| `deselectOptions` | Removes the selection from a specific option of a select element <br/>`userEvent.deselectOptions(await within(canvasElement).getByRole('listbox'),'1');` |
 | `hover`           | Hovers an element <br/>`userEvent.hover(await within(canvasElement).getByTestId('example-test'));`                                                       |
 | `keyboard`        | Simulates the keyboard events <br/>`userEvent.keyboard(‘foo’);`                                                                                          |
 | `selectOptions`   | Selects the specified option, or options of a select element <br/>`userEvent.selectOptions(await within(canvasElement).getByRole('listbox'),['1','2']);` |
@@ -109,7 +115,11 @@ For complex flows, it can be worthwhile to group sets of related interactions to
 
 <CodeSnippets
   paths={[
+    'angular/storybook-interactions-step-function.ts.mdx',
+    'web-components/storybook-interactions-step-function.js.mdx',
+    'web-components/storybook-interactions-step-function.ts.mdx',
     'common/storybook-interactions-step-function.js.mdx',
+    'common/storybook-interactions-step-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"
@@ -150,9 +160,9 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-execute.yarn.js.mdx',
-    'common/storybook-test-runner-execute.npm.js.mdx',
-    'common/storybook-test-runner-execute.pnpm.js.mdx',
+    'common/test-runner-execute.yarn.js.mdx',
+    'common/test-runner-execute.npm.js.mdx',
+    'common/test-runner-execute.pnpm.js.mdx',
   ]}
 />
 
@@ -160,15 +170,28 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
 
 ![Interaction test with test runner](./storybook-interaction-test-runner-loginform-optimized.png)
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you need, you can provide additional flags to the test-runner. Read the [documentation](./test-runner.md#cli-options) to learn more.
+If you need, you can provide additional flags to the test-runner. Read the [documentation](./test-runner.md#cli-options) to learn more.
 
-</div>
+</Callout>
 
 ## Automate
 
 Once you're ready to push your code into a pull request, you'll want to automatically run all your checks using a Continuous Integration (CI) service before merging it. Read our [documentation](./test-runner.md#set-up-ci-to-run-tests) for a detailed guide on setting up a CI environment to run tests.
+
+## Troubleshooting
+
+### The TypeScript types aren't recognized
+
+If you're writing interaction tests with TypeScript, you may run into a situation where the TypeScript types aren't recognized in your IDE. This a known issue with newer package managers (e.g., pnpm, Yarn) and how they hoist dependencies. If you're working with Yarn the process happens automatically and the types should be recognized. However, if you're working with pnpm, you'll need to create a `.npmrc` file in the root of your project and add the following:
+
+```text
+// .npmrc
+public-hoist-pattern[]=@types*
+```
+
+If you're still encountering issues, you can always add the [`@types/testing-library__jest-dom`](https://www.npmjs.com/package/@types/testing-library__jest-dom) package to your project.
 
 ---
 
@@ -188,4 +211,5 @@ Interaction tests integrate Jest and Testing Library into Storybook. The biggest
 - Interaction tests for user behavior simulation
 - [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [Import stories in other tests](./importing-stories-in-tests.md) for other tools
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

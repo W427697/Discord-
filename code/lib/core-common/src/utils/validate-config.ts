@@ -1,26 +1,38 @@
-import { dedent } from 'ts-dedent';
+import { join } from 'path';
+import {
+  CouldNotEvaluateFrameworkError,
+  MissingFrameworkFieldError,
+  InvalidFrameworkNameError,
+} from '@storybook/core-events/server-errors';
+import { frameworkPackages } from './get-storybook-info';
 
-const rendererNames = [
-  '@storybook/html',
-  '@storybook/preact',
-  '@storybook/react',
-  '@storybook/server',
-  '@storybook/svelte',
-  '@storybook/vue',
-  '@storybook/vue3',
-  '@storybook/web-components',
-];
+const renderers = ['html', 'preact', 'react', 'server', 'svelte', 'vue', 'vue3', 'web-components'];
 
-// Checks that the framework name is not a renderer
-export function validateFrameworkName(frameworkName: string) {
+const rendererNames = [...renderers, ...renderers.map((renderer) => `@storybook/${renderer}`)];
+
+export function validateFrameworkName(
+  frameworkName: string | undefined
+): asserts frameworkName is string {
+  // Throw error if there is no framework field
+  // TODO: maybe this error should not be thrown if we allow empty Storybooks that only use "refs" for composition
+  if (!frameworkName) {
+    throw new MissingFrameworkFieldError();
+  }
+
+  // Account for legacy scenario where the framework was referring to a renderer
   if (rendererNames.includes(frameworkName)) {
-    throw new Error(dedent`
-      Invalid value of ${frameworkName} in the 'framework' field of Storybook config.
+    throw new InvalidFrameworkNameError({ frameworkName });
+  }
 
-      Please run 'npx sb@next automigrate'
+  // If we know about the framework, we don't need to validate it
+  if (Object.keys(frameworkPackages).includes(frameworkName)) {
+    return;
+  }
 
-      See the v7 Migration guide for more information: 
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory
-      `);
+  // If it's not a known framework, we need to validate that it's a valid package at least
+  try {
+    require.resolve(join(frameworkName, 'preset'));
+  } catch (err) {
+    throw new CouldNotEvaluateFrameworkError({ frameworkName });
   }
 }

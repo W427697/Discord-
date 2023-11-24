@@ -1,5 +1,5 @@
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/hero.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/docs/docs/media/hero.png" width="100%" />
 </center>
 
 # Storybook Docs
@@ -33,7 +33,7 @@ When you [install Docs](#installation), every story gets a `DocsPage`. `DocsPage
 Click on the `Docs` tab to see it:
 
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/docs-tab.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/docs/docs/media/docs-tab.png" width="100%" />
 </center>
 
 For more information on how it works, see the [`DocsPage` reference](https://github.com/storybookjs/storybook/blob/next/code/addons/docs/docs/docspage.md).
@@ -67,7 +67,7 @@ markdown documentation.
 And here's how that's rendered in Storybook:
 
 <center>
-  <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/addons/docs/docs/media/mdx-simple.png" width="100%" />
+  <img src="https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/docs/docs/media/mdx-simple.png" width="100%" />
 </center>
 
 For more information on `MDX`, see the [`MDX` reference](https://github.com/storybookjs/storybook/blob/next/code/addons/docs/docs/mdx.md).
@@ -110,7 +110,7 @@ export default {
 };
 ```
 
-If using in conjunction with the [storyshots add-on](https://github.com/storybookjs/storybook/blob/next/code/addons/storyshots/storyshots-core/README.md), you will need to
+If using in conjunction with the [storyshots add-on](https://github.com/storybookjs/storybook/blob/next/code/addons/storyshots-core/README.md), you will need to
 configure Jest to transform MDX stories into something Storyshots can understand:
 
 Add the following to your Jest configuration:
@@ -145,7 +145,7 @@ export default {
       options: {
         jsxOptions: {},
         csfPluginOptions: null,
-        transcludeMarkdown: true,
+        mdxPluginOptions: {},
       },
     },
   ],
@@ -156,16 +156,7 @@ export default {
 
 `csfPluginOptions` is an object for configuring `@storybook/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
 
-The `transcludeMarkdown` option enables mdx files to import `.md` files and render them as a component.
-
-```mdx
-import { Meta } from '@storybook/addon-docs';
-import Changelog from '../CHANGELOG.md';
-
-<Meta title="Changelog" />
-
-<Changelog />
-```
+> With the release of version 7.0, it is no longer possible to import `.md` files directly into Storybook using the `transcludeMarkdown` [option](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#importing-plain-markdown-files-with-transcludemarkdown-has-changed). Instead, we recommend using the [`Markdown`](https://storybook.js.org/docs/react/api/doc-block-markdown) Doc Block for importing Markdown files into your Storybook documentation.
 
 ## TypeScript configuration
 

@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import { getStorybookInfo } from '@storybook/core-common';
 import type { Fix } from '../types';
 
 interface NodeJsRequirementOptions {
@@ -12,19 +11,8 @@ export const nodeJsRequirement: Fix<NodeJsRequirementOptions> = {
   id: 'nodejs-requirement',
   promptOnly: true,
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { version: storybookVersion } = getStorybookInfo(packageJson);
-
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
-      `);
-    }
-
-    if (!semver.gte(storybookCoerced, '7.0.0')) {
+  async check({ storybookVersion }) {
+    if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
     }
 

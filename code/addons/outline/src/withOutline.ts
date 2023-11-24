@@ -7,11 +7,11 @@ import outlineCSS from './outlineCSS';
 
 export const withOutline = (StoryFn: StoryFunction<Renderer>, context: StoryContext<Renderer>) => {
   const { globals } = context;
-  const isActive = globals[PARAM_KEY] === true;
+  const isActive = [true, 'true'].includes(globals[PARAM_KEY]);
   const isInDocs = context.viewMode === 'docs';
 
   const outlineStyles = useMemo(() => {
-    const selector = isInDocs ? `#anchor--${context.id} .docs-story` : '.sb-show-main';
+    const selector = isInDocs ? `[data-story-block="true"]` : '.sb-show-main';
 
     return outlineCSS(selector);
   }, [context]);

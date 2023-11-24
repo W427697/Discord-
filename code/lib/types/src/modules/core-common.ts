@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
-
+import type { Options as SWCOptions } from '@swc/core';
 import type { Options as TelejsonOptions } from 'telejson';
-import type { TransformOptions } from '@babel/core';
+import type { TransformOptions as BabelOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { StoriesEntry, StoryIndexer } from './storyIndex';
+
+import type { StoriesEntry, Indexer, StoryIndexer } from './indexer';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -38,6 +39,11 @@ export interface CoreConfig {
    * @see https://storybook.js.org/telemetry
    */
   disableTelemetry?: boolean;
+
+  /**
+   * Disables notifications for Storybook updates.
+   */
+  disableWhatsNewNotifications?: boolean;
   /**
    * Enable crash reports to be sent to Storybook telemetry
    * @see https://storybook.js.org/telemetry
@@ -65,12 +71,14 @@ export interface Presets {
     args?: Options
   ): Promise<TypescriptOptions>;
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
+  apply(extension: 'babel', config?: {}, args?: any): Promise<BabelOptions>;
+  apply(extension: 'swc', config?: {}, args?: any): Promise<SWCOptions>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
+  apply(extension: 'build', config?: {}, args?: any): Promise<StorybookConfig['build']>;
   apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
@@ -104,12 +112,6 @@ export interface VersionCheck {
   time: number;
 }
 
-export interface ReleaseNotesData {
-  success: boolean;
-  currentVersion: string;
-  showOnFirstLaunch: boolean;
-}
-
 export interface Stats {
   toJson: () => any;
 }
@@ -139,6 +141,7 @@ export interface CLIOptions {
   disableTelemetry?: boolean;
   enableCrashReports?: boolean;
   host?: string;
+  initialPath?: string;
   /**
    * @deprecated Use 'staticDirs' Storybook Configuration option instead
    */
@@ -155,8 +158,8 @@ export interface CLIOptions {
   loglevel?: string;
   quiet?: boolean;
   versionUpdates?: boolean;
-  releaseNotes?: boolean;
   docs?: boolean;
+  test?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -170,7 +173,6 @@ export interface BuilderOptions {
   docsMode?: boolean;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
-  releaseNotesData?: ReleaseNotesData;
   disableWebpackDefaults?: boolean;
   serverChannelUrl?: string;
 }
@@ -180,7 +182,10 @@ export interface StorybookConfigOptions {
   presetsList?: LoadedPreset[];
 }
 
-export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
+export type Options = LoadOptions &
+  StorybookConfigOptions &
+  CLIOptions &
+  BuilderOptions & { build?: TestBuildConfig };
 
 export interface Builder<Config, BuilderStats extends Stats = Stats> {
   getConfig: (options: Options) => Promise<Config>;
@@ -218,8 +223,16 @@ export interface TypescriptOptions {
    * Disable parsing typescript files through babel.
    *
    * @default `false`
+   * @deprecated use `skipCompiler` instead
    */
   skipBabel: boolean;
+
+  /**
+   * Disable parsing typescript files through compiler.
+   *
+   * @default `false`
+   */
+  skipCompiler: boolean;
 }
 
 export type Preset =
@@ -237,14 +250,10 @@ export type Entry = string;
 
 type CoreCommon_StorybookRefs = Record<
   string,
-  { title: string; url: string } | { disable: boolean }
+  { title: string; url: string } | { disable: boolean; expanded?: boolean }
 >;
 
 export type DocsOptions = {
-  /**
-   * Should we disable generate docs entries at all under any circumstances? (i.e. can they be rendered)
-   */
-  disable?: boolean;
   /**
    * What should we call the generated docs entries?
    */
@@ -260,6 +269,45 @@ export type DocsOptions = {
    */
   docsMode?: boolean;
 };
+
+export interface TestBuildFlags {
+  /**
+   * The package @storybook/blocks will be excluded from the bundle, even when imported in e.g. the preview.
+   */
+  disableBlocks?: boolean;
+  /**
+   * Disable specific addons
+   */
+  disabledAddons?: string[];
+  /**
+   * Filter out .mdx stories entries
+   */
+  disableMDXEntries?: boolean;
+  /**
+   * Override autodocs to be disabled
+   */
+  disableAutoDocs?: boolean;
+  /**
+   * Override docgen to be disabled.
+   */
+  disableDocgen?: boolean;
+  /**
+   * Override sourcemaps generation to be disabled.
+   */
+  disableSourcemaps?: boolean;
+  /**
+   * Override tree-shaking (dead code elimination) to be disabled.
+   */
+  disableTreeShaking?: boolean;
+  /**
+   * Minify with ESBuild when using webpack.
+   */
+  esbuildMinify?: boolean;
+}
+
+export interface TestBuildConfig {
+  test?: TestBuildFlags;
+}
 
 /**
  * The interface for Storybook configuration in `main.ts` files.
@@ -286,26 +334,15 @@ export interface StorybookConfig {
     buildStoriesJson?: boolean;
 
     /**
-     * Activate preview of CSF v3.0
-     *
-     * @deprecated This is always on now from 6.4 regardless of the setting
-     */
-    previewCsfV3?: boolean;
-
-    /**
      * Activate on demand story store
      */
     storyStoreV7?: boolean;
 
     /**
-     * Enable a set of planned breaking changes for SB7.0
+     * Do not throw errors if using `.mdx` files in SSv7
+     * (for internal use in sandboxes)
      */
-    breakingChangesV7?: boolean;
-
-    /**
-     * Enable the step debugger functionality in Addon-interactions.
-     */
-    interactionsDebugger?: boolean;
+    storyStoreV7MdxErrors?: boolean;
 
     /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
@@ -322,7 +359,21 @@ export interface StorybookConfig {
      * Use legacy MDX1, to help smooth migration to 7.0
      */
     legacyMdx1?: boolean;
+
+    /**
+     * Apply decorators from preview.js before decorators from addons or frameworks
+     */
+    legacyDecoratorFileOrder?: boolean;
+
+    /**
+     * Disallow implicit actions during rendering. This will be the default in Storybook 8.
+     *
+     * This will make sure that your story renders the same no matter if docgen is enabled or not.
+     */
+    disallowImplicitActionsInRenderV8?: boolean;
   };
+
+  build?: TestBuildConfig;
 
   /**
    * Tells Storybook where to find stories.
@@ -332,7 +383,7 @@ export interface StorybookConfig {
   stories: StoriesEntry[];
 
   /**
-   * Framework, e.g. '@storybook/react', required in v7
+   * Framework, e.g. '@storybook/react-vite', required in v7
    */
   framework?: Preset;
 
@@ -349,18 +400,22 @@ export interface StorybookConfig {
   /**
    * Modify or return babel config.
    */
-  babel?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  babel?: (config: BabelOptions, options: Options) => BabelOptions | Promise<BabelOptions>;
+
+  /**
+   * Modify or return swc config.
+   */
+  swc?: (config: SWCOptions, options: Options) => SWCOptions | Promise<SWCOptions>;
+
+  /**
+   * Modify or return env config.
+   */
+  env?: PresetValue<Record<string, string>>;
 
   /**
    * Modify or return babel config.
    */
-  babelDefault?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  babelDefault?: (config: BabelOptions, options: Options) => BabelOptions | Promise<BabelOptions>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
@@ -376,8 +431,14 @@ export interface StorybookConfig {
 
   /**
    * Process CSF files for the story index.
+   * @deprecated use {@link experimental_indexers} instead
    */
   storyIndexers?: PresetValue<StoryIndexer[]>;
+
+  /**
+   * Process CSF files for the story index.
+   */
+  experimental_indexers?: PresetValue<Indexer[]>;
 
   /**
    * Docs related features in index generation
@@ -392,6 +453,22 @@ export interface StorybookConfig {
   previewHead?: PresetValue<string>;
 
   previewBody?: PresetValue<string>;
+
+  /**
+   * Programmatically override the preview's main page template.
+   * This should return a reference to a file containing an `.ejs` template
+   * that will be interpolated with environment variables.
+   *
+   * @example '.storybook/index.ejs'
+   */
+  previewMainTemplate?: string;
+
+  /**
+   * Programmatically modify the preview head/body HTML.
+   * The managerHead function accept a string,
+   * which is the existing head content, and return a modified string.
+   */
+  managerHead?: PresetValue<string>;
 }
 
 export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);
