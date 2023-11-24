@@ -4,10 +4,14 @@ import { join, relative, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 import type { Indexer, PreviewAnnotation } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
+import type { StorybookNextJSOptions } from './types';
 
 const LAYOUT_FILES = ['layout.tsx', 'layout.jsx'];
 
-export const appIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer => {
+export const appIndexer = (
+  allPreviewAnnotations: PreviewAnnotation[],
+  { previewPath }: StorybookNextJSOptions
+): Indexer => {
   return {
     test: /(stories|story)\.[tj]sx?$/,
     createIndex: async (fileName, opts) => {
@@ -15,9 +19,12 @@ export const appIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer 
       const code = (await readFile(fileName, 'utf-8')).toString();
       const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
-      const inputStorybookDir = resolve(__dirname, `../template/app/storybookPreview`);
+      const inputAppDir = resolve(__dirname, '../template/app');
+      const inputGroupDir = join(inputAppDir, 'groupLayouts');
+      const inputStorybookDir = join(inputAppDir, 'storybook-preview');
       const appDir = join(process.cwd(), 'app');
-      const storybookDir = join(appDir, '(sb)', 'storybookPreview');
+      const sbGroupDir = join(appDir, '(sb)');
+      const storybookDir = join(sbGroupDir, previewPath);
       await ensureDir(storybookDir);
 
       try {
@@ -26,7 +33,17 @@ export const appIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer 
           LAYOUT_FILES.map((file) => exists(join(appDir, file)))
         );
         const inputLayout = hasRootLayout ? 'layout-nested.tsx' : 'layout-root.tsx';
-        await cp(`${inputStorybookDir}/${inputLayout}`, join(storybookDir, 'layout.tsx'));
+        await cp(`${inputGroupDir}/${inputLayout}`, join(sbGroupDir, 'layout.tsx'));
+
+        const routeLayoutTsx = dedent`import type { PropsWithChildren } from 'react';
+          import React from 'react';
+          import { Storybook } from './components/Storybook';
+
+          export default function NestedLayout({ children }: PropsWithChildren<{}>) {
+            return <Storybook previewPath="${previewPath}">{children}</Storybook>;
+          }`;
+        const routeLayoutFile = join(storybookDir, 'layout.tsx');
+        await writeFile(routeLayoutFile, routeLayoutTsx);
       } catch (err) {
         // FIXME: assume we've copied already
         // console.log({ err });
@@ -83,7 +100,10 @@ export const appIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer 
   };
 };
 
-export const pagesIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexer => {
+export const pagesIndexer = (
+  allPreviewAnnotations: PreviewAnnotation[],
+  { previewPath }: StorybookNextJSOptions
+): Indexer => {
   const workingDir = process.cwd(); // TODO we should probably put this on the preset options
 
   return {
@@ -94,7 +114,7 @@ export const pagesIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexe
       const csf = await loadCsf(code, { ...opts, fileName }).parse();
 
       const routeDir = 'pages';
-      const storybookDir = join(process.cwd(), routeDir, 'storybookPreview');
+      const storybookDir = join(process.cwd(), routeDir, previewPath);
       await ensureDir(storybookDir);
 
       const indexTsx = dedent`
@@ -125,7 +145,9 @@ export const pagesIndexer = (allPreviewAnnotations: PreviewAnnotation[]): Indexe
           return composeConfigs([${projectAnnotationArray}]);
         }
 
-        export const Storybook = () => <Preview getProjectAnnotations={getProjectAnnotations} />;
+        export const Storybook = () => (
+          <Preview getProjectAnnotations={getProjectAnnotations} previewPath="${previewPath}" />
+        );
       `;
 
       const componentsDir = join(storybookDir, 'components');

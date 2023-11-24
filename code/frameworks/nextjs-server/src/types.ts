@@ -22,4 +22,6 @@ export type StorybookConfig = StorybookConfigBase & StorybookConfigFramework;
 
 export interface StorybookNextJSOptions {
   appDir: boolean;
+  managerPath: string;
+  previewPath: string;
 }
