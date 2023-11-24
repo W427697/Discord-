@@ -380,8 +380,8 @@ module.exports = {
               type: 'link',
             },
             {
-              pathSegment: 'babel',
-              title: 'Babel',
+              pathSegment: 'compilers',
+              title: 'Compilers',
               type: 'link',
             },
             {
