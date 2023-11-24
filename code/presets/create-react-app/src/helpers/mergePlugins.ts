@@ -6,14 +6,14 @@ export const mergePlugins = (...args: Configuration['plugins']): Configuration['
   args?.reduce((plugins, plugin) => {
     if (
       plugins?.some(
-        (includedPlugin) => includedPlugin.constructor.name === plugin.constructor.name
+        (includedPlugin) => includedPlugin?.constructor.name === plugin?.constructor.name
       ) ||
-      plugin.constructor.name === 'WebpackManifestPlugin'
+      plugin?.constructor.name === 'WebpackManifestPlugin'
     ) {
       return plugins;
     }
     let updatedPlugin = plugin;
-    if (plugin.constructor.name === 'ReactRefreshPlugin') {
+    if (plugin?.constructor.name === 'ReactRefreshPlugin') {
       // Storybook uses webpack-hot-middleware
       // https://github.com/storybookjs/presets/issues/177
 
