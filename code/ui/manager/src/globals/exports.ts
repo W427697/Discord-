@@ -177,6 +177,11 @@ export default {
     'UPDATE_QUERY_PARAMS',
     'UPDATE_STORY_ARGS',
   ],
+  '@storybook/core-events/manager-errors': [
+    'Category',
+    'ProviderDoesNotExtendBaseProviderError',
+    'UncaughtManagerError',
+  ],
   '@storybook/router': [
     'BaseLocationProvider',
     'DEEPLY_EQUAL',
