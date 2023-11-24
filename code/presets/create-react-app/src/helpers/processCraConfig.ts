@@ -62,7 +62,8 @@ export const processCraConfig = (
       return [
         ...rules,
         {
-          oneOf: oneOf!.map((oneOfRule: RuleSetRule): RuleSetRule => {
+          //@ts-ignore
+          oneOf: oneOf.map((oneOfRule: RuleSetRule): RuleSetRule => {
             if (oneOfRule.type === 'asset/resource') {
               if (isStorybook530) {
                 const excludes = [
