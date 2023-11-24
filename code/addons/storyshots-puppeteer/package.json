@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storyshots-puppeteer",
-  "version": "7.6.0-alpha.6",
+  "version": "7.6.0-alpha.7",
   "description": "Image snapshots addition to StoryShots based on puppeteer",
   "keywords": [
     "addon",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@axe-core/puppeteer": "^4.2.0",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@storybook/node-logger": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/jest-image-snapshot": "^6.0.0",
