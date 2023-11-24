@@ -90,10 +90,20 @@ export interface API_UIOptions {
 
 export interface API_Layout {
   initialActive: API_ActiveTabsType;
-  isFullscreen: boolean;
-  showPanel: boolean;
+  navSize: number;
+  bottomPanelHeight: number;
+  rightPanelWidth: number;
+  /**
+   * the sizes of the panels when they were last visible
+   * used to restore the sizes when the panels are shown again
+   * eg. when toggling fullscreen, panels, etc.
+   */
+  recentVisibleSizes: {
+    navSize: number;
+    bottomPanelHeight: number;
+    rightPanelWidth: number;
+  };
   panelPosition: API_PanelPositions;
-  showNav: boolean;
   showTabs: boolean;
   showToolbar: boolean;
   /**

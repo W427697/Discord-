@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import type {
-  FC,
-  PropsWithChildren,
-  ReactElement,
-  ReactNode,
-  ValidationMap,
-  WeakValidationMap,
-} from 'react';
+import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
 import type { API_SidebarOptions } from './api';
@@ -320,15 +313,6 @@ export interface Addon_RenderOptions {
   key?: unknown;
 }
 
-/**
- * @deprecated This type is deprecated and will be removed in 8.0.
- */
-export type ReactJSXElement = {
-  type: any;
-  props: any;
-  key: any;
-};
-
 export type Addon_Type =
   | Addon_BaseType
   | Addon_PageType
@@ -340,7 +324,7 @@ export interface Addon_BaseType {
    * The title of the addon.
    * This can be a simple string, but it can also be a React.FunctionComponent or a React.ReactElement.
    */
-  title: FCWithoutChildren | ReactNode;
+  title: FC | ReactNode | (() => string);
   /**
    * The type of the addon.
    * @example Addon_TypesEnum.PANEL
@@ -396,20 +380,6 @@ export interface Addon_BaseType {
   hidden?: boolean;
 }
 
-/**
- * This is a copy of FC from react/index.d.ts, but has the PropsWithChildren type removed
- * this is correct and more type strict, and future compatible with React.FC in React 18+
- *
- * @deprecated This type is deprecated and will be removed in 8.0. (assuming the manager uses React 18 is out by then)
- */
-interface FCWithoutChildren<P = {}> {
-  (props: P, context?: any): ReactElement<any, any> | null;
-  propTypes?: WeakValidationMap<P> | undefined;
-  contextTypes?: ValidationMap<any> | undefined;
-  defaultProps?: Partial<P> | undefined;
-  displayName?: string | undefined;
-}
-
 export interface Addon_PageType {
   type: Addon_TypesEnum.experimental_PAGE;
   /**
@@ -423,7 +393,7 @@ export interface Addon_PageType {
   /**
    * The title is used in mobile mode to represent the page in the navigation.
    */
-  title: FCWithoutChildren | string | ReactElement | ReactNode;
+  title: FC | string | ReactElement | ReactNode;
   /**
    * The main content of the addon, a function component without any props.
    * Storybook will render your component always.
@@ -440,7 +410,7 @@ export interface Addon_PageType {
    *   );
    * };
    */
-  render: FCWithoutChildren;
+  render: FC;
 }
 
 export interface Addon_WrapperType {
@@ -473,7 +443,7 @@ export interface Addon_SidebarBottomType {
   /**
    * A React.FunctionComponent.
    */
-  render: FCWithoutChildren;
+  render: FC;
 }
 
 export interface Addon_SidebarTopType {
@@ -485,7 +455,7 @@ export interface Addon_SidebarTopType {
   /**
    * A React.FunctionComponent.
    */
-  render: FCWithoutChildren;
+  render: FC;
 }
 
 type Addon_TypeBaseNames = Exclude<

@@ -169,11 +169,6 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'snapshot-testing',
-          title: 'Snapshot tests',
-          type: 'link',
-        },
-        {
           pathSegment: '',
           title: 'Import stories in tests',
           type: 'menu',
