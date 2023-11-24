@@ -40,9 +40,9 @@ The following options are configurable under the `sidebar` namespace:
 
 The following options are configurable under the `toolbar` namespace:
 
-| Name   |  Type  |            Description             |    Example Value    |
-| ------ | :----: | :--------------------------------: | :-----------------: |
-| **id** | String | Toggle visibility for toolbar item | `{ hidden: false }` |
+| Name            |   Type   |                      Description                       |               Example Value                |
+| --------------- | :------: | :----------------------------------------------------- | :----------------------------------------: |
+| **showToolbar** | Function | Decide when to show the toolbar; must return a boolean | `(options) => options.viewMode !== 'docs'` |
 
 ## Configuring through URL parameters
 

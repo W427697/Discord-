@@ -427,6 +427,11 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'toolbar',
+              title: 'Toolbar',
+              type: 'link',
+            },
+            {
               pathSegment: 'storybook-addons',
               title: 'Storybook Addons',
               type: 'link',

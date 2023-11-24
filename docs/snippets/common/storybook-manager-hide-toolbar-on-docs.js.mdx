@@ -1,0 +1,14 @@
+```js
+// .storybook/manager.js
+
+import { addons } from '@storybook/manager-api';
+
+addons.setConfig({
+  toolbar: {
+    showToolbar(options) {
+      // Always hide the toolbar on docs pages, and respect user preferences elsewhere.
+      return options.layout.showToolbar && options.viewMode !== 'docs';
+    },
+  },
+});
+```

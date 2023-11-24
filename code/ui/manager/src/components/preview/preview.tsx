@@ -10,6 +10,7 @@ import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-eve
 import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';
 
+import useShowToolbar from '../hooks/useShowToolbar';
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';
 import { defaultWrappers, ApplyWrappers } from './wrappers';
@@ -76,6 +77,7 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
 
   const shouldScale = viewMode === 'story';
   const { showToolbar, showTabs = true } = options;
+  const shouldShowToolbar = useShowToolbar(showToolbar);
   const visibleTabsInToolbar = showTabs ? tabs : [];
 
   const previousStoryId = useRef(storyId);
@@ -110,10 +112,10 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
           key="tools"
           entry={entry}
           api={api}
-          isShown={showToolbar}
+          isShown={shouldShowToolbar}
           tabs={visibleTabsInToolbar}
         />
-        <S.FrameWrap key="frame" offset={showToolbar ? 40 : 0}>
+        <S.FrameWrap key="frame" offset={shouldShowToolbar ? 40 : 0}>
           <Canvas {...{ withLoader, baseUrl }} />
           {tabs.map(({ render: Render, match, ...t }, i) => {
             // @ts-expect-error (Converted from ts-ignore)
