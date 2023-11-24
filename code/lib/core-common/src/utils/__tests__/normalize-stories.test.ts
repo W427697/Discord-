@@ -61,7 +61,7 @@ const options = {
 
 describe('normalizeStoriesEntry', () => {
   it('direct file path', () => {
-    const specifier = normalizeStoriesEntry('../path/to/file.stories. mdx', options);
+    const specifier = normalizeStoriesEntry('../path/to/file.stories.mdx', options);
     expect(specifier).toMatchInlineSnapshot(`
       {
         "titlePrefix": "",
