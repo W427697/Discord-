@@ -45,8 +45,6 @@ const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
 const storybookPaths: Record<string, string> = {
   ...(managerAPIPath
     ? {
-        // deprecated, remove in 8.0
-        [`@storybook/api`]: managerAPIPath,
         [`@storybook/manager-api`]: managerAPIPath,
       }
     : {}),
