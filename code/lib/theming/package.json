@@ -65,7 +65,7 @@
     "fs-extra": "^11.1.0",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
-    "typescript": "~5.2.2"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
