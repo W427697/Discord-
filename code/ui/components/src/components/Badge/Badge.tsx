@@ -82,6 +82,7 @@ const BadgeWrapper = styled.div<BadgeProps>(
 
 export interface BadgeProps extends PropsWithChildren {
   status: 'positive' | 'negative' | 'neutral' | 'warning' | 'critical';
+  children: React.ReactNode;
 }
 
 export const Badge: FC<BadgeProps> = ({ ...props }) => {
