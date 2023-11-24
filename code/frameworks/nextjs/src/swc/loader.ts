@@ -1,5 +1,5 @@
 import { getProjectRoot } from '@storybook/core-common';
-import { getVirtualModuleMapping } from '@storybook/core-webpack';
+import { getVirtualModules } from '@storybook/builder-webpack5';
 import type { Options, Preset } from '@storybook/types';
 import type { NextConfig } from 'next';
 import path from 'path';
@@ -29,7 +29,7 @@ export const configureSWCLoader = async (
 
   const dir = getProjectRoot();
 
-  const virtualModules = await getVirtualModuleMapping(options);
+  const { virtualModules } = await getVirtualModules(options);
 
   baseConfig.module.rules = [
     // TODO: Remove filtering in Storybook 8.0
