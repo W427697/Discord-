@@ -3,16 +3,16 @@ import type { Options, StorybookConfig } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 import chalk from 'chalk';
+import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path from 'path';
-import favicon from 'serve-favicon';
+import path, { basename, isAbsolute } from 'path';
 import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
 import { defaultStaticDirs } from './constants';
 
-export async function useStatics(router: any, options: Options) {
+export async function useStatics(router: Router, options: Options) {
   const staticDirs =
     (await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
@@ -30,14 +30,15 @@ export async function useStatics(router: any, options: Options) {
     await Promise.all(
       statics.map(async (dir) => {
         try {
-          const relativeDir = staticDirs
-            ? getDirectoryFromWorkingDir({
-                configDir: options.configDir,
-                workingDir: process.cwd(),
-                directory: dir,
-              })
-            : dir;
-          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+          const normalizedDir =
+            staticDirs && !isAbsolute(dir)
+              ? getDirectoryFromWorkingDir({
+                  configDir: options.configDir,
+                  workingDir: process.cwd(),
+                  directory: dir,
+                })
+              : dir;
+          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
           // Don't log for the internal static dir
           if (!targetEndpoint.startsWith('/sb-')) {
@@ -54,7 +55,7 @@ export async function useStatics(router: any, options: Options) {
     );
   }
 
-  router.use(favicon(faviconPath));
+  router.get(`/${basename(faviconPath)}`, (req, res) => res.sendFile(faviconPath));
 }
 
 export const parseStaticDir = async (arg: string) => {

@@ -32,6 +32,7 @@ describe('getMigrationSummary', () => {
     },
     dependencies: {},
     infoCommand: 'yarn why',
+    dedupeCommand: 'yarn dedupe',
   };
 
   const logFile = '/path/to/log/file';
@@ -138,15 +139,26 @@ describe('getMigrationSummary', () => {
       @storybook/instrumenter:
       6.0.0, 7.1.0
 
-      Attention: The following dependencies are duplicated which might cause unexpected behavior:
-
       @storybook/core-common:
       6.0.0, 7.1.0
+
+
+
+
+      Attention: The following dependencies are duplicated which might cause unexpected behavior:
 
       @storybook/addon-essentials:
       7.0.0, 7.1.0
 
-      You can find more information for a given dependency by running yarn why <package-name>"
+
+
+
+      You can find more information for a given dependency by running yarn why <package-name>
+
+
+
+
+      Please try de-duplicating these dependencies by running yarn dedupe"
     `);
   });
 

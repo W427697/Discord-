@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { global } from '@storybook/global';
-import { logger } from '@storybook/node-logger';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { deprecate, logger } from '@storybook/node-logger';
+import { getPrecedingUpgrade, telemetry } from '@storybook/telemetry';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -23,18 +23,19 @@ import {
 import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 
 import isEqual from 'lodash/isEqual.js';
+import dedent from 'ts-dedent';
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
   copyAllStaticFilesRelativeToMain,
 } from './utils/copy-all-static-files';
 import { getBuilders } from './utils/get-builders';
-import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
+import { convertToIndexV3, extractStoriesJson } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
 import { defaultStaticDirs } from './utils/constants';
-import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
+import { buildOrThrow } from './utils/build-or-throw';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
   LoadOptions &
@@ -76,8 +77,6 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  await warnOnIncompatibleAddons(config);
-
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
     corePresets: [
@@ -87,11 +86,14 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     overridePresets: [
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
+    isCritical: true,
     ...options,
   });
 
-  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
   const { renderer } = await presets.apply<CoreConfig>('core', {});
+  const build = await presets.apply('build', {});
+  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets, build });
+
   const resolvedRenderer = renderer
     ? resolveAddonName(options.configDir, renderer, options)
     : undefined;
@@ -109,6 +111,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
     ...options,
+    build,
   });
 
   const [features, core, staticDirs, indexers, deprecatedStoryIndexers, stories, docsOptions] =
@@ -122,10 +125,18 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       presets.apply<DocsOptions>('docs', {}),
     ]);
 
+  if (features?.storyStoreV7 === false) {
+    deprecate(
+      dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
+        - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
+    );
+  }
+
   const fullOptions: Options = {
     ...options,
     presets,
     features,
+    build,
   };
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
@@ -136,7 +147,9 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   global.FEATURES = features;
 
-  await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
+  await buildOrThrow(async () =>
+    managerBuilder.build({ startTime: process.hrtime(), options: fullOptions })
+  );
 
   if (staticDirs) {
     effects.push(
@@ -169,6 +182,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
       docs: docsOptions,
       storiesV2Compatibility: !features?.storyStoreV7,
       storyStoreV7: !!features?.storyStoreV7,
+      build,
     });
 
     initializedStoryIndexGenerator = generator.initialize().then(() => generator);

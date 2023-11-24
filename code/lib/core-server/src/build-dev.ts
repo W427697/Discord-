@@ -11,6 +11,7 @@ import {
   loadMainConfig,
   resolveAddonName,
   resolvePathInStorybookCache,
+  serverResolve,
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
@@ -19,6 +20,10 @@ import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
+import { deprecate } from '@storybook/node-logger';
+import dedent from 'ts-dedent';
+import { readFile } from 'fs-extra';
+import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { storybookDevServer } from './dev-server';
 import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
@@ -26,6 +31,7 @@ import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 import { warnOnIncompatibleAddons } from './utils/warnOnIncompatibleAddons';
+import { buildOrThrow } from './utils/build-or-throw';
 
 export async function buildDevStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions
@@ -73,7 +79,11 @@ export async function buildDevStandalone(
 
   corePresets.push(join(frameworkName, 'preset'));
 
-  await warnOnIncompatibleAddons(config);
+  try {
+    await warnOnIncompatibleAddons(config);
+  } catch (e) {
+    console.warn('Storybook failed to check addon compatibility', e);
+  }
 
   // Load first pass: We need to determine the builder
   // We need to do this because builders might introduce 'overridePresets' which we need to take into account
@@ -84,11 +94,14 @@ export async function buildDevStandalone(
       require.resolve('@storybook/core-server/dist/presets/common-override-preset'),
     ],
     ...options,
+    isCritical: true,
   });
 
   const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
 
-  invariant(builder, 'No builder configured in core.builder');
+  if (!builder) {
+    throw new MissingBuilderError();
+  }
 
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {
@@ -101,6 +114,24 @@ export async function buildDevStandalone(
     getPreviewBuilder(builderName, options.configDir),
     getManagerBuilder(),
   ]);
+
+  if (builderName.includes('builder-vite')) {
+    const deprecationMessage =
+      dedent(`Using CommonJS in your main configuration file is deprecated with Vite.
+              - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#commonjs-with-vite-is-deprecated`);
+
+    const mainJsPath = serverResolve(resolve(options.configDir || '.storybook', 'main')) as string;
+    if (/\.c[jt]s$/.test(mainJsPath)) {
+      deprecate(deprecationMessage);
+    }
+    const mainJsContent = await readFile(mainJsPath, 'utf-8');
+    // Regex that matches any CommonJS-specific syntax, stolen from Vite: https://github.com/vitejs/vite/blob/91a18c2f7da796ff8217417a4bf189ddda719895/packages/vite/src/node/ssr/ssrExternal.ts#L87
+    const CJS_CONTENT_REGEX =
+      /\bmodule\.exports\b|\bexports[.[]|\brequire\s*\(|\bObject\.(?:defineProperty|defineProperties|assign)\s*\(\s*exports\b/;
+    if (CJS_CONTENT_REGEX.test(mainJsContent)) {
+      deprecate(deprecationMessage);
+    }
+  }
 
   const resolvedRenderer = renderer && resolveAddonName(options.configDir, renderer, options);
 
@@ -130,8 +161,8 @@ export async function buildDevStandalone(
     features,
   };
 
-  const { address, networkAddress, managerResult, previewResult } = await storybookDevServer(
-    fullOptions
+  const { address, networkAddress, managerResult, previewResult } = await buildOrThrow(async () =>
+    storybookDevServer(fullOptions)
   );
 
   const previewTotalTime = previewResult?.totalTime;
