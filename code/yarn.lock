@@ -6854,7 +6854,6 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.23.2"
     "@babel/runtime": "npm:^7.23.2"
     "@babel/types": "npm:^7.23.0"
-    "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/builder-webpack5": "workspace:*"
     "@storybook/core-common": "workspace:*"
