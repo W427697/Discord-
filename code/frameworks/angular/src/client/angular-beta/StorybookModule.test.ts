@@ -7,7 +7,7 @@ import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { PropertyExtractor } from './utils/PropertyExtractor';
 
-describe.skip('StorybookModule', () => {
+describe('StorybookModule', () => {
   describe('getStorybookModuleMetadata', () => {
     describe('with simple component', () => {
       @Component({

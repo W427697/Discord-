@@ -9,7 +9,7 @@ import { DocsRenderer } from './DocsRenderer';
 jest.mock('@angular/platform-browser-dynamic');
 
 declare const document: Document;
-describe.skip('RendererFactory', () => {
+describe('RendererFactory', () => {
   let rendererFactory: RendererFactory;
   let rootTargetDOMNode: HTMLElement;
   let rootDocstargetDOMNode: HTMLElement;
