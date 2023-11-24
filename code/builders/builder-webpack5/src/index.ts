@@ -18,6 +18,7 @@ import {
 import prettyTime from 'pretty-hrtime';
 
 export * from './types';
+export * from './preview/virtual-module-mapping';
 
 export const printDuration = (startTime: [number, number]) =>
   prettyTime(process.hrtime(startTime))
@@ -201,7 +202,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const { warnings, errors } = getWebpackStats({ config, stats });
 
   if (warnings.length > 0) {
-    warnings?.forEach((e) => logger.error(e.message));
+    warnings?.forEach((e) => logger.warn(e.message));
   }
 
   if (errors.length > 0) {
@@ -270,10 +271,11 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
       const { warnings, errors } = getWebpackStats({ config, stats });
 
       if (warnings.length > 0) {
-        warnings?.forEach((e) => logger.error(e.message));
+        warnings?.forEach((e) => logger.warn(e.message));
       }
 
       if (errors.length > 0) {
+        errors.forEach((e) => logger.error(e.message));
         compiler.close(() => fail(new WebpackCompilationError({ errors })));
         return;
       }
