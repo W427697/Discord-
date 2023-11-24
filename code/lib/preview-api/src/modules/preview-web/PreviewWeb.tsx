@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { global } from '@storybook/global';
-import type { Renderer, ProjectAnnotations, StoryIndex, ModuleImportFn } from '@storybook/types';
+import type { Renderer, ProjectAnnotations, ModuleImportFn } from '@storybook/types';
 
 import { PreviewWithSelection } from './PreviewWithSelection';
 import { UrlStore } from './UrlStore';

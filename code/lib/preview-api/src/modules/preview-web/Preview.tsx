@@ -108,7 +108,7 @@ export class Preview<TRenderer extends Renderer> {
       const projectAnnotations = await this.getProjectAnnotations();
 
       this.renderToCanvas = projectAnnotations.renderToCanvas;
-      if (!this.renderToCanvas) throw new MissingRenderToCanvasError({});
+      if (!this.renderToCanvas) throw new MissingRenderToCanvasError();
 
       return projectAnnotations;
     } catch (err) {
