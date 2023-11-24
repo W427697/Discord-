@@ -5,6 +5,7 @@ const { toMatchImageSnapshot } = require('jest-image-snapshot');
 
 const customSnapshotsDir = `${process.cwd()}/__snapshots__`;
 
+/** @type { import('@storybook/test-runner').TestRunnerConfig } */
 module.exports = {
   setup() {
     expect.extend({ toMatchImageSnapshot });
