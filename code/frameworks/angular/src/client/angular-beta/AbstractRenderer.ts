@@ -3,7 +3,8 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
-import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
+import { nanoid } from 'nanoid';
+import { ICollection, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
@@ -15,6 +16,8 @@ type StoryRenderInfo = {
 };
 
 const applicationRefs = new Map<HTMLElement, ApplicationRef>();
+
+export const STORY_UID_ATTRIBUTE = 'data-sb-story-uid';
 
 export abstract class AbstractRenderer {
   /**
@@ -122,10 +125,15 @@ export abstract class AbstractRenderer {
 
     const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
 
+    const componentSelector =
+      targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE) !== null
+        ? `${targetSelector}[${targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE)}]`
+        : targetSelector;
+
     const application = getApplication({
       storyFnAngular,
       component,
-      targetSelector,
+      targetSelector: componentSelector,
       analyzedMetadata,
     });
 
@@ -161,11 +169,18 @@ export abstract class AbstractRenderer {
     return storyIdIsInvalidHtmlTagName ? `sb-${id.replace(invalidHtmlTag, '')}-component` : id;
   }
 
+  /**
+   * Adds DOM element that angular will use as bootstrap component.
+   */
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
-    // Adds DOM element that angular will use as bootstrap component
     // eslint-disable-next-line no-param-reassign
     targetDOMNode.innerHTML = '';
-    targetDOMNode.appendChild(document.createElement(targetSelector));
+
+    targetDOMNode.setAttribute(STORY_UID_ATTRIBUTE, `${targetDOMNode.id}-${nanoid(10)}`);
+    const element = document.createElement(targetSelector);
+    element.toggleAttribute(targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE), true);
+
+    targetDOMNode.appendChild(element);
   }
 
   private fullRendererRequired({

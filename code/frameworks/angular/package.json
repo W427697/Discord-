@@ -56,6 +56,7 @@
     "@types/semver": "^7.3.4",
     "@types/webpack-env": "^1.18.0",
     "find-up": "^5.0.0",
+    "nanoid": "^4.0.2",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
     "telejson": "^7.2.0",
