@@ -25,6 +25,14 @@ export const getProjectRoot = () => {
     //
   }
   try {
+    const found = findUp.sync('.hg', { type: 'directory' });
+    if (found) {
+      result = result || path.join(found, '..');
+    }
+  } catch (e) {
+    //
+  }
+  try {
     const found = findUp.sync('.yarn', { type: 'directory' });
     if (found) {
       result = result || path.join(found, '..');
@@ -36,22 +44,6 @@ export const getProjectRoot = () => {
     result = result || __dirname.split('node_modules')[0];
   } catch (e) {
     //
-  }
-
-  // Check if the working directory or a parent contains a folder that is normally only in a project root
-  const dirnames = ['.git', '.svn', '.hg', '.yarn'];
-  for (let i = 0; i < dirnames.length; i += 1) {
-    const name = dirnames[i];
-    const foundDir = findUp.sync(name, { type: 'directory' });
-    if (foundDir) {
-      return path.join(foundDir, '..');
-    }
-  }
-
-  // If a folder containing this file is named .yarn or node_modules, assume the containing folder is the project root
-  const split = __dirname.split(/[/\\](.yarn|node_modules)/);
-  if (split.length > 1) {
-    return split[0];
   }
 
   // If none of the above yield a result, just go with the current working directory
