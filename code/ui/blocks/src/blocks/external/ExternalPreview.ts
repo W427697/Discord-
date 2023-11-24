@@ -36,8 +36,10 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
   private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
 
   constructor(public projectAnnotations: ProjectAnnotations<TRenderer>) {
+    // @ts-expect-error (tom will fix this)
     super(new Channel({}));
 
+    // @ts-expect-error (tom will fix this)
     this.initialize({
       getStoryIndex: () => this.storyIndex,
       importFn: (path: Path) => {
