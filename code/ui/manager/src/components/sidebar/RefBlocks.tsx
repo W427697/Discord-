@@ -12,12 +12,12 @@ import { Loader, Contained } from './Loader';
 const { window: globalWindow } = global;
 
 const TextStyle = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 }));
 const Text = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 

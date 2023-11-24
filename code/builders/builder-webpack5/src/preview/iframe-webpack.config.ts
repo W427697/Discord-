@@ -1,4 +1,4 @@
-import { dirname, isAbsolute, join, resolve } from 'path';
+import { dirname, join, resolve } from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -7,22 +7,20 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import slash from 'slash';
-
-import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
-import { globals } from '@storybook/preview/globals';
+import type { TransformOptions as EsbuildOptions } from 'esbuild';
+import type { JsMinifyOptions as SwcOptions } from '@swc/core';
+import type { Options, CoreConfig, DocsOptions } from '@storybook/types';
+import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
   stringifyProcessEnvs,
-  handlebars,
   normalizeStories,
-  readTemplate,
-  loadPreviewOrConfigFile,
   isPreservingSymlinks,
 } from '@storybook/core-common';
-import { toImportFn } from '@storybook/core-webpack';
+import type { BuilderOptions } from '@storybook/core-webpack';
+import { getVirtualModuleMapping } from '@storybook/core-webpack';
 import { dedent } from 'ts-dedent';
-import type { BuilderOptions, TypescriptOptions } from '../types';
+import type { TypescriptOptions } from '../types';
 import { createBabelLoader, createSWCLoader } from './loaders';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
@@ -86,6 +84,7 @@ export default async (
     entries,
     nonNormalizedStories,
     modulesCount = 1000,
+    build,
   ] = await Promise.all([
     presets.apply<CoreConfig>('core'),
     presets.apply('frameworkOptions'),
@@ -98,6 +97,7 @@ export default async (
     presets.apply<string[]>('entries', []),
     presets.apply('stories', []),
     options.cache?.get('modulesCount').catch(() => {}),
+    options.presets.apply('build'),
   ]);
 
   const stories = normalizeStories(nonNormalizedStories, {
@@ -107,50 +107,8 @@ export default async (
 
   const builderOptions = await getBuilderOptions<BuilderOptions>(options);
 
-  const previewAnnotations = [
-    ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
-      (entry) => {
-        // If entry is an object, use the absolute import specifier.
-        // This is to maintain back-compat with community addons that bundle other addons
-        // and package managers that "hide" sub dependencies (e.g. pnpm / yarn pnp)
-        // The vite builder uses the bare import specifier.
-        if (typeof entry === 'object') {
-          return entry.absolute;
-        }
-
-        // TODO: Remove as soon as we drop support for disabled StoryStoreV7
-        if (isAbsolute(entry)) {
-          return entry;
-        }
-
-        return slash(entry);
-      }
-    ),
-    loadPreviewOrConfigFile(options),
-  ].filter(Boolean);
-
-  const virtualModuleMapping: Record<string, string> = {};
-  const storiesFilename = 'storybook-stories.js';
-  const storiesPath = resolve(join(workingDir, storiesFilename));
-
-  const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
-  virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
-  const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.js'));
-  virtualModuleMapping[configEntryPath] = handlebars(
-    await readTemplate(
-      require.resolve(
-        '@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars'
-      )
-    ),
-    {
-      storiesFilename,
-      previewAnnotations,
-    }
-    // We need to double escape `\` for webpack. We may have some in windows paths
-  ).replace(/\\/g, '\\\\');
-  entries.push(configEntryPath);
-
-  const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
+  const shouldCheckTs =
+    typescriptOptions.check && !typescriptOptions.skipBabel && !typescriptOptions.skipCompiler;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
   const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
@@ -170,11 +128,22 @@ export default async (
     `);
   }
 
+  const externals: Record<string, string> = globalsNameReferenceMap;
+  if (build?.test?.disableBlocks) {
+    externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+  }
+
+  const virtualModuleMapping = await getVirtualModuleMapping(options);
+
+  Object.keys(virtualModuleMapping).forEach((key) => {
+    entries.push(key);
+  });
+
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
     bail: isProd,
-    devtool: 'cheap-module-source-map',
+    devtool: options.build?.test?.disableSourcemaps ? false : 'cheap-module-source-map',
     entry: entries,
     output: {
       path: resolve(process.cwd(), outputDir),
@@ -188,7 +157,7 @@ export default async (
     watchOptions: {
       ignored: /node_modules/,
     },
-    externals: globals,
+    externals,
     ignoreWarnings: [
       {
         message: /export '\S+' was not found in 'global'/,
@@ -222,6 +191,7 @@ export default async (
               importPathMatcher: specifier.importPathMatcher.source,
             })),
             DOCS_OPTIONS: docsOptions,
+            ...(build?.test?.disableBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
           },
           headHtmlSnippet,
           bodyHtmlSnippet,
@@ -246,7 +216,18 @@ export default async (
       shouldCheckTs ? new ForkTsCheckerWebpackPlugin(tsCheckOptions) : null,
     ].filter(Boolean),
     module: {
+      // Disable warning for dynamic requires
+      unknownContextCritical: false,
       rules: [
+        {
+          test: /\.stories\.([tj])sx?$|(stories|story)\.mdx$/,
+          enforce: 'post',
+          use: [
+            {
+              loader: require.resolve('@storybook/builder-webpack5/loaders/export-order-loader'),
+            },
+          ],
+        },
         {
           test: /\.m?js$/,
           type: 'javascript/auto',
@@ -258,7 +239,7 @@ export default async (
           },
         },
         builderOptions.useSWC
-          ? createSWCLoader(Object.keys(virtualModuleMapping))
+          ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
           : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
@@ -290,17 +271,29 @@ export default async (
       },
       runtimeChunk: true,
       sideEffects: true,
-      usedExports: isProd,
+      usedExports: options.build?.test?.disableTreeShaking ? false : isProd,
       moduleIds: 'named',
       ...(isProd
         ? {
             minimize: true,
-            minimizer: builderOptions.useSWC
+            // eslint-disable-next-line no-nested-ternary
+            minimizer: options.build?.test?.esbuildMinify
               ? [
-                  new TerserWebpackPlugin({
+                  new TerserWebpackPlugin<EsbuildOptions>({
+                    parallel: true,
+                    minify: TerserWebpackPlugin.esbuildMinify,
+                    terserOptions: {
+                      sourcemap: !options.build?.test?.disableSourcemaps,
+                      treeShaking: !options.build?.test?.disableTreeShaking,
+                    },
+                  }),
+                ]
+              : builderOptions.useSWC
+              ? [
+                  new TerserWebpackPlugin<SwcOptions>({
                     minify: TerserWebpackPlugin.swcMinify,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },
@@ -310,7 +303,7 @@ export default async (
                   new TerserWebpackPlugin({
                     parallel: true,
                     terserOptions: {
-                      sourceMap: true,
+                      sourceMap: !options.build?.test?.disableSourcemaps,
                       mangle: false,
                       keep_fnames: true,
                     },

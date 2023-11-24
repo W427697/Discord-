@@ -43,7 +43,10 @@ const Container = styled.nav(({ theme }) => ({
 }));
 
 const Top = styled(Spaced)({
-  padding: 20,
+  paddingLeft: 12,
+  paddingRight: 12,
+  paddingBottom: 20,
+  paddingTop: 16,
   flex: 1,
 });
 
@@ -130,7 +133,7 @@ export const Sidebar = React.memo(function Sidebar({
 
   return (
     <Container className="container sidebar-container">
-      <ScrollArea vertical offset={8}>
+      <ScrollArea vertical offset={3} scrollbarSize={6}>
         <Top row={1.6}>
           <Heading
             className="sidebar-header"
@@ -141,13 +144,7 @@ export const Sidebar = React.memo(function Sidebar({
             isLoading={isLoading}
             onMenuClick={onMenuClick}
           />
-
-          <Search
-            dataset={dataset}
-            isLoading={isLoading}
-            enableShortcuts={enableShortcuts}
-            {...lastViewedProps}
-          >
+          <Search dataset={dataset} enableShortcuts={enableShortcuts} {...lastViewedProps}>
             {({
               query,
               results,
@@ -173,6 +170,7 @@ export const Sidebar = React.memo(function Sidebar({
                   highlightedIndex={highlightedIndex}
                   enableShortcuts={enableShortcuts}
                   isLoading={isLoading}
+                  clearLastViewed={lastViewedProps.clearLastViewed}
                 />
               </Swap>
             )}

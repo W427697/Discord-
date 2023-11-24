@@ -88,7 +88,7 @@
     "cross-env": "^7.0.3",
     "parcel": "2.0.1",
     "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "react-dom": "^18.2.0",
     "storybook": "7.2.0-alpha.0"
   }
 }

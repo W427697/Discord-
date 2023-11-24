@@ -1,6 +1,6 @@
 {
   "name": "@storybook/test",
-  "version": "7.6.0-alpha.3",
+  "version": "7.6.0-alpha.7",
   "description": "",
   "keywords": [
     "storybook"
@@ -19,7 +19,7 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "sideEffects": false,
+  "sideEffects": true,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -39,8 +39,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "workspace:*",
@@ -59,7 +59,7 @@
   "devDependencies": {
     "ts-dedent": "^2.2.0",
     "type-fest": "~2.19",
-    "typescript": "~4.9.3"
+    "typescript": "^5.3.2"
   },
   "publishConfig": {
     "access": "public"

@@ -168,7 +168,7 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
  */
 export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
-  disableTelemetry: options.disableTelemetry === true,
+  disableTelemetry: options.disableTelemetry === true || options.test === true,
   enableCrashReports:
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
@@ -192,6 +192,7 @@ export const features = async (
   warnOnLegacyHierarchySeparator: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
+  disallowImplicitActionsInRenderV8: false,
 });
 
 export const csfIndexer: Indexer = {

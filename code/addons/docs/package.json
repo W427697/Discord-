@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.6.0-alpha.3",
+  "version": "7.6.0-alpha.7",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -94,8 +94,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
@@ -122,7 +122,7 @@
     "@rollup/pluginutils": "^5.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "~5.2.2",
+    "typescript": "^5.3.2",
     "vite": "^4.0.4"
   },
   "peerDependencies": {

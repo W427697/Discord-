@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.6.0-alpha.3",
+  "version": "7.6.0-alpha.7",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -29,18 +29,19 @@
     },
     "./dist/image-context": {
       "types": "./dist/image-context.d.ts",
-      "require": "./dist/image-context.mjs",
+      "require": "./dist/image-context.js",
       "import": "./dist/image-context.mjs"
     },
     "./preset": {
       "types": "./dist/preset.d.ts",
       "require": "./dist/preset.js"
     },
-    "./preview.js": {
-      "types": "./dist/preview.d.ts",
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs"
+    "./font/webpack/loader/storybook-nextjs-font-loader": {
+      "types": "./dist/font/webpack/loader/storybook-nextjs-font-loader.d.ts",
+      "require": "./dist/font/webpack/loader/storybook-nextjs-font-loader.js",
+      "import": "./dist/font/webpack/loader/storybook-nextjs-font-loader.mjs"
     },
+    "./dist/preview.mjs": "./dist/preview.mjs",
     "./next-image-loader-stub.js": {
       "types": "./dist/next-image-loader-stub.d.ts",
       "require": "./dist/next-image-loader-stub.js",
@@ -70,8 +71,8 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.23.2",
@@ -87,10 +88,12 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.2",
     "@babel/runtime": "^7.23.2",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@storybook/addon-actions": "workspace:*",
     "@storybook/builder-webpack5": "workspace:*",
     "@storybook/core-common": "workspace:*",
     "@storybook/core-events": "workspace:*",
+    "@storybook/core-webpack": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
@@ -121,8 +124,8 @@
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
     "@types/loader-utils": "^2.0.5",
-    "next": "^14.0.0",
-    "typescript": "~5.2.2",
+    "next": "^14.0.2",
+    "typescript": "^5.3.2",
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
@@ -134,9 +137,6 @@
   },
   "peerDependenciesMeta": {
     "@next/font": {
-      "optional": true
-    },
-    "@storybook/addon-actions": {
       "optional": true
     },
     "typescript": {
@@ -163,7 +163,8 @@
       "./src/images/next-future-image.tsx",
       "./src/images/next-legacy-image.tsx",
       "./src/images/next-image.tsx",
-      "./src/font/webpack/loader/storybook-nextjs-font-loader.ts"
+      "./src/font/webpack/loader/storybook-nextjs-font-loader.ts",
+      "./src/swc/next-swc-loader-patch.ts"
     ],
     "externals": [
       "sb-original/next/image",

@@ -120,7 +120,8 @@ const baseTemplates = {
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
-    script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --javascript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -130,7 +131,8 @@ const baseTemplates = {
   },
   'nextjs/default-ts': {
     name: 'Next.js Latest (Webpack | TypeScript)',
-    script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --typescript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -301,7 +303,7 @@ const baseTemplates = {
   'angular-cli/prerelease': {
     name: 'Angular CLI Prerelease (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -312,7 +314,7 @@ const baseTemplates = {
   'angular-cli/default-ts': {
     name: 'Angular CLI Latest (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -540,7 +542,7 @@ const benchTemplates = {
       skipTemplateStories: true,
       testBuild: true,
     },
-    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
   },
   'bench/react-webpack-18-ts-test-build': {
     ...baseTemplates['react-webpack/18-ts'],
@@ -550,7 +552,7 @@ const benchTemplates = {
       skipTemplateStories: true,
       testBuild: true,
     },
-    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
   },
 } satisfies Record<string, Template & { isInternal: true }>;
 

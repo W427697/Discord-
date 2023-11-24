@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.6.0-alpha.3",
+  "version": "7.6.0-alpha.7",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -48,27 +48,27 @@
     "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/prepare/check.ts",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "@babel/types": "^7.23.0",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/types": "workspace:*",
     "@types/cross-spawn": "^6.0.2",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
-    "jscodeshift": "^0.14.0",
+    "jscodeshift": "^0.15.1",
     "lodash": "^4.17.21",
     "prettier": "^2.8.0",
     "recast": "^0.23.1"
   },
   "devDependencies": {
-    "@types/jscodeshift": "^0.11.6",
+    "@types/jscodeshift": "^0.11.10",
     "ansi-regex": "^5.0.1",
     "jest": "^29.7.0",
     "jest-specific-snapshot": "^8.0.0",
@@ -77,7 +77,7 @@
     "remark": "^14.0.2",
     "remark-mdx": "^2.3.0",
     "ts-dedent": "^2.2.0",
-    "typescript": "~5.2.2",
+    "typescript": "^5.3.2",
     "unist-util-is": "^5.2.0",
     "unist-util-select": "^4.0.3",
     "unist-util-visit": "^4.1.2",
