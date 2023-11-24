@@ -9,9 +9,9 @@ import { CHANNEL_CREATED, TELEMETRY_ERROR } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
-import { values } from './globals/runtime';
-import { Keys } from './globals/types';
-import { prepareForTelemetry } from './utils/prepareForTelemetry';
+import { globalsNameValueMap } from './globals/runtime';
+import { globalPackages, globalsNameReferenceMap } from './globals/globals';
+import { prepareForTelemetry, shouldSkipError } from './utils/prepareForTelemetry';
 
 const { FEATURES, CONFIG_TYPE } = global;
 
@@ -58,13 +58,15 @@ class ReactProvider extends Provider {
 }
 
 // Apply all the globals
-Object.keys(Keys).forEach((key: keyof typeof Keys) => {
-  global[Keys[key]] = values[key];
+globalPackages.forEach((key) => {
+  global[globalsNameReferenceMap[key]] = globalsNameValueMap[key];
 });
 
 global.sendTelemetryError = (error) => {
-  const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
-  channel.emit(TELEMETRY_ERROR, prepareForTelemetry(error));
+  if (!shouldSkipError(error)) {
+    const channel = global.__STORYBOOK_ADDONS_CHANNEL__;
+    channel.emit(TELEMETRY_ERROR, prepareForTelemetry(error));
+  }
 };
 
 // handle all uncaught errors at the root of the application and log to telemetry

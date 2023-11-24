@@ -1,5 +1,5 @@
 import type { Globals } from '@storybook/csf';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import React from 'react';
 import type { RouteParams } from './types';
 
@@ -9,7 +9,7 @@ type PageRouterProviderProps = {
   globals: Globals;
 };
 
-const PageRouterProvider: React.FC<PageRouterProviderProps> = ({
+export const PageRouterProvider: React.FC<PageRouterProviderProps> = ({
   children,
   action,
   routeParams,
@@ -66,5 +66,3 @@ const PageRouterProvider: React.FC<PageRouterProviderProps> = ({
     {children}
   </RouterContext.Provider>
 );
-
-export default PageRouterProvider;
