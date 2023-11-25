@@ -26,6 +26,10 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     6
   )}`;
 
+  const declarations = (options.props.declarations || [])
+    .map(({ prop, value }: { prop: string; value: string }) => `${prop}: ${value};`)
+    .join('\n');
+
   const arePathsWin32Format = /^[a-z]:\\/iu.test(options.filename);
   const cleanWin32Path = (pathString: string): string =>
     arePathsWin32Format ? pathString.replace(/\\/gu, '/') : pathString;
@@ -37,6 +41,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
       return `@font-face {
           font-family: ${id};
           src: url(.${localFontPath});
+          ${declarations}
       }`;
     }
     return localFontSrc
@@ -48,6 +53,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
           src: url(.${localFontPath});
           ${font.weight ? `font-weight: ${font.weight};` : ''}
           ${font.style ? `font-style: ${font.style};` : ''}
+          ${declarations}
         }`;
       })
       .join('');
