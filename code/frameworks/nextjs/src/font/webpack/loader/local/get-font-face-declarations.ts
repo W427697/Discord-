@@ -26,7 +26,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     6
   )}`;
 
-  const fontDeclarations = (declarations || [])
+  const fontDeclarations = (declarations ?? [])
     .map(({ prop, value }: { prop: string; value: string }) => `${prop}: ${value};`)
     .join('\n');
 
