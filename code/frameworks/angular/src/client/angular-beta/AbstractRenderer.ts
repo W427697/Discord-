@@ -3,10 +3,9 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
-import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
+import { ICollection, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
-import { componentNgModules } from './StorybookWrapperComponent';
 import { PropertyExtractor } from './utils/PropertyExtractor';
 
 type StoryRenderInfo = {
@@ -16,12 +15,13 @@ type StoryRenderInfo = {
 
 const applicationRefs = new Map<HTMLElement, ApplicationRef>();
 
+let bootstrappingLock = false;
+
 export abstract class AbstractRenderer {
   /**
    * Wait and destroy the platform
    */
   public static resetApplications(domNode?: HTMLElement) {
-    componentNgModules.clear();
     applicationRefs.forEach((appRef, appDOMNode) => {
       if (!appRef.destroyed && (!domNode || appDOMNode === domNode)) {
         appRef.destroy();
@@ -129,6 +129,7 @@ export abstract class AbstractRenderer {
       analyzedMetadata,
     });
 
+    await this.waitForBootstrappingLock();
     const applicationRef = await bootstrapApplication(application, {
       ...storyFnAngular.applicationConfig,
       providers: [
@@ -137,10 +138,33 @@ export abstract class AbstractRenderer {
         ...(storyFnAngular.applicationConfig?.providers ?? []),
       ],
     });
+    bootstrappingLock = false;
 
     applicationRefs.set(targetDOMNode, applicationRef);
 
     await this.afterFullRender();
+  }
+
+  /**
+   * Wait for the previous bootstrapApplication to finish before starting a new one,
+   * because the compiled component need to be cleared between applications compiling.
+   *
+   * Bootstraping multiple applications at the same time will cause the error that
+   * a component is declared in two modules.
+   */
+  private waitForBootstrappingLock() {
+    return new Promise<void>((resolve) => {
+      function checkCondition() {
+        if (!bootstrappingLock) {
+          bootstrappingLock = true;
+          resolve();
+        } else {
+          setTimeout(checkCondition, 100);
+        }
+      }
+
+      checkCondition();
+    });
   }
 
   /**
