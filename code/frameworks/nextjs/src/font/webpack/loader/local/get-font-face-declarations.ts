@@ -17,7 +17,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     .replace(rootContext, '');
 
   const { validateData } = require('../utils/local-font-utils');
-  const { weight, style, variable, declarations } = validateData('', options.props);
+  const { weight, style, variable, declarations = [] } = validateData('', options.props);
 
   const id = `font-${loaderUtils.getHashDigest(
     Buffer.from(JSON.stringify(localFontSrc)),
@@ -26,7 +26,7 @@ export async function getFontFaceDeclarations(options: LoaderOptions, rootContex
     6
   )}`;
 
-  const fontDeclarations = (declarations ?? [])
+  const fontDeclarations = declarations
     .map(({ prop, value }: { prop: string; value: string }) => `${prop}: ${value};`)
     .join('\n');
 
