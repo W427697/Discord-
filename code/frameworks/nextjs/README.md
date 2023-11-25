@@ -1,4 +1,4 @@
-****# Storybook for Next.js <!-- omit in toc -->
+# Storybook for Next.js <!-- omit in toc -->
 
 ## Table of Contents <!-- omit in toc -->
 
