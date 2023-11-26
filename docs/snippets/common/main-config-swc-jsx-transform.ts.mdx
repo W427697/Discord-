@@ -3,7 +3,7 @@
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
- framework: {
+  framework: {
     name: '@storybook/your-framework',
     options: {
       builder: {
@@ -13,11 +13,11 @@ const config: StorybookConfig = {
   },
   swc: (config, options) => ({
     jsc: {
-		  transform: {
-        runtime: 'automatic'
-      }
-    }
-  })
+      transform: {
+        runtime: 'automatic',
+      },
+    },
+  }),
 };
 
 export default config;

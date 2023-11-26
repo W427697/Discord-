@@ -3,7 +3,7 @@
 
 export default {
   // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
- framework: {
+  framework: {
     name: '@storybook/your-framework',
     options: {
       builder: {
@@ -13,10 +13,10 @@ export default {
   },
   swc: (config, options) => ({
     jsc: {
-		  transform: {
-        runtime: 'automatic'
-      }
-    }
-  })
+      transform: {
+        runtime: 'automatic',
+      },
+    },
+  }),
 };
 ```
