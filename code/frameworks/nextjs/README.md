@@ -14,7 +14,6 @@
   - [Next.js's Image Component](#nextjss-image-component)
     - [Local Images](#local-images)
     - [Remote Images](#remote-images)
-    - [AVIF](#avif)
   - [Next.js Font Optimization](#nextjs-font-optimization)
     - [next/font/google](#nextfontgoogle)
     - [next/font/local](#nextfontlocal)
@@ -123,7 +122,12 @@ export default {
   framework: {
     // name: '@storybook/react-webpack5', // Remove this
     name: '@storybook/nextjs', // Add this
-    options: {},
+    options: {
+      builder: {
+        // Set useSWC to true if you want to try out the experimental SWC compiler in Next.js >= 14.0.0
+        useSWC: true,
+      },
+    },
   },
 };
 ```
@@ -219,10 +223,6 @@ export default function Home() {
   );
 }
 ```
-
-#### AVIF
-
-This format is not supported by this framework yet. Feel free to [open up an issue](https://github.com/storybookjs/storybook/issues) if this is something you want to see.
 
 ### Next.js Font Optimization
 

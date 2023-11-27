@@ -63,32 +63,19 @@ Clone the repository you just created and install its dependencies. When the ins
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The Addon Kit uses [Typescript](https://www.typescriptlang.org/) by default. If you want to use JavaScript instead, you can run the `eject-ts` command to convert the project to JavaScript.
+The Addon Kit uses [Typescript](https://www.typescriptlang.org/) by default. If you want to use JavaScript instead, you can run the `eject-ts` command to convert the project to JavaScript.
 
-</div>
+</Callout>
 
 ### Understanding the build system
 
 Addons built in the Storybook ecosystem rely on [tsup](https://tsup.egoist.dev/), a fast, zero-config bundler powered by [esbuild](https://esbuild.github.io/) to transpile your addon's code into modern JavaScript that can run in the browser. Out of the box, the Addon Kit comes with a pre-configured `tsup` configuration file that you can use to customize the build process of your addon.
 
-<!-- prettier-ignore-start -->
+When the build scripts run, it will look for the configuration file and pre-bundle the addon's code based on the configuration provided. Addons can interact with Storybook in various ways. They can define presets to modify the configuration, add behavior to the manager UI, or add behavior to the preview iframe. These different use cases require different bundle outputs because they target different runtimes and environments. Presets are executed in a Node environment. Storybook's manager and preview environments provide certain packages in the global scope, so addons don't need to bundle them or include them as dependencies in their `package.json` file.
 
-<CodeSnippets
-  paths={[
-    'common/storybook-addon-toolkit-tsup-config.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-When the build scripts run, it will look for the configuration file and pre-bundle the addon's code based on the configuration provided. However, there are a few properties that are worth referencing:
-
-- **entry**: Configures the files to be processed by the bundler. It can be extended to include additional files using a regex pattern.
-- **format**: Enables the generation of multiple output formats. In this case, we're generating a CommonJS and an ES Module version of our addon.
-- **dts**: Auto-generates type definitions for our addon.
-- **platform**: Specifies the target platform for our addon. In this case, we're targeting the browser. It can be set to `node` for Node.js environments or `neutral` for universal modules.
+The `tsup` configuration handles these complexities by default, but you can customize it according to their requirements. For a detailed explanation of the bundling techniques used, please refer to [the README of the addon-kit](https://github.com/storybookjs/addon-kit#bundling), and check out the default `tsup` configuration [here](https://github.com/storybookjs/addon-kit/blob/main/tsup.config.ts).
 
 ## Register the addon
 
@@ -283,11 +270,11 @@ The second metadata category is related to the [integration catalog](https://sto
 }
 ```
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The `storybook` configuration element includes additional properties that help customize the addon's searchability and indexing. For more information, see the [Integration catalog documentation](./integration-catalog.md).
+The `storybook` configuration element includes additional properties that help customize the addon's searchability and indexing. For more information, see the [Integration catalog documentation](./integration-catalog.md).
 
-</div>
+</Callout>
 
 One essential item to note is the `keywords` property as it maps to the catalog's tag system. Adding the `storybook-addons` ensures that the addon is discoverable in the catalog when searching for addons. The remaining keywords help with the searchability and categorization of the addon.
 

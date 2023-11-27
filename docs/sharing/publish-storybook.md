@@ -31,11 +31,11 @@ First, we'll need to build Storybook as a static web application. The functional
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
+You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
 
-</div>
+</Callout>
 
 Storybook will create a static web application capable of being served by any web server. Preview it locally by running the following command:
 
@@ -45,6 +45,22 @@ Storybook will create a static web application capable of being served by any we
   paths={[
     'common/preview-storybook-production-mode.npm.js.mdx',
     'common/preview-storybook-production-mode.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Customizing the build for performance
+
+By default, Storybook's production build will encapsulate all stories and documentation into the production bundle. This is ideal for small projects but can cause performance issues for larger projects or when decreased build times are a priority (e.g., testing, CI/CD). If you need, you can customize the production build with the [`test` option](../api/main-config-build.md#test) in your `main.js|ts` configuration file and adjust your build script to enable the optimizations with the `--test` [flag](../api/cli-options.md#build).
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-build-test-flag.yarn.js.mdx',
+    'common/storybook-build-test-flag.npm.js.mdx',
+    'common/storybook-build-test-flag.pnpm.js.mdx',
   ]}
 />
 
@@ -103,11 +119,11 @@ In your project's root directory, add a new file called `chromatic.yml` inside t
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
+Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
 
-</div>
+</Callout>
 
 Commit and push the file. Congratulations, you've successfully automated publishing your Storybook. Now whenever you open a PR you’ll get a handy link to your published Storybook in your PR checks.
 
@@ -131,14 +147,27 @@ When you publish Storybook, you also get component history and versioning down t
 
 ## Publish Storybook to other services
 
-Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md),
-[embedding stories](./embed.md), history, and versioning require tighter integration with Storybook APIs and secure authentication. Your hosting provider may not be capable of supporting these features. Learn about the Component Publishing Protocol (CPP) to see what.
+Since Storybook is built as a static web application, you can also publish it to any web host, including [GitHub Pages](https://docs.github.com/en/pages), [Netlify](https://www.netlify.com/), [AWS S3](https://aws.amazon.com/s3/), and more. However, features such as [Composition](./storybook-composition.md), [embedding stories](./embed.md), history, versioning, and assets may require tighter integration with Storybook APIs and secure authentication. If you want to know more about headers, you can refer to the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts). Additionally, if you want to learn about the Component Publishing Protocol (CPP), you can find more information below.
 
-<div class="aside">
+### GitHub Pages
 
-ℹ️ Additional header configuration may be required to serve Storybook's static files correctly on your host. For more information on the required headers, see the [Migration guide](https://github.com/storybookjs/storybook/blob/main/MIGRATION.md#deploying-build-artifacts).
+To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook to GitHub Pages](https://github.com/bitovi/github-actions-storybook-to-github-pages) Action. To enable it, create a new workflow file inside your `.github/workflows` directory with the following content:
 
-</div>
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/ghp-github-action.yml.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info">
+
+The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
+
+</Callout>
 
 <details>
 

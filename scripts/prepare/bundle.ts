@@ -1,5 +1,3 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node
-
 import * as fs from 'fs-extra';
 import path, { dirname, join, relative } from 'path';
 import type { Options } from 'tsup';
@@ -158,7 +156,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  console.log('done');
+  if (process.env.CI !== 'true') {
+    console.log('done');
+  }
 };
 
 /* UTILS */

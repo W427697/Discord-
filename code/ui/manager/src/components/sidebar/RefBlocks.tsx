@@ -12,12 +12,12 @@ import { Loader, Contained } from './Loader';
 const { window: globalWindow } = global;
 
 const TextStyle = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 }));
 const Text = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 
@@ -151,7 +151,10 @@ export const EmptyBlock: FC<any> = ({ isMain }) => (
               </ul>{' '}
             </>
           ) : (
-            <>Yikes! Something went wrong loading these stories.</>
+            <>
+              This composed storybook is empty, maybe you're using filter-functions, and all stories
+              are filtered away.
+            </>
           )}
         </Text>
       </WideSpaced>

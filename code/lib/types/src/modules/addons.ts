@@ -156,9 +156,8 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
-export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {
-  storiesOf(kind: StoryKind, module: any): Addon_StoryApi<StoryFnReturnType>;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {}
 
 export type Addon_LoadFn = () => any;
 export type Addon_RequireContext = any; // FIXME
