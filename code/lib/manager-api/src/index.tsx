@@ -53,7 +53,6 @@ import * as channel from './modules/channel';
 
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
-import * as releaseNotes from './modules/release-notes';
 // eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
 
@@ -63,8 +62,12 @@ import * as shortcuts from './modules/shortcuts';
 
 import * as url from './modules/url';
 import * as version from './modules/versions';
+import * as whatsnew from './modules/whatsnew';
 
 import * as globals from './modules/globals';
+import type { ModuleFn } from './lib/types';
+
+import { types } from './lib/addons';
 
 export * from './lib/shortcut';
 
@@ -76,14 +79,6 @@ export { ActiveTabs };
 
 export const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
-export type ModuleArgs = RouterData &
-  API_ProviderData<API> & {
-    mode?: 'production' | 'development';
-    state: State;
-    fullAPI: API;
-    store: Store;
-  };
-
 export type State = layout.SubState &
   stories.SubState &
   refs.SubState &
@@ -91,9 +86,9 @@ export type State = layout.SubState &
   version.SubState &
   url.SubState &
   shortcuts.SubState &
-  releaseNotes.SubState &
   settings.SubState &
   globals.SubState &
+  whatsnew.SubState &
   RouterData &
   API_OptionsData &
   DeprecatedState &
@@ -108,10 +103,10 @@ export type API = addons.SubAPI &
   layout.SubAPI &
   notifications.SubAPI &
   shortcuts.SubAPI &
-  releaseNotes.SubAPI &
   settings.SubAPI &
   version.SubAPI &
   url.SubAPI &
+  whatsnew.SubAPI &
   Other;
 
 interface DeprecatedState {
@@ -152,27 +147,10 @@ export const combineParameters = (...parameterSets: Parameters[]) =>
     return undefined;
   });
 
-interface ModuleWithInit<APIType = unknown, StateType = unknown> {
-  init: () => void | Promise<void>;
-  api: APIType;
-  state: StateType;
-}
-
-type ModuleWithoutInit<APIType = unknown, StateType = unknown> = Omit<
-  ModuleWithInit<APIType, StateType>,
-  'init'
->;
-
-export type ModuleFn<APIType = unknown, StateType = unknown, HasInit = false> = (
-  m: ModuleArgs
-) => HasInit extends true
-  ? ModuleWithInit<APIType, StateType>
-  : ModuleWithoutInit<APIType, StateType>;
-
 class ManagerProvider extends Component<ManagerProviderProps, State> {
   api: API = {} as API;
 
-  modules: (ModuleWithInit | ModuleWithoutInit)[];
+  modules: ReturnType<ModuleFn>[];
 
   static displayName = 'Manager';
 
@@ -182,7 +160,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       location,
       path,
       refId,
-      viewMode = props.docsOptions.docsMode ? 'docs' : 'story',
+      viewMode = props.docsOptions.docsMode ? 'docs' : props.viewMode,
       singleStory,
       storyId,
       docsOptions,
@@ -212,13 +190,13 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       layout,
       notifications,
       settings,
-      releaseNotes,
       shortcuts,
       stories,
       refs,
       globals,
       url,
       version,
+      whatsnew,
     ].map((m) =>
       m.init({ ...routeData, ...optionsData, ...apiData, state: this.state, fullAPI: this.api })
     );
@@ -410,45 +388,55 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
 }
 
 // cache for taking care of HMR
-const addonStateCache: {
-  [key: string]: any;
-} = {};
+globalThis.STORYBOOK_ADDON_STATE = {};
+const { STORYBOOK_ADDON_STATE } = globalThis;
 
 // shared state
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
-  const existingState = api.getAddonState<S>(stateId);
+  const existingState = api.getAddonState<S>(stateId) || STORYBOOK_ADDON_STATE[stateId];
   const state = orDefault<S>(
     existingState,
-    addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
+    STORYBOOK_ADDON_STATE[stateId] ? STORYBOOK_ADDON_STATE[stateId] : defaultState
   );
-  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
-    // set only after the stories are loaded
-    if (addonStateCache[stateId]) {
-      addonStateCache[stateId] = s;
+  let quicksync = false;
+
+  if (state === defaultState && defaultState !== undefined) {
+    STORYBOOK_ADDON_STATE[stateId] = defaultState;
+    quicksync = true;
+  }
+
+  useEffect(() => {
+    if (quicksync) {
+      api.setAddonState<S>(stateId, defaultState);
     }
-    api.setAddonState<S>(stateId, s, options);
+  }, [quicksync]);
+
+  const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
+    const result = await api.setAddonState<S>(stateId, s, options);
+    STORYBOOK_ADDON_STATE[stateId] = result;
+    return result;
   };
   const allListeners = useMemo(() => {
     const stateChangeHandlers = {
-      [`${SHARED_STATE_CHANGED}-client-${stateId}`]: (s: S) => setState(s),
-      [`${SHARED_STATE_SET}-client-${stateId}`]: (s: S) => setState(s),
+      [`${SHARED_STATE_CHANGED}-client-${stateId}`]: setState,
+      [`${SHARED_STATE_SET}-client-${stateId}`]: setState,
     };
     const stateInitializationHandlers = {
-      [SET_STORIES]: () => {
+      [SET_STORIES]: async () => {
         const currentState = api.getAddonState(stateId);
         if (currentState) {
-          addonStateCache[stateId] = currentState;
+          STORYBOOK_ADDON_STATE[stateId] = currentState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, currentState);
-        } else if (addonStateCache[stateId]) {
+        } else if (STORYBOOK_ADDON_STATE[stateId]) {
           // this happens when HMR
-          setState(addonStateCache[stateId]);
-          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, addonStateCache[stateId]);
+          await setState(STORYBOOK_ADDON_STATE[stateId]);
+          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, STORYBOOK_ADDON_STATE[stateId]);
         } else if (defaultState !== undefined) {
           // if not HMR, yet the defaults are from the manager
-          setState(defaultState);
-          // initialize addonStateCache after first load, so its available for subsequent HMR
-          addonStateCache[stateId] = defaultState;
+          await setState(defaultState);
+          // initialize STORYBOOK_ADDON_STATE after first load, so its available for subsequent HMR
+          STORYBOOK_ADDON_STATE[stateId] = defaultState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, defaultState);
         }
       },
@@ -470,9 +458,9 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   const emit = useChannel(allListeners);
   return [
     state,
-    (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
-      setState(newStateOrMerger, options);
-      emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, newStateOrMerger);
+    async (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
+      const result = await setState(newStateOrMerger, options);
+      emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, result);
     },
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
 }
@@ -485,7 +473,7 @@ export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[])
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
-  const args = data.type === 'story' ? data.args : {};
+  const args = data?.type === 'story' ? data.args : {};
   const updateArgs = useCallback(
     (newArgs: Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]
@@ -520,5 +508,14 @@ export function useArgTypes(): ArgTypes {
 
 export { addons } from './lib/addons';
 
+/**
+ * We need to rename this so it's not compiled to a straight re-export
+ * Our globalization plugin can't handle an import and export of the same name in different lines
+ * @deprecated
+ */
+const typesX = types;
+
+export { typesX as types };
+
 /* deprecated */
-export { mockChannel, types, type Addon, type AddonStore } from './lib/addons';
+export { mockChannel, type Addon, type AddonStore } from './lib/addons';

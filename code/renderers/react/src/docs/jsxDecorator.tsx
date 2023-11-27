@@ -42,21 +42,6 @@ type JSXOptions = Options & {
   enableBeautify?: boolean;
   /** Override the display name used for a component */
   displayName?: string | Options['displayName'];
-  /** A function ran after a story is rendered */
-  transformSource?(dom: string, context?: StoryContext<ReactRenderer>): string;
-};
-
-/** Run the user supplied transformSource function if it exists */
-const applyTransformSource = (
-  domString: string,
-  options: JSXOptions,
-  context?: StoryContext<ReactRenderer>
-) => {
-  if (typeof options.transformSource !== 'function') {
-    return domString;
-  }
-
-  return options.transformSource(domString, context);
 };
 
 /** Apply the users parameters and render the jsx for a story */
@@ -190,11 +175,11 @@ export const jsxDecorator = (
 
   useEffect(() => {
     if (!skip) {
-      const { id, args } = context;
+      const { id, unmappedArgs } = context;
       channel.emit(SNIPPET_RENDERED, {
         id,
         source: jsx,
-        args,
+        args: unmappedArgs,
       });
     }
   });
@@ -220,7 +205,7 @@ export const jsxDecorator = (
 
   const rendered = renderJsx(sourceJsx, options);
   if (rendered) {
-    jsx = applyTransformSource(rendered, options, context);
+    jsx = rendered;
   }
 
   return story;

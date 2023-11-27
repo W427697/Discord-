@@ -47,11 +47,14 @@ You write stories for granular UI component variation and then use those stories
     'vue/histogram-story.3.js.mdx',
     'vue/histogram-story.3.ts.mdx',
     'svelte/histogram-story.js.mdx',
+    'svelte/histogram-story.ts.mdx',
     'web-components/histogram-story.js.mdx',
     'web-components/histogram-story.ts.mdx',
     'preact/histogram-story.js.mdx',
     'html/histogram-story.js.mdx',
     'html/histogram-story.ts.mdx',
+    'solid/histogram-story.js.mdx',
+    'solid/histogram-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="why-storybook#snippet-histogram-story"
@@ -80,7 +83,7 @@ During development, run it in a separate node process. If you’re working on UI
 </details>
 
 <details>
-<summary>Does Storybook work with X?</summary>
+<summary>Does Storybook work with my favorite libraries?</summary>
 
 Storybook aims to integrate with industry-standard tools and platforms to simplify setup. Thanks to our ambitious developer community, we’ve made significant progress. There are hundreds of [addons](https://storybook.js.org/addons/) and tutorials that walk through how to set up Storybook in all types of projects.
 

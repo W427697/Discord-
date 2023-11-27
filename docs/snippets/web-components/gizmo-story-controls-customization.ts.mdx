@@ -4,7 +4,6 @@
 import type { Meta } from '@storybook/web-components';
 
 const meta: Meta = {
-  title: 'Gizmo',
   component: 'gizmo-element',
   argTypes: {
     canRotate: {
@@ -33,10 +32,8 @@ const meta: Meta = {
       options: ['left', 'right', 'center'],
     },
     rotationAxis: {
-      control: {
-        type: 'check',
-        options: ['x', 'y', 'z'],
-      },
+      control: 'check',
+      options: ['x', 'y', 'z'],
     },
     scaling: {
       control: 'select',

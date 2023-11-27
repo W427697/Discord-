@@ -1,5 +1,6 @@
 import type { FC, MutableRefObject } from 'react';
-import React, { useMemo, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
+import type { State } from '@storybook/manager-api';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -7,6 +8,7 @@ import { transparentize } from 'polished';
 import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
 
 import { RefIndicator } from './RefIndicator';
+
 // eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
@@ -14,7 +16,7 @@ import { CollapseIcon } from './TreeNode';
 import { DEFAULT_REF_ID } from './Sidebar';
 import type { Highlight, RefType } from './types';
 
-import { getStateType } from './utils';
+import { getStateType } from '../../utils/tree';
 
 export interface RefProps {
   isLoading: boolean;
@@ -95,7 +97,9 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
+export const Ref: FC<RefType & RefProps & { status?: State['status'] }> = React.memo(function Ref(
+  props
+) {
   const { docsOptions } = useStorybookState();
   const api = useStorybookApi();
   const {
@@ -117,7 +121,8 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
   const indicatorRef = useRef<HTMLElement>(null);
 
   const isMain = refId === DEFAULT_REF_ID;
-  const isLoadingInjected = type === 'auto-inject' && !previewInitialized;
+  const isLoadingInjected =
+    (type === 'auto-inject' && !previewInitialized) || type === 'server-checked';
   const isLoading = isLoadingMain || isLoadingInjected || type === 'unknown';
   const isError = !!indexError;
   const isEmpty = !isLoading && length === 0;
@@ -125,6 +130,13 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
 
   const state = getStateType(isLoading, isAuthRequired, isError, isEmpty);
   const [isExpanded, setExpanded] = useState<boolean>(expanded);
+
+  useEffect(() => {
+    if (index && selectedStoryId && index[selectedStoryId]) {
+      setExpanded(true);
+    }
+  }, [setExpanded, index, selectedStoryId]);
+
   const handleClick = useCallback(() => setExpanded((value) => !value), [setExpanded]);
 
   const setHighlightedItemId = useCallback(
@@ -136,6 +148,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
     (storyId: string) => api && api.selectStory(storyId, undefined, { ref: !isMain && refId }),
     [api, isMain, refId]
   );
+
   return (
     <>
       {isMain || (
@@ -158,6 +171,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
           {state === 'empty' && <EmptyBlock isMain={isMain} />}
           {state === 'ready' && (
             <Tree
+              status={props.status}
               isBrowsing={isBrowsing}
               isMain={isMain}
               refId={refId}

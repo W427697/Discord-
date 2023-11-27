@@ -24,12 +24,6 @@ Run the following command to install the addon and the required dependencies.
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
-
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
 <!-- prettier-ignore-start -->
@@ -63,11 +57,11 @@ Storybook's `play` functions are small code snippets that run once the story fin
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 See the [Interaction testing documentation](../writing-tests/interaction-testing.md#api-for-user-events) for an overview of the available API events.
+See the [Interaction testing documentation](../writing-tests/interaction-testing.md#api-for-user-events) for an overview of the available API events.
 
-</div>
+</Callout>
 
 When Storybook finishes rendering the story, it executes the steps defined within the `play` function, interacting with the component and filling the form's information. All of this without the need for user intervention. If you check your `Interactions` panel, you'll see the step-by-step flow.
 
@@ -193,9 +187,11 @@ If you need, you can also adjust your `play` function to find elements based on 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
- 💡 You can read more about the querying elements in the <a href="https://testing-library.com/docs/queries/about/"> Testing library documentation</a>.
-</div>
+<Callout variant="info" icon="💡">
+
+You can read more about the querying elements in the [Testing Library documentation](https://testing-library.com/docs/queries/about/).
+
+</Callout>
 
 When Storybook loads the story, the `play` function starts its execution and queries the DOM tree expecting the element to be available when the story renders. In case there's a failure in your test, you'll be able to verify its root cause quickly.
 

@@ -17,17 +17,12 @@ To opt into a builder, the user must add it as a dependency and then edit their 
 <CodeSnippets
   paths={[
     'common/storybook-vite-builder-install.yarn.js.mdx',
+    'common/storybook-vite-builder-install.pnpm.js.mdx',
     'common/storybook-vite-builder-install.npm.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
-
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
 
 <!-- prettier-ignore-start -->
 
@@ -41,7 +36,7 @@ To opt into a builder, the user must add it as a dependency and then edit their 
 
 ## Builder API
 
-In Storybook, every builder must implement the following [API](https://github.com/storybookjs/storybook/blob/next/code/lib/core-common/src/types.ts#L170-L189), exposing the following configuration options and entry points:
+In Storybook, every builder must implement the following [API](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/core-common.ts#L183-L203), exposing the following configuration options and entry points:
 
 <!-- prettier-ignore-start -->
 
@@ -160,7 +155,7 @@ While running in development mode, the builder's development server must be able
 
 ### More information
 
-This area is under rapid development, so the documented is still in progress and subject to change. If you are interested in writing your builder, we encourage you to check [webpack](https://github.com/storybookjs/storybook/tree/next/code/lib/builder-webpack5), [Vite](https://github.com/storybookjs/builder-vite), and Modern Web's [dev-server-storybook](https://github.com/modernweb-dev/web/blob/master/packages/dev-server-storybook/src/serve/storybookPlugin.ts) source code. In addition, we have a wonderful contributor community on [Storybook Discord](https://discord.gg/storybook) if you have questions. Ping us in the [#contributing](https://discord.com/channels/486522875931656193/839297503446695956) channel.
+This area is under rapid development, so the documented is still in progress and subject to change. If you are interested in writing your builder, we encourage you to check [webpack](https://github.com/storybookjs/storybook/tree/next/code/builders/builder-webpack5), [Vite](https://github.com/storybookjs/storybook/tree/next/code/builders/builder-vite), and Modern Web's [dev-server-storybook](https://github.com/modernweb-dev/web/blob/master/packages/dev-server-storybook/src/serve/storybookPlugin.ts) source code. In addition, we have a wonderful contributor community on [Storybook Discord](https://discord.gg/storybook) if you have questions. Ping us in the [#contributing](https://discord.com/channels/486522875931656193/839297503446695956) channel.
 
 #### Learn more about builders
 

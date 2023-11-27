@@ -25,7 +25,7 @@ The key ingredients are the [default export](https://developer.mozilla.org/en-US
 
 ### Default export
 
-The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js`:
+The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js|ts`:
 
 <!-- prettier-ignore-start -->
 
@@ -40,16 +40,18 @@ The _default_ export metadata controls how Storybook lists your stories and prov
     'web-components/button-story-default-export-with-component.js.mdx',
     'html/button-story-default-export.js.mdx',
     'html/button-story-default-export.ts.mdx',
+    'solid/button-story-default-export-with-component.js.mdx',
+    'solid/button-story-default-export-with-component.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 Starting with Storybook version 7.0, story titles are analyzed statically as part of the build process. The _default_ export must contain a `title` property that can be read statically or a `component` property from which an automatic title can be computed. Using the `id` property to customize your story URL must also be statically readable.
 
-</div>
+</Callout>
 
 ### Defining stories
 
@@ -69,6 +71,8 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
     'svelte/button-story.js.mdx',
     'html/button-story.js.mdx',
     'html/button-story.ts.mdx',
+    'solid/button-story.js.mdx',
+    'solid/button-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-button-story"
@@ -76,15 +80,18 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 <!-- prettier-ignore-end -->
 
+<IfRenderer renderer='react'>
+
 #### Working with React Hooks
 
-[React Hooks](https://reactjs.org/docs/hooks-intro.html) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses React Hooks to change the button's state :
+[React Hooks](https://react.dev/reference/react) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses React Hooks to change the button's state:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'react/button-story.with-hooks.js.mdx',
+    'react/button-story.with-hooks.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
@@ -92,9 +99,40 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 The recommendation mentioned above also applies to other frameworks, not only React.
-</div>
+<Callout variant="info" icon="💡">
+
+The recommendation mentioned above also applies to other frameworks, not only React.
+
+</Callout>
+
+</IfRenderer>
+
+<IfRenderer renderer='solid'>
+
+#### Working with Solid Signals
+
+[Solid Signals](https://www.solidjs.com/docs/latest/api#basic-reactivity) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses Solid Signals to change the button's state:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'solid/button-story.with-hooks.js.mdx',
+    'solid/button-story.with-hooks.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info" icon="💡">
+
+The recommendation mentioned above also applies to other frameworks, not only Solid.
+
+</Callout>
+
+</IfRenderer>
 
 ### Rename stories
 
@@ -114,6 +152,8 @@ You can rename any particular story you need. For instance, to give it a more ac
     'svelte/button-story-rename-story.js.mdx',
     'html/button-story-rename-story.js.mdx',
     'html/button-story-rename-story.ts.mdx',
+    'solid/button-story-rename-story.js.mdx',
+    'solid/button-story-rename-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-button-story-rename-story"
@@ -141,6 +181,8 @@ A story is a function that describes how to render a component. You can have mul
     'svelte/button-story-with-emojis.js.mdx',
     'html/button-story-with-emojis.js.mdx',
     'html/button-story-with-emojis.ts.mdx',
+    'solid/button-story-with-emojis.js.mdx',
+    'solid/button-story-with-emojis.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-button-story-with-emojis"
@@ -170,6 +212,8 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
     'svelte/button-story-using-args.js.mdx',
     'html/button-story-using-args.js.mdx',
     'html/button-story-using-args.ts.mdx',
+    'solid/button-story-using-args.js.mdx',
+    'solid/button-story-using-args.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-button-story-using-args"
@@ -195,6 +239,8 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'web-components/button-group-story.js.mdx',
     'web-components/button-group-story.ts.mdx',
     'svelte/button-group-story.js.mdx',
+    'solid/button-group-story.js.mdx',
+    'solid/button-group-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-button-group-story"
@@ -239,6 +285,8 @@ Storybook's `play` function and the [`@storybook/addon-interactions`](https://st
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-login-form-with-play-function"
@@ -266,11 +314,12 @@ For instance, suppose you wanted to test your Button component against a differe
     'svelte/button-story-with-blue-args.js.mdx',
     'html/button-story-with-blue-args.js.mdx',
     'html/button-story-with-blue-args.ts.mdx',
+    'solid/button-story-with-blue-args.js.mdx',
+    'solid/button-story-with-blue-args.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
-
 
 ![Parameters background color](./parameters-background-colors.png)
 
@@ -296,6 +345,8 @@ A simple example is adding padding to a component’s stories. Accomplish this u
     'svelte/button-story-component-decorator.js.mdx',
     'html/button-story-component-decorator.js.mdx',
     'html/button-story-component-decorator.ts.mdx',
+    'solid/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.ts.mdx',
   ]}
 />
 
@@ -320,6 +371,8 @@ When building design systems or component libraries, you may have two or more co
     'web-components/list-story-starter.ts.mdx',
     'html/list-story-starter.js.mdx',
     'html/list-story-starter.ts.mdx',
+    'solid/list-story-starter.js.mdx',
+    'solid/list-story-starter.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-list-story-starter"
@@ -342,6 +395,8 @@ In such cases, it makes sense to render a different function for each story:
     'web-components/list-story-expanded.ts.mdx',
     'html/list-story-expanded.js.mdx',
     'html/list-story-expanded.ts.mdx',
+    'solid/list-story-expanded.js.mdx',
+    'solid/list-story-expanded.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-list-story-expanded"
@@ -366,6 +421,8 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
     'web-components/list-story-reuse-data.ts.mdx',
     'html/list-story-reuse-data.js.mdx',
     'html/list-story-reuse-data.ts.mdx',
+    'solid/list-story-reuse-data.js.mdx',
+    'solid/list-story-reuse-data.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/introduction#snippet-list-story-reuse-data"
@@ -373,8 +430,8 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Note that there are disadvantages in writing stories like this as you cannot take full advantage of the args mechanism and composing args as you build even more complex composite components. For more discussion, see the [multi component stories](../writing-stories/stories-for-multiple-components.md) workflow documentation.
+Note that there are disadvantages in writing stories like this as you cannot take full advantage of the args mechanism and composing args as you build even more complex composite components. For more discussion, see the [multi component stories](../writing-stories/stories-for-multiple-components.md) workflow documentation.
 
-</div>
+</Callout>

@@ -43,9 +43,11 @@ In Figma, select the component, open the plugin, and paste the URL.
 
 Chromatic will automatically update your linked stories to reflect the most recent Storybook published on the branch you linked. That means the link persists even as you push new code.
 
-<div class="aside">
-💡 The plugin does not support linking stories to Figma layers.
-</div>
+<Callout variant="info" icon="💡">
+
+The plugin does not support linking stories to Figma layers.
+
+</Callout>
 
 #### View stories in Figma
 
@@ -55,7 +57,7 @@ Once they're connected, you'll be able to view the story by clicking the link in
 
 ### Embed Figma in Storybook with the addon
 
-[Design addon](https://storybook.js.org/addons/storybook-addon-designs) allows you to embed Figma files and prototypes in Storybook.
+[Designs addon](https://storybook.js.org/addons/@storybook/addon-designs) allows you to embed Figma files and prototypes in Storybook.
 
 ![Storybook addon figma](./storybook-figma-addon.png)
 
@@ -82,6 +84,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 <CodeSnippets
   paths={[
     'common/storybook-main-figma-addon-register.js.mdx',
+    'common/storybook-main-figma-addon-register.ts.mdx',
   ]}
 />
 
@@ -109,6 +112,8 @@ In Storybook, add a new [parameter](../writing-stories/parameters.md) named `des
     'svelte/component-story-figma-integration.js.mdx',
     'web-components/component-story-figma-integration.js.mdx',
     'web-components/component-story-figma-integration.ts.mdx',
+    'solid/component-story-figma-integration.js.mdx',
+    'solid/component-story-figma-integration.ts.mdx',
   ]}
   usesCsf3
   csf2Path="sharing/design-integrations#snippet-component-story-figma-integration"
