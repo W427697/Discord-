@@ -2,7 +2,7 @@
 title: 'Compiler support'
 ---
 
-Javascript compilers are essential in optimizing and transforming code, enhancing performance, and ensuring compatibility across different environments. Storybook provides support for the leading compilers, ensuring lightning-fast build time and execution with [SWC](https://swc.rs/) or leveraging [Babel](https://babeljs.io/) with its extensive ecosystem of plugins and presets to allow you to use the latest features of the ecosystem with minimal configuration required.
+Javascript compilers are essential in optimizing and transforming code, enhancing performance, and ensuring compatibility across different environments. Storybook provides support for the leading compilers, ensuring lightning-fast build time and execution with [SWC](https://swc.rs/) or leveraging [Babel](https://babeljs.io/) with its extensive ecosystem of plugins and presets to allow you to use the latest features of the ecosystem with minimal configuration required for your Webpack-based project.
 
 ## SWC
 
@@ -18,6 +18,12 @@ SWC is a fast, highly extensible tool for compiling and bundling modern JavaScri
 />
 
 <!-- prettier-ignore-end -->
+
+<Callout variant="info">
+
+Support for the SWC builder is currently experimental for Next.js projects, and it's not enabled by default. It requires you to opt in to use it.
+
+</Callout>
 
 ## Babel
 
