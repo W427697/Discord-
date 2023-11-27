@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
-import type { Configuration, RuleSetRule } from 'webpack';
+import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
@@ -134,8 +134,8 @@ const webpack = async (
     // NOTE: this prioritizes the storybook version of a plugin
     // when there are duplicates between SB and CRA
     plugins: mergePlugins(
-      ...(webpackConfig.plugins ?? []),
-      ...(craWebpackConfig.plugins ?? []),
+      ...((webpackConfig.plugins ?? []) as WebpackPluginInstance[]),
+      ...((craWebpackConfig.plugins ?? []) as WebpackPluginInstance[]),
       ...tsDocgenPlugin
     ),
     resolve: {
