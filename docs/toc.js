@@ -169,11 +169,6 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'snapshot-testing',
-          title: 'Snapshot tests',
-          type: 'link',
-        },
-        {
           pathSegment: '',
           title: 'Import stories in tests',
           type: 'menu',
@@ -505,6 +500,11 @@ module.exports = {
             {
               title: 'babelDefault',
               pathSegment: 'main-config-babel-default',
+              type: 'link',
+            },
+             {
+              title: 'build',
+              pathSegment: 'main-config-build',
               type: 'link',
             },
             {
