@@ -4,7 +4,7 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { logger } from '@storybook/node-logger';
 
 import type { Options, Preset } from '@storybook/core-webpack';
-import type { PresetProperty } from 'lib/types/dist';
+import type { PresetProperty, PresetPropertyFn } from 'lib/types/dist';
 import type { StorybookConfig, ReactOptions } from './types';
 
 const getAbsolutePath = <I extends string>(input: I): I =>
@@ -17,7 +17,7 @@ const applyFastRefresh = async (options: Options) => {
   return isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
 };
 
-export const babel: PresetProperty<'babel'> = async (config, options) => {
+export const babel: PresetPropertyFn<'babel'> = async (config, options) => {
   if (!(await applyFastRefresh(options))) return config;
 
   return {
@@ -43,7 +43,7 @@ const hasJsxRuntime = () => {
   }
 };
 
-export const babelDefault: PresetProperty<'babelDefault'> = async (config) => {
+export const babelDefault: PresetPropertyFn<'babelDefault'> = async (config) => {
   const presetReactOptions = hasJsxRuntime() ? { runtime: 'automatic' } : {};
   return {
     ...config,
