@@ -277,7 +277,7 @@ const Node = React.memo<NodeProps>(function Node({
         {isExpanded && (
           <IconButton
             className="sidebar-subheading-action"
-            aria-label="expand"
+            aria-label={isFullyExpanded ? 'Expand' : 'Collapse'}
             data-action="expand-all"
             data-expanded={isFullyExpanded}
             onClick={(event) => {
