@@ -164,13 +164,23 @@ function renderSwatchSpecimen(colors: Colors) {
       </SwatchSpecimen>
     );
   }
+
+  const swatchElements = [];
+  const labelElements = [];
+
+  for (const colorKey in colors) {
+    const colorValue = colors[colorKey];
+    swatchElements.push(renderSwatch(colorValue, swatchElements.length));
+    labelElements.push(renderSwatchLabel(colorKey, labelElements.length, colorValue));
+  }
+
   return (
     <SwatchSpecimen>
       <SwatchColors>
-        {Object.values(colors).map((color, index) => renderSwatch(color, index))}
+        {swatchElements}
       </SwatchColors>
       <SwatchLabels>
-        {Object.keys(colors).map((color, index) => renderSwatchLabel(color, index, colors[color]))}
+        {labelElements}
       </SwatchLabels>
     </SwatchSpecimen>
   );
