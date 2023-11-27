@@ -3,6 +3,7 @@ import type { ChildProcess } from 'child_process';
 import { spawn } from 'child_process';
 import { existsSync } from 'fs';
 import type { StorybookNextJSOptions } from './types';
+import { verifyPort } from './verifyPort';
 
 const logger = console;
 let childProcess: ChildProcess | undefined;
@@ -48,15 +49,16 @@ function addRewrites(
 }
 
 export const withStorybook = ({
-  port = 3000,
+  port = process.env.PORT ?? 3000,
   sbPort = 34567,
   managerPath = 'storybook',
   previewPath = 'storybook-preview',
   configDir = '.storybook',
   appDir = undefined,
 } = {}) => {
+  const isAppDir = appDir ?? existsSync('app');
   const storybookNextJSOptions: StorybookNextJSOptions = {
-    appDir: appDir ?? existsSync('./app'),
+    appDir: isAppDir,
     managerPath,
     previewPath,
   };
@@ -85,6 +87,8 @@ export const withStorybook = ({
       env: { ...process.env, STORYBOOK_NEXTJS_OPTIONS: JSON.stringify(storybookNextJSOptions) },
     }
   );
+
+  verifyPort(port, { appDir: isAppDir, previewPath });
 
   return (config: NextConfig) => ({
     ...config,
