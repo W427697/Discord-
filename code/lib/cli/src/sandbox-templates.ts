@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export type SkippableTask =
   | 'smoke-test'
@@ -66,7 +66,7 @@ export type Template = {
    */
   modifications?: {
     skipTemplateStories?: boolean;
-    mainConfig?: Partial<StorybookConfig>;
+    mainConfig?: Partial<StorybookConfigRaw>;
     testBuild?: boolean;
     disableDocs?: boolean;
   };
