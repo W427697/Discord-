@@ -1,14 +1,41 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
+import dedent from 'ts-dedent';
 
 import * as t from '@babel/types';
 
 import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
+import type { Options } from 'recast';
+import * as recast from 'recast';
 import { babelParse } from './babelParse';
 
 const logger = console;
+
+const getCsfParsingErrorMessage = ({
+  expectedType,
+  foundType,
+  node,
+}: {
+  expectedType: string;
+  foundType: string | undefined;
+  node: any | undefined;
+}) => {
+  let nodeInfo = '';
+  if (node) {
+    try {
+      nodeInfo = JSON.stringify(node);
+    } catch (e) {
+      //
+    }
+  }
+
+  return dedent`
+      CSF Parsing error: Expected '${expectedType}' but found '${foundType}' instead in '${node?.type}'.
+      ${nodeInfo}
+    `;
+};
 
 const propKey = (p: t.ObjectProperty) => {
   if (t.isIdentifier(p.key)) return p.key.name;
@@ -161,7 +188,13 @@ export class ConfigFile {
               }
             });
           } else {
-            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+            logger.warn(
+              getCsfParsingErrorMessage({
+                expectedType: 'ObjectExpression',
+                foundType: decl?.type,
+                node: decl || node.declaration,
+              })
+            );
           }
         },
       },
@@ -181,7 +214,13 @@ export class ConfigFile {
               }
             });
           } else {
-            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+            logger.warn(
+              getCsfParsingErrorMessage({
+                expectedType: 'VariableDeclaration',
+                foundType: node.declaration?.type,
+                node: node.declaration,
+              })
+            );
           }
         },
       },
@@ -221,7 +260,13 @@ export class ConfigFile {
                   }
                 });
               } else {
-                logger.warn(`Unexpected ${JSON.stringify(node)}`);
+                logger.warn(
+                  getCsfParsingErrorMessage({
+                    expectedType: 'ObjectExpression',
+                    foundType: exportObject?.type,
+                    node: exportObject,
+                  })
+                );
               }
             }
           }
@@ -514,6 +559,198 @@ export class ConfigFile {
     }
     this.setFieldNode(path, valueNode);
   }
+
+  getBodyDeclarations() {
+    return this._ast.program.body;
+  }
+
+  setBodyDeclaration(declaration: t.Declaration) {
+    this._ast.program.body.push(declaration);
+  }
+
+  /**
+   * Import specifiers for a specific require import
+   * @param importSpecifiers - The import specifiers to set. If a string is passed in, a default import will be set. Otherwise, an array of named imports will be set
+   * @param fromImport - The module to import from
+   * @example
+   * // const { foo } = require('bar');
+   * setRequireImport(['foo'], 'bar');
+   *
+   * // const foo = require('bar');
+   * setRequireImport('foo', 'bar');
+   *
+   */
+  setRequireImport(importSpecifier: string[] | string, fromImport: string) {
+    const requireDeclaration = this._ast.program.body.find(
+      (node) =>
+        t.isVariableDeclaration(node) &&
+        node.declarations.length === 1 &&
+        t.isVariableDeclarator(node.declarations[0]) &&
+        t.isCallExpression(node.declarations[0].init) &&
+        t.isIdentifier(node.declarations[0].init.callee) &&
+        node.declarations[0].init.callee.name === 'require' &&
+        t.isStringLiteral(node.declarations[0].init.arguments[0]) &&
+        node.declarations[0].init.arguments[0].value === fromImport
+    ) as t.VariableDeclaration | undefined;
+
+    /**
+     * Returns true, when the given import declaration has the given import specifier
+     * @example
+     * // const { foo } = require('bar');
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasRequireSpecifier = (name: string) =>
+      t.isObjectPattern(requireDeclaration?.declarations[0].id) &&
+      requireDeclaration?.declarations[0].id.properties.find(
+        (specifier) =>
+          t.isObjectProperty(specifier) &&
+          t.isIdentifier(specifier.key) &&
+          specifier.key.name === name
+      );
+
+    /**
+     * Returns true, when the given import declaration has the given default import specifier
+     * @example
+     * // import foo from 'bar';
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasDefaultRequireSpecifier = (declaration: t.VariableDeclaration, name: string) =>
+      declaration.declarations.length === 1 &&
+      t.isVariableDeclarator(declaration.declarations[0]) &&
+      t.isIdentifier(declaration.declarations[0].id) &&
+      declaration.declarations[0].id.name === name;
+
+    // if the import specifier is a string, we're dealing with default imports
+    if (typeof importSpecifier === 'string') {
+      // If the import declaration with the given source exists
+      const addDefaultRequireSpecifier = () => {
+        this._ast.program.body.unshift(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(
+              t.identifier(importSpecifier),
+              t.callExpression(t.identifier('require'), [t.stringLiteral(fromImport)])
+            ),
+          ])
+        );
+      };
+
+      if (requireDeclaration) {
+        if (!hasDefaultRequireSpecifier(requireDeclaration, importSpecifier)) {
+          // If the import declaration hasn't the specified default identifier, we add a new variable declaration
+          addDefaultRequireSpecifier();
+        }
+        // If the import declaration with the given source doesn't exist
+      } else {
+        // Add the import declaration to the top of the file
+        addDefaultRequireSpecifier();
+      }
+      // if the import specifier is an array, we're dealing with named imports
+    } else if (requireDeclaration) {
+      importSpecifier.forEach((specifier) => {
+        if (!hasRequireSpecifier(specifier)) {
+          (requireDeclaration.declarations[0].id as t.ObjectPattern).properties.push(
+            t.objectProperty(t.identifier(specifier), t.identifier(specifier), undefined, true)
+          );
+        }
+      });
+    } else {
+      this._ast.program.body.unshift(
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.objectPattern(
+              importSpecifier.map((specifier) =>
+                t.objectProperty(t.identifier(specifier), t.identifier(specifier), undefined, true)
+              )
+            ),
+            t.callExpression(t.identifier('require'), [t.stringLiteral(fromImport)])
+          ),
+        ])
+      );
+    }
+  }
+
+  /**
+   * Set import specifiers for a given import statement.
+   * @description Does not support setting type imports (yet)
+   * @param importSpecifiers - The import specifiers to set. If a string is passed in, a default import will be set. Otherwise, an array of named imports will be set
+   * @param fromImport - The module to import from
+   * @example
+   * // import { foo } from 'bar';
+   * setImport(['foo'], 'bar');
+   *
+   * // import foo from 'bar';
+   * setImport('foo', 'bar');
+   *
+   */
+  setImport(importSpecifier: string[] | string, fromImport: string) {
+    const getNewImportSpecifier = (specifier: string) =>
+      t.importSpecifier(t.identifier(specifier), t.identifier(specifier));
+
+    /**
+     * Returns true, when the given import declaration has the given import specifier
+     * @example
+     * // import { foo } from 'bar';
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasImportSpecifier = (declaration: t.ImportDeclaration, name: string) =>
+      declaration.specifiers.find(
+        (specifier) =>
+          t.isImportSpecifier(specifier) &&
+          t.isIdentifier(specifier.imported) &&
+          specifier.imported.name === name
+      );
+
+    /**
+     * Returns true, when the given import declaration has the given default import specifier
+     * @example
+     * // import foo from 'bar';
+     * hasImportSpecifier(declaration, 'foo');
+     */
+    const hasDefaultImportSpecifier = (declaration: t.ImportDeclaration, name: string) =>
+      declaration.specifiers.find((specifier) => t.isImportDefaultSpecifier(specifier));
+
+    const importDeclaration = this._ast.program.body.find(
+      (node) => t.isImportDeclaration(node) && node.source.value === fromImport
+    ) as t.ImportDeclaration | undefined;
+
+    // if the import specifier is a string, we're dealing with default imports
+    if (typeof importSpecifier === 'string') {
+      // If the import declaration with the given source exists
+      if (importDeclaration) {
+        if (!hasDefaultImportSpecifier(importDeclaration, importSpecifier)) {
+          // If the import declaration hasn't a default specifier, we add it
+          importDeclaration.specifiers.push(
+            t.importDefaultSpecifier(t.identifier(importSpecifier))
+          );
+        }
+        // If the import declaration with the given source doesn't exist
+      } else {
+        // Add the import declaration to the top of the file
+        this._ast.program.body.unshift(
+          t.importDeclaration(
+            [t.importDefaultSpecifier(t.identifier(importSpecifier))],
+            t.stringLiteral(fromImport)
+          )
+        );
+      }
+      // if the import specifier is an array, we're dealing with named imports
+    } else if (importDeclaration) {
+      importSpecifier.forEach((specifier) => {
+        if (!hasImportSpecifier(importDeclaration, specifier)) {
+          importDeclaration.specifiers.push(getNewImportSpecifier(specifier));
+        }
+      });
+    } else {
+      this._ast.program.body.unshift(
+        t.importDeclaration(
+          importSpecifier.map((specifier) =>
+            t.importSpecifier(t.identifier(specifier), t.identifier(specifier))
+          ),
+          t.stringLiteral(fromImport)
+        )
+      );
+    }
+  }
 }
 
 export const loadConfig = (code: string, fileName?: string) => {
@@ -522,8 +759,11 @@ export const loadConfig = (code: string, fileName?: string) => {
 };
 
 export const formatConfig = (config: ConfigFile) => {
-  const { code } = generate.default(config._ast, {});
-  return code;
+  return printConfig(config).code;
+};
+
+export const printConfig = (config: ConfigFile, options: Options = {}) => {
+  return recast.print(config._ast, options);
 };
 
 export const readConfig = async (fileName: string) => {
@@ -534,5 +774,5 @@ export const readConfig = async (fileName: string) => {
 export const writeConfig = async (config: ConfigFile, fileName?: string) => {
   const fname = fileName || config.fileName;
   if (!fname) throw new Error('Please specify a fileName for writeConfig');
-  await fs.writeFile(fname, await formatConfig(config));
+  await fs.writeFile(fname, formatConfig(config));
 };

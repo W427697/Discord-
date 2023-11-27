@@ -1,17 +1,19 @@
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ComponentProps } from 'react';
 
 import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { within, userEvent, screen } from '@storybook/testing-library';
+import { screen, userEvent, within } from '@storybook/testing-library';
 import type { State } from '@storybook/manager-api';
+import { LinkIcon } from '@storybook/icons';
 import { SidebarMenu, ToolbarMenu } from './Menu';
-import { useMenu } from '../../containers/menu';
+import { useMenu } from '../../container/Menu';
+import { LayoutProvider } from '../layout/LayoutProvider';
 
 const fakemenu: ComponentProps<typeof TooltipLinkList>['links'] = [
-  { title: 'has icon', icon: 'link', id: 'icon' },
+  { title: 'has icon', icon: <LinkIcon />, id: 'icon' },
   { title: 'has no icon', id: 'non' },
 ];
 
@@ -21,6 +23,7 @@ const meta = {
   args: {
     menu: fakemenu,
   },
+  decorators: [(storyFn) => <LayoutProvider>{storyFn()}</LayoutProvider>],
 } satisfies Meta<typeof SidebarMenu>;
 export default meta;
 
@@ -46,9 +49,8 @@ const DoubleThemeRenderingHack = styled.div({
 
 export const Expanded: Story = {
   render: () => {
-    window.FEATURES.whatsNewNotifications = true;
     const menu = useMenu(
-      { whatsNewData: { status: 'SUCCESS' } } as State,
+      { whatsNewData: { status: 'SUCCESS', disableWhatsNewNotifications: false } } as State,
       {
         // @ts-expect-error (Converted from ts-ignore)
         getShortcutKeys: () => ({}),

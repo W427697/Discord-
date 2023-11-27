@@ -8,14 +8,15 @@ import type {
   SetStoriesStoryData,
   API_IndexHash,
   API_StoryMapper,
+  StoryIndex,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import {
-  transformSetStoriesStoryDataToStoriesHash,
+  transformSetStoriesStoryDataToPreparedStoryIndex,
   transformStoryIndexToStoriesHash,
 } from '../lib/stories';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 const { location, fetch } = global;
 
@@ -104,8 +105,12 @@ async function handleRequest(
 
   try {
     const response = await request;
-    if (response === false || response === true) throw new Error('Unexpected boolean response');
-    if (!response.ok) throw new Error(`Unexpected response not OK: ${response.statusText}`);
+    if (response === false || response === true) {
+      throw new Error('Unexpected boolean response');
+    }
+    if (!response.ok) {
+      throw new Error(`Unexpected response not OK: ${response.statusText}`);
+    }
 
     const json = await response.json();
 
@@ -154,7 +159,7 @@ const map = (
   return input;
 };
 
-export const init: ModuleFn<SubAPI, SubState, void> = (
+export const init: ModuleFn<SubAPI, SubState> = (
   { store, provider, singleStory, docsOptions = {} },
   { runCheck = true } = {}
 ) => {
@@ -276,21 +281,33 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       if (singleStory) {
         return;
       }
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      let internal_index: StoryIndex | undefined;
+      let index: API_IndexHash | undefined;
+      const { filters } = store.getState();
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let index: API_IndexHash;
-      if (setStoriesData) {
-        index = transformSetStoriesStoryDataToStoriesHash(
-          map(setStoriesData, ref, { storyMapper }),
-          { provider, docsOptions }
-        );
-      } else if (storyIndex) {
-        index = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
-      }
-      if (index) index = addRefIds(index, ref);
+      if (storyIndex || setStoriesData) {
+        internal_index = setStoriesData
+          ? transformSetStoriesStoryDataToPreparedStoryIndex(
+              map(setStoriesData, ref, { storyMapper })
+            )
+          : storyIndex;
 
-      api.updateRef(id, { index, ...rest });
+        index = transformStoryIndexToStoriesHash(storyIndex, {
+          provider,
+          docsOptions,
+          filters,
+          status: {},
+        });
+      }
+
+      if (index) {
+        index = addRefIds(index, ref);
+      }
+
+      api.updateRef(id, { ...ref, ...rest, index, internal_index });
     },
 
     updateRef: (id, data) => {

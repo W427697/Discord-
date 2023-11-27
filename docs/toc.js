@@ -94,6 +94,11 @@ module.exports = {
           title: 'Stories for multiple components',
           type: 'link',
         },
+        {
+          pathSegment: 'typescript',
+          title: 'Writing stories in TypeScript',
+          type: 'link',
+        },
       ],
     },
     {
@@ -164,14 +169,21 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'snapshot-testing',
-          title: 'Snapshot tests',
-          type: 'link',
-        },
-        {
-          pathSegment: 'importing-stories-in-tests',
+          pathSegment: '',
           title: 'Import stories in tests',
-          type: 'link',
+          type: 'menu',
+          children: [
+            {
+              pathSegment: 'stories-in-end-to-end-tests',
+              title: 'End-to-end tests',
+              type: 'link',
+            },
+            {
+              pathSegment: 'stories-in-unit-tests',
+              title: 'Unit tests',
+              type: 'link',
+            },
+          ],
         },
       ],
     },
@@ -218,18 +230,8 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'controls',
-          title: 'Controls',
-          type: 'link',
-        },
-        {
           pathSegment: 'actions',
           title: 'Actions',
-          type: 'link',
-        },
-        {
-          pathSegment: 'viewport',
-          title: 'Viewport',
           type: 'link',
         },
         {
@@ -238,13 +240,13 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'toolbars-and-globals',
-          title: 'Toolbars & globals',
+          pathSegment: 'controls',
+          title: 'Controls',
           type: 'link',
         },
         {
-          pathSegment: 'measure-and-outline',
-          title: 'Measure & Outline',
+          pathSegment: 'highlight',
+          title: 'Highlight',
           type: 'link',
         },
         {
@@ -252,6 +254,27 @@ module.exports = {
           title: 'Interactions',
           type: 'link',
         },
+        {
+          pathSegment: 'measure-and-outline',
+          title: 'Measure & Outline',
+          type: 'link',
+        },
+        // {
+        //   pathSegment: 'themes',
+        //   title: 'Themes',
+        //   type: 'link',
+        // },
+        {
+          pathSegment: 'toolbars-and-globals',
+          title: 'Toolbars & globals',
+          type: 'link',
+        },
+        {
+          pathSegment: 'viewport',
+          title: 'Viewport',
+          type: 'link',
+        },
+        
       ],
     },
     {
@@ -479,6 +502,11 @@ module.exports = {
               pathSegment: 'main-config-babel-default',
               type: 'link',
             },
+             {
+              title: 'build',
+              pathSegment: 'main-config-build',
+              type: 'link',
+            },
             {
               title: 'core',
               pathSegment: 'main-config-core',
@@ -497,6 +525,11 @@ module.exports = {
             {
               title: 'features',
               pathSegment: 'main-config-features',
+              type: 'link',
+            },
+            {
+              title: 'indexers',
+              pathSegment: 'main-config-indexers',
               type: 'link',
             },
             {
