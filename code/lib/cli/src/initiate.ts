@@ -36,6 +36,7 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
+import { scaffoldNewProject } from './scaffold-new-project';
 
 const logger = console;
 
@@ -307,15 +308,10 @@ async function doInitiate(
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
 
+  // Check if the current directory is empty.
   if (options.force !== true && isEmptyDir) {
-    logger.log(
-      boxen(getEmptyDirMessage(packageManager.type), {
-        borderStyle: 'round',
-        padding: 1,
-        borderColor: '#F1618C',
-      })
-    );
-    throw new HandledError('Project was initialized in an empty directory.');
+    // Prompt the user to create a new project from our list.
+    await scaffoldNewProject(packageManager.type);
   }
 
   let projectType: ProjectType;
