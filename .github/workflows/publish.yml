@@ -147,11 +147,9 @@ jobs:
 
       - name: Merge ${{ github.ref_name }} into ${{ steps.target.outputs.target }}
         run: |
-          git config --global user.name "storybook-bot"
-          git config --global user.email "32066757+storybook-bot@users.noreply.github.com"
           git fetch origin ${{ steps.target.outputs.target }}
           git checkout ${{ steps.target.outputs.target }}
-          git merge ${{ github.ref_name }}
+          git merge ${{ github.ref_name }} || exit 0
           git push origin ${{ steps.target.outputs.target }}
 
       - name: Ensure `next` is a minor version ahead of `main`
