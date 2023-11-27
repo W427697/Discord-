@@ -10,7 +10,7 @@ import { getReactScriptsPath } from './helpers/getReactScriptsPath';
 import { processCraConfig } from './helpers/processCraConfig';
 import { checkPresets } from './helpers/checkPresets';
 import { getModulePath } from './helpers/getModulePath';
-import type { PluginOptions, CoreConfig } from './types';
+import type { PluginOptions } from './types';
 
 const CWD = process.cwd();
 
@@ -114,8 +114,9 @@ const webpack = async (
   // We need to figure out a better way to apply various layers of webpack config; perhaps
   // these options need to be in a separate preset.
   const isProd = webpackConfig.mode !== 'development';
-  const coreOptions = await options.presets.apply<CoreConfig>('core');
-  const builderOptions = coreOptions?.builder?.options;
+  const coreOptions = await options.presets.apply('core');
+  const builder = coreOptions?.builder;
+  const builderOptions = typeof builder === 'string' ? {} : builder?.options;
   const cacheConfig = builderOptions?.fsCache ? { cache: { type: 'filesystem' } } : {};
   const lazyCompilationConfig =
     builderOptions?.lazyCompilation && !isProd
