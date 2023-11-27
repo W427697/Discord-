@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
-import type { Configuration, RuleSetRule } from 'webpack';
+import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
@@ -78,12 +78,13 @@ const webpack = async (
 
   // Remove existing rules related to JavaScript and TypeScript.
   logger.info(`=> Removing existing JavaScript and TypeScript rules.`);
-  const filteredRules =
-    webpackConfig.module &&
-    webpackConfig.module.rules.filter(
-      ({ test }: RuleSetRule) =>
-        !(test instanceof RegExp && ((test && test.test('.js')) || test.test('.ts')))
-    );
+  const filteredRules = (webpackConfig.module?.rules as RuleSetRule[])?.filter((rule) => {
+    if (typeof rule === 'string') {
+      return false;
+    }
+    const { test } = rule;
+    return !(test instanceof RegExp && (test?.test('.js') || test?.test('.ts')));
+  });
 
   // Require the CRA config and set the appropriate mode.
   const craWebpackConfigPath = join(scriptsPath, 'config', 'webpack.config');
@@ -133,8 +134,8 @@ const webpack = async (
     // NOTE: this prioritizes the storybook version of a plugin
     // when there are duplicates between SB and CRA
     plugins: mergePlugins(
-      ...(webpackConfig.plugins || []),
-      ...(craWebpackConfig.plugins ?? []),
+      ...((webpackConfig.plugins ?? []) as WebpackPluginInstance[]),
+      ...((craWebpackConfig.plugins ?? []) as WebpackPluginInstance[]),
       ...tsDocgenPlugin
     ),
     resolve: {
