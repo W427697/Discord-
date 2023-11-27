@@ -9,36 +9,49 @@ interface VerifyOptions {
   previewPath: string;
 }
 
-const writePidFile = async ({
-  pid,
-  ppid,
-  appDir,
-  previewPath,
-}: VerifyOptions): Promise<boolean> => {
-  const routeDir = appDir ? join('app', '(sb)') : 'pages';
-  const storybookDir = join(process.cwd(), routeDir, previewPath);
-  const pidFile = appDir ? join(storybookDir, 'pid', 'page.tsx') : join(storybookDir, 'pid.tsx');
+const writePidFilePages = async ({ previewPath }: VerifyOptions) => {
+  const pidFile = join(process.cwd(), 'pages', previewPath, 'pid.tsx');
 
-  // no-op if the parent pid is already being checked
-  if (await exists(pidFile)) {
-    const contents = (await readFile(pidFile, 'utf8')).toString();
-    if (contents.startsWith(`// ${ppid}`)) return false;
-  }
+  if (await exists(pidFile)) return;
 
   await ensureDir(dirname(pidFile));
-  const pidTsx = `// ${pid}
-    const page = () => <>__pid_${pid}__</>;
-    export default page;`;
+  const pidTsx = `
+    import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+
+    export const getServerSideProps = (async () => {
+      return { props: { ppid: process.ppid } }
+    }) satisfies GetServerSideProps<{ ppid: number }>;
+
+    export default function Page(
+      { ppid }: InferGetServerSidePropsType<typeof getServerSideProps>
+    ) {
+      const ppidTag = '__ppid_' + ppid + '__';
+      return <>{ppidTag}</>;
+    };
+    `;
   await writeFile(pidFile, pidTsx);
-  console.log(`Wrote pid ${pid} (${ppid})`);
-  return true;
 };
 
-const PID_RE = /__pid_(\d+)__/;
+const writePidFileApp = async ({ previewPath }: VerifyOptions) => {
+  const pidFile = join(process.cwd(), 'app', '(sb)', previewPath, 'pid', 'page.tsx');
+
+  if (await exists(pidFile)) return;
+
+  await ensureDir(dirname(pidFile));
+  const pidTsx = `
+    const page = () => {
+      const ppidTag = '__ppid_' + process.ppid + '__';
+      return <>{ppidTag}</>;
+    };
+    export default page;`;
+  await writeFile(pidFile, pidTsx);
+};
+
+const PPID_RE = /__ppid_(\d+)__/;
 const checkPidRoute = async ({ pid, ppid, port, previewPath }: VerifyOptions) => {
   const res = await fetch(`http://localhost:${port}/${previewPath}/pid`);
   const pidHtml = await res.text();
-  const match = PID_RE.exec(pidHtml);
+  const match = PPID_RE.exec(pidHtml);
   const pidMatch = match?.[1].toString();
 
   if (pidMatch === pid.toString() || pidMatch === ppid.toString()) {
@@ -66,10 +79,9 @@ export const verifyPort = (
 
   setTimeout(async () => {
     try {
-      const written = await writePidFile({ pid, ppid, port, appDir, previewPath });
-      if (written) {
-        setTimeout(() => checkPidRoute({ pid, ppid, port, appDir, previewPath }), 100);
-      }
+      const writePidFile = appDir ? writePidFileApp : writePidFilePages;
+      await writePidFile({ pid, ppid, port, appDir, previewPath });
+      setTimeout(() => checkPidRoute({ pid, ppid, port, appDir, previewPath }), 100);
     } catch (e) {
       console.error(e);
     }
