@@ -4,7 +4,10 @@ import { frameworkPackages } from '@storybook/core-common';
 import type { InstallationMetadata } from '../js-package-manager/types';
 import storybookCorePackages from '../versions';
 
-function getPrimaryVersion(name: string, installationMetadata?: InstallationMetadata) {
+function getPrimaryVersion(name: string | undefined, installationMetadata?: InstallationMetadata) {
+  if (!name) {
+    return undefined;
+  }
   const packageMetadata = installationMetadata?.dependencies[name];
   if (!packageMetadata) {
     return undefined;
@@ -19,7 +22,7 @@ export function getMismatchingVersionsWarnings(
 ): string | undefined {
   const messages: string[] = [];
   try {
-    const frameworkPackageName = Object.keys(installationMetadata?.dependencies).find(
+    const frameworkPackageName = Object.keys(installationMetadata?.dependencies || []).find(
       (packageName) => {
         return Object.keys(frameworkPackages).includes(packageName);
       }
@@ -41,7 +44,7 @@ export function getMismatchingVersionsWarnings(
     let packageToDisplay: string;
     if (semver.lt(cliVersion, frameworkVersion)) {
       versionToCompare = frameworkVersion;
-      packageToDisplay = frameworkPackageName;
+      packageToDisplay = frameworkPackageName as string;
     } else {
       versionToCompare = cliVersion;
       packageToDisplay = 'storybook';
@@ -53,7 +56,7 @@ export function getMismatchingVersionsWarnings(
       )} (from the ${chalk.cyan(packageToDisplay)} package) or higher.`
     );
 
-    const filteredDependencies = Object.entries(installationMetadata?.dependencies).filter(
+    const filteredDependencies = Object.entries(installationMetadata?.dependencies || []).filter(
       ([name, packages]) => {
         if (Object.keys(storybookCorePackages).includes(name)) {
           const packageVersion = packages[0].version;
@@ -71,7 +74,7 @@ export function getMismatchingVersionsWarnings(
           .map(
             ([name, dep]) =>
               `${chalk.hex('#ff9800')(name)}: ${dep[0].version} ${
-                allDependencies[name] ? '(in your package.json)' : ''
+                allDependencies?.[name] ? '(in your package.json)' : ''
               }`
           )
           .join('\n')
@@ -84,7 +87,7 @@ export function getMismatchingVersionsWarnings(
       )} to upgrade all of your Storybook packages to the latest version.
       
       Alternatively you can try manually changing the versions to match in your package.json. We also recommend regenerating your lockfile, or running the following command to possibly deduplicate your Storybook package versions: ${chalk.cyan(
-        installationMetadata.dedupeCommand
+        installationMetadata?.dedupeCommand
       )}`
     );
 

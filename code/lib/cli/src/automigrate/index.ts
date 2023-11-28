@@ -8,6 +8,7 @@ import dedent from 'ts-dedent';
 
 import { join } from 'path';
 import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
+import invariant from 'tiny-invariant';
 import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
 import type { PackageManagerName } from '../js-package-manager';
 

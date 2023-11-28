@@ -58,7 +58,10 @@ export async function configureEslintPlugin(
       const existingConfigValue = Array.isArray(eslintConfig.extends)
         ? eslintConfig.extends
         : [eslintConfig.extends].filter(Boolean);
-      eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
+      eslintConfig.extends = [
+        ...(existingConfigValue || []),
+        'plugin:storybook/recommended',
+      ] as string[];
 
       const eslintFileContents = await readFile(eslintFile, 'utf8');
       const spaces = detectIndent(eslintFileContents).amount || 2;

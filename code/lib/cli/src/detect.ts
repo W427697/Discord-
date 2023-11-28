@@ -5,7 +5,6 @@ import { logger } from '@storybook/node-logger';
 
 import { resolve } from 'path';
 import prompts from 'prompts';
-import invariant from 'tiny-invariant';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,

@@ -1,15 +1,13 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import type { StorybookConfigRaw } from '@storybook/types';
-
 import type { Fix } from '../types';
 import { updateMainConfig } from '../helpers/mainConfigFile';
 
 const logger = console;
 
 interface AutodocsTrueFrameworkRunOptions {
-  value?: StorybookConfigRaw['docs']['autodocs'];
+  value?: boolean | 'tag';
 }
 
 /**

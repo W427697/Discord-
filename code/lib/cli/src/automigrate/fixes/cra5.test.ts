@@ -29,7 +29,6 @@ describe('cra5 fix', () => {
 
       it('should fail', async () => {
         await expect(
-          // @ts-expect-error this should fail when main property is missing.
           checkCra5({
             packageManager,
             storybookVersion: '6.2.0',
@@ -110,6 +109,7 @@ describe('cra5 fix', () => {
       });
     });
     describe('no cra dependency', () => {
+      // @ts-expect-error (Type 'null' is not comparable)
       const packageManager = {
         getPackageVersion: () => {
           return null;

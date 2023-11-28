@@ -63,7 +63,6 @@ export const processCraConfig = async (
       return [
         ...rules,
         {
-          // @ts-expect-error (not type correct)
           oneOf: oneOf.map((oneOfRule: RuleSetRule): RuleSetRule => {
             if (oneOfRule.type === 'asset/resource') {
               if (isStorybook530) {

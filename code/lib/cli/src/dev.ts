@@ -4,6 +4,7 @@ import { logger, instance as npmLog } from '@storybook/node-logger';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
 import type { CLIOptions } from '@storybook/types';
+import invariant from 'tiny-invariant';
 
 function printError(error: any) {
   // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header
@@ -47,7 +48,7 @@ export const dev = async (cliOptions: CLIOptions) => {
     configType: 'DEVELOPMENT',
     ignorePreview: !!cliOptions.previewUrl && !cliOptions.forceBuildPreview,
     cache,
-    packageJson: readUpSync({ cwd: __dirname }).packageJson,
+    packageJson: readUpSync({ cwd: __dirname })?.packageJson,
   } as Parameters<typeof buildDevStandalone>[0];
 
   await withTelemetry(

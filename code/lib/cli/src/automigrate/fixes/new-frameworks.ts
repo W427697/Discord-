@@ -70,13 +70,17 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
+    if (!configDir) {
+      return null;
+    }
+
     const packageJson = await packageManager.retrievePackageJson();
 
     const frameworkPackageName = getFrameworkPackageName(mainConfig);
 
     const rendererPackageName =
       rendererPackage ??
-      (await getRendererPackageNameFromFramework(frameworkPackageName)) ??
+      (await getRendererPackageNameFromFramework(frameworkPackageName as string)) ??
       (await detectRenderer(packageJson));
 
     let hasFrameworkInMainConfig = !!frameworkPackageName;

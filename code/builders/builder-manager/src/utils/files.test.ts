@@ -16,6 +16,7 @@ test('sanitizePath', () => {
       : '/Users/username/Projects/projectname/storybook/node_modules/@storybook/addon-x+y/dist/manager.js',
     contents: Uint8Array.from(Array.from(text).map((letter) => letter.charCodeAt(0))),
     text,
+    // @ts-expect-error (hash does not exist in OutputFile type
     hash: '',
   };
   const { location, url } = sanitizePath(file, addonsDir);

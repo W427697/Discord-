@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import invariant from 'tiny-invariant';
 import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
 import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';

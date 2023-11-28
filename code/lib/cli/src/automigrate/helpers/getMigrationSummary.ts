@@ -75,7 +75,9 @@ export function getMigrationSummary({
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `);
 
-  const duplicatedDepsMessage = getDuplicatedDepsWarnings(installationMetadata);
+  const duplicatedDepsMessage = installationMetadata
+    ? getDuplicatedDepsWarnings(installationMetadata)
+    : getDuplicatedDepsWarnings();
 
   if (duplicatedDepsMessage) {
     messages.push(duplicatedDepsMessage.join(messageDivider));

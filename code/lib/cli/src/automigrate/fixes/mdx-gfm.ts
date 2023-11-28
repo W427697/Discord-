@@ -34,7 +34,7 @@ export const mdxgfm: Fix<Options> = {
       let pattern;
 
       if (!configDir) {
-        return null;
+        return false;
       }
 
       if (typeof item === 'string') {
@@ -46,14 +46,12 @@ export const mdxgfm: Fix<Options> = {
       }
 
       if (!pattern) {
-        return null;
+        return false;
       }
 
       const files = await glob(pattern, commonGlobOptions(pattern));
 
-      return files.some((f) =>
-        typeof f === 'string' ? (f as string).endsWith('.mdx') : f.path.endsWith('.mdx')
-      );
+      return files.some((f) => f.endsWith('.mdx'));
     }, Promise.resolve(false));
 
     const usesMDX1 = mainConfig?.features?.legacyMdx1 === true || false;

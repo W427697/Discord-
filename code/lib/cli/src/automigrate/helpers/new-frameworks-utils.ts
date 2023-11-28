@@ -1,6 +1,7 @@
 import { frameworkPackages } from '@storybook/core-common';
 import type { Preset, StorybookConfigRaw } from '@storybook/types';
 import findUp from 'find-up';
+import invariant from 'tiny-invariant';
 import type { JsPackageManager } from '../../js-package-manager';
 import { getBuilderPackageName, getFrameworkPackageName } from './mainConfigFile';
 
@@ -71,13 +72,13 @@ export const detectBuilderInfo = async ({
   packageManager: JsPackageManager;
 }): Promise<{ name: BuilderType; options: any }> => {
   let builderName: BuilderType;
-  let builderOrFrameworkName;
+  let builderOrFrameworkName: string | undefined;
 
   const { core = {}, framework } = mainConfig;
   const { builder } = core;
 
   const builderPackageName = getBuilderPackageName(mainConfig);
-  const frameworkPackageName = getFrameworkPackageName(mainConfig);
+  const frameworkPackageName = getFrameworkPackageName(mainConfig) as string;
 
   let builderOptions = typeof builder !== 'string' ? builder?.options ?? {} : {};
 

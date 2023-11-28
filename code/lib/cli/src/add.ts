@@ -82,6 +82,12 @@ export async function add(
   const packageJson = await packageManager.retrievePackageJson();
   const { mainConfig, configDir } = getStorybookInfo(packageJson);
 
+  if (!configDir) {
+    throw new Error(dedent`
+      Unable to find storybook config directory
+    `);
+  }
+
   if (checkInstalled(addon, requireMain(configDir))) {
     throw new Error(dedent`
       Addon ${addon} is already installed; we skipped adding it to your ${mainConfig}.
