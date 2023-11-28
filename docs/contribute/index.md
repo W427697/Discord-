@@ -1,5 +1,6 @@
 ---
 title: 'How to contribute'
+hideRendererSelector: true
 ---
 
 Storybook is a community-oriented open source project that welcomes contributions. Some of our most popular features started with a developer wanting to solve a problem for themselves.
@@ -15,7 +16,7 @@ In the interest of fostering an open and welcoming environment, we as contributo
 - [**Frameworks**](./framework.md) to get started with a new framework
 - [**Documentation**](./documentation-updates.md) for documentation improvements, typos, and clarifications
 - [**Examples**](./new-snippets.md) for new snippets and examples
-- [**Addons**](./../addons/introduction.md) for new addons
+- [**Addons**](./../addons/index.md) for new addons
 
 ## Not sure how to get started?
 
