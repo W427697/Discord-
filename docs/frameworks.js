@@ -1,6 +1,6 @@
 module.exports = {
   coreFrameworks: ['react', 'vue', 'angular', 'web-components'],
-  communityFrameworks: ['ember', 'html', 'svelte', 'preact', 'qwik'],
+  communityFrameworks: ['ember', 'html', 'svelte', 'preact', 'qwik', 'solid'],
   featureGroups: [
     {
       name: 'Essentials',
@@ -18,7 +18,7 @@ module.exports = {
         {
           name: 'Docs',
           unsupported: [],
-          path: 'writing-docs/introduction',
+          path: 'writing-docs',
         },
         {
           name: 'Viewport',
@@ -103,7 +103,7 @@ module.exports = {
         },
         {
           name: 'events',
-          unsupported: ['svelte', 'riot'],
+          unsupported: ['svelte'],
         },
         {
           name: 'google-analytics',
@@ -128,11 +128,6 @@ module.exports = {
         {
           name: 'queryparams',
           unsupported: [],
-        },
-        {
-          name: 'Storyshots',
-          unsupported: ['ember'],
-          path: 'writing-tests/snapshot-testing',
         },
         {
           name: 'storysource',

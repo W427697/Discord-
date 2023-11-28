@@ -2,6 +2,8 @@
 title: 'Canvas'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's Canvas Doc Block" params='start=148' />
+
 The `Canvas` block is a wrapper around a [`Story`](./doc-block-story.md), featuring a toolbar that allows you to interact with its content while automatically providing the required [`Source`](./doc-block-source.md) snippets.
 
 ![Screenshot of Canvas block](./doc-block-canvas.png)
@@ -21,11 +23,11 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 In previous versions of Storybook it was possible to pass in arbitrary components as children to `Canvas`. That is deprecated and the `Canvas` block now only supports a single story.
+In previous versions of Storybook it was possible to pass in arbitrary components as children to `Canvas`. That is deprecated and the `Canvas` block now only supports a single story.
 
-</div>
+</Callout>
 
 ## Canvas
 
@@ -170,11 +172,11 @@ Type: `SourceProps['code'] | SourceProps['format'] | SourceProps['language'] | S
 
 Specifies props passed to the inner `Source` block. See [SourceProps](./doc-block-source.md#sourceprops).
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The dark prop is ignored, as the `Source` block is always rendered in dark mode when shown as part of a `Canvas` block.
+The dark prop is ignored, as the `Source` block is always rendered in dark mode when shown as part of a `Canvas` block.
 
-</div>
+</Callout>
 
 ### `sourceState`
 
@@ -202,37 +204,49 @@ Default: `parameters.docs.canvas.withToolbar`
 
 Determines whether to render a toolbar containing tools to interact with the story.
 
-### `children` (deprecated)
+### `children`
+
+(⛔️ **Deprecated**)
 
 Type: `React.ReactNode`
 
 Expects only [Story](./doc-block-story.md) children. Reference the story with the `of` prop instead.
 
-### `columns` (deprecated)
+### `columns`
+
+(⛔️ **Deprecated**)
 
 Type: `number`
 
 Splits the stories based on the number of defined columns. Multiple stories are not supported.
 
-### `isColumn` (deprecated)
+### `isColumn`
+
+(⛔️ **Deprecated**)
 
 Type: `boolean`
 
 Displays the stories one above the other. Multiple stories are not supported.
 
-### `mdxSource` (deprecated)
+### `mdxSource`
+
+(⛔️ **Deprecated**)
 
 Type: `string`
 
 Provides source to display. Use [`source.code`](#source) instead.
 
-### `withSource` (deprecated)
+### `withSource`
+
+(⛔️ **Deprecated**)
 
 Type: `'open' | 'closed' | 'none'`
 
 Controls the source code block visibility. Use [`sourceState`](#sourcestate) instead.
 
-### `withToolbar` (deprecated)
+### `withToolbar`
+
+(⛔️ **Deprecated**)
 
 Type: `boolean`
 

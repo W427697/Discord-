@@ -1,5 +1,5 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import type { TooltipLinkListLink } from '@storybook/components';
@@ -8,9 +8,10 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 
+import { ChevronDownIcon, GlobeIcon } from '@storybook/icons';
 import type { RefType } from './types';
 
-import type { getStateType } from './utils';
+import type { getStateType } from '../../utils/tree';
 
 const { document, window: globalWindow } = global;
 
@@ -159,7 +160,7 @@ const CurrentVersion: FC<CurrentVersionProps> = ({ url, versions }) => {
   return (
     <Version>
       <span>{currentVersionId}</span>
-      <Icons icon="arrowdown" />
+      <ChevronDownIcon />
     </Version>
   );
 };
@@ -204,7 +205,7 @@ export const RefIndicator = React.memo(
             }
           >
             <IndicatorClickTarget data-action="toggle-indicator" aria-label="toggle indicator">
-              <Icons icon="globe" />
+              <GlobeIcon />
             </IndicatorClickTarget>
           </WithTooltip>
 
@@ -255,7 +256,7 @@ const ReadyMessage: FC<{
 );
 
 const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
-  const open = useCallback((e) => {
+  const open = useCallback<MouseEventHandler>((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
 
@@ -282,7 +283,7 @@ const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
 };
 
 const ReadDocsMessage: FC = () => (
-  <Message href="https://storybook.js.org" target="_blank">
+  <Message href="https://storybook.js.org/docs/react/sharing/storybook-composition" target="_blank">
     <GreenIcon icon="document" />
     <div>
       <MessageTitle>Read Composition docs</MessageTitle>
@@ -312,7 +313,10 @@ const LoadingMessage: FC<{ url: string }> = ({ url }) => (
 );
 
 const PerformanceDegradedMessage: FC = () => (
-  <Message href="https://storybook.js.org/docs" target="_blank">
+  <Message
+    href="https://storybook.js.org/docs/react/sharing/storybook-composition#improve-your-storybook-composition"
+    target="_blank"
+  >
     <YellowIcon icon="lightning" />
     <div>
       <MessageTitle>Reduce lag</MessageTitle>

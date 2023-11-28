@@ -1,9 +1,11 @@
 module.exports = {
   projects: [
     '<rootDir>/addons/*',
-    '<rootDir>/frameworks/!(angular)*',
+    '<rootDir>/frameworks/*',
     '<rootDir>/lib/*',
+    '<rootDir>/builders/*',
     '<rootDir>/renderers/*',
+    '<rootDir>/presets/*',
     '<rootDir>/ui/!(node_modules)*',
   ],
   collectCoverage: false,

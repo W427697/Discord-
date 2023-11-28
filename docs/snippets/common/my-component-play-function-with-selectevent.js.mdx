@@ -1,12 +1,11 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
 export default {
-  title: 'WithSelectEvent',
   component: MyComponent,
 };
 
@@ -15,7 +14,7 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/* See https://storybook.js.org/docs/7.0/react/writing-stories/play-function#working-with-the-canvas
+/* See https://storybook.js.org/docs/writing-stories/play-function#working-with-the-canvas
  * to learn more about using the canvasElement to query the DOM
  */
 export const ExampleChangeEvent = {

@@ -7,8 +7,10 @@
   - [Setup Compodoc](#setup-compodoc)
     - [Automatic setup](#automatic-setup)
     - [Manual setup](#manual-setup)
+  - [moduleMetadata decorator](#modulemetadata-decorator)
+  - [applicationConfig decorator](#applicationconfig-decorator)
   - [FAQ](#faq)
-    - [How do I migrate to a Angular Storybook builder?](#how-do-i-migrate-to-a-angular-storybook-builder)
+    - [How do I migrate to an Angular Storybook builder?](#how-do-i-migrate-to-an-angular-storybook-builder)
       - [Do you have only one Angular project in your workspace?](#do-you-have-only-one-angular-project-in-your-workspace)
         - [Adjust your `package.json`](#adjust-your-packagejson)
       - [I have multiple projects in my Angular workspace](#i-have-multiple-projects-in-my-angular-workspace)
@@ -25,12 +27,12 @@ So you can develop UI components in isolation without worrying about app specifi
 
 ```sh
 cd my-angular-app
-npx storybook init
+npx storybook@latest init
 ```
 
 ## Setup Storybook for your Angular projects
 
-Storybook supports Angular multi-project workspace. You can setup Storybook for each project in the workspace. When running `npx storybook init` you will be asked for which project Storybook should be set up. Essentially, during initialization, the `.storybook` folder will be created and the `angular.json` will be edited to add the Storybook configuration for the selected project. The configuration looks approximately like this:
+Storybook supports Angular multi-project workspace. You can setup Storybook for each project in the workspace. When running `npx storybook@latest init` you will be asked for which project Storybook should be set up. Essentially, during initialization, the `.storybook` folder will be created and the `angular.json` will be edited to add the Storybook configuration for the selected project. The configuration looks approximately like this:
 
 ```json
 // angular.json
@@ -165,11 +167,96 @@ const preview: Preview = {
 export default preview;
 ```
 
+## moduleMetadata decorator
+
+If your component has dependencies on other Angular directives and modules, these can be supplied using the moduleMetadata decorator either for all stories or for individual stories.
+
+```js
+import { StoryFn, Meta, moduleMetadata } from '@storybook/angular';
+import { SomeComponent } from './some.component';
+
+export default {
+  component: SomeComponent,
+  decorators: [
+    // Apply metadata to all stories
+    moduleMetadata({
+      // import necessary ngModules or standalone components
+      imports: [...],
+      // declare components that are used in the template
+      declarations: [...],
+      // List of providers that should be available to the root component and all its children.
+      providers: [...],
+    }),
+  ],
+} as Meta;
+
+const Template = (): StoryFn => (args) => ({
+  props: args,
+});
+
+export const Base = Template();
+
+export const WithCustomProvider = Template();
+WithCustomProvider.decorators = [
+  // Apply metadata to a specific story
+  moduleMetadata({
+    imports: [...],
+    declarations: [...],
+    providers: [...]
+  }),
+];
+```
+
+## applicationConfig decorator
+
+If your component relies on application-wide providers, like the ones defined by BrowserAnimationsModule or any other modules which use the forRoot pattern to provide a ModuleWithProviders, you can use the applicationConfig decorator on the meta default export to provide them to the [bootstrapApplication function](https://angular.io/guide/standalone-components#configuring-dependency-injection), which we use to bootstrap the component in Storybook.
+
+```js
+
+import { StoryObj, Meta, applicationConfig } from '@storybook/angular';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { importProvidersFrom } from '@angular/core';
+import { ChipsModule } from './angular-src/chips.module';
+
+const meta: Meta = {
+  component: ChipsGroupComponent,
+  decorators: [
+    // Apply application config to all stories
+    applicationConfig({
+      // List of providers and environment providers that should be available to the root component and all its children.
+      providers: [
+        ...
+        // Import application-wide providers from a module
+        importProvidersFrom(BrowserAnimationsModule)
+        // Or use provide-style functions if available instead, e.g.
+        provideAnimations()
+      ],
+    }),
+  ],
+};
+
+export default meta;
+
+type Story = StoryObj<typeof ChipsGroupComponent>;
+
+export const WithCustomApplicationProvider: Story = {
+  render: () => ({
+    // Apply application config to a specific story
+    applicationConfig: {
+      // The providers will be merged with the ones defined in the applicationConfig decorators providers array of the global meta object
+      providers: [...]
+    }
+  })
+}
+```
+
 ## FAQ
 
-### How do I migrate to a Angular Storybook builder?
+### How do I migrate to an Angular Storybook builder?
 
 The Storybook [Angular builder](https://angular.io/guide/glossary#builder) is a new way to run Storybook in an Angular workspace. It is a drop-in replacement for running `storybook dev` and `storybook build` directly.
+
+You can run `npx storybook@next automigrate` to try let Storybook detect and automatically fix your configuration. Otherwise, you can follow the next steps to manually adjust your configuration.
 
 #### Do you have only one Angular project in your workspace?
 

@@ -1,11 +1,11 @@
 {
   "name": "@storybook/preview",
-  "version": "7.0.0-rc.5",
+  "version": "8.0.0-alpha.0",
   "description": "",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/preview",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/preview",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -22,19 +22,18 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/runtime.mjs",
-      "require": "./dist/runtime.js",
-      "types": "./dist/runtime.d.ts"
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
     },
     "./globals": {
-      "import": "./dist/globals.mjs",
-      "require": "./dist/globals.js",
-      "types": "./dist/globals.d.ts"
+      "types": "./dist/globals.d.ts",
+      "import": "./dist/globals.js",
+      "require": "./dist/globals.js"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/runtime.js",
-  "module": "dist/runtime.mjs",
+  "module": "dist/runtime.js",
   "types": "dist/runtime.d.ts",
   "typesVersions": {
     "*": {
@@ -50,29 +49,32 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/esm-bundle.ts"
   },
   "devDependencies": {
-    "@storybook/channel-postmessage": "7.0.0-rc.5",
-    "@storybook/channel-websocket": "7.0.0-rc.5",
-    "@storybook/channels": "7.0.0-rc.5",
-    "@storybook/client-logger": "7.0.0-rc.5",
-    "@storybook/core-events": "7.0.0-rc.5",
-    "@storybook/preview-api": "7.0.0-rc.5",
-    "typescript": "~4.9.3"
+    "@storybook/channels": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "workspace:*",
+    "browser-dtector": "^3.4.0",
+    "typescript": "^5.3.2"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "entries": [
-      "./src/runtime.ts",
+    "browserEntries": [
+      "./src/runtime.ts"
+    ],
+    "nodeEntries": [
       "./src/globals.ts"
     ]
   },
-  "gitHead": "851e100b53f1c58b6a79ca3bc0a9c295b385264d"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

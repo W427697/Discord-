@@ -25,20 +25,17 @@ interface Webpack5RunOptions {
 export const webpack5: Fix<Webpack5RunOptions> = {
   id: 'webpack5',
 
-  async check({ configDir, packageManager }) {
-    const allDependencies = packageManager.retrievePackageJson().dependencies;
-
-    const webpackVersion = allDependencies.webpack;
-    const webpackCoerced = semver.coerce(webpackVersion)?.version;
+  async check({ configDir, packageManager, mainConfig, storybookVersion }) {
+    const webpackVersion = await packageManager.getPackageVersion('webpack');
 
     if (
-      !webpackCoerced ||
-      semver.lt(webpackCoerced, '5.0.0') ||
-      semver.gte(webpackCoerced, '6.0.0')
+      !webpackVersion ||
+      semver.lt(webpackVersion, '5.0.0') ||
+      semver.gte(webpackVersion, '6.0.0')
     )
       return null;
 
-    const builderInfo = await checkWebpack5Builder({ configDir, packageManager });
+    const builderInfo = await checkWebpack5Builder({ mainConfig, storybookVersion });
     return builderInfo ? { webpackVersion, ...builderInfo } : null;
   },
 
@@ -72,7 +69,9 @@ export const webpack5: Fix<Webpack5RunOptions> = {
       deps.push('webpack@5');
     }
     logger.info(`✅ Adding dependencies: ${deps}`);
-    if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
+    if (!dryRun) {
+      await packageManager.addDependencies({ installAsDevDependencies: true }, deps);
+    }
 
     logger.info('✅ Setting `core.builder` to `@storybook/builder-webpack5` in main.js');
     if (!dryRun) {
