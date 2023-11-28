@@ -7697,7 +7697,7 @@ __metadata:
     "@storybook/preview-api": "workspace:*"
     "@testing-library/dom": "npm:^9.3.1"
     "@testing-library/jest-dom": "npm:^6.1.3"
-    "@testing-library/user-event": "npm:^14.4.3"
+    "@testing-library/user-event": "npm:14.3.0"
     "@types/chai": "npm:^4"
     "@vitest/expect": "npm:^0.34.2"
     "@vitest/spy": "npm:^0.34.1"
@@ -8368,6 +8368,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/user-event@npm:14.3.0":
+  version: 14.3.0
+  resolution: "@testing-library/user-event@npm:14.3.0"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: 8a0e708709f2510287568dff668bc7d6f5c4e7e17407452b7aa0fcf74732dccf511c63fc76ac514d753cb1f0586c1def59ba7f5245a9523715d37a8f198745d3
+  languageName: node
+  linkType: hard
+
 "@testing-library/user-event@npm:^13.2.1":
   version: 13.5.0
   resolution: "@testing-library/user-event@npm:13.5.0"
@@ -8379,7 +8388,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.4.0, @testing-library/user-event@npm:^14.4.3":
+"@testing-library/user-event@npm:^14.4.0":
   version: 14.5.1
   resolution: "@testing-library/user-event@npm:14.5.1"
   peerDependencies:
