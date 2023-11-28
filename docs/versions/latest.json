@@ -1,1 +1,6 @@
-{"version":"7.6.0","info":{"plain":"- Docs: Changes corresponding to docs design updates - [#24925](https://github.com/storybookjs/storybook/pull/24925), thanks [@kylegach](https://github.com/kylegach)!\n- Next.js: Fix Fast Refresh config for SWC mode - [#24991](https://github.com/storybookjs/storybook/pull/24991), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!\n- Next.js: Fix react-docgen usage with preset-env settings - [#24993](https://github.com/storybookjs/storybook/pull/24993), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!\n- Test Build: Filter out addon-docs from essentials in the test build - [#24994](https://github.com/storybookjs/storybook/pull/24994), thanks [@kasperpeulen](https://github.com/kasperpeulen)!\n- Webpack5: Only load babel config when babel-loader is used - [#25002](https://github.com/storybookjs/storybook/pull/25002), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!"}}
+{
+  "version": "7.6.0",
+  "info": {
+    "plain": "- 🔥 Improved SWC support\n- 🧪New test utilities and fast build mode\n- 🔼NextJS SWC + avif support & fixes\n- 🤡 SvelteKit page and navigation mocking\n- ⚛️React-docgen upgrade\n- 🎨Controls a11y, background theming, and viewports\n- 🩺CLI: The doctor is in!\n- 🚫Addons: Remove React as a peer dependency\n- 🪦Storyshots and Vue2 deprecated"
+  }
+}
