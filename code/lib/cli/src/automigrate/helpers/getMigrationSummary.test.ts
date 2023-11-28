@@ -25,7 +25,6 @@ describe('getMigrationSummary', () => {
 
   const installationMetadata: InstallationMetadata = {
     duplicatedDependencies: {
-      '@storybook/core-client': ['7.0.0', '7.1.0'],
       '@storybook/instrumenter': ['6.0.0', '7.1.0'],
       '@storybook/core-common': ['6.0.0', '7.1.0'],
       '@storybook/addon-essentials': ['7.0.0', '7.1.0'],
@@ -139,15 +138,24 @@ describe('getMigrationSummary', () => {
       @storybook/instrumenter:
       6.0.0, 7.1.0
 
-      Attention: The following dependencies are duplicated which might cause unexpected behavior:
-
       @storybook/core-common:
       6.0.0, 7.1.0
+
+
+
+
+      Attention: The following dependencies are duplicated which might cause unexpected behavior:
 
       @storybook/addon-essentials:
       7.0.0, 7.1.0
 
+
+
+
       You can find more information for a given dependency by running yarn why <package-name>
+
+
+
 
       Please try de-duplicating these dependencies by running yarn dedupe"
     `);

@@ -1,20 +1,19 @@
 import { logger } from '@storybook/node-logger';
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 import chalk from 'chalk';
 import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path, { basename } from 'path';
+import path, { basename, isAbsolute } from 'path';
 import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
 import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: Router, options: Options) {
-  const staticDirs =
-    (await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs')) ?? [];
+  const staticDirs = (await options.presets.apply('staticDirs')) ?? [];
   const faviconPath = await options.presets.apply<string>('favicon');
 
   if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
@@ -30,14 +29,15 @@ export async function useStatics(router: Router, options: Options) {
     await Promise.all(
       statics.map(async (dir) => {
         try {
-          const relativeDir = staticDirs
-            ? getDirectoryFromWorkingDir({
-                configDir: options.configDir,
-                workingDir: process.cwd(),
-                directory: dir,
-              })
-            : dir;
-          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+          const normalizedDir =
+            staticDirs && !isAbsolute(dir)
+              ? getDirectoryFromWorkingDir({
+                  configDir: options.configDir,
+                  workingDir: process.cwd(),
+                  directory: dir,
+                })
+              : dir;
+          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
           // Don't log for the internal static dir
           if (!targetEndpoint.startsWith('/sb-')) {

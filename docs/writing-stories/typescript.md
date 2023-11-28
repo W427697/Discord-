@@ -8,7 +8,7 @@ Storybook has built-in TypeScript support, so you can get started with zero conf
 
 ## Typing stories with `Meta` and `StoryObj`
 
-When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./introduction.md#default-export), which describes and configures the component and its stories. In a [CSF file](../api/csf.md), this is the default export. The second is the [stories themselves](./introduction.md#defining-stories).
+When writing stories, there are two aspects that are helpful to type. The first is the [component meta](./index.md#default-export), which describes and configures the component and its stories. In a [CSF file](../api/csf.md), this is the default export. The second is the [stories themselves](./index.md#defining-stories).
 
 Storybook provides utility types for each of these, named `Meta` and `StoryObj`. Here's an example CSF file using those types:
 
@@ -34,9 +34,9 @@ The example above passes a component type. See [**Typing custom args**](#typing-
 
 <IfRenderer renderer={['angular', 'web-components']}>
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ We are not yet able to provide additional type safety using the `satisfies` operator with Angular and Web components.
+We are not yet able to provide additional type safety using the `satisfies` operator with Angular and Web components.
 
 <details>
 <summary>More info</summary>
@@ -49,7 +49,7 @@ For more information, please refer to [this discussion](https://github.com/story
 
 </details>
 
-</div>
+</Callout>
 
 </IfRenderer>
 
