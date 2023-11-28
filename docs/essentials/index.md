@@ -1,5 +1,6 @@
 ---
 title: 'Essential addons'
+hideRendererSelector: true
 ---
 
 A major strength of Storybook are [addons](https://storybook.js.org/addons) that extend Storybook’s UI and behavior. Storybook ships by default with a set of “essential” addons that add to the initial user experience. There are many third-party addons as well as “official” addons developed by the Storybook core team.
@@ -7,7 +8,7 @@ A major strength of Storybook are [addons](https://storybook.js.org/addons) that
 - [Actions](./actions.md)
 - [Backgrounds](./backgrounds.md)
 - [Controls](./controls.md)
-- [Docs](../writing-docs/introduction.md)
+- [Docs](../writing-docs/index.md)
 - [Highlight](./highlight.md)
 - [Measure & outline](./measure-and-outline.md)
 - [Toolbars & globals](./toolbars-and-globals.md)
@@ -31,7 +32,7 @@ However, if you intend to install the Essentials addon manually into an existing
 
 <!-- prettier-ignore-end -->
 
-Update your Storybook configuration (in [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering)) to include the Essentials addon.
+Update your Storybook configuration (in [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering)) to include the Essentials addon.
 
 <!-- prettier-ignore-start -->
 
@@ -48,7 +49,7 @@ Update your Storybook configuration (in [`.storybook/main.js|ts`](../configure/o
 
 Essentials is "zero-config”. It comes with a recommended configuration out of the box.
 
-If you need to reconfigure any of the [individual Essentials addons](https://storybook.js.org/addons/tag/essentials), install them manually by following the installation instructions, and depending on the method of choice, register them in your Storybook configuration file (i.e., [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering)) and adjust the configuration to suit your needs. For example:
+If you need to reconfigure any of the [individual Essentials addons](https://storybook.js.org/addons/tag/essentials), install them manually by following the installation instructions, and depending on the method of choice, register them in your Storybook configuration file (i.e., [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering)) and adjust the configuration to suit your needs. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -102,7 +103,7 @@ When you start Storybook, your custom configuration will override the default.
 
 ### Disabling addons
 
-If you need to disable any of the Essential's addons, you can do it by changing your [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) file.
+If you need to disable any of the Essential's addons, you can do it by changing your [`.storybook/main.js`](../configure/index.md#configure-story-rendering) file.
 
 For example, if you wanted to disable the [backgrounds addon](./backgrounds.md), you would apply the following change to your Storybook configuration:
 

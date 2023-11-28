@@ -75,7 +75,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
     'solid/button-story.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-button-story"
+  csf2Path="writing-stories/#snippet-button-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -94,7 +94,7 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
     'react/button-story.with-hooks.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
+  csf2Path="writing-stories/#snippet-button-story-with-hooks"
 />
 
 <!-- prettier-ignore-end -->
@@ -121,7 +121,7 @@ The recommendation mentioned above also applies to other frameworks, not only Re
     'solid/button-story.with-hooks.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
+  csf2Path="writing-stories/#snippet-button-story-with-hooks"
 />
 
 <!-- prettier-ignore-end -->
@@ -156,7 +156,7 @@ You can rename any particular story you need. For instance, to give it a more ac
     'solid/button-story-rename-story.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-button-story-rename-story"
+  csf2Path="writing-stories/#snippet-button-story-rename-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -185,7 +185,7 @@ A story is a function that describes how to render a component. You can have mul
     'solid/button-story-with-emojis.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-button-story-with-emojis"
+  csf2Path="writing-stories/#snippet-button-story-with-emojis"
 />
 
 <!-- prettier-ignore-end -->
@@ -216,7 +216,7 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
     'solid/button-story-using-args.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-button-story-using-args"
+  csf2Path="writing-stories/#snippet-button-story-using-args"
 />
 
 <!-- prettier-ignore-end -->
@@ -243,7 +243,7 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'solid/button-group-story.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-button-group-story"
+  csf2Path="writing-stories/#snippet-button-group-story"
 />
 
 
@@ -289,7 +289,7 @@ Storybook's `play` function and the [`@storybook/addon-interactions`](https://st
     'solid/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-login-form-with-play-function"
+  csf2Path="writing-stories/#snippet-login-form-with-play-function"
 />
 
 Without the help of the `play` function and the `@storybook/addon-interactions`, you had to write your own stories and manually interact with the component to test out each use case scenario possible. 
@@ -375,7 +375,7 @@ When building design systems or component libraries, you may have two or more co
     'solid/list-story-starter.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-list-story-starter"
+  csf2Path="writing-stories/#snippet-list-story-starter"
 />
 
 <!-- prettier-ignore-end -->
@@ -399,7 +399,7 @@ In such cases, it makes sense to render a different function for each story:
     'solid/list-story-expanded.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-list-story-expanded"
+  csf2Path="writing-stories/#snippet-list-story-expanded"
 />
 
 <!-- prettier-ignore-end -->
@@ -425,7 +425,7 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
     'solid/list-story-reuse-data.ts.mdx',
   ]}
   usesCsf3
-  csf2Path="writing-stories/introduction#snippet-list-story-reuse-data"
+  csf2Path="writing-stories/#snippet-list-story-reuse-data"
 />
 
 <!-- prettier-ignore-end -->

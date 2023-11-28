@@ -4636,46 +4636,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1":
-  version: 0.5.10
-  resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.10"
-  dependencies:
-    ansi-html-community: "npm:^0.0.8"
-    common-path-prefix: "npm:^3.0.0"
-    core-js-pure: "npm:^3.23.3"
-    error-stack-parser: "npm:^2.0.6"
-    find-up: "npm:^5.0.0"
-    html-entities: "npm:^2.1.0"
-    loader-utils: "npm:^2.0.4"
-    schema-utils: "npm:^3.0.0"
-    source-map: "npm:^0.7.3"
-  peerDependencies:
-    "@types/webpack": 4.x || 5.x
-    react-refresh: ">=0.10.0 <1.0.0"
-    sockjs-client: ^1.4.0
-    type-fest: ">=0.17.0 <4.0.0"
-    webpack: ">=4.43.0 <6.0.0"
-    webpack-dev-server: 3.x || 4.x
-    webpack-hot-middleware: 2.x
-    webpack-plugin-serve: 0.x || 1.x
-  peerDependenciesMeta:
-    "@types/webpack":
-      optional: true
-    sockjs-client:
-      optional: true
-    type-fest:
-      optional: true
-    webpack-dev-server:
-      optional: true
-    webpack-hot-middleware:
-      optional: true
-    webpack-plugin-serve:
-      optional: true
-  checksum: e470b543c5e8d73eeaa73636e1976e6719db6ae29c93fa62818f5796c1883051f379a3cb1ff85d909ef2c6bb9ef13ca46c36f1878c48d143b1355fea6660e547
-  languageName: node
-  linkType: hard
-
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.11":
+"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.11":
   version: 0.5.11
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.11"
   dependencies:
@@ -9427,6 +9388,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vue/compiler-core@npm:3.3.9":
+  version: 3.3.9
+  resolution: "@vue/compiler-core@npm:3.3.9"
+  dependencies:
+    "@babel/parser": "npm:^7.23.3"
+    "@vue/shared": "npm:3.3.9"
+    estree-walker: "npm:^2.0.2"
+    source-map-js: "npm:^1.0.2"
+  checksum: b7114c299f765a6df27c9e3cfdd3372644d941aece10518207b4b402778f7be6180da7532f5dc2ae1627e569f81067d27b112787e195692cb5faee3fad254192
+  languageName: node
+  linkType: hard
+
 "@vue/compiler-core@npm:^3.3.4":
   version: 3.3.8
   resolution: "@vue/compiler-core@npm:3.3.8"
@@ -9459,13 +9432,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-dom@npm:3.3.7, @vue/compiler-dom@npm:^3.2.0, @vue/compiler-dom@npm:^3.3.0":
+"@vue/compiler-dom@npm:3.3.7":
   version: 3.3.7
   resolution: "@vue/compiler-dom@npm:3.3.7"
   dependencies:
     "@vue/compiler-core": "npm:3.3.7"
     "@vue/shared": "npm:3.3.7"
   checksum: 34c030df5fd0d403686c8b17369cf8b19119717d0c19c1d37e380b85023d3d9e69a97215633e983e1ffb89158ce57af53e107103afa344db9b51222c04b3672a
+  languageName: node
+  linkType: hard
+
+"@vue/compiler-dom@npm:^3.2.0, @vue/compiler-dom@npm:^3.3.0":
+  version: 3.3.9
+  resolution: "@vue/compiler-dom@npm:3.3.9"
+  dependencies:
+    "@vue/compiler-core": "npm:3.3.9"
+    "@vue/shared": "npm:3.3.9"
+  checksum: cc7b731400ddcbd2f7ffc5a64e5de6af42f1c647d178f7a48d63579c5e5cf2a3f39acafeefada6bd82cfa4af6724bd7363faef0522eb2a4c2dec8304e1b36c50
   languageName: node
   linkType: hard
 
@@ -9732,10 +9715,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/shared@npm:3.3.8, @vue/shared@npm:^3.3.0":
+"@vue/shared@npm:3.3.8":
   version: 3.3.8
   resolution: "@vue/shared@npm:3.3.8"
   checksum: 4e35a331309f883616cd21087d180ea10c95ed742cf67c33bedf9b0f060b791976071b076b31e075eb34571861cbe5d191fb8e265ee85573d2908d00f022171e
+  languageName: node
+  linkType: hard
+
+"@vue/shared@npm:3.3.9, @vue/shared@npm:^3.3.0":
+  version: 3.3.9
+  resolution: "@vue/shared@npm:3.3.9"
+  checksum: abf10852baf4009e838c5c12893a67e4dbb4369ec6be2892ce6294a4115d2087ecd619783bbafe048d154da48dd28763fc6c53114ab490ced45e573b2d69dbc9
   languageName: node
   linkType: hard
 
@@ -22916,27 +22906,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:^9.0.0":
-  version: 9.3.1
-  resolution: "node-gyp@npm:9.3.1"
-  dependencies:
-    env-paths: "npm:^2.2.0"
-    glob: "npm:^7.1.4"
-    graceful-fs: "npm:^4.2.6"
-    make-fetch-happen: "npm:^10.0.3"
-    nopt: "npm:^6.0.0"
-    npmlog: "npm:^6.0.0"
-    rimraf: "npm:^3.0.2"
-    semver: "npm:^7.3.5"
-    tar: "npm:^6.1.2"
-    which: "npm:^2.0.2"
-  bin:
-    node-gyp: bin/node-gyp.js
-  checksum: 3285c110768eb65aadd9aa1d056f917e594ea22611d21fd535ab3677ea433d0a281e7f09bc73d53e64b02214f4379dbca476dc33faffe455b0ac1d5ba92802f4
-  languageName: node
-  linkType: hard
-
-"node-gyp@npm:^9.3.1":
+"node-gyp@npm:^9.0.0, node-gyp@npm:^9.3.1":
   version: 9.4.1
   resolution: "node-gyp@npm:9.4.1"
   dependencies:

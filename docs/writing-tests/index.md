@@ -1,5 +1,6 @@
 ---
 title: 'How to test UIs with Storybook'
+hideRendererSelector: true
 ---
 
 Storybook provides a clean-room environment for testing components in isolation. Stories make it easy to explore a component in all its variations, no matter how complex.
