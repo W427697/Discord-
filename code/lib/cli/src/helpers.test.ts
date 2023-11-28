@@ -177,4 +177,39 @@ describe('Helpers', () => {
       }).toThrowError(`Could not coerce ${invalidSemverString} into a semver.`);
     });
   });
+  describe('inferPackageManagerFromUserAgent', () => {
+    afterEach(() => {
+      delete process.env.npm_config_user_agent;
+    });
+
+    it('should return undefined for invalid user agent', () => {
+      process.env.npm_config_user_agent = '';
+      expect(helpers.inferPackageManagerFromUserAgent()).toBeUndefined();
+    });
+
+    it('should infer pnpm from user agent', () => {
+      process.env.npm_config_user_agent = 'pnpm/7.4.0';
+      expect(helpers.inferPackageManagerFromUserAgent()).toBe('pnpm');
+    });
+
+    it('should infer npm from user agent', () => {
+      process.env.npm_config_user_agent = 'npm/7.24.0';
+      expect(helpers.inferPackageManagerFromUserAgent()).toBe('npm');
+    });
+
+    it('should infer yarn 1 from user agent', () => {
+      process.env.npm_config_user_agent = 'yarn/1.22.11';
+      expect(helpers.inferPackageManagerFromUserAgent()).toBe('yarn1');
+    });
+
+    it('should infer yarn 2 from user agent', () => {
+      process.env.npm_config_user_agent = 'yarn/2.4.0';
+      expect(helpers.inferPackageManagerFromUserAgent()).toBe('yarn2');
+    });
+
+    it('should return undefined for unknown package manager', () => {
+      process.env.npm_config_user_agent = 'unknown';
+      expect(helpers.inferPackageManagerFromUserAgent()).toBeUndefined();
+    });
+  });
 });
