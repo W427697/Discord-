@@ -73,7 +73,7 @@ export const typography = {
       'sans-serif',
     ].join(', '),
     mono: [
-      'system-ui', 
+      'system-ui',
       '-apple-system',
       'BlinkMacSystemFont',
       'ui-monospace',
