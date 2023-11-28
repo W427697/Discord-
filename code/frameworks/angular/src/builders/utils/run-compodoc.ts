@@ -31,7 +31,8 @@ export const runCompodoc = (
       const stdout = packageManager.runPackageCommandSync(
         'compodoc',
         finalCompodocArgs,
-        context.workspaceRoot
+        context.workspaceRoot,
+        'inherit'
       );
 
       context.logger.info(stdout);

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.1.0-alpha.15",
+  "version": "8.0.0-alpha.0",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -90,37 +90,40 @@
     "lit/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.1.0-alpha.15",
-    "@storybook/client-logger": "7.1.0-alpha.15",
-    "@storybook/components": "7.1.0-alpha.15",
-    "@storybook/csf-plugin": "7.1.0-alpha.15",
-    "@storybook/csf-tools": "7.1.0-alpha.15",
+    "@storybook/blocks": "workspace:*",
+    "@storybook/client-logger": "workspace:*",
+    "@storybook/components": "workspace:*",
+    "@storybook/csf-plugin": "workspace:*",
+    "@storybook/csf-tools": "workspace:*",
     "@storybook/global": "^5.0.0",
     "@storybook/mdx2-csf": "^1.0.0",
-    "@storybook/node-logger": "7.1.0-alpha.15",
-    "@storybook/postinstall": "7.1.0-alpha.15",
-    "@storybook/preview-api": "7.1.0-alpha.15",
-    "@storybook/react-dom-shim": "7.1.0-alpha.15",
-    "@storybook/theming": "7.1.0-alpha.15",
-    "@storybook/types": "7.1.0-alpha.15",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/postinstall": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
+    "@storybook/react-dom-shim": "workspace:*",
+    "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "fs-extra": "^11.1.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "react": "^16.14.0",
-    "react-dom": "^16.8.0",
-    "typescript": "~4.9.3"
+    "@rollup/pluginutils": "^5.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.2",
+    "vite": "^4.0.4"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -141,7 +144,7 @@
       "@storybook/mdx1-csf"
     ]
   },
-  "gitHead": "b8b1b7949c095a8fccfca6f1f3192b4203020485",
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

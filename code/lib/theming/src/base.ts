@@ -47,8 +47,9 @@ export const background = {
   app: '#F6F9FC',
   bar: color.lightest,
   content: color.lightest,
+  preview: color.lightest,
   gridCellSize: 10,
-  hoverable: transparentize(0.93, color.secondary), // hover state for items in a list
+  hoverable: transparentize(0.9, color.secondary), // hover state for items in a list
 
   // Notification, error, and warning backgrounds
   positive: '#E1FFD4',
