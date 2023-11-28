@@ -1,7 +1,9 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import { isJSON, parse, stringify } from 'telejson';
-import type { ChannelHandler } from '@storybook/channels';
+import type { ChannelHandler, ChannelPage } from '@storybook/channels';
 import { Channel } from '@storybook/channels';
+import { colors, logger } from '@storybook/node-logger';
+import { inspect } from 'util';
 
 type Server = NonNullable<NonNullable<ConstructorParameters<typeof WebSocketServer>[0]>['server']>;
 
@@ -10,6 +12,8 @@ type Server = NonNullable<NonNullable<ConstructorParameters<typeof WebSocketServ
  * Unlike other channels such as the postmessage and websocket channel implementations, this channel will receive from many clients and any events emitted will be sent out to all connected clients.
  */
 export class ServerChannelTransport {
+  private page: ChannelPage = 'server';
+
   private socket: WebSocketServer;
 
   private handler?: ChannelHandler;
@@ -24,16 +28,7 @@ export class ServerChannelTransport {
         });
       }
     });
-    this.socket.on('connection', (wss) => {
-      wss.on('message', (raw) => {
-        const data = raw.toString();
-        const event =
-          typeof data === 'string' && isJSON(data)
-            ? parse(data, { allowFunction: false, allowClass: false })
-            : data;
-        this.handler?.(event);
-      });
-    });
+    this.socket.on('connection', (wss) => wss.on('message', this.handleEvent.bind(this)));
   }
 
   setHandler(handler: ChannelHandler) {
@@ -46,6 +41,21 @@ export class ServerChannelTransport {
     Array.from(this.socket.clients)
       .filter((c) => c.readyState === WebSocket.OPEN)
       .forEach((client) => client.send(data));
+  }
+
+  private handleEvent(raw: WebSocket.RawData) {
+    const data = raw.toString();
+    const event =
+      typeof data === 'string' && isJSON(data)
+        ? parse(data, { allowFunction: false, allowClass: false })
+        : data;
+
+    const pageString = colors.blue(this.page);
+    const eventString = colors.green(event.type);
+    const message = `${pageString} received ${eventString} (${data.length})`;
+    logger.verbose(`${message} ${event.args.map(inspect).join(' ')}`);
+
+    this.handler?.(event);
   }
 }
 

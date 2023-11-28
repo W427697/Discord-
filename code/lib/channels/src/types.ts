@@ -1,5 +1,8 @@
+export type ChannelBrowserPage = 'manager' | 'preview';
+export type ChannelPage = ChannelBrowserPage | 'server';
+
 export interface Config {
-  page: 'manager' | 'preview';
+  page: ChannelBrowserPage;
 }
 
 export interface BufferedEvent {
