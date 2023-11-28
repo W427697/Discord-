@@ -106,7 +106,10 @@ const buildProjectDisplayNameForPrint = ({ displayName }: SupportedProject) => {
  *
  * @param packageManager The package manager to use.
  */
-export const scaffoldNewProject = async (packageManager: PackageManagerName) => {
+export const scaffoldNewProject = async (
+  packageManager: PackageManagerName,
+  { scaffoldProject }: { scaffoldProject: string }
+) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
 
   logger.plain(
@@ -130,20 +133,25 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   );
   logger.line(1);
 
-  const { project } = await prompts(
-    {
-      type: 'select',
-      name: 'project',
-      message: 'Choose a project template',
-      choices: Object.entries(SUPPORTED_PROJECTS).map(([key, value]) => ({
-        title: buildProjectDisplayNameForPrint(value),
-        value: key,
-      })),
-    },
-    { onCancel: () => process.exit(0) }
-  );
+  let projectStrategy = SUPPORTED_PROJECTS[scaffoldProject];
 
-  const projectStrategy = SUPPORTED_PROJECTS[project];
+  if (!projectStrategy) {
+    const { project } = await prompts(
+      {
+        type: 'select',
+        name: 'project',
+        message: 'Choose a project template',
+        choices: Object.entries(SUPPORTED_PROJECTS).map(([key, value]) => ({
+          title: buildProjectDisplayNameForPrint(value),
+          value: key,
+        })),
+      },
+      { onCancel: () => process.exit(0) }
+    );
+
+    projectStrategy = SUPPORTED_PROJECTS[project];
+  }
+
   const projectDisplayName = buildProjectDisplayNameForPrint(projectStrategy);
   const createScript = projectStrategy.createScript[packageManagerName];
 

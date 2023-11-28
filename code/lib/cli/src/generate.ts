@@ -55,6 +55,11 @@ command('init')
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
+  .option(
+    '--scaffold-project <name>',
+    'Scaffold a new project',
+    process.env.STORYBOOK_SCAFFOLD_PROJECT
+  )
   .action((options: CommandOptions) => {
     initiate(options, pkg).catch(() => process.exit(1));
   });

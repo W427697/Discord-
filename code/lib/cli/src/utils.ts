@@ -1,10 +1,9 @@
-import chalk from 'chalk';
 import type { WriteStream } from 'fs-extra';
 import { move, remove, writeFile, readFile, createWriteStream } from 'fs-extra';
 import { join } from 'path';
 import tempy from 'tempy';
 import { rendererPackages } from '@storybook/core-common';
-import { logger } from '@storybook/node-logger';
+
 import type { JsPackageManager } from './js-package-manager';
 
 export function parseList(str: string): string[] {
