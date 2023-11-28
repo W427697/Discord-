@@ -20,6 +20,7 @@ export const createBabelLoader = async (
         options: babelOptions,
       },
     ],
+    resourceQuery: { not: [/raw/] },
     include: [getProjectRoot()],
     exclude: [/node_modules/, ...excludes],
   };
