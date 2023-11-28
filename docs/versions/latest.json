@@ -1,1 +1,6 @@
-{"version":"7.5.3","info":{"plain":"- Angular: Support v17 - [#24717](https://github.com/storybookjs/storybook/pull/24717), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!\n- CLI: Catch when prettier failed to prettify main and preview config files - [#24604](https://github.com/storybookjs/storybook/pull/24604), thanks [@kasperpeulen](https://github.com/kasperpeulen)!\n- UI: Fix button contrast-ratio - [#24525](https://github.com/storybookjs/storybook/pull/24525), thanks [@maheshchandra10](https://github.com/maheshchandra10)!"}}
+{
+  "version": "7.6.0",
+  "info": {
+    "plain": "- 🔥 Improved SWC support\n- 🧪New test utilities and fast build mode\n- 🔼NextJS SWC + avif support & fixes\n- 🤡 SvelteKit page and navigation mocking\n- ⚛️React-docgen upgrade\n- 🎨Controls a11y, background theming, and viewports\n- 🩺CLI: The doctor is in!\n- 🚫Addons: Remove React as a peer dependency\n- 🪦Storyshots and Vue2 deprecated"
+  }
+}

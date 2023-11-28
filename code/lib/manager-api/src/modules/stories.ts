@@ -314,6 +314,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
     },
     isPrepared: (storyId, refId) => {
       const data = api.getData(storyId, refId);
+      if (!data) {
+        return false;
+      }
       return data.type === 'story' ? data.prepared : true;
     },
     resolveStory: (storyId, refId) => {
@@ -411,6 +414,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({
         const entry = titleOrId ? hash[titleOrId] || hash[sanitize(titleOrId)] : hash[kindSlug];
 
         if (!entry) throw new Error(`Unknown id or title: '${titleOrId}'`);
+
+        store.setState({
+          settings: { ...store.getState().settings, lastTrackedStoryId: entry.id },
+        });
 
         // We want to navigate to the first ancestor entry that is a leaf
         const leafEntry = api.findLeafEntry(hash, entry.id);
@@ -608,7 +615,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({
       });
 
       await store.setState({ status: newStatus }, { persistence: 'session' });
-      await api.setIndex(index);
+      if (index) {
+        await api.setIndex(index);
+      }
     },
     experimental_setFilter: async (id, filterFunction) => {
       const { internal_index: index } = store.getState();

@@ -18,6 +18,7 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer<Renderer> = (context) =
   const {
     initialArgs,
     argTypes,
+    id,
     parameters: { actions },
   } = context;
   if (!actions || actions.disable || !actions.argTypesRegex || !argTypes) {
@@ -31,7 +32,7 @@ export const inferActionsFromArgTypesRegex: ArgsEnhancer<Renderer> = (context) =
 
   return argTypesMatchingRegex.reduce((acc, [name, argType]) => {
     if (isInInitialArgs(name, initialArgs)) {
-      acc[name] = action(name);
+      acc[name] = action(name, { implicit: true, id });
     }
     return acc;
   }, {} as Args);

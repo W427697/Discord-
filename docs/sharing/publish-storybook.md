@@ -31,11 +31,11 @@ First, we'll need to build Storybook as a static web application. The functional
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
+You can provide additional flags to customize the command. Read more about the flag options [here](../api/cli-options.md).
 
-</div>
+</Callout>
 
 Storybook will create a static web application capable of being served by any web server. Preview it locally by running the following command:
 
@@ -45,6 +45,22 @@ Storybook will create a static web application capable of being served by any we
   paths={[
     'common/preview-storybook-production-mode.npm.js.mdx',
     'common/preview-storybook-production-mode.pnpm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Customizing the build for performance
+
+By default, Storybook's production build will encapsulate all stories and documentation into the production bundle. This is ideal for small projects but can cause performance issues for larger projects or when decreased build times are a priority (e.g., testing, CI/CD). If you need, you can customize the production build with the [`test` option](../api/main-config-build.md#test) in your `main.js|ts` configuration file and adjust your build script to enable the optimizations with the `--test` [flag](../api/cli-options.md#build).
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-build-test-flag.yarn.js.mdx',
+    'common/storybook-build-test-flag.npm.js.mdx',
+    'common/storybook-build-test-flag.pnpm.js.mdx',
   ]}
 />
 
@@ -89,7 +105,7 @@ View it online at https://www.chromatic.com/build?appId=...&number=1.
 
 ### Setup CI to publish automatically
 
-Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook)) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
+Configure your CI environment to publish your Storybook and [run Chromatic](https://www.chromatic.com/docs/ci?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) whenever you push code to a repository. Let's see how to set it up using GitHub Actions.
 
 In your project's root directory, add a new file called `chromatic.yml` inside the `.github/workflows` directory:
 
@@ -103,11 +119,11 @@ In your project's root directory, add a new file called `chromatic.yml` inside t
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
+Secrets are secure environment variables provided by GitHub so that you don't need to hard code your `project-token`. Read the [official documentation](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository) to learn how to configure them.
 
-</div>
+</Callout>
 
 Commit and push the file. Congratulations, you've successfully automated publishing your Storybook. Now whenever you open a PR you’ll get a handy link to your published Storybook in your PR checks.
 
@@ -137,7 +153,6 @@ Since Storybook is built as a static web application, you can also publish it to
 
 To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook to GitHub Pages](https://github.com/bitovi/github-actions-storybook-to-github-pages) Action. To enable it, create a new workflow file inside your `.github/workflows` directory with the following content:
 
-
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
@@ -148,12 +163,11 @@ To deploy Storybook on GitHub Pages, use the community-built [Deploy Storybook t
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
+The GitHub Pages Action requires additional configuration options to customize the deployment process. Refer to the [official documentation](https://github.com/marketplace/actions/deploy-storybook-to-github-pages) for more information.
 
-</div>
-
+</Callout>
 
 <details>
 
@@ -181,7 +195,7 @@ Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3
 
 ## Search engine optimization (SEO)
 
-If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
+If your Storybook is publicly viewable, you may wish to configure how it is represented in search engine result pages.
 
 ### Description
 
