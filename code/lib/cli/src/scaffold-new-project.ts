@@ -123,12 +123,12 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
       {
         title: chalk.bold('🔎 Empty directory detected'),
         padding: 1,
-        margin: 1,
         borderStyle: 'double',
         borderColor: 'yellow',
       }
     )
   );
+  logger.line(1);
 
   const { project } = await prompts(
     {
@@ -148,10 +148,11 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   const createScript = projectStrategy.createScript[packageManagerName];
 
   try {
-    logger.plain('');
+    logger.line(1);
     logger.plain(
       `Creating a new "${projectDisplayName}" project with ${chalk.bold(packageManagerName)}...`
     );
+    logger.line(1);
     await execa.command(createScript, {
       stdio: 'pipe',
       shell: true,
@@ -176,10 +177,10 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
       {
         title: chalk.bold('✅ Success!'),
         padding: 1,
-        margin: 1,
         borderStyle: 'double',
         borderColor: 'green',
       }
     )
   );
+  logger.line(1);
 };
