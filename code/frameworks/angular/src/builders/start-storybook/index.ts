@@ -1,5 +1,6 @@
 import {
   BuilderContext,
+  BuilderHandlerFn,
   BuilderOutput,
   Target,
   createBuilder,
@@ -18,6 +19,7 @@ import { addToGlobalContext } from '@storybook/telemetry';
 import { buildDevStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
+  SourceMapUnion,
   StyleElement,
 } from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
@@ -29,12 +31,13 @@ addToGlobalContext('cliVersion', versions.storybook);
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
-  docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
+  sourceMap?: SourceMapUnion;
 } & Pick<
     // makes sure the option exists
     CLIOptions,
@@ -49,22 +52,28 @@ export type StorybookBuilderOptions = JsonObject & {
     | 'ci'
     | 'quiet'
     | 'disableTelemetry'
+    | 'initialPath'
+    | 'open'
+    | 'docs'
+    | 'debugWebpack'
+    | 'webpackStatsJson'
+    | 'loglevel'
+    | 'previewUrl'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
 
-export default createBuilder<any, any>(commandBuilder);
-
-function commandBuilder(
-  options: StorybookBuilderOptions,
-  context: BuilderContext
-): Observable<StorybookBuilderOutput> {
-  return from(setup(options, context)).pipe(
+const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (options, context) => {
+  const builder = from(setup(options, context)).pipe(
     switchMap(({ tsConfig }) => {
       const runCompodoc$ = options.compodoc
-        ? runCompodoc({ compodocArgs: options.compodocArgs, tsconfig: tsConfig }, context).pipe(
-            mapTo({ tsConfig })
-          )
+        ? runCompodoc(
+            {
+              compodocArgs: [...options.compodocArgs, ...(options.quiet ? ['--silent'] : [])],
+              tsconfig: tsConfig,
+            },
+            context
+          ).pipe(mapTo({ tsConfig }))
         : of({});
 
       return runCompodoc$.pipe(mapTo({ tsConfig }));
@@ -91,12 +100,20 @@ function commandBuilder(
         https,
         port,
         quiet,
+        enableProdMode = false,
         smokeTest,
         sslCa,
         sslCert,
         sslKey,
         disableTelemetry,
         assets,
+        initialPath,
+        open,
+        debugWebpack,
+        loglevel,
+        webpackStatsJson,
+        previewUrl,
+        sourceMap = false,
       } = options;
 
       const standaloneOptions: StandaloneOptions = {
@@ -108,6 +125,7 @@ function commandBuilder(
         https,
         port,
         quiet,
+        enableProdMode,
         smokeTest,
         sslCa,
         sslCert,
@@ -119,8 +137,15 @@ function commandBuilder(
           ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
           ...(styles ? { styles } : {}),
           ...(assets ? { assets } : {}),
+          sourceMap,
         },
         tsConfig,
+        initialPath,
+        open,
+        debugWebpack,
+        loglevel,
+        webpackStatsJson,
+        previewUrl,
       };
 
       return standaloneOptions;
@@ -130,7 +155,11 @@ function commandBuilder(
       return { success: true, info: { port } };
     })
   );
-}
+
+  return builder as any as BuilderOutput;
+};
+
+export default createBuilder(commandBuilder);
 
 async function setup(options: StorybookBuilderOptions, context: BuilderContext) {
   let browserOptions: (JsonObject & BrowserBuilderOptions) | undefined;

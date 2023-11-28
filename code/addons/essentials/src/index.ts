@@ -3,15 +3,56 @@ import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 
 interface PresetOptions {
-  configDir: string;
-  docs?: boolean;
-  controls?: boolean;
+  /**
+   * Allow to use @storybook/addon-actions
+   * @see https://storybook.js.org/addons/@storybook/addon-actions
+   * @default true
+   */
   actions?: boolean;
+  /**
+   * Allow to use @storybook/addon-backgrounds
+   * @see https://storybook.js.org/addons/@storybook/addon-backgrounds
+   * @default true
+   */
   backgrounds?: boolean;
-  viewport?: boolean;
-  toolbars?: boolean;
+  configDir: string;
+  /**
+   * Allow to use @storybook/addon-controls
+   * @see https://storybook.js.org/addons/@storybook/addon-controls
+   * @default true
+   */
+  controls?: boolean;
+  /**
+   * Allow to use @storybook/addon-docs
+   * @see https://storybook.js.org/addons/@storybook/addon-docs
+   * @default true
+   */
+  docs?: boolean;
+  /**
+   * Allow to use @storybook/addon-measure
+   * @see https://storybook.js.org/addons/@storybook/addon-measure
+   * @default true
+   */
   measure?: boolean;
+  /**
+   * Allow to use @storybook/addon-outline
+   * @see https://storybook.js.org/addons/@storybook/addon-outline
+   * @default true
+   */
   outline?: boolean;
+  themes?: boolean;
+  /**
+   * Allow to use @storybook/addon-toolbars
+   * @see https://storybook.js.org/addons/@storybook/addon-toolbars
+   * @default true
+   */
+  toolbars?: boolean;
+  /**
+   * Allow to use @storybook/addon-viewport
+   * @see https://storybook.js.org/addons/@storybook/addon-viewport
+   * @default true
+   */
+  viewport?: boolean;
 }
 
 const requireMain = (configDir: string) => {
@@ -37,6 +78,8 @@ export function addons(options: PresetOptions) {
   };
 
   const main = requireMain(options.configDir);
+
+  // NOTE: The order of these addons is important.
   return [
     'docs',
     'controls',
