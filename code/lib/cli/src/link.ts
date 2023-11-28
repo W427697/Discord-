@@ -1,14 +1,56 @@
 import fse from 'fs-extra';
 import path from 'path';
-import { sync as spawnSync } from 'cross-spawn';
+import { sync as spawnSync, spawn as spawnAsync } from 'cross-spawn';
 import { logger } from '@storybook/node-logger';
-import { exec } from './repro-generators/scripts';
+import chalk from 'chalk';
+
+type ExecOptions = Parameters<typeof spawnAsync>[2];
 
 interface LinkOptions {
   target: string;
   local?: boolean;
   start: boolean;
 }
+
+// TODO: Extract this to somewhere else, or use `exec` from a different file that might already have it
+export const exec = async (
+  command: string,
+  options: ExecOptions = {},
+  {
+    startMessage,
+    errorMessage,
+    dryRun,
+  }: { startMessage?: string; errorMessage?: string; dryRun?: boolean } = {}
+) => {
+  if (startMessage) logger.info(startMessage);
+
+  if (dryRun) {
+    logger.info(`\n> ${command}\n`);
+    return undefined;
+  }
+
+  logger.info(command);
+  return new Promise((resolve, reject) => {
+    const child = spawnAsync(command, {
+      ...options,
+      shell: true,
+      stdio: 'pipe',
+    });
+
+    child.stderr.pipe(process.stdout);
+    child.stdout.pipe(process.stdout);
+
+    child.on('exit', (code) => {
+      if (code === 0) {
+        resolve(undefined);
+      } else {
+        logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
+        logger.info(errorMessage);
+        reject(new Error(`command exited with code: ${code}: `));
+      }
+    });
+  });
+};
 
 export const link = async ({ target, local, start }: LinkOptions) => {
   const storybookDir = process.cwd();
@@ -44,8 +86,8 @@ export const link = async ({ target, local, start }: LinkOptions) => {
     shell: true,
   }).stdout.toString();
 
-  if (!/^[23]\./.test(version)) {
-    logger.warn(`🚨 Expected yarn 2 or 3 in ${reproDir}!`);
+  if (!/^[2-4]\./.test(version)) {
+    logger.warn(`🚨 Expected yarn 2 or higher in ${reproDir}!`);
     logger.warn('');
     logger.warn('Please set it up with `yarn set version berry`,');
     logger.warn(`then link '${reproDir}' with the '--local' flag.`);
@@ -58,17 +100,12 @@ export const link = async ({ target, local, start }: LinkOptions) => {
   logger.info(`Installing ${reproName}`);
   await exec(`yarn install`, { cwd: reproDir });
 
-  // ⚠️ TODO: Fix peer deps in `@storybook/preset-create-react-app`
-  logger.info(
-    `Magic stuff related to @storybook/preset-create-react-app, we need to fix peerDependencies`
-  );
-
   if (!reproPackageJson.devDependencies?.vite) {
     await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
   }
 
   // ensure that linking is possible
-  await exec(`yarn add @types/node@16`, { cwd: reproDir });
+  await exec(`yarn add @types/node@18`, { cwd: reproDir });
 
   if (start) {
     logger.info(`Running ${reproName} storybook`);

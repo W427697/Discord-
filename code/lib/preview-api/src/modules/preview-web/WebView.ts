@@ -84,6 +84,10 @@ export class WebView implements View<HTMLElement> {
     this.showMain();
     this.showDocs();
     this.applyLayout('fullscreen');
+
+    document.documentElement.scrollTop = 0;
+    document.documentElement.scrollLeft = 0;
+
     return this.docsRoot();
   }
 
@@ -165,9 +169,13 @@ export class WebView implements View<HTMLElement> {
     }
   }
 
-  showPreparingDocs() {
+  showPreparingDocs({ immediate = false } = {}) {
     clearTimeout(this.preparingTimeout);
-    this.preparingTimeout = setTimeout(() => this.showMode(Mode.PREPARING_DOCS), PREPARING_DELAY);
+    if (immediate) {
+      this.showMode(Mode.PREPARING_DOCS);
+    } else {
+      this.preparingTimeout = setTimeout(() => this.showMode(Mode.PREPARING_DOCS), PREPARING_DELAY);
+    }
   }
 
   showMain() {

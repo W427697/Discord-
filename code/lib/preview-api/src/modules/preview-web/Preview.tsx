@@ -20,6 +20,7 @@ import type {
   Args,
   Globals,
   ModuleImportFn,
+  RenderContextCallbacks,
   RenderToCanvas,
   PreparedStory,
   StoryIndex,
@@ -41,18 +42,21 @@ const STORY_INDEX_PATH = './index.json';
 
 export type MaybePromise<T> = Promise<T> | T;
 
-export class Preview<TFramework extends Renderer> {
+export class Preview<TRenderer extends Renderer> {
+  /**
+   * @deprecated will be removed in 8.0, please use channel instead
+   */
   serverChannel?: Channel;
 
-  storyStore: StoryStore<TFramework>;
+  storyStore: StoryStore<TRenderer>;
 
   getStoryIndex?: () => StoryIndex;
 
   importFn?: ModuleImportFn;
 
-  renderToCanvas?: RenderToCanvas<TFramework>;
+  renderToCanvas?: RenderToCanvas<TRenderer>;
 
-  storyRenders: StoryRender<TFramework>[] = [];
+  storyRenders: StoryRender<TRenderer>[] = [];
 
   previewEntryError?: Error;
 
@@ -80,7 +84,7 @@ export class Preview<TFramework extends Renderer> {
     // getProjectAnnotations has been run, thus this slightly awkward approach
     getStoryIndex?: () => StoryIndex;
     importFn: ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
     // in which case we may need them later when we recover.
@@ -95,8 +99,7 @@ export class Preview<TFramework extends Renderer> {
   }
 
   setupListeners() {
-    this.serverChannel?.on(STORY_INDEX_INVALIDATED, this.onStoryIndexChanged.bind(this));
-
+    this.channel.on(STORY_INDEX_INVALIDATED, this.onStoryIndexChanged.bind(this));
     this.channel.on(UPDATE_GLOBALS, this.onUpdateGlobals.bind(this));
     this.channel.on(UPDATE_STORY_ARGS, this.onUpdateArgs.bind(this));
     this.channel.on(RESET_STORY_ARGS, this.onResetArgs.bind(this));
@@ -105,8 +108,8 @@ export class Preview<TFramework extends Renderer> {
   }
 
   getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>
-  ): Promise<ProjectAnnotations<TFramework>> {
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>
+  ): Promise<ProjectAnnotations<TRenderer>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
@@ -134,7 +137,7 @@ export class Preview<TFramework extends Renderer> {
   }
 
   // If initialization gets as far as project annotations, this function runs.
-  initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
+  initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TRenderer>) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
 
     this.setInitialGlobals();
@@ -199,7 +202,7 @@ export class Preview<TFramework extends Renderer> {
   async onGetProjectAnnotationsChanged({
     getProjectAnnotations,
   }: {
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TRenderer>>;
   }) {
     delete this.previewEntryError;
 
@@ -265,7 +268,11 @@ export class Preview<TFramework extends Renderer> {
   async onUpdateArgs({ storyId, updatedArgs }: { storyId: StoryId; updatedArgs: Args }) {
     this.storyStore.args.update(storyId, updatedArgs);
 
-    await Promise.all(this.storyRenders.filter((r) => r.id === storyId).map((r) => r.rerender()));
+    await Promise.all(
+      this.storyRenders
+        .filter((r) => r.id === storyId && !r.renderOptions.forceInitialArgs)
+        .map((r) => r.rerender())
+    );
 
     this.channel.emit(STORY_ARGS_UPDATED, {
       storyId,
@@ -306,24 +313,25 @@ export class Preview<TFramework extends Renderer> {
     await Promise.all(this.storyRenders.filter((r) => r.id === storyId).map((r) => r.remount()));
   }
 
-  // Used by docs' modernInlineRender to render a story to a given element
+  // Used by docs to render a story to a given element
   // Note this short-circuits the `prepare()` phase of the StoryRender,
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
   renderStoryToElement(
-    story: PreparedStory<TFramework>,
-    element: TFramework['canvasElement'],
+    story: PreparedStory<TRenderer>,
+    element: TRenderer['canvasElement'],
+    callbacks: RenderContextCallbacks<TRenderer>,
     options: StoryRenderOptions
   ) {
     if (!this.renderToCanvas)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 
-    const render = new StoryRender<TFramework>(
+    const render = new StoryRender<TRenderer>(
       this.channel,
       this.storyStore,
       this.renderToCanvas,
-      this.inlineStoryCallbacks(story.id),
+      callbacks,
       story.id,
       'docs',
       options,
@@ -339,7 +347,7 @@ export class Preview<TFramework extends Renderer> {
   }
 
   async teardownRender(
-    render: StoryRender<TFramework> | CsfDocsRender<TFramework> | MdxDocsRender<TFramework>,
+    render: StoryRender<TRenderer> | CsfDocsRender<TRenderer> | MdxDocsRender<TRenderer>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);
@@ -368,14 +376,6 @@ export class Preview<TFramework extends Renderer> {
   }
 
   // UTILITIES
-  inlineStoryCallbacks(storyId: StoryId) {
-    return {
-      showMain: () => {},
-      showError: (err: { title: string; description: string }) =>
-        logger.error(`Error rendering docs story (${storyId})`, err),
-      showException: (err: Error) => logger.error(`Error rendering docs story (${storyId})`, err),
-    };
-  }
 
   renderPreviewEntryError(reason: string, err: Error) {
     this.previewEntryError = err;

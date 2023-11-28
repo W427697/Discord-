@@ -1,10 +1,14 @@
-import path from 'path';
+import { dirname, join } from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 import { logger } from '@storybook/node-logger';
 
 import type { Options, Preset } from '@storybook/core-webpack';
+import type { PresetProperty, PresetPropertyFn } from 'lib/types/dist';
 import type { StorybookConfig, ReactOptions } from './types';
+
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
 
 const applyFastRefresh = async (options: Options) => {
   const isDevelopment = options.configType === 'DEVELOPMENT';
@@ -13,24 +17,22 @@ const applyFastRefresh = async (options: Options) => {
   return isDevelopment && (reactOptions.fastRefresh || process.env.FAST_REFRESH === 'true');
 };
 
-export const babel: StorybookConfig['babel'] = async (config, options) => {
+export const babel: PresetPropertyFn<'babel'> = async (config, options) => {
   if (!(await applyFastRefresh(options))) return config;
 
   return {
     ...config,
     plugins: [
       [require.resolve('react-refresh/babel'), {}, 'storybook-react-refresh'],
-      ...(config.plugins || []),
+      ...(config?.plugins || []),
     ],
   };
 };
-const storybookReactDirName = path.dirname(
-  require.resolve('@storybook/preset-react-webpack/package.json')
-);
+const storybookReactDirName = getAbsolutePath('@storybook/preset-react-webpack');
 // TODO: improve node_modules detection
 const context = storybookReactDirName.includes('node_modules')
-  ? path.join(storybookReactDirName, '../../') // Real life case, already in node_modules
-  : path.join(storybookReactDirName, '../../node_modules'); // SB Monorepo
+  ? join(storybookReactDirName, '../../') // Real life case, already in node_modules
+  : join(storybookReactDirName, '../../node_modules'); // SB Monorepo
 
 const hasJsxRuntime = () => {
   try {
@@ -41,7 +43,7 @@ const hasJsxRuntime = () => {
   }
 };
 
-export const babelDefault: StorybookConfig['babelDefault'] = async (config) => {
+export const babelDefault: PresetPropertyFn<'babelDefault'> = async (config) => {
   const presetReactOptions = hasJsxRuntime() ? { runtime: 'automatic' } : {};
   return {
     ...config,
@@ -80,5 +82,28 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (config, opti
         },
       }),
     ],
+  };
+};
+
+export const swc: PresetProperty<'swc'> = async (config, options) => {
+  const isDevelopment = options.configType !== 'PRODUCTION';
+
+  if (!(await applyFastRefresh(options))) {
+    return config;
+  }
+
+  return {
+    ...config,
+    jsc: {
+      ...(config?.jsc ?? {}),
+      transform: {
+        ...(config?.jsc?.transform ?? {}),
+        react: {
+          ...(config?.jsc?.transform?.react ?? {}),
+          development: isDevelopment,
+          refresh: isDevelopment,
+        },
+      },
+    },
   };
 };

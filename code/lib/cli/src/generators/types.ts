@@ -1,35 +1,43 @@
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedLanguage, Builder, ProjectType } from '../project_types';
-import type { JsPackageManager } from '../js-package-manager/JsPackageManager';
-import { type PackageManagerName } from '../js-package-manager/JsPackageManager';
+import type { JsPackageManager, PackageManagerName } from '../js-package-manager/JsPackageManager';
+import type { FrameworkPreviewParts } from './configure';
 
 export type GeneratorOptions = {
   language: SupportedLanguage;
   builder: Builder;
   linkable: boolean;
   pnp: boolean;
-  commonJs: boolean;
+  projectType: ProjectType;
+  frameworkPreviewParts?: FrameworkPreviewParts;
+  // skip prompting the user
+  yes: boolean;
 };
 
 export interface FrameworkOptions {
-  extraPackages?: string[];
-  extraAddons?: string[];
+  extraPackages?:
+    | string[]
+    | ((details: { framework: string; builder: string }) => Promise<string[]>);
+  extraAddons?: string[] | ((details: { framework: string; builder: string }) => Promise<string[]>);
   staticDir?: string;
   addScripts?: boolean;
+  addMainFile?: boolean;
   addComponents?: boolean;
-  addBabel?: boolean;
-  addESLint?: boolean;
+  skipBabel?: boolean;
+  useSWC?: ({ builder }: { builder: Builder }) => boolean;
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;
-  commonJs?: boolean;
+  storybookConfigFolder?: string;
+  componentsDestinationPath?: string;
 }
 
-export type Generator = (
+export type Generator<T = void> = (
   packageManagerInstance: JsPackageManager,
   npmOptions: NpmOptions,
-  generatorOptions: GeneratorOptions
-) => Promise<void>;
+  generatorOptions: GeneratorOptions,
+  commandOptions?: CommandOptions
+) => Promise<T>;
 
 export type CommandOptions = {
   packageManager: PackageManagerName;
@@ -40,9 +48,11 @@ export type CommandOptions = {
   html?: boolean;
   skipInstall?: boolean;
   parser?: string;
+  // Automatically answer yes to prompts
   yes?: boolean;
   builder?: Builder;
   linkable?: boolean;
-  commonJs?: boolean;
   disableTelemetry?: boolean;
+  enableCrashReports?: boolean;
+  debug?: boolean;
 };

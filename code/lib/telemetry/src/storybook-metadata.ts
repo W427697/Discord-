@@ -7,6 +7,7 @@ import {
   getProjectRoot,
 } from '@storybook/core-common';
 import type { StorybookConfig, PackageJson } from '@storybook/types';
+import { readConfig } from '@storybook/csf-tools';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-json';
@@ -90,17 +91,17 @@ export const computeStorybookMetadata = async ({
   metadata.hasCustomWebpack = !!mainConfig.webpackFinal;
   metadata.hasStaticDirs = !!mainConfig.staticDirs;
 
-  if (mainConfig.typescript) {
+  if (typeof mainConfig.typescript === 'object') {
     metadata.typescriptOptions = mainConfig.typescript;
   }
 
   const frameworkInfo = await getFrameworkInfo(mainConfig);
 
-  if (mainConfig.refs) {
+  if (typeof mainConfig.refs === 'object') {
     metadata.refCount = Object.keys(mainConfig.refs).length;
   }
 
-  if (mainConfig.features) {
+  if (typeof mainConfig.features === 'object') {
     metadata.features = mainConfig.features;
   }
 
@@ -113,7 +114,9 @@ export const computeStorybookMetadata = async ({
       if (typeof addon === 'string') {
         addonName = sanitizeAddonName(addon);
       } else {
-        options = addon.options;
+        if (addon.name.includes('addon-essentials')) {
+          options = addon.options;
+        }
         addonName = sanitizeAddonName(addon.name);
       }
 
@@ -160,6 +163,20 @@ export const computeStorybookMetadata = async ({
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
   const storybookInfo = getStorybookInfo(packageJson);
+
+  try {
+    const { previewConfig } = storybookInfo;
+    if (previewConfig) {
+      const config = await readConfig(previewConfig);
+      const usesGlobals = !!(
+        config.getFieldNode(['globals']) || config.getFieldNode(['globalTypes'])
+      );
+      metadata.preview = { ...metadata.preview, usesGlobals };
+    }
+  } catch (e) {
+    // gracefully handle error, as it's not critical information and AST parsing can cause trouble
+  }
+
   const storybookVersion = storybookPackages[storybookInfo.frameworkPackage]?.version;
 
   return {
@@ -181,6 +198,10 @@ export const getStorybookMetadata = async (_configDir?: string) => {
   }
 
   const { packageJson = {} } = readPkgUp.sync({ cwd: process.cwd(), normalize: false }) || {};
+  // TODO: improve the way configDir is extracted, as a "storybook" script might not be present
+  // Scenarios:
+  // 1. user changed it to something else e.g. "storybook:dev"
+  // 2. they are using angular/nx where the storybook config is defined somewhere else
   const configDir =
     (_configDir ||
       (getStorybookConfiguration(
@@ -189,7 +210,7 @@ export const getStorybookMetadata = async (_configDir?: string) => {
         '--config-dir'
       ) as string)) ??
     '.storybook';
-  const mainConfig = loadMainConfig({ configDir });
+  const mainConfig = await loadMainConfig({ configDir });
   cachedMetadata = await computeStorybookMetadata({ mainConfig, packageJson });
   return cachedMetadata;
 };

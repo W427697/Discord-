@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { render } from 'lit-html';
+import { render } from 'lit';
 import type { ArgsStoryFn, PartialStoryFn, StoryContext } from '@storybook/types';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
@@ -23,35 +23,29 @@ function skipSourceRender(context: StoryContext<WebComponentsRenderer>) {
   return !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE;
 }
 
-function applyTransformSource(
-  source: string,
-  context: StoryContext<WebComponentsRenderer>
-): string {
-  const { transformSource } = context.parameters.docs ?? {};
-  if (typeof transformSource !== 'function') return source;
-  return transformSource(source, context);
-}
-
 export function sourceDecorator(
   storyFn: PartialStoryFn<WebComponentsRenderer>,
   context: StoryContext<WebComponentsRenderer>
 ): WebComponentsRenderer['storyResult'] {
-  const story = context?.parameters.docs?.source?.excludeDecorators
+  const story = storyFn();
+  const renderedForSource = context?.parameters.docs?.source?.excludeDecorators
     ? (context.originalStoryFn as ArgsStoryFn<WebComponentsRenderer>)(context.args, context)
-    : storyFn();
+    : story;
 
   let source: string;
 
   useEffect(() => {
-    if (source) addons.getChannel().emit(SNIPPET_RENDERED, context.id, source);
+    const { id, unmappedArgs } = context;
+    if (source) addons.getChannel().emit(SNIPPET_RENDERED, { id, source, args: unmappedArgs });
   });
   if (!skipSourceRender(context)) {
     const container = window.document.createElement('div');
-    render(story, container);
-    source = applyTransformSource(
-      container.innerHTML.replace(LIT_EXPRESSION_COMMENTS, ''),
-      context
-    );
+    if (renderedForSource instanceof DocumentFragment) {
+      render(renderedForSource.cloneNode(true), container);
+    } else {
+      render(renderedForSource, container);
+    }
+    source = container.innerHTML.replace(LIT_EXPRESSION_COMMENTS, '');
   }
 
   return story;

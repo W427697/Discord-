@@ -14,7 +14,7 @@ export const addReact: Fix<AddReactOptions> = {
   id: 'addReact',
 
   async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+    const packageJson = await packageManager.retrievePackageJson();
     const installedDependencies = new Set(
       Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
     );
@@ -49,11 +49,11 @@ export const addReact: Fix<AddReactOptions> = {
     return dedent`
       We've detected that you're using ${dependentsFormatted}.
       
-      Starting in Storybook 7 we now require the following peer dependencies:
+      Starting in Storybook 7, we now require these peer dependencies to render docs:
 
       ${additionalDependenciesFormatted}
 
-      We can add these for you automatically.
+      We can add these for you automatically as dev dependencies.
       
       More info: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react-peer-dependencies-required'
@@ -63,7 +63,10 @@ export const addReact: Fix<AddReactOptions> = {
 
   async run({ packageManager, result: { additionalDependencies }, dryRun }) {
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, additionalDependencies);
+      await packageManager.addDependencies(
+        { installAsDevDependencies: true },
+        additionalDependencies
+      );
     }
   },
 };

@@ -102,6 +102,12 @@ describe('presets', () => {
     await expect(testPresets()).resolves.toBeUndefined();
   });
 
+  it('throws when preset can not be loaded and is critical', async () => {
+    const { getPresets } = jest.requireActual('./presets');
+
+    await expect(getPresets(['preset-foo'], { isCritical: true })).rejects.toThrow();
+  });
+
   it('loads and applies presets when they are combined in another preset', async () => {
     mockPreset('preset-foo', {
       foo: (exec: string[]) => exec.concat('foo'),
@@ -633,6 +639,70 @@ describe('loadPreset', () => {
             "addons": Array [
               "@storybook/addon-docs/preset",
               "uninstalled-addon",
+            ],
+            "framework": "@storybook/react",
+            "name": "",
+            "presets": Array [
+              "@storybook/preset-typescript",
+            ],
+            "type": "virtual",
+          },
+          "options": Object {},
+          "preset": Object {
+            "framework": "@storybook/react",
+          },
+        },
+      ]
+    `);
+  });
+
+  it('should filter out disabledAddons', async () => {
+    const loaded = await loadPreset(
+      {
+        name: '',
+        type: 'virtual',
+        framework: '@storybook/react',
+        presets: ['@storybook/preset-typescript'],
+        addons: ['@storybook/addon-docs', 'addon-bar'],
+      },
+      0,
+      {
+        build: {
+          test: {
+            disabledAddons: ['@storybook/addon-docs'],
+          },
+        },
+      }
+    );
+
+    // addon-docs should not be at the top level, but addon-bar and others should be.
+    expect(loaded).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "name": "@storybook/preset-typescript",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": "@storybook/addon-interactions/preset",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": "@storybook/addon-cool",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": "addon-bar",
+          "options": Object {},
+          "preset": Object {},
+        },
+        Object {
+          "name": Object {
+            "addons": Array [
+              "@storybook/addon-docs",
+              "addon-bar",
             ],
             "framework": "@storybook/react",
             "name": "",

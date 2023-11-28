@@ -1,7 +1,9 @@
+import { createRequire } from 'module';
 import type { OptionSpecifier, OptionValues } from './options';
 import { createOptions, getCommand } from './options';
 import { exec } from './exec';
 
+const require = createRequire(import.meta.url);
 const cliExecutable = require.resolve('../../code/lib/cli/bin/index.js');
 
 export type CLIStep<TOptions extends OptionSpecifier> = {
@@ -15,14 +17,14 @@ export type CLIStep<TOptions extends OptionSpecifier> = {
 
 export const steps = {
   repro: {
-    command: 'repro-next',
+    command: 'repro',
     description: 'Bootstrapping Template',
     icon: '👷',
     hasArgument: true,
     options: createOptions({
       output: { type: 'string' },
       // TODO allow default values for strings
-      branch: { type: 'string', values: ['next'] },
+      branch: { type: 'string', values: ['main', 'next'] },
       init: { type: 'boolean', inverse: true },
       debug: { type: 'boolean' },
     }),

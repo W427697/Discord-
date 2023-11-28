@@ -1,49 +1,69 @@
-/* eslint-disable no-underscore-dangle */
-import * as path from 'path';
 import type { StorybookConfig } from '@storybook/types';
-import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import type { JsPackageManager } from '../../js-package-manager';
 import { webpack5 } from './webpack5';
 
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
-
 const checkWebpack5 = async ({
-  packageJson,
-  main,
+  packageManager,
+  main: mainConfig,
+  storybookVersion = '6.3.0',
 }: {
-  packageJson: PackageJson;
-  main: Partial<StorybookConfig>;
+  packageManager: Partial<JsPackageManager>;
+  main?: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
+  mainConfig?: Partial<StorybookConfig>;
 }) => {
-  // eslint-disable-next-line global-require
-  require('fs-extra').__setMockFiles({
-    [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
+  return webpack5.check({
+    packageManager: packageManager as any,
+    configDir: '',
+    storybookVersion,
+    mainConfig: mainConfig as any,
   });
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return webpack5.check({ packageManager });
 };
 
 describe('webpack5 fix', () => {
+  afterEach(jest.restoreAllMocks);
+
   describe('sb < 6.3', () => {
     describe('webpack5 dependency', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0', webpack: '^5.0.0' } };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('6.2.0');
+            case 'webpack':
+              return Promise.resolve('5.0.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       it('should fail', async () => {
         await expect(
           checkWebpack5({
-            packageJson,
-            main: {},
+            packageManager,
+            storybookVersion: '6.2.0',
           })
         ).rejects.toThrow();
       });
     });
     describe('no webpack5 dependency', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.2.0' } };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('6.2.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkWebpack5({
-            packageJson,
-            main: {},
+            packageManager,
+            storybookVersion: '6.2.0',
           })
         ).resolves.toBeFalsy();
       });
@@ -51,12 +71,24 @@ describe('webpack5 fix', () => {
   });
   describe('sb 6.3 - 7.0', () => {
     describe('webpack5 dependency', () => {
-      const packageJson = { dependencies: { '@storybook/react': '^6.3.0', webpack: '^5.0.0' } };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('6.3.0');
+            case 'webpack':
+              return Promise.resolve('5.0.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       describe('webpack5 builder', () => {
         it('should no-op', async () => {
           await expect(
             checkWebpack5({
-              packageJson,
+              packageManager,
               main: { core: { builder: 'webpack5' } },
             })
           ).resolves.toBeFalsy();
@@ -66,7 +98,7 @@ describe('webpack5 fix', () => {
         it('should no-op', async () => {
           await expect(
             checkWebpack5({
-              packageJson,
+              packageManager,
               main: { core: { builder: 'storybook-builder-vite' } },
             })
           ).resolves.toBeFalsy();
@@ -76,12 +108,12 @@ describe('webpack5 fix', () => {
         it('should add webpack5 builder', async () => {
           await expect(
             checkWebpack5({
-              packageJson,
+              packageManager,
               main: { core: { builder: 'webpack4' } },
             })
           ).resolves.toMatchObject({
-            webpackVersion: '^5.0.0',
-            storybookVersion: '^6.3.0',
+            webpackVersion: '5.0.0',
+            storybookVersion: '6.3.0',
           });
         });
       });
@@ -89,36 +121,47 @@ describe('webpack5 fix', () => {
         it('should add webpack5 builder', async () => {
           await expect(
             checkWebpack5({
-              packageJson,
+              packageManager,
               main: {},
             })
           ).resolves.toMatchObject({
-            webpackVersion: '^5.0.0',
-            storybookVersion: '^6.3.0',
+            webpackVersion: '5.0.0',
+            storybookVersion: '6.3.0',
           });
         });
       });
     });
     describe('no webpack dependency', () => {
+      const packageManager = {
+        getPackageVersion: () => {
+          return null;
+        },
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkWebpack5({
-            packageJson: {},
-            main: {},
+            packageManager,
           })
         ).resolves.toBeFalsy();
       });
     });
     describe('webpack4 dependency', () => {
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case 'webpack':
+              return Promise.resolve('4.0.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkWebpack5({
-            packageJson: {
-              dependencies: {
-                webpack: '4',
-              },
-            },
-            main: {},
+            packageManager,
           })
         ).resolves.toBeFalsy();
       });
@@ -126,14 +169,25 @@ describe('webpack5 fix', () => {
   });
   describe('sb 7.0+', () => {
     describe('webpack5 dependency', () => {
-      const packageJson = {
-        dependencies: { '@storybook/react': '^7.0.0-alpha.0', webpack: '^5.0.0' },
-      };
+      const packageManager = {
+        getPackageVersion: (packageName) => {
+          switch (packageName) {
+            case '@storybook/react':
+              return Promise.resolve('7.0.0-alpha.0');
+            case 'webpack':
+              return Promise.resolve('5.0.0');
+            default:
+              return null;
+          }
+        },
+      } as Partial<JsPackageManager>;
+
       it('should no-op', async () => {
         await expect(
           checkWebpack5({
-            packageJson,
+            packageManager,
             main: {},
+            storybookVersion: '7.0.0',
           })
         ).resolves.toBeFalsy();
       });

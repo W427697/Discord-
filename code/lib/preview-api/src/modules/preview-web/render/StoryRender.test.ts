@@ -33,7 +33,7 @@ describe('StoryRender', () => {
     };
 
     const render = new StoryRender(
-      new Channel(),
+      new Channel({}),
       mockStore as unknown as StoryStore<Renderer>,
       jest.fn(),
       {} as any,
@@ -59,10 +59,11 @@ describe('StoryRender', () => {
       applyLoaders: jest.fn(),
       unboundStoryFn: jest.fn(),
       playFunction: jest.fn(),
+      prepareContext: jest.fn(),
     };
 
     const render = new StoryRender(
-      new Channel(),
+      new Channel({}),
       { getStoryContext: () => ({}) } as any,
       jest.fn() as any,
       {} as any,
@@ -85,10 +86,11 @@ describe('StoryRender', () => {
       applyLoaders: jest.fn(),
       unboundStoryFn: jest.fn(),
       playFunction: jest.fn(),
+      prepareContext: jest.fn(),
     };
 
     const render = new StoryRender(
-      new Channel(),
+      new Channel({}),
       { getStoryContext: () => ({}) } as any,
       jest.fn() as any,
       {} as any,

@@ -19,20 +19,18 @@ body:
     attributes:
       label: To Reproduce
       description: >-
-        Please create a reproduction by running `npx sb@next repro` and
+        We prioritize bug reports that have a reproduction. You can create a reproduction using [storybook.new](https://storybook.new), or by running `npx sb@next sandbox` and
         following the instructions. Read our
         [documentation](https://storybook.js.org/docs/react/contribute/how-to-reproduce)
         to learn more about creating reproductions.
       placeholder: >-
-        Paste your repository and deployed reproduction here. We prioritize
-        issues with reproductions over those without.
-      render: shell
+        Paste a link to your reproduction here. We prioritize issues with reproductions over those without.
   - type: textarea
     id: system
     attributes:
       label: System
-      description: Please paste the results of `npx sb@next info` here.
-      render: shell
+      description: Please paste the results of `npx storybook@latest info` here.
+      render: bash
   - type: textarea
     id: context
     attributes:

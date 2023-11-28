@@ -13,11 +13,11 @@ import { Source } from '.';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Toolbar } from './Toolbar';
 import { ZoomContext } from './ZoomContext';
-// eslint-disable-next-line import/no-cycle
 import { StorySkeleton } from './Story';
 
 export interface PreviewProps {
   isLoading?: true;
+  layout?: Layout;
   isColumn?: boolean;
   columns?: number;
   withSource?: SourceProps;
@@ -28,7 +28,7 @@ export interface PreviewProps {
   children?: ReactNode;
 }
 
-type Layout = 'padded' | 'fullscreen' | 'centered';
+export type Layout = 'padded' | 'fullscreen' | 'centered';
 
 const ChildrenContainer = styled.div<PreviewProps & { layout: Layout }>(
   ({ isColumn, columns, layout }) => ({
@@ -52,7 +52,6 @@ const ChildrenContainer = styled.div<PreviewProps & { layout: Layout }>(
     layout === 'centered' || layout === 'padded'
       ? {
           padding: '30px 20px',
-          margin: -10,
           '& .innerZoomElementWrapper > *': {
             width: 'auto',
             border: '10px solid transparent!important',
@@ -101,6 +100,10 @@ const PreviewContainer = styled.div<PreviewProps>(
     borderBottomLeftRadius: withSource && isExpanded && 0,
     borderBottomRightRadius: withSource && isExpanded && 0,
     borderBottomWidth: isExpanded && 0,
+
+    'h3 + &': {
+      marginTop: '16px',
+    },
   }),
   ({ withToolbar }) => withToolbar && { paddingTop: 40 }
 );
@@ -172,18 +175,6 @@ const Relative = styled.div({
   position: 'relative',
 });
 
-const getLayout = (children: ReactElement[]): Layout => {
-  return children.reduce((result, c) => {
-    if (result) {
-      return result;
-    }
-    if (typeof c === 'string' || typeof c === 'number') {
-      return 'padded';
-    }
-    return (c.props && c.props.parameters && c.props.parameters.layout) || 'padded';
-  }, undefined);
-};
-
 /**
  * A preview component for showing one or more component `Story`
  * items. The preview also shows the source for the component
@@ -199,21 +190,19 @@ export const Preview: FC<PreviewProps> = ({
   isExpanded = false,
   additionalActions,
   className,
+  layout = 'padded',
   ...props
 }) => {
   const [expanded, setExpanded] = useState(isExpanded);
   const { source, actionItem } = getSource(withSource, expanded, setExpanded);
   const [scale, setScale] = useState(1);
-  const previewClasses = [className].concat(['sbdocs', 'sbdocs-preview']);
+  const previewClasses = [className].concat(['sbdocs', 'sbdocs-preview', 'sb-unstyled']);
 
   const defaultActionItems = withSource ? [actionItem] : [];
   const [additionalActionItems, setAdditionalActionItems] = useState(
     additionalActions ? [...additionalActions] : []
   );
   const actionItems = [...defaultActionItems, ...additionalActionItems];
-
-  // @ts-expect-error (Converted from ts-ignore)
-  const layout = getLayout(Children.count(children) === 1 ? [children] : children);
 
   const { window: globalWindow } = global;
 
@@ -223,6 +212,14 @@ export const Preview: FC<PreviewProps> = ({
   }, []);
 
   const onCopyCapture = (e: ClipboardEvent<HTMLInputElement>) => {
+    // When the selection range is neither empty nor collapsed, we can assume
+    // user's intention is to copy the selected text, instead of the story's
+    // code snippet.
+    const selection: Selection | null = globalWindow.getSelection();
+    if (selection && selection.type === 'Range') {
+      return;
+    }
+
     e.preventDefault();
     if (additionalActionItems.filter((item) => item.title === 'Copied').length === 0) {
       copyToClipboard(source.props.code).then(() => {

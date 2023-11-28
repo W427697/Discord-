@@ -38,7 +38,8 @@ export const sourceDecorator = (
 
   useEffect(() => {
     if (toEmit) {
-      channel.emit(SNIPPET_RENDERED, context.id, toEmit, 'angular');
+      const { id, unmappedArgs } = context;
+      channel.emit(SNIPPET_RENDERED, { id, args: unmappedArgs, source: toEmit, format: 'angular' });
     }
   });
 

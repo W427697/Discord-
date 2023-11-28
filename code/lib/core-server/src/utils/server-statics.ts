@@ -1,68 +1,60 @@
 import { logger } from '@storybook/node-logger';
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
+import { ConflictingStaticDirConfigError } from '@storybook/core-events/server-errors';
 import chalk from 'chalk';
+import type { Router } from 'express';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path from 'path';
-import favicon from 'serve-favicon';
+import path, { basename, isAbsolute } from 'path';
+import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
+import { defaultStaticDirs } from './constants';
 
-const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.svg');
+export async function useStatics(router: Router, options: Options) {
+  const staticDirs = (await options.presets.apply('staticDirs')) ?? [];
+  const faviconPath = await options.presets.apply<string>('favicon');
 
-export async function useStatics(router: any, options: Options) {
-  let hasCustomFavicon = false;
-  const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
-
-  if (staticDirs && options.staticDir) {
-    throw new Error(dedent`
-      Conflict when trying to read staticDirs:
-      * Storybook's configuration option: 'staticDirs'
-      * Storybook's CLI flag: '--staticDir' or '-s'
-      
-      Choose one of them, but not both.
-    `);
+  if (options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
+    throw new ConflictingStaticDirConfigError();
   }
 
-  const statics = staticDirs
-    ? staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+  const statics = [
+    ...staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`)),
+    ...(options.staticDir || []),
+  ];
 
   if (statics && statics.length > 0) {
     await Promise.all(
       statics.map(async (dir) => {
         try {
-          const relativeDir = staticDirs
-            ? getDirectoryFromWorkingDir({
-                configDir: options.configDir,
-                workingDir: process.cwd(),
-                directory: dir,
-              })
-            : dir;
-          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
-          logger.info(
-            chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
-          );
-          router.use(targetEndpoint, express.static(staticPath, { index: false }));
+          const normalizedDir =
+            staticDirs && !isAbsolute(dir)
+              ? getDirectoryFromWorkingDir({
+                  configDir: options.configDir,
+                  workingDir: process.cwd(),
+                  directory: dir,
+                })
+              : dir;
+          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
-          if (!hasCustomFavicon && targetEndpoint === '/') {
-            const faviconPath = path.join(staticPath, 'favicon.svg');
-            if (await pathExists(faviconPath)) {
-              hasCustomFavicon = true;
-              router.use(favicon(faviconPath));
-            }
+          // Don't log for the internal static dir
+          if (!targetEndpoint.startsWith('/sb-')) {
+            logger.info(
+              chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
+            );
           }
+
+          router.use(targetEndpoint, express.static(staticPath, { index: false }));
         } catch (e) {
-          logger.warn(e.message);
+          if (e instanceof Error) logger.warn(e.message);
         }
       })
     );
   }
 
-  if (!hasCustomFavicon) {
-    router.use(favicon(defaultFavIcon));
-  }
+  router.get(`/${basename(faviconPath)}`, (req, res) => res.sendFile(faviconPath));
 }
 
 export const parseStaticDir = async (arg: string) => {

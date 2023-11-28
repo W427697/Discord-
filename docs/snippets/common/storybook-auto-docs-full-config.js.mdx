@@ -1,24 +1,15 @@
 ```js
 // .storybook/main.js
 
-module.exports = {
-  stories: ['../src/**/*.stories.@(js|ts)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
-  framework: {
-    // Replace your-framework with the name of your framework (e.g., react-webpack5, vue3-webpack5)
-    name: '@storybook/your-framework',
-    options: {},
-  },
+export default {
+  // Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-vite)
+  framework: '@storybook/your-framework',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: ['@storybook/addon-essentials'],
   docs: {
-    enabled: false,
-    defaultName: 'Documentation',
-    //👇 Use only one of the following options to auto-generate documentation
-    autodocs: true,
+    //👇 See the table below for the list of supported options
     autodocs: 'tag',
+    defaultName: 'Documentation',
   },
 };
 ```

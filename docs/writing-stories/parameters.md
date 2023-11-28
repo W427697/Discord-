@@ -2,6 +2,8 @@
 title: 'Parameters'
 ---
 
+<YouTubeCallout id="u32vmGVJY2U" title="Build Better Storybooks with Parameters" />
+
 Parameters are a set of static, named metadata about a story, typically used to control the behavior of Storybook features and addons.
 
 For example, let’s customize the backgrounds addon via a parameter. We’ll use `parameters.backgrounds` to define which backgrounds appear in the backgrounds toolbar when a story is selected.
@@ -14,8 +16,11 @@ We can set a parameter for a single story with the `parameters` key on a CSF exp
 
 <CodeSnippets
   paths={[
+   'angular/component-story-custom-params.ts.mdx',
+   'web-components/component-story-custom-params.js.mdx',
+   'web-components/component-story-custom-params.ts.mdx',
    'common/component-story-custom-params.js.mdx',
-   'common/component-story-custom-params.ts.mdx',
+   'common/component-story-custom-params.ts.mdx',   
   ]}
   usesCsf3
   csf2Path="writing-stories/parameters#snippet-component-story-custom-params"
@@ -34,11 +39,13 @@ We can set the parameters for all stories of a component using the `parameters` 
     'react/button-story-with-blue-args.js.mdx',
     'react/button-story-with-blue-args.ts.mdx',
     'vue/button-story-with-blue-args.js.mdx',
-    'vue/button-story-with-blue-args.ts-2.ts.mdx',
-    'vue/button-story-with-blue-args.ts-3.ts.mdx',
+    'vue/button-story-with-blue-args.ts.mdx',
     'angular/button-story-with-blue-args.ts.mdx',
-    'svelte/button-story-with-blue-args.js.mdx',
     'web-components/button-story-with-blue-args.js.mdx',
+    'web-components/button-story-with-blue-args.ts.mdx',
+    'svelte/button-story-with-blue-args.js.mdx',
+    'solid/button-story-with-blue-args.js.mdx',
+    'solid/button-story-with-blue-args.ts.mdx',
   ]}
 />
 
@@ -53,6 +60,7 @@ We can also set the parameters for **all stories** via the `parameters` export o
 <CodeSnippets
   paths={[
    'common/preview-story-custom-params.js.mdx',
+   'common/preview-story-custom-params.ts.mdx',
   ]}
 />
 

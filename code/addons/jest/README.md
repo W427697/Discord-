@@ -23,7 +23,7 @@ Or if you're using yarn as a package manager:
 Register the addon in your [`.storybook/main.js`](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project):
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-jest'],
 };
 ```
@@ -253,12 +253,12 @@ Default.parameters = {
 
 ## TODO
 
-- [ ] Add coverage
-- [ ] Display nested test better (describe)
-- [ ] Display the date of the test
-- [ ] Add unit tests
-- [ ] Add linting
-- [ ] Split <TestPanel />
+- Add coverage
+- Display nested test better (describe)
+- Display the date of the test
+- Add unit tests
+- Add linting
+- Split <TestPanel />
 
 ## Contributing
 

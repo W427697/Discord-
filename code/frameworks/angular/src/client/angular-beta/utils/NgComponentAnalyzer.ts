@@ -36,7 +36,10 @@ export const getComponentInputsOutputs = (component: any): ComponentInputsOutput
   // Adds the I/O present in @Component metadata
   if (componentMetadata && componentMetadata.inputs) {
     initialValue.inputs.push(
-      ...componentMetadata.inputs.map((i) => ({ propName: i, templateName: i }))
+      ...componentMetadata.inputs.map((i) => ({
+        propName: typeof i === 'string' ? i : i.name,
+        templateName: typeof i === 'string' ? i : i.alias,
+      }))
     );
   }
   if (componentMetadata && componentMetadata.outputs) {
@@ -56,7 +59,7 @@ export const getComponentInputsOutputs = (component: any): ComponentInputsOutput
     if (value instanceof Input) {
       const inputToAdd = {
         propName: propertyName,
-        templateName: value.bindingPropertyName ?? propertyName,
+        templateName: value.bindingPropertyName ?? value.alias ?? propertyName,
       };
 
       const previousInputsFiltered = previousValue.inputs.filter(
@@ -70,7 +73,7 @@ export const getComponentInputsOutputs = (component: any): ComponentInputsOutput
     if (value instanceof Output) {
       const outputToAdd = {
         propName: propertyName,
-        templateName: value.bindingPropertyName ?? propertyName,
+        templateName: value.bindingPropertyName ?? value.alias ?? propertyName,
       };
 
       const previousOutputsFiltered = previousValue.outputs.filter(
@@ -116,7 +119,9 @@ export const isStandaloneComponent = (component: any): component is Type<unknown
 
   // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
   // Angular deps are updated to v14.x.x.
-  return (decorators || []).some((d) => d instanceof Component && (d as any).standalone);
+  return (decorators || []).some(
+    (d) => (d instanceof Component || d instanceof Directive || d instanceof Pipe) && d.standalone
+  );
 };
 
 /**

@@ -1,6 +1,7 @@
 import type {
   Renderer,
   RenderContext,
+  RenderContextCallbacks,
   RenderToCanvas,
   PreparedStory,
   TeardownRenderToCanvas,
@@ -42,11 +43,6 @@ function serializeError(error: any) {
   }
 }
 
-export type RenderContextCallbacks<TRenderer extends Renderer> = Pick<
-  RenderContext<TRenderer>,
-  'showMain' | 'showError' | 'showException'
->;
-
 export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public type: RenderType = 'story';
 
@@ -73,7 +69,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     private callbacks: RenderContextCallbacks<TRenderer>,
     public id: StoryId,
     public viewMode: ViewMode,
-    public renderOptions: StoryRenderOptions = { autoplay: true },
+    public renderOptions: StoryRenderOptions = { autoplay: true, forceInitialArgs: false },
     story?: PreparedStory<TRenderer>
   ) {
     this.abortController = new AbortController();
@@ -140,7 +136,8 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
 
   private storyContext() {
     if (!this.story) throw new Error(`Cannot call storyContext before preparing`);
-    return this.store.getStoryContext(this.story);
+    const { forceInitialArgs } = this.renderOptions;
+    return this.store.getStoryContext(this.story, { forceInitialArgs });
   }
 
   async render({

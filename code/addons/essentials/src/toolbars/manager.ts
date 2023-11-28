@@ -1,2 +1,2 @@
-// @ts-expect-error The generated definition file is empty. https://github.com/egoist/tsup/issues/762
+// @ts-expect-error (no types needed for this)
 export * from '@storybook/addon-toolbars/manager';

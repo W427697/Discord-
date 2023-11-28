@@ -6,12 +6,14 @@ import type {
   ComponentAnnotations,
   DecoratorFunction,
   LoaderFunction,
+  ProjectAnnotations,
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
 } from '@storybook/types';
-import type { SetOptional, Simplify } from 'type-fest';
-import type { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
+import type { Constructor, RemoveIndexSignature, SetOptional, Simplify } from 'type-fest';
+import type { FunctionalComponent, VNodeChild } from 'vue';
+import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers';
 import type { VueRenderer } from './types';
 
 export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
@@ -48,7 +50,7 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
   args?: infer DefaultArgs;
 }
   ? Simplify<
-      ComponentProps<Component> & ArgsFromMeta<VueRenderer, TMetaOrCmpOrArgs>
+      ComponentPropsAndSlots<Component> & ArgsFromMeta<VueRenderer, TMetaOrCmpOrArgs>
     > extends infer TArgs
     ? StoryAnnotations<
         VueRenderer,
@@ -58,16 +60,18 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
     : never
   : StoryAnnotations<VueRenderer, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
 
-type ComponentProps<C> = C extends ComponentOptions<infer P>
-  ? P
-  : C extends FunctionalComponent<infer P>
-  ? P
-  : unknown;
+type ExtractSlots<C> = AllowNonFunctionSlots<Partial<RemoveIndexSignature<ComponentSlots<C>>>>;
 
-type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends ConcreteComponent<any>
-  ? unknown extends ComponentProps<TCmpOrArgs>
-    ? TCmpOrArgs
-    : ComponentProps<TCmpOrArgs>
+type AllowNonFunctionSlots<Slots> = {
+  [K in keyof Slots]: Slots[K] | VNodeChild;
+};
+
+export type ComponentPropsAndSlots<C> = ComponentProps<C> & ExtractSlots<C>;
+
+type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends Constructor<any>
+  ? ComponentPropsAndSlots<TCmpOrArgs>
+  : TCmpOrArgs extends FunctionalComponent<any>
+  ? ComponentPropsAndSlots<TCmpOrArgs>
   : TCmpOrArgs;
 
 /**
@@ -84,3 +88,4 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
 export type Decorator<TArgs = StrictArgs> = DecoratorFunction<VueRenderer, TArgs>;
 export type Loader<TArgs = StrictArgs> = LoaderFunction<VueRenderer, TArgs>;
 export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<VueRenderer, TArgs>;
+export type Preview = ProjectAnnotations<VueRenderer>;

@@ -1,27 +1,17 @@
 ```ts
-// App.stories.ts
+// Button.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/angular';
 
-import { AppComponent } from './app.component';
+import { App } from './app.component';
 
-const meta: Meta<AppComponent> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'App',
-  component: AppComponent,
+const meta: Meta<App> = {
+  component: App,
 };
 
 export default meta;
-type Story = StoryObj<AppComponent>;
+type Story = StoryObj<App>;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/angular/api/csf
- * to learn how to use render functions.
- */
 export const Success: Story = {
   parameters: {
     fetch: {

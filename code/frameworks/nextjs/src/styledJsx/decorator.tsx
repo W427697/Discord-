@@ -1,11 +1,9 @@
 import * as React from 'react';
 
-let StyleRegistry: React.FC;
+let StyleRegistry: React.FC<React.PropsWithChildren>;
 
 try {
   // next >= v12
-  // This will come from nextjs itself
-  // eslint-disable-next-line import/no-extraneous-dependencies
   StyleRegistry = require('styled-jsx').StyleRegistry;
 } catch {
   // next < v12

@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import { getStorybookInfo } from '@storybook/core-common';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
@@ -25,27 +24,20 @@ const logger = console;
 export const sbBinary: Fix<SbBinaryRunOptions> = {
   id: 'storybook-binary',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { devDependencies, dependencies } = packageJson;
-    const { version: storybookVersion } = getStorybookInfo(packageJson);
+  async check({ packageManager, storybookVersion }) {
+    const packageJson = await packageManager.retrievePackageJson();
 
-    const allDeps = { ...dependencies, ...devDependencies };
+    const nrwlStorybookVersion = await packageManager.getPackageVersion('@nrwl/storybook');
+    const sbBinaryVersion = await packageManager.getPackageVersion('sb');
+    const storybookBinaryVersion = await packageManager.getPackageVersion('storybook');
 
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
-      `);
-    }
-
-    if (semver.lt(storybookCoerced, '7.0.0')) {
+    // Nx provides their own binary, so we don't need to do anything
+    if (nrwlStorybookVersion || semver.lt(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    const hasSbBinary = !!allDeps.sb;
-    const hasStorybookBinary = !!allDeps.storybook;
+    const hasSbBinary = !!sbBinaryVersion;
+    const hasStorybookBinary = !!storybookBinaryVersion;
 
     if (!hasSbBinary && hasStorybookBinary) {
       return null;
@@ -82,13 +74,19 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       `;
   },
 
-  async run({ result: { packageJson, hasSbBinary, hasStorybookBinary }, packageManager, dryRun }) {
+  async run({
+    result: { packageJson, hasSbBinary, hasStorybookBinary },
+    packageManager,
+    dryRun,
+    skipInstall,
+  }) {
     if (hasSbBinary) {
       logger.info(`✅ Removing 'sb' dependency`);
       if (!dryRun) {
-        packageManager.removeDependencies({ skipInstall: !hasStorybookBinary, packageJson }, [
-          'sb',
-        ]);
+        await packageManager.removeDependencies(
+          { skipInstall: skipInstall || !hasStorybookBinary, packageJson },
+          ['sb']
+        );
       }
     }
 
@@ -98,9 +96,10 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       logger.log();
       if (!dryRun) {
         const versionToInstall = getStorybookVersionSpecifier(packageJson);
-        packageManager.addDependencies({ installAsDevDependencies: true }, [
-          `storybook@${versionToInstall}`,
-        ]);
+        await packageManager.addDependencies(
+          { installAsDevDependencies: true, packageJson, skipInstall },
+          [`storybook@${versionToInstall}`]
+        );
       }
     }
   },

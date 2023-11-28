@@ -1,9 +1,10 @@
-/// <reference types="webpack-env" />
-
 import { dedent } from 'ts-dedent';
 
 let hasWarned = false;
 
+/**
+ * @deprecated please import this specific function from @storybook/addon-links/react
+ */
 export function LinkTo(): null {
   if (!hasWarned) {
     // eslint-disable-next-line no-console
@@ -17,7 +18,3 @@ export function LinkTo(): null {
 }
 
 export { linkTo, hrefTo, withLinks, navigate } from './utils';
-
-if (module && module.hot && module.hot.decline) {
-  module.hot.decline();
-}

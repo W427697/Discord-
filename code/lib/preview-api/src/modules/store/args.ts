@@ -144,14 +144,14 @@ export const deepDiff = (value: any, update: any): any => {
   return update;
 };
 
-export const NO_TARGET_NAME = '';
+export const UNTARGETED = 'UNTARGETED';
 export function groupArgsByTarget<TArgs extends Args = Args>({
   args,
   argTypes,
-}: StoryContext<Renderer, TArgs>) {
+}: Pick<StoryContext<Renderer, TArgs>, 'args' | 'argTypes'>) {
   const groupedArgs: Record<string, Partial<TArgs>> = {};
   (Object.entries(args) as [keyof TArgs, any][]).forEach(([name, value]) => {
-    const { target = NO_TARGET_NAME } = (argTypes[name] || {}) as { target?: string };
+    const { target = UNTARGETED } = (argTypes[name] || {}) as { target?: string };
 
     groupedArgs[target] = groupedArgs[target] || {};
     groupedArgs[target][name] = value;
@@ -159,6 +159,8 @@ export function groupArgsByTarget<TArgs extends Args = Args>({
   return groupedArgs;
 }
 
-export function noTargetArgs<TArgs extends Args = Args>(context: StoryContext<Renderer, TArgs>) {
-  return groupArgsByTarget(context)[NO_TARGET_NAME];
+export function noTargetArgs<TArgs extends Args = Args>(
+  context: Pick<StoryContext<Renderer, TArgs>, 'args' | 'argTypes'>
+) {
+  return groupArgsByTarget(context)[UNTARGETED];
 }
