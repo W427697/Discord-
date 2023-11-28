@@ -1,7 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
 import type { Configuration, RuleSetRule, WebpackPluginInstance } from 'webpack';
 import semver from 'semver';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { logger } from '@storybook/node-logger';
 import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
