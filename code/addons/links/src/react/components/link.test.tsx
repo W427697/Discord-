@@ -38,7 +38,8 @@ describe('LinkTo', () => {
       mockAddons.getChannel.mockReturnValue(channel);
 
       const { container } = render(
-        <LinkTo kind="foo" story="bar">
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        <LinkTo title="foo" name="bar">
           link
         </LinkTo>
       );
@@ -46,12 +47,12 @@ describe('LinkTo', () => {
       await waitFor(() => {
         expect(screen.getByText('link')).toHaveAttribute(
           'href',
-          'originpathname?search=&id=foo--bar'
+          'originpathname?path=/story/foo--bar'
         );
       });
       expect(container.firstChild).toMatchInlineSnapshot(`
         <a
-          href="originpathname?search=&id=foo--bar"
+          href="originpathname?path=/story/foo--bar"
         >
           link
         </a>
@@ -60,25 +61,31 @@ describe('LinkTo', () => {
   });
 
   describe('events', () => {
-    it('should select the kind and story on click', () => {
-      const channel = {
-        emit: jest.fn(),
-        on: jest.fn(),
-      } as any;
+    it('should select the kind and story on click', async () => {
+      const channel = mockChannel() as any;
       mockAddons.getChannel.mockReturnValue(channel);
 
       render(
-        <LinkTo kind="foo" story="bar">
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+        <LinkTo title="foo" name="bar">
           link
         </LinkTo>
       );
-      userEvent.click(screen.getByText('link'));
+
+      await waitFor(() => {
+        expect(screen.getByText('link')).toHaveAttribute(
+          'href',
+          'originpathname?path=/story/foo--bar'
+        );
+      });
+
+      await userEvent.click(screen.getByText('link'));
 
       expect(channel.emit).toHaveBeenLastCalledWith(
         SELECT_STORY,
         expect.objectContaining({
-          kind: 'foo',
-          story: 'bar',
+          title: 'foo',
+          name: 'bar',
         })
       );
     });

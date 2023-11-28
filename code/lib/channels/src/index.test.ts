@@ -19,7 +19,7 @@ describe('Channel', () => {
     });
 
     it('should not set transport if not passed as an argument', () => {
-      channel = new Channel();
+      channel = new Channel({});
       expect(channel.hasTransport).toBeFalsy();
     });
 
@@ -29,7 +29,7 @@ describe('Channel', () => {
     });
 
     it('should set isAsync to false as default value', () => {
-      channel = new Channel();
+      channel = new Channel({});
       expect(channel.isAsync).toBeFalsy();
     });
 
@@ -44,7 +44,7 @@ describe('Channel', () => {
       const eventName = 'event1';
 
       channel.addListener(eventName, jest.fn());
-      expect(channel.listeners(eventName).length).toBe(1);
+      expect(channel.listeners(eventName)?.length).toBe(1);
     });
   });
 
@@ -53,7 +53,7 @@ describe('Channel', () => {
       const eventName = 'event1';
 
       channel.on(eventName, jest.fn());
-      expect(channel.listeners(eventName).length).toBe(1);
+      expect(channel.listeners(eventName)?.length).toBe(1);
     });
   });
 
@@ -63,9 +63,9 @@ describe('Channel', () => {
       const fn = jest.fn();
 
       channel.on(eventName, fn);
-      expect(channel.listeners(eventName).length).toBe(1);
+      expect(channel.listeners(eventName)?.length).toBe(1);
       channel.off(eventName, fn);
-      expect(channel.listeners(eventName).length).toBe(0);
+      expect(channel.listeners(eventName)?.length).toBe(0);
     });
   });
 
@@ -73,7 +73,7 @@ describe('Channel', () => {
     it('should execute the callback fn of a listener', () => {
       const eventName = 'event1';
       const listenerInputData = ['string1', 'string2', 'string3'];
-      let listenerOutputData: string[] = null;
+      let listenerOutputData: string[] | null = null;
       const mockListener: Listener = (data) => {
         listenerOutputData = data;
       };
@@ -86,7 +86,7 @@ describe('Channel', () => {
     it('should be callable with a spread operator as event arguments', () => {
       const eventName = 'event1';
       const listenerInputData = ['string1', 'string2', 'string3'];
-      let listenerOutputData: string[] = null;
+      let listenerOutputData: string[] | null = null;
 
       channel.addListener(eventName, (...data) => {
         listenerOutputData = data;
@@ -104,8 +104,11 @@ describe('Channel', () => {
         listenerOutputData = data;
       });
       const sendSpy = jest.fn();
-      // @ts-expect-error (Converted from ts-ignore)
-      channel.transport.send = sendSpy;
+      // @ts-expect-error (access private property for testing purposes)
+      channel.transports.forEach((t) => {
+        // eslint-disable-next-line no-param-reassign
+        t.send = sendSpy;
+      });
       channel.emit(eventName, ...listenerInputData);
       expect(listenerOutputData).toEqual(listenerInputData);
       expect(sendSpy.mock.calls[0][1]).toEqual({ depth: 1 });
@@ -211,7 +214,7 @@ describe('Channel', () => {
       const listenerToBeRemoved = jest.fn();
       const listeners = [jest.fn(), jest.fn()];
       const findListener = (listener: Listener) =>
-        channel.listeners(eventName).find((_listener) => _listener === listener);
+        channel.listeners(eventName)?.find((_listener) => _listener === listener);
 
       listeners.forEach((fn) => channel.addListener(eventName, fn));
       channel.addListener(eventName, listenerToBeRemoved);

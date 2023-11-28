@@ -14,6 +14,7 @@ describe('configureMain', () => {
     await configureMain({
       language: SupportedLanguage.JAVASCRIPT,
       addons: [],
+      prefixes: [],
       storybookConfigFolder: '.storybook',
       framework: {
         name: '@storybook/react-vite',
@@ -27,7 +28,7 @@ describe('configureMain', () => {
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "/** @type { import('@storybook/react-vite').StorybookConfig } */
       const config = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [],
         framework: {
           name: '@storybook/react-vite',
@@ -42,6 +43,7 @@ describe('configureMain', () => {
     await configureMain({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       addons: [],
+      prefixes: [],
       storybookConfigFolder: '.storybook',
       framework: {
         name: '@storybook/react-vite',
@@ -54,8 +56,9 @@ describe('configureMain', () => {
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
     expect(mainConfigContent).toMatchInlineSnapshot(`
       "import type { StorybookConfig } from '@storybook/react-vite';
+
       const config: StorybookConfig = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [],
         framework: {
           name: '@storybook/react-vite',
@@ -69,6 +72,7 @@ describe('configureMain', () => {
   test('should handle resolved paths in pnp', async () => {
     await configureMain({
       language: SupportedLanguage.JAVASCRIPT,
+      prefixes: [],
       addons: [
         "%%path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json')))%%",
         "%%path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json')))%%",
@@ -90,7 +94,7 @@ describe('configureMain', () => {
 
       /** @type { import('@storybook/react-webpack5').StorybookConfig } */
       const config = {
-        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+        stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
         addons: [
           path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json'))),
           path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json'))),
@@ -123,14 +127,11 @@ describe('configurePreview', () => {
       "/** @type { import('@storybook/react').Preview } */
       const preview = {
         parameters: {
-          backgrounds: {
-            default: 'light',
-          },
           actions: { argTypesRegex: '^on[A-Z].*' },
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },
@@ -157,14 +158,11 @@ describe('configurePreview', () => {
 
       const preview: Preview = {
         parameters: {
-          backgrounds: {
-            default: 'light',
-          },
           actions: { argTypesRegex: '^on[A-Z].*' },
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },
@@ -211,14 +209,11 @@ describe('configurePreview', () => {
 
       const preview: Preview = {
         parameters: {
-          backgrounds: {
-            default: 'light',
-          },
           actions: { argTypesRegex: '^on[A-Z].*' },
           controls: {
             matchers: {
               color: /(background|color)$/i,
-              date: /Date$/,
+              date: /Date$/i,
             },
           },
         },

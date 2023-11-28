@@ -37,12 +37,6 @@ Run the following command to install the addon.
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
-
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the coverage addon.
 
 <!-- prettier-ignore-start -->
@@ -76,9 +70,9 @@ Finally, open a new terminal window and run the test-runner with:
 
 <CodeSnippets
   paths={[
-    'common/storybook-test-runner-coverage.yarn.js.mdx',
-    'common/storybook-test-runner-coverage.npm.js.mdx',
-    'common/storybook-test-runner-coverage.pnpm.js.mdx',
+    'common/test-runner-coverage.yarn.js.mdx',
+    'common/test-runner-coverage.npm.js.mdx',
+    'common/test-runner-coverage.pnpm.js.mdx',
   ]}
 />
 
@@ -138,7 +132,7 @@ Out of the box, code coverage tests work seamlessly with Storybook's test-runner
 
 ### Run test coverage in other frameworks
 
-If you intend on running coverage tests in frameworks with special files like Vue or Svelte, you'll need to adjust your configuration and enable the required file extensions. For example, if you're using Vue, you'll need to add the following to your nyc configuration file (i.e., `nycrc.json` or `nyc.config.js`):
+If you intend on running coverage tests in frameworks with special files like Vue or Svelte, you'll need to adjust your configuration and enable the required file extensions. For example, if you're using Vue, you'll need to add the following to your nyc configuration file (i.e., `.nycrc.json` or `nyc.config.js`):
 
 <!-- prettier-ignore-start -->
 
@@ -163,4 +157,5 @@ As the [coverage addon](https://storybook.js.org/addons/@storybook/addon-coverag
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
 - Coverage tests for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
-- [Import stories in other tests](./importing-stories-in-tests.md) for other tools
+- [End-to-end tests](./stories-in-end-to-end-tests.md) for simulating real user scenarios
+- [Unit tests](./stories-in-unit-tests.md) for functionality

@@ -13,30 +13,28 @@ const logger = console;
 
 const getMonorepoPackages = async () => {
   const process = promisify(exec);
-  const contents = await process('yarn lerna ls --json', {
+  const contents = await process('yarn workspaces list --json --no-private', {
     cwd: rootDirectory,
   });
 
-  const projects = JSON.parse(contents.stdout);
-  return projects.reduce((acc, project) => {
-    acc[project.name] = path.join(project.location, 'package.json');
-    return acc;
-  }, []);
+  return JSON.parse(`[${contents.stdout.trim().split('\n').join(',')}]`).map((w) => w.location);
 };
 
 const run = async () => {
-  const updatedVersion = process.argv[process.argv.length - 1];
+  let updatedVersion = process.argv[process.argv.length - 1];
 
-  if (!semver.valid(updatedVersion)) throw new Error(`Invalid version: ${updatedVersion}`);
-
-  logger.log(`Generating versions.ts with v${updatedVersion}`);
+  if (!semver.valid(updatedVersion)) {
+    updatedVersion = (await readJson(path.join(rootDirectory, 'package.json'))).version;
+  }
 
   const storybookPackages = await getMonorepoPackages();
 
   const packageToVersionMap = (
     await Promise.all(
-      Object.keys(storybookPackages).map(async (pkgName) => {
-        const { name, version } = await readJson(storybookPackages[pkgName]);
+      storybookPackages.map(async (location) => {
+        const { name, version } = await readJson(
+          path.join(rootDirectory, location, 'package.json')
+        );
 
         return {
           name,
@@ -62,8 +60,9 @@ const run = async () => {
 
   logger.log(`Updating versions and formatting results at: ${versionsPath}`);
 
-  exec(`yarn lint:js:cmd --fix ${versionsPath}`, {
-    cwd: path.join(__dirname, '..', '..', '..'),
+  const prettierBin = path.join(rootDirectory, '..', 'scripts', 'node_modules', '.bin', 'prettier');
+  exec(`${prettierBin} --write ${versionsPath}`, {
+    cwd: path.join(rootDirectory),
   });
 };
 

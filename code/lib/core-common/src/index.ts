@@ -6,6 +6,7 @@ export * from './utils/cache';
 export * from './utils/check-addon-order';
 export * from './utils/envs';
 export * from './utils/findDistEsm';
+export * from './utils/common-glob-options';
 export * from './utils/get-builder-options';
 export * from './utils/get-framework-name';
 export * from './utils/get-renderer-name';
@@ -31,5 +32,6 @@ export * from './utils/template';
 export * from './utils/validate-config';
 export * from './utils/validate-configuration-files';
 export * from './utils/satisfies';
+export * from './utils/strip-abs-node-modules-path';
 
 export { createFileSystemCache } from './utils/file-cache';
