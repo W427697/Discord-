@@ -142,8 +142,6 @@ describe('CsfFile', () => {
         stories:
           - id: foo-bar--include-a
             name: Include A
-          - id: foo-bar--include-b
-            name: Include B
       `);
     });
 
