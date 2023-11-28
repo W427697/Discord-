@@ -6599,7 +6599,7 @@ __metadata:
     eslint-plugin-import: "npm:^2.26.0"
     eslint-plugin-local-rules: "portal:../scripts/eslint-plugin-local-rules"
     eslint-plugin-react: "npm:^7.31.10"
-    eslint-plugin-storybook: "npm:^0.6.6"
+    eslint-plugin-storybook: "npm:^0.6.15"
     fs-extra: "npm:^11.1.0"
     github-release-from-changelog: "npm:^2.1.1"
     glob: "npm:^10.0.0"
@@ -14519,7 +14519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:^0.6.6":
+"eslint-plugin-storybook@npm:^0.6.15":
   version: 0.6.15
   resolution: "eslint-plugin-storybook@npm:0.6.15"
   dependencies:
