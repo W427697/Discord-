@@ -72,7 +72,7 @@ function createMockModuleArgs({
   const store = createMockStore({ filters: {}, status: {}, ...initialState });
   const provider = createMockProvider();
 
-  return { navigate, store, provider, fullAPI };
+  return { navigate, store, provider, fullAPI: { ...fullAPI, getRefs: () => ({}) } };
 }
 
 describe('stories API', () => {
@@ -1229,6 +1229,32 @@ describe('stories API', () => {
       const { store } = moduleArgs;
 
       await api.setIndex({ v: 4, entries: mockEntries });
+
+      await expect(
+        api.experimental_updateStatus('a-addon-id', {
+          'a-story-id': {
+            status: 'pending',
+            title: 'an addon title',
+            description: 'an addon description',
+          },
+        })
+      ).resolves.not.toThrow();
+      expect(store.getState().status).toMatchInlineSnapshot(`
+        Object {
+          "a-story-id": Object {
+            "a-addon-id": Object {
+              "description": "an addon description",
+              "status": "pending",
+              "title": "an addon title",
+            },
+          },
+        }
+      `);
+    });
+    it('skips updating index, if index is unset', async () => {
+      const moduleArgs = createMockModuleArgs({});
+      const { api } = initStories(moduleArgs as unknown as ModuleArgs);
+      const { store } = moduleArgs;
 
       await expect(
         api.experimental_updateStatus('a-addon-id', {
