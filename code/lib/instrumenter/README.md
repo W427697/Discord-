@@ -1,6 +1,6 @@
 # Storybook Instrumenter
 
-The Storybook Instrumenter is used to patch a (3rd party) module to track and intercept function invocations for step-through debugging using the Interactions addon. In essense, the Instrumenter traverses a given object, recursively monkey-patching any functions to make them "tracked".
+The Storybook Instrumenter is used to patch a (3rd party) module to track and intercept function invocations for step-through debugging using the Interactions addon. In essence, the Instrumenter traverses a given object, recursively monkey-patching any functions to make them "tracked".
 
 During normal operation, tracked functions simply call through to their original function, forwarding the return value. As a side-effect, they also emit a `call` event whenever they are invoked.
 
@@ -31,7 +31,7 @@ Depending on the library and functions to be instrumented, you may want to confi
 
 `intercept` can take either a boolean (default `false`) or a function which returns a boolean. This enables you to only make specific library functions interceptable. This function receives a `method` and `path`, referring to the name of the function and the path to that function in the object tree. Some functions may return an object which is then instrumented as well, in which case the `path` will contain a "call ref", which is a plain object containing a `__callId__` property referencing the originating call.
 
-Here's an example `intercept` function (from `@storybook/testing-library`):
+Here's an example `intercept` function (from `@storybook/test`):
 
 ```js
 (method, path) => path[0] === 'fireEvent' || method.startsWith('findBy') || method.startsWith('waitFor'),
@@ -101,7 +101,6 @@ An example `sync` payload may look like this:
 ```js
 {
   controlStates: {
-    debugger: true,
     start: false,
     back: false,
     goto: true,
@@ -130,7 +129,6 @@ Remounting is achieved through emitting Storybook's `forceRemount` event. In som
 
 Besides patching functions, the instrumenter keeps track of "control states". These indicate whether the debugger is available, and which control events are available for use:
 
-- `debugger: boolean` - Whether the `interactionsDebugger` feature flag is enabled
 - `start: boolean` - Whether emitting `storybook/instrumenter/start` would work
 - `back: boolean` - Whether emitting `storybook/instrumenter/back` would work
 - `goto: boolean` - Whether emitting `storybook/instrumenter/goto` would work

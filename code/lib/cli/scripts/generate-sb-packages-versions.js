@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+const { promisify } = require('util');
 const { readJson, writeFile } = require('fs-extra');
 const { exec } = require('child_process');
 const path = require('path');
-const globby = require('globby');
 const semver = require('semver');
 const { default: dedent } = require('ts-dedent');
 
@@ -11,24 +11,30 @@ const rootDirectory = path.join(__dirname, '..', '..', '..');
 
 const logger = console;
 
+const getMonorepoPackages = async () => {
+  const process = promisify(exec);
+  const contents = await process('yarn workspaces list --json --no-private', {
+    cwd: rootDirectory,
+  });
+
+  return JSON.parse(`[${contents.stdout.trim().split('\n').join(',')}]`).map((w) => w.location);
+};
+
 const run = async () => {
-  const updatedVersion = process.argv[process.argv.length - 1];
+  let updatedVersion = process.argv[process.argv.length - 1];
 
-  if (!semver.valid(updatedVersion)) throw new Error(`Invalid version: ${updatedVersion}`);
+  if (!semver.valid(updatedVersion)) {
+    updatedVersion = (await readJson(path.join(rootDirectory, 'package.json'))).version;
+  }
 
-  logger.log(`Generating versions.ts with v${updatedVersion}`);
-
-  const storybookPackagesPaths = await globby(
-    `${rootDirectory}/@(frameworks|addons|lib|renderers|presets)/**/package.json`,
-    {
-      ignore: '**/node_modules/**/*',
-    }
-  );
+  const storybookPackages = await getMonorepoPackages();
 
   const packageToVersionMap = (
     await Promise.all(
-      storybookPackagesPaths.map(async (storybookPackagePath) => {
-        const { name, version } = await readJson(storybookPackagePath);
+      storybookPackages.map(async (location) => {
+        const { name, version } = await readJson(
+          path.join(rootDirectory, location, 'package.json')
+        );
 
         return {
           name,
@@ -54,8 +60,9 @@ const run = async () => {
 
   logger.log(`Updating versions and formatting results at: ${versionsPath}`);
 
-  exec(`yarn lint:js:cmd --fix ${versionsPath}`, {
-    cwd: path.join(__dirname, '..', '..', '..'),
+  const prettierBin = path.join(rootDirectory, '..', 'scripts', 'node_modules', '.bin', 'prettier');
+  exec(`${prettierBin} --write ${versionsPath}`, {
+    cwd: path.join(rootDirectory),
   });
 };
 

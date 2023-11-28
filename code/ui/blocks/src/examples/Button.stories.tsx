@@ -1,8 +1,6 @@
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { within, fireEvent } from '@storybook/testing-library';
-import { addons } from '@storybook/preview-api';
-import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
 import React from 'react';
 import { Button } from './Button';
 
@@ -98,13 +96,6 @@ export const Clicking: Story = {
     );
   },
   play: async ({ canvasElement, id }) => {
-    const channel = addons.getChannel();
-
-    channel.emit(RESET_STORY_ARGS, { storyId: id });
-    await new Promise<void>((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
-
     const canvas = within(canvasElement);
 
     const button = canvas.getByText('Increment');
@@ -117,4 +108,20 @@ export const Clicking: Story = {
 export const ClickingInDocs: Story = {
   ...Clicking,
   parameters: { docs: { story: { autoplay: true } } },
+};
+
+export const ErrorStory: Story = {
+  render: () => {
+    const err = new Error('Rendering problem');
+    // force stack for consistency in capture
+    err.stack = err.stack
+      .replace(/\d+:\d+(:\d+)?/g, `000:0001`)
+      .replace(/v=[^:]+/g, 'v=00000000')
+      .replace(/[^/]+\.js/g, 'file.js');
+    throw err;
+  },
+  args: { label: 'Button' },
+  parameters: {
+    chromatic: { disable: true },
+  },
 };

@@ -2,22 +2,33 @@ import React from 'react';
 import { SourceType } from '@storybook/docs-tools';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import dedent from 'ts-dedent';
 import { Source } from './Source';
 import * as ParametersStories from '../examples/SourceParameters.stories';
-import { SourceContext } from './SourceContainer';
+import { argsHash, SourceContext } from './SourceContainer';
 
 const meta: Meta<typeof Source> = {
   component: Source,
   parameters: {
     relativeCsfPaths: ['../examples/SourceParameters.stories'],
     snippets: {
-      'storybook-blocks-example-sourceparameters--no-parameters': {
-        code: `const emitted = 'source';`,
+      'storybook-blocks-examples-stories-for-the-source-block--no-parameters': {
+        [argsHash({})]: {
+          code: `const emitted = 'source';`,
+        },
       },
-      'storybook-blocks-example-sourceparameters--type-dynamic': {
-        code: `const emitted = 'source';`,
+      'storybook-blocks-examples-stories-for-the-source-block--transform': {
+        [argsHash({})]: {
+          code: `const emitted = 'source';`,
+        },
+      },
+      'storybook-blocks-examples-stories-for-the-source-block--type-dynamic': {
+        [argsHash({})]: {
+          code: `const emitted = 'source';`,
+        },
       },
     },
+    docsStyles: true,
   },
   decorators: [
     (Story, { parameters: { snippets = {} } }) => (
@@ -48,6 +59,16 @@ export const Of: Story = {
   },
 };
 
+export const OfUndefined: Story = {
+  args: {
+    // @ts-expect-error this is supposed to be undefined
+    // eslint-disable-next-line import/namespace
+    of: ParametersStories.NotDefined,
+  },
+  parameters: { chromatic: { disableSnapshot: true } },
+  decorators: [(s) => (window?.navigator.userAgent.match(/StorybookTestRunner/) ? <div /> : s())],
+};
+
 export const OfTypeProp: Story = {
   args: {
     of: ParametersStories.NoParameters,
@@ -61,9 +82,19 @@ export const OfTypeParameter: Story = {
   },
 };
 
-export const OfTransformSourceParameter: Story = {
+export const OfTransformProp: Story = {
   args: {
-    of: ParametersStories.TransformSource,
+    of: ParametersStories.NoParameters,
+    transform: (src, storyContext) => dedent`// this comment has been added via the transform prop!
+    // this is the story id: ${storyContext.id}
+    // these are the current args: ${JSON.stringify(storyContext.args)}
+    ${src}`,
+  },
+};
+
+export const OfTransformParameter: Story = {
+  args: {
+    of: ParametersStories.Transform,
   },
 };
 
@@ -80,6 +111,10 @@ export const Code: Story = {
 
 export const CodeUnattached: Story = {
   args: { code },
+  parameters: { attached: false },
+};
+
+export const EmptyUnattached: Story = {
   parameters: { attached: false },
 };
 

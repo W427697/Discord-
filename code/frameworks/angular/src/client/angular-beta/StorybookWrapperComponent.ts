@@ -16,7 +16,7 @@ import { map, skip } from 'rxjs/operators';
 import { ICollection, NgModuleMetadata } from '../types';
 import { STORY_PROPS } from './StorybookProvider';
 import { ComponentInputsOutputs, getComponentInputsOutputs } from './utils/NgComponentAnalyzer';
-import { extractDeclarations, extractImports, extractProviders } from './utils/PropertyExtractor';
+import { PropertyExtractor } from './utils/PropertyExtractor';
 
 const getNonInputsOutputsProps = (
   ngComponentInputsOutputs: ComponentInputsOutputs,
@@ -36,31 +36,36 @@ export const componentNgModules = new Map<any, Type<any>>();
 
 /**
  * Wraps the story template into a component
- *
- * @param storyComponent
- * @param initialProps
  */
-export const createStorybookWrapperComponent = (
-  selector: string,
-  template: string,
-  storyComponent: Type<unknown> | undefined,
-  styles: string[],
-  moduleMetadata: NgModuleMetadata,
-  initialProps?: ICollection
-): Type<any> => {
+export const createStorybookWrapperComponent = ({
+  selector,
+  template,
+  storyComponent,
+  styles,
+  moduleMetadata,
+  initialProps,
+  analyzedMetadata,
+}: {
+  selector: string;
+  template: string;
+  storyComponent: Type<unknown> | undefined;
+  styles: string[];
+  moduleMetadata: NgModuleMetadata;
+  initialProps?: ICollection;
+  analyzedMetadata: PropertyExtractor;
+}): Type<any> => {
   // In ivy, a '' selector is not allowed, therefore we need to just set it to anything if
   // storyComponent was not provided.
   const viewChildSelector = storyComponent ?? '__storybook-noop';
 
-  const imports = extractImports(moduleMetadata);
-  const declarations = extractDeclarations(moduleMetadata, storyComponent);
-  const providers = extractProviders(moduleMetadata);
+  const { imports, declarations, providers } = analyzedMetadata;
 
   // Only create a new module if it doesn't already exist
   // This is to prevent the module from being recreated on every story change
   // Declarations & Imports are only added once
   // Providers are added on every story change to allow for story-specific providers
   let ngModule = componentNgModules.get(storyComponent);
+
   if (!ngModule) {
     @NgModule({
       declarations,
@@ -72,6 +77,8 @@ export const createStorybookWrapperComponent = (
     componentNgModules.set(storyComponent, StorybookComponentModule);
     ngModule = componentNgModules.get(storyComponent);
   }
+
+  PropertyExtractor.warnImportsModuleWithProviders(analyzedMetadata);
 
   @Component({
     selector,
@@ -97,7 +104,7 @@ export const createStorybookWrapperComponent = (
 
     constructor(
       @Inject(STORY_PROPS) private storyProps$: Subject<ICollection | undefined>,
-      private changeDetectorRef: ChangeDetectorRef
+      @Inject(ChangeDetectorRef) private changeDetectorRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {

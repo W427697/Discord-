@@ -1,5 +1,5 @@
 ---
-title: "What's a Story"
+title: "What's a story?"
 ---
 
 A story captures the rendered state of a UI component. Developers write multiple stories per component that describe all the “interesting” states a component can support.
@@ -18,14 +18,16 @@ Let’s start with the `Button` component. A story is a function that describes 
     'react/button-story.ts.mdx',
     'angular/button-story.ts.mdx',
     'vue/button-story.js.mdx',
-    'vue/button-story.ts-2.ts.mdx', 
-    'vue/button-story.ts-3.ts.mdx', 
+    'vue/button-story.ts.mdx',
     'web-components/button-story.js.mdx',
     'web-components/button-story.ts.mdx',
     'svelte/button-story.js.mdx',
+    'svelte/button-story.ts.mdx',
     'html/button-story.js.mdx',
     'html/button-story.ts.mdx',
     'preact/button-story.js.mdx',
+    'solid/button-story.js.mdx',
+    'solid/button-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="get-started/whats-a-story#snippet-button-story"
@@ -46,16 +48,19 @@ The above story definition can be further improved to take advantage of [Storybo
     'react/button-story-with-args.js.mdx',
     'react/button-story-with-args.ts.mdx',
     'vue/button-story-with-args.2.js.mdx',
-    'vue/button-story-with-args.ts-2.ts.mdx',
+    'vue/button-story-with-args.2.ts.mdx',
     'vue/button-story-with-args.3.js.mdx',
-    'vue/button-story-with-args.ts-3.ts.mdx',
+    'vue/button-story-with-args.3.ts.mdx',
     'angular/button-story-with-args.ts.mdx',
     'web-components/button-story-with-args.js.mdx',
     'web-components/button-story-with-args.ts.mdx',
     'svelte/button-story-with-args.js.mdx',
+    'svelte/button-story-with-args.ts.mdx',
     'html/button-story-with-args.js.mdx',
     'html/button-story-with-args.ts.mdx',
     'preact/button-story-with-args.js.mdx',
+    'solid/button-story-with-args.js.mdx',
+    'solid/button-story-with-args.ts.mdx',
   ]}
   usesCsf3
   csf2Path="get-started/whats-a-story#snippet-button-story-with-args"
@@ -92,6 +97,6 @@ Stories are also helpful for checking that UI continues to look correct as you m
   />
 </video>
 
-Checking component’s stories as you develop helps prevent accidental regressions. [Tools that integrate with Storybook can automate this](../writing-tests/introduction.md) for you.
+Checking component’s stories as you develop helps prevent accidental regressions. [Tools that integrate with Storybook can automate this](../writing-tests/index.md) for you.
 
 Now that we’ve seen the basic anatomy of a story let’s see how we use Storybook’s UI to develop stories.

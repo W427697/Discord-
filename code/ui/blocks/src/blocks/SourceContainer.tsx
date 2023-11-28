@@ -1,18 +1,25 @@
-import type { FC, Context } from 'react';
+import type { FC, Context, PropsWithChildren } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 
-import { dequal as deepEqual } from 'dequal';
 import type { Channel } from '@storybook/channels';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
-import type { StoryId } from '@storybook/types';
+import type { StoryId, Args } from '@storybook/types';
+
+import { stringify } from 'telejson';
+
+type ArgsHash = string;
+export function argsHash(args: Args): ArgsHash {
+  return stringify(args);
+}
 
 export interface SourceItem {
   code: string;
   format?: SyntaxHighlighterFormatTypes;
 }
-export type StorySources = Record<StoryId, SourceItem>;
+
+export type StorySources = Record<StoryId, Record<ArgsHash, SourceItem>>;
 
 export interface SourceContextProps {
   sources: StorySources;
@@ -21,30 +28,60 @@ export interface SourceContextProps {
 
 export const SourceContext: Context<SourceContextProps> = createContext({ sources: {} });
 
-export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel }) => {
+type SnippetRenderedEvent = {
+  id: StoryId;
+  source: string;
+  args?: Args;
+  format?: SyntaxHighlighterFormatTypes;
+};
+
+export const UNKNOWN_ARGS_HASH = '--unknown--';
+
+export const SourceContainer: FC<PropsWithChildren<{ channel: Channel }>> = ({
+  children,
+  channel,
+}) => {
   const [sources, setSources] = useState<StorySources>({});
 
   useEffect(() => {
     const handleSnippetRendered = (
-      id: StoryId,
-      newSource: string,
-      format: SyntaxHighlighterFormatTypes = false
+      idOrEvent: StoryId | SnippetRenderedEvent,
+      inputSource: string = null,
+      inputFormat: SyntaxHighlighterFormatTypes = false
     ) => {
-      // optimization: if the source is the same, ignore the incoming event
-      if (sources[id] && sources[id].code === newSource) {
-        return;
-      }
+      const {
+        id,
+        args = undefined,
+        source,
+        format,
+      } = typeof idOrEvent === 'string'
+        ? {
+            id: idOrEvent,
+            source: inputSource,
+            format: inputFormat,
+          }
+        : idOrEvent;
+
+      const hash = args ? argsHash(args) : UNKNOWN_ARGS_HASH;
+      // FIXME: In SB8.0 when we remove the Source block deprecations,
+      // we should restore this optimizationand make the Source block
+      // smarter about understanding when its args change.
+      //
+      // See https://github.com/storybookjs/storybook/pull/22807
+      //
+      // optimization: don't update if the source is the same
+      // if (deepEqual(currentSource, { code: source, format })) return;
 
       setSources((current) => {
         const newSources = {
           ...current,
-          [id]: { code: newSource, format },
+          [id]: {
+            ...current[id],
+            [hash]: { code: source, format },
+          },
         };
 
-        if (!deepEqual(current, newSources)) {
-          return newSources;
-        }
-        return current;
+        return newSources;
       });
     };
 

@@ -1,5 +1,8 @@
 const os = require('os');
+const fs = require('fs');
 const path = require('path');
+
+const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
 
 /**
  * TODO: Some windows related tasks are still commented out, because they are behaving differently on
@@ -10,12 +13,44 @@ const path = require('path');
 const skipOnWindows = [
   'lib/core-server/src/utils/__tests__/server-statics.test.ts',
   'lib/core-common/src/utils/__tests__/template.test.ts',
-  'addons/storyshots-core/src/frameworks/configure.test.ts',
   'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
   'lib/cli/src/helpers.test.ts',
   'lib/csf-tools/src/enrichCsf.test.ts',
 ];
 
+const modulesToTransform = [
+  '@angular',
+  '@lit',
+  '@mdx-js',
+  '@vitest',
+  'ccount',
+  'character-entities',
+  'decode-named-character-reference',
+  'estree',
+  'is-absolute-url',
+  'lit-html',
+  'lit',
+  'mdast',
+  'micromark',
+  'nanoid',
+  'node-fetch',
+  'remark',
+  'rxjs',
+  'data-uri-to-buffer',
+  'fetch-blob',
+  'formdata-polyfill',
+  'slash',
+  'space-separated-tokens',
+  'stringify-entities',
+  'unified',
+  'unist',
+  'uuid',
+  'vfile-message',
+  'vfile',
+  'zwitch',
+];
+
+/** @type { import('jest').Config } */
 module.exports = {
   cacheDirectory: path.resolve('.cache/jest'),
   clearMocks: true,
@@ -25,12 +60,14 @@ module.exports = {
       path.resolve('./__mocks__/fileMock.js'),
     '\\.(css|scss|stylesheet)$': path.resolve('./__mocks__/styleMock.js'),
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
+    '@vitest/utils/(.*)': '@vitest/utils/dist/$1.js',
+    '@vitest/utils': '@vitest/utils/dist/index.js',
   },
   transform: {
-    '^.+\\.(t|j)sx?$': '@swc/jest',
+    '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: ['/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|@mdx-js)'],
+  transformIgnorePatterns: [`(?<!node_modules.+)node_modules/(?!${modulesToTransform.join('|')})`],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/storybook-static/',
@@ -52,6 +89,8 @@ module.exports = {
     '/prebuilt/',
     '/generators/',
     '/template/',
+    // The export format used in the following file is not supported by jest.
+    '/code/frameworks/nextjs/src/next-image-loader-stub.ts',
     '/__mocks__ /',
     '/__mockdata__/',
     '/__mocks-ng-workspace__/',

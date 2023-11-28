@@ -14,11 +14,11 @@
   - [Next.js's Image Component](#nextjss-image-component)
     - [Local Images](#local-images)
     - [Remote Images](#remote-images)
-    - [AVIF](#avif)
   - [Next.js Font Optimization](#nextjs-font-optimization)
-    - [@next/font/google](#nextfontgoogle)
-    - [@next/font/local](#nextfontlocal)
-    - [Not supported features of @next/font](#not-supported-features-of-nextfont)
+    - [next/font/google](#nextfontgoogle)
+    - [next/font/local](#nextfontlocal)
+    - [Not supported features of next/font](#not-supported-features-of-nextfont)
+    - [Mocking fonts during testing](#mocking-fonts-during-testing)
   - [Next.js Routing](#nextjs-routing)
     - [Overriding defaults](#overriding-defaults)
     - [Global Defaults](#global-defaults)
@@ -28,7 +28,7 @@
     - [Set `nextjs.appDirectory` to `true`](#set-nextjsappdirectory-to-true)
     - [Overriding defaults](#overriding-defaults-1)
     - [Global Defaults](#global-defaults-1)
-    - [`useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook](#useselectedlayoutsegment-and-useselectedlayoutsegments-hook)
+    - [`useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hook](#useselectedlayoutsegment-useselectedlayoutsegments-and-useparams-hook)
     - [Default Navigation Context](#default-navigation-context)
     - [Actions Integration Caveats](#actions-integration-caveats-1)
   - [Next.js Head](#nextjs-head)
@@ -44,7 +44,8 @@
   - [FAQ](#faq)
     - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
-    - [Module not found: Error: Can't resolve \[package name\]](#module-not-found-error-cant-resolve-package-name)
+    - [Module not found: Error: Can't resolve `package name`](#module-not-found-error-cant-resolve-package-name)
+    - [What if I'm using the Vite builder?](#what-if-im-using-the-vite-builder)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported Features
@@ -87,7 +88,7 @@
 Follow the prompts after running this command in your Next.js project's root directory:
 
 ```bash
-npx storybook@next init
+npx storybook@latest init
 ```
 
 [More on getting started with Storybook](https://storybook.js.org/docs/react/get-started/install)
@@ -97,7 +98,7 @@ npx storybook@next init
 This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
 
 ```bash
-npx storybook@next upgrade --prerelease
+npx storybook@latest upgrade --prerelease
 ```
 
 #### Automatic migration
@@ -109,7 +110,7 @@ When running the `upgrade` command above, you should get a prompt asking you to 
 Install the framework:
 
 ```bash
-yarn add --dev @storybook/nextjs@next
+yarn add --dev @storybook/nextjs
 ```
 
 Update your `main.js` to change the framework property:
@@ -121,7 +122,12 @@ export default {
   framework: {
     // name: '@storybook/react-webpack5', // Remove this
     name: '@storybook/nextjs', // Add this
-    options: {},
+    options: {
+      builder: {
+        // Set useSWC to true if you want to try out the experimental SWC compiler in Next.js >= 14.0.0
+        useSWC: true,
+      },
+    },
   },
 };
 ```
@@ -145,7 +151,7 @@ export default {
 
 ### Options
 
-You can be pass an options object for addional configuration if needed.
+You can be pass an options object for additional configuration if needed.
 
 For example:
 
@@ -158,12 +164,16 @@ export default {
   framework: {
     name: '@storybook/nextjs',
     options: {
+      image: {
+        loading: 'eager',
+      },
       nextConfigPath: path.resolve(__dirname, '../next.config.js'),
     },
   },
 };
 ```
 
+- `image`: Props to pass to every instance of `next/image`
 - `nextConfigPath`: The absolute path to the `next.config.js`
 
 ### Next.js's Image Component
@@ -214,19 +224,15 @@ export default function Home() {
 }
 ```
 
-#### AVIF
-
-This format is not supported by this framework yet. Feel free to [open up an issue](https://github.com/storybookjs/storybook/issues) if this is something you want to see.
-
 ### Next.js Font Optimization
 
-[@next/font](https://nextjs.org/docs/basic-features/font-optimization) is partially supported in Storybook. The packages `@next/font/google` and `@next/font/local` are supported.
+[next/font](https://nextjs.org/docs/basic-features/font-optimization) is partially supported in Storybook. The packages `next/font/google` and `next/font/local` are supported.
 
-#### @next/font/google
+#### next/font/google
 
-You don't have to do anything. `@next/font/google` is supported out of the box.
+You don't have to do anything. `next/font/google` is supported out of the box.
 
-#### @next/font/local
+#### next/font/local
 
 For local fonts you have to define the [src](https://nextjs.org/docs/api-reference/next/font#src) property.
 The path is relative to the directory where the font loader function is called.
@@ -235,7 +241,7 @@ If the following component defines your localFont like this:
 
 ```js
 // src/components/MyComponent.js
-import localFont from '@next/font/local';
+import localFont from 'next/font/local';
 
 const localRubikStorm = localFont({ src: './fonts/RubikStorm-Regular.ttf' });
 ```
@@ -255,7 +261,7 @@ export default {
 }
 ```
 
-#### Not supported features of @next/font
+#### Not supported features of next/font
 
 The following features are not supported (yet). Support for these features might be planned for the future:
 
@@ -265,6 +271,51 @@ The following features are not supported (yet). Support for these features might
 - [declarations](https://nextjs.org/docs/api-reference/next/font#declarations) option
 - [preload](https://nextjs.org/docs/api-reference/next/font#preload) option gets ignored. Storybook handles Font loading its own way.
 - [display](https://nextjs.org/docs/api-reference/next/font#display) option gets ignored. All fonts are loaded with display set to "block" to make Storybook load the font properly.
+
+#### Mocking fonts during testing
+
+Occasionally fetching fonts from Google may fail as part of your Storybook build step. It is highly recommended to mock these requests, as those failures can cause your pipeline to fail as well. Next.js [supports mocking fonts](https://github.com/vercel/next.js/blob/725ddc7371f80cca273779d37f961c3e20356f95/packages/font/src/google/fetch-css-from-google-fonts.ts#L36) via a JavaScript module located where the env var `NEXT_FONT_GOOGLE_MOCKED_RESPONSES` references.
+
+For example, using [GitHub Actions](https://www.chromatic.com/docs/github-actions):
+
+```shell
+      - uses: chromaui/action@v1
+        env:
+          #👇 the location of mocked fonts to use
+          NEXT_FONT_GOOGLE_MOCKED_RESPONSES: ${{ github.workspace }}/mocked-google-fonts.js
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Your mocked fonts will look something like this:
+
+```js
+// mocked-google-fonts.js
+//👇 Mocked responses of google fonts with the URL as the key
+module.exports = {
+  'https://fonts.googleapis.com/css?family=Inter:wght@400;500;600;800&display=block': `
+    /* cyrillic-ext */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZJhiJ-Ek-_EeAmM.woff2) format('woff2');
+      unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+    }
+    /* more font declarations go here */
+    /* latin */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }`,
+};
+```
 
 ### Next.js Routing
 
@@ -290,7 +341,7 @@ export const Example = {
   parameters: {
     nextjs: {
       router: {
-        path: '/profile/[id]',
+        pathname: '/profile/[id]',
         asPath: '/profile/1',
         query: {
           id: '1',
@@ -303,7 +354,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -311,7 +362,7 @@ Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/c
 export const parameters = {
   nextjs: {
     router: {
-      path: '/some-default-path',
+      pathname: '/some-default-path',
       asPath: '/some-default-path',
       query: {},
     },
@@ -438,7 +489,7 @@ export const Example = {
 },
 ```
 
-If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
+If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) file to apply it to all stories.
 
 ```js
 // .storybook/preview.js
@@ -483,7 +534,7 @@ export const Example = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering) and will be shallowly merged with the default router.
 
 ```js
 // .storybook/preview.js
@@ -498,9 +549,9 @@ export const parameters = {
 };
 ```
 
-#### `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook
+#### `useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hook
 
-The `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hooks are supported in Storybook. You have to set the `nextjs.navigation.segments` parameter to return the segments you want to use.
+The `useSelectedLayoutSegment` `useSelectedLayoutSegments` and `useParams` hooks are supported in Storybook. You have to set the `nextjs.navigation.segments` parameter to return the segments or the params you want to use.
 
 ```js
 // SomeComponentThatUsesTheNavigation.stories.js
@@ -521,11 +572,46 @@ export default {
 export const Example = {};
 
 // SomeComponentThatUsesTheNavigation.js
-import { useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation';
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
 
 export default function SomeComponentThatUsesTheNavigation() {
   const segment = useSelectedLayoutSegment(); // dashboard
   const segments = useSelectedLayoutSegments(); // ["dashboard", "analytics"]
+  const params = useParams(); // {}
+  ...
+}
+```
+
+To use `useParams`, you have to use a two string elements array for a segment, the first array element is the param key and the second array element is the param value.
+
+```js
+// SomeComponentThatUsesParams.stories.js
+import SomeComponentThatUsesParams from './SomeComponentThatUsesParams';
+
+export default {
+  component: SomeComponentThatUsesParams,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: [
+          ['slug', 'hello'],
+          ['framework', 'nextjs'],
+        ]
+      },
+    },
+  },
+};
+
+export const Example = {};
+
+// SomeComponentThatUsesParams.js
+import { useSelectedLayoutSegment, useSelectedLayoutSegments, useParams } from 'next/navigation';
+
+export default function SomeComponentThatUsesParams() {
+  const segment = useSelectedLayoutSegment(); // hello
+  const segments = useSelectedLayoutSegments(); // ["hello", "nextjs"]
+  const params = useParams(); // { slug: "hello", framework: "nextjs" }
   ...
 }
 ```
@@ -608,7 +694,7 @@ export const parameters = {
 
 ### Sass/Scss
 
-[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering)
+[Global sass/scss stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#sass-support) are supported without any additional configuration as well. Just import them into [preview.js](https://storybook.js.org/docs/react/configure/#configure-story-rendering)
 
 ```js
 import '../styles/globals.scss';
@@ -778,7 +864,7 @@ Next.js comes with a lot of things for free out of the box like sass support, bu
 
 Any webpack modifications desired for Storybook should be made in [.storybook/main.js](https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config).
 
-Note: Not all webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js`. It is recommended to do your reasearch on how to properly make your modifcation to Storybook's webpack config and on how [webpack works](https://webpack.js.org/concepts/).
+Note: Not all webpack modifications are copy/paste-able between `next.config.js` and `.storybook/main.js`. It is recommended to do your research on how to properly make your modification to Storybook's webpack config and on how [webpack works](https://webpack.js.org/concepts/).
 
 Below is an example of how to add svgr support to Storybook with this framework.
 
@@ -787,10 +873,15 @@ Below is an example of how to add svgr support to Storybook with this framework.
 export default {
   // ...
   webpackFinal: async (config) => {
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+
     // This modifies the existing image rule to exclude .svg files
     // since you want to handle those files with @svgr/webpack
-    const imageRule = config.module.rules.find((rule) => rule.test.test('.svg'));
-    imageRule.exclude = /\.svg$/;
+    const imageRule = config.module.rules.find((rule) => rule?.['test']?.test('.svg'));
+    if (imageRule) {
+      imageRule['exclude'] = /\.svg$/;
+    }
 
     // Configure .svg files to be loaded with @svgr/webpack
     config.module.rules.push({
@@ -925,9 +1016,13 @@ Therefore, if something in storybook isn't showing the image properly, make sure
 
 See [local images](https://nextjs.org/docs/basic-features/image-optimization#local-images) for more detail on how Next.js treats static image imports.
 
-#### Module not found: Error: Can't resolve [package name]
+#### Module not found: Error: Can't resolve `package name`
 
 You might get this if you're using Yarn v2 or v3. See [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users) for more details.
+
+#### What if I'm using the Vite builder?
+
+The `@storybook/nextjs` package abstracts the Webpack 5 builder and provides all the necessary Webpack configuration needed (and used internally) by Next.js. Webpack is currently the official builder in Next.js, and Next.js does not support Vite, therefore it is not possible to use Vite with `@storybook/nextjs`. You can use `@storybook/react-vite` framework instead, but at the cost of having a degraded experience, and we won't be able to provide you official support.
 
 ## Acknowledgements
 

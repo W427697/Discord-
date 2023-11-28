@@ -1,6 +1,4 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node
-
-import fs from 'fs-extra';
+import * as fs from 'fs-extra';
 import path, { dirname, join, relative } from 'path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
@@ -16,6 +14,7 @@ type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
   entries: string[];
   externals: string[];
+  noExternal: string[];
   platform: Options['platform'];
   pre: string;
   post: string;
@@ -36,6 +35,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     bundler: {
       entries = [],
       externals: extraExternals = [],
+      noExternal: extraNoExternal = [],
       platform,
       pre,
       post,
@@ -64,6 +64,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
+
   const allEntries = entries.map((e: string) => slash(join(cwd, e)));
 
   const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
@@ -72,16 +73,28 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     optimized,
   });
 
+  /* preset files are always CJS only.
+   * Generating an ESM file for them anyway is problematic because they often have a reference to `require`.
+   * TSUP generated code will then have a `require` polyfill/guard in the ESM files, which causes issues for webpack.
+   */
+  const nonPresetEntries = allEntries.filter((f) => !path.parse(f).name.includes('preset'));
+
+  const noExternal = [/^@vitest\/.+$/, ...extraNoExternal];
+
   if (formats.includes('esm')) {
     tasks.push(
       build({
+        noExternal,
         silent: true,
-        entry: allEntries,
+        treeshake: true,
+        entry: nonPresetEntries,
+        shims: false,
         watch,
         outDir,
+        sourcemap: false,
         format: ['esm'],
-        target: 'chrome100',
-        clean: !watch,
+        target: ['chrome100', 'safari15', 'firefox91'],
+        clean: false,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
         esbuildPlugins: [
@@ -106,15 +119,17 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('cjs')) {
     tasks.push(
       build({
+        noExternal,
         silent: true,
         entry: allEntries,
         watch,
         outDir,
+        sourcemap: false,
         format: ['cjs'],
         target: 'node16',
         ...(dtsBuild === 'cjs' ? dtsConfig : {}),
         platform: 'node',
-        clean: !watch,
+        clean: false,
         external: externals,
 
         esbuildOptions: (c) => {
@@ -141,7 +156,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     );
   }
 
-  console.log('done');
+  if (process.env.CI !== 'true') {
+    console.log('done');
+  }
 };
 
 /* UTILS */
@@ -186,7 +203,6 @@ async function generateDTSMapperFile(file: string) {
 
   const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
   const srcName = join(process.cwd(), file);
-
   const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
 
   await fs.ensureFile(pathName);
@@ -195,7 +211,8 @@ async function generateDTSMapperFile(file: string) {
     dedent`
       // dev-mode
       export * from '${rel}/${entryName}';
-    `
+    `,
+    { encoding: 'utf-8' }
   );
 }
 

@@ -1,18 +1,18 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.0-beta.39",
+  "version": "7.6.0-beta.2",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core-common",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/lib/core-common",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/core-common"
+    "directory": "code/lib/core-common"
   },
   "funding": {
     "type": "opencollective",
@@ -21,10 +21,10 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -36,44 +36,46 @@
     "templates/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
-    "@storybook/csf-tools": "7.0.0-beta.39",
-    "@storybook/node-logger": "7.0.0-beta.39",
-    "@storybook/types": "7.0.0-beta.39",
-    "@types/babel__core": "^7.1.20",
-    "@types/express": "^4.7.0",
-    "@types/node": "^16.0.0",
+    "@storybook/core-events": "workspace:*",
+    "@storybook/node-logger": "workspace:*",
+    "@storybook/types": "workspace:*",
+    "@types/find-cache-dir": "^3.2.1",
+    "@types/node": "^18.0.0",
+    "@types/node-fetch": "^2.6.4",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
-    "esbuild": "^0.16.4",
-    "esbuild-register": "^3.3.3",
-    "express": "^4.17.3",
-    "file-system-cache": "^2.0.0",
+    "esbuild": "^0.18.0",
+    "esbuild-register": "^3.5.0",
+    "file-system-cache": "2.3.0",
+    "find-cache-dir": "^3.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
-    "glob-promise": "^4.2.0",
+    "glob": "^10.0.0",
     "handlebars": "^4.7.7",
     "lazy-universal-dotenv": "^4.0.0",
+    "node-fetch": "^2.0.0",
     "picomatch": "^2.3.0",
     "pkg-dir": "^5.0.0",
     "pretty-hrtime": "^1.0.3",
     "resolve-from": "^5.0.0",
-    "slash": "^3.0.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
     "@types/mock-fs": "^4.13.1",
     "@types/picomatch": "^2.3.0",
     "mock-fs": "^5.2.0",
-    "type-fest": "^2.19.0",
-    "typescript": "~4.9.3"
+    "slash": "^5.0.0",
+    "type-fest": "~2.19",
+    "typescript": "^5.3.2"
   },
   "publishConfig": {
     "access": "public"
@@ -84,5 +86,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "96d484511811e3154ff18c55814a1f4688946335"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

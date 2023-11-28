@@ -1,9 +1,10 @@
-import type { FC, SyntheticEvent } from 'react';
+import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
-import { Code, components } from '@storybook/components';
+import { Code, components, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
+import { LinkIcon } from '@storybook/icons';
 import { Source } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
@@ -19,7 +20,7 @@ export const assertIsFn = (val: any) => {
 };
 
 // Hacky utility for adding mdxStoryToId to the default context
-export const AddContext: FC<DocsContextProps> = (props) => {
+export const AddContext: FC<PropsWithChildren<DocsContextProps>> = (props) => {
   const { children, ...rest } = props;
   const parentContext = React.useContext(DocsContext);
   return (
@@ -31,7 +32,11 @@ interface CodeOrSourceMdxProps {
   className?: string;
 }
 
-export const CodeOrSourceMdx: FC<CodeOrSourceMdxProps> = ({ className, children, ...rest }) => {
+export const CodeOrSourceMdx: FC<PropsWithChildren<CodeOrSourceMdxProps>> = ({
+  className,
+  children,
+  ...rest
+}) => {
   // markdown-to-jsx does not add className to inline code
   if (
     typeof className !== 'string' &&
@@ -61,7 +66,7 @@ interface AnchorInPageProps {
   hash: string;
 }
 
-const AnchorInPage: FC<AnchorInPageProps> = ({ hash, children }) => {
+const AnchorInPage: FC<PropsWithChildren<AnchorInPageProps>> = ({ hash, children }) => {
   const context = useContext(DocsContext);
 
   return (
@@ -86,7 +91,7 @@ interface AnchorMdxProps {
   target: string;
 }
 
-export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
+export const AnchorMdx: FC<PropsWithChildren<AnchorMdxProps>> = (props) => {
   const { href, target, children, ...rest } = props;
   const context = useContext(DocsContext);
 
@@ -101,11 +106,22 @@ export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
       return (
         <A
           href={href}
-          onClick={(event: SyntheticEvent) => {
-            event.preventDefault();
-            // use the A element's href, which has been modified for
-            // local paths without a `?path=` query param prefix
-            navigate(context, event.currentTarget.getAttribute('href'));
+          onClick={(event: MouseEvent<HTMLAnchorElement>) => {
+            // Cmd/Ctrl/Shift/Alt + Click should trigger default browser behaviour. Same applies to non-left clicks
+            const LEFT_BUTTON = 0;
+            const isLeftClick =
+              event.button === LEFT_BUTTON &&
+              !event.altKey &&
+              !event.ctrlKey &&
+              !event.metaKey &&
+              !event.shiftKey;
+
+            if (isLeftClick) {
+              event.preventDefault();
+              // use the A element's href, which has been modified for
+              // local paths without a `?path=` query param prefix
+              navigate(context, event.currentTarget.getAttribute('href'));
+            }
           }}
           target={target}
           {...rest}
@@ -120,14 +136,15 @@ export const AnchorMdx: FC<AnchorMdxProps> = (props) => {
   return <A {...props} />;
 };
 
-const SUPPORTED_MDX_HEADERS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+const SUPPORTED_MDX_HEADERS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
 
 const OcticonHeaders = SUPPORTED_MDX_HEADERS.reduce(
   (acc, headerType) => ({
     ...acc,
-    // @ts-expect-error (Converted from ts-ignore)
-    [headerType]: styled(components[headerType])({
+    [headerType]: styled(headerType)({
       '& svg': {
+        position: 'relative',
+        top: '-0.1em',
         visibility: 'hidden',
       },
       '&:hover svg': {
@@ -140,8 +157,9 @@ const OcticonHeaders = SUPPORTED_MDX_HEADERS.reduce(
 
 const OcticonAnchor = styled.a(() => ({
   float: 'left',
-  paddingRight: '4px',
-  marginLeft: '-20px',
+  lineHeight: 'inherit',
+  paddingRight: '10px',
+  marginLeft: '-24px',
   // Allow the theme's text color to override the default link color.
   color: 'inherit',
 }));
@@ -149,10 +167,9 @@ const OcticonAnchor = styled.a(() => ({
 interface HeaderWithOcticonAnchorProps {
   as: string;
   id: string;
-  children: any;
 }
 
-const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
+const HeaderWithOcticonAnchor: FC<PropsWithChildren<HeaderWithOcticonAnchorProps>> = ({
   as,
   id,
   children,
@@ -178,19 +195,7 @@ const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
           }
         }}
       >
-        <svg
-          viewBox="0 0 16 16"
-          version="1.1"
-          width="16"
-          height="16"
-          aria-hidden="true"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
-          />
-        </svg>
+        <LinkIcon />
       </OcticonAnchor>
       {children}
     </OcticonHeader>
@@ -202,7 +207,7 @@ interface HeaderMdxProps {
   id: string;
 }
 
-export const HeaderMdx: FC<HeaderMdxProps> = (props) => {
+export const HeaderMdx: FC<PropsWithChildren<HeaderMdxProps>> = (props) => {
   const { as, id, children, ...rest } = props;
 
   // An id should have been added on every header by the "remark-slug" plugin.
@@ -213,12 +218,10 @@ export const HeaderMdx: FC<HeaderMdxProps> = (props) => {
       </HeaderWithOcticonAnchor>
     );
   }
-
-  // @ts-expect-error (Converted from ts-ignore)
-  const Header = components[as];
-
   // Make sure it still work if "remark-slug" plugin is not present.
-  return <Header {...props} />;
+  const Component = as as React.ElementType;
+  const { as: omittedAs, ...withoutAs } = props;
+  return <Component {...nameSpaceClassNames(withoutAs, as)} />;
 };
 
 export const HeadersMdx = SUPPORTED_MDX_HEADERS.reduce(

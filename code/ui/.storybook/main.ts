@@ -6,18 +6,18 @@ import type { StorybookConfig } from '../../frameworks/react-vite';
 const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
-  '../../lib/cli/rendererAssets/common/Introduction.stories.mdx',
   {
     directory: '../manager/src',
-    titlePrefix: '@storybook-manager',
+    files: '**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
+    titlePrefix: '@manager',
   },
   {
-    directory: '../components/src',
-    titlePrefix: '@storybook-components',
+    directory: '../components/src/components',
+    titlePrefix: '@components',
   },
   {
     directory: '../blocks/src',
-    titlePrefix: '@storybook-blocks',
+    titlePrefix: '@blocks',
   },
 ];
 
@@ -40,8 +40,8 @@ const allStories = [
  * src/components/ColorPalette.tsx - IGNORED, not story
  */
 const blocksOnlyStories = [
-  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
-  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))',
+  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))',
 ];
 
 const config: StorybookConfig = {
@@ -51,16 +51,20 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
+    '@storybook/addon-designs',
+    '@chromaui/addon-visual-tests',
   ],
+  build: {
+    test: {
+      disableBlocks: false,
+    },
+  },
   framework: {
     name: '@storybook/react-vite',
     options: {},
   },
   core: {
     disableTelemetry: true,
-  },
-  features: {
-    interactionsDebugger: true,
   },
   viteFinal: (viteConfig, { configType }) =>
     mergeConfig(viteConfig, {
@@ -72,7 +76,9 @@ const config: StorybookConfig = {
         },
       },
       plugins: [
-        configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
+        configType === 'PRODUCTION'
+          ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
+          : [],
       ],
       optimizeDeps: { force: true },
       build: {

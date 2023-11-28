@@ -2,7 +2,7 @@
 title: 'Preview and build docs'
 ---
 
-Storybook allows you to create rich and extensive [documentation](./introduction.md) that will help you and any other stakeholder involved in the development process. Out of the box you have the tooling required to not only write it but also to preview it and build it.
+Storybook allows you to create rich and extensive [documentation](./index.md) that will help you and any other stakeholder involved in the development process. Out of the box you have the tooling required to not only write it but also to preview it and build it.
 
 ## Preview Storybook's documentation
 
@@ -11,18 +11,14 @@ At any point during your development, you can preview the documentation you've w
 ```json
 {
   "scripts": {
-    "storybook-docs": "storybook dev --docs --no-manager-cache"
+    "storybook-docs": "storybook dev --docs"
   }
 }
 ```
 
-<div class="aside">
-💡 The <code>--no-manager-cache</code> flag is required to generate a successful preview of the documentation. But it comes with a cost as you're disabling Storybook's internal caching mechanism which can lead to increased loading times.
-</div>
-
 Depending on your configuration, when you execute the `storybook-docs` script. Storybook will be put into documentation mode and will generate a different build.
 
-It will look for any stories available either in [MDX](./mdx.md) or [CSF](../writing-stories/introduction.md#component-story-format) and based on the documentation you've added it will display it...
+It will look for any stories available either in [MDX](./mdx.md) or [CSF](../writing-stories/index.md#component-story-format) and based on the documentation you've added it will display it...
 
 ![Storybook in documentation mode](./storybook-docs-build.png)
 
@@ -56,6 +52,7 @@ You can use any hosting provider to deploy your documentation, for instance:
 
 #### Learn more about Storybook documentation
 
-- [Docs](./docs-page.md) for creating documentation for your stories
+- [Autodocs](./autodocs.md) for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation
+- [Doc Blocks](./doc-blocks.md) for authoring your documentation
 - Publishing docs to automate the process of publishing your documentation
