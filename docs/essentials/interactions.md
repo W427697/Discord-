@@ -32,7 +32,7 @@ Run the following command to install the interactions addon and related dependen
 
 <!-- prettier-ignore-end -->
 
-Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
+Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
@@ -47,12 +47,7 @@ Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-
 
 <Callout variant="info" icon="💡">
 
-<<<<<<< HEAD
-💡 Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon.
-=======
-Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./introduction.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
-
-> > > > > > > next
+Make sure to list `@storybook/addon-interactions` **after** the [`@storybook/addon-essentials`](./index.md) addon (or the [`@storybook/addon-actions`](./actions.md) if you've installed it individually).
 
 </Callout>
 

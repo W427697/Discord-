@@ -1,5 +1,6 @@
 ---
 title: 'How to document components'
+hideRendererSelector: true
 ---
 
 When you write component stories during development, you also create basic documentation to revisit later.
