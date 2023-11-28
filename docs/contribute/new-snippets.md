@@ -85,9 +85,11 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
 <!-- prettier-ignore-end -->
 ```
 
-<div class="aside">
-💡 Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding JavaScript files use <code>.js.mdx</code> .
-</div>
+<Callout variant="info" icon="💡">
+
+Code snippets are divided into various file extensions, if you're contributing a TypeScript file use `.ts.mdx`, or if you're adding JavaScript files use `.js.mdx`.
+
+</Callout>
 
 Go through the rest of the documentation and repeat the process.
 
@@ -113,9 +115,11 @@ Next, make sure that you have running the `Synchronize documentation (sync-docs)
 yarn start:docs-only
 ```
 
-<div class="aside">
-💡 During the start process if there's an issue with the documentation, the process will stop and you'll get a notification.
-</div>
+<Callout variant="info" icon="💡">
+
+During the start process if there's an issue with the documentation, the process will stop and you'll get a notification.
+
+</Callout>
 
 Open a browser window to `http://localhost:8000`, click the Docs link, and select your framework from the dropdown.
 
@@ -126,3 +130,11 @@ Go through the documentation and check your work.
 ## Submit your contribution
 
 Finally, commit, push and open a pull request in the Storybook monorepo. Add a clear description of the work you've done, and one of the maintainers will guide you through the merge process.
+
+## Learn more about contributing to Storybook
+
+- [RFC process](./RFC.md) for authoring feature requests
+- [Code](./code.md) for features and bug fixes
+- [Frameworks](./framework.md) to get started with a new framework
+- [Documentation](./documentation-updates.md) for documentation improvements, typos, and clarifications
+- [Examples](./new-snippets.md) for new snippets and examples

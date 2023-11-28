@@ -1,5 +1,4 @@
 import { join } from 'path';
-import semver from 'semver';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
@@ -13,18 +12,6 @@ const generator: Generator<{ projectName: string }> = async (
   options,
   commandOptions
 ) => {
-  const angularVersionFromDependencies = semver.coerce(
-    (await packageManager.retrievePackageJson()).dependencies['@angular/core']
-  )?.version;
-
-  const angularVersionFromDevDependencies = semver.coerce(
-    (await packageManager.retrievePackageJson()).devDependencies['@angular/core']
-  )?.version;
-
-  const angularVersion = angularVersionFromDependencies || angularVersionFromDevDependencies;
-  const isWebpack5 = semver.gte(angularVersion, '12.0.0');
-  const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
-
   const angularJSON = new AngularJSON();
 
   if (
@@ -70,7 +57,8 @@ const generator: Generator<{ projectName: string }> = async (
     packageManager,
     npmOptions,
     {
-      ...updatedOptions,
+      ...options,
+      builder: CoreBuilder.Webpack5,
       ...(useCompodoc && {
         frameworkPreviewParts: {
           prefix: compoDocPreviewPrefix,
@@ -79,7 +67,7 @@ const generator: Generator<{ projectName: string }> = async (
     },
     'angular',
     {
-      ...(useCompodoc && { extraPackages: ['@compodoc/compodoc'] }),
+      ...(useCompodoc && { extraPackages: ['@compodoc/compodoc', '@storybook/addon-docs'] }),
       addScripts: false,
       componentsDestinationPath: root ? `${root}/src/stories` : undefined,
       storybookConfigFolder: storybookFolder,

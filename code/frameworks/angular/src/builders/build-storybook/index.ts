@@ -21,6 +21,7 @@ import { addToGlobalContext } from '@storybook/telemetry';
 import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import {
   AssetPattern,
+  SourceMapUnion,
   StyleElement,
 } from '@angular-devkit/build-angular/src/builders/browser/schema';
 import { StandaloneOptions } from '../utils/standalone-options';
@@ -32,16 +33,26 @@ addToGlobalContext('cliVersion', versions.storybook);
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
+  test: boolean;
   docs: boolean;
   compodoc: boolean;
   compodocArgs: string[];
+  enableProdMode?: boolean;
   styles?: StyleElement[];
   stylePreprocessorOptions?: StylePreprocessorOptions;
   assets?: AssetPattern[];
+  sourceMap?: SourceMapUnion;
 } & Pick<
     // makes sure the option exists
     CLIOptions,
-    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
+    | 'outputDir'
+    | 'configDir'
+    | 'loglevel'
+    | 'quiet'
+    | 'webpackStatsJson'
+    | 'disableTelemetry'
+    | 'debugWebpack'
+    | 'previewUrl'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & { [key: string]: any };
@@ -78,9 +89,13 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode = true,
         webpackStatsJson,
+        debugWebpack,
         disableTelemetry,
         assets,
+        previewUrl,
+        sourceMap = false,
       } = options;
 
       const standaloneOptions: StandaloneBuildOptions = {
@@ -90,6 +105,7 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
         loglevel,
         outputDir,
         quiet,
+        enableProdMode,
         disableTelemetry,
         angularBrowserTarget: browserTarget,
         angularBuilderContext: context,
@@ -97,9 +113,12 @@ const commandBuilder: BuilderHandlerFn<StorybookBuilderOptions> = (
           ...(stylePreprocessorOptions ? { stylePreprocessorOptions } : {}),
           ...(styles ? { styles } : {}),
           ...(assets ? { assets } : {}),
+          sourceMap,
         },
         tsConfig,
         webpackStatsJson,
+        debugWebpack,
+        previewUrl,
       };
 
       return standaloneOptions;

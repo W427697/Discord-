@@ -4,17 +4,17 @@ title: 'Component Story Format (CSF)'
 
 <YouTubeCallout id="uH9_dfc-6Kc" title="Test components the EASY way | Component Story Format 3" />
 
-Component Story Format (CSF) is the recommended way to [write stories](../writing-stories/introduction.md). It's an [open standard](https://github.com/ComponentDriven/csf) based on ES6 modules that is portable beyond Storybook.
+Component Story Format (CSF) is the recommended way to [write stories](../writing-stories/index.md). It's an [open standard](https://github.com/ComponentDriven/csf) based on ES6 modules that is portable beyond Storybook.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](../../lib/preview-api/docs/storiesOf.md).
+If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md).
 
-</div>
+</Callout>
 
 In CSF, stories and component metadata are defined as ES Modules. Every component story file consists of a required [default export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Using_the_default_export) and one or more [named exports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export).
 
-CSF is supported in all frameworks except React Native, where you should use the [storiesOf API](../../lib/preview-api/docs/storiesOf.md) instead.
+CSF is supported in all frameworks except React Native, where you should use the [storiesOf API](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md) instead.
 
 ## Default export
 
@@ -36,7 +36,7 @@ The `component` field is required and used by addons for automatic prop table ge
 
 <!-- prettier-ignore-end -->
 
-For more examples, see [writing stories](../writing-stories/introduction.md).
+For more examples, see [writing stories](../writing-stories/index.md).
 
 ## Named story exports
 
@@ -99,7 +99,7 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
 
 Starting in SB 6.0, stories accept named inputs called Args. Args are dynamic data that are provided (and possibly updated by) Storybook and its addons.
 
-Consider Storybook’s ["Button" example](../writing-stories/introduction.md#defining-stories) of a text button that logs its click events:
+Consider Storybook’s ["Button" example](../writing-stories/index.md#defining-stories) of a text button that logs its click events:
 
 <!-- prettier-ignore-start -->
 
@@ -173,7 +173,7 @@ Or even more simply:
 
 Not only are these versions shorter and more accessible to write than their no-args counterparts, but they are also more portable since the code doesn't depend on the actions addon specifically.
 
-For more information on setting up [Docs](../writing-docs/introduction.md) and [Actions](../essentials/actions.md), see their respective documentation.
+For more information on setting up [Docs](../writing-docs/index.md) and [Actions](../essentials/actions.md), see their respective documentation.
 
 ## Play function
 
@@ -468,4 +468,4 @@ Finally, CSF 3 can automatically generate titles.
 
 <!-- prettier-ignore-end -->
 
-You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/overview#configure-story-loading).
+You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/index.md#configure-story-loading).
