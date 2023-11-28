@@ -34,6 +34,18 @@ module.exports = {
         allowIndexSignaturePropertyAccess: true,
       },
     ],
+    '@typescript-eslint/no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'vite',
+            message: 'Please dynamically import from vite instead, to force the use of ESM',
+            allowTypeImports: true,
+          },
+        ],
+      },
+    ],
   },
   overrides: [
     {
