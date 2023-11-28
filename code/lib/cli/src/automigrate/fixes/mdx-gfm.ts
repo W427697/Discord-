@@ -33,7 +33,7 @@ export const mdxgfm: Fix<Options> = {
 
       let pattern;
 
-      if (!configDir) {
+      if (typeof configDir === 'undefined') {
         return false;
       }
 

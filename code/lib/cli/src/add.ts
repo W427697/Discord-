@@ -82,7 +82,7 @@ export async function add(
   const packageJson = await packageManager.retrievePackageJson();
   const { mainConfig, configDir } = getStorybookInfo(packageJson);
 
-  if (!configDir) {
+  if (typeof configDir === 'undefined') {
     throw new Error(dedent`
       Unable to find storybook config directory
     `);

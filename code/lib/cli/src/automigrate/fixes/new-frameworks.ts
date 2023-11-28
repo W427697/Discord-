@@ -70,7 +70,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    if (!configDir) {
+    if (typeof configDir === 'undefined') {
       return null;
     }
 
@@ -226,8 +226,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     invariant(mainConfigPath, 'Missing main config path.');
-    invariant(metaFramework, 'Missing metaframework.');
-    invariant(builderConfig, 'Missing builder config.');
+
     return {
       mainConfigPath,
       dependenciesToAdd,
