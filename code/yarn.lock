@@ -7032,7 +7032,7 @@ __metadata:
     eslint-plugin-import: "npm:^2.26.0"
     eslint-plugin-local-rules: "portal:../scripts/eslint-plugin-local-rules"
     eslint-plugin-react: "npm:^7.31.10"
-    eslint-plugin-storybook: "npm:^0.6.6"
+    eslint-plugin-storybook: "npm:^0.6.15"
     fs-extra: "npm:^11.1.0"
     github-release-from-changelog: "npm:^2.1.1"
     glob: "npm:^10.0.0"
@@ -15458,9 +15458,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:^0.6.6":
-  version: 0.6.11
-  resolution: "eslint-plugin-storybook@npm:0.6.11"
+"eslint-plugin-storybook@npm:^0.6.15":
+  version: 0.6.15
+  resolution: "eslint-plugin-storybook@npm:0.6.15"
   dependencies:
     "@storybook/csf": "npm:^0.0.1"
     "@typescript-eslint/utils": "npm:^5.45.0"
@@ -15468,7 +15468,7 @@ __metadata:
     ts-dedent: "npm:^2.2.0"
   peerDependencies:
     eslint: ">=6"
-  checksum: dedc3323023e43c1e5081c798f0b9f8383d340578c430d111c31d83b72392533dde7885b898ca7cde92bcec2c4ad97e34dd2d241c4120fdd83447d915e3d400a
+  checksum: c61f5f2af72b614c30e8b36644672cfa25ca28e963e5e6cfab438f0cb287a6270f875a2dd8cd600a04c9864b9c549e269d95ea8da88c412e2b868fcd6a3605a4
   languageName: node
   linkType: hard
 
