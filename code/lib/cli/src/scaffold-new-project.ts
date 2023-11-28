@@ -32,7 +32,7 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
     createScript: {
       npm: 'npm create vite@latest --yes . -- --template react-ts',
       yarn: 'yarn create vite@latest --yes . --template react-ts',
-      pnpm: 'pnpm create vite@latest --yes . --template react-ts && pnpm i --prefer-offline',
+      pnpm: 'pnpm create vite@latest --yes . --template react-ts && pnpm i',
     },
   },
   'nextjs-ts': {
@@ -43,7 +43,7 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
     createScript: {
       npm: 'npm create next-app . -- --typescript --use-npm --eslint --tailwind --no-app --import-alias="@/*" --src-dir',
       yarn: 'yarn create next-app . --typescript --use-yarn --eslint --tailwind --no-app --import-alias="@/*" --src-dir',
-      pnpm: 'pnpm create next-app . --typescript --use-pnpm --eslint --tailwind --no-app --import-alias="@/*" --src-dir && pnpm i --prefer-offline',
+      pnpm: 'pnpm create next-app . --typescript --use-pnpm --eslint --tailwind --no-app --import-alias="@/*" --src-dir && pnpm i',
     },
   },
   'vue-vite-ts': {
@@ -55,7 +55,7 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
     createScript: {
       npm: 'npm create vite@latest --yes . -- --template vue-ts',
       yarn: 'yarn create vite@latest --yes . --template vue-ts',
-      pnpm: 'pnpm create vite@latest --yes . --template vue-ts && pnpm i --prefer-offline',
+      pnpm: 'pnpm create vite@latest --yes . --template vue-ts && pnpm i',
     },
   },
   'angular-cli': {
@@ -66,7 +66,7 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
     createScript: {
       npm: 'npx -p @angular/cli@latest ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install',
       yarn: 'yarn dlx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=yarn --skip-install && touch yarn.lock && yarn set version berry && yarn config set nodeLinker node-modules',
-      pnpm: 'pnpm --package @angular/cli dlx ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=pnpm --skip-install && pnpm i --prefer-offline',
+      pnpm: 'pnpm --package @angular/cli dlx ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=pnpm --skip-install && pnpm i',
     },
   },
   'lit-vite-ts': {
@@ -78,7 +78,7 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
     createScript: {
       npm: 'npm create vite@latest --yes . -- --template lit-ts',
       yarn: 'yarn create vite . --yes --template lit-ts && touch yarn.lock && yarn set version berry && yarn config set nodeLinker pnp',
-      pnpm: 'pnpm create vite@latest . --yes --template lit-ts && cd . && pnpm i --prefer-offline',
+      pnpm: 'pnpm create vite@latest . --yes --template lit-ts && cd . && pnpm i',
     },
   },
 };
