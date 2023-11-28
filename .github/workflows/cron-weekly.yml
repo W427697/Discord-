@@ -21,4 +21,4 @@ jobs:
       - name: Send Discord Notification
         if: failure() # Only run this step if previous steps failed
         run: |
-          curl -H "Content-Type: application/json" -X POST -d '{"content":"The Markdown Links Check workflow has failed in the repository: [storybook]"}' [webhook-url]
+          curl -H "Content-Type: application/json" -X POST -d '{"content":"The Markdown Links Check workflow has failed in the repository: [storybook]"}' ${{ secrets.DISCORD_MONITORING_URL }}
