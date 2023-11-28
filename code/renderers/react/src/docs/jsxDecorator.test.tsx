@@ -111,7 +111,7 @@ describe('renderJsx', () => {
   });
 
   it('forwardRef component', () => {
-    const MyExoticComponent = React.forwardRef<PropsWithChildren<{}>>(function MyExoticComponent(
+    const MyExoticComponent = React.forwardRef<FC, PropsWithChildren>(function MyExoticComponent(
       props,
       _ref
     ) {
@@ -127,7 +127,7 @@ describe('renderJsx', () => {
   });
 
   it('memo component', () => {
-    const MyMemoComponent: FC = React.memo(function MyMemoComponent(props) {
+    const MyMemoComponent: FC<PropsWithChildren> = React.memo(function MyMemoComponent(props) {
       return <div>{props.children}</div>;
     });
 
@@ -183,6 +183,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: object): 
   kind: 'js-text',
   name,
   parameters,
+  unmappedArgs: args,
   args,
   ...extra,
 });
@@ -203,11 +204,11 @@ describe('jsxDecorator', () => {
     const context = makeContext('args', { __isArgsStory: true }, {});
     jsxDecorator(storyFn, context);
     await new Promise((r) => setTimeout(r, 0));
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'jsx-test--args',
-      '<div>\n  args story\n</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'jsx-test--args',
+      args: {},
+      source: '<div>\n  args story\n</div>',
+    });
   });
 
   it('should not render decorators when provided excludeDecorators parameter', async () => {
@@ -231,11 +232,11 @@ describe('jsxDecorator', () => {
     jsxDecorator(decoratedStoryFn, context);
     await new Promise((r) => setTimeout(r, 0));
 
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'jsx-test--args',
-      '<div>\n  args story\n</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'jsx-test--args',
+      args: {},
+      source: '<div>\n  args story\n</div>',
+    });
   });
 
   it('should skip dynamic rendering for no-args stories', async () => {
@@ -245,30 +246,6 @@ describe('jsxDecorator', () => {
     await new Promise((r) => setTimeout(r, 0));
 
     expect(mockChannel.emit).not.toHaveBeenCalled();
-  });
-
-  it('allows the snippet output to be modified by transformSource', async () => {
-    const storyFn = (args: any) => <div>args story</div>;
-    const transformSource = (dom: string) => `<p>${dom}</p>`;
-    const jsx = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, jsx }, {});
-    jsxDecorator(storyFn, context);
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'jsx-test--args',
-      '<p><div>\n  args story\n</div></p>'
-    );
-  });
-
-  it('provides the story context to transformSource', () => {
-    const storyFn = (args: any) => <div>args story</div>;
-    const transformSource = jest.fn();
-    const jsx = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, jsx }, {});
-    jsxDecorator(storyFn, context);
-    expect(transformSource).toHaveBeenCalledWith('<div>\n  args story\n</div>', context);
   });
 
   it('renders MDX properly', async () => {
@@ -286,11 +263,11 @@ describe('jsxDecorator', () => {
     jsxDecorator(() => mdxElement, makeContext('mdx-args', { __isArgsStory: true }, {}));
     await new Promise((r) => setTimeout(r, 0));
 
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'jsx-test--mdx-args',
-      '<div className="foo" />'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'jsx-test--mdx-args',
+      args: {},
+      source: '<div className="foo" />',
+    });
   });
 
   it('handles stories that trigger Suspense', async () => {
@@ -314,12 +291,15 @@ describe('jsxDecorator', () => {
     await new Promise((r) => setTimeout(r, 0));
 
     expect(mockChannel.emit).toHaveBeenCalledTimes(2);
-    expect(mockChannel.emit).nthCalledWith(1, SNIPPET_RENDERED, 'jsx-test--args', '');
-    expect(mockChannel.emit).nthCalledWith(
-      2,
-      SNIPPET_RENDERED,
-      'jsx-test--args',
-      '<div>\n  resolved args story\n</div>'
-    );
+    expect(mockChannel.emit).nthCalledWith(1, SNIPPET_RENDERED, {
+      id: 'jsx-test--args',
+      args: {},
+      source: '',
+    });
+    expect(mockChannel.emit).nthCalledWith(2, SNIPPET_RENDERED, {
+      id: 'jsx-test--args',
+      args: {},
+      source: '<div>\n  resolved args story\n</div>',
+    });
   });
 });

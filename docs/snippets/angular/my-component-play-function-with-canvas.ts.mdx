@@ -3,16 +3,11 @@
 
 import type { Meta, StoryObj } from '@storybook/angular';
 
-import { getByRole, userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent.component';
 
 const meta: Meta<MyComponent> = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'WithCanvasElement',
   component: MyComponent,
 };
 

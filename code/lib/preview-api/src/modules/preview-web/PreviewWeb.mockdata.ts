@@ -18,18 +18,22 @@ export const componentOneExports = {
     title: 'Component One',
     argTypes: {
       foo: { type: { name: 'string' } },
+      one: { name: 'one', type: { name: 'string' }, mapping: { 1: 'mapped-1' } },
     },
     loaders: [jest.fn()],
     parameters: {
       docs: { page: jest.fn(), container: jest.fn() },
     },
   },
-  a: { args: { foo: 'a' }, play: jest.fn() },
-  b: { args: { foo: 'b' }, play: jest.fn() },
+  a: { args: { foo: 'a', one: 1 }, play: jest.fn() },
+  b: { args: { foo: 'b', one: 1 }, play: jest.fn() },
 };
 export const componentTwoExports = {
   default: { title: 'Component Two' },
   c: { args: { foo: 'c' } },
+};
+export const attachedDocsExports = {
+  default: jest.fn(),
 };
 export const unattachedDocsExports = {
   default: jest.fn(),
@@ -48,6 +52,7 @@ export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
   async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
+      './src/ComponentOne.mdx': attachedDocsExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
       './src/Introduction.mdx': unattachedDocsExports,
       './src/ExtraComponentOne.stories.js': extraComponentOneExports,
@@ -55,7 +60,7 @@ export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
 );
 
 export const docsRenderer = {
-  render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
+  render: jest.fn().mockImplementation((context, parameters, element) => Promise.resolve()),
   unmount: jest.fn(),
 };
 export const teardownrenderToCanvas: jest.Mock<TeardownRenderToCanvas> = jest.fn();
@@ -79,7 +84,16 @@ export const storyIndex: StoryIndex = {
       name: 'Docs',
       importPath: './src/ComponentOne.stories.js',
       storiesImports: ['./src/ExtraComponentOne.stories.js'],
-      tags: ['autodocs'],
+      tags: ['autodocs', 'docs'],
+    },
+    'component-one--attached-docs': {
+      type: 'docs',
+      id: 'component-one--attached-docs',
+      title: 'Component One',
+      name: 'Attached Docs',
+      importPath: './src/ComponentOne.mdx',
+      storiesImports: ['./src/ComponentOne.stories.js'],
+      tags: ['attached-mdx', 'docs'],
     },
     'component-one--a': {
       type: 'story',
@@ -109,7 +123,7 @@ export const storyIndex: StoryIndex = {
       name: 'Docs',
       importPath: './src/ComponentTwo.stories.js',
       storiesImports: [],
-      tags: ['autodocs'],
+      tags: ['autodocs', 'docs'],
     },
     'component-two--c': {
       type: 'story',
@@ -125,6 +139,7 @@ export const storyIndex: StoryIndex = {
       name: 'Docs',
       importPath: './src/Introduction.mdx',
       storiesImports: ['./src/ComponentTwo.stories.js'],
+      tags: ['unattached-mdx', 'docs'],
     },
   },
 };

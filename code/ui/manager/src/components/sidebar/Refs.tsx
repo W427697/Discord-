@@ -1,5 +1,6 @@
 import type { FC, MutableRefObject } from 'react';
-import React, { useMemo, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
+import type { State } from '@storybook/manager-api';
 import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -7,14 +8,15 @@ import { transparentize } from 'polished';
 import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
 
 import { RefIndicator } from './RefIndicator';
+
 // eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
-import { CollapseIcon } from './TreeNode';
-// eslint-disable-next-line import/no-cycle
+
 import { DEFAULT_REF_ID } from './Sidebar';
 import type { Highlight, RefType } from './types';
-// eslint-disable-next-line import/no-cycle
-import { getStateType } from './utils';
+
+import { getStateType } from '../../utils/tree';
+import { CollapseIcon } from './components/CollapseIcon';
 
 export interface RefProps {
   isLoading: boolean;
@@ -26,14 +28,12 @@ export interface RefProps {
 
 const Wrapper = styled.div<{ isMain: boolean }>(({ isMain }) => ({
   position: 'relative',
-  marginLeft: -20,
-  marginRight: -20,
   marginTop: isMain ? undefined : 0,
 }));
 
 const RefHead = styled.div(({ theme }) => ({
-  fontWeight: theme.typography.weight.black,
-  fontSize: theme.typography.size.s2 - 1,
+  fontWeight: theme.typography.weight.bold,
+  fontSize: theme.typography.size.s2,
 
   // Similar to ListItem.tsx
   textDecoration: 'none',
@@ -46,46 +46,28 @@ const RefHead = styled.div(({ theme }) => ({
   width: '100%',
   marginTop: 20,
   paddingTop: 16,
+  paddingBottom: 12,
   borderTop: `1px solid ${theme.appBorderColor}`,
 
   color:
     theme.base === 'light' ? theme.color.defaultText : transparentize(0.2, theme.color.defaultText),
 }));
 
-const RefTitle = styled.span(({ theme }) => ({
-  display: 'block',
+const RefTitle = styled.div({
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   flex: 1,
   overflow: 'hidden',
   marginLeft: 2,
-}));
+});
 
 const CollapseButton = styled.button(({ theme }) => ({
-  // Reset button
-  background: 'transparent',
-  border: '1px solid transparent',
-  borderRadius: 26,
-  outline: 'none',
-  boxSizing: 'content-box',
-  cursor: 'pointer',
-  position: 'relative',
-  textAlign: 'left',
-  lineHeight: 'normal',
-  font: 'inherit',
-  color: 'inherit',
-
+  all: 'unset',
   display: 'flex',
-  padding: 3,
-  paddingLeft: 1,
-  paddingRight: 12,
-  margin: 0,
-  marginLeft: -20,
-  overflow: 'hidden',
-
-  'span:first-of-type': {
-    marginTop: 5,
-  },
+  padding: '0px 8px',
+  gap: 6,
+  alignItems: 'center',
+  cursor: 'pointer',
 
   '&:focus': {
     borderColor: theme.color.secondary,
@@ -95,11 +77,13 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
+export const Ref: FC<RefType & RefProps & { status?: State['status'] }> = React.memo(function Ref(
+  props
+) {
   const { docsOptions } = useStorybookState();
   const api = useStorybookApi();
   const {
-    stories,
+    index,
     id: refId,
     title = refId,
     isLoading: isLoadingMain,
@@ -110,21 +94,29 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
     loginUrl,
     type,
     expanded = true,
-    ready,
-    error,
+    indexError,
+    previewInitialized,
   } = props;
-  const length = useMemo(() => (stories ? Object.keys(stories).length : 0), [stories]);
+  const length = useMemo(() => (index ? Object.keys(index).length : 0), [index]);
   const indicatorRef = useRef<HTMLElement>(null);
 
   const isMain = refId === DEFAULT_REF_ID;
-  const isLoadingInjected = type === 'auto-inject' && !ready;
+  const isLoadingInjected =
+    (type === 'auto-inject' && !previewInitialized) || type === 'server-checked';
   const isLoading = isLoadingMain || isLoadingInjected || type === 'unknown';
-  const isError = !!error;
+  const isError = !!indexError;
   const isEmpty = !isLoading && length === 0;
   const isAuthRequired = !!loginUrl && length === 0;
 
   const state = getStateType(isLoading, isAuthRequired, isError, isEmpty);
   const [isExpanded, setExpanded] = useState<boolean>(expanded);
+
+  useEffect(() => {
+    if (index && selectedStoryId && index[selectedStoryId]) {
+      setExpanded(true);
+    }
+  }, [setExpanded, index, selectedStoryId]);
+
   const handleClick = useCallback(() => setExpanded((value) => !value), [setExpanded]);
 
   const setHighlightedItemId = useCallback(
@@ -136,6 +128,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
     (storyId: string) => api && api.selectStory(storyId, undefined, { ref: !isMain && refId }),
     [api, isMain, refId]
   );
+
   return (
     <>
       {isMain || (
@@ -153,15 +146,16 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
       {isExpanded && (
         <Wrapper data-title={title} isMain={isMain}>
           {state === 'auth' && <AuthBlock id={refId} loginUrl={loginUrl} />}
-          {state === 'error' && <ErrorBlock error={error} />}
+          {state === 'error' && <ErrorBlock error={indexError} />}
           {state === 'loading' && <LoaderBlock isMain={isMain} />}
           {state === 'empty' && <EmptyBlock isMain={isMain} />}
           {state === 'ready' && (
             <Tree
+              status={props.status}
               isBrowsing={isBrowsing}
               isMain={isMain}
               refId={refId}
-              data={stories}
+              data={index}
               docsMode={docsOptions.docsMode}
               selectedStoryId={selectedStoryId}
               onSelectStoryId={onSelectStoryId}

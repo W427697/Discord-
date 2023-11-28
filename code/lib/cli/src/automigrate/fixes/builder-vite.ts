@@ -1,18 +1,16 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import type { ConfigFile } from '@storybook/csf-tools';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getStorybookInfo } from '@storybook/core-common';
+import { writeConfig } from '@storybook/csf-tools';
 
 import type { Fix } from '../types';
 import type { PackageJson } from '../../js-package-manager';
+import { updateMainConfig } from '../helpers/mainConfigFile';
 
 const logger = console;
 
 interface BuilderViteOptions {
   builder: any;
-  main: ConfigFile;
   packageJson: PackageJson;
 }
 
@@ -28,22 +26,16 @@ interface BuilderViteOptions {
 export const builderVite: Fix<BuilderViteOptions> = {
   id: 'builder-vite',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { mainConfig } = getStorybookInfo(packageJson);
-    if (!mainConfig) {
-      logger.warn('Unable to find storybook main.js config');
-      return null;
-    }
-    const main = await readConfig(mainConfig);
-    const builder = main.getFieldValue(['core', 'builder']);
+  async check({ packageManager, mainConfig }) {
+    const packageJson = await packageManager.retrievePackageJson();
+    const builder = mainConfig.core?.builder;
     const builderName = typeof builder === 'string' ? builder : builder?.name;
 
     if (builderName !== 'storybook-builder-vite') {
       return null;
     }
 
-    return { builder, main, packageJson };
+    return { builder, packageJson };
   },
 
   prompt({ builder }) {
@@ -64,31 +56,33 @@ export const builderVite: Fix<BuilderViteOptions> = {
     `;
   },
 
-  async run({ result: { builder, main, packageJson }, packageManager, dryRun }) {
+  async run({ result: { builder, packageJson }, packageManager, dryRun, mainConfigPath }) {
     const { dependencies = {}, devDependencies = {} } = packageJson;
 
-    logger.info(`Removing existing 'storybook-builder-vite' dependency`);
+    logger.info(`✅ Removing existing 'storybook-builder-vite' dependency`);
     if (!dryRun) {
       delete dependencies['storybook-builder-vite'];
       delete devDependencies['storybook-builder-vite'];
-      packageManager.writePackageJson(packageJson);
+      await packageManager.writePackageJson(packageJson);
     }
 
-    logger.info(`Adding '@storybook/builder-vite' as dev dependency`);
+    logger.info(`✅ Adding '@storybook/builder-vite' as dev dependency`);
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, [
+      await packageManager.addDependencies({ installAsDevDependencies: true }, [
         '@storybook/builder-vite',
       ]);
     }
 
-    logger.info(`Updating main.js to use vite builder`);
+    logger.info(`✅ Updating main.js to use vite builder`);
     if (!dryRun) {
-      const updatedBuilder =
-        typeof builder === 'string'
-          ? '@storybook/builder-vite'
-          : { name: '@storybook/builder-vite', options: builder.options };
-      main.setFieldValue(['core', 'builder'], updatedBuilder);
-      await writeConfig(main);
+      await updateMainConfig({ dryRun, mainConfigPath }, async (main) => {
+        const updatedBuilder =
+          typeof builder === 'string'
+            ? '@storybook/builder-vite'
+            : { name: '@storybook/builder-vite', options: builder.options };
+        main.setFieldValue(['core', 'builder'], updatedBuilder);
+        await writeConfig(main);
+      });
     }
   },
 };

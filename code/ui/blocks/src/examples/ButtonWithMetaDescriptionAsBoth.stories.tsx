@@ -8,12 +8,14 @@ import { Button } from './Button';
  * _this should never be shown in Storybook, as it should be overridden by `parameters.docs.description.component`_
  */
 const meta = {
-  title: 'Blocks/Description/Button',
+  title: 'Examples/Button with Meta Description as Parameter and Comment',
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },
   },
   parameters: {
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
     docs: {
       description: {
         component: `

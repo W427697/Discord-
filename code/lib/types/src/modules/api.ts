@@ -1,21 +1,20 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import type { ReactElement } from 'react';
 import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
-import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
-import type { API_HashEntry, API_StoriesHash } from './api-stories';
+import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
-import type { Addon_Types } from './addons';
-import type { StoryIndex } from './storyIndex';
+import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
+import type { StoryIndex } from './indexer';
 
-export type API_ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
+type OrString<T extends string> = T | (string & {});
 
-export interface API_RenderOptions {
-  active: boolean;
-  key: string;
-}
+export type API_ViewMode = OrString<'story' | 'docs' | 'settings'> | undefined;
+
+export type API_RenderOptions = Addon_RenderOptions;
 
 export interface API_RouteOptions {
   storyId: string;
@@ -30,22 +29,20 @@ export interface API_MatchOptions {
   path: string;
 }
 
-export interface API_Addon {
-  title: string;
-  type?: Addon_Types;
-  id?: string;
-  route?: (routeOptions: API_RouteOptions) => string;
-  match?: (matchOptions: API_MatchOptions) => boolean;
-  render: (renderOptions: API_RenderOptions) => any;
-  paramKey?: string;
-  disabled?: boolean;
-  hidden?: boolean;
-}
-export interface API_Collection<T = API_Addon> {
-  [key: string]: T;
-}
+/**
+ * @deprecated this is synonymous with `Addon_Type`. This interface will be removed in 8.0
+ */
+export type API_Addon = Addon_Type;
 
-export type API_Panels = API_Collection<API_Addon>;
+/**
+ * @deprecated this is synonymous with `Addon_Collection`. This interface will be removed in 8.0
+ */
+export type API_Collection<T = Addon_Type> = Addon_Collection<T>;
+
+/**
+ * @deprecated This interface will be removed in 8.0
+ */
+export type API_Panels = Addon_Collection<Addon_BaseType>;
 
 export type API_StateMerger<S> = (input: S) => S;
 
@@ -56,6 +53,9 @@ export interface API_ProviderData<API> {
 
 export interface API_Provider<API> {
   channel?: Channel;
+  /**
+   * @deprecated will be removed in 8.0, please use channel instead
+   */
   serverChannel?: Channel;
   renderPreview?: API_IframeRenderer;
   handleAPI(api: API): void;
@@ -70,12 +70,12 @@ export interface API_Provider<API> {
 
 export type API_IframeRenderer = (
   storyId: string,
-  viewMode: ViewMode,
+  viewMode: API_ViewMode,
   id: string,
   baseUrl: string,
   scale: number,
   queryParams: Record<string, any>
-) => any;
+) => ReactElement<any, any> | null;
 
 export interface API_UIOptions {
   name?: string;
@@ -90,14 +90,24 @@ export interface API_UIOptions {
 
 export interface API_Layout {
   initialActive: API_ActiveTabsType;
-  isFullscreen: boolean;
-  showPanel: boolean;
+  navSize: number;
+  bottomPanelHeight: number;
+  rightPanelWidth: number;
+  /**
+   * the sizes of the panels when they were last visible
+   * used to restore the sizes when the panels are shown again
+   * eg. when toggling fullscreen, panels, etc.
+   */
+  recentVisibleSizes: {
+    navSize: number;
+    bottomPanelHeight: number;
+    rightPanelWidth: number;
+  };
   panelPosition: API_PanelPositions;
-  showNav: boolean;
   showTabs: boolean;
   showToolbar: boolean;
   /**
-   * @deprecated
+   * @deprecated, will be removed in 8.0 - this API no longer works
    */
   isToolshown?: boolean;
 }
@@ -113,8 +123,16 @@ export type API_ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 
 export interface API_SidebarOptions {
   showRoots?: boolean;
+  filters?: Record<string, API_FilterFunction>;
   collapsedRoots?: string[];
   renderLabel?: (item: API_HashEntry) => any;
+}
+
+interface OnClearOptions {
+  /**
+   *  True when the user dismissed the notification.
+   */
+  dismissed: boolean;
 }
 
 export interface API_Notification {
@@ -124,12 +142,11 @@ export interface API_Notification {
     headline: string;
     subHeadline?: string | any;
   };
-
   icon?: {
     name: string;
     color?: string;
   };
-  onClear?: () => void;
+  onClear?: (options: OnClearOptions) => void;
 }
 
 type API_Versions = Record<string, string>;
@@ -142,18 +159,24 @@ export type API_SetRefData = Partial<
 >;
 
 export type API_StoryMapper = (ref: API_ComposedRef, story: SetStoriesStory) => SetStoriesStory;
-export interface API_ComposedRef {
+
+export interface API_LoadedRefData {
+  index?: API_IndexHash;
+  indexError?: Error;
+  previewInitialized: boolean;
+}
+
+export interface API_ComposedRef extends API_LoadedRefData {
   id: string;
   title?: string;
   url: string;
   type?: 'auto-inject' | 'unknown' | 'lazy' | 'server-checked';
   expanded?: boolean;
-  stories: API_StoriesHash;
   versions?: API_Versions;
   loginUrl?: string;
   version?: string;
-  ready?: boolean;
-  error?: any;
+  /** DO NOT USE THIS */
+  internal_index?: StoryIndex;
 }
 
 export type API_ComposedRefUpdate = Partial<
@@ -162,12 +185,13 @@ export type API_ComposedRefUpdate = Partial<
     | 'title'
     | 'type'
     | 'expanded'
-    | 'stories'
+    | 'index'
     | 'versions'
     | 'loginUrl'
     | 'version'
-    | 'ready'
-    | 'error'
+    | 'indexError'
+    | 'previewInitialized'
+    | 'internal_index'
   >
 >;
 

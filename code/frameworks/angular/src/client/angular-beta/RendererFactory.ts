@@ -8,10 +8,8 @@ export class RendererFactory {
 
   private rendererMap = new Map<string, AbstractRenderer>();
 
-  public async getRendererInstance(
-    storyId: string,
-    targetDOMNode: HTMLElement
-  ): Promise<AbstractRenderer | null> {
+  public async getRendererInstance(targetDOMNode: HTMLElement): Promise<AbstractRenderer | null> {
+    const targetId = targetDOMNode.id;
     // do nothing if the target node is null
     // fix a problem when the docs asks 2 times the same component at the same time
     // the 1st targetDOMNode of the 1st requested rendering becomes null 🤷‍♂️
@@ -22,24 +20,24 @@ export class RendererFactory {
     const renderType = getRenderType(targetDOMNode);
     // keep only instances of the same type
     if (this.lastRenderType && this.lastRenderType !== renderType) {
-      await AbstractRenderer.resetPlatformBrowserDynamic();
+      await AbstractRenderer.resetApplications();
       clearRootHTMLElement(renderType);
       this.rendererMap.clear();
     }
 
-    if (!this.rendererMap.has(storyId)) {
-      this.rendererMap.set(storyId, this.buildRenderer(storyId, renderType));
+    if (!this.rendererMap.has(targetId)) {
+      this.rendererMap.set(targetId, this.buildRenderer(renderType));
     }
 
     this.lastRenderType = renderType;
-    return this.rendererMap.get(storyId);
+    return this.rendererMap.get(targetId);
   }
 
-  private buildRenderer(storyId: string, renderType: RenderType) {
+  private buildRenderer(renderType: RenderType) {
     if (renderType === 'docs') {
-      return new DocsRenderer(storyId);
+      return new DocsRenderer();
     }
-    return new CanvasRenderer(storyId);
+    return new CanvasRenderer();
   }
 }
 

@@ -36,7 +36,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
   private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
 
   constructor(public projectAnnotations: ProjectAnnotations<TRenderer>) {
-    super(new Channel());
+    super(new Channel({}));
 
     this.initialize({
       getStoryIndex: () => this.storyIndex,
@@ -45,7 +45,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
       },
       getProjectAnnotations: () =>
         composeConfigs([
-          { parameters: { docs: { inlineStories: true } } },
+          { parameters: { docs: { story: { inline: true } } } },
           this.projectAnnotations,
         ]),
     });

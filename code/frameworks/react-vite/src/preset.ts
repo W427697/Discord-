@@ -1,10 +1,15 @@
 /* eslint-disable global-require */
-import type { StorybookConfig } from '@storybook/builder-vite';
+import type { PresetProperty } from '@storybook/types';
 import { hasVitePlugins } from '@storybook/builder-vite';
+import { dirname, join } from 'path';
+import type { StorybookConfig } from './types';
 
-export const core: StorybookConfig['core'] = {
-  builder: '@storybook/builder-vite',
-  renderer: '@storybook/react',
+const getAbsolutePath = <I extends string>(input: I): I =>
+  dirname(require.resolve(join(input, 'package.json'))) as any;
+
+export const core: PresetProperty<'core', StorybookConfig> = {
+  builder: getAbsolutePath('@storybook/builder-vite'),
+  renderer: getAbsolutePath('@storybook/react'),
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {

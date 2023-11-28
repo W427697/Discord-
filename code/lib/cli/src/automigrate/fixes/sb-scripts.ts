@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import { getStorybookInfo } from '@storybook/core-common';
 import type { Fix } from '../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 
@@ -35,7 +34,8 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
 
         // in case people have scripts like `yarn start-storybook`
         const isPrependedByPkgManager =
-          previousWord && ['npx', 'run', 'yarn', 'pnpx'].some((cmd) => previousWord.includes(cmd));
+          previousWord &&
+          ['npx', 'run', 'yarn', 'pnpx', 'pnpm dlx'].some((cmd) => previousWord.includes(cmd));
 
         if (isSbBinary && !isPrependedByPkgManager) {
           isStorybookScript = true;
@@ -70,20 +70,11 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
 export const sbScripts: Fix<SbScriptsRunOptions> = {
   id: 'sb-scripts',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+  async check({ packageManager, storybookVersion }) {
+    const packageJson = await packageManager.retrievePackageJson();
     const { scripts = {} } = packageJson;
-    const { version: storybookVersion } = getStorybookInfo(packageJson);
 
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
-      `);
-    }
-
-    if (semver.lt(storybookCoerced, '7.0.0')) {
+    if (semver.lt(storybookVersion, '7.0.0')) {
       return null;
     }
 
@@ -140,7 +131,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
 
       logger.log();
 
-      packageManager.addScripts(newScripts);
+      await packageManager.addScripts(newScripts);
     }
   },
 };

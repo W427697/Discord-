@@ -6,7 +6,7 @@ import {
   combineArgs,
   groupArgsByTarget,
   mapArgsToTypes,
-  NO_TARGET_NAME,
+  UNTARGETED,
   validateOptions,
 } from './args';
 
@@ -276,8 +276,12 @@ describe('groupArgsByTarget', () => {
   it('groups targeted args', () => {
     const groups = groupArgsByTarget({
       args: { a: 1, b: 2, c: 3 },
-      argTypes: { a: { target: 'group1' }, b: { target: 'group2' }, c: { target: 'group2' } },
-    } as any);
+      argTypes: {
+        a: { name: 'a', target: 'group1' },
+        b: { name: 'b', target: 'group2' },
+        c: { name: 'c', target: 'group2' },
+      },
+    });
     expect(groups).toEqual({
       group1: {
         a: 1,
@@ -292,10 +296,10 @@ describe('groupArgsByTarget', () => {
   it('groups non-targetted args into a group with no name', () => {
     const groups = groupArgsByTarget({
       args: { a: 1, b: 2, c: 3 },
-      argTypes: { b: { name: 'b', target: 'group2' }, c: {} },
-    } as any);
+      argTypes: { a: { name: 'a' }, b: { name: 'b', target: 'group2' }, c: { name: 'c' } },
+    });
     expect(groups).toEqual({
-      [NO_TARGET_NAME]: {
+      [UNTARGETED]: {
         a: 1,
         c: 3,
       },

@@ -1,9 +1,11 @@
 export { ColorPalette, ColorItem, IconGallery, IconItem, Typeset } from '../components';
 
 export * from './Anchor';
+export * from './ArgTypes';
 export * from './ArgsTable';
 // eslint-disable-next-line import/export
 export * from './Canvas';
+export * from './Controls';
 export * from './Description';
 export * from './Docs';
 export * from './DocsContext';
@@ -13,6 +15,7 @@ export * from './DocsStory';
 export * from './external/ExternalDocs';
 export * from './external/ExternalDocsContainer';
 export * from './Heading';
+export * from './Markdown';
 export * from './Meta';
 export * from './Primary';
 // eslint-disable-next-line import/export

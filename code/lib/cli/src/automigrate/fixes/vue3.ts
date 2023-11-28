@@ -1,14 +1,13 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import type { ConfigFile } from '@storybook/csf-tools';
 import type { Fix } from '../types';
 import { webpack5 } from './webpack5';
+import { checkWebpack5Builder } from '../helpers/checkWebpack5Builder';
 
 interface Vue3RunOptions {
   vueVersion: string;
   storybookVersion: string;
-  main: ConfigFile;
 }
 
 /**
@@ -20,17 +19,14 @@ interface Vue3RunOptions {
 export const vue3: Fix<Vue3RunOptions> = {
   id: 'vue3',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
-    const { dependencies, devDependencies } = packageJson;
-    const vueVersion = dependencies.vue || devDependencies.vue;
-    const vueCoerced = semver.coerce(vueVersion)?.version;
+  async check({ packageManager, mainConfig, storybookVersion }) {
+    const vueVersion = await packageManager.getPackageVersion('vue');
 
-    if (!vueCoerced || semver.lt(vueCoerced, '3.0.0')) {
+    if (!vueVersion || semver.lt(vueVersion, '3.0.0')) {
       return null;
     }
 
-    const builderInfo = await webpack5.checkWebpack5Builder(packageJson);
+    const builderInfo = await checkWebpack5Builder({ mainConfig, storybookVersion });
     return builderInfo ? { vueVersion, ...builderInfo } : null;
   },
 

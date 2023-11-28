@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { DocsOptions } from './core-common';
 import type { Args, ArgTypes, Parameters, ComponentTitle, StoryId, Path, Tag } from './csf';
-import type { IndexEntry } from './storyIndex';
+import type { IndexEntry } from './indexer';
 
 export interface API_BaseEntry {
   id: StoryId;
@@ -64,6 +64,11 @@ export interface API_DocsEntry extends API_BaseEntry {
   /** @deprecated */
   kind: ComponentTitle;
   importPath: Path;
+  tags: Tag[];
+  prepared: boolean;
+  parameters?: {
+    [parameterName: string]: any;
+  };
 
   /** @deprecated */
   isRoot: false;
@@ -115,17 +120,17 @@ export type API_Group = API_GroupEntry | API_ComponentEntry;
 export type API_Story = API_LeafEntry;
 
 /**
- * The `StoriesHash` is our manager-side representation of the `StoryIndex`.
+ * The `IndexHash` is our manager-side representation of the `StoryIndex`.
  * We create entries in the hash not only for each story or docs entry, but
  * also for each "group" of the component (split on '/'), as that's how things
  * are manipulated in the manager (i.e. in the sidebar)
  */
-export interface API_StoriesHash {
+export interface API_IndexHash {
   [id: string]: API_HashEntry;
 }
 // We used to received a bit more data over the channel on the SET_STORIES event, including
 // the full parameters for each story.
-type API_PreparedIndexEntry = IndexEntry & {
+export type API_PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
   argTypes?: ArgTypes;
   args?: Args;
@@ -167,3 +172,19 @@ export interface API_Versions {
   next?: API_Version;
   current?: API_Version;
 }
+
+export type API_StatusValue = 'pending' | 'success' | 'error' | 'warn' | 'unknown';
+
+export interface API_StatusObject {
+  status: API_StatusValue;
+  title: string;
+  description: string;
+  data?: any;
+}
+
+export type API_StatusState = Record<StoryId, Record<string, API_StatusObject>>;
+export type API_StatusUpdate = Record<StoryId, API_StatusObject | null>;
+
+export type API_FilterFunction = (
+  item: API_PreparedIndexEntry & { status: Record<string, API_StatusObject | null> }
+) => boolean;

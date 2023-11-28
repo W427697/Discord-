@@ -10,6 +10,11 @@
       "pattern": "^[^:\\s]+:[^:\\s]+(:[^\\s]+)?$",
       "default": null
     },
+    "debugWebpack": {
+      "type": "boolean",
+      "description": "Debug the Webpack configuration",
+      "default": false
+    },
     "tsConfig": {
       "type": "string",
       "description": "The full path for the TypeScript configuration file, relative to the current workspace."
@@ -56,12 +61,22 @@
       "description": "CI mode (skip interactive prompts, don't open browser).",
       "default": false
     },
+    "open": {
+      "type": "boolean",
+      "description": "Whether to open Storybook automatically in the browser.",
+      "default": true
+    },
     "quiet": {
       "type": "boolean",
       "description": "Suppress verbose build output.",
       "default": false
     },
-    "docsMode": {
+    "enableProdMode": {
+      "type": "boolean",
+      "description": "Disable Angular's development mode, which turns off assertions and other checks within the framework.",
+      "default": false
+    },
+    "docs": {
       "type": "boolean",
       "description": "Starts Storybook in documentation mode. Learn more about it : https://storybook.js.org/docs/react/writing-docs/build-documentation#preview-storybooks-documentation.",
       "default": false
@@ -83,7 +98,7 @@
       "type": "array",
       "description": "Global styles to be included in the build.",
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "$ref": "#/definitions/styleElement"
       },
       "default": ""
     },
@@ -101,11 +116,80 @@
       },
       "additionalProperties": false,
       "default": ""
+    },
+    "assets": {
+      "type": "array",
+      "description": "List of static application assets.",
+      "default": [],
+      "items": {
+        "$ref": "#/definitions/assetPattern"
+      }
+    },
+    "initialPath": {
+      "type": "string",
+      "description": "URL path to be appended when visiting Storybook for the first time"
+    },
+    "webpackStatsJson": {
+      "type": ["boolean", "string"],
+      "description": "Write Webpack Stats JSON to disk",
+      "default": false
+    },
+    "previewUrl": {
+      "type": "string",
+      "description": "Disables the default storybook preview and lets you use your own"
+    },
+    "loglevel": {
+      "type": "string",
+      "description": "Controls level of logging during build. Can be one of: [silly, verbose, info (default), warn, error, silent].",
+      "pattern": "(silly|verbose|info|warn|silent)"
+    },
+    "sourceMap": {
+      "type": ["boolean", "object"],
+      "description": "Configure sourcemaps. See: https://angular.io/guide/workspace-config#source-map-configuration",
+      "default": false
     }
   },
   "additionalProperties": false,
   "definitions": {
-    "extraEntryPoint": {
+    "assetPattern": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "followSymlinks": {
+              "type": "boolean",
+              "default": false,
+              "description": "Allow glob patterns to follow symlink directories. This allows subdirectories of the symlink to be searched."
+            },
+            "glob": {
+              "type": "string",
+              "description": "The pattern to match."
+            },
+            "input": {
+              "type": "string",
+              "description": "The input directory path in which to apply 'glob'. Defaults to the project root."
+            },
+            "ignore": {
+              "description": "An array of globs to ignore.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "output": {
+              "type": "string",
+              "description": "Absolute path within the output."
+            }
+          },
+          "additionalProperties": false,
+          "required": ["glob", "input", "output"]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "styleElement": {
       "oneOf": [
         {
           "type": "object",

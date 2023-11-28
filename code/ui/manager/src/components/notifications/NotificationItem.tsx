@@ -2,11 +2,10 @@ import type { FC, SyntheticEvent } from 'react';
 import React from 'react';
 import { type State } from '@storybook/manager-api';
 import { Link } from '@storybook/router';
-import { styled } from '@storybook/theming';
+import { styled, useTheme } from '@storybook/theming';
 import { Icons, IconButton, type IconsProps } from '@storybook/components';
 import { transparentize } from 'polished';
-
-const DEFAULT_ICON_COLOUR = '#66BF3C' as const;
+import { CloseAltIcon } from '@storybook/icons';
 
 const Notification = styled.div(({ theme }) => ({
   position: 'relative',
@@ -76,26 +75,30 @@ const SubHeadline = styled.div(({ theme }) => ({
 const ItemContent: FC<Pick<State['notifications'][0], 'icon' | 'content'>> = ({
   icon,
   content: { headline, subHeadline },
-}) => (
-  <>
-    {!icon || (
-      <NotificationIconWrapper>
-        <Icons
-          icon={icon.name as IconsProps['icon']}
-          width={16}
-          height={16}
-          color={icon.color || DEFAULT_ICON_COLOUR}
-        />
-      </NotificationIconWrapper>
-    )}
-    <NotificationTextWrapper>
-      <Headline title={headline} hasIcon={!!icon}>
-        {headline}
-      </Headline>
-      {subHeadline && <SubHeadline>{subHeadline}</SubHeadline>}
-    </NotificationTextWrapper>
-  </>
-);
+}) => {
+  const theme = useTheme();
+  const defaultColor = theme.base === 'dark' ? theme.color.mediumdark : theme.color.mediumlight;
+  return (
+    <>
+      {!icon || (
+        <NotificationIconWrapper>
+          <Icons
+            icon={icon.name as IconsProps['icon']}
+            width={16}
+            height={16}
+            color={icon.color || defaultColor}
+          />
+        </NotificationIconWrapper>
+      )}
+      <NotificationTextWrapper>
+        <Headline title={headline} hasIcon={!!icon}>
+          {headline}
+        </Headline>
+        {subHeadline && <SubHeadline>{subHeadline}</SubHeadline>}
+      </NotificationTextWrapper>
+    </>
+  );
+};
 
 const DismissButtonWrapper = styled(IconButton)(({ theme }) => ({
   alignSelf: 'center',
@@ -106,7 +109,6 @@ const DismissButtonWrapper = styled(IconButton)(({ theme }) => ({
 const DismissNotificationItem: FC<{
   onDismiss: () => void;
 }> = ({ onDismiss }) => (
-  // @ts-expect-error (we need to improve the types of IconButton)
   <DismissButtonWrapper
     title="Dismiss notification"
     onClick={(e: SyntheticEvent) => {
@@ -114,7 +116,7 @@ const DismissNotificationItem: FC<{
       onDismiss();
     }}
   >
-    <Icons icon="closeAlt" height={12} width={12} />
+    <CloseAltIcon size={12} />
   </DismissButtonWrapper>
 );
 
@@ -129,7 +131,7 @@ const NotificationItem: FC<{
   const dismissNotificationItem = () => {
     onDismissNotification(id);
     if (onClear) {
-      onClear();
+      onClear({ dismissed: true });
     }
   };
   return link ? (

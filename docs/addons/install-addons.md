@@ -1,5 +1,5 @@
 ---
-title: Install addons
+title: 'Install addons'
 ---
 
 Storybook has [hundreds of reusable addons](https://storybook.js.org/addons) that are packaged as NPM modules. Let's walk through how to extend Storybook by installing and registering addons.
@@ -10,25 +10,36 @@ With the exception of preset addons, all addons have the same installation proce
 
 For example, to include accessibility testing in Storybook, run the following command to install the necessary addon:
 
-```shell
-yarn add -D @storybook/addon-a11y
-```
-
-Next, update [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) to the following:
-
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-addon-registration.js.mdx',
+    'common/storybook-a11y-install.yarn.js.mdx',
+    'common/storybook-a11y-install.npm.js.mdx',
+    'common/storybook-a11y-install.pnpm.js.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-a11y-register.js.mdx',
+    'common/storybook-a11y-register.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info">
+
 Addons may also require addon-specific configuration. Read their respective READMEs.
-</div>
+
+</Callout>
 
 Now when you run Storybook the accessibility testing addon will be enabled.
 
@@ -51,17 +62,20 @@ For example, to use SCSS styling, run the following command to install the addon
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
- 💡 Tip: Use the Webpack 5 snippet only if your framework already includes support for this version. Otherwise, use the Webpack 4 snippet. 
-</div>
+<Callout variant="info" icon="💡" title="Tip:">
 
-Next, update [`.storybook/main.js`](../configure/overview.md#configure-story-rendering) to the following:
+Use the Webpack 5 snippet only if your framework already includes support for this version. Otherwise, use the Webpack 4 snippet. 
+
+</Callout>
+
+Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'common/storybook-main-preset-config.js.mdx',
+    'common/storybook-main-preset-config.ts.mdx',
   ]}
 />
 
@@ -83,13 +97,16 @@ Consider the following example:
 <CodeSnippets
   paths={[
     'common/storybook-preset-configuration.js.mdx',
+    'common/storybook-preset-configuration.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
+
 Preset addons may also have addon-specific configurations. Read their respective READMEs.
-</div>
+
+</Callout>
 
 Now, when Storybook starts up, it will update webpack's CSS loader to use modules and adjust how styling is defined.

@@ -1,43 +1,61 @@
 import type { ComponentProps, FunctionComponent } from 'react';
 import React from 'react';
-import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
-import { SyntaxHighlighter } from '@storybook/components';
+import {
+  styled,
+  ThemeProvider,
+  convert,
+  themes,
+  ignoreSsrWarning,
+  useTheme,
+} from '@storybook/theming';
 
+import { SyntaxHighlighter } from '@storybook/components';
+import type { SyntaxHighlighterProps } from '@storybook/components';
 import { EmptyBlock } from './EmptyBlock';
 
-const StyledSyntaxHighlighter: typeof SyntaxHighlighter = styled(SyntaxHighlighter)(
-  ({ theme }) => ({
-    // DocBlocks-specific styling and overrides
-    fontSize: `${theme.typography.size.s2 - 1}px`,
-    lineHeight: '19px',
-    margin: '25px 0 40px',
-    borderRadius: theme.appBorderRadius,
-    boxShadow:
-      theme.base === 'light'
-        ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0'
-        : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
-    'pre.prismjs': {
-      padding: 20,
-      background: 'inherit',
-    },
-  })
-);
+const StyledSyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> = styled(
+  SyntaxHighlighter
+)(({ theme }) => ({
+  // DocBlocks-specific styling and overrides
+  fontSize: `${theme.typography.size.s2 - 1}px`,
+  lineHeight: '19px',
+  margin: '25px 0 40px',
+  borderRadius: theme.appBorderRadius,
+  boxShadow:
+    theme.base === 'light' ? 'rgba(0, 0, 0, 0.10) 0 1px 3px 0' : 'rgba(0, 0, 0, 0.20) 0 2px 5px 0',
+  'pre.prismjs': {
+    padding: 20,
+    background: 'inherit',
+  },
+}));
 
 export enum SourceError {
   NO_STORY = 'There\u2019s no story here.',
   SOURCE_UNAVAILABLE = 'Oh no! The source is not available.',
 }
 
-interface SourceErrorProps {
-  isLoading?: boolean;
-  error?: SourceError;
+export interface SourceCodeProps {
+  /**
+   * The language the syntax highlighter uses for your story’s code
+   */
+  language?: string;
+  /**
+   * Use this to override the content of the source block.
+   */
+  code?: string;
+  /**
+   * The (prettier) formatter the syntax highlighter uses for your story’s code.
+   */
+  format?: ComponentProps<typeof SyntaxHighlighter>['format'];
+  /**
+   * Display the source snippet in a dark mode.
+   */
+  dark?: boolean;
 }
 
-interface SourceCodeProps {
-  language?: string;
-  code?: string;
-  format?: ComponentProps<typeof SyntaxHighlighter>['format'];
-  dark?: boolean;
+export interface SourceProps extends SourceCodeProps {
+  isLoading?: boolean;
+  error?: SourceError;
 }
 
 const SourceSkeletonWrapper = styled.div(({ theme }) => ({
@@ -57,7 +75,7 @@ const SourceSkeletonPlaceholder = styled.div(({ theme }) => ({
   marginTop: 1,
   width: '60%',
 
-  [`&:first-child`]: {
+  [`&:first-child${ignoreSsrWarning}`]: {
     margin: 0,
   },
 }));
@@ -71,15 +89,19 @@ const SourceSkeleton = () => (
   </SourceSkeletonWrapper>
 );
 
-// FIXME: Using | causes a typescript error, so stubbing it with & for now
-// and making `error` optional
-export type SourceProps = SourceErrorProps & SourceCodeProps;
-
 /**
  * Syntax-highlighted source code for a component (or anything!)
  */
-const Source: FunctionComponent<SourceProps> = (props) => {
-  const { isLoading, error } = props as SourceErrorProps;
+const Source: FunctionComponent<SourceProps> = ({
+  isLoading,
+  error,
+  language,
+  code,
+  dark,
+  format,
+  ...rest
+}) => {
+  const { typography } = useTheme();
   if (isLoading) {
     return <SourceSkeleton />;
   }
@@ -87,15 +109,13 @@ const Source: FunctionComponent<SourceProps> = (props) => {
     return <EmptyBlock>{error}</EmptyBlock>;
   }
 
-  const { language, code, dark, format, ...rest } = props as SourceCodeProps;
-
   const syntaxHighlighter = (
     <StyledSyntaxHighlighter
       bordered
       copyable
       format={format}
       language={language}
-      className="docblock-source"
+      className="docblock-source sb-unstyled"
       {...rest}
     >
       {code}
@@ -105,7 +125,17 @@ const Source: FunctionComponent<SourceProps> = (props) => {
     return syntaxHighlighter;
   }
   const overrideTheme = dark ? themes.dark : themes.light;
-  return <ThemeProvider theme={convert(overrideTheme)}>{syntaxHighlighter}</ThemeProvider>;
+  return (
+    <ThemeProvider
+      theme={convert({
+        ...overrideTheme,
+        fontCode: typography.fonts.mono,
+        fontBase: typography.fonts.base,
+      })}
+    >
+      {syntaxHighlighter}
+    </ThemeProvider>
+  );
 };
 
 Source.defaultProps = {
