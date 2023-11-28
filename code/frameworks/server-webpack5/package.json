@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server-webpack5",
-  "version": "7.1.0-alpha.19",
+  "version": "8.0.0-alpha.0",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -37,28 +37,24 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "template/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/check.ts",
+    "prep": "node --loader ../../../scripts/node_modules/esbuild-register/loader.js -r ../../../scripts/node_modules/esbuild-register/register.js ../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.1.0-alpha.19",
-    "@storybook/core-common": "7.1.0-alpha.19",
-    "@storybook/preset-server-webpack": "7.1.0-alpha.19",
-    "@storybook/server": "7.1.0-alpha.19",
-    "@types/node": "^16.0.0"
+    "@storybook/builder-webpack5": "workspace:*",
+    "@storybook/core-common": "workspace:*",
+    "@storybook/preset-server-webpack": "workspace:*",
+    "@storybook/server": "workspace:*",
+    "@types/node": "^18.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "typescript": "^5.3.2"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -73,5 +69,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "f3e4f1e5a224fa8323a679555c9197335a7bce54"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae17"
 }

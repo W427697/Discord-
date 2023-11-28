@@ -1,4 +1,7 @@
-import originalFetch from 'isomorphic-unfetch';
+/// <reference types="node" />
+
+import * as os from 'os';
+import originalFetch from 'node-fetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
 import type { Options, TelemetryData } from './types';
@@ -8,12 +11,32 @@ import { getSessionId } from './session-id';
 
 const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
 
-const fetch = retry(originalFetch);
+const fetch = retry(originalFetch as any);
 
 let tasks: Promise<any>[] = [];
 
 export const addToGlobalContext = (key: string, value: any) => {
   globalContext[key] = value;
+};
+
+const getOperatingSystem = (): 'Windows' | 'macOS' | 'Linux' | `Other: ${string}` | 'Unknown' => {
+  try {
+    const platform = os.platform();
+
+    if (platform === 'win32') {
+      return 'Windows';
+    }
+    if (platform === 'darwin') {
+      return 'macOS';
+    }
+    if (platform === 'linux') {
+      return 'Linux';
+    }
+
+    return `Other: ${platform}`;
+  } catch (_err) {
+    return 'Unknown';
+  }
 };
 
 // context info sent with all events, provided
@@ -22,6 +45,7 @@ export const addToGlobalContext = (key: string, value: any) => {
 const globalContext = {
   inCI: Boolean(process.env.CI),
   isTTY: process.stdout.isTTY,
+  platform: getOperatingSystem(),
 } as Record<string, any>;
 
 const prepareRequest = async (data: TelemetryData, context: Record<string, any>, options: any) => {

@@ -131,7 +131,7 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 | [measure](code/addons/measure/)                                           | Visually inspect the layout and box model within the Storybook UI          |
 | [outline](code/addons/outline/)                                           | Visually debug the CSS layout and alignment within the Storybook UI        |
 | [query params](https://github.com/storybookjs/addon-queryparams)          | Mock query params                                                          |
-| [storyshots](code/addons/storyshots/)                                     | Snapshot testing for components in Storybook                               |
+| [storyshots](code/addons/storyshots-core/)                                | Snapshot testing for components in Storybook                               |
 | [storysource](code/addons/storysource/)                                   | View the code of your stories within the Storybook UI                      |
 | [viewport](code/addons/viewport/)                                         | Change display sizes and layouts for responsive components using Storybook |
 
@@ -187,7 +187,7 @@ Looking for a first issue to tackle?
 
 ### Development scripts
 
-Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
+Storybook is organized as a monorepo. Useful scripts include:
 
 #### `yarn start`
 

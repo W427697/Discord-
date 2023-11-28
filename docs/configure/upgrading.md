@@ -22,21 +22,32 @@ To help ease the pain of keeping Storybook up-to-date, we provide a command-line
 
 <!-- prettier-ignore-end -->
 
-This upgrades all of the Storybook packages in your project to the latest stable version, perform confidence checks of your package versions, and checks for opportunities to run [automigrations](#automigrate) to update your configuration automatically.
+After running the command the script will:
 
-<div class="aside">
+- Upgrade all Storybook packages in your project to the latest stable version
+- Run the relevant [automigrations](../migration-guide.md#automatic-upgrade) factoring in the [breaking changes](../migration-guide.md#major-breaking-changes) between your current version and the latest stable version
+
+<Callout variant="info">
 
 In addition to running the command, we also recommend checking the [MIGRATION.md file](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md), for the detailed log of relevant changes and deprecations that might affect your upgrade.
 
-</div>
+</Callout>
 
 ## Automigrate script
 
 Storybook upgrades are not the only thing to consider: changes in the ecosystem also present challenges. For example, lots of frameworks ([Angular 12](https://angular.io/guide/updating-to-version-12#breaking-changes-in-angular-version-12), [Create React App v5](https://github.com/facebook/create-react-app/pull/11201), [NextJS](https://nextjs.org/docs/upgrading#webpack-5)) have recently migrated from [Webpack 4 to Webpack 5](https://webpack.js.org/migrate/5/), so even if you don't upgrade your Storybook version, you might need to update your configuration accordingly. That's what Automigrate is for:
 
-```
-npx storybook@latest automigrate
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-automigrate.npm.js.mdx',
+    'common/storybook-automigrate.pnpm.js.mdx',
+    'common/storybook-automigrate.yarn.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 It runs a set of standard configuration checks, explains what is potentially out-of-date, and offers to fix it for you automatically. It also points to the relevant documentation so you can learn more. It runs automatically as part of [`storybook upgrade`](#upgrade-script) command, but it's also available on its own if you don't want to upgrade Storybook.
 
@@ -52,6 +63,7 @@ To upgrade to the latest pre-release:
   paths={[
     'common/storybook-upgrade-prerelease.npm.js.mdx',
     'common/storybook-upgrade-prerelease.pnpm.js.mdx',
+    'common/storybook-upgrade-prerelease.yarn.js.mdx',
   ]}
 />
 
@@ -59,8 +71,8 @@ To upgrade to the latest pre-release:
 
 If you'd like to downgrade to a stable version, manually edit the package version numbers in your `package.json` and re-install.
 
-<div class="aside">
+<Callout variant="info">
 
 Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
 
-</div>
+</Callout>

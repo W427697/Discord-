@@ -1,3 +1,9 @@
+import dedent from 'ts-dedent';
+import { sync as findUpSync } from 'find-up';
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
+import semver from 'semver';
+import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 import type { InstallationMetadata, PackageMetadata } from './types';
@@ -17,6 +23,8 @@ export type Yarn1ListOutput = {
   type: 'tree';
   data: Yarn1ListData;
 };
+
+const YARN1_ERROR_REGEX = /^error\s(.*)$/gm;
 
 export class Yarn1Proxy extends JsPackageManager {
   readonly type = 'yarn1';
@@ -55,10 +63,37 @@ export class Yarn1Proxy extends JsPackageManager {
     return this.executeCommand({ command: `yarn`, args: [command, ...args], cwd });
   }
 
+  public async getPackageJSON(
+    packageName: string,
+    basePath = this.cwd
+  ): Promise<PackageJson | null> {
+    const packageJsonPath = await findUpSync(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    return JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as Record<string, any>;
+  }
+
+  public async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJson = await this.getPackageJSON(packageName, basePath);
+    return packageJson ? semver.coerce(packageJson.version)?.version ?? null : null;
+  }
+
   public async findInstallations(pattern: string[]) {
     const commandResult = await this.executeCommand({
       command: 'yarn',
       args: ['list', '--pattern', pattern.map((p) => `"${p}"`).join(' '), '--recursive', '--json'],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -93,11 +128,29 @@ export class Yarn1Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    await this.executeCommand({
-      command: 'yarn',
-      args: ['add', ...this.getInstallArgs(), ...args],
-      stdio: 'inherit',
-    });
+    const { logStream, readLogFile, moveLogFile, removeLogFile } = await createLogStream();
+
+    try {
+      await this.executeCommand({
+        command: 'yarn',
+        args: ['add', ...this.getInstallArgs(), ...args],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
+      });
+    } catch (err) {
+      const stdout = await readLogFile();
+
+      const errorMessage = this.parseErrorFromLogs(stdout);
+
+      await moveLogFile();
+
+      throw new Error(
+        dedent`${errorMessage}
+        
+        Please check the logfile generated at ./storybook.log for troubleshooting and try again.`
+      );
+    }
+
+    await removeLogFile();
   }
 
   protected async runRemoveDeps(dependencies: string[]) {
@@ -165,9 +218,24 @@ export class Yarn1Proxy extends JsPackageManager {
         dependencies: acc,
         duplicatedDependencies,
         infoCommand: 'yarn why',
+        dedupeCommand: 'yarn dedupe',
       };
     }
 
     throw new Error('Something went wrong while parsing yarn output');
+  }
+
+  public parseErrorFromLogs(logs: string): string {
+    let finalMessage = 'YARN1 error';
+    const match = logs.match(YARN1_ERROR_REGEX);
+
+    if (match) {
+      const errorMessage = match[0]?.replace(/^error\s(.*)$/, '$1');
+      if (errorMessage) {
+        finalMessage = `${finalMessage}: ${errorMessage}`;
+      }
+    }
+
+    return finalMessage.trim();
   }
 }
