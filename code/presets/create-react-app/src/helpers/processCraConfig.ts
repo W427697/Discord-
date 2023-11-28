@@ -63,6 +63,7 @@ export const processCraConfig = async (
       return [
         ...rules,
         {
+          // @ts-expect-error (broken typings from webpack)
           oneOf: oneOf.map((oneOfRule: RuleSetRule): RuleSetRule => {
             if (oneOfRule.type === 'asset/resource') {
               if (isStorybook530) {
