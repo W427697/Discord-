@@ -1,4 +1,11 @@
-import type { IndexEntry, Renderer, CSFFile, PreparedStory, StoryId } from '@storybook/types';
+import type {
+  IndexEntry,
+  Renderer,
+  CSFFile,
+  PreparedStory,
+  StoryId,
+  RenderContextCallbacks,
+} from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 import type { StoryStore } from '../../../store';
@@ -24,6 +31,8 @@ import { DocsContext } from '../docs-context/DocsContext';
 export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
+  public readonly subtype = 'csf';
+
   public readonly id: StoryId;
 
   public story?: PreparedStory<TRenderer>;
@@ -38,12 +47,13 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TRenderer>[];
+  public csfFiles?: CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,
     protected store: StoryStore<TRenderer>,
-    public entry: IndexEntry
+    public entry: IndexEntry,
+    private callbacks: RenderContextCallbacks<TRenderer>
   ) {
     this.id = entry.id;
   }
@@ -85,7 +95,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
     );
   }
 
-  docsContext(renderStoryToElement: DocsContextProps['renderStoryToElement']) {
+  docsContext(renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement']) {
     if (!this.csfFiles) throw new Error('Cannot render docs before preparing');
     const docsContext = new DocsContext<TRenderer>(
       this.channel,
@@ -102,7 +112,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   async renderToElement(
     canvasElement: TRenderer['canvasElement'],
-    renderStoryToElement: DocsContextProps['renderStoryToElement']
+    renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
 
@@ -118,11 +128,13 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
     const renderer = await docsParameter.renderer();
     const { render } = renderer as { render: DocsRenderFunction<TRenderer> };
     const renderDocs = async () => {
-      await new Promise<void>((r) =>
+      try {
         // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
-        render(docsContext, docsParameter, canvasElement as any, r)
-      );
-      this.channel.emit(DOCS_RENDERED, this.id);
+        await render(docsContext, docsParameter, canvasElement as any);
+        this.channel.emit(DOCS_RENDERED, this.id);
+      } catch (err) {
+        this.callbacks.showException(err as Error);
+      }
     };
 
     this.rerender = async () => renderDocs();

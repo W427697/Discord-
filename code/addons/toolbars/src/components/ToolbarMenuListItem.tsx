@@ -9,7 +9,6 @@ export type ToolbarMenuListItemProps = {
 } & ToolbarItem;
 
 export const ToolbarMenuListItem = ({
-  left,
   right,
   title,
   value,
@@ -21,16 +20,16 @@ export const ToolbarMenuListItem = ({
   const Icon = icon && <Icons style={{ opacity: 1 }} icon={icon} />;
 
   const Item: TooltipLinkListLink = {
-    id: value || currentValue,
+    id: value ?? '_reset',
     active: currentValue === value,
     right,
     title,
-    left,
+    icon,
     onClick,
   };
 
   if (icon && !hideIcon) {
-    Item.left = Icon;
+    Item.icon = Icon;
   }
 
   return Item;

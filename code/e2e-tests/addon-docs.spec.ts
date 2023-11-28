@@ -3,6 +3,7 @@
 /* eslint-disable no-await-in-loop */
 import { test, expect } from '@playwright/test';
 import process from 'process';
+import dedent from 'ts-dedent';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
@@ -14,8 +15,75 @@ test.describe('addon-docs', () => {
     await new SbPage(page).waitUntilLoaded();
   });
 
+  test('should show descriptions for stories', async ({ page }) => {
+    const skipped = [
+      // SSv6 does not render stories in the correct order in our sandboxes
+      'internal\\/ssv6',
+    ];
+    test.skip(
+      new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),
+      `Skipping ${templateName}, because of wrong ordering of stories on docs page`
+    );
+
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+    const root = sbPage.previewRoot();
+
+    const basicStories = root.locator('#anchor--addons-docs-docspage-basic--basic');
+    const secondBasicStory = (await basicStories.all())[1];
+    await expect(secondBasicStory).toContainText('A basic button');
+
+    const anotherStory = root.locator('#anchor--addons-docs-docspage-basic--another');
+    await expect(anotherStory).toContainText('Another button, just to show multiple stories');
+  });
+
+  test('should show source=code view for stories', async ({ page }) => {
+    const skipped = [
+      // SSv6 does not render stories in the correct order in our sandboxes
+      'internal\\/ssv6',
+    ];
+    test.skip(
+      new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),
+      `Skipping ${templateName}, because of wrong ordering of stories on docs page`
+    );
+
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+    const root = sbPage.previewRoot();
+
+    // Click on the third button which has the text "Show code"
+    const showCodeButton = (await root.locator('button', { hasText: 'Show Code' }).all())[2];
+    await showCodeButton.click();
+    const sourceCode = root.locator('pre.prismjs');
+    const expectedSource = dedent`{
+      args: {
+        label: 'Another'
+      },
+      parameters: {
+        docs: {
+          source: {
+            type: 'code'
+          }
+        }
+      },
+      play: async () => {
+        await new Promise(resolve => resolve('Play function'));
+      }
+    }`;
+    await expect(sourceCode.textContent()).resolves.toContain(expectedSource);
+  });
+
+  test('should render errors', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/error', 'docs');
+    const root = sbPage.previewRoot();
+
+    const primaryStory = root.locator('#story--addons-docs-docspage-error--error-story--primary');
+    await expect(primaryStory).toContainText('Story did something wrong');
+  });
+
   test('should provide source snippet', async ({ page }) => {
-    // templateName is e.g. 'Vue-CLI (Default JS)'
+    // templateName is e.g. 'vue-cli/default-js'
     test.skip(
       /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`

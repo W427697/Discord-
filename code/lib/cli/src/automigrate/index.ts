@@ -8,16 +8,15 @@ import dedent from 'ts-dedent';
 
 import { join } from 'path';
 import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
-import semver from 'semver';
-import {
-  JsPackageManagerFactory,
-  useNpmWarning,
-  type PackageManagerName,
-} from '../js-package-manager';
+import { JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
+import type { PackageManagerName } from '../js-package-manager';
 
-import type { Fix } from './fixes';
-import { fixes as allFixes } from './fixes';
+import type { Fix, FixId, FixOptions, FixSummary } from './fixes';
+import { FixStatus, PreCheckFailure, allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
+import { getMigrationSummary } from './helpers/getMigrationSummary';
+import { getStorybookData } from './helpers/mainConfigFile';
+import { getStorybookVersion } from '../utils';
 
 const logger = console;
 const LOG_FILE_NAME = 'migration-storybook.log';
@@ -45,43 +44,6 @@ const cleanup = () => {
   process.stderr.write = originalStdErrWrite;
 };
 
-type FixId = string;
-
-interface FixOptions {
-  fixId?: FixId;
-  list?: boolean;
-  yes?: boolean;
-  dryRun?: boolean;
-  useNpm?: boolean;
-  packageManager?: PackageManagerName;
-  configDir?: string;
-  renderer?: string;
-  skipInstall?: boolean;
-}
-
-enum PreCheckFailure {
-  UNDETECTED_SB_VERSION = 'undetected_sb_version',
-  MAINJS_NOT_FOUND = 'mainjs_not_found',
-  MAINJS_EVALUATION = 'mainjs_evaluation_error',
-}
-
-enum FixStatus {
-  CHECK_FAILED = 'check_failed',
-  UNNECESSARY = 'unnecessary',
-  MANUAL_SUCCEEDED = 'manual_succeeded',
-  MANUAL_SKIPPED = 'manual_skipped',
-  SKIPPED = 'skipped',
-  SUCCEEDED = 'succeeded',
-  FAILED = 'failed',
-}
-
-type FixSummary = {
-  skipped: FixId[];
-  manual: FixId[];
-  succeeded: FixId[];
-  failed: Record<FixId, string>;
-};
-
 const logAvailableMigrations = () => {
   const availableFixes = allFixes.map((f) => chalk.yellow(f.id)).join(', ');
   logger.info(`\nThe following migrations are available: ${availableFixes}`);
@@ -89,6 +51,7 @@ const logAvailableMigrations = () => {
 
 export const automigrate = async ({
   fixId,
+  fixes: inputFixes,
   dryRun,
   yes,
   useNpm,
@@ -97,19 +60,18 @@ export const automigrate = async ({
   configDir: userSpecifiedConfigDir,
   renderer: rendererPackage,
   skipInstall,
-}: FixOptions = {}) => {
+  hideMigrationSummary = false,
+}: FixOptions = {}): Promise<{
+  fixResults: Record<string, FixStatus>;
+  preCheckFailure: PreCheckFailure;
+}> => {
   if (list) {
     logAvailableMigrations();
     return null;
   }
 
-  if (useNpm) {
-    useNpmWarning();
-    // eslint-disable-next-line no-param-reassign
-    pkgMgr = 'npm';
-  }
-
-  const fixes = fixId ? allFixes.filter((f) => f.id === fixId) : allFixes;
+  const selectedFixes = inputFixes || allFixes;
+  const fixes = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
 
   if (fixId && fixes.length === 0) {
     logger.info(`📭 No migrations found for ${chalk.magenta(fixId)}.`);
@@ -119,21 +81,98 @@ export const automigrate = async ({
 
   augmentLogsToFile();
 
+  logger.info('🔎 checking possible migrations..');
+
+  const { fixResults, fixSummary, preCheckFailure } = await runFixes({
+    fixes,
+    useNpm,
+    pkgMgr,
+    userSpecifiedConfigDir,
+    rendererPackage,
+    skipInstall,
+    dryRun,
+    yes,
+  });
+
+  const hasFailures = Object.values(fixResults).some(
+    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
+  );
+
+  // if migration failed, display a log file in the users cwd
+  if (hasFailures) {
+    await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
+  } else {
+    await remove(TEMP_LOG_FILE_PATH);
+  }
+
+  if (!hideMigrationSummary) {
+    const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+    const installationMetadata = await packageManager.findInstallations([
+      '@storybook/*',
+      'storybook',
+    ]);
+
+    logger.info();
+    logger.info(
+      getMigrationSummary({ fixResults, fixSummary, logFile: LOG_FILE_PATH, installationMetadata })
+    );
+    logger.info();
+  }
+
+  cleanup();
+
+  return { fixResults, preCheckFailure };
+};
+
+export async function runFixes({
+  fixes,
+  dryRun,
+  yes,
+  useNpm,
+  pkgMgr,
+  userSpecifiedConfigDir,
+  rendererPackage,
+  skipInstall,
+}: {
+  fixes: Fix[];
+  yes?: boolean;
+  dryRun?: boolean;
+  useNpm?: boolean;
+  pkgMgr?: PackageManagerName;
+  userSpecifiedConfigDir?: string;
+  rendererPackage?: string;
+  skipInstall?: boolean;
+}): Promise<{
+  preCheckFailure?: PreCheckFailure;
+  fixResults: Record<FixId, FixStatus>;
+  fixSummary: FixSummary;
+}> {
+  if (useNpm) {
+    useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
+  }
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
-  const {
-    configDir: inferredConfigDir,
-    mainConfig: mainConfigPath,
-    version: storybookVersion,
-  } = getStorybookInfo(packageManager.retrievePackageJson(), userSpecifiedConfigDir);
+  const fixResults = {} as Record<FixId, FixStatus>;
+  const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
 
-  const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-  if (!sbVersionCoerced) {
+  const { configDir: inferredConfigDir, mainConfig: mainConfigPath } = getStorybookInfo(
+    await packageManager.retrievePackageJson(),
+    userSpecifiedConfigDir
+  );
+
+  const storybookVersion = await getStorybookVersion(packageManager);
+
+  if (!storybookVersion) {
     logger.info(dedent`
-      [Storybook automigrate] ❌ Unable to determine storybook version  so the automigrations will be skipped.
+      [Storybook automigrate] ❌ Unable to determine storybook version so the automigrations will be skipped.
         🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
       `);
     return {
+      fixResults,
+      fixSummary,
       preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION,
     };
   }
@@ -149,6 +188,8 @@ export const automigrate = async ({
         )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`
       );
       return {
+        fixResults,
+        fixSummary,
         preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND,
       };
     }
@@ -160,23 +201,30 @@ export const automigrate = async ({
     logger.info('Please fix the error and try again.');
 
     return {
+      fixResults,
+      fixSummary,
       preCheckFailure: PreCheckFailure.MAINJS_EVALUATION,
     };
   }
-
-  logger.info('🔎 checking possible migrations..');
-  const fixResults = {} as Record<FixId, FixStatus>;
-  const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
 
   for (let i = 0; i < fixes.length; i += 1) {
     const f = fixes[i] as Fix;
     let result;
 
     try {
+      const { mainConfig, previewConfigPath } = await getStorybookData({
+        configDir,
+        packageManager,
+      });
+
       result = await f.check({
         packageManager,
         configDir,
         rendererPackage,
+        mainConfig,
+        storybookVersion,
+        previewConfigPath,
+        mainConfigPath,
       });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
@@ -286,102 +334,5 @@ export const automigrate = async ({
     }
   }
 
-  const hasFailures = Object.values(fixResults).some(
-    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
-  );
-
-  // if migration failed, display a log file in the users cwd
-  if (hasFailures) {
-    await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
-  } else {
-    await remove(TEMP_LOG_FILE_PATH);
-  }
-
-  logger.info();
-  logger.info(getMigrationSummary(fixResults, fixSummary, LOG_FILE_PATH));
-  logger.info();
-
-  cleanup();
-
-  return fixResults;
-};
-
-function getMigrationSummary(
-  fixResults: Record<string, FixStatus>,
-  fixSummary: FixSummary,
-  logFile?: string
-) {
-  const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
-  const hasFailures = Object.values(fixResults).some(
-    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
-  );
-  // eslint-disable-next-line no-nested-ternary
-  const title = hasNoFixes
-    ? 'No migrations were applicable to your project'
-    : hasFailures
-    ? 'Migration check ran with failures'
-    : 'Migration check ran successfully';
-
-  const successfulFixesMessage =
-    fixSummary.succeeded.length > 0
-      ? `
-      ${chalk.bold('Successful migrations:')}\n\n ${fixSummary.succeeded
-          .map((m) => chalk.green(m))
-          .join(', ')}
-    `
-      : '';
-
-  const failedFixesMessage =
-    Object.keys(fixSummary.failed).length > 0
-      ? `
-    ${chalk.bold('Failed migrations:')}\n ${Object.entries(fixSummary.failed).reduce(
-          (acc, [id, error]) => {
-            return `${acc}\n${chalk.redBright(id)}:\n${error}\n`;
-          },
-          ''
-        )}
-    \nYou can find the full logs in ${chalk.cyan(logFile)}\n`
-      : '';
-
-  const manualFixesMessage =
-    fixSummary.manual.length > 0
-      ? `
-      ${chalk.bold('Manual migrations:')}\n\n ${fixSummary.manual
-          .map((m) =>
-            fixResults[m] === FixStatus.MANUAL_SUCCEEDED ? chalk.green(m) : chalk.blue(m)
-          )
-          .join(', ')}
-    `
-      : '';
-
-  const skippedFixesMessage =
-    fixSummary.skipped.length > 0
-      ? `
-      ${chalk.bold('Skipped migrations:')}\n\n ${fixSummary.skipped
-          .map((m) => chalk.cyan(m))
-          .join(', ')}
-    `
-      : '';
-
-  const divider = hasNoFixes ? '' : '\n─────────────────────────────────────────────────\n\n';
-
-  const summaryMessage = dedent`
-    ${successfulFixesMessage}${manualFixesMessage}${failedFixesMessage}${skippedFixesMessage}${divider}If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
-    'npx storybook@next automigrate'
-  )}'
-    
-    The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
-    
-    Please check the changelog and migration guide for manual migrations and more information: ${chalk.yellow(
-      'https://storybook.js.org/migration-guides/7.0'
-    )}
-    And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
-  `;
-
-  return boxen(summaryMessage, {
-    borderStyle: 'round',
-    padding: 1,
-    title,
-    borderColor: hasFailures ? 'red' : 'green',
-  });
+  return { fixResults, fixSummary };
 }

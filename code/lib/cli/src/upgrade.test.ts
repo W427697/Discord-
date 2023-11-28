@@ -1,4 +1,4 @@
-import { addExtraFlags, getStorybookVersion, isCorePackage } from './upgrade';
+import { addExtraFlags, addNxPackagesToReject, getStorybookVersion } from './upgrade';
 
 describe.each([
   ['│ │ │ ├── @babel/code-frame@7.10.3 deduped', null],
@@ -18,20 +18,6 @@ describe.each([
 ])('getStorybookVersion', (input, output) => {
   it(`${input}`, () => {
     expect(getStorybookVersion(input)).toEqual(output);
-  });
-});
-
-describe.each([
-  ['@storybook/react', true],
-  ['@storybook/node-logger', true],
-  ['@storybook/addon-info', true],
-  ['@storybook/something-random', true],
-  ['@storybook/preset-create-react-app', false],
-  ['@storybook/linter-config', false],
-  ['@storybook/design-system', false],
-])('isCorePackage', (input, output) => {
-  it(`${input}`, () => {
-    expect(isCorePackage(input)).toEqual(output);
   });
 });
 
@@ -68,5 +54,35 @@ describe('extra flags', () => {
         devDependencies,
       })
     ).toEqual([]);
+  });
+});
+
+describe('addNxPackagesToReject', () => {
+  it('reject exists and is in regex pattern', () => {
+    const flags = ['--reject', '/preset-create-react-app/', '--some-flag', 'hello'];
+    expect(addNxPackagesToReject(flags)).toMatchObject([
+      '--reject',
+      '/(preset-create-react-app|@nrwl/storybook|@nx/storybook)/',
+      '--some-flag',
+      'hello',
+    ]);
+  });
+  it('reject exists and is in unknown pattern', () => {
+    const flags = ['--some-flag', 'hello', '--reject', '@storybook/preset-create-react-app'];
+    expect(addNxPackagesToReject(flags)).toMatchObject([
+      '--some-flag',
+      'hello',
+      '--reject',
+      '@storybook/preset-create-react-app,@nrwl/storybook,@nx/storybook',
+    ]);
+  });
+  it('reject does not exist', () => {
+    const flags = ['--some-flag', 'hello'];
+    expect(addNxPackagesToReject(flags)).toMatchObject([
+      '--some-flag',
+      'hello',
+      '--reject',
+      '@nrwl/storybook,@nx/storybook',
+    ]);
   });
 });

@@ -1,7 +1,6 @@
 import { dirname, join } from 'path';
 
-// @ts-expect-error (has no typings)
-import downloadTarball from 'download-tarball';
+import downloadTarball from '@ndelangen/get-tarball';
 import getNpmTarballUrl from 'get-npm-tarball-url';
 import * as tempy from 'tempy';
 
@@ -21,7 +20,9 @@ const resolveUsingBranchInstall = async (packageManager: JsPackageManager, reque
   // FIXME: this might not be the right version for community packages
   const version = versions[name] || (await packageManager.latestVersion(request));
 
-  const url = getNpmTarballUrl(request, version, { registry: packageManager.getRegistryURL() });
+  const url = getNpmTarballUrl(request, version, {
+    registry: await packageManager.getRegistryURL(),
+  });
 
   // this unzips the tarball into the temp directory
   await downloadTarball({ url, dir: tempDirectory });
@@ -37,7 +38,7 @@ export async function getRendererDir(
   const frameworkPackageName =
     externalFramework?.renderer || externalFramework?.packageName || `@storybook/${renderer}`;
 
-  const packageJsonPath = `${frameworkPackageName}/package.json`;
+  const packageJsonPath = join(frameworkPackageName, 'package.json');
 
   const errors: Error[] = [];
 

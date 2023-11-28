@@ -2,20 +2,7 @@ import path from 'path';
 import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 
-export interface PresetOptions {
-  configDir: string;
-  /**
-   * Allow to use @storybook/addon-docs
-   * @see https://storybook.js.org/addons/@storybook/addon-docs
-   * @default true
-   */
-  docs?: boolean;
-  /**
-   * Allow to use @storybook/addon-controls
-   * @see https://storybook.js.org/addons/@storybook/addon-controls
-   * @default true
-   */
-  controls?: boolean;
+interface PresetOptions {
   /**
    * Allow to use @storybook/addon-actions
    * @see https://storybook.js.org/addons/@storybook/addon-actions
@@ -28,18 +15,19 @@ export interface PresetOptions {
    * @default true
    */
   backgrounds?: boolean;
+  configDir: string;
   /**
-   * Allow to use @storybook/addon-viewport
-   * @see https://storybook.js.org/addons/@storybook/addon-viewport
+   * Allow to use @storybook/addon-controls
+   * @see https://storybook.js.org/addons/@storybook/addon-controls
    * @default true
    */
-  viewport?: boolean;
+  controls?: boolean;
   /**
-   * Allow to use @storybook/addon-toolbars
-   * @see https://storybook.js.org/addons/@storybook/addon-toolbars
+   * Allow to use @storybook/addon-docs
+   * @see https://storybook.js.org/addons/@storybook/addon-docs
    * @default true
    */
-  toolbars?: boolean;
+  docs?: boolean;
   /**
    * Allow to use @storybook/addon-measure
    * @see https://storybook.js.org/addons/@storybook/addon-measure
@@ -52,6 +40,19 @@ export interface PresetOptions {
    * @default true
    */
   outline?: boolean;
+  themes?: boolean;
+  /**
+   * Allow to use @storybook/addon-toolbars
+   * @see https://storybook.js.org/addons/@storybook/addon-toolbars
+   * @default true
+   */
+  toolbars?: boolean;
+  /**
+   * Allow to use @storybook/addon-viewport
+   * @see https://storybook.js.org/addons/@storybook/addon-viewport
+   * @default true
+   */
+  viewport?: boolean;
 }
 
 const requireMain = (configDir: string) => {
@@ -77,6 +78,8 @@ export function addons(options: PresetOptions) {
   };
 
   const main = requireMain(options.configDir);
+
+  // NOTE: The order of these addons is important.
   return [
     'docs',
     'controls',

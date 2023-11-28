@@ -1,6 +1,8 @@
 import fse from 'fs-extra';
+import path from 'path';
 import { dedent } from 'ts-dedent';
-import { SupportedLanguage } from '../project_types';
+import { logger } from '@storybook/node-logger';
+import { externalFrameworks, SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
@@ -8,6 +10,7 @@ interface ConfigureMainOptions {
   staticDirs?: string[];
   storybookConfigFolder: string;
   language: SupportedLanguage;
+  prefixes: string[];
   /**
    * Extra values for main.js
    *
@@ -28,9 +31,8 @@ interface ConfigurePreviewOptions {
   frameworkPreviewParts?: FrameworkPreviewParts;
   storybookConfigFolder: string;
   language: SupportedLanguage;
+  rendererId: string;
 }
-
-const logger = console;
 
 /**
  * We need to clean up the paths in case of pnp
@@ -49,12 +51,14 @@ const sanitizeFramework = (framework: string) => {
 
 export async function configureMain({
   addons,
-  extensions = ['js', 'jsx', 'ts', 'tsx'],
+  extensions = ['js', 'jsx', 'mjs', 'ts', 'tsx'],
   storybookConfigFolder,
   language,
+  prefixes = [],
   ...custom
 }: ConfigureMainOptions) {
-  const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
+  const srcPath = path.resolve(storybookConfigFolder, '../src');
+  const prefix = (await fse.pathExists(srcPath)) ? '../src' : '../stories';
   const config = {
     stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
@@ -64,7 +68,7 @@ export async function configureMain({
   const isTypescript =
     language === SupportedLanguage.TYPESCRIPT_4_9 || language === SupportedLanguage.TYPESCRIPT_3_8;
 
-  let mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
+  let mainConfigTemplate = dedent`<<import>><<prefix>>const config<<type>> = <<mainContents>>;
     export default config;`;
 
   const frameworkPackage = sanitizeFramework(custom.framework?.name);
@@ -79,6 +83,7 @@ export async function configureMain({
     .replace(/%%['"]/g, '');
 
   const imports = [];
+  const finalPrefixes = [...prefixes];
 
   if (custom.framework?.name.includes('path.dirname(')) {
     imports.push(`import path from 'path';`);
@@ -87,25 +92,43 @@ export async function configureMain({
   if (isTypescript) {
     imports.push(`import type { StorybookConfig } from '${frameworkPackage}';`);
   } else {
-    imports.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
+    finalPrefixes.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
   }
 
-  const mainJsContents = mainConfigTemplate
-    .replace('<<import>>', `${imports.join('\n\n')}\n`)
+  let mainJsContents = mainConfigTemplate
+    .replace('<<import>>', `${imports.join('\n\n')}\n\n`)
+    .replace('<<prefix>>', finalPrefixes.length > 0 ? `${finalPrefixes.join('\n\n')}\n` : '')
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
-  await fse.writeFile(
-    `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
-    dedent(mainJsContents),
-    { encoding: 'utf8' }
-  );
+
+  const mainPath = `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`;
+
+  try {
+    const prettier = (await import('prettier')).default;
+    mainJsContents = prettier.format(dedent(mainJsContents), {
+      ...prettier.resolveConfig.sync(process.cwd()),
+      filepath: mainPath,
+    });
+  } catch {
+    logger.verbose(`Failed to prettify ${mainPath}`);
+  }
+
+  await fse.writeFile(mainPath, mainJsContents, { encoding: 'utf8' });
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
-  const { prefix = '' } = options.frameworkPreviewParts || {};
+  const { prefix: frameworkPrefix = '' } = options.frameworkPreviewParts || {};
   const isTypescript =
     options.language === SupportedLanguage.TYPESCRIPT_4_9 ||
     options.language === SupportedLanguage.TYPESCRIPT_3_8;
+
+  // We filter out community packages here, as we are not certain if they export a Preview type.
+  // Let's make this configurable in the future.
+  const rendererPackage =
+    options.rendererId &&
+    !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
+      ? `@storybook/${options.rendererId}`
+      : null;
 
   const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 
@@ -114,22 +137,45 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     return;
   }
 
-  const preview = dedent`
-    ${prefix}
-    export const parameters = {
-      backgrounds: {
-        default: 'light',
-      },
-      actions: { argTypesRegex: "^on[A-Z].*" },
-      controls: {
-        matchers: {
-          color: /(background|color)$/i,
-          date: /Date$/,
+  const prefix = [
+    isTypescript && rendererPackage ? `import type { Preview } from '${rendererPackage}'` : '',
+    frameworkPrefix,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  let preview = dedent`
+    ${prefix}${prefix.length > 0 ? '\n' : ''}
+    ${
+      !isTypescript && rendererPackage
+        ? `/** @type { import('${rendererPackage}').Preview } */\n`
+        : ''
+    }const preview${isTypescript ? ': Preview' : ''} = {
+      parameters: {
+        actions: { argTypesRegex: '^on[A-Z].*' },
+        controls: {
+          matchers: {
+           color: /(background|color)$/i,
+           date: /Date$/i,
+          },
         },
       },
-    }`
+    };
+    
+    export default preview;
+    `
     .replace('  \n', '')
     .trim();
+
+  try {
+    const prettier = (await import('prettier')).default;
+    preview = prettier.format(preview, {
+      ...prettier.resolveConfig.sync(process.cwd()),
+      filepath: previewPath,
+    });
+  } catch {
+    logger.verbose(`Failed to prettify ${previewPath}`);
+  }
 
   await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
 }

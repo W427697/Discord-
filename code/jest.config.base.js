@@ -4,9 +4,6 @@ const path = require('path');
 
 const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
 
-// This is needed for proper jest mocking, see https://github.com/swc-project/swc/discussions/5151#discussioncomment-3149154
-((swcrc.jsc ??= {}).experimental ??= {}).plugins = [['jest_workaround', {}]];
-
 /**
  * TODO: Some windows related tasks are still commented out, because they are behaving differently on
  * a local Windows machine compared to the Windows Server 2022 machine running in GitHub Actions.
@@ -16,7 +13,6 @@ const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
 const skipOnWindows = [
   'lib/core-server/src/utils/__tests__/server-statics.test.ts',
   'lib/core-common/src/utils/__tests__/template.test.ts',
-  'addons/storyshots-core/src/frameworks/configure.test.ts',
   'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
   'lib/cli/src/helpers.test.ts',
   'lib/csf-tools/src/enrichCsf.test.ts',
@@ -24,26 +20,34 @@ const skipOnWindows = [
 
 const modulesToTransform = [
   '@angular',
-  'ccount',
-  'rxjs',
-  'nanoid',
-  'uuid',
-  'lit-html',
-  'lit',
   '@lit',
   '@mdx-js',
-  'remark',
-  'unified',
-  'vfile',
-  'vfile-message',
+  '@vitest',
+  'ccount',
+  'character-entities',
+  'decode-named-character-reference',
+  'estree',
+  'is-absolute-url',
+  'lit-html',
+  'lit',
   'mdast',
   'micromark',
-  'unist',
-  'estree',
-  'decode-named-character-reference',
-  'character-entities',
-  'zwitch',
+  'nanoid',
+  'node-fetch',
+  'remark',
+  'rxjs',
+  'data-uri-to-buffer',
+  'fetch-blob',
+  'formdata-polyfill',
+  'slash',
+  'space-separated-tokens',
   'stringify-entities',
+  'unified',
+  'unist',
+  'uuid',
+  'vfile-message',
+  'vfile',
+  'zwitch',
 ];
 
 /** @type { import('jest').Config } */
@@ -56,6 +60,8 @@ module.exports = {
       path.resolve('./__mocks__/fileMock.js'),
     '\\.(css|scss|stylesheet)$': path.resolve('./__mocks__/styleMock.js'),
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
+    '@vitest/utils/(.*)': '@vitest/utils/dist/$1.js',
+    '@vitest/utils': '@vitest/utils/dist/index.js',
   },
   transform: {
     '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
@@ -83,6 +89,8 @@ module.exports = {
     '/prebuilt/',
     '/generators/',
     '/template/',
+    // The export format used in the following file is not supported by jest.
+    '/code/frameworks/nextjs/src/next-image-loader-stub.ts',
     '/__mocks__ /',
     '/__mockdata__/',
     '/__mocks-ng-workspace__/',

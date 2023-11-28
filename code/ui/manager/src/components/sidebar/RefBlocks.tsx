@@ -2,21 +2,22 @@ import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { useState, useCallback, Fragment } from 'react';
 
-import { Icons, WithTooltip, Spaced, Button, Link } from '@storybook/components';
+import { WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@storybook/components';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 
+import { ChevronDownIcon, LockIcon, SyncIcon } from '@storybook/icons';
 import { Loader, Contained } from './Loader';
 
-const { window: globalWindow, document } = global;
+const { window: globalWindow } = global;
 
 const TextStyle = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 }));
 const Text = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 
@@ -44,69 +45,6 @@ const ErrorDisplay = styled.pre(
   })
 );
 
-const ErrorName = styled.strong(({ theme }) => ({
-  color: theme.color.orange,
-}));
-const ErrorImportant = styled.strong(({ theme }) => ({
-  color: theme.color.ancillary,
-  textDecoration: 'underline',
-}));
-const ErrorDetail = styled.em(({ theme }) => ({
-  color: theme.textMutedColor,
-}));
-
-const firstLineRegex = /(Error): (.*)\n/;
-const linesRegex = /at (?:(.*) )?\(?(.+)\)?/;
-const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
-  if (!error) {
-    return <Fragment>This error has no stack or message</Fragment>;
-  }
-  if (!error.stack) {
-    return <Fragment>{error.message || 'This error has no stack or message'}</Fragment>;
-  }
-
-  const input = error.stack.toString();
-  const match = input.match(firstLineRegex);
-
-  if (!match) {
-    return <Fragment>{input}</Fragment>;
-  }
-
-  const [, type, name] = match;
-
-  const rawLines = input.split(/\n/).slice(1);
-  const [, ...lines] = rawLines
-    .map((line) => {
-      const r = line.match(linesRegex);
-
-      return r ? { name: r[1], location: r[2].replace(document.location.origin, '') } : null;
-    })
-    .filter(Boolean);
-
-  return (
-    <Fragment>
-      <span>{type}</span>: <ErrorName>{name}</ErrorName>
-      <br />
-      {lines.map((l, i) =>
-        l.name ? (
-          // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={i}>
-            {'  '}at <ErrorImportant>{l.name}</ErrorImportant> (
-            <ErrorDetail>{l.location}</ErrorDetail>)
-            <br />
-          </Fragment>
-        ) : (
-          // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={i}>
-            {'  '}at <ErrorDetail>{l.location}</ErrorDetail>
-            <br />
-          </Fragment>
-        )
-      )}
-    </Fragment>
-  );
-};
-
 export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }) => {
   const [isAuthAttempted, setAuthAttempted] = useState(false);
 
@@ -114,7 +52,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
     globalWindow.document.location.reload();
   }, []);
 
-  const open = useCallback((e) => {
+  const open = useCallback<React.MouseEventHandler>((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
 
@@ -140,8 +78,9 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
               this Storybook.
             </Text>
             <div>
+              {/* TODO: Make sure this button is working without the deprecated props */}
               <Button small gray onClick={refresh}>
-                <Icons icon="sync" />
+                <SyncIcon />
                 Refresh now
               </Button>
             </div>
@@ -151,7 +90,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
             <Text>Sign in to browse this Storybook.</Text>
             <div>
               <Button small gray onClick={open}>
-                <Icons icon="lock" />
+                <LockIcon />
                 Sign in
               </Button>
             </div>
@@ -177,7 +116,7 @@ export const ErrorBlock: FC<{ error: Error }> = ({ error }) => (
         >
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <Link isButton>
-            View error <Icons icon="arrowdown" />
+            View error <ChevronDownIcon />
           </Link>
         </WithTooltip>{' '}
         <Link withArrow href="https://storybook.js.org/docs" cancel={false} target="_blank">
@@ -208,10 +147,14 @@ export const EmptyBlock: FC<any> = ({ isMain }) => (
                   The glob specified in <code>main.js</code> isn't correct.
                 </li>
                 <li>No stories are defined in your story files.</li>
+                <li>You're using filter-functions, and all stories are filtered away.</li>
               </ul>{' '}
             </>
           ) : (
-            <>Yikes! Something went wrong loading these stories.</>
+            <>
+              This composed storybook is empty, maybe you're using filter-functions, and all stories
+              are filtered away.
+            </>
           )}
         </Text>
       </WideSpaced>

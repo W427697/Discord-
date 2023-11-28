@@ -1,10 +1,9 @@
-import type { StorybookConfig } from './types';
+import type { PresetProperty } from '@storybook/types';
 
 export * from './types';
 
-export const addons: StorybookConfig['addons'] = [
+export const addons: PresetProperty<'addons'> = [
   require.resolve('@storybook/preset-react-webpack/dist/framework-preset-react'),
-  require.resolve('@storybook/preset-react-webpack/dist/framework-preset-react-dom-hack'),
   require.resolve('@storybook/preset-react-webpack/dist/framework-preset-cra'),
   require.resolve('@storybook/preset-react-webpack/dist/framework-preset-react-docs'),
 ];

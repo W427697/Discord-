@@ -20,6 +20,12 @@ jest.mock('fs-extra', () => ({
   ensureDir: jest.fn(() => {}),
   existsSync: jest.fn(),
   pathExists: jest.fn(),
+  readFile: jest.fn(() => ''),
+  writeFile: jest.fn(),
+}));
+
+jest.mock('find-up', () => ({
+  sync: jest.fn(),
 }));
 
 jest.mock('path', () => {
@@ -31,6 +37,10 @@ jest.mock('path', () => {
     join: path.join,
   };
 });
+
+const packageManagerMock = {
+  retrievePackageJson: async () => ({ dependencies: {}, devDependencies: {} }),
+} as JsPackageManager;
 
 describe('Helpers', () => {
   beforeEach(() => {
@@ -80,7 +90,11 @@ describe('Helpers', () => {
         (filePath) =>
           componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
       );
-      await helpers.copyTemplateFiles({ renderer: 'react', language });
+      await helpers.copyTemplateFiles({
+        renderer: 'react',
+        language,
+        packageManager: packageManagerMock,
+      });
 
       const copySpy = jest.spyOn(fse, 'copy');
       expect(copySpy).toHaveBeenNthCalledWith(
@@ -99,7 +113,11 @@ describe('Helpers', () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli' || filePath === './src';
     });
-    await helpers.copyTemplateFiles({ renderer: 'react', language: SupportedLanguage.JAVASCRIPT });
+    await helpers.copyTemplateFiles({
+      renderer: 'react',
+      language: SupportedLanguage.JAVASCRIPT,
+      packageManager: packageManagerMock,
+    });
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './src/stories', expect.anything());
   });
 
@@ -107,7 +125,11 @@ describe('Helpers', () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli';
     });
-    await helpers.copyTemplateFiles({ renderer: 'react', language: SupportedLanguage.JAVASCRIPT });
+    await helpers.copyTemplateFiles({
+      renderer: 'react',
+      language: SupportedLanguage.JAVASCRIPT,
+      packageManager: packageManagerMock,
+    });
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());
   });
 
@@ -115,7 +137,11 @@ describe('Helpers', () => {
     const renderer = 'unknown renderer' as SupportedRenderers;
     const expectedMessage = `Unsupported renderer: ${renderer}`;
     await expect(
-      helpers.copyTemplateFiles({ renderer, language: SupportedLanguage.JAVASCRIPT })
+      helpers.copyTemplateFiles({
+        renderer,
+        language: SupportedLanguage.JAVASCRIPT,
+        packageManager: packageManagerMock,
+      })
     ).rejects.toThrowError(expectedMessage);
   });
 

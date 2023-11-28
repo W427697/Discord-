@@ -1,5 +1,6 @@
 ---
 title: 'Browse Stories'
+hideRendererSelector: true
 ---
 
 Last chapter, we learned that stories correspond with discrete component states. This chapter demonstrates how to use Storybook as a workshop for building components.
@@ -19,12 +20,7 @@ Navigate between stories by clicking on them in the sidebar. Try the sidebar sea
 
 Or use keyboard shortcuts. Click on the Storybook's menu to see the list of shortcuts available.
 
-<video autoPlay muted playsInline loop>
-  <source
-    src="storybook-keyboard-shortcuts-optimized.mp4"
-    type="video/mp4"
-  />
-</video>
+![Storybook keyboard shortcuts examples](./storybook-keyboard-shortcuts.png)
 
 ## Toolbar
 
@@ -44,14 +40,9 @@ Storybook ships with time-saving tools built-in. The toolbar contains tools that
   />
 </video>
 
-The [“Docs”](../writing-docs/introduction.md) page displays auto-generated documentation for components (inferred from the source code). Usage documentation is helpful when sharing reusable components with your team, for example, in an application.
+The [“Docs”](../writing-docs/index.md) page displays auto-generated documentation for components (inferred from the source code). Usage documentation is helpful when sharing reusable components with your team, for example, in an application.
 
-<video autoPlay muted playsInline loop>
-  <source
-    src="docspage-optimized.mp4"
-    type="video/mp4"
-  />
-</video>
+![Storybook keyboard shortcuts examples](./mdx-example.png)
 
 The toolbar is customizable. You can use [globals](../essentials/toolbars-and-globals.md) to quickly toggle themes and languages. Or install Storybook toolbar [addons](../configure/storybook-addons.md) from the community to enable advanced workflows.
 
@@ -72,7 +63,7 @@ Addons are plugins that extend Storybook's core functionality. You can find them
   />
 </video>
 
-Storybook is extensible. Our rich ecosystem of addons helps you test, document, and optimize your stories. You can also create an addon to satisfy your workflow requirements. Read more in the [addons section](../addons/introduction.md).
+Storybook is extensible. Our rich ecosystem of addons helps you test, document, and optimize your stories. You can also create an addon to satisfy your workflow requirements. Read more in the [addons section](../addons/index.md).
 
 In the next chapter, we'll get your components rendering in Storybook so you can use it to supercharge component development.
 
@@ -88,6 +79,6 @@ Here's what the workflow looks like:
 - 👀 Review its stories to pick a variant that suits your needs
 - 📝 Copy/paste the story definition into your app code and wire it up to data
 
-You can access the story definition from the stories file or make it available in your published Storybook using the [Storysource addon](https://storybook.js.org/addons/@storybook/addon-storysource/) or the [Docs addon](../writing-docs/doc-block-source).
+You can access the story definition from the stories file or make it available in your published Storybook using the [Storysource addon](https://storybook.js.org/addons/@storybook/addon-storysource/) or the [Docs addon](../api/doc-block-source).
 
-![Docs blocks with source](../writing-docs/docblock-source.png)
+![Docblock source](./docblock-source.png)
