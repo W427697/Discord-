@@ -1,3 +1,12 @@
+## 7.6.0-beta.3
+
+- Docs: Changes corresponding to docs design updates - [#24925](https://github.com/storybookjs/storybook/pull/24925), thanks [@kylegach](https://github.com/kylegach)!
+- Next.js: Fix Fast Refresh config for SWC mode - [#24991](https://github.com/storybookjs/storybook/pull/24991), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Next.js: Fix react-docgen usage with preset-env settings - [#24993](https://github.com/storybookjs/storybook/pull/24993), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+- Test Build: Filter out addon-docs from essentials in the test build - [#24994](https://github.com/storybookjs/storybook/pull/24994), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Test: Downgrade @testing-library/user-event to 14.3.0 - [#25004](https://github.com/storybookjs/storybook/pull/25004), thanks [@kasperpeulen](https://github.com/kasperpeulen)!
+- Webpack5: Only load babel config when babel-loader is used - [#25002](https://github.com/storybookjs/storybook/pull/25002), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!
+
 ## 7.6.0-beta.2
 
 - Actions: Fix `@storybook/core-events/preview-errors` dependency missing for Yarn PnP - [#24973](https://github.com/storybookjs/storybook/pull/24973), thanks [@JReinhold](https://github.com/JReinhold)!
