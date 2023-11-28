@@ -27,14 +27,14 @@ By default, Storybook provides zero-config support for Webpack and automatically
 
 ### Override the default configuration
 
-Storybook's Webpack configuration is based on [Webpack 5](https://webpack.js.org/), allowing it to be extended to fit your project's needs. If you need to add a loader or a plugin, you can provide the `webpackFinal` configuration element in your [`.storybook/main.js|ts`](../configure/overview.md#configure-your-storybook-project) file. The configuration element should export a function that receives the baseline configuration as the first argument and Storybook's options object as the second argument. For example:
+Storybook's Webpack configuration is based on [Webpack 5](https://webpack.js.org/), allowing it to be extended to fit your project's needs. If you need to add a loader or a plugin, you can provide the `webpackFinal` configuration element in your [`.storybook/main.js|ts`](../configure/index.md#configure-your-storybook-project) file. The configuration element should export a function that receives the baseline configuration as the first argument and Storybook's options object as the second argument. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-add-sass-config.js.mdx',
-    'common/storybook-main-add-sass-config.ts.mdx',
+    'common/main-config-webpack-final.js.mdx',
+    'common/main-config-webpack-final.ts.mdx',
   ]}
 />
 
@@ -74,10 +74,11 @@ If you already have an existing Webpack configuration file that you need to reus
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Projects scaffolded based on generators may require that you import their specific Webpack configuration files. We suggest reading your generator's documentation for more information.
+<Callout variant="info" icon="💡">
 
-</div>
+Projects scaffolded based on generators may require that you import their specific Webpack configuration files. We suggest reading your generator's documentation for more information.
+
+</Callout>
 
 ### Debug Webpack configuration
 
@@ -123,6 +124,19 @@ Storybook's default Webpack configuration provides support for most project setu
   paths={[
     'common/storybook-main-ts-module-resolution.js.mdx',
     'common/storybook-main-ts-module-resolution.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+However, if you're working with a framework that provides a default aliasing configuration (e.g., Next.js, Nuxt) and you want to configure Storybook to use the same aliases, you may not need to install any additional packages. Instead, you can extend the default configuration of Storybook to use the same aliases provided by the framework. For example, to set up an alias for the `@` import path, you can add the following to your `.storybook/main.js|ts` file:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-ts-module-resolution-atsign-import.js.mdx',
+    'common/storybook-main-ts-module-resolution-atsign-import.ts.mdx',
   ]}
 />
 

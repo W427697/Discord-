@@ -6,7 +6,7 @@ import {
 import type {
   Args,
   ProjectAnnotations,
-  ComposedStory,
+  StoryAnnotationsOrFn,
   Store_CSFExports,
   StoriesWithPartialProps,
 } from '@storybook/types';
@@ -24,12 +24,12 @@ import type { ReactRenderer } from './types';
  *```jsx
  * // setup.js (for jest)
  * import { setProjectAnnotations } from '@storybook/react';
- * import * as projectAnnotations from './.storybook/preview';
+ * import projectAnnotations from './.storybook/preview';
  *
  * setProjectAnnotations(projectAnnotations);
  *```
  *
- * @param projectAnnotations - e.g. (import * as projectAnnotations from '../.storybook/preview')
+ * @param projectAnnotations - e.g. (import projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
   projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
@@ -81,13 +81,13 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
  * @param [exportsName] - in case your story does not contain a name and you want it to have a name.
  */
 export function composeStory<TArgs extends Args = Args>(
-  story: ComposedStory<ReactRenderer, TArgs>,
+  story: StoryAnnotationsOrFn<ReactRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<ReactRenderer>,
   exportsName?: string
 ) {
   return originalComposeStory<ReactRenderer, TArgs>(
-    story as ComposedStory<ReactRenderer, Args>,
+    story as StoryAnnotationsOrFn<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,

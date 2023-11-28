@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Button,
   IconButton,
-  Icons,
   Separator,
   P,
   TooltipNote,
@@ -14,6 +13,13 @@ import type { Call, ControlStates } from '@storybook/instrumenter';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
+import {
+  FastForwardIcon,
+  PlayBackIcon,
+  PlayNextIcon,
+  RewindIcon,
+  SyncIcon,
+} from '@storybook/icons';
 import { StatusBadge } from './StatusBadge';
 
 import type { Controls } from './InteractionsPanel';
@@ -40,8 +46,6 @@ export interface SubnavProps {
   status: Call['status'];
   storyFileName?: string;
   onScrollToEnd?: () => void;
-  isRerunAnimating: boolean;
-  setIsRerunAnimating: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -114,8 +118,6 @@ export const Subnav: React.FC<SubnavProps> = ({
   status,
   storyFileName,
   onScrollToEnd,
-  isRerunAnimating,
-  setIsRerunAnimating,
 }) => {
   const buttonText = status === CallStates.ERROR ? 'Scroll to error' : 'Scroll to end';
 
@@ -139,7 +141,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.start}
                 disabled={!controlStates.start}
               >
-                <Icons icon="rewind" />
+                <RewindIcon />
               </RewindButton>
             </WithTooltip>
 
@@ -150,7 +152,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.back}
                 disabled={!controlStates.back}
               >
-                <Icons icon="playback" />
+                <PlayBackIcon />
               </StyledIconButton>
             </WithTooltip>
 
@@ -161,7 +163,7 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.next}
                 disabled={!controlStates.next}
               >
-                <Icons icon="playnext" />
+                <PlayNextIcon />
               </StyledIconButton>
             </WithTooltip>
 
@@ -172,20 +174,13 @@ export const Subnav: React.FC<SubnavProps> = ({
                 onClick={controls.end}
                 disabled={!controlStates.end}
               >
-                <Icons icon="fastforward" />
+                <FastForwardIcon />
               </StyledIconButton>
             </WithTooltip>
 
             <WithTooltip trigger="hover" hasChrome={false} tooltip={<Note note="Rerun" />}>
-              <RerunButton
-                aria-label="Rerun"
-                containsIcon
-                onClick={controls.rerun}
-                onAnimationEnd={() => setIsRerunAnimating(false)}
-                animating={isRerunAnimating}
-                disabled={isRerunAnimating}
-              >
-                <Icons icon="sync" />
+              <RerunButton aria-label="Rerun" containsIcon onClick={controls.rerun}>
+                <SyncIcon />
               </RerunButton>
             </WithTooltip>
           </Group>

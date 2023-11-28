@@ -2,7 +2,7 @@
 title: 'Stories for multiple components'
 ---
 
-It's useful to write stories that [render two or more components](../writing-stories/introduction.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components.
+It's useful to write stories that [render two or more components](../writing-stories/index.md#stories-for-two-or-more-components) at once if those components are designed to work together. For example, `ButtonGroups`, `Lists`, and `Page` components.
 
 ## Reusing subcomponent stories
 
@@ -21,6 +21,8 @@ The simplest approach we can take is to reuse the stories of the `ListItem` in t
     'angular/list-story-unchecked.ts.mdx',
     'web-components/list-story-unchecked.js.mdx',
     'web-components/list-story-unchecked.ts.mdx',
+    'solid/list-story-unchecked.js.mdx',
+    'solid/list-story-unchecked.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-unchecked"
@@ -41,7 +43,7 @@ One way we improve that situation is by pulling the rendered subcomponent out in
 <CodeSnippets
   paths={[
     'react/list-story-with-unchecked-children.js.mdx',
-    'react/list-story-with-unchecked-children.ts.mdx',
+    'react/list-story-with-unchecked-children.ts.mdx',    
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-unchecked-children"
@@ -60,11 +62,11 @@ The `children` `args` as any other arg needs to be JSON serializable. It means t
 
 As they could lead into errors with your Storybook.
 
-<div class="aside">
+<Callout variant="info">
 
 We're currently working on improving the overall experience for the children arg and allow you to edit children arg in a control and allow you to use other types of components in the near future. But for now you need to factor in this caveat when you're implementing your stories.
 
-</div>
+</Callout>
 
 ## Creating a Template Component
 
@@ -83,6 +85,8 @@ Another option that is more “data”-based is to create a special “story-gen
     'angular/list-story-template.ts.mdx',
     'web-components/list-story-template.js.mdx',
     'web-components/list-story-template.ts.mdx',
+    'solid/list-story-template.js.mdx',
+    'solid/list-story-template.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-template"

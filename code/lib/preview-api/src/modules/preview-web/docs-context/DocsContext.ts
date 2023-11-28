@@ -14,7 +14,6 @@ import type { Channel } from '@storybook/channels';
 
 import dedent from 'ts-dedent';
 import type { StoryStore } from '../../store';
-import { prepareMeta } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
@@ -35,7 +34,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   constructor(
     public channel: Channel,
     protected store: StoryStore<TRenderer>,
-    public renderStoryToElement: DocsContextProps['renderStoryToElement'],
+    public renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */
     csfFiles: CSFFile<TRenderer>[]
   ) {
@@ -181,11 +180,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
       case 'meta': {
         return {
           ...resolved,
-          preparedMeta: prepareMeta(
-            resolved.csfFile.meta,
-            this.projectAnnotations,
-            resolved.csfFile.moduleExports.default
-          ),
+          preparedMeta: this.store.preparedMetaFromCSFFile({ csfFile: resolved.csfFile }),
         };
       }
       case 'story':

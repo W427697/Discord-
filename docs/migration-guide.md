@@ -6,14 +6,16 @@ Storybook 7 is our first major release in over 2 years. A lot has changed during
 
 ## Major breaking changes
 
-The rest of this guide will help you upgrade successfully, either automatically or manually. But first, we’ve accumulated a lot of breaking changes in Storybook 7. Here are the most impactful changes you should know about before you go further:
+The rest of this guide will help you upgrade successfully, either automatically or manually. But first, we’ve accumulated a lot of [breaking changes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#70-breaking-changes) in Storybook 7. Here are the most impactful changes you should know about before you go further:
 
 - [Webpack4 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued)
 - [IE11 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#modern-browser-support)
 - [Minimum supported version of node is 16](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-support-for-node-15-and-below)
+- [Babel mode v7 exclusively](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#babel-mode-v7-exclusively)
+- [Start and build CLI binaries removed](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed)
 - [Some community addons might not work yet](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#specific-instructions-for-addon-users)
 
-If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before continuing. If these are hard requirements, you should probably stick with Storybook 6.x.
+If any of these apply to your project, please read through the [full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700) before continuing. If any of these new requirements or changes do not fit your project, you should probably stick with Storybook 6.x.
 
 ## Automatic upgrade
 
@@ -24,7 +26,8 @@ To upgrade your Storybook:
 <CodeSnippets
   paths={[
     'common/storybook-upgrade.npm.js.mdx',
-    'common/storybook-upgrade.pnpm.js.mdx'
+    'common/storybook-upgrade.pnpm.js.mdx',
+    'common/storybook-upgrade.yarn.js.mdx'
   ]}
 />
 
@@ -45,7 +48,8 @@ To add Storybook to a project that isn’t currently using Storybook:
 <CodeSnippets
   paths={[
     'common/init-command.npx.js.mdx',
-    'common/init-command.pnpm.js.mdx'
+    'common/init-command.pnpm.js.mdx',
+    'common/init-command.yarn.js.mdx'
   ]}
 />
 
@@ -65,7 +69,7 @@ In addition to the automated upgrades above, there are manual migrations that mi
 
 ### Upgrade MDX1 to MDX2
 
-Storybook 7 uses MDX2 by default for rendering [docs](./writing-docs/introduction.md). The upgrade from MDX1 to MDX2 is not fully automated, due to the large number of changes between versions. Fortunately, we have some tips to help make it a lot easier.
+Storybook 7 uses MDX2 by default for rendering [docs](./writing-docs/index.md). The upgrade from MDX1 to MDX2 is not fully automated, due to the large number of changes between versions. Fortunately, we have some tips to help make it a lot easier.
 
 #### Automatically detect MDX2 errors with a CLI tool
 
@@ -103,8 +107,8 @@ To use MDX1:
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-fallback-mdx.js.mdx',
-    'common/storybook-main-fallback-mdx.ts.mdx'
+    'common/main-config-features-legacy-mdx-1.js.mdx',
+    'common/main-config-features-legacy-mdx-1.ts.mdx'
   ]}
 />
 
@@ -124,8 +128,8 @@ To opt out, add the `storyStoreV7` feature flag in `.storybook/main.js`:
 
 <CodeSnippets
   paths={[
-    'common/storybook-on-demand-story-loading.js.mdx',
-    'common/storybook-on-demand-story-loading.ts.mdx'
+    'common/main-config-features-story-store-v7.js.mdx',
+    'common/main-config-features-story-store-v7.ts.mdx'
   ]}
 />
 
@@ -139,7 +143,7 @@ The automatic upgrade should get your Storybook into a working state. If you enc
 
 1. If you’re running `storybook` with the `dev` command, try using the `build` command instead. Sometimes `build` errors are more legible than `dev` errors!
 2. Check [the full migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700), which contains an exhaustive list of noteworthy changes in Storybook 7. Many of these are already handled by automigrations when you upgrade, but not all are. It’s also possible that you’re experiencing a corner case that we’re not aware of.
-3. Search [Storybook issues on Github](https://github.com/storybookjs/storybook/issues). If you’re seeing a problem, there’s a good chance other people are too. If so, upvote the issue, try out any workarounds described in the comments, and comment back if you have useful info to contribute.
+3. Search [Storybook issues on GitHub](https://github.com/storybookjs/storybook/issues). If you’re seeing a problem, there’s a good chance other people are too. If so, upvote the issue, try out any workarounds described in the comments, and comment back if you have useful info to contribute.
 4. If there’s no existing issue, you can [file one](https://github.com/storybookjs/storybook/issues/new/choose), ideally with a reproduction attached. We’ll be on top of Storybook 7 issues as we’re stabilizing the release.
 5. If you prefer a more interactive medium, try out the `#prerelease` forum in the [Storybook Discord](https://discord.gg/storybook). We have Storybook maintainers and a large community of users who should be able to give you a hand.
 
@@ -179,7 +183,7 @@ npx storybook@latest migrate storiesof-to-csf --glob="src/**/*.stories.tsx"
 
 ### .stories.mdx to MDX+CSF
 
-Storybook 7 provides a cleaner [docs](./writing-docs/introduction.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
+Storybook 7 provides a cleaner [docs](./writing-docs/index.md) that defines manual documentation in pure MDX and stories in CSF, rather than the previous `.stories.mdx` hybrid approach, which is now deprecated. You can automatically convert your files using the following codemod (make sure to update the glob to fit your files):
 
 ```sh
 npx storybook@latest migrate mdx-to-csf --glob "src/**/*.stories.mdx"
@@ -221,7 +225,7 @@ export default {
 // .storybook/main.js
 
 module.exports = {
-  stories: ['../src/**.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**.stories.@(js|jsx|mjs|ts|tsx)'],
 };
 ```
 
@@ -261,6 +265,6 @@ Finally, you’ll need to add the MDX files to `.storybook/main.js` so that they
 // .storybook/main.js
 
 module.exports = {
-  stories: ['../src/**.mdx', '../src/**.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**.mdx', '../src/**.stories.@(js|jsx|mjs|ts|tsx)'],
 };
 ```

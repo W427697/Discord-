@@ -18,6 +18,7 @@ const TestComponent1 = Component({})(class {});
 const TestComponent2 = Component({})(class {});
 const StandaloneTestComponent = Component({ standalone: true })(class {});
 const TestDirective = Directive({})(class {});
+const StandaloneTestDirective = Directive({ standalone: true })(class {});
 const TestModuleWithDeclarations = NgModule({ declarations: [TestComponent1] })(class {});
 const TestModuleWithImportsAndProviders = NgModule({
   imports: [TestModuleWithDeclarations],
@@ -45,6 +46,8 @@ const extractApplicationProviders = (metadata: NgModuleMetadata, component?: any
 };
 
 describe('PropertyExtractor', () => {
+  jest.spyOn(console, 'warn').mockImplementation(() => {});
+
   describe('analyzeMetadata', () => {
     it('should remove BrowserModule', () => {
       const metadata = {
@@ -114,6 +117,20 @@ describe('PropertyExtractor', () => {
         CommonModule,
         TestModuleWithImportsAndProviders,
         StandaloneTestComponent,
+      ]);
+    });
+
+    it('should return standalone directives', () => {
+      const imports = extractImports(
+        {
+          imports: [TestModuleWithImportsAndProviders],
+        },
+        StandaloneTestDirective
+      );
+      expect(imports).toEqual([
+        CommonModule,
+        TestModuleWithImportsAndProviders,
+        StandaloneTestDirective,
       ]);
     });
   });

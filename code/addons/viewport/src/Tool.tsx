@@ -1,13 +1,13 @@
-/* eslint-disable no-fallthrough */
 import type { ReactNode, FC } from 'react';
 import React, { useState, Fragment, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
+import { GrowIcon, TransferIcon } from '@storybook/icons';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
@@ -37,28 +37,17 @@ const baseViewports: ViewportItem[] = [responsiveViewport];
 
 const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state, close): Link[] => {
   return list
+    .filter((i) => i.id !== responsiveViewport.id || active.id !== i.id)
     .map((i) => {
-      switch (i.id) {
-        case responsiveViewport.id: {
-          if (active.id === i.id) {
-            return null;
-          }
-        }
-        default: {
-          return {
-            ...i,
-            onClick: () => {
-              set({ ...state, selected: i.id });
-              close();
-            },
-          };
-        }
-      }
-    })
-    .filter(Boolean);
+      return {
+        ...i,
+        onClick: () => {
+          set({ ...state, selected: i.id });
+          close();
+        },
+      };
+    });
 });
-
-const wrapperId = 'storybook-preview-wrapper';
 
 interface LinkBase {
   id: string;
@@ -112,13 +101,14 @@ interface ViewportToolState {
 }
 
 const getStyles = (
-  prevStyles: ViewportStyles,
+  prevStyles: ViewportStyles | undefined,
   styles: Styles,
   isRotated: boolean
-): ViewportStyles => {
+): ViewportStyles | undefined => {
   if (styles === null) {
-    return null;
+    return undefined;
   }
+
   const result = typeof styles === 'function' ? styles(prevStyles) : styles;
   return isRotated ? flip(result) : result;
 };
@@ -154,7 +144,8 @@ export const ViewportTool: FC = memo(
     useEffect(() => {
       setState({
         selected:
-          defaultViewport || (viewports[state.selected] ? state.selected : responsiveViewport.id),
+          defaultViewport ||
+          (state.selected && viewports[state.selected] ? state.selected : responsiveViewport.id),
         isRotated: defaultOrientation === 'landscape',
       });
     }, [defaultOrientation, defaultViewport]);
@@ -196,7 +187,7 @@ export const ViewportTool: FC = memo(
               setState({ ...state, selected: responsiveViewport.id });
             }}
           >
-            <Icons icon="grow" />
+            <GrowIcon />
             {styles ? (
               <IconButtonLabel>
                 {isRotated ? `${item.title} (L)` : `${item.title} (P)`}
@@ -210,25 +201,10 @@ export const ViewportTool: FC = memo(
             <Global
               styles={{
                 [`iframe[data-is-storybook="true"]`]: {
-                  margin: `auto`,
-                  transition: 'width .3s, height .3s',
-                  position: 'relative',
-                  border: `1px solid black`,
-                  boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',
-
-                  ...styles,
-                },
-                [`#${wrapperId}`]: {
-                  padding: theme.layoutMargin,
-                  alignContent: 'center',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  justifyItems: 'center',
-                  overflow: 'auto',
-
-                  display: 'grid',
-                  gridTemplateColumns: '100%',
-                  gridTemplateRows: '100%',
+                  ...(styles || {
+                    width: '100%',
+                    height: '100%',
+                  }),
                 },
               }}
             />
@@ -242,7 +218,7 @@ export const ViewportTool: FC = memo(
                 setState({ ...state, isRotated: !isRotated });
               }}
             >
-              <Icons icon="transfer" />
+              <TransferIcon />
             </IconButton>
             <ActiveViewportLabel title="Viewport height">
               {styles.height.replace('px', '')}
