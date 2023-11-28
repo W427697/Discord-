@@ -1,18 +1,16 @@
+/* eslint-disable no-param-reassign */
 import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
+import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 
 import dedent from 'ts-dedent';
+import boxen from 'boxen';
+import { readdirSync } from 'fs-extra';
 import { installableProjectTypes, ProjectType } from './project_types';
-import {
-  detect,
-  isStorybookInstantiated,
-  detectLanguage,
-  detectBuilder,
-  detectPnp,
-} from './detect';
+import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import emberGenerator from './generators/EMBER';
@@ -32,12 +30,10 @@ import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
-import type { JsPackageManager } from './js-package-manager';
+import type { JsPackageManager, PackageManagerName } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
-import { automigrate } from './automigrate';
-import type { CommandOptions } from './generators/types';
-import { initFixes } from './automigrate/fixes';
+import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
 
 const logger = console;
@@ -52,21 +48,16 @@ const installStorybook = async <Project extends ProjectType>(
     skipInstall: options.skipInstall,
   };
 
-  let packageJson;
-  try {
-    packageJson = await packageManager.readPackageJson();
-  } catch (err) {
-    //
-  }
+  const language = await detectLanguage(packageManager);
+  const pnp = await detectPnp();
 
-  const language = detectLanguage(packageJson);
-  const pnp = detectPnp();
-
-  const generatorOptions = {
+  const generatorOptions: GeneratorOptions = {
     language,
-    builder: options.builder || (await detectBuilder(packageManager, projectType)),
+    builder: options.builder,
     linkable: !!options.linkable,
     pnp: pnp || options.usePnp,
+    yes: options.yes,
+    projectType,
   };
 
   const runGenerator: () => Promise<any> = async () => {
@@ -163,11 +154,7 @@ const installStorybook = async <Project extends ProjectType>(
         );
 
       case ProjectType.NX:
-        throw new Error(dedent`
-          We have detected Nx in your project. Please use "nx g @nrwl/storybook:configuration" to add Storybook to your project.
-          
-          For more information, please see https://nx.dev/packages/storybook
-        `);
+        throw new NxProjectDetectedError();
 
       case ProjectType.SOLID:
         return solidGenerator(packageManager, npmOptions, generatorOptions).then(
@@ -201,7 +188,7 @@ const installStorybook = async <Project extends ProjectType>(
   try {
     return await runGenerator();
   } catch (err) {
-    if (err?.stack) {
+    if (err?.message !== 'Canceled by the user' && err?.stack) {
       logger.error(`\n     ${chalk.red(err.stack)}`);
     }
     throw new HandledError(err);
@@ -211,6 +198,7 @@ const installStorybook = async <Project extends ProjectType>(
 const projectTypeInquirer = async (
   options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
+  // eslint-disable-next-line consistent-return
 ) => {
   const manualAnswer = options.yes
     ? true
@@ -223,7 +211,7 @@ const projectTypeInquirer = async (
       ]);
 
   if (manualAnswer !== true && manualAnswer.manual) {
-    const frameworkAnswer = await prompts([
+    const { manualFramework } = await prompts([
       {
         type: 'select',
         name: 'manualFramework',
@@ -234,18 +222,79 @@ const projectTypeInquirer = async (
         })),
       },
     ]);
-    return installStorybook(frameworkAnswer.manualFramework, packageManager, options);
+
+    if (manualFramework) {
+      return installStorybook(manualFramework, packageManager, options);
+    }
   }
-  return Promise.resolve();
+
+  logger.log();
+  logger.log('For more information about installing Storybook: https://storybook.js.org/docs');
+  process.exit(0);
 };
 
-async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+const getEmptyDirMessage = (packageManagerType: PackageManagerName) => {
+  const generatorCommandsMap = {
+    vite: {
+      npm: 'npm create vite@latest',
+      yarn1: 'yarn create vite',
+      yarn2: 'yarn create vite',
+      pnpm: 'pnpm create vite',
+    },
+    angular: {
+      npm: 'npx -p @angular/cli ng new my-project --package-manager=npm',
+      yarn1: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
+      yarn2: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
+      pnpm: 'npx -p @angular/cli ng new my-project --package-manager=pnpm',
+    },
+  };
+
+  return dedent`
+      Storybook cannot be installed into an empty project. We recommend creating a new project with the following:
+
+      📦 Vite CLI for React/Vue/Web Components => ${chalk.green(
+        generatorCommandsMap.vite[packageManagerType]
+      )}
+      See ${chalk.yellowBright('https://vitejs.dev/guide/#scaffolding-your-first-vite-project')}
+
+      📦 Angular CLI => ${chalk.green(generatorCommandsMap.angular[packageManagerType])}
+      See ${chalk.yellowBright('https://angular.io/cli/new')}
+
+      📦 Any other tooling of your choice
+
+      Once you've created a project, please re-run ${chalk.green(
+        'npx storybook@latest init'
+      )} inside the project root. For more information, see ${chalk.yellowBright(
+    'https://storybook.js.org/docs'
+  )}
+
+      Good luck! 🚀
+    `;
+};
+
+async function doInitiate(
+  options: CommandOptions,
+  pkg: PackageJson
+): Promise<
+  | {
+      shouldRunDev: true;
+      projectType: ProjectType;
+      packageManager: JsPackageManager;
+      storybookCommand: string;
+    }
+  | { shouldRunDev: false }
+> {
   let { packageManager: pkgMgr } = options;
   if (options.useNpm) {
     useNpmWarning();
 
     pkgMgr = 'npm';
   }
+
+  const cwdFolderEntries = readdirSync(process.cwd());
+  const isEmptyDir =
+    cwdFolderEntries.length === 0 || cwdFolderEntries.every((entry) => entry.startsWith('.'));
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
@@ -257,18 +306,27 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   });
 
-  let projectType;
+  if (options.force !== true && isEmptyDir) {
+    logger.log(
+      boxen(getEmptyDirMessage(packageManager.type), {
+        borderStyle: 'round',
+        padding: 1,
+        borderColor: '#F1618C',
+      })
+    );
+    throw new HandledError('Project was initialized in an empty directory.');
+  }
+
+  let projectType: ProjectType;
   const projectTypeProvided = options.type;
   const infoText = projectTypeProvided
     ? `Installing Storybook for user specified project type: ${projectTypeProvided}`
     : 'Detecting project type';
   const done = commandLog(infoText);
 
-  const packageJson = await packageManager.retrievePackageJson();
-
   if (projectTypeProvided) {
     if (installableProjectTypes.includes(projectTypeProvided)) {
-      projectType = projectTypeProvided.toUpperCase();
+      projectType = projectTypeProvided.toUpperCase() as ProjectType;
     } else {
       done(`The provided project type was not recognized by Storybook: ${projectTypeProvided}`);
       logger.log(`\nThe project types currently supported by Storybook are:\n`);
@@ -278,7 +336,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     }
   } else {
     try {
-      projectType = detect(packageJson, options);
+      projectType = await detect(packageManager, options);
     } catch (err) {
       done(err.message);
       throw new HandledError(err);
@@ -288,7 +346,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
 
   const storybookInstantiated = isStorybookInstantiated();
 
-  if (storybookInstantiated && projectType !== ProjectType.ANGULAR) {
+  if (options.force === false && storybookInstantiated && projectType !== ProjectType.ANGULAR) {
     logger.log();
     const { force } = await prompts([
       {
@@ -301,11 +359,14 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     logger.log();
 
     if (force) {
-      // eslint-disable-next-line no-param-reassign
       options.force = true;
     } else {
       process.exit(0);
     }
+  }
+
+  if (!options.skipInstall) {
+    await packageManager.installDependencies();
   }
 
   const installResult = await installStorybook(projectType as ProjectType, packageManager, options);
@@ -315,25 +376,10 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
   }
 
   if (!options.disableTelemetry) {
-    telemetry('init', { projectType });
+    await telemetry('init', { projectType });
   }
 
-  if (projectType !== ProjectType.REACT_NATIVE) {
-    await automigrate({
-      yes: options.yes || process.env.CI === 'true',
-      packageManager: pkgMgr,
-      fixes: initFixes,
-      configDir: installResult?.configDir,
-      hideMigrationSummary: true,
-    });
-  }
-
-  logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
-
-  if (projectType === ProjectType.ANGULAR) {
-    logger.log('\nTo run your Storybook, type:\n');
-    codeLog([`ng run ${installResult.projectName}:storybook`]);
-  } else if (projectType === ProjectType.REACT_NATIVE) {
+  if (projectType === ProjectType.REACT_NATIVE) {
     logger.log();
     logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
     logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
@@ -343,17 +389,39 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     logger.log('\n For more in information, see the github readme:\n');
     logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
     logger.log();
-  } else {
-    logger.log('\nTo run your Storybook, type:\n');
-    codeLog([packageManager.getRunStorybookCommand()]);
+
+    return { shouldRunDev: false };
   }
 
-  // Add a new line for the clear visibility.
-  logger.log();
+  const storybookCommand =
+    projectType === ProjectType.ANGULAR
+      ? `ng run ${installResult.projectName}:storybook`
+      : packageManager.getRunStorybookCommand();
+  logger.log(
+    boxen(
+      dedent`
+          Storybook was successfully installed in your project! 🎉
+          To run Storybook manually, run ${chalk.yellow(
+            chalk.bold(storybookCommand)
+          )}. CTRL+C to stop.
+          
+          Wanna know more about Storybook? Check out ${chalk.cyan('https://storybook.js.org/')}
+          Having trouble or want to chat? Join us at ${chalk.cyan('https://discord.gg/storybook/')}
+        `,
+      { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
+    )
+  );
+
+  return {
+    shouldRunDev: process.env.CI !== 'true' && process.env.IN_STORYBOOK_SANDBOX !== 'true',
+    projectType,
+    packageManager,
+    storybookCommand,
+  };
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
-  await withTelemetry(
+  const initiateResult = await withTelemetry(
     'init',
     {
       cliOptions: options,
@@ -361,4 +429,43 @@ export async function initiate(options: CommandOptions, pkg: PackageJson): Promi
     },
     () => doInitiate(options, pkg)
   );
+
+  if (initiateResult.shouldRunDev) {
+    const { projectType, packageManager, storybookCommand } = initiateResult;
+    logger.log('\nRunning Storybook');
+
+    try {
+      const isReactWebProject =
+        projectType === ProjectType.REACT_SCRIPTS ||
+        projectType === ProjectType.REACT ||
+        projectType === ProjectType.WEBPACK_REACT ||
+        projectType === ProjectType.REACT_PROJECT ||
+        projectType === ProjectType.NEXTJS;
+
+      const flags = [];
+
+      // npm needs extra -- to pass flags to the command
+      if (packageManager.type === 'npm') {
+        flags.push('--');
+      }
+
+      if (isReactWebProject) {
+        flags.push('--initial-path=/onboarding');
+      }
+
+      flags.push('--quiet');
+
+      // instead of calling 'dev' automatically, we spawn a subprocess so that it gets
+      // executed directly in the user's project directory. This avoid potential issues
+      // with packages running in npxs' node_modules
+      packageManager.runPackageCommandSync(
+        storybookCommand.replace(/^yarn /, ''),
+        flags,
+        undefined,
+        'inherit'
+      );
+    } catch (e) {
+      // Do nothing here, as the command above will spawn a `storybook dev` process which does the error handling already. Else, the error will get bubbled up and sent to crash reports twice
+    }
+  }
 }

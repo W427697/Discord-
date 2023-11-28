@@ -1,15 +1,15 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 import type { Fix } from '../types';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import { updateMainConfig } from '../helpers/mainConfigFile';
 
 const logger = console;
 
 interface AutodocsTrueFrameworkRunOptions {
-  value?: StorybookConfig['docs']['autodocs'];
+  value?: StorybookConfigRaw['docs']['autodocs'];
 }
 
 /**
@@ -18,9 +18,7 @@ interface AutodocsTrueFrameworkRunOptions {
 export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
   id: 'autodocsTrue',
 
-  async check({ packageManager, configDir }) {
-    const { mainConfig } = await getStorybookData({ packageManager, configDir });
-
+  async check({ mainConfig }) {
     const { docs } = mainConfig;
 
     const docsPageToAutodocsMapping = {

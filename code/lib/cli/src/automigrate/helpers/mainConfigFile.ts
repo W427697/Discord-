@@ -1,13 +1,83 @@
-import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
-import type { StorybookConfig } from '@storybook/types';
+import {
+  getStorybookInfo,
+  loadMainConfig,
+  rendererPackages,
+  frameworkPackages,
+  builderPackages,
+} from '@storybook/core-common';
+import type { StorybookConfigRaw, StorybookConfig } from '@storybook/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
 import chalk from 'chalk';
-import semver from 'semver';
 import dedent from 'ts-dedent';
+import path from 'path';
 import type { JsPackageManager } from '../../js-package-manager';
+import { getStorybookVersion } from '../../utils';
 
 const logger = console;
+
+/**
+ * Given a Storybook configuration object, retrieves the package name or file path of the framework.
+ * @param mainConfig - The main Storybook configuration object to lookup.
+ * @returns - The package name of the framework. If not found, returns null.
+ */
+export const getFrameworkPackageName = (mainConfig?: StorybookConfigRaw) => {
+  const packageNameOrPath =
+    typeof mainConfig?.framework === 'string' ? mainConfig.framework : mainConfig?.framework?.name;
+
+  if (!packageNameOrPath) {
+    return null;
+  }
+
+  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
+
+  return (
+    Object.keys(frameworkPackages).find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath
+  );
+};
+
+/**
+ * Given a Storybook configuration object, retrieves the package name or file path of the builder.
+ * @param mainConfig - The main Storybook configuration object to lookup.
+ * @returns - The package name of the builder. If not found, returns null.
+ */
+export const getBuilderPackageName = (mainConfig?: StorybookConfigRaw) => {
+  const packageNameOrPath =
+    typeof mainConfig?.core?.builder === 'string'
+      ? mainConfig.core.builder
+      : mainConfig?.core?.builder?.name;
+
+  if (!packageNameOrPath) {
+    return null;
+  }
+
+  const normalizedPath = path.normalize(packageNameOrPath).replace(new RegExp(/\\/, 'g'), '/');
+
+  return builderPackages.find((pkg) => normalizedPath.endsWith(pkg)) || packageNameOrPath;
+};
+
+/**
+ * Returns a renderer package name given a framework package name.
+ * @param frameworkPackageName - The package name of the framework to lookup.
+ * @returns - The corresponding package name in `rendererPackages`. If not found, returns null.
+ */
+export const getRendererPackageNameFromFramework = (frameworkPackageName: string) => {
+  if (frameworkPackageName) {
+    if (Object.keys(rendererPackages).includes(frameworkPackageName)) {
+      // at some point in 6.4 we introduced a framework field, but filled with a renderer package
+      return frameworkPackageName;
+    }
+
+    if (Object.values(rendererPackages).includes(frameworkPackageName)) {
+      // for scenarios where the value is e.g. "react" instead of "@storybook/react"
+      return Object.keys(rendererPackages).find(
+        (k) => rendererPackages[k] === frameworkPackageName
+      );
+    }
+  }
+
+  return null;
+};
 
 export const getStorybookData = async ({
   packageManager,
@@ -23,14 +93,13 @@ export const getStorybookData = async ({
     configDir: configDirFromScript,
     previewConfig: previewConfigPath,
   } = getStorybookInfo(packageJson, userDefinedConfigDir);
-  const storybookVersion =
-    storybookVersionSpecifier && semver.coerce(storybookVersionSpecifier)?.version;
+  const storybookVersion = await getStorybookVersion(packageManager);
 
   const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
 
-  let mainConfig: StorybookConfig;
+  let mainConfig: StorybookConfigRaw;
   try {
-    mainConfig = await loadMainConfig({ configDir, noCache: true });
+    mainConfig = (await loadMainConfig({ configDir, noCache: true })) as StorybookConfigRaw;
   } catch (err) {
     throw new Error(
       dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${err.message}`
@@ -64,7 +133,7 @@ export type GetStorybookData = typeof getStorybookData;
  */
 export const updateMainConfig = async (
   { mainConfigPath, dryRun }: { mainConfigPath: string; dryRun: boolean },
-  callback: (main: ConfigFile) => Promise<void>
+  callback: (main: ConfigFile) => Promise<void> | void
 ) => {
   try {
     const main = await readConfig(mainConfigPath);
