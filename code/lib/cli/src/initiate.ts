@@ -31,7 +31,7 @@ import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import solidGenerator from './generators/SOLID';
 import serverGenerator from './generators/SERVER';
-import type { JsPackageManager, PackageManagerName } from './js-package-manager';
+import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
