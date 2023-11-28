@@ -52,7 +52,6 @@ const ChildrenContainer = styled.div<PreviewProps & { layout: Layout }>(
     layout === 'centered' || layout === 'padded'
       ? {
           padding: '30px 20px',
-          margin: -10,
           '& .innerZoomElementWrapper > *': {
             width: 'auto',
             border: '10px solid transparent!important',
@@ -101,6 +100,10 @@ const PreviewContainer = styled.div<PreviewProps>(
     borderBottomLeftRadius: withSource && isExpanded && 0,
     borderBottomRightRadius: withSource && isExpanded && 0,
     borderBottomWidth: isExpanded && 0,
+
+    'h3 + &': {
+      marginTop: '16px',
+    },
   }),
   ({ withToolbar }) => withToolbar && { paddingTop: 40 }
 );

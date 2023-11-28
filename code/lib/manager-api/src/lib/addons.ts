@@ -8,7 +8,13 @@ import type {
   Addon_Elements,
   Addon_Loaders,
   Addon_Type,
+  Addon_BaseType,
+  Addon_PageType,
   Addon_Types,
+  Addon_TypesMapping,
+  Addon_WrapperType,
+  Addon_SidebarBottomType,
+  Addon_SidebarTopType,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -19,6 +25,13 @@ export { Addon_Type as Addon, Addon_TypesEnum as types };
 
 export function isSupportedType(type: Addon_Types): boolean {
   return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
+}
+
+interface DeprecatedAddonWithId {
+  /**
+   * @deprecated will be removed in 8.0, when registering addons, please use the addon id as the first argument
+   */
+  id?: string;
 }
 
 export class AddonStore {
@@ -36,6 +49,9 @@ export class AddonStore {
 
   private channel: Channel | undefined;
 
+  /**
+   * @deprecated will be removed in 8.0
+   */
   private serverChannel: Channel | undefined;
 
   private promise: any;
@@ -51,6 +67,9 @@ export class AddonStore {
     return this.channel;
   };
 
+  /**
+   * @deprecated will be removed in 8.0, use getChannel instead
+   */
   getServerChannel = (): Channel => {
     if (!this.serverChannel) {
       throw new Error('Accessing non-existent serverChannel');
@@ -63,6 +82,9 @@ export class AddonStore {
 
   hasChannel = (): boolean => !!this.channel;
 
+  /**
+   * @deprecated will be removed in 8.0, please use the normal channel instead
+   */
   hasServerChannel = (): boolean => !!this.serverChannel;
 
   setChannel = (channel: Channel): void => {
@@ -70,44 +92,96 @@ export class AddonStore {
     this.resolve();
   };
 
+  /**
+   * @deprecated will be removed in 8.0, please use the normal channel instead
+   */
   setServerChannel = (channel: Channel): void => {
     this.serverChannel = channel;
   };
 
-  getElements = (type: Addon_Types): Addon_Collection => {
+  getElements<
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP
+  >(type: T): Addon_Collection<Addon_TypesMapping[T]> {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
+    // @ts-expect-error (Kaspar told me to do this)
     return this.elements[type];
-  };
+  }
 
-  addPanel = (name: string, options: Addon_Type): void => {
-    this.add(name, {
+  /**
+   * Adds a panel to the addon store.
+   * @param {string} id - The id of the panel.
+   * @param {Addon_Type} options - The options for the panel.
+   * @returns {void}
+   *
+   * @deprecated Use the 'add' method instead.
+   * @example
+   * addons.add('My Panel', {
+   *   title: 'My Title',
+   *   type: types.PANEL,
+   *   render: () => <div>My Content</div>,
+   * });
+   */
+  addPanel = (
+    id: string,
+    options: Omit<Addon_BaseType, 'type' | 'id'> & DeprecatedAddonWithId
+  ): void => {
+    this.add(id, {
       type: Addon_TypesEnum.PANEL,
       ...options,
     });
   };
 
-  add = (name: string, addon: Addon_Type) => {
+  /**
+   * Adds an addon to the addon store.
+   * @param {string} id - The id of the addon.
+   * @param {Addon_Type} addon - The addon to add.
+   * @returns {void}
+   */
+  add(
+    id: string,
+    addon:
+      | Addon_BaseType
+      | (Omit<Addon_SidebarTopType, 'id'> & DeprecatedAddonWithId)
+      | (Omit<Addon_SidebarBottomType, 'id'> & DeprecatedAddonWithId)
+      | (Omit<Addon_PageType, 'id'> & DeprecatedAddonWithId)
+      | (Omit<Addon_WrapperType, 'id'> & DeprecatedAddonWithId)
+  ): void {
     const { type } = addon;
     const collection = this.getElements(type);
-    collection[name] = { id: name, ...addon };
-  };
+    collection[id] = { id, ...addon };
+  }
 
   setConfig = (value: Addon_Config) => {
     Object.assign(this.config, value);
     if (this.hasChannel()) {
-      this.getChannel().emit(SET_CONFIG, value);
+      this.getChannel().emit(SET_CONFIG, this.config);
+    } else {
+      this.ready().then((channel) => {
+        channel.emit(SET_CONFIG, this.config);
+      });
     }
   };
 
   getConfig = () => this.config;
 
-  register = (name: string, registerCallback: (api: API) => void): void => {
-    if (this.loaders[name]) {
-      logger.warn(`${name} was loaded twice, this could have bad side-effects`);
+  /**
+   * Registers an addon loader function.
+   *
+   * @param {string} id - The id of the addon loader.
+   * @param {(api: API) => void} callback - The function that will be called to register the addon.
+   * @returns {void}
+   */
+  register = (id: string, callback: (api: API) => void): void => {
+    if (this.loaders[id]) {
+      logger.warn(`${id} was loaded twice, this could have bad side-effects`);
     }
-    this.loaders[name] = registerCallback;
+    this.loaders[id] = callback;
   };
 
   loadAddons = (api: any) => {

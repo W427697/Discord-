@@ -1,11 +1,12 @@
 import type { FC } from 'react';
-import React, { Fragment, useCallback, useMemo, memo } from 'react';
+import React, { useState, Fragment, useCallback, useMemo, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { useParameter, useGlobals } from '@storybook/manager-api';
 import { logger } from '@storybook/client-logger';
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
+import { PhotoIcon } from '@storybook/icons';
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import { ColorIcon } from '../components/ColorIcon';
 import type {
@@ -18,10 +19,10 @@ import { getBackgroundColorByName } from '../helpers';
 
 const createBackgroundSelectorItem = memoize(1000)(
   (
-    id: string,
+    id: string | null,
     name: string,
     value: string,
-    hasSwatch: boolean,
+    hasSwatch: boolean | null,
     change: (arg: { selected: string; name: string }) => void,
     active: boolean
   ): BackgroundSelectorItem => ({
@@ -82,7 +83,7 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
     BACKGROUNDS_PARAM_KEY,
     DEFAULT_BACKGROUNDS_CONFIG
   );
-
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [globals, updateGlobals] = useGlobals();
 
   const globalsBackgroundColor = globals[BACKGROUNDS_PARAM_KEY]?.value;
@@ -102,7 +103,7 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
   }
 
   const onBackgroundChange = useCallback(
-    (value: string) => {
+    (value: string | undefined) => {
       updateGlobals({ [BACKGROUNDS_PARAM_KEY]: { ...globals[BACKGROUNDS_PARAM_KEY], value } });
     },
     [backgroundsConfig, globals, updateGlobals]
@@ -133,13 +134,14 @@ export const BackgroundSelector: FC = memo(function BackgroundSelector() {
             />
           );
         }}
+        onVisibleChange={setIsTooltipVisible}
       >
         <IconButton
           key="background"
           title="Change the background of the preview"
-          active={selectedBackgroundColor !== 'transparent'}
+          active={selectedBackgroundColor !== 'transparent' || isTooltipVisible}
         >
-          <Icons icon="photo" />
+          <PhotoIcon />
         </IconButton>
       </WithTooltip>
     </Fragment>

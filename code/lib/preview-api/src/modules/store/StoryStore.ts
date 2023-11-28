@@ -15,11 +15,12 @@ import type {
   PreparedStory,
   StoryIndex,
   StoryIndexV3,
-  V2CompatIndexEntry,
+  V3CompatIndexEntry,
   StoryContext,
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StoryId,
+  PreparedMeta,
 } from '@storybook/types';
 import mapValues from 'lodash/mapValues.js';
 import pick from 'lodash/pick.js';
@@ -29,7 +30,13 @@ import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
-import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
+import {
+  processCSFFile,
+  prepareStory,
+  prepareMeta,
+  normalizeProjectAnnotations,
+  prepareContext,
+} from './csf';
 
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
@@ -52,6 +59,8 @@ export class StoryStore<TRenderer extends Renderer> {
 
   processCSFFileWithCache: typeof processCSFFile;
 
+  prepareMetaWithCache: typeof prepareMeta;
+
   prepareStoryWithCache: typeof prepareStory;
 
   initializationPromise: SynchronousPromise<void>;
@@ -67,6 +76,7 @@ export class StoryStore<TRenderer extends Renderer> {
     //  1. For performance
     //  2. To ensure that when the same story is prepared with the same inputs you get the same output
     this.processCSFFileWithCache = memoize(CSF_CACHE_SIZE)(processCSFFile) as typeof processCSFFile;
+    this.prepareMetaWithCache = memoize(CSF_CACHE_SIZE)(prepareMeta) as typeof prepareMeta;
     this.prepareStoryWithCache = memoize(STORY_CACHE_SIZE)(prepareStory) as typeof prepareStory;
 
     // We cannot call `loadStory()` until we've been initialized properly. But we can wait for it.
@@ -190,6 +200,18 @@ export class StoryStore<TRenderer extends Renderer> {
     );
   }
 
+  preparedMetaFromCSFFile({ csfFile }: { csfFile: CSFFile<TRenderer> }): PreparedMeta<TRenderer> {
+    if (!this.projectAnnotations) throw new Error(`storyFromCSFFile called before initialization`);
+
+    const componentAnnotations = csfFile.meta;
+
+    return this.prepareMetaWithCache(
+      componentAnnotations,
+      this.projectAnnotations,
+      csfFile.moduleExports.default
+    );
+  }
+
   // Load the CSF file for a story and prepare the story from it and the project annotations.
   async loadStory({ storyId }: { storyId: StoryId }): Promise<PreparedStory<TRenderer>> {
     await this.initializationPromise;
@@ -260,16 +282,17 @@ export class StoryStore<TRenderer extends Renderer> {
   // A prepared story does not include args, globals or hooks. These are stored in the story store
   // and updated separtely to the (immutable) story.
   getStoryContext(
-    story: PreparedStory<TRenderer>
-  ): Omit<StoryContextForLoaders<TRenderer>, 'viewMode'> {
+    story: PreparedStory<TRenderer>,
+    { forceInitialArgs = false } = {}
+  ): Omit<StoryContextForLoaders, 'viewMode'> {
     if (!this.globals) throw new Error(`getStoryContext called before initialization`);
 
-    return {
+    return prepareContext({
       ...story,
-      args: this.args.get(story.id),
+      args: forceInitialArgs ? story.initialArgs : this.args.get(story.id),
       globals: this.globals.get(),
       hooks: this.hooks[story.id] as unknown,
-    };
+    });
   }
 
   cleanupStory(story: PreparedStory<TRenderer>): void {
@@ -347,7 +370,7 @@ export class StoryStore<TRenderer extends Renderer> {
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
-    const stories: Record<StoryId, V2CompatIndexEntry> = mapValues(value.stories, (story) => {
+    const stories: Record<StoryId, V3CompatIndexEntry> = mapValues(value.stories, (story) => {
       const { importPath } = storyIndex.entries[story.id];
       return {
         ...pick(story, ['id', 'name', 'title']),
@@ -372,6 +395,9 @@ export class StoryStore<TRenderer extends Renderer> {
 
   getSetIndexPayload(): API_PreparedStoryIndex {
     if (!this.storyIndex) throw new Error('getSetIndexPayload called before initialization');
+    if (!this.cachedCSFFiles)
+      throw new Error('Cannot call getSetIndexPayload() unless you call cacheAllCSFFiles() first');
+    const { cachedCSFFiles } = this;
 
     const stories = this.extract({ includeDocsOnly: true });
 
@@ -388,7 +414,12 @@ export class StoryStore<TRenderer extends Renderer> {
                 argTypes: stories[id].argTypes,
                 parameters: stories[id].parameters,
               }
-            : entry,
+            : {
+                ...entry,
+                parameters: this.preparedMetaFromCSFFile({
+                  csfFile: cachedCSFFiles[entry.importPath],
+                }).parameters,
+              },
         ])
       ),
     };

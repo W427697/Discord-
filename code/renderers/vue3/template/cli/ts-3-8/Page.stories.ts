@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, expect } from '@storybook/test';
 import MyPage from './Page.vue';
 
 const meta: Meta<typeof MyPage> = {
@@ -10,24 +10,27 @@ const meta: Meta<typeof MyPage> = {
     template: '<my-page />',
   }),
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/7.0/vue/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
 };
 
 export default meta;
 type Story = StoryObj<typeof MyPage>;
 
-// More on interaction testing: https://storybook.js.org/docs/7.0/vue/writing-tests/interaction-testing
+// More on interaction testing: https://storybook.js.org/docs/writing-tests/interaction-testing
 export const LoggedIn: Story = {
   play: async ({ canvasElement }: any) => {
     const canvas = within(canvasElement);
-    const loginButton = await canvas.getByRole('button', {
-      name: /Log in/i,
-    });
+    const loginButton = canvas.getByRole('button', { name: /Log in/i });
+    await expect(loginButton).toBeInTheDocument();
     await userEvent.click(loginButton);
+    await expect(loginButton).not.toBeInTheDocument();
+
+    const logoutButton = canvas.getByRole('button', { name: /Log out/i });
+    await expect(logoutButton).toBeInTheDocument();
   },
 };
 

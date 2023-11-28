@@ -17,8 +17,8 @@ const localStorageMock = {
   setItem: jest.fn().mockName('setItem'),
   clear: jest.fn().mockName('clear'),
 };
-// @ts-expect-error (Converted from ts-ignore)
-global.localStorage = localStorageMock;
+
+Object.defineProperty(global, 'localStorage', { value: localStorageMock, writable: true });
 
 /* Fail tests on PropType warnings
  This allows us to throw an error in tests environments when there are prop-type warnings.
@@ -28,12 +28,10 @@ global.localStorage = localStorageMock;
 const ignoreList = [
   (error: any) => error.message.includes('":nth-child" is potentially unsafe'),
   (error: any) => error.message.includes('":first-child" is potentially unsafe'),
-  (error: any) => error.message.includes('Failed prop type') && error.stack.includes('storyshots'),
+  (error: any) => error.message.match(/Browserslist: .* is outdated. Please run:/),
   (error: any) =>
     error.message.includes('react-async-component-lifecycle-hooks') &&
     error.stack.includes('addons/knobs/src/components/__tests__/Options.js'),
-  // Storyshots blows up if your project includes a (non stories.) mdx file.
-  (error: any) => error.message.match(/Unexpected error while loading .*(?<!stories)\.mdx/),
 ];
 
 const throwMessage = (type: any, message: any) => {
