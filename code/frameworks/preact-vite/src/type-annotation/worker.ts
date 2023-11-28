@@ -10,12 +10,16 @@ export type WorkerAPI = Asynced<typeof analyzer>;
 
 const replySuccess = <T>(id: number, result: T) => {
   const response: ResponseSuccess<T> = { id, kind: 'success', result };
-  parentPort.postMessage(response);
+  if (parentPort) {
+    parentPort.postMessage(response);
+  }
 };
 
 const replyError = <T>(id: number, error: T) => {
   const response: ResponseError<T> = { id, kind: 'error', error };
-  parentPort.postMessage(response);
+  if (parentPort) {
+    parentPort.postMessage(response);
+  }
 };
 
 const routeMessage = async (message: RequestMessage) => {
@@ -29,9 +33,11 @@ const routeMessage = async (message: RequestMessage) => {
     } else {
       replyError(message.id, `Unknown method: ${message.method}`);
     }
-  } catch (ex) {
+  } catch (ex: any) {
     replyError(message.id, ex.toString());
   }
 };
 
-parentPort.addListener('message', routeMessage);
+if (parentPort) {
+  parentPort.addListener('message', routeMessage);
+}

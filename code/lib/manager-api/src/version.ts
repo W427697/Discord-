@@ -1,1 +1,1 @@
-export const version = '7.1.0-alpha.10';
+export const version = '7.6.0-beta.2';

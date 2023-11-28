@@ -4,11 +4,11 @@ title: 'Babel'
 
 As of version 7.0, Storybook now re-uses your project’s Babel configuration to apply the same Babel plugins and presets in your Storybook stories as you do in your app. This makes it simpler, less buggy, easier to troubleshoot, and more consistent with other tools in the JS ecosystem.
 
-<div class="aside">
+<Callout variant="info">
 
-If you're not using Storybook 7, please reference the <LinkWithVersion version="6.5" href="./babel.md">previous documentation</LinkWithVersion> for guidance on configuring your Babel setup.
+If you're not using Storybook 7, please reference the [previous documentation](../../../release-6-5/docs/configure/babel.md) for guidance on configuring your Babel setup.
 
-</div>
+</Callout>
 
 ## CRA (Create React App)
 
@@ -115,6 +115,8 @@ However, when your Storybook refers to files outside of the current project dire
 
 ## Troubleshooting
 
+### Babel configuration not working
+
 To troubleshoot your Babel configuration, set the `BABEL_SHOW_CONFIG_FOR` environment variable. For example, to see how Storybook is transpiling your `.storybook/preview.js` file, add the following environment variable:
 
 ```sh
@@ -123,10 +125,29 @@ BABEL_SHOW_CONFIG_FOR=.storybook/preview.js yarn storybook
 
 When the command finishes running, it will display the available Babel configuration for the `.storybook/preview.js` file. You can use this information to debug issues with transpilation.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Due to what appears to be a Babel bug, setting this flag causes Babel transpilation to fail on the file provided. Thus you cannot actually **run** Storybook using this command. However, it will print out the configuration information as advertised, and therefore you can use this to debug your Storybook. You'll need to remove the flag to actually run your Storybook.
+Due to what appears to be a Babel bug, setting this flag causes Babel transpilation to fail on the file provided. Thus you cannot actually **run** Storybook using this command. However, it will print out the configuration information as advertised, and therefore you can use this to debug your Storybook. You'll need to remove the flag to actually run your Storybook.
 
-</div>
+</Callout>
 
 For more info, please refer to the [Babel documentation](https://babeljs.io/docs/en/configuration#print-effective-configs).
+
+### SWC alternative
+
+(⚠️ **Experimental**)
+
+If you're working with a Webpack-based project, you can opt into replacing Babel with the [SWC](https://swc.rs/) compiler, which can be faster for some projects. To do so, update your [Storybook configuration file](../api/main-config.md) (e.g., `.storybook/main.js|ts`) to enable the experimental `useSWC` option:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/main-config-framework-options-builder-use-swc.js.mdx',
+    'common/main-config-framework-options-builder-use-swc.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+See the [`useSWC` API reference](../api/main-config-framework.md#optionsbuilderuseswc) for more information.

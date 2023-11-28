@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import type { FunctionalComponent } from 'preact';
 
 const formatMoney = (amount: number): string =>

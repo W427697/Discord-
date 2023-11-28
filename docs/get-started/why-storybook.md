@@ -47,6 +47,7 @@ You write stories for granular UI component variation and then use those stories
     'vue/histogram-story.3.js.mdx',
     'vue/histogram-story.3.ts.mdx',
     'svelte/histogram-story.js.mdx',
+    'svelte/histogram-story.ts.mdx',
     'web-components/histogram-story.js.mdx',
     'web-components/histogram-story.ts.mdx',
     'preact/histogram-story.js.mdx',
@@ -82,7 +83,7 @@ During development, run it in a separate node process. If you’re working on UI
 </details>
 
 <details>
-<summary>Does Storybook work with X?</summary>
+<summary>Does Storybook work with my favorite libraries?</summary>
 
 Storybook aims to integrate with industry-standard tools and platforms to simplify setup. Thanks to our ambitious developer community, we’ve made significant progress. There are hundreds of [addons](https://storybook.js.org/addons/) and tutorials that walk through how to set up Storybook in all types of projects.
 
@@ -132,7 +133,7 @@ Storybook is compatible with your continuous integration workflow. Add it as a C
 
 Storybook is powered by [Component Story Format](https://github.com/ComponentDriven/csf), an open standard based on JavaScript ES6 modules. This enables stories to interoperate between development, testing, and design tools. Each story is exported as a JavaScript function enabling you to reuse it with other tools. No vendor lock-in.
 
-Reuse stories with [Jest](https://jestjs.io/) and [Testing Library](https://testing-library.com/) to verify interactions. Put them in [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) for visual testing. Audit story accessibility with [Axe](https://github.com/dequelabs/axe-core). Or test user flows with [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/). Reuse unlocks more workflows at no extra cost.
+Reuse stories with [Jest](https://jestjs.io/) or [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/) to verify interactions. Put them in [Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) for visual testing. Audit story accessibility with [Axe](https://github.com/dequelabs/axe-core). Or test user flows with [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/). Reuse unlocks more workflows at no extra cost.
 
 ---
 

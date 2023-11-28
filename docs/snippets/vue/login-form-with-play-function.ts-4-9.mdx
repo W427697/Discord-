@@ -4,29 +4,17 @@
 // Replace vue3 with vue if you are using Storybook for Vue 2
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { userEvent, within } from '@storybook/testing-library';
-
-import { expect } from '@storybook/jest';
+import { userEvent, within, expect } from '@storybook/test';
 
 import LoginForm from './LoginForm.vue';
 
 const meta = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'Form',
   component: LoginForm,
 } satisfies Meta<typeof LoginForm>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/vue/api/csf
- * to learn how to use render functions.
- */
 export const EmptyForm: Story = {
   render: () => ({
     components: { LoginForm },

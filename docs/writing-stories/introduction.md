@@ -25,7 +25,7 @@ The key ingredients are the [default export](https://developer.mozilla.org/en-US
 
 ### Default export
 
-The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js`:
+The _default_ export metadata controls how Storybook lists your stories and provides information used by addons. For example, here’s the default export for a story file `Button.stories.js|ts`:
 
 <!-- prettier-ignore-start -->
 
@@ -47,11 +47,11 @@ The _default_ export metadata controls how Storybook lists your stories and prov
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
 Starting with Storybook version 7.0, story titles are analyzed statically as part of the build process. The _default_ export must contain a `title` property that can be read statically or a `component` property from which an automatic title can be computed. Using the `id` property to customize your story URL must also be statically readable.
 
-</div>
+</Callout>
 
 ### Defining stories
 
@@ -80,9 +80,11 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 <!-- prettier-ignore-end -->
 
+<IfRenderer renderer='react'>
+
 #### Working with React Hooks
 
-[React Hooks](https://reactjs.org/docs/hooks-intro.html) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses React Hooks to change the button's state :
+[React Hooks](https://react.dev/reference/react) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses React Hooks to change the button's state:
 
 <!-- prettier-ignore-start -->
 
@@ -97,9 +99,40 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 The recommendation mentioned above also applies to other frameworks, not only React.
-</div>
+<Callout variant="info" icon="💡">
+
+The recommendation mentioned above also applies to other frameworks, not only React.
+
+</Callout>
+
+</IfRenderer>
+
+<IfRenderer renderer='solid'>
+
+#### Working with Solid Signals
+
+[Solid Signals](https://www.solidjs.com/docs/latest/api#basic-reactivity) are convenient helper methods to create components using a more streamlined approach. You can use them while creating your component's stories if you need them, although you should treat them as an advanced use case. We **recommend** [args](./args.md) as much as possible when writing your own stories. As an example, here’s a story that uses Solid Signals to change the button's state:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'solid/button-story.with-hooks.js.mdx',
+    'solid/button-story.with-hooks.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info" icon="💡">
+
+The recommendation mentioned above also applies to other frameworks, not only Solid.
+
+</Callout>
+
+</IfRenderer>
 
 ### Rename stories
 
@@ -397,8 +430,8 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 Note that there are disadvantages in writing stories like this as you cannot take full advantage of the args mechanism and composing args as you build even more complex composite components. For more discussion, see the [multi component stories](../writing-stories/stories-for-multiple-components.md) workflow documentation.
+Note that there are disadvantages in writing stories like this as you cannot take full advantage of the args mechanism and composing args as you build even more complex composite components. For more discussion, see the [multi component stories](../writing-stories/stories-for-multiple-components.md) workflow documentation.
 
-</div>
+</Callout>

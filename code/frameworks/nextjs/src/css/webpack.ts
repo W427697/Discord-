@@ -11,7 +11,12 @@ import { scopedResolve } from '../utils';
 export const configureCss = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
   const rules = baseConfig.module?.rules;
   rules?.forEach((rule, i) => {
-    if (typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.css')) {
+    if (
+      rule &&
+      typeof rule !== 'string' &&
+      rule.test instanceof RegExp &&
+      rule.test.test('test.css')
+    ) {
       rules[i] = {
         test: /\.css$/,
         use: [
@@ -29,6 +34,9 @@ export const configureCss = (baseConfig: WebpackConfig, nextConfig: NextConfig):
           },
           require.resolve('postcss-loader'),
         ],
+        // We transform the "target.css" files from next.js into Javascript
+        // for Next.js to support fonts, so it should be ignored by the css-loader.
+        exclude: /next\/.*\/target.css$/,
       };
     }
   });

@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import type { RenderData as RouterData } from '../../../router/src/types';
 import type { ThemeVars } from '../../../theming/src/types';
+import type { API_SidebarOptions } from './api';
 import type {
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
@@ -18,9 +20,14 @@ import type {
   StoryKind,
   StoryName,
 } from './csf';
-import type { IndexEntry } from './storyIndex';
+import type { IndexEntry } from './indexer';
 
-export type Addon_Types = Addon_TypesEnum | string;
+export type Addon_Types = Exclude<
+  Addon_TypesEnum,
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
+>;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -122,9 +129,10 @@ export interface Addon_AddStoryArgs<StoryFnReturnType = unknown> {
   parameters: Parameters;
 }
 
-export interface Addon_ClientApiAddon<StoryFnReturnType = unknown> extends Addon_Type {
+export type Addon_ClientApiAddon<StoryFnReturnType = unknown> = Addon_Type & {
   apply: (a: Addon_StoryApi<StoryFnReturnType>, b: any[]) => any;
-}
+};
+
 export interface Addon_ClientApiAddons<StoryFnReturnType> {
   [key: string]: Addon_ClientApiAddon<StoryFnReturnType>;
 }
@@ -148,9 +156,8 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
-export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {
-  storiesOf(kind: StoryKind, module: any): Addon_StoryApi<StoryFnReturnType>;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {}
 
 export type Addon_LoadFn = () => any;
 export type Addon_RequireContext = any; // FIXME
@@ -162,7 +169,11 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
   (story: () => StoryFnReturnType, context: Addon_StoryContext) => StoryFnReturnType
 >;
 
-export interface Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
+export interface Addon_BaseAnnotations<
+  TArgs,
+  StoryFnReturnType,
+  TRenderer extends Renderer = Renderer
+> {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
    * @see [Arg story inputs](https://storybook.js.org/docs/react/api/csf#args-story-inputs)
@@ -171,13 +182,13 @@ export interface Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
 
   /**
    * ArgTypes encode basic metadata for args, such as `name`, `description`, `defaultValue` for an arg. These get automatically filled in by Storybook Docs.
-   * @see [Control annotations](https://github.com/storybookjs/storybook/blob/91e9dee33faa8eff0b342a366845de7100415367/addons/controls/README.md#control-annotations)
+   * @see [Arg types](https://storybook.js.org/docs/react/api/arg-types)
    */
   argTypes?: Addons_ArgTypes<TArgs>;
 
   /**
    * Custom metadata for a story.
-   * @see [Parameters](https://storybook.js.org/docs/basics/writing-stories/#parameters)
+   * @see [Parameters](https://storybook.js.org/docs/react/writing-stories/parameters)
    */
   parameters?: Parameters;
 
@@ -192,12 +203,12 @@ export interface Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
-  render?: (args: TArgs, context: Addon_StoryContext) => StoryFnReturnType;
+  render?: (args: TArgs, context: Addon_StoryContext<TRenderer>) => StoryFnReturnType;
 
   /**
    * Function that is executed after the story is rendered.
    */
-  play?: (context: Addon_StoryContext) => Promise<void> | void;
+  play?: (context: Addon_StoryContext<TRenderer>) => Promise<void> | void;
 }
 
 export interface Addon_Annotations<TArgs, StoryFnReturnType>
@@ -293,26 +304,172 @@ export type BaseStory<TArgs, StoryFnReturnType> =
   | Addon_BaseStoryObject<TArgs, StoryFnReturnType>;
 
 export interface Addon_RenderOptions {
-  active?: boolean;
-  key?: string;
+  active: boolean;
+  /**
+   * @deprecated You should not use key anymore as of Storybook 7.2 this render method is invoked as a React component.
+   * This property will be removed in 8.0.
+   * */
+  key?: unknown;
 }
 
-export type ReactJSXElement = {
-  type: any;
-  props: any;
-  key: any;
-};
-
-export interface Addon_Type {
-  title: (() => string) | string | ReactJSXElement;
-  type?: Addon_Types;
+export type Addon_Type =
+  | Addon_BaseType
+  | Addon_PageType
+  | Addon_WrapperType
+  | Addon_SidebarBottomType
+  | Addon_SidebarTopType;
+export interface Addon_BaseType {
+  /**
+   * The title of the addon.
+   * This can be a simple string, but it can also be a React.FunctionComponent or a React.ReactElement.
+   */
+  title: FC | ReactNode | (() => string);
+  /**
+   * The type of the addon.
+   * @example Addon_TypesEnum.PANEL
+   */
+  type: Exclude<
+    Addon_Types,
+    | Addon_TypesEnum.PREVIEW
+    | Addon_TypesEnum.experimental_PAGE
+    | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+    | Addon_TypesEnum.experimental_SIDEBAR_TOP
+  >;
+  /**
+   * The unique id of the addon.
+   * @warn This will become non-optional in 8.0
+   *
+   * This needs to be globally unique, so we recommend prefixing it with your org name or npm package name.
+   *
+   * Do not prefix with `storybook`, this is reserved for core storybook feature and core addons.
+   *
+   * @example 'my-org-name/my-addon-name'
+   */
   id?: string;
+  /**
+   * This component will wrap your `render` function.
+   *
+   * With it you can determine if you want your addon to be rendered or not.
+   *
+   * This is to facilitate addons keeping state, and keep listening for events even when they are not currently on screen/rendered.
+   */
   route?: (routeOptions: RouterData) => string;
+  /**
+   * This will determine the value of `active` prop of your render function.
+   */
   match?: (matchOptions: RouterData) => boolean;
-  render: (renderOptions: Addon_RenderOptions) => any | null;
+  /**
+   * The actual contents of your addon.
+   *
+   * This is called as a function, so if you want to use hooks,
+   * your function needs to return a JSX.Element within which components are rendered
+   */
+  render: (renderOptions: Partial<Addon_RenderOptions>) => ReactElement<any, any> | null;
+  /**
+   * @unstable
+   */
   paramKey?: string;
+  /**
+   * @unstable
+   */
   disabled?: boolean;
+  /**
+   * @unstable
+   */
   hidden?: boolean;
+}
+
+export interface Addon_PageType {
+  type: Addon_TypesEnum.experimental_PAGE;
+  /**
+   * The unique id of the page.
+   */
+  id: string;
+  /**
+   * The URL to navigate to when Storybook needs to navigate to this page.
+   */
+  url: string;
+  /**
+   * The title is used in mobile mode to represent the page in the navigation.
+   */
+  title: FC | string | ReactElement | ReactNode;
+  /**
+   * The main content of the addon, a function component without any props.
+   * Storybook will render your component always.
+   *
+   * If you want to render your component only when the URL matches, use the `Route` component.
+   * @example
+   * import { Route } from '@storybook/router';
+   *
+   * render: () => {
+   *   return (
+   *     <Route path="/my-addon">
+   *       <MyAddonContent />
+   *     </Route>
+   *   );
+   * };
+   */
+  render: FC;
+}
+
+export interface Addon_WrapperType {
+  type: Addon_TypesEnum.PREVIEW;
+  /**
+   * The unique id of the page.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent that wraps the story.
+   *
+   * This component must accept a children prop, and render it.
+   */
+  render: FC<
+    PropsWithChildren<{
+      index: number;
+      children: ReactNode;
+      id: string;
+      storyId: StoryId;
+      active: boolean;
+    }>
+  >;
+}
+export interface Addon_SidebarBottomType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_BOTTOM;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FC;
+}
+
+export interface Addon_SidebarTopType {
+  type: Addon_TypesEnum.experimental_SIDEBAR_TOP;
+  /**
+   * The unique id of the tool.
+   */
+  id: string;
+  /**
+   * A React.FunctionComponent.
+   */
+  render: FC;
+}
+
+type Addon_TypeBaseNames = Exclude<
+  Addon_TypesEnum,
+  | Addon_TypesEnum.PREVIEW
+  | Addon_TypesEnum.experimental_PAGE
+  | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+  | Addon_TypesEnum.experimental_SIDEBAR_TOP
+>;
+
+export interface Addon_TypesMapping extends Record<Addon_TypeBaseNames, Addon_BaseType> {
+  [Addon_TypesEnum.PREVIEW]: Addon_WrapperType;
+  [Addon_TypesEnum.experimental_PAGE]: Addon_PageType;
+  [Addon_TypesEnum.experimental_SIDEBAR_BOTTOM]: Addon_SidebarBottomType;
+  [Addon_TypesEnum.experimental_SIDEBAR_TOP]: Addon_SidebarTopType;
 }
 
 export type Addon_Loader<API> = (api: API) => void;
@@ -320,8 +477,8 @@ export type Addon_Loader<API> = (api: API) => void;
 export interface Addon_Loaders<API> {
   [key: string]: Addon_Loader<API>;
 }
-export interface Addon_Collection {
-  [key: string]: Addon_Type;
+export interface Addon_Collection<T = Addon_Type> {
+  [key: string]: T;
 }
 export interface Addon_Elements {
   [key: string]: Addon_Collection;
@@ -334,14 +491,51 @@ export interface Addon_Config {
   toolbar?: {
     [id: string]: Addon_ToolbarConfig;
   };
+  sidebar?: API_SidebarOptions;
   [key: string]: any;
 }
 
 export enum Addon_TypesEnum {
+  /**
+   * This API is used to create a tab the toolbar above the canvas, This API might be removed in the future.
+   * @unstable
+   */
   TAB = 'tab',
+  /**
+   * This adds panels to the addons side panel.
+   */
   PANEL = 'panel',
+  /**
+   * This adds items in the toolbar above the canvas - on the left side.
+   */
   TOOL = 'tool',
+  /**
+   * This adds items in the toolbar above the canvas - on the right side.
+   */
   TOOLEXTRA = 'toolextra',
+  /**
+   * This adds wrapper components around the canvas/iframe component storybook renders.
+   * @unstable this API is not stable yet, and is likely to change in 8.0.
+   */
   PREVIEW = 'preview',
+  /**
+   * This adds pages that render instead of the canvas.
+   * @unstable
+   */
+  experimental_PAGE = 'page',
+  /**
+   * This adds items in the bottom of the sidebar.
+   * @unstable
+   */
+  experimental_SIDEBAR_BOTTOM = 'sidebar-bottom',
+  /**
+   * This adds items in the top of the sidebar.
+   * @unstable This will get replaced with a new API in 8.0, use at your own risk.
+   */
+  experimental_SIDEBAR_TOP = 'sidebar-top',
+
+  /**
+   * @deprecated This property does nothing, and will be removed in Storybook 8.0.
+   */
   NOTES_ELEMENT = 'notes-element',
 }

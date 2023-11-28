@@ -1,12 +1,11 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
 export default {
-  title: 'MyComponent',
   component: MyComponent,
 };
 
@@ -18,7 +17,7 @@ export const FirstStory = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
+    await userEvent.type(canvas.getByTestId('an-element'), 'example-value');
   },
 };
 

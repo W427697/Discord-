@@ -1,10 +1,12 @@
 import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
-import { IconButton, Icons } from '@storybook/components';
-import { Consumer } from '@storybook/manager-api';
-import type { Addon, Combo } from '@storybook/manager-api';
+import { IconButton } from '@storybook/components';
+import { Consumer, types } from '@storybook/manager-api';
+import type { Combo } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { FORCE_REMOUNT } from '@storybook/core-events';
+import type { Addon_BaseType } from '@storybook/types';
+import { SyncIcon } from '@storybook/icons';
 
 interface AnimatedButtonProps {
   animating?: boolean;
@@ -28,9 +30,10 @@ const menuMapper = ({ api, state }: Combo) => {
   };
 };
 
-export const remountTool: Addon = {
+export const remountTool: Addon_BaseType = {
   title: 'remount',
   id: 'remount',
+  type: types.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>
@@ -54,7 +57,7 @@ export const remountTool: Addon = {
             animating={isAnimating}
             disabled={!storyId}
           >
-            <Icons icon="sync" />
+            <SyncIcon />
           </StyledAnimatedIconButton>
         );
       }}

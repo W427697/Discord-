@@ -103,7 +103,7 @@ module.exports = {
         },
         {
           name: 'events',
-          unsupported: ['svelte', 'riot'],
+          unsupported: ['svelte'],
         },
         {
           name: 'google-analytics',
@@ -128,11 +128,6 @@ module.exports = {
         {
           name: 'queryparams',
           unsupported: [],
-        },
-        {
-          name: 'Storyshots',
-          unsupported: ['ember'],
-          path: 'writing-tests/snapshot-testing',
         },
         {
           name: 'storysource',

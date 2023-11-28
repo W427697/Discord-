@@ -5,6 +5,9 @@ const meta = {
   component: DocsPage,
   parameters: {
     docsStyles: true,
+    chromatic: {
+      disableSnapshot: true,
+    },
   },
 } satisfies Meta<typeof DocsPage>;
 
