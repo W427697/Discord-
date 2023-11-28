@@ -3,8 +3,6 @@ import { expect } from '@jest/globals';
 import type { StoryIndex } from '@storybook/types';
 import { StoryIndexStore } from './StoryIndexStore';
 
-jest.mock('@storybook/channel-websocket', () => () => ({ on: jest.fn() }));
-
 const storyIndex: StoryIndex = {
   v: 4,
   entries: {
@@ -154,7 +152,7 @@ describe('StoryIndexStore', () => {
         const store = new StoryIndexStore(storyIndex);
 
         expect(() => store.storyIdToEntry('random')).toThrow(
-          /Couldn't find story matching 'random'/
+          /Couldn't find story matching id 'random'/
         );
       });
     });

@@ -5,10 +5,18 @@ import { dedent } from 'ts-dedent';
 import * as t from '@babel/types';
 
 import * as generate from '@babel/generator';
+import * as recast from 'recast';
 
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
+import type {
+  Tag,
+  StoryAnnotations,
+  ComponentAnnotations,
+  IndexedCSFFile,
+  IndexInput,
+} from '@storybook/types';
+import type { Options } from 'recast';
 import { babelParse } from './babelParse';
 import { findVarInitialization } from './findVarInitialization';
 
@@ -109,7 +117,7 @@ export class NoMetaError extends Error {
     super(dedent`
       CSF: ${message} ${formatLocation(ast, fileName)}
 
-      More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+      More info: https://storybook.js.org/docs/react/writing-stories#default-export
     `);
     this.name = this.constructor.name;
   }
@@ -167,7 +175,13 @@ export class CsfFile {
     const node = t.isIdentifier(value)
       ? findVarInitialization(value.name, this._ast.program)
       : value;
-    if (t.isStringLiteral(node)) return node.value;
+    if (t.isStringLiteral(node)) {
+      return node.value;
+    }
+    if (t.isTSSatisfiesExpression(node) && t.isStringLiteral(node.expression)) {
+      return node.expression.value;
+    }
+
     throw new Error(dedent`
       CSF: unexpected dynamic title ${formatLocation(node, this._fileName)}
 
@@ -186,7 +200,7 @@ export class CsfFile {
         } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
           (meta as any)[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
-          const { code } = generate.default(p.value, {});
+          const { code } = recast.print(p.value, {});
           meta.component = code;
         } else if (p.key.name === 'tags') {
           let node = p.value;
@@ -386,7 +400,73 @@ export class CsfFile {
           if (declarations) {
             // export const X = ...;
             declarations.forEach((decl: t.VariableDeclarator | t.FunctionDeclaration) => {
-              self._parseDeclaration(decl, node, parent);
+              if (t.isIdentifier(decl.id)) {
+                const { name: exportName } = decl.id;
+                if (exportName === '__namedExportsOrder' && t.isVariableDeclarator(decl)) {
+                  self._namedExportsOrder = parseExportsOrder(decl.init as t.Expression);
+                  return;
+                }
+                self._storyExports[exportName] = decl;
+                self._storyStatements[exportName] = node;
+                let name = storyNameFromExport(exportName);
+                if (self._storyAnnotations[exportName]) {
+                  logger.warn(
+                    `Unexpected annotations for "${exportName}" before story declaration`
+                  );
+                } else {
+                  self._storyAnnotations[exportName] = {};
+                }
+                let storyNode;
+                if (t.isVariableDeclarator(decl)) {
+                  storyNode =
+                    t.isTSAsExpression(decl.init) || t.isTSSatisfiesExpression(decl.init)
+                      ? decl.init.expression
+                      : decl.init;
+                } else {
+                  storyNode = decl;
+                }
+                const parameters: { [key: string]: any } = {};
+                if (t.isObjectExpression(storyNode)) {
+                  parameters.__isArgsStory = true; // assume default render is an args story
+                  // CSF3 object export
+                  (storyNode.properties as t.ObjectProperty[]).forEach((p) => {
+                    if (t.isIdentifier(p.key)) {
+                      if (p.key.name === 'render') {
+                        parameters.__isArgsStory = isArgsStory(
+                          p.value as t.Expression,
+                          parent,
+                          self
+                        );
+                      } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
+                        name = p.value.value;
+                      } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
+                        logger.warn(
+                          `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
+                        );
+                      } else if (p.key.name === 'parameters' && t.isObjectExpression(p.value)) {
+                        const idProperty = p.value.properties.find(
+                          (property) =>
+                            t.isObjectProperty(property) &&
+                            t.isIdentifier(property.key) &&
+                            property.key.name === '__id'
+                        ) as t.ObjectProperty | undefined;
+                        if (idProperty) {
+                          parameters.__id = (idProperty.value as t.StringLiteral).value;
+                        }
+                      }
+
+                      self._storyAnnotations[exportName][p.key.name] = p.value;
+                    }
+                  });
+                } else {
+                  parameters.__isArgsStory = isArgsStory(storyNode as t.Node, parent, self);
+                }
+                self._stories[exportName] = {
+                  id: 'FIXME',
+                  name,
+                  parameters,
+                };
+              }
             });
           } else if (node.specifiers.length > 0) {
             // export { X as Y }
@@ -502,7 +582,7 @@ export class CsfFile {
       throw new Error(dedent`
         CSF: missing title/component ${formatLocation(self._ast, self._fileName)}
 
-        More info: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+        More info: https://storybook.js.org/docs/react/writing-stories#default-export
       `);
     }
 
@@ -513,27 +593,31 @@ export class CsfFile {
       self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
     }
     self._stories = entries.reduce((acc, [key, story]) => {
-      if (isExportStory(key, self._meta as StaticMeta)) {
-        const id = toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
-        const parameters: Record<string, any> = { ...story.parameters, __id: id };
-        const { includeStories } = self._meta || {};
-        if (
-          key === '__page' &&
-          (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
-        ) {
-          parameters.docsOnly = true;
-        }
-        acc[key] = { ...story, id, parameters };
-        const { tags, play } = self._storyAnnotations[key];
-        if (tags) {
-          const node = t.isIdentifier(tags)
-            ? findVarInitialization(tags.name, this._ast.program)
-            : tags;
-          acc[key].tags = parseTags(node);
-        }
-        if (play) {
-          acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
-        }
+      if (!isExportStory(key, self._meta as StaticMeta)) {
+        return acc;
+      }
+      const id =
+        story.parameters?.__id ??
+        toId((self._meta?.id || self._meta?.title) as string, storyNameFromExport(key));
+      const parameters: Record<string, any> = { ...story.parameters, __id: id };
+
+      const { includeStories } = self._meta || {};
+      if (
+        key === '__page' &&
+        (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
+      ) {
+        parameters.docsOnly = true;
+      }
+      acc[key] = { ...story, id, parameters };
+      const { tags, play } = self._storyAnnotations[key];
+      if (tags) {
+        const node = t.isIdentifier(tags)
+          ? findVarInitialization(tags.name, this._ast.program)
+          : tags;
+        acc[key].tags = parseTags(node);
+      }
+      if (play) {
+        acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
       }
       return acc;
     }, {} as Record<string, StaticStory>);
@@ -560,7 +644,7 @@ export class CsfFile {
       }
     }
 
-    return self;
+    return self as CsfFile & IndexedCSFFile;
   }
 
   public get meta() {
@@ -569,6 +653,29 @@ export class CsfFile {
 
   public get stories() {
     return Object.values(this._stories);
+  }
+
+  public get indexInputs(): IndexInput[] {
+    if (!this._fileName) {
+      throw new Error(
+        dedent`Cannot automatically create index inputs with CsfFile.indexInputs because the CsfFile instance was created without a the fileName option.
+        Either add the fileName option when creating the CsfFile instance, or create the index inputs manually.`
+      );
+    }
+    return Object.entries(this._stories).map(([exportName, story]) => {
+      // combine meta and story tags, removing any duplicates
+      const tags = Array.from(new Set([...(this._meta?.tags ?? []), ...(story.tags ?? [])]));
+      return {
+        type: 'story',
+        importPath: this._fileName,
+        exportName,
+        name: story.name,
+        title: this.meta?.title,
+        metaId: this.meta?.id,
+        tags,
+        __id: story.id,
+      };
+    });
   }
 }
 
@@ -579,7 +686,9 @@ export const loadCsf = (code: string, options: CsfOptions) => {
 
 interface FormatOptions {
   sourceMaps?: boolean;
+  preserveStyle?: boolean;
 }
+
 export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: false }) => {
   const result = generate.default(csf._ast, options);
   if (options.sourceMaps) {
@@ -587,6 +696,13 @@ export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: f
   }
   const { code } = result;
   return code;
+};
+
+/**
+ * Use this function, if you want to preserve styles. Uses recast under the hood.
+ */
+export const printCsf = (csf: CsfFile, options: Options = {}) => {
+  return recast.print(csf._ast, options);
 };
 
 export const readCsf = async (fileName: string, options: CsfOptions) => {
@@ -597,5 +713,5 @@ export const readCsf = async (fileName: string, options: CsfOptions) => {
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fs.writeFile(fileName as string, (await formatCsf(csf)) as string);
+  await fs.writeFile(fileName as string, printCsf(csf).code);
 };

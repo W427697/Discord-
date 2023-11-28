@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { loadConfigFromFile, mergeConfig } from 'vite';
+import findCacheDirectory from 'find-cache-dir';
 import type {
   ConfigEnv,
   InlineConfig as ViteInlineConfig,
@@ -8,13 +8,12 @@ import type {
   InlineConfig,
 } from 'vite';
 import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
-import { globals } from '@storybook/preview/globals';
+import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
   csfPlugin,
   injectExportOrderPlugin,
-  mdxPlugin,
   stripStoryHMRBoundary,
   externalGlobalsPlugin,
 } from './plugins';
@@ -41,18 +40,22 @@ export async function commonConfig(
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
+  const { loadConfigFromFile, mergeConfig } = await import('vite');
+
   const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
+
+  const projectRoot = path.resolve(options.configDir, '..');
 
   // I destructure away the `build` property from the user's config object
   // I do this because I can contain config that breaks storybook, such as we had in a lit project.
   // If the user needs to configure the `build` they need to do so in the viteFinal function in main.js.
   const { config: { build: buildProperty = undefined, ...userConfig } = {} } =
-    (await loadConfigFromFile(configEnv, viteConfigPath)) ?? {};
+    (await loadConfigFromFile(configEnv, viteConfigPath, projectRoot)) ?? {};
 
   const sbConfig: InlineConfig = {
     configFile: false,
-    cacheDir: 'node_modules/.cache/.vite-storybook',
-    root: path.resolve(options.configDir, '..'),
+    cacheDir: findCacheDirectory({ name: 'sb-vite' }),
+    root: projectRoot,
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',
     plugins: await pluginConfig(options),
@@ -65,6 +68,10 @@ export async function commonConfig(
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,
     // otherwise, add VITE_ and STORYBOOK_ so that vite doesn't lose its default.
     envPrefix: userConfig.envPrefix ? ['STORYBOOK_'] : ['VITE_', 'STORYBOOK_'],
+    // Pass build.target option from user's vite config
+    build: {
+      target: buildProperty?.target,
+    },
   };
 
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);
@@ -74,13 +81,19 @@ export async function commonConfig(
 
 export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
+  const build = await options.presets.apply('build');
+
+  const externals: Record<string, string> = globalsNameReferenceMap;
+
+  if (build?.test?.disableBlocks) {
+    externals['@storybook/blocks'] = '__STORYBOOK_BLOCKS_EMPTY_MODULE__';
+  }
 
   const plugins = [
     codeGeneratorPlugin(options),
     await csfPlugin(options),
-    await mdxPlugin(options),
-    injectExportOrderPlugin,
-    stripStoryHMRBoundary(),
+    await injectExportOrderPlugin(),
+    await stripStoryHMRBoundary(),
     {
       name: 'storybook:allow-storybook-dir',
       enforce: 'post',
@@ -94,7 +107,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    await externalGlobalsPlugin(globals),
+    await externalGlobalsPlugin(externals),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
