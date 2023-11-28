@@ -4,17 +4,17 @@ title: 'Component Story Format (CSF)'
 
 <YouTubeCallout id="uH9_dfc-6Kc" title="Test components the EASY way | Component Story Format 3" />
 
-Component Story Format (CSF) is the recommended way to [write stories](../writing-stories/introduction.md). It's an [open standard](https://github.com/ComponentDriven/csf) based on ES6 modules that is portable beyond Storybook.
+Component Story Format (CSF) is the recommended way to [write stories](../writing-stories/index.md). It's an [open standard](https://github.com/ComponentDriven/csf) based on ES6 modules that is portable beyond Storybook.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](../../lib/preview-api/docs/storiesOf.md).
+If you are writing stories in the older `storiesOf()` syntax, you can find documentation in an [advanced README](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md).
 
-</div>
+</Callout>
 
 In CSF, stories and component metadata are defined as ES Modules. Every component story file consists of a required [default export](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export#Using_the_default_export) and one or more [named exports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export).
 
-CSF is supported in all frameworks except React Native, where you should use the [storiesOf API](../../lib/preview-api/docs/storiesOf.md) instead.
+CSF is supported in all frameworks except React Native, where you should use the [storiesOf API](https://github.com/storybookjs/storybook/blob/next/code/lib/preview-api/docs/storiesOf.md) instead.
 
 ## Default export
 
@@ -26,6 +26,9 @@ The `component` field is required and used by addons for automatic prop table ge
 
 <CodeSnippets
   paths={[
+    'angular/my-component-story-mandatory-export.ts.mdx',
+    'web-components/my-component-story-mandatory-export.js.mdx',
+    'web-components/my-component-story-mandatory-export.ts.mdx',
     'common/my-component-story-mandatory-export.js.mdx',
     'common/my-component-story-mandatory-export.ts.mdx',
   ]}
@@ -33,7 +36,7 @@ The `component` field is required and used by addons for automatic prop table ge
 
 <!-- prettier-ignore-end -->
 
-For more examples, see [writing stories](../writing-stories/introduction.md).
+For more examples, see [writing stories](../writing-stories/index.md).
 
 ## Named story exports
 
@@ -51,6 +54,8 @@ With CSF, every named export in the file represents a story object by default.
     'angular/my-component-story-basic-and-props.ts.mdx',
     'web-components/my-component-story-basic-and-props.js.mdx',
     'web-components/my-component-story-basic-and-props.ts.mdx',
+    'solid/my-component-story-basic-and-props.js.mdx',
+    'solid/my-component-story-basic-and-props.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-my-component-story-basic-and-props"
@@ -78,6 +83,9 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
 
 <CodeSnippets
   paths={[
+    'angular/my-component-story-with-storyname.ts.mdx',
+    'web-components/my-component-story-with-storyname.js.mdx',
+    'web-components/my-component-story-with-storyname.ts.mdx',
     'common/my-component-story-with-storyname.js.mdx',
     'common/my-component-story-with-storyname.ts.mdx',
   ]}
@@ -91,7 +99,7 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
 
 Starting in SB 6.0, stories accept named inputs called Args. Args are dynamic data that are provided (and possibly updated by) Storybook and its addons.
 
-Consider Storybook’s ["Button" example](../writing-stories/introduction.md#defining-stories) of a text button that logs its click events:
+Consider Storybook’s ["Button" example](../writing-stories/index.md#defining-stories) of a text button that logs its click events:
 
 <!-- prettier-ignore-start -->
 
@@ -100,13 +108,15 @@ Consider Storybook’s ["Button" example](../writing-stories/introduction.md#def
     'react/button-story-click-handler.js.mdx',
     'react/button-story-click-handler.ts.mdx',
     'vue/button-story-click-handler.2.js.mdx',
-    'vue/button-story-click-handler.ts-2.ts.mdx',
+    'vue/button-story-click-handler.2.ts.mdx',
     'vue/button-story-click-handler.3.js.mdx',
-    'vue/button-story-click-handler.ts-3.ts.mdx',
+    'vue/button-story-click-handler.3.ts.mdx',
     'svelte/button-story-click-handler.js.mdx',
     'angular/button-story-click-handler.ts.mdx',
     'web-components/button-story-click-handler.js.mdx',
     'web-components/button-story-click-handler.ts.mdx',
+    'solid/button-story-click-handler.js.mdx',
+    'solid/button-story-click-handler.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler"
@@ -123,13 +133,15 @@ Now consider the same example, re-written with args:
     'react/button-story-click-handler-args.js.mdx',
     'react/button-story-click-handler-args.ts.mdx',
     'vue/button-story-click-handler-args.2.js.mdx',
-    'vue/button-story-click-handler-args.ts-2.ts.mdx',
+    'vue/button-story-click-handler-args.2.ts.mdx',
     'vue/button-story-click-handler-args.3.js.mdx',
-    'vue/button-story-click-handler-args.ts-3.ts.mdx',
+    'vue/button-story-click-handler-args.3.ts.mdx',
     'angular/button-story-click-handler-args.ts.mdx',
     'svelte/button-story-click-handler-args.js.mdx',
     'web-components/button-story-click-handler-args.js.mdx',
     'web-components/button-story-click-handler-args.ts.mdx',
+    'solid/button-story-click-handler-args.js.mdx',
+    'solid/button-story-click-handler-args.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler-args"
@@ -150,6 +162,8 @@ Or even more simply:
     'vue/button-story-click-handler-simplificated.ts.mdx',
     'web-components/button-story-click-handler-simplificated.js.mdx',
     'web-components/button-story-click-handler-simplificated.ts.mdx',
+    'solid/button-story-click-handler-simplificated.js.mdx',
+    'solid/button-story-click-handler-simplificated.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-button-story-click-handler-simplificated"
@@ -159,7 +173,7 @@ Or even more simply:
 
 Not only are these versions shorter and more accessible to write than their no-args counterparts, but they are also more portable since the code doesn't depend on the actions addon specifically.
 
-For more information on setting up [Docs](../writing-docs/introduction.md) and [Actions](../essentials/actions.md), see their respective documentation.
+For more information on setting up [Docs](../writing-docs/index.md) and [Actions](../essentials/actions.md), see their respective documentation.
 
 ## Play function
 
@@ -174,13 +188,13 @@ A good use case for the `play` function is a form component. With previous Story
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'vue/login-form-with-play-function.2.js.mdx',
-    'vue/login-form-with-play-function.ts-2.ts.mdx',
-    'vue/login-form-with-play-function.3.js.mdx',
-    'vue/login-form-with-play-function.ts-3.ts.mdx',
+    'vue/login-form-with-play-function.js.mdx',
+    'vue/login-form-with-play-function.ts.mdx',
     'web-components/login-form-with-play-function.js.mdx',
     'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.js.mdx',
+    'solid/login-form-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-login-form-with-play-function"
@@ -206,6 +220,8 @@ Starting in Storybook 6.4, you can write your stories as JavaScript objects, red
    'preact/component-story-with-custom-render-function.js.mdx',
    'web-components/component-story-with-custom-render-function.js.mdx',
    'web-components/component-story-with-custom-render-function.ts.mdx',
+   'solid/component-story-with-custom-render-function.js.mdx',
+   'solid/component-story-with-custom-render-function.ts.mdx',
   ]}
   usesCsf3
 />
@@ -253,14 +269,14 @@ Consider the following story file:
   paths={[
     'react/my-component-story-with-nonstory.js.mdx',
     'react/my-component-story-with-nonstory.ts.mdx',
-    'vue/my-component-story-with-nonstory.2.js.mdx',
-    'vue/my-component-story-with-nonstory.ts-2.ts.mdx',
-    'vue/my-component-story-with-nonstory.3.js.mdx',
-    'vue/my-component-story-with-nonstory.ts-3.ts.mdx',
+    'vue/my-component-story-with-nonstory.js.mdx',
+    'vue/my-component-story-with-nonstory.ts.mdx',
     'svelte/my-component-story-with-nonstory.js.mdx',
     'angular/my-component-story-with-nonstory.ts.mdx',
     'web-components/my-component-story-with-nonstory.js.mdx',
     'web-components/my-component-story-with-nonstory.ts.mdx',
+    'solid/my-component-story-with-nonstory.js.mdx',
+    'solid/my-component-story-with-nonstory.ts.mdx',
   ]}
   usesCsf3
   csf2Path="api/csf#snippet-my-component-story-with-nonstory"
@@ -292,12 +308,14 @@ In CSF 2, the named exports are always functions that instantiate a component, a
     'react/csf-2-example-starter.js.mdx',
     'react/csf-2-example-starter.ts.mdx',
     'vue/csf-2-example-starter.2.js.mdx',
-    'vue/csf-2-example-starter.ts-2.ts.mdx',
+    'vue/csf-2-example-starter.2.ts.mdx',
     'vue/csf-2-example-starter.3.js.mdx',
-    'vue/csf-2-example-starter.ts-3.ts.mdx',
+    'vue/csf-2-example-starter.3.ts.mdx',
     'angular/csf-2-example-starter.ts.mdx',
     'web-components/csf-2-example-starter.js.mdx',
     'web-components/csf-2-example-starter.ts.mdx',
+    'solid/csf-2-example-starter.js.mdx',
+    'solid/csf-2-example-starter.ts.mdx',
   ]}
 />
 
@@ -313,11 +331,11 @@ Here's the CSF 3 equivalent:
   paths={[
     'common/csf-3-example-starter.js.mdx',
     'react/csf-3-example-starter.ts.mdx',
-    'vue/csf-3-example-starter.ts-2.ts.mdx',
-    'vue/csf-3-example-starter.ts-3.ts.mdx',
+    'vue/csf-3-example-starter.ts.mdx',
     'angular/csf-3-example-starter.ts.mdx',
     'web-components/csf-3-example-starter.js.mdx',
     'web-components/csf-3-example-starter.ts.mdx',
+    'solid/csf-3-example-starter.ts.mdx',
   ]}
 />
 
@@ -351,7 +369,8 @@ In CSF 3, we can spread the `Primary` object to carry over all its annotations:
 
 <CodeSnippets
   paths={[
-    'common/csf-3-example-primary-dark-story.js.mdx'
+    'common/csf-3-example-primary-dark-story.js.mdx',
+    'common/csf-3-example-primary-dark-story.ts.mdx',
   ]}
 />
 
@@ -372,12 +391,14 @@ Let's start with a simple CSF 2 story function:
     'react/csf-2-example-story.js.mdx',
     'react/csf-2-example-story.ts.mdx',
     'vue/csf-2-example-story.2.js.mdx',
-    'vue/csf-2-example-story.ts-2.ts.mdx',
+    'vue/csf-2-example-story.2.ts.mdx',
     'vue/csf-2-example-story.3.js.mdx',
-    'vue/csf-2-example-story.ts-3.ts.mdx',
+    'vue/csf-2-example-story.3.ts.mdx',
     'angular/csf-2-example-story.ts.mdx',
     'web-components/csf-2-example-story.js.mdx',
     'web-components/csf-2-example-story.ts.mdx',
+    'solid/csf-2-example-story.js.mdx',
+    'solid/csf-2-example-story.ts.mdx',
   ]}
 />
 
@@ -392,12 +413,14 @@ Now, let's rewrite it as a story object in CSF 3 with an explicit `render` funct
     'react/csf-3-example-render.js.mdx',
     'react/csf-3-example-render.ts.mdx',
     'vue/csf-3-example-render.2.js.mdx',
-    'vue/csf-3-example-render.ts-2.ts.mdx',
+    'vue/csf-3-example-render.2.ts.mdx',
     'vue/csf-3-example-render.3.js.mdx',
-    'vue/csf-3-example-render.ts-3.ts.mdx',
+    'vue/csf-3-example-render.3.ts.mdx',
     'angular/csf-3-example-render.ts.mdx',
     'web-components/csf-3-example-render.js.mdx',
     'web-components/csf-3-example-render.ts.mdx',
+    'solid/csf-3-example-render.js.mdx',
+    'solid/csf-3-example-render.ts.mdx',
   ]}
 />
 
@@ -445,4 +468,4 @@ Finally, CSF 3 can automatically generate titles.
 
 <!-- prettier-ignore-end -->
 
-You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/overview#configure-story-loading).
+You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/index.md#configure-story-loading).

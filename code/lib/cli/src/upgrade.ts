@@ -8,6 +8,7 @@ import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-
 import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
+import { isCorePackage } from './utils';
 
 type Package = {
   package: string;
@@ -24,33 +25,6 @@ export const getStorybookVersion = (line: string) => {
     version: match[2],
   };
 };
-
-const excludeList = [
-  '@storybook/addon-bench',
-  '@storybook/addon-console',
-  '@storybook/addon-postcss',
-  '@storybook/babel-plugin-require-context-hook',
-  '@storybook/bench',
-  '@storybook/builder-vite',
-  '@storybook/csf',
-  '@storybook/design-system',
-  '@storybook/ember-cli-storybook',
-  '@storybook/eslint-config-storybook',
-  '@storybook/expect',
-  '@storybook/jest',
-  '@storybook/linter-config',
-  '@storybook/mdx1-csf',
-  '@storybook/mdx2-csf',
-  '@storybook/react-docgen-typescript-plugin',
-  '@storybook/storybook-deployer',
-  '@storybook/test-runner',
-  '@storybook/testing-library',
-  '@storybook/testing-react',
-];
-export const isCorePackage = (pkg: string) =>
-  pkg.startsWith('@storybook/') &&
-  !pkg.startsWith('@storybook/preset-') &&
-  !excludeList.includes(pkg);
 
 const deprecatedPackages = [
   {
@@ -135,6 +109,28 @@ export const addExtraFlags = (
   );
 };
 
+export const addNxPackagesToReject = (flags: string[]) => {
+  const newFlags = [...flags];
+  const index = flags.indexOf('--reject');
+  if (index > -1) {
+    // Try to understand if it's in the format of a regex pattern
+    if (newFlags[index + 1].endsWith('/') && newFlags[index + 1].startsWith('/')) {
+      // Remove last and first slash so that I can add the parentheses
+      newFlags[index + 1] = newFlags[index + 1].substring(1, newFlags[index + 1].length - 1);
+      newFlags[index + 1] = `/(${newFlags[index + 1]}|@nrwl/storybook|@nx/storybook)/`;
+    } else {
+      // Adding the two packages as comma-separated values
+      // If the existing rejects are in regex format, they will be ignored.
+      // Maybe we need to find a more robust way to treat rejects?
+      newFlags[index + 1] = `${newFlags[index + 1]},@nrwl/storybook,@nx/storybook`;
+    }
+  } else {
+    newFlags.push('--reject');
+    newFlags.push('@nrwl/storybook,@nx/storybook');
+  }
+  return newFlags;
+};
+
 export interface UpgradeOptions {
   tag: string;
   prerelease: boolean;
@@ -189,22 +185,25 @@ export const doUpgrade = async ({
   if (!dryRun) flags.push('--upgrade');
   flags.push('--target');
   flags.push(target);
-  flags = addExtraFlags(EXTRA_FLAGS, flags, packageManager.retrievePackageJson());
+  flags = addExtraFlags(EXTRA_FLAGS, flags, await packageManager.retrievePackageJson());
+  flags = addNxPackagesToReject(flags);
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
     shell: true,
-  }).output.toString();
-  logger.info(check);
+  });
+  logger.info(check.stdout.toString());
+  logger.info(check.stderr.toString());
 
   const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
     stdio: 'pipe',
     shell: true,
-  }).output.toString();
-  logger.info(checkSb);
+  });
+  logger.info(checkSb.stdout.toString());
+  logger.info(checkSb.stderr.toString());
 
   if (!dryRun) {
     commandLog(`Installing upgrades`);
-    packageManager.installDependencies();
+    await packageManager.installDependencies();
   }
 
   let automigrationResults;
@@ -212,12 +211,11 @@ export const doUpgrade = async ({
     checkVersionConsistency();
     automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr, configDir });
   }
-
   if (!options.disableTelemetry) {
     const afterVersion = await getStorybookCoreVersion();
-    const { preCheckFailure, ...results } = automigrationResults || {};
+    const { preCheckFailure, fixResults } = automigrationResults || {};
     const automigrationTelemetry = {
-      automigrationResults: preCheckFailure ? null : results,
+      automigrationResults: preCheckFailure ? null : fixResults,
       automigrationPreCheckFailure: preCheckFailure || null,
     };
     telemetry('upgrade', {

@@ -1,5 +1,6 @@
 import path from 'path';
 import findUp from 'find-up';
+import slash from 'slash';
 import { normalizeStoryPath, getProjectRoot } from '../paths';
 
 jest.mock('find-up');
@@ -49,7 +50,7 @@ describe('getProjectRoot', () => {
       name === ('.git' as any) ? '/path/to/root' : undefined
     );
 
-    expect(getProjectRoot()).toBe('/path/to');
+    expect(slash(getProjectRoot())).toBe('/path/to');
   });
 
   it('should return the root directory containing a .svn directory if there is no .git directory', () => {
@@ -57,7 +58,7 @@ describe('getProjectRoot', () => {
       name === ('.svn' as any) ? '/path/to/root' : undefined
     );
 
-    expect(getProjectRoot()).toBe('/path/to');
+    expect(slash(getProjectRoot())).toBe('/path/to');
   });
 
   it('should return the root directory containing a .yarn directory if there is no .git or .svn directory', () => {
@@ -65,6 +66,6 @@ describe('getProjectRoot', () => {
       name === ('.yarn' as any) ? '/path/to/root' : undefined
     );
 
-    expect(getProjectRoot()).toBe('/path/to');
+    expect(slash(getProjectRoot())).toBe('/path/to');
   });
 });

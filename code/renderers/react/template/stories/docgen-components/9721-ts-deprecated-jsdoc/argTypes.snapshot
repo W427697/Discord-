@@ -13,7 +13,7 @@ Object {
       "jsDocTags": undefined,
       "type": Object {
         "detail": undefined,
-        "summary": "signature",
+        "summary": "{ width: number; height: number }",
       },
     },
     "type": Object {
@@ -28,25 +28,6 @@ Object {
           "name": "number",
         },
       },
-    },
-  },
-  "width": Object {
-    "control": Object {
-      "type": "number",
-    },
-    "description": "",
-    "name": "width",
-    "table": Object {
-      "defaultValue": null,
-      "jsDocTags": undefined,
-      "type": Object {
-        "detail": undefined,
-        "summary": "number",
-      },
-    },
-    "type": Object {
-      "name": "number",
-      "required": true,
     },
   },
 }
