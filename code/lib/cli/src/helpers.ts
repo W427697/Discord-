@@ -1,11 +1,12 @@
 /* eslint-disable no-param-reassign */
-import path, { join } from 'path';
+import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
-import chalk from 'chalk';
+import path, { join } from 'path';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
+import findUp from 'find-up';
 import { getCliDir, getRendererDir } from './dirs';
 import type {
   JsPackageManager,
@@ -17,16 +18,6 @@ import { SupportedLanguage } from './project_types';
 import storybookMonorepoPackages from './versions';
 
 const logger = console;
-
-export function getBowerJson() {
-  const bowerJsonPath = path.resolve('bower.json');
-  if (!fs.existsSync(bowerJsonPath)) {
-    return false;
-  }
-
-  const jsonContent = fs.readFileSync(bowerJsonPath, 'utf8');
-  return JSON.parse(jsonContent);
-}
 
 export function readFileAsJson(jsonPath: string, allowComments?: boolean) {
   const filePath = path.resolve(jsonPath);
@@ -119,6 +110,7 @@ export function codeLog(codeLines: string[], leftPadAmount?: number) {
 
 /**
  * Detect if any babel dependencies need to be added to the project
+ * This is currently used by react-native generator
  * @param {Object} packageJson The current package.json so we can inspect its contents
  * @returns {Array} Contains the packages and versions that need to be installed
  * @example
@@ -194,6 +186,24 @@ type CopyTemplateFilesOptions = {
   destination?: string;
 };
 
+const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, SupportedRenderers> = {
+  angular: 'angular',
+  ember: 'ember',
+  html: 'html',
+  nextjs: 'react',
+  preact: 'preact',
+  qwik: 'qwik',
+  react: 'react',
+  'react-native': 'react',
+  server: 'react',
+  solid: 'solid',
+  svelte: 'svelte',
+  sveltekit: 'svelte',
+  vue: 'vue',
+  vue3: 'vue',
+  'web-components': 'web-components',
+};
+
 export async function copyTemplateFiles({
   packageManager,
   renderer,
@@ -201,17 +211,20 @@ export async function copyTemplateFiles({
   destination,
   includeCommonAssets = true,
 }: CopyTemplateFilesOptions) {
-  const languageFolderMapping: Record<SupportedLanguage, string> = {
+  const languageFolderMapping: Record<SupportedLanguage | 'typescript', string> = {
+    // keeping this for backwards compatibility in case community packages are using it
+    typescript: 'ts',
     [SupportedLanguage.JAVASCRIPT]: 'js',
     [SupportedLanguage.TYPESCRIPT_3_8]: 'ts-3-8',
     [SupportedLanguage.TYPESCRIPT_4_9]: 'ts-4-9',
   };
   const templatePath = async () => {
     const baseDir = await getRendererDir(packageManager, renderer);
-    const assetsDir = join(baseDir, 'template/cli');
+    const assetsDir = join(baseDir, 'template', 'cli');
 
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
     const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
+    const assetsTS = join(assetsDir, languageFolderMapping.typescript);
     const assetsTS38 = join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT_3_8]);
 
     // Ideally use the assets that match the language & version.
@@ -221,6 +234,10 @@ export async function copyTemplateFiles({
     // Use fallback typescript 3.8 assets if new ones aren't available
     if (language === SupportedLanguage.TYPESCRIPT_4_9 && (await fse.pathExists(assetsTS38))) {
       return assetsTS38;
+    }
+    // Fallback further to TS (for backwards compatibility purposes)
+    if (await fse.pathExists(assetsTS)) {
+      return assetsTS;
     }
     // Fallback further to JS
     if (await fse.pathExists(assetsJS)) {
@@ -242,11 +259,28 @@ export async function copyTemplateFiles({
 
   const destinationPath = destination ?? (await targetPath());
   if (includeCommonAssets) {
-    await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+    await fse.copy(join(getCliDir(), 'rendererAssets', 'common'), destinationPath, {
       overwrite: true,
     });
   }
   await fse.copy(await templatePath(), destinationPath, { overwrite: true });
+
+  if (includeCommonAssets) {
+    const rendererType = frameworkToRenderer[renderer] || 'react';
+    await adjustTemplate(join(destinationPath, 'Configure.mdx'), { renderer: rendererType });
+  }
+}
+
+export async function adjustTemplate(templatePath: string, templateData: Record<string, any>) {
+  // for now, we're just doing a simple string replace
+  // in the future we might replace this with a proper templating engine
+  let template = await fse.readFile(templatePath, 'utf8');
+
+  Object.keys(templateData).forEach((key) => {
+    template = template.replaceAll(`{{${key}}}`, `${templateData[key]}`);
+  });
+
+  await fse.writeFile(templatePath, template);
 }
 
 // Given a package.json, finds any official storybook package within it
@@ -264,4 +298,8 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
   }
 
   return allDeps[storybookPackage];
+}
+
+export async function isNxProject() {
+  return findUp.sync('nx.json');
 }

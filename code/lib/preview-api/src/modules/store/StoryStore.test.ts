@@ -1,5 +1,4 @@
 import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
-import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
 
 import { prepareStory } from './csf/prepareStory';
@@ -9,6 +8,7 @@ import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
 jest.mock('./csf/prepareStory', () => ({
+  ...jest.requireActual('./csf/prepareStory'),
   prepareStory: jest.fn(jest.requireActual('./csf/prepareStory').prepareStory),
 }));
 jest.mock('./csf/processCSFFile', () => ({
@@ -18,9 +18,6 @@ jest.mock('./csf/processCSFFile', () => ({
 jest.mock('@storybook/global', () => ({
   global: {
     ...(jest.requireActual('@storybook/global') as any),
-    FEATURES: {
-      breakingChangesV7: true,
-    },
   },
 }));
 
@@ -429,6 +426,20 @@ describe('StoryStore', () => {
       });
     });
 
+    it('can force initial args', async () => {
+      const store = new StoryStore();
+      store.setProjectAnnotations(projectAnnotations);
+      store.initialize({ storyIndex, importFn, cache: false });
+
+      const story = await store.loadStory({ storyId: 'component-one--a' });
+
+      store.args.update(story.id, { foo: 'bar' });
+
+      expect(store.getStoryContext(story, { forceInitialArgs: true })).toMatchObject({
+        args: { foo: 'a' },
+      });
+    });
+
     it('returns the same hooks each time', async () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
@@ -739,7 +750,6 @@ describe('StoryStore', () => {
               "fileName": "./src/ComponentOne.stories.js",
             },
             "playFunction": undefined,
-            "prepareContext": [Function],
             "story": "A",
             "storyFn": [Function],
             "subcomponents": undefined,
@@ -785,7 +795,6 @@ describe('StoryStore', () => {
               "fileName": "./src/ComponentOne.stories.js",
             },
             "playFunction": undefined,
-            "prepareContext": [Function],
             "story": "B",
             "storyFn": [Function],
             "subcomponents": undefined,
@@ -831,7 +840,6 @@ describe('StoryStore', () => {
               "fileName": "./src/ComponentTwo.stories.js",
             },
             "playFunction": undefined,
-            "prepareContext": [Function],
             "story": "C",
             "storyFn": [Function],
             "subcomponents": undefined,
@@ -988,12 +996,6 @@ describe('StoryStore', () => {
 
   describe('getStoriesJsonData', () => {
     describe('in back-compat mode', () => {
-      beforeEach(() => {
-        global.FEATURES!.breakingChangesV7 = false;
-      });
-      afterEach(() => {
-        global.FEATURES!.breakingChangesV7 = true;
-      });
       it('maps stories list to payload correctly', async () => {
         const store = new StoryStore();
         store.setProjectAnnotations(projectAnnotations);
@@ -1009,7 +1011,6 @@ describe('StoryStore', () => {
                 "kind": "Component One",
                 "name": "A",
                 "parameters": Object {
-                  "__id": "component-one--a",
                   "__isArgsStory": false,
                   "fileName": "./src/ComponentOne.stories.js",
                 },
@@ -1022,7 +1023,6 @@ describe('StoryStore', () => {
                 "kind": "Component One",
                 "name": "B",
                 "parameters": Object {
-                  "__id": "component-one--b",
                   "__isArgsStory": false,
                   "fileName": "./src/ComponentOne.stories.js",
                 },
@@ -1035,7 +1035,6 @@ describe('StoryStore', () => {
                 "kind": "Component Two",
                 "name": "C",
                 "parameters": Object {
-                  "__id": "component-two--c",
                   "__isArgsStory": false,
                   "fileName": "./src/ComponentTwo.stories.js",
                 },

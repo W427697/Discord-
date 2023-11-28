@@ -1,15 +1,15 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 import type { Fix } from '../types';
-import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
+import { updateMainConfig } from '../helpers/mainConfigFile';
 
 const logger = console;
 
 interface AutodocsTrueFrameworkRunOptions {
-  value?: StorybookConfig['docs']['autodocs'];
+  value?: StorybookConfigRaw['docs']['autodocs'];
 }
 
 /**
@@ -18,9 +18,7 @@ interface AutodocsTrueFrameworkRunOptions {
 export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
   id: 'autodocsTrue',
 
-  async check({ packageManager, configDir }) {
-    const { mainConfig } = await getStorybookData({ packageManager, configDir });
-
+  async check({ mainConfig }) {
     const { docs } = mainConfig;
 
     const docsPageToAutodocsMapping = {
@@ -47,6 +45,10 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
 
   prompt({ value }) {
     const autodocsFormatted = chalk.cyan(`docs: { autodocs: ${JSON.stringify(value ?? true)} }`);
+    const tagWarning = dedent`
+      NOTE: if you're upgrading from an older 7.0-beta using the 'docsPage' tag,
+      please update your story files to use the 'autodocs' tag instead.
+    `;
 
     if (value) {
       return dedent`
@@ -58,14 +60,9 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
       Based on your prior configuration,  we can set the \`docs.autodocs\` to keep your old behaviour:
 
       ${autodocsFormatted}
-
-      ${
-        value === 'tag' &&
-        `NOTE: it is important you change all CSF files to use the 'autodocs' tag rather than the 'docsPage' tag.`
-      }
-
+      ${value === 'tag' ? tagWarning : ''}
       More info: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs'
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
       )}
     `;
     }
@@ -78,7 +75,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
       ${autodocsFormatted}
 
       More info: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs'
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
       )}
     `;
   },

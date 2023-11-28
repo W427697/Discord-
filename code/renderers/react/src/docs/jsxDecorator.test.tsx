@@ -111,7 +111,7 @@ describe('renderJsx', () => {
   });
 
   it('forwardRef component', () => {
-    const MyExoticComponent = React.forwardRef<PropsWithChildren<{}>>(function MyExoticComponent(
+    const MyExoticComponent = React.forwardRef<FC, PropsWithChildren>(function MyExoticComponent(
       props,
       _ref
     ) {
@@ -127,7 +127,7 @@ describe('renderJsx', () => {
   });
 
   it('memo component', () => {
-    const MyMemoComponent: FC = React.memo(function MyMemoComponent(props) {
+    const MyMemoComponent: FC<PropsWithChildren> = React.memo(function MyMemoComponent(props) {
       return <div>{props.children}</div>;
     });
 
@@ -183,6 +183,7 @@ const makeContext = (name: string, parameters: any, args: any, extra?: object): 
   kind: 'js-text',
   name,
   parameters,
+  unmappedArgs: args,
   args,
   ...extra,
 });
@@ -245,30 +246,6 @@ describe('jsxDecorator', () => {
     await new Promise((r) => setTimeout(r, 0));
 
     expect(mockChannel.emit).not.toHaveBeenCalled();
-  });
-
-  it('allows the snippet output to be modified by transformSource', async () => {
-    const storyFn = (args: any) => <div>args story</div>;
-    const transformSource = (dom: string) => `<p>${dom}</p>`;
-    const jsx = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, jsx }, {});
-    jsxDecorator(storyFn, context);
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
-      id: 'jsx-test--args',
-      args: {},
-      source: '<p><div>\n  args story\n</div></p>',
-    });
-  });
-
-  it('provides the story context to transformSource', () => {
-    const storyFn = (args: any) => <div>args story</div>;
-    const transformSource = jest.fn();
-    const jsx = { transformSource };
-    const context = makeContext('args', { __isArgsStory: true, jsx }, {});
-    jsxDecorator(storyFn, context);
-    expect(transformSource).toHaveBeenCalledWith('<div>\n  args story\n</div>', context);
   });
 
   it('renders MDX properly', async () => {

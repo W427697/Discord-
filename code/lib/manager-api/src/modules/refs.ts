@@ -8,14 +8,15 @@ import type {
   SetStoriesStoryData,
   API_IndexHash,
   API_StoryMapper,
+  StoryIndex,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import {
-  transformSetStoriesStoryDataToStoriesHash,
+  transformSetStoriesStoryDataToPreparedStoryIndex,
   transformStoryIndexToStoriesHash,
 } from '../lib/stories';
 
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 
 const { location, fetch } = global;
 
@@ -27,16 +28,51 @@ export interface SubState {
 }
 
 export interface SubAPI {
+  /**
+   * Finds a composed ref by its source.
+   * @param {string} source - The source/URL of the composed ref.
+   * @returns {API_ComposedRef} - The composed ref object.
+   */
   findRef: (source: string) => API_ComposedRef;
+  /**
+   * Sets a composed ref by its ID and data.
+   * @param {string} id - The ID of the composed ref.
+   * @param {API_SetRefData} data - The data to set for the composed ref.
+   * @param {boolean} [ready] - Whether the composed ref is ready.
+   */
   setRef: (id: string, data: API_SetRefData, ready?: boolean) => void;
+  /**
+   * Updates a composed ref by its ID and update object.
+   * @param {string} id - The ID of the composed ref.
+   * @param {API_ComposedRefUpdate} ref - The update object for the composed ref.
+   */
   updateRef: (id: string, ref: API_ComposedRefUpdate) => void;
+  /**
+   * Gets all composed refs.
+   * @returns {API_Refs} - The composed refs object.
+   */
   getRefs: () => API_Refs;
+  /**
+   * Checks if a composed ref is valid.
+   * @param {API_SetRefData} ref - The composed ref to check.
+   * @returns {Promise<void>} - A promise that resolves when the check is complete.
+   */
   checkRef: (ref: API_SetRefData) => Promise<void>;
+  /**
+   * Changes the version of a composed ref by its ID and URL.
+   * @param {string} id - The ID of the composed ref.
+   * @param {string} url - The new URL for the composed ref.
+   */
   changeRefVersion: (id: string, url: string) => void;
+  /**
+   * Changes the state of a composed ref by its ID and previewInitialized flag.
+   * @param {string} id - The ID of the composed ref.
+   * @param {boolean} previewInitialized - The new previewInitialized flag for the composed ref.
+   */
   changeRefState: (id: string, previewInitialized: boolean) => void;
 }
 
-export const getSourceType = (source: string, refId: string) => {
+export const getSourceType = (source: string, refId?: string) => {
   const { origin: localOrigin, pathname: localPathname } = location;
   const { origin: sourceOrigin, pathname: sourcePathname } = new URL(source);
 
@@ -70,10 +106,10 @@ async function handleRequest(
   try {
     const response = await request;
     if (response === false || response === true) {
-      return {};
+      throw new Error('Unexpected boolean response');
     }
     if (!response.ok) {
-      return {};
+      throw new Error(`Unexpected response not OK: ${response.statusText}`);
     }
 
     const json = await response.json();
@@ -123,7 +159,7 @@ const map = (
   return input;
 };
 
-export const init: ModuleFn<SubAPI, SubState, void> = (
+export const init: ModuleFn<SubAPI, SubState> = (
   { store, provider, singleStory, docsOptions = {} },
   { runCheck = true } = {}
 ) => {
@@ -135,8 +171,9 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
     changeRefVersion: (id, url) => {
       const { versions, title } = api.getRefs()[id];
-      const ref = { id, url, versions, title, stories: {} } as API_SetRefData;
+      const ref: API_SetRefData = { id, url, versions, title, index: {}, expanded: true };
 
+      api.setRef(id, { ...ref, type: 'unknown' }, false);
       api.checkRef(ref);
     },
     changeRefState: (id, previewInitialized) => {
@@ -179,28 +216,30 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         });
       }
 
-      const [indexFetch, storiesFetch] = await Promise.all(
+      const [indexResult, storiesResult] = await Promise.all(
         ['index.json', 'stories.json'].map(async (file) =>
-          fetch(`${urlParseResult.url}/${file}${query}`, {
-            headers,
-            credentials,
-          })
+          handleRequest(
+            fetch(`${urlParseResult.url}/${file}${query}`, {
+              headers,
+              credentials,
+            })
+          )
         )
       );
 
-      if (indexFetch.ok || storiesFetch.ok) {
-        const [index, metadata] = await Promise.all([
-          indexFetch.ok ? handleRequest(indexFetch) : handleRequest(storiesFetch),
-          handleRequest(
-            fetch(`${urlParseResult.url}/metadata.json${query}`, {
-              headers,
-              credentials,
-              cache: 'no-cache',
-            }).catch(() => false)
-          ),
-        ]);
+      if (!indexResult.indexError || !storiesResult.indexError) {
+        const metadata = await handleRequest(
+          fetch(`${urlParseResult.url}/metadata.json${query}`, {
+            headers,
+            credentials,
+            cache: 'no-cache',
+          }).catch(() => false)
+        );
 
-        Object.assign(loadedData, { ...index, ...metadata });
+        Object.assign(loadedData, {
+          ...(indexResult.indexError ? storiesResult : indexResult),
+          ...(!metadata.indexError && metadata),
+        });
       } else if (!isPublic) {
         // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
         // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
@@ -242,21 +281,33 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       if (singleStory) {
         return;
       }
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      let internal_index: StoryIndex | undefined;
+      let index: API_IndexHash | undefined;
+      const { filters } = store.getState();
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let index: API_IndexHash;
-      if (setStoriesData) {
-        index = transformSetStoriesStoryDataToStoriesHash(
-          map(setStoriesData, ref, { storyMapper }),
-          { provider, docsOptions }
-        );
-      } else if (storyIndex) {
-        index = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
-      }
-      if (index) index = addRefIds(index, ref);
+      if (storyIndex || setStoriesData) {
+        internal_index = setStoriesData
+          ? transformSetStoriesStoryDataToPreparedStoryIndex(
+              map(setStoriesData, ref, { storyMapper })
+            )
+          : storyIndex;
 
-      api.updateRef(id, { index, ...rest });
+        index = transformStoryIndexToStoriesHash(storyIndex, {
+          provider,
+          docsOptions,
+          filters,
+          status: {},
+        });
+      }
+
+      if (index) {
+        index = addRefIds(index, ref);
+      }
+
+      api.updateRef(id, { ...ref, ...rest, index, internal_index });
     },
 
     updateRef: (id, data) => {
