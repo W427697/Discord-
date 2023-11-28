@@ -50,6 +50,7 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
+    - [Dark mode detection](#dark-mode-detection)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -1118,7 +1119,7 @@ import ReadMe from './README.md?raw';
 #### Stories field in .storybook/main.js is mandatory
 
 In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
-Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/#configure-your-storybook-project) section to configure your Storybook project.
 
 #### Stricter global types
 
@@ -1218,6 +1219,14 @@ export default {
   },
 };
 ```
+
+#### Dark mode detection
+
+Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode preference if a theme is not set.
+
+Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
+
+To learn more about theming, read our [documentation](https://storybook.js.org/docs/react/configure/theming).
 
 ### 7.0 core addons changes
 

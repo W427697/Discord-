@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export type SkippableTask =
   | 'smoke-test'
@@ -66,7 +66,7 @@ export type Template = {
    */
   modifications?: {
     skipTemplateStories?: boolean;
-    mainConfig?: Partial<StorybookConfig>;
+    mainConfig?: Partial<StorybookConfigRaw>;
     testBuild?: boolean;
     disableDocs?: boolean;
   };
@@ -336,7 +336,7 @@ const baseTemplates = {
   'svelte-kit/skeleton-js': {
     name: 'SvelteKit Latest (Vite | JavaScript)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -347,7 +347,7 @@ const baseTemplates = {
   'svelte-kit/skeleton-ts': {
     name: 'SvelteKit Latest (Vite | TypeScript)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
