@@ -9,7 +9,7 @@ import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { TransformOptions as EsbuildOptions } from 'esbuild';
 import type { JsMinifyOptions as SwcOptions } from '@swc/core';
-import type { Options, CoreConfig, DocsOptions } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import {
   getBuilderOptions,
@@ -45,8 +45,6 @@ const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
 const storybookPaths: Record<string, string> = {
   ...(managerAPIPath
     ? {
-        // deprecated, remove in 8.0
-        [`@storybook/api`]: managerAPIPath,
         [`@storybook/manager-api`]: managerAPIPath,
       }
     : {}),
@@ -87,14 +85,14 @@ export default async (
     modulesCount = 1000,
     build,
   ] = await Promise.all([
-    presets.apply<CoreConfig>('core'),
+    presets.apply('core'),
     presets.apply('frameworkOptions'),
     presets.apply<Record<string, string>>('env'),
     presets.apply('logLevel', undefined),
     presets.apply('previewHead'),
     presets.apply('previewBody'),
     presets.apply<string>('previewMainTemplate'),
-    presets.apply<DocsOptions>('docs'),
+    presets.apply('docs'),
     presets.apply<string[]>('entries', []),
     presets.apply('stories', []),
     options.cache?.get('modulesCount').catch(() => {}),

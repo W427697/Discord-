@@ -156,23 +156,6 @@ module.exports = {
         },
         {
           pathSegment: '',
-          title: 'Snapshot testing',
-          type: 'menu',
-          children: [
-            {
-              pathSegment: 'snapshot-testing',
-              title: 'Storyshots',
-              type: 'link',
-            },
-            {
-              pathSegment: 'storyshots-migration-guide',
-              title: 'Migration guide',
-              type: 'link',
-            },
-          ],
-        },
-        {
-          pathSegment: '',
           title: 'Import stories in tests',
           type: 'menu',
           children: [

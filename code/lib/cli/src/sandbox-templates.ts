@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export type SkippableTask =
   | 'smoke-test'
@@ -66,7 +66,7 @@ export type Template = {
    */
   modifications?: {
     skipTemplateStories?: boolean;
-    mainConfig?: Partial<StorybookConfig>;
+    mainConfig?: Partial<StorybookConfigRaw>;
     testBuild?: boolean;
     disableDocs?: boolean;
   };
@@ -466,34 +466,6 @@ const baseTemplates = {
  * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
-  'internal/ssv6-vite': {
-    ...baseTemplates['react-vite/default-ts'],
-    name: 'StoryStore v6 (react-vite/default-ts)',
-    isInternal: true,
-    modifications: {
-      mainConfig: {
-        features: {
-          storyStoreV7: false,
-          storyStoreV7MdxErrors: false,
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
-  'internal/ssv6-webpack': {
-    ...baseTemplates['cra/default-ts'],
-    name: 'StoryStore v6 (cra/default-ts)',
-    isInternal: true,
-    modifications: {
-      mainConfig: {
-        features: {
-          storyStoreV7: false,
-          storyStoreV7MdxErrors: false,
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
   'internal/swc-webpack': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'SWC (react-webpack/18-ts)',
@@ -615,8 +587,6 @@ export const merged: TemplateKey[] = [
   'preact-vite/default-ts',
   'html-webpack/default',
   'html-vite/default-ts',
-  'internal/ssv6-vite',
-  'internal/ssv6-webpack',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
