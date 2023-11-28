@@ -19,13 +19,14 @@
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [Dark mode detection](#dark-mode-detection)
   - [Core addons](#core-addons)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Vite](#vite)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [Webpack](#webpack)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Postcss removed](#postcss-removed)
@@ -64,7 +65,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -635,7 +636,7 @@ Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode prefe
 
 Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
 
-To manually set a theme, see [the theming docs](https://storybook.js.org/docs/react/configure/theming).
+To learn more about theming, read our [documentation](https://storybook.js.org/docs/react/configure/theming).
 
 ### Core addons
 
