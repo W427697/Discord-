@@ -2,9 +2,10 @@ import type { FC, MouseEvent, PropsWithChildren, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
 import type { SupportedLanguage } from '@storybook/components';
-import { Code, components, Icons, nameSpaceClassNames } from '@storybook/components';
+import { Code, components, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
+import { LinkIcon } from '@storybook/icons';
 import { Source } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
@@ -20,7 +21,7 @@ export const assertIsFn = (val: any) => {
 };
 
 // Hacky utility for adding mdxStoryToId to the default context
-export const AddContext: FC<DocsContextProps> = (props) => {
+export const AddContext: FC<PropsWithChildren<DocsContextProps>> = (props) => {
   const { children, ...rest } = props;
   const parentContext = React.useContext(DocsContext);
   return (
@@ -32,7 +33,11 @@ interface CodeOrSourceMdxProps {
   className?: string;
 }
 
-export const CodeOrSourceMdx: FC<CodeOrSourceMdxProps> = ({ className, children, ...rest }) => {
+export const CodeOrSourceMdx: FC<PropsWithChildren<CodeOrSourceMdxProps>> = ({
+  className,
+  children,
+  ...rest
+}) => {
   // markdown-to-jsx does not add className to inline code
   if (
     typeof className !== 'string' &&
@@ -191,7 +196,7 @@ const HeaderWithOcticonAnchor: FC<PropsWithChildren<HeaderWithOcticonAnchorProps
           }
         }}
       >
-        <Icons icon="link" />
+        <LinkIcon />
       </OcticonAnchor>
       {children}
     </OcticonHeader>

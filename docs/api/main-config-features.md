@@ -22,7 +22,9 @@ Enables Storybook's additional features.
 
 Type: `boolean`
 
-Generates a `stories.json` file to help story loading with the on-demand mode.
+Default: `true`, when [`storyStoreV7`](#storystorev7) is `true`
+
+Generates a `index.json` and `stories.json` files to help story loading with the on-demand mode.
 
 <!-- prettier-ignore-start -->
 
@@ -88,7 +90,9 @@ Opts out of [on-demand story loading](#on-demand-story-loading); loads all stori
 
 <!-- prettier-ignore-end -->
 
-## `argTypeTargetsV7` (EXPERIMENTAL)
+## `argTypeTargetsV7`
+
+(⚠️ **Experimental**)
 
 Type: `boolean`
 

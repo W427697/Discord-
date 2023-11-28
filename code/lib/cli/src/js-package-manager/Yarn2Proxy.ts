@@ -1,4 +1,10 @@
 import dedent from 'ts-dedent';
+import { sync as findUpSync, sync as syncFindUp } from 'find-up';
+import { existsSync, readFileSync } from 'fs';
+import path from 'path';
+import { PosixFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
+import { getLibzipSync } from '@yarnpkg/libzip';
+import semver from 'semver';
 import { createLogStream } from '../utils';
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
@@ -108,6 +114,9 @@ export class Yarn2Proxy extends JsPackageManager {
         pattern.map((p) => `"${p}"`).join(' '),
         `"${pattern}"`,
       ],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -115,6 +124,60 @@ export class Yarn2Proxy extends JsPackageManager {
     } catch (e) {
       return undefined;
     }
+  }
+
+  async getPackageJSON(packageName: string, basePath = this.cwd): Promise<PackageJson | null> {
+    const pnpapiPath = findUpSync(['.pnp.js', '.pnp.cjs'], { cwd: basePath });
+
+    if (pnpapiPath) {
+      try {
+        // eslint-disable-next-line import/no-dynamic-require, global-require
+        const pnpApi = require(pnpapiPath);
+
+        const resolvedPath = await pnpApi.resolveToUnqualified(packageName, basePath, {
+          considerBuiltins: false,
+        });
+
+        const pkgLocator = pnpApi.findPackageLocator(resolvedPath);
+        const pkg = pnpApi.getPackageInformation(pkgLocator);
+
+        const zipOpenFs = new ZipOpenFS({
+          libzip: getLibzipSync(),
+        });
+
+        const virtualFs = new VirtualFS({ baseFs: zipOpenFs });
+        const crossFs = new PosixFS(virtualFs);
+
+        const virtualPath = path.join(pkg.packageLocation, 'package.json');
+
+        return crossFs.readJsonSync(virtualPath);
+      } catch (error) {
+        if (error.code !== 'MODULE_NOT_FOUND') {
+          console.error('Error while fetching package version in Yarn PnP mode:', error);
+        }
+        return null;
+      }
+    }
+
+    const packageJsonPath = await syncFindUp(
+      (dir) => {
+        const possiblePath = path.join(dir, 'node_modules', packageName, 'package.json');
+        return existsSync(possiblePath) ? possiblePath : undefined;
+      },
+      { cwd: basePath }
+    );
+
+    if (!packageJsonPath) {
+      return null;
+    }
+
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson;
+  }
+
+  async getPackageVersion(packageName: string, basePath = this.cwd): Promise<string | null> {
+    const packageJSON = await this.getPackageJSON(packageName, basePath);
+    return packageJSON ? semver.coerce(packageJSON.version)?.version ?? null : null;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
@@ -147,7 +210,7 @@ export class Yarn2Proxy extends JsPackageManager {
       await this.executeCommand({
         command: 'yarn',
         args: ['add', ...this.getInstallArgs(), ...args],
-        stdio: ['ignore', logStream, logStream],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
       });
     } catch (err) {
       const stdout = await readLogFile();
@@ -226,6 +289,7 @@ export class Yarn2Proxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'yarn why',
+      dedupeCommand: 'yarn dedupe',
     };
   }
 
