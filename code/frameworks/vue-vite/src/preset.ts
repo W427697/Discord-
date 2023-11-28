@@ -1,6 +1,5 @@
 import { dirname, join } from 'path';
 import type { PresetProperty } from '@storybook/types';
-import { mergeConfig } from 'vite';
 import type { StorybookConfig } from './types';
 import { vueDocgen } from './plugins/vue-docgen';
 
@@ -21,6 +20,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
+  const { mergeConfig } = await import('vite');
   return mergeConfig(config, {
     plugins: [vueDocgen()],
     resolve: {

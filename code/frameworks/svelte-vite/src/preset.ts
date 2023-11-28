@@ -26,7 +26,7 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
   }
 
   // Add docgen plugin
-  plugins.push(svelteDocgen(svelteConfig));
+  plugins.push(await svelteDocgen(svelteConfig));
 
   await handleSvelteKit(plugins, options);
 
