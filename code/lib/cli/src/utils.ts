@@ -132,32 +132,3 @@ export const isCorePackage = (pkg: string) =>
   pkg.startsWith('@storybook/') &&
   !pkg.startsWith('@storybook/preset-') &&
   !PACKAGES_EXCLUDED_FROM_CORE.includes(pkg);
-
-/**
- *
- * @param command A shell command string to execute.
- * @param options Options to pass to the node `spawn` function.
- * @returns A promise that resolves when the command has finished executing.
- */
-export const exec = async (command: string, options: Record<string, any>) => {
-  const { spawn } = await import('cross-spawn');
-  return new Promise((resolve, reject) => {
-    const child = spawn(command, {
-      ...options,
-      shell: true,
-      stdio: 'pipe',
-    });
-
-    child.stderr.pipe(process.stdout);
-    child.stdout.pipe(process.stdout);
-
-    child.on('exit', (code) => {
-      if (code === 0) {
-        resolve(undefined);
-      } else {
-        logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-        reject(new Error(`Command failed with exit code: ${code}`));
-      }
-    });
-  });
-};

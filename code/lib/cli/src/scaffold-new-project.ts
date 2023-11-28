@@ -2,11 +2,11 @@ import boxen from 'boxen';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
+import execa from 'execa';
 import { logger } from '@storybook/node-logger';
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
 
 import type { PackageManagerName } from './js-package-manager';
-import { exec } from './utils';
 
 type CoercedPackageManagerName = 'npm' | 'yarn' | 'pnpm';
 
@@ -152,7 +152,12 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
     logger.plain(
       `Creating a new "${projectDisplayName}" project with ${chalk.bold(packageManagerName)}...`
     );
-    await exec(createScript, { stdio: 'inherit' });
+    await execa.command(createScript, {
+      stdio: 'pipe',
+      shell: true,
+      cwd: process.cwd(),
+      cleanup: true,
+    });
   } catch (e) {
     throw new GenerateNewProjectOnInitError({
       error: e,
