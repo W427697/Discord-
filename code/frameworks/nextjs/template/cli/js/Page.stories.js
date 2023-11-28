@@ -1,4 +1,3 @@
-import { expect } from '@storybook/jest';
 import { within, userEvent, expect } from '@storybook/test';
 import { Page } from './Page';
 

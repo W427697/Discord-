@@ -1,4 +1,3 @@
-import { expect } from '@storybook/jest';
 import { expect, fn, within } from '@storybook/test';
 import Forms from './Forms.svelte';
 

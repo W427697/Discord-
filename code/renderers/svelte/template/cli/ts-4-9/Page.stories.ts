@@ -1,4 +1,3 @@
-import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/svelte';
 import { within, userEvent, expect } from '@storybook/test';
 
