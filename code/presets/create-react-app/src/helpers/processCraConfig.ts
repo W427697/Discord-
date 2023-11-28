@@ -19,10 +19,10 @@ const testMatch = (rule: RuleSetRule, string: string): boolean => {
     : isRegExp(rule.test) && rule.test.test(string);
 };
 
-export const processCraConfig = (
+export const processCraConfig = async (
   craWebpackConfig: Configuration,
   options: PluginOptions
-): RuleSetRule[] => {
+): Promise<RuleSetRule[]> => {
   const configDir = resolve(options.configDir);
 
   /*
@@ -37,6 +37,7 @@ export const processCraConfig = (
    */
   const storybookVersion = semver.coerce(options.packageJson.version) || '';
   const isStorybook530 = semver.gte(storybookVersion, '5.3.0');
+  const babelOptions = await options.presets.apply('babel');
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return craWebpackConfig.module!.rules.reduce((rules, rule): RuleSetRule[] => {
@@ -108,12 +109,7 @@ export const processCraConfig = (
                 overrides: TransformOptions[] | null;
               };
 
-              const {
-                extends: _extends,
-                plugins,
-                presets,
-                overrides,
-              } = (options as any).babelOptions;
+              const { extends: _extends, plugins, presets, overrides } = babelOptions;
 
               return {
                 ...oneOfRule,

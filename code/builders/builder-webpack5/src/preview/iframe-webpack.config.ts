@@ -57,7 +57,7 @@ const storybookPaths: Record<string, string> = {
 };
 
 export default async (
-  options: Options & Record<string, any> & { typescriptOptions: TypescriptOptions }
+  options: Options & { typescriptOptions: TypescriptOptions }
 ): Promise<Configuration> => {
   const {
     outputDir = join('.', 'public'),
@@ -66,7 +66,6 @@ export default async (
     configType,
     presets,
     previewUrl,
-    babelOptions,
     typescriptOptions,
     features,
   } = options;
@@ -240,7 +239,7 @@ export default async (
         },
         builderOptions.useSWC
           ? await createSWCLoader(Object.keys(virtualModuleMapping), options)
-          : createBabelLoader(babelOptions, typescriptOptions, Object.keys(virtualModuleMapping)),
+          : await createBabelLoader(options, typescriptOptions, Object.keys(virtualModuleMapping)),
         {
           test: /\.md$/,
           type: 'asset/source',

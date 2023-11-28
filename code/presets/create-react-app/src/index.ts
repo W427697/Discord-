@@ -92,7 +92,7 @@ const webpack = async (
 
   // Select the relevant CRA rules and add the Storybook config directory.
   logger.info(`=> Modifying Create React App rules.`);
-  const craRules = processCraConfig(craWebpackConfig, options);
+  const craRules = await processCraConfig(craWebpackConfig, options);
 
   // NOTE: These are set by default in Storybook 6.
   const isStorybook6 = semver.gte(options.packageJson.version || '', '6.0.0');
