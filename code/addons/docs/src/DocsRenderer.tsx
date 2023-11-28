@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from 'react';
 import React, { Component } from 'react';
 import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
@@ -10,9 +11,11 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
-class ErrorBoundary extends Component<{
-  showException: (err: Error) => void;
-}> {
+class ErrorBoundary extends Component<
+  PropsWithChildren<{
+    showException: (err: Error) => void;
+  }>
+> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {
@@ -28,7 +31,7 @@ class ErrorBoundary extends Component<{
     const { hasError } = this.state;
     const { children } = this.props;
 
-    return hasError ? null : children;
+    return hasError ? null : <>{children}</>;
   }
 }
 
@@ -48,19 +51,22 @@ export class DocsRenderer<TRenderer extends Renderer> {
         ...docsParameter?.components,
       };
 
+      const TDocs = Docs as typeof Docs<TRenderer>;
+
       return new Promise((resolve, reject) => {
         import('@mdx-js/react')
           .then(({ MDXProvider }) =>
+            // We use a `key={}` here to reset the `hasError` state each time we render ErrorBoundary
             renderElement(
-              <ErrorBoundary showException={reject}>
+              <ErrorBoundary showException={reject} key={Math.random()}>
                 <MDXProvider components={components}>
-                  <Docs context={context} docsParameter={docsParameter} />
+                  <TDocs context={context} docsParameter={docsParameter} />
                 </MDXProvider>
               </ErrorBoundary>,
               element
             )
           )
-          .then(resolve);
+          .then(() => resolve());
       });
     };
 

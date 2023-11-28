@@ -11,8 +11,8 @@ import { initialize, mswDecorator } from 'msw-storybook-addon';
 initialize();
 
 export default {
+  decorators: [mswDecorator],
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -21,7 +21,4 @@ export default {
     },
   },
 };
-
-// Provide the MSW addon decorator globally
-export default { decorators: [mswDecorator] };
 ```

@@ -2,7 +2,6 @@ import type { Fix } from '../types';
 
 import { cra5 } from './cra5';
 import { webpack5 } from './webpack5';
-import { angular12 } from './angular12';
 import { vue3 } from './vue3';
 import { mdxgfm } from './mdx-gfm';
 import { eslintPlugin } from './eslint-plugin';
@@ -16,32 +15,33 @@ import { autodocsTrue } from './autodocs-true';
 import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
-import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
 import { angularBuilders } from './angular-builders';
+import { incompatibleAddons } from './incompatible-addons';
 import { angularBuildersMultiproject } from './angular-builders-multiproject';
+import { wrapRequire } from './wrap-require';
 
 export * from '../types';
 
 export const allFixes: Fix[] = [
   nodeJsRequirement,
+  newFrameworks,
   cra5,
   webpack5,
-  angular12,
   vue3,
   eslintPlugin,
   builderVite,
   sbBinary,
   sbScripts,
-  newFrameworks,
+  incompatibleAddons,
   removedGlobalClientAPIs,
   mdx1to2,
   mdxgfm,
-  bareMdxStoriesGlob,
   autodocsTrue,
   addReact,
   missingBabelRc,
   angularBuildersMultiproject,
   angularBuilders,
+  wrapRequire,
 ];
 
 export const initFixes: Fix[] = [missingBabelRc, eslintPlugin];

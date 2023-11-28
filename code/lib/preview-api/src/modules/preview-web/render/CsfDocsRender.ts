@@ -31,6 +31,8 @@ import { DocsContext } from '../docs-context/DocsContext';
 export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
+  public readonly subtype = 'csf';
+
   public readonly id: StoryId;
 
   public story?: PreparedStory<TRenderer>;
@@ -45,7 +47,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TRenderer>[];
+  public csfFiles?: CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,
@@ -93,7 +95,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
     );
   }
 
-  docsContext(renderStoryToElement: DocsContextProps['renderStoryToElement']) {
+  docsContext(renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement']) {
     if (!this.csfFiles) throw new Error('Cannot render docs before preparing');
     const docsContext = new DocsContext<TRenderer>(
       this.channel,
@@ -110,7 +112,7 @@ export class CsfDocsRender<TRenderer extends Renderer> implements Render<TRender
 
   async renderToElement(
     canvasElement: TRenderer['canvasElement'],
-    renderStoryToElement: DocsContextProps['renderStoryToElement']
+    renderStoryToElement: DocsContextProps<TRenderer>['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
 

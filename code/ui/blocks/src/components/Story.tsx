@@ -60,12 +60,9 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
     return () => {
       // It seems like you are supposed to unmount components outside of `useEffect`:
       //   https://github.com/facebook/react/issues/25675#issuecomment-1363957941
-      setTimeout(() => cleanup(), 0);
+      Promise.resolve().then(() => cleanup());
     };
   }, [autoplay, renderStoryToElement, story]);
-
-  // We do this so React doesn't complain when we replace the span in a secondary render
-  const htmlContents = `<span></span>`;
 
   if (error) {
     return (
@@ -78,18 +75,12 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   return (
     <>
       {height ? (
-        <style>{`${storyBlockIdFromId(
+        <style>{`#${storyBlockIdFromId(
           props
         )} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
       ) : null}
       {showLoader && <StorySkeleton />}
-      <div
-        ref={storyRef}
-        id={`${storyBlockIdFromId(props)}-inner`}
-        data-name={story.name}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: htmlContents }}
-      />
+      <div ref={storyRef} id={`${storyBlockIdFromId(props)}-inner`} data-name={story.name} />
     </>
   );
 };
@@ -126,7 +117,7 @@ const Story: FunctionComponent<StoryProps> = (props) => {
   const { inline } = props;
 
   return (
-    <div id={storyBlockIdFromId(props)} className="sb-story sb-unstyled">
+    <div id={storyBlockIdFromId(props)} className="sb-story sb-unstyled" data-story-block="true">
       {inline ? (
         <InlineStory {...(props as InlineStoryProps)} />
       ) : (

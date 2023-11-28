@@ -1,10 +1,14 @@
 import express from 'express';
 import compression from 'compression';
+import invariant from 'tiny-invariant';
 
-import type { CoreConfig, Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 
 import { logConfig } from '@storybook/core-common';
+import { deprecate, logger } from '@storybook/node-logger';
 
+import dedent from 'ts-dedent';
+import { MissingBuilderError } from '@storybook/core-events/server-errors';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
@@ -18,28 +22,36 @@ import { getStoryIndexGenerator } from './utils/getStoryIndexGenerator';
 import { doTelemetry } from './utils/doTelemetry';
 import { router } from './utils/router';
 import { getAccessControlMiddleware } from './utils/getAccessControlMiddleware';
+import { getCachingMiddleware } from './utils/get-caching-middleware';
 
 export async function storybookDevServer(options: Options) {
   const app = express();
 
   const [server, features, core] = await Promise.all([
     getServer(app, options),
-    options.presets.apply<StorybookConfig['features']>('features'),
-    options.presets.apply<CoreConfig>('core'),
+    options.presets.apply('features'),
+    options.presets.apply('core'),
   ]);
 
-  const serverChannel = getServerChannel(server);
+  const serverChannel = await options.presets.apply(
+    'experimental_serverChannel',
+    getServerChannel(server)
+  );
 
-  let indexError: Error;
+  if (features?.storyStoreV7 === false) {
+    deprecate(
+      dedent`storyStoreV6 is deprecated, please migrate to storyStoreV7 instead.
+      - Refer to the migration guide at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev6-and-storiesof-is-deprecated`
+    );
+  }
+
+  let indexError: Error | undefined;
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
-  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
-    features,
-    options,
-    serverChannel
-  ).catch((err) => {
-    indexError = err;
-    return undefined;
-  });
+  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator | undefined> =
+    getStoryIndexGenerator(features ?? {}, options, serverChannel).catch((err) => {
+      indexError = err;
+      return undefined;
+    });
 
   app.use(compression({ level: 1 }));
 
@@ -47,20 +59,26 @@ export async function storybookDevServer(options: Options) {
     options.extendServer(server);
   }
 
-  app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
+  app.use(getAccessControlMiddleware(core?.crossOriginIsolated ?? false));
+  app.use(getCachingMiddleware());
 
   getMiddleware(options.configDir)(router);
 
   app.use(router);
 
-  const { port, host } = options;
+  const { port, host, initialPath } = options;
+  invariant(port, 'expected options to have a port');
   const proto = options.https ? 'https' : 'http';
-  const { address, networkAddress } = getServerAddresses(port, host, proto);
+  const { address, networkAddress } = getServerAddresses(port, host, proto, initialPath);
 
   const listening = new Promise<void>((resolve, reject) => {
     // @ts-expect-error (Following line doesn't match TypeScript signature at all 🤔)
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
+
+  if (!core?.builder) {
+    throw new MissingBuilderError();
+  }
 
   const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
 
@@ -85,6 +103,7 @@ export async function storybookDevServer(options: Options) {
   let previewStarted: Promise<any> = Promise.resolve();
 
   if (!options.ignorePreview) {
+    logger.info('=> Starting preview..');
     previewStarted = previewBuilder
       .start({
         startTime: process.hrtime(),
@@ -94,6 +113,9 @@ export async function storybookDevServer(options: Options) {
         channel: serverChannel,
       })
       .catch(async (e: any) => {
+        logger.error('=> Failed to build the preview');
+        process.exitCode = 1;
+
         await managerBuilder?.bail().catch();
         // For some reason, even when Webpack fails e.g. wrong main.js config,
         // the preview may continue to print to stdout, which can affect output

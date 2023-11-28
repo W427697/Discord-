@@ -1,16 +1,15 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/test';
 
 import { MyComponent } from './MyComponent';
 
 export default {
-  title: 'WithDelay',
   component: MyComponent,
 };
 
-/* See https://storybook.js.org/docs/7.0/react/writing-stories/play-function#working-with-the-canvas
+/* See https://storybook.js.org/docs/writing-stories/play-function#working-with-the-canvas
  * to learn more about using the canvasElement to query the DOM
  */
 export const DelayedStory = {
@@ -19,7 +18,7 @@ export const DelayedStory = {
 
     const exampleElement = canvas.getByLabelText('example-element');
 
-    // The delay option set the ammount of milliseconds between characters being typed
+    // The delay option sets the amount of milliseconds between characters being typed
     await userEvent.type(exampleElement, 'random string', {
       delay: 100,
     });

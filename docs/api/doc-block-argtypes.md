@@ -2,13 +2,15 @@
 title: 'ArgTypes'
 ---
 
+<YouTubeCallout id="uAA1JvLcl-w" title="Avoid Documentation Nightmares with Storybook's ArgTypes Doc Block" params='start=232' />
+
 The `ArgTypes` block can be used to show a static table of [arg types](./argtypes.md) for a given component, as a way to document its interface.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you’re looking for a dynamic table that shows a story’s current arg values for a story and supports users changing them, see the [`Controls`](./doc-block-controls.md) block instead.
+If you’re looking for a dynamic table that shows a story’s current arg values for a story and supports users changing them, see the [`Controls`](./doc-block-controls.md) block instead.
 
-</div>
+</Callout>
 
 ![Screenshot of ArgTypes block](./doc-block-argtypes.png)
 
@@ -42,9 +44,12 @@ The following `exclude` configurations are equivalent:
 
 <CodeSnippets
   paths={[
+    'angular/api-doc-block-argtypes-parameter.ts.mdx',
+    'web-components/api-doc-block-argtypes-parameter.js.mdx',
+    'web-components/api-doc-block-argtypes-parameter.ts.mdx',
+    'web-components/api-doc-block-argtypes-parameter.ts.mdx',
     'common/api-doc-block-argtypes-parameter.js.mdx',
     'common/api-doc-block-argtypes-parameter.ts.mdx',
-    'common/api-doc-block-argtypes-parameter.ts-4-9.mdx',
   ]}
 />
 
