@@ -31,18 +31,29 @@ export const mdxgfm: Fix<Options> = {
         return true;
       }
 
-      invariant(configDir, 'configDir is expected to be non-null.');
-      let pattern: string;
+      let pattern;
+
+      if (!configDir) {
+        return null;
+      }
+
       if (typeof item === 'string') {
         pattern = slash(join(configDir, item));
-      } else {
-        invariant(item.files, 'item.files is expected to be non-null.');
-        pattern = slash(join(configDir, item.directory, item.files));
+      } else if (typeof item === 'object') {
+        const directory = item.directory || '..';
+        const files = item.files || '**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))';
+        pattern = slash(join(configDir, directory, files));
+      }
+
+      if (!pattern) {
+        return null;
       }
 
       const files = await glob(pattern, commonGlobOptions(pattern));
 
-      return files.some((f) => f.endsWith('.mdx'));
+      return files.some((f) =>
+        typeof f === 'string' ? (f as string).endsWith('.mdx') : f.path.endsWith('.mdx')
+      );
     }, Promise.resolve(false));
 
     const usesMDX1 = mainConfig?.features?.legacyMdx1 === true || false;

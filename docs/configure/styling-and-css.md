@@ -2,11 +2,15 @@
 title: 'Styling and CSS'
 ---
 
-There are many ways to include CSS in a web application, and correspondingly there are many ways to include CSS in Storybook. Usually, it is best to try and replicate what your application does with styling in Storybook’s configuration. To make this easier, we recommend using [`@storybook/addon-styling`](https://github.com/storybookjs/addon-styling).
+There are many ways to include CSS in a web application, and correspondingly there are many ways to include CSS in Storybook. Usually, it is best to try and replicate what your application does with styling in Storybook’s configuration.
+
+If you're using Vite to build your Storybook, you're covered! Storybook will use your vite config file which supports most popular styling tools out-of-the-box 🎉. However, if you're using Webpack, you may need some extra configuration. To make this easier, we recommend using [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/).
+
+**Note**: If you're using Storybook with Angular or Next.js, you can skip this section. Storybook will automatically use the same styling configuration as your application.
 
 ## Importing CSS files
 
-Storybook is pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.js`](./overview.md#configure-story-rendering).
+Storybook is pre-configured to recognize imports for CSS files. To add global CSS for all your stories, import it in [`.storybook/preview.js`](./index.md#configure-story-rendering).
 
 <!-- prettier-ignore-start -->
 
@@ -25,21 +29,23 @@ If your component files import their CSS files, this will work too. The noticeab
 
 If you're using Vite as your builder, you're covered! Vite supports Sass and PostCSS out-of-the-box 🎉
 
-However, if you're using Webpack and want to use Sass and PostCss, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling`](https://github.com/storybookjs/addon-styling#storybookaddon-styling) to help you configure these tools. Or if you'd prefer, you can customize [Storybook's webpack configuration yourself](../builders/webpack.md#override-the-default-configuration) to include the appropriate loader(s).
+However, if you're using Webpack and want to use Sass and PostCss, you'll need some extra configuration. We recommend installing [`@storybook/addon-styling-webpack`](https://storybook.js.org/addons/@storybook/addon-styling-webpack/) to help you configure these tools. Or if you'd prefer, you can customize [Storybook's webpack configuration yourself](../builders/webpack.md#override-the-default-configuration) to include the appropriate loader(s).
 
 ## CSS-in-JS
 
-CSS-in-JS libraries are designed to use basic JavaScript, and they often work in Storybook without any extra configuration. Some libraries expect components to render in a specific rendering “context” (for example, to provide themes), which can be accomplished with `@storybook/addon-styling`'s [`withThemeFromJSXProvider` decorator](https://github.com/storybookjs/addon-styling/blob/next/docs/api.md#withthemefromjsxprovider).
+CSS-in-JS libraries are designed to use basic JavaScript, and they often work in Storybook without any extra configuration. Some libraries expect components to render in a specific rendering “context” (for example, to provide themes), which can be accomplished with `@storybook/addon-themes`'s [`withThemeFromJSXProvider` decorator](https://github.com/storybookjs/storybook/blob/next/code/addons/themes/docs/api.md#withthemefromjsxprovider).
 
 ## Adding webfonts
 
 If you need webfonts to be available, you may need to add some code to the [`.storybook/preview-head.html`](./story-rendering.md#adding-to-head) file. We recommend including any assets with your Storybook if possible, in which case you likely want to configure the [static file location](./images-and-assets.md#serving-static-files-via-storybook-configuration).
 
+<IfRenderer renderer='angular'>
+
 ## Troubleshooting
 
 ### Styles aren't being applied with Angular
 
-The latest Angular releases introduced significant changes in configuring and styling projects. If you're working with an Angular version greater than 13 and your styles aren't being applied, you may need to check your `angular.json` ad adjust the `builder` configuration to import your CSS:
+The latest Angular releases introduced significant changes in configuring and styling projects. If you're working with an Angular version greater than 13 and your styles aren't being applied, you may need to check your `angular.json` and adjust the `builder` configuration to import your CSS:
 
 ```json
 {
@@ -56,7 +62,7 @@ The latest Angular releases introduced significant changes in configuring and st
 }
 ```
 
-Additionally, if you need Storybook-specific styles that are separate from your application, you can configure the styles with [Storybook's custom builder](../get-started/install.md), which will override the application's styles:
+Additionally, if you need Storybook-specific styles that are separate from your application, you can configure the styles with [Storybook's custom builder](../get-started/install.md#troubleshooting), which will override the application's styles:
 
 ```json
 {
@@ -121,3 +127,5 @@ Starting with version `14.1.8`, Nx uses the Storybook builder directly, which me
 ```
 
 When Nx runs, it will load Storybook's configuration and styling based on [`storybook`'s `browserTarget`](https://nx.dev/storybook/extra-topics-for-angular-projects#setting-up-browsertarget).
+
+</IfRenderer>

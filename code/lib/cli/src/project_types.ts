@@ -8,14 +8,6 @@ function ltMajor(versionRange: string, major: number) {
   return false;
 }
 
-function gtMajor(versionRange: string, major: number) {
-  // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
-  if (validRange(versionRange)) {
-    return (minVersion(versionRange)?.major ?? -Infinity) > major;
-  }
-  return false;
-}
-
 function eqMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
   if (validRange(versionRange)) {
@@ -72,8 +64,8 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
   UNSUPPORTED = 'UNSUPPORTED',
-  REACT_SCRIPTS = 'REACT_SCRIPTS',
   REACT = 'REACT',
+  REACT_SCRIPTS = 'REACT_SCRIPTS',
   REACT_NATIVE = 'REACT_NATIVE',
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
@@ -171,9 +163,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
   },
   {
     preset: ProjectType.NEXTJS,
-    dependencies: {
-      next: (versionRange) => eqMajor(versionRange, 9) || gtMajor(versionRange, 9),
-    },
+    dependencies: ['next'],
     matcherFunction: ({ dependencies }) => {
       return dependencies?.every(Boolean) ?? true;
     },
@@ -284,7 +274,11 @@ export const unsupportedTemplate: TemplateConfiguration = {
   },
 };
 
-const notInstallableProjectTypes: ProjectType[] = [ProjectType.UNDETECTED, ProjectType.UNSUPPORTED];
+const notInstallableProjectTypes: ProjectType[] = [
+  ProjectType.UNDETECTED,
+  ProjectType.UNSUPPORTED,
+  ProjectType.NX,
+];
 
 export const installableProjectTypes = Object.values(ProjectType)
   .filter((type) => !notInstallableProjectTypes.includes(type))

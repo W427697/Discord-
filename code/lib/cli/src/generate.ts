@@ -1,5 +1,4 @@
 import program from 'commander';
-import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
@@ -13,7 +12,6 @@ import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
-import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
@@ -23,6 +21,8 @@ import { dev } from './dev';
 import { build } from './build';
 import { parseList, getEnvConfig } from './utils';
 import versions from './versions';
+import { JsPackageManagerFactory } from './js-package-manager';
+import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
@@ -90,17 +90,24 @@ command('upgrade')
 
 command('info')
   .description('Prints debugging information about the local environment')
-  .action(() => {
-    consoleLogger.log(chalk.bold('\nEnvironment Info:'));
-    envinfo
-      .run({
-        System: ['OS', 'CPU'],
-        Binaries: ['Node', 'Yarn', 'npm'],
-        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-        npmPackages: '@storybook/*',
-        npmGlobalPackages: '@storybook/*',
-      })
-      .then(consoleLogger.log);
+  .action(async () => {
+    consoleLogger.log(chalk.bold('\nStorybook Environment Info:'));
+    const pkgManager = await JsPackageManagerFactory.getPackageManager();
+    const activePackageManager = pkgManager.type.replace(/\d/, ''); // 'yarn1' -> 'yarn'
+    const output = await envinfo.run({
+      System: ['OS', 'CPU', 'Shell'],
+      Binaries: ['Node', 'Yarn', 'npm', 'pnpm'],
+      Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+      npmPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+      npmGlobalPackages: '{@storybook/*,*storybook*,sb,chromatic}',
+    });
+    const activePackageManagerLine = output.match(new RegExp(`${activePackageManager}:.*`, 'i'));
+    consoleLogger.log(
+      output.replace(
+        activePackageManagerLine,
+        chalk.bold(`${activePackageManagerLine} <----- active`)
+      )
+    );
   });
 
 command('migrate [migration]')
@@ -131,15 +138,6 @@ command('migrate [migration]')
     });
   });
 
-command('extract [location] [output]')
-  .description('extract stories.json from a built version')
-  .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
-    extract(location, output).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
-
 command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility
   .description('Create a sandbox from a set of possible templates')
@@ -165,7 +163,7 @@ command('link <repo-url-or-directory>')
   );
 
 command('automigrate [fixId]')
-  .description('Check storybook for known problems or migrations and apply fixes')
+  .description('Check storybook for incompatibilities or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
@@ -179,6 +177,17 @@ command('automigrate [fixId]')
   )
   .action(async (fixId, options) => {
     await automigrate({ fixId, ...options }).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    });
+  });
+
+command('doctor')
+  .description('Check Storybook for known problems and provide suggestions or fixes')
+  .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
+  .option('-c, --config-dir <dir-name>', 'Directory of Storybook configuration')
+  .action(async (options) => {
+    await doctor(options).catch((e) => {
       logger.error(e);
       process.exit(1);
     });
@@ -206,11 +215,6 @@ command('dev')
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--quiet', 'Suppress verbose build output')
   .option('--no-version-updates', 'Suppress update check', true)
-  .option(
-    '--no-release-notes',
-    'Suppress automatic redirects to the release notes after upgrading',
-    true
-  )
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
   .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
   .option(
@@ -259,6 +263,7 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--test', 'Build stories optimized for testing purposes.')
   .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
@@ -272,7 +277,11 @@ command('build')
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    await build({ ...options, packageJson: pkg }).catch(() => process.exit(1));
+    await build({
+      ...options,
+      packageJson: pkg,
+      test: !!options.test || process.env.SB_TESTBUILD === 'true',
+    }).catch(() => process.exit(1));
   });
 
 program.on('command:*', ([invalidCmd]) => {

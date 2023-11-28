@@ -16,6 +16,7 @@ import {
 } from './project_types';
 import { commandLog, isNxProject } from './helpers';
 import type { JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
+import { HandledError } from './HandledError';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 const webpackConfigFiles = ['webpack.config.js'];
@@ -136,16 +137,23 @@ export async function detectBuilder(packageManager: JsPackageManager, projectTyp
       return CoreBuilder.Webpack5;
     default:
       // eslint-disable-next-line no-case-declarations
-      const { builder } = await prompts({
-        type: 'select',
-        name: 'builder',
-        message:
-          'We were not able to detect the right builder for your project. Please select one:',
-        choices: [
-          { title: 'Vite', value: CoreBuilder.Vite },
-          { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
-        ],
-      });
+      const { builder } = await prompts(
+        {
+          type: 'select',
+          name: 'builder',
+          message:
+            '\nWe were not able to detect the right builder for your project. Please select one:',
+          choices: [
+            { title: 'Vite', value: CoreBuilder.Vite },
+            { title: 'Webpack 5', value: CoreBuilder.Webpack5 },
+          ],
+        },
+        {
+          onCancel: () => {
+            throw new HandledError('Canceled by the user');
+          },
+        }
+      );
 
       return builder;
   }
@@ -166,6 +174,10 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     return language;
   }
 
+  const isTypescriptDirectDependency = await packageManager
+    .getAllDependencies()
+    .then((deps) => Boolean(deps['typescript']));
+
   const typescriptVersion = await packageManager.getPackageVersion('typescript');
   const prettierVersion = await packageManager.getPackageVersion('prettier');
   const babelPluginTransformTypescriptVersion = await packageManager.getPackageVersion(
@@ -179,20 +191,21 @@ export async function detectLanguage(packageManager: JsPackageManager) {
     'eslint-plugin-storybook'
   );
 
-  if (
-    typescriptVersion &&
-    semver.gte(typescriptVersion, '4.9.0') &&
-    (!prettierVersion || semver.gte(prettierVersion, '2.8.0')) &&
-    (!babelPluginTransformTypescriptVersion ||
-      semver.gte(babelPluginTransformTypescriptVersion, '7.20.0')) &&
-    (!typescriptEslintParserVersion || semver.gte(typescriptEslintParserVersion, '5.44.0')) &&
-    (!eslintPluginStorybookVersion || semver.gte(eslintPluginStorybookVersion, '0.6.8'))
-  ) {
-    language = SupportedLanguage.TYPESCRIPT_4_9;
-  } else if (typescriptVersion && semver.gte(typescriptVersion, '3.8.0')) {
-    language = SupportedLanguage.TYPESCRIPT_3_8;
-  } else if (typescriptVersion && semver.lt(typescriptVersion, '3.8.0')) {
-    logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
+  if (isTypescriptDirectDependency && typescriptVersion) {
+    if (
+      semver.gte(typescriptVersion, '4.9.0') &&
+      (!prettierVersion || semver.gte(prettierVersion, '2.8.0')) &&
+      (!babelPluginTransformTypescriptVersion ||
+        semver.gte(babelPluginTransformTypescriptVersion, '7.20.0')) &&
+      (!typescriptEslintParserVersion || semver.gte(typescriptEslintParserVersion, '5.44.0')) &&
+      (!eslintPluginStorybookVersion || semver.gte(eslintPluginStorybookVersion, '0.6.8'))
+    ) {
+      language = SupportedLanguage.TYPESCRIPT_4_9;
+    } else if (semver.gte(typescriptVersion, '3.8.0')) {
+      language = SupportedLanguage.TYPESCRIPT_3_8;
+    } else if (semver.lt(typescriptVersion, '3.8.0')) {
+      logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
+    }
   }
 
   return language;
@@ -208,7 +221,7 @@ export async function detect(
     return ProjectType.UNDETECTED;
   }
 
-  if (await isNxProject(packageManager)) {
+  if (await isNxProject()) {
     return ProjectType.NX;
   }
 
