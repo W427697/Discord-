@@ -14,6 +14,7 @@ export const convertToStorybook = (value: ValueType): SBType | undefined => {
     case 'tuple': {
       result = {
         name: 'array',
+        // @ts-expect-error (not type-safe)
         value: Array.isArray(value.items)
           ? { name: 'union', value: value.items.map(convertToStorybook).filter(Boolean) }
           : convertToStorybook(value.items),
@@ -24,6 +25,7 @@ export const convertToStorybook = (value: ValueType): SBType | undefined => {
       result = { name: 'object', value: {} };
       // eslint-disable-next-line no-restricted-syntax
       for (const [prop, propValue] of Object.entries(value.fields)) {
+        // @ts-expect-error (not type-safe)
         result.value[prop] = convertToStorybook(propValue);
       }
       break;
@@ -34,14 +36,17 @@ export const convertToStorybook = (value: ValueType): SBType | undefined => {
     }
     case 'optional': {
       result = convertToStorybook(value.type);
+      // @ts-expect-error (not type-safe)
       result.required = false;
       break;
     }
     case 'union': {
+      // @ts-expect-error (not type-safe)
       result = { name: 'union', value: value.types.map(convertToStorybook).filter(Boolean) };
       break;
     }
     case 'intersection': {
+      // @ts-expect-error (not type-safe)
       result = { name: 'intersection', value: value.types.map(convertToStorybook).filter(Boolean) };
       break;
     }

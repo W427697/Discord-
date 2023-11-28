@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/preact';
+import type { StoryObj } from '@storybook/preact';
 import type { ComponentProps } from 'preact';
 import { Typed } from './Typed';
 

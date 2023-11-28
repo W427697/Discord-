@@ -54,6 +54,7 @@ export const create = (options: { rootDir: string }) => {
       });
     }
     if (!frameworkPlugin) {
+      // @ts-expect-error (not type-safe)
       frameworkPlugin = await setupFrameworkPlugin({
         rootDirPath: options.rootDir,
         frameworkPluginFactories: [preactFrameworkPlugin],

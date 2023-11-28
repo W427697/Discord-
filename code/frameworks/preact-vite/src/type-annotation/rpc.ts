@@ -22,6 +22,8 @@ const createResolvable = <T>(): Resolvable<T> => {
     resolve = yes;
     reject = no;
   });
+
+  // @ts-expect-error (not type-safe)
   return { resolve, reject, promise };
 };
 
@@ -34,6 +36,7 @@ export const createService = (worker: Worker): WorkerAPI => {
         cause: { message },
       });
     }
+    // @ts-expect-error (not type-safe)
     const { resolve, reject } = activeRequests.get(message.id);
     activeRequests.delete(message.id);
     if (message.kind === 'success') {
@@ -51,6 +54,8 @@ export const createService = (worker: Worker): WorkerAPI => {
       args,
     };
     const resolvable = createResolvable<T>();
+
+    // @ts-expect-error (not type-safe)
     activeRequests.set(id, resolvable);
     worker.postMessage(request);
     return resolvable.promise;
