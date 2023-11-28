@@ -144,6 +144,9 @@ export abstract class JsPackageManager {
   }
 
   packageJsonPath(): string {
+    if (!this.cwd) {
+      throw new Error('Missing cwd');
+    }
     return path.resolve(this.cwd, 'package.json');
   }
 
@@ -271,7 +274,7 @@ export abstract class JsPackageManager {
     } else {
       try {
         await this.runAddDeps(dependencies, Boolean(options.installAsDevDependencies));
-      } catch (e) {
+      } catch (e: any) {
         logger.error('\nAn error occurred while installing dependencies:');
         logger.log(e.message);
         throw new HandledError(e);
