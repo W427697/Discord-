@@ -22,13 +22,7 @@ For example, to include accessibility testing in Storybook, run the following co
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-
-ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
-
-</div>
-
-Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
+Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
@@ -41,9 +35,11 @@ Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
+
 Addons may also require addon-specific configuration. Read their respective READMEs.
-</div>
+
+</Callout>
 
 Now when you run Storybook the accessibility testing addon will be enabled.
 
@@ -66,11 +62,13 @@ For example, to use SCSS styling, run the following command to install the addon
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
- 💡 Tip: Use the Webpack 5 snippet only if your framework already includes support for this version. Otherwise, use the Webpack 4 snippet. 
-</div>
+<Callout variant="info" icon="💡" title="Tip:">
 
-Next, update [`.storybook/main.js|ts`](../configure/overview.md#configure-story-rendering) to the following:
+Use the Webpack 5 snippet only if your framework already includes support for this version. Otherwise, use the Webpack 4 snippet.
+
+</Callout>
+
+Next, update [`.storybook/main.js|ts`](../configure/index.md#configure-story-rendering) to the following:
 
 <!-- prettier-ignore-start -->
 
@@ -105,8 +103,10 @@ Consider the following example:
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
+
 Preset addons may also have addon-specific configurations. Read their respective READMEs.
-</div>
+
+</Callout>
 
 Now, when Storybook starts up, it will update webpack's CSS loader to use modules and adjust how styling is defined.

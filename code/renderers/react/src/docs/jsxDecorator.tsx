@@ -24,6 +24,7 @@ function simplifyNodeForStringify(node: ReactNode): ReactNode {
     return {
       ...node,
       props,
+      // @ts-expect-error (this is an internal or removed api)
       _owner: null,
     };
   }
@@ -175,11 +176,11 @@ export const jsxDecorator = (
 
   useEffect(() => {
     if (!skip) {
-      const { id, args } = context;
+      const { id, unmappedArgs } = context;
       channel.emit(SNIPPET_RENDERED, {
         id,
         source: jsx,
-        args,
+        args: unmappedArgs,
       });
     }
   });

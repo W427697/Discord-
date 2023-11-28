@@ -25,7 +25,7 @@ This document outlines some of the processes that the maintainers should adhere 
 | compatibility with other tools | Issue, bug, or pull request between Storybook and other tools (e.g., [Nuxt](https://nuxtjs.org/))                                                    |
 | components                     | Issue, bug, or pull request related to Storybook's internal components                                                                               |
 | composition                    | Issue, bug, or pull request related to Storybook [Composition](/docs/sharing/storybook-composition.md)                                               |
-| configuration                  | Issue, bug, or pull request related to Storybook [configuration](/docs/configure/overview.md)                                                        |
+| configuration                  | Issue, bug, or pull request related to Storybook [configuration](/docs/configure/index.md)                                                           |
 | core                           | Issue, bug, or pull request related to Storybook's Core                                                                                              |
 | cra                            | Issue, bug, or pull request that affects Storybook's compatibility with Create React APP ([CRA](https://create-react-app.dev/docs/getting-started/)) |
 | CSF                            | Issue, bug, or pull request related to Storybook's [Component Story Format (CSF)](/docs/api/csf.md)                                                  |
@@ -48,7 +48,7 @@ This document outlines some of the processes that the maintainers should adhere 
 | maintenance                    | Issue, or pull request related to Storybook's internal maintenance                                                                                   |
 | mdx                            | Issue, bug, or pull request related to MDX and Storybook                                                                                             |
 | medium                         | Issue or pull request that involves a significant amount of work within Storybook                                                                    |
-| monorepos                      | Issue, bug, or pull request related to Storybook and monorepos (e.g., [lerna](https://lerna.js.org/) )                                               |
+| monorepos                      | Issue, bug, or pull request related to Storybook and monorepos                                                                                       |
 | mui                            | Issue, bug, or pull request that affects Storybook and [Material-UI](https://material-ui.com/)                                                       |
 | multiframework                 | Issue, bug, or pull request that affects multiple supported frameworks (e.g., React, Vue)                                                            |
 | needs more info                | Issue, or bug that requires additional context from the author                                                                                       |
