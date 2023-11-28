@@ -27,13 +27,13 @@ interface NewFrameworkRunOptions {
   dependenciesToRemove: string[];
   hasFrameworkInMainConfig: boolean;
   frameworkPackage: string;
-  metaFramework: string;
+  metaFramework: string | undefined;
   renderer: string;
   addonsToRemove: string[];
   frameworkOptions: Record<string, any>;
   rendererOptions: Record<string, any>;
   addonOptions: Record<string, any>;
-  builderConfig: string | Record<string, any>;
+  builderConfig: string | Record<string, any> | undefined;
   builderInfo: {
     name: string;
     options: Record<string, any>;
@@ -227,7 +227,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     invariant(mainConfigPath, 'Missing main config path.');
 
-    return {
+    const result: Awaited<ReturnType<Fix<NewFrameworkRunOptions>['check']>> = {
       mainConfigPath,
       dependenciesToAdd,
       dependenciesToRemove,
@@ -246,6 +246,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       builderConfig,
       metaFramework,
     };
+    return result;
   },
 
   prompt({

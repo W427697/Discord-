@@ -1,7 +1,6 @@
 import { frameworkPackages } from '@storybook/core-common';
 import type { Preset, StorybookConfigRaw } from '@storybook/types';
 import findUp from 'find-up';
-import invariant from 'tiny-invariant';
 import type { JsPackageManager } from '../../js-package-manager';
 import { getBuilderPackageName, getFrameworkPackageName } from './mainConfigFile';
 
