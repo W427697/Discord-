@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import prompts from 'prompts';
 import dedent from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
+import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
 
 import type { PackageManagerName } from './js-package-manager';
 import { exec } from './utils';
@@ -40,9 +41,9 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
       language: 'TS',
     },
     createScript: {
-      npm: 'npm create next-app . -- --typescript --use-npm --eslint --tailwind --app --import-alias="@/*" --src-dir',
-      yarn: 'yarn create next-app . --typescript --use-yarn --eslint --tailwind --app --import-alias="@/*" --src-dir',
-      pnpm: 'pnpm create next-app . --typescript --use-pnpm --eslint --tailwind --app --import-alias="@/*" --src-dir && pnpm i --prefer-offline',
+      npm: 'npm create next-app . -- --typescript --use-npm --eslint --tailwind --no-app --import-alias="@/*" --src-dir',
+      yarn: 'yarn create next-app . --typescript --use-yarn --eslint --tailwind --no-app --import-alias="@/*" --src-dir',
+      pnpm: 'pnpm create next-app . --typescript --use-pnpm --eslint --tailwind --no-app --import-alias="@/*" --src-dir && pnpm i --prefer-offline',
     },
   },
   'vue-vite-ts': {
@@ -153,8 +154,11 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
     );
     await exec(createScript, { stdio: 'inherit' });
   } catch (e) {
-    // TODO: replace with categorized error
-    throw new Error(`Failed to create a new project with ${chalk.bold(packageManagerName)}`);
+    throw new GenerateNewProjectOnInitError({
+      error: e,
+      packageManager: packageManagerName,
+      projectType: projectDisplayName,
+    });
   }
 
   logger.plain(
