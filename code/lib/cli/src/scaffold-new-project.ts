@@ -7,6 +7,7 @@ import { logger } from '@storybook/node-logger';
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
 
 import type { PackageManagerName } from './js-package-manager';
+import type { CommandOptions } from './generators/types';
 
 type CoercedPackageManagerName = 'npm' | 'yarn' | 'pnpm';
 
@@ -108,7 +109,7 @@ const buildProjectDisplayNameForPrint = ({ displayName }: SupportedProject) => {
  */
 export const scaffoldNewProject = async (
   packageManager: PackageManagerName,
-  { scaffoldProject }: { scaffoldProject: string }
+  { scaffoldProject }: CommandOptions
 ) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
 

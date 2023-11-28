@@ -235,45 +235,6 @@ const projectTypeInquirer = async (
   process.exit(0);
 };
 
-const getEmptyDirMessage = (packageManagerType: PackageManagerName) => {
-  const generatorCommandsMap = {
-    vite: {
-      npm: 'npm create vite@latest',
-      yarn1: 'yarn create vite',
-      yarn2: 'yarn create vite',
-      pnpm: 'pnpm create vite',
-    },
-    angular: {
-      npm: 'npx -p @angular/cli ng new my-project --package-manager=npm',
-      yarn1: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
-      yarn2: 'npx -p @angular/cli ng new my-project --package-manager=yarn',
-      pnpm: 'npx -p @angular/cli ng new my-project --package-manager=pnpm',
-    },
-  };
-
-  return dedent`
-      Storybook cannot be installed into an empty project. We recommend creating a new project with the following:
-
-      📦 Vite CLI for React/Vue/Web Components => ${chalk.green(
-        generatorCommandsMap.vite[packageManagerType]
-      )}
-      See ${chalk.yellowBright('https://vitejs.dev/guide/#scaffolding-your-first-vite-project')}
-
-      📦 Angular CLI => ${chalk.green(generatorCommandsMap.angular[packageManagerType])}
-      See ${chalk.yellowBright('https://angular.io/cli/new')}
-
-      📦 Any other tooling of your choice
-
-      Once you've created a project, please re-run ${chalk.green(
-        'npx storybook@latest init'
-      )} inside the project root. For more information, see ${chalk.yellowBright(
-    'https://storybook.js.org/docs'
-  )}
-
-      Good luck! 🚀
-    `;
-};
-
 async function doInitiate(
   options: CommandOptions,
   pkg: PackageJson
@@ -311,7 +272,7 @@ async function doInitiate(
   // Check if the current directory is empty.
   if (options.force !== true && isEmptyDir) {
     // Prompt the user to create a new project from our list.
-    await scaffoldNewProject(packageManager.type);
+    await scaffoldNewProject(packageManager.type, options);
   }
 
   let projectType: ProjectType;

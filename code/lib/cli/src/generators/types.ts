@@ -55,4 +55,6 @@ export type CommandOptions = {
   disableTelemetry?: boolean;
   enableCrashReports?: boolean;
   debug?: boolean;
+  // Automatically pick new project template when creating a new project
+  scaffoldProject?: string;
 };
