@@ -1,5 +1,4 @@
 import program from 'commander';
-import path from 'path';
 import chalk from 'chalk';
 import envinfo from 'envinfo';
 import leven from 'leven';
@@ -8,11 +7,11 @@ import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
 import { addToGlobalContext } from '@storybook/telemetry';
 
+import invariant from 'tiny-invariant';
 import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
-import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
 import { sandbox } from './sandbox';
 import { link } from './link';
@@ -27,7 +26,9 @@ import { doctor } from './doctor';
 
 addToGlobalContext('cliVersion', versions.storybook);
 
-const pkg = readUpSync({ cwd: __dirname }).packageJson;
+const readUpResult = readUpSync({ cwd: __dirname });
+invariant(readUpResult, 'Failed to find the closest package.json file.');
+const pkg = readUpResult.packageJson;
 const consoleLogger = console;
 
 const command = (name: string) =>
@@ -136,15 +137,6 @@ command('migrate [migration]')
       process.exit(1);
     });
   });
-
-command('extract [location] [output]')
-  .description('extract stories.json from a built version')
-  .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
-    extract(location, output).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
 
 command('sandbox [filterValue]')
   .alias('repro') // for backwards compatibility

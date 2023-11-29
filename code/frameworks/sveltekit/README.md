@@ -40,7 +40,7 @@ However SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/mo
 | [`$service-worker`](https://kit.svelte.dev/docs/modules#$service-worker)           | ⛔ Not supported       | They are only meant to be used in service workers                                                                                   |
 | [`@sveltejs/kit/*`](https://kit.svelte.dev/docs/modules#sveltejs-kit)              | ✅ Supported           |                                                                                                                                     |
 
-This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/svelte/writing-stories/introduction), [test](https://storybook.js.org/docs/svelte/writing-tests/introduction) and [document](https://storybook.js.org/docs/svelte/writing-docs/introduction) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
+This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/svelte/writing-stories), [test](https://storybook.js.org/docs/svelte/writing-tests) and [document](https://storybook.js.org/docs/svelte/writing-docs) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
 
 ## Requirements
 
@@ -130,16 +130,16 @@ export const MyStory = {
 
 You can add the name of the module you want to mock to `parameters.sveltekit_experimental` (in the example above we are mocking the `stores` module which correspond to `$app/stores`) and then pass the following kind of objects:
 
-| Module                                            | Path in parameters                                           | Kind of objects                                                                                    |
-| ------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| `import { page } from "$app/stores"`              | `parameters.sveltekit_experimental.stores.page`              | A Partial of the page store                                                                        |
-| `import { navigating } from "$app/stores"`        | `parameters.sveltekit_experimental.stores.navigating`        | A Partial of the navigating store                                                                  |
-| `import { updated } from "$app/stores"`           | `parameters.sveltekit_experimental.stores.updated`           | A boolean representing the value of updated (you can also access `check()` which will be a noop)   |
-| `import { goto } from "$app/navigation"`          | `parameters.sveltekit_experimental.navigation.goto`          | A callback that will be called whenever goto is called                                             |
-| `import { invalidate } from "$app/navigation"`    | `parameters.sveltekit_experimental.navigation.invalidate`    | A callback that will be called whenever invalidate is called                                       |
-| `import { invalidateAll } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.invalidateAll` | A callback that will be called whenever invalidateAll is called                                    |
-| `import { afterNavigate } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.afterNavigate` | An object that will be passed to the afterNavigate function (which will be invoked onMount) called |
-| `import { enhance } from "$app/forms"`            | `parameters.sveltekit_experimental.forms.enhance`            | A callback that will called when a form with `use:enhance` is submitted                            |
+| Module                                            | Path in parameters                                           | Kind of objects                                                                                                                           |
+| ------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `import { page } from "$app/stores"`              | `parameters.sveltekit_experimental.stores.page`              | A Partial of the page store                                                                                                               |
+| `import { navigating } from "$app/stores"`        | `parameters.sveltekit_experimental.stores.navigating`        | A Partial of the navigating store                                                                                                         |
+| `import { updated } from "$app/stores"`           | `parameters.sveltekit_experimental.stores.updated`           | A boolean representing the value of updated (you can also access `check()` which will be a noop)                                          |
+| `import { goto } from "$app/navigation"`          | `parameters.sveltekit_experimental.navigation.goto`          | A callback that will be called whenever goto is called, in no function is provided an action will be logged to the Actions panel          |
+| `import { invalidate } from "$app/navigation"`    | `parameters.sveltekit_experimental.navigation.invalidate`    | A callback that will be called whenever invalidate is called, in no function is provided an action will be logged to the Actions panel    |
+| `import { invalidateAll } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.invalidateAll` | A callback that will be called whenever invalidateAll is called, in no function is provided an action will be logged to the Actions panel |
+| `import { afterNavigate } from "$app/navigation"` | `parameters.sveltekit_experimental.navigation.afterNavigate` | An object that will be passed to the afterNavigate function (which will be invoked onMount) called                                        |
+| `import { enhance } from "$app/forms"`            | `parameters.sveltekit_experimental.forms.enhance`            | A callback that will called when a form with `use:enhance` is submitted                                                                   |
 
 All the other functions are still exported as `noop` from the mocked modules so that your application will still work.
 
