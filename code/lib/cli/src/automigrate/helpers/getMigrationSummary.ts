@@ -57,7 +57,7 @@ export function getMigrationSummary({
 }: {
   fixResults: Record<string, FixStatus>;
   fixSummary: FixSummary;
-  installationMetadata: InstallationMetadata;
+  installationMetadata?: InstallationMetadata;
   logFile?: string;
 }) {
   const messages = [];
