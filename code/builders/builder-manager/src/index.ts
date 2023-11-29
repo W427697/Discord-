@@ -9,8 +9,8 @@ import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
 import { stringifyProcessEnvs } from '@storybook/core-common';
+import { globalsModuleInfoMap } from '@storybook/manager/globals-module-info';
 import { getTemplatePath, renderHTML } from './utils/template';
-import { definitions } from './utils/globals';
 import { wrapManagerEntries } from './utils/managerEntries';
 import type {
   BuilderBuildResult,
@@ -45,7 +45,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
   return {
     entryPoints: realEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
-    format: 'esm',
+    format: 'iife',
     write: false,
     ignoreAnnotations: true,
     resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
@@ -68,11 +68,11 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       '.eot': 'dataurl',
       '.ttf': 'dataurl',
     },
-    target: ['chrome100'],
+    target: ['chrome100', 'safari15', 'firefox91'],
     platform: 'browser',
     bundle: true,
     minify: true,
-    sourcemap: true,
+    sourcemap: false,
     conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',
@@ -89,7 +89,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
         util: require.resolve('util/util.js'),
         assert: require.resolve('browser-assert'),
       }),
-      globalExternals(definitions),
+      globalExternals(globalsModuleInfoMap),
       pnpPlugin(),
     ],
 
@@ -190,7 +190,6 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     }
   });
   router.use(`/index.html`, ({ path }, res) => {
-    console.log({ path });
     res.status(200).send(html);
   });
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { ObjectInspector } from '@devtools-ds/object-inspector';
 import type { Call, CallRef, ElementRef } from '@storybook/instrumenter';
 import { useTheme } from '@storybook/theming';
@@ -430,7 +431,7 @@ export const MethodCall = ({
       callId ? (
         <MethodCall key={`elem${index}`} call={callsById.get(callId)} callsById={callsById} />
       ) : (
-        <span key={`elem${index}`}>{elem}</span>
+        <span key={`elem${index}`}>{elem as any}</span>
       ),
       <wbr key={`wbr${index}`} />,
       <span key={`dot${index}`}>.</span>,

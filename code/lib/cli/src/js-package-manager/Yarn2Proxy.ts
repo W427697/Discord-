@@ -1,8 +1,8 @@
 import dedent from 'ts-dedent';
 import { sync as findUpSync, sync as syncFindUp } from 'find-up';
-import fs, { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import path from 'path';
-import { NodeFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
+import { PosixFS, VirtualFS, ZipOpenFS } from '@yarnpkg/fslib';
 import { getLibzipSync } from '@yarnpkg/libzip';
 import semver from 'semver';
 import { createLogStream } from '../utils';
@@ -114,6 +114,9 @@ export class Yarn2Proxy extends JsPackageManager {
         pattern.map((p) => `"${p}"`).join(' '),
         `"${pattern}"`,
       ],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -138,21 +141,17 @@ export class Yarn2Proxy extends JsPackageManager {
         const pkgLocator = pnpApi.findPackageLocator(resolvedPath);
         const pkg = pnpApi.getPackageInformation(pkgLocator);
 
-        const localFs: typeof fs = { ...fs };
-        const nodeFs = new NodeFS(localFs);
-
         const zipOpenFs = new ZipOpenFS({
           libzip: getLibzipSync(),
-          baseFs: nodeFs,
-          readOnlyArchives: true,
         });
 
-        const virtualFs = new VirtualFS({
-          baseFs: zipOpenFs,
-        });
+        const virtualFs = new VirtualFS({ baseFs: zipOpenFs });
+        const crossFs = new PosixFS(virtualFs);
 
-        return virtualFs.readJsonSync(path.join(pkg.packageLocation, 'package.json') as any);
-      } catch (error) {
+        const virtualPath = path.join(pkg.packageLocation, 'package.json');
+
+        return crossFs.readJsonSync(virtualPath);
+      } catch (error: any) {
         if (error.code !== 'MODULE_NOT_FOUND') {
           console.error('Error while fetching package version in Yarn PnP mode:', error);
         }
@@ -211,7 +210,7 @@ export class Yarn2Proxy extends JsPackageManager {
       await this.executeCommand({
         command: 'yarn',
         args: ['add', ...this.getInstallArgs(), ...args],
-        stdio: ['ignore', logStream, logStream],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
       });
     } catch (err) {
       const stdout = await readLogFile();
@@ -290,6 +289,7 @@ export class Yarn2Proxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'yarn why',
+      dedupeCommand: 'yarn dedupe',
     };
   }
 

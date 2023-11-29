@@ -47,7 +47,7 @@ type ExecOptions = globalThis.Parameters<typeof spawn>[2];
 export interface Options extends Parameters {
   appName: string;
   creationPath: string;
-  cwd?: string;
+  cwd: string;
   e2e: boolean;
   pnp: boolean;
 }
@@ -105,7 +105,10 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
-  const { stdout } = await command('yarn workspaces list --json', { cwd: workspaceDir });
+  const { stdout } = await command('yarn workspaces list --json', {
+    cwd: workspaceDir,
+    cleanup: true,
+  });
 
   const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`);
 
@@ -183,7 +186,7 @@ const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
   logger.info(`⤵️ Adding required files`);
 
   await Promise.all(
-    additionalFiles.map(async (file) => {
+    (additionalFiles ?? []).map(async (file) => {
       await outputFile(path.resolve(cwd, file.path), file.contents, { encoding: 'utf-8' });
     })
   );

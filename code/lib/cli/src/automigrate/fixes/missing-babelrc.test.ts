@@ -14,9 +14,7 @@ const babelContent = JSON.stringify({
     [
       '@babel/preset-env',
       {
-        targets: {
-          chrome: 100,
-        },
+        targets: { chrome: 100, safari: 15, firefox: 91 },
       },
     ],
     '@babel/preset-typescript',
@@ -71,7 +69,7 @@ describe('missing-babelrc fix', () => {
   afterEach(jest.restoreAllMocks);
 
   it('skips when storybook version < 7.0.0', async () => {
-    await expect(check({ storybookVersion: '6.3.2' })).resolves.toBeNull();
+    await expect(check({ storybookVersion: '6.3.2', main: {} })).resolves.toBeNull();
   });
 
   it('skips when babelrc config is present', async () => {

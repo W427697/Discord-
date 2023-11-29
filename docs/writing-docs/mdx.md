@@ -2,17 +2,19 @@
 title: 'MDX'
 ---
 
+<YouTubeCallout id="YeIvFke5_5Y" title="MDX Storybook Quick Tips" />
+
 [MDX](https://mdxjs.com/) files mix Markdown and Javascript/JSX to create rich interactive documentation. You can use Markdown’s readable syntax (such as `# heading`) for your documentation, include stories defined in [Component Story Format (CSF)](../api/csf.md), and freely embed JSX component blocks at any point in the file. All at once.
 
 In addition, you can write pure documentation pages in MDX and add them to Storybook alongside your stories.
 
 ![MDX simple example result](./mdx-hero.png)
 
-<div class="aside">
+<Callout variant="info">
 
 Writing stories directly in MDX was deprecated in Storybook 7. Please reference the [previous documentation](../../../release-6-5/docs/writing-docs/mdx.md) for guidance on that feature.
 
-</div>
+</Callout>
 
 ## Basic example
 
@@ -61,15 +63,15 @@ The first thing you'll notice is that the component documentation is divided int
 - **CSF** is great for succinctly defining stories (component examples). If you use TypeScript, it also provides type safety and auto-completion.
 - **MDX** is great for writing structured documentation and composing it with interactive JSX elements.
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you’re coming from a previous version of Storybook, you might be accustomed to using MDX both for **documentation** and for defining **stories** in the same `.stories.mdx` file. We’ve deprecated this functionality and plan to remove it in a future version of Storybook. We provide [migration](#automigration) scripts to help you onto the new format.
+If you’re coming from a previous version of Storybook, you might be accustomed to using MDX both for **documentation** and for defining **stories** in the same `.stories.mdx` file. We’ve deprecated this functionality and plan to remove it in a future version of Storybook. We provide [migration](#automigration) scripts to help you onto the new format.
 
-</div>
+</Callout>
 
 ### Anatomy of MDX
 
-Assuming you’re already familiar with writing stories with [CSF](../writing-stories/introduction.md), we can dissect the MDX side of things in greater detail.
+Assuming you’re already familiar with writing stories with [CSF](../writing-stories/index.md), we can dissect the MDX side of things in greater detail.
 
 The document consists of a number of blocks separated by blank lines. Since MDX mixes a few different languages together, it uses those blank lines to help distinguish where one starts, and the next begins. Failing to separate blocks by whitespace can cause (sometimes cryptic) parse errors.
 
@@ -107,11 +109,11 @@ Imports the components and stories that will be used in the JSX throughout the r
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info">
 
-ℹ️ When providing the `of` prop to the `Meta` block, make sure that you're referencing the [**default export**](../api/csf.md#default-export) of the story file and not the component itself to prevent render issues with the generated documentation.
+When providing the `of` prop to the `Meta` block, make sure that you're referencing the [**default export**](../api/csf.md#default-export) of the story file and not the component itself to prevent render issues with the generated documentation.
 
-</div>
+</Callout>
 
 The `Meta` block defines where the document will be placed in the sidebar. In this case, it is adjacent to the Checkbox’s stories. By default, the docs sidebar node is titled `"Docs"`, but this can be customized by passing a `name` prop (e.g., `<Meta of={CheckboxStories} name="Info" />`). If you want to place a docs node at an arbitrary point in the navigation hierarchy, you can use the `title` prop (e.g., `<Meta title="path/to/node" />`).
 
@@ -159,7 +161,7 @@ While MDX2 supports a variety of runtimes ([React](https://mdxjs.com/packages/re
 
 ## Breaking changes
 
-There are many breaking changes if you move from MDX 1 to version 2. As far as we know, all of these are due to changes in the MDX library itself rather than changes to Storybook’s usage. Nevertheless, as an MDX user, you will probably need to update your MDX files as part of the upgrade. MDX has published their own [Migration guide](https://mdxjs.com/migrating/v2/#update-mdx-files). Here we try to summarize some of the fundamental changes for Storybook users.
+There are many breaking changes if you move from MDX 1 to version 2. As far as we know, all of these are due to changes in the MDX library itself rather than changes to Storybook’s usage. Nevertheless, as an MDX user, you will probably need to update your MDX files as part of the upgrade. MDX has published its own [Migration guide](https://mdxjs.com/migrating/v2/#update-mdx-files). Here, we try to summarize some of the fundamental changes for Storybook users.
 
 ### Custom components apply differently
 
@@ -198,11 +200,11 @@ paths={[
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provided by default during migration. We recommend installing it as a development dependency if you use its features.
+The [`remark-gfm`](https://github.com/remarkjs/remark-gfm) package isn't provided by default during migration. We recommend installing it as a development dependency if you use its features.
 
-</div>
+</Callout>
 
 ### Automigration
 
@@ -274,13 +276,31 @@ However, providing the `Meta` Doc Block may not be required for certain use case
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 If you're overriding an existing auto-generated documentation page enabled via [`tags`](./autodocs.md#setup-automated-docs) configuration property, we recommend removing it to avoid errors.
+If you're overriding an existing auto-generated documentation page enabled via [`tags`](./autodocs.md#setup-automated-docs) configuration property, we recommend removing it to avoid errors.
 
-</div>
+</Callout>
 
 Once the custom MDX documentation is loaded, Storybook will infer the title and location using the same heuristic rules to generate [auto-title stories](../configure/sidebar-and-urls.md#csf-30-auto-titles) and render it in the sidebar as a `Docs` entry.
+
+#### Working with standalone documentation pages
+
+Writing standalone documentation pages is a common use case that applies not only on a per-component but also on a per-project basis. For example, you might want to document your project's onboarding process with instructions on using it. To do so, you can create a new MDX file containing your documentation using a similar structure and content:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-auto-docs-standalone-page.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+![MDX guidelines page](./mdx-standalone-page.png)
+
+When Storybook loads the documentation, it will infer the placement of the page in the sidebar navigation menu using the file's physical location and render it as a `Docs` entry.
 
 ### Fully control custom documentation
 
@@ -310,6 +330,28 @@ If you need to document multiple components in a single documentation page, you 
 
 <!-- prettier-ignore-end -->
 
+### Generate documentation from Markdown
+
+If you need to extend your documentation with additional content written in Markdown, you can use the `Markdown` Doc Block to import the available content, and Storybook will render it alongside your existing documentation. For example, if you have a `CHANGELOG.md` file, you can import it and render it in your documentation page as follows:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-custom-docs-markdown.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<Callout variant="info">
+
+The `Markdown` Doc Block provides additional configuration options to customize the rendering of your documentation. For more information, refer to the [API documentation](../api/doc-block-markdown.md).
+
+</Callout>
+
+![Changelog markdown in an MDX story](./mdx-markdown-docs-import.png)
+
 ### Linking to other stories and pages
 
 Another way to improve documentation is by linking to other stories and pages. Suppose you already have a component story with the following unique identifier, `some--id`, and you want to link it to your documentation page. In that case, you can use the `path` query string to redirect to the documentation entry related to the story:
@@ -334,45 +376,11 @@ However, cross-linking documentation isn't restricted to documentation pages. Yo
 
 <!--You can also use anchors to target a specific section of a page: -->
 
-<div class="aside">
-💡 By applying this pattern with the Controls addon, all anchors will be ignored in Canvas based on how Storybook handles URLs to track the args values.
-</div>
+<Callout variant="info" icon="💡">
 
-<!--
-TODO: Uncomment once support for `transcludeMarkdown` is confirmed
+By applying this pattern with the Controls addon, all anchors will be ignored in Canvas based on how Storybook handles URLs to track the args values.
 
-### Creating a Changelog story
-
-One common use case for documentation-only MDX is importing a project's `CHANGELOG.md`, so that users can easily refer to the CHANGELOG via a documentation node in Storybook.
-
-First, ensure that `transcludeMarkdown` is set to `true` in `main.js`:
-
-<!-- prettier-ignore-start - ->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-main-enable-transcludemarkdown.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end - ->
-
-Then, import the markdown and treat the imported file as a component in the MDX file:
-
-```mdx
-import { Meta } from '@storybook/blocks';
-
-import Changelog from '../CHANGELOG.md';
-
-<Meta title="Changelog" />
-
-<Changelog />
-```
-
-
-![Changelog markdown in an MDX story](./changelog-mdx-md-transcludemarkdown-optimized.png)
-
--->
+</Callout>
 
 ## Troubleshooting
 
@@ -382,7 +390,7 @@ As Storybook relies on MDX 2 to render documentation, some technical limitations
 
 #### Storybook doesn't create documentation for my component stories
 
-If you run into a situation where Storybook is not able to able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
+If you run into a situation where Storybook is not able to detect and render the documentation for your component stories, it may be due to a misconfiguration in your Storybook. Check your configuration file (i.e., `.storybook/main.js|ts`) and ensure the `stories` configuration element provides the correct path to your stories location(e.g., `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)`).
 
 #### The documentation doesn't render using `stories.mdx`
 
@@ -429,9 +437,11 @@ Start by running the following command inside your project directory:
 npx @hipster/mdx2-issue-checker
 ```
 
-<div class="aside">
-💡 Depending on the volume, you may be required to run the command multiple times to fix all the issues.
-</div>
+<Callout variant="info" icon="💡">
+
+Depending on the volume, you may be required to run the command multiple times to fix all the issues.
+
+</Callout>
 
 When it finishes, it will output the list of files causing issues. You can then use this information to fix the problems manually.
 

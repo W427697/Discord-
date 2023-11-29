@@ -4,6 +4,7 @@ import program from 'commander';
 import { z } from 'zod';
 import { setOutput } from '@actions/core';
 import { intersection } from 'lodash';
+import { esMain } from '../utils/esmain';
 import type { Change } from './utils/get-changes';
 import { RELEASED_LABELS, getChanges } from './utils/get-changes';
 import { getCurrentVersion } from './get-current-version';
@@ -15,7 +16,7 @@ program
     '-F, --from <version>',
     'Which version/tag/commit to go back and check changes from. Defaults to latest release tag'
   )
-  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch" label')
+  .option('-P, --unpicked-patches', 'Set to only consider PRs labeled with "patch:yes" label')
   .option('-V, --verbose', 'Enable verbose logging', false);
 
 const optionsSchema = z.object({
@@ -77,7 +78,7 @@ ${chalk.blue(changesToRelease.map(({ title, pull }) => `  #${pull}: ${title}`).j
   return { changesToRelease, hasChangesToRelease };
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const parsed = program.parse();
   run(parsed.opts()).catch((err) => {
     console.error(err);
