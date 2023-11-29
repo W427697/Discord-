@@ -48,7 +48,7 @@ function addRewrites(
   };
 }
 
-export const withStorybook = ({
+const withStorybook = ({
   port = process.env.PORT ?? 3000,
   sbPort = 34567,
   managerPath = 'storybook',
@@ -132,3 +132,5 @@ export const withStorybook = ({
     ]),
   });
 };
+
+module.exports = withStorybook;
