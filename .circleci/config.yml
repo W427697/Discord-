@@ -473,6 +473,9 @@ jobs:
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
   test-empty-init:
+    executor:
+      class: medium
+      name: sb_node_16_browsers
     parameters:
       packageManager:
         type: string
@@ -671,6 +674,7 @@ workflows:
       #     parallelism: 31
       #     requires:
       #       - build-sandboxes
+
       # TODO: Uncomment when ready to test
       - test-empty-init:
           parallelism: 5
