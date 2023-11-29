@@ -497,7 +497,7 @@ jobs:
           command: mkdir empty-<< parameters.template >> && cd empty-<< parameters.template >>
       - run:
           name: Run storybook init
-          command: node ../storybook/code/lib/cli/bin/index.js init --packageManager << parameters.packageManager >>
+          command: node ../storybook/code/lib/cli/bin/index.js init --package-manager << parameters.packageManager >>
           environment:
             CI: true
             STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
