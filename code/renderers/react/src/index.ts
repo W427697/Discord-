@@ -3,6 +3,7 @@
 import './globals';
 
 export * from './public-types';
+export * from './public-helpers';
 
 export * from './testing-api';
 

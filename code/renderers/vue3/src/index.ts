@@ -4,6 +4,7 @@ import './globals';
 
 export * from './public-api';
 export * from './public-types';
+export * from './public-helpers';
 
 // optimization: stop HMR propagation in webpack
 try {

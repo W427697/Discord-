@@ -592,6 +592,22 @@ describe('CsfFile', () => {
               stories: []
             `);
     });
+
+    it('defineMeta', () => {
+      expect(
+        parse(
+          dedent`
+          import { defineMeta } from '@storybook/react';
+          export default defineMeta({ title: 'foo/bar' });
+        `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+        stories: []
+      `);
+    });
   });
 
   describe('error handling', () => {

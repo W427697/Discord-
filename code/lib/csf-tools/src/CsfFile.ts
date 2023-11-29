@@ -252,7 +252,7 @@ export class CsfFile {
           const isVariableReference = t.isIdentifier(node.declaration) && t.isProgram(parent);
           let decl;
           if (isVariableReference) {
-            // const meta = { ... };
+            // const meta = { ... }; or const meta = defineMeta({ ... })
             // export default meta;
             const variableName = (node.declaration as t.Identifier).name;
             const isVariableDeclarator = (declaration: t.VariableDeclarator) =>
@@ -269,6 +269,15 @@ export class CsfFile {
           } else {
             self._metaStatement = node;
             decl = node.declaration;
+          }
+
+          // defineMeta({ ... })
+          if (
+            t.isCallExpression(decl) &&
+            (decl.callee as t.Identifier).name === 'defineMeta' &&
+            t.isObjectExpression(decl.arguments[0])
+          ) {
+            [decl] = decl.arguments;
           }
 
           if (t.isObjectExpression(decl)) {
@@ -455,7 +464,7 @@ export class CsfFile {
             throw new Error(dedent`
               Unexpected \`storiesOf\` usage: ${formatLocation(node, self._fileName)}.
 
-              In SB7, we use the next-generation \`storyStoreV7\` by default, which does not support \`storiesOf\`. 
+              In SB7, we use the next-generation \`storyStoreV7\` by default, which does not support \`storiesOf\`.
               More info, with details about how to opt-out here: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev7-enabled-by-default
             `);
           }

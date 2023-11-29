@@ -9,6 +9,7 @@ import Decorator2 from './__test__/Decorator2.svelte';
 
 import type { Decorator, Meta, StoryObj } from './public-types';
 import type { SvelteRenderer } from './types';
+import { defineMeta } from './public-helpers';
 
 type SvelteStory<Component extends SvelteComponentTyped, Args, RequiredArgs> = StoryAnnotations<
   SvelteRenderer<Component>,
@@ -77,6 +78,10 @@ describe('Meta', () => {
       }),
     };
     expectTypeOf(meta).toMatchTypeOf<Meta<Button>>();
+  });
+
+  test('defineMeta matches Meta', () => {
+    expectTypeOf(defineMeta({})).toMatchTypeOf<Meta>();
   });
 });
 

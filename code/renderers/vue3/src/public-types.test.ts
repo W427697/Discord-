@@ -9,6 +9,7 @@ import BaseLayout from './__tests__/BaseLayout.vue';
 import Button from './__tests__/Button.vue';
 import DecoratorTsVue from './__tests__/Decorator.vue';
 import Decorator2TsVue from './__tests__/Decorator2.vue';
+import { defineMeta } from './public-helpers';
 
 type ButtonProps = ComponentPropsAndSlots<typeof Button>;
 
@@ -53,6 +54,10 @@ describe('Meta', () => {
       },
     };
     expectTypeOf(meta).toMatchTypeOf<Meta<typeof Button>>();
+  });
+
+  test('defineMeta matches Meta', () => {
+    expectTypeOf(defineMeta({})).toMatchTypeOf<Meta>();
   });
 });
 

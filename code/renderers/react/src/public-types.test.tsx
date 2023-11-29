@@ -13,6 +13,7 @@ import { fn } from '@storybook/test';
 
 import type { Decorator, Meta, StoryObj } from './public-types';
 import type { ReactRenderer } from './types';
+import { defineMeta } from './public-helpers';
 
 type ReactStory<TArgs, TRequiredArgs> = StoryAnnotations<ReactRenderer, TArgs, TRequiredArgs>;
 
@@ -224,6 +225,10 @@ test('StoryObj<typeof meta> is allowed when all arguments are optional', () => {
 
 test('Meta can be used without generic', () => {
   expectTypeOf({ component: Button }).toMatchTypeOf<Meta>();
+});
+
+test('defineMeta matches Meta', () => {
+  expectTypeOf(defineMeta({})).toMatchTypeOf<Meta>();
 });
 
 test('Props can be defined as interfaces, issue #21768', () => {

@@ -7,6 +7,8 @@ export * from './public-api';
 // eslint-disable-next-line import/export
 export * from './public-types';
 
+export * from './public-helpers';
+
 export type { StoryFnAngularReturnType as IStory } from './types';
 
 export { moduleMetadata, componentWrapperDecorator, applicationConfig } from './decorators';

@@ -8,6 +8,7 @@ import { Vue } from 'vue/types/vue';
 import type { Decorator, Meta, StoryObj } from './public-types';
 import Button from './__tests__/Button.vue';
 import type { VueRenderer } from './types';
+import { defineMeta } from './public-helpers';
 
 describe('Meta', () => {
   test('Generic parameter of Meta can be a component', () => {
@@ -36,6 +37,10 @@ describe('Meta', () => {
     expectTypeOf(meta).toEqualTypeOf<
       ComponentAnnotations<VueRenderer, { disabled: boolean; label: string }>
     >();
+  });
+
+  test('defineMeta matches Meta', () => {
+    expectTypeOf(defineMeta({})).toMatchTypeOf<Meta>();
   });
 });
 
