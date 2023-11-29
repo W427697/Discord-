@@ -12,7 +12,7 @@ The most concrete realization of argTypes is the [`ArgTypes` doc block](./doc-bl
 
 ## Automatic argType inference
 
-If you are using the Storybook [docs](../writing-docs/introduction.md) addon (installed by default as part of [essentials](../essentials/introduction.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/introduction#default-export) of the CSF file.
+If you are using the Storybook [docs](../writing-docs/index.md) addon (installed by default as part of [essentials](../essentials/index.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/index.md#default-export) of the CSF file.
 
 To do so, Storybook uses various static analysis tools depending on your framework.
 
@@ -30,7 +30,7 @@ The data structure of `argTypes` is designed to match the output of the these to
 
 For most Storybook projects, argTypes are [automatically inferred](#automatic-argtype-inference) from your components. Any argTypes specified manually will override the inferred values.
 
-ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/introduction#default-export) of the CSF file:
+ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/index.md#default-export) of the CSF file:
 
 <!-- prettier-ignore-start -->
 
@@ -59,7 +59,7 @@ They can apply to all stories when specified at the project (global) level, in t
 
 <!-- prettier-ignore-end -->
 
-Or they can apply only to a [specific story](../writing-stories/introduction#defining-stories):
+Or they can apply only to a [specific story](../writing-stories/index.md#defining-stories):
 
 <!-- prettier-ignore-start -->
 
@@ -166,11 +166,11 @@ Specifies the type of control used to change the arg value with the [controls ad
 |                | `'date'`         | Provides a datepicker to choose a date.<br /> `{ control: 'date' }`                                                                                                                    |
 |                | `'text'`         | Provides a freeform text input.<br/> `{ control: 'text' }`                                                                                                                             |
 
-<div class="aside">
+<Callout variant="info" icon="💡">
 
-💡 The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
+The `date` control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
 
-</div>
+</Callout>
 
 #### `control.accept`
 
@@ -304,13 +304,13 @@ The `argTypes` object uses the name of the arg as the key. By default, that key 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
+<Callout variant="warning">
 
-💡 Be careful renaming args in this way. Users of the component you're documenting will not be able to use the documented name as a property of your component and the actual name will not displayed.
+Be careful renaming args in this way. Users of the component you're documenting will not be able to use the documented name as a property of your component and the actual name will not displayed.
 
 For this reason, the `name` property is best used when defining an `argType` that is only used for documentation purposes and not an actual property of the component. For example, when [providing argTypes for each property of an object](https://stackblitz.com/edit/github-uplqzp?file=src/stories/Button.stories.tsx).
 
-</div>
+</Callout>
 
 ### `options`
 

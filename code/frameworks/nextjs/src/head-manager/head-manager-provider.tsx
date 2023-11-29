@@ -1,5 +1,6 @@
+import type { PropsWithChildren } from 'react';
 import React, { useMemo } from 'react';
-import { HeadManagerContext } from 'next/dist/shared/lib/head-manager-context';
+import { HeadManagerContext } from 'next/dist/shared/lib/head-manager-context.shared-runtime';
 import initHeadManager from 'next/dist/client/head-manager';
 
 type HeadManagerValue = {
@@ -12,7 +13,7 @@ type HeadManagerValue = {
   nonce?: string | undefined;
 };
 
-const HeadManagerProvider: React.FC = ({ children }) => {
+const HeadManagerProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const headManager: HeadManagerValue = useMemo(initHeadManager, []);
   headManager.getIsSsr = () => false;
 
