@@ -1,6 +1,1 @@
-{
-  "version": "7.6.0",
-  "info": {
-    "plain": "- 🔥 Improved SWC support\n- 🧪New test utilities and fast build mode\n- 🔼NextJS SWC + avif support & fixes\n- 🤡 SvelteKit page and navigation mocking\n- ⚛️React-docgen upgrade\n- 🎨Controls a11y, background theming, and viewports\n- 🩺CLI: The doctor is in!\n- 🚫Addons: Remove React as a peer dependency\n- 🪦Storyshots and Vue2 deprecated"
-  }
-}
+{"version":"7.6.1","info":{"plain":"- Next.js: Fix AppRouterProvider usage - [#25032](https://github.com/storybookjs/storybook/pull/25032), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!\n- SvelteKit: Fix HMR not working - [#25031](https://github.com/storybookjs/storybook/pull/25031), thanks [@JReinhold](https://github.com/JReinhold)!\n- Test: Downgrade @testing-library/user-event to 14.3.0 - [#25004](https://github.com/storybookjs/storybook/pull/25004), thanks [@kasperpeulen](https://github.com/kasperpeulen)!\n- Webpack: Fix exclude regex in react-docgen-loader - [#25030](https://github.com/storybookjs/storybook/pull/25030), thanks [@valentinpalkovic](https://github.com/valentinpalkovic)!"}}
