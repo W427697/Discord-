@@ -114,6 +114,9 @@ export class Yarn2Proxy extends JsPackageManager {
         pattern.map((p) => `"${p}"`).join(' '),
         `"${pattern}"`,
       ],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -148,7 +151,7 @@ export class Yarn2Proxy extends JsPackageManager {
         const virtualPath = path.join(pkg.packageLocation, 'package.json');
 
         return crossFs.readJsonSync(virtualPath);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code !== 'MODULE_NOT_FOUND') {
           console.error('Error while fetching package version in Yarn PnP mode:', error);
         }
@@ -207,7 +210,7 @@ export class Yarn2Proxy extends JsPackageManager {
       await this.executeCommand({
         command: 'yarn',
         args: ['add', ...this.getInstallArgs(), ...args],
-        stdio: ['ignore', logStream, logStream],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
       });
     } catch (err) {
       const stdout = await readLogFile();
@@ -286,6 +289,7 @@ export class Yarn2Proxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'yarn why',
+      dedupeCommand: 'yarn dedupe',
     };
   }
 

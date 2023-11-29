@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import type { ReactElement } from 'react';
 import type { RenderData } from '../../../router/src/types';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
 import type { DocsOptions } from './core-common';
-import type { API_HashEntry, API_IndexHash } from './api-stories';
+import type { API_FilterFunction, API_HashEntry, API_IndexHash } from './api-stories';
 import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
 import type { Addon_BaseType, Addon_Collection, Addon_RenderOptions, Addon_Type } from './addons';
-import type { StoryIndex } from './storyIndex';
+import type { StoryIndex } from './indexer';
 
 type OrString<T extends string> = T | (string & {});
 
@@ -74,7 +75,7 @@ export type API_IframeRenderer = (
   baseUrl: string,
   scale: number,
   queryParams: Record<string, any>
-) => React.ReactElement<any, any> | null;
+) => ReactElement<any, any> | null;
 
 export interface API_UIOptions {
   name?: string;
@@ -89,10 +90,20 @@ export interface API_UIOptions {
 
 export interface API_Layout {
   initialActive: API_ActiveTabsType;
-  isFullscreen: boolean;
-  showPanel: boolean;
+  navSize: number;
+  bottomPanelHeight: number;
+  rightPanelWidth: number;
+  /**
+   * the sizes of the panels when they were last visible
+   * used to restore the sizes when the panels are shown again
+   * eg. when toggling fullscreen, panels, etc.
+   */
+  recentVisibleSizes: {
+    navSize: number;
+    bottomPanelHeight: number;
+    rightPanelWidth: number;
+  };
   panelPosition: API_PanelPositions;
-  showNav: boolean;
   showTabs: boolean;
   showToolbar: boolean;
   /**
@@ -112,6 +123,7 @@ export type API_ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 
 export interface API_SidebarOptions {
   showRoots?: boolean;
+  filters?: Record<string, API_FilterFunction>;
   collapsedRoots?: string[];
   renderLabel?: (item: API_HashEntry) => any;
 }
@@ -163,6 +175,8 @@ export interface API_ComposedRef extends API_LoadedRefData {
   versions?: API_Versions;
   loginUrl?: string;
   version?: string;
+  /** DO NOT USE THIS */
+  internal_index?: StoryIndex;
 }
 
 export type API_ComposedRefUpdate = Partial<
@@ -177,6 +191,7 @@ export type API_ComposedRefUpdate = Partial<
     | 'version'
     | 'indexError'
     | 'previewInitialized'
+    | 'internal_index'
   >
 >;
 

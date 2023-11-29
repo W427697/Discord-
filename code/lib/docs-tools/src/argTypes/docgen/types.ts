@@ -26,8 +26,9 @@ export interface DocgenFlowType extends DocgenType {
   elements?: any[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface DocgenTypeScriptType extends DocgenType {}
+export interface DocgenTypeScriptType extends DocgenType {
+  raw?: string;
+}
 
 // export type DocgenType = DocgenPropType | DocgenFlowType | DocgenTypeScriptType;
 
@@ -38,12 +39,12 @@ export interface DocgenPropDefaultValue {
 }
 
 export interface DocgenInfo {
-  type?: DocgenPropType;
+  type: DocgenPropType;
   flowType?: DocgenFlowType;
   tsType?: DocgenTypeScriptType;
   required: boolean;
-  description?: string;
-  defaultValue?: DocgenPropDefaultValue;
+  description: string;
+  defaultValue: DocgenPropDefaultValue;
 }
 
 export enum TypeSystem {

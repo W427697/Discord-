@@ -7,7 +7,7 @@ declare module 'better-opn';
 declare module 'open';
 declare module '@aw-web-design/x-default-browser';
 
-declare var FEATURES: import('@storybook/types').StorybookConfig['features'];
+declare var FEATURES: import('@storybook/types').StorybookConfigRaw['features'];
 
 declare var STORIES: any;
 declare var DOCS_OPTIONS: any;
@@ -24,6 +24,7 @@ declare var __STORYBOOK_PREVIEW__: import('./modules/preview-web/PreviewWeb').Pr
 declare var __STORYBOOK_STORY_STORE__: any;
 declare var STORYBOOK_HOOKS_CONTEXT: any;
 declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;
+declare var sendTelemetryError: (error: any) => void;
 
 declare module 'ansi-to-html';
 declare class AnsiToHtml {

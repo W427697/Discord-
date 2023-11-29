@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import type { CLIOptions, CoreConfig } from '@storybook/types';
+import type { CLIOptions } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
@@ -31,7 +31,7 @@ const promptCrashReports = async () => {
 
 type ErrorLevel = 'none' | 'error' | 'full';
 
-async function getErrorLevel({
+export async function getErrorLevel({
   cliOptions,
   presetOptions,
   skipPrompt,
@@ -46,7 +46,7 @@ async function getErrorLevel({
 
   // If the user has chosen to enable/disable crash reports in main.js
   // or disabled telemetry, we can return that
-  const core = await presets.apply<CoreConfig>('core');
+  const core = await presets.apply('core');
   if (core?.enableCrashReports !== undefined) return core.enableCrashReports ? 'full' : 'error';
   if (core?.disableTelemetry) return 'none';
 
@@ -66,7 +66,7 @@ async function getErrorLevel({
 }
 
 export async function sendTelemetryError(
-  error: Error,
+  _error: unknown,
   eventType: EventType,
   options: TelemetryOptions
 ) {
@@ -80,13 +80,28 @@ export async function sendTelemetryError(
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
 
+      const error = _error as Error & Record<string, any>;
+
+      let errorHash;
+      if ('message' in error) {
+        errorHash = error.message ? oneWayHash(error.message) : 'EMPTY_MESSAGE';
+      } else {
+        errorHash = 'NO_MESSAGE';
+      }
+
+      const { code, name, category } = error;
       await telemetry(
         'error',
         {
+          code,
+          name,
+          category,
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,
-          errorHash: oneWayHash(error.message || ''),
+          errorHash,
+          // if we ever end up sending a non-error instance, we'd like to know
+          isErrorInstance: error instanceof Error,
         },
         {
           immediate: true,
@@ -105,11 +120,15 @@ export async function withTelemetry<T>(
   options: TelemetryOptions,
   run: () => Promise<T>
 ): Promise<T | undefined> {
+  const enableTelemetry = !(
+    options.cliOptions.disableTelemetry || options.cliOptions.test === true
+  );
+
   let canceled = false;
 
   async function cancelTelemetry() {
     canceled = true;
-    if (!options.cliOptions.disableTelemetry) {
+    if (enableTelemetry) {
       await telemetry('canceled', { eventType }, { stripMetadata: true, immediate: true });
     }
 
@@ -121,19 +140,19 @@ export async function withTelemetry<T>(
     process.on('SIGINT', cancelTelemetry);
   }
 
-  if (!options.cliOptions.disableTelemetry)
-    telemetry('boot', { eventType }, { stripMetadata: true });
+  if (enableTelemetry) telemetry('boot', { eventType }, { stripMetadata: true });
 
   try {
     return await run();
-  } catch (error) {
+  } catch (error: any) {
     if (canceled) {
       return undefined;
     }
 
     const { printError = logger.error } = options;
-    printError(error instanceof Error ? error.message : String(error));
-    if (error instanceof Error) await sendTelemetryError(error, eventType, options);
+    printError(error);
+
+    if (enableTelemetry) await sendTelemetryError(error, eventType, options);
 
     throw error;
   } finally {

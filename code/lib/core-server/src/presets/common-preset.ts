@@ -1,4 +1,4 @@
-import { pathExists, readFile } from 'fs-extra';
+import fs, { pathExists, readFile } from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import {
@@ -11,14 +11,13 @@ import {
 import type {
   CLIOptions,
   CoreConfig,
-  IndexerOptions,
+  Indexer,
   Options,
   PresetPropertyFn,
-  StorybookConfig,
-  StoryIndexer,
+  PresetProperty,
 } from '@storybook/types';
-import { loadCsf, readConfig, writeConfig } from '@storybook/csf-tools';
-import { join } from 'path';
+import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
+import { join, isAbsolute } from 'path';
 import { dedent } from 'ts-dedent';
 import fetch from 'node-fetch';
 import type { Channel } from '@storybook/channels';
@@ -26,9 +25,11 @@ import type { WhatsNewCache, WhatsNewData } from '@storybook/core-events';
 import {
   REQUEST_WHATS_NEW_DATA,
   RESULT_WHATS_NEW_DATA,
+  TELEMETRY_ERROR,
   SET_WHATS_NEW_CACHE,
   TOGGLE_WHATS_NEW_NOTIFICATIONS,
 } from '@storybook/core-events';
+import invariant from 'tiny-invariant';
 import { parseStaticDir } from '../utils/server-statics';
 import { defaultStaticDirs } from '../utils/constants';
 import { sendTelemetryError } from '../withTelemetry';
@@ -50,7 +51,7 @@ export const favicon = async (
   if (value) {
     return value;
   }
-  const staticDirsValue = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const staticDirsValue = await options.presets.apply('staticDirs');
 
   const statics = staticDirsValue
     ? staticDirsValue.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
@@ -60,15 +61,16 @@ export const favicon = async (
     const lists = await Promise.all(
       statics.map(async (dir) => {
         const results = [];
-        const relativeDir = staticDirsValue
-          ? getDirectoryFromWorkingDir({
-              configDir: options.configDir,
-              workingDir: process.cwd(),
-              directory: dir,
-            })
-          : dir;
+        const normalizedDir =
+          staticDirsValue && !isAbsolute(dir)
+            ? getDirectoryFromWorkingDir({
+                configDir: options.configDir,
+                workingDir: process.cwd(),
+                directory: dir,
+              })
+            : dir;
 
-        const { staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
+        const { staticPath, targetEndpoint } = await parseStaticDir(normalizedDir);
 
         if (targetEndpoint === '/') {
           const url = 'favicon.svg';
@@ -166,7 +168,7 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
  */
 export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
-  disableTelemetry: options.disableTelemetry === true,
+  disableTelemetry: options.disableTelemetry === true || options.test === true,
   enableCrashReports:
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
@@ -183,36 +185,30 @@ export const previewAnnotations = async (base: any, options: Options) => {
   return [...config, ...base];
 };
 
-export const features = async (
-  existing: StorybookConfig['features']
-): Promise<StorybookConfig['features']> => ({
+export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
+  disallowImplicitActionsInRenderV8: false,
 });
 
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
-    const code = (await readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
-  };
-  return [
-    {
-      test: /(stories|story)\.(m?js|ts)x?$/,
-      indexer: csfIndexer,
-    },
-    ...(indexers || []),
-  ];
+export const csfIndexer: Indexer = {
+  test: /(stories|story)\.(m?js|ts)x?$/,
+  createIndex: async (fileName, options) => (await readCsf(fileName, options)).parse().indexInputs,
 };
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const experimental_indexers: PresetProperty<'experimental_indexers'> = (existingIndexers) =>
+  [csfIndexer].concat(existingIndexers || []);
 
 export const frameworkOptions = async (
   _: never,
   options: Options
 ): Promise<Record<string, any> | null> => {
-  const config = await options.presets.apply<StorybookConfig['framework']>('framework');
+  const config = await options.presets.apply('framework');
 
   if (typeof config === 'string') {
     return {};
@@ -225,13 +221,13 @@ export const frameworkOptions = async (
   return config.options;
 };
 
-export const docs = (
-  docsOptions: StorybookConfig['docs'],
-  { docs: docsMode }: CLIOptions
-): StorybookConfig['docs'] => ({
-  ...docsOptions,
-  docsMode,
-});
+export const docs: PresetProperty<'docs'> = (docsOptions, { docs: docsMode }: CLIOptions) =>
+  docsOptions && docsMode !== undefined
+    ? {
+        ...docsOptions,
+        docsMode,
+      }
+    : docsOptions;
 
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');
@@ -313,19 +309,18 @@ export const experimental_serverChannel = async (
     async ({ disableWhatsNewNotifications }: { disableWhatsNewNotifications: boolean }) => {
       const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
       try {
-        const configFileName = findConfigFile('main', options.configDir);
-        if (!configFileName)
-          throw new Error(`unable to find storybook main file in ${options.configDir}`);
-        const main = await readConfig(configFileName);
+        const mainPath = findConfigFile('main', options.configDir);
+        invariant(mainPath, `unable to find storybook main file in ${options.configDir}`);
+        const main = await readConfig(mainPath);
         main.setFieldValue(['core', 'disableWhatsNewNotifications'], disableWhatsNewNotifications);
-        await writeConfig(main);
-
+        await fs.writeFile(mainPath, printConfig(main).code);
         if (isTelemetryEnabled) {
           await telemetry('core-config', { disableWhatsNewNotifications });
         }
       } catch (error) {
+        invariant(error instanceof Error);
         if (isTelemetryEnabled) {
-          await sendTelemetryError(error as Error, 'core-config', {
+          await sendTelemetryError(error, 'core-config', {
             cliOptions: options,
             presetOptions: { ...options, corePresets: [], overridePresets: [] },
             skipPrompt: true,
@@ -334,6 +329,18 @@ export const experimental_serverChannel = async (
       }
     }
   );
+
+  channel.on(TELEMETRY_ERROR, async (error) => {
+    const isTelemetryEnabled = coreOptions.disableTelemetry !== true;
+
+    if (isTelemetryEnabled) {
+      await sendTelemetryError(error, 'browser', {
+        cliOptions: options,
+        presetOptions: { ...options, corePresets: [], overridePresets: [] },
+        skipPrompt: true,
+      });
+    }
+  });
 
   return channel;
 };

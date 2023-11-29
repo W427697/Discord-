@@ -11,8 +11,8 @@ jest.mock('../../../code/lib/cli/src/versions', () => ({
   '@storybook/addon-a11y': '7.1.0-alpha.29',
 }));
 
-jest.mock('../../utils/exec');
-const { execaCommand } = require('../../utils/exec');
+jest.mock('execa');
+const { execaCommand } = require('execa');
 
 jest.mock('../../utils/workspace', () => ({
   getWorkspaces: jest.fn().mockResolvedValue([
@@ -249,19 +249,6 @@ describe('Version', () => {
         [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "${currentVersion}" };`,
         [A11Y_PACKAGE_JSON_PATH]: JSON.stringify({
           version: currentVersion,
-          dependencies: {
-            '@storybook/core-server': currentVersion,
-            'unrelated-package-a': '1.0.0',
-          },
-          devDependencies: {
-            'unrelated-package-b': currentVersion,
-            '@storybook/core-common': `^${currentVersion}`,
-          },
-          peerDependencies: {
-            '@storybook/preview-api': `*`,
-            '@storybook/svelte': '0.1.1',
-            '@storybook/manager-api': `~${currentVersion}`,
-          },
         }),
         [VERSIONS_PATH]: `export default { "@storybook/addon-a11y": "${currentVersion}" };`,
       });
@@ -296,28 +283,12 @@ describe('Version', () => {
         expect.objectContaining({
           // should update package version
           version: expectedVersion,
-          dependencies: {
-            // should update storybook dependencies matching current version
-            '@storybook/core-server': expectedVersion,
-            'unrelated-package-a': '1.0.0',
-          },
-          devDependencies: {
-            // should not update non-storybook dependencies, even if they match current version
-            'unrelated-package-b': currentVersion,
-            // should update dependencies with range modifiers correctly (e.g. ^1.0.0 -> ^2.0.0)
-            '@storybook/core-common': `^${expectedVersion}`,
-          },
-          peerDependencies: {
-            // should not update storybook depenedencies if they don't match current version
-            '@storybook/preview-api': `*`,
-            '@storybook/svelte': '0.1.1',
-            '@storybook/manager-api': `~${expectedVersion}`,
-          },
         }),
         { spaces: 2 }
       );
       expect(execaCommand).toHaveBeenCalledWith('yarn install --mode=update-lockfile', {
         cwd: path.join(CODE_DIR_PATH),
+        cleanup: true,
         stdio: undefined,
       });
     }

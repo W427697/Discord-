@@ -1,17 +1,18 @@
 import { normalizeStories } from '@storybook/core-common';
-import type { CoreConfig, DocsOptions, Options } from '@storybook/types';
+import type { DocsOptions, Options } from '@storybook/types';
 
 export type PreviewHtml = string | undefined;
 
 export async function transformIframeHtml(html: string, options: Options) {
   const { configType, features, presets } = options;
+  const build = await presets.apply('build');
   const frameworkOptions = await presets.apply<Record<string, any> | null>('frameworkOptions');
   const headHtmlSnippet = await presets.apply<PreviewHtml>('previewHead');
   const bodyHtmlSnippet = await presets.apply<PreviewHtml>('previewBody');
   const logLevel = await presets.apply('logLevel', undefined);
   const docsOptions = await presets.apply<DocsOptions>('docs');
 
-  const coreOptions = await presets.apply<CoreConfig>('core');
+  const coreOptions = await presets.apply('core');
   const stories = normalizeStories(await options.presets.apply('stories', [], options), {
     configDir: options.configDir,
     workingDir: process.cwd(),
@@ -20,10 +21,20 @@ export async function transformIframeHtml(html: string, options: Options) {
     importPathMatcher: specifier.importPathMatcher.source,
   }));
 
+  const otherGlobals = {
+    ...(build?.test?.disableBlocks ? { __STORYBOOK_BLOCKS_EMPTY_MODULE__: {} } : {}),
+  };
+
   return html
     .replace('[CONFIG_TYPE HERE]', configType || '')
     .replace('[LOGLEVEL HERE]', logLevel || '')
     .replace(`'[FRAMEWORK_OPTIONS HERE]'`, JSON.stringify(frameworkOptions))
+    .replace(
+      `('OTHER_GLOBLALS HERE');`,
+      Object.entries(otherGlobals)
+        .map(([k, v]) => `window["${k}"] = ${JSON.stringify(v)};`)
+        .join('')
+    )
     .replace(
       `'[CHANNEL_OPTIONS HERE]'`,
       JSON.stringify(coreOptions && coreOptions.channelOptions ? coreOptions.channelOptions : {})

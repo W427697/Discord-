@@ -31,10 +31,23 @@ export const mdxgfm: Fix<Options> = {
         return true;
       }
 
-      const pattern =
-        typeof item === 'string'
-          ? slash(join(configDir, item))
-          : slash(join(configDir, item.directory, item.files));
+      let pattern;
+
+      if (typeof configDir === 'undefined') {
+        return false;
+      }
+
+      if (typeof item === 'string') {
+        pattern = slash(join(configDir, item));
+      } else if (typeof item === 'object') {
+        const directory = item.directory || '..';
+        const files = item.files || '**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))';
+        pattern = slash(join(configDir, directory, files));
+      }
+
+      if (!pattern) {
+        return false;
+      }
 
       const files = await glob(pattern, commonGlobOptions(pattern));
 
@@ -89,7 +102,7 @@ export const mdxgfm: Fix<Options> = {
         [`@storybook/addon-mdx-gfm@${versionToInstall}`]
       );
 
-      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+      await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         logger.info(`✅ Adding "@storybook/addon-mdx-gfm" addon`);
         if (!dryRun) {
           main.appendValueToArray(['addons'], '@storybook/addon-mdx-gfm');
