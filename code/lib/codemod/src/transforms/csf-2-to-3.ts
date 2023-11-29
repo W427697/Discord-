@@ -7,6 +7,7 @@ import { loadCsf, printCsf } from '@storybook/csf-tools';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
+import invariant from 'tiny-invariant';
 import { upgradeDeprecatedTypes } from './upgrade-deprecated-types';
 
 const logger = console;
@@ -138,8 +139,8 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
       return t.objectProperty(t.identifier(renameAnnotation(annotation)), val as t.Expression);
     });
 
-    if (t.isVariableDeclarator(decl)) {
-      const { init, id } = decl;
+    if (t.isVariableDeclarator(decl as t.Node)) {
+      const { init, id } = decl as any;
       invariant(init, 'Inital value should be declared');
       // only replace arrow function expressions && template
       const template = getTemplateBindVariable(init);
@@ -177,8 +178,8 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
     }
   });
 
-  csf._ast.program.body = csf._ast.program.body.reduce((acc: t.Statement[], stmt) => {
-    const statement = stmt as t.Statement;
+  csf._ast.program.body = csf._ast.program.body.reduce((acc: t.Statement[], stmt: t.Statement) => {
+    const statement = stmt;
     // remove story annotations & template declarations
     if (isStoryAnnotation(statement, objectExports)) {
       return acc;
