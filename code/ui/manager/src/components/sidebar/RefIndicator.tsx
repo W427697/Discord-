@@ -1,14 +1,14 @@
 import { global } from '@storybook/global';
-import type { FC } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
 import type { TooltipLinkListLink } from '@storybook/components';
-import { WithTooltip, Spaced, TooltipLinkList, Icons } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 
+import { ChevronDownIcon, GlobeIcon } from '@storybook/icons';
 import type { RefType } from './types';
 
 import type { getStateType } from '../../utils/tree';
@@ -160,7 +160,7 @@ const CurrentVersion: FC<CurrentVersionProps> = ({ url, versions }) => {
   return (
     <Version>
       <span>{currentVersionId}</span>
-      <Icon.ChevronDown />
+      <ChevronDownIcon />
     </Version>
   );
 };
@@ -205,7 +205,7 @@ export const RefIndicator = React.memo(
             }
           >
             <IndicatorClickTarget data-action="toggle-indicator" aria-label="toggle indicator">
-              <Icon.Globe />
+              <GlobeIcon />
             </IndicatorClickTarget>
           </WithTooltip>
 
@@ -256,7 +256,7 @@ const ReadyMessage: FC<{
 );
 
 const LoginRequiredMessage: FC<RefType> = ({ loginUrl, id }) => {
-  const open = useCallback((e) => {
+  const open = useCallback<MouseEventHandler>((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
 

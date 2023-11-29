@@ -91,17 +91,17 @@ export const computeStorybookMetadata = async ({
   metadata.hasCustomWebpack = !!mainConfig.webpackFinal;
   metadata.hasStaticDirs = !!mainConfig.staticDirs;
 
-  if (mainConfig.typescript) {
+  if (typeof mainConfig.typescript === 'object') {
     metadata.typescriptOptions = mainConfig.typescript;
   }
 
   const frameworkInfo = await getFrameworkInfo(mainConfig);
 
-  if (mainConfig.refs) {
+  if (typeof mainConfig.refs === 'object') {
     metadata.refCount = Object.keys(mainConfig.refs).length;
   }
 
-  if (mainConfig.features) {
+  if (typeof mainConfig.features === 'object') {
     metadata.features = mainConfig.features;
   }
 
@@ -114,7 +114,9 @@ export const computeStorybookMetadata = async ({
       if (typeof addon === 'string') {
         addonName = sanitizeAddonName(addon);
       } else {
-        options = addon.options;
+        if (addon.name.includes('addon-essentials')) {
+          options = addon.options;
+        }
         addonName = sanitizeAddonName(addon.name);
       }
 
@@ -162,13 +164,17 @@ export const computeStorybookMetadata = async ({
 
   const storybookInfo = getStorybookInfo(packageJson);
 
-  const { previewConfig } = storybookInfo;
-  if (previewConfig) {
-    const config = await readConfig(previewConfig);
-    const usesGlobals = !!(
-      config.getFieldNode(['globals']) || config.getFieldNode(['globalTypes'])
-    );
-    metadata.preview = { ...metadata.preview, usesGlobals };
+  try {
+    const { previewConfig } = storybookInfo;
+    if (previewConfig) {
+      const config = await readConfig(previewConfig);
+      const usesGlobals = !!(
+        config.getFieldNode(['globals']) || config.getFieldNode(['globalTypes'])
+      );
+      metadata.preview = { ...metadata.preview, usesGlobals };
+    }
+  } catch (e) {
+    // gracefully handle error, as it's not critical information and AST parsing can cause trouble
   }
 
   const storybookVersion = storybookPackages[storybookInfo.frameworkPackage]?.version;

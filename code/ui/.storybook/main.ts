@@ -7,15 +7,12 @@ const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
   {
-    directory: '../components/src/new',
-    titlePrefix: '@core-ui',
-  },
-  {
     directory: '../manager/src',
+    files: '**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)',
     titlePrefix: '@manager',
   },
   {
-    directory: '../components/src/legacy',
+    directory: '../components/src/components',
     titlePrefix: '@components',
   },
   {
@@ -55,7 +52,13 @@ const config: StorybookConfig = {
     '@storybook/addon-interactions',
     '@storybook/addon-storysource',
     '@storybook/addon-designs',
+    '@chromaui/addon-visual-tests',
   ],
+  build: {
+    test: {
+      disableBlocks: false,
+    },
+  },
   framework: {
     name: '@storybook/react-vite',
     options: {},

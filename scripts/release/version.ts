@@ -6,9 +6,10 @@ import path from 'path';
 import program from 'commander';
 import semver from 'semver';
 import { z } from 'zod';
+import { execaCommand } from 'execa';
+import { esMain } from '../utils/esmain';
 import type { Workspace } from '../utils/workspace';
 import { getWorkspaces } from '../utils/workspace';
-import { execaCommand } from '../utils/exec';
 
 program
   .name('version')
@@ -141,12 +142,10 @@ const bumpVersionSources = async (currentVersion: string, nextVersion: string) =
 
 const bumpAllPackageJsons = async ({
   packages,
-  currentVersion,
   nextVersion,
   verbose,
 }: {
   packages: Workspace[];
-  currentVersion: string;
   nextVersion: string;
   verbose?: boolean;
 }) => {
@@ -279,12 +278,13 @@ export const run = async (options: unknown) => {
 
     await bumpCodeVersion(nextVersion);
     await bumpVersionSources(currentVersion, nextVersion);
-    await bumpAllPackageJsons({ packages, currentVersion, nextVersion, verbose });
+    await bumpAllPackageJsons({ packages, nextVersion, verbose });
 
     console.log(`⬆️ Updating lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
     await execaCommand(`yarn install --mode=update-lockfile`, {
       cwd: path.join(CODE_DIR_PATH),
       stdio: verbose ? 'inherit' : undefined,
+      cleanup: true,
     });
     console.log(`✅ Updated lock file with ${chalk.blue('yarn install --mode=update-lockfile')}`);
   }
@@ -295,7 +295,7 @@ export const run = async (options: unknown) => {
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const options = program.parse().opts();
   run(options).catch((err) => {
     console.error(err);

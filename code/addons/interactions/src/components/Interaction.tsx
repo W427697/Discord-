@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { IconButton, TooltipNote, WithTooltip } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
 import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
-import { MatcherResult } from './MatcherResult';
+import { ListUnorderedIcon } from '@storybook/icons';
+import { Expected, MatcherResult, Received } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
 
@@ -121,6 +121,29 @@ const Exception = ({ exception }: { exception: Call['exception'] }) => {
   return (
     <RowMessage>
       <pre>{paragraphs[0]}</pre>
+
+      {exception.showDiff && exception.diff ? (
+        <>
+          <br />
+          <MatcherResult message={exception.diff} style={{ padding: 0 }} />
+        </>
+      ) : (
+        <pre>
+          <br />
+          {exception.expected && (
+            <>
+              Expected: <Expected value={exception.expected} />
+              <br />
+            </>
+          )}
+          {exception.actual && (
+            <>
+              Received: <Received value={exception.actual} />
+              <br />
+            </>
+          )}
+        </pre>
+      )}
       {more && <p>See the full stack trace in the browser console.</p>}
     </RowMessage>
   );
@@ -175,7 +198,7 @@ export const Interaction = ({
               tooltip={<Note note={`${isCollapsed ? 'Show' : 'Hide'} interactions`} />}
             >
               <StyledIconButton containsIcon onClick={toggleCollapsed}>
-                <Icon.ListUnordered />
+                <ListUnorderedIcon />
               </StyledIconButton>
             </WithTooltip>
           )}

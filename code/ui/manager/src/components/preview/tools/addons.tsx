@@ -1,12 +1,12 @@
 import React from 'react';
 import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
+import { BottomBarIcon, SidebarAltIcon } from '@storybook/icons';
 
 const menuMapper = ({ api, state }: Combo) => ({
-  isVisible: state.layout.showPanel,
+  isVisible: api.getIsPanelShown(),
   singleStory: state.singleStory,
   panelPosition: state.layout.panelPosition,
   toggle: () => api.togglePanel(),
@@ -24,7 +24,7 @@ export const addonsTool: Addon_BaseType = {
         !isVisible && (
           <>
             <IconButton aria-label="Show addons" key="addons" onClick={toggle} title="Show addons">
-              {panelPosition === 'bottom' ? <Icon.BottomBar /> : <Icon.SidebarAlt />}
+              {panelPosition === 'bottom' ? <BottomBarIcon /> : <SidebarAltIcon />}
             </IconButton>
           </>
         )

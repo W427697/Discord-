@@ -4,8 +4,9 @@ import React, { useMemo, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { Button, TooltipLinkListLink } from '@storybook/components';
-import { WithTooltip, TooltipLinkList, IconButton, Icons } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
+import { WithTooltip, TooltipLinkList, Icons, IconButton } from '@storybook/components';
+import { CloseIcon, CogIcon, MenuIcon } from '@storybook/icons';
+import { useLayout } from '../layout/LayoutProvider';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
 
@@ -17,7 +18,7 @@ const sharedStyles = {
   display: 'block',
 };
 
-const StyledIcon = styled(Icons)(sharedStyles, ({ theme }) => ({
+const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
   color: theme.color.secondary,
 }));
 
@@ -64,6 +65,11 @@ export const SidebarIconButton: FC<
   }),
 }));
 
+const MenuButtonGroup = styled.div({
+  display: 'flex',
+  gap: 4,
+});
+
 const Img = styled.img(sharedStyles);
 const Placeholder = styled.div(sharedStyles);
 
@@ -78,7 +84,7 @@ export interface ListItemIconProps {
  */
 export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   if (icon) {
-    return <StyledIcon icon={icon} />;
+    return <Icon icon={icon} />;
   }
   if (imgSrc) {
     return <Img src={imgSrc} alt="image" />;
@@ -106,11 +112,39 @@ const SidebarMenuList: FC<{
   return <TooltipLinkList links={links} />;
 };
 
-export const SidebarMenu: FC<{
+export interface SidebarMenuProps {
   menu: MenuList;
   isHighlighted?: boolean;
-}> = ({ menu, isHighlighted }) => {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const SidebarMenu: FC<SidebarMenuProps> = ({ menu, isHighlighted, onClick }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const { isMobile, setMobileMenuOpen } = useLayout();
+
+  if (isMobile) {
+    return (
+      <MenuButtonGroup>
+        <SidebarIconButton
+          title="About Storybook"
+          aria-label="About Storybook"
+          highlighted={isHighlighted}
+          active={false}
+          onClick={onClick}
+        >
+          <CogIcon />
+        </SidebarIconButton>
+        <CloseIconButton
+          title="Close menu"
+          aria-label="Close menu"
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <CloseIcon />
+        </CloseIconButton>
+      </MenuButtonGroup>
+    );
+  }
+
   return (
     <WithTooltip
       placement="top"
@@ -124,7 +158,7 @@ export const SidebarMenu: FC<{
         highlighted={isHighlighted}
         active={isTooltipVisible}
       >
-        <Icon.Cog />
+        <CogIcon />
       </SidebarIconButton>
     </WithTooltip>
   );
@@ -148,8 +182,14 @@ export const ToolbarMenu: FC<{
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
       <IconButton title="Shortcuts" aria-label="Shortcuts">
-        <Icon.Menu />
+        <MenuIcon />
       </IconButton>
     </WithTooltip>
   );
 };
+
+// We should not have to reset the margin-top here
+// TODO: remove this once we have a the new IconButton component
+const CloseIconButton = styled(IconButton)({
+  marginTop: 0,
+});

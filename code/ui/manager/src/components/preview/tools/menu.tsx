@@ -1,12 +1,12 @@
 import React from 'react';
 import { IconButton, Separator } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
 import { Consumer, types } from '@storybook/manager-api';
 import type { Combo } from '@storybook/manager-api';
 import type { Addon_BaseType } from '@storybook/types';
+import { MenuIcon } from '@storybook/icons';
 
 const menuMapper = ({ api, state }: Combo) => ({
-  isVisible: state.layout.showNav,
+  isVisible: api.getIsNavShown(),
   singleStory: state.singleStory,
   toggle: () => api.toggleNav(),
 });
@@ -23,7 +23,7 @@ export const menuTool: Addon_BaseType = {
         !isVisible && (
           <>
             <IconButton aria-label="Show sidebar" key="menu" onClick={toggle} title="Show sidebar">
-              <Icon.Menu />
+              <MenuIcon />
             </IconButton>
             <Separator />
           </>

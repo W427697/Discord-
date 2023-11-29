@@ -3,8 +3,8 @@ import React, { memo } from 'react';
 
 import { useGlobals, useParameter } from '@storybook/manager-api';
 import { IconButton } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
 
+import { GridIcon } from '@storybook/icons';
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 
 export const GridSelector: FC = memo(function GridSelector() {
@@ -31,7 +31,7 @@ export const GridSelector: FC = memo(function GridSelector() {
         })
       }
     >
-      <Icon.Grid />
+      <GridIcon />
     </IconButton>
   );
 });

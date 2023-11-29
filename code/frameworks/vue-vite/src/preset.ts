@@ -7,8 +7,8 @@ import { vueDocgen } from './plugins/vue-docgen';
 const getAbsolutePath = <I extends string>(input: I): I =>
   dirname(require.resolve(join(input, 'package.json'))) as any;
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
-  const framework = await options.presets.apply<StorybookConfig['framework']>('framework');
+export const core: PresetProperty<'core'> = async (config, options) => {
+  const framework = await options.presets.apply('framework');
 
   return {
     ...config,
@@ -19,11 +19,6 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
     renderer: getAbsolutePath('@storybook/vue'),
   };
 };
-
-export const typescript: PresetProperty<'typescript', StorybookConfig> = async (config) => ({
-  ...config,
-  skipBabel: true,
-});
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   return mergeConfig(config, {

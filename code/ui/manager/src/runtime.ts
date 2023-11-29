@@ -9,9 +9,6 @@ import { CHANNEL_CREATED } from '@storybook/core-events';
 import Provider from './provider';
 import { renderStorybookUI } from './index';
 
-import { values } from './globals/runtime';
-import { Keys } from './globals/types';
-
 const { FEATURES, CONFIG_TYPE } = global;
 
 class ReactProvider extends Provider {
@@ -35,6 +32,7 @@ class ReactProvider extends Provider {
 
     this.addons = addons;
     this.channel = channel;
+    global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
 
     if (FEATURES?.storyStoreV7 && CONFIG_TYPE === 'DEVELOPMENT') {
       this.serverChannel = this.channel;
@@ -56,11 +54,5 @@ class ReactProvider extends Provider {
 }
 
 const { document } = global;
-
 const rootEl = document.getElementById('root');
 renderStorybookUI(rootEl, new ReactProvider());
-
-// Apply all the globals
-Object.keys(Keys).forEach((key: keyof typeof Keys) => {
-  global[Keys[key]] = values[key];
-});

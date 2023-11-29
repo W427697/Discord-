@@ -31,10 +31,6 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/icons':
-    access: $all
-    publish: $all
-    proxy: npmjs
   '@storybook/global':
     access: $all
     publish: $all
@@ -52,6 +48,10 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/bench':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/addon-coverage':
     access: $all
     publish: $all
     proxy: npmjs
@@ -113,6 +113,10 @@ packages:
     proxy: npmjs
   '@storybook/semver':
     # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/icons':
     access: $all
     publish: $all
     proxy: npmjs

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 import React, { useContext } from 'react';
 import { styled } from '@storybook/theming';
 import { DocsContext } from './DocsContext';
@@ -6,7 +6,7 @@ import { DocsStory } from './DocsStory';
 import { Heading } from './Heading';
 
 interface StoriesProps {
-  title?: JSX.Element | string;
+  title?: ReactElement | string;
   includePrimary?: boolean;
 }
 
@@ -26,7 +26,7 @@ const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
   },
 }));
 
-export const Stories: FC<StoriesProps> = ({ title, includePrimary = true }) => {
+export const Stories: FC<StoriesProps> = ({ title = 'Stories', includePrimary = true }) => {
   const { componentStories } = useContext(DocsContext);
 
   let stories = componentStories().filter((story) => !story.parameters?.docs?.disable);
@@ -45,8 +45,4 @@ export const Stories: FC<StoriesProps> = ({ title, includePrimary = true }) => {
       )}
     </>
   );
-};
-
-Stories.defaultProps = {
-  title: 'Stories',
 };

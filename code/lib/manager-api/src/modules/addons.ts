@@ -7,7 +7,7 @@ import type {
   API_StateMerger,
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
-import type { ModuleFn } from '../index';
+import type { ModuleFn } from '../lib/types';
 import type { Options } from '../store';
 
 export interface SubState {
@@ -23,7 +23,13 @@ export interface SubAPI {
    * @param {Addon_Types | Addon_TypesEnum.experimental_PAGE} type - The type of the elements to retrieve.
    * @returns {API_Collection<T>} - A collection of elements of the specified type.
    */
-  getElements: <T extends Addon_Types | Addon_TypesEnum.experimental_PAGE = Addon_Types>(
+  getElements: <
+    T extends
+      | Addon_Types
+      | Addon_TypesEnum.experimental_PAGE
+      | Addon_TypesEnum.experimental_SIDEBAR_BOTTOM
+      | Addon_TypesEnum.experimental_SIDEBAR_TOP = Addon_Types
+  >(
     type: T
   ) => Addon_Collection<Addon_TypesMapping[T]>;
   /**
@@ -127,20 +133,18 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
       newStateOrMerger: S | API_StateMerger<S>,
       options?: Options
     ): Promise<S> {
-      let nextState;
-      const { addons: existing } = store.getState();
-      if (typeof newStateOrMerger === 'function') {
-        const merger = newStateOrMerger as API_StateMerger<S>;
-        nextState = merger(api.getAddonState<S>(addonId));
-      } else {
-        nextState = newStateOrMerger;
-      }
+      const merger = (
+        typeof newStateOrMerger === 'function' ? newStateOrMerger : () => newStateOrMerger
+      ) as API_StateMerger<S>;
       return store
-        .setState({ addons: { ...existing, [addonId]: nextState } }, options)
+        .setState(
+          (s) => ({ ...s, addons: { ...s.addons, [addonId]: merger(s.addons[addonId]) } }),
+          options
+        )
         .then(() => api.getAddonState(addonId));
     },
     getAddonState: (addonId) => {
-      return store.getState().addons[addonId];
+      return store.getState().addons[addonId] || globalThis?.STORYBOOK_ADDON_STATE[addonId];
     },
   };
 

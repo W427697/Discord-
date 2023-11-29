@@ -3,21 +3,21 @@ import type { FC } from 'react';
 import React, { useState, useCallback, Fragment } from 'react';
 
 import { WithTooltip, Spaced, Button, Link, ErrorFormatter } from '@storybook/components';
-import { Icon } from '@storybook/components/experimental';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 
+import { ChevronDownIcon, LockIcon, SyncIcon } from '@storybook/icons';
 import { Loader, Contained } from './Loader';
 
 const { window: globalWindow } = global;
 
 const TextStyle = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 }));
 const Text = styled.div(({ theme }) => ({
-  fontSize: theme.typography.size.s2 - 1,
+  fontSize: theme.typography.size.s2,
   lineHeight: '20px',
   margin: 0,
 
@@ -52,7 +52,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
     globalWindow.document.location.reload();
   }, []);
 
-  const open = useCallback((e) => {
+  const open = useCallback<React.MouseEventHandler>((e) => {
     e.preventDefault();
     const childWindow = globalWindow.open(loginUrl, `storybook_auth_${id}`, 'resizable,scrollbars');
 
@@ -78,8 +78,9 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
               this Storybook.
             </Text>
             <div>
+              {/* TODO: Make sure this button is working without the deprecated props */}
               <Button small gray onClick={refresh}>
-                <Icon.Sync />
+                <SyncIcon />
                 Refresh now
               </Button>
             </div>
@@ -89,7 +90,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
             <Text>Sign in to browse this Storybook.</Text>
             <div>
               <Button small gray onClick={open}>
-                <Icon.Lock />
+                <LockIcon />
                 Sign in
               </Button>
             </div>
@@ -115,7 +116,7 @@ export const ErrorBlock: FC<{ error: Error }> = ({ error }) => (
         >
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <Link isButton>
-            View error <Icon.ChevronDown />
+            View error <ChevronDownIcon />
           </Link>
         </WithTooltip>{' '}
         <Link withArrow href="https://storybook.js.org/docs" cancel={false} target="_blank">
@@ -146,10 +147,14 @@ export const EmptyBlock: FC<any> = ({ isMain }) => (
                   The glob specified in <code>main.js</code> isn't correct.
                 </li>
                 <li>No stories are defined in your story files.</li>
+                <li>You're using filter-functions, and all stories are filtered away.</li>
               </ul>{' '}
             </>
           ) : (
-            <>Yikes! Something went wrong loading these stories.</>
+            <>
+              This composed storybook is empty, maybe you're using filter-functions, and all stories
+              are filtered away.
+            </>
           )}
         </Text>
       </WideSpaced>

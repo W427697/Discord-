@@ -4,6 +4,8 @@ import program from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
 import { setOutput } from '@actions/core';
+import invariant from 'tiny-invariant';
+import { esMain } from '../utils/esmain';
 import { git } from './utils/git-client';
 import { getUnpickedPRs } from './utils/github-client';
 
@@ -57,6 +59,7 @@ export const run = async (_: unknown) => {
       await git.raw(['cherry-pick', '-m', '1', '--keep-redundant-commits', '-x', pr.mergeCommit]);
       prSpinner.succeed(`Picked: ${formatPR(pr)}`);
     } catch (pickError) {
+      invariant(pickError instanceof Error);
       prSpinner.fail(`Failed to automatically pick: ${formatPR(pr)}`);
       logger.error(pickError.message);
       const abort = ora(`Aborting cherry pick for merge commit: ${pr.mergeCommit}`).start();
@@ -64,8 +67,9 @@ export const run = async (_: unknown) => {
         await git.raw(['cherry-pick', '--abort']);
         abort.stop();
       } catch (abortError) {
+        invariant(abortError instanceof Error);
         abort.warn(`Failed to abort cherry pick (${pr.mergeCommit})`);
-        logger.error(pickError.message);
+        logger.error(abortError.message);
       }
       failedCherryPicks.push(pr.mergeCommit);
       prSpinner.info(
@@ -77,11 +81,12 @@ export const run = async (_: unknown) => {
   }
 
   if (process.env.GITHUB_ACTIONS === 'true') {
+    setOutput('pr-count', JSON.stringify(patchPRs.length));
     setOutput('failed-cherry-picks', JSON.stringify(failedCherryPicks));
   }
 };
 
-if (require.main === module) {
+if (esMain(import.meta.url)) {
   const options = program.parse(process.argv);
   run(options).catch((err) => {
     console.error(err);
