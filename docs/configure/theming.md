@@ -26,7 +26,7 @@ Make sure you have installed [`@storybook/manager-api`](https://www.npmjs.com/pa
 
 <!-- prettier-ignore-end -->
 
-As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./overview.md#configure-story-rendering):
+As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./features-and-behavior.md):
 
 <!-- prettier-ignore-start -->
 
@@ -42,9 +42,9 @@ When setting a theme, set a complete theme object. The theme is replaced, not co
 
 ## Theming docs
 
-[Storybook Docs](../writing-docs/introduction.md) uses the same theme system as Storybook’s UI but is themed independently from the main UI.
+[Storybook Docs](../writing-docs/index.md) uses the same theme system as Storybook’s UI but is themed independently from the main UI.
 
-Supposing you have a Storybook theme defined for the main UI in [`.storybook/manager.js`](./overview.md#configure-story-rendering):
+Supposing you have a Storybook theme defined for the main UI in [`.storybook/manager.js`](./features-and-behavior.md):
 
 <!-- prettier-ignore-start -->
 
@@ -56,7 +56,7 @@ Supposing you have a Storybook theme defined for the main UI in [`.storybook/man
 
 <!-- prettier-ignore-end -->
 
-Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./overview.md#configure-story-rendering):
+Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
@@ -87,9 +87,11 @@ Inside your `.storybook` directory, create a new file called `YourTheme.js` and 
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 If you're using <code>brandImage</code> to add your custom logo, you can use any of the most common image formats.
-</div>
+<Callout variant="info" icon="💡">
+
+If you're using `brandImage` to add your custom logo, you can use any of the most common image formats.
+
+</Callout>
 
 Above, we're creating a new theme that will:
 
@@ -135,9 +137,11 @@ With the new changes introduced, the custom theme should yield a similar result.
 
 ![Storybook custom theme loaded](./storybook-custom-theme.png)
 
-<div class="aside">
-💡 Many theme variables are optional, the <code>base</code> property is <strong>NOT</strong>.
-</div>
+<Callout variant="info" icon="💡">
+
+Many theme variables are optional, the <code>base</code> property is **NOT**.
+
+</Callout>
 
 The `@storybook/theming` package is built using TypeScript, which should help create a valid theme for TypeScript users. The types are part of the package itself.
 
@@ -150,17 +154,17 @@ To style these elements, insert style tags into:
 - For Storybook’s UI, use `.storybook/manager-head.html`
 - For Storybook Docs, use `.storybook/preview-head.html`
 
-<div class="aside">
+<Callout variant="warning" title="Caution">
 
-💡 <strong>Caution:</strong> The same way as you can adjust your [preview’s head tag](../configure/story-rendering.md#adding-to-head), Storybook allows you to modify the code on the manager's side, through <code>.storybook/manager-head.html</code>. It can be helpful when adding theme styles that target Storybook's HTML, but it comes with a cost as Storybook's inner HTML can change at any time through the release cycle.
+The same way as you can adjust your [preview’s head tag](../configure/story-rendering.md#adding-to-head), Storybook allows you to modify the code on the manager's side, through `.storybook/manager-head.html`. It can be helpful when adding theme styles that target Storybook's HTML, but it comes with a cost as Storybook's inner HTML can change at any time through the release cycle.
 
-</div>
+</Callout>
 
 ## MDX component overrides
 
 If you're using MDX for docs, there's one more level of "themability". MDX allows you to completely override the rendered components from Markdown using a `components` parameter. It's an advanced usage that we don't officially support in Storybook, but it's a powerful construct if you need it.
 
-Here's how you might insert a custom code renderer for `code` blocks on the page, in [`.storybook/preview.js`](./overview.md#configure-story-rendering):
+Here's how you might insert a custom code renderer for `code` blocks on the page, in [`.storybook/preview.js`](./index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 
