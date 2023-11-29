@@ -48,14 +48,52 @@ function addRewrites(
   };
 }
 
-export const withStorybook = ({
+interface WithStorybookOptions {
+  /**
+   * Port that the Next.js app will run on.
+   * @default 3000
+   */
+  port: string | number;
+
+  /**
+   * Internal port that Storybook will run on.
+   * @default 34567
+   */
+  sbPort: string | number;
+
+  /**
+   * URL path to Storybook's "manager" UI.
+   * @default 'storybook'
+   */
+  managerPath: string;
+
+  /**
+   * URL path to Storybook's story preview iframe.
+   * @default 'storybook-preview'
+   */
+  previewPath: string;
+
+  /**
+   * Directory where Storybook's config files are located.
+   * @default '.storybook'
+   */
+  configDir: string;
+
+  /**
+   * Whether to use the NextJS app directory.
+   * @default undefined
+   */
+  appDir: boolean;
+}
+
+const withStorybook = ({
   port = process.env.PORT ?? 3000,
   sbPort = 34567,
   managerPath = 'storybook',
   previewPath = 'storybook-preview',
   configDir = '.storybook',
   appDir = undefined,
-} = {}) => {
+}: Partial<WithStorybookOptions> = {}) => {
   const isAppDir = appDir ?? existsSync('app');
   const storybookNextJSOptions: StorybookNextJSOptions = {
     appDir: isAppDir,
@@ -132,3 +170,5 @@ export const withStorybook = ({
     ]),
   });
 };
+
+module.exports = withStorybook;

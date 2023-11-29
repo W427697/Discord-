@@ -404,9 +404,8 @@ async function doInitiate(
     logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
     logger.log(`To set up Storybook, replace contents of ${chalk.cyan('next-config.js')} with:\n`);
     codeLog([
-      "const { withStorybook } = require('@storybook/nextjs-server/next-config');",
-      'const nextConfig = withStorybook()({ /* your custom config here */ });',
-      'module.exports = nextConfig;',
+      "const withStorybook = require('@storybook/nextjs-server/next-config')(/* storybook config */);",
+      'module.exports = withStorybook({ /* nextjs config */ });',
     ]);
     logger.log('\n Then to run your NextJS app:\n');
     codeLog([packageManager.getRunCommand('dev')]);

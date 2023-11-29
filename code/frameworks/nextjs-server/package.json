@@ -122,7 +122,7 @@
       "./src/null-renderer.ts",
       "./src/preset.ts",
       "./src/mock.ts",
-      "./src/next-config.ts",
+      "./src/next-config.cts",
       "./src/pages/index.ts",
       "./src/reexports/channels.ts",
       "./src/reexports/core-events.ts",
