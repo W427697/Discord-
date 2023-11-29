@@ -496,6 +496,111 @@ const internalTemplates = {
     isInternal: true,
     skipTasks: ['bench'],
   },
+  'internal/npm/empty/react-vite/default-ts': {
+    name: 'Empty React + vite (npm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['react-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/pnpm/empty/react-vite/default-ts': {
+    name: 'Empty React + vite (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['react-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/yarn/empty/react-vite/default-ts': {
+    name: 'Empty React + vite (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['react-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/npm/empty/nextjs/default-ts': {
+    name: 'Empty Next.js (npm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['nextjs/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/pnpm/empty/nextjs/default-ts': {
+    name: 'Empty Next.js (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['nextjs/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/yarn/empty/nextjs/default-ts': {
+    name: 'Empty Next.js (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['nextjs/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/npm/empty/vue3-vite/default-ts': {
+    name: 'Empty Vue 3 + vite (npm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/pnpm/empty/vue3-vite/default-ts': {
+    name: 'Empty Vue 3 + vite (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/yarn/empty/vue3-vite/default-ts': {
+    name: 'Empty Vue 3 + vite (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/npm/empty/angular-cli/default-ts': {
+    name: 'Empty Angular (npm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['angular-cli/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/pnpm/empty/angular-cli/default-ts': {
+    name: 'Empty Angular (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['angular-cli/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/yarn/empty/angular-cli/default-ts': {
+    name: 'Empty Angular (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['angular-cli/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/npm/empty/lit-vite/default-ts': {
+    name: 'Empty Lit + vite (npm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['lit-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/pnpm/empty/lit-vite/default-ts': {
+    name: 'Empty Lit + vite (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['lit-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
+  'internal/yarn/empty/lit-vite/default-ts': {
+    name: 'Empty Lit + vite (pnpm)',
+    script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    expected: { ...baseTemplates['lit-vite/default-ts'].expected },
+    isInternal: true,
+    skipTasks: ['bench'],
+  },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
   //   name: 'PNP (cra/default-ts)',
@@ -578,6 +683,7 @@ export const normal: TemplateKey[] = [
   'bench/react-vite-default-ts-test-build',
   'bench/react-webpack-18-ts-test-build',
 ];
+
 export const merged: TemplateKey[] = [
   ...normal,
   'react-webpack/18-ts',
@@ -588,6 +694,25 @@ export const merged: TemplateKey[] = [
   'html-webpack/default',
   'html-vite/default-ts',
 ];
+
+const emptyTemplateKeys: TemplateKey[] = [
+  // 'internal/npm/empty/react-vite/default-ts',
+  // 'internal/pnpm/empty/react-vite/default-ts',
+  'internal/yarn/empty/react-vite/default-ts',
+  // 'internal/npm/empty/nextjs/default-ts',
+  // 'internal/pnpm/empty/nextjs/default-ts',
+  'internal/yarn/empty/nextjs/default-ts',
+  // 'internal/npm/empty/vue3-vite/default-ts',
+  // 'internal/pnpm/empty/vue3-vite/default-ts',
+  'internal/yarn/empty/vue3-vite/default-ts',
+  // 'internal/npm/empty/angular-cli/default-ts',
+  // 'internal/pnpm/empty/angular-cli/default-ts',
+  'internal/yarn/empty/angular-cli/default-ts',
+  // 'internal/npm/empty/lit-vite/default-ts',
+  // 'internal/pnpm/empty/lit-vite/default-ts',
+  'internal/yarn/empty/lit-vite/default-ts',
+];
+
 export const daily: TemplateKey[] = [
   ...merged,
   'angular-cli/prerelease',
@@ -606,6 +731,7 @@ export const daily: TemplateKey[] = [
   'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
+  ...emptyTemplateKeys,
 ];
 
 export const templatesByCadence = { normal, merged, daily };

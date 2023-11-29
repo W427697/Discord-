@@ -8,7 +8,6 @@ import { NxProjectDetectedError } from '@storybook/core-events/server-errors';
 
 import dedent from 'ts-dedent';
 import boxen from 'boxen';
-import { readdirSync } from 'fs-extra';
 import type { Builder } from './project_types';
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstantiated, detectLanguage, detectPnp } from './detect';
@@ -36,7 +35,7 @@ import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
-import { scaffoldNewProject } from './scaffold-new-project';
+import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
 
 const logger = console;
 
@@ -254,10 +253,6 @@ async function doInitiate(
     pkgMgr = 'npm';
   }
 
-  const cwdFolderEntries = readdirSync(process.cwd());
-  const isEmptyDir =
-    cwdFolderEntries.length === 0 || cwdFolderEntries.every((entry) => entry.startsWith('.'));
-
   const packageManager = JsPackageManagerFactory.getPackageManager({
     force: pkgMgr || inferPackageManagerFromUserAgent(),
   });
@@ -273,7 +268,7 @@ async function doInitiate(
   });
 
   // Check if the current directory is empty.
-  if (options.force !== true && isEmptyDir) {
+  if (options.force !== true && currentDirectoryIsEmpty()) {
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type);
   }
