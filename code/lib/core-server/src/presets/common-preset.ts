@@ -14,7 +14,7 @@ import type {
   Indexer,
   Options,
   PresetPropertyFn,
-  StorybookConfig,
+  PresetProperty,
 } from '@storybook/types';
 import { printConfig, readConfig, readCsf } from '@storybook/csf-tools';
 import { join, isAbsolute } from 'path';
@@ -51,7 +51,7 @@ export const favicon = async (
   if (value) {
     return value;
   }
-  const staticDirsValue = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
+  const staticDirsValue = await options.presets.apply('staticDirs');
 
   const statics = staticDirsValue
     ? staticDirsValue.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
@@ -168,7 +168,7 @@ const optionalEnvToBoolean = (input: string | undefined): boolean | undefined =>
  */
 export const core = async (existing: CoreConfig, options: Options): Promise<CoreConfig> => ({
   ...existing,
-  disableTelemetry: options.disableTelemetry === true,
+  disableTelemetry: options.disableTelemetry === true || options.test === true,
   enableCrashReports:
     options.enableCrashReports || optionalEnvToBoolean(process.env.STORYBOOK_ENABLE_CRASH_REPORTS),
 });
@@ -185,15 +185,14 @@ export const previewAnnotations = async (base: any, options: Options) => {
   return [...config, ...base];
 };
 
-export const features = async (
-  existing: StorybookConfig['features']
-): Promise<StorybookConfig['features']> => ({
+export const features: PresetProperty<'features'> = async (existing) => ({
   ...existing,
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
   argTypeTargetsV7: true,
   legacyDecoratorFileOrder: false,
+  disallowImplicitActionsInRenderV8: false,
 });
 
 export const csfIndexer: Indexer = {
@@ -202,14 +201,14 @@ export const csfIndexer: Indexer = {
 };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const experimental_indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
+export const experimental_indexers: PresetProperty<'experimental_indexers'> = (existingIndexers) =>
   [csfIndexer].concat(existingIndexers || []);
 
 export const frameworkOptions = async (
   _: never,
   options: Options
 ): Promise<Record<string, any> | null> => {
-  const config = await options.presets.apply<StorybookConfig['framework']>('framework');
+  const config = await options.presets.apply('framework');
 
   if (typeof config === 'string') {
     return {};
@@ -222,13 +221,13 @@ export const frameworkOptions = async (
   return config.options;
 };
 
-export const docs = (
-  docsOptions: StorybookConfig['docs'],
-  { docs: docsMode }: CLIOptions
-): StorybookConfig['docs'] => ({
-  ...docsOptions,
-  docsMode,
-});
+export const docs: PresetProperty<'docs'> = (docsOptions, { docs: docsMode }: CLIOptions) =>
+  docsOptions && docsMode !== undefined
+    ? {
+        ...docsOptions,
+        docsMode,
+      }
+    : docsOptions;
 
 export const managerHead = async (_: any, options: Options) => {
   const location = join(options.configDir, 'manager-head.html');
