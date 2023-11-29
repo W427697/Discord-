@@ -492,7 +492,7 @@ jobs:
             cd ../
             mkdir empty-<< parameters.template >>
             cd empty-<< parameters.template >>
-            node ../storybook/code/lib/cli/bin/index.js init --package-manager << parameters.packageManager >>
+            node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager << parameters.packageManager >>
             node ../storybook/code/lib/cli/bin/index.js dev --smoke-test
           environment:
             CI: true
