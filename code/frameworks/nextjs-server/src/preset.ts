@@ -34,7 +34,7 @@ export const experimental_indexers: StorybookConfig['experimental_indexers'] = a
   return [rewritingIndexer, ...(existingIndexers || [])];
 };
 
-export const core: PresetProperty<'core', StorybookConfig> = async (config) => {
+export const core: PresetProperty<'core'> = async (config) => {
   return {
     ...config,
     builder: {
