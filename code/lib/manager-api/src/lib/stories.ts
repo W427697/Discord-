@@ -21,7 +21,6 @@ import type {
   API_HashEntry,
   SetStoriesPayload,
   StoryIndexV2,
-  Renderer,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters, type State } from '../index';

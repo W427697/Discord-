@@ -305,6 +305,7 @@ function ManagerConsumer<P = Combo>({
   const comboData = filterer.current(managerContext);
 
   const comboDataArray = useMemo(() => {
+    // @ts-expect-error (No overload matches this call)
     return [...Object.entries(comboData).reduce((acc, keyval) => acc.concat(keyval), [])];
   }, [managerContext.state]);
 
@@ -412,6 +413,7 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
 
   useEffect(() => {
     if (quicksync) {
+      // @ts-expect-error (Argument of type 'S | undefined' is not assignable)
       api.setAddonState<S>(stateId, defaultState);
     }
   }, [quicksync]);

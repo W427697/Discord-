@@ -392,7 +392,7 @@ export const init: ModuleFn = ({ store, fullAPI, provider }) => {
     });
 
     // Also listen to keydown events sent over the channel
-    provider.channel.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
+    provider.channel?.on(PREVIEW_KEYDOWN, (data: { event: KeyboardEventLike }) => {
       api.handleKeydownEvent(data.event);
     });
   };

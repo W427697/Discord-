@@ -62,16 +62,16 @@ export const init: ModuleFn = ({ store }) => {
       const {
         versions: { current },
       } = store.getState();
-      return current;
+      return current as API_Version;
     },
     getLatestVersion: () => {
       const {
         versions: { latest, next, current },
       } = store.getState();
       if (current && semver.prerelease(current.version) && next) {
-        return latest && semver.gt(latest.version, next.version) ? latest : next;
+        return (latest && semver.gt(latest.version, next.version) ? latest : next) as API_Version;
       }
-      return latest;
+      return latest as API_Version;
     },
     versionUpdateAvailable: () => {
       const latest = api.getLatestVersion();
@@ -110,7 +110,7 @@ export const init: ModuleFn = ({ store }) => {
     const { latest, next } = getVersionCheckData();
 
     await store.setState({
-      versions: { ...versions, latest, next },
+      versions: { ...versions, latest, next } as API_Versions & API_UnknownEntries,
     });
   };
 

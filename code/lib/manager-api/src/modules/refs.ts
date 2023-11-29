@@ -295,6 +295,7 @@ export const init: ModuleFn<SubAPI, SubState> = (
             )
           : storyIndex;
 
+        // @ts-expect-error (could be undefined)
         index = transformStoryIndexToStoriesHash(storyIndex, {
           provider,
           docsOptions,
