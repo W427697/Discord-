@@ -100,7 +100,6 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
         'bench-react-vite-default-ts',
         'bench-react-vite-default-ts-nodocs',
         'bench-react-vite-default-ts-test-build',
-        'internal-ssv6-vite',
         'react-vite-default-js',
         'react-vite-default-ts',
         'svelte-vite-default-js',
