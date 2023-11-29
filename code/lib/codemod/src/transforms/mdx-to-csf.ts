@@ -310,14 +310,13 @@ export function transform(source: string, baseName: string): [string, string] {
 
 function getEsmAst(root: Root) {
   const esm: string[] = [];
-  // @ts-ignore
+  // @ts-expect-error (not valid BuildVisitor)
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     esm.push(node.value);
   });
   const esmSource = `${esm.join('\n\n')}`;
 
-  // @ts-expect-error
-  // File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
+  // @ts-expect-error (File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606)
   const file: BabelFile = new babel.File(
     { filename: 'info.path' },
     { code: esmSource, ast: babelParse(esmSource) }
@@ -327,7 +326,7 @@ function getEsmAst(root: Root) {
 
 function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {
   let found = false;
-  // @ts-ignore
+  // @ts-expect-error (not valid BuildVisitor)
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     if (!found) {
       node.value += `\nimport * as ${storyNamespaceName} from './${baseName}.stories';`;
