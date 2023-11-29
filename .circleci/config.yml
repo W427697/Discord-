@@ -472,6 +472,32 @@ jobs:
           command: yarn upload-bench $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
       - report-workflow-on-failure:
           template: $(yarn get-template --cadence << pipeline.parameters.workflow >> --task bench)
+  test-empty-init:
+    parameters:
+      packageManager:
+        type: string
+      template:
+        type: string
+      parallelism:
+        type: integer
+    parallelism: << parameters.parallelism >>
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Move to parent directory
+          command: cd ..
+      - run:
+        name: Create empty project
+        command: mkdir empty-<< parameters.template >> && cd empty-<< parameters.template >>
+      - run:
+        name: Run storybook init
+        command: yarn storybook init 
+        environment:
+          STORYBOOK_PACKAGE_MANAGER: << parameters.packageManager >>
+          STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
 
 workflows:
   docs:
@@ -640,6 +666,16 @@ workflows:
           parallelism: 31
           requires:
             - build-sandboxes
+      # TODO: Uncomment when ready to test
+      # - test-empty-init:
+      #     parallelism: 15
+      #     requires:
+      #       - build
+      #     matrix:
+      #       parameters:
+      #         packageManager: [yarn2],
+      #         template: ["react-vite-ts", "nextjs-ts", "vue-vite-ts", "angular-cli", "lit-vite-ts"]
+  
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
       #     parallelism: 4

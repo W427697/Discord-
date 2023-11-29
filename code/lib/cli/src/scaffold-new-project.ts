@@ -109,7 +109,7 @@ const buildProjectDisplayNameForPrint = ({ displayName }: SupportedProject) => {
  * @param packageManager The package manager to use.
  */
 export const scaffoldNewProject = async (packageManager: PackageManagerName) => {
-  const packageManagerName = 'pnpm'; // packageManagerToCoercedName(packageManager);
+  const packageManagerName = packageManagerToCoercedName(packageManager);
 
   logger.plain(
     boxen(

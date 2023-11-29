@@ -47,7 +47,11 @@ command('init')
   .description('Initialize Storybook into your project.')
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
-  .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager for installing deps')
+  .option(
+    '--package-manager <npm|pnpm|yarn1|yarn2>',
+    'Force package manager for installing deps',
+    process.env.STORYBOOK_PACKAGE_MANAGER
+  )
   .option('-N --use-npm', 'Use npm to install deps (deprecated)')
   .option('--use-pnp', 'Enable pnp mode for Yarn 2+')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
