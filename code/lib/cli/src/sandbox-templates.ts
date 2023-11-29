@@ -32,6 +32,10 @@ export type Template = {
    */
   script: string;
   /**
+   * Environment variables to set when running the script.
+   */
+  env?: Record<string, unknown>;
+  /**
    * Used to assert various things about the generated template.
    * If the template is generated with a different expected framework, it will fail, detecting a possible regression.
    */
@@ -499,6 +503,9 @@ const internalTemplates = {
   'internal/npm/empty/react-vite/default-ts': {
     name: 'Empty React + vite (npm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'react-vite-ts',
+    },
     expected: { ...baseTemplates['react-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -506,6 +513,9 @@ const internalTemplates = {
   'internal/pnpm/empty/react-vite/default-ts': {
     name: 'Empty React + vite (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'react-vite-ts',
+    },
     expected: { ...baseTemplates['react-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -513,6 +523,9 @@ const internalTemplates = {
   'internal/yarn/empty/react-vite/default-ts': {
     name: 'Empty React + vite (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'react-vite-ts',
+    },
     expected: { ...baseTemplates['react-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -520,6 +533,9 @@ const internalTemplates = {
   'internal/npm/empty/nextjs/default-ts': {
     name: 'Empty Next.js (npm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'nextjs-ts',
+    },
     expected: { ...baseTemplates['nextjs/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -527,6 +543,9 @@ const internalTemplates = {
   'internal/pnpm/empty/nextjs/default-ts': {
     name: 'Empty Next.js (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'nextjs-ts',
+    },
     expected: { ...baseTemplates['nextjs/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -534,6 +553,9 @@ const internalTemplates = {
   'internal/yarn/empty/nextjs/default-ts': {
     name: 'Empty Next.js (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'nextjs-ts',
+    },
     expected: { ...baseTemplates['nextjs/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -541,6 +563,9 @@ const internalTemplates = {
   'internal/npm/empty/vue3-vite/default-ts': {
     name: 'Empty Vue 3 + vite (npm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'vue-vite-ts',
+    },
     expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -548,6 +573,9 @@ const internalTemplates = {
   'internal/pnpm/empty/vue3-vite/default-ts': {
     name: 'Empty Vue 3 + vite (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'vue-vite-ts',
+    },
     expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -555,6 +583,9 @@ const internalTemplates = {
   'internal/yarn/empty/vue3-vite/default-ts': {
     name: 'Empty Vue 3 + vite (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'vue-vite-ts',
+    },
     expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -562,6 +593,9 @@ const internalTemplates = {
   'internal/npm/empty/angular-cli/default-ts': {
     name: 'Empty Angular (npm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'angular-cli',
+    },
     expected: { ...baseTemplates['angular-cli/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -569,6 +603,9 @@ const internalTemplates = {
   'internal/pnpm/empty/angular-cli/default-ts': {
     name: 'Empty Angular (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'angular-cli',
+    },
     expected: { ...baseTemplates['angular-cli/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -576,6 +613,9 @@ const internalTemplates = {
   'internal/yarn/empty/angular-cli/default-ts': {
     name: 'Empty Angular (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'angular-cli',
+    },
     expected: { ...baseTemplates['angular-cli/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -583,6 +623,9 @@ const internalTemplates = {
   'internal/npm/empty/lit-vite/default-ts': {
     name: 'Empty Lit + vite (npm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'lit-vite-ts',
+    },
     expected: { ...baseTemplates['lit-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -590,6 +633,9 @@ const internalTemplates = {
   'internal/pnpm/empty/lit-vite/default-ts': {
     name: 'Empty Lit + vite (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'lit-vite-ts',
+    },
     expected: { ...baseTemplates['lit-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
@@ -597,6 +643,9 @@ const internalTemplates = {
   'internal/yarn/empty/lit-vite/default-ts': {
     name: 'Empty Lit + vite (pnpm)',
     script: 'mkdir {{beforeDir}} && cd {{beforeDir}}',
+    env: {
+      STORYBOOK_INIT_EMPTY_TYPE: 'lit-vite-ts',
+    },
     expected: { ...baseTemplates['lit-vite/default-ts'].expected },
     isInternal: true,
     skipTasks: ['bench'],
