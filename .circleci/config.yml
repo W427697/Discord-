@@ -493,19 +493,19 @@ jobs:
           name: Move to parent directory
           command: cd ..
       - run:
-        name: Create empty project
-        command: mkdir empty-<< parameters.template >> && cd empty-<< parameters.template >>
+          name: Create empty project
+          command: mkdir empty-<< parameters.template >> && cd empty-<< parameters.template >>
       - run:
-        name: Run storybook init
-        command: node ../storybook/code/lib/cli/bin.js init --packageManager << parameters.packageManager >>
-        environment:
-          CI: true
-          STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+          name: Run storybook init
+          command: node ../storybook/code/lib/cli/bin.js init --packageManager << parameters.packageManager >>
+          environment:
+            CI: true
+            STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
       - run:
-        name: Run Smoke test
-        command: node ../storybook/code/lib/cli/bin.js dev --smoke-test
-        environment:
-          CI: true
+          name: Run Smoke test
+          command: node ../storybook/code/lib/cli/bin.js dev --smoke-test
+          environment:
+            CI: true
 
 workflows:
   docs:
