@@ -182,9 +182,9 @@ describe('Helpers', () => {
       delete process.env.npm_config_user_agent;
     });
 
-    it('should return undefined for invalid user agent', () => {
+    it('should return npm for invalid user agent', () => {
       process.env.npm_config_user_agent = '';
-      expect(helpers.inferPackageManagerFromUserAgent()).toBeUndefined();
+      expect(helpers.inferPackageManagerFromUserAgent()).toBe('npm');
     });
 
     it('should infer pnpm from user agent', () => {
@@ -207,9 +207,9 @@ describe('Helpers', () => {
       expect(helpers.inferPackageManagerFromUserAgent()).toBe('yarn2');
     });
 
-    it('should return undefined for unknown package manager', () => {
+    it('should return npm for unknown package manager', () => {
       process.env.npm_config_user_agent = 'unknown';
-      expect(helpers.inferPackageManagerFromUserAgent()).toBeUndefined();
+      expect(helpers.inferPackageManagerFromUserAgent()).toBe('npm');
     });
   });
 });
