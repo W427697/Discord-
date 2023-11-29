@@ -4,9 +4,10 @@ import memoize from 'memoizerific';
 
 import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
-import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
+import { IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
 import { useStorybookApi, useParameter, useGlobals } from '@storybook/manager-api';
+import { GrowIcon, TransferIcon } from '@storybook/icons';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
@@ -49,8 +50,6 @@ const toLinks = memoize(50)(
       });
   }
 );
-
-const wrapperId = 'storybook-preview-wrapper';
 
 interface LinkBase {
   id: string;
@@ -184,7 +183,7 @@ export const ViewportTool: FC = memo(
               updateGlobals({ viewport: responsiveViewport.id });
             }}
           >
-            <Icons icon="grow" />
+            <GrowIcon />
             {styles ? (
               <IconButtonLabel>
                 {globals.viewportRotated ? `${item.title} (L)` : `${item.title} (P)`}
@@ -198,25 +197,10 @@ export const ViewportTool: FC = memo(
             <Global
               styles={{
                 [`iframe[data-is-storybook="true"]`]: {
-                  margin: `auto`,
-                  transition: 'none',
-                  position: 'relative',
-                  border: `1px solid black`,
-                  boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',
-
-                  ...styles,
-                },
-                [`#${wrapperId}`]: {
-                  padding: theme.layoutMargin,
-                  alignContent: 'center',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  justifyItems: 'center',
-                  overflow: 'auto',
-
-                  display: 'grid',
-                  gridTemplateColumns: '100%',
-                  gridTemplateRows: '100%',
+                  ...(styles || {
+                    width: '100%',
+                    height: '100%',
+                  }),
                 },
               }}
             />
@@ -230,7 +214,7 @@ export const ViewportTool: FC = memo(
                 updateGlobals({ viewportRotated: !globals.viewportRotated });
               }}
             >
-              <Icons icon="transfer" />
+              <TransferIcon />
             </IconButton>
             <ActiveViewportLabel title="Viewport height">
               {styles.height.replace('px', '')}
