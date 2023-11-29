@@ -101,9 +101,9 @@ This replaces the input with a radio group for a more intuitive experience.
 
 ## Custom control type matchers
 
-For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
+Controls can automatically be inferred from arg's name with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp), but currently only for the color picker and date picker controls. If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
-| Data type |              Default regex               |                        Description                        |
+|  Control  |              Default regex               |                        Description                        |
 | :-------: | :--------------------------------------: | :-------------------------------------------------------: |
 | **color** | <code>/(background&#124;color)$/i</code> | Will display a color picker UI for the args that match it |
 | **date**  |                `/Date$/`                 | Will display a date picker UI for the args that match it  |
@@ -264,7 +264,7 @@ Controls supports the following configuration [parameters](../writing-stories/pa
 
 Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [`Controls`](../api/doc-block-controls.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
 
-To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
+To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/index.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
 

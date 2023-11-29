@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.6.0-alpha.6",
+  "version": "8.0.0-alpha.0",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -61,7 +61,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@storybook/client-logger": "workspace:*",
-    "@storybook/csf": "^0.1.0",
+    "@storybook/csf": "^0.1.2",
     "@storybook/global": "^5.0.0",
     "@storybook/icons": "^1.2.1",
     "@storybook/theming": "workspace:*",
@@ -82,7 +82,7 @@
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
     "ts-dedent": "^2.0.0",
-    "typescript": "~5.2.2"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",

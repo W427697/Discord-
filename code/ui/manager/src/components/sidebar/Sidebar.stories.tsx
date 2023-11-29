@@ -67,6 +67,14 @@ const refsError = {
   },
 };
 
+const refsEmpty = {
+  optimized: {
+    ...refs.optimized,
+    // type: 'auto-inject',
+    index: {} as IndexHash,
+  },
+};
+
 export const Simple: Story = {
   args: { previewInitialized: true },
   render: (args) => (
@@ -181,6 +189,24 @@ export const LoadingWithRefError: Story = {
       storyId={storyId}
       refId={DEFAULT_REF_ID}
       refs={refsError}
+      status={{}}
+    />
+  ),
+};
+
+export const WithRefEmpty: Story = {
+  args: {
+    previewInitialized: true,
+  },
+  render: (args) => (
+    <Sidebar
+      {...args}
+      menu={menu}
+      extra={[]}
+      index={{}}
+      storyId={storyId}
+      refId={DEFAULT_REF_ID}
+      refs={refsEmpty}
       status={{}}
     />
   ),

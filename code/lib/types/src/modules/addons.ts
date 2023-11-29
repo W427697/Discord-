@@ -156,9 +156,8 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
-export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {
-  storiesOf(kind: StoryKind, module: any): Addon_StoryApi<StoryFnReturnType>;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Addon_ClientStoryApi<StoryFnReturnType = unknown> {}
 
 export type Addon_LoadFn = () => any;
 export type Addon_RequireContext = any; // FIXME
@@ -197,7 +196,7 @@ export interface Addon_BaseAnnotations<
    * Wrapper components or Storybook decorators that wrap a story.
    *
    * Decorators defined in Meta will be applied to every story variation.
-   * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
+   * @see [Decorators](https://storybook.js.org/docs/addons/#1-decorators)
    */
   decorators?: Addon_BaseDecorators<StoryFnReturnType>;
 

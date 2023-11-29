@@ -175,6 +175,8 @@ export interface API_ComposedRef extends API_LoadedRefData {
   versions?: API_Versions;
   loginUrl?: string;
   version?: string;
+  /** DO NOT USE THIS */
+  internal_index?: StoryIndex;
 }
 
 export type API_ComposedRefUpdate = Partial<
@@ -189,6 +191,7 @@ export type API_ComposedRefUpdate = Partial<
     | 'version'
     | 'indexError'
     | 'previewInitialized'
+    | 'internal_index'
   >
 >;
 
