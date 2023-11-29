@@ -1,6 +1,8 @@
-import { getStorybookInfo } from '@storybook/core-common';
+import { getStorybookInfo, serverRequire } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { isAbsolute, join } from 'path';
 import SemVer from 'semver';
+import dedent from 'ts-dedent';
 
 import {
   JsPackageManagerFactory,
@@ -35,7 +37,25 @@ const postinstallAddon = async (addonName: string, options: PostinstallOptions) 
 
 const getVersionSpecifier = (addon: string) => {
   const groups = /^(...*)@(.*)$/.exec(addon);
-  return groups ? [groups[1], groups[2]] : [addon, undefined];
+  if (groups) {
+    return [groups[0], groups[2]] as const;
+  }
+  return [addon, undefined] as const;
+};
+
+const requireMain = (configDir: string) => {
+  const absoluteConfigDir = isAbsolute(configDir) ? configDir : join(process.cwd(), configDir);
+  const mainFile = join(absoluteConfigDir, 'main');
+
+  return serverRequire(mainFile) ?? {};
+};
+
+const checkInstalled = (addonName: string, main: any) => {
+  const existingAddon = main.addons?.find((entry: string | { name: string }) => {
+    const name = typeof entry === 'string' ? entry : entry.name;
+    return name?.endsWith(addonName);
+  });
+  return !!existingAddon;
 };
 
 /**
@@ -60,9 +80,22 @@ export async function add(
   }
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const packageJson = await packageManager.retrievePackageJson();
+  const { mainConfig, configDir } = getStorybookInfo(packageJson);
+
+  if (typeof configDir === 'undefined') {
+    throw new Error(dedent`
+      Unable to find storybook config directory
+    `);
+  }
+
+  if (checkInstalled(addon, requireMain(configDir))) {
+    throw new Error(dedent`
+      Addon ${addon} is already installed; we skipped adding it to your ${mainConfig}.
+    `);
+  }
+
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 
-  const { mainConfig } = getStorybookInfo(packageJson);
   if (!mainConfig) {
     logger.error('Unable to find storybook main.js config');
     return;

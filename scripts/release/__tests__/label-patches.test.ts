@@ -10,7 +10,7 @@ jest.mock('../utils/get-github-info');
 jest.mock('../utils/github-client');
 jest.mock('../utils/git-client', () => jest.requireActual('jest-mock-extended').mockDeep());
 
-const gitClient = jest.mocked(gitClient_);
+const gitClient = jest.mocked(gitClient_, { shallow: false });
 const github = jest.mocked(github_);
 const githubInfo = jest.mocked(githubInfo_);
 
@@ -58,6 +58,7 @@ const pullInfoMock = {
   commit: '930b47f011f750c44a1782267d698ccdd3c04da3',
   title: 'Legal: Fix license',
   labels: ['documentation', 'patch:yes', 'patch:done'],
+  state: 'MERGED',
   links: {
     commit:
       '[`930b47f011f750c44a1782267d698ccdd3c04da3`](https://github.com/storybookjs/storybook/commit/930b47f011f750c44a1782267d698ccdd3c04da3)',

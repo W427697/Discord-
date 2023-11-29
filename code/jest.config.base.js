@@ -13,7 +13,6 @@ const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
 const skipOnWindows = [
   'lib/core-server/src/utils/__tests__/server-statics.test.ts',
   'lib/core-common/src/utils/__tests__/template.test.ts',
-  'addons/storyshots-core/src/frameworks/configure.test.ts',
   'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
   'lib/cli/src/helpers.test.ts',
   'lib/csf-tools/src/enrichCsf.test.ts',
@@ -23,6 +22,7 @@ const modulesToTransform = [
   '@angular',
   '@lit',
   '@mdx-js',
+  '@vitest',
   'ccount',
   'character-entities',
   'decode-named-character-reference',
@@ -60,6 +60,8 @@ module.exports = {
       path.resolve('./__mocks__/fileMock.js'),
     '\\.(css|scss|stylesheet)$': path.resolve('./__mocks__/styleMock.js'),
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
+    '@vitest/utils/(.*)': '@vitest/utils/dist/$1.js',
+    '@vitest/utils': '@vitest/utils/dist/index.js',
   },
   transform: {
     '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
