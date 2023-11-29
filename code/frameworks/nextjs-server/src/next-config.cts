@@ -50,31 +50,31 @@ function addRewrites(
 
 interface WithStorybookOptions {
   /**
-   * The port that the Next.js app will run on.
+   * Port that the Next.js app will run on.
    * @default 3000
    */
   port: string | number;
 
   /**
-   * The port that Storybook will run on.
+   * Internal port that Storybook will run on.
    * @default 34567
    */
   sbPort: string | number;
 
   /**
-   * The URL path to Storybook's manager UI.
+   * URL path to Storybook's "manager" UI.
    * @default 'storybook'
    */
   managerPath: string;
 
   /**
-   * The URL path to Storybook's story preview.
+   * URL path to Storybook's story preview iframe.
    * @default 'storybook-preview'
    */
   previewPath: string;
 
   /**
-   * The directory where Storybook's config files are located.
+   * Directory where Storybook's config files are located.
    * @default '.storybook'
    */
   configDir: string;
