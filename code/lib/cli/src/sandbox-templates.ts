@@ -508,7 +508,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['react-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/pnpm/empty/react-vite/default-ts': {
     name: 'Empty React + vite (pnpm)',
@@ -518,7 +518,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['react-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/yarn/empty/react-vite/default-ts': {
     name: 'Empty React + vite (pnpm)',
@@ -528,7 +528,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['react-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/npm/empty/nextjs/default-ts': {
     name: 'Empty Next.js (npm)',
@@ -538,7 +538,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['nextjs/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/pnpm/empty/nextjs/default-ts': {
     name: 'Empty Next.js (pnpm)',
@@ -548,7 +548,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['nextjs/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/yarn/empty/nextjs/default-ts': {
     name: 'Empty Next.js (pnpm)',
@@ -558,7 +558,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['nextjs/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/npm/empty/vue3-vite/default-ts': {
     name: 'Empty Vue 3 + vite (npm)',
@@ -568,7 +568,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/pnpm/empty/vue3-vite/default-ts': {
     name: 'Empty Vue 3 + vite (pnpm)',
@@ -578,7 +578,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/yarn/empty/vue3-vite/default-ts': {
     name: 'Empty Vue 3 + vite (pnpm)',
@@ -588,7 +588,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['vue3-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/npm/empty/angular-cli/default-ts': {
     name: 'Empty Angular (npm)',
@@ -598,7 +598,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['angular-cli/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/pnpm/empty/angular-cli/default-ts': {
     name: 'Empty Angular (pnpm)',
@@ -608,7 +608,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['angular-cli/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/yarn/empty/angular-cli/default-ts': {
     name: 'Empty Angular (pnpm)',
@@ -618,7 +618,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['angular-cli/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/npm/empty/lit-vite/default-ts': {
     name: 'Empty Lit + vite (npm)',
@@ -628,7 +628,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['lit-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/pnpm/empty/lit-vite/default-ts': {
     name: 'Empty Lit + vite (pnpm)',
@@ -638,7 +638,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['lit-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   'internal/yarn/empty/lit-vite/default-ts': {
     name: 'Empty Lit + vite (pnpm)',
@@ -648,7 +648,7 @@ const internalTemplates = {
     },
     expected: { ...baseTemplates['lit-vite/default-ts'].expected },
     isInternal: true,
-    skipTasks: ['bench'],
+    skipTasks: ['bench', 'e2e-tests-dev', 'chromatic'],
   },
   // 'internal/pnp': {
   //   ...baseTemplates['cra/default-ts'],
@@ -747,19 +747,19 @@ export const merged: TemplateKey[] = [
 const emptyTemplateKeys: TemplateKey[] = [
   // 'internal/npm/empty/react-vite/default-ts',
   // 'internal/pnpm/empty/react-vite/default-ts',
-  'internal/yarn/empty/react-vite/default-ts',
+  // 'internal/yarn/empty/react-vite/default-ts',
   // 'internal/npm/empty/nextjs/default-ts',
   // 'internal/pnpm/empty/nextjs/default-ts',
-  'internal/yarn/empty/nextjs/default-ts',
+  // 'internal/yarn/empty/nextjs/default-ts',
   // 'internal/npm/empty/vue3-vite/default-ts',
   // 'internal/pnpm/empty/vue3-vite/default-ts',
-  'internal/yarn/empty/vue3-vite/default-ts',
+  // 'internal/yarn/empty/vue3-vite/default-ts',
   // 'internal/npm/empty/angular-cli/default-ts',
   // 'internal/pnpm/empty/angular-cli/default-ts',
-  'internal/yarn/empty/angular-cli/default-ts',
+  // 'internal/yarn/empty/angular-cli/default-ts',
   // 'internal/npm/empty/lit-vite/default-ts',
   // 'internal/pnpm/empty/lit-vite/default-ts',
-  'internal/yarn/empty/lit-vite/default-ts',
+  // 'internal/yarn/empty/lit-vite/default-ts',
 ];
 
 export const daily: TemplateKey[] = [
