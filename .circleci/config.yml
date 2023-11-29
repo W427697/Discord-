@@ -481,31 +481,22 @@ jobs:
         type: string
       template:
         type: string
-      parallelism:
-        type: integer
-    parallelism: << parameters.parallelism >>
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
-          name: Move to parent directory
-          command: cd ..
-      - run:
-          name: Create empty project
-          command: mkdir empty-<< parameters.template >> && cd empty-<< parameters.template >>
-      - run:
-          name: Run storybook init
-          command: node ../storybook/code/lib/cli/bin/index.js init --package-manager << parameters.packageManager >>
+          name: Storybook init from empty directory
+          command: |
+            cd ../
+            mkdir empty-<< parameters.template >>
+            cd empty-<< parameters.template >>
+            node ../storybook/code/lib/cli/bin/index.js init --package-manager << parameters.packageManager >>
+            node ../storybook/code/lib/cli/bin/index.js dev --smoke-test
           environment:
             CI: true
             STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
-      - run:
-          name: Run Smoke test
-          command: node ../storybook/code/lib/cli/bin/index.js dev --smoke-test
-          environment:
-            CI: true
 
 workflows:
   docs:
@@ -677,7 +668,6 @@ workflows:
 
       # TODO: Uncomment when ready to test
       - test-empty-init:
-          parallelism: 5
           requires:
             - build
           matrix:
