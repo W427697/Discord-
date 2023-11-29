@@ -10,10 +10,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
 ): Promise<Configuration> => {
   if (!hasDocsOrControls(options)) return config;
 
-  const typescriptOptions = await options.presets.apply<StorybookConfig['typescript']>(
-    'typescript',
-    {} as any
-  );
+  const typescriptOptions = await options.presets.apply('typescript', {} as any);
 
   const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions || {};
 
@@ -22,6 +19,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
   }
 
   if (reactDocgen !== 'react-docgen-typescript') {
+    const babelOptions = await options.presets.apply('babel', {});
     return {
       ...config,
       module: {
@@ -34,7 +32,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
               require.resolve,
               '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader'
             ),
-            exclude: /node_modules\/.*/,
+            options: {
+              babelOptions,
+            },
+            exclude: /node_modules/,
           },
         ],
       },
@@ -42,6 +43,8 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
   }
 
   const { ReactDocgenTypeScriptPlugin } = await import('@storybook/react-docgen-typescript-plugin');
+
+  const babelOptions = await options.presets.apply('babel', {});
 
   return {
     ...config,
@@ -55,7 +58,10 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
             require.resolve,
             '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader'
           ),
-          exclude: /node_modules\/.*/,
+          options: {
+            babelOptions,
+          },
+          exclude: /node_modules/,
         },
       ],
     },
