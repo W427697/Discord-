@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { SvelteComponentTyped } from 'svelte';
 import { RESET_STORY_ARGS } from '@storybook/core-events';
 // ! DO NOT change this PreviewRender import to a relative path, it will break it.
 // ! A relative import will be compiled at build time, and Svelte will be unable to
@@ -14,7 +13,10 @@ import { createRoot } from 'svelte';
 
 import type { SvelteRenderer } from './types';
 
-const componentsByDomElement = new Map<SvelteRenderer['canvasElement'], SvelteComponentTyped>();
+const componentsByDomElement = new Map<
+  SvelteRenderer['canvasElement'],
+  ReturnType<typeof createRoot>
+>();
 
 function teardown(canvasElement: SvelteRenderer['canvasElement']) {
   if (!componentsByDomElement.has(canvasElement)) {

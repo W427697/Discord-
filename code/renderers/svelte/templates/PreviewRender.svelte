@@ -6,15 +6,12 @@
   export let kind;
   export let storyFn;
   export let showError;
-  export let storyContext;
 
   let {
     /** @type {SvelteComponent} */
     Component,
     /** @type {any} */
     props = {},
-    /** @type {{[string]: () => {}}} Attach svelte event handlers */
-    on,
   } = storyFn();
 
 	let firstTime = true;
@@ -28,7 +25,6 @@
 			return {
 				Component,
 				props,
-				on,
 			}
 		}
 		return storyFn();
@@ -36,12 +32,6 @@
 
   // reactive, re-render on storyFn change
   $: ({ Component, props = {}, on } = getStoryFnValue(storyFn));
-
-  const eventsFromArgTypes = Object.fromEntries(
-    Object.entries(storyContext.argTypes)
-      .filter(([k, v]) => v.action && props[k] != null)
-      .map(([k, v]) => [v.action, props[k]])
-  );
 
   if (!Component) {
     showError({
@@ -55,4 +45,4 @@
   }
 </script>
 
-<SlotDecorator {Component} {props} on={{ ...eventsFromArgTypes, ...on }} />
+<SlotDecorator {Component} {props} />
