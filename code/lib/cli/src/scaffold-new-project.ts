@@ -7,7 +7,6 @@ import { logger } from '@storybook/node-logger';
 import { GenerateNewProjectOnInitError } from '@storybook/core-events/server-errors';
 
 import type { PackageManagerName } from './js-package-manager';
-import type { CommandOptions } from './generators/types';
 
 type CoercedPackageManagerName = 'npm' | 'yarn' | 'pnpm';
 
@@ -107,10 +106,7 @@ const buildProjectDisplayNameForPrint = ({ displayName }: SupportedProject) => {
  *
  * @param packageManager The package manager to use.
  */
-export const scaffoldNewProject = async (
-  packageManager: PackageManagerName,
-  { scaffoldProject }: CommandOptions
-) => {
+export const scaffoldNewProject = async (packageManager: PackageManagerName) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
 
   logger.plain(
@@ -134,7 +130,11 @@ export const scaffoldNewProject = async (
   );
   logger.line(1);
 
-  let projectStrategy = SUPPORTED_PROJECTS[scaffoldProject];
+  let projectStrategy;
+
+  if (process.env.STORYBOOK_INIT_EMPTY_TYPE) {
+    projectStrategy = SUPPORTED_PROJECTS[process.env.STORYBOOK_INIT_EMPTY_TYPE];
+  }
 
   if (!projectStrategy) {
     const { project } = await prompts(

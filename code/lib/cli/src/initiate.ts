@@ -275,7 +275,7 @@ async function doInitiate(
   // Check if the current directory is empty.
   if (options.force !== true && isEmptyDir) {
     // Prompt the user to create a new project from our list.
-    await scaffoldNewProject(packageManager.type, options);
+    await scaffoldNewProject(packageManager.type);
   }
 
   let projectType: ProjectType;
