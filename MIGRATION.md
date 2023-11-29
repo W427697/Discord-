@@ -1,5 +1,23 @@
 <h1>Migration</h1>
 
+- [From version 7.x to 8.0.0](#from-version-7x-to-800)
+  - [Implicit actions can not be used during rendering (for example in the play function)](#implicit-actions-can-not-be-used-during-rendering-for-example-in-the-play-function)
+  - [Core changes](#core-changes)
+    - [Autotitle breaking fixes](#autotitle-breaking-fixes)
+    - [React v18 in the manager UI (including addons)](#react-v18-in-the-manager-ui-including-addons)
+    - [Storyshots has been removed](#storyshots-has-been-removed)
+    - [UI layout state has changed shape](#ui-layout-state-has-changed-shape)
+    - [New UI and props for Button and IconButton components](#new-ui-and-props-for-button-and-iconbutton-components)
+    - [Icons is deprecated](#icons-is-deprecated)
+- [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
+    - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
+    - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
+    - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
+    - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
+    - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
+- [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
+    - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
+    - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
 - [From version 7.0.0 to 7.2.0](#from-version-700-to-720)
     - [Addon API is more type-strict](#addon-api-is-more-type-strict)
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
@@ -32,6 +50,7 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
+    - [Dark mode detection](#dark-mode-detection)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -302,6 +321,281 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 7.x to 8.0.0
+
+### Implicit actions can not be used during rendering (for example in the play function)
+
+In Storybook 7, we inferred if the component accepts any action props,
+by checking if it starts with `onX` (for example `onClick`), or as configured by `actions.argTypesRegex`.
+If that was the case, we would fill in jest spies for those args automatically.
+
+```ts
+export default {
+  component: Button,
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    // args.onClick is a jest spy in 7.0
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+In Storybook 8 this feature is removed, and spies have to added explicitly:
+
+```ts
+import { fn } from '@storybook/test';
+
+export default {
+  component: Button,
+  args: {
+    onClick: fn(),
+  },
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+For more context, see this RFC:
+https://github.com/storybookjs/storybook/discussions/23649
+
+To summarize:
+
+- This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
+- This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
+- This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
+
+### Core changes
+
+#### Autotitle breaking fixes
+
+In Storybook 7, the file name `path/to/foo.bar.stories.js` would result in the [autotitle](https://storybook.js.org/docs/react/configure/overview#configure-story-loading) `path/to/foo`. In 8.0, this has been changed to generate `path/to/foo.bar`. We consider this a bugfix but it is also a breaking change if you depended on the old behavior. To get the old titles, you can manually specify the desired title in the default export of your story file. For example:
+
+```js
+export default {
+  title: 'path/to/foo',
+}
+```
+
+Alternatively, if you need to achieve a different behavior for a large number of files, you can provide a [custom indexer](https://storybook.js.org/docs/7.0/vue/configure/sidebar-and-urls#processing-custom-titles) to generate the titles dynamically.
+
+#### React v18 in the manager UI (including addons)
+
+Storybook 7 used React 16 in the manager. In Storybook 8 this is upgraded to react v18.
+Addons that inject UI into panels, tools, etc. are possibly affected by this.
+
+Addon authors are advised to upgrade to react v18.
+
+#### Storyshots has been removed
+
+Storyshots was an addon for storybook which allowed users to turn their stories into automated snapshot-tests.
+
+Every story would automatically be taken into account and created a snapshot-file for.
+
+Snapshot-testing has since fallen out of favor and is no longer recommended.
+
+In addition to it's limited use, and high chance of false-positives, storyshots ran code developed to run in the browser in NodeJS via JSDOM.
+JSDOM has limitations and is not a perfect emulation of the browser environment; therefore storyshots was always a pain to setup and maintain.
+
+The storybook team has build the test-runner as a direct replacement, which utilizes playwright to connect to an actual browser where storybook runs the code.
+
+In addition CSF has expanded to allow for play-function to be defined on stories, which allows for more complex testing scenarios, fully integrated within storybook itself (and supported by the test-runner, and not storyshots).
+
+Finally `storyStoreV7: true` (the default and only options in storybook 8), was not supported by storyshots.
+
+By removing storyshots, the storybook team was unblocked from moving (eventually) to an ESM-only storybook, which is a big step towards a more modern storybook.
+
+#### UI layout state has changed shape
+
+In Storybook 7 it was possible to use `addons.setConfig({...});` to configure Storybook UI features and behavior as documented [here (v7)](https://storybook.js.org/docs/7.3/react/configure/features-and-behavior), [(latest)](https://storybook.js.org/docs/react/configure/features-and-behavior). The state and API for the UI layout has changed:
+
+- `showNav: boolean` is now `navSize: number`, where the number represents the size of the sidebar in pixels.
+- `showPanel: boolean` is now split into `bottomPanelHeight: number` and `rightPanelWidth: number`, where the numbers represents the size of the panel in pixels.
+- `isFullscreen: boolean` is no longer supported, but can be achieved by setting a combination of the above.
+
+#### New UI and props for Button and IconButton components
+
+We used to have a lot of different buttons in `@storybook/components` that were not used anywhere. In Storybook 8.0 we are deprecating `Form.Button` and added a new `Button` component that can be used in all places. The `IconButton` component has also been updated to use the new `Button` component under the hood. Going forward addon creators and Storybook maintainers should use the new `Button` component instead of `Form.Button`.
+
+For the `Button` component, the following props are now deprecated:
+
+- `isLink` - Please use the `asChild` prop instead like this: `<Button asChild><a href="">Link</a></Button>`
+- `primary` - Please use the `variant` prop instead.
+- `secondary` - Please use the `variant` prop instead.
+- `tertiary` - Please use the `variant` prop instead.
+- `gray` - Please use the `variant` prop instead.
+- `inForm` - Please use the `variant` prop instead.
+- `small` - Please use the `size` prop instead.
+- `outline` - Please use the `variant` prop instead.
+- `containsIcon`. Please add your icon as a child directly. No need for this prop anymore.
+
+The `IconButton` doesn't have any deprecated props but it now uses the new `Button` component under the hood so all props for `IconButton` will be the same as `Button`.
+
+#### Icons is deprecated
+
+In Storybook 8.0 we are introducing a new icon library available with `@storybook/icons`. We are deprecating the `Icons` component in `@storybook/components` and recommend that addon creators and Storybook maintainers use the new `@storybook/icons` component instead.
+
+## From version 7.5.0 to 7.6.0
+
+#### CommonJS with Vite is deprecated
+
+Using CommonJS in the `main` configuration with `main.cjs` or `main.cts` is deprecated, and will be removed in Storybook 8.0. This is a necessary change because [Vite will remove support for CommonJS in an upcoming release](https://github.com/vitejs/vite/discussions/13928).
+
+You can address this by converting your `main` configuration file to ESM syntax and renaming it to `main.mjs` or `main.mts` if your project does not have `"type": "module"` in its `package.json`. To convert the config file to ESM you will need to replace any CommonJS syntax like `require()`, `module.exports`, or `__dirname`. If you haven't already, you may also consider adding `"type": "module"` to your package.json and converting your project to ESM.
+
+#### Using implicit actions during rendering is deprecated
+
+In Storybook 7, we inferred if the component accepts any action props,
+by checking if it starts with `onX` (for example `onClick`), or as configured by `actions.argTypesRegex`.
+If that was the case, we would fill in jest spies for those args automatically.
+
+```ts
+export default {
+  component: Button,
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    // args.onClick is a jest spy in 7.0
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+In Storybook 8 this feature will be removed, and spies have to added explicitly:
+
+```ts
+import { fn } from '@storybook/test';
+
+export default {
+  component: Button,
+  args: {
+    onClick: fn(),
+  },
+};
+
+export const ButtonClick = {
+  play: async ({ args, canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+  },
+};
+```
+
+For more context, see this RFC:
+https://github.com/storybookjs/storybook/discussions/23649
+
+To summarize:
+
+- This makes CSF files less magical and more portable, so that CSF files will render the same in a test environment where docgen is not available.
+- This allows users and (test) integrators to run or build storybook without docgen, boosting the user performance and allows tools to give quicker feedback.
+- This will make sure that we can one day lazy load docgen, without changing how stories are rendered.
+
+#### typescript.skipBabel deprecated
+
+We will remove the `typescript.skipBabel` option in Storybook 8.0.0. Please use `typescirpt.skipCompiler` instead.
+
+#### Primary doc block accepts of prop
+
+The `Primary` doc block now also accepts an `of` prop as described in the [Doc Blocks](#doc-blocks) section. It still accepts being passed `name` or no props at all.
+
+#### Addons no longer need a peer dependency on React
+
+Historically the majority of addons have had a peer dependency on React and a handful of Storybook core packages. In most cases this has not been necessary since 7.0 because the Storybook manager makes those available on the global scope. It has created an unnecessary burden for users in non-React projects.
+
+We've migrated all the core addons (except for `addon-docs`) to not depend on these packages by:
+
+1. Moving `react`, `react-dom` and the globalized Storybook packages from `peerDependencies` to `devDependencies`
+2. Added the list of globalized packages to the `externals` property in the `tsup` configuration, to ensure they are not part of the bundle.
+
+As of Storybook 7.6.0 the list of globalized packages can be imported like this:
+
+```ts
+// tsup.config.ts
+
+import { globalPackages as globalManagerPackages } from '@storybook/manager/globals';
+import { globalPackages as globalPreviewPackages } from '@storybook/preview/globals';
+
+const allGlobalPackages = [...globalManagerPackages, ...globalPreviewPackages];
+```
+
+We recommend checking out [the updates we've made to the addon-kit](https://github.com/storybookjs/addon-kit/pull/60/files#diff-8fed899bdbc24789a7bb4973574e624ed6207c6ce572338bc3c3e117672b2a20), that can serve as a base for the changes you can do in your own addon. These changes are not necessary for your addon to keep working, but they will remove the need for your users to unnecessary install `react` and `react-dom` to their projects, and they'll significantly reduce the install size of your addon.
+These changes should not be breaking for your users, unless you support Storybook pre-v7.
+
+## From version 7.4.0 to 7.5.0
+
+#### `storyStoreV6` and `storiesOf` is deprecated
+
+`storyStoreV6` and `storiesOf` is deprecated and will be completely removed in Storybook 8.0.0.
+
+If you're using `storiesOf` we recommend you migrate your stories to CSF3 for a better story writing experience.
+In many cases you can get started with the migration by using two migration scripts:
+
+```bash
+
+# 1. convert storiesOf to CSF
+npx storybook@latest migrate storiesof-to-csf --glob="**/*.stories.tsx" --parser=tsx
+
+# 2. Convert CSF 2 to CSF 3
+npx storybook@latest migrate csf-2-to-3 --glob="**/*.stories.tsx" --parser=tsx
+```
+
+They won't do a perfect migration so we recommend that you manually go through each file afterwards.
+
+Alternatively you can build your own `storiesOf` implementation by leveraging the new (experimental) indexer API ([documentation](https://storybook.js.org/docs/react/api/main-config-indexers), [migration](#storyindexers-is-replaced-with-experimental_indexers)). A proof of concept of such an implementation can be seen in [this StackBlitz demo](https://stackblitz.com/edit/github-h2rgfk?file=README.md). See the demo's `README.md` for a deeper explanation of the implementation.
+
+#### `storyIndexers` is replaced with `experimental_indexers`
+
+Defining custom indexers for stories has become a more official - yet still experimental - API which is now configured at `experimental_indexers` instead of `storyIndexers` in `main.ts`. `storyIndexers` has been deprecated and will be fully removed in version 8.0.0.
+
+The new experimental indexers are documented [here](https://storybook.js.org/docs/react/api/main-config-indexers). The most notable change from `storyIndexers` is that the indexer must now return a list of [`IndexInput`](https://github.com/storybookjs/storybook/blob/next/code/lib/types/src/modules/indexer.ts#L104-L148) instead of `CsfFile`. It's possible to construct an `IndexInput` from a `CsfFile` using the `CsfFile.indexInputs` getter.
+
+That means you can convert an existing story indexer like this:
+
+```diff
+// .storybook/main.ts
+
+import { readFileSync } from 'fs';
+import { loadCsf } from '@storybook/csf-tools';
+
+export default {
+-  storyIndexers = (indexers) => {
+-    const indexer = async (fileName, opts) => {
++  experimental_indexers = (indexers) => {
++    const createIndex = async (fileName, opts) => {
+      const code = readFileSync(fileName, { encoding: 'utf-8' });
+      const makeTitle = (userTitle) => {
+        // Do something with the auto title retrieved by Storybook
+        return userTitle;
+      };
+
+      // Parse the CSF file with makeTitle as a custom context
+-      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse();
++      return loadCsf(code, { ...compilationOptions, makeTitle, fileName }).parse().indexInputs;
+    };
+
+    return [
+      {
+        test: /(stories|story)\.[tj]sx?$/,
+-        indexer,
++        createIndex,
+      },
+      ...(indexers || []),
+    ];
+  },
+};
+```
+
+As an addon author you can support previous versions of Storybook by setting both `storyIndexers` and `indexers_experimental`, without triggering the deprecation warning.
+
 ## From version 7.0.0 to 7.2.0
 
 #### Addon API is more type-strict
@@ -311,6 +605,7 @@ When registering an addon using `@storybook/manager-api`, the addon API is now m
 The `type` property is now a required field, and the `id` property should not be set anymore.
 
 Here's a correct example:
+
 ```tsx
 import { addons, types } from '@storybook/manager-api';
 
@@ -318,7 +613,7 @@ addons.register('my-addon', () => {
   addons.add('my-addon/panel', {
     type: types.PANEL,
     title: 'My Addon',
-    render: ({ active }) => active ? <div>Hello World</div> : null,
+    render: ({ active }) => (active ? <div>Hello World</div> : null),
   });
 });
 ```
@@ -824,7 +1119,7 @@ import ReadMe from './README.md?raw';
 #### Stories field in .storybook/main.js is mandatory
 
 In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
-Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/#configure-your-storybook-project) section to configure your Storybook project.
 
 #### Stricter global types
 
@@ -869,16 +1164,16 @@ Given the following `main.js`:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*']
-}
+  stories: ['../**/*.stories.*'],
+};
 ```
 
 If you want to restore the previous behavior to include `node_modules`, you can update it to:
 
 ```js
 export default {
-  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*']
-}
+  stories: ['../**/*.stories.*', '../**/node_modules/**/*.stories.*'],
+};
 ```
 
 The first glob would have node_modules automatically excluded by Storybook, and the second glob would include all stories that are under a nested `node_modules` directory.
@@ -924,6 +1219,14 @@ export default {
   },
 };
 ```
+
+#### Dark mode detection
+
+Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode preference if a theme is not set.
+
+Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
+
+To learn more about theming, read our [documentation](https://storybook.js.org/docs/react/configure/theming).
 
 ### 7.0 core addons changes
 
@@ -1044,7 +1347,11 @@ Starting in 7.0, we drop support for Angular < 14
 
 #### Angular: Drop support for calling Storybook directly
 
-In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+_Has automigration_
+
+In Storybook 6.4 we deprecated calling Storybook directly (e.g. `npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead, you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook.
+
+You can run `npx storybook@next automigrate` to automatically fix your configuration, or visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular/README.md#how-do-i-migrate-to-an-angular-storybook-builder for instructions on how to set up Storybook for Angular manually.
 
 #### Angular: Application providers and ModuleWithProviders
 

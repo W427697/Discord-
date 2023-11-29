@@ -67,6 +67,8 @@ import * as whatsnew from './modules/whatsnew';
 import * as globals from './modules/globals';
 import type { ModuleFn } from './lib/types';
 
+import { types } from './lib/addons';
+
 export * from './lib/shortcut';
 
 const { ActiveTabs } = layout;
@@ -133,7 +135,7 @@ export interface Combo {
 
 export type ManagerProviderProps = RouterData &
   API_ProviderData<API> & {
-    children: ReactNode | ((props: Combo) => ReactNode);
+    children: ReactNode | FC<Combo>;
   };
 
 // This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
@@ -167,7 +169,11 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
 
     const store = new Store({
       getState: () => this.state,
-      setState: (stateChange: Partial<State>, callback) => this.setState(stateChange, callback)!,
+      setState: (stateChange: Partial<State>, callback) => {
+        this.setState(stateChange, () => callback(this.state));
+
+        return this.state;
+      },
     });
 
     const routeData = { location, path, viewMode, singleStory, storyId, refId };
@@ -288,7 +294,7 @@ function ManagerConsumer<P = Combo>({
   filter = defaultFilter,
   children,
 }: ManagerConsumerProps<P>): ReactElement {
-  const c = useContext(ManagerContext);
+  const managerContext = useContext(ManagerContext);
   const renderer = useRef(children);
   const filterer = useRef(filter);
 
@@ -296,17 +302,17 @@ function ManagerConsumer<P = Combo>({
     return <Fragment>{renderer.current}</Fragment>;
   }
 
-  const data = filterer.current(c);
+  const comboData = filterer.current(managerContext);
 
-  const l = useMemo(() => {
-    return [...Object.entries(data!).reduce((acc, keyval: any) => acc.concat(keyval), [])];
-  }, [c.state]);
+  const comboDataArray = useMemo(() => {
+    return [...Object.entries(comboData).reduce((acc, keyval) => acc.concat(keyval), [])];
+  }, [managerContext.state]);
 
   return useMemo(() => {
     const Child: any = renderer.current as FC<P>;
 
-    return <Child {...data} />;
-  }, l);
+    return <Child {...comboData} />;
+  }, comboDataArray);
 }
 
 export function useStorybookState(): State {
@@ -386,30 +392,35 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S) {
 }
 
 // cache for taking care of HMR
-const addonStateCache: {
-  [key: string]: any;
-} = {};
+globalThis.STORYBOOK_ADDON_STATE = {};
+const { STORYBOOK_ADDON_STATE } = globalThis;
 
 // shared state
 export function useSharedState<S>(stateId: string, defaultState?: S) {
   const api = useStorybookApi();
-  const existingState = api.getAddonState<S>(stateId) || addonStateCache[stateId];
+  const existingState = api.getAddonState<S>(stateId) || STORYBOOK_ADDON_STATE[stateId];
   const state = orDefault<S>(
     existingState,
-    addonStateCache[stateId] ? addonStateCache[stateId] : defaultState
+    STORYBOOK_ADDON_STATE[stateId] ? STORYBOOK_ADDON_STATE[stateId] : defaultState
   );
+  let quicksync = false;
+
+  if (state === defaultState && defaultState !== undefined) {
+    STORYBOOK_ADDON_STATE[stateId] = defaultState;
+    quicksync = true;
+  }
 
   useEffect(() => {
-    if (api.getAddonState(stateId) === undefined && api.getAddonState(stateId) !== state) {
-      api.setAddonState<S>(stateId, state).then((s) => {
-        addonStateCache[stateId] = s;
-      });
+    if (quicksync) {
+      api.setAddonState<S>(stateId, defaultState);
     }
-  }, [api]);
+  }, [quicksync]);
 
-  const setState = (s: S | API_StateMerger<S>, options?: Options) => {
-    const result = api.setAddonState<S>(stateId, s, options);
-    addonStateCache[stateId] = result;
+  const setState = async (s: S | API_StateMerger<S>, options?: Options) => {
+    await api.setAddonState<S>(stateId, s, options);
+    const result = api.getAddonState(stateId);
+
+    STORYBOOK_ADDON_STATE[stateId] = result;
     return result;
   };
   const allListeners = useMemo(() => {
@@ -421,17 +432,17 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
       [SET_STORIES]: async () => {
         const currentState = api.getAddonState(stateId);
         if (currentState) {
-          addonStateCache[stateId] = currentState;
+          STORYBOOK_ADDON_STATE[stateId] = currentState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, currentState);
-        } else if (addonStateCache[stateId]) {
+        } else if (STORYBOOK_ADDON_STATE[stateId]) {
           // this happens when HMR
-          await setState(addonStateCache[stateId]);
-          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, addonStateCache[stateId]);
+          await setState(STORYBOOK_ADDON_STATE[stateId]);
+          api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, STORYBOOK_ADDON_STATE[stateId]);
         } else if (defaultState !== undefined) {
           // if not HMR, yet the defaults are from the manager
           await setState(defaultState);
-          // initialize addonStateCache after first load, so its available for subsequent HMR
-          addonStateCache[stateId] = defaultState;
+          // initialize STORYBOOK_ADDON_STATE after first load, so its available for subsequent HMR
+          STORYBOOK_ADDON_STATE[stateId] = defaultState;
           api.emit(`${SHARED_STATE_SET}-manager-${stateId}`, defaultState);
         }
       },
@@ -454,7 +465,8 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
   return [
     state,
     async (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => {
-      const result = await setState(newStateOrMerger, options);
+      await setState(newStateOrMerger, options);
+      const result = api.getAddonState(stateId);
       emit(`${SHARED_STATE_CHANGED}-manager-${stateId}`, result);
     },
   ] as [S, (newStateOrMerger: S | API_StateMerger<S>, options?: Options) => void];
@@ -503,5 +515,14 @@ export function useArgTypes(): ArgTypes {
 
 export { addons } from './lib/addons';
 
+/**
+ * We need to rename this so it's not compiled to a straight re-export
+ * Our globalization plugin can't handle an import and export of the same name in different lines
+ * @deprecated
+ */
+const typesX = types;
+
+export { typesX as types };
+
 /* deprecated */
-export { mockChannel, types, type Addon, type AddonStore } from './lib/addons';
+export { mockChannel, type Addon, type AddonStore } from './lib/addons';

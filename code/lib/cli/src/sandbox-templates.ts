@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/types';
+import type { StorybookConfigRaw } from '@storybook/types';
 
 export type SkippableTask =
   | 'smoke-test'
@@ -66,7 +66,8 @@ export type Template = {
    */
   modifications?: {
     skipTemplateStories?: boolean;
-    mainConfig?: Partial<StorybookConfig>;
+    mainConfig?: Partial<StorybookConfigRaw>;
+    testBuild?: boolean;
     disableDocs?: boolean;
   };
   /**
@@ -119,7 +120,8 @@ const baseTemplates = {
   },
   'nextjs/default-js': {
     name: 'Next.js Latest (Webpack | JavaScript)',
-    script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --javascript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -129,7 +131,19 @@ const baseTemplates = {
   },
   'nextjs/default-ts': {
     name: 'Next.js Latest (Webpack | TypeScript)',
-    script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
+    script:
+      'yarn create next-app {{beforeDir}} --typescript --eslint --tailwind --app --import-alias="@/*" --src-dir',
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'nextjs/prerelease': {
+    name: 'Next.js Prerelease (Webpack | TypeScript)',
+    script:
+      'npx create-next-app@canary {{beforeDir}} --typescript --eslint --tailwind --app --import-alias="@/*" --src-dir',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -139,7 +153,7 @@ const baseTemplates = {
   },
   'react-vite/default-js': {
     name: 'React Latest (Vite | JavaScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template react',
+    script: 'npm create vite --yes {{beforeDir}} -- --template react',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -149,7 +163,7 @@ const baseTemplates = {
   },
   'react-vite/default-ts': {
     name: 'React Latest (Vite | TypeScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template react-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template react-ts',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -204,7 +218,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-js': {
     name: 'Vue v3 (Vite | JavaScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template vue',
+    script: 'npm create vite --yes {{beforeDir}} -- --template vue',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -214,7 +228,7 @@ const baseTemplates = {
   },
   'vue3-vite/default-ts': {
     name: 'Vue v3 (Vite | TypeScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template vue-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template vue-ts',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -246,7 +260,7 @@ const baseTemplates = {
   'html-vite/default-js': {
     name: 'HTML Latest (Vite | JavaScript)',
     script:
-      'npm create vite@latest --yes {{beforeDir}} -- --template vanilla && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template vanilla && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -257,7 +271,7 @@ const baseTemplates = {
   'html-vite/default-ts': {
     name: 'HTML Latest (Vite | TypeScript)',
     script:
-      'npm create vite@latest --yes {{beforeDir}} -- --template vanilla-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template vanilla-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -267,7 +281,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-js': {
     name: 'Svelte Latest (Vite | JavaScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template svelte',
+    script: 'npm create vite --yes {{beforeDir}} -- --template svelte',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -277,7 +291,7 @@ const baseTemplates = {
   },
   'svelte-vite/default-ts': {
     name: 'Svelte Latest (Vite | TypeScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template svelte-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template svelte-ts',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -289,7 +303,7 @@ const baseTemplates = {
   'angular-cli/prerelease': {
     name: 'Angular CLI Prerelease (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@next ng new angular-v16 --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -300,7 +314,7 @@ const baseTemplates = {
   'angular-cli/default-ts': {
     name: 'Angular CLI Latest (Webpack | TypeScript)',
     script:
-      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli ng new angular-latest --directory {{beforeDir}} --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn --ssr',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -322,7 +336,7 @@ const baseTemplates = {
   'svelte-kit/skeleton-js': {
     name: 'SvelteKit Latest (Vite | JavaScript)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory={{beforeDir}} --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -333,7 +347,7 @@ const baseTemplates = {
   'svelte-kit/skeleton-ts': {
     name: 'SvelteKit Latest (Vite | TypeScript)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory={{beforeDir}} --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest --no-svelte5',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -344,7 +358,7 @@ const baseTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Latest (Vite | JavaScript)',
     script:
-      'npm create vite@latest --yes {{beforeDir}} -- --template lit && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template lit && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -356,7 +370,7 @@ const baseTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Latest (Vite | TypeScript)',
     script:
-      'npm create vite@latest --yes {{beforeDir}} -- --template lit-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
+      'npm create vite --yes {{beforeDir}} -- --template lit-ts && cd {{beforeDir}} && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -413,7 +427,7 @@ const baseTemplates = {
   },
   'preact-vite/default-js': {
     name: 'Preact Latest (Vite | JavaScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template preact',
+    script: 'npm create vite --yes {{beforeDir}} -- --template preact',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -423,7 +437,7 @@ const baseTemplates = {
   },
   'preact-vite/default-ts': {
     name: 'Preact Latest (Vite | TypeScript)',
-    script: 'npm create vite@latest --yes {{beforeDir}} -- --template preact-ts',
+    script: 'npm create vite --yes {{beforeDir}} -- --template preact-ts',
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -452,34 +466,6 @@ const baseTemplates = {
  * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
-  'internal/ssv6-vite': {
-    ...baseTemplates['react-vite/default-ts'],
-    name: 'StoryStore v6 (react-vite/default-ts)',
-    isInternal: true,
-    modifications: {
-      mainConfig: {
-        features: {
-          storyStoreV7: false,
-          storyStoreV7MdxErrors: false,
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
-  'internal/ssv6-webpack': {
-    ...baseTemplates['cra/default-ts'],
-    name: 'StoryStore v6 (cra/default-ts)',
-    isInternal: true,
-    modifications: {
-      mainConfig: {
-        features: {
-          storyStoreV7: false,
-          storyStoreV7MdxErrors: false,
-        },
-      },
-    },
-    skipTasks: ['bench'],
-  },
   'internal/swc-webpack': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'SWC (react-webpack/18-ts)',
@@ -548,7 +534,27 @@ const benchTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests', 'chromatic'],
   },
-} satisfies Record<`bench/${string}`, Template & { isInternal: true }>;
+  'bench/react-vite-default-ts-test-build': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'Bench (react-vite/default-ts, test-build)',
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      testBuild: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
+  },
+  'bench/react-webpack-18-ts-test-build': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'Bench (react-webpack/18-ts, test-build)',
+    isInternal: true,
+    modifications: {
+      skipTemplateStories: true,
+      testBuild: true,
+    },
+    skipTasks: ['e2e-tests-dev', 'test-runner', 'test-runner-dev', 'e2e-tests'],
+  },
+} satisfies Record<string, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {
   ...baseTemplates,
@@ -569,6 +575,8 @@ export const normal: TemplateKey[] = [
   'bench/react-vite-default-ts',
   'bench/react-webpack-18-ts',
   'bench/react-vite-default-ts-nodocs',
+  'bench/react-vite-default-ts-test-build',
+  'bench/react-webpack-18-ts-test-build',
 ];
 export const merged: TemplateKey[] = [
   ...normal,
@@ -579,11 +587,10 @@ export const merged: TemplateKey[] = [
   'preact-vite/default-ts',
   'html-webpack/default',
   'html-vite/default-ts',
-  'internal/ssv6-vite',
-  'internal/ssv6-webpack',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
+  'angular-cli/prerelease',
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',
@@ -594,6 +601,7 @@ export const daily: TemplateKey[] = [
   'svelte-vite/default-js',
   'nextjs/12-js',
   'nextjs/default-js',
+  'nextjs/prerelease',
   'qwik-vite/default-ts',
   'preact-webpack5/default-js',
   'preact-vite/default-js',
