@@ -196,13 +196,22 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   logger.line(1);
 };
 
-const IGNORED_FILES = ['.git', '.gitignore', '.DS_Store', '.yarn', '.yarnrc.yml'];
+const BASE_IGNORED_FILES = ['.git', '.gitignore', '.DS_Store'];
 
-export const currentDirectoryIsEmpty = () => {
+const IGNORED_FILES_BY_PACKAGE_MANAGER: Record<CoercedPackageManagerName, string[]> = {
+  npm: [...BASE_IGNORED_FILES],
+  yarn: [...BASE_IGNORED_FILES, 'yarn.lock', '.yarnrc.yml', '.yarn'],
+  pnpm: [...BASE_IGNORED_FILES, 'pnpm-lock.yaml', '.pnpm', 'package.json'],
+};
+
+export const currentDirectoryIsEmpty = (packageManager: PackageManagerName) => {
+  const packageManagerName = packageManagerToCoercedName(packageManager);
   const cwdFolderEntries = readdirSync(process.cwd());
+
+  const filesToIgnore = IGNORED_FILES_BY_PACKAGE_MANAGER[packageManagerName];
 
   return (
     cwdFolderEntries.length === 0 ||
-    cwdFolderEntries.every((entry) => IGNORED_FILES.includes(entry))
+    cwdFolderEntries.every((entry) => filesToIgnore.includes(entry))
   );
 };
