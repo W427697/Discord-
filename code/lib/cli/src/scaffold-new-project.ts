@@ -32,9 +32,9 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
       language: 'TS',
     },
     createScript: {
-      npm: 'npm create vite@latest . -- --template react-ts',
-      yarn: 'yarn create vite@latest . --template react-ts',
-      pnpm: 'pnpm create vite@latest . --template react-ts',
+      npm: 'npm create vite@latest --yes . -- --template react-ts',
+      yarn: 'yarn create vite@latest --yes . --template react-ts',
+      pnpm: 'pnpm create vite@latest --yes . --template react-ts',
     },
   },
   'nextjs-ts': {
@@ -55,9 +55,9 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
       language: 'TS',
     },
     createScript: {
-      npm: 'npm create vite@latest . -- --template vue-ts',
-      yarn: 'yarn create vite@latest . --template vue-ts',
-      pnpm: 'pnpm create vite@latest . --template vue-ts',
+      npm: 'npm create vite@latest --yes . -- --template vue-ts',
+      yarn: 'yarn create vite@latest --yes . --template vue-ts',
+      pnpm: 'pnpm create vite@latest --yes . --template vue-ts',
     },
   },
   'angular-cli': {
@@ -78,9 +78,9 @@ const SUPPORTED_PROJECTS: Record<string, SupportedProject> = {
       language: 'TS',
     },
     createScript: {
-      npm: 'npm create vite@latest . -- --template lit-ts',
-      yarn: 'yarn create vite . --template lit-ts && touch yarn.lock && yarn set version berry && yarn config set nodeLinker pnp',
-      pnpm: 'pnpm create vite@latest . --template lit-ts',
+      npm: 'npm create vite@latest --yes . -- --template lit-ts',
+      yarn: 'yarn create vite@latest --yes . --template lit-ts && touch yarn.lock && yarn set version berry && yarn config set nodeLinker pnp',
+      pnpm: 'pnpm create vite@latest --yes . --template lit-ts',
     },
   },
 };
