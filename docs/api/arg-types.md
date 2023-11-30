@@ -12,7 +12,7 @@ The most concrete realization of argTypes is the [`ArgTypes` doc block](./doc-bl
 
 ## Automatic argType inference
 
-If you are using the Storybook [docs](../writing-docs/introduction.md) addon (installed by default as part of [essentials](../essentials/introduction.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/introduction#default-export) of the CSF file.
+If you are using the Storybook [docs](../writing-docs/index.md) addon (installed by default as part of [essentials](../essentials/index.md)), then Storybook will infer a set of argTypes for each story based on the `component` specified in the [default export](../writing-stories/index.md#default-export) of the CSF file.
 
 To do so, Storybook uses various static analysis tools depending on your framework.
 
@@ -30,7 +30,7 @@ The data structure of `argTypes` is designed to match the output of the these to
 
 For most Storybook projects, argTypes are [automatically inferred](#automatic-argtype-inference) from your components. Any argTypes specified manually will override the inferred values.
 
-ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/introduction#default-export) of the CSF file:
+ArgTypes are most often specified at the meta (component) level, in the [default export](../writing-stories/index.md#default-export) of the CSF file:
 
 <!-- prettier-ignore-start -->
 
@@ -59,7 +59,7 @@ They can apply to all stories when specified at the project (global) level, in t
 
 <!-- prettier-ignore-end -->
 
-Or they can apply only to a [specific story](../writing-stories/introduction#defining-stories):
+Or they can apply only to a [specific story](../writing-stories/index.md#defining-stories):
 
 <!-- prettier-ignore-start -->
 
@@ -82,7 +82,7 @@ Type:
 ```ts
 {
   [key: string]: {
-    control?: ControlType | { type: ControlType; /* See below for more */ };
+    control?: ControlType | { type: ControlType; /* See below for more */ } | false;
     description?: string;
     if?: Conditional;
     mapping?: { [key: string]: { [option: string]: any } };
@@ -91,6 +91,7 @@ Type:
     table?: {
       category?: string;
       defaultValue?: { summary: string; detail?: string };
+      disable?: boolean;
       subcategory?: string;
       type?: { summary?: string; detail?: string };
     },
@@ -116,6 +117,7 @@ Type:
     presetColors?: string[];
     step?: number;
   }
+| false
 ```
 
 Default:
@@ -124,7 +126,7 @@ Default:
 2. Else, inferred from [`type`](#type)
 3. Else, `'object'`
 
-Specify the behavior of the [controls addon](../essentials/controls.md) for the arg. If you specify a string, it's used as the [`type`](#controltype) of the control. If you specify an object, you can provide additional configuration.
+Specify the behavior of the [controls addon](../essentials/controls.md) for the arg. If you specify a string, it's used as the [`type`](#controltype) of the control. If you specify an object, you can provide additional configuration. Specifying `false` will prevent the control from rendering.
 
 <!-- prettier-ignore-start -->
 
@@ -345,6 +347,7 @@ Type:
     detail?: string;
     summary: string;
   };
+  disable?: boolean;
   subcategory?: string;
   type?: {
     detail?: string;
@@ -386,6 +389,12 @@ Type: `{ detail?: string; summary: string }`
 Default: [Inferred](#automatic-argtype-inference)
 
 The documented default value of the argType. `summary` is typically used for the value itself, while `detail` is used for additional information.
+
+#### `table.disable`
+
+Type: `boolean`
+
+Set to `true` to remove the argType's row from the table.
 
 #### `table.subcategory`
 
