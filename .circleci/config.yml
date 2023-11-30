@@ -678,10 +678,10 @@ workflows:
                 - "npm"
               template: 
                 - "react-vite-ts"
-                # - "nextjs-ts"
-                # - "vue-vite-ts"
-                # - "angular-cli"
-                # - "lit-vite-ts"
+                - "nextjs-ts"
+                - "vue-vite-ts"
+                - "angular-cli"
+                - "lit-vite-ts"
   
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
