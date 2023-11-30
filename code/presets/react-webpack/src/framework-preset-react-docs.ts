@@ -11,6 +11,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
   if (!hasDocsOrControls(options)) return config;
 
   const typescriptOptions = await options.presets.apply('typescript', {} as any);
+  const debug = options.loglevel === 'debug';
 
   const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions || {};
 
@@ -34,6 +35,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
             ),
             options: {
               babelOptions,
+              debug,
             },
             exclude: /node_modules/,
           },
@@ -60,6 +62,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
           ),
           options: {
             babelOptions,
+            debug,
           },
           exclude: /node_modules/,
         },
