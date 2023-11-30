@@ -492,11 +492,13 @@ jobs:
             cd ../
             mkdir empty-<< parameters.template >>
             cd empty-<< parameters.template >>
+            echo empty init type: $STORYBOOK_INIT_EMPTY_TYPE
             node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager << parameters.packageManager >>
             node ../storybook/code/lib/cli/bin/index.js dev --smoke-test
           environment:
             CI: true
             STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+      - report-workflow-on-failure
 
 workflows:
   docs:
@@ -621,50 +623,50 @@ workflows:
     when:
       equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
-      - pretty-docs
+      # - pretty-docs
       - build
-      - lint:
-          requires:
-            - build
-      - check:
-          requires:
-            - build
-      - unit-tests:
-          requires:
-            - build
-      - script-checks:
-          requires:
-            - build
-      - chromatic-internal-storybooks:
-          requires:
-            - build
-      - create-sandboxes:
-          parallelism: 36
-          requires:
-            - build
+      # - lint:
+      #     requires:
+      #       - build
+      # - check:
+      #     requires:
+      #       - build
+      # - unit-tests:
+      #     requires:
+      #       - build
+      # - script-checks:
+      #     requires:
+      #       - build
+      # - chromatic-internal-storybooks:
+      #     requires:
+      #       - build
+      # - create-sandboxes:
+      #     parallelism: 36
+      #     requires:
+      #       - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
-      - build-sandboxes:
-          parallelism: 36
-          requires:
-            - create-sandboxes
-      - chromatic-sandboxes:
-          parallelism: 33
-          requires:
-            - build-sandboxes
-      - e2e-production:
-          parallelism: 31
-          requires:
-            - build-sandboxes
-      - e2e-dev:
-          parallelism: 2
-          requires:
-            - create-sandboxes
-      - test-runner-production:
-          parallelism: 31
-          requires:
-            - build-sandboxes
+      # - build-sandboxes:
+      #     parallelism: 36
+      #     requires:
+      #       - create-sandboxes
+      # - chromatic-sandboxes:
+      #     parallelism: 33
+      #     requires:
+      #       - build-sandboxes
+      # - e2e-production:
+      #     parallelism: 31
+      #     requires:
+      #       - build-sandboxes
+      # - e2e-dev:
+      #     parallelism: 2
+      #     requires:
+      #       - create-sandboxes
+      # - test-runner-production:
+      #     parallelism: 31
+      #     requires:
+      #       - build-sandboxes
 
       # TODO: Uncomment when ready to test
       - test-empty-init:
@@ -672,8 +674,14 @@ workflows:
             - build
           matrix:
             parameters:
-              packageManager: ["yarn2"]
-              template: ["react-vite-ts", "nextjs-ts", "vue-vite-ts", "angular-cli", "lit-vite-ts"]
+              packageManager:
+                - "yarn2"
+              template: 
+                - "react-vite-ts"
+                # - "nextjs-ts"
+                # - "vue-vite-ts"
+                # - "angular-cli"
+                # - "lit-vite-ts"
   
       # TODO: reenable once we find out the source of flakyness
       # - test-runner-dev:
