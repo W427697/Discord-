@@ -487,6 +487,7 @@ jobs:
       - attach_workspace:
           at: .
       - when:
+          condition:
             equal: ["npm", << parameters.packageManager >>]
           steps:
             - run:
@@ -497,7 +498,12 @@ jobs:
                   cd empty-<< parameters.template >>
                   node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager npm
                   npm run storybook -- --smoke-test
-        - when:
+                environment:
+                  IN_STORYBOOK_SANDBOX: true
+                  STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+                  STORYBOOK_DISABLE_TELEMETRY: true
+      - when:
+          condition:
             equal: ["yarn2", << parameters.packageManager >>]
           steps:
             - run:
@@ -509,7 +515,12 @@ jobs:
                   yarn set version berry
                   node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager yarn2
                   yarn storybook --smoke-test
-        - when:
+                environment:
+                  IN_STORYBOOK_SANDBOX: true
+                  STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+                  STORYBOOK_DISABLE_TELEMETRY: true
+      - when:
+          condition:
             equal: ["pnpm", << parameters.packageManager >>]
           steps:
             - run:
@@ -521,10 +532,10 @@ jobs:
                   npm i -g pnpm
                   node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager pnpm
                   pnpm run storybook --smoke-test
-          environment:
-            IN_STORYBOOK_SANDBOX: true
-            STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
-            STORYBOOK_DISABLE_TELEMETRY: true
+                environment:
+                  IN_STORYBOOK_SANDBOX: true
+                  STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
+                  STORYBOOK_DISABLE_TELEMETRY: true
       - report-workflow-on-failure
 
 workflows:
