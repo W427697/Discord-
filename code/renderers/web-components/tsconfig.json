@@ -1,8 +1,25 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "resolveJsonModule": true,
     "strict": true
   },
-  "include": ["src/**/*", "template/**/*"]
+  "include": ["src/**/*", "template/**/*"],
+  "references": [
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../lib/docs-tools"
+    },
+    {
+      "path": "../../lib/manager-api"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

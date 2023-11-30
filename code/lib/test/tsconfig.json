@@ -1,4 +1,18 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*"]
+  "extends": "../../tsconfig.options.json",
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../client-logger"
+    },
+    {
+      "path": "../core-events"
+    },
+    {
+      "path": "../instrumenter"
+    },
+    {
+      "path": "../preview-api"
+    }
+  ]
 }

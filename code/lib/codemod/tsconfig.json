@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "skipLibCheck": true,
     "allowJs": true,
@@ -7,5 +7,16 @@
     "lib": ["ES2021.String"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "__testfixtures__", "__tests__"]
+  "exclude": ["node_modules", "__testfixtures__", "__tests__"],
+  "references": [
+    {
+      "path": "../csf-tools"
+    },
+    {
+      "path": "../node-logger"
+    },
+    {
+      "path": "../types"
+    }
+  ]
 }

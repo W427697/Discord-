@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "resolveJsonModule": true,
@@ -9,5 +9,16 @@
   "vueCompilerOptions": {
     "target": 3
   },
-  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"]
+  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"],
+  "references": [
+    {
+      "path": "../../lib/docs-tools"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

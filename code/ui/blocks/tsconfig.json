@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "module": "esnext",
     "skipLibCheck": true,
@@ -7,5 +7,37 @@
     "types": ["jest"],
     "strict": false
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../lib/channels"
+    },
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../components"
+    },
+    {
+      "path": "../../lib/core-events"
+    },
+    {
+      "path": "../../lib/docs-tools"
+    },
+    {
+      "path": "../../lib/manager-api"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/theming"
+    },
+    {
+      "path": "../../lib/types"
+    },
+    {
+      "path": "../../addons/actions"
+    }
+  ]
 }

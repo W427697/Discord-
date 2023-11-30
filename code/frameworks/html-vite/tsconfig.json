@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "rootDir": "./src",
     "types": ["node"],
@@ -7,5 +7,19 @@
     "strict": true
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*", "src/**/__testfixtures__/**"]
+  "exclude": ["src/**/*.test.*", "src/**/__testfixtures__/**"],
+  "references": [
+    {
+      "path": "../../builders/builder-vite"
+    },
+    {
+      "path": "../../lib/core-server"
+    },
+    {
+      "path": "../../renderers/html"
+    },
+    {
+      "path": "../../lib/node-logger"
+    }
+  ]
 }

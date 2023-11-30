@@ -1,10 +1,24 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "rootDir": "./src",
     "types": ["node"],
     "resolveJsonModule": true,
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../addons/actions"
+    },
+    {
+      "path": "../../builders/builder-vite"
+    },
+    {
+      "path": "../../renderers/svelte"
+    },
+    {
+      "path": "../svelte-vite"
+    }
+  ]
 }

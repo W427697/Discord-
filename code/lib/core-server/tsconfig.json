@@ -1,8 +1,43 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "skipLibCheck": true,
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../builders/builder-manager"
+    },
+    {
+      "path": "../channels"
+    },
+    {
+      "path": "../core-common"
+    },
+    {
+      "path": "../core-events"
+    },
+    {
+      "path": "../csf-tools"
+    },
+    {
+      "path": "../../ui/manager"
+    },
+    {
+      "path": "../node-logger"
+    },
+    {
+      "path": "../preview-api"
+    },
+    {
+      "path": "../telemetry"
+    },
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../../addons/docs"
+    }
+  ]
 }

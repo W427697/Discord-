@@ -1,8 +1,16 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "template/**/*"]
+  "include": ["src/**/*", "template/**/*"],
+  "references": [
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

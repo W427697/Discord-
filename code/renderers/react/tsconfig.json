@@ -1,10 +1,30 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "allowJs": true
   },
-  "include": ["src/**/*", "template/**/*"]
+  "include": ["src/**/*", "template/**/*"],
+  "references": [
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../lib/docs-tools"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/react-dom-shim"
+    },
+    {
+      "path": "../../lib/types"
+    },
+    {
+      "path": "../../lib/test"
+    }
+  ]
 }

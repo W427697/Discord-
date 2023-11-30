@@ -1,10 +1,27 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "module": "ESNext",
     "skipLibCheck": true,
     "strict": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "src/**/*.svelte", "template/**/*", "template/**/*.svelte"]
+  "include": ["src/**/*", "src/**/*.svelte", "template/**/*", "template/**/*.svelte"],
+  "references": [
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../lib/core-events"
+    },
+    {
+      "path": "../../lib/docs-tools"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

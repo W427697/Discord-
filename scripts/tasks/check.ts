@@ -9,7 +9,6 @@ const nolinkCommand = `nx run-many --target="check" --all --parallel=${parallel}
 
 export const check: Task = {
   description: 'Typecheck the source code of the monorepo',
-  dependsOn: ['compile'],
   async ready() {
     return false;
   },

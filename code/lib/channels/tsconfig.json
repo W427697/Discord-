@@ -1,7 +1,15 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "include": ["src/**/*"],
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "references": [
+    {
+      "path": "../client-logger"
+    },
+    {
+      "path": "../core-events"
+    }
+  ]
 }

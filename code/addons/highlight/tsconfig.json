@@ -1,9 +1,17 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "rootDir": "./src",
     "types": ["webpack-env"],
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../lib/core-events"
+    },
+    {
+      "path": "../../lib/preview-api"
+    }
+  ]
 }

@@ -4,5 +4,43 @@
     "noEmit": true,
     "strict": false
   },
-  "include": ["src/**/*", "src/**/*.json", "template/**/*"]
+  "include": ["src/**/*", "src/**/*.json", "template/**/*"],
+  "references": [
+    {
+      "path": "../../builders/builder-webpack5"
+    },
+    {
+      "path": "../../lib/cli"
+    },
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/core-events"
+    },
+    {
+      "path": "../../lib/core-server"
+    },
+    {
+      "path": "../../lib/core-webpack"
+    },
+    {
+      "path": "../../lib/docs-tools"
+    },
+    {
+      "path": "../../lib/node-logger"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/telemetry"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

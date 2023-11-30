@@ -1,9 +1,23 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../builders/builder-webpack5"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../presets/vue-webpack"
+    },
+    {
+      "path": "../../renderers/vue"
+    }
+  ]
 }

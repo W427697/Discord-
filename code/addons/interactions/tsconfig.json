@@ -1,9 +1,38 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "types": ["testing-library__jest-dom"],
     "skipLibCheck": true,
     "strict": false
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../lib/types"
+    },
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../ui/components"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/core-events"
+    },
+    {
+      "path": "../../lib/instrumenter"
+    },
+    {
+      "path": "../../lib/manager-api"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/theming"
+    }
+  ]
 }

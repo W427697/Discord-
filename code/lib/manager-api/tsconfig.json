@@ -1,8 +1,28 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "skipLibCheck": true,
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../channels"
+    },
+    {
+      "path": "../client-logger"
+    },
+    {
+      "path": "../core-events"
+    },
+    {
+      "path": "../router"
+    },
+    {
+      "path": "../theming"
+    },
+    {
+      "path": "../types"
+    }
+  ]
 }

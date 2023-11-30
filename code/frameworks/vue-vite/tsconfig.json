@@ -1,9 +1,23 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../builders/builder-vite"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/core-server"
+    },
+    {
+      "path": "../../renderers/vue"
+    }
+  ]
 }

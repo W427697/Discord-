@@ -1,7 +1,18 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "include": ["src/**/*", "template/**/*"],
   "compilerOptions": {
     "strict": false
-  }
+  },
+  "references": [
+    {
+      "path": "../../lib/csf-tools"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

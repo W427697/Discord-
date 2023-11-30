@@ -1,7 +1,51 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../actions"
+    },
+    {
+      "path": "../backgrounds"
+    },
+    {
+      "path": "../controls"
+    },
+    {
+      "path": "../docs"
+    },
+    {
+      "path": "../highlight"
+    },
+    {
+      "path": "../measure"
+    },
+    {
+      "path": "../outline"
+    },
+    {
+      "path": "../toolbars"
+    },
+    {
+      "path": "../viewport"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/manager-api"
+    },
+    {
+      "path": "../../lib/node-logger"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../renderers/vue"
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "strictPropertyInitialization": false,
@@ -7,5 +7,19 @@
     "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "exclude": []
+  "exclude": [],
+  "references": [
+    {
+      "path": "../channels"
+    },
+    {
+      "path": "../client-logger"
+    },
+    {
+      "path": "../core-events"
+    },
+    {
+      "path": "../preview-api"
+    }
+  ]
 }

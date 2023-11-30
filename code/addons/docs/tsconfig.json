@@ -1,8 +1,43 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "skipLibCheck": true,
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../ui/blocks"
+    },
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../ui/components"
+    },
+    {
+      "path": "../../lib/csf-plugin"
+    },
+    {
+      "path": "../../lib/csf-tools"
+    },
+    {
+      "path": "../../lib/node-logger"
+    },
+    {
+      "path": "../../lib/postinstall"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/react-dom-shim"
+    },
+    {
+      "path": "../../lib/theming"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

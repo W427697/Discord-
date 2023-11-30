@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "rootDir": "./src",
     "types": ["node"],
@@ -8,5 +8,13 @@
     "jsxImportSource": "preact",
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../builders/builder-vite"
+    },
+    {
+      "path": "../../renderers/preact"
+    }
+  ]
 }

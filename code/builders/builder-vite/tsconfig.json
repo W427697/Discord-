@@ -1,9 +1,35 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../lib/channels"
+    },
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/csf-plugin"
+    },
+    {
+      "path": "../../lib/node-logger"
+    },
+    {
+      "path": "../../lib/preview"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

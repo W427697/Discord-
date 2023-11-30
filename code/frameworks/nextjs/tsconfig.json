@@ -1,9 +1,38 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "template/**/*"]
+  "include": ["src", "template"],
+  "references": [
+    {
+      "path": "../../addons/actions"
+    },
+    {
+      "path": "../../builders/builder-webpack5"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/core-events"
+    },
+    {
+      "path": "../../lib/node-logger"
+    },
+    {
+      "path": "../../presets/react-webpack"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../renderers/react"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

@@ -106,6 +106,7 @@
     "@storybook/preset-react-webpack": "workspace:*",
     "@storybook/preview-api": "workspace:*",
     "@storybook/react": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@types/node": "^18.0.0",
     "css-loader": "^6.7.3",
     "find-up": "^5.0.0",

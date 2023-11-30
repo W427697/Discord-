@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
@@ -9,5 +9,19 @@
   "vueCompilerOptions": {
     "target": 2
   },
-  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"]
+  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"],
+  "references": [
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../lib/docs-tools"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.options.json",
   "compilerOptions": {
     "types": ["webpack-env", "jest", "node"],
     "typeRoots": ["../../node_modules/@types", "node_modules/@types"],

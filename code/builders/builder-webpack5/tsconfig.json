@@ -1,8 +1,34 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../lib/channels"
+    },
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/core-events"
+    },
+    {
+      "path": "../../lib/core-webpack"
+    },
+    {
+      "path": "../../lib/node-logger"
+    },
+    {
+      "path": "../../lib/preview"
+    },
+    {
+      "path": "../../lib/preview-api"
+    }
+  ]
 }

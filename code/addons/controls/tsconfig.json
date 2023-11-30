@@ -1,7 +1,36 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.options.json",
   "compilerOptions": {
     "strict": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "references": [
+    {
+      "path": "../../ui/blocks"
+    },
+    {
+      "path": "../../lib/client-logger"
+    },
+    {
+      "path": "../../ui/components"
+    },
+    {
+      "path": "../../lib/core-common"
+    },
+    {
+      "path": "../../lib/manager-api"
+    },
+    {
+      "path": "../../lib/node-logger"
+    },
+    {
+      "path": "../../lib/preview-api"
+    },
+    {
+      "path": "../../lib/theming"
+    },
+    {
+      "path": "../../lib/types"
+    }
+  ]
 }
