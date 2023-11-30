@@ -4,11 +4,11 @@ title: Addon migration guide for Storybook 7.0
 
 Storybook 7 is our first major release in over two years. While Storybook’s addon API has not changed much in the past couple of years, addons require several changes for compatibility with Storybook 7. This guide will walk you through the upgrade process.
 
-<div class="aside">
+<Callout variant="info">
 
 As we gather feedback from the community, we’ll update this page. We also have a general [Storybook migration guide](../migration-guide.md) if you’re looking for that.
 
-</div>
+</Callout>
 
 ## Dependencies
 
@@ -75,4 +75,4 @@ We also recommend releasing your own addon using the `next` tag to test it out i
 
 ## Support
 
-If you’ve followed this guide and your addon is still not working, please reach out on the [Storybook Discord](https://discord.gg/storybook) in the `#addons` channel and we’ll help you get to the bottom of it and upgrade the guide accordingly.
+If you're still having issues with your addon after following this guide, please open a [new discussion](https://github.com/storybookjs/storybook/discussions/new?category=help) in our GitHub repository.

@@ -91,7 +91,7 @@ Storybook comes with a lot of [addons](https://storybook.js.org/docs/react/confi
 
 ### Community
 
-For additional help, join us in the [Storybook Discord](https://discord.gg/storybook).
+For additional help, share your issue in [the repo's GitHub Discussions](https://github.com/storybookjs/storybook/discussions/new?category=help).
 
 ## Projects
 
@@ -187,7 +187,7 @@ Looking for a first issue to tackle?
 
 ### Development scripts
 
-Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
+Storybook is organized as a monorepo. Useful scripts include:
 
 #### `yarn start`
 

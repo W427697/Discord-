@@ -27,7 +27,7 @@ By default, Storybook provides zero-config support for Webpack and automatically
 
 ### Override the default configuration
 
-Storybook's Webpack configuration is based on [Webpack 5](https://webpack.js.org/), allowing it to be extended to fit your project's needs. If you need to add a loader or a plugin, you can provide the `webpackFinal` configuration element in your [`.storybook/main.js|ts`](../configure/overview.md#configure-your-storybook-project) file. The configuration element should export a function that receives the baseline configuration as the first argument and Storybook's options object as the second argument. For example:
+Storybook's Webpack configuration is based on [Webpack 5](https://webpack.js.org/), allowing it to be extended to fit your project's needs. If you need to add a loader or a plugin, you can provide the `webpackFinal` configuration element in your [`.storybook/main.js|ts`](../configure/index.md#configure-your-storybook-project) file. The configuration element should export a function that receives the baseline configuration as the first argument and Storybook's options object as the second argument. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -74,10 +74,11 @@ If you already have an existing Webpack configuration file that you need to reus
 
 <!-- prettier-ignore-end -->
 
-<div class="aside">
-💡 Projects scaffolded based on generators may require that you import their specific Webpack configuration files. We suggest reading your generator's documentation for more information.
+<Callout variant="info" icon="💡">
 
-</div>
+Projects scaffolded based on generators may require that you import their specific Webpack configuration files. We suggest reading your generator's documentation for more information.
+
+</Callout>
 
 ### Debug Webpack configuration
 
