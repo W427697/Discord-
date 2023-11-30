@@ -368,3 +368,45 @@ export class GoogleFontsLoadingError extends StorybookError {
     `;
   }
 }
+
+export class NextjsSWCNotSupportedError extends StorybookError {
+  readonly category = Category.FRAMEWORK_NEXTJS;
+
+  readonly code = 3;
+
+  public readonly documentation =
+    'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md#manual-migration';
+
+  template() {
+    return dedent`
+    You have activated the SWC mode for Next.js, but you are not using Next.js 14.0.0 or higher. 
+    SWC is only supported in Next.js 14.0.0 and higher. Please go to your .storybook/main.<js|ts> file
+    and remove the { framework: { options: { builder: { useSWC: true } } } } option or upgrade to Next.js v14 or later.
+    `;
+  }
+}
+
+export class NoMatchingExportError extends StorybookError {
+  readonly category = Category.CORE_SERVER;
+
+  readonly code = 4;
+
+  constructor(public data: { error: unknown | Error }) {
+    super();
+  }
+
+  template() {
+    return dedent`
+      There was an exports mismatch error when trying to build Storybook.
+      Please check whether the versions of your Storybook packages match whenever possible, as this might be the cause.
+      
+      Problematic example:
+      { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.4.5", "storybook": "7.3.0" }
+
+      Correct example:
+      { "@storybook/react": "7.5.3", "@storybook/react-vite": "7.5.3", "storybook": "7.5.3" }
+
+      Please run \`npx storybook@latest doctor\` for guidance on how to fix this issue.
+    `;
+  }
+}

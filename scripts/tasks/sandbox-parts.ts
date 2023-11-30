@@ -12,8 +12,9 @@ import {
   writeJson,
 } from 'fs-extra';
 import { join, resolve, sep } from 'path';
-
+import { createRequire } from 'module';
 import slash from 'slash';
+
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import {
@@ -92,6 +93,25 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
     await addPackageResolutions({ cwd, dryRun, debug });
     await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
 
+    // Add vite plugin workarounds for frameworks that need it
+    // (to support vite 5 without peer dep errors)
+    if (
+      [
+        'bench-react-vite-default-ts',
+        'bench-react-vite-default-ts-nodocs',
+        'bench-react-vite-default-ts-test-build',
+        'internal-ssv6-vite',
+        'react-vite-default-js',
+        'react-vite-default-ts',
+        'svelte-vite-default-js',
+        'svelte-vite-default-ts',
+        'vue3-vite-default-js',
+        'vue3-vite-default-ts',
+      ].includes(sandboxDir.split(sep).at(-1))
+    ) {
+      await addWorkaroundResolutions({ cwd, dryRun, debug });
+    }
+
     await exec(
       'yarn install',
       { cwd },
@@ -167,6 +187,7 @@ export const init: Task['run'] = async (
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
 function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
+  const require = createRequire(import.meta.url);
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
   const storiesMdxLoaderPath = require.resolve(
     '../../code/node_modules/@storybook/mdx2-csf/loader'
@@ -579,7 +600,8 @@ async function prepareAngularSandbox(cwd: string) {
 
   packageJson.scripts = {
     ...packageJson.scripts,
-    'docs:json': 'DIR=$PWD; cd ../../scripts; yarn ts-node combine-compodoc $DIR',
+    'docs:json':
+      'DIR=$PWD; cd ../../scripts; node --loader esbuild-register/loader -r esbuild-register combine-compodoc $DIR',
     storybook: `yarn docs:json && ${packageJson.scripts.storybook}`,
     'build-storybook': `yarn docs:json && ${packageJson.scripts['build-storybook']}`,
   };
