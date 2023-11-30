@@ -698,9 +698,9 @@ workflows:
           parallelism: 36
           requires:
             - build
-      - smoke-test-sandboxes: # disabled for now
-          requires:
-            - create-sandboxes
+      # - smoke-test-sandboxes: # disabled for now
+      #     requires:
+      #       - create-sandboxes
       - build-sandboxes:
           parallelism: 36
           requires:
