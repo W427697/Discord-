@@ -495,7 +495,7 @@ jobs:
             node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager << parameters.packageManager >>
             node ../storybook/code/lib/cli/bin/index.js dev --smoke-test
           environment:
-            CI: true
+            IN_STORYBOOK_SANDBOX: true
             STORYBOOK_INIT_EMPTY_TYPE: << parameters.template >>
             STORYBOOK_DISABLE_TELEMETRY: true
       - report-workflow-on-failure
