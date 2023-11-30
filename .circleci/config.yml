@@ -714,6 +714,8 @@ workflows:
             parameters:
               packageManager:
                 - "npm"
+                - "yarn2"
+                - "pnpm"
               template: 
                 - "react-vite-ts"
                 - "nextjs-ts"
