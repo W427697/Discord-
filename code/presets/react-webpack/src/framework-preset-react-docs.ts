@@ -14,6 +14,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
     'typescript',
     {} as any
   );
+  const debug = options.loglevel === 'debug';
 
   const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions || {};
 
@@ -37,8 +38,9 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
             ),
             options: {
               babelOptions,
+              debug,
             },
-            exclude: /node_modules/,
+            exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
           },
         ],
       },
@@ -63,8 +65,9 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (
           ),
           options: {
             babelOptions,
+            debug,
           },
-          exclude: /node_modules/,
+          exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
         },
       ],
     },
