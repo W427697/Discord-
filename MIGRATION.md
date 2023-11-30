@@ -446,7 +446,7 @@ In Storybook 8.0 we are introducing a new icon library available with `@storyboo
 
 #### React-docgen component analysis by default
 
-In Storybook 7, we used `react-docgen-typescript` to analyze React component props and auto-generated control. In Storybook 8, we have moved to `react-docgen` as the new default. `react-docgen` is dramatically more efficient, shaving seconds off of dev startup times. However, it only analyzes basic TypeScript constructs.
+In Storybook 7, we used `react-docgen-typescript` to analyze React component props and auto-generate controls. In Storybook 8, we have moved to `react-docgen` as the new default. `react-docgen` is dramatically more efficient, shaving seconds off of dev startup times. However, it only analyzes basic TypeScript constructs.
 
 We feel `react-docgen` is the right tradeoff for most React projects. However, if you need the full fidelity of `react-docgen-typescript`, you can opt-in using the following setting in `.storybook/main.js`:
 

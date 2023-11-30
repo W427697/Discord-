@@ -30,7 +30,7 @@ export const reactDocgen: Fix<Options> = {
       but doesn't handle all TypeScript constructs.
 
       We can update your config to continue to use "react-docgen-typescript",
-      though we recommend giving "react-docgen" or a much faster dev experience.
+      though we recommend giving "react-docgen" for a much faster dev experience.
 
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#react-docgen-component-analysis-by-default
     `;
@@ -38,7 +38,7 @@ export const reactDocgen: Fix<Options> = {
 
   async run({ dryRun, mainConfigPath }) {
     if (!dryRun) {
-      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+      await updateMainConfig({ mainConfigPath, dryRun: !!dryRun }, async (main) => {
         logger.info(`✅ Setting typescript.reactDocgen`);
         if (!dryRun) {
           main.setFieldValue(['typescript', 'reactDocgen'], 'react-docgen-typescript');
