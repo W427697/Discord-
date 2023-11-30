@@ -196,7 +196,7 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   logger.line(1);
 };
 
-const IGNORED_FILES = ['.git', '.gitignore', '.DS_Store'];
+const IGNORED_FILES = ['.git', '.gitignore', '.DS_Store', '.yarn', '.yarnrc.yml'];
 
 export const currentDirectoryIsEmpty = () => {
   const cwdFolderEntries = readdirSync(process.cwd());

@@ -492,8 +492,7 @@ jobs:
             cd ../
             mkdir empty-<< parameters.template >>
             cd empty-<< parameters.template >>
-            echo empty init type: $STORYBOOK_INIT_EMPTY_TYPE
-            echo pwd
+            yarn set version berry
             node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager << parameters.packageManager >>
             node ../storybook/code/lib/cli/bin/index.js dev --smoke-test
           environment:
