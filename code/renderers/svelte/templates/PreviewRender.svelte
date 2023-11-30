@@ -28,7 +28,7 @@
 			return {
 				Component,
 				props,
-        on,
+				on,
 			}
 		}
 		return storyFn();
