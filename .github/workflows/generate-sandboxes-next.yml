@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '2 2 */1 * *'
   workflow_dispatch:
-  pull_request:
   # To test fixes on push rather than wait for the scheduling, do the following:
   # 1. Uncomment the lines below and add your branch.
   # push:
