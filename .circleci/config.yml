@@ -492,7 +492,6 @@ jobs:
             cd ../
             mkdir empty-<< parameters.template >>
             cd empty-<< parameters.template >>
-            yarn set version berry
             node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager << parameters.packageManager >>
             node ../storybook/code/lib/cli/bin/index.js dev --smoke-test
           environment:
@@ -676,7 +675,7 @@ workflows:
           matrix:
             parameters:
               packageManager:
-                - "yarn2"
+                - "npm"
               template: 
                 - "react-vite-ts"
                 # - "nextjs-ts"
