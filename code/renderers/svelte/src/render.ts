@@ -9,13 +9,13 @@ import { RESET_STORY_ARGS } from '@storybook/core-events';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 import { addons } from '@storybook/preview-api';
-import { createRoot } from 'svelte';
+import * as svelte from 'svelte';
 
 import type { SvelteRenderer } from './types';
 
 const componentsByDomElement = new Map<
   SvelteRenderer['canvasElement'],
-  ReturnType<typeof createRoot>
+  any // ReturnType<typeof createRoot | typeof mount> depends on the version of Svelte v4 or v5
 >();
 
 function teardown(canvasElement: SvelteRenderer['canvasElement']) {
@@ -27,6 +27,25 @@ function teardown(canvasElement: SvelteRenderer['canvasElement']) {
 
   canvasElement.innerHTML = '';
   componentsByDomElement.delete(canvasElement);
+}
+
+/**
+ * Mount the PreviewRender component to the provided canvasElement
+ * Either using the Svelte v4 or v5 API
+ */
+function createRoot(target: HTMLElement, props: any) {
+  if ((svelte as any).createRoot) {
+    // Svelte v5
+    return svelte.createRoot(PreviewRender, {
+      target,
+      props,
+    });
+  }
+  // Svelte v4
+  return new (PreviewRender as any)({
+    target,
+    props,
+  });
 }
 
 /**
@@ -69,15 +88,12 @@ export function renderToCanvas(
   }
 
   if (!existingComponent || remount) {
-    const createdComponent = createRoot(PreviewRender, {
-      target: canvasElement,
-      props: {
-        storyFn,
-        storyContext,
-        name,
-        kind,
-        showError,
-      },
+    const createdComponent = createRoot(canvasElement, {
+      storyFn,
+      storyContext,
+      name,
+      kind,
+      showError,
     });
     componentsByDomElement.set(canvasElement, createdComponent);
   } else {
