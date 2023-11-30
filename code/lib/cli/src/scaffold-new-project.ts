@@ -196,7 +196,7 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
   logger.line(1);
 };
 
-const BASE_IGNORED_FILES = ['.git', '.gitignore', '.DS_Store'];
+const BASE_IGNORED_FILES = ['.git', '.gitignore', '.DS_Store', '.cache'];
 
 const IGNORED_FILES_BY_PACKAGE_MANAGER: Record<CoercedPackageManagerName, string[]> = {
   npm: [...BASE_IGNORED_FILES],
