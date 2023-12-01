@@ -41,8 +41,4 @@ export class DocsRenderer extends AbstractRenderer {
   async beforeFullRender(domNode?: HTMLElement): Promise<void> {
     DocsRenderer.resetApplications(domNode);
   }
-
-  async afterFullRender(): Promise<void> {
-    await AbstractRenderer.resetCompiledComponents();
-  }
 }
