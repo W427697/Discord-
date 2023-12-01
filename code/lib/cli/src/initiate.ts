@@ -268,7 +268,7 @@ async function doInitiate(
   });
 
   // Check if the current directory is empty.
-  if (options.force !== true && currentDirectoryIsEmpty()) {
+  if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type);
   }
@@ -377,6 +377,7 @@ async function doInitiate(
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+  console.log('Hey there!');
   const initiateResult = await withTelemetry(
     'init',
     {

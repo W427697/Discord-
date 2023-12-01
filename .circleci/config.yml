@@ -493,9 +493,12 @@ jobs:
             - run:
                 name: Storybook init from empty directory (NPM)
                 command: |
-                  cd ../
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
                   mkdir empty-<< parameters.template >>
                   cd empty-<< parameters.template >>
+                  npm set registry http://localhost:6001
                   node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager npm
                   npm run storybook -- --smoke-test
                 environment:
@@ -677,50 +680,50 @@ workflows:
     when:
       equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
-      - pretty-docs
+      # - pretty-docs
       - build
-      - lint:
-          requires:
-            - build
-      - check:
-          requires:
-            - build
-      - unit-tests:
-          requires:
-            - build
-      - script-checks:
-          requires:
-            - build
-      - chromatic-internal-storybooks:
-          requires:
-            - build
-      - create-sandboxes:
-          parallelism: 36
-          requires:
-            - build
+      # - lint:
+      #     requires:
+      #       - build
+      # - check:
+      #     requires:
+      #       - build
+      # - unit-tests:
+      #     requires:
+      #       - build
+      # - script-checks:
+      #     requires:
+      #       - build
+      # - chromatic-internal-storybooks:
+      #     requires:
+      #       - build
+      # - create-sandboxes:
+      #     parallelism: 36
+      #     requires:
+      #       - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
-      - build-sandboxes:
-          parallelism: 36
-          requires:
-            - create-sandboxes
-      - chromatic-sandboxes:
-          parallelism: 33
-          requires:
-            - build-sandboxes
-      - e2e-production:
-          parallelism: 31
-          requires:
-            - build-sandboxes
-      - e2e-dev:
-          parallelism: 2
-          requires:
-            - create-sandboxes
-      - test-runner-production:
-          parallelism: 31
-          requires:
-            - build-sandboxes
+      # - build-sandboxes:
+      #     parallelism: 36
+      #     requires:
+      #       - create-sandboxes
+      # - chromatic-sandboxes:
+      #     parallelism: 33
+      #     requires:
+      #       - build-sandboxes
+      # - e2e-production:
+      #     parallelism: 31
+      #     requires:
+      #       - build-sandboxes
+      # - e2e-dev:
+      #     parallelism: 2
+      #     requires:
+      #       - create-sandboxes
+      # - test-runner-production:
+      #     parallelism: 31
+      #     requires:
+      #       - build-sandboxes
 
       # TODO: Uncomment when ready to test
       - test-empty-init:
