@@ -5,8 +5,8 @@ const REACT = {
   '@storybook/react': '5.2.5',
 };
 
-const VUE = {
-  '@storybook/vue': '5.2.5',
+const VUE3 = {
+  '@storybook/vue3': '5.2.5',
 };
 
 const NONE = {
@@ -24,7 +24,7 @@ describe('getFrameworks', () => {
   });
   it('multi-framework', () => {
     const frameworks = getFrameworks({
-      dependencies: VUE,
+      dependencies: VUE3,
       devDependencies: REACT,
     });
     expect(frameworks.sort()).toEqual(['react', 'vue']);

@@ -70,9 +70,7 @@ export enum ProjectType {
   REACT_PROJECT = 'REACT_PROJECT',
   WEBPACK_REACT = 'WEBPACK_REACT',
   NEXTJS = 'NEXTJS',
-  VUE = 'VUE',
   VUE3 = 'VUE3',
-  SFC_VUE = 'SFC_VUE',
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
   WEB_COMPONENTS = 'WEB_COMPONENTS',
@@ -123,27 +121,6 @@ export type TemplateConfiguration = {
  * therefore WEBPACK_REACT has to come first, as it's more specific.
  */
 export const supportedTemplates: TemplateConfiguration[] = [
-  {
-    preset: ProjectType.SFC_VUE,
-    dependencies: {
-      'vue-loader': (versionRange) => ltMajor(versionRange, 16),
-      vuetify: (versionRange) => ltMajor(versionRange, 3),
-    },
-    matcherFunction: ({ dependencies }) => {
-      return dependencies?.some(Boolean) ?? false;
-    },
-  },
-  {
-    preset: ProjectType.VUE,
-    // This Vue template only works with Vue or Nuxt under v3
-    dependencies: {
-      vue: (versionRange) => ltMajor(versionRange, 3),
-      nuxt: (versionRange) => ltMajor(versionRange, 3),
-    },
-    matcherFunction: ({ dependencies }) => {
-      return dependencies?.some(Boolean) ?? false;
-    },
-  },
   {
     preset: ProjectType.VUE3,
     dependencies: {

@@ -236,17 +236,6 @@ const baseTemplates = {
     },
     skipTasks: ['e2e-tests-dev', 'bench'],
   },
-  'vue2-vite/2.7-js': {
-    name: 'Vue v2 (Vite | JavaScript)',
-    script: 'npx create-vue@2 {{beforeDir}} --default',
-    expected: {
-      framework: '@storybook/vue-vite',
-      renderer: '@storybook/vue',
-      builder: '@storybook/builder-vite',
-    },
-    // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
-  },
   'html-webpack/default': {
     name: 'HTML Latest (Webpack | JavaScript)',
     script: 'yarn create webpack5-html {{beforeDir}}',
@@ -386,18 +375,6 @@ const baseTemplates = {
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
-      builder: '@storybook/builder-webpack5',
-    },
-    // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test', 'e2e-tests-dev', 'bench'],
-  },
-  'vue-cli/vue2-default-js': {
-    name: 'Vue CLI v2 (Webpack | JavaScript)',
-    script:
-      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)" && cd {{beforeDir}} && echo "module.exports = {}" > webpack.config.js',
-    expected: {
-      framework: '@storybook/vue-webpack5',
-      renderer: '@storybook/vue',
       builder: '@storybook/builder-webpack5',
     },
     // Remove smoke-test from the list once https://github.com/storybookjs/storybook/issues/19351 is fixed.
@@ -567,7 +544,6 @@ export const normal: TemplateKey[] = [
   'react-vite/default-ts',
   'angular-cli/default-ts',
   'vue3-vite/default-ts',
-  'vue-cli/vue2-default-js',
   'lit-vite/default-ts',
   'svelte-vite/default-ts',
   'svelte-kit/skeleton-ts',
@@ -594,7 +570,6 @@ export const daily: TemplateKey[] = [
   'cra/default-js',
   'react-vite/default-js',
   'vue3-vite/default-js',
-  'vue2-vite/2.7-js',
   'vue-cli/default-js',
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
