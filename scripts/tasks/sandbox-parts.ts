@@ -620,6 +620,7 @@ async function prepareAngularSandbox(cwd: string, templateName: string) {
   tsConfigJson.compilerOptions.noImplicitOverride = false;
   tsConfigJson.compilerOptions.noPropertyAccessFromIndexSignature = false;
   tsConfigJson.compilerOptions.jsx = 'react';
+  tsConfigJson.compilerOptions.skipLibCheck = true;
 
   if (templateName === 'Angular CLI (Version 15)') {
     tsConfigJson.compilerOptions.paths = {
