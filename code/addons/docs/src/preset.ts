@@ -4,7 +4,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type { DocsOptions, Indexer, Options, StorybookConfig } from '@storybook/types';
+import type { DocsOptions, Indexer, Options, PresetProperty } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import type { JSXOptions, CompileOptions } from '@storybook/mdx2-csf';
 import { global } from '@storybook/global';
@@ -135,7 +135,7 @@ async function webpack(
 
 export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
   test: /(stories|story)\.mdx$/,
-  index: async (fileName, opts) => {
+  createIndex: async (fileName, opts) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = legacyMdx1
       ? await import('@storybook/mdx1-csf')
@@ -160,7 +160,7 @@ export const createStoriesMdxIndexer = (legacyMdx1?: boolean): Indexer => ({
   },
 });
 
-const indexers: StorybookConfig['experimental_indexers'] = (existingIndexers) =>
+const indexers: PresetProperty<'experimental_indexers'> = (existingIndexers) =>
   [createStoriesMdxIndexer(global.FEATURES?.legacyMdx1)].concat(existingIndexers || []);
 
 const docs = (docsOptions: DocsOptions) => {
@@ -171,9 +171,18 @@ const docs = (docsOptions: DocsOptions) => {
   };
 };
 
-export const addons: StorybookConfig['addons'] = [
+export const addons: PresetProperty<'addons'> = [
   require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
+
+export const viteFinal = async (config: any, options: Options) => {
+  const { plugins = [] } = config;
+  const { mdxPlugin } = await import('./plugins/mdx-plugin');
+
+  plugins.push(mdxPlugin(options));
+
+  return config;
+};
 
 /*
  * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162
@@ -185,4 +194,12 @@ const docsX = docs as any;
 
 ensureReactPeerDeps();
 
-export { webpackX as webpack, indexersX as experimental_indexers, docsX as docs };
+const optimizeViteDeps = [
+  '@mdx-js/react',
+  '@storybook/addon-docs > acorn-jsx',
+  '@storybook/addon-docs',
+  '@storybook/addon-essentials/docs/mdx-react-shim',
+  'markdown-to-jsx',
+];
+
+export { webpackX as webpack, indexersX as experimental_indexers, docsX as docs, optimizeViteDeps };

@@ -85,7 +85,7 @@ export interface SubAPI {
 export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
   const keys = Object.keys(panels);
 
-  if (keys.indexOf(selectedPanel) >= 0) {
+  if (keys.indexOf(selectedPanel!) >= 0) {
     return selectedPanel;
   }
 
@@ -95,7 +95,7 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
   return currentPanel;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }): any => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
     getPanels: () => api.getElements(Addon_TypesEnum.PANEL),
@@ -112,7 +112,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       const filteredPanels: Addon_Collection<Addon_BaseType> = {};
       Object.entries(allPanels).forEach(([id, panel]) => {
-        const { paramKey } = panel;
+        const { paramKey }: any = panel;
         if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {
           return;
         }
@@ -121,7 +121,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       return filteredPanels;
     },
-    getSelectedPanel: () => {
+    getSelectedPanel: (): any => {
       const { selectedPanel } = store.getState();
       return ensurePanel(api.getElements(Addon_TypesEnum.PANEL), selectedPanel, selectedPanel);
     },
@@ -133,20 +133,18 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
       newStateOrMerger: S | API_StateMerger<S>,
       options?: Options
     ): Promise<S> {
-      let nextState;
-      const { addons: existing } = store.getState();
-      if (typeof newStateOrMerger === 'function') {
-        const merger = newStateOrMerger as API_StateMerger<S>;
-        nextState = merger(api.getAddonState<S>(addonId));
-      } else {
-        nextState = newStateOrMerger;
-      }
+      const merger = (
+        typeof newStateOrMerger === 'function' ? newStateOrMerger : () => newStateOrMerger
+      ) as API_StateMerger<S>;
       return store
-        .setState({ addons: { ...existing, [addonId]: nextState } }, options)
+        .setState(
+          (s) => ({ ...s, addons: { ...s.addons, [addonId]: merger(s.addons[addonId]) } }),
+          options
+        )
         .then(() => api.getAddonState(addonId));
     },
     getAddonState: (addonId) => {
-      return store.getState().addons[addonId];
+      return store.getState().addons[addonId] || globalThis?.STORYBOOK_ADDON_STATE[addonId];
     },
   };
 

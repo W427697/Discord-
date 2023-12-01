@@ -1,40 +1,55 @@
 import ReactDocgenTypescriptPlugin from '@storybook/react-docgen-typescript-plugin';
 import type { TypescriptOptions } from '@storybook/core-webpack';
+import type { Configuration } from 'webpack';
 import * as preset from './framework-preset-react-docs';
 
+jest.mock('./requirer', () => ({
+  requirer: (resolver: any, path: string) => path,
+}));
+
 describe('framework-preset-react-docgen', () => {
-  const babelPluginReactDocgenPath = require.resolve('babel-plugin-react-docgen');
   const presetsListWithDocs = [{ name: '@storybook/addon-docs', options: {}, preset: null }];
 
-  describe('react-docgen', () => {
-    it('should return the babel config with the extra plugin', async () => {
-      const babelConfig = {
-        babelrc: false,
-        presets: ['env', 'foo-preset'],
-        plugins: ['foo-plugin'],
-      };
+  // mock requirer
 
-      const config = await preset.babel?.(babelConfig, {
+  describe('react-docgen', () => {
+    it('should return the webpack config with the extra webpack loader', async () => {
+      const webpackConfig: Configuration = {};
+
+      const config = await preset.webpackFinal?.(webpackConfig, {
         presets: {
-          apply: async () =>
-            ({
-              check: false,
-              reactDocgen: 'react-docgen',
-            } as Partial<TypescriptOptions>),
+          apply: async (name: string) => {
+            if (name === 'typescript') {
+              return {
+                check: false,
+                reactDocgen: 'react-docgen',
+              } as Partial<TypescriptOptions>;
+            }
+
+            if (name === 'babel') {
+              return {
+                plugins: [],
+                presets: [],
+              };
+            }
+
+            return undefined;
+          },
         },
         presetsList: presetsListWithDocs,
       } as any);
 
       expect(config).toEqual({
-        babelrc: false,
-        plugins: ['foo-plugin'],
-        presets: ['env', 'foo-preset'],
-        overrides: [
-          {
-            test: /\.(cjs|mjs|tsx?|jsx?)$/,
-            plugins: [[babelPluginReactDocgenPath]],
-          },
-        ],
+        module: {
+          rules: [
+            {
+              exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
+              loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
+              options: { babelOptions: { plugins: [], presets: [] }, debug: false },
+              test: /\.(cjs|mjs|tsx?|jsx?)$/,
+            },
+          ],
+        },
       });
     });
   });
@@ -48,16 +63,38 @@ describe('framework-preset-react-docgen', () => {
       const config = await preset.webpackFinal?.(webpackConfig, {
         presets: {
           // @ts-expect-error (not strict)
-          apply: async () =>
-            ({
-              check: false,
-              reactDocgen: 'react-docgen-typescript',
-            } as Partial<TypescriptOptions>),
+          apply: async (name: string) => {
+            if (name === 'typescript') {
+              return {
+                check: false,
+                reactDocgen: 'react-docgen-typescript',
+              } as Partial<TypescriptOptions>;
+            }
+
+            if (name === 'babel') {
+              return {
+                plugins: [],
+                presets: [],
+              };
+            }
+
+            return undefined;
+          },
         },
         presetsList: presetsListWithDocs,
       });
 
       expect(config).toEqual({
+        module: {
+          rules: [
+            {
+              exclude: /(\.(stories|story)\.(js|jsx|ts|tsx))|(node_modules)/,
+              loader: '@storybook/preset-react-webpack/dist/loaders/react-docgen-loader',
+              options: { babelOptions: { plugins: [], presets: [] }, debug: false },
+              test: /\.(cjs|mjs|jsx?)$/,
+            },
+          ],
+        },
         plugins: [expect.any(ReactDocgenTypescriptPlugin)],
       });
     });
@@ -65,27 +102,10 @@ describe('framework-preset-react-docgen', () => {
 
   describe('no docgen', () => {
     it('should not add any extra plugins', async () => {
-      const babelConfig = {
-        babelrc: false,
-        presets: ['env', 'foo-preset'],
-        plugins: ['foo-plugin'],
-      };
-
       const webpackConfig = {
         plugins: [],
       };
 
-      const outputBabelconfig = await preset.babel?.(babelConfig, {
-        presets: {
-          // @ts-expect-error (Converted from ts-ignore)
-          apply: async () =>
-            ({
-              check: false,
-              reactDocgen: false,
-            } as Partial<TypescriptOptions>),
-        },
-        presetsList: presetsListWithDocs,
-      });
       const outputWebpackconfig = await preset.webpackFinal?.(webpackConfig, {
         presets: {
           // @ts-expect-error (Converted from ts-ignore)
@@ -98,40 +118,16 @@ describe('framework-preset-react-docgen', () => {
         presetsList: presetsListWithDocs,
       });
 
-      expect(outputBabelconfig).toEqual({
-        babelrc: false,
-        presets: ['env', 'foo-preset'],
-        plugins: ['foo-plugin'],
-      });
-      expect(outputWebpackconfig).toEqual({
-        plugins: [],
-      });
+      expect(outputWebpackconfig).toEqual({ plugins: [] });
     });
   });
 
   describe('no docs or controls addon used', () => {
     it('should not add any extra plugins', async () => {
-      const babelConfig = {
-        babelrc: false,
-        presets: ['env', 'foo-preset'],
-        plugins: ['foo-plugin'],
-      };
-
       const webpackConfig = {
         plugins: [],
       };
 
-      const outputBabelconfig = await preset.babel?.(babelConfig, {
-        presets: {
-          // @ts-expect-error (Converted from ts-ignore)
-          apply: async () =>
-            ({
-              check: false,
-              reactDocgen: 'react-docgen-typescript',
-            } as Partial<TypescriptOptions>),
-        },
-        presetsList: [],
-      });
       const outputWebpackconfig = await preset.webpackFinal?.(webpackConfig, {
         presets: {
           // @ts-expect-error (Converted from ts-ignore)
@@ -144,11 +140,6 @@ describe('framework-preset-react-docgen', () => {
         presetsList: [],
       });
 
-      expect(outputBabelconfig).toEqual({
-        babelrc: false,
-        presets: ['env', 'foo-preset'],
-        plugins: ['foo-plugin'],
-      });
       expect(outputWebpackconfig).toEqual({
         plugins: [],
       });

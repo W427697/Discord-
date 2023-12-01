@@ -316,7 +316,7 @@ describe('sendTelemetryError', () => {
         error: mockError,
         eventType,
         isErrorInstance: false,
-        errorHash: 'no-message',
+        errorHash: 'NO_MESSAGE',
       }),
       expect.any(Object)
     );
@@ -338,7 +338,7 @@ describe('sendTelemetryError', () => {
         error: mockError,
         eventType,
         isErrorInstance: true,
-        errorHash: 'empty-message',
+        errorHash: 'EMPTY_MESSAGE',
       }),
       expect.any(Object)
     );

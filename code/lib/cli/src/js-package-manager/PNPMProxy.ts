@@ -101,6 +101,9 @@ export class PNPMProxy extends JsPackageManager {
     const commandResult = await this.executeCommand({
       command: 'pnpm',
       args: ['list', pattern.map((p) => `"${p}"`).join(' '), '--json', '--depth=99'],
+      env: {
+        FORCE_COLOR: 'false',
+      },
     });
 
     try {
@@ -134,7 +137,7 @@ export class PNPMProxy extends JsPackageManager {
         );
 
         return packageJSON;
-      } catch (error) {
+      } catch (error: any) {
         if (error.code !== 'MODULE_NOT_FOUND') {
           console.error('Error while fetching package version in PNPM PnP mode:', error);
         }
@@ -192,7 +195,7 @@ export class PNPMProxy extends JsPackageManager {
       await this.executeCommand({
         command: 'pnpm',
         args: ['add', ...args, ...this.getInstallArgs()],
-        stdio: ['ignore', logStream, logStream],
+        stdio: process.env.CI ? 'inherit' : ['ignore', logStream, logStream],
       });
     } catch (err) {
       const stdout = await readLogFile();
@@ -287,6 +290,7 @@ export class PNPMProxy extends JsPackageManager {
       dependencies: acc,
       duplicatedDependencies,
       infoCommand: 'pnpm list --depth=1',
+      dedupeCommand: 'pnpm dedupe',
     };
   }
 
