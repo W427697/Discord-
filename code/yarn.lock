@@ -6737,7 +6737,7 @@ __metadata:
     typescript: "npm:^5.3.2"
   peerDependencies:
     "@babel/core": "*"
-    svelte: ^4.0.0 || ^5.0.0-next.1
+    svelte: ^4.0.0 || ^5.0.0-next.16
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -7215,14 +7215,14 @@ __metadata:
     "@sveltejs/vite-plugin-svelte": "npm:^2.4.2"
     "@types/node": "npm:^18.0.0"
     magic-string: "npm:^0.30.0"
-    svelte: "npm:^5.0.0-next.15"
+    svelte: "npm:^5.0.0-next.16"
     svelte-preprocess: "npm:^5.1.1"
     sveltedoc-parser: "npm:^4.2.1"
     ts-dedent: "npm:^2.2.0"
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.1
+    svelte: ^4.0.0 || ^5.0.0-next.16
     vite: ^3.0.0 || ^4.0.0 || ^5.0.0
   languageName: unknown
   linkType: soft
@@ -7240,7 +7240,7 @@ __metadata:
     typescript: "npm:^5.3.2"
   peerDependencies:
     "@babel/core": "*"
-    svelte: ^4.0.0 || ^5.0.0-next.1
+    svelte: ^4.0.0 || ^5.0.0-next.16
     svelte-loader: "*"
   languageName: unknown
   linkType: soft
@@ -7263,7 +7263,7 @@ __metadata:
     type-fest: "npm:~2.19"
     typescript: "npm:^5.3.2"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.1
+    svelte: ^4.0.0 || ^5.0.0-next.16
   languageName: unknown
   linkType: soft
 
@@ -7279,7 +7279,7 @@ __metadata:
     typescript: "npm:^5.3.2"
     vite: "npm:^4.0.0"
   peerDependencies:
-    svelte: ^4.0.0 || ^5.0.0-next.1
+    svelte: ^4.0.0 || ^5.0.0-next.16
     vite: ^4.0.0
   languageName: unknown
   linkType: soft
@@ -27712,6 +27712,26 @@ __metadata:
     magic-string: "npm:^0.30.4"
     zimmerframe: "npm:^1.1.0"
   checksum: f1f29a9412a8d4b3605a29faad939c76f2a8da7b6d91d839b327387ac35c99a4d1382d8fce47ede061ea84d96971f6099c88f6c52c6f0d0bc01235cd0ea434bb
+  languageName: node
+  linkType: hard
+
+"svelte@npm:^5.0.0-next.16":
+  version: 5.0.0-next.16
+  resolution: "svelte@npm:5.0.0-next.16"
+  dependencies:
+    "@ampproject/remapping": "npm:^2.2.1"
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+    acorn: "npm:^8.10.0"
+    acorn-typescript: "npm:^1.4.11"
+    aria-query: "npm:^5.3.0"
+    axobject-query: "npm:^4.0.0"
+    esm-env: "npm:^1.0.0"
+    esrap: "npm:^1.2.1"
+    is-reference: "npm:^3.0.1"
+    locate-character: "npm:^3.0.0"
+    magic-string: "npm:^0.30.4"
+    zimmerframe: "npm:^1.1.0"
+  checksum: 4482d3402415c2233a03c15d3f6d0be28772cb84c386243251c817456478f0a4554ad27add94380c35fe4d2101442e2bbaae4f3130cf75a397f3e93b4e61bc20
   languageName: node
   linkType: hard
 
