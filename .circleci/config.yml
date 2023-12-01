@@ -512,7 +512,9 @@ jobs:
             - run:
                 name: Storybook init from empty directory (Yarn 1)
                 command: |
-                  cd ../
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
                   mkdir empty-<< parameters.template >>
                   cd empty-<< parameters.template >>
                   node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager yarn1
@@ -528,10 +530,13 @@ jobs:
             - run:
                 name: Storybook init from empty directory (Yarn 2)
                 command: |
-                  cd ../
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
                   mkdir empty-<< parameters.template >>
                   cd empty-<< parameters.template >>
                   yarn set version berry
+                  yarn config set registry http://localhost:6001
                   node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager yarn2
                   yarn storybook --smoke-test
                 environment:
@@ -545,10 +550,13 @@ jobs:
             - run:
                 name: Storybook init from empty directory (PNPM)
                 command: |
-                  cd ../
+                  cd code
+                  yarn local-registry --open &
+                  cd ../../
                   mkdir empty-<< parameters.template >>
                   cd empty-<< parameters.template >>
                   npm i -g pnpm
+                  pnpm config set registry http://localhost:6001
                   node ../storybook/code/lib/cli/bin/index.js init --yes --package-manager pnpm
                   pnpm run storybook --smoke-test
                 environment:
