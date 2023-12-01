@@ -1,8 +1,8 @@
 import { Subject } from 'rxjs';
 
-import { bootstrapLock, getCurrentLock } from './BootstrapLock';
+import { queueBootstrapping } from './BootstrapLock';
 
-const tick = (count: number) => new Promise((resolve) => setTimeout(resolve, count));
+const tick = (count = 0) => new Promise((resolve) => setTimeout(resolve, count));
 
 describe('BootstrapLock', () => {
   beforeEach(async () => {
@@ -14,35 +14,28 @@ describe('BootstrapLock', () => {
   });
 
   it('should lock until complete', async () => {
-    expect(getCurrentLock()).toBeNull();
-
     const pendingSubject = new Subject<void>();
     const bootstrapApp = jest.fn().mockImplementation(async () => {
       return pendingSubject.toPromise();
     });
     const bootstrapAppFinished = jest.fn();
 
-    bootstrapLock('story-1', bootstrapApp).then(bootstrapAppFinished);
+    queueBootstrapping(bootstrapApp).then(() => {
+      bootstrapAppFinished();
+    });
 
-    await tick(30);
-
-    expect(getCurrentLock()).toBe('story-1');
     expect(bootstrapApp).toHaveBeenCalled();
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
 
     pendingSubject.next();
     pendingSubject.complete();
 
-    await tick(30);
+    await tick();
 
-    expect(bootstrapApp).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished).toHaveBeenCalled();
-    expect(getCurrentLock()).toBeNull();
   });
 
-  it('should prevent second task, until first task complete', async () => {
-    expect(getCurrentLock()).toBeNull();
-
+  it('should prevent following tasks, until the preview tasks are complete', async () => {
     const pendingSubject = new Subject<void>();
     const bootstrapApp = jest.fn().mockImplementation(async () => {
       return pendingSubject.toPromise();
@@ -55,43 +48,63 @@ describe('BootstrapLock', () => {
     });
     const bootstrapAppFinished2 = jest.fn();
 
-    bootstrapLock('story-1', bootstrapApp).then(bootstrapAppFinished);
-    bootstrapLock('story-2', bootstrapApp2).then(bootstrapAppFinished2);
+    const pendingSubject3 = new Subject<void>();
+    const bootstrapApp3 = jest.fn().mockImplementation(async () => {
+      return pendingSubject3.toPromise();
+    });
+    const bootstrapAppFinished3 = jest.fn();
 
-    await tick(30);
+    queueBootstrapping(bootstrapApp).then(bootstrapAppFinished);
+    queueBootstrapping(bootstrapApp2).then(bootstrapAppFinished2);
+    queueBootstrapping(bootstrapApp3).then(bootstrapAppFinished3);
 
-    expect(getCurrentLock()).toBe('story-1');
+    await tick();
+
     expect(bootstrapApp).toHaveBeenCalled();
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
     expect(bootstrapApp2).not.toHaveBeenCalled();
     expect(bootstrapAppFinished2).not.toHaveBeenCalled();
+    expect(bootstrapApp3).not.toHaveBeenCalled();
+    expect(bootstrapAppFinished3).not.toHaveBeenCalled();
 
     pendingSubject.next();
     pendingSubject.complete();
 
-    await tick(30);
+    await tick();
 
-    expect(getCurrentLock()).toBe('story-2');
     expect(bootstrapApp).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished).toHaveBeenCalled();
     expect(bootstrapApp2).toHaveBeenCalled();
     expect(bootstrapAppFinished2).not.toHaveBeenCalled();
+    expect(bootstrapApp3).not.toHaveBeenCalled();
+    expect(bootstrapAppFinished3).not.toHaveBeenCalled();
 
     pendingSubject2.next();
     pendingSubject2.complete();
 
-    await tick(30);
+    await tick();
 
-    expect(getCurrentLock()).toBeNull();
     expect(bootstrapApp).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished).toHaveBeenCalled();
     expect(bootstrapApp2).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished2).toHaveBeenCalled();
+    expect(bootstrapApp3).toHaveBeenCalled();
+    expect(bootstrapAppFinished3).not.toHaveBeenCalled();
+
+    pendingSubject3.next();
+    pendingSubject3.complete();
+
+    await tick();
+
+    expect(bootstrapApp).toHaveReturnedTimes(1);
+    expect(bootstrapAppFinished).toHaveBeenCalled();
+    expect(bootstrapApp2).toHaveReturnedTimes(1);
+    expect(bootstrapAppFinished2).toHaveBeenCalled();
+    expect(bootstrapApp3).toHaveReturnedTimes(1);
+    expect(bootstrapAppFinished3).toHaveBeenCalled();
   });
 
   it('should reset lock on error', async () => {
-    expect(getCurrentLock()).toBeNull();
-
     const pendingSubject = new Subject<void>();
     const bootstrapApp = jest.fn().mockImplementation(async () => {
       return pendingSubject.toPromise();
@@ -99,20 +112,16 @@ describe('BootstrapLock', () => {
     const bootstrapAppFinished = jest.fn();
     const bootstrapAppError = jest.fn();
 
-    bootstrapLock('story-1', bootstrapApp).then(bootstrapAppFinished).catch(bootstrapAppError);
+    queueBootstrapping(bootstrapApp).then(bootstrapAppFinished).catch(bootstrapAppError);
 
-    await tick(30);
-
-    expect(getCurrentLock()).toBe('story-1');
     expect(bootstrapApp).toHaveBeenCalled();
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
 
     // eslint-disable-next-line local-rules/no-uncategorized-errors
     pendingSubject.error(new Error('test error'));
 
-    await tick(30);
+    await tick();
 
-    expect(getCurrentLock()).toBeNull();
     expect(bootstrapApp).toHaveReturnedTimes(1);
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
     expect(bootstrapAppError).toHaveBeenCalled();

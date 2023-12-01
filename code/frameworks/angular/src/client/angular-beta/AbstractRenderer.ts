@@ -7,7 +7,7 @@ import { ICollection, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { PropertyExtractor } from './utils/PropertyExtractor';
-import { bootstrapLock } from './utils/BootstrapLock';
+import { queueBootstrapping } from './utils/BootstrapLock';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -128,7 +128,7 @@ export abstract class AbstractRenderer {
       analyzedMetadata,
     });
 
-    const applicationRef = await bootstrapLock(targetSelector, () => {
+    const applicationRef = await queueBootstrapping(() => {
       return bootstrapApplication(application, {
         ...storyFnAngular.applicationConfig,
         providers: [
