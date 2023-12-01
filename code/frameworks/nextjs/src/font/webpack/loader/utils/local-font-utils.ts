@@ -1,4 +1,3 @@
-/* eslint-disable import/no-mutable-exports */
 import dedent from 'ts-dedent';
 
 type FontOptions = {
@@ -26,30 +25,31 @@ const trials = [
   {
     module: '@next/font/dist/local/utils',
     exportName: 'validateData',
-    description: 'Support @next/font prior to v13.2.5'
+    description: 'Support @next/font prior to v13.2.5',
   },
   {
     module: '@next/font/dist/local/validate-local-font-function-call',
     exportName: 'validateLocalFontFunctionCall',
-    description: 'Support @next/font since v13.2.5'
+    description: 'Support @next/font since v13.2.5',
   },
   {
     module: 'next/dist/compiled/@next/font/dist/local/utils',
     exportName: 'validateData',
-    description: 'Support next/font prior to v13.2.4'
+    description: 'Support next/font prior to v13.2.4',
   },
   {
     module: 'next/dist/compiled/@next/font/dist/local/validate-local-font-function-call',
     exportName: 'validateLocalFontFunctionCall',
-    description: 'Support next/font since v13.2.4'
-  }
+    description: 'Support next/font since v13.2.4',
+  },
 ];
 
 const validateData: (functionName: string, fontData: any) => FontOptions = (() => {
-  for (let { module, exportName } of trials) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const { module, exportName } of trials) {
     try {
       const loadedModule = require(module);
-      if(exportName in loadedModule){
+      if (exportName in loadedModule) {
         return loadedModule[exportName];
       }
     } catch {
@@ -58,9 +58,12 @@ const validateData: (functionName: string, fontData: any) => FontOptions = (() =
   }
 
   // Generate the dynamic error message
-  const errorDetails = trials.map((trial) => 
-    `- ${trial.description}: tries to import '${trial.export}' from '${trial.module}'`
-  ).join('\n');
+  const errorDetails = trials
+    .map(
+      (trial) =>
+        `- ${trial.description}: tries to import '${trial.exportName}' from '${trial.module}'`
+    )
+    .join('\n');
 
   throw new Error(dedent`
     We were unable to load the helper functions to use next/font/local. The code attempted the following scenarios:
