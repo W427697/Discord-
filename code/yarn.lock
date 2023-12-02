@@ -5156,7 +5156,6 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-preset-angular: "npm:^13.0.1"
     jest-specific-snapshot: "npm:^8.0.0"
-    nanoid: "npm:^4.0.2"
     read-pkg-up: "npm:^7.0.1"
     semver: "npm:^7.3.7"
     telejson: "npm:^7.2.0"

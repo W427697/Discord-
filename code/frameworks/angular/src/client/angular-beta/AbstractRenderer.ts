@@ -3,7 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
-import { nanoid } from 'nanoid';
+
 import { ICollection, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
@@ -17,6 +17,12 @@ type StoryRenderInfo = {
 
 const applicationRefs = new Map<HTMLElement, ApplicationRef>();
 
+/**
+ * Attribute name for the story UID that may be written to the targetDOMNode.
+ *
+ * If a target DOM node has a story UID attribute, it will be used as part of
+ * the selector for the Angular component.
+ */
 export const STORY_UID_ATTRIBUTE = 'data-sb-story-uid';
 
 export abstract class AbstractRenderer {
@@ -125,10 +131,12 @@ export abstract class AbstractRenderer {
 
     const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
 
-    const componentSelector =
-      targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE) !== null
-        ? `${targetSelector}[${targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE)}]`
-        : targetSelector;
+    const storyUid = targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE);
+    const componentSelector = storyUid !== null ? `${targetSelector}[${storyUid}]` : targetSelector;
+    if (storyUid !== null) {
+      const element = targetDOMNode.querySelector(targetSelector);
+      element.toggleAttribute(storyUid, true);
+    }
 
     const application = getApplication({
       storyFnAngular,
@@ -175,12 +183,7 @@ export abstract class AbstractRenderer {
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
     // eslint-disable-next-line no-param-reassign
     targetDOMNode.innerHTML = '';
-
-    targetDOMNode.setAttribute(STORY_UID_ATTRIBUTE, `${targetDOMNode.id}-${nanoid(10)}`);
-    const element = document.createElement(targetSelector);
-    element.toggleAttribute(targetDOMNode.getAttribute(STORY_UID_ATTRIBUTE), true);
-
-    targetDOMNode.appendChild(element);
+    targetDOMNode.appendChild(document.createElement(targetSelector));
   }
 
   private fullRendererRequired({
