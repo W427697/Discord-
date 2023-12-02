@@ -12,6 +12,7 @@ const { FRAMEWORK_OPTIONS } = global;
 class ErrorBoundary extends ReactComponent<{
   showException: (err: Error) => void;
   showMain: () => void;
+  children?: React.ReactNode;
 }> {
   state = { hasError: false };
 
