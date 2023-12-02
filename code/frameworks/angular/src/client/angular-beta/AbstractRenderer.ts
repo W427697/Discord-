@@ -7,7 +7,7 @@ import { ICollection, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { PropertyExtractor } from './utils/PropertyExtractor';
-import { queueBootstrapping } from './utils/BootstrapLock';
+import { queueBootstrapping } from './utils/BootstrapQueue';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
