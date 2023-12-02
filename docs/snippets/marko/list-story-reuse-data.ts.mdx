@@ -1,0 +1,37 @@
+```tsx
+// List.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import List from './List.marko';
+import ListItem from './ListItem.marko';
+
+//👇 All ListItem stories are imported
+import { Selected, Unselected } from './ListItem.stories';
+
+const meta: Meta<typeof List> = {
+  component: List,
+};
+
+export default meta;
+type Story = StoryObj<typeof List>;
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/marko/api/csf
+ * to learn how to use render functions.
+ */
+export const ManyItems: Story = {
+  render: (input) => ({
+    component: List,
+    input: {
+      ...input,
+      renderBody(out) {
+        ListItem.render({ ...Selected.args }, out);
+        ListItem.render({ ...Unselected.args }, out);
+        ListItem.render({ ...Unselected.args }, out);
+      },
+    },
+  }),
+};
+```

@@ -1,0 +1,41 @@
+```js
+// your-component.stories.js
+
+import YourComponent from './your-component.marko';
+
+export default {
+  component: YourComponent,
+  //👇 Creates specific argTypes with options
+  argTypes: {
+    propertyA: {
+      options: ['Item One', 'Item Two', 'Item Three'],
+      control: { type: 'select' }, // Automatically inferred when 'options' is defined
+    },
+    propertyB: {
+      options: ['Another Item One', 'Another Item Two', 'Another Item Three'],
+    },
+  },
+};
+
+const someFunction = (valuePropertyA, valuePropertyB) => {
+  // Do some logic here
+};
+
+export const ExampleStory = {
+  render: (input) => {
+    //👇 Assigns the function result to a variable
+    const someFunctionResult = someFunction(input.propertyA, input.propertyB);
+    return {
+      component: YourComponent,
+      input: {
+        ...input,
+        someProperty: someFunctionResult,
+      },
+    };
+  },
+  args: {
+    propertyA: 'Item One',
+    propertyB: 'Another Item One',
+  },
+};
+```

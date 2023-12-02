@@ -1,0 +1,21 @@
+```js
+// Button.stories.js
+
+import { action } from '@storybook/addon-actions';
+
+import Button from './Button.marko';
+
+export default {
+  component: Button,
+};
+
+export const Text = {
+  render: () => ({
+    component: Button,
+    input: {
+      label: 'Hello',
+      onClick: action('clicked'),
+    },
+  }),
+};
+```

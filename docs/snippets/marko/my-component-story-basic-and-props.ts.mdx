@@ -1,0 +1,22 @@
+```tsx
+// MyComponent.story.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import MyComponent from './MyComponent.marko';
+
+const meta: Meta<typeof MyComponent> = {
+  component: MyComponent,
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+export const Basic: Story = {};
+
+export const WithProp: Story = {
+  props: {
+    prop: 'value',
+  },
+};
+```

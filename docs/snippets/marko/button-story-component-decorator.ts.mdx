@@ -1,0 +1,34 @@
+```tsx
+// Button.stories.ts
+
+import type { Meta } from '@storybook/marko';
+
+import Button from './Button.marko';
+import MarginDecorator from './margin-decorator.marko';
+
+const meta: Meta<typeof Button> = {
+  component: Button,
+  decorators: [
+    (Story) => ({
+      component: MarginDecorator,
+      input: {
+        renderBody: Story,
+      },
+    }),
+  ],
+};
+
+export default meta;
+```
+
+```marko
+// margin-decorator.marko
+
+export interface Input {
+  renderBody: Marko.Renderable;
+}
+
+<div style={ margin: '3em' }>
+  <${input.renderBody}>
+</div>
+```

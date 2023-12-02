@@ -1,0 +1,29 @@
+```js
+// Button.stories.js
+
+import Button from './Button.marko';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/marko/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Button',
+  component: Button,
+  //👇 Creates specific parameters for the story
+  parameters: {
+    myAddon: {
+      data: 'This data is passed to the addon',
+    },
+  },
+};
+
+export const Basic = {
+  render: () => ({
+    component: Button,
+    input: {
+      renderBody: 'Hello',
+    },
+  }),
+};
+```

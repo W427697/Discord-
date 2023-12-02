@@ -1,0 +1,17 @@
+```jsx
+// .storybook/preview.js
+
+import MarginDecorator from './margin-decorator.marko';
+
+export default {
+  decorators: [MarginDecorator],
+};
+```
+
+```marko
+// margin-decorator.marko
+
+<div style={ margin: '3em' }>
+  <${input.renderBody}>
+</div>
+```

@@ -1,0 +1,17 @@
+```tsx
+// List.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import List from './List.marko';
+
+const meta: Meta<typeof List> = {
+  component: List,
+};
+
+export default meta;
+type Story = StoryObj<typeof List>;
+
+//👇 Always an empty list, not super interesting
+export const Empty: Story = {};
+```

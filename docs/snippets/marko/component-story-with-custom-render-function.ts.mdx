@@ -1,0 +1,42 @@
+```tsx
+// MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import MyComponent from './MyComponent.marko';
+import wrapper from './wrapper.marko';
+
+const meta: Meta<typeof MyComponent> = {
+  component: MyComponent,
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+// This story uses a render function to fully control how the component renders.
+export const Example: Story = {
+  render: () => ({
+    component: wrapper,
+    input: {
+      renderBody: MyComponent,
+    },
+  }),
+};
+```
+
+```marko
+// wrapper.marko
+
+export interface Input {
+  renderBody: Marko.Renderable;
+}
+
+<Layout>
+  <header>
+    <h1>Example</h1>
+  </header>
+  <article>
+    <${input.renderBody}>
+  </article>
+</Layout>
+```

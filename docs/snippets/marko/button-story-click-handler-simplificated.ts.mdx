@@ -1,0 +1,18 @@
+```ts
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import Button from './Button.marko';
+
+const meta: Meta<typeof Button> = {
+  component: Button,
+};
+
+export default meta;
+type Story = StoryObj<typeof Button>;
+
+export const Text: Story = {
+  args: {},
+};
+```

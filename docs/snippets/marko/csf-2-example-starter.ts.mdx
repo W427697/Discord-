@@ -1,0 +1,18 @@
+```tsx
+// CSF 2
+
+import { ComponentStory, ComponentMeta } from '@storybook/marko';
+
+import Button from './Button.marko';
+
+export default {
+  title: 'Button',
+  component: Button,
+} as ComponentMeta<typeof Button>;
+
+export const Primary: ComponentStory<typeof Button> = (input) => ({
+  component: Button,
+  input,
+});
+Primary.args = { primary: true };
+```

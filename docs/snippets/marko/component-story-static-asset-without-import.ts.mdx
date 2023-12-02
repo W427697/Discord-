@@ -1,0 +1,25 @@
+```tsx
+//  MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import MyComponent from './MyComponent.marko';
+
+const meta: Meta<typeof MyComponent> = {
+  component: MyComponent,
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+// Assume image.png is located in the "public" directory.
+export const WithAnImage: Story = {
+  render: () => ({
+    component: MyComponent,
+    input: {
+      image: '/image.png',
+      alt: 'my image',
+    },
+  }),
+};
+```

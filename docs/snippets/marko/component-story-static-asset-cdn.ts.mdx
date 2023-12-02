@@ -1,0 +1,24 @@
+```tsx
+//  MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import MyComponent from './MyComponent.marko';
+
+const meta: Meta<typeof MyComponent> = {
+  component: MyComponent,
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+export const WithAnImage: Story = {
+  render: () => ({
+    component: MyComponent,
+    input: {
+      image: 'https://storybook.js.org/images/placeholders/350x150.png',
+      alt: 'My CDN placeholder',
+    },
+  }),
+};
+```

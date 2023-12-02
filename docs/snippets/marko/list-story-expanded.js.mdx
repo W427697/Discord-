@@ -1,0 +1,43 @@
+```js
+// List.stories.js
+
+import List from './List.marko';
+import ListItem from './ListItem.marko';
+
+export default {
+  component: List,
+};
+
+export const Empty = {};
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/marko/api/csf
+ * to learn how to use render functions.
+ */
+export const OneItem = {
+  render: (input) => ({
+    component: List,
+    input: {
+      ...input,
+      renderBody(out) {
+        ListItem.render({}, out);
+      },
+    },
+  }),
+};
+
+export const ManyItems = {
+  render: (input) => ({
+    component: List,
+    input: {
+      ...input,
+      renderBody(out) {
+        ListItem.render({}, out);
+        ListItem.render({}, out);
+        ListItem.render({}, out);
+      },
+    },
+  }),
+};
+```

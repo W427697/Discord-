@@ -1,0 +1,33 @@
+```tsx
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import Button from './Button.marko';
+
+const meta = {
+  component: Button,
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// This is an accessible story
+export const Accessible: Story = {
+  args: {
+    primary: false,
+    label: 'Button',
+  },
+};
+
+// This is not
+export const Inaccessible: Story = {
+  args: {
+    ...Accessible.args,
+    backgroundColor: 'red',
+  },
+};
+```

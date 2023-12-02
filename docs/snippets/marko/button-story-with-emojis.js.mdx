@@ -1,0 +1,44 @@
+```ts
+// Button.stories.js
+
+import Button from './Button.marko';
+
+export default {
+  component: Button,
+};
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/marko/api/csf
+ * to learn how to use render functions.
+ */
+export const Primary = {
+  render: () => ({
+    component: Button,
+    input: {
+      backgroundColor: '#ff0',
+      label: 'Button',
+    },
+  }),
+};
+
+export const Secondary = {
+  render: () => ({
+    component: Button,
+    input: {
+      backgroundColor: '#ff0',
+      label: '😄👍😍💯',
+    },
+  }),
+};
+
+export const Tertiary = {
+  render: () => ({
+    component: Button,
+    input: {
+      backgroundColor: '#ff0',
+      label: '📚📕📈🤓',
+    },
+  }),
+};
+```

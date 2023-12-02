@@ -1,0 +1,17 @@
+```marko
+// YourPage.marko
+
+import type { Document } from './Document';
+import type { SubDocuments } from './SubDocuments';
+
+export interface Input {
+  user?: {};
+  document?: Document;
+  subdocuments?: SubDocuments[];
+}
+
+<PageLayout user=input.user>
+  <DocumentHeader document=input.document />
+  <DocumentList documents=input.subdocuments />
+</PageLayout>
+```

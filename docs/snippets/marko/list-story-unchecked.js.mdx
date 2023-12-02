@@ -1,0 +1,32 @@
+```js
+// List.stories.js
+
+import { composeStories } from '@storybook/marko';
+
+import List from './List.marko';
+
+//👇 Instead of importing ListItem, we import the stories
+import * as ListItemStories from './ListItem.stories';
+const { Unchecked } = composeStories(ListItemStories);
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/marko/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'List',
+  component: List,
+};
+
+export const OneItem = {
+  render: (input) => ({
+    component: List,
+    input: {
+      ...input,
+      renderBody(out) {
+        Unchecked.render(Unchecked.args, out);
+      },
+    },
+  }),
+};
+```

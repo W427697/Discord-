@@ -1,0 +1,19 @@
+```marko
+// YourPage.marko
+
+<await(fetch('https://your-restful-endpoint')) client-reorder>
+  <@placeholder>
+    <p>Loading...</p>
+  </@placeholder>
+  <@catch|err|>
+    <p>There was an error fetching data!</p>
+  </@catch>
+  <@then|res|>
+    $ const { user, document, subdocuments } = await res.json();
+    <PageLayout user=user>
+      <DocumentHeader document=document />
+      <DocumentList documents=subdocuments />
+    </PageLayout>
+  </@then>
+</await>
+```

@@ -1,0 +1,31 @@
+```tsx
+// List.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import List from './List.marko';
+
+//👇 Instead of importing ListItem, we import the stories
+import * as ListItemStories from './ListItem.stories';
+const { Unchecked } = composeStories(ListItemStories);
+
+const meta: Meta<typeof List> = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/marko/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'List',
+  component: List,
+};
+
+export default meta;
+type Story = StoryObj<typeof List>;
+
+export const OneItem: Story = {
+  args: {
+    renderBody(out) {
+      Unchecked.render(Unchecked.args, out);
+    },
+  },
+};
+```

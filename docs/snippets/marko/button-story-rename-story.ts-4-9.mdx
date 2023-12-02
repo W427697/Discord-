@@ -1,0 +1,30 @@
+```tsx
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import Button from './Button.marko';
+
+const meta = {
+  component: Button,
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/marko/api/csf
+ * to learn how to use render functions.
+ */
+export const Primary: Story = {
+  name: 'I am the primary',
+  render: () => ({
+    component: Button,
+    input: {
+      primary: true,
+      label: 'Button',
+    },
+  }),
+};
+```

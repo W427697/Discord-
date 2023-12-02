@@ -197,6 +197,7 @@ const frameworkToRenderer: Record<SupportedFrameworks | SupportedRenderers, Supp
   angular: 'angular',
   ember: 'ember',
   html: 'html',
+  marko: 'marko',
   nextjs: 'react',
   preact: 'preact',
   qwik: 'qwik',

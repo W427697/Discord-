@@ -1,0 +1,20 @@
+```js
+// .storybook/preview.tsx
+
+import { Preview } from '@storybook/marko';
+import { MarginDecorator } from './margin-decorator.marko';
+
+const preview: Preview = {
+  decorators: [MarginDecorator],
+};
+
+export default preview;
+```
+
+```marko
+// margin-decorator.marko
+
+<div style={ margin: '3em' }>
+  <${input.renderBody}>
+</div>
+```

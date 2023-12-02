@@ -1,0 +1,23 @@
+```js
+// MyComponent.stories.js
+
+import imageFile from './static/image.png';
+
+import MyComponent from './MyComponent.marko';
+
+export default {
+  component: MyComponent,
+};
+
+const image = {
+  src: imageFile,
+  alt: 'my image',
+};
+
+export const WithAnImage = {
+  render: () => ({
+    component: MyComponent,
+    input: image,
+  }),
+};
+```

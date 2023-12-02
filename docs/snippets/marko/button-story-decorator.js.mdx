@@ -1,0 +1,29 @@
+```js
+// Button.stories.js
+
+import Button from './Button.marko';
+import MarginDecorator from './margin-decorator.marko';
+
+export default {
+  component: Button,
+};
+
+export const Primary = {
+  decorators: [
+    (Story) => ({
+      component: MarginDecorator,
+      input: {
+        renderBody: Story,
+      },
+    }),
+  ],
+};
+```
+
+```marko
+// margin-decorator.marko
+
+<div style={ margin: '3em' }>
+  <${input.renderBody}>
+</div>
+```

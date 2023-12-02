@@ -1,0 +1,26 @@
+```tsx
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/marko';
+
+import { action } from '@storybook/addon-actions';
+
+import Button from './Button.marko';
+
+const meta: Meta<typeof Button> = {
+  component: Button,
+};
+
+export default meta;
+type Story = StoryObj<typeof Button>;
+
+export const Basic: Story = {
+  render: () => ({
+    component: Button,
+    input: {
+      label: 'Button',
+      onClick: action('clicked'),
+    },
+  }),
+};
+```

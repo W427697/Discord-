@@ -107,6 +107,46 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'marko-vite/default-js': {
+    name: 'Marko Latest (Vite | JavaScript)',
+    script: 'npm create vite@latest --yes {{beforeDir}} -- --template marko',
+    expected: {
+      framework: '@storybook/marko-vite',
+      renderer: '@storybook/marko',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'marko-vite/default-ts': {
+    name: 'Marko Latest (Vite | TypeScript)',
+    script: 'npm create vite@latest --yes {{beforeDir}} -- --template marko-ts',
+    expected: {
+      framework: '@storybook/marko-vite',
+      renderer: '@storybook/marko',
+      builder: '@storybook/builder-vite',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'marko-webpack5/default-js': {
+    name: 'Marko Latest (Webpack | JavaScript)',
+    script: 'yarn create webpack5-marko {{beforeDir}}',
+    expected: {
+      framework: '@storybook/marko-webpack5',
+      renderer: '@storybook/marko',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
+  'marko-webpack5/default-ts': {
+    name: 'Marko Latest (Webpack | TypeScript)',
+    script: 'yarn create webpack5-marko {{beforeDir}} --typescript',
+    expected: {
+      framework: '@storybook/marko-webpack5',
+      renderer: '@storybook/marko',
+      builder: '@storybook/builder-webpack5',
+    },
+    skipTasks: ['e2e-tests-dev', 'bench'],
+  },
   'nextjs/12-js': {
     name: 'Next.js v12 (Webpack | JavaScript)',
     script:

@@ -1,0 +1,23 @@
+```js
+// Page.stories.js
+
+import Page from './Page.marko';
+
+export default {
+  component: Page,
+  render: ({ footer, ...input }) => ({
+    input: {
+      ...input,
+      footer(out) {
+        out.html(`<footer>${footer}</footer>`);
+      },
+    },
+  }),
+};
+
+export const CustomFooter = {
+  args: {
+    footer: 'Built with Storybook',
+  },
+};
+```

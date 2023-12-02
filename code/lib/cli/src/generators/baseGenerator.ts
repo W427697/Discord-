@@ -167,9 +167,18 @@ const getFrameworkDetails = (
 const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDetails(addon)[0]);
 
 const hasInteractiveStories = (rendererId: SupportedRenderers) =>
-  ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html', 'solid', 'qwik'].includes(
-    rendererId
-  );
+  [
+    'react',
+    'angular',
+    'preact',
+    'svelte',
+    'vue',
+    'vue3',
+    'html',
+    'solid',
+    'marko',
+    'qwik',
+  ].includes(rendererId);
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
   framework ? ['angular', 'nextjs'].includes(framework) : false;
