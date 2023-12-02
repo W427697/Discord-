@@ -242,7 +242,16 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
   const updateRaw: (raw: string) => void = useCallback(
     (raw) => {
       try {
-        if (raw) onChange(JSON.parse(raw));
+        if (raw) {
+          const parsed = JSON.parse(raw, (_, val) =>
+            typeof val === 'string' && val.endsWith('$$bigInt$$')
+              ? BigInt(val.replace('$$bigInt$$', ''))
+              : val
+          );
+
+          onChange(parsed);
+        }
+
         setParseError(undefined);
       } catch (e) {
         setParseError(e);
@@ -270,12 +279,18 @@ export const ObjectControl: FC<ObjectProps> = ({ name, value, onChange }) => {
     );
   }
 
+  const stringified = JSON.stringify(
+    value,
+    (_, val) => (typeof val === 'bigint' ? `${val.toString()}$$bigInt$$` : val),
+    2
+  );
+
   const rawJSONForm = (
     <RawInput
       ref={htmlElRef}
       id={getControlId(name)}
       name={name}
-      defaultValue={value === null ? '' : JSON.stringify(value, null, 2)}
+      defaultValue={value === null ? '' : stringified}
       onBlur={(event: FocusEvent<HTMLTextAreaElement>) => updateRaw(event.target.value)}
       placeholder="Edit JSON string..."
       autoFocus={forceVisible}
