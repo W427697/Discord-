@@ -1,5 +1,6 @@
 import type { Addon_DecoratorFunction } from '@storybook/types';
 import './config/preview';
+import { ServerComponentDecorator } from './rsc/decorator';
 import { ImageDecorator } from './images/decorator';
 import { RouterDecorator } from './routing/decorator';
 import { StyledJsxDecorator } from './styledJsx/decorator';
@@ -15,6 +16,7 @@ function addNextHeadCount() {
 addNextHeadCount();
 
 export const decorators: Addon_DecoratorFunction<any>[] = [
+  ServerComponentDecorator,
   StyledJsxDecorator,
   ImageDecorator,
   RouterDecorator,
@@ -22,6 +24,9 @@ export const decorators: Addon_DecoratorFunction<any>[] = [
 ];
 
 export const parameters = {
+  nextjs: {
+    rsc: true,
+  },
   docs: {
     source: {
       excludeDecorators: true,
