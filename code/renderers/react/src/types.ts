@@ -17,4 +17,4 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type StoryFnReactReturnType = JSX.Element | Promise<JSX.Element>;
+export type StoryFnReactReturnType = JSX.Element;
