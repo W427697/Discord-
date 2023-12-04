@@ -92,25 +92,7 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
     // the top. In theory this could mask issues where different versions cause problems.
     await addPackageResolutions({ cwd, dryRun, debug });
     await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
-
-    // Add vite plugin workarounds for frameworks that need it
-    // (to support vite 5 without peer dep errors)
-    if (
-      [
-        'bench-react-vite-default-ts',
-        'bench-react-vite-default-ts-nodocs',
-        'bench-react-vite-default-ts-test-build',
-        'internal-ssv6-vite',
-        'react-vite-default-js',
-        'react-vite-default-ts',
-        'svelte-vite-default-js',
-        'svelte-vite-default-ts',
-        'vue3-vite-default-js',
-        'vue3-vite-default-ts',
-      ].includes(sandboxDir.split(sep).at(-1))
-    ) {
-      await addWorkaroundResolutions({ cwd, dryRun, debug });
-    }
+    await addWorkaroundResolutions({ sandboxDir, cwd, dryRun, debug });
 
     await exec(
       'yarn install',

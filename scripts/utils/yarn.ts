@@ -59,20 +59,49 @@ export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   );
 };
 
-export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => {
+export const addWorkaroundResolutions = async ({ sandboxDir, cwd, dryRun }: YarnOptions) => {
   logger.info(`🔢 Adding resolutions for workarounds`);
   if (dryRun) return;
 
+  const sandbox = sandboxDir.split(sep).at(-1);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
-  packageJson.resolutions = {
-    ...packageJson.resolutions,
-    // Due to our support of older vite versions
-    '@vitejs/plugin-react': '4.2.0',
-    '@sveltejs/vite-plugin-svelte': '3.0.1',
-    '@vitejs/plugin-vue': '4.5.0',
-  };
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  let resolutionsModified = false;
+  // Add vite plugin workarounds for frameworks that need it
+  // (to support vite 5 without peer dep errors)
+  if (
+    [
+      'bench-react-vite-default-ts',
+      'bench-react-vite-default-ts-nodocs',
+      'bench-react-vite-default-ts-test-build',
+      'internal-ssv6-vite',
+      'react-vite-default-js',
+      'react-vite-default-ts',
+      'svelte-vite-default-js',
+      'svelte-vite-default-ts',
+      'vue3-vite-default-js',
+      'vue3-vite-default-ts',
+    ].includes(sandbox)
+  ) {
+    resolutionsModified = true;
+    packageJson.resolutions = {
+      ...packageJson.resolutions,
+      // Due to our support of older vite versions
+      '@vitejs/plugin-react': '4.2.0',
+      '@sveltejs/vite-plugin-svelte': '3.0.1',
+      '@vitejs/plugin-vue': '4.5.0',
+    };
+  }
+
+  if (sandbox === 'svelte-kit-prerelease-ts') {
+    resolutionsModified = true;
+    // Enforce Svelte 5 for SvelteKit prerelease. https://github.com/sveltejs/svelte-hmr/pull/87
+    packageJson.resolutions.svelte = '^5.0.0-next.17';
+  }
+
+  if (resolutionsModified) {
+    await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
+  }
 };
 
 export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOptions) => {
