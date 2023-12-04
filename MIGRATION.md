@@ -12,14 +12,13 @@
     - [React-docgen component analysis by default](#react-docgen-component-analysis-by-default)
   - [Framework-specific changes](#framework-specific-changes)
     - [Angular: Drop support for Angular \< 15](#angular-drop-support-for-angular--15)
+    - [Next.js: Drop support for version \< 13.5](#nextjs-drop-support-for-version--135)
 - [From version 7.5.0 to 7.6.0](#from-version-750-to-760)
     - [CommonJS with Vite is deprecated](#commonjs-with-vite-is-deprecated)
     - [Using implicit actions during rendering is deprecated](#using-implicit-actions-during-rendering-is-deprecated)
     - [typescript.skipBabel deprecated](#typescriptskipbabel-deprecated)
     - [Primary doc block accepts of prop](#primary-doc-block-accepts-of-prop)
     - [Addons no longer need a peer dependency on React](#addons-no-longer-need-a-peer-dependency-on-react)
-  - [Framework-specific changes](#framework-specific-changes)
-    - [Next.js: Drop support for Angular \< 13.5](#nextjs-drop-support-for-angular--135)
 - [From version 7.4.0 to 7.5.0](#from-version-740-to-750)
     - [`storyStoreV6` and `storiesOf` is deprecated](#storystorev6-and-storiesof-is-deprecated)
     - [`storyIndexers` is replaced with `experimental_indexers`](#storyindexers-is-replaced-with-experimental_indexers)
@@ -470,6 +469,10 @@ For more information see: https://storybook.js.org/docs/react/api/main-config-ty
 
 Starting in 8.0, we drop support for Angular < 15
 
+#### Next.js: Drop support for version \< 13.5
+
+Starting in 8.0, we drop support for Next.js < 13.5.
+
 ## From version 7.5.0 to 7.6.0
 
 #### CommonJS with Vite is deprecated
@@ -557,12 +560,6 @@ const allGlobalPackages = [...globalManagerPackages, ...globalPreviewPackages];
 
 We recommend checking out [the updates we've made to the addon-kit](https://github.com/storybookjs/addon-kit/pull/60/files#diff-8fed899bdbc24789a7bb4973574e624ed6207c6ce572338bc3c3e117672b2a20), that can serve as a base for the changes you can do in your own addon. These changes are not necessary for your addon to keep working, but they will remove the need for your users to unnecessary install `react` and `react-dom` to their projects, and they'll significantly reduce the install size of your addon.
 These changes should not be breaking for your users, unless you support Storybook pre-v7.
-
-### Framework-specific changes
-
-#### Next.js: Drop support for Angular \< 13.5
-
-Starting in 8.0, we drop support for Next.js < 13.5.
 
 ## From version 7.4.0 to 7.5.0
 
