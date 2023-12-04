@@ -1,4 +1,3 @@
-import React, { Suspense } from 'react';
 import { RSC } from './RSC';
 
 export default {
@@ -8,12 +7,18 @@ export default {
 export const Default = {};
 
 export const DisableRSC = {
+  tags: ['test-skip'],
   parameters: {
+    chromatic: { disable: true },
     nextjs: { rsc: false },
   },
 };
 
 export const Error = {
+  tags: ['test-skip'],
+  parameters: {
+    chromatic: { disable: true },
+  },
   render: () => {
     throw new Error('RSC Error');
   },
