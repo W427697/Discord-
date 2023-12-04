@@ -59,52 +59,28 @@ export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   );
 };
 
-export const addWorkaroundResolutions = async ({ sandboxDir, cwd, dryRun }: YarnOptions) => {
+export const addWorkaroundResolutions = async ({ cwd, dryRun }: YarnOptions) => {
   logger.info(`🔢 Adding resolutions for workarounds`);
   if (dryRun) return;
 
-  const sandbox = sandboxDir.split(path.sep).at(-1);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
-  let resolutionsModified = false;
-  // Add vite plugin workarounds for frameworks that need it
-  // (to support vite 5 without peer dep errors)
-  if (
-    [
-      'bench-react-vite-default-ts',
-      'bench-react-vite-default-ts-nodocs',
-      'bench-react-vite-default-ts-test-build',
-      'internal-ssv6-vite',
-      'react-vite-default-js',
-      'react-vite-default-ts',
-      'svelte-vite-default-js',
-      'svelte-vite-default-ts',
-      'vue3-vite-default-js',
-      'vue3-vite-default-ts',
-    ].includes(sandbox)
-  ) {
-    resolutionsModified = true;
-    packageJson.resolutions = {
-      ...packageJson.resolutions,
-      // Due to our support of older vite versions
-      '@vitejs/plugin-react': '4.2.0',
-      '@sveltejs/vite-plugin-svelte': '3.0.1',
-      '@vitejs/plugin-vue': '4.5.0',
-    };
-  }
-
-  if (sandbox === 'svelte-kit-prerelease-ts') {
-    resolutionsModified = true;
-    // Enforce Svelte 5 for SvelteKit prerelease. https://github.com/sveltejs/svelte-hmr/pull/87
-    packageJson.resolutions.svelte = '^5.0.0-next.17';
-  }
-
-  if (resolutionsModified) {
-    await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
-  }
+  packageJson.resolutions = {
+    ...packageJson.resolutions,
+    // Due to our support of older vite versions
+    '@vitejs/plugin-react': '4.2.0',
+    '@sveltejs/vite-plugin-svelte': '3.0.1',
+    '@vitejs/plugin-vue': '4.5.0',
+  };
+  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
-export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOptions) => {
+export const configureYarn2ForVerdaccio = async ({
+  cwd,
+  dryRun,
+  debug,
+  sandboxDir,
+}: YarnOptions & { sandboxDir: string }) => {
   const command = [
     // We don't want to use the cache or we might get older copies of our built packages
     // (with identical versions), as yarn (correctly I guess) assumes the same version hasn't changed
@@ -118,10 +94,20 @@ export const configureYarn2ForVerdaccio = async ({ cwd, dryRun, debug }: YarnOpt
     `yarn config set pnpFallbackMode none`,
     // We need to be able to update lockfile when bootstrapping the examples
     `yarn config set enableImmutableInstalls false`,
+  ];
+
+  if (sandboxDir.split(path.sep).at(-1) === 'svelte-kit-prerelease-ts') {
+    // Don't error with INCOMPATIBLE_PEER_DEPENDENCY for SvelteKit prerelease, it is expected
+    command.push(
+      `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" } ]'`
+    );
+  } else {
     // Discard all YN0013 - FETCH_NOT_CACHED messages
     // Error on YN0060 - INCOMPATIBLE_PEER_DEPENDENCY
-    `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" }, { "code": "YN0060", "level": "error" } ]'`,
-  ];
+    command.push(
+      `yarn config set logFilters --json '[ { "code": "YN0013", "level": "discard" }, { "code": "YN0060", "level": "error" } ]'`
+    );
+  }
 
   await exec(
     command,
