@@ -4,7 +4,7 @@ import type { PresetProperty } from '@storybook/types';
 import type { ConfigItem, PluginItem } from '@babel/core';
 import { loadPartialConfig } from '@babel/core';
 import { getProjectRoot } from '@storybook/core-common';
-import { configureConfig } from './config/webpack';
+import { applyNextConfigWebpackConfig, configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
 import { configureStyledJsx } from './styledJsx/webpack';
@@ -151,6 +151,7 @@ export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, 
   configureImages(baseConfig, nextConfig);
   configureStyledJsx(baseConfig);
   configureNodePolyfills(baseConfig);
+  applyNextConfigWebpackConfig(baseConfig, nextConfig);
 
   // TODO: In Storybook 8.0, we have to check whether the babel-compiler addon is used. Otherwise, swc should be used.
   if (builder?.useSWC) {
