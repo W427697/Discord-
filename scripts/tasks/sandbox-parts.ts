@@ -87,7 +87,7 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
       dryRun,
       debug,
     });
-    await addWorkaroundResolutions({ cwd, dryRun, debug });
+    await addWorkaroundResolutions({ sandboxDir, cwd, dryRun, debug });
   } else {
     // We need to add package resolutions to ensure that we only ever install the latest version
     // of any storybook packages as verdaccio is not able to both proxy to npm and publish over

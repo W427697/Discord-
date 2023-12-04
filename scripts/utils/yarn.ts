@@ -63,7 +63,7 @@ export const addWorkaroundResolutions = async ({ sandboxDir, cwd, dryRun }: Yarn
   logger.info(`🔢 Adding resolutions for workarounds`);
   if (dryRun) return;
 
-  const sandbox = sandboxDir.split(sep).at(-1);
+  const sandbox = sandboxDir.split(path.sep).at(-1);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   let resolutionsModified = false;
