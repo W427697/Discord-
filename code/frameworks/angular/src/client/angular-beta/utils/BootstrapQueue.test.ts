@@ -24,6 +24,8 @@ describe('BootstrapQueue', () => {
       bootstrapAppFinished();
     });
 
+    await tick();
+
     expect(bootstrapApp).toHaveBeenCalled();
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
 
@@ -121,6 +123,8 @@ describe('BootstrapQueue', () => {
 
     queueBootstrapping(bootstrapApp).then(bootstrapAppFinished).catch(bootstrapAppError);
     queueBootstrapping(bootstrapApp2).then(bootstrapAppFinished2).catch(bootstrapAppError2);
+
+    await tick();
 
     expect(bootstrapApp).toHaveBeenCalledTimes(1);
     expect(bootstrapAppFinished).not.toHaveBeenCalled();
