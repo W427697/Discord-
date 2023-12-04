@@ -1,7 +1,9 @@
-import { RSC } from './RSC';
+import React from 'react';
+import { RSC, Nested } from './RSC';
 
 export default {
   component: RSC,
+  args: { label: 'label' },
 };
 
 export const Default = {};
@@ -22,4 +24,12 @@ export const Error = {
   render: () => {
     throw new Error('RSC Error');
   },
+};
+
+export const NestedRSC = {
+  render: (args) => (
+    <Nested>
+      <RSC {...args} />
+    </Nested>
+  ),
 };
