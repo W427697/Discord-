@@ -210,7 +210,6 @@ export const currentDirectoryIsEmpty = (packageManager: PackageManagerName) => {
 
   const filesToIgnore = IGNORED_FILES_BY_PACKAGE_MANAGER[packageManagerName];
 
-  console.log('PAckage manager used: ', packageManager, packageManagerName);
   return (
     cwdFolderEntries.length === 0 ||
     cwdFolderEntries.every((entry) => filesToIgnore.includes(entry))

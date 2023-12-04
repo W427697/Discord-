@@ -36,6 +36,7 @@ import type { NpmOptions } from './NpmOptions';
 import type { CommandOptions, GeneratorOptions } from './generators/types';
 import { HandledError } from './HandledError';
 import { currentDirectoryIsEmpty, scaffoldNewProject } from './scaffold-new-project';
+import versions from './versions';
 
 const logger = console;
 
@@ -271,6 +272,12 @@ async function doInitiate(
   if (options.force !== true && currentDirectoryIsEmpty(packageManager.type)) {
     // Prompt the user to create a new project from our list.
     await scaffoldNewProject(packageManager.type);
+
+    if (process.env.IN_STORYBOOK_SANDBOX === 'true' || process.env.CI === 'true') {
+      packageManager.addPackageResolutions({
+        '@storybook/telemetry': versions['@storybook/telemetry'],
+      });
+    }
   }
 
   let projectType: ProjectType;
@@ -377,7 +384,6 @@ async function doInitiate(
 }
 
 export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
-  console.log('Hey there!');
   const initiateResult = await withTelemetry(
     'init',
     {
