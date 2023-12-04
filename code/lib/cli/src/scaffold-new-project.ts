@@ -164,6 +164,7 @@ export const scaffoldNewProject = async (packageManager: PackageManagerName) => 
       `Creating a new "${projectDisplayName}" project with ${chalk.bold(packageManagerName)}...`
     );
     logger.line(1);
+
     await execa.command(createScript, {
       stdio: 'pipe',
       shell: true,
@@ -200,13 +201,18 @@ const BASE_IGNORED_FILES = ['.git', '.gitignore', '.DS_Store', '.cache'];
 
 const IGNORED_FILES_BY_PACKAGE_MANAGER: Record<CoercedPackageManagerName, string[]> = {
   npm: [...BASE_IGNORED_FILES],
-  yarn: [...BASE_IGNORED_FILES, 'yarn.lock', '.yarnrc.yml', '.yarn'],
-  pnpm: [...BASE_IGNORED_FILES, 'pnpm-lock.yaml', '.pnpm', 'package.json'],
+  yarn: [...BASE_IGNORED_FILES, '.yarnrc.yml', '.yarn'],
+  pnpm: [...BASE_IGNORED_FILES],
 };
 
 export const currentDirectoryIsEmpty = (packageManager: PackageManagerName) => {
   const packageManagerName = packageManagerToCoercedName(packageManager);
   const cwdFolderEntries = readdirSync(process.cwd());
+
+  if (process.env.DEBUG) {
+    console.log('CWD entries:');
+    console.log(cwdFolderEntries);
+  }
 
   const filesToIgnore = IGNORED_FILES_BY_PACKAGE_MANAGER[packageManagerName];
 
