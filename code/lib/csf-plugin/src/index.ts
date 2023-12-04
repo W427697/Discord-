@@ -18,9 +18,10 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
     async transform(code, id) {
       const sourceCode = await fs.readFile(id, 'utf-8');
       try {
-        const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
+        const makeTitle = (userTitle: string) => userTitle || 'default';
+        const csf = loadCsf(code, { makeTitle }).parse();
         const csfSource = loadCsf(sourceCode, {
-          makeTitle: (userTitle) => userTitle || 'default',
+          makeTitle,
         }).parse();
         enrichCsf(csf, csfSource, options);
         return formatCsf(csf, { sourceMaps: true });
